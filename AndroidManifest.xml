@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.android.keepass"
+      android:versionCode="1" android:versionName="0.0.1">
+    <application android:label="@string/app_name" android:icon="@drawable/keepass_icon">
+        <activity android:name=".KeePass"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    <activity android:name=".GroupActivity"></activity>
+<activity android:name=".EntryActivity"></activity>
+</application>
+</manifest> 

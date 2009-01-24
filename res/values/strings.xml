@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">KeePass</string>
+<string name="no_keys">No keys in database.</string>
+<string name="FileNotFound">/sdcard/keepass/keepass.kdb not found</string>
+<string name="InvalidPassword">Invalid password.</string>
+<string name="pass_ok">Ok</string>
+<string name="entry_title">Name: </string>
+<string name="entry_user_name">User Name: </string>
+<string name="entry_url">URL: </string>
+<string name="entry_password">Password: </string>
+<string name="entry_comment">Comments: </string>
+<string name="MaskedPassword">*****</string>
+<string name="menu_show_password">Show Password</string>
+<string name="menu_hide_password">Hide Password</string>
+<string name="menu_copy_url">Copy URL</string>
+<string name="menu_copy_user">Copy User</string>
+<string name="menu_copy_pass">Copy Password</string>
+<string name="pass_filename">Filename:</string>
+</resources>
