@@ -35,18 +35,15 @@ public class GroupActivity extends ListActivity {
 
 	public static final String KEY_ENTRY = "entry";
 	
-	private Vector mGroups;
-	private Vector mEntries;
+	private PwGroup mGroup;
 
-	public static void Launch(Activity act, Vector groups, Vector entries) {
+	public static void Launch(Activity act, PwGroup group) {
 		Intent i = new Intent(act, GroupActivity.class);
 		
-		KeePass.gGroups.put(KeePass.gNumEntries, groups);
-		KeePass.gEntries.put(KeePass.gNumEntries, entries);
+		if ( group != null ) {
+			i.putExtra(KEY_ENTRY, group.groupId);
+		}
 		
-		i.putExtra(KEY_ENTRY, KeePass.gNumEntries);
-		
-		KeePass.gNumEntries++;
 		
 		act.startActivity(i);
 	}
@@ -55,15 +52,14 @@ public class GroupActivity extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
-		int size = mGroups.size();
+		int size = mGroup.childGroups.size();
 		PwItemView iv;
 		if (position < size ) {
-			PwGroup group = (PwGroup) mGroups.elementAt(position);
+			PwGroup group = (PwGroup) mGroup.childGroups.elementAt(position);
 			iv = new PwGroupView(this, group);
 		} else {
-			PwEntry entry = (PwEntry) mEntries.elementAt(position - size);
+			PwEntry entry = (PwEntry) mGroup.childEntries.elementAt(position - size);
 			iv = new PwEntryView(this, entry);
 		}
 		iv.onClick();
@@ -74,26 +70,20 @@ public class GroupActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 
-		mId = getIntent().getIntExtra(KEY_ENTRY, -1);
+		int id = getIntent().getIntExtra(KEY_ENTRY, -1);
 		assert(mId >= 0);
 		
-		mGroups = KeePass.gGroups.get(mId);
-		assert(mGroups != null);
-		mEntries = KeePass.gEntries.get(mId);
-		assert(mEntries != null);
+		if ( id == -1 ) {
+			mGroup = Database.gRoot;
+		} else {
+			mGroup = Database.gGroups.get(id).get();
+		}
+		assert(mGroup != null);
 		
 		
-		setListAdapter(new PwListAdapter(this, mGroups, mEntries));
+		setListAdapter(new PwListAdapter(this, mGroup));
 		getListView().setTextFilterEnabled(true);
 
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		
-		KeePass.gGroups.remove(mId);
-		KeePass.gEntries.remove(mId);
 	}
 
 }

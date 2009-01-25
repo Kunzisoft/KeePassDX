@@ -43,7 +43,7 @@ public class PwGroupView extends PwItemView {
 
 	@Override
 	void onClick() {
-		GroupActivity.Launch(mAct, mPw.childGroups, mPw.childEntries);
+		GroupActivity.Launch(mAct, mPw);
 	
 	}
 

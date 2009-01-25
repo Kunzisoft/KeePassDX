@@ -13,4 +13,7 @@
     <activity android:name=".GroupActivity"></activity>
 <activity android:name=".EntryActivity"></activity>
 </application>
+
+
+
 </manifest> 

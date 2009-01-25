@@ -19,6 +19,8 @@
  */
 package com.android.keepass;
 
+import java.util.UUID;
+
 import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
@@ -41,9 +43,7 @@ public class EntryActivity extends Activity {
 	public static void Launch(Activity act, PwEntry pw) {
 		Intent i = new Intent(act, EntryActivity.class);
 		
-		KeePass.gPwEntry.put(KeePass.gNumPwEntry, pw);
-		i.putExtra(KEY_ENTRY, KeePass.gNumPwEntry);
-		KeePass.gNumPwEntry++;
+		i.putExtra(KEY_ENTRY, pw.uuid);
 		
 		act.startActivity(i);
 	}
@@ -58,11 +58,11 @@ public class EntryActivity extends Activity {
 		setContentView(R.layout.entry_view);
 		
 		Intent i = getIntent();
-		mId = i.getIntExtra(KEY_ENTRY, -1);
-		assert(mId < 0);
+		UUID uuid = UUID.nameUUIDFromBytes(i.getByteArrayExtra(KEY_ENTRY));
+		assert(uuid != null);
 		
-		mEntry = KeePass.gPwEntry.get(mId);
-		
+		mEntry = Database.gEntries.get(uuid).get();
+				
 		fillData();
 	}
 	

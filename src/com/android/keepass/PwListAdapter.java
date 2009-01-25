@@ -32,20 +32,18 @@ import org.phoneid.keepassj2me.PwGroup;
 public class PwListAdapter extends BaseAdapter {
 
 	private Activity mAct;
-	private Vector mGroupList;
-	private Vector mEntryList;
+	private PwGroup mGroup;
 	
-	PwListAdapter(Activity act, Vector gl, Vector el) {
+	PwListAdapter(Activity act, PwGroup group) {
 		mAct = act;
-		mGroupList = gl;
-		mEntryList = el;
+		mGroup = group;
 		
 	}
 	
 	@Override
 	public int getCount() {
 		
-		return mGroupList.size() + mEntryList.size();
+		return mGroup.childGroups.size() + mGroup.childEntries.size();
 	}
 
 	@Override
@@ -60,7 +58,7 @@ public class PwListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		int size = mGroupList.size();
+		int size = mGroup.childGroups.size();
 		
 		if ( position < size ) { 
 			return createGroupView(position, convertView);
@@ -72,11 +70,11 @@ public class PwListAdapter extends BaseAdapter {
 	private PwGroupView createGroupView(int position, View convertView) {
 		PwGroupView gv;
 		if (convertView == null || ! (convertView instanceof PwGroupView)) {
-			PwGroup group = (PwGroup) mGroupList.elementAt(position);
+			PwGroup group = (PwGroup) mGroup.childGroups.elementAt(position);
 			gv = new PwGroupView(mAct, group);
 		} else {
 			gv = (PwGroupView) convertView;
-			gv.setGroup((PwGroup) mGroupList.elementAt(position));
+			gv.setGroup((PwGroup) mGroup.childGroups.elementAt(position));
 		}
 		return gv;
 	}
@@ -84,10 +82,10 @@ public class PwListAdapter extends BaseAdapter {
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
 		if (convertView == null || ! (convertView instanceof PwEntryView) ) {
-			ev = new PwEntryView(mAct, (PwEntry) mEntryList.elementAt(position));
+			ev = new PwEntryView(mAct, (PwEntry) mGroup.childEntries.elementAt(position));
 		} else {
 			ev = (PwEntryView) convertView;
-			ev.setEntry((PwEntry) mEntryList.elementAt(position));
+			ev.setEntry((PwEntry) mGroup.childEntries.elementAt(position));
 		}
 		return ev;
 	}

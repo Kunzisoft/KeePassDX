@@ -22,6 +22,7 @@ package com.android.keepass;
 import org.bouncycastle1.crypto.InvalidCipherTextException;
 import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwEntry;
+import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
 
 import android.app.Activity;
@@ -34,19 +35,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.*;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.Vector;
 
 public class KeePass extends Activity {
 	
 
-	private PwManager mPM;
-	public static HashMap<Integer, Vector> gGroups = new HashMap<Integer, Vector>();
-	public static HashMap<Integer, Vector> gEntries = new HashMap<Integer, Vector>();
-	public static Integer gNumEntries = new Integer(0);
-	
-	public static HashMap<Integer, PwEntry> gPwEntry = new HashMap<Integer, PwEntry>();
-	public static Integer gNumPwEntry = new Integer(0);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +53,6 @@ public class KeePass extends Activity {
 		confirmButton.setOnClickListener(new ClickHandler(this));
 		
 		loadDefaultPrefs();
-		
-		//setEditText(R.id.pass_password, "12345");
 		
 	}
 	
@@ -94,33 +88,6 @@ public class KeePass extends Activity {
 		editor.commit();
 	}
 	
-	private boolean fillData(String filename, String password) {
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream(filename);
-		} catch (FileNotFoundException e) {
-			errorMessage(R.string.FileNotFound);
-			return false;
-		}
-		
-		ImporterV3 Importer = new ImporterV3();
-	
-		try {
-			mPM = Importer.openDatabase(fis, password);
-			if ( mPM != null ) {
-				mPM.constructTree(null);
-			}
-		} catch (InvalidCipherTextException e) {
-			errorMessage(R.string.InvalidPassword);
-			return false;
-		} catch (IOException e) {
-			errorMessage("IO Error");
-			return false;
-		}
-		
-		return true;
-		
-	}
 	
 	private void errorMessage(CharSequence text)
 	{
@@ -132,14 +99,6 @@ public class KeePass extends Activity {
 		Toast.makeText(this, resId, Toast.LENGTH_LONG).show();
 	}
 	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		gGroups.remove(requestCode);
-		gEntries.remove(requestCode);
-	}
-	
 	private class ClickHandler implements View.OnClickListener {
 		private Activity mAct;
 				
@@ -148,8 +107,18 @@ public class KeePass extends Activity {
 		}
 		
 		public void onClick(View view) {
-			if ( fillData(getEditText(R.id.pass_filename),getEditText(R.id.pass_password)) ) {
-				GroupActivity.Launch(mAct, mPM.getGrpRoots(), new Vector());
+			int result = Database.LoadData(getEditText(R.id.pass_filename),getEditText(R.id.pass_password));
+			
+			switch (result) {
+			case 0:
+				GroupActivity.Launch(mAct, null);
+				break;
+			case -1:
+				errorMessage("Unknown error.");
+				break;
+			default:
+				errorMessage(result);
+				break;
 			}
 			
 		}

@@ -20,6 +20,7 @@
 package com.android.keepass;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ abstract public class PwItemView extends LinearLayout {
 
 		mTitle = new TextView(context);
 		mTitle.setText(title);
+		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
 		addView(mTitle, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 	}
 	
