@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">KeePass</string>
+    <string name="app_name">KeePassDroid</string>
 <string name="no_keys">No keys in database.</string>
 <string name="FileNotFound">/sdcard/keepass/keepass.kdb not found</string>
 <string name="InvalidPassword">Invalid password.</string>
