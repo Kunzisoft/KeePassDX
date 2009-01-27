@@ -22,6 +22,9 @@ package com.android.keepass;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.util.TypedValue;
+import android.widget.TextView;
 
 public class PwGroupView extends PwItemView {
 	
@@ -32,6 +35,8 @@ public class PwGroupView extends PwItemView {
 		super(act, pw.name);
 		mAct = act;
 		mPw = pw;
+		
+		getTextView().setTextColor(Color.BLUE);
 		
 	}
 	

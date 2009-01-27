@@ -29,15 +29,19 @@ abstract public class PwItemView extends LinearLayout {
 	
 	PwItemView(Context context, String title) {
 		super(context);
-
+		
 		mTitle = new TextView(context);
 		mTitle.setText(title);
 		mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-		addView(mTitle, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		addView(mTitle, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 	}
 	
-	void setTitle(String title) {
+	protected void setTitle(String title) {
 		mTitle.setText(title);
+	}
+	
+	protected TextView getTextView() {
+		return mTitle;
 	}
 	
 	abstract void onClick();

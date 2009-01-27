@@ -25,6 +25,8 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
@@ -67,7 +69,7 @@ public class PwListAdapter extends BaseAdapter {
 		}
 	}
 
-	private PwGroupView createGroupView(int position, View convertView) {
+	private View createGroupView(int position, View convertView) {
 		PwGroupView gv;
 		if (convertView == null || ! (convertView instanceof PwGroupView)) {
 			PwGroup group = (PwGroup) mGroup.childGroups.elementAt(position);
@@ -76,6 +78,7 @@ public class PwListAdapter extends BaseAdapter {
 			gv = (PwGroupView) convertView;
 			gv.setGroup((PwGroup) mGroup.childGroups.elementAt(position));
 		}
+		
 		return gv;
 	}
 

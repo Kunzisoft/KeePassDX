@@ -69,7 +69,6 @@ public class KeePass extends Activity {
 	protected void onStop() {
 		super.onStop();
 		
-		saveDefaultPrefs();
 	}
 
 	private void loadDefaultPrefs() {
@@ -113,6 +112,7 @@ public class KeePass extends Activity {
 			
 			switch (result) {
 			case 0:
+				saveDefaultPrefs();
 				GroupActivity.Launch(mAct, null);
 				break;
 			case -1:
