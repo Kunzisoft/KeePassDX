@@ -19,6 +19,7 @@
  */
 package com.android.keepass;
 
+import java.lang.ref.WeakReference;
 import java.util.Vector;
 
 import org.phoneid.keepassj2me.PwEntry;
@@ -76,7 +77,8 @@ public class GroupActivity extends ListActivity {
 		if ( id == -1 ) {
 			mGroup = Database.gRoot;
 		} else {
-			mGroup = Database.gGroups.get(id).get();
+			WeakReference<PwGroup> wPw = Database.gGroups.get(id);
+			mGroup = wPw.get();
 		}
 		assert(mGroup != null);
 		

@@ -72,8 +72,9 @@ public class Database {
 				gRoot = cur.parent;
 				gGroups.put(cur.groupId, new WeakReference<PwGroup>(cur));
 				populateGlobals(cur);
-				return;
 			}
+			
+			return;
 		}
 		
 		Vector childGroups = currentGroup.childGroups;
