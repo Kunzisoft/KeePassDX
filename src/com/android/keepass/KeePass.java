@@ -60,7 +60,9 @@ public class KeePass extends Activity {
 	protected void onResume() {
 		super.onResume();
 		
+		// Clear password on Database state
 		setEditText(R.id.pass_password, "");
+		Database.clear(); 
 	}
 
 	@Override

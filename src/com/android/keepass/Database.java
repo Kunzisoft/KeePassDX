@@ -91,6 +91,12 @@ public class Database {
 		}
 	}
 	
+	public static void clear() {
+		gGroups.clear();
+		gEntries.clear();
+		gRoot = null;
+		mPM = null;
+	}
 
 
 }
