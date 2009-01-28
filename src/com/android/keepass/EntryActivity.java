@@ -40,6 +40,7 @@ public class EntryActivity extends Activity {
 	private static final int MENU_GOTO_URL = Menu.FIRST + 1;
 	private static final int MENU_COPY_USER = Menu.FIRST + 2;
 	private static final int MENU_COPY_PASS = Menu.FIRST + 3;
+	private static final int MENU_LOCK = Menu.FIRST + 4; 
 	
 	
 	public static void Launch(Activity act, PwEntry pw) {
@@ -47,7 +48,7 @@ public class EntryActivity extends Activity {
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
 		
-		act.startActivity(i);
+		act.startActivityForResult(i,0);
 	}
 	
 	private PwEntry mEntry;
@@ -58,6 +59,7 @@ public class EntryActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_view);
+		setResult(KeePass.EXIT_NORMAL);
 		
 		Intent i = getIntent();
 		UUID uuid = UUID.nameUUIDFromBytes(i.getByteArrayExtra(KEY_ENTRY));
@@ -101,6 +103,8 @@ public class EntryActivity extends Activity {
 		menu.findItem(MENU_COPY_USER).setIcon(android.R.drawable.ic_menu_set_as);
 		menu.add(0, MENU_COPY_PASS, 0, R.string.menu_copy_pass);
 		menu.findItem(MENU_COPY_PASS).setIcon(android.R.drawable.ic_menu_agenda);
+		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
+		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
 		
 		return true;
 	}
@@ -128,6 +132,10 @@ public class EntryActivity extends Activity {
 			return true;
 		case MENU_COPY_PASS:
 			Util.copyToClipboard(this, new String(mEntry.getPassword()));
+			return true;
+		case MENU_LOCK:
+			setResult(KeePass.EXIT_LOCK);
+			finish();
 			return true;
 		}
 		

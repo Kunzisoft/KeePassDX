@@ -29,12 +29,16 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
 public class GroupActivity extends ListActivity {
 
 	public static final String KEY_ENTRY = "entry";
+	
+	private static final int MENU_LOCK = Menu.FIRST;
 	
 	private PwGroup mGroup;
 
@@ -46,7 +50,7 @@ public class GroupActivity extends ListActivity {
 		}
 		
 		
-		act.startActivity(i);
+		act.startActivityForResult(i,0);
 	}
 
 	private int mId;
@@ -70,6 +74,7 @@ public class GroupActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
+		setResult(KeePass.EXIT_NORMAL);
 
 		int id = getIntent().getIntExtra(KEY_ENTRY, -1);
 		assert(mId >= 0);
@@ -87,5 +92,36 @@ public class GroupActivity extends ListActivity {
 		getListView().setTextFilterEnabled(true);
 
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		
+		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
+		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
+		
+		return true;
+	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch ( item.getItemId() ) {
+		case MENU_LOCK:
+			setResult(KeePass.EXIT_LOCK);
+			finish();
+			return true;
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (resultCode == KeePass.EXIT_LOCK ) {
+			setResult(KeePass.EXIT_LOCK);
+			finish();
+		}
+	}
 }

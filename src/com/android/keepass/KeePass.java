@@ -43,6 +43,9 @@ import java.util.UUID;
 import java.util.Vector;
 
 public class KeePass extends Activity {
+
+	public static final int EXIT_NORMAL = 0;
+	public static final int EXIT_LOCK = 1;
 	
 	private static final int MENU_HOMEPAGE = Menu.FIRST;
 
