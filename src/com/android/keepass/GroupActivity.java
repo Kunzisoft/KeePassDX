@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class GroupActivity extends ListActivity {
 
@@ -86,7 +87,6 @@ public class GroupActivity extends ListActivity {
 			mGroup = wPw.get();
 		}
 		assert(mGroup != null);
-		
 		
 		setListAdapter(new PwListAdapter(this, mGroup));
 		getListView().setTextFilterEnabled(true);
