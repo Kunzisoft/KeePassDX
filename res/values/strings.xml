@@ -22,4 +22,5 @@
 <string name="menu_homepage">Go to Homepage</string>
 <string name="homepage">http://www.keepassdroid.com</string>
 <string name="menu_lock">Lock Database</string>
+<string name="error_nopass">Password is required.</string>
 </resources>

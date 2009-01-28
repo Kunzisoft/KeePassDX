@@ -113,7 +113,12 @@ public class KeePass extends Activity {
 		}
 		
 		public void onClick(View view) {
-			int result = Database.LoadData(getEditText(R.id.pass_filename),getEditText(R.id.pass_password));
+			String pass = getEditText(R.id.pass_password);
+			if ( pass.length() == 0 ) {
+				errorMessage(R.string.error_nopass);
+				return;
+			}
+			int result = Database.LoadData(getEditText(R.id.pass_filename),pass);
 			
 			switch (result) {
 			case 0:
