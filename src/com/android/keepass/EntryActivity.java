@@ -19,12 +19,14 @@
  */
 package com.android.keepass;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.view.Menu;
@@ -93,7 +95,7 @@ public class EntryActivity extends Activity {
 		
 		menu.add(0, MENU_PASS, 0, R.string.menu_show_password);
 		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
-		menu.add(0, MENU_COPY_URL, 0, R.string.menu_copy_url);
+		menu.add(0, MENU_COPY_URL, 0, R.string.menu_url);
 		menu.findItem(MENU_COPY_URL).setIcon(android.R.drawable.ic_menu_upload);
 		menu.add(0, MENU_COPY_USER, 0, R.string.menu_copy_user);
 		menu.findItem(MENU_COPY_USER).setIcon(android.R.drawable.ic_menu_set_as);
@@ -119,7 +121,7 @@ public class EntryActivity extends Activity {
 			return true;
 			
 		case MENU_COPY_URL:
-			copyToClipboard(mEntry.url);
+			gotoUrl(mEntry.url);
 			return true;
 		case MENU_COPY_USER:
 			copyToClipboard(mEntry.username);
@@ -135,6 +137,13 @@ public class EntryActivity extends Activity {
 	private void copyToClipboard(String text) {
 		ClipboardManager clipboard = (ClipboardManager)  getSystemService(CLIPBOARD_SERVICE);
 		clipboard.setText(text);
+	}
+	
+	private void gotoUrl(String url) {
+		if ( url != null && url.length() > 0 ) {
+			Uri uri = Uri.parse(url);
+			startActivity(new Intent(Intent.ACTION_VIEW, uri));
+		}
 	}
 
 }

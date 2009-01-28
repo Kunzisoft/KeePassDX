@@ -14,7 +14,7 @@
 <string name="MaskedPassword">*****</string>
 <string name="menu_show_password">Show Password</string>
 <string name="menu_hide_password">Hide Password</string>
-<string name="menu_copy_url">Copy URL</string>
+<string name="menu_url">Go to URL</string>
 <string name="menu_copy_user">Copy User</string>
 <string name="menu_copy_pass">Copy Password</string>
 <string name="pass_filename">Filename:</string>
