@@ -1,3 +1,7 @@
+KeePassDroid (0.2.1)
+
+  * Hide Meta-Info entries
+
 KeePassDroid (0.1.2)
 
   * Fix crash when accessing the first root level group.

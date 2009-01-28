@@ -35,17 +35,31 @@ public class PwListAdapter extends BaseAdapter {
 
 	private Activity mAct;
 	private PwGroup mGroup;
+	private Vector<PwEntry> filteredEntries;
 	
 	PwListAdapter(Activity act, PwGroup group) {
 		mAct = act;
 		mGroup = group;
 		
+		filter();
+		
+	}
+	
+	private void filter() {
+		filteredEntries = new Vector<PwEntry>();
+		
+		for (int i = 0; i < mGroup.childEntries.size(); i++) {
+			PwEntry entry = (PwEntry) mGroup.childEntries.elementAt(i);
+			if ( ! entry.isMetaStream() ) {
+				filteredEntries.add(entry);
+			}
+		}
 	}
 	
 	@Override
 	public int getCount() {
 		
-		return mGroup.childGroups.size() + mGroup.childEntries.size();
+		return mGroup.childGroups.size() + filteredEntries.size();
 	}
 
 	@Override
@@ -85,10 +99,10 @@ public class PwListAdapter extends BaseAdapter {
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
 		if (convertView == null || ! (convertView instanceof PwEntryView) ) {
-			ev = new PwEntryView(mAct, (PwEntry) mGroup.childEntries.elementAt(position));
+			ev = new PwEntryView(mAct, filteredEntries.elementAt(position));
 		} else {
 			ev = (PwEntryView) convertView;
-			ev.setEntry((PwEntry) mGroup.childEntries.elementAt(position));
+			ev.setEntry(filteredEntries.elementAt(position));
 		}
 		return ev;
 	}

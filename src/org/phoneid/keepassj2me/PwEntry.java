@@ -53,8 +53,9 @@ import java.util.*;
  */
 public class PwEntry {
 
-    // for tree traversing
-    public PwGroup parent = null;
+	
+	// for tree traversing
+	public PwGroup parent = null;
     
   public PwEntry() {
   }
@@ -101,9 +102,29 @@ public class PwEntry {
     System.arraycopy( buf, offset, binaryData, 0, len );
   }
 
+  // Determine if this is a MetaStream entrie
+  public boolean isMetaStream() {
+	  if ( binaryData == null ) return false;
+	  if ( additional == null || additional.length() == 0 ) return false;
+	  if ( ! binaryDesc.equals(PMS_ID_BINDESC) ) return false;
+	  if ( title == null ) return false;
+	  if ( ! title.equals(PMS_ID_TITLE) ) return false;
+	  if ( username == null ) return false;
+	  if ( ! username.equals(PMS_ID_USER) ) return false;
+	  if ( url == null ) return false;
+	  if ( ! url.equals(PMS_ID_URL)) return false;
+	  if ( imageId != 0 ) return false;
+	  
+	  return true;
+  }
 
   /** Size of byte buffer needed to hold this struct. */
   public static final int BUF_SIZE = 124;
+
+  public static final String PMS_ID_BINDESC = "bin-stream";
+  public static final String PMS_ID_TITLE   = "Meta-Info";
+  public static final String PMS_ID_USER    = "SYSTEM";
+  public static final String PMS_ID_URL     = "$";
 
 
   public byte             uuid[]   = new byte[16];
