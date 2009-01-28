@@ -37,7 +37,7 @@ public class EntryActivity extends Activity {
 	public static final String KEY_ENTRY = "entry";
 	
 	private static final int MENU_PASS = Menu.FIRST;
-	private static final int MENU_COPY_URL = Menu.FIRST + 1;
+	private static final int MENU_GOTO_URL = Menu.FIRST + 1;
 	private static final int MENU_COPY_USER = Menu.FIRST + 2;
 	private static final int MENU_COPY_PASS = Menu.FIRST + 3;
 	
@@ -95,8 +95,8 @@ public class EntryActivity extends Activity {
 		
 		menu.add(0, MENU_PASS, 0, R.string.menu_show_password);
 		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
-		menu.add(0, MENU_COPY_URL, 0, R.string.menu_url);
-		menu.findItem(MENU_COPY_URL).setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
+		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
 		menu.add(0, MENU_COPY_USER, 0, R.string.menu_copy_user);
 		menu.findItem(MENU_COPY_USER).setIcon(android.R.drawable.ic_menu_set_as);
 		menu.add(0, MENU_COPY_PASS, 0, R.string.menu_copy_pass);
@@ -120,30 +120,17 @@ public class EntryActivity extends Activity {
 			}
 			return true;
 			
-		case MENU_COPY_URL:
-			gotoUrl(mEntry.url);
+		case MENU_GOTO_URL:
+			Util.gotoUrl(this, mEntry.url);
 			return true;
 		case MENU_COPY_USER:
-			copyToClipboard(mEntry.username);
+			Util.copyToClipboard(this, mEntry.username);
 			return true;
 		case MENU_COPY_PASS:
-			copyToClipboard(new String(mEntry.getPassword()));
+			Util.copyToClipboard(this, new String(mEntry.getPassword()));
 			return true;
 		}
 		
 		return super.onOptionsItemSelected(item);
 	}
-	
-	private void copyToClipboard(String text) {
-		ClipboardManager clipboard = (ClipboardManager)  getSystemService(CLIPBOARD_SERVICE);
-		clipboard.setText(text);
-	}
-	
-	private void gotoUrl(String url) {
-		if ( url != null && url.length() > 0 ) {
-			Uri uri = Uri.parse(url);
-			startActivity(new Intent(Intent.ACTION_VIEW, uri));
-		}
-	}
-
 }

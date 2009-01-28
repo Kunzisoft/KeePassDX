@@ -17,6 +17,8 @@
 <string name="menu_url">Go to URL</string>
 <string name="menu_copy_user">Copy User</string>
 <string name="menu_copy_pass">Copy Password</string>
-<string name="pass_filename">Filename:</string>
+<string name="pass_filename">KeePass database filename:</string>
 
+<string name="menu_homepage">Go to Homepage</string>
+<string name="homepage">http://www.keepassdroid.com</string>
 </resources>

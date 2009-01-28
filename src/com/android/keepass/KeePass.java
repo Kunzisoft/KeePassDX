@@ -29,6 +29,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +44,7 @@ import java.util.Vector;
 
 public class KeePass extends Activity {
 	
-
+	private static final int MENU_HOMEPAGE = Menu.FIRST;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -146,5 +148,25 @@ public class KeePass extends Activity {
 			te.setText(str);
 		}
 	}
-	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		
+		menu.add(0, MENU_HOMEPAGE, 0, R.string.menu_homepage);
+		menu.findItem(MENU_HOMEPAGE).setIcon(android.R.drawable.ic_menu_upload);
+		
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch ( item.getItemId() ) {
+		case MENU_HOMEPAGE:
+			Util.gotoUrl(this, getText(R.string.homepage).toString());
+			return true;
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
 }
