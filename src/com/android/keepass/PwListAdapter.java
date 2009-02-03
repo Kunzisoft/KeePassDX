@@ -21,15 +21,13 @@ package com.android.keepass;
 
 import java.util.Vector;
 
+import org.phoneid.keepassj2me.PwEntry;
+import org.phoneid.keepassj2me.PwGroup;
+
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-
-import org.phoneid.keepassj2me.PwEntry;
-import org.phoneid.keepassj2me.PwGroup;
 
 public class PwListAdapter extends BaseAdapter {
 

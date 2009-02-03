@@ -19,14 +19,7 @@
  */
 package com.android.keepass;
 
-import org.bouncycastle1.crypto.InvalidCipherTextException;
-import org.phoneid.keepassj2me.ImporterV3;
-import org.phoneid.keepassj2me.PwEntry;
-import org.phoneid.keepassj2me.PwGroup;
-import org.phoneid.keepassj2me.PwManager;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,12 +28,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.io.*;
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.Vector;
 
 public class KeePass extends Activity {
 

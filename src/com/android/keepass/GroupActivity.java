@@ -20,7 +20,6 @@
 package com.android.keepass;
 
 import java.lang.ref.WeakReference;
-import java.util.Vector;
 
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
@@ -33,7 +32,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class GroupActivity extends ListActivity {
 

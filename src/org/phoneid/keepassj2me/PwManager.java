@@ -62,9 +62,9 @@ public class PwManager {
     public PwEntry   metaInfo;
 
     // all entries
-    public Vector entries = new Vector();
+    public Vector<PwEntry> entries = new Vector<PwEntry>();
     // all groups
-    public Vector groups = new Vector();
+    public Vector<PwGroup> groups = new Vector<PwGroup>();
     // Last modified entry, use GetLastEditedEntry() to get it
     // PwEntry          lastEditedEntry        = null;
     // Pseudo-random number generator
@@ -100,23 +100,23 @@ public class PwManager {
 
     */
 
-    public Vector getGrpRoots() {
+    public Vector<PwGroup> getGrpRoots() {
 	int target = 0;
-	Vector kids = new Vector();
+	Vector<PwGroup> kids = new Vector<PwGroup>();
 	for( int i=0; i < groups.size(); i++ ) {
-	    PwGroup grp = (PwGroup)groups.elementAt( i );
+	    PwGroup grp = groups.elementAt( i );
 	    if( grp.level == target )
 		kids.addElement( grp );
 	}
 	return kids;
     }
 
-    public Vector getGrpChildren( PwGroup parent ) {
+    public Vector<PwGroup> getGrpChildren( PwGroup parent ) {
 	int idx = groups.indexOf( parent );
 	int target = parent.level + 1;
-	Vector kids = new Vector();
+	Vector<PwGroup> kids = new Vector<PwGroup>();
 	while( ++idx < groups.size() ) {
-	    PwGroup grp = (PwGroup)groups.elementAt( idx );
+	    PwGroup grp = groups.elementAt( idx );
 	    if( grp.level < target )
 		break;
 	    else
@@ -126,15 +126,15 @@ public class PwManager {
 	return kids;
     }
 
-    public Vector getEntries( PwGroup parent ) {
-	Vector kids = new Vector();
+    public Vector<PwEntry> getEntries( PwGroup parent ) {
+	Vector<PwEntry> kids = new Vector<PwEntry>();
 	/*for( Iterator i = entries.iterator(); i.hasNext(); ) {
 	    PwEntry ent = (PwEntry)i.next();
 	    if( ent.groupId == parent.groupId )
 		kids.add( ent );
 		}*/
 	for (int i=0; i<entries.size(); i++) {
-	    PwEntry ent = (PwEntry)entries.elementAt(i);
+	    PwEntry ent = entries.elementAt(i);
 	    if( ent.groupId == parent.groupId )
 		kids.addElement( ent );
 	}
@@ -147,12 +147,12 @@ public class PwManager {
 
 
 
-    public void addGroup(Object group)
+    public void addGroup(PwGroup group)
     {
 	groups.addElement(group);
     }
     
-    public void addEntry(Object entry)
+    public void addEntry(PwEntry entry)
     {
 	entries.addElement(entry);
     }
@@ -163,12 +163,12 @@ public class PwManager {
 	if (currentGroup == null) {
 	    rootGroup = new PwGroup();
 		
-	    Vector rootChildGroups = getGrpRoots();
+	    Vector<PwGroup> rootChildGroups = getGrpRoots();
 	    rootGroup.childGroups = rootChildGroups;
-	    rootGroup.childEntries = new Vector();
+	    rootGroup.childEntries = new Vector<PwEntry>();
 	    for (int i=0; i<rootChildGroups.size(); i++) {
-		((PwGroup)rootChildGroups.elementAt(i)).parent = rootGroup;
-		constructTree((PwGroup)rootChildGroups.elementAt(i));
+		rootChildGroups.elementAt(i).parent = rootGroup;
+		constructTree(rootChildGroups.elementAt(i));
 	    }
 	    return;
 	}
@@ -180,12 +180,12 @@ public class PwManager {
 
 	// set parent in child entries
 	for (int i=0; i<currentGroup.childEntries.size(); i++) {
-	    ((PwEntry)currentGroup.childEntries.elementAt(i)).parent = currentGroup;
+	    currentGroup.childEntries.elementAt(i).parent = currentGroup;
 	}
 	// recursively construct child groups
 	for (int i=0; i<currentGroup.childGroups.size(); i++) {
-	    ((PwGroup)currentGroup.childGroups.elementAt(i)).parent = currentGroup;
-	    constructTree((PwGroup)currentGroup.childGroups.elementAt(i));
+	    currentGroup.childGroups.elementAt(i).parent = currentGroup;
+	    constructTree(currentGroup.childGroups.elementAt(i));
 	}
 	return;
     }

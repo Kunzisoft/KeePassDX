@@ -66,9 +66,9 @@ public class Database {
 	
 	private static void populateGlobals(PwGroup currentGroup) {
 		if (currentGroup == null) {
-			Vector rootChildGroups = mPM.getGrpRoots();
+			Vector<PwGroup> rootChildGroups = mPM.getGrpRoots();
 			for (int i = 0; i < rootChildGroups.size(); i++ ){
-				PwGroup cur = (PwGroup) rootChildGroups.elementAt(i);
+				PwGroup cur = rootChildGroups.elementAt(i);
 				gRoot = cur.parent;
 				gGroups.put(cur.groupId, new WeakReference<PwGroup>(cur));
 				populateGlobals(cur);
@@ -77,16 +77,16 @@ public class Database {
 			return;
 		}
 		
-		Vector childGroups = currentGroup.childGroups;
-		Vector childEntries = currentGroup.childEntries;
+		Vector<PwGroup> childGroups = currentGroup.childGroups;
+		Vector<PwEntry> childEntries = currentGroup.childEntries;
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
-			PwEntry cur = (PwEntry) childEntries.elementAt(i);
+			PwEntry cur = childEntries.elementAt(i);
 			gEntries.put(UUID.nameUUIDFromBytes(cur.uuid), new WeakReference<PwEntry>(cur));
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {
-			PwGroup cur = (PwGroup) childGroups.elementAt(i);
+			PwGroup cur = childGroups.elementAt(i);
 			gGroups.put(cur.groupId, new WeakReference<PwGroup>(cur));
 			populateGlobals(cur);
 		}

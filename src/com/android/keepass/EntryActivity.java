@@ -19,16 +19,13 @@
  */
 package com.android.keepass;
 
-import java.net.URI;
 import java.util.UUID;
 
 import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.ClipboardManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -52,7 +49,6 @@ public class EntryActivity extends Activity {
 	}
 	
 	private PwEntry mEntry;
-	private int mId;
 	private boolean showPassword = true;
 
 	@Override

@@ -23,8 +23,6 @@ import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.TypedValue;
-import android.widget.TextView;
 
 public class PwGroupView extends PwItemView {
 	

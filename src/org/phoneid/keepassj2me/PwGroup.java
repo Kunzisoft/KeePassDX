@@ -44,8 +44,8 @@ public class PwGroup {
   public static final int BUF_SIZE = 124;
 
     // for tree traversing
-    public Vector childGroups = null;
-    public Vector childEntries = null;
+    public Vector<PwGroup> childGroups = null;
+    public Vector<PwEntry> childEntries = null;
     public PwGroup parent = null;
 
   public int              groupId;

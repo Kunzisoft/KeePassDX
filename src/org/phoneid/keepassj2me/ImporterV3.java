@@ -24,18 +24,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package org.phoneid.keepassj2me;
 
-import java.io.IOException; 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
-import org.bouncycastle1.crypto.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
+
+import org.bouncycastle1.crypto.BufferedBlockCipher;
+import org.bouncycastle1.crypto.InvalidCipherTextException;
 import org.bouncycastle1.crypto.digests.SHA256Digest;
 import org.bouncycastle1.crypto.engines.AESEngine;
 import org.bouncycastle1.crypto.modes.CBCBlockCipher;
 import org.bouncycastle1.crypto.paddings.PKCS7Padding;
 import org.bouncycastle1.crypto.params.KeyParameter;
 import org.bouncycastle1.crypto.params.ParametersWithIV;
-import org.phoneid.PhoneIDException;
 import org.phoneid.PhoneIDUtil;
 
 /**
