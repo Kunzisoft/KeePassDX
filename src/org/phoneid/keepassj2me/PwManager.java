@@ -26,10 +26,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package org.phoneid.keepassj2me;
 
 // Java
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 
-// Bouncy Castle
-import org.bouncycastle1.crypto.digests.*;
+import org.bouncycastle1.crypto.digests.SHA256Digest;
+
+import com.android.keepass.keepasslib.InvalidKeyFileException;
 
 /**
  * @author Naomaru Itoi <nao@phoneid.org>
@@ -80,16 +85,121 @@ public class PwManager {
     // root group
     PwGroup rootGroup;
 
-    public void setMasterKey( String key ) {
-	if( key == null || key.length() == 0 )
-	    throw new IllegalArgumentException( "Key cannot be empty." );
-	
-	SHA256Digest md = new SHA256Digest();
-	md.update( key.getBytes(), 0, key.getBytes().length );
-	masterKey = new byte[md.getDigestSize()];
-	md.doFinal(masterKey, 0);
+    public void setMasterKey( String key, String keyFileName ) throws InvalidKeyFileException, IOException {
+    	assert( key != null && keyFileName != null );
+    	
+    	if ( key.length() > 0 && keyFileName.length() > 0 ) {
+    		setCompositeKey(key, keyFileName);
+    	} else if ( key.length() > 0 ) {
+    		setPasswordKey(key);
+    	} else if ( keyFileName.length() > 0 ) {
+    		setFileKey(keyFileName);
+    	} else {
+    		throw new IllegalArgumentException( "Key cannot be empty." );
+    	}
     }
-    /*
+    
+    private void setCompositeKey( String key, String keyFileName) throws InvalidKeyFileException, IOException {
+    	assert(key != null && keyFileName != null);
+    	
+    	byte[] fileKey = new byte[32];
+    	setFileKey(keyFileName);
+    	System.arraycopy(masterKey, 0, fileKey, 0, 32);
+    	
+    	byte[] passwordKey = new byte[32];
+    	setPasswordKey(key);
+    	System.arraycopy(masterKey, 0, passwordKey, 0, 32);
+    	
+    	SHA256Digest md = new SHA256Digest();
+    	md.update(passwordKey, 0, 32);
+    	md.update(fileKey, 0, 32);
+    	masterKey = new byte[md.getDigestSize()];
+    	md.doFinal(masterKey, 0);
+    	
+    }
+    
+    private void setFileKey(String fileName) throws InvalidKeyFileException, IOException {
+		assert(fileName != null);
+		
+		File keyfile = new File(fileName);
+		long fileSize = keyfile.length();
+	
+		if ( ! keyfile.exists() ) {
+			throw new InvalidKeyFileException("Key file does not exist.");
+		}
+		
+		
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(keyfile);
+		} catch (FileNotFoundException e) {
+			throw new InvalidKeyFileException("Key file does not exist.");
+		}
+		
+		if ( fileSize == 0 ) {
+			throw new InvalidKeyFileException("Key file is empty.");
+		} else if ( fileSize == 32 ) {
+			masterKey = new byte[32];
+			if ( fis.read(masterKey, 0, 32) != 32 ) {
+				throw new IOException("Error reading key.");
+			}
+			
+			return;
+		} else if ( fileSize == 64 ) {
+			byte[] hex = new byte[64];
+			
+			if ( fis.read(hex, 0, 64) != 64 ) {
+				throw new IOException("Error reading key.");
+			}
+
+			masterKey = hexStringToByteArray(new String(hex));
+			return;
+		}
+	
+		SHA256Digest md = new SHA256Digest();
+		byte[] buffer = new byte[2048];
+		int offset = 0;
+		
+		try {
+			while (true) {
+				int bytesRead = fis.read(buffer, 0, 2048);
+				if ( bytesRead == -1 ) break;  // End of file
+				
+				md.update(buffer, 0, bytesRead);
+				offset += bytesRead;
+				
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		masterKey = new byte[md.getDigestSize()];
+		md.doFinal(masterKey, 0);
+    }
+    
+    
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                                 + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
+    }
+   
+    private void setPasswordKey(String key ) {
+    	assert(key!=null);
+    	
+		if ( key.length() == 0 )
+		    throw new IllegalArgumentException( "Key cannot be empty." );
+		
+		SHA256Digest md = new SHA256Digest();
+		md.update( key.getBytes(), 0, key.getBytes().length );
+		masterKey = new byte[md.getDigestSize()];
+		md.doFinal(masterKey, 0);
+    }
+    	
+  /*
   //
   // Erase all members and buffers, then null pointers.
   // Ensures no memory (that we control) contains leftover keys.

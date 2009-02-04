@@ -32,36 +32,25 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
 
+import com.android.keepass.keepasslib.InvalidKeyFileException;
+
 public class Database {
 	public static HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
 	public static HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
 	public static PwGroup gRoot;
 	private static PwManager mPM;
 	
-	public static int LoadData(String filename, String password) {
+	public static void LoadData(String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
 		FileInputStream fis;
-		try {
-			fis = new FileInputStream(filename);
-		} catch (FileNotFoundException e) {
-			return R.string.FileNotFound;
-		}
+		fis = new FileInputStream(filename);
 		
 		ImporterV3 Importer = new ImporterV3();
-	
-		try {
-			mPM = Importer.openDatabase(fis, password);
-			if ( mPM != null ) {
-				mPM.constructTree(null);
-				populateGlobals(null);
-			}
-		} catch (InvalidCipherTextException e) {
-			return R.string.InvalidPassword;
-		} catch (IOException e) {
-			return -1;
+		
+		mPM = Importer.openDatabase(fis, password, keyfile);
+		if ( mPM != null ) {
+			mPM.constructTree(null);
+			populateGlobals(null);
 		}
-		
-		return 0;
-		
 	}
 	
 	private static void populateGlobals(PwGroup currentGroup) {

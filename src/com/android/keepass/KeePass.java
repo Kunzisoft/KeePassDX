@@ -19,6 +19,13 @@
  */
 package com.android.keepass;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.bouncycastle1.crypto.InvalidCipherTextException;
+
+import com.android.keepass.keepasslib.InvalidKeyFileException;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,6 +40,9 @@ public class KeePass extends Activity {
 
 	public static final int EXIT_NORMAL = 0;
 	public static final int EXIT_LOCK = 1;
+	
+	public static final String LAST_FILENAME = "lastFile";
+	public static final String LAST_KEYFILE = "lastKey";
 	
 	private static final int MENU_HOMEPAGE = Menu.FIRST;
 
@@ -65,19 +75,22 @@ public class KeePass extends Activity {
 
 	private void loadDefaultPrefs() {
 		SharedPreferences settings = getPreferences(MODE_PRIVATE);
-		String lastfn = settings.getString("lastFile", "");
+		String lastFile = settings.getString(LAST_FILENAME, "");
+		String lastKey = settings.getString(LAST_KEYFILE,"");
 		
-		if (lastfn == "") {
-			lastfn = "/sdcard/keepass/keepass.kdb";
+		if (lastFile == "") {
+			lastFile = "/sdcard/keepass/keepass.kdb";
 		}
 		
-		setEditText(R.id.pass_filename, lastfn);
+		setEditText(R.id.pass_filename, lastFile);
+		setEditText(R.id.pass_keyfile, lastKey);
 	}
 	
 	private void saveDefaultPrefs() {
 		SharedPreferences settings = getPreferences(MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("lastFile", getEditText(R.id.pass_filename));
+		editor.putString(LAST_FILENAME, getEditText(R.id.pass_filename));
+		editor.putString(LAST_KEYFILE, getEditText(R.id.pass_keyfile));
 		editor.commit();
 	}
 	
@@ -101,26 +114,28 @@ public class KeePass extends Activity {
 		
 		public void onClick(View view) {
 			String pass = getEditText(R.id.pass_password);
-			if ( pass.length() == 0 ) {
+			String key = getEditText(R.id.pass_keyfile);
+			if ( pass.length() == 0 && key.length() == 0 ) {
 				errorMessage(R.string.error_nopass);
 				return;
 			}
-			int result = Database.LoadData(getEditText(R.id.pass_filename),pass);
 			
-			switch (result) {
-			case 0:
+			try {
+
+				Database.LoadData(getEditText(R.id.pass_filename), pass, key);
 				saveDefaultPrefs();
 				GroupActivity.Launch(mAct, null);
-				break;
-			case -1:
+
+			} catch (InvalidCipherTextException e) {
+				errorMessage(R.string.InvalidPassword);
+			} catch (FileNotFoundException e) {
+				errorMessage(R.string.FileNotFound);
+			} catch (IOException e) {
 				errorMessage("Unknown error.");
-				break;
-			default:
-				errorMessage(result);
-				break;
+			} catch (InvalidKeyFileException e) {
+				errorMessage(e.getMessage());
 			}
-			
-		}
+		}			
 
 	}
 	

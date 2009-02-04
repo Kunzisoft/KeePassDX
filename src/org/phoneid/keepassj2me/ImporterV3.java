@@ -46,6 +46,8 @@ import org.bouncycastle1.crypto.params.KeyParameter;
 import org.bouncycastle1.crypto.params.ParametersWithIV;
 import org.phoneid.PhoneIDUtil;
 
+import com.android.keepass.keepasslib.InvalidKeyFileException;
+
 /**
  * Load a v3 database file.
  *
@@ -68,6 +70,7 @@ public class ImporterV3 {
    * @return new PwManager container.
    * 
    * @throws IOException on any file error.
+   * @throws InvalidKeyFileException 
    * @throws InvalidKeyException on a decryption error, or possible internal bug.
    * @throws IllegalBlockSizeException on a decryption error, or possible internal bug.
    * @throws BadPaddingException on a decryption error, or possible internal bug.
@@ -76,8 +79,8 @@ public class ImporterV3 {
    * @throws InvalidAlgorithmParameterException if error decrypting main file body. 
    * @throws ShortBufferException if error decrypting main file body.
    */
-  public PwManager openDatabase( InputStream inStream, String password )
-      throws IOException, InvalidCipherTextException
+  public PwManager openDatabase( InputStream inStream, String password, String keyfile )
+      throws IOException, InvalidCipherTextException, InvalidKeyFileException
     {
     PwManager        newManager;
     SHA256Digest    md;
@@ -108,7 +111,7 @@ public class ImporterV3 {
     }
 
     newManager = new PwManager();
-    newManager.setMasterKey( password );
+    newManager.setMasterKey( password, keyfile );
     
     // Select algorithm
     if( (hdr.flags & PwManager.PWM_FLAG_RIJNDAEL) != 0 ) {
@@ -137,6 +140,7 @@ public class ImporterV3 {
     transformedMasterKey = transformMasterKey( hdr.masterSeed2,
                                                newManager.masterKey,
                                                newManager.numKeyEncRounds );
+    
     // Hash the master password with the salt in the file
     md = new SHA256Digest();
     md.update( hdr.masterSeed, 0, hdr.masterSeed.length );
