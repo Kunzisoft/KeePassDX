@@ -16,7 +16,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
- */package com.android.keepass;
+ */
+package com.android.keepass;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

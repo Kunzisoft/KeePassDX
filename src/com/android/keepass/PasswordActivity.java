@@ -19,40 +19,84 @@
  */
 package com.android.keepass;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.bouncycastle1.crypto.InvalidCipherTextException;
 
-import com.android.keepass.keepasslib.InvalidKeyFileException;
-
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.keepass.fileselect.FileDbHelper;
+import com.android.keepass.keepasslib.InvalidKeyFileException;
 
 public class PasswordActivity extends Activity {
 
-	public static final String LAST_FILENAME = "lastFile";
-	public static final String LAST_KEYFILE = "lastKey";
-	
 	private static final int MENU_HOMEPAGE = Menu.FIRST;
+	private static final String KEY_FILENAME = "fileName";
+	private static final String KEY_KEYFILE = "keyFile";
+
+	private String mFileName;
+	private String mKeyFile;
+	
+	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
+		Launch(act,fileName,"");
+	}
+	
+	public static void Launch(Activity act, String fileName, String keyFile) throws FileNotFoundException {
+		File dbFile = new File(fileName);
+		if ( ! dbFile.exists() ) {
+			throw new FileNotFoundException();
+			//Toast.makeText(act, R.string.FileNotFound, Toast.LENGTH_LONG);
+			//return;
+		}
+		
+		Intent i = new Intent(act, PasswordActivity.class);
+		i.putExtra(KEY_FILENAME, fileName);
+		i.putExtra(KEY_KEYFILE, keyFile);
+		
+		act.startActivityForResult(i, 0);
+		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (resultCode == KeePass.EXIT_LOCK) {
+			setResult(KeePass.EXIT_LOCK);
+			finish();
+		}
+		
+		Database.clear(); 
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	
+		Intent i = getIntent();
+		mFileName = i.getStringExtra(KEY_FILENAME);
+		mKeyFile = i.getStringExtra(KEY_KEYFILE);
+		
 		setContentView(R.layout.password);
+		populateView();
 
 		Button confirmButton = (Button) findViewById(R.id.pass_ok);
 		confirmButton.setOnClickListener(new ClickHandler(this));
-		
-		loadDefaultPrefs();
-		
+	}
+	
+	private void populateView() {
+		setEditText(R.id.pass_filename, mFileName);
+		setEditText(R.id.pass_keyfile, mKeyFile);
 	}
 	
 	@Override
@@ -61,7 +105,6 @@ public class PasswordActivity extends Activity {
 		
 		// Clear password on Database state
 		setEditText(R.id.pass_password, "");
-		Database.clear(); 
 	}
 
 	@Override
@@ -70,28 +113,6 @@ public class PasswordActivity extends Activity {
 		
 	}
 
-	private void loadDefaultPrefs() {
-		SharedPreferences settings = getPreferences(MODE_PRIVATE);
-		String lastFile = settings.getString(LAST_FILENAME, "");
-		String lastKey = settings.getString(LAST_KEYFILE,"");
-		
-		if (lastFile == "") {
-			lastFile = "/sdcard/keepass/keepass.kdb";
-		}
-		
-		setEditText(R.id.pass_filename, lastFile);
-		setEditText(R.id.pass_keyfile, lastKey);
-	}
-	
-	private void saveDefaultPrefs() {
-		SharedPreferences settings = getPreferences(MODE_PRIVATE);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString(LAST_FILENAME, getEditText(R.id.pass_filename));
-		editor.putString(LAST_KEYFILE, getEditText(R.id.pass_keyfile));
-		editor.commit();
-	}
-	
-	
 	private void errorMessage(CharSequence text)
 	{
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
@@ -118,9 +139,9 @@ public class PasswordActivity extends Activity {
 			}
 			
 			try {
-
-				Database.LoadData(getEditText(R.id.pass_filename), pass, key);
-				saveDefaultPrefs();
+				String fileName = getEditText(R.id.pass_filename);
+				Database.LoadData(fileName, pass, key);
+				saveFileData(fileName, key);
 				GroupActivity.Launch(mAct, null);
 
 			} catch (InvalidCipherTextException e) {
@@ -135,19 +156,21 @@ public class PasswordActivity extends Activity {
 		}			
 	}
 	
-	private String getEditText(int resId) {
-		EditText te =  (EditText) findViewById(resId);
-		assert(te == null);
+	private void saveFileData(String fileName, String key) {
+		FileDbHelper db = new FileDbHelper(this);
+		db.open();
 		
-		if (te != null) {
-			return te.getText().toString();
-		} else {
-			return "";
-		}
+		db.createFile(fileName, key);
+		
+		db.close();
+	}
+	
+	private String getEditText(int resId) {
+		return Util.getEditText(this, resId);
 	}
 	
 	private void setEditText(int resId, String str) {
-		EditText te =  (EditText) findViewById(resId);
+		TextView te =  (TextView) findViewById(resId);
 		assert(te == null);
 		
 		if (te != null) {

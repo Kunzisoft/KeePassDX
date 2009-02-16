@@ -19,10 +19,12 @@
  */
 package com.android.keepass;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.ClipboardManager;
+import android.widget.TextView;
 
 public class Util {
 	public static void copyToClipboard(Context context, String text) {
@@ -34,6 +36,26 @@ public class Util {
 		if ( url != null && url.length() > 0 ) {
 			Uri uri = Uri.parse(url);
 			context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+		}
+	}
+
+	public static String getEditText(Activity act, int resId) {
+		TextView te =  (TextView) act.findViewById(resId);
+		assert(te == null);
+		
+		if (te != null) {
+			return te.getText().toString();
+		} else {
+			return "";
+		}
+	}
+	
+	public static void setEditText(Activity act, int resId, String str) {
+		TextView te =  (TextView) act.findViewById(resId);
+		assert(te == null);
+		
+		if (te != null) {
+			te.setText(str);
 		}
 	}
 

@@ -2,8 +2,8 @@
 <resources>
     
     <string name="app_name">KeePassDroid</string>
-<string name="no_keys">No keys in database.</string>
-<string name="FileNotFound">/sdcard/keepass/keepass.kdb not found</string>
+<string name="no_keys">No entries in the database or group.</string>
+<string name="FileNotFound">File not found.</string>
 <string name="InvalidPassword">Invalid password or key file.</string>
 <string name="pass_ok">Ok</string>
 <string name="entry_title">Name: </string>
@@ -25,4 +25,5 @@
 <string name="error_nopass">A password or a keyfile is requried.</string>
 <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
 <string name="entry_keyfile">Key file (optional):</string>
+
 </resources>

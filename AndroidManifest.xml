@@ -10,12 +10,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    <activity android:name=".PasswordActivity"></activity><activity android:name=".GroupActivity"></activity>
-<activity android:name=".EntryActivity"></activity>
-<meta-data android:name="com.a0soft.gphone.aTrackDog.webURL" android:value="http://keepassdroid.com" />
-
-</application>
-
-
-
+    	<activity android:name=".fileselect.FileSelectActivity"></activity><activity android:name=".PasswordActivity"></activity><activity android:name=".GroupActivity"></activity>
+		<activity android:name=".EntryActivity"></activity>
+		<meta-data android:name="com.a0soft.gphone.aTrackDog.webURL" android:value="http://keepassdroid.com" />
+	</application>
 </manifest> 

@@ -19,6 +19,8 @@
  */
 package com.android.keepass;
 
+import com.android.keepass.fileselect.FileSelectActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +34,7 @@ public class KeePass extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Intent i = new Intent(this, PasswordActivity.class);
+		Intent i = new Intent(this, FileSelectActivity.class);
 		
 		startActivityForResult(i, 0);
 	}
