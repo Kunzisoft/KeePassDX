@@ -31,16 +31,18 @@
 	  	<EditText android:id="@+id/file_filename"
 	  	  android:layout_width="fill_parent"
 	  	  android:layout_height="wrap_content"
-	  	  android:singleLine="true"/>
+	  	  android:singleLine="true"
+	  	  android:text="/sdcard/keepass/keepass.kdb"/>
 	  	<Button android:id="@+id/file_button"
 	  	  android:text="Open"
 	  	  android:layout_height="wrap_content"
-	  	  android:layout_width="wrap_content"/>
+	  	  android:layout_width="wrap_content"
+	  	  android:width="100sp"/>
 		<ImageView
 		  android:layout_width="fill_parent"
 		  android:layout_height="wrap_content"
 		  android:scaleType="fitXY"
-		  android:tint="#0000dd"
+		  android:tint="@color/blue_highlight"
 	  	  android:src="@android:drawable/divider_horizontal_dark"/>
 	  	<TextView android:id="@+id/file_listtop" 
 	  	  android:layout_width="fill_parent"

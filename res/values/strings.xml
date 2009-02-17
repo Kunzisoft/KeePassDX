@@ -26,4 +26,9 @@
 <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
 <string name="entry_keyfile">Key file (optional):</string>
 
+<color name="blue_highlight">#0000dd</color>
+<string name="group">Group</string>
+<string name="current_group">Current Group: </string>
+<string name="root">Root</string>
+<string name="current_group_root">Current Group: Root</string>
 </resources>

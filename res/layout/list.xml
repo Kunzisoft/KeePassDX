@@ -19,10 +19,25 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="wrap_content">
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+	<TextView android:id="@+id/group_header" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:textSize="15sp"
+	  android:text="@string/current_group_root"
+	  android:textStyle="bold"
+	  android:layout_weight="0"/>
+	<ImageView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:scaleType="fitXY"
+	  android:tint="@color/blue_highlight"
+	  android:src="@android:drawable/divider_horizontal_dark"/>
 	<ListView android:id="@android:id/list"
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="wrap_content"
+      android:layout_weight="1"/>
   	<TextView android:id="@android:id/empty"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"

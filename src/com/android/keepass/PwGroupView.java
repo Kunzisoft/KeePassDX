@@ -22,30 +22,33 @@ package com.android.keepass;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class PwGroupView extends PwItemView {
+
+public class PwGroupView extends LinearLayout {
 	
 	private PwGroup mPw;
 	private Activity mAct;
 	
 	public PwGroupView(Activity act, PwGroup pw) {
-		super(act, pw.name);
+		super(act);
 		mAct = act;
 		mPw = pw;
 		
-		getTextView().setTextColor(Color.BLUE);
+		View gv = View.inflate(act, R.layout.group_list_entry, null);
+		TextView tv = (TextView) gv.findViewById(R.id.group_text);
+		tv.setText(pw.name);
 		
-	}
-	
-	public void setGroup(PwGroup pw) {
-		super.setTitle(pw.name);
+		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		
-		mPw = pw;
+		addView(gv, lp);
+		
 	}
 
-	@Override
 	void onClick() {
+	
 		GroupActivity.Launch(mAct, mPw);
 	
 	}

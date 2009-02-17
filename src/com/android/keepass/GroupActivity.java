@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class GroupActivity extends ListActivity {
 
@@ -58,15 +59,15 @@ public class GroupActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		int size = mGroup.childGroups.size();
-		PwItemView iv;
 		if (position < size ) {
 			PwGroup group = (PwGroup) mGroup.childGroups.elementAt(position);
-			iv = new PwGroupView(this, group);
+			PwGroupView gv = new PwGroupView(this, group);
+			gv.onClick();
 		} else {
 			PwEntry entry = (PwEntry) mGroup.childEntries.elementAt(position - size);
-			iv = new PwEntryView(this, entry);
+			PwEntryView pe = new PwEntryView(this, entry);
+			pe.onClick();
 		}
-		iv.onClick();
 	}
 
 	@Override
@@ -85,10 +86,22 @@ public class GroupActivity extends ListActivity {
 			mGroup = wPw.get();
 		}
 		assert(mGroup != null);
+
+		setGroupTitle();
 		
 		setListAdapter(new PwListAdapter(this, mGroup));
 		getListView().setTextFilterEnabled(true);
 
+	}
+	
+	private void setGroupTitle() {
+		if ( mGroup != null ) {
+			String name = mGroup.name;
+			if ( name != null && name.length() > 0 ) {
+				TextView tv = (TextView) findViewById(R.id.group_header);
+				tv.setText(getText(R.string.current_group) + " " + name);
+			}
+		}
 	}
 	
 	@Override

@@ -83,25 +83,26 @@ public class PwListAdapter extends BaseAdapter {
 
 	private View createGroupView(int position, View convertView) {
 		PwGroupView gv;
-		if (convertView == null || ! (convertView instanceof PwGroupView)) {
+		//if (convertView == null || ! (convertView instanceof PwGroupView)) {
 			PwGroup group = (PwGroup) mGroup.childGroups.elementAt(position);
 			gv = new PwGroupView(mAct, group);
+		/*
 		} else {
 			gv = (PwGroupView) convertView;
 			gv.setGroup((PwGroup) mGroup.childGroups.elementAt(position));
 		}
-		
+		*/
 		return gv;
 	}
 
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
-		if (convertView == null || ! (convertView instanceof PwEntryView) ) {
+//		if (convertView == null || ! (convertView instanceof PwEntryView) ) {
 			ev = new PwEntryView(mAct, filteredEntries.elementAt(position));
-		} else {
-			ev = (PwEntryView) convertView;
-			ev.setEntry(filteredEntries.elementAt(position));
-		}
+//		} else {
+//			ev = (PwEntryView) convertView;
+//			ev.setEntry(filteredEntries.elementAt(position));
+//		}
 		return ev;
 	}
 

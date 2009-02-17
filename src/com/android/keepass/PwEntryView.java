@@ -22,27 +22,30 @@ package com.android.keepass;
 import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class PwEntryView extends PwItemView {
+public class PwEntryView extends LinearLayout {
 
 	private Activity mAct;
 	private PwEntry mPw;
 	
 	public PwEntryView(Activity act, PwEntry pw) {
-		super(act, pw.title);
+		super(act);
 		mAct = act;
-		
 		mPw = pw;
 		
+		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
+		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
+		tv.setText(mPw.title);
+		
+		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		
+		addView(ev, lp);
+
 	}
 	
-	public void setEntry(PwEntry pw) {
-		super.setTitle(pw.title);
-		
-		mPw = pw;
-	}
-
-	@Override
 	void onClick() {
 		EntryActivity.Launch(mAct, mPw);
 		
