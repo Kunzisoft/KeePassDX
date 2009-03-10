@@ -30,7 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class EntryActivity extends Activity {
+public class EntryActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
 	
 	private static final int MENU_PASS = Menu.FIRST;
@@ -78,13 +78,6 @@ public class EntryActivity extends Activity {
 	private void populateText(int viewId, String text) {
 		TextView tv = (TextView) findViewById(viewId);
 		tv.setText(text);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		
-		
 	}
 
 	@Override

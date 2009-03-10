@@ -27,6 +27,11 @@ import android.text.ClipboardManager;
 import android.widget.TextView;
 
 public class Util {
+	public static String getClipboard(Context context) {
+		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+		return clipboard.getText().toString();
+	}
+	
 	public static void copyToClipboard(Context context, String text) {
 		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 		clipboard.setText(text);

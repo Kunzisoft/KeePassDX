@@ -23,15 +23,55 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 
-public class TimeoutService extends Service {
+import com.android.keepass.intents.TimeoutIntents;
 
-	private boolean timeout = false;
-	private Timer mTimer = new Timer();
+public class TimeoutService extends Service {
+	private static final long DEFAULT_TIMEOUT = 15 * 1000; // 5 * 60 * 1000;  // 5 minutes
 	
+	private boolean timeout = false;
+	private Timer mTimer;
+	private BroadcastReceiver mIntentReceiver;
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		
+		mIntentReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String action = intent.getAction();
+				
+				if ( action.equals(TimeoutIntents.START) ) {
+					startTimeout(DEFAULT_TIMEOUT);
+				} else if ( action.equals(TimeoutIntents.CANCEL) ) {
+					cancel();
+				}
+			}
+		};
+		
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(TimeoutIntents.START);
+		filter.addAction(TimeoutIntents.CANCEL);
+		registerReceiver(mIntentReceiver, filter);
+		
+	}
+	
+		@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+		unregisterReceiver(mIntentReceiver);
+	}
+
+
+
 	public class TimeoutBinder extends Binder {
 		public TimeoutService getService() {
 			return TimeoutService.this;
@@ -51,16 +91,22 @@ public class TimeoutService extends Service {
 		@Override
 		public void run() {
 			timeout = true;
+			
+			sendBroadcast(new Intent(TimeoutIntents.LOCK));
 		}
 		
 	}
 	
-	public void startTimeout(long seconds) {
-		mTimer.schedule(new TimeoutTask(), seconds);
+	public void startTimeout(long milliseconds) {
+		mTimer = new Timer();
+		mTimer.schedule(new TimeoutTask(), milliseconds);
 	}
 	
 	public void cancel() {
-		mTimer.cancel();
+		if ( mTimer != null ) {
+			mTimer.cancel();
+		}
+		
 		timeout = false;
 	}
 	

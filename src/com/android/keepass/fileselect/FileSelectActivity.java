@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.android.keepass.PasswordActivity;
 import com.android.keepass.R;
 import com.android.keepass.Util;
+import com.android.keepass.intents.TimeoutIntents;
 
 public class FileSelectActivity extends ListActivity {
 
@@ -102,6 +103,19 @@ public class FileSelectActivity extends ListActivity {
 		fillData();
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		sendBroadcast(new Intent(TimeoutIntents.START));
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
+	}
 
 	private class ClickHandler implements View.OnClickListener {
 		Activity mAct;

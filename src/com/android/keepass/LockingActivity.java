@@ -20,53 +20,38 @@
 package com.android.keepass;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.keepass.fileselect.FileSelectActivity;
-import com.android.keepass.services.TimeoutService;
+public class LockingActivity extends Activity {
 
-public class KeePass extends Activity {
-
-	public static final int EXIT_NORMAL = 0;
-	public static final int EXIT_LOCK = 1;
+	private LockManager mLM;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		
-		startService(new Intent(this, TimeoutService.class));
-		
-		//Intent i = new Intent(this, FileSelectActivity.class);
-		//startActivityForResult(i, 0);
-	}
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
-
-		startFileSelect();
-	}
-
-	private void startFileSelect() {
-		Intent intent = new Intent(this, FileSelectActivity.class);
-		startActivityForResult(intent, 0);
+		mLM = new LockManager(this);
 	}
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
+		mLM.cleanUp();
 		
-		stopService(new Intent(this, TimeoutService.class));
+		super.onDestroy();
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		if (resultCode == 0) {
-			finish();
-		}
+	protected void onPause() {
+		super.onPause();
+
+		mLM.startTimeout();
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		mLM.stopTimeout();
+	}
+	
 }

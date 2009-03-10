@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.keepass.fileselect.FileDbHelper;
+import com.android.keepass.intents.TimeoutIntents;
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 
 public class PasswordActivity extends Activity {
@@ -105,12 +106,21 @@ public class PasswordActivity extends Activity {
 		
 		// Clear password on Database state
 		setEditText(R.id.pass_password, "");
+		
+		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 		
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		sendBroadcast(new Intent(TimeoutIntents.START));
 	}
 
 	private void errorMessage(CharSequence text)

@@ -1,19 +1,22 @@
 /*
- * Copyright (C) 2008 The Android Open Source Project
+ * Copyright 2009 Brian Pellin.
+ *     
+ * This file is part of KeePassDroid.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  KeePassDroid is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  KeePassDroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 package com.android.keepass.tests;
 
 import junit.framework.Test;
@@ -21,28 +24,6 @@ import junit.framework.TestSuite;
 
 import android.test.suitebuilder.TestSuiteBuilder;
 
-/**
- * A test suite containing all tests for ApiDemos.
- *
- * To run all suites found in this apk:
- * $ adb shell am instrument -w \
- *   com.example.android.apis.tests/android.test.InstrumentationTestRunner
- *
- * To run just this suite from the command line:
- * $ adb shell am instrument -w \
- *   -e class com.example.android.apis.AllTests \
- *   com.example.android.apis.tests/android.test.InstrumentationTestRunner
- *
- * To run an individual test case, e.g. {@link com.example.android.apis.os.MorseCodeConverterTest}:
- * $ adb shell am instrument -w \
- *   -e class com.example.android.apis.os.MorseCodeConverterTest \
- *   com.example.android.apis.tests/android.test.InstrumentationTestRunner
- *
- * To run an individual test, e.g. {@link com.example.android.apis.os.MorseCodeConverterTest#testCharacterS()}:
- * $ adb shell am instrument -w \
- *   -e class com.example.android.apis.os.MorseCodeConverterTest#testCharacterS \
- *   com.example.android.apis.tests/android.test.InstrumentationTestRunner
- */
 public class AllTests extends TestSuite {
 
     public static Test suite() {

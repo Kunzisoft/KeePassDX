@@ -25,7 +25,6 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,7 +33,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class GroupActivity extends ListActivity {
+public class GroupActivity extends LockingListActivity {
 
 	public static final String KEY_ENTRY = "entry";
 	
