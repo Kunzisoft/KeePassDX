@@ -297,7 +297,7 @@
         </exec>
     </target>
 
-    <target name="tests">
+    <target name="tests" depends="reinstall">
         <echo>Building and installing tests..</echo>
         <exec executable="ant" failonerror="true">
             <arg value="-f" />
@@ -305,8 +305,15 @@
             <arg value="reinstall"/>
         </exec>
         <mkdir dir="${log-dir}" />
-        <exec execute="${adb}">
-            <arg value="shell am instrument -w -e class com.android.keepass.tests.AllTests com.android.keepass.tests/android.test.InstrumentationTestRunner" />
+        <exec executable="${adb}">
+        <arg value="shell" />
+        <arg value="am" />
+        <arg value="instrument" />
+        <arg value="-w" />
+        <arg value="-e" />
+        <arg value="class" />
+        <arg value="com.android.keepass.tests.AllTests" />
+        <arg value="com.android.keepass.tests/android.test.InstrumentationTestRunner" />
         </exec>
 
     </target>

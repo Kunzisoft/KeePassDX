@@ -159,8 +159,8 @@
                 destdir="${outdir-classes}"
                 bootclasspath="${android-jar}">
             <classpath>
-                <fileset dir="${junit-path}" includes="junit4.jar"/>
                 <fileset dir="${external-libs}" includes="*.jar"/>
+                <fileset file="${junit-path}"/>
             </classpath>
          </javac>
     </target>
@@ -173,7 +173,7 @@
             <arg value="--output=${intermediate-dex-ospath}" />
             <arg path="${outdir-classes-ospath}" />
             <fileset dir="${external-libs}" includes="*.jar"/>
-            <fileset dir="${junit-path}" includes="junit4.jar"/>
+            <fileset file="${junit-path}"/>
         </apply>
     </target>
 
@@ -240,7 +240,7 @@
             <arg value="-rj" />
             <arg value="${external-libs-ospath}" />
             <arg value="-rj" />
-            <arg value="${junit-ospath}" />
+            <arg value="${junit-path}" />
             <arg value="-nf" />
             <arg value="${native-libs-ospath}" />
         </exec>
@@ -262,7 +262,7 @@
             <arg value="-rj" />
             <arg value="${external-libs-ospath}" />
             <arg value="-rj" />
-            <arg value="${junit-ospath}" />
+            <arg value="${junit-path}" />
             <arg value="-nf" />
             <arg value="${native-libs-ospath}" />
         </exec>
