@@ -17,54 +17,79 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	
-	<TableRow>
-		<TextView android:layout_width="100px"
-			android:layout_height="wrap_content" 
-			android:text="@string/entry_title" />
-		<TextView android:id="@+id/entry_title" 
-		  android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_weight="1"/>
-	</TableRow>
-	<TableRow>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:text="@string/entry_user_name" />
-		<TextView android:id="@+id/entry_user_name" 
-		  android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_weight="1"/>
-	</TableRow>
-	<TableRow>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:text="@string/entry_url" />
-		<TextView android:id="@+id/entry_url" 
-		  android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_weight="1"/>
-	</TableRow>
-	<TableRow>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:text="@string/entry_password" />
-		<TextView android:id="@+id/entry_password" 
-		  android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_weight="1"/>
-	</TableRow>
-	<TableRow>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:text="@string/entry_comment" />
+	<TextView android:id="@+id/entry_title_label"
+	  android:layout_width="100px"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_title" />
+	<TextView android:id="@+id/entry_title" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignParentRight="true"
+	  android:layout_toRightOf="@id/entry_title_label"/>
+	<TextView android:id="@+id/entry_user_name_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignParentLeft="true"
+	  android:layout_below="@id/entry_title_label" 
+	  android:text="@string/entry_user_name" />
+	<TextView android:id="@+id/entry_user_name" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignLeft="@id/entry_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignTop="@id/entry_user_name_label"/>
+	<TextView android:id="@+id/entry_url_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignParentLeft="true"
+	  android:layout_below="@id/entry_user_name_label" 
+	  android:text="@string/entry_url" />
+	<TextView android:id="@+id/entry_url" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignLeft="@id/entry_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignTop="@id/entry_url_label"/>
+	<TextView android:id="@+id/entry_password_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content" 
+	  android:layout_alignParentLeft="true"
+	  android:layout_below="@id/entry_url_label" 
+	  android:text="@string/entry_password" />
+	<TextView android:id="@+id/entry_password" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignLeft="@id/entry_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignTop="@id/entry_password_label"/>
+	<TextView android:id="@+id/entry_comment_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content" 
+	  android:layout_alignParentLeft="true"
+	  android:layout_below="@id/entry_password" 
+	  android:text="@string/entry_comment" />
+	<TextView android:id="@+id/entry_comment" 
+      android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignLeft="@id/entry_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignParentBottom="true"
+	  android:scrollbars="vertical"
+	  android:layout_alignTop="@id/entry_comment_label"/>
+	<!-- 
+	<ScrollView android:layout_width="wrap_content"
+	  android:layout_height="wrap_content">
+	  android:layout_alignLeft="@id/entry_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignParentBottom="true"
+	  android:layout_alignTop="@id/entry_comment_label"
 		<TextView android:id="@+id/entry_comment" 
 		  android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_weight="1"/>
-	</TableRow>
-
-</TableLayout>
+		  android:layout_height="wrap_content"/>
+	</ScrollView>
+	-->
+</RelativeLayout>

@@ -26,8 +26,10 @@ import org.phoneid.keepassj2me.PwEntry;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class EntryActivity extends LockingActivity {
@@ -72,6 +74,9 @@ public class EntryActivity extends LockingActivity {
 		populateText(R.id.entry_url, mEntry.url);
 		populateText(R.id.entry_password, getString(R.string.MaskedPassword));
 		populateText(R.id.entry_comment, mEntry.additional);
+		TextView comment = (TextView)findViewById(R.id.entry_comment);
+		comment.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
+		comment.setMovementMethod(new ScrollingMovementMethod());
 		
 	}
 	

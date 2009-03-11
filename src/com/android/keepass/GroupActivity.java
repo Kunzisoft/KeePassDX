@@ -74,7 +74,7 @@ public class GroupActivity extends LockingListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		setResult(KeePass.EXIT_NORMAL);
-
+		
 		int id = getIntent().getIntExtra(KEY_ENTRY, -1);
 		assert(mId >= 0);
 		
@@ -89,7 +89,9 @@ public class GroupActivity extends LockingListActivity {
 		setGroupTitle();
 		
 		setListAdapter(new PwListAdapter(this, mGroup));
-		getListView().setTextFilterEnabled(true);
+		ListView lv = getListView();
+		lv.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
+		lv.setTextFilterEnabled(true);
 
 	}
 	
