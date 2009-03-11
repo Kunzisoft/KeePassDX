@@ -33,7 +33,7 @@ import android.os.IBinder;
 import com.android.keepass.intents.TimeoutIntents;
 
 public class TimeoutService extends Service {
-	private static final long DEFAULT_TIMEOUT = 15 * 1000; // 5 * 60 * 1000;  // 5 minutes
+	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
 	
 	private boolean timeout = false;
 	private Timer mTimer;

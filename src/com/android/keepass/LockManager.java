@@ -28,10 +28,11 @@ import android.content.IntentFilter;
 import com.android.keepass.intents.TimeoutIntents;
 
 public class LockManager {
-	private BroadcastReceiver mIntentReceiver;
-	private Activity mAct;
+	private final BroadcastReceiver mIntentReceiver;
+	private final Activity mAct;
 	
 	public LockManager(Activity act) {
+		mAct = act;
 		
 		mIntentReceiver = new BroadcastReceiver() {
 			@Override
@@ -47,7 +48,7 @@ public class LockManager {
 		
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(TimeoutIntents.LOCK);
-		mAct.registerReceiver(mIntentReceiver, filter);
+		act.registerReceiver(mIntentReceiver, filter);
 		
 	}
 
