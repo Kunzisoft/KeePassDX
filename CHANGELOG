@@ -1,3 +1,8 @@
+KeePassDroid (0.1.6)
+
+  * Implement 5 minute timeout when the application is inactive.
+  * Scroll comment field when the text overflows.
+
 KeePassDroid (0.1.5)
 
   * Improve file selection
