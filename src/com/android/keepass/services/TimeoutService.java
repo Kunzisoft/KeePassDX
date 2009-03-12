@@ -70,8 +70,6 @@ public class TimeoutService extends Service {
 		unregisterReceiver(mIntentReceiver);
 	}
 
-
-
 	public class TimeoutBinder extends Binder {
 		public TimeoutService getService() {
 			return TimeoutService.this;
