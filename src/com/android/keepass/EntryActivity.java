@@ -19,18 +19,23 @@
  */
 package com.android.keepass;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EntryActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -41,6 +46,7 @@ public class EntryActivity extends LockingActivity {
 	private static final int MENU_COPY_PASS = Menu.FIRST + 3;
 	private static final int MENU_LOCK = Menu.FIRST + 4; 
 	
+	private static final long CLIP_CLEAR_TIME = 30 * 1000;
 	
 	public static void Launch(Activity act, PwEntry pw) {
 		Intent i = new Intent(act, EntryActivity.class);
@@ -51,6 +57,7 @@ public class EntryActivity extends LockingActivity {
 	}
 	
 	private PwEntry mEntry;
+	private Timer mTimer = new Timer();
 	private boolean showPassword = true;
 
 	@Override
@@ -122,10 +129,10 @@ public class EntryActivity extends LockingActivity {
 			Util.gotoUrl(this, mEntry.url);
 			return true;
 		case MENU_COPY_USER:
-			Util.copyToClipboard(this, mEntry.username);
+			timeoutCopyToClipboard(mEntry.username);
 			return true;
 		case MENU_COPY_PASS:
-			Util.copyToClipboard(this, new String(mEntry.getPassword()));
+			timeoutCopyToClipboard(new String(mEntry.getPassword()));
 			return true;
 		case MENU_LOCK:
 			setResult(KeePass.EXIT_LOCK);
@@ -134,5 +141,48 @@ public class EntryActivity extends LockingActivity {
 		}
 		
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void timeoutCopyToClipboard(String text) {
+		Util.copyToClipboard(this, text);
+		mTimer.schedule(new ClearClipboardTask(this, text), CLIP_CLEAR_TIME);
+	}
+	
+
+	// Setup to allow the toast to happen in the foreground
+	final Handler uiThreadCallback = new Handler();
+
+	// This task will be run in the UI thread
+	final Runnable runInUIThread = new Runnable() {
+		@Override
+		public void run() {
+			uiClearClipToast();
+		}
+	};
+	
+	private void uiClearClipToast() {
+		Toast.makeText(this, R.string.ClearClipboard, Toast.LENGTH_SHORT).show();
+	}
+	
+	// Task which clears the clipboard, and sends a toast to the foreground.
+	private class ClearClipboardTask extends TimerTask {
+		
+		private final String mClearText;
+		private final Context mCtx;
+		
+		ClearClipboardTask(Context ctx, String clearText) {
+			mClearText = clearText;
+			mCtx = ctx;
+		}
+		
+		@Override
+		public void run() {
+			String currentClip = Util.getClipboard(mCtx);
+			
+			if ( currentClip.equals(mClearText) ) {
+				Util.copyToClipboard(mCtx, "");
+				uiThreadCallback.post(runInUIThread);
+			}
+		}
 	}
 }

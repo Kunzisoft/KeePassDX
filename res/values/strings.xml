@@ -31,4 +31,5 @@
 <string name="current_group">Current Group: </string>
 <string name="root">Root</string>
 <string name="current_group_root">Current Group: Root</string>
+<string name="ClearClipboard">Clipboard cleared.</string>
 </resources>
