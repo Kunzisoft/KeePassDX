@@ -26,8 +26,10 @@ import java.io.IOException;
 import org.bouncycastle1.crypto.InvalidCipherTextException;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +49,7 @@ public class PasswordActivity extends Activity {
 
 	private String mFileName;
 	private String mKeyFile;
+	private ProgressDialog mPd;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -148,21 +151,17 @@ public class PasswordActivity extends Activity {
 				return;
 			}
 			
-			try {
 				String fileName = getEditText(R.id.pass_filename);
+				
+				mPd = ProgressDialog.show(mAct, "Working...", "Loading database", true, false);
+				Thread bkgLoad = new Thread(new BackgroundLoad(fileName, pass, key));
+				bkgLoad.start();
+				
+				/*
 				Database.LoadData(fileName, pass, key);
 				saveFileData(fileName, key);
 				GroupActivity.Launch(mAct, null);
-
-			} catch (InvalidCipherTextException e) {
-				errorMessage(R.string.InvalidPassword);
-			} catch (FileNotFoundException e) {
-				errorMessage(R.string.FileNotFound);
-			} catch (IOException e) {
-				errorMessage("Unknown error.");
-			} catch (InvalidKeyFileException e) {
-				errorMessage(e.getMessage());
-			}
+				*/
 		}			
 	}
 	
@@ -209,4 +208,70 @@ public class PasswordActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private final Handler uiHandler = new Handler();
+	
+	private final class AfterLoad implements Runnable {
+		private boolean mLaunch;
+		private CharSequence mMsg;
+		
+		public AfterLoad() {
+			mLaunch = true;
+			mMsg = "";
+		}
+		
+		public AfterLoad(CharSequence errorMsg) {
+			mLaunch = false;
+			mMsg = errorMsg;
+		}
+		
+		public AfterLoad(int resId) {
+			mLaunch = false;
+			mMsg = PasswordActivity.this.getText(resId);
+		}
+		
+		@Override
+		public void run() {
+			mPd.dismiss();
+			
+			if ( mMsg.length() > 0 ) {
+				Toast.makeText(PasswordActivity.this, mMsg, Toast.LENGTH_LONG).show();
+			}
+			
+			if ( mLaunch ) {
+				GroupActivity.Launch(PasswordActivity.this, null);
+			}
+		}
+	}
+	
+	private final class BackgroundLoad implements Runnable {
+		private String mFileName;
+		private String mPass;
+		private String mKey;
+		
+		public BackgroundLoad(String fileName, String pass, String key) {
+			mFileName = fileName;
+			mPass = pass;
+			mKey = key;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				Database.LoadData(mFileName, mPass, mKey);
+				saveFileData(mFileName, mKey);
+				uiHandler.post(new AfterLoad());
+				
+			} catch (InvalidCipherTextException e) {
+				uiHandler.post(new AfterLoad(R.string.InvalidPassword));
+			} catch (FileNotFoundException e) {
+				uiHandler.post(new AfterLoad(R.string.FileNotFound));
+			} catch (IOException e) {
+				uiHandler.post(new AfterLoad("Unknown error."));
+			} catch (InvalidKeyFileException e) {
+				uiHandler.post(new AfterLoad(e.getMessage()));
+			}
+			
+		}
+	}
+	
 }

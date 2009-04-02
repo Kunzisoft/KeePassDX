@@ -152,18 +152,6 @@ public class EntryActivity extends LockingActivity {
 	// Setup to allow the toast to happen in the foreground
 	final Handler uiThreadCallback = new Handler();
 
-	// This task will be run in the UI thread
-	final Runnable runInUIThread = new Runnable() {
-		@Override
-		public void run() {
-			uiClearClipToast();
-		}
-	};
-	
-	private void uiClearClipToast() {
-		Toast.makeText(this, R.string.ClearClipboard, Toast.LENGTH_SHORT).show();
-	}
-	
 	// Task which clears the clipboard, and sends a toast to the foreground.
 	private class ClearClipboardTask extends TimerTask {
 		
@@ -181,7 +169,7 @@ public class EntryActivity extends LockingActivity {
 			
 			if ( currentClip.equals(mClearText) ) {
 				Util.copyToClipboard(mCtx, "");
-				uiThreadCallback.post(runInUIThread);
+				uiThreadCallback.post(new UIToastTask(mCtx, R.string.ClearClipboard));
 			}
 		}
 	}
