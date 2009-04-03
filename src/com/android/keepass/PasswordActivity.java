@@ -43,7 +43,7 @@ import com.android.keepass.keepasslib.InvalidKeyFileException;
 
 public class PasswordActivity extends Activity {
 
-	private static final int MENU_HOMEPAGE = Menu.FIRST;
+	private static final int MENU_ABOUT = Menu.FIRST;
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
 
@@ -191,8 +191,8 @@ public class PasswordActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_HOMEPAGE, 0, R.string.menu_homepage);
-		menu.findItem(MENU_HOMEPAGE).setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
+		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
 		
 		return true;
 	}
@@ -200,8 +200,9 @@ public class PasswordActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_HOMEPAGE:
-			Util.gotoUrl(this, getText(R.string.homepage).toString());
+		case MENU_ABOUT:
+			AboutDialog dialog = new AboutDialog(this);
+			dialog.show();
 			return true;
 		}
 		

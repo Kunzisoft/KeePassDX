@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.android.keepass.AboutDialog;
 import com.android.keepass.PasswordActivity;
 import com.android.keepass.R;
 import com.android.keepass.Util;
@@ -41,7 +42,7 @@ import com.android.keepass.intents.TimeoutIntents;
 
 public class FileSelectActivity extends ListActivity {
 
-	private static final int MENU_HOMEPAGE = Menu.FIRST;
+	private static final int MENU_ABOUT = Menu.FIRST;
 	private FileDbHelper mDbHelper;
 	
 	@Override
@@ -142,8 +143,8 @@ public class FileSelectActivity extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_HOMEPAGE, 0, R.string.menu_homepage);
-		menu.findItem(MENU_HOMEPAGE).setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
+		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
 		
 		return true;
 	}
@@ -151,8 +152,9 @@ public class FileSelectActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_HOMEPAGE:
-			Util.gotoUrl(this, getText(R.string.homepage).toString());
+		case MENU_ABOUT:
+			AboutDialog dialog = new AboutDialog(this);
+			dialog.show();
 			return true;
 		}
 		
