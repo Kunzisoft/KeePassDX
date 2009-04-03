@@ -1,3 +1,8 @@
+KeePassDroid (0.1.8)
+
+  * Move database decryption into background thread
+  * Add about dialog
+
 KeePassDroid (0.1.7)
 
   * Clear usernames and passwords from the clipboard after 30 seconds.
