@@ -24,6 +24,7 @@ import java.util.Vector;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
+
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;

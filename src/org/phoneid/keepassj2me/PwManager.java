@@ -42,7 +42,9 @@ import com.android.keepass.keepasslib.InvalidKeyFileException;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
 public class PwManager {
-
+	// TODO: delete ME
+	public byte[] postHeader;
+	
     // Constants
     // private static final int PWM_SESSION_KEY_SIZE = 12;
     // DB sig from KeePass 1.03 
@@ -81,6 +83,8 @@ public class PwManager {
     // Algorithm used to encrypt the database
     int              algorithm;
     int              numKeyEncRounds;
+    
+    public PwDbHeader dbHeader;
 
     // root group
     PwGroup rootGroup;

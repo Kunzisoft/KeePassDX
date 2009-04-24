@@ -1,5 +1,7 @@
 /*
-KeePass for J2ME
+ * Copyright 2009 Brian Pellin.
+
+This file was derived from
 
 Copyright 2007 Naomaru Itoi <nao@phoneid.org>
 
@@ -8,57 +10,63 @@ This file was derived from
 Java clone of KeePass - A KeePass file viewer for Java
 Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; version 2
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *     
+ * This file is part of KeePassDroid.
+ *
+ *  KeePassDroid is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+ *
 */
 
 package org.phoneid.keepassj2me;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Vector;
+
 
 /**
+ * @author Brian Pellin <bpellin@gmail.com>
  * @author Naomaru Itoi <nao@phoneid.org>
  * @author Bill Zwicky <wrzwicky@pobox.com>
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
 public class PwGroup {
   public PwGroup() {
-  }
-  
-  public String toString() {
-    return name;
-  }
+	}
 
+	public String toString() {
+		return name;
+	}
+	
+	/** Size of byte buffer needed to hold this struct. */
+	public static final int BUF_SIZE = 124;
 
-  /** Size of byte buffer needed to hold this struct. */
-  public static final int BUF_SIZE = 124;
+	// for tree traversing
+	public Vector<PwGroup> childGroups = null;
+	public Vector<PwEntry> childEntries = null;
+	public PwGroup parent = null;
 
-    // for tree traversing
-    public Vector<PwGroup> childGroups = null;
-    public Vector<PwEntry> childEntries = null;
-    public PwGroup parent = null;
+	public int groupId;
+	public int imageId;
+	public String name;
 
-  public int              groupId;
-  public int              imageId;
-  public String           name;
+	public Date tCreation;
+	public Date tLastMod;
+	public Date tLastAccess;
+	public Date tExpire;
 
-  public Date             tCreation;
-  public Date             tLastMod;
-  public Date             tLastAccess;
-  public Date             tExpire;
+	public int level; // short
 
-  public int              level;       //short
-
-  /** Used by KeePass internally, don't use */
-  public int              flags;
+	/** Used by KeePass internally, don't use */
+	public int flags;
 }

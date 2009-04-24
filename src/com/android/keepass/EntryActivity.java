@@ -19,6 +19,7 @@
  */
 package com.android.keepass;
 
+import java.text.DateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -80,6 +81,10 @@ public class EntryActivity extends LockingActivity {
 		populateText(R.id.entry_user_name, mEntry.username);
 		populateText(R.id.entry_url, mEntry.url);
 		populateText(R.id.entry_password, getString(R.string.MaskedPassword));
+		
+		DateFormat df = DateFormat.getInstance();
+		String date = df.format(mEntry.tCreation);
+		populateText(R.id.entry_created, date);
 		populateText(R.id.entry_comment, mEntry.additional);
 		TextView comment = (TextView)findViewById(R.id.entry_comment);
 		comment.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);

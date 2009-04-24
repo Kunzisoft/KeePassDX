@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package org.phoneid.keepassj2me;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -32,6 +33,38 @@ import java.util.Date;
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
 public class Types {
+	
+	public static long readUInt(byte buf[], int offset) {
+        int firstByte = 0;
+        int secondByte = 0;
+        int thirdByte = 0;
+        int fourthByte = 0;
+
+        firstByte = (0x000000FF & ((int)buf[offset]));
+        secondByte = (0x000000FF & ((int)buf[offset+1]));
+        thirdByte = (0x000000FF & ((int)buf[offset+2]));
+        fourthByte = (0x000000FF & ((int)buf[offset+3]));
+
+        return ((long) (firstByte << 24
+	                 | secondByte << 16
+                     | thirdByte << 8
+                     | fourthByte))
+                     & 0xFFFFFFFFL;
+
+	}
+	
+	public static byte[] writeUInt(long val) {
+		byte[] buf = new byte[4];
+		
+		buf[0] = (byte) ((val & 0xFF000000L) >> 24);
+		buf[1] = (byte) ((val & 0x00FF0000L) >> 16);
+		buf[2] = (byte) ((val & 0x0000FF00L) >> 8);
+		buf[3] = (byte) (val & 0x000000FFL);
+		
+		return buf;
+	}
+	
+	
   /**
    * Read a 32-bit value.
    * 
@@ -59,8 +92,13 @@ public class Types {
     buf[offset + 2] = (byte)((val >>> 16) & 0xFF);
     buf[offset + 3] = (byte)((val >>> 24) & 0xFF);
   }
+  
+  public static byte[] writeInt(int val) {
+	  byte[] buf = new byte[4];
+	  writeInt(val, buf, 0);
 
-
+	  return buf;
+  }
 
   /**
    * Read an unsigned 16-bit value.
@@ -72,15 +110,48 @@ public class Types {
   public static int readShort( byte[] buf, int offset ) {
     return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
   }
+  
+  /** Write an unsigned 16-bit value
+   * 
+   * @param val
+   * @param buf
+   * @param offset
+   */
+  public static void writeShort(int val, byte[] buf, int offset) {
+	  buf[offset + 0] = (byte)(val & 0xFF);
+	  buf[offset + 1] = (byte)((val >>> 8) & 0xFF);
+  }
 
-
-
+  public static byte[] writeShort(int val) {
+	  byte[] buf = new byte[2];
+	  
+	  writeShort(val, buf, 0);
+	  
+	  return buf;
+  }
+                     
   /** Read an unsigned byte */
   public static int readUByte( byte[] buf, int offset ) {
     return ((int)buf[offset] & 0xFF);
   }
 
-
+  /** Write an unsigned byte
+   * 
+   * @param val
+   * @param buf
+   * @param offset
+   */
+  public static void writeUByte(int val, byte[] buf, int offset) {
+	  buf[offset] = (byte)(val & 0xFF);
+  }
+  
+  public static byte[] writeUByte(int val) {
+	  byte[] buf = new byte[2];
+	  
+	  writeUByte(val, buf, 0);
+	  
+	  return buf;
+  }
 
   /**
    * Return len of null-terminated string (i.e. distance to null)
@@ -134,11 +205,33 @@ public class Types {
     int minute = ((dw4 & 0x0000000F) << 2) | (dw5 >> 6);
     int second =   dw5 & 0x0000003F;
   
-    //Calendar time = Calendar.getInstance();
-    //time.set( year, month, day, hour, minute, second );
+    Calendar time = Calendar.getInstance();
+    time.set( year, month, day, hour, minute, second );
   
-    //return time.getTime();
+    return time.getTime();
 
-    return null;
+    //return null;
+  }
+  
+  public static byte[] writeTime(Date date) {
+	  byte[] buf = new byte[5];
+	  
+	  Calendar cal = Calendar.getInstance();
+	  cal.setTime(date);
+	  
+	  int year = cal.get(Calendar.YEAR);
+	  int month = cal.get(Calendar.MONTH);
+	  int day = cal.get(Calendar.DAY_OF_MONTH);
+	  int hour = cal.get(Calendar.HOUR_OF_DAY);
+	  int minute = cal.get(Calendar.MINUTE);
+	  int second = cal.get(Calendar.SECOND);
+	  
+	  buf[0] = (byte)((year >> 6) & 0x0000003F);
+	  buf[1] = (byte)(((year & 0x0000003F) << 2) | ((month >> 2) & 3) );
+      buf[2] = (byte)(((month & 0x00000003) << 6) | ((day & 0x0000001F) << 1) | ((hour >> 4) & 0x00000001));
+      buf[3] = (byte)(((hour & 0x0000000F) << 4) | ((minute >> 2) & 0x0000000F));
+      buf[4] = (byte)(((minute & 0x00000003) << 6) | (second & 0x0000003F));
+      
+      return buf;
   }
 }

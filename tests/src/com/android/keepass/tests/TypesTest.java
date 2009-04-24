@@ -25,29 +25,86 @@ import static org.junit.Assert.*;
 
 public class TypesTest extends TestCase {
 
-	public void testReadWriteInt() {
-		byte[] orig = new byte[8];
-		byte[] dest = new byte[8];
+	
+	public void testReadWriteIntZero() {
+		testReadWriteInt((byte) 0);
+	}
+	
+	public void testReadWriteIntMin() {
+		testReadWriteInt(Byte.MIN_VALUE);
+	}
+	
+	public void testReadWriteIntMax() {
+		testReadWriteInt(Byte.MAX_VALUE);
+	}
+	
+	private void testReadWriteInt(byte value) {
+		byte[] orig = new byte[4];
+		byte[] dest = new byte[4];
 		
 		for (int i = 0; i < 4; i++ ) {
 			orig[i] = 0;
 		}
 		
-		for (int i = 4; i < 8; i++ ) {
-			orig[4] = Byte.MAX_VALUE;
-
-		}
-		
+		setArray(orig, value, 0, 4);
+				
 		int one = Types.readInt(orig, 0);
-		int two = Types.readInt(orig, 4);
 		
 		Types.writeInt(one, dest, 0);
-		Types.writeInt(two, dest, 4);
 
 		assertArrayEquals(orig, dest);
 		
 	}
+	
+	private void setArray(byte[] buf, byte value, int offset, int size) {
+		for (int i = offset; i < offset + size; i++) {
+			buf[i] = value;
+		}
+	}
+	
+	public void testReadWriteShortZero() {
+		testReadWriteShort((byte) 0);
+	}
+	
+	public void testReadWriteShortMin() {
+		testReadWriteShort(Byte.MIN_VALUE);
+	}
+	
+	public void testReadWriteShortMax() {
+		testReadWriteShort(Byte.MAX_VALUE);
+	}
+	
+	private void testReadWriteShort(byte value) {
+		byte[] orig = new byte[2];
+		byte[] dest = new byte[2];
+		
+		setArray(orig, value, 0, 2);
+		
+		int one = Types.readShort(orig, 0);
+		Types.writeShort(one, dest, 0);
+	}
 
+	public void testReadWriteByteZero() {
+		testReadWriteByte((byte) 0);
+	}
+	
+	public void testReadWriteByteMin() {
+		testReadWriteByte(Byte.MIN_VALUE);
+	}
+	
+	public void testReadWriteByteMax() {
+		testReadWriteShort(Byte.MAX_VALUE);
+	}
+	
+	private void testReadWriteByte(byte value) {
+		byte[] orig = new byte[1];
+		byte[] dest = new byte[1];
+		
+		setArray(orig, value, 0, 1);
+		
+		int one = Types.readUByte(orig, 0);
+		Types.writeUByte(one, dest, 0);
+	}
 	
 }
  

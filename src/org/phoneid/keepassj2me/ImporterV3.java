@@ -127,6 +127,7 @@ public class ImporterV3 {
     if( newManager.algorithm == PwManager.ALGO_TWOFISH )
 	throw new IOException( "TwoFish algorithm is not supported" );
 
+    newManager.dbHeader = hdr;
     
     newManager.numKeyEncRounds = hdr.numKeyEncRounds;
     
@@ -174,7 +175,12 @@ public class ImporterV3 {
     // NI
     byte[] plainContent = new byte[encryptedPartSize];
     System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, plainContent, 0, encryptedPartSize);
-     
+    
+    // TODO: Delete Me
+    newManager.postHeader = new byte[encryptedPartSize];
+    System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
+    
+    
     //if( pRepair == null ) {
     md = new SHA256Digest();
     md.update( filebuf, PwDbHeader.BUF_SIZE, encryptedPartSize );
@@ -200,8 +206,8 @@ public class ImporterV3 {
         //KeePassMIDlet.logS ( newGrp.level + " " + newGrp.name );
 
         // End-Group record.  Save group and count it.
-	//newManager.groups.add( newGrp );
-	newManager.addGroup( newGrp );
+	    //newManager.groups.add( newGrp );
+	    newManager.addGroup( newGrp );
         newGrp = new PwGroup();
         i++;
       }

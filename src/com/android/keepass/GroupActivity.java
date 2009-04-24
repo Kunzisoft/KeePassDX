@@ -24,6 +24,7 @@ import java.lang.ref.WeakReference;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

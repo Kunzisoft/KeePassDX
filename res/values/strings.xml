@@ -38,4 +38,5 @@
 <string name="about_homepage">Homepage:</string>
 <string name="about_twitter">Twitter:</string>
 <string name="about_ok">OK</string>
+<string name="entry_created">Created: </string>
 </resources>

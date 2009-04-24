@@ -287,7 +287,7 @@
         </exec>
     </target>
 
-    <!-- Uinstall the package from the default emulator -->
+    <!-- Uninstall the package from the default emulator -->
     <target name="uninstall">
         <echo>Uninstalling ${application-package} from the default emulator...</echo>
         <exec executable="${adb}" failonerror="true">
