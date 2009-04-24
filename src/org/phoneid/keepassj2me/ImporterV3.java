@@ -46,6 +46,8 @@ import org.bouncycastle1.crypto.params.KeyParameter;
 import org.bouncycastle1.crypto.params.ParametersWithIV;
 import org.phoneid.PhoneIDUtil;
 
+import android.util.Log;
+
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 
 /**
@@ -173,10 +175,12 @@ public class ImporterV3 {
     //} catch (Exception e) {
     //}
     // NI
+    /*
     byte[] plainContent = new byte[encryptedPartSize];
     System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, plainContent, 0, encryptedPartSize);
+    */
     
-    // TODO: Delete Me
+    // TODO: Delete Me, temp for debugging
     newManager.postHeader = new byte[encryptedPartSize];
     System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
     
@@ -188,7 +192,8 @@ public class ImporterV3 {
     
     if( PhoneIDUtil.compare( finalKey, hdr.contentsHash ) == false) {
 	//KeePassMIDlet.logS ( "Database file did not decrypt correctly. (checksum code is broken)" );
-	System.out.println ("Database file did not decrypt correctly. (checksum code is broken)");
+    	
+    	Log.w("KeePassDroid","Database file did not decrypt correctly. (checksum code is broken)");
     // }
     }
     

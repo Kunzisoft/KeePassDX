@@ -122,28 +122,28 @@ public class PwEntryOutput {
 		mOS.write(ZERO_FIELD_SIZE);
 	}
 
-	public static final byte[] UUID_FIELD_TYPE =     { 0x00, 0x01};
-	public static final byte[] GROUPID_FIELD_TYPE =  { 0x00, 0x02};
-	public static final byte[] IMAGEID_FIELD_TYPE =  { 0x00, 0x03};
-	public static final byte[] TITLE_FIELD_TYPE = { 0x00, 0x04};
-	public static final byte[] URL_FIELD_TYPE =  { 0x00, 0x05};
-	public static final byte[] USERNAME_FIELD_TYPE =  { 0x00, 0x06};
-	public static final byte[] PASSWORD_FIELD_TYPE = { 0x00, 0x07};
-	public static final byte[] ADDITIONAL_FIELD_TYPE =   { 0x00, 0x08};
-	public static final byte[] CREATE_FIELD_TYPE =   { 0x00, 0x09};
-	public static final byte[] MOD_FIELD_TYPE =   { 0x00, 0x0A};
-	public static final byte[] ACCESS_FIELD_TYPE =   { 0x00, 0x0B};
-	public static final byte[] EXPIRE_FIELD_TYPE =   { 0x00, 0x0C};
-	public static final byte[] BINARY_DESC_FIELD_TYPE =   { 0x00, 0x0D};
-	public static final byte[] BINARY_DATA_FIELD_TYPE =   { 0x00, 0x0E};
+	public static final byte[] UUID_FIELD_TYPE =     Types.writeShort(1);
+	public static final byte[] GROUPID_FIELD_TYPE =  Types.writeShort(2);
+	public static final byte[] IMAGEID_FIELD_TYPE =  Types.writeShort(3);
+	public static final byte[] TITLE_FIELD_TYPE =    Types.writeShort(4);
+	public static final byte[] URL_FIELD_TYPE =      Types.writeShort(5);
+	public static final byte[] USERNAME_FIELD_TYPE =  Types.writeShort(6);
+	public static final byte[] PASSWORD_FIELD_TYPE = Types.writeShort(7);
+	public static final byte[] ADDITIONAL_FIELD_TYPE =   Types.writeShort(8);
+	public static final byte[] CREATE_FIELD_TYPE =   Types.writeShort(9);
+	public static final byte[] MOD_FIELD_TYPE =   Types.writeShort(10);
+	public static final byte[] ACCESS_FIELD_TYPE =   Types.writeShort(11);
+	public static final byte[] EXPIRE_FIELD_TYPE =   Types.writeShort(12);
+	public static final byte[] BINARY_DESC_FIELD_TYPE =   Types.writeShort(13);
+	public static final byte[] BINARY_DATA_FIELD_TYPE =   Types.writeShort(14);
 	public static final byte[] END_FIELD_TYPE =     Types.writeUByte(0xFFFF);
-	public static final byte[] LONG_FOUR = { 0x00, 0x00, 0x00, 0x04};
-	public static final byte[] UUID_FIELD_SIZE =    { 0x00, 0x00, 0x00, 0x10};
-	public static final byte[] DATE_FIELD_SIZE =    { 0x00, 0x00, 0x00, 0x05};
+	public static final byte[] LONG_FOUR = Types.writeInt(4);
+	public static final byte[] UUID_FIELD_SIZE =    Types.writeInt(16);
+	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
 	public static final byte[] IMAGEID_FIELD_SIZE = LONG_FOUR;
 	public static final byte[] LEVEL_FIELD_SIZE =   LONG_FOUR;
 	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
-	public static final byte[] ZERO_FIELD_SIZE =    { 0x00, 0x00, 0x00, 0x00};
+	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
 	
 
 

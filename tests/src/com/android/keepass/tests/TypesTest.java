@@ -62,8 +62,18 @@ public class TypesTest extends TestCase {
 		}
 	}
 	
-	public void testReadWriteShortZero() {
-		testReadWriteShort((byte) 0);
+	public void testReadWriteShortOne() {
+		byte[] orig = new byte[2];
+		byte[] dest = new byte[2];
+		
+		orig[0] = 0;
+		orig[1] = 1;
+		
+		int one = Types.readShort(orig, 0);
+		dest = Types.writeShort(one);
+		
+		assertArrayEquals(orig, dest);
+		
 	}
 	
 	public void testReadWriteShortMin() {

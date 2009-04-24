@@ -46,9 +46,10 @@ public class PwGroupOutput {
 		mOS.write(Types.writeInt(mPG.groupId));
 		
 		// Name
+		byte[] name = mPG.name.getBytes("UTF-8");
 		mOS.write(NAME_FIELD_TYPE);
-		mOS.write(Types.writeInt(mPG.name.length()));
-		mOS.write(mPG.name.getBytes("UTF-8"));
+		mOS.write(name.length);
+		mOS.write(name);
 		
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
@@ -90,23 +91,23 @@ public class PwGroupOutput {
 		mOS.write(ZERO_FIELD_SIZE);
 	}
 
-	public static final byte[] GROUPID_FIELD_TYPE = { 0x00, 0x01};
-	public static final byte[] NAME_FIELD_TYPE =    { 0x00, 0x02};
-	public static final byte[] CREATE_FIELD_TYPE =  { 0x00, 0x03};
-	public static final byte[] MOD_FIELD_TYPE =     { 0x00, 0x04};
-	public static final byte[] ACCESS_FIELD_TYPE =  { 0x00, 0x05};
-	public static final byte[] EXPIRE_FIELD_TYPE =  { 0x00, 0x06};
-	public static final byte[] IMAGEID_FIELD_TYPE = { 0x00, 0x07};
-	public static final byte[] LEVEL_FIELD_TYPE =   { 0x00, 0x08};
-	public static final byte[] FLAGS_FIELD_TYPE =   { 0x00, 0x09};
+	public static final byte[] GROUPID_FIELD_TYPE = Types.writeShort(1);
+	public static final byte[] NAME_FIELD_TYPE =    Types.writeShort(2);
+	public static final byte[] CREATE_FIELD_TYPE =  Types.writeShort(3);
+	public static final byte[] MOD_FIELD_TYPE =     Types.writeShort(4);
+	public static final byte[] ACCESS_FIELD_TYPE =  Types.writeShort(5);
+	public static final byte[] EXPIRE_FIELD_TYPE =  Types.writeShort(6);
+	public static final byte[] IMAGEID_FIELD_TYPE = Types.writeShort(7);
+	public static final byte[] LEVEL_FIELD_TYPE =   Types.writeShort(8);
+	public static final byte[] FLAGS_FIELD_TYPE =   Types.writeShort(9);
 	public static final byte[] END_FIELD_TYPE =     Types.writeUByte(0xFFFF);
-	public static final byte[] LONG_FOUR = { 0x00, 0x00, 0x00, 0x04};
+	public static final byte[] LONG_FOUR = Types.writeInt(4);
 	public static final byte[] GROUPID_FIELD_SIZE =  LONG_FOUR;
-	public static final byte[] DATE_FIELD_SIZE =    { 0x00, 0x00, 0x00, 0x05};
+	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
 	public static final byte[] IMAGEID_FIELD_SIZE = LONG_FOUR;
-	public static final byte[] LEVEL_FIELD_SIZE =   { 0x00, 0x00, 0x00, 0x02};
+	public static final byte[] LEVEL_FIELD_SIZE =   Types.writeInt(2);
 	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
-	public static final byte[] ZERO_FIELD_SIZE    = { 0x00, 0x00, 0x00, 0x00};
+	public static final byte[] ZERO_FIELD_SIZE    = Types.writeInt(0);
 	
 
 }

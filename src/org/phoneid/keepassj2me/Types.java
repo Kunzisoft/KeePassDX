@@ -34,6 +34,7 @@ import java.util.Date;
  */
 public class Types {
 	
+	/*
 	public static long readUInt(byte buf[], int offset) {
         int firstByte = 0;
         int secondByte = 0;
@@ -63,7 +64,7 @@ public class Types {
 		
 		return buf;
 	}
-	
+	*/
 	
   /**
    * Read a 32-bit value.
@@ -118,8 +119,8 @@ public class Types {
    * @param offset
    */
   public static void writeShort(int val, byte[] buf, int offset) {
-	  buf[offset + 0] = (byte)(val & 0xFF);
-	  buf[offset + 1] = (byte)((val >>> 8) & 0xFF);
+	  buf[offset + 0] = (byte)(val & 0x00FF);
+	  buf[offset + 1] = (byte)((val & 0xFF00) >> 8);
   }
 
   public static byte[] writeShort(int val) {
