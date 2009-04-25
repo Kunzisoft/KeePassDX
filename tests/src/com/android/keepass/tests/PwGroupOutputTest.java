@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 import junit.framework.TestCase;
 
@@ -65,9 +66,11 @@ public class PwGroupOutputTest extends TestCase {
 			peo.output();
 		}
 		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(mPM.groups.get(1).tCreation);
 		byte[] buf = bos.toByteArray();
 		for (int i = 0; i < buf.length; i++) {
-			assertEquals("Difference at byte " + i, mPM.postHeader[i], buf[i]);
+			assertEquals("Buf31: " + mPM.postHeader[31] + " Buf32: " + mPM.postHeader[32] + "Buf33: " + mPM.postHeader[33] + " Year: " + cal.get(Calendar.YEAR) + " Month: " + cal.get(Calendar.MONTH) + " Difference at byte " + i, mPM.postHeader[i], buf[i]);
 		}
 		
 		//assertArrayEquals(mPM.postHeader, bos.toByteArray());

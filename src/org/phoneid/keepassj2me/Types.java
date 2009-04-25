@@ -24,6 +24,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package org.phoneid.keepassj2me;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -146,12 +149,12 @@ public class Types {
 	  buf[offset] = (byte)(val & 0xFF);
   }
   
-  public static byte[] writeUByte(int val) {
-	  byte[] buf = new byte[2];
+  public static byte writeUByte(int val) {
+	  byte[] buf = new byte[1];
 	  
 	  writeUByte(val, buf, 0);
 	  
-	  return buf;
+	  return buf[0];
   }
 
   /**
@@ -201,34 +204,46 @@ public class Types {
     // Unpack 5 byte structure to date and time
     int year   =  (dw1 << 6) | (dw2 >> 2);
     int month  = ((dw2 & 0x00000003) << 2) | (dw3 >> 6);
+    
     int day    =  (dw3 >> 1) & 0x0000001F;
     int hour   = ((dw3 & 0x00000001) << 4) | (dw4 >> 4);
     int minute = ((dw4 & 0x0000000F) << 2) | (dw5 >> 6);
     int second =   dw5 & 0x0000003F;
   
     Calendar time = Calendar.getInstance();
-    time.set( year, month, day, hour, minute, second );
+    // File format is a 1 based month, java Calendar uses a zero based month
+    time.set( year, month-1, day, hour, minute, second );
   
     return time.getTime();
 
     //return null;
   }
   
+  public static void writeCString(String str, OutputStream os) throws IOException {
+	  byte[] initial = str.getBytes("UTF-8");
+	  
+	  int length = initial.length;
+	  os.write(writeInt(length+1));
+	  os.write(initial);
+	  os.write(0x00);
+	  
+  }
+  
   public static byte[] writeTime(Date date) {
 	  byte[] buf = new byte[5];
-	  
 	  Calendar cal = Calendar.getInstance();
 	  cal.setTime(date);
 	  
 	  int year = cal.get(Calendar.YEAR);
-	  int month = cal.get(Calendar.MONTH);
+      // File format is a 1 based month, java Calendar uses a zero based month
+	  int month = cal.get(Calendar.MONTH)+1;
 	  int day = cal.get(Calendar.DAY_OF_MONTH);
 	  int hour = cal.get(Calendar.HOUR_OF_DAY);
 	  int minute = cal.get(Calendar.MINUTE);
 	  int second = cal.get(Calendar.SECOND);
 	  
-	  buf[0] = (byte)((year >> 6) & 0x0000003F);
-	  buf[1] = (byte)(((year & 0x0000003F) << 2) | ((month >> 2) & 3) );
+	  buf[0] = writeUByte(((year >> 6) & 0x0000003F));
+	  buf[1] = writeUByte(((year & 0x0000003F) << 2) | ((month >> 2) & 0x00000003) );
       buf[2] = (byte)(((month & 0x00000003) << 6) | ((day & 0x0000001F) << 1) | ((hour >> 4) & 0x00000001));
       buf[3] = (byte)(((hour & 0x0000000F) << 4) | ((minute >> 2) & 0x0000000F));
       buf[4] = (byte)(((minute & 0x00000003) << 6) | (second & 0x0000003F));

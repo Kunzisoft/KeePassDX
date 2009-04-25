@@ -53,9 +53,9 @@ public class PwEntryTest extends TestCase {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(mPE.tCreation);
 		
-		assertTrue("Incorrect year.", cal.get(Calendar.YEAR) == 2009);
-		assertTrue("Incorrect month.", cal.get(Calendar.MONTH) == 4);
-		assertTrue("Incorrect day.", cal.get(Calendar.DAY_OF_MONTH) == 23);
+		assertEquals("Incorrect year.", cal.get(Calendar.YEAR), 2009);
+		assertEquals("Incorrect month.", cal.get(Calendar.MONTH), 3);
+		assertEquals("Incorrect day.", cal.get(Calendar.DAY_OF_MONTH), 23);
 	}
 
 }

@@ -19,6 +19,8 @@
  */
 package com.android.keepass.tests;
 
+import java.util.Calendar;
+
 import junit.framework.TestCase;
 import org.phoneid.keepassj2me.Types;
 import static org.junit.Assert.*;
@@ -116,5 +118,19 @@ public class TypesTest extends TestCase {
 		Types.writeUByte(one, dest, 0);
 	}
 	
+	public void testDate() {
+		Calendar expected = Calendar.getInstance();
+		expected.set(2008, 1, 2, 3, 4, 5);
+		
+		byte[] buf = Types.writeTime(expected.getTime());
+		Calendar actual = Calendar.getInstance();
+		actual.setTime(Types.readTime(buf, 0));
+		
+		assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR));
+		assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH));
+		assertEquals("Day mismatch: ", 2, actual.get(Calendar.DAY_OF_MONTH));
+		assertEquals("Hour mismatch: ", 3, actual.get(Calendar.HOUR_OF_DAY));
+		assertEquals("Minute mismatch: ", 4, actual.get(Calendar.MINUTE));
+		assertEquals("Second mismatch: ", 5, actual.get(Calendar.SECOND));
+	}
 }
- 

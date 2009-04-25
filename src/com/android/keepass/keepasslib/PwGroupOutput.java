@@ -46,10 +46,8 @@ public class PwGroupOutput {
 		mOS.write(Types.writeInt(mPG.groupId));
 		
 		// Name
-		byte[] name = mPG.name.getBytes("UTF-8");
 		mOS.write(NAME_FIELD_TYPE);
-		mOS.write(name.length);
-		mOS.write(name);
+		Types.writeCString(mPG.name, mOS);
 		
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
@@ -100,14 +98,12 @@ public class PwGroupOutput {
 	public static final byte[] IMAGEID_FIELD_TYPE = Types.writeShort(7);
 	public static final byte[] LEVEL_FIELD_TYPE =   Types.writeShort(8);
 	public static final byte[] FLAGS_FIELD_TYPE =   Types.writeShort(9);
-	public static final byte[] END_FIELD_TYPE =     Types.writeUByte(0xFFFF);
-	public static final byte[] LONG_FOUR = Types.writeInt(4);
-	public static final byte[] GROUPID_FIELD_SIZE =  LONG_FOUR;
+	public static final byte[] END_FIELD_TYPE =     Types.writeShort(0xFFFF);
+	public static final byte[] LONG_FOUR =          Types.writeInt(4);
+	public static final byte[] GROUPID_FIELD_SIZE = LONG_FOUR;
 	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
 	public static final byte[] IMAGEID_FIELD_SIZE = LONG_FOUR;
 	public static final byte[] LEVEL_FIELD_SIZE =   Types.writeInt(2);
 	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
-	public static final byte[] ZERO_FIELD_SIZE    = Types.writeInt(0);
-	
-
+	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
 }

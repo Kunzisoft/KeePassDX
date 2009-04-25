@@ -40,6 +40,7 @@ public class PwEntryOutput {
 
 	//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
 	public void output() throws IOException {
+		
 		// UUID
 		mOS.write(UUID_FIELD_TYPE);
 		mOS.write(UUID_FIELD_SIZE);
@@ -56,35 +57,29 @@ public class PwEntryOutput {
 		mOS.write(Types.writeInt(mPE.imageId));
 
 		// Title
-		byte[] title = mPE.title.getBytes("UTF-8");
+		//byte[] title = mPE.title.getBytes("UTF-8");
 		mOS.write(TITLE_FIELD_TYPE);
-		mOS.write(Types.writeInt(title.length));
-		mOS.write(title);
+		Types.writeCString(mPE.title, mOS);
 		
 		// URL
-		byte[] url = mPE.url.getBytes("UTF-8");
 		mOS.write(URL_FIELD_TYPE);
-		mOS.write(Types.writeInt(url.length));
-		mOS.write(url);
+		Types.writeCString(mPE.url, mOS);
 		
 		// Username
-		byte[] username = mPE.username.getBytes("UTF-8");
 		mOS.write(USERNAME_FIELD_TYPE);
-		mOS.write(Types.writeInt(username.length));
-		mOS.write(username);
+		Types.writeCString(mPE.username, mOS);
 		
 		// Password
 		byte[] password = mPE.getPassword();
 		mOS.write(PASSWORD_FIELD_TYPE);
-		mOS.write(Types.writeInt(password.length));
+		mOS.write(Types.writeInt(password.length+1));
 		mOS.write(password);
+		mOS.write(0);
 		
 		// Additional
-		byte[] additional = mPE.additional.getBytes("UTF-8");
 		mOS.write(ADDITIONAL_FIELD_TYPE);
-		mOS.write(Types.writeInt(additional.length));
-		mOS.write(additional);
-		
+		Types.writeCString(mPE.additional, mOS);
+	
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
@@ -99,24 +94,22 @@ public class PwEntryOutput {
 		mOS.write(ACCESS_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
 		mOS.write(Types.writeTime(mPE.tLastAccess));
-		
+
 		// Expiration date
 		mOS.write(EXPIRE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
 		mOS.write(Types.writeTime(mPE.tExpire));
-		
+	
 		// Binary desc
-		byte[] binaryDesc = mPE.binaryDesc.getBytes("UTF-8");
 		mOS.write(BINARY_DESC_FIELD_TYPE);
-		mOS.write(Types.writeInt(binaryDesc.length));
-		mOS.write(binaryDesc);
-		
+		Types.writeCString(mPE.binaryDesc, mOS);
+	
 		// Binary data
 		byte[] data = mPE.getBinaryData();
 		mOS.write(BINARY_DATA_FIELD_TYPE);
 		mOS.write(Types.writeInt(data.length));
 		mOS.write(data);
-		
+
 		// End
 		mOS.write(END_FIELD_TYPE);
 		mOS.write(ZERO_FIELD_SIZE);
@@ -136,7 +129,7 @@ public class PwEntryOutput {
 	public static final byte[] EXPIRE_FIELD_TYPE =   Types.writeShort(12);
 	public static final byte[] BINARY_DESC_FIELD_TYPE =   Types.writeShort(13);
 	public static final byte[] BINARY_DATA_FIELD_TYPE =   Types.writeShort(14);
-	public static final byte[] END_FIELD_TYPE =     Types.writeUByte(0xFFFF);
+	public static final byte[] END_FIELD_TYPE =     Types.writeShort(0xFFFF);
 	public static final byte[] LONG_FOUR = Types.writeInt(4);
 	public static final byte[] UUID_FIELD_SIZE =    Types.writeInt(16);
 	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
@@ -144,7 +137,7 @@ public class PwEntryOutput {
 	public static final byte[] LEVEL_FIELD_SIZE =   LONG_FOUR;
 	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
 	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
-	
+	public static final byte[] TEST = {0x33, 0x33, 0x33, 0x33};
 
 
 }
