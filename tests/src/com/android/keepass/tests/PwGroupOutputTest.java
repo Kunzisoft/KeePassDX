@@ -34,6 +34,7 @@ import junit.framework.TestCase;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
+import org.phoneid.keepassj2me.Types;
 
 import com.android.keepass.keepasslib.PwEntryOutput;
 import com.android.keepass.keepasslib.PwGroupOutput;
@@ -61,19 +62,16 @@ public class PwGroupOutputTest extends TestCase {
 		
 		// Entries
 		for (int i = 0; i < mPM.entries.size(); i++ ) {
+			boolean debug;
 			PwEntry pe = mPM.entries.get(i);
 			PwEntryOutput peo = new PwEntryOutput(pe, bos);
+			
+			debug = (i == 1);
 			peo.output();
 		}
 		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(mPM.groups.get(1).tCreation);
 		byte[] buf = bos.toByteArray();
-		for (int i = 0; i < buf.length; i++) {
-			assertEquals("Buf31: " + mPM.postHeader[31] + " Buf32: " + mPM.postHeader[32] + "Buf33: " + mPM.postHeader[33] + " Year: " + cal.get(Calendar.YEAR) + " Month: " + cal.get(Calendar.MONTH) + " Difference at byte " + i, mPM.postHeader[i], buf[i]);
-		}
-		
-		//assertArrayEquals(mPM.postHeader, bos.toByteArray());
+		assertArrayEquals(mPM.postHeader, bos.toByteArray());
 
 	}
 

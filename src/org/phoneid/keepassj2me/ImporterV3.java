@@ -243,6 +243,7 @@ public class ImporterV3 {
     }
     
     // Keep the Meta-Info entry separate
+    /*
     for( int i=0; i<newManager.entries.size(); i++) {
 	PwEntry ent = (PwEntry)newManager.entries.elementAt(i);
 		if( ent.title.equals( "Meta-Info" )
@@ -252,6 +253,7 @@ public class ImporterV3 {
 		    newManager.entries.removeElementAt(i);
 		}
     }
+    */
     
     return newManager;
  }

@@ -40,6 +40,7 @@ public class PwGroupOutput {
 
 	//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
 	public void output() throws IOException {
+				
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(GROUPID_FIELD_SIZE);

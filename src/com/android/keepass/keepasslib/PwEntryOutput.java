@@ -60,7 +60,7 @@ public class PwEntryOutput {
 		//byte[] title = mPE.title.getBytes("UTF-8");
 		mOS.write(TITLE_FIELD_TYPE);
 		Types.writeCString(mPE.title, mOS);
-		
+
 		// URL
 		mOS.write(URL_FIELD_TYPE);
 		Types.writeCString(mPE.url, mOS);
@@ -75,11 +75,11 @@ public class PwEntryOutput {
 		mOS.write(Types.writeInt(password.length+1));
 		mOS.write(password);
 		mOS.write(0);
-		
+
 		// Additional
 		mOS.write(ADDITIONAL_FIELD_TYPE);
 		Types.writeCString(mPE.additional, mOS);
-	
+
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
