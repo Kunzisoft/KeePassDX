@@ -36,7 +36,7 @@ public class TestData {
 	
 		if ( test1 == null ) {
 			FileInputStream fis = new FileInputStream("/sdcard/test1.kdb");
-			ImporterV3 importer = new ImporterV3();
+			ImporterV3 importer = new ImporterV3(ImporterV3.DEBUG);
 			test1 = importer.openDatabase(fis, "12345", "");
 			if (test1 != null) {
 				test1.constructTree(null);

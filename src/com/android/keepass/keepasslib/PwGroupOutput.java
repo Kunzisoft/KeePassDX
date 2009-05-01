@@ -26,8 +26,28 @@ import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.Types;
 
 public class PwGroupOutput {
+	// Constants
+	public static final byte[] GROUPID_FIELD_TYPE = Types.writeShort(1);
+	public static final byte[] NAME_FIELD_TYPE =    Types.writeShort(2);
+	public static final byte[] CREATE_FIELD_TYPE =  Types.writeShort(3);
+	public static final byte[] MOD_FIELD_TYPE =     Types.writeShort(4);
+	public static final byte[] ACCESS_FIELD_TYPE =  Types.writeShort(5);
+	public static final byte[] EXPIRE_FIELD_TYPE =  Types.writeShort(6);
+	public static final byte[] IMAGEID_FIELD_TYPE = Types.writeShort(7);
+	public static final byte[] LEVEL_FIELD_TYPE =   Types.writeShort(8);
+	public static final byte[] FLAGS_FIELD_TYPE =   Types.writeShort(9);
+	public static final byte[] END_FIELD_TYPE =     Types.writeShort(0xFFFF);
+	public static final byte[] LONG_FOUR =          Types.writeInt(4);
+	public static final byte[] GROUPID_FIELD_SIZE = LONG_FOUR;
+	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
+	public static final byte[] IMAGEID_FIELD_SIZE = LONG_FOUR;
+	public static final byte[] LEVEL_FIELD_SIZE =   Types.writeInt(2);
+	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
+	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
+	
 	private OutputStream mOS;
 	private PwGroup mPG;
+	private long outputBytes = 0;
 	
 	/** Output the PwGroup to the stream
 	 * @param pg
@@ -38,9 +58,11 @@ public class PwGroupOutput {
 		mOS = os;
 	}
 
-	//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
 	public void output() throws IOException {
-				
+		//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int, but most values can't be greater than 2^31, so it probably doesn't matter.
+
+		outputBytes += 94;  // Length of fixed size fields
+		
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(GROUPID_FIELD_SIZE);
@@ -48,8 +70,9 @@ public class PwGroupOutput {
 		
 		// Name
 		mOS.write(NAME_FIELD_TYPE);
-		Types.writeCString(mPG.name, mOS);
-		
+		int nameLen = Types.writeCString(mPG.name, mOS);
+		outputBytes += nameLen;
+
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
@@ -90,21 +113,11 @@ public class PwGroupOutput {
 		mOS.write(ZERO_FIELD_SIZE);
 	}
 
-	public static final byte[] GROUPID_FIELD_TYPE = Types.writeShort(1);
-	public static final byte[] NAME_FIELD_TYPE =    Types.writeShort(2);
-	public static final byte[] CREATE_FIELD_TYPE =  Types.writeShort(3);
-	public static final byte[] MOD_FIELD_TYPE =     Types.writeShort(4);
-	public static final byte[] ACCESS_FIELD_TYPE =  Types.writeShort(5);
-	public static final byte[] EXPIRE_FIELD_TYPE =  Types.writeShort(6);
-	public static final byte[] IMAGEID_FIELD_TYPE = Types.writeShort(7);
-	public static final byte[] LEVEL_FIELD_TYPE =   Types.writeShort(8);
-	public static final byte[] FLAGS_FIELD_TYPE =   Types.writeShort(9);
-	public static final byte[] END_FIELD_TYPE =     Types.writeShort(0xFFFF);
-	public static final byte[] LONG_FOUR =          Types.writeInt(4);
-	public static final byte[] GROUPID_FIELD_SIZE = LONG_FOUR;
-	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
-	public static final byte[] IMAGEID_FIELD_SIZE = LONG_FOUR;
-	public static final byte[] LEVEL_FIELD_SIZE =   Types.writeInt(2);
-	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
-	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
+	/** Returns the number of bytes written by the stream
+	 * @return Number of bytes written
+	 */
+	public long getLength() {
+		return outputBytes;
+	}
+
 }

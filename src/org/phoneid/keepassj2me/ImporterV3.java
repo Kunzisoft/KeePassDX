@@ -58,8 +58,16 @@ import com.android.keepass.keepasslib.InvalidKeyFileException;
  */
 public class ImporterV3 {
   
+	public static final boolean DEBUG = true;
+	
+	private final boolean mDebug;
+	
     public ImporterV3() {
-      //super();
+      mDebug = false;
+    }
+    
+    public ImporterV3(boolean debug) {
+    	mDebug = debug;
     }
 
  
@@ -102,12 +110,12 @@ public class ImporterV3 {
       throw new IOException( "File too short for header" );
     PwDbHeader hdr = new PwDbHeader( filebuf, 0 );
 
-    if( (hdr.signature1 != PwManager.PWM_DBSIG_1) || (hdr.signature2 != PwManager.PWM_DBSIG_2) ) {
+    if( (hdr.signature1 != PwDbHeader.PWM_DBSIG_1) || (hdr.signature2 != PwDbHeader.PWM_DBSIG_2) ) {
 	//KeePassMIDlet.logS ( "Bad database file signature" );
 	throw new IOException( "Bad database file signature" );
     }
 
-    if( hdr.version != PwManager.PWM_DBVER_DW ) {
+    if( hdr.version != PwDbHeader.PWM_DBVER_DW ) {
 	//KeePassMIDlet.logS ( "Bad database file version");
 	//throw new IOException( "Bad database file version" );
     }
@@ -116,20 +124,22 @@ public class ImporterV3 {
     newManager.setMasterKey( password, keyfile );
     
     // Select algorithm
-    if( (hdr.flags & PwManager.PWM_FLAG_RIJNDAEL) != 0 ) {
+    if( (hdr.flags & PwDbHeader.PWM_FLAG_RIJNDAEL) != 0 ) {
 	//KeePassMIDlet.logS ( "Algorithm AES");
-	newManager.algorithm = PwManager.ALGO_AES;
-    } else if( (hdr.flags & PwManager.PWM_FLAG_TWOFISH) != 0 ) {
+	newManager.algorithm = PwDbHeader.ALGO_AES;
+    } else if( (hdr.flags & PwDbHeader.PWM_FLAG_TWOFISH) != 0 ) {
 	//KeePassMIDlet.logS ( "Algorithm TWOFISH");
-	newManager.algorithm = PwManager.ALGO_TWOFISH;
+	newManager.algorithm = PwDbHeader.ALGO_TWOFISH;
     } else {
 	throw new IOException( "Unknown algorithm." );
     }
 
-    if( newManager.algorithm == PwManager.ALGO_TWOFISH )
+    if( newManager.algorithm == PwDbHeader.ALGO_TWOFISH )
 	throw new IOException( "TwoFish algorithm is not supported" );
 
-    newManager.dbHeader = hdr;
+    if ( mDebug ) {
+    	newManager.dbHeader = hdr;
+    }
     
     newManager.numKeyEncRounds = hdr.numKeyEncRounds;
     
@@ -180,10 +190,10 @@ public class ImporterV3 {
     System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, plainContent, 0, encryptedPartSize);
     */
     
-    // TODO: Delete Me, temp for debugging
-    newManager.postHeader = new byte[encryptedPartSize];
-    System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
-    
+    if ( mDebug ) {
+	    newManager.postHeader = new byte[encryptedPartSize];
+	    System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
+    }
     
     //if( pRepair == null ) {
     md = new SHA256Digest();

@@ -26,7 +26,6 @@ package org.phoneid.keepassj2me;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -219,16 +218,6 @@ public class Types {
     //return null;
   }
   
-  public static void writeCString(String str, OutputStream os) throws IOException {
-	  byte[] initial = str.getBytes("UTF-8");
-	  
-	  int length = initial.length;
-	  os.write(writeInt(length+1));
-	  os.write(initial);
-	  os.write(0x00);
-	  
-  }
-  
   public static byte[] writeTime(Date date) {
 	  byte[] buf = new byte[5];
 	  Calendar cal = Calendar.getInstance();
@@ -250,4 +239,16 @@ public class Types {
       
       return buf;
   }
+
+  public static int writeCString(String str, OutputStream os) throws IOException {
+	  byte[] initial = str.getBytes("UTF-8");
+	  
+	  int length = initial.length+1;
+	  os.write(writeInt(length));
+	  os.write(initial);
+	  os.write(0x00);
+	  
+	  return length;
+  }
+  
 }

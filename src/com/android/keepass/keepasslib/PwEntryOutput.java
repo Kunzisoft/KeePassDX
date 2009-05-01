@@ -26,95 +26,7 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.Types;
 
 public class PwEntryOutput {
-	private OutputStream mOS;
-	private PwEntry mPE;
-	
-	/** Output the PwGroup to the stream
-	 * @param pe
-	 * @param os
-	 */
-	public PwEntryOutput(PwEntry pe, OutputStream os) {
-		mPE = pe;
-		mOS = os;
-	}
-
-	//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
-	public void output() throws IOException {
-		
-		// UUID
-		mOS.write(UUID_FIELD_TYPE);
-		mOS.write(UUID_FIELD_SIZE);
-		mOS.write(mPE.uuid);
-		
-		// Group ID
-		mOS.write(GROUPID_FIELD_TYPE);
-		mOS.write(LONG_FOUR);
-		mOS.write(Types.writeInt(mPE.groupId));
-		
-		// Image ID
-		mOS.write(IMAGEID_FIELD_TYPE);
-		mOS.write(LONG_FOUR);
-		mOS.write(Types.writeInt(mPE.imageId));
-
-		// Title
-		//byte[] title = mPE.title.getBytes("UTF-8");
-		mOS.write(TITLE_FIELD_TYPE);
-		Types.writeCString(mPE.title, mOS);
-
-		// URL
-		mOS.write(URL_FIELD_TYPE);
-		Types.writeCString(mPE.url, mOS);
-		
-		// Username
-		mOS.write(USERNAME_FIELD_TYPE);
-		Types.writeCString(mPE.username, mOS);
-		
-		// Password
-		byte[] password = mPE.getPassword();
-		mOS.write(PASSWORD_FIELD_TYPE);
-		mOS.write(Types.writeInt(password.length+1));
-		mOS.write(password);
-		mOS.write(0);
-
-		// Additional
-		mOS.write(ADDITIONAL_FIELD_TYPE);
-		Types.writeCString(mPE.additional, mOS);
-
-		// Create date
-		mOS.write(CREATE_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tCreation));
-		
-		// Modification date
-		mOS.write(MOD_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tLastMod));
-		
-		// Access date
-		mOS.write(ACCESS_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tLastAccess));
-
-		// Expiration date
-		mOS.write(EXPIRE_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tExpire));
-	
-		// Binary desc
-		mOS.write(BINARY_DESC_FIELD_TYPE);
-		Types.writeCString(mPE.binaryDesc, mOS);
-	
-		// Binary data
-		byte[] data = mPE.getBinaryData();
-		mOS.write(BINARY_DATA_FIELD_TYPE);
-		mOS.write(Types.writeInt(data.length));
-		mOS.write(data);
-
-		// End
-		mOS.write(END_FIELD_TYPE);
-		mOS.write(ZERO_FIELD_SIZE);
-	}
-
+	// Constants
 	public static final byte[] UUID_FIELD_TYPE =     Types.writeShort(1);
 	public static final byte[] GROUPID_FIELD_TYPE =  Types.writeShort(2);
 	public static final byte[] IMAGEID_FIELD_TYPE =  Types.writeShort(3);
@@ -139,5 +51,109 @@ public class PwEntryOutput {
 	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
 	public static final byte[] TEST = {0x33, 0x33, 0x33, 0x33};
 
+	private OutputStream mOS;
+	private PwEntry mPE;
+	private long outputBytes = 0;
+	
+	/** Output the PwGroup to the stream
+	 * @param pe
+	 * @param os
+	 */
+	public PwEntryOutput(PwEntry pe, OutputStream os) {
+		mPE = pe;
+		mOS = os;
+	}
 
+	//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
+	public void output() throws IOException {
+		
+		outputBytes += 134;  // Length of fixed size fields
+		
+		// UUID
+		mOS.write(UUID_FIELD_TYPE);
+		mOS.write(UUID_FIELD_SIZE);
+		mOS.write(mPE.uuid);
+		
+		// Group ID
+		mOS.write(GROUPID_FIELD_TYPE);
+		mOS.write(LONG_FOUR);
+		mOS.write(Types.writeInt(mPE.groupId));
+		
+		// Image ID
+		mOS.write(IMAGEID_FIELD_TYPE);
+		mOS.write(LONG_FOUR);
+		mOS.write(Types.writeInt(mPE.imageId));
+
+		// Title
+		//byte[] title = mPE.title.getBytes("UTF-8");
+		mOS.write(TITLE_FIELD_TYPE);
+		int titleLen = Types.writeCString(mPE.title, mOS);
+		outputBytes += titleLen;
+
+		// URL
+		mOS.write(URL_FIELD_TYPE);
+		int urlLen = Types.writeCString(mPE.url, mOS);
+		outputBytes += urlLen;
+		
+		// Username
+		mOS.write(USERNAME_FIELD_TYPE);
+		int userLen = Types.writeCString(mPE.username, mOS);
+		outputBytes += userLen;
+		
+		// Password
+		byte[] password = mPE.getPassword();
+		mOS.write(PASSWORD_FIELD_TYPE);
+		mOS.write(Types.writeInt(password.length+1));
+		mOS.write(password);
+		mOS.write(0);
+		outputBytes += password.length + 1;
+
+		// Additional
+		mOS.write(ADDITIONAL_FIELD_TYPE);
+		int addlLen = Types.writeCString(mPE.additional, mOS);
+		outputBytes += addlLen;
+
+		// Create date
+		mOS.write(CREATE_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(Types.writeTime(mPE.tCreation));
+		
+		// Modification date
+		mOS.write(MOD_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(Types.writeTime(mPE.tLastMod));
+		
+		// Access date
+		mOS.write(ACCESS_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(Types.writeTime(mPE.tLastAccess));
+
+		// Expiration date
+		mOS.write(EXPIRE_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(Types.writeTime(mPE.tExpire));
+	
+		// Binary desc
+		mOS.write(BINARY_DESC_FIELD_TYPE);
+		int descLen = Types.writeCString(mPE.binaryDesc, mOS);
+		outputBytes += descLen;
+	
+		// Binary data
+		byte[] data = mPE.getBinaryData();
+		mOS.write(BINARY_DATA_FIELD_TYPE);
+		mOS.write(Types.writeInt(data.length));
+		mOS.write(data);
+		outputBytes += data.length;
+
+		// End
+		mOS.write(END_FIELD_TYPE);
+		mOS.write(ZERO_FIELD_SIZE);
+	}
+	
+	/** Returns the number of bytes written by the stream
+	 * @return Number of bytes written
+	 */
+	public long getLength() {
+		return outputBytes;
+	}
 }

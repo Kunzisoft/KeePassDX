@@ -47,20 +47,6 @@ public class PwManager {
 	
     // Constants
     // private static final int PWM_SESSION_KEY_SIZE = 12;
-    // DB sig from KeePass 1.03 
-    static final int PWM_DBSIG_1               = 0x9AA2D903;
-    // DB sig from KeePass 1.03
-    static final int PWM_DBSIG_2               = 0xB54BFB65;
-    // DB sig from KeePass 1.03
-    static final int PWM_DBVER_DW              = 0x00030002;
-
-    static final int PWM_FLAG_SHA2             = 1;
-    static final int PWM_FLAG_RIJNDAEL         = 2;
-    static final int PWM_FLAG_ARCFOUR          = 4;
-    static final int PWM_FLAG_TWOFISH          = 8;
-
-    static final int ALGO_AES                  = 0;
-    static final int ALGO_TWOFISH              = 1;
 
     // Descriptive name for database, used in GUI.
     public  String   name = "KeePass database";
@@ -88,7 +74,15 @@ public class PwManager {
 
     // root group
     PwGroup rootGroup;
-
+   
+    public int getAlgorithm() {
+    	return algorithm;
+    }
+    
+    public int getNumKeyEncRecords() {
+    	return numKeyEncRounds;
+    }
+    
     public void setMasterKey( String key, String keyFileName ) throws InvalidKeyFileException, IOException {
     	assert( key != null && keyFileName != null );
     	

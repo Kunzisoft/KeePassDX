@@ -25,6 +25,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package org.phoneid.keepassj2me;
 
 public class PwDbHeader {
+
+    // DB sig from KeePass 1.03 
+    public static final int PWM_DBSIG_1               = 0x9AA2D903;
+    // DB sig from KeePass 1.03
+    public static final int PWM_DBSIG_2               = 0xB54BFB65;
+    // DB sig from KeePass 1.03
+    public static final int PWM_DBVER_DW              = 0x00030002;
+
+    public static final int PWM_FLAG_SHA2             = 1;
+    public static final int PWM_FLAG_RIJNDAEL         = 2;
+    public static final int PWM_FLAG_ARCFOUR          = 4;
+    public static final int PWM_FLAG_TWOFISH          = 8;
+
+    public static final int ALGO_AES                  = 0;
+    public static final int ALGO_TWOFISH              = 1;
+
   /**
    * Parse given buf, as read from file.
    * @param buf
@@ -46,11 +62,9 @@ public class PwDbHeader {
     System.arraycopy( buf, offset + 88, masterSeed2, 0, 32 );
     numKeyEncRounds = Types.readInt( buf, offset + 120 );
   }
+  
+  public PwDbHeader() {
 
-
-
-  public void toBuf( byte[] buf, int offset ) {
-    throw new RuntimeException("Method 'toBuf' not implemented yet");
   }
 
 
