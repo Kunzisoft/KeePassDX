@@ -269,7 +269,6 @@ public class PaddedBufferedBlockCipher
         }
         else
         {
-	    System.out.println ("Decrypt");
             if (bufOff == blockSize)
             {
                 resultLen = cipher.processBlock(buf, 0, buf, 0);

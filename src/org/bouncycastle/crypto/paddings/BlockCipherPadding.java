@@ -1,8 +1,8 @@
 package org.bouncycastle.crypto.paddings;
 
-import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.SecureRandom;
+import java.security.SecureRandom;
 
+import org.bouncycastle.crypto.InvalidCipherTextException;
 
 /**
  * Block cipher padders are expected to conform to this interface

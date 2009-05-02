@@ -1,5 +1,7 @@
 package org.bouncycastle.crypto.paddings;
 
+import java.security.SecureRandom;
+
 import org.bouncycastle.crypto.InvalidCipherTextException;
 
 /**
@@ -13,7 +15,7 @@ public class PKCS7Padding
      *
      * @param random - a SecureRandom if available.
      */
-    public void init(org.bouncycastle.crypto.SecureRandom random)
+    public void init(SecureRandom random)
         throws IllegalArgumentException
     {
         // nothing to do.
@@ -56,7 +58,7 @@ public class PKCS7Padding
     {
         int count = in[in.length - 1] & 0xff;
 
-        if (count > in.length)
+        if (count > in.length || count == 0)
         {
             throw new InvalidCipherTextException("pad block corrupted");
         }

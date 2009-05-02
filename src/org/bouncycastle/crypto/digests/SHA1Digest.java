@@ -7,7 +7,7 @@ package org.bouncycastle.crypto.digests;
  * is the "endienness" of the word processing!
  */
 public class SHA1Digest
-    extends org.bouncycastle.crypto.digests.GeneralDigest
+    extends GeneralDigest
 {
     private static final int    DIGEST_LENGTH = 20;
 
