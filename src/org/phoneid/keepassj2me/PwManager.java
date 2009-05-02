@@ -32,7 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Vector;
 
-import org.bouncycastle1.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.digests.SHA256Digest;
 
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 
@@ -65,12 +65,14 @@ public class PwManager {
     // Used for in-memory encryption of passwords
     // private byte     sessionKey[]           = new byte[PWM_SESSION_KEY_SIZE];
     // Master key used to encrypt the whole database
-    byte             masterKey[]            = new byte[32];
+    public byte             masterKey[]            = new byte[32];
     // Algorithm used to encrypt the database
     int              algorithm;
     int              numKeyEncRounds;
     
+    // Debugging entries
     public PwDbHeader dbHeader;
+    public long paddingBytes;
 
     // root group
     PwGroup rootGroup;

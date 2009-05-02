@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.bouncycastle1.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

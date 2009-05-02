@@ -22,6 +22,9 @@ package com.android.keepass.tests;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.DigestOutputStream;
@@ -30,10 +33,12 @@ import java.security.NoSuchAlgorithmException;
 
 import junit.framework.TestCase;
 
+import org.phoneid.keepassj2me.PwDbHeader;
 import org.phoneid.keepassj2me.PwManager;
 
 import com.android.keepass.keepasslib.PwDbHeaderOutput;
 import com.android.keepass.keepasslib.PwManagerOutput;
+import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
  
 public class PwManagerOutputTest extends TestCase {
   PwManager mPM;
@@ -46,7 +51,7 @@ public class PwManagerOutputTest extends TestCase {
     
   }
   
-  public void testPlainContent() throws IOException {
+  public void testPlainContent() throws IOException, PwManagerOutputException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
  
     PwManagerOutput pos = new PwManagerOutput(mPM, bos, PwManagerOutput.DEBUG);
@@ -56,7 +61,7 @@ public class PwManagerOutputTest extends TestCase {
  
   }
  
-  public void testChecksum() throws NoSuchAlgorithmException, IOException {
+  public void testChecksum() throws NoSuchAlgorithmException, IOException, PwManagerOutputException {
     FileOutputStream fos = new FileOutputStream("/dev/null");
     MessageDigest md = MessageDigest.getInstance("SHA-256");
     
@@ -68,7 +73,7 @@ public class PwManagerOutputTest extends TestCase {
     assertArrayEquals("Hash of groups and entries failed.", md.digest(), mPM.dbHeader.contentsHash);
   }
   
-  public void testHeader() throws Exception {
+  public void testHeader() throws PwManagerOutputException, IOException {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
     PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
     pActual.outputHeader(bActual);
@@ -80,17 +85,29 @@ public class PwManagerOutputTest extends TestCase {
     assertArrayEquals("Header does not match.", bExpected.toByteArray(), bActual.toByteArray()); 
   }
   
-  /*
-  public void testEncryptedPart() throws Exception {
+  public void testFullWrite() throws IOException, PwManagerOutputException  {
 	File file = new File("/sdcard/test1.kdb");
-	long length = file.length();
 	
 	FileInputStream fis = new FileInputStream(file);
-	byte[] expected = new byte[(int)(length-PwDbHeader.BUF_SIZE)];
+
+	// Pull file into byte array (for streaming fun)
+	ByteArrayOutputStream bExpected = new ByteArrayOutputStream();
+	while (true) {
+		int data = fis.read();
+		if ( data == -1 ) {
+			break;
+		}
+		bExpected.write(data);
+	}
 	
-	fis.skip(PwDbHeader.BUF_SIZE);
-	fis.read(expected);
+	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
+	PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
+	pActual.output();
+	pActual.close();
+	bActual.close();
+	
+	assertArrayEquals("Databases do not match.", bExpected.toByteArray(), bActual.toByteArray());
+  
   }
-  */
   
 }

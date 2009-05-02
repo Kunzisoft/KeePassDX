@@ -36,14 +36,14 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.ShortBufferException;
 
-import org.bouncycastle1.crypto.BufferedBlockCipher;
-import org.bouncycastle1.crypto.InvalidCipherTextException;
-import org.bouncycastle1.crypto.digests.SHA256Digest;
-import org.bouncycastle1.crypto.engines.AESEngine;
-import org.bouncycastle1.crypto.modes.CBCBlockCipher;
-import org.bouncycastle1.crypto.paddings.PKCS7Padding;
-import org.bouncycastle1.crypto.params.KeyParameter;
-import org.bouncycastle1.crypto.params.ParametersWithIV;
+import org.bouncycastle.crypto.BufferedBlockCipher;
+import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.engines.AESEngine;
+import org.bouncycastle.crypto.modes.CBCBlockCipher;
+import org.bouncycastle.crypto.paddings.PKCS7Padding;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.ParametersWithIV;
 import org.phoneid.PhoneIDUtil;
 
 import android.util.Log;
@@ -181,7 +181,12 @@ public class ImporterV3 {
     int encryptedPartSize = 0;
     //try {
     PKCS7Padding padding = new PKCS7Padding();
-    encryptedPartSize = paddedEncryptedPartSize - padding.padCount(filebuf);
+    int paddingSize = padding.padCount(filebuf);
+    encryptedPartSize = paddedEncryptedPartSize - paddingSize;
+    if ( mDebug ) {
+    	newManager.paddingBytes = paddingSize;
+    }
+    
     //} catch (Exception e) {
     //}
     // NI
@@ -320,7 +325,7 @@ public class ImporterV3 {
    * @throws ShortBufferException
    */
 
-  static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds )
+  public static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds )
       /*throws InvalidKeyException,
 	     IllegalBlockSizeException,
 	     BadPaddingException,

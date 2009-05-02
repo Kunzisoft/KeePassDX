@@ -48,4 +48,8 @@ public class PwDbHeaderOutput {
 		mOS.write(Types.writeInt(mHeader.numKeyEncRounds));
 		
 	}
+	
+	public void close() throws IOException {
+		mOS.close();
+	}
 }

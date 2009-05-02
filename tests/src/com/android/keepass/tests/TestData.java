@@ -23,7 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.bouncycastle1.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwManager;
 

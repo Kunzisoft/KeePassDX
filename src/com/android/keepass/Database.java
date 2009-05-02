@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
 
-import org.bouncycastle1.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
