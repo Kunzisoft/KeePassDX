@@ -94,8 +94,6 @@ public class ImporterV3 {
     {
     PwManager        newManager;
     SHA256Digest    md;
-    /** Master key encrypted several times */
-    byte[]           transformedMasterKey;
     byte[]           finalKey;
 
 
@@ -150,17 +148,12 @@ public class ImporterV3 {
     // Generate transformedMasterKey from masterKey
     //KeePassMIDlet.logS ("masterSeed2: " + new String(Hex.encode(hdr.masterSeed2)));
     
-    transformedMasterKey = transformMasterKey( hdr.masterSeed2,
-                                               newManager.masterKey,
-                                               newManager.numKeyEncRounds );
+    finalKey = makeFinalKey(hdr.masterSeed, hdr.masterSeed2, newManager.masterKey, newManager.numKeyEncRounds);
     
-    // Hash the master password with the salt in the file
-    md = new SHA256Digest();
-    md.update( hdr.masterSeed, 0, hdr.masterSeed.length );
-    md.update( transformedMasterKey, 0, transformedMasterKey.length );
-    finalKey = new byte[md.getDigestSize()];
-    md.doFinal ( finalKey, 0);
-
+    // TODO: Keep this?
+    newManager.finalKey = new byte[finalKey.length];
+    System.arraycopy(finalKey, 0, newManager.finalKey, 0, finalKey.length);
+    
     // NI
     //KeePassMIDlet.logS ("finalKey: " + new String(Hex.encode(finalKey)));
     
@@ -204,6 +197,7 @@ public class ImporterV3 {
     md = new SHA256Digest();
     md.update( filebuf, PwDbHeader.BUF_SIZE, encryptedPartSize );
     md.doFinal (finalKey, 0);
+    
     
     if( PhoneIDUtil.compare( finalKey, hdr.contentsHash ) == false) {
 	//KeePassMIDlet.logS ( "Database file did not decrypt correctly. (checksum code is broken)" );
@@ -273,6 +267,18 @@ public class ImporterV3 {
     return newManager;
  }
 
+  public static byte[] makeFinalKey(byte[] masterSeed, byte[] masterSeed2, byte[] masterKey, int numRounds) {
+	    byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds );
+
+	    // Hash the master password with the salt in the file
+	    SHA256Digest md = new SHA256Digest();
+	    md.update( masterSeed, 0, masterSeed.length );
+	    md.update( transformedMasterKey, 0, transformedMasterKey.length );
+	    byte[] finalKey = new byte[md.getDigestSize()];
+	    md.doFinal(finalKey, 0);
+	    
+	    return finalKey;
+  }
 
   /**
    * KeePass's custom pad style.
@@ -341,7 +347,7 @@ public class ImporterV3 {
       BufferedBlockCipher cipher = new BufferedBlockCipher(new AESEngine());
       cipher.init(true, new KeyParameter(pKeySeed));
 
-      newKey = pKey;
+      System.arraycopy(pKey, 0, newKey, 0, pKey.length);
       for( i = 0; i < rounds; i++ )
 	  cipher.processBytes (newKey, 0, newKey.length, newKey, 0);
 

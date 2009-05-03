@@ -22,16 +22,17 @@ package com.android.keepass.keepasslib;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.DigestOutputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.crypto.modes.CBCBlockCipher;
-import org.bouncycastle.crypto.paddings.PKCS7Padding;
-import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithIV;
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwDbHeader;
 import org.phoneid.keepassj2me.PwEntry;
@@ -56,6 +57,7 @@ public class PwManagerOutput {
 		mDebug = debug;
 	}
 	
+	/*
 	public void close() throws PwManagerOutputException {
 		try {
 			mOS.close();
@@ -63,11 +65,10 @@ public class PwManagerOutput {
 			throw new PwManagerOutputException("Failed to close stream.");
 		}
 	}
-	
-	public void output() throws PwManagerOutputException, IOException {
-		
-		PwDbHeader header = outputHeader(mOS);
-		
+	*/
+
+	public byte[] getFinalKey(PwDbHeader header) throws PwManagerOutputException {
+
 		// Write checksum Checksum
 		MessageDigest md = null;
 		try {
@@ -78,25 +79,62 @@ public class PwManagerOutput {
 		}
 		NullOutputStream nos = new NullOutputStream();
 		DigestOutputStream dos = new DigestOutputStream(nos, md);
-		
-		byte[] transformedMasterKey = ImporterV3.transformMasterKey(header.masterSeed2, mPM.masterKey, header.numKeyEncRounds); 
+
+		byte[] transformedMasterKey = ImporterV3.transformMasterKey(header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds); 
 		try {
 			dos.write(header.masterSeed);
 			dos.write(transformedMasterKey);
-			dos.close();
-			nos.close();
 		} catch ( IOException e ) {
 			throw new PwManagerOutputException("Failed to build final key.");
 		}
 		
-		byte[] finalKey = md.digest();
+		return md.digest();
+		
+	}
+	
+	public byte[] getFinalKey2(PwDbHeader header) {
+		return ImporterV3.makeFinalKey(header.masterSeed, header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds);
+	}
+	
+	public void output() throws PwManagerOutputException, IOException {
+		
+		PwDbHeader header = outputHeader(mOS);
+		
+		byte[] finalKey = getFinalKey(header);
+		
+		/*
 		// Bouncy Castle implementation
 		PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()), new PKCS7Padding());
 		cipher.init(true, new ParametersWithIV(new KeyParameter(finalKey), header.encryptionIV));
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		outputPlanGroupAndEntries(bos);
+		bos.close();
+		
+		byte[] output = bos.toByteArray();
+		byte[] encrypted = new byte[cipher.getOutputSize(output.length)];
+		int bytes = cipher.processBytes(output, 0, output.length, encrypted, 0);
+		try {
+			bytes += cipher.doFinal(encrypted, bytes);
+		} catch (DataLengthException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidCipherTextException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		mOS.write(encrypted, 0, bytes);
+		*/
+		
+		/*
 		BufferedBlockCipherOutputStream bbcos = new BufferedBlockCipherOutputStream(mOS, cipher);
 		outputPlanGroupAndEntries(bbcos);
-
 		bbcos.close();
+		*/
 		/*
 		try {
 			bbcos.close();
@@ -105,7 +143,6 @@ public class PwManagerOutput {
 		}
 		*/
 		
-	    /* Why doesn't java native work?
 		Cipher cipher;
 		try {
 			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -114,7 +151,7 @@ public class PwManagerOutput {
 		}
 
 		try {
-			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(finalKey, "AES" ), new IvParameterSpec(header.encryptionIV) );
+			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(mPM.finalKey, "AES" ), new IvParameterSpec(header.encryptionIV) );
 			CipherOutputStream cos = new CipherOutputStream(mOS, cipher);
 			outputPlanGroupAndEntries(cos);
 			cos.close();
@@ -125,7 +162,7 @@ public class PwManagerOutput {
 		} catch (IOException e) {
 			throw new PwManagerOutputException("Failed to output final encrypted part.");
 		}
-		*/
+		//
 	}
 	
 	public PwDbHeader outputHeader(OutputStream os) throws PwManagerOutputException {
@@ -151,9 +188,9 @@ public class PwManagerOutput {
 		
 		// Reuse random values to test equivalence in debug mode
 		if ( mDebug ) {
-			System.arraycopy(mPM.dbHeader.encryptionIV, 0, header.encryptionIV, 0, header.encryptionIV.length);
-			System.arraycopy(mPM.dbHeader.masterSeed, 0, header.masterSeed, 0, header.masterSeed.length);
-			System.arraycopy(mPM.dbHeader.masterSeed2, 0, header.masterSeed2, 0, header.masterSeed2.length);
+			System.arraycopy(mPM.dbHeader.encryptionIV, 0, header.encryptionIV, 0, mPM.dbHeader.encryptionIV.length);
+			System.arraycopy(mPM.dbHeader.masterSeed, 0, header.masterSeed, 0, mPM.dbHeader.masterSeed.length);
+			System.arraycopy(mPM.dbHeader.masterSeed2, 0, header.masterSeed2, 0, mPM.dbHeader.masterSeed2.length);
 		} else {
 			SecureRandom random;
 			try {
@@ -181,7 +218,6 @@ public class PwManagerOutput {
 		try {
 			outputPlanGroupAndEntries(dos);
 			dos.close();
-			nos.close();
 		} catch (IOException e) {
 			throw new PwManagerOutputException("Failed to generate checksum.");
 		}
@@ -193,7 +229,6 @@ public class PwManagerOutput {
 		PwDbHeaderOutput pho = new PwDbHeaderOutput(header, os);
 		try {
 			pho.output();
-			pho.close();
 		} catch (IOException e) {
 			throw new PwManagerOutputException("Failed to output the header.");
 		}
@@ -211,7 +246,7 @@ public class PwManagerOutput {
 			try {
 				pgo.output();
 			} catch (IOException e) {
-				throw new PwManagerOutputException("Failed to output a group.");
+				throw new PwManagerOutputException("Failed to output a group: " + e.getMessage());
 			}
 		}
 		

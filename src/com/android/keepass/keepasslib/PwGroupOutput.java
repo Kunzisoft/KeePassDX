@@ -47,7 +47,6 @@ public class PwGroupOutput {
 	
 	private OutputStream mOS;
 	private PwGroup mPG;
-	private long outputBytes = 0;
 	
 	/** Output the PwGroup to the stream
 	 * @param pg
@@ -61,8 +60,6 @@ public class PwGroupOutput {
 	public void output() throws IOException {
 		//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int, but most values can't be greater than 2^31, so it probably doesn't matter.
 
-		outputBytes += 94;  // Length of fixed size fields
-		
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(GROUPID_FIELD_SIZE);
@@ -70,8 +67,7 @@ public class PwGroupOutput {
 		
 		// Name
 		mOS.write(NAME_FIELD_TYPE);
-		int nameLen = Types.writeCString(mPG.name, mOS);
-		outputBytes += nameLen;
+		Types.writeCString(mPG.name, mOS);
 
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
@@ -111,13 +107,6 @@ public class PwGroupOutput {
 		// End
 		mOS.write(END_FIELD_TYPE);
 		mOS.write(ZERO_FIELD_SIZE);
-	}
-
-	/** Returns the number of bytes written by the stream
-	 * @return Number of bytes written
-	 */
-	public long getLength() {
-		return outputBytes;
 	}
 
 }

@@ -39,13 +39,13 @@ public class Database {
 	public static HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
 	public static HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
 	public static PwGroup gRoot;
-	private static PwManager mPM;
+	public static PwManager mPM;
 	
 	public static void LoadData(String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
-		ImporterV3 Importer = new ImporterV3();
+		ImporterV3 Importer = new ImporterV3(ImporterV3.DEBUG); // TODO: Removed debug
 		
 		mPM = Importer.openDatabase(fis, password, keyfile);
 		if ( mPM != null ) {

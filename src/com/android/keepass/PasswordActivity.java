@@ -19,6 +19,7 @@
  */
 package com.android.keepass;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,6 +41,8 @@ import android.widget.Toast;
 import com.android.keepass.fileselect.FileDbHelper;
 import com.android.keepass.intents.TimeoutIntents;
 import com.android.keepass.keepasslib.InvalidKeyFileException;
+import com.android.keepass.keepasslib.PwManagerOutput;
+import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
 
 public class PasswordActivity extends Activity {
 
@@ -234,6 +237,22 @@ public class PasswordActivity extends Activity {
 		public void run() {
 			mPd.dismiss();
 			
+			// TODO: Remove the below block
+			ByteArrayOutputStream bActual = new ByteArrayOutputStream();
+			PwManagerOutput pActual = new PwManagerOutput(Database.mPM, bActual, PwManagerOutput.DEBUG);
+			try {
+				pActual.output();
+			} catch (PwManagerOutputException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+			// TODO: End block
+			
 			if ( mMsg.length() > 0 ) {
 				Toast.makeText(PasswordActivity.this, mMsg, Toast.LENGTH_LONG).show();
 			}
@@ -261,6 +280,7 @@ public class PasswordActivity extends Activity {
 				Database.LoadData(mFileName, mPass, mKey);
 				saveFileData(mFileName, mKey);
 				uiHandler.post(new AfterLoad());
+				
 				
 			} catch (InvalidCipherTextException e) {
 				uiHandler.post(new AfterLoad(R.string.InvalidPassword));

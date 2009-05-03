@@ -68,11 +68,12 @@ public class PwManager {
     public byte             masterKey[]            = new byte[32];
     // Algorithm used to encrypt the database
     int              algorithm;
-    int              numKeyEncRounds;
+    public int              numKeyEncRounds;
     
     // Debugging entries
     public PwDbHeader dbHeader;
     public long paddingBytes;
+    public byte[] finalKey;
 
     // root group
     PwGroup rootGroup;
