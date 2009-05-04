@@ -57,43 +57,20 @@ public class PwManagerOutput {
 		mDebug = debug;
 	}
 	
-	/*
-	public void close() throws PwManagerOutputException {
-		try {
-			mOS.close();
-		} catch (IOException e) {
-			throw new PwManagerOutputException("Failed to close stream.");
-		}
-	}
-	*/
-
 	public byte[] getFinalKey(PwDbHeader header) throws PwManagerOutputException {
-
-		// Write checksum Checksum
-		MessageDigest md = null;
 		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			assert true;
-			throw new PwManagerOutputException("SHA-256 not implemented here.");
+			return ImporterV3.makeFinalKey(header.masterSeed, header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds);
+		} catch (IOException e) {
+			throw new PwManagerOutputException("Key creation failed: " + e.getMessage());
 		}
-		NullOutputStream nos = new NullOutputStream();
-		DigestOutputStream dos = new DigestOutputStream(nos, md);
-
-		byte[] transformedMasterKey = ImporterV3.transformMasterKey(header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds); 
-		try {
-			dos.write(header.masterSeed);
-			dos.write(transformedMasterKey);
-		} catch ( IOException e ) {
-			throw new PwManagerOutputException("Failed to build final key.");
-		}
-		
-		return md.digest();
-		
 	}
 	
-	public byte[] getFinalKey2(PwDbHeader header) {
-		return ImporterV3.makeFinalKey(header.masterSeed, header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds);
+	public byte[] getFinalKey2(PwDbHeader header) throws PwManagerOutputException {
+		try {
+			return ImporterV3.makeFinalKey(header.masterSeed, header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds);
+		} catch (IOException e) {
+			throw new PwManagerOutputException("Key creation failed: " + e.getMessage());
+		}
 	}
 	
 	public void output() throws PwManagerOutputException, IOException {
@@ -151,7 +128,7 @@ public class PwManagerOutput {
 		}
 
 		try {
-			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(mPM.finalKey, "AES" ), new IvParameterSpec(header.encryptionIV) );
+			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(finalKey, "AES" ), new IvParameterSpec(header.encryptionIV) );
 			CipherOutputStream cos = new CipherOutputStream(mOS, cipher);
 			outputPlanGroupAndEntries(cos);
 			cos.close();

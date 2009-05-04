@@ -27,8 +27,10 @@ package org.phoneid.keepassj2me;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.DigestOutputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.BadPaddingException;
@@ -49,6 +51,8 @@ import org.phoneid.PhoneIDUtil;
 import android.util.Log;
 
 import com.android.keepass.keepasslib.InvalidKeyFileException;
+import com.android.keepass.keepasslib.NullOutputStream;
+import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
 
 /**
  * Load a v3 database file.
@@ -267,17 +271,23 @@ public class ImporterV3 {
     return newManager;
  }
 
-  public static byte[] makeFinalKey(byte[] masterSeed, byte[] masterSeed2, byte[] masterKey, int numRounds) {
-	    byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds );
+  public static byte[] makeFinalKey(byte[] masterSeed, byte[] masterSeed2, byte[] masterKey, int numRounds) throws IOException {
 
-	    // Hash the master password with the salt in the file
-	    SHA256Digest md = new SHA256Digest();
-	    md.update( masterSeed, 0, masterSeed.length );
-	    md.update( transformedMasterKey, 0, transformedMasterKey.length );
-	    byte[] finalKey = new byte[md.getDigestSize()];
-	    md.doFinal(finalKey, 0);
-	    
-	    return finalKey;
+	  // Write checksum Checksum
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("SHA-256 not implemented here.");
+		}
+		NullOutputStream nos = new NullOutputStream();
+		DigestOutputStream dos = new DigestOutputStream(nos, md);
+
+		byte[] transformedMasterKey = ImporterV3.transformMasterKey(masterSeed2, masterKey, numRounds); 
+		dos.write(masterSeed);
+		dos.write(transformedMasterKey);
+		
+		return md.digest();
   }
 
   /**
