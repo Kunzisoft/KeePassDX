@@ -39,4 +39,6 @@
 <string name="about_twitter">Twitter:</string>
 <string name="about_ok">OK</string>
 <string name="entry_created">Created: </string>
+<string name="entry_modified">Modified: </string>
+<string name="entry_accessed">Accessed: </string>
 </resources>

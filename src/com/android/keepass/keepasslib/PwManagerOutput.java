@@ -79,47 +79,6 @@ public class PwManagerOutput {
 		
 		byte[] finalKey = getFinalKey(header);
 		
-		/*
-		// Bouncy Castle implementation
-		PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()), new PKCS7Padding());
-		cipher.init(true, new ParametersWithIV(new KeyParameter(finalKey), header.encryptionIV));
-
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		outputPlanGroupAndEntries(bos);
-		bos.close();
-		
-		byte[] output = bos.toByteArray();
-		byte[] encrypted = new byte[cipher.getOutputSize(output.length)];
-		int bytes = cipher.processBytes(output, 0, output.length, encrypted, 0);
-		try {
-			bytes += cipher.doFinal(encrypted, bytes);
-		} catch (DataLengthException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidCipherTextException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		mOS.write(encrypted, 0, bytes);
-		*/
-		
-		/*
-		BufferedBlockCipherOutputStream bbcos = new BufferedBlockCipherOutputStream(mOS, cipher);
-		outputPlanGroupAndEntries(bbcos);
-		bbcos.close();
-		*/
-		/*
-		try {
-			bbcos.close();
-		} catch (IOException e) {
-			throw new PwManagerOutputException("Failed to close encryption stream.");
-		}
-		*/
-		
 		Cipher cipher;
 		try {
 			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -139,7 +98,6 @@ public class PwManagerOutput {
 		} catch (IOException e) {
 			throw new PwManagerOutputException("Failed to output final encrypted part.");
 		}
-		//
 	}
 	
 	public PwDbHeader outputHeader(OutputStream os) throws PwManagerOutputException {
@@ -185,7 +143,6 @@ public class PwManagerOutput {
 		try {
 			md = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
-			assert true;
 			throw new PwManagerOutputException("SHA-256 not implemented here.");
 		}
 		

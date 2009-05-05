@@ -82,12 +82,38 @@
 	  android:layout_alignLeft="@id/entry_title"
 	  android:layout_alignParentRight="true"
 	  android:layout_alignTop="@id/entry_created_label"/>
+	<!-- Modified -->
+	<TextView android:id="@+id/entry_modified_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content" 
+	  android:layout_alignParentLeft="true"
+	  android:layout_below="@id/entry_created_label" 
+	  android:text="@string/entry_modified" />
+	<TextView android:id="@+id/entry_modified" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignLeft="@id/entry_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignTop="@id/entry_modified_label"/>
+	<!-- Accessed -->
+	<TextView android:id="@+id/entry_accessed_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content" 
+	  android:layout_alignParentLeft="true"
+	  android:layout_below="@id/entry_modified_label" 
+	  android:text="@string/entry_accessed" />
+	<TextView android:id="@+id/entry_accessed" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignLeft="@id/entry_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignTop="@id/entry_accessed_label"/>
 	<!-- Comment -->
 	<TextView android:id="@+id/entry_comment_label"
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content" 
 	  android:layout_alignParentLeft="true"
-	  android:layout_below="@id/entry_created" 
+	  android:layout_below="@id/entry_accessed" 
 	  android:text="@string/entry_comment" />
 	<TextView android:id="@+id/entry_comment" 
       android:layout_width="wrap_content"

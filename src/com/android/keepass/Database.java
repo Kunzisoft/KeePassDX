@@ -19,8 +19,10 @@
  */
 package com.android.keepass;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -34,12 +36,15 @@ import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
 
 import com.android.keepass.keepasslib.InvalidKeyFileException;
+import com.android.keepass.keepasslib.PwManagerOutput;
+import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
 
 public class Database {
 	public static HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
 	public static HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
 	public static PwGroup gRoot;
 	public static PwManager mPM;
+	public static String mFilename;
 	
 	public static void LoadData(String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
 		FileInputStream fis;
@@ -52,6 +57,30 @@ public class Database {
 			mPM.constructTree(null);
 			populateGlobals(null);
 		}
+		
+		mFilename = filename;
+	}
+	
+	public static void SaveData() throws IOException, PwManagerOutputException {
+		SaveData(mFilename);
+	}
+	
+	public static void SaveData(String filename) throws IOException, PwManagerOutputException {
+		File tempFile = new File(filename + ".tmp");
+		FileOutputStream fos = new FileOutputStream(tempFile);
+		PwManagerOutput pmo = new PwManagerOutput(mPM, fos);
+		pmo.output();
+		fos.close();
+		
+		File orig = new File(filename);
+		orig.delete();
+		
+		if ( ! tempFile.renameTo(orig) ) {
+			throw new IOException("Failed to store database.");
+		}
+		
+		mFilename = filename;
+		
 	}
 	
 	private static void populateGlobals(PwGroup currentGroup) {
@@ -87,6 +116,7 @@ public class Database {
 		gEntries.clear();
 		gRoot = null;
 		mPM = null;
+		mFilename = null;
 	}
 
 

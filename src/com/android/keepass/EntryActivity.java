@@ -20,6 +20,7 @@
 package com.android.keepass;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -36,7 +37,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EntryActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -72,6 +72,10 @@ public class EntryActivity extends LockingActivity {
 		assert(uuid != null);
 		
 		mEntry = Database.gEntries.get(uuid).get();
+		
+		// Update last access time.
+		Calendar cal = Calendar.getInstance();
+		mEntry.tLastAccess = cal.getTime();
 				
 		fillData();
 	}
@@ -83,8 +87,9 @@ public class EntryActivity extends LockingActivity {
 		populateText(R.id.entry_password, getString(R.string.MaskedPassword));
 		
 		DateFormat df = DateFormat.getInstance();
-		String date = df.format(mEntry.tCreation);
-		populateText(R.id.entry_created, date);
+		populateText(R.id.entry_created, df.format(mEntry.tCreation));
+		populateText(R.id.entry_modified, df.format(mEntry.tLastMod));
+		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess));
 		populateText(R.id.entry_comment, mEntry.additional);
 		TextView comment = (TextView)findViewById(R.id.entry_comment);
 		comment.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);

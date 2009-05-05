@@ -52,7 +52,6 @@ import android.util.Log;
 
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 import com.android.keepass.keepasslib.NullOutputStream;
-import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
 
 /**
  * Load a v3 database file.
@@ -336,12 +335,13 @@ public class ImporterV3 {
 
   /**
    * Encrypt the master key a few times to make brute-force key-search harder
+ * @throws IOException 
    * @throws NoSuchPaddingException 
    * @throws NoSuchAlgorithmException 
    * @throws ShortBufferException
    */
 
-  public static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds )
+  public static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
       /*throws InvalidKeyException,
 	     IllegalBlockSizeException,
 	     BadPaddingException,
@@ -350,6 +350,7 @@ public class ImporterV3 {
       //KeePassMIDlet.logS("transformMasterKey, rounds=" + rounds);
       //KeePassMIDlet.logS("transformMasterKey, pkey=" + new String(Hex.encode(pKey)));
 	  
+	  // Bouncy castle implementation
       byte[] newKey = new byte[pKey.length];
       int i;
 
@@ -361,6 +362,7 @@ public class ImporterV3 {
       for( i = 0; i < rounds; i++ )
 	  cipher.processBytes (newKey, 0, newKey.length, newKey, 0);
 
+      /*
       // Hash once with SHA-256
       SHA256Digest md = new SHA256Digest();
       md.update(newKey, 0, newKey.length );
@@ -368,6 +370,50 @@ public class ImporterV3 {
       md.doFinal(newKey, 0);
 
       return newKey;
+      */ 
+      
+	  /* Native implementation is not quite right yet
+      	byte[] newKey = new byte[pKey.length];
+		Cipher cipher;
+		try {
+			cipher = Cipher.getInstance("AES");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("NoSuchAlgorithm: " + e.getMessage());
+		} catch (NoSuchPaddingException e) {
+			throw new IOException("NoSuchPadding: " + e.getMessage());
+		}
+		
+		try {
+			cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(pKeySeed, "AES"));
+		} catch (InvalidKeyException e) {
+			throw new IOException("InvalidKeyException: " + e.getMessage());
+		}
+
+		// Encrypt key rounds times
+		System.arraycopy(pKey, 0, newKey, 0, pKey.length);
+		for (int i = 0; i < rounds; i++) {
+			try {
+				cipher.update(newKey, 0, newKey.length, newKey, 0);
+				
+			} catch (ShortBufferException e) {
+				throw new IOException("Short buffer: " + e.getMessage());
+			}
+		}
+	  */
+      
+		// Hash the key
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			assert true;
+			throw new IOException("SHA-256 not implemented here: " + e.getMessage());
+		}
+
+		md.update(newKey);
+		return md.digest();
+	  
+	  
   }
 
 

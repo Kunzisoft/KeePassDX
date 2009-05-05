@@ -142,5 +142,5 @@ public class PwManagerOutputTest extends TestCase {
 	assertArrayEquals("Databases do not match.", bExpected.toByteArray(), bActual.toByteArray());
   
   }
-  
+   
 }

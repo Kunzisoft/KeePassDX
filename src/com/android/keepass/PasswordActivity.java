@@ -237,22 +237,6 @@ public class PasswordActivity extends Activity {
 		public void run() {
 			mPd.dismiss();
 			
-			// TODO: Remove the below block
-			ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-			PwManagerOutput pActual = new PwManagerOutput(Database.mPM, bActual, PwManagerOutput.DEBUG);
-			try {
-				pActual.output();
-			} catch (PwManagerOutputException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			
-			// TODO: End block
-			
 			if ( mMsg.length() > 0 ) {
 				Toast.makeText(PasswordActivity.this, mMsg, Toast.LENGTH_LONG).show();
 			}
