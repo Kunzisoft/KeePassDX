@@ -32,10 +32,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.PasswordTransformationMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class EntryActivity extends LockingActivity {
@@ -59,7 +61,7 @@ public class EntryActivity extends LockingActivity {
 	
 	private PwEntry mEntry;
 	private Timer mTimer = new Timer();
-	private boolean showPassword = true;
+	private boolean mShowPassword = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +78,25 @@ public class EntryActivity extends LockingActivity {
 		// Update last access time.
 		Calendar cal = Calendar.getInstance();
 		mEntry.tLastAccess = cal.getTime();
-				
 		fillData();
+		
+		Button edit = (Button) findViewById(R.id.entry_edit);
+		edit.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				EntryEditActivity.Launch(EntryActivity.this, mEntry);
+			}
+			
+		});
 	}
 	
 	private void fillData() {
 		populateText(R.id.entry_title, mEntry.title);
 		populateText(R.id.entry_user_name, mEntry.username);
 		populateText(R.id.entry_url, mEntry.url);
-		populateText(R.id.entry_password, getString(R.string.MaskedPassword));
+		populateText(R.id.entry_password, new String(mEntry.getPassword()));
+		setPasswordStyle();
 		
 		DateFormat df = DateFormat.getInstance();
 		populateText(R.id.entry_created, df.format(mEntry.tCreation));
@@ -119,20 +131,30 @@ public class EntryActivity extends LockingActivity {
 		
 		return true;
 	}
+	
+	private void setPasswordStyle() {
+		TextView password = (TextView) findViewById(R.id.entry_password);
+
+		if ( mShowPassword ) {
+			password.setTransformationMethod(null);
+		} else {
+			password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+		}
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
 		case MENU_PASS:
-			if ( showPassword ) {
-				populateText(R.id.entry_password, new String(mEntry.getPassword()));
+			if ( mShowPassword ) {
 				item.setTitle(R.string.menu_hide_password);
-				showPassword = false;
+				mShowPassword = false;
 			} else {
-				populateText(R.id.entry_password, getString(R.string.MaskedPassword));
 				item.setTitle(R.string.menu_show_password);
-				showPassword = true;
+				mShowPassword = true;
 			}
+			setPasswordStyle();
+
 			return true;
 			
 		case MENU_GOTO_URL:

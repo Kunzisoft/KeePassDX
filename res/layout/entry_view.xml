@@ -66,6 +66,7 @@
 	<TextView android:id="@+id/entry_password" 
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
+	  android:password="true"
 	  android:layout_alignLeft="@id/entry_title"
 	  android:layout_alignParentRight="true"
 	  android:layout_alignTop="@id/entry_password_label"/>
@@ -123,6 +124,12 @@
 	  android:layout_alignParentBottom="true"
 	  android:scrollbars="vertical"
 	  android:layout_alignTop="@id/entry_comment_label"/>
+	<Button android:id="@+id/entry_edit"
+	  android:text="Edit"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignParentTop="true"/>
 	<!-- 
 	<ScrollView android:layout_width="wrap_content"
 	  android:layout_height="wrap_content">

@@ -41,4 +41,7 @@
 <string name="entry_created">Created: </string>
 <string name="entry_modified">Modified: </string>
 <string name="entry_accessed">Accessed: </string>
+<string name="entry_save">Save</string>
+<string name="entry_cancel">Cancel</string>
+<string name="entry_confpassword">Confirm password:</string>
 </resources>

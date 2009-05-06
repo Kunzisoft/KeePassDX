@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/entry_scrollview"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+	<RelativeLayout android:layout_width="fill_parent"
+	  android:layout_height="fill_parent">
+		<!--  Title -->	
+		<TextView android:id="@+id/entry_title_label"
+		  android:layout_width="fill_parent"
+		  android:layout_height="wrap_content" 
+		  android:text="@string/entry_title" />
+		<EditText android:id="@+id/entry_title" 
+		  android:layout_width="fill_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_title_label"/>
+		<!-- Username -->
+		<TextView android:id="@+id/entry_user_name_label"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_title" 
+		  android:text="@string/entry_user_name" />
+		<EditText android:id="@+id/entry_user_name" 
+		  android:layout_width="fill_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_user_name_label"/>
+		<!--  URL -->
+		<TextView android:id="@+id/entry_url_label"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_user_name" 
+		  android:text="@string/entry_url" />
+		<EditText android:id="@+id/entry_url" 
+		  android:layout_width="fill_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_url_label"/>
+		<!-- Password -->
+		<TextView android:id="@+id/entry_password_label"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content" 
+		  android:layout_below="@id/entry_url" 
+		  android:text="@string/entry_password" />
+		<EditText android:id="@+id/entry_password" 
+		  android:layout_width="fill_parent"
+		  android:layout_height="wrap_content"
+		  android:password="true"
+		  android:layout_below="@id/entry_password_label"/>
+		<!-- Confirm Password -->
+		<TextView android:id="@+id/entry_confpassword_label"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content" 
+		  android:layout_below="@id/entry_password" 
+		  android:text="@string/entry_confpassword" />
+		<EditText android:id="@+id/entry_confpassword" 
+		  android:layout_width="fill_parent"
+		  android:layout_height="wrap_content"
+		  android:password="true"
+		  android:layout_below="@id/entry_confpassword_label"/>
+		<!-- Comment -->
+		<TextView android:id="@+id/entry_comment_label"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content" 
+		  android:layout_below="@id/entry_confpassword" 
+		  android:text="@string/entry_comment" />
+		<EditText android:id="@+id/entry_comment" 
+	      android:layout_width="fill_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_comment_label"/>
+		<Button android:id="@+id/entry_save"
+	      android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_comment"
+		  android:text="@string/entry_save"/>
+		<Button android:id="@+id/entry_cancel"
+	      android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_below="@id/entry_comment"
+		  android:layout_toRightOf="@id/entry_save"
+		  android:text="@string/entry_cancel"/>
+	</RelativeLayout>
+</ScrollView>
