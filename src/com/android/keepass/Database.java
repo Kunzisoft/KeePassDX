@@ -50,7 +50,7 @@ public class Database {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
-		ImporterV3 Importer = new ImporterV3(ImporterV3.DEBUG); // TODO: Removed debug
+		ImporterV3 Importer = new ImporterV3();
 		
 		mPM = Importer.openDatabase(fis, password, keyfile);
 		if ( mPM != null ) {
@@ -59,6 +59,12 @@ public class Database {
 		}
 		
 		mFilename = filename;
+	}
+	
+	public static void UpdateEntry(PwEntry oldE, PwEntry newE) throws IOException, PwManagerOutputException {
+		oldE.assign(newE);
+		
+		SaveData();
 	}
 	
 	public static void SaveData() throws IOException, PwManagerOutputException {

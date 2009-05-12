@@ -219,6 +219,10 @@ public class Types {
   }
   
   public static byte[] writeTime(Date date) {
+	  if ( date == null ) {
+		  return null;
+	  }
+	  
 	  byte[] buf = new byte[5];
 	  Calendar cal = Calendar.getInstance();
 	  cal.setTime(date);
@@ -241,6 +245,9 @@ public class Types {
   }
 
   public static int writeCString(String str, OutputStream os) throws IOException {
+	  if ( str == null ) {
+		  return 0;
+	  }
 	  byte[] initial = str.getBytes("UTF-8");
 	  
 	  int length = initial.length+1;

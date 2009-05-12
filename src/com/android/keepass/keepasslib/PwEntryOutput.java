@@ -49,6 +49,7 @@ public class PwEntryOutput {
 	public static final byte[] LEVEL_FIELD_SIZE =   LONG_FOUR;
 	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
 	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
+	public static final byte[] ZERO_FIVE       =   {0x00, 0x00, 0x00, 0x00, 0x00};
 	public static final byte[] TEST = {0x33, 0x33, 0x33, 0x33};
 
 	private OutputStream mOS;
@@ -114,24 +115,16 @@ public class PwEntryOutput {
 		outputBytes += addlLen;
 
 		// Create date
-		mOS.write(CREATE_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tCreation));
+		writeDate(CREATE_FIELD_TYPE, Types.writeTime(mPE.tCreation));
 		
 		// Modification date
-		mOS.write(MOD_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tLastMod));
-		
+		writeDate(MOD_FIELD_TYPE, Types.writeTime(mPE.tLastMod));
+
 		// Access date
-		mOS.write(ACCESS_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tLastAccess));
+		writeDate(ACCESS_FIELD_TYPE, Types.writeTime(mPE.tLastAccess));
 
 		// Expiration date
-		mOS.write(EXPIRE_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPE.tExpire));
+		writeDate(EXPIRE_FIELD_TYPE, Types.writeTime(mPE.tExpire));
 	
 		// Binary desc
 		mOS.write(BINARY_DESC_FIELD_TYPE);
@@ -148,6 +141,16 @@ public class PwEntryOutput {
 		// End
 		mOS.write(END_FIELD_TYPE);
 		mOS.write(ZERO_FIELD_SIZE);
+	}
+	
+	private void writeDate(byte[] type, byte[] date) throws IOException {
+		mOS.write(type);
+		mOS.write(DATE_FIELD_SIZE);
+		if ( date != null ) {
+			mOS.write(date);
+		} else {
+			mOS.write(ZERO_FIVE);
+		}
 	}
 	
 	/** Returns the number of bytes written by the stream

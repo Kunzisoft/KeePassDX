@@ -19,6 +19,8 @@
  */
 package com.android.keepass;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import org.phoneid.keepassj2me.PwEntry;
@@ -33,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EntryEditActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -71,8 +74,48 @@ public class EntryEditActivity extends LockingActivity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				EntryEditActivity act = EntryEditActivity.this;
 				
+				// Validate password
+				String pass = Util.getEditText(act, R.id.entry_password);
+				String conf = Util.getEditText(act, R.id.entry_confpassword);
+				if ( ! pass.equals(conf) ) {
+					Toast.makeText(act, "Passwords do not match.", Toast.LENGTH_LONG).show();
+					return;
+				}
+				
+				PwEntry newEntry = new PwEntry();
+				
+				newEntry.binaryDesc = mEntry.binaryDesc;
+				newEntry.groupId = mEntry.groupId;
+				newEntry.imageId = mEntry.imageId;
+				newEntry.parent = mEntry.parent;
+				newEntry.tCreation = mEntry.tCreation;
+				newEntry.tExpire = mEntry.tExpire;
+				newEntry.uuid = mEntry.uuid;
+				
+				Date now = Calendar.getInstance().getTime(); 
+				newEntry.tLastAccess = now;
+				newEntry.tLastMod = now;
+				
+				byte[] binaryData = mEntry.getBinaryData();
+				newEntry.setBinaryData(binaryData, 0, binaryData.length);
+
+				newEntry.title = Util.getEditText(act, R.id.entry_title);
+				newEntry.url = Util.getEditText(act, R.id.entry_url);
+				newEntry.username = Util.getEditText(act, R.id.entry_user_name);
+				newEntry.additional = Util.getEditText(act, R.id.entry_comment);
+				byte[] password = pass.getBytes();
+				newEntry.setPassword(password, 0, password.length);
+				
+				try {
+					Database.UpdateEntry(mEntry, newEntry);
+				} catch (Exception e) {
+					Toast.makeText(EntryEditActivity.this, "Failed to store database.", Toast.LENGTH_LONG).show();
+					return;
+				}
+				
+				finish();
 			}
 			
 		});

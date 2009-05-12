@@ -118,6 +118,23 @@ public class PwEntry {
 	  
 	  return true;
   }
+  
+  public void assign(PwEntry source) {
+	  uuid = source.uuid;
+	  groupId = source.groupId;
+	  imageId = source.imageId;
+	  title = source.title;
+	  url = source.url;
+	  username = source.username;
+	  password = source.password;
+	  additional = source.additional;
+	  tCreation = source.tCreation;
+	  tLastMod = source.tLastMod;
+	  tLastAccess = source.tLastAccess;
+	  tExpire = source.tExpire;
+	  binaryDesc = source.binaryDesc;
+	  binaryData = source.binaryData;
+  }
 
   /** Size of byte buffer needed to hold this struct. */
   public static final int BUF_SIZE = 124;
