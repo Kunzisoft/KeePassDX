@@ -57,5 +57,4 @@ public class PwEntryTest extends TestCase {
 		assertEquals("Incorrect month.", cal.get(Calendar.MONTH), 3);
 		assertEquals("Incorrect day.", cal.get(Calendar.DAY_OF_MONTH), 23);
 	}
-
 }

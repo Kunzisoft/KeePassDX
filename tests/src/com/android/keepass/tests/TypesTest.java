@@ -26,7 +26,6 @@ import org.phoneid.keepassj2me.Types;
 import static org.junit.Assert.*;
 
 public class TypesTest extends TestCase {
-
 	
 	public void testReadWriteIntZero() {
 		testReadWriteInt((byte) 0);

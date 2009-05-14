@@ -2,11 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/KeePassDroid"/>
-	<classpathentry kind="lib" path="/usr/share/java/junit4.jar"/>
-	<classpathentry kind="lib" path="/home/bpellin/usr/lib/android-sdk-linux_x86-1.1_r1/android.jar" sourcepath="/home/bpellin/scratch/android-src.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/home/bpellin/usr/lib/android-sdk-linux_x86-1.1_r1/docs/reference/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Android Library 1.1-2"/>
+	<classpathentry kind="lib" path="libs/junit4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

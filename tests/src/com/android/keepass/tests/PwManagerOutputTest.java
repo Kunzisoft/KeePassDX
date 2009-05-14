@@ -19,7 +19,7 @@
 */
 package com.android.keepass.tests;
  
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -142,5 +142,4 @@ public class PwManagerOutputTest extends TestCase {
 	assertArrayEquals("Databases do not match.", bExpected.toByteArray(), bActual.toByteArray());
   
   }
-   
 }
