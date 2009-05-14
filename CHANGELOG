@@ -1,3 +1,8 @@
+KeePassDroid (0.2.0)
+
+  * Support editing password entries
+  * Wrap long lines properly in entries
+
 KeePassDroid (0.1.8)
 
   * Move database decryption into background thread

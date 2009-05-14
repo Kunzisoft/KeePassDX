@@ -19,7 +19,6 @@
  */
 package com.android.keepass;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,8 +40,6 @@ import android.widget.Toast;
 import com.android.keepass.fileselect.FileDbHelper;
 import com.android.keepass.intents.TimeoutIntents;
 import com.android.keepass.keepasslib.InvalidKeyFileException;
-import com.android.keepass.keepasslib.PwManagerOutput;
-import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
 
 public class PasswordActivity extends Activity {
 
@@ -62,8 +59,6 @@ public class PasswordActivity extends Activity {
 		File dbFile = new File(fileName);
 		if ( ! dbFile.exists() ) {
 			throw new FileNotFoundException();
-			//Toast.makeText(act, R.string.FileNotFound, Toast.LENGTH_LONG);
-			//return;
 		}
 		
 		Intent i = new Intent(act, PasswordActivity.class);

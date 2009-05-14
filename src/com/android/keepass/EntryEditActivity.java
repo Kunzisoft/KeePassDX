@@ -26,8 +26,10 @@ import java.util.UUID;
 import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -44,18 +46,20 @@ public class EntryEditActivity extends LockingActivity {
 
 	private PwEntry mEntry;
 	private boolean mShowPassword = false;
+	private ProgressDialog mPd;
 	
 	public static void Launch(Activity act, PwEntry pw) {
 		Intent i = new Intent(act, EntryEditActivity.class);
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
-		act.startActivity(i);
+		act.startActivityForResult(i, 0);
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_edit);
+		setResult(KeePass.EXIT_NORMAL);
 		
 		Intent i = getIntent();
 		UUID uuid = UUID.nameUUIDFromBytes(i.getByteArrayExtra(KEY_ENTRY));
@@ -107,15 +111,17 @@ public class EntryEditActivity extends LockingActivity {
 				newEntry.additional = Util.getEditText(act, R.id.entry_comment);
 				byte[] password = pass.getBytes();
 				newEntry.setPassword(password, 0, password.length);
-				
-				try {
-					Database.UpdateEntry(mEntry, newEntry);
-				} catch (Exception e) {
-					Toast.makeText(EntryEditActivity.this, "Failed to store database.", Toast.LENGTH_LONG).show();
-					return;
+
+				if ( newEntry.title.equals(mEntry.title) ) {
+					setResult(KeePass.EXIT_REFRESH);
+				} else {
+					setResult(KeePass.EXIT_REFRESH_TITLE);
 				}
-				
-				finish();
+
+				mPd = ProgressDialog.show(EntryEditActivity.this, "Working...", "Saving database", true, false);
+				Thread bkgStore = new Thread(new BackgroundUpdateEntry(mEntry, newEntry));
+				bkgStore.start();
+
 			}
 			
 		});
@@ -195,6 +201,42 @@ public class EntryEditActivity extends LockingActivity {
 	private void populateText(int viewId, String text) {
 		TextView tv = (TextView) findViewById(viewId);
 		tv.setText(text);
+	}
+	
+	private final Handler uiHandler = new Handler();
+	
+	public final class AfterSave implements Runnable {
+
+		@Override
+		public void run() {
+			mPd.dismiss();
+			finish();
+		}
+		
+	}
+	
+	public final class BackgroundUpdateEntry implements Runnable {
+
+		private final PwEntry mOld;
+		private final PwEntry mNew;
+		
+		public BackgroundUpdateEntry(PwEntry oldE, PwEntry newE) {
+			mOld = oldE;
+			mNew = newE;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				Database.UpdateEntry(mOld, mNew);
+				uiHandler.post(new AfterSave());
+			} catch (Exception e) {
+				uiHandler.post(new UIToastTask(EntryEditActivity.this, "Failed to store database."));
+				setResult(KeePass.EXIT_NORMAL);
+				return;
+			}
+		}
+		
 	}
 
 }

@@ -35,7 +35,7 @@
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
 	  android:layout_alignParentLeft="true"
-	  android:layout_below="@id/entry_title_label" 
+	  android:layout_below="@id/entry_title" 
 	  android:text="@string/entry_user_name" />
 	<TextView android:id="@+id/entry_user_name" 
 	  android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
 	  android:layout_alignParentLeft="true"
-	  android:layout_below="@id/entry_user_name_label" 
+	  android:layout_below="@id/entry_user_name" 
 	  android:text="@string/entry_url" />
 	<TextView android:id="@+id/entry_url" 
 	  android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content" 
 	  android:layout_alignParentLeft="true"
-	  android:layout_below="@id/entry_url_label" 
+	  android:layout_below="@id/entry_url" 
 	  android:text="@string/entry_password" />
 	<TextView android:id="@+id/entry_password" 
 	  android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content" 
 	  android:layout_alignParentLeft="true"
-	  android:layout_below="@id/entry_password_label" 
+	  android:layout_below="@id/entry_password" 
 	  android:text="@string/entry_created" />
 	<TextView android:id="@+id/entry_created" 
 	  android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content" 
 	  android:layout_alignParentLeft="true"
-	  android:layout_below="@id/entry_created_label" 
+	  android:layout_below="@id/entry_created" 
 	  android:text="@string/entry_modified" />
 	<TextView android:id="@+id/entry_modified" 
 	  android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content" 
 	  android:layout_alignParentLeft="true"
-	  android:layout_below="@id/entry_modified_label" 
+	  android:layout_below="@id/entry_modified" 
 	  android:text="@string/entry_accessed" />
 	<TextView android:id="@+id/entry_accessed" 
 	  android:layout_width="wrap_content"

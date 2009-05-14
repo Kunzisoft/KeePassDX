@@ -30,15 +30,19 @@ public class PwEntryView extends LinearLayout {
 
 	private Activity mAct;
 	private PwEntry mPw;
+	private TextView mTv;
+	private int mPos;
 	
-	public PwEntryView(Activity act, PwEntry pw) {
+	public PwEntryView(Activity act, PwEntry pw, int pos) {
 		super(act);
 		mAct = act;
 		mPw = pw;
+		mPos = pos;
 		
 		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
 		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
 		tv.setText(mPw.title);
+		mTv = tv;
 		
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		
@@ -46,8 +50,12 @@ public class PwEntryView extends LinearLayout {
 
 	}
 	
+	public void refreshTitle() {
+		mTv.setText(mPw.title);
+	}
+	
 	void onClick() {
-		EntryActivity.Launch(mAct, mPw);
+		EntryActivity.Launch(mAct, mPw, mPos);
 		
 	}
 }

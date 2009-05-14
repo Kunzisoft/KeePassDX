@@ -42,7 +42,8 @@ import android.widget.TextView;
 
 public class EntryActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
-	
+	public static final String KEY_REFRESH_POS = "refresh_pos";
+
 	private static final int MENU_PASS = Menu.FIRST;
 	private static final int MENU_GOTO_URL = Menu.FIRST + 1;
 	private static final int MENU_COPY_USER = Menu.FIRST + 2;
@@ -51,10 +52,11 @@ public class EntryActivity extends LockingActivity {
 	
 	private static final long CLIP_CLEAR_TIME = 30 * 1000;
 	
-	public static void Launch(Activity act, PwEntry pw) {
+	public static void Launch(Activity act, PwEntry pw, int pos) {
 		Intent i = new Intent(act, EntryActivity.class);
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
+		i.putExtra(KEY_REFRESH_POS, pos);
 		
 		act.startActivityForResult(i,0);
 	}
@@ -62,6 +64,7 @@ public class EntryActivity extends LockingActivity {
 	private PwEntry mEntry;
 	private Timer mTimer = new Timer();
 	private boolean mShowPassword = false;
+	private int mPos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class EntryActivity extends LockingActivity {
 		
 		Intent i = getIntent();
 		UUID uuid = UUID.nameUUIDFromBytes(i.getByteArrayExtra(KEY_ENTRY));
+		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
 		assert(uuid != null);
 		
 		mEntry = Database.gEntries.get(uuid).get();
@@ -112,6 +116,19 @@ public class EntryActivity extends LockingActivity {
 	private void populateText(int viewId, String text) {
 		TextView tv = (TextView) findViewById(viewId);
 		tv.setText(text);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if ( resultCode == KeePass.EXIT_REFRESH || resultCode == KeePass.EXIT_REFRESH_TITLE ) {
+			fillData();
+			if ( resultCode == KeePass.EXIT_REFRESH_TITLE ) {
+				Intent ret = new Intent();
+				ret.putExtra(KEY_REFRESH_POS, mPos);
+				setResult(KeePass.EXIT_REFRESH, ret);
+			}
+		}
 	}
 
 	@Override

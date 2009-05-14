@@ -42,6 +42,7 @@ import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
 public class Database {
 	public static HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
 	public static HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
+	public static HashMap<PwGroup, WeakReference<PwGroup>> gDirty = new HashMap<PwGroup, WeakReference<PwGroup>>();
 	public static PwGroup gRoot;
 	public static PwManager mPM;
 	public static String mFilename;
@@ -62,6 +63,13 @@ public class Database {
 	}
 	
 	public static void UpdateEntry(PwEntry oldE, PwEntry newE) throws IOException, PwManagerOutputException {
+		if ( ! oldE.title.equals(newE.title) ) {
+			PwGroup parent = oldE.parent;
+			if ( parent != null ) {
+				gDirty.put(parent, new WeakReference<PwGroup>(parent));
+			}
+		}
+		
 		oldE.assign(newE);
 		
 		SaveData();
@@ -124,6 +132,4 @@ public class Database {
 		mPM = null;
 		mFilename = null;
 	}
-
-
 }

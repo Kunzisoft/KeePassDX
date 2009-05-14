@@ -24,13 +24,13 @@ import java.lang.ref.WeakReference;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,6 +53,18 @@ public class GroupActivity extends LockingListActivity {
 		act.startActivityForResult(i,0);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		if ( Database.gDirty.get(mGroup) != null ) {
+			Database.gDirty.remove(mGroup);
+			BaseAdapter adapter = (BaseAdapter) getListAdapter();
+			adapter.notifyDataSetChanged();
+			
+		}
+	}
+
 	private int mId;
 	
 	@Override
@@ -65,7 +77,7 @@ public class GroupActivity extends LockingListActivity {
 			gv.onClick();
 		} else {
 			PwEntry entry = (PwEntry) mGroup.childEntries.elementAt(position - size);
-			PwEntryView pe = new PwEntryView(this, entry);
+			PwEntryView pe = new PwEntryView(this, entry, position);
 			pe.onClick();
 		}
 	}

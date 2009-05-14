@@ -99,7 +99,7 @@ public class PwListAdapter extends BaseAdapter {
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
 //		if (convertView == null || ! (convertView instanceof PwEntryView) ) {
-			ev = new PwEntryView(mAct, filteredEntries.elementAt(position));
+			ev = new PwEntryView(mAct, filteredEntries.elementAt(position), position);
 //		} else {
 //			ev = (PwEntryView) convertView;
 //			ev.setEntry(filteredEntries.elementAt(position));
