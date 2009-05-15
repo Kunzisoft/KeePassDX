@@ -30,11 +30,4 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>build.xml</name>
-			<type>1</type>
-			<location>/home/bpellin/src/workspace/KeePassDroid/build.xml</location>
-		</link>
-	</linkedResources>
 </projectDescription>

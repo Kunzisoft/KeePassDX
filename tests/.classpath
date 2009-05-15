@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/KeePassDroid"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Android Library 1.1-2"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="libs/junit4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
