@@ -83,6 +83,9 @@ public class EntryActivity extends LockingActivity {
 		Calendar cal = Calendar.getInstance();
 		mEntry.tLastAccess = cal.getTime();
 		fillData();
+
+		View scroll = findViewById(R.id.entry_scroll);
+		scroll.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 		
 		Button edit = (Button) findViewById(R.id.entry_edit);
 		edit.setOnClickListener(new View.OnClickListener() {
@@ -107,10 +110,6 @@ public class EntryActivity extends LockingActivity {
 		populateText(R.id.entry_modified, df.format(mEntry.tLastMod));
 		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess));
 		populateText(R.id.entry_comment, mEntry.additional);
-		TextView comment = (TextView)findViewById(R.id.entry_comment);
-		comment.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-		comment.setMovementMethod(new ScrollingMovementMethod());
-		
 	}
 	
 	private void populateText(int viewId, String text) {

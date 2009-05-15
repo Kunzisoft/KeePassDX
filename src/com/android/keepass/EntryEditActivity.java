@@ -67,7 +67,7 @@ public class EntryEditActivity extends LockingActivity {
 
 		mEntry = Database.gEntries.get(uuid).get();
 	
-		View scrollView = findViewById(R.id.entry_scrollview);
+		View scrollView = findViewById(R.id.entry_scroll);
 		scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 		
 		

@@ -46,4 +46,5 @@
 <string name="entry_confpassword">Confirm password:</string>
 
 <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+<string name="add_entry">Add Entry</string>
 </resources>

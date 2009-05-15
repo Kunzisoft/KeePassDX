@@ -17,10 +17,9 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
-  android:orientation="vertical">
+  android:layout_height="fill_parent">
 	<TextView android:id="@+id/group_header" 
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
@@ -28,18 +27,28 @@
 	  android:text="@string/current_group_root"
 	  android:textStyle="bold"
 	  android:layout_weight="0"/>
-	<ImageView
+	<ImageView android:id="@+id/divider1"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
+	  android:layout_below="@id/group_header"
+	  android:scaleType="fitXY"
+	  android:tint="@color/blue_highlight"
+	  android:src="@android:drawable/divider_horizontal_dark"/>
+	<Button android:id="@+id/add"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignParentBottom="true"
+	  android:text="@string/add_entry"/>
+	<ImageView android:id="@+id/divider2"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_above="@id/add"
 	  android:scaleType="fitXY"
 	  android:tint="@color/blue_highlight"
 	  android:src="@android:drawable/divider_horizontal_dark"/>
 	<ListView android:id="@android:id/list"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:layout_weight="1"/>
-  	<TextView android:id="@android:id/empty"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/no_keys"/>
-</LinearLayout>
+      android:layout_above="@id/divider2"
+      android:layout_below="@id/divider1"/>
+</RelativeLayout>
