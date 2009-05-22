@@ -221,6 +221,17 @@ public class PwManager {
 	}
 	return kids;
     }
+    
+    public int getRootGroupId() {
+    	for ( int i = 0; i < groups.size(); i++ ) {
+    		PwGroup grp = groups.elementAt(i);
+    		if ( grp.level == 0 ) {
+    			return grp.groupId;
+    		}
+    	}
+    	
+    	return -1;
+    }
 
     public Vector<PwGroup> getGrpChildren( PwGroup parent ) {
 	int idx = groups.indexOf( parent );

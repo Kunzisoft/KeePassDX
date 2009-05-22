@@ -21,7 +21,6 @@ package com.android.keepass;
 
 import java.lang.ref.WeakReference;
 
-import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
@@ -31,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,9 +38,9 @@ public class GroupActivity extends LockingListActivity {
 
 	public static final String KEY_ENTRY = "entry";
 	
-	private static final int MENU_LOCK = Menu.FIRST;
+	protected static final int MENU_LOCK = Menu.FIRST;
 	
-	private PwGroup mGroup;
+	protected PwGroup mGroup;
 
 	public static void Launch(Activity act, PwGroup group) {
 		Intent i = new Intent(act, GroupActivity.class);
@@ -48,7 +48,6 @@ public class GroupActivity extends LockingListActivity {
 		if ( group != null ) {
 			i.putExtra(KEY_ENTRY, group.groupId);
 		}
-		
 		
 		act.startActivityForResult(i,0);
 	}
@@ -70,22 +69,17 @@ public class GroupActivity extends LockingListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		int size = mGroup.childGroups.size();
-		if (position < size ) {
-			PwGroup group = (PwGroup) mGroup.childGroups.elementAt(position);
-			PwGroupView gv = new PwGroupView(this, group);
-			gv.onClick();
-		} else {
-			PwEntry entry = (PwEntry) mGroup.childEntries.elementAt(position - size);
-			PwEntryView pe = new PwEntryView(this, entry, position);
-			pe.onClick();
-		}
+
+		ListAdapter adapt = getListAdapter();
+		ClickView cv = (ClickView) adapt.getView(position, null, null);
+		cv.onClick();
+		
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.list);
+		setContentView(R.layout.group_view_only);
 		setResult(KeePass.EXIT_NORMAL);
 		
 		int id = getIntent().getIntExtra(KEY_ENTRY, -1);
@@ -102,10 +96,15 @@ public class GroupActivity extends LockingListActivity {
 		setGroupTitle();
 		
 		setListAdapter(new PwListAdapter(this, mGroup));
+		styleScrollBars();
+		
+	}
+	
+	protected void styleScrollBars() {
 		ListView lv = getListView();
 		lv.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 		lv.setTextFilterEnabled(true);
-
+		
 	}
 	
 	private void setGroupTitle() {

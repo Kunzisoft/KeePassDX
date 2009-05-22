@@ -32,6 +32,20 @@ import android.widget.BaseAdapter;
 
 public class PwListAdapter extends BaseAdapter {
 
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+		
+		filter();
+	}
+
+	@Override
+	public void notifyDataSetInvalidated() {
+		super.notifyDataSetInvalidated();
+		
+		filter();
+	}
+
 	private Activity mAct;
 	private PwGroup mGroup;
 	private Vector<PwEntry> filteredEntries;

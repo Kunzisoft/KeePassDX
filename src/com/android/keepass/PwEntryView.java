@@ -23,10 +23,9 @@ import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class PwEntryView extends LinearLayout {
+public class PwEntryView extends ClickView {
 
 	private Activity mAct;
 	private PwEntry mPw;

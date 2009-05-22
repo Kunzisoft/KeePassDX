@@ -28,6 +28,7 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -50,6 +51,7 @@ public class PasswordActivity extends Activity {
 	private String mFileName;
 	private String mKeyFile;
 	private ProgressDialog mPd;
+	private boolean mIsDialogUp = false;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -68,7 +70,7 @@ public class PasswordActivity extends Activity {
 		act.startActivityForResult(i, 0);
 		
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -149,17 +151,18 @@ public class PasswordActivity extends Activity {
 				return;
 			}
 			
-				String fileName = getEditText(R.id.pass_filename);
-				
-				mPd = ProgressDialog.show(mAct, "Working...", "Loading database", true, false);
-				Thread bkgLoad = new Thread(new BackgroundLoad(fileName, pass, key));
-				bkgLoad.start();
-				
-				/*
-				Database.LoadData(fileName, pass, key);
-				saveFileData(fileName, key);
-				GroupActivity.Launch(mAct, null);
-				*/
+			String fileName = getEditText(R.id.pass_filename);
+			
+			mPd = ProgressDialog.show(mAct, "Working...", "Loading database", true, false);
+			mIsDialogUp = true;
+			Thread bkgLoad = new Thread(new BackgroundLoad(fileName, pass, key));
+			bkgLoad.start();
+			
+			/*
+			Database.LoadData(fileName, pass, key);
+			saveFileData(fileName, key);
+			GroupActivity.Launch(mAct, null);
+			*/
 		}			
 	}
 	
@@ -231,6 +234,7 @@ public class PasswordActivity extends Activity {
 		@Override
 		public void run() {
 			mPd.dismiss();
+			mIsDialogUp = false;
 			
 			if ( mMsg.length() > 0 ) {
 				Toast.makeText(PasswordActivity.this, mMsg, Toast.LENGTH_LONG).show();

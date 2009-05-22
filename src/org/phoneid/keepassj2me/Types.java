@@ -246,6 +246,7 @@ public class Types {
 
   public static int writeCString(String str, OutputStream os) throws IOException {
 	  if ( str == null ) {
+		  os.write(writeInt(0));
 		  return 0;
 	  }
 	  byte[] initial = str.getBytes("UTF-8");

@@ -62,10 +62,31 @@ public class Database {
 		mFilename = filename;
 	}
 	
+	public static void NewEntry(PwEntry entry) throws IOException, PwManagerOutputException {
+		PwGroup parent = entry.parent;
+		
+		// Mark parent group dirty
+		gDirty.put(parent, new WeakReference<PwGroup>(parent));
+
+		// Add entry to global
+		gEntries.put(UUID.nameUUIDFromBytes(entry.uuid), new WeakReference<PwEntry>(entry));
+		
+		// Add entry to group
+		parent.childEntries.add(entry);
+		
+		// Add entry to PwManager
+		mPM.entries.add(entry);
+		
+		// Commit to disk
+		SaveData();
+		
+	}
+	
 	public static void UpdateEntry(PwEntry oldE, PwEntry newE) throws IOException, PwManagerOutputException {
 		if ( ! oldE.title.equals(newE.title) ) {
 			PwGroup parent = oldE.parent;
 			if ( parent != null ) {
+				// Mark parent group dirty
 				gDirty.put(parent, new WeakReference<PwGroup>(parent));
 			}
 		}

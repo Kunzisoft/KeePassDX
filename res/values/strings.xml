@@ -47,4 +47,6 @@
 
 <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
 <string name="add_entry">Add Entry</string>
+<string name="error_pass_match">Passwords do not match.</string>
+<string name="error_title_required">A title is required.</string>
 </resources>

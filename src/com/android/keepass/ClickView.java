@@ -19,38 +19,15 @@
  */
 package com.android.keepass;
 
-import org.phoneid.keepassj2me.PwGroup;
+import android.content.Context;
+import android.widget.LinearLayout;
 
-import android.app.Activity;
-import android.view.View;
-import android.widget.TextView;
+public abstract class ClickView extends LinearLayout {
 
-
-public class PwGroupView extends ClickView {
-	
-	private PwGroup mPw;
-	private Activity mAct;
-	
-	public PwGroupView(Activity act, PwGroup pw) {
-		super(act);
-		mAct = act;
-		mPw = pw;
-		
-		View gv = View.inflate(act, R.layout.group_list_entry, null);
-		TextView tv = (TextView) gv.findViewById(R.id.group_text);
-		tv.setText(pw.name);
-		
-		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		
-		addView(gv, lp);
-		
+	public ClickView(Context context) {
+		super(context);
 	}
-
-	void onClick() {
 	
-		GroupAddEntryActivity.Launch(mAct, mPw);
-	
-	}
-
+	abstract void onClick();
 
 }

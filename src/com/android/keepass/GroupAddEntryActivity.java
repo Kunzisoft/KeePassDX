@@ -22,35 +22,39 @@ package com.android.keepass;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+
+public class GroupAddEntryActivity extends GroupActivity {
+
+	public static void Launch(Activity act, PwGroup group) {
+		Intent i = new Intent(act, GroupAddEntryActivity.class);
+		
+		i.putExtra(KEY_ENTRY, group.groupId);
+		
+		act.startActivityForResult(i,0);
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.group_add_entry);
+		styleScrollBars();
+		
+		// Add Entry button
+		Button addEntry = (Button) findViewById(R.id.add_entry);
+		addEntry.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				EntryEditActivity.Launch(GroupAddEntryActivity.this, mGroup);
+			}
+		});
 
 
-public class PwGroupView extends ClickView {
-	
-	private PwGroup mPw;
-	private Activity mAct;
-	
-	public PwGroupView(Activity act, PwGroup pw) {
-		super(act);
-		mAct = act;
-		mPw = pw;
-		
-		View gv = View.inflate(act, R.layout.group_list_entry, null);
-		TextView tv = (TextView) gv.findViewById(R.id.group_text);
-		tv.setText(pw.name);
-		
-		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		
-		addView(gv, lp);
 		
 	}
-
-	void onClick() {
-	
-		GroupAddEntryActivity.Launch(mAct, mPw);
-	
-	}
-
 
 }

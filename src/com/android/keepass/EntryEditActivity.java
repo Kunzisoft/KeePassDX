@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.phoneid.keepassj2me.PwEntry;
+import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -41,19 +42,31 @@ import android.widget.Toast;
 
 public class EntryEditActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
+	public static final String KEY_PARENT = "parent";
 
 	private static final int MENU_PASS = Menu.FIRST;
 
 	private PwEntry mEntry;
 	private boolean mShowPassword = false;
+	private boolean mIsNew;
 	private ProgressDialog mPd;
 	
 	public static void Launch(Activity act, PwEntry pw) {
 		Intent i = new Intent(act, EntryEditActivity.class);
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
+		
 		act.startActivityForResult(i, 0);
 	}
+	
+	public static void Launch(Activity act, PwGroup parent) {
+		Intent i = new Intent(act, EntryEditActivity.class);
+		
+		i.putExtra(KEY_PARENT, parent.groupId);
+		
+		act.startActivityForResult(i, 0);
+	}
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +75,28 @@ public class EntryEditActivity extends LockingActivity {
 		setResult(KeePass.EXIT_NORMAL);
 		
 		Intent i = getIntent();
-		UUID uuid = UUID.nameUUIDFromBytes(i.getByteArrayExtra(KEY_ENTRY));
-		assert(uuid != null);
+		byte[] uuidBytes = i.getByteArrayExtra(KEY_ENTRY);
 
-		mEntry = Database.gEntries.get(uuid).get();
+		if ( uuidBytes == null ) {
+			int groupId = i.getIntExtra(KEY_PARENT, -1);
+
+			mEntry = new PwEntry(groupId);
+			mIsNew = true;
+			
+		} else {
+			UUID uuid = UUID.nameUUIDFromBytes(uuidBytes);
+			assert(uuid != null);
+
+			mEntry = Database.gEntries.get(uuid).get();
+			mIsNew = false;
+			
+			fillData();
+		} 
 	
 		View scrollView = findViewById(R.id.entry_scroll);
 		scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-		
-		
-		fillData();
-		
+
+		// Save button
 		Button save = (Button) findViewById(R.id.entry_save);
 		save.setOnClickListener(new View.OnClickListener() {
 
@@ -80,11 +104,18 @@ public class EntryEditActivity extends LockingActivity {
 			public void onClick(View v) {
 				EntryEditActivity act = EntryEditActivity.this;
 				
+				// Require title
+				String title = Util.getEditText(act, R.id.entry_title);
+				if ( title.length() == 0 ) {
+					Toast.makeText(act, R.string.error_title_required, Toast.LENGTH_LONG).show();
+					return;
+				}
+				
 				// Validate password
 				String pass = Util.getEditText(act, R.id.entry_password);
 				String conf = Util.getEditText(act, R.id.entry_confpassword);
 				if ( ! pass.equals(conf) ) {
-					Toast.makeText(act, "Passwords do not match.", Toast.LENGTH_LONG).show();
+					Toast.makeText(act, R.string.error_pass_match, Toast.LENGTH_LONG).show();
 					return;
 				}
 				
@@ -103,7 +134,9 @@ public class EntryEditActivity extends LockingActivity {
 				newEntry.tLastMod = now;
 				
 				byte[] binaryData = mEntry.getBinaryData();
-				newEntry.setBinaryData(binaryData, 0, binaryData.length);
+				if ( binaryData != null ) {
+					newEntry.setBinaryData(binaryData, 0, binaryData.length);
+				}
 
 				newEntry.title = Util.getEditText(act, R.id.entry_title);
 				newEntry.url = Util.getEditText(act, R.id.entry_url);
@@ -126,6 +159,7 @@ public class EntryEditActivity extends LockingActivity {
 			
 		});
 		
+		// Cancel button
 		Button cancel = (Button) findViewById(R.id.entry_cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
 
@@ -228,10 +262,16 @@ public class EntryEditActivity extends LockingActivity {
 		@Override
 		public void run() {
 			try {
-				Database.UpdateEntry(mOld, mNew);
+				if ( mIsNew ) {
+					Database.NewEntry(mNew);
+				} else {
+					Database.UpdateEntry(mOld, mNew);
+				}
+				
 				uiHandler.post(new AfterSave());
 			} catch (Exception e) {
 				uiHandler.post(new UIToastTask(EntryEditActivity.this, "Failed to store database."));
+				mPd.dismiss();
 				setResult(KeePass.EXIT_NORMAL);
 				return;
 			}

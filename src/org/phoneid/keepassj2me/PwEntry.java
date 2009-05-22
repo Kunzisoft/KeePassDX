@@ -27,8 +27,11 @@ package org.phoneid.keepassj2me;
 // PhoneID
 import org.phoneid.*;
 
+import com.android.keepass.Database;
+
 
 // Java
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 
@@ -54,6 +57,19 @@ import java.util.*;
  */
 public class PwEntry {
 
+	public static final Date NEVER_EXPIRE = getNeverExpire();
+	
+	private static Date getNeverExpire() {
+	  Calendar cal = Calendar.getInstance();
+	  cal.set(Calendar.YEAR, 2999);
+	  cal.set(Calendar.MONTH, 11);
+	  cal.set(Calendar.DAY_OF_MONTH, 28);
+	  cal.set(Calendar.HOUR, 23);
+	  cal.set(Calendar.MINUTE, 59);
+	  cal.set(Calendar.SECOND, 59);
+
+	  return cal.getTime();
+	}
 	
 	// for tree traversing
 	public PwGroup parent = null;
@@ -61,7 +77,25 @@ public class PwEntry {
   public PwEntry() {
   }
 
+	public PwEntry(int parentId) {
+		
+		WeakReference<PwGroup> wPw = Database.gGroups.get(parentId);
+	
+		parent = wPw.get();
+		groupId = parentId;
+	
+		Random random = new Random();
+		uuid = new byte[16];
+		random.nextBytes(uuid);
+		
+		Calendar cal = Calendar.getInstance();
+		Date now = cal.getTime();
+		tCreation = now;
+		tLastAccess = now;
+		tLastMod = now;
+		tExpire = NEVER_EXPIRE;
 
+	}
 
   /**
    * @return the actual password byte array.

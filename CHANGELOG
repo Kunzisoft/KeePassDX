@@ -1,3 +1,9 @@
+KeePassDroid (0.2.1)
+
+  * Support adding password entries
+  * Prevent crash on orientation change while loading or saving database.
+  * Fix most entries in the entry editor to be single line
+
 KeePassDroid (0.2.0)
 
   * Support editing password entries

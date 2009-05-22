@@ -132,15 +132,29 @@ public class PwEntryOutput {
 		outputBytes += descLen;
 	
 		// Binary data
-		byte[] data = mPE.getBinaryData();
-		mOS.write(BINARY_DATA_FIELD_TYPE);
-		mOS.write(Types.writeInt(data.length));
-		mOS.write(data);
-		outputBytes += data.length;
+		int dataLen = writeByteArray(mPE.getBinaryData());
+		outputBytes += dataLen;
 
 		// End
 		mOS.write(END_FIELD_TYPE);
 		mOS.write(ZERO_FIELD_SIZE);
+	}
+	
+	private int writeByteArray(byte[] data) throws IOException {
+		int dataLen;
+		if ( data != null ) {
+			dataLen = data.length;
+		} else {
+			dataLen = 0;
+		}
+		mOS.write(BINARY_DATA_FIELD_TYPE);
+		mOS.write(Types.writeInt(dataLen));
+		if ( data != null ) {
+			mOS.write(data);
+		}
+		
+		return dataLen;
+
 	}
 	
 	private void writeDate(byte[] type, byte[] date) throws IOException {
