@@ -36,10 +36,17 @@ import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
 import org.phoneid.keepassj2me.Types;
 
+import android.content.Context;
+
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 import com.android.keepass.keepasslib.PwManagerOutput;
-import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
+import com.android.keepass.keepasslib.PwManagerOutputException;
+import com.android.keepass.search.SearchDbHelper;
 
+/**
+ * @author bpellin
+ *
+ */
 public class Database {
 	public static HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
 	public static HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
@@ -47,8 +54,9 @@ public class Database {
 	public static PwGroup gRoot;
 	public static PwManager mPM;
 	public static String mFilename;
+	public static SearchDbHelper searchHelper;
 	
-	public static void LoadData(String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+	public static void LoadData(Context ctx, String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
@@ -59,18 +67,29 @@ public class Database {
 			mPM.constructTree(null);
 			populateGlobals(null);
 		}
-		
+
 		mFilename = filename;
+
+		searchHelper = new SearchDbHelper(ctx);
+		searchHelper.open();
+		buildSearchIndex(ctx);
+	}
+	
+	
+	/** Build the search index from the current database
+	 * @param ctx
+	 */
+	private static void buildSearchIndex(Context ctx) {
+		
+		
+		for ( int i = 0; i < mPM.entries.size(); i++) {
+			PwEntry entry = mPM.entries.get(i);
+			searchHelper.insertEntry(entry);
+		}
 	}
 	
 	public static void NewEntry(PwEntry entry) throws IOException, PwManagerOutputException {
 		PwGroup parent = entry.parent;
-		
-		// Mark parent group dirty
-		gDirty.put(parent, new WeakReference<PwGroup>(parent));
-
-		// Add entry to global
-		gEntries.put(UUID.nameUUIDFromBytes(entry.uuid), new WeakReference<PwEntry>(entry));
 		
 		// Add entry to group
 		parent.childEntries.add(entry);
@@ -79,11 +98,53 @@ public class Database {
 		mPM.entries.add(entry);
 		
 		// Commit to disk
-		SaveData();
+		try {
+			SaveData();
+		} catch (PwManagerOutputException e) {
+			UndoNewEntry(entry);
+			throw e;
+		} catch (IOException e) {
+			UndoNewEntry(entry);
+			throw e;
+		}
 		
+		// Mark parent group dirty
+		gDirty.put(parent, new WeakReference<PwGroup>(parent));
+
+		// Add entry to global
+		gEntries.put(Types.bytestoUUID(entry.uuid), new WeakReference<PwEntry>(entry));
+		
+		// Add entry to search index
+		searchHelper.insertEntry(entry);
+	}
+	
+	public static void UndoNewEntry(PwEntry entry) {
+		// Remove from group
+		entry.parent.childEntries.removeElement(entry);
+		
+		// Remove from manager
+		mPM.entries.removeElement(entry);
 	}
 	
 	public static void UpdateEntry(PwEntry oldE, PwEntry newE) throws IOException, PwManagerOutputException {
+		
+		// Keep backup of original values in case save fails
+		PwEntry backup = new PwEntry(oldE);
+		
+		// Update entry with new values
+		oldE.assign(newE);
+		
+		try {
+			SaveData();
+		} catch (PwManagerOutputException e) {
+			UndoUpdateEntry(oldE, backup);
+			throw e;
+		} catch (IOException e) {
+			UndoUpdateEntry(oldE, backup);
+			throw e;
+		}
+
+		// Mark group dirty if title changes
 		if ( ! oldE.title.equals(newE.title) ) {
 			PwGroup parent = oldE.parent;
 			if ( parent != null ) {
@@ -92,9 +153,14 @@ public class Database {
 			}
 		}
 		
-		oldE.assign(newE);
-		
-		SaveData();
+		// Update search index
+		searchHelper.updateEntry(oldE);
+
+	}
+	
+	public static void UndoUpdateEntry(PwEntry old, PwEntry backup) {
+		// If we fail to save, back out changes to global structure
+		old.assign(backup);
 	}
 	
 	public static void SaveData() throws IOException, PwManagerOutputException {
@@ -148,6 +214,10 @@ public class Database {
 	}
 	
 	public static void clear() {
+		if ( searchHelper != null ) {
+			searchHelper.close();
+			searchHelper = null;
+		}
 		gGroups.clear();
 		gEntries.clear();
 		gRoot = null;
