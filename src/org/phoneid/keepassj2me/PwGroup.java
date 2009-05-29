@@ -42,7 +42,7 @@ import java.util.Vector;
  */
 public class PwGroup {
   public PwGroup() {
-	}
+  }
 
 	public String toString() {
 		return name;

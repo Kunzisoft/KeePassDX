@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
+import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -84,7 +85,7 @@ public class EntryEditActivity extends LockingActivity {
 			mIsNew = true;
 			
 		} else {
-			UUID uuid = UUID.nameUUIDFromBytes(uuidBytes);
+			UUID uuid = Types.bytestoUUID(uuidBytes);
 			assert(uuid != null);
 
 			mEntry = Database.gEntries.get(uuid).get();

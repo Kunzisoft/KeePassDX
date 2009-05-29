@@ -34,6 +34,7 @@ import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
+import org.phoneid.keepassj2me.Types;
 
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 import com.android.keepass.keepasslib.PwManagerOutput;
@@ -136,7 +137,7 @@ public class Database {
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
 			PwEntry cur = childEntries.elementAt(i);
-			gEntries.put(UUID.nameUUIDFromBytes(cur.uuid), new WeakReference<PwEntry>(cur));
+			gEntries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntry>(cur));
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {

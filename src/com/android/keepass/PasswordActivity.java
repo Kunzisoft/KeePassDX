@@ -158,11 +158,6 @@ public class PasswordActivity extends Activity {
 			Thread bkgLoad = new Thread(new BackgroundLoad(fileName, pass, key));
 			bkgLoad.start();
 			
-			/*
-			Database.LoadData(fileName, pass, key);
-			saveFileData(fileName, key);
-			GroupActivity.Launch(mAct, null);
-			*/
 		}			
 	}
 	
@@ -260,7 +255,7 @@ public class PasswordActivity extends Activity {
 		@Override
 		public void run() {
 			try {
-				Database.LoadData(mFileName, mPass, mKey);
+				Database.LoadData(PasswordActivity.this, mFileName, mPass, mKey);
 				saveFileData(mFileName, mKey);
 				uiHandler.post(new AfterLoad());
 				

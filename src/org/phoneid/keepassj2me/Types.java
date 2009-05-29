@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Tools for slicing and dicing Java and KeePass data types.
@@ -258,5 +259,21 @@ public class Types {
 	  
 	  return length;
   }
-  
+    
+  public static UUID bytestoUUID(byte[] buf) {
+
+	  long msb = 0;
+	  for (int i = 0; i < 8; i++) {
+		  msb = (msb << 8) | (buf[i] & 0xff);
+	  }
+
+	  long lsb = 0;
+	  for (int i = 8; i < 16; i++) {
+		  lsb = (lsb << 8) | (buf[i] & 0xff);
+	  }
+
+	  return new UUID(msb, lsb);
+
+  }
+
 }

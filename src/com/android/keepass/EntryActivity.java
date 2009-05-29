@@ -26,6 +26,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import org.phoneid.keepassj2me.PwEntry;
+import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
 import android.content.Context;
@@ -72,7 +73,7 @@ public class EntryActivity extends LockingActivity {
 		setResult(KeePass.EXIT_NORMAL);
 		
 		Intent i = getIntent();
-		UUID uuid = UUID.nameUUIDFromBytes(i.getByteArrayExtra(KEY_ENTRY));
+		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
 		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
 		assert(uuid != null);
 		
