@@ -19,7 +19,7 @@
 */
 package com.android.keepass.tests;
  
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,7 +38,7 @@ import org.phoneid.keepassj2me.PwManager;
 import com.android.keepass.keepasslib.NullOutputStream;
 import com.android.keepass.keepasslib.PwDbHeaderOutput;
 import com.android.keepass.keepasslib.PwManagerOutput;
-import com.android.keepass.keepasslib.PwManagerOutput.PwManagerOutputException;
+import com.android.keepass.keepasslib.PwManagerOutputException;
  
 public class PwManagerOutputTest extends TestCase {
   PwManager mPM;

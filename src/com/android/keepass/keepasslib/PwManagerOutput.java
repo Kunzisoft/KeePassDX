@@ -73,7 +73,7 @@ public class PwManagerOutput {
 		}
 	}
 	
-	public void output() throws PwManagerOutputException, IOException {
+	public void output() throws PwManagerOutputException {
 		
 		PwDbHeader header = outputHeader(mOS);
 		
@@ -194,19 +194,5 @@ public class PwManagerOutput {
 				throw new PwManagerOutputException("Failed to output an entry.");
 			}
 		}
-	}
-	
-	public class PwManagerOutputException extends Exception {
-
-		public PwManagerOutputException(String string) {
-			super(string);
-		}
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 3321212743159473368L;
-		
-		
 	}
 }
