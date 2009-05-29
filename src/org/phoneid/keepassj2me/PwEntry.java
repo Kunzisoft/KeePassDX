@@ -76,6 +76,10 @@ public class PwEntry {
     
   public PwEntry() {
   }
+  
+  public PwEntry(PwEntry source) {
+	  assign(source);
+  }
 
 	public PwEntry(int parentId) {
 		
@@ -154,20 +158,29 @@ public class PwEntry {
   }
   
   public void assign(PwEntry source) {
-	  uuid = source.uuid;
+	  System.arraycopy(source.uuid, 0, uuid, 0, source.uuid.length);
 	  groupId = source.groupId;
 	  imageId = source.imageId;
 	  title = source.title;
 	  url = source.url;
 	  username = source.username;
-	  password = source.password;
+
+	  int passLen = source.binaryData.length;
+	  password = new byte[passLen]; 
+	  System.arraycopy(source.password, 0, password, 0, passLen);
+	  
 	  additional = source.additional;
-	  tCreation = source.tCreation;
-	  tLastMod = source.tLastMod;
-	  tLastAccess = source.tLastAccess;
-	  tExpire = source.tExpire;
+	  tCreation = new Date(source.tCreation.getTime());
+	  tLastMod = new Date(source.tLastMod.getTime());
+	  tLastAccess = new Date(source.tLastAccess.getTime());
+	  tExpire = new Date(source.tExpire.getTime());
+
 	  binaryDesc = source.binaryDesc;
-	  binaryData = source.binaryData;
+	  
+	  int descLen = source.binaryData.length;
+	  binaryData = new byte[descLen]; 
+	  System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
+	  
   }
 
   /** Size of byte buffer needed to hold this struct. */
