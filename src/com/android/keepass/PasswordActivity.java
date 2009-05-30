@@ -80,7 +80,7 @@ public class PasswordActivity extends Activity {
 			finish();
 		}
 		
-		Database.clear(); 
+		KeePass.db.clear(); 
 	}
 
 	@Override
@@ -255,7 +255,7 @@ public class PasswordActivity extends Activity {
 		@Override
 		public void run() {
 			try {
-				Database.LoadData(PasswordActivity.this, mFileName, mPass, mKey);
+				KeePass.db.LoadData(PasswordActivity.this, mFileName, mPass, mKey);
 				saveFileData(mFileName, mKey);
 				uiHandler.post(new AfterLoad());
 				

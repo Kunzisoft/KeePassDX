@@ -56,8 +56,8 @@ public class GroupActivity extends LockingListActivity {
 	protected void onResume() {
 		super.onResume();
 		
-		if ( Database.gDirty.get(mGroup) != null ) {
-			Database.gDirty.remove(mGroup);
+		if ( KeePass.db.gDirty.get(mGroup) != null ) {
+			KeePass.db.gDirty.remove(mGroup);
 			BaseAdapter adapter = (BaseAdapter) getListAdapter();
 			adapter.notifyDataSetChanged();
 			
@@ -86,9 +86,9 @@ public class GroupActivity extends LockingListActivity {
 		assert(mId >= 0);
 		
 		if ( id == -1 ) {
-			mGroup = Database.gRoot;
+			mGroup = KeePass.db.gRoot;
 		} else {
-			WeakReference<PwGroup> wPw = Database.gGroups.get(id);
+			WeakReference<PwGroup> wPw = KeePass.db.gGroups.get(id);
 			mGroup = wPw.get();
 		}
 		assert(mGroup != null);

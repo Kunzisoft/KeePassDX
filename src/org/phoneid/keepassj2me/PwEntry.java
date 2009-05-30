@@ -81,9 +81,9 @@ public class PwEntry {
 	  assign(source);
   }
 
-	public PwEntry(int parentId) {
+	public PwEntry(Database db, int parentId) {
 		
-		WeakReference<PwGroup> wPw = Database.gGroups.get(parentId);
+		WeakReference<PwGroup> wPw = db.gGroups.get(parentId);
 	
 		parent = wPw.get();
 		groupId = parentId;

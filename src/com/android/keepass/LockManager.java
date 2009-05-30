@@ -39,7 +39,7 @@ public class LockManager {
 			public void onReceive(Context context, Intent intent) {
 				String action = intent.getAction();
 				if ( action.equals(TimeoutIntents.LOCK) ) {
-					Database.clear();
+					KeePass.db.clear();
 					mAct.setResult(KeePass.EXIT_LOCK);
 					mAct.finish();
 				}

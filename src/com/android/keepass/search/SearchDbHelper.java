@@ -122,7 +122,7 @@ public class SearchDbHelper {
 		
 	}
 	
-	public PwGroup search(String qStr) {
+	public PwGroup search(Database db, String qStr) {
 		Cursor cursor;
 		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, "match ?", new String[] {qStr}, null, null, null, null);
 
@@ -134,7 +134,7 @@ public class SearchDbHelper {
 			byte[] bUuid = cursor.getBlob(0);
 			UUID uuid = Types.bytestoUUID(bUuid);
 			
-			PwEntry entry = Database.gEntries.get(uuid).get();
+			PwEntry entry = db.gEntries.get(uuid).get();
 			group.childEntries.add(entry);
 			
 			cursor.moveToNext();

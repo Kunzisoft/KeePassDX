@@ -81,14 +81,14 @@ public class EntryEditActivity extends LockingActivity {
 		if ( uuidBytes == null ) {
 			int groupId = i.getIntExtra(KEY_PARENT, -1);
 
-			mEntry = new PwEntry(groupId);
+			mEntry = new PwEntry(KeePass.db, groupId);
 			mIsNew = true;
 			
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			assert(uuid != null);
 
-			mEntry = Database.gEntries.get(uuid).get();
+			mEntry = KeePass.db.gEntries.get(uuid).get();
 			mIsNew = false;
 			
 			fillData();
@@ -264,9 +264,9 @@ public class EntryEditActivity extends LockingActivity {
 		public void run() {
 			try {
 				if ( mIsNew ) {
-					Database.NewEntry(mNew);
+					KeePass.db.NewEntry(mNew);
 				} else {
-					Database.UpdateEntry(mOld, mNew);
+					KeePass.db.UpdateEntry(mOld, mNew);
 				}
 				
 				uiHandler.post(new AfterSave());

@@ -48,15 +48,15 @@ import com.android.keepass.search.SearchDbHelper;
  *
  */
 public class Database {
-	public static HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
-	public static HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
-	public static HashMap<PwGroup, WeakReference<PwGroup>> gDirty = new HashMap<PwGroup, WeakReference<PwGroup>>();
-	public static PwGroup gRoot;
-	public static PwManager mPM;
-	public static String mFilename;
-	public static SearchDbHelper searchHelper;
+	public HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
+	public HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
+	public HashMap<PwGroup, WeakReference<PwGroup>> gDirty = new HashMap<PwGroup, WeakReference<PwGroup>>();
+	public PwGroup gRoot;
+	public PwManager mPM;
+	public String mFilename;
+	public SearchDbHelper searchHelper;
 	
-	public static void LoadData(Context ctx, String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
@@ -79,7 +79,7 @@ public class Database {
 	/** Build the search index from the current database
 	 * @param ctx
 	 */
-	private static void buildSearchIndex(Context ctx) {
+	private void buildSearchIndex(Context ctx) {
 		
 		
 		for ( int i = 0; i < mPM.entries.size(); i++) {
@@ -88,7 +88,7 @@ public class Database {
 		}
 	}
 	
-	public static void NewEntry(PwEntry entry) throws IOException, PwManagerOutputException {
+	public void NewEntry(PwEntry entry) throws IOException, PwManagerOutputException {
 		PwGroup parent = entry.parent;
 		
 		// Add entry to group
@@ -118,7 +118,7 @@ public class Database {
 		searchHelper.insertEntry(entry);
 	}
 	
-	public static void UndoNewEntry(PwEntry entry) {
+	public void UndoNewEntry(PwEntry entry) {
 		// Remove from group
 		entry.parent.childEntries.removeElement(entry);
 		
@@ -126,7 +126,7 @@ public class Database {
 		mPM.entries.removeElement(entry);
 	}
 	
-	public static void UpdateEntry(PwEntry oldE, PwEntry newE) throws IOException, PwManagerOutputException {
+	public void UpdateEntry(PwEntry oldE, PwEntry newE) throws IOException, PwManagerOutputException {
 		
 		// Keep backup of original values in case save fails
 		PwEntry backup = new PwEntry(oldE);
@@ -158,16 +158,16 @@ public class Database {
 
 	}
 	
-	public static void UndoUpdateEntry(PwEntry old, PwEntry backup) {
+	public void UndoUpdateEntry(PwEntry old, PwEntry backup) {
 		// If we fail to save, back out changes to global structure
 		old.assign(backup);
 	}
 	
-	public static void SaveData() throws IOException, PwManagerOutputException {
+	public void SaveData() throws IOException, PwManagerOutputException {
 		SaveData(mFilename);
 	}
 	
-	public static void SaveData(String filename) throws IOException, PwManagerOutputException {
+	public void SaveData(String filename) throws IOException, PwManagerOutputException {
 		File tempFile = new File(filename + ".tmp");
 		FileOutputStream fos = new FileOutputStream(tempFile);
 		PwManagerOutput pmo = new PwManagerOutput(mPM, fos);
@@ -185,7 +185,7 @@ public class Database {
 		
 	}
 	
-	private static void populateGlobals(PwGroup currentGroup) {
+	private void populateGlobals(PwGroup currentGroup) {
 		if (currentGroup == null) {
 			Vector<PwGroup> rootChildGroups = mPM.getGrpRoots();
 			for (int i = 0; i < rootChildGroups.size(); i++ ){
@@ -213,7 +213,7 @@ public class Database {
 		}
 	}
 	
-	public static void clear() {
+	public void clear() {
 		if ( searchHelper != null ) {
 			searchHelper.close();
 			searchHelper = null;
