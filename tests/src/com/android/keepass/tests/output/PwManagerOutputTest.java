@@ -17,37 +17,37 @@
 * along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.android.keepass.tests;
+package com.android.keepass.tests.output;
  
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import junit.framework.TestCase;
-
 import org.phoneid.keepassj2me.PwDbHeader;
 import org.phoneid.keepassj2me.PwManager;
+
+import android.content.res.AssetManager;
+import android.test.AndroidTestCase;
 
 import com.android.keepass.keepasslib.NullOutputStream;
 import com.android.keepass.keepasslib.PwDbHeaderOutput;
 import com.android.keepass.keepasslib.PwManagerOutput;
 import com.android.keepass.keepasslib.PwManagerOutputException;
  
-public class PwManagerOutputTest extends TestCase {
+public class PwManagerOutputTest extends AndroidTestCase {
   PwManager mPM;
   
   @Override
   protected void setUp() throws Exception {
     super.setUp();
     
-    mPM = TestData.GetTest1();
+    mPM = TestData.GetTest1(getContext());
     
   }
   
@@ -117,14 +117,13 @@ public class PwManagerOutputTest extends TestCase {
   }
   
   public void testFullWrite() throws IOException, PwManagerOutputException  {
-	File file = new File("/sdcard/test1.kdb");
-	
-	FileInputStream fis = new FileInputStream(file);
+	AssetManager am = getContext().getAssets();
+	InputStream is = am.open("test1.kdb");
 
 	// Pull file into byte array (for streaming fun)
 	ByteArrayOutputStream bExpected = new ByteArrayOutputStream();
 	while (true) {
-		int data = fis.read();
+		int data = is.read();
 		if ( data == -1 ) {
 			break;
 		}

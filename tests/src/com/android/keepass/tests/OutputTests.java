@@ -19,26 +19,17 @@
  */
 package com.android.keepass.tests;
 
-import org.phoneid.keepassj2me.PwGroup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
-import android.test.AndroidTestCase;
+import android.test.suitebuilder.TestSuiteBuilder;
 
-import com.android.keepass.tests.output.TestData;
+public class OutputTests extends TestSuite {
 
-public class PwGroupTest extends AndroidTestCase {
+	public static Test suite() {
 
-	PwGroup mPG;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		mPG = TestData.GetTest1(getContext()).groups.get(0);
-		
-	}
-	
-	public void testGroupName() {
-		 assertTrue("Name was " + mPG.name, mPG.name.equals("Internet"));
+		return new TestSuiteBuilder(AllTests.class)
+		.includePackages("com.android.keepass.tests.output")
+		.build();
 	}
 }
-

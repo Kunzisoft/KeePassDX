@@ -17,26 +17,30 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.android.keepass.tests;
+package com.android.keepass.tests.output;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwManager;
+
+import android.content.Context;
+import android.content.res.AssetManager;
 
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 
 public class TestData {
 	private static PwManager test1;
 	
-	public static PwManager GetTest1() throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+	public static PwManager GetTest1(Context ctx) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
 	
 		if ( test1 == null ) {
-			FileInputStream fis = new FileInputStream("/sdcard/test1.kdb");
+			AssetManager am = ctx.getAssets();
+			InputStream is = am.open("test1.kdb", AssetManager.ACCESS_STREAMING);
 			ImporterV3 importer = new ImporterV3(ImporterV3.DEBUG);
-			test1 = importer.openDatabase(fis, "12345", "");
+			test1 = importer.openDatabase(is, "12345", "");
 			if (test1 != null) {
 				test1.constructTree(null);
 			}

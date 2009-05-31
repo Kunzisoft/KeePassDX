@@ -34,17 +34,7 @@
          should be checked in in Version Control Systems. -->
     <property file="default.properties"/>
 
-    <!-- Copy testing files to device -->
-    <target name="stage">
-        <echo>Copying test files..</echo>
-        <exec executable="${adb}">
-            <arg value="push" />
-            <arg value="tests/assets/test1.kdb" />
-            <arg value="/sdcard/test1.kdb" />
-        </exec>
-    </target>
-
-    <target name="tests" depends="reinstall, stage">
+    <target name="tests" depends="reinstall">
         <echo>Building and installing tests..</echo>
         <exec executable="ant" failonerror="true">
             <arg value="-f" />
