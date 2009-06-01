@@ -1,3 +1,7 @@
+KeePassDroid (0.2.2)
+  * Switch to native encryption for key preparation.  Seems to take better than half as long as bouncycastle in the emulator,
+    10 sec vs 25 sec.
+
 KeePassDroid (0.2.1)
 
   * Support adding password entries

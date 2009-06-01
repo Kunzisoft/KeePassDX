@@ -34,9 +34,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.ShortBufferException;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.crypto.BufferedBlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
@@ -335,85 +337,52 @@ public class ImporterV3 {
 
   /**
    * Encrypt the master key a few times to make brute-force key-search harder
- * @throws IOException 
-   * @throws NoSuchPaddingException 
-   * @throws NoSuchAlgorithmException 
-   * @throws ShortBufferException
+   * @throws IOException 
    */
-
   public static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
-      /*throws InvalidKeyException,
-	     IllegalBlockSizeException,
-	     BadPaddingException,
-	     NoSuchAlgorithmException,
-	     NoSuchPaddingException, ShortBufferException*/ {
-      //KeePassMIDlet.logS("transformMasterKey, rounds=" + rounds);
-      //KeePassMIDlet.logS("transformMasterKey, pkey=" + new String(Hex.encode(pKey)));
-	  
-	  // Bouncy castle implementation
-      byte[] newKey = new byte[pKey.length];
-      int i;
+  {
+	  Cipher cipher;
+	  try {
+		  cipher = Cipher.getInstance("AES/ECB/NoPadding");
+	  } catch (NoSuchAlgorithmException e) {
+		  throw new IOException("NoSuchAlgorithm: " + e.getMessage());
+	  } catch (NoSuchPaddingException e) {
+		  throw new IOException("NoSuchPadding: " + e.getMessage());
+	  }
 
-      
-      BufferedBlockCipher cipher = new BufferedBlockCipher(new AESEngine());
-      cipher.init(true, new KeyParameter(pKeySeed));
+	  try {
+		  cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(pKeySeed, "AES"));
+	  } catch (InvalidKeyException e) {
+		  throw new IOException("InvalidKeyException: " + e.getMessage());
+	  }
 
-      System.arraycopy(pKey, 0, newKey, 0, pKey.length);
-      for( i = 0; i < rounds; i++ )
-	  cipher.processBytes (newKey, 0, newKey.length, newKey, 0);
+	  // Encrypt key rounds times
+	  byte[] newKey = new byte[pKey.length];
+	  System.arraycopy(pKey, 0, newKey, 0, pKey.length);
+	  byte[] destKey = new byte[pKey.length];
+	  for (int i = 0; i < rounds; i++) {
+		  try {
+			  cipher.update(newKey, 0, newKey.length, destKey, 0);
+			  System.arraycopy(destKey, 0, newKey, 0, newKey.length);
 
-      /*
-      // Hash once with SHA-256
-      SHA256Digest md = new SHA256Digest();
-      md.update(newKey, 0, newKey.length );
-      //newKey = md.digest( newKey );
-      md.doFinal(newKey, 0);
+		  } catch (ShortBufferException e) {
+			  throw new IOException("Short buffer: " + e.getMessage());
+		  }
+	  }
 
-      return newKey;
-      */ 
-      
-	  /* Native implementation is not quite right yet
-      	byte[] newKey = new byte[pKey.length];
-		Cipher cipher;
-		try {
-			cipher = Cipher.getInstance("AES");
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("NoSuchAlgorithm: " + e.getMessage());
-		} catch (NoSuchPaddingException e) {
-			throw new IOException("NoSuchPadding: " + e.getMessage());
-		}
-		
-		try {
-			cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(pKeySeed, "AES"));
-		} catch (InvalidKeyException e) {
-			throw new IOException("InvalidKeyException: " + e.getMessage());
-		}
+	  // Hash the key
+	  MessageDigest md = null;
+	  try {
+		  md = MessageDigest.getInstance("SHA-256");
+	  } catch (NoSuchAlgorithmException e) {
+		  assert true;
+		  throw new IOException("SHA-256 not implemented here: " + e.getMessage());
+	  }
 
-		// Encrypt key rounds times
-		System.arraycopy(pKey, 0, newKey, 0, pKey.length);
-		for (int i = 0; i < rounds; i++) {
-			try {
-				cipher.update(newKey, 0, newKey.length, newKey, 0);
-				
-			} catch (ShortBufferException e) {
-				throw new IOException("Short buffer: " + e.getMessage());
-			}
-		}
-	  */
-      
-		// Hash the key
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			assert true;
-			throw new IOException("SHA-256 not implemented here: " + e.getMessage());
-		}
+	  md.update(newKey);
+	  return md.digest();
 
-		md.update(newKey);
-		return md.digest();
-	  
-	  
+
   }
 
 
