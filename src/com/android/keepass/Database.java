@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.UUID;
@@ -56,23 +57,36 @@ public class Database {
 	public String mFilename;
 	public SearchDbHelper searchHelper;
 	
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+		LoadData(ctx, is, password, keyfile, !ImporterV3.DEBUG);
+	}
+
 	public void LoadData(Context ctx, String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+		LoadData(ctx, filename, password, keyfile, !ImporterV3.DEBUG);
+	}
+	
+	public void LoadData(Context ctx, String filename, String password, String keyfile, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
-		ImporterV3 Importer = new ImporterV3();
+		LoadData(ctx, fis, password, keyfile, debug);
+	
+		mFilename = filename;
+	}
+
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+		ImporterV3 Importer = new ImporterV3(debug);
 		
-		mPM = Importer.openDatabase(fis, password, keyfile);
+		mPM = Importer.openDatabase(is, password, keyfile);
 		if ( mPM != null ) {
 			mPM.constructTree(null);
 			populateGlobals(null);
 		}
 
-		mFilename = filename;
-
 		searchHelper = new SearchDbHelper(ctx);
 		searchHelper.open();
 		buildSearchIndex(ctx);
+		
 	}
 	
 	
@@ -86,6 +100,10 @@ public class Database {
 			PwEntry entry = mPM.entries.get(i);
 			searchHelper.insertEntry(entry);
 		}
+	}
+	
+	public PwGroup Search(String str) {
+		return searchHelper.search(this, str);
 	}
 	
 	public void NewEntry(PwEntry entry) throws IOException, PwManagerOutputException {

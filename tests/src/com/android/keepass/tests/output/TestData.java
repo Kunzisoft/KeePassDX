@@ -29,23 +29,35 @@ import org.phoneid.keepassj2me.PwManager;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import com.android.keepass.Database;
 import com.android.keepass.keepasslib.InvalidKeyFileException;
 
 public class TestData {
-	private static PwManager test1;
+	private static final String TEST1_KEYFILE = "";
+	private static final String TEST1_KDB = "test1.kdb";
+	private static final String TEST1_PASSWORD = "12345";
+
+	private static Database mDb;
+	
+	public static Database GetDb1(Context ctx) throws IOException, InvalidCipherTextException, InvalidKeyFileException {
+		if ( mDb == null ) {
+			AssetManager am = ctx.getAssets();
+			InputStream is = am.open(TEST1_KDB, AssetManager.ACCESS_STREAMING);
+
+			mDb = new Database();
+			mDb.LoadData(ctx, is, TEST1_PASSWORD, TEST1_KEYFILE, ImporterV3.DEBUG);
+			mDb.mFilename = "/sdcard/test1.kdb";
+		}
+		
+		return mDb;
+		
+	}
 	
 	public static PwManager GetTest1(Context ctx) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
-	
-		if ( test1 == null ) {
-			AssetManager am = ctx.getAssets();
-			InputStream is = am.open("test1.kdb", AssetManager.ACCESS_STREAMING);
-			ImporterV3 importer = new ImporterV3(ImporterV3.DEBUG);
-			test1 = importer.openDatabase(is, "12345", "");
-			if (test1 != null) {
-				test1.constructTree(null);
-			}
+		if ( mDb == null ) {
+			GetDb1(ctx);
 		}
-			
-		return test1;
+		
+		return mDb.mPM;
 	}
 }
