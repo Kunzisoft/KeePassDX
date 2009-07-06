@@ -106,8 +106,9 @@
 			  android:layout_below="@id/entry_confpassword" 
 			  android:text="@string/entry_comment" />
 			<EditText android:id="@+id/entry_comment" 
+		      android:inputType="textMultiLine"
 		      android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
+		      android:layout_height="wrap_content"
 			  android:layout_below="@id/entry_comment_label"/>
 		</RelativeLayout>
 	</ScrollView>
