@@ -33,7 +33,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.PasswordTransformationMethod;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -227,10 +226,6 @@ public class EntryEditActivity extends LockingActivity {
 		setPasswordStyle();
 
 		populateText(R.id.entry_comment, mEntry.additional);
-		TextView comment = (TextView)findViewById(R.id.entry_comment);
-		comment.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-		comment.setMovementMethod(new ScrollingMovementMethod());
-		
 	}
 
 	private void populateText(int viewId, String text) {
