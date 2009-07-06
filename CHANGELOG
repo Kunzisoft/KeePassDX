@@ -1,6 +1,8 @@
-KeePassDroid (0.2.2)
+KeePassDroid (0.3)
   * Switch to native encryption for key preparation.  Seems to take better than half as long as bouncycastle in the emulator,
     10 sec vs 25 sec.
+  * Implement search feature
+  * Require Android 1.5
 
 KeePassDroid (0.2.1)
 
