@@ -49,4 +49,8 @@
 <string name="add_entry">Add Entry</string>
 <string name="error_pass_match">Passwords do not match.</string>
 <string name="error_title_required">A title is required.</string>
+<string name="menu_search">Search</string>
+<string name="search_label">Search</string>
+<string name="search_hint">Entry title/description</string>
+<string name="no_results">No search results</string>
 </resources>

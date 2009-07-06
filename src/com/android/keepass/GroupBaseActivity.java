@@ -121,7 +121,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 			return true;
 		
 		case MENU_SEARCH:
-			// TODO: Launch Dialog
+			onSearchRequested();
 			return true;
 		}
 		

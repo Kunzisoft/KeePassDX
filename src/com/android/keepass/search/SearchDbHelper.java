@@ -32,6 +32,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.android.keepass.Database;
 
@@ -46,7 +47,7 @@ public class SearchDbHelper {
 	private static final String KEY_COMMENT = "comment";
 
 	private static final String DATABASE_CREATE = 
-		"create table virtual table " + DATABASE_NAME + " " + SEARCH_TABLE + " using FTS3( " 
+		"create virtual table " + SEARCH_TABLE + " using FTS3( " 
 		+ KEY_UUID + ", "
 		+ KEY_TITLE + ", " 
 		+ KEY_URL + ", "
@@ -124,16 +125,18 @@ public class SearchDbHelper {
 	
 	public PwGroup search(Database db, String qStr) {
 		Cursor cursor;
-		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, "match ?", new String[] {qStr}, null, null, null, null);
+		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, SEARCH_TABLE + " match ?", new String[] {qStr}, null, null, null, null);
 
 		PwGroup group = new PwGroup();
 		group.name = "Search results";
 		group.childEntries = new Vector<PwEntry>();
+		group.childGroups = new Vector<PwGroup>();
 		
+		cursor.moveToFirst();
 		while ( ! cursor.isAfterLast() ) {
-			byte[] bUuid = cursor.getBlob(0);
-			UUID uuid = Types.bytestoUUID(bUuid);
-			
+			String sUUID = cursor.getString(0);
+			UUID uuid = UUID.fromString(sUUID);
+			Log.d("TAG", uuid.toString()); 
 			PwEntry entry = db.gEntries.get(uuid).get();
 			group.childEntries.add(entry);
 			

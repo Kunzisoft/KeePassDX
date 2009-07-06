@@ -19,21 +19,29 @@
 */
 package com.android.keepass.tests.search;
 
-import junit.framework.TestCase;
+import org.phoneid.keepassj2me.PwGroup;
 
-import org.phoneid.keepassj2me.PwManager;
+import android.test.AndroidTestCase;
 
+import com.android.keepass.Database;
 import com.android.keepass.tests.output.TestData;
+import static org.junit.Assert.*;
 
-public class SearchTest extends TestCase {
+public class SearchTest extends AndroidTestCase {
 	
-	private PwManager mPM;
+	private Database mDb;
 	
 	@Override
 	protected void setUp() throws Exception {
+	    super.setUp();
+	    
+	    mDb = TestData.GetDb1(getContext());
 	}
 	
 	public void testSearch() {
+		PwGroup results = mDb.Search("Amazon");
+		
+		assertTrue("Search result not found.", results.childEntries.size() > 1);
 		
 	}
 }
