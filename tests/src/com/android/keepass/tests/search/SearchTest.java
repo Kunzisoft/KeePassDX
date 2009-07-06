@@ -25,7 +25,6 @@ import android.test.AndroidTestCase;
 
 import com.android.keepass.Database;
 import com.android.keepass.tests.output.TestData;
-import static org.junit.Assert.*;
 
 public class SearchTest extends AndroidTestCase {
 	
@@ -40,8 +39,7 @@ public class SearchTest extends AndroidTestCase {
 	
 	public void testSearch() {
 		PwGroup results = mDb.Search("Amazon");
-		
-		assertTrue("Search result not found.", results.childEntries.size() > 1);
+		assertTrue("Search result not found.", results.childEntries.size() > 0);
 		
 	}
 }
