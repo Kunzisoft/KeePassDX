@@ -42,7 +42,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.crypto.BufferedBlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.modes.CBCBlockCipher;
 import org.bouncycastle.crypto.paddings.PKCS7Padding;
@@ -98,12 +97,10 @@ public class ImporterV3 {
 	throws IOException, InvalidCipherTextException, InvalidKeyFileException
 	{
 		PwManager        newManager;
-		SHA256Digest    md;
 		byte[]           finalKey;
 
 
 		// Load entire file, most of it's encrypted.
-		// InputStream in = new FileInputStream( infile );
 		byte[] filebuf = new byte[(int)inStream.available()];
 		inStream.read( filebuf, 0, (int)inStream.available());
 		inStream.close();
@@ -176,11 +173,18 @@ public class ImporterV3 {
 			System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
 		}
 
-
-		md = new SHA256Digest();
-		md.update( filebuf, PwDbHeader.BUF_SIZE, encryptedPartSize );
-		md.doFinal (finalKey, 0);
-
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("No SHA-256 algorithm");
+		}
+		NullOutputStream nos = new NullOutputStream();
+		DigestOutputStream dos = new DigestOutputStream(nos, md);
+		dos.write(filebuf, PwDbHeader.BUF_SIZE, encryptedPartSize);
+		dos.close();
+		finalKey = md.digest();
+		
 		if( PhoneIDUtil.compare( finalKey, hdr.contentsHash ) == false) {
 
 			Log.w("KeePassDroid","Database file did not decrypt correctly. (checksum code is broken)");
