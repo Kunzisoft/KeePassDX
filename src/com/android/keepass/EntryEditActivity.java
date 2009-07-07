@@ -19,6 +19,7 @@
  */
 package com.android.keepass;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -142,7 +143,13 @@ public class EntryEditActivity extends LockingActivity {
 				newEntry.url = Util.getEditText(act, R.id.entry_url);
 				newEntry.username = Util.getEditText(act, R.id.entry_user_name);
 				newEntry.additional = Util.getEditText(act, R.id.entry_comment);
-				byte[] password = pass.getBytes();
+				byte[] password;
+				try {
+					password = pass.getBytes("UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					assert false;
+					password = pass.getBytes();
+				}
 				newEntry.setPassword(password, 0, password.length);
 
 				if ( newEntry.title.equals(mEntry.title) ) {

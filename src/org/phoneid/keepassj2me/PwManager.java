@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Vector;
 
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -195,7 +196,14 @@ public class PwManager {
 		    throw new IllegalArgumentException( "Key cannot be empty." );
 		
 		SHA256Digest md = new SHA256Digest();
-		md.update( key.getBytes(), 0, key.getBytes().length );
+		byte[] bKey;
+		try {
+			bKey = key.getBytes("ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			assert false;
+			bKey = key.getBytes();
+		}
+		md.update(bKey, 0, bKey.length );
 		masterKey = new byte[md.getDigestSize()];
 		md.doFinal(masterKey, 0);
     }

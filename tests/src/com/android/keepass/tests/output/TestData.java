@@ -37,27 +37,34 @@ public class TestData {
 	private static final String TEST1_KDB = "test1.kdb";
 	private static final String TEST1_PASSWORD = "12345";
 
-	private static Database mDb;
+	private static Database mDb1;
+
 	
 	public static Database GetDb1(Context ctx) throws IOException, InvalidCipherTextException, InvalidKeyFileException {
-		if ( mDb == null ) {
-			AssetManager am = ctx.getAssets();
-			InputStream is = am.open(TEST1_KDB, AssetManager.ACCESS_STREAMING);
-
-			mDb = new Database();
-			mDb.LoadData(ctx, is, TEST1_PASSWORD, TEST1_KEYFILE, ImporterV3.DEBUG);
-			mDb.mFilename = "/sdcard/test1.kdb";
+		if ( mDb1 == null ) {
+			mDb1 = GetDb(ctx, TEST1_KDB, TEST1_PASSWORD, TEST1_KEYFILE, "/sdcard/test1.kdb");
 		}
 		
-		return mDb;
+		return mDb1;
+	}
+	
+	public static Database GetDb(Context ctx, String asset, String password, String keyfile, String filename) throws IOException, InvalidCipherTextException, InvalidKeyFileException {
+		AssetManager am = ctx.getAssets();
+		InputStream is = am.open(asset, AssetManager.ACCESS_STREAMING);
+
+		Database Db = new Database();
+		Db.LoadData(ctx, is, password, keyfile, ImporterV3.DEBUG);
+		Db.mFilename = filename;
+		
+		return Db;
 		
 	}
 	
 	public static PwManager GetTest1(Context ctx) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
-		if ( mDb == null ) {
+		if ( mDb1 == null ) {
 			GetDb1(ctx);
 		}
 		
-		return mDb.mPM;
+		return mDb1.mPM;
 	}
 }
