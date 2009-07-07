@@ -52,7 +52,8 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:singleLine="true"
-			  android:layout_below="@id/entry_title_label"/>
+			  android:layout_below="@id/entry_title_label"
+			  android:hint="@string/hint_title"/>
 			<!-- Username -->
 			<TextView android:id="@+id/entry_user_name_label"
 			  android:layout_width="wrap_content"
@@ -63,7 +64,8 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:singleLine="true"
-			  android:layout_below="@id/entry_user_name_label"/>
+			  android:layout_below="@id/entry_user_name_label"
+			  android:hint="@string/hint_username"/>
 			<!--  URL -->
 			<TextView android:id="@+id/entry_url_label"
 			  android:layout_width="wrap_content"
@@ -74,7 +76,8 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:singleLine="true"
-			  android:layout_below="@id/entry_url_label"/>
+			  android:layout_below="@id/entry_url_label"
+			  android:hint="@string/hint_url"/>
 			<!-- Password -->
 			<TextView android:id="@+id/entry_password_label"
 			  android:layout_width="wrap_content"
@@ -86,7 +89,8 @@
 			  android:layout_height="wrap_content"
 			  android:password="true"
 			  android:singleLine="true"
-			  android:layout_below="@id/entry_password_label"/>
+			  android:layout_below="@id/entry_password_label"
+			  android:hint="@string/hint_pass"/>
 			<!-- Confirm Password -->
 			<TextView android:id="@+id/entry_confpassword_label"
 			  android:layout_width="wrap_content"
@@ -98,7 +102,8 @@
 			  android:layout_height="wrap_content"
 			  android:password="true"
 			  android:singleLine="true"
-			  android:layout_below="@id/entry_confpassword_label"/>
+			  android:layout_below="@id/entry_confpassword_label"
+			  android:hint="@string/hint_conf_pass"/>
 			<!-- Comment -->
 			<TextView android:id="@+id/entry_comment_label"
 			  android:layout_width="wrap_content"
@@ -109,7 +114,8 @@
 		      android:inputType="textMultiLine"
 		      android:layout_width="fill_parent"
 		      android:layout_height="wrap_content"
-			  android:layout_below="@id/entry_comment_label"/>
+			  android:layout_below="@id/entry_comment_label"
+			  android:hint="@string/hint_comment"/>
 		</RelativeLayout>
 	</ScrollView>
 </RelativeLayout>

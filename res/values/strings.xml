@@ -9,7 +9,7 @@
 <string name="entry_title">Name: </string>
 <string name="entry_user_name">User Name: </string>
 <string name="entry_url">URL: </string>
-<string name="entry_password">Password: </string>
+<string name="entry_password">Password</string>
 <string name="entry_comment">Comments: </string>
 <string name="MaskedPassword">*****</string>
 <string name="menu_show_password">Show Password</string>
@@ -24,7 +24,7 @@
 <string name="menu_lock">Lock Database</string>
 <string name="error_nopass">A password or a keyfile is requried.</string>
 <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
-<string name="entry_keyfile">Key file (optional):</string>
+<string name="entry_keyfile">Key file (optional)</string>
 
 <color name="blue_highlight">#0000dd</color>
 <string name="group">Group</string>
@@ -53,4 +53,10 @@
 <string name="search_label">Search</string>
 <string name="search_hint">Entry title/description</string>
 <string name="no_results">No search results</string>
+<string name="hint_title">name</string>
+<string name="hint_username">username</string>
+<string name="hint_url">url</string>
+<string name="hint_pass">password</string>
+<string name="hint_conf_pass">confirm password</string>
+<string name="hint_comment">comment</string>
 </resources>
