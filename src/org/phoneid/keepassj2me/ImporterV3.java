@@ -114,12 +114,10 @@ public class ImporterV3 {
     PwDbHeader hdr = new PwDbHeader( filebuf, 0 );
 
     if( (hdr.signature1 != PwDbHeader.PWM_DBSIG_1) || (hdr.signature2 != PwDbHeader.PWM_DBSIG_2) ) {
-	//KeePassMIDlet.logS ( "Bad database file signature" );
-	throw new IOException( "Bad database file signature" );
+    	throw new IOException( "Bad database file signature" );
     }
 
     if( hdr.version != PwDbHeader.PWM_DBVER_DW ) {
-	//KeePassMIDlet.logS ( "Bad database file version");
 	//throw new IOException( "Bad database file version" );
     }
 
@@ -128,17 +126,15 @@ public class ImporterV3 {
     
     // Select algorithm
     if( (hdr.flags & PwDbHeader.PWM_FLAG_RIJNDAEL) != 0 ) {
-	//KeePassMIDlet.logS ( "Algorithm AES");
-	newManager.algorithm = PwDbHeader.ALGO_AES;
+    	newManager.algorithm = PwDbHeader.ALGO_AES;
     } else if( (hdr.flags & PwDbHeader.PWM_FLAG_TWOFISH) != 0 ) {
-	//KeePassMIDlet.logS ( "Algorithm TWOFISH");
-	newManager.algorithm = PwDbHeader.ALGO_TWOFISH;
+    	newManager.algorithm = PwDbHeader.ALGO_TWOFISH;
     } else {
-	throw new IOException( "Unknown algorithm." );
+    	throw new IOException( "Unknown algorithm." );
     }
 
     if( newManager.algorithm == PwDbHeader.ALGO_TWOFISH )
-	throw new IOException( "TwoFish algorithm is not supported" );
+    	throw new IOException( "TwoFish algorithm is not supported" );
 
     if ( mDebug ) {
     	newManager.dbHeader = hdr;
@@ -146,24 +142,14 @@ public class ImporterV3 {
     
     newManager.numKeyEncRounds = hdr.numKeyEncRounds;
     
-    // testRijndael_JCE();
-
-    newManager.name = "KeePass Password Manager";
+      newManager.name = "KeePass Password Manager";
 
     // Generate transformedMasterKey from masterKey
-    //KeePassMIDlet.logS ("masterSeed2: " + new String(Hex.encode(hdr.masterSeed2)));
-    
     finalKey = makeFinalKey(hdr.masterSeed, hdr.masterSeed2, newManager.masterKey, newManager.numKeyEncRounds);
-    
-    // TODO: Keep this?
     newManager.finalKey = new byte[finalKey.length];
     System.arraycopy(finalKey, 0, newManager.finalKey, 0, finalKey.length);
     
-    // NI
-    //KeePassMIDlet.logS ("finalKey: " + new String(Hex.encode(finalKey)));
-    
     // Initialize Rijndael algorithm
-
     // Cipher cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding" );
     //PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
     BufferedBlockCipher cipher = new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
@@ -185,30 +171,18 @@ public class ImporterV3 {
     	newManager.paddingBytes = paddingSize;
     }
     
-    //} catch (Exception e) {
-    //}
-    // NI
-    /*
-    byte[] plainContent = new byte[encryptedPartSize];
-    System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, plainContent, 0, encryptedPartSize);
-    */
-    
     if ( mDebug ) {
 	    newManager.postHeader = new byte[encryptedPartSize];
 	    System.arraycopy(filebuf, PwDbHeader.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
     }
     
-    //if( pRepair == null ) {
     md = new SHA256Digest();
     md.update( filebuf, PwDbHeader.BUF_SIZE, encryptedPartSize );
     md.doFinal (finalKey, 0);
     
-    
     if( PhoneIDUtil.compare( finalKey, hdr.contentsHash ) == false) {
-	//KeePassMIDlet.logS ( "Database file did not decrypt correctly. (checksum code is broken)" );
     	
     	Log.w("KeePassDroid","Database file did not decrypt correctly. (checksum code is broken)");
-    // }
     }
     
     // Import all groups
@@ -222,10 +196,8 @@ public class ImporterV3 {
 		pos += 4;
 
       if( fieldType == 0xFFFF ) {
-        //KeePassMIDlet.logS ( newGrp.level + " " + newGrp.name );
 
         // End-Group record.  Save group and count it.
-	    //newManager.groups.add( newGrp );
 	    newManager.addGroup( newGrp );
         newGrp = new PwGroup();
         i++;
@@ -235,7 +207,6 @@ public class ImporterV3 {
       }
       pos += fieldSize;
     }
-    //    fixGroups( groups );
 
     // Import all entries
     PwEntry newEnt = new PwEntry();
@@ -246,7 +217,6 @@ public class ImporterV3 {
       if( fieldType == 0xFFFF ) {
         // End-Group record.  Save group and count it.
 	  newManager.addEntry( newEnt );
-	  //KeePassMIDlet.logS( newEnt.title );
         newEnt = new PwEntry();
         i++;
       }
@@ -255,19 +225,6 @@ public class ImporterV3 {
       }
       pos += 2 + 4 + fieldSize;
     }
-    
-    // Keep the Meta-Info entry separate
-    /*
-    for( int i=0; i<newManager.entries.size(); i++) {
-	PwEntry ent = (PwEntry)newManager.entries.elementAt(i);
-		if( ent.title.equals( "Meta-Info" )
-		    && ent.url.equals( "$" )
-		    && ent.username.equals( "SYSTEM" ) ) {
-		    newManager.metaInfo = ent;
-		    newManager.entries.removeElementAt(i);
-		}
-    }
-    */
     
     return newManager;
  }
@@ -300,7 +257,6 @@ public class ImporterV3 {
    */
   public static byte[] makePad( byte[] data ) {
     //custom pad method
-    //TODO //WRZ doesn't work (yet)
 
     // append 0x80 plus zeros to a multiple of 4 bytes
     int thisblk = 32 - data.length % 32;  // bytes needed to finish blk
@@ -381,12 +337,7 @@ public class ImporterV3 {
 
 	  md.update(newKey);
 	  return md.digest();
-
-
   }
-
-
-
 
   /**
    * Parse and save one record from binary file.
@@ -487,139 +438,4 @@ public class ImporterV3 {
         break;
     }
   }
-  
-  
-  
-  /**
-   * Attach groups to parent groups.
-   * 
-   * @param groups
-   * @return root group.
-   *//*
-  private PwGroup fixGroups( List groups ) {
-    int   curLevel = -1;
-    Stack parents = new Stack();
-    PwGroup root;
-    
-    root = new PwGroup();
-    root.level = curLevel;
-    parents.push( root );
-
-    for( Iterator iter = groups.iterator(); iter.hasNext(); ) {
-      PwGroup group = (PwGroup)iter.next();
-
-      while( group.level <= curLevel ){
-        parents.pop();
-        curLevel = ((PwGroup)parents.peek()).level;
-      }
-
-      if( group.level >= curLevel ) {
-        if( !parents.isEmpty() )
-          ((PwGroup)parents.peek()).children.add( group );
-        parents.push( group );
-        curLevel = group.level;
-      }
-    }
-
-    return root;
-  }*/
-
-
-
-  /**
-   * Test the BouncyCastle lib.
-   */
-  /* -- we're not using BouncyCastle
-  static void testRijndael_Bouncy() {
-    byte[] aKey = new byte[32];
-    byte[] aTest = new byte[16];
-    byte[] aRef = new byte[16];
-    // The Rijndael class will be tested, that's the expected ciphertext
-    int[] aRef_int = {
-        0x8e, 0xa2, 0xb7, 0xca, 0x51, 0x67, 0x45, 0xbf, 0xea, 0xfc, 0x49, 0x90, 0x4b, 0x49, 0x60, 0x89
-    };
-    int i;
-
-    // Do a quick test if the Rijndael class worked correctly
-    for( i = 0; i < 32; i++ ) {
-      aKey[i] = (byte)i;
-    }
-    for( i = 0; i < 16; i++ ) {
-      aTest[i] = (byte)((i << 4) | i);
-      aRef[i] = (byte)aRef_int[i];
-    }
-
-    RijndaelEngine rijndael = new RijndaelEngine( 128 );
-    rijndael.init( true, new KeyParameter( aKey ) );
-    rijndael.processBlock( aTest, 0, aTest, 0 );
-
-    if( !Arrays.equals( aTest, aRef ) )
-      throw new RuntimeException( "RijndaelEngine failed test" );
-  }
-*/
-
-
-  /**
-   * Test Sun's JCE.
-   * Note you need the "unlimited security" policy files from Sun.
-   * They're where you download the JDK, i.e.
-   * <a href="http://java.sun.com/j2se/1.5.0/download.jsp"
-   * >http://java.sun.com/j2se/1.5.0/download.jsp</a>
-   * @throws NoSuchPaddingException 
-   * @throws NoSuchAlgorithmException 
-   */
-  static void testRijndael_JCE() {
-    byte[] aKey = new byte[32];
-    byte[] aTest = new byte[16];
-    byte[] aRef = new byte[16];
-    // The Rijndael class will be tested, that's the expected ciphertext
-    int[] aRef_int = {
-        0x8e, 0xa2, 0xb7, 0xca, 0x51, 0x67, 0x45, 0xbf, 0xea, 0xfc, 0x49, 0x90, 0x4b, 0x49, 0x60, 0x89
-    };
-    int i;
-
-    // Do a quick test if the Rijndael class worked correctly
-    for( i = 0; i < 32; i++ ) {
-      aKey[i] = (byte)i;
-    }
-    for( i = 0; i < 16; i++ ) {
-      aTest[i] = (byte)((i << 4) | i);
-      aRef[i] = (byte)aRef_int[i];
-    }
-
-    try {
-	// Cipher cipher = Cipher.getInstance( "AES/ECB/NoPadding" );
-	BufferedBlockCipher cipher = new BufferedBlockCipher(new AESEngine());
-	//cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec( aKey, "AES" ) );
-	cipher.init(true, new KeyParameter(aKey));
-	//aTest = cipher.doFinal( aTest );
-	cipher.processBytes(aTest, 0, aTest.length, aTest, 0);
-    }
-    catch (Exception ex) {
-	ex.printStackTrace();
-	throw new RuntimeException( "JCE failed test" );
-    }
-
-    if( PhoneIDUtil.compare (aTest, aRef) == false)
-	throw new RuntimeException( "JCE failed test" );
-  }
 }
-    
-
-
-/*
-NIST.gov states the following:
-
-Suppose that the length of the message, M, is l bits. Append the bit 1 to the end of the
-message, followed by k zero bits, where k is the smallest, non-negative solution to the equation
-l +1+ k º 448mod 512 . Then append the 64-bit block that is equal to the number l expressed
-using a binary representation. For example, the (8-bit ASCII) message abc has length
-8´3 = 24, so the message is padded with a one bit, then 448 - (24 +1) = 423 zero bits, and then
-the message length, to become the 512-bit padded message
-
-                              423     64
-01100001 01100010 01100011 1 0000 00011000
-  a      b      c               l = 24
-
-The length of the padded message should now be a multiple of 512 bits.
-*/
