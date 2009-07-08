@@ -165,7 +165,7 @@ public class PwEntry {
 	  url = source.url;
 	  username = source.username;
 
-	  int passLen = source.binaryData.length;
+	  int passLen = source.password.length;
 	  password = new byte[passLen]; 
 	  System.arraycopy(source.password, 0, password, 0, passLen);
 	  
