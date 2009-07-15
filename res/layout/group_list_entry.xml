@@ -26,12 +26,12 @@
 		<TextView android:id="@+id/group_text"
 		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
-		  android:textSize="30sp"
-		  android:textColor="@color/blue_highlight"/>
+		  style="@style/GroupTextLarge"
+		/>
 		<View/>
 		<TextView android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
-		  android:textColor="@color/blue_highlight"
+		  style="@style/GroupLabel"
 		  android:text="@string/group"/>
 	</TableRow>
 </TableLayout>

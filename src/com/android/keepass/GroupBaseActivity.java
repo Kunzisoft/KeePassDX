@@ -93,8 +93,16 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		if ( mGroup != null ) {
 			String name = mGroup.name;
 			if ( name != null && name.length() > 0 ) {
-				TextView tv = (TextView) findViewById(R.id.group_header);
-				tv.setText(getText(R.string.current_group) + " " + name);
+				TextView tv = (TextView) findViewById(R.id.group_name);
+				if ( tv != null ) {
+					tv.setText(name);
+				}
+			} else {
+				TextView tv = (TextView) findViewById(R.id.group_name);
+				if ( tv != null ) {
+					tv.setText(getText(R.string.root));
+				}
+				
 			}
 		}
 	}

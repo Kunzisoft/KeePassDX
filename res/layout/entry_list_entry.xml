@@ -21,4 +21,4 @@
   android:id="@+id/entry_text"
   android:layout_height="wrap_content"
   android:layout_width="wrap_content"
-  android:textSize="30sp"/>
+  style="@style/ElementTextLarge"/>

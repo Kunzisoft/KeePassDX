@@ -20,13 +20,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
+	<!--  Title -->	
+	<TextView android:id="@+id/entry_title" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_alignParentLeft="true"
+	  android:layout_alignParentTop="true"
+	  style="@style/ElementTextTitle"
+	/>
+	<ImageView android:id="@+id/entry_divider1"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_below="@id/entry_title"
+	  android:scaleType="fitXY"
+	  android:src="@android:drawable/divider_horizontal_dark"/>
 	<Button android:id="@+id/entry_edit"
 	  android:text="Edit"
 	  android:layout_width="100sp"
 	  android:layout_height="wrap_content"
 	  android:layout_alignParentLeft="true"
 	  android:layout_alignParentBottom="true"/>
-	<ImageView android:id="@+id/entry_divider"
+	<ImageView android:id="@+id/entry_divider2"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:layout_above="@id/entry_edit"
@@ -35,30 +49,20 @@
 	<ScrollView android:id="@+id/entry_scroll" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="fill_parent"
-	  android:layout_above="@id/entry_divider">
+	  android:layout_above="@id/entry_divider2"
+	  android:layout_below="@id/entry_divider1">
 		<RelativeLayout android:layout_width="fill_parent"
 		  android:layout_height="fill_parent">	
-			<!--  Title -->	
-			<TextView android:id="@+id/entry_title_label"
-			  android:layout_width="100px"
-			  android:layout_height="wrap_content" 
-			  android:text="@string/entry_title" />
-			<TextView android:id="@+id/entry_title" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignParentRight="true"
-			  android:layout_toRightOf="@id/entry_title_label"/>
 			<!-- Username -->
 			<TextView android:id="@+id/entry_user_name_label"
-			  android:layout_width="wrap_content"
+			  android:layout_width="100px"
 			  android:layout_height="wrap_content"
 			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_title" 
 			  android:text="@string/entry_user_name" />
 			<TextView android:id="@+id/entry_user_name" 
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_title"
+			  android:layout_toRightOf="@id/entry_user_name_label"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignTop="@id/entry_user_name_label"/>
 			<!--  URL -->
@@ -71,7 +75,7 @@
 			<TextView android:id="@+id/entry_url" 
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_title"
+			  android:layout_alignLeft="@id/entry_user_name"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignTop="@id/entry_url_label"/>
 			<!-- Password -->
@@ -85,7 +89,7 @@
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
 			  android:password="true"
-			  android:layout_alignLeft="@id/entry_title"
+			  android:layout_alignLeft="@id/entry_user_name"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignTop="@id/entry_password_label"/>
 			<!-- Created -->
@@ -98,7 +102,7 @@
 			<TextView android:id="@+id/entry_created" 
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_title"
+			  android:layout_alignLeft="@id/entry_user_name"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignTop="@id/entry_created_label"/>
 			<!-- Modified -->
@@ -111,7 +115,7 @@
 			<TextView android:id="@+id/entry_modified" 
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_title"
+			  android:layout_alignLeft="@id/entry_user_name"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignTop="@id/entry_modified_label"/>
 			<!-- Accessed -->
@@ -124,7 +128,7 @@
 			<TextView android:id="@+id/entry_accessed" 
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_title"
+			  android:layout_alignLeft="@id/entry_user_name"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignBottom="@id/entry_accessed_label"/>
 			<!-- Comment -->
@@ -137,7 +141,7 @@
 			<TextView android:id="@+id/entry_comment" 
 		      android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_title"
+			  android:layout_alignLeft="@id/entry_user_name"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignParentBottom="true"
 			  android:layout_alignTop="@id/entry_comment_label"/>

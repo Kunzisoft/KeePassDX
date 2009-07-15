@@ -52,7 +52,8 @@ public class GroupAddEntryActivity extends GroupActivity {
 				EntryEditActivity.Launch(GroupAddEntryActivity.this, mGroup);
 			}
 		});
-
+		
+		setGroupTitle();
 
 		
 	}
