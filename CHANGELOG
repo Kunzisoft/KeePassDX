@@ -1,5 +1,6 @@
 KeePassDroid (0.3.3)
-  * Add new icon from Francis Jacquerye
+  * Add new icon and UI enhancements from Francis Jacquerye
+  * Fix crash on goto URL with no ://
 
 KeePassDroid (0.3.2)
   * Fix the way passwords are stored
