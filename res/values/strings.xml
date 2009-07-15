@@ -57,4 +57,5 @@
 	<string name="hint_pass">password</string>
 	<string name="hint_conf_pass">confirm password</string>
 	<string name="hint_comment">comment</string>
+<string name="no_url_handler">No handler for this url.</string>
 </resources>

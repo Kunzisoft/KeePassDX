@@ -29,6 +29,7 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EntryActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -174,7 +176,19 @@ public class EntryActivity extends LockingActivity {
 			return true;
 			
 		case MENU_GOTO_URL:
-			Util.gotoUrl(this, mEntry.url);
+			String url;
+			url = mEntry.url;
+			
+			// Default http:// if no protocol specified
+			if ( ! url.contains("://") ) {
+				url = "http://" + url;
+			}
+			
+			try {
+				Util.gotoUrl(this, url);
+			} catch (ActivityNotFoundException e) {
+				Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show();
+			}
 			return true;
 		case MENU_COPY_USER:
 			timeoutCopyToClipboard(mEntry.username);

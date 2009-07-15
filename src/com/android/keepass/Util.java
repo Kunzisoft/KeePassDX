@@ -20,6 +20,7 @@
 package com.android.keepass;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,7 +38,7 @@ public class Util {
 		clipboard.setText(text);
 	}
 	
-	public static void gotoUrl(Context context, String url) {
+	public static void gotoUrl(Context context, String url) throws ActivityNotFoundException {
 		if ( url != null && url.length() > 0 ) {
 			Uri uri = Uri.parse(url);
 			context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
