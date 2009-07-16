@@ -106,6 +106,29 @@ public class Database {
 		return searchHelper.search(this, str);
 	}
 	
+	public void NewGroup(String name, PwGroup parent) throws PwManagerOutputException, IOException {
+		// Generate new group
+		PwGroup group = mPM.newGroup(name, parent);
+		
+		// Commit to disk
+		try {
+			SaveData();
+		} catch (PwManagerOutputException e) {
+			mPM.removeGroup(group);
+			throw e;
+		} catch (IOException e) {
+			mPM.removeGroup(group);
+			throw e;
+		}
+		
+		// Mark parent group dirty
+		gDirty.put(parent, new WeakReference<PwGroup>(parent));
+		
+		// Add group to global list
+		gGroups.put(group.groupId, new WeakReference<PwGroup>(group));
+		
+	}
+	
 	public void NewEntry(PwEntry entry) throws IOException, PwManagerOutputException {
 		PwGroup parent = entry.parent;
 		

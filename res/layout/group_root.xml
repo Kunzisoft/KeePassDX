@@ -48,16 +48,10 @@
 	  android:layout_height="wrap_content"
 	  android:layout_alignParentBottom="true"
 	  android:text="@string/add_group"/>
-	<Button android:id="@+id/add_entry"
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:layout_toRightOf="@id/add_group"
-	  android:layout_alignParentBottom="true"
-	  android:text="@string/add_entry"/>
 	<ImageView android:id="@+id/divider2"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:layout_above="@id/add_entry"
+	  android:layout_above="@id/add_group"
 	  android:scaleType="fitXY"
 	  android:tint="@color/blue_highlight"
 	  android:src="@android:drawable/divider_horizontal_dark"/>

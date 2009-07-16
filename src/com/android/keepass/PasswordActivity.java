@@ -232,7 +232,7 @@ public class PasswordActivity extends Activity {
 			}
 			
 			if ( mLaunch ) {
-				GroupActivity.Launch(PasswordActivity.this, null);
+				GroupActivity.Launch(PasswordActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
 			}
 		}
 	}

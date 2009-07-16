@@ -48,7 +48,7 @@ public class PwGroupView extends ClickView {
 
 	void onClick() {
 	
-		GroupAddEntryActivity.Launch(mAct, mPw);
+		GroupActivity.Launch(mAct, mPw, GroupActivity.FULL);
 	
 	}
 

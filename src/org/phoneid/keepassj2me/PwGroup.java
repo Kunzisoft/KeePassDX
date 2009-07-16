@@ -47,6 +47,8 @@ public class PwGroup {
 	public String toString() {
 		return name;
 	}
+
+	public static final Date NEVER_EXPIRE = PwEntry.NEVER_EXPIRE;
 	
 	/** Size of byte buffer needed to hold this struct. */
 	public static final int BUF_SIZE = 124;

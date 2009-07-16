@@ -19,43 +19,56 @@
  */
 package com.android.keepass;
 
-import org.phoneid.keepassj2me.PwGroup;
-
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class GroupAddEntryActivity extends GroupActivity {
-
-	public static void Launch(Activity act, PwGroup group) {
-		Intent i = new Intent(act, GroupAddEntryActivity.class);
+public class GroupCreateDialog extends Dialog {
+	Context mCtx;
+	String mRes;
+	
+	public GroupCreateDialog(Context context) {
+		super(context);
 		
-		i.putExtra(KEY_ENTRY, group.groupId);
-		
-		act.startActivityForResult(i,0);
+		mCtx = context;
 	}
 	
+	public String getResponse() {
+		return mRes;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.group_add_entry);
-		styleScrollBars();
+		setContentView(R.layout.create_group);
+		setTitle(R.string.add_group_title);
 		
-		// Add Entry button
-		Button addEntry = (Button) findViewById(R.id.add_entry);
-		addEntry.setOnClickListener(new View.OnClickListener() {
-
-			@Override
+		Button okButton = (Button) findViewById(R.id.ok);
+		okButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				EntryEditActivity.Launch(GroupAddEntryActivity.this, mGroup);
+				TextView nameField = (TextView) findViewById(R.id.group_name);
+				String name = nameField.getText().toString();
+				
+				if ( name.length() > 0 ) {
+					mRes = name; 
+					dismiss();
+				} else {
+					Toast.makeText(mCtx, R.string.error_no_name, Toast.LENGTH_LONG).show();
+				}
 			}
 		});
-		
-		setGroupTitle();
 
-		
+		Button cancel = (Button) findViewById(R.id.cancel);
+		cancel.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
 	}
+
 
 }

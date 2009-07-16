@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
 	<string name="app_name">KeePassDroid</string>
 	<string name="no_keys">No entries in the database or group.</string>
 	<string name="FileNotFound">File not found.</string>
 	<string name="InvalidPassword">Invalid password or key file.</string>
 	<string name="pass_ok">Ok</string>
+	<string name="cancel">Cancel</string>
 	<string name="entry_title">Name: </string>
 	<string name="entry_user_name">User Name: </string>
 	<string name="entry_url">URL: </string>
@@ -44,7 +63,10 @@
 	<string name="entry_confpassword">Confirm password:</string>
 	
 	<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
-	<string name="add_entry">Add Entry</string>
+	<string name="add_group_title">Add Group</string>
+	<string name="hint_group_name">Group name</string>
+	<string name="add_group">Add group</string>
+	<string name="add_entry">Add entry</string>
 	<string name="error_pass_match">Passwords do not match.</string>
 	<string name="error_title_required">A title is required.</string>
 	<string name="menu_search">Search</string>
@@ -58,4 +80,6 @@
 	<string name="hint_conf_pass">confirm password</string>
 	<string name="hint_comment">comment</string>
 <string name="no_url_handler">No handler for this url.</string>
+<string name="error_no_name">A name is required.</string>
+<string name="error_could_not_create_group">Error creating group.</string>
 </resources>

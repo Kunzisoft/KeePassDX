@@ -19,21 +19,62 @@
  */
 package com.android.keepass;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import org.phoneid.keepassj2me.PwGroup;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.android.keepass.keepasslib.PwManagerOutputException;
 
 public class GroupActivity extends GroupBaseActivity {
-
+	
+	public static final int UNINIT = -1;
+	public static final int VIEW_ONLY = 0;
+	public static final int ADD_GROUP_ONLY = 1;
+	public static final int FULL = 2;
+	
+	public static void Launch(Activity act, PwGroup group, int mode) {
+		Intent i = new Intent(act, GroupActivity.class);
+	
+		if ( group != null ) {
+			i.putExtra(KEY_ENTRY, group.groupId);
+		}
+		
+		i.putExtra(KEY_MODE, mode);
+		
+		act.startActivityForResult(i,0);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.group_view_only);
 		setResult(KeePass.EXIT_NORMAL);
+
+		Intent intent = getIntent();
 		
-		int id = getIntent().getIntExtra(KEY_ENTRY, -1);
+		int mode = intent.getIntExtra(KEY_MODE, UNINIT);
+		
+		switch ( mode ) {
+		case FULL:
+			setContentView(R.layout.group_add_entry);
+			break;
+		case ADD_GROUP_ONLY:
+			setContentView(R.layout.group_root);
+			break;
+		default:
+			setContentView(R.layout.group_view_only);
+		}
+		
+		int id = intent.getIntExtra(KEY_ENTRY, -1);
 		
 		if ( id == -1 ) {
 			mGroup = KeePass.db.gRoot;
@@ -43,8 +84,69 @@ public class GroupActivity extends GroupBaseActivity {
 		}
 		assert(mGroup != null);
 
+		if ( mode == FULL || mode == ADD_GROUP_ONLY ) {
+			// Add Group button
+			Button addGroup = (Button) findViewById(R.id.add_group);
+			addGroup.setOnClickListener(new GroupAddHandler(this, mGroup));
+		}
+		
+		if ( mode == FULL ) {
+			// Add Entry button
+			Button addEntry = (Button) findViewById(R.id.add_entry);
+			addEntry.setOnClickListener(new View.OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					EntryEditActivity.Launch(GroupActivity.this, mGroup);
+				}
+			});
+		}
+
 		setGroupTitle();
 		
 		setListAdapter(new PwListAdapter(this, mGroup));
 	}
+	
+	private class GroupAddHandler implements View.OnClickListener {
+		private GroupBaseActivity mAct;
+		private PwGroup mGroup;
+		private GroupCreateDialog mDialog;
+		
+		GroupAddHandler(GroupBaseActivity act, PwGroup group) {
+			mAct = act;
+			mGroup = group;
+		}
+
+		@Override
+		public void onClick(View v) {
+			GroupCreateDialog dialog = new GroupCreateDialog(mAct);
+			mDialog = dialog;
+			
+			// Register Listener
+			dialog.setOnDismissListener(new Dialog.OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					String res = mDialog.getResponse();
+					try {
+						KeePass.db.NewGroup(res, mGroup);
+					} catch (PwManagerOutputException e) {
+						Toast.makeText(mAct, R.string.error_could_not_create_group, Toast.LENGTH_LONG).show();
+						return;
+					} catch (IOException e) {
+						Toast.makeText(mAct, R.string.error_could_not_create_group, Toast.LENGTH_LONG).show();
+						return;
+					}
+
+					mAct.refreshIfDirty();
+				}
+				
+			});
+			
+			dialog.show();
+		}
+		
+		
+	}
+
 }

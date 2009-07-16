@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 public abstract class GroupBaseActivity extends LockingListActivity {
 	public static final String KEY_ENTRY = "entry";
+	public static final String KEY_MODE = "mode";
 	
 	protected static final int MENU_LOCK = Menu.FIRST;
 	protected static final int MENU_SEARCH = Menu.FIRST + 1;
@@ -54,6 +55,10 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	protected void onResume() {
 		super.onResume();
 		
+		refreshIfDirty();
+	}
+	
+	public void refreshIfDirty() {
 		if ( KeePass.db.gDirty.get(mGroup) != null ) {
 			KeePass.db.gDirty.remove(mGroup);
 			BaseAdapter adapter = (BaseAdapter) getListAdapter();

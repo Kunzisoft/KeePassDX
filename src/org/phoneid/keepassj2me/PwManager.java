@@ -31,6 +31,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 import java.util.Vector;
 
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -296,6 +299,7 @@ public class PwManager {
 	    Vector<PwGroup> rootChildGroups = getGrpRoots();
 	    rootGroup.childGroups = rootChildGroups;
 	    rootGroup.childEntries = new Vector<PwEntry>();
+	    rootGroup.level = -1;
 	    for (int i=0; i<rootChildGroups.size(); i++) {
 		rootChildGroups.elementAt(i).parent = rootGroup;
 		constructTree(rootChildGroups.elementAt(i));
@@ -318,5 +322,71 @@ public class PwManager {
 	    constructTree(currentGroup.childGroups.elementAt(i));
 	}
 	return;
+    }
+    
+    public PwGroup newGroup(String name, PwGroup parent) {
+    	// Initialize group    	
+    	PwGroup group = new PwGroup();
+
+    	group.parent = parent;
+    	group.groupId = newGroupId();
+    	group.imageId = 0;
+    	group.name = name;
+    	
+    	Date now = Calendar.getInstance().getTime();
+    	group.tCreation = now;
+    	group.tLastAccess = now;
+    	group.tLastMod = now;
+    	group.tExpire = PwGroup.NEVER_EXPIRE;
+    	
+   		group.level = parent.level + 1;
+
+   		group.childEntries = new Vector<PwEntry>();
+   		group.childGroups = new Vector<PwGroup>();
+   		
+   		// Add group PwManager and Parent
+   		parent.childGroups.add(group);
+   		groups.add(group);
+   		
+    	return group;
+    }
+    
+    public void removeGroup(PwGroup group) {
+    	group.parent.childGroups.remove(group);
+    	groups.remove(group);
+    }
+    
+    /** Generates an unused random group id
+     * @return new group id
+     */
+    private int newGroupId() {
+    	boolean foundUnusedId = false;
+    	int newId = 0;
+    	
+    	Random random = new Random();
+    	
+    	while ( ! foundUnusedId ) {
+    		newId = random.nextInt();
+    		
+    		if ( ! isGroupIdUsed(newId) ) {
+    			foundUnusedId = true;
+    		}
+    	}
+    	
+    	return newId;
+    }
+    
+    /** Determine if an id number is already in use
+     * @param id ID number to check for
+     * @return True if the ID is used, false otherwise
+     */
+    private boolean isGroupIdUsed(int id) {
+    	for ( int i = 0; i < groups.size(); i++ ) {
+    		if ( groups.get(i).groupId == id ) {
+    			return true;
+    		}
+    	}
+    	
+    	return false;
     }
 }
