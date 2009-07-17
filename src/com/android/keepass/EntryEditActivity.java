@@ -242,7 +242,7 @@ public class EntryEditActivity extends LockingActivity {
 	
 	private final Handler uiHandler = new Handler();
 	
-	public final class AfterSave implements Runnable {
+	private final class AfterSave implements Runnable {
 
 		@Override
 		public void run() {
@@ -252,7 +252,7 @@ public class EntryEditActivity extends LockingActivity {
 		
 	}
 	
-	public final class BackgroundUpdateEntry implements Runnable {
+	private final class BackgroundUpdateEntry implements Runnable {
 
 		private final PwEntry mOld;
 		private final PwEntry mNew;

@@ -30,6 +30,7 @@ import android.widget.Toast;
 public class GroupCreateDialog extends Dialog {
 	Context mCtx;
 	String mRes;
+	boolean mCanceled = false;
 	
 	public GroupCreateDialog(Context context) {
 		super(context);
@@ -39,6 +40,10 @@ public class GroupCreateDialog extends Dialog {
 	
 	public String getResponse() {
 		return mRes;
+	}
+	
+	public boolean canceled() {
+		return mCanceled;
 	}
 
 	@Override
@@ -65,7 +70,8 @@ public class GroupCreateDialog extends Dialog {
 		Button cancel = (Button) findViewById(R.id.cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				dismiss();
+				mCanceled = true;
+				cancel();
 			}
 		});
 	}

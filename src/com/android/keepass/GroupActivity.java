@@ -19,21 +19,19 @@
  */
 package com.android.keepass;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.android.keepass.keepasslib.PwManagerOutputException;
 
 public class GroupActivity extends GroupBaseActivity {
 	
@@ -41,6 +39,8 @@ public class GroupActivity extends GroupBaseActivity {
 	public static final int VIEW_ONLY = 0;
 	public static final int ADD_GROUP_ONLY = 1;
 	public static final int FULL = 2;
+	
+	private ProgressDialog mPd;
 	
 	public static void Launch(Activity act, PwGroup group, int mode) {
 		Intent i = new Intent(act, GroupActivity.class);
@@ -128,24 +128,62 @@ public class GroupActivity extends GroupBaseActivity {
 				@Override
 				public void onDismiss(DialogInterface dialog) {
 					String res = mDialog.getResponse();
-					try {
-						KeePass.db.NewGroup(res, mGroup);
-					} catch (PwManagerOutputException e) {
-						Toast.makeText(mAct, R.string.error_could_not_create_group, Toast.LENGTH_LONG).show();
-						return;
-					} catch (IOException e) {
-						Toast.makeText(mAct, R.string.error_could_not_create_group, Toast.LENGTH_LONG).show();
-						return;
+					
+					if ( ! mDialog.canceled() && res.length() > 0 ) {
+						mPd = ProgressDialog.show(GroupActivity.this, "Working...", "Saving database", true, false);
+						Thread bkgStore = new Thread(new BackgroundAddGroup(res, mGroup));
+						bkgStore.start();
 					}
-
-					mAct.refreshIfDirty();
 				}
 				
 			});
 			
+			// Show the dialog
 			dialog.show();
 		}
 		
+	}
+	
+	private final Handler uiHandler = new Handler();
+	
+	/** Task to be run after the database is saved in the UI thread
+	 * @author Brian Pellin
+	 *
+	 */
+	private final class AfterSave implements Runnable {
+
+		@Override
+		public void run() {
+			mPd.dismiss();
+			refreshIfDirty();
+		}
+		
+	}
+
+	/** Handler storing the database in a separate thread
+	 * @author Brian Pellin
+	 *
+	 */
+	private final class BackgroundAddGroup implements Runnable {
+
+		private final String mName;
+		private final PwGroup mParent;
+		
+		public BackgroundAddGroup(String name, PwGroup parent) {
+			mName = name;
+			mParent = parent;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				KeePass.db.NewGroup(mName, mParent);
+				uiHandler.post(new AfterSave());
+			} catch (Exception e) {
+				uiHandler.post(new UIToastTask(GroupActivity.this, R.string.error_could_not_create_group));
+				mPd.dismiss();
+			}
+		}
 		
 	}
 
