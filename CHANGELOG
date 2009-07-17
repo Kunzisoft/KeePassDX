@@ -1,3 +1,6 @@
+KeePassDroid (0.4)
+  * Support adding groups
+
 KeePassDroid (0.3.3)
   * Add new icon and UI enhancements from Francis Jacquerye
   * Fix crash on goto URL with no ://
