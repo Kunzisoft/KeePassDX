@@ -261,7 +261,7 @@ public class PasswordActivity extends Activity {
 			} catch (FileNotFoundException e) {
 				uiHandler.post(new AfterLoad(R.string.FileNotFound));
 			} catch (IOException e) {
-				uiHandler.post(new AfterLoad("Unknown error."));
+				uiHandler.post(new AfterLoad(e.getMessage()));
 			} catch (InvalidKeyFileException e) {
 				uiHandler.post(new AfterLoad(e.getMessage()));
 			}
