@@ -3,6 +3,7 @@ KeePassDroid (0.4)
 KeePassDroid (0.3.4)
   * Add context menus
   * Deal with crash when resuming activity after the process has been killed
+  * Increase clipboard clear time to 60 seconds as a stopgap until I come add a configurable setting.
 
 KeePassDroid (0.3.3)
   * Add new icon and UI enhancements from Francis Jacquerye
