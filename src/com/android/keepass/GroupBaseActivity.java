@@ -90,6 +90,11 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		setContentView(R.layout.group_view_only);
 		setResult(KeePass.EXIT_NORMAL);
 		
+		// Likely the app has been killed exit the activity 
+		if ( KeePass.db == null ) {
+			finish();
+		}
+
 		styleScrollBars();
 		
 	}

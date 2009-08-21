@@ -73,7 +73,12 @@ public class EntryActivity extends LockingActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_view);
 		setResult(KeePass.EXIT_NORMAL);
-		
+
+		// Likely the app has been killed exit the activity 
+		if ( KeePass.db == null ) {
+			finish();
+		}
+
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
 		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);

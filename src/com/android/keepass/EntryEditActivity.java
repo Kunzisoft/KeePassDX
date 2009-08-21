@@ -75,6 +75,11 @@ public class EntryEditActivity extends LockingActivity {
 		setContentView(R.layout.entry_edit);
 		setResult(KeePass.EXIT_NORMAL);
 		
+		// Likely the app has been killed exit the activity 
+		if ( KeePass.db == null ) {
+			finish();
+		}
+
 		Intent i = getIntent();
 		byte[] uuidBytes = i.getByteArrayExtra(KEY_ENTRY);
 

@@ -62,7 +62,7 @@ public class GroupActivity extends GroupBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setResult(KeePass.EXIT_NORMAL);
-
+		
 		Intent intent = getIntent();
 		
 		int mode = intent.getIntExtra(KEY_MODE, UNINIT);
