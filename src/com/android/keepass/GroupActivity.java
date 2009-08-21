@@ -30,8 +30,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class GroupActivity extends GroupBaseActivity {
 	
@@ -103,10 +107,33 @@ public class GroupActivity extends GroupBaseActivity {
 		}
 
 		setGroupTitle();
-		
+
 		setListAdapter(new PwListAdapter(this, mGroup));
+		registerForContextMenu(getListView());
+
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		
+		AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) menuInfo;
+		ClickView cv = (ClickView) acmi.targetView;
+		cv.onCreateMenu(menu, menuInfo);
 	}
 	
+	
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item.getMenuInfo();
+		ClickView cv = (ClickView) acmi.targetView;
+		
+		return cv.onContextItemSelected(item);
+	}
+
+
+
 	private class GroupAddHandler implements View.OnClickListener {
 		private GroupBaseActivity mAct;
 		private PwGroup mGroup;

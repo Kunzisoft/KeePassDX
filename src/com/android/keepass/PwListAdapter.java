@@ -46,11 +46,11 @@ public class PwListAdapter extends BaseAdapter {
 		filter();
 	}
 
-	private Activity mAct;
+	private GroupBaseActivity mAct;
 	private PwGroup mGroup;
 	private Vector<PwEntry> filteredEntries;
 	
-	public PwListAdapter(Activity act, PwGroup group) {
+	public PwListAdapter(GroupBaseActivity act, PwGroup group) {
 		mAct = act;
 		mGroup = group;
 		

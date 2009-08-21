@@ -20,6 +20,9 @@
 package com.android.keepass;
 
 import android.content.Context;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.LinearLayout;
 
 public abstract class ClickView extends LinearLayout {
@@ -28,6 +31,9 @@ public abstract class ClickView extends LinearLayout {
 		super(context);
 	}
 	
-	abstract void onClick();
-
+	abstract public void onClick();
+	
+	abstract public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo);
+	
+	abstract public boolean onContextItemSelected(MenuItem item);
 }

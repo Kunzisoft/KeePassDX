@@ -22,16 +22,27 @@ package com.android.keepass;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.TextView;
+
+import com.android.keepass.database.DeleteGroup;
 
 
 public class PwGroupView extends ClickView {
 	
 	private PwGroup mPw;
-	private Activity mAct;
+	private GroupBaseActivity mAct;
+
+	private static final int MENU_OPEN = Menu.FIRST;
+	private static final int MENU_DELETE = Menu.FIRST + 1;
+	//private static final int MENU_RENAME = Menu.FIRST + 2;
 	
-	public PwGroupView(Activity act, PwGroup pw) {
+	public PwGroupView(GroupBaseActivity act, PwGroup pw) {
 		super(act);
 		mAct = act;
 		mPw = pw;
@@ -46,11 +57,39 @@ public class PwGroupView extends ClickView {
 		
 	}
 
-	void onClick() {
+	public void onClick() {
+		launchGroup();
+	}
 	
+	private void launchGroup() {
 		GroupActivity.Launch(mAct, mPw, GroupActivity.FULL);
-	
 	}
 
+	@Override
+	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
+		menu.add(0, MENU_OPEN, 0, R.string.menu_open);
+		// TODO: Re-enable need to address entries and last group issue
+		//menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+		//menu.add(0, MENU_RENAME, 0, R.string.menu_rename);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch ( item.getItemId() ) {
+			
+		case MENU_OPEN:
+			launchGroup();
+			return true;
+			
+		case MENU_DELETE:
+			DeleteGroup task = new DeleteGroup(KeePass.db, mPw, mAct, new Handler());
+			ProgressTask pt = new ProgressTask(mAct, task, mAct.new RefreshTask());
+			pt.run();
+			return true;
+		
+		default:
+			return false;
+		}
+	}
 
 }

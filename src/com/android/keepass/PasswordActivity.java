@@ -29,6 +29,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -254,7 +255,6 @@ public class PasswordActivity extends Activity {
 				KeePass.db.LoadData(PasswordActivity.this, mFileName, mPass, mKey);
 				saveFileData(mFileName, mKey);
 				uiHandler.post(new AfterLoad());
-				
 				
 			} catch (InvalidCipherTextException e) {
 				uiHandler.post(new AfterLoad(R.string.InvalidPassword));

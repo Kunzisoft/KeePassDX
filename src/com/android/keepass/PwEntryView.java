@@ -22,7 +22,11 @@ package com.android.keepass;
 import org.phoneid.keepassj2me.PwEntry;
 
 import android.app.Activity;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.TextView;
 
 public class PwEntryView extends ClickView {
@@ -31,6 +35,9 @@ public class PwEntryView extends ClickView {
 	private PwEntry mPw;
 	private TextView mTv;
 	private int mPos;
+	
+	private static final int MENU_EDIT = Menu.FIRST;
+	private static final int MENU_DELETE = Menu.FIRST + 1;
 	
 	public PwEntryView(Activity act, PwEntry pw, int pos) {
 		super(act);
@@ -53,8 +60,33 @@ public class PwEntryView extends ClickView {
 		mTv.setText(mPw.title);
 	}
 	
-	void onClick() {
+	public void onClick() {
+		launchEntry();
+	}
+		
+	private void launchEntry() {
 		EntryActivity.Launch(mAct, mPw, mPos);
 		
 	}
+
+	@Override
+	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
+		menu.add(0, MENU_EDIT, 0, R.string.menu_edit);
+		//menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch ( item.getItemId() ) {
+		
+		case MENU_EDIT:
+			launchEntry();
+			return true;
+			
+		default:
+			return false;
+		}
+	}
+	
+	
 }

@@ -49,7 +49,7 @@ public class KeePass extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
+		
 		startFileSelect();
 	}
 

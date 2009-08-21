@@ -35,6 +35,10 @@
 	<string name="menu_url">Go to URL</string>
 	<string name="menu_copy_user">Copy User</string>
 	<string name="menu_copy_pass">Copy Password</string>
+	<string name="menu_edit">Edit</string>
+	<string name="menu_delete">Delete</string>
+	<string name="menu_open">Open</string>
+	<string name="menu_rename">Rename</string>
 	<string name="pass_filename">KeePass database filename:</string>
 	
 	<string name="menu_homepage">Go to Homepage</string>

@@ -58,6 +58,13 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		refreshIfDirty();
 	}
 	
+	public class RefreshTask implements Runnable {
+		@Override
+		public void run() {
+			refreshIfDirty();
+		}
+	}
+	
 	public void refreshIfDirty() {
 		if ( KeePass.db.gDirty.get(mGroup) != null ) {
 			KeePass.db.gDirty.remove(mGroup);
@@ -150,4 +157,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 			finish();
 		}
 	}
+
+	
+	
 }
