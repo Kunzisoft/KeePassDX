@@ -141,6 +141,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
 		case MENU_LOCK:
+			KeePass.db.shutdown = true;
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 			return true;
@@ -153,16 +154,4 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		if (resultCode == KeePass.EXIT_LOCK ) {
-			setResult(KeePass.EXIT_LOCK);
-			finish();
-		}
-	}
-
-	
-	
 }

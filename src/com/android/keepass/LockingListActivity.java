@@ -33,13 +33,6 @@ public class LockingListActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onDestroy() {
-		mLM.cleanUp();
-		
-		super.onDestroy();
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 
@@ -49,7 +42,12 @@ public class LockingListActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		mLM.stopTimeout();
+		
+		if ( KeePass.db.shutdown ) {
+			setResult(KeePass.EXIT_LOCK);
+			finish();
+		}
 	}
 }

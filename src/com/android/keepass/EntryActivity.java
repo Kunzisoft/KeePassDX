@@ -195,13 +195,17 @@ public class EntryActivity extends LockingActivity {
 				Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show();
 			}
 			return true;
+			
 		case MENU_COPY_USER:
 			timeoutCopyToClipboard(mEntry.username);
 			return true;
+			
 		case MENU_COPY_PASS:
 			timeoutCopyToClipboard(new String(mEntry.getPassword()));
 			return true;
+			
 		case MENU_LOCK:
+			KeePass.db.shutdown = true;
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 			return true;

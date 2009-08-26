@@ -20,40 +20,15 @@
 package com.android.keepass;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 
 import com.android.keepass.intents.TimeoutIntents;
 
 public class LockManager {
-	private final BroadcastReceiver mIntentReceiver;
 	private final Activity mAct;
 	
 	public LockManager(Activity act) {
 		mAct = act;
-		
-		mIntentReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String action = intent.getAction();
-				if ( action.equals(TimeoutIntents.LOCK) ) {
-					KeePass.db.clear();
-					mAct.setResult(KeePass.EXIT_LOCK);
-					mAct.finish();
-				}
-			}
-		};
-		
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(TimeoutIntents.LOCK);
-		act.registerReceiver(mIntentReceiver, filter);
-		
-	}
-
-	public void cleanUp() {
-		mAct.unregisterReceiver(mIntentReceiver);
 	}
 
 	public void startTimeout() {
