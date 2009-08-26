@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.android.keepass"
-      android:versionName="0.4" android:versionCode="16">
+      android:versionCode="17" android:versionName="0.4.1">
     <uses-sdk android:minSdkVersion="3"/>
     <application android:label="@string/app_name" android:icon="@drawable/keepassdroid_launcher">
         <activity android:name=".KeePass"
