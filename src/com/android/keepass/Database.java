@@ -56,6 +56,7 @@ public class Database {
 	public PwManager mPM;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
+	public boolean shutdown = false;
 	
 	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
 		LoadData(ctx, is, password, keyfile, !ImporterV3.DEBUG);
@@ -264,6 +265,7 @@ public class Database {
 		gRoot = null;
 		mPM = null;
 		mFilename = null;
+		shutdown = false;
 	}
 	
 }
