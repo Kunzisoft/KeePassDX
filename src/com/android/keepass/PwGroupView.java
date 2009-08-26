@@ -21,7 +21,6 @@ package com.android.keepass;
 
 import org.phoneid.keepassj2me.PwGroup;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.view.ContextMenu;
 import android.view.Menu;
