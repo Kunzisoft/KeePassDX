@@ -23,8 +23,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.keepass.fileselect.FileSelectActivity;
-import com.android.keepass.services.TimeoutService;
+import com.keepassdroid.Database;
+import com.keepassdroid.fileselect.FileSelectActivity;
+import com.keepassdroid.services.TimeoutService;
 
 public class KeePass extends Activity {
 

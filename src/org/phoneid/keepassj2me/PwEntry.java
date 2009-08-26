@@ -27,7 +27,7 @@ package org.phoneid.keepassj2me;
 // PhoneID
 import org.phoneid.*;
 
-import com.android.keepass.Database;
+import com.keepassdroid.Database;
 
 
 // Java

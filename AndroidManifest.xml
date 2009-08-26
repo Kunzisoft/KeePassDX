@@ -11,25 +11,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    	<activity android:name=".fileselect.FileSelectActivity"></activity>
-    	<activity android:name=".PasswordActivity" android:configChanges="orientation|keyboardHidden"></activity>
-    	<activity android:name=".GroupActivity">
+    	<activity android:name="com.keepassdroid.fileselect.FileSelectActivity"></activity>
+    	<activity android:name="com.keepassdroid.PasswordActivity" android:configChanges="orientation|keyboardHidden"></activity>
+    	<activity android:name="com.keepassdroid.GroupActivity">
             <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
             <!-- whenever the user invokes search while in this Activity. -->
             <meta-data android:name="android.app.default_searchable"
                        android:value=".search.SearchResults" />
     	</activity>
-		<activity android:name=".EntryActivity"></activity>
-		<activity android:name=".LockingActivity"></activity>
-		<activity android:name=".EntryEditActivity" android:configChanges="orientation|keyboardHidden"></activity>
-		<activity android:name=".search.SearchResults" android:launchMode="standard">
+		<activity android:name="com.keepassdroid.EntryActivity"></activity>
+		<activity android:name="com.keepassdroid.LockingActivity"></activity>
+		<activity android:name="com.keepassdroid.EntryEditActivity" android:configChanges="orientation|keyboardHidden"></activity>
+		<activity android:name="com.keepassdroid.search.SearchResults" android:launchMode="standard">
 		    <intent-filter>
 			    <action android:name="android.intent.action.SEARCH" />
 			    <category android:name="android.intent.category.DEFAULT" />
 		     </intent-filter>
 			<meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
 		</activity>
-		<service android:name=".services.TimeoutService"></service>
+		<service android:name="com.keepassdroid.services.TimeoutService"></service>
 		<meta-data android:name="com.a0soft.gphone.aTrackDog.webURL" android:value="http://keepassdroid.com" />
 	</application>
 </manifest> 

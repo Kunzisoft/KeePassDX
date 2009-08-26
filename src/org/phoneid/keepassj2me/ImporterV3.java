@@ -51,8 +51,8 @@ import org.phoneid.PhoneIDUtil;
 
 import android.util.Log;
 
-import com.android.keepass.keepasslib.InvalidKeyFileException;
-import com.android.keepass.keepasslib.NullOutputStream;
+import com.keepassdroid.keepasslib.InvalidKeyFileException;
+import com.keepassdroid.keepasslib.NullOutputStream;
 
 /**
  * Load a v3 database file.

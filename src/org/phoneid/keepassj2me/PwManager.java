@@ -38,7 +38,7 @@ import java.util.Vector;
 
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
-import com.android.keepass.keepasslib.InvalidKeyFileException;
+import com.keepassdroid.keepasslib.InvalidKeyFileException;
 
 /**
  * @author Naomaru Itoi <nao@phoneid.org>
