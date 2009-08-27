@@ -36,6 +36,11 @@ public class SearchResults extends GroupBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setResult(KeePass.EXIT_NORMAL);
+		
+		// Likely the app has been killed exit the activity 
+		if ( KeePass.db == null ) {
+			finish();
+		}
 
 		mGroup = processSearchIntent(getIntent());
 		assert(mGroup != null);
