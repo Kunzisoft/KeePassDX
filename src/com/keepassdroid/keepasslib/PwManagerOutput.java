@@ -27,6 +27,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Vector;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
@@ -157,7 +158,6 @@ public class PwManagerOutput {
 		}
 
 		header.contentsHash = md.digest();
-
 		
 		// Output header
 		PwDbHeaderOutput pho = new PwDbHeaderOutput(header, os);
@@ -174,14 +174,9 @@ public class PwManagerOutput {
 		//long size = 0;
 		
 		// Groups
-		for (int i = 0; i < mPM.groups.size(); i++ ) {
-			PwGroup pg = mPM.groups.get(i);
-			PwGroupOutput pgo = new PwGroupOutput(pg, os);
-			try {
-				pgo.output();
-			} catch (IOException e) {
-				throw new PwManagerOutputException("Failed to output a group: " + e.getMessage());
-			}
+		Vector<PwGroup> roots = mPM.getGrpRoots();
+		for (int i = 0; i < roots.size(); i++ ) {
+			outputGroups(os, roots.get(i));
 		}
 		
 		// Entries
@@ -193,6 +188,21 @@ public class PwManagerOutput {
 			} catch (IOException e) {
 				throw new PwManagerOutputException("Failed to output an entry.");
 			}
+		}
+	}
+	
+	public void outputGroups(OutputStream os, PwGroup group) throws PwManagerOutputException {
+		// Output the current group
+		PwGroupOutput pgo = new PwGroupOutput(group, os);
+		try {
+			pgo.output();
+		} catch (IOException e) {
+			throw new PwManagerOutputException("Failed to output a group: " + e.getMessage());
+		}
+		
+		// Output the child groups
+		for ( int i = 0; i < group.childGroups.size(); i++ ) {
+			outputGroups(os, group.childGroups.get(i));
 		}
 	}
 }
