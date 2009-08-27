@@ -193,4 +193,17 @@ public class FileDbHelper {
 		return cursor;
 		
 	}
+	
+	public String getFileByName(String name) {
+		Cursor cursor = mDb.query(true, FILE_TABLE, new String[] {KEY_FILE_KEYFILE}, 
+				KEY_FILE_FILENAME + "= ?", new String[] {name}, null, null, null, null);
+		
+		if ( cursor == null ) {
+			return "";
+		}
+		
+		cursor.moveToFirst();
+		
+		return cursor.getString(0);
+	}
 }

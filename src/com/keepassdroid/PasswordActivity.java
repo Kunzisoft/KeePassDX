@@ -48,6 +48,7 @@ public class PasswordActivity extends Activity {
 	private static final int MENU_ABOUT = Menu.FIRST;
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
+	private static final String VIEW_INTENT = "android.intent.action.VIEW";
 
 	private String mFileName;
 	private String mKeyFile;
@@ -88,14 +89,57 @@ public class PasswordActivity extends Activity {
 		super.onCreate(savedInstanceState);
 	
 		Intent i = getIntent();
-		mFileName = i.getStringExtra(KEY_FILENAME);
-		mKeyFile = i.getStringExtra(KEY_KEYFILE);
+		String action = i.getAction();
+		
+		if ( action != null && action.equals(VIEW_INTENT) ) {
+			mFileName = i.getDataString();
+
+			if ( ! mFileName.substring(0, 7).equals("file://") ) {
+				Toast.makeText(this, R.string.error_can_not_handle_uri, Toast.LENGTH_LONG).show();
+				finish();
+				return;
+			}
+			
+			mFileName = mFileName.substring(7, mFileName.length());
+						
+			if ( mFileName.length() == 0 ) {
+				// No file name
+				Toast.makeText(this, R.string.FileNotFound, Toast.LENGTH_LONG).show();
+				finish();
+				return;
+			}
+			
+			File dbFile = new File(mFileName);
+			if ( ! dbFile.exists() ) {
+				// File does not exist
+				Toast.makeText(this, R.string.FileNotFound, Toast.LENGTH_LONG).show();
+				finish();
+				return;
+			}
+			
+			mKeyFile = getKeyFile(mFileName);
+			
+		} else {
+			mFileName = i.getStringExtra(KEY_FILENAME);
+			mKeyFile = i.getStringExtra(KEY_KEYFILE);
+		}
 		
 		setContentView(R.layout.password);
 		populateView();
 
 		Button confirmButton = (Button) findViewById(R.id.pass_ok);
 		confirmButton.setOnClickListener(new ClickHandler(this));
+	}
+	
+	private String getKeyFile(String filename) {
+		FileDbHelper dbHelp = new FileDbHelper(this);
+		dbHelp.open();
+		
+		String keyfile = dbHelp.getFileByName(filename);
+		
+		dbHelp.close();
+		
+		return keyfile;
 	}
 	
 	private void populateView() {
