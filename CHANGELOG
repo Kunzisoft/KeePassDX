@@ -1,3 +1,8 @@
+KeePassDroid (0.5)
+  * Correct group output logic
+  * Fix search
+  * Implement group and entry delete.
+
 KeePassDroid (0.4.1)
   * Fix timeout locking crashes
   * Fix lock from search screen.
