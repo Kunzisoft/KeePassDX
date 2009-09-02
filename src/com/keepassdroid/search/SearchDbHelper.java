@@ -118,9 +118,14 @@ public class SearchDbHelper {
 		ContentValues cv = buildNewEntryContent(entry);
 		String uuidStr = cv.getAsString(KEY_UUID);
 		
-		mDb.update(SEARCH_TABLE, cv, KEY_UUID + "= ?", new String[] {uuidStr});
+		mDb.update(SEARCH_TABLE, cv, KEY_UUID + " = ?", new String[] {uuidStr});
+	}
+	
+	public void deleteEntry(PwEntry entry) {
+		UUID uuid = Types.bytestoUUID(entry.uuid);
+		String uuidStr = uuid.toString();
 		
-		
+		mDb.delete(SEARCH_TABLE, KEY_UUID + " = ?", new String[] {uuidStr});
 	}
 	
 	public PwGroup search(Database db, String qStr) {

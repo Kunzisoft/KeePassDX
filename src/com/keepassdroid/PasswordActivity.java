@@ -170,10 +170,12 @@ public class PasswordActivity extends Activity {
 		sendBroadcast(new Intent(TimeoutIntents.START));
 	}
 
+	/*
 	private void errorMessage(CharSequence text)
 	{
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
+	*/
 	
 	private void errorMessage(int resId)
 	{

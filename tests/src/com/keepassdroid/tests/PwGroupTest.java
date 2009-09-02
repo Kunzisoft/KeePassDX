@@ -23,7 +23,7 @@ import org.phoneid.keepassj2me.PwGroup;
 
 import android.test.AndroidTestCase;
 
-import com.keepassdroid.tests.output.TestData;
+import com.keepassdroid.tests.database.TestData;
 
 public class PwGroupTest extends AndroidTestCase {
 

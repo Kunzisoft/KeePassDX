@@ -76,6 +76,9 @@ public class PwManagerOutput {
 	
 	public void output() throws PwManagerOutputException {
 		
+		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the group hierarchy
+		sortGroupsForOutput();
+		
 		PwDbHeader header = outputHeader(mOS);
 		
 		byte[] finalKey = getFinalKey(header);
@@ -174,9 +177,14 @@ public class PwManagerOutput {
 		//long size = 0;
 		
 		// Groups
-		Vector<PwGroup> roots = mPM.getGrpRoots();
-		for (int i = 0; i < roots.size(); i++ ) {
-			outputGroups(os, roots.get(i));
+		for ( int i = 0; i < mPM.groups.size(); i++ ) {
+			PwGroup pg = mPM.groups.get(i);
+			PwGroupOutput pgo = new PwGroupOutput(pg, os);
+			try {
+				pgo.output();
+			} catch (IOException e) {
+				throw new PwManagerOutputException("Failed to output a group: " + e.getMessage());
+			}
 		}
 		
 		// Entries
@@ -191,18 +199,25 @@ public class PwManagerOutput {
 		}
 	}
 	
-	public void outputGroups(OutputStream os, PwGroup group) throws PwManagerOutputException {
-		// Output the current group
-		PwGroupOutput pgo = new PwGroupOutput(group, os);
-		try {
-			pgo.output();
-		} catch (IOException e) {
-			throw new PwManagerOutputException("Failed to output a group: " + e.getMessage());
+	private void sortGroupsForOutput() {
+		Vector<PwGroup> groupList = new Vector<PwGroup>();
+		
+		// Rebuild list according to coalation sorting order removing any orphaned groups
+		Vector<PwGroup> roots = mPM.getGrpRoots();
+		for ( int i = 0; i < roots.size(); i++ ) {
+			sortGroup(roots.get(i), groupList);
 		}
 		
-		// Output the child groups
+		mPM.groups = groupList;
+	}
+	
+	private void sortGroup(PwGroup group, Vector<PwGroup> groupList) {
+		// Add current group
+		groupList.add(group);
+		
+		// Recurse over children
 		for ( int i = 0; i < group.childGroups.size(); i++ ) {
-			outputGroups(os, group.childGroups.get(i));
+			sortGroup(group.childGroups.get(i), groupList);
 		}
 	}
 }

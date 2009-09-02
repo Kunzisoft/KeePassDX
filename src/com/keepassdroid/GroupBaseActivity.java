@@ -31,6 +31,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
@@ -59,13 +60,6 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		super.onResume();
 		
 		refreshIfDirty();
-	}
-	
-	public class RefreshTask implements Runnable {
-		@Override
-		public void run() {
-			refreshIfDirty();
-		}
 	}
 	
 	public void refreshIfDirty() {
@@ -155,6 +149,29 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		}
 		
 		return super.onOptionsItemSelected(item);
+	}
+
+	public class RefreshTask implements Runnable {
+		@Override
+		public void run() {
+			refreshIfDirty();
+		}
+	}
+	
+	public class FatalError implements Runnable {
+		String mMsg;
+		
+		public FatalError(String msg) {
+			mMsg = msg;
+		}
+		
+		@Override
+		public void run() {
+			Toast.makeText(GroupBaseActivity.this, "Unrecoverable error: " + mMsg, Toast.LENGTH_LONG);
+			KeePass.db.shutdown = true;
+			finish();
+		}
+		
 	}
 
 }

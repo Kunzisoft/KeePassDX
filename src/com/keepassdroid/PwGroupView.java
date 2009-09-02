@@ -69,8 +69,8 @@ public class PwGroupView extends ClickView {
 	@Override
 	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
 		menu.add(0, MENU_OPEN, 0, R.string.menu_open);
+		menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
 		// TODO: Re-enable need to address entries and last group issue
-		//menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
 		//menu.add(0, MENU_RENAME, 0, R.string.menu_rename);
 	}
 

@@ -24,7 +24,7 @@ import org.phoneid.keepassj2me.PwGroup;
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.tests.output.TestData;
+import com.keepassdroid.tests.database.TestData;
 
 public class SearchTest extends AndroidTestCase {
 	
@@ -38,6 +38,7 @@ public class SearchTest extends AndroidTestCase {
 	}
 	
 	public void testSearch() {
+		
 		PwGroup results = mDb.Search("Amazon");
 		assertTrue("Search result not found.", results.childEntries.size() > 0);
 		

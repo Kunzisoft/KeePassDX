@@ -17,7 +17,7 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.tests.output;
+package com.keepassdroid.tests.database;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -29,7 +29,6 @@ import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +42,8 @@ import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.database.AddEntry;
+import com.keepassdroid.database.UpdateEntry;
 
 public class EntryEditActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -53,7 +54,6 @@ public class EntryEditActivity extends LockingActivity {
 	private PwEntry mEntry;
 	private boolean mShowPassword = false;
 	private boolean mIsNew;
-	private ProgressDialog mPd;
 	
 	public static void Launch(Activity act, PwEntry pw) {
 		Intent i = new Intent(act, EntryEditActivity.class);
@@ -165,11 +165,15 @@ public class EntryEditActivity extends LockingActivity {
 				} else {
 					setResult(KeePass.EXIT_REFRESH_TITLE);
 				}
-
-				mPd = ProgressDialog.show(EntryEditActivity.this, "Working...", "Saving database", true, false);
-				Thread bkgStore = new Thread(new BackgroundUpdateEntry(mEntry, newEntry));
-				bkgStore.start();
-
+				
+				Runnable task;
+				if ( mIsNew ) {
+					task = new AddEntry(KeePass.db, act, newEntry, new Handler());
+				} else {
+					task = new UpdateEntry(KeePass.db, act, mEntry, newEntry, new Handler());
+				}
+				ProgressTask pt = new ProgressTask(act, task, act.new AfterSave());
+				pt.run();
 			}
 			
 		});
@@ -248,44 +252,11 @@ public class EntryEditActivity extends LockingActivity {
 		tv.setText(text);
 	}
 	
-	private final Handler uiHandler = new Handler();
-	
 	private final class AfterSave implements Runnable {
 
 		@Override
 		public void run() {
-			mPd.dismiss();
 			finish();
-		}
-		
-	}
-	
-	private final class BackgroundUpdateEntry implements Runnable {
-
-		private final PwEntry mOld;
-		private final PwEntry mNew;
-		
-		public BackgroundUpdateEntry(PwEntry oldE, PwEntry newE) {
-			mOld = oldE;
-			mNew = newE;
-		}
-		
-		@Override
-		public void run() {
-			try {
-				if ( mIsNew ) {
-					KeePass.db.NewEntry(mNew);
-				} else {
-					KeePass.db.UpdateEntry(mOld, mNew);
-				}
-				
-				uiHandler.post(new AfterSave());
-			} catch (Exception e) {
-				uiHandler.post(new UIToastTask(EntryEditActivity.this, "Failed to store database."));
-				mPd.dismiss();
-				setResult(KeePass.EXIT_NORMAL);
-				return;
-			}
 		}
 		
 	}

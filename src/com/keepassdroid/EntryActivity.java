@@ -55,7 +55,7 @@ public class EntryActivity extends LockingActivity {
 	private static final int MENU_COPY_PASS = Menu.FIRST + 3;
 	private static final int MENU_LOCK = Menu.FIRST + 4; 
 	
-	private static final long CLIP_CLEAR_TIME = 300 * 1000;
+	private static final long CLIP_CLEAR_TIME = 5 * 60 * 1000;
 	
 	public static void Launch(Activity act, PwEntry pw, int pos) {
 		Intent i = new Intent(act, EntryActivity.class);

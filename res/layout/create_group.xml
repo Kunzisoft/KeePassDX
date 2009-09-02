@@ -23,6 +23,7 @@
 	<EditText android:id="@+id/group_name" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
+	  android:singleLine="true"
 	  android:hint="@string/hint_group_name"/>
 	<Button android:id="@+id/ok" 
 	  android:layout_width="100sp"

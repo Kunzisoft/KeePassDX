@@ -39,6 +39,7 @@ import com.keepassdroid.keepasslib.NullOutputStream;
 import com.keepassdroid.keepasslib.PwDbHeaderOutput;
 import com.keepassdroid.keepasslib.PwManagerOutput;
 import com.keepassdroid.keepasslib.PwManagerOutputException;
+import com.keepassdroid.tests.database.TestData;
  
 public class PwManagerOutputTest extends AndroidTestCase {
   PwManager mPM;

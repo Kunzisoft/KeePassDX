@@ -28,7 +28,7 @@ import org.phoneid.keepassj2me.PwEntry;
 
 import android.test.AndroidTestCase;
 
-import com.keepassdroid.tests.output.TestData;
+import com.keepassdroid.tests.database.TestData;
 
 public class PwEntryTest extends AndroidTestCase {
 	PwEntry mPE;
