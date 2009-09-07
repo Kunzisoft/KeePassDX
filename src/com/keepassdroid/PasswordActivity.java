@@ -21,12 +21,8 @@ package com.keepassdroid;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,9 +35,9 @@ import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.database.LoadDB;
 import com.keepassdroid.fileselect.FileDbHelper;
 import com.keepassdroid.intents.TimeoutIntents;
-import com.keepassdroid.keepasslib.InvalidKeyFileException;
 
 public class PasswordActivity extends Activity {
 
@@ -52,7 +48,6 @@ public class PasswordActivity extends Activity {
 
 	private String mFileName;
 	private String mKeyFile;
-	private ProgressDialog mPd;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -128,7 +123,7 @@ public class PasswordActivity extends Activity {
 		populateView();
 
 		Button confirmButton = (Button) findViewById(R.id.pass_ok);
-		confirmButton.setOnClickListener(new ClickHandler(this));
+		confirmButton.setOnClickListener(new ClickHandler());
 	}
 	
 	private String getKeyFile(String filename) {
@@ -183,11 +178,6 @@ public class PasswordActivity extends Activity {
 	}
 	
 	private class ClickHandler implements View.OnClickListener {
-		private Activity mAct;
-				
-		ClickHandler(Activity act) {
-			mAct = act;
-		}
 		
 		public void onClick(View view) {
 			String pass = getEditText(R.id.pass_password);
@@ -199,20 +189,10 @@ public class PasswordActivity extends Activity {
 			
 			String fileName = getEditText(R.id.pass_filename);
 			
-			mPd = ProgressDialog.show(mAct, "Working...", "Loading database", true, false);
-			Thread bkgLoad = new Thread(new BackgroundLoad(fileName, pass, key));
-			bkgLoad.start();
-			
+			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, new Handler(), fileName, pass, key);
+			ProgressTask pt = new ProgressTask(PasswordActivity.this, task, new AfterLoad());
+			pt.run();
 		}			
-	}
-	
-	private void saveFileData(String fileName, String key) {
-		FileDbHelper db = new FileDbHelper(this);
-		db.open();
-		
-		db.createFile(fileName, key);
-		
-		db.close();
 	}
 	
 	private String getEditText(int resId) {
@@ -250,69 +230,11 @@ public class PasswordActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private final Handler uiHandler = new Handler();
-	
 	private final class AfterLoad implements Runnable {
-		private boolean mLaunch;
-		private CharSequence mMsg;
-		
-		public AfterLoad() {
-			mLaunch = true;
-			mMsg = "";
-		}
-		
-		public AfterLoad(CharSequence errorMsg) {
-			mLaunch = false;
-			mMsg = errorMsg;
-		}
-		
-		public AfterLoad(int resId) {
-			mLaunch = false;
-			mMsg = PasswordActivity.this.getText(resId);
-		}
 		
 		@Override
 		public void run() {
-			mPd.dismiss();
-			
-			if ( mMsg.length() > 0 ) {
-				Toast.makeText(PasswordActivity.this, mMsg, Toast.LENGTH_LONG).show();
-			}
-			
-			if ( mLaunch ) {
-				GroupActivity.Launch(PasswordActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
-			}
-		}
-	}
-	
-	private final class BackgroundLoad implements Runnable {
-		private String mFileName;
-		private String mPass;
-		private String mKey;
-		
-		public BackgroundLoad(String fileName, String pass, String key) {
-			mFileName = fileName;
-			mPass = pass;
-			mKey = key;
-		}
-		
-		@Override
-		public void run() {
-			try {
-				KeePass.db.LoadData(PasswordActivity.this, mFileName, mPass, mKey);
-				saveFileData(mFileName, mKey);
-				uiHandler.post(new AfterLoad());
-				
-			} catch (InvalidCipherTextException e) {
-				uiHandler.post(new AfterLoad(R.string.InvalidPassword));
-			} catch (FileNotFoundException e) {
-				uiHandler.post(new AfterLoad(R.string.FileNotFound));
-			} catch (IOException e) {
-				uiHandler.post(new AfterLoad(e.getMessage()));
-			} catch (InvalidKeyFileException e) {
-				uiHandler.post(new AfterLoad(e.getMessage()));
-			}
-			
+			GroupActivity.Launch(PasswordActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
 		}
 	}
 	
