@@ -173,10 +173,10 @@ public class EntryActivity extends LockingActivity {
 		switch ( item.getItemId() ) {
 		case MENU_PASS:
 			if ( mShowPassword ) {
-				item.setTitle(R.string.menu_hide_password);
+				item.setTitle(R.string.menu_show_password);
 				mShowPassword = false;
 			} else {
-				item.setTitle(R.string.menu_show_password);
+				item.setTitle(R.string.menu_hide_password);
 				mShowPassword = true;
 			}
 			setPasswordStyle();
