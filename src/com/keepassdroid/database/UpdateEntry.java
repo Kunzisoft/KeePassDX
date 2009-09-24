@@ -24,8 +24,6 @@ import java.lang.ref.WeakReference;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
-import android.os.Handler;
-
 import com.keepassdroid.Database;
 
 public class UpdateEntry extends RunnableOnFinish {
@@ -33,8 +31,8 @@ public class UpdateEntry extends RunnableOnFinish {
 	private PwEntry mOldE;
 	private PwEntry mNewE;
 	
-	public UpdateEntry(Database db, PwEntry oldE, PwEntry newE, Handler handler, OnFinish finish) {
-		super(finish, handler);
+	public UpdateEntry(Database db, PwEntry oldE, PwEntry newE, OnFinish finish) {
+		super(finish);
 		
 		mDb = db;
 		mOldE = oldE;
@@ -42,7 +40,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		
 		// Keep backup of original values in case save fails
 		PwEntry backup = new PwEntry(mOldE);
-		mFinish = new AfterUpdate(backup, finish, handler);
+		mFinish = new AfterUpdate(backup, finish);
 	}
 
 	@Override
@@ -51,15 +49,15 @@ public class UpdateEntry extends RunnableOnFinish {
 		mOldE.assign(mNewE);
 		
 		// Commit to disk
-		SaveDB save = new SaveDB(mDb, mHandler, mFinish);
+		SaveDB save = new SaveDB(mDb, mFinish);
 		save.run();
 	}
 	
 	private class AfterUpdate extends OnFinish {
 		private PwEntry mBackup;
 		
-		public AfterUpdate(PwEntry backup, OnFinish finish, Handler handler) {
-			super(finish, handler);
+		public AfterUpdate(PwEntry backup, OnFinish finish) {
+			super(finish);
 			
 			mBackup = backup;
 		}

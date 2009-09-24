@@ -25,21 +25,19 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.Types;
 
-import android.os.Handler;
-
 import com.keepassdroid.Database;
 
 public class AddEntry extends RunnableOnFinish {
 	private Database mDb;
 	private PwEntry mEntry;
 	
-	public AddEntry(Database db, PwEntry entry, Handler handler, OnFinish finish) {
-		super(finish, handler);
+	public AddEntry(Database db, PwEntry entry, OnFinish finish) {
+		super(finish);
 		
 		mDb = db;
 		mEntry = entry;
 		
-		mFinish = new AfterAdd(mFinish, mHandler);
+		mFinish = new AfterAdd(mFinish);
 	}
 	
 	@Override
@@ -53,14 +51,14 @@ public class AddEntry extends RunnableOnFinish {
 		mDb.mPM.entries.add(mEntry);
 		
 		// Commit to disk
-		SaveDB save = new SaveDB(mDb, mHandler, mFinish);
+		SaveDB save = new SaveDB(mDb, mFinish);
 		save.run();
 	}
 	
 	private class AfterAdd extends OnFinish {
 
-		public AfterAdd(OnFinish finish, Handler handler) {
-			super(finish, handler);
+		public AfterAdd(OnFinish finish) {
+			super(finish);
 		}
 
 		@Override

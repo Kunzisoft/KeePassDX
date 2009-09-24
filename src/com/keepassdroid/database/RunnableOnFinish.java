@@ -19,16 +19,13 @@
  */
 package com.keepassdroid.database;
 
-import android.os.Handler;
 
 public abstract class RunnableOnFinish implements Runnable {
 	
 	public OnFinish mFinish;
-	protected Handler mHandler;
 	
-	public RunnableOnFinish(OnFinish finish, Handler handler) {
+	public RunnableOnFinish(OnFinish finish) {
 		mFinish = finish;
-		mHandler = handler;
 	}
 	
 	protected void finish(boolean result, String message) {

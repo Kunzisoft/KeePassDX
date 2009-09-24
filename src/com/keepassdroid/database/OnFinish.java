@@ -38,12 +38,18 @@ public class OnFinish implements Runnable {
 	
 	
 	public OnFinish(Handler handler) {
+		mOnFinish = null;
 		mHandler = handler;
 	}
 	
 	public OnFinish(OnFinish finish, Handler handler) {
 		mOnFinish = finish;
 		mHandler = handler;
+	}
+	
+	public OnFinish(OnFinish finish) {
+		mOnFinish = finish;
+		mHandler = null;
 	}
 	
 	public void setResult(boolean success, String message) {
@@ -59,7 +65,12 @@ public class OnFinish implements Runnable {
 		if ( mOnFinish != null ) {
 			// Pass on result on call finish
 			mOnFinish.setResult(mSuccess, mMessage);
-			mHandler.post(mOnFinish);
+			
+			if ( mHandler != null ) {
+				mHandler.post(mOnFinish);
+			} else {
+				mOnFinish.run();
+			}
 		}
 	}
 	

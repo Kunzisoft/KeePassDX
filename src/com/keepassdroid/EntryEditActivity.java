@@ -169,13 +169,12 @@ public class EntryEditActivity extends LockingActivity {
 				}
 				
 				RunnableOnFinish task;
-				Handler handler = new Handler();
-				OnFinish onFinish = act.new AfterSave(handler);
+				OnFinish onFinish = act.new AfterSave(new Handler());
 				
 				if ( mIsNew ) {
-					task = new AddEntry(KeePass.db, newEntry, handler, onFinish);
+					task = new AddEntry(KeePass.db, newEntry, onFinish);
 				} else {
-					task = new UpdateEntry(KeePass.db, mEntry, newEntry, handler, onFinish);
+					task = new UpdateEntry(KeePass.db, mEntry, newEntry, onFinish);
 				}
 				ProgressTask pt = new ProgressTask(act, task);
 				pt.run();

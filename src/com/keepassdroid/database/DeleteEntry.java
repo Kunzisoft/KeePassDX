@@ -25,7 +25,6 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.content.Context;
-import android.os.Handler;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.search.SearchDbHelper;
@@ -41,8 +40,8 @@ public class DeleteEntry extends RunnableOnFinish {
 	private Context mCtx;
 	private boolean mDontSave;
 	
-	public DeleteEntry(Database db, PwEntry entry, Context ctx, Handler handler, OnFinish finish) {
-		super(finish, handler);
+	public DeleteEntry(Database db, PwEntry entry, Context ctx, OnFinish finish) {
+		super(finish);
 		
 		mDb = db;
 		mEntry = entry;
@@ -51,8 +50,8 @@ public class DeleteEntry extends RunnableOnFinish {
 		
 	}
 	
-	public DeleteEntry(Database db, PwEntry entry, Context ctx, Handler handler, OnFinish finish, boolean dontSave) {
-		super(finish, handler);
+	public DeleteEntry(Database db, PwEntry entry, Context ctx, OnFinish finish, boolean dontSave) {
+		super(finish);
 		
 		mDb = db;
 		mEntry = entry;
@@ -75,10 +74,10 @@ public class DeleteEntry extends RunnableOnFinish {
 		mDb.mPM.entries.remove(mEntry);
 		
 		// Save
-		mFinish = new AfterDelete(mFinish, mHandler, dbHelper, parent, mEntry);
+		mFinish = new AfterDelete(mFinish, dbHelper, parent, mEntry);
 		
 		// Commit database
-		SaveDB save = new SaveDB(mDb, mHandler, mFinish, mDontSave);
+		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
 		save.run();
 	
 		
@@ -92,8 +91,8 @@ public class DeleteEntry extends RunnableOnFinish {
 		private PwGroup mParent;
 		private PwEntry mEntry;
 		
-		public AfterDelete(OnFinish finish, Handler handler, SearchDbHelper helper, PwGroup parent, PwEntry entry) {
-			super(finish, handler);
+		public AfterDelete(OnFinish finish, SearchDbHelper helper, PwGroup parent, PwEntry entry) {
+			super(finish);
 			
 			mDbHelper = helper;
 			mParent = parent;

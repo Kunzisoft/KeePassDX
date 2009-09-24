@@ -21,8 +21,6 @@ package com.keepassdroid.database;
 
 import java.io.IOException;
 
-import android.os.Handler;
-
 import com.keepassdroid.Database;
 import com.keepassdroid.keepasslib.PwManagerOutputException;
 
@@ -30,15 +28,15 @@ public class SaveDB extends RunnableOnFinish {
 	private Database mDb;
 	private boolean mDontSave;
 
-	public SaveDB(Database db, Handler handler, OnFinish finish, boolean dontSave) {
-		super(finish, handler);
+	public SaveDB(Database db, OnFinish finish, boolean dontSave) {
+		super(finish);
 		
 		mDb = db;
 		mDontSave = dontSave;
 	}
 
-	public SaveDB(Database db, Handler handler, OnFinish finish) {
-		super(finish, handler);
+	public SaveDB(Database db, OnFinish finish) {
+		super(finish);
 		
 		mDb = db;
 		mDontSave = false;

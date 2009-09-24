@@ -25,7 +25,6 @@ import java.io.IOException;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import android.content.Context;
-import android.os.Handler;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
@@ -39,8 +38,8 @@ public class LoadDB extends RunnableOnFinish {
 	private Database mDb;
 	private Context mCtx;
 	
-	public LoadDB(Database db, Context ctx, Handler handler, String fileName, String pass, String key, OnFinish finish) {
-		super(finish, handler);
+	public LoadDB(Database db, Context ctx, String fileName, String pass, String key, OnFinish finish) {
+		super(finish);
 		
 		mDb = db;
 		mCtx = ctx;

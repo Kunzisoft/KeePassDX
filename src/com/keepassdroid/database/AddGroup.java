@@ -24,8 +24,6 @@ import java.lang.ref.WeakReference;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
 
-import android.os.Handler;
-
 import com.keepassdroid.Database;
 
 public class AddGroup extends RunnableOnFinish {
@@ -35,15 +33,15 @@ public class AddGroup extends RunnableOnFinish {
 	private PwGroup mGroup;
 	private boolean mDontSave;
 	
-	public AddGroup(Database db, String name, PwGroup parent, Handler handler, OnFinish finish, boolean dontSave) {
-		super(finish, handler);
+	public AddGroup(Database db, String name, PwGroup parent, OnFinish finish, boolean dontSave) {
+		super(finish);
 		
 		mDb = db;
 		mName = name;
 		mParent = parent;
 		mDontSave = dontSave;
 		
-		mFinish = new AfterAdd(mFinish, mHandler);
+		mFinish = new AfterAdd(mFinish);
 	}
 	
 	@Override
@@ -54,14 +52,14 @@ public class AddGroup extends RunnableOnFinish {
 		mGroup = pm.newGroup(mName, mParent);
 		
 		// Commit to disk
-		SaveDB save = new SaveDB(mDb, mHandler, mFinish, mDontSave);
+		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
 		save.run();
 	}
 	
 	private class AfterAdd extends OnFinish {
 
-		public AfterAdd(OnFinish finish, Handler handler) {
-			super(finish, handler);
+		public AfterAdd(OnFinish finish) {
+			super(finish);
 		}
 
 		@Override

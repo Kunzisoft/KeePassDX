@@ -26,7 +26,6 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.content.Context;
-import android.os.Handler;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
@@ -39,24 +38,24 @@ public class DeleteGroup extends RunnableOnFinish {
 	private Context mCtx;
 	private boolean mDontSave;
 	
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Handler handler, OnFinish finish) {
-		super(finish, handler);
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish) {
+		super(finish);
 		setMembers(db, group, act, act, false);
 	}
 	
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Handler handler, OnFinish finish, boolean dontSave) {
-		super(finish, handler);
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish, boolean dontSave) {
+		super(finish);
 		setMembers(db, group, act, act, dontSave);
 	}
 
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Context ctx, Handler handler, OnFinish finish, boolean dontSave) {
-		super(finish, handler);
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Context ctx, OnFinish finish, boolean dontSave) {
+		super(finish);
 		setMembers(db, group, act, ctx, dontSave);
 	}
 
 	
-	public DeleteGroup(Database db, PwGroup group, Context ctx, Handler handler, OnFinish finish, boolean dontSave) {
-		super(finish, handler);
+	public DeleteGroup(Database db, PwGroup group, Context ctx, OnFinish finish, boolean dontSave) {
+		super(finish);
 		setMembers(db, group, null, ctx, dontSave);
 	}
 
@@ -67,7 +66,7 @@ public class DeleteGroup extends RunnableOnFinish {
 		mCtx = ctx;
 		mDontSave = dontSave;
 
-		mFinish = new AfterDelete(mFinish, mHandler);
+		mFinish = new AfterDelete(mFinish);
 	}
 	
 	
@@ -79,14 +78,14 @@ public class DeleteGroup extends RunnableOnFinish {
 		// Remove child entries
 		Vector<PwEntry> childEnt = (Vector<PwEntry>) mGroup.childEntries.clone();
 		for ( int i = 0; i < childEnt.size(); i++ ) {
-			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), mCtx, mHandler, null, true);
+			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), mCtx, null, true);
 			task.run();
 		}
 		
 		// Remove child groups
 		Vector<PwGroup> childGrp = (Vector<PwGroup>) mGroup.childGroups.clone();
 		for ( int i = 0; i < childGrp.size(); i++ ) {
-			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, mCtx, mHandler, null, true);
+			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, mCtx, null, true);
 			task.run();
 		}
 		
@@ -101,14 +100,14 @@ public class DeleteGroup extends RunnableOnFinish {
 		mDb.mPM.groups.remove(mGroup);
 		
 		// Save
-		SaveDB save = new SaveDB(mDb, mHandler, mFinish, mDontSave);
+		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
 		save.run();
 
 	}
 	
 	private class AfterDelete extends OnFinish {
-		public AfterDelete(OnFinish finish, Handler handler) {
-			super(finish, handler);
+		public AfterDelete(OnFinish finish) {
+			super(finish);
 		}
 
 		public void run() {

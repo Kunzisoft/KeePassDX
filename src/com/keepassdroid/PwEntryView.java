@@ -75,7 +75,7 @@ public class PwEntryView extends ClickView {
 	
 	private void deleteEntry() {
 		Handler handler = new Handler();
-		DeleteEntry task = new DeleteEntry(KeePass.db, mPw, mAct, handler, mAct.new RefreshTask(handler));
+		DeleteEntry task = new DeleteEntry(KeePass.db, mPw, mAct, mAct.new RefreshTask(handler));
 		ProgressTask pt = new ProgressTask(mAct, task);
 		pt.run();
 		

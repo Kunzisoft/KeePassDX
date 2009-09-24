@@ -191,7 +191,7 @@ public class PasswordActivity extends Activity {
 			String fileName = getEditText(R.id.pass_filename);
 			
 			Handler handler = new Handler();
-			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, handler, fileName, pass, key, new AfterLoad(handler));
+			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, fileName, pass, key, new AfterLoad(handler));
 			ProgressTask pt = new ProgressTask(PasswordActivity.this, task);
 			pt.run();
 		}			
