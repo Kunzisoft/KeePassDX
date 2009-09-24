@@ -19,68 +19,74 @@
  */
 package com.keepassdroid.database;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
-import android.content.Context;
 import android.os.Handler;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.UIToastTask;
-import com.keepassdroid.keepasslib.PwManagerOutputException;
 
-public class UpdateEntry implements Runnable {
+public class UpdateEntry extends RunnableOnFinish {
 	private Database mDb;
-	private Context mCtx;
 	private PwEntry mOldE;
 	private PwEntry mNewE;
-	private Handler mHandler;
 	
-	public UpdateEntry(Database db, Context ctx, PwEntry oldE, PwEntry newE, Handler handler) {
+	public UpdateEntry(Database db, PwEntry oldE, PwEntry newE, Handler handler, OnFinish finish) {
+		super(finish, handler);
+		
 		mDb = db;
-		mCtx = ctx;
 		mOldE = oldE;
 		mNewE = newE;
-		mHandler = handler;
+		
+		// Keep backup of original values in case save fails
+		PwEntry backup = new PwEntry(mOldE);
+		mFinish = new AfterUpdate(backup, finish, handler);
 	}
 
 	@Override
 	public void run() {
-		// Keep backup of original values in case save fails
-		PwEntry backup = new PwEntry(mOldE);
-		
 		// Update entry with new values
 		mOldE.assign(mNewE);
 		
-		try {
-			mDb.SaveData();
-		} catch (PwManagerOutputException e) {
-			undoUpdateEntry(mOldE, backup);
-			mHandler.post(new UIToastTask(mCtx, "Failed to store database."));
-		} catch (IOException e) {
-			undoUpdateEntry(mOldE, backup);
-			mHandler.post(new UIToastTask(mCtx, "Failed to store database."));
-		}
-
-		// Mark group dirty if title changes
-		if ( ! mOldE.title.equals(mNewE.title) ) {
-			PwGroup parent = mOldE.parent;
-			if ( parent != null ) {
-				// Mark parent group dirty
-				mDb.gDirty.put(parent, new WeakReference<PwGroup>(parent));
-			}
+		// Commit to disk
+		SaveDB save = new SaveDB(mDb, mHandler, mFinish);
+		save.run();
+	}
+	
+	private class AfterUpdate extends OnFinish {
+		private PwEntry mBackup;
+		
+		public AfterUpdate(PwEntry backup, OnFinish finish, Handler handler) {
+			super(finish, handler);
+			
+			mBackup = backup;
 		}
 		
-		// Update search index
-		mDb.searchHelper.updateEntry(mOldE);
+		@Override
+		public void run() {
+			if ( mSuccess ) {
+				// Mark group dirty if title changes
+				if ( ! mBackup.title.equals(mNewE.title) ) {
+					PwGroup parent = mBackup.parent;
+					if ( parent != null ) {
+						// Mark parent group dirty
+						mDb.gDirty.put(parent, new WeakReference<PwGroup>(parent));
+					}
+
+					// Update search index
+					mDb.searchHelper.updateEntry(mOldE);
+				}
+			} else {
+				// If we fail to save, back out changes to global structure
+				mOldE.assign(mBackup);
+			}
+			
+			super.run();
+		}
+		
 	}
 
-	private void undoUpdateEntry(PwEntry old, PwEntry backup) {
-		// If we fail to save, back out changes to global structure
-		old.assign(backup);
-	}
 
 }

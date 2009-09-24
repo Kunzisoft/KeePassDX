@@ -181,6 +181,8 @@ public class PwEntry {
 	  binaryData = new byte[descLen]; 
 	  System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
 	  
+	  parent = source.parent;
+	  
   }
 
   /** Size of byte buffer needed to hold this struct. */

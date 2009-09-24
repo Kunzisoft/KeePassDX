@@ -19,35 +19,31 @@
  */
 package com.keepassdroid.database;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
 
-import android.content.Context;
 import android.os.Handler;
 
-import com.android.keepass.R;
 import com.keepassdroid.Database;
-import com.keepassdroid.UIToastTask;
-import com.keepassdroid.keepasslib.PwManagerOutputException;
 
-public class AddGroup implements Runnable {
+public class AddGroup extends RunnableOnFinish {
 	private Database mDb;
 	private String mName;
 	private PwGroup mParent;
-	private Handler mHandler;
-	private Context mCtx;
-	private boolean mNoSave;
+	private PwGroup mGroup;
+	private boolean mDontSave;
 	
-	public AddGroup(Database db, Context ctx, String name, PwGroup parent, Handler handler, boolean noSave) {
+	public AddGroup(Database db, String name, PwGroup parent, Handler handler, OnFinish finish, boolean dontSave) {
+		super(finish, handler);
+		
 		mDb = db;
-		mCtx = ctx;
 		mName = name;
 		mParent = parent;
-		mHandler = handler;
-		mNoSave = noSave;
+		mDontSave = dontSave;
+		
+		mFinish = new AfterAdd(mFinish, mHandler);
 	}
 	
 	@Override
@@ -55,28 +51,34 @@ public class AddGroup implements Runnable {
 		PwManager pm = mDb.mPM;
 		
 		// Generate new group
-		PwGroup group = pm.newGroup(mName, mParent);
+		mGroup = pm.newGroup(mName, mParent);
 		
 		// Commit to disk
-		if ( ! mNoSave ) {
-			try {
-				mDb.SaveData();
-			} catch (PwManagerOutputException e) {
-				pm.removeGroup(group);
-				mHandler.post(new UIToastTask(mCtx, R.string.error_could_not_create_group));
-				return;
-			} catch (IOException e) {
-				pm.removeGroup(group);
-				mHandler.post(new UIToastTask(mCtx, R.string.error_could_not_create_group));
-				return;
-			}
+		SaveDB save = new SaveDB(mDb, mHandler, mFinish, mDontSave);
+		save.run();
+	}
+	
+	private class AfterAdd extends OnFinish {
+
+		public AfterAdd(OnFinish finish, Handler handler) {
+			super(finish, handler);
 		}
-		
-		// Mark parent group dirty
-		mDb.gDirty.put(mParent, new WeakReference<PwGroup>(mParent));
-		
-		// Add group to global list
-		mDb.gGroups.put(group.groupId, new WeakReference<PwGroup>(group));
+
+		@Override
+		public void run() {
+			
+			if ( mSuccess ) {
+				// Mark parent group dirty
+				mDb.gDirty.put(mParent, new WeakReference<PwGroup>(mParent));
+				
+				// Add group to global list
+				mDb.gGroups.put(mGroup.groupId, new WeakReference<PwGroup>(mGroup));
+			} else {
+				mDb.mPM.removeGroup(mGroup);
+			}
+			
+			super.run();
+		}
 
 	}
 

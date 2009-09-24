@@ -43,6 +43,8 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.database.AddEntry;
+import com.keepassdroid.database.OnFinish;
+import com.keepassdroid.database.RunnableOnFinish;
 import com.keepassdroid.database.UpdateEntry;
 
 public class EntryEditActivity extends LockingActivity {
@@ -166,13 +168,16 @@ public class EntryEditActivity extends LockingActivity {
 					setResult(KeePass.EXIT_REFRESH_TITLE);
 				}
 				
-				Runnable task;
+				RunnableOnFinish task;
+				Handler handler = new Handler();
+				OnFinish onFinish = act.new AfterSave(handler);
+				
 				if ( mIsNew ) {
-					task = new AddEntry(KeePass.db, act, newEntry, new Handler());
+					task = new AddEntry(KeePass.db, newEntry, handler, onFinish);
 				} else {
-					task = new UpdateEntry(KeePass.db, act, mEntry, newEntry, new Handler());
+					task = new UpdateEntry(KeePass.db, mEntry, newEntry, handler, onFinish);
 				}
-				ProgressTask pt = new ProgressTask(act, task, act.new AfterSave());
+				ProgressTask pt = new ProgressTask(act, task);
 				pt.run();
 			}
 			
@@ -252,11 +257,19 @@ public class EntryEditActivity extends LockingActivity {
 		tv.setText(text);
 	}
 	
-	private final class AfterSave implements Runnable {
+	private final class AfterSave extends OnFinish {
+
+		public AfterSave(Handler handler) {
+			super(handler);
+		}
 
 		@Override
 		public void run() {
-			finish();
+			if ( mSuccess ) {
+				finish();
+			} else {
+				displayMessage(EntryEditActivity.this);
+			}
 		}
 		
 	}

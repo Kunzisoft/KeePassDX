@@ -19,31 +19,27 @@
  */
 package com.keepassdroid.database;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.Types;
 
-import android.content.Context;
 import android.os.Handler;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.UIToastTask;
-import com.keepassdroid.keepasslib.PwManagerOutputException;
 
-public class AddEntry implements Runnable {
+public class AddEntry extends RunnableOnFinish {
 	private Database mDb;
-	private Context mCtx;
 	private PwEntry mEntry;
-	private Handler mHandler;
 	
-	public AddEntry(Database db, Context ctx, PwEntry entry, Handler handler) {
+	public AddEntry(Database db, PwEntry entry, Handler handler, OnFinish finish) {
+		super(finish, handler);
+		
 		mDb = db;
-		mCtx = ctx;
 		mEntry = entry;
-		mHandler = handler;
+		
+		mFinish = new AfterAdd(mFinish, mHandler);
 	}
 	
 	@Override
@@ -57,32 +53,41 @@ public class AddEntry implements Runnable {
 		mDb.mPM.entries.add(mEntry);
 		
 		// Commit to disk
-		try {
-			mDb.SaveData();
-		} catch (PwManagerOutputException e) {
-			undoNewEntry(mEntry);
-			mHandler.post(new UIToastTask(mCtx, "Failed to store database."));
-		} catch (IOException e) {
-			undoNewEntry(mEntry);
-			mHandler.post(new UIToastTask(mCtx, "Failed to store database."));
+		SaveDB save = new SaveDB(mDb, mHandler, mFinish);
+		save.run();
+	}
+	
+	private class AfterAdd extends OnFinish {
+
+		public AfterAdd(OnFinish finish, Handler handler) {
+			super(finish, handler);
 		}
-		
-		// Mark parent group dirty
-		mDb.gDirty.put(parent, new WeakReference<PwGroup>(parent));
 
-		// Add entry to global
-		mDb.gEntries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntry>(mEntry));
-		
-		// Add entry to search index
-		mDb.searchHelper.insertEntry(mEntry);
-	}
+		@Override
+		public void run() {
+			if ( mSuccess ) {
+				PwGroup parent = mEntry.parent;
 
-	private void undoNewEntry(PwEntry entry) {
-		// Remove from group
-		entry.parent.childEntries.removeElement(entry);
-		
-		// Remove from manager
-		mDb.mPM.entries.removeElement(entry);
+				// Mark parent group dirty
+				mDb.gDirty.put(parent, new WeakReference<PwGroup>(parent));
+
+				// Add entry to global
+				mDb.gEntries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntry>(mEntry));
+				
+				// Add entry to search index
+				mDb.searchHelper.insertEntry(mEntry);
+			} else {
+				// Remove from group
+				mEntry.parent.childEntries.removeElement(mEntry);
+				
+				// Remove from manager
+				mDb.mPM.entries.removeElement(mEntry);
+
+			}
+			
+			super.run();
+		}
 	}
+	
 
 }

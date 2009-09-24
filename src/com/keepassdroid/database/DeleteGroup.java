@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.database;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Vector;
 
@@ -31,58 +30,63 @@ import android.os.Handler;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
-import com.keepassdroid.keepasslib.PwManagerOutputException;
 
-public class DeleteGroup implements Runnable {
+public class DeleteGroup extends RunnableOnFinish {
 	
 	private Database mDb;
 	private PwGroup mGroup;
-	private Handler mHandler;
 	private GroupBaseActivity mAct;
 	private Context mCtx;
 	private boolean mDontSave;
 	
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Handler handler) {
-		setMembers(db, group, act, act, handler, false);
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Handler handler, OnFinish finish) {
+		super(finish, handler);
+		setMembers(db, group, act, act, false);
 	}
 	
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Handler handler, boolean dontSave) {
-		setMembers(db, group, act, act, handler, dontSave);
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Handler handler, OnFinish finish, boolean dontSave) {
+		super(finish, handler);
+		setMembers(db, group, act, act, dontSave);
 	}
 
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Context ctx, Handler handler, boolean dontSave) {
-		setMembers(db, group, act, ctx, handler, dontSave);
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Context ctx, Handler handler, OnFinish finish, boolean dontSave) {
+		super(finish, handler);
+		setMembers(db, group, act, ctx, dontSave);
 	}
 
 	
-	public DeleteGroup(Database db, PwGroup group, Context ctx, Handler handler, boolean dontSave) {
-		setMembers(db, group, null, ctx, handler, dontSave);
+	public DeleteGroup(Database db, PwGroup group, Context ctx, Handler handler, OnFinish finish, boolean dontSave) {
+		super(finish, handler);
+		setMembers(db, group, null, ctx, dontSave);
 	}
 
-	private void setMembers(Database db, PwGroup group, GroupBaseActivity act, Context ctx, Handler handler, boolean dontSave) {
+	private void setMembers(Database db, PwGroup group, GroupBaseActivity act, Context ctx, boolean dontSave) {
 		mDb = db;
 		mGroup = group;
-		mHandler = handler;
 		mAct = act;
 		mCtx = ctx;
 		mDontSave = dontSave;
+
+		mFinish = new AfterDelete(mFinish, mHandler);
 	}
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
+		
 		// Remove child entries
-		Vector<PwEntry> childEnt = mGroup.childEntries;
-		if ( childEnt.size() > 0 ) {
-			DeleteEntry task = new DeleteEntry(mDb, childEnt, mCtx, mHandler, true);
+		Vector<PwEntry> childEnt = (Vector<PwEntry>) mGroup.childEntries.clone();
+		for ( int i = 0; i < childEnt.size(); i++ ) {
+			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), mCtx, mHandler, null, true);
 			task.run();
 		}
 		
 		// Remove child groups
-		Vector<PwGroup> childGrp = mGroup.childGroups;
+		Vector<PwGroup> childGrp = (Vector<PwGroup>) mGroup.childGroups.clone();
 		for ( int i = 0; i < childGrp.size(); i++ ) {
-			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, mCtx, mHandler, true);
+			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, mCtx, mHandler, null, true);
 			task.run();
 		}
 		
@@ -97,40 +101,40 @@ public class DeleteGroup implements Runnable {
 		mDb.mPM.groups.remove(mGroup);
 		
 		// Save
-		if ( ! mDontSave ) {
-			try {
-				mDb.SaveData();
-			} catch (IOException e) {
-				saveError(e.getMessage());
-				return;
-			} catch (PwManagerOutputException e) {
-				saveError(e.getMessage());
-				return;
-			}
-		}
-		
-		// Remove from group global
-		mDb.gGroups.remove(mGroup.groupId);
-		
-		// Remove group from the dirty global (if it is present), not a big deal if this fails
-		try {
-			mDb.gDirty.remove(mGroup);
-		} catch ( Exception e) {
-			// Suppress
-		}
-		
-		// Mark parent dirty
-		if ( parent != null ) {
-			mDb.gDirty.put(parent, new WeakReference<PwGroup>(parent));
-		}
+		SaveDB save = new SaveDB(mDb, mHandler, mFinish, mDontSave);
+		save.run();
 
 	}
 	
-	private void saveError(String msg) {
-		// Let's not bother recovering from a failure to save a deleted group.  It is too much work.
-		if ( mAct != null ) {
-			mHandler.post(mAct.new FatalError(msg));
+	private class AfterDelete extends OnFinish {
+		public AfterDelete(OnFinish finish, Handler handler) {
+			super(finish, handler);
 		}
+
+		public void run() {
+			if ( mSuccess ) {
+				// Remove from group global
+				mDb.gGroups.remove(mGroup.groupId);
+				
+				// Remove group from the dirty global (if it is present), not a big deal if this fails
+				try {
+					mDb.gDirty.remove(mGroup);
+				} catch ( Exception e) {
+					// Suppress
+				}
+				
+				// Mark parent dirty
+				PwGroup parent = mGroup.parent;
+				if ( parent != null ) {
+					mDb.gDirty.put(parent, new WeakReference<PwGroup>(parent));
+				}
+			} else {
+				// Let's not bother recovering from a failure to save a deleted group.  It is too much work.
+			}
+			
+			super.run();
+
+		}
+
 	}
-	
 }

@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.database.LoadDB;
+import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.fileselect.FileDbHelper;
 import com.keepassdroid.intents.TimeoutIntents;
 
@@ -189,8 +190,9 @@ public class PasswordActivity extends Activity {
 			
 			String fileName = getEditText(R.id.pass_filename);
 			
-			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, new Handler(), fileName, pass, key);
-			ProgressTask pt = new ProgressTask(PasswordActivity.this, task, new AfterLoad());
+			Handler handler = new Handler();
+			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, handler, fileName, pass, key, new AfterLoad(handler));
+			ProgressTask pt = new ProgressTask(PasswordActivity.this, task);
 			pt.run();
 		}			
 	}
@@ -230,11 +232,19 @@ public class PasswordActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private final class AfterLoad implements Runnable {
+	private final class AfterLoad extends OnFinish {
 		
+		public AfterLoad(Handler handler) {
+			super(handler);
+		}
+
 		@Override
 		public void run() {
-			GroupActivity.Launch(PasswordActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
+			if ( mSuccess ) {
+				GroupActivity.Launch(PasswordActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
+			} else {
+				displayMessage(PasswordActivity.this);
+			}
 		}
 	}
 	

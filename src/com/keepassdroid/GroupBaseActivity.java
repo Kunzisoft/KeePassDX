@@ -24,6 +24,7 @@ import org.phoneid.keepassj2me.PwGroup;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,10 +32,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.database.OnFinish;
 
 public abstract class GroupBaseActivity extends LockingListActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -151,13 +152,40 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public class RefreshTask implements Runnable {
+	public class RefreshTask extends OnFinish {
+		public RefreshTask(Handler handler) {
+			super(handler);
+		}
+
 		@Override
 		public void run() {
-			refreshIfDirty();
+			if ( mSuccess) {
+				refreshIfDirty();
+			} else {
+				displayMessage(GroupBaseActivity.this);
+			}
 		}
 	}
 	
+	public class AfterDeleteGroup extends OnFinish {
+		public AfterDeleteGroup(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		public void run() {
+			if ( mSuccess) {
+				refreshIfDirty();
+			} else {
+				mHandler.post(new UIToastTask(GroupBaseActivity.this, "Unrecoverable error: " + mMessage));
+				KeePass.db.shutdown = true;
+				finish();
+			}
+		}
+
+	}
+	
+	/*
 	public class FatalError implements Runnable {
 		String mMsg;
 		
@@ -173,5 +201,6 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		}
 		
 	}
+	*/
 
 }

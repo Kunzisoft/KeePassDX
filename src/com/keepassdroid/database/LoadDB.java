@@ -29,22 +29,21 @@ import android.os.Handler;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
-import com.keepassdroid.UIToastTask;
 import com.keepassdroid.fileselect.FileDbHelper;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
 
-public class LoadDB implements Runnable {
+public class LoadDB extends RunnableOnFinish {
 	private String mFileName;
 	private String mPass;
 	private String mKey;
 	private Database mDb;
 	private Context mCtx;
-	private Handler mHandler;
 	
-	public LoadDB(Database db, Context ctx, Handler handler, String fileName, String pass, String key) {
+	public LoadDB(Database db, Context ctx, Handler handler, String fileName, String pass, String key, OnFinish finish) {
+		super(finish, handler);
+		
 		mDb = db;
 		mCtx = ctx;
-		mHandler = handler;
 		mFileName = fileName;
 		mPass = pass;
 		mKey = key;
@@ -57,14 +56,20 @@ public class LoadDB implements Runnable {
 			saveFileData(mFileName, mKey);
 			
 		} catch (InvalidCipherTextException e) {
-			mHandler.post(new UIToastTask(mCtx, R.string.InvalidPassword));
+			finish(false, mCtx.getString(R.string.InvalidPassword));
+			return;
 		} catch (FileNotFoundException e) {
-			mHandler.post(new UIToastTask(mCtx, R.string.FileNotFound));
+			finish(false, mCtx.getString(R.string.FileNotFound));
+			return;
 		} catch (IOException e) {
-			mHandler.post(new UIToastTask(mCtx, e.getMessage()));
+			finish(false, e.getMessage());
+			return;
 		} catch (InvalidKeyFileException e) {
-			mHandler.post(new UIToastTask(mCtx, e.getMessage()));
+			finish(false, e.getMessage());
+			return;
 		}
+		
+		finish(true);
 	}
 	
 	private void saveFileData(String fileName, String key) {

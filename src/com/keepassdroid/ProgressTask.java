@@ -23,6 +23,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
+import com.keepassdroid.database.OnFinish;
+import com.keepassdroid.database.RunnableOnFinish;
+
 /** Designed to Pop up a progress dialog, run a thread in the background, 
  *  run cleanup in the current thread, close the dialog.  Without blocking 
  *  the current thread.
@@ -30,66 +33,51 @@ import android.os.Handler;
  * @author bpellin
  *
  */
-public class ProgressTask {
+public class ProgressTask implements Runnable {
 	private Context mCtx;
 	private Handler mHandler;
-	private Runnable mTask;
-	private Runnable mOnFinish;
+	private RunnableOnFinish mTask;
 	private ProgressDialog mPd;
 	
-	public ProgressTask(Context ctx, Runnable task, Runnable onFinish) {
+	public ProgressTask(Context ctx, RunnableOnFinish task) {
 		mCtx = ctx;
 		mTask = task;
-		mOnFinish = onFinish;
 		mHandler = new Handler();
 		
 		// Show process dialog
 		mPd = new ProgressDialog(mCtx);
 		mPd.setTitle("Working...");
 		mPd.setMessage("Saving Database...");
+
+		// Set code to run when this is finished
+		mTask.mFinish = new AfterTask(task.mFinish, mHandler);
+		
 	}
 	
 	public void run() {
 		// Show process dialog
 		mPd.show();
 		
+			
 		// Start Thread to Run task
-		Thread t = new Thread(new RunOnFinish(mTask, mOnFinish));
+		Thread t = new Thread(mTask);
 		t.start();
 		
 	}
 	
-	
-	private class RunOnFinish implements Runnable {
+	private class AfterTask extends OnFinish {
 		
-		Runnable mTask;
-		Runnable mOnFinish;
-		
-		public RunOnFinish(Runnable task, Runnable onFinish) {
-			mTask = task;
-			mOnFinish = onFinish;
+		public AfterTask(OnFinish finish, Handler handler) {
+			super(finish, handler);
 		}
-		
+
 		@Override
 		public void run() {
-			
-			Thread t = new Thread(mTask);
-			t.start();
-			
-			// Wait for the thread to finish
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				// Assume the thread has finished an continue
-			}
-			
-			// Execute the final code
-			if ( mOnFinish != null ) {
-				mHandler.post(mOnFinish);
-			}
+			super.run();
 			
 			// Remove the progress dialog
 			mHandler.post(new CloseProcessDialog());
+			
 		}
 		
 	}

@@ -159,8 +159,9 @@ public class GroupActivity extends GroupBaseActivity {
 					
 					if ( ! mDialog.canceled() && res.length() > 0 ) {
 						GroupActivity act = GroupActivity.this;
-						AddGroup task = new AddGroup(KeePass.db, act, res, mGroup, new Handler(), false);
-						ProgressTask pt = new ProgressTask(act, task, act.new RefreshTask());
+						Handler handler = new Handler();
+						AddGroup task = new AddGroup(KeePass.db, res, mGroup, handler, act.new RefreshTask(handler), false);
+						ProgressTask pt = new ProgressTask(act, task);
 						pt.run();
 					}
 				}
