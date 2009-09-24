@@ -40,7 +40,7 @@ public class PwEntryView extends ClickView {
 	private TextView mTv;
 	private int mPos;
 	
-	private static final int MENU_EDIT = Menu.FIRST;
+	private static final int MENU_OPEN = Menu.FIRST;
 	private static final int MENU_DELETE = Menu.FIRST + 1;
 	
 	public PwEntryView(GroupBaseActivity act, PwEntry pw, int pos) {
@@ -83,7 +83,7 @@ public class PwEntryView extends ClickView {
 
 	@Override
 	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
-		menu.add(0, MENU_EDIT, 0, R.string.menu_edit);
+		menu.add(0, MENU_OPEN, 0, R.string.menu_open);
 		menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
 	}
 
@@ -91,7 +91,7 @@ public class PwEntryView extends ClickView {
 	public boolean onContextItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
 		
-		case MENU_EDIT:
+		case MENU_OPEN:
 			launchEntry();
 			return true;
 			
