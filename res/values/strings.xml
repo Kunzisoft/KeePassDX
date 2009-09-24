@@ -40,14 +40,12 @@
 	<string name="menu_open">Open</string>
 	<string name="menu_rename">Rename</string>
 	<string name="pass_filename">KeePass database filename:</string>
-	
 	<string name="menu_homepage">Go to Homepage</string>
 	<string name="homepage">http://www.keepassdroid.com</string>
 	<string name="menu_lock">Lock Database</string>
 	<string name="error_nopass">A password or a keyfile is requried.</string>
 	<string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
 	<string name="entry_keyfile">Key file (optional)</string>
-	
 	<string name="group">Group</string>
 	<string name="current_group">Current Group: </string>
 	<string name="root">Root</string>
@@ -94,4 +92,7 @@
 	<string name="rounds_explaination">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
 	<string name="error_database_settings">Failed to determine database settings.</string>
 	<string name="error_rounds_not_number">Rounds must be a number.</string>
+	<string name="saving_database">Saving database...</string>
+	<string name="loading_database">Loading database...</string>
+	<string name="progress_title">Working...</string>
 </resources>

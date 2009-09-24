@@ -161,7 +161,7 @@ public class GroupActivity extends GroupBaseActivity {
 						GroupActivity act = GroupActivity.this;
 						Handler handler = new Handler();
 						AddGroup task = new AddGroup(KeePass.db, res, mGroup, act.new RefreshTask(handler), false);
-						ProgressTask pt = new ProgressTask(act, task);
+						ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 						pt.run();
 					}
 				}

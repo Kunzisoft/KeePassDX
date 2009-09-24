@@ -23,6 +23,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
+import com.android.keepass.R;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.database.RunnableOnFinish;
 
@@ -39,15 +40,15 @@ public class ProgressTask implements Runnable {
 	private RunnableOnFinish mTask;
 	private ProgressDialog mPd;
 	
-	public ProgressTask(Context ctx, RunnableOnFinish task) {
+	public ProgressTask(Context ctx, RunnableOnFinish task, int messageId) {
 		mCtx = ctx;
 		mTask = task;
 		mHandler = new Handler();
 		
 		// Show process dialog
 		mPd = new ProgressDialog(mCtx);
-		mPd.setTitle("Working...");
-		mPd.setMessage("Saving Database...");
+		mPd.setTitle(ctx.getText(R.string.progress_title));
+		mPd.setMessage(ctx.getText(messageId));
 
 		// Set code to run when this is finished
 		mTask.mFinish = new AfterTask(task.mFinish, mHandler);

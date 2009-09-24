@@ -85,7 +85,7 @@ public class PwGroupView extends ClickView {
 		case MENU_DELETE:
 			Handler handler = new Handler();
 			DeleteGroup task = new DeleteGroup(KeePass.db, mPw, mAct, mAct.new AfterDeleteGroup(handler));
-			ProgressTask pt = new ProgressTask(mAct, task);
+			ProgressTask pt = new ProgressTask(mAct, task, R.string.saving_database);
 			pt.run();
 			return true;
 		

@@ -176,7 +176,7 @@ public class EntryEditActivity extends LockingActivity {
 				} else {
 					task = new UpdateEntry(KeePass.db, mEntry, newEntry, onFinish);
 				}
-				ProgressTask pt = new ProgressTask(act, task);
+				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 				pt.run();
 			}
 			

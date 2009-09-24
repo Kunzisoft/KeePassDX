@@ -192,7 +192,7 @@ public class PasswordActivity extends Activity {
 			
 			Handler handler = new Handler();
 			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, fileName, pass, key, new AfterLoad(handler));
-			ProgressTask pt = new ProgressTask(PasswordActivity.this, task);
+			ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
 			pt.run();
 		}			
 	}
