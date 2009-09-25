@@ -36,6 +36,7 @@ import android.widget.TextView;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.database.OnFinish;
+import com.keepassdroid.settings.DatabaseSettingsActivity;
 
 public abstract class GroupBaseActivity extends LockingListActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -43,6 +44,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	
 	protected static final int MENU_LOCK = Menu.FIRST;
 	protected static final int MENU_SEARCH = Menu.FIRST + 1;
+	protected static final int MENU_DB_SETTINGS = Menu.FIRST + 2;
 	
 	protected PwGroup mGroup;
 
@@ -132,6 +134,9 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		menu.add(0, MENU_SEARCH, 0, R.string.menu_search);
 		menu.findItem(MENU_SEARCH).setIcon(android.R.drawable.ic_menu_search);
 		
+		menu.add(0, MENU_DB_SETTINGS, 0, R.string.menu_db_settings);
+		menu.findItem(MENU_DB_SETTINGS).setIcon(android.R.drawable.ic_menu_manage);
+		
 		return true;
 	}
 
@@ -146,6 +151,10 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		
 		case MENU_SEARCH:
 			onSearchRequested();
+			return true;
+			
+		case MENU_DB_SETTINGS:
+			DatabaseSettingsActivity.Launch(this);
 			return true;
 		}
 		

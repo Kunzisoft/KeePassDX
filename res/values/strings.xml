@@ -39,6 +39,7 @@
 	<string name="menu_delete">Delete</string>
 	<string name="menu_open">Open</string>
 	<string name="menu_rename">Rename</string>
+	<string name="menu_db_settings">Database Settings</string>
 	<string name="pass_filename">KeePass database filename:</string>
 	<string name="menu_homepage">Go to Homepage</string>
 	<string name="homepage">http://www.keepassdroid.com</string>
