@@ -45,6 +45,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	protected static final int MENU_LOCK = Menu.FIRST;
 	protected static final int MENU_SEARCH = Menu.FIRST + 1;
 	protected static final int MENU_DB_SETTINGS = Menu.FIRST + 2;
+	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 3;
 	
 	protected PwGroup mGroup;
 
@@ -135,8 +136,10 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		menu.findItem(MENU_SEARCH).setIcon(android.R.drawable.ic_menu_search);
 		
 		menu.add(0, MENU_DB_SETTINGS, 0, R.string.menu_db_settings);
-		menu.findItem(MENU_DB_SETTINGS).setIcon(android.R.drawable.ic_menu_manage);
+		menu.findItem(MENU_DB_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
 		
+		menu.add(0, MENU_CHANGE_MASTER_KEY, 0, R.string.menu_change_key);
+		menu.findItem(MENU_CHANGE_MASTER_KEY).setIcon(android.R.drawable.ic_menu_manage);
 		return true;
 	}
 
@@ -156,11 +159,21 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		case MENU_DB_SETTINGS:
 			DatabaseSettingsActivity.Launch(this);
 			return true;
+
+		case MENU_CHANGE_MASTER_KEY:
+			setPassword();
+			return true;
 		}
 		
 		return super.onOptionsItemSelected(item);
 	}
-
+	
+	private void setPassword() {
+		SetPasswordDialog dialog = new SetPasswordDialog(this);
+		
+		dialog.show();
+	}
+	
 	public class RefreshTask extends OnFinish {
 		public RefreshTask(Handler handler) {
 			super(handler);
@@ -194,22 +207,4 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 
 	}
 	
-	/*
-	public class FatalError implements Runnable {
-		String mMsg;
-		
-		public FatalError(String msg) {
-			mMsg = msg;
-		}
-		
-		@Override
-		public void run() {
-			Toast.makeText(GroupBaseActivity.this, "Unrecoverable error: " + mMsg, Toast.LENGTH_LONG);
-			KeePass.db.shutdown = true;
-			finish();
-		}
-		
-	}
-	*/
-
 }

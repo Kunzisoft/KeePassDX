@@ -92,38 +92,44 @@ public class PwManager {
     
     public void setMasterKey( String key, String keyFileName ) throws InvalidKeyFileException, IOException {
     	assert( key != null && keyFileName != null );
+
+    	masterKey = getMasterKey(key, keyFileName);
+    }
+    
+    public static byte[] getMasterKey(String key, String keyFileName) throws InvalidKeyFileException, IOException {
+    	assert( key != null && keyFileName != null );
     	
     	if ( key.length() > 0 && keyFileName.length() > 0 ) {
-    		setCompositeKey(key, keyFileName);
+    		return getCompositeKey(key, keyFileName);
     	} else if ( key.length() > 0 ) {
-    		setPasswordKey(key);
+    		return getPasswordKey(key);
     	} else if ( keyFileName.length() > 0 ) {
-    		setFileKey(keyFileName);
+    		return getFileKey(keyFileName);
     	} else {
     		throw new IllegalArgumentException( "Key cannot be empty." );
     	}
+    	
     }
     
-    private void setCompositeKey( String key, String keyFileName) throws InvalidKeyFileException, IOException {
+    private static byte[] getCompositeKey( String key, String keyFileName) throws InvalidKeyFileException, IOException {
     	assert(key != null && keyFileName != null);
     	
-    	byte[] fileKey = new byte[32];
-    	setFileKey(keyFileName);
-    	System.arraycopy(masterKey, 0, fileKey, 0, 32);
+    	byte[] fileKey = getFileKey(keyFileName);
     	
-    	byte[] passwordKey = new byte[32];
-    	setPasswordKey(key);
-    	System.arraycopy(masterKey, 0, passwordKey, 0, 32);
+    	byte[] passwordKey = getPasswordKey(key);
     	
     	SHA256Digest md = new SHA256Digest();
     	md.update(passwordKey, 0, 32);
     	md.update(fileKey, 0, 32);
-    	masterKey = new byte[md.getDigestSize()];
-    	md.doFinal(masterKey, 0);
+    	
+    	byte[] outputKey = new byte[md.getDigestSize()];
+    	md.doFinal(outputKey, 0);
+    	
+    	return outputKey;
     	
     }
     
-    private void setFileKey(String fileName) throws InvalidKeyFileException, IOException {
+    private static byte[] getFileKey(String fileName) throws InvalidKeyFileException, IOException {
 		assert(fileName != null);
 		
 		File keyfile = new File(fileName);
@@ -144,12 +150,12 @@ public class PwManager {
 		if ( fileSize == 0 ) {
 			throw new InvalidKeyFileException("Key file is empty.");
 		} else if ( fileSize == 32 ) {
-			masterKey = new byte[32];
-			if ( fis.read(masterKey, 0, 32) != 32 ) {
+			byte[] outputKey = new byte[32];
+			if ( fis.read(outputKey, 0, 32) != 32 ) {
 				throw new IOException("Error reading key.");
 			}
 			
-			return;
+			return outputKey;
 		} else if ( fileSize == 64 ) {
 			byte[] hex = new byte[64];
 			
@@ -157,8 +163,7 @@ public class PwManager {
 				throw new IOException("Error reading key.");
 			}
 
-			masterKey = hexStringToByteArray(new String(hex));
-			return;
+			return hexStringToByteArray(new String(hex));
 		}
 	
 		SHA256Digest md = new SHA256Digest();
@@ -177,8 +182,9 @@ public class PwManager {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		masterKey = new byte[md.getDigestSize()];
-		md.doFinal(masterKey, 0);
+		byte[] outputKey = new byte[md.getDigestSize()];
+		md.doFinal(outputKey, 0);
+		return outputKey;
     }
     
     
@@ -192,7 +198,7 @@ public class PwManager {
         return data;
     }
    
-    private void setPasswordKey(String key ) {
+    private static byte[] getPasswordKey(String key) {
     	assert(key!=null);
     	
 		if ( key.length() == 0 )
@@ -207,8 +213,10 @@ public class PwManager {
 			bKey = key.getBytes();
 		}
 		md.update(bKey, 0, bKey.length );
-		masterKey = new byte[md.getDigestSize()];
-		md.doFinal(masterKey, 0);
+		byte[] outputKey = new byte[md.getDigestSize()];
+		md.doFinal(outputKey, 0);
+		
+		return outputKey;
     }
     	
   /*

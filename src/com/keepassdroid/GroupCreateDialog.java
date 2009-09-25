@@ -19,7 +19,6 @@
  */
 package com.keepassdroid;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -29,25 +28,17 @@ import android.widget.Toast;
 
 import com.android.keepass.R;
 
-public class GroupCreateDialog extends Dialog {
-	Context mCtx;
+public class GroupCreateDialog extends CancelDialog {
 	String mRes;
-	boolean mCanceled = false;
 	
 	public GroupCreateDialog(Context context) {
 		super(context);
-		
-		mCtx = context;
 	}
 	
 	public String getResponse() {
 		return mRes;
 	}
 	
-	public boolean canceled() {
-		return mCanceled;
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,7 +55,7 @@ public class GroupCreateDialog extends Dialog {
 					mRes = name; 
 					dismiss();
 				} else {
-					Toast.makeText(mCtx, R.string.error_no_name, Toast.LENGTH_LONG).show();
+					Toast.makeText(getContext(), R.string.error_no_name, Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -72,7 +63,6 @@ public class GroupCreateDialog extends Dialog {
 		Button cancel = (Button) findViewById(R.id.cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				mCanceled = true;
 				cancel();
 			}
 		});
