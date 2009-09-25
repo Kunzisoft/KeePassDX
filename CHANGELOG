@@ -1,3 +1,7 @@
+KeePassDroid (0.6)
+  * Add database settings
+  * Add password changing
+
 KeePassDroid (0.5)
   * Correct group output logic
   * Fix search
