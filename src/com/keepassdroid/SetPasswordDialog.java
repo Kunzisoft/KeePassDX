@@ -29,25 +29,40 @@ import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.database.FileOnFinish;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.database.SetPassword;
 
 public class SetPasswordDialog extends CancelDialog {
 
 	private byte[] masterKey;
+	private String mKeyfile;
+	private FileOnFinish mFinish;
 		
 	public SetPasswordDialog(Context context) {
 		super(context);
 	}
 	
+	public SetPasswordDialog(Context context, FileOnFinish finish) {
+		super(context);
+		
+		mFinish = finish;
+	}
+	
 	public byte[] getKey() {
 		return masterKey;
+	}
+	
+	public String keyfile() {
+		return mKeyfile;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.set_password);
+		
+		setTitle(R.string.password_title);
 		
 		// Ok button
 		Button okButton = (Button) findViewById(R.id.ok);
@@ -69,6 +84,7 @@ public class SetPasswordDialog extends CancelDialog {
 				
 				TextView keyfileView = (TextView) findViewById(R.id.pass_keyfile);
 				String keyfile = keyfileView.getText().toString();
+				mKeyfile = keyfile;
 				
 				// Verify that a password or keyfile is set
 				if ( pass.length() == 0 && keyfile.length() == 0 ) {
@@ -77,7 +93,7 @@ public class SetPasswordDialog extends CancelDialog {
 					
 				}
 				
-				SetPassword sp = new SetPassword(KeePass.db, pass, keyfile, new AfterSave(new Handler()));
+				SetPassword sp = new SetPassword(KeePass.db, pass, keyfile, new AfterSave(mFinish, new Handler()));
 				ProgressTask pt = new ProgressTask(getContext(), sp, R.string.saving_database);
 				pt.run();
 			}
@@ -91,18 +107,27 @@ public class SetPasswordDialog extends CancelDialog {
 			@Override
 			public void onClick(View v) {
 				cancel();
+				if ( mFinish != null ) {
+					mFinish.run();
+				}
 			}
 		});
 	}
 
 	private class AfterSave extends OnFinish {
-		public AfterSave(Handler handler) {
-			super(handler);
+		private FileOnFinish mFinish;
+		
+		public AfterSave(FileOnFinish finish, Handler handler) {
+			super(finish, handler);
+			mFinish = finish;
 		}
 
 		@Override
 		public void run() {
 			if ( mSuccess ) {
+				if ( mFinish != null ) {
+					mFinish.setFilename(mKeyfile);
+				}
 				dismiss();
 			} else {
 				displayMessage(getContext());

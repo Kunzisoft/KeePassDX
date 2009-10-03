@@ -190,6 +190,10 @@ public class PasswordActivity extends Activity {
 			
 			String fileName = getEditText(R.id.pass_filename);
 			
+			
+			// Clear before we load
+			KeePass.db.clear();
+			
 			Handler handler = new Handler();
 			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, fileName, pass, key, new AfterLoad(handler));
 			ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);

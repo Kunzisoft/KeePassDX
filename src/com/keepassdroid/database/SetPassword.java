@@ -31,6 +31,7 @@ public class SetPassword extends RunnableOnFinish {
 	private String mPassword;
 	private String mKeyfile;
 	private Database mDb;
+	private boolean mDontSave;
 	
 	public SetPassword(Database db, String password, String keyfile, OnFinish finish) {
 		super(finish);
@@ -38,6 +39,16 @@ public class SetPassword extends RunnableOnFinish {
 		mDb = db;
 		mPassword = password;
 		mKeyfile = keyfile;
+		mDontSave = false;
+	}
+
+	public SetPassword(Database db, String password, String keyfile, OnFinish finish, boolean dontSave) {
+		super(finish);
+		
+		mDb = db;
+		mPassword = password;
+		mKeyfile = keyfile;
+		mDontSave = dontSave;
 	}
 
 	@Override
@@ -62,7 +73,7 @@ public class SetPassword extends RunnableOnFinish {
 		
 		// Save Database
 		mFinish = new AfterSave(backupKey, mFinish);
-		SaveDB save = new SaveDB(mDb, mFinish);
+		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
 		save.run();
 	}
 	

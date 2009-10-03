@@ -19,9 +19,10 @@
  */
 package com.keepassdroid.fileselect;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,8 +37,14 @@ import android.widget.Toast;
 
 import com.android.keepass.R;
 import com.keepassdroid.AboutDialog;
+import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
+import com.keepassdroid.ProgressTask;
+import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.Util;
+import com.keepassdroid.database.CreateDB;
+import com.keepassdroid.database.FileOnFinish;
+import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.intents.TimeoutIntents;
 
 public class FileSelectActivity extends ListActivity {
@@ -49,16 +56,117 @@ public class FileSelectActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.file_selection);
-		
-		Button openButton = (Button) findViewById(R.id.file_button);
-		openButton.setOnClickListener(new ClickHandler(this));
-		
 		mDbHelper = new FileDbHelper(this);
 		mDbHelper.open();
 		
+		if ( mDbHelper.hasRecentFiles() ) {
+			setContentView(R.layout.file_selection);
+		} else {
+			setContentView(R.layout.file_selection_no_recent);
+		}
+
+		// Open button
+		Button openButton = (Button) findViewById(R.id.open);
+		openButton.setOnClickListener(new View.OnClickListener() {
+				
+			@Override
+			public void onClick(View v) {
+				String fileName = Util.getEditText(FileSelectActivity.this, R.id.file_filename);
+				
+				try {
+					PasswordActivity.Launch(FileSelectActivity.this, fileName);
+				} catch (FileNotFoundException e) {
+					Toast.makeText(FileSelectActivity.this, R.string.FileNotFound, Toast.LENGTH_LONG).show();
+				}
+				
+			}
+		});
+		
+		// Create button
+		Button createButton = (Button) findViewById(R.id.create);
+		createButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String filename = Util.getEditText(FileSelectActivity.this, R.id.file_filename);
+				
+				// Make sure file name exists
+				if ( filename.length() == 0 ) {
+					Toast.makeText(FileSelectActivity.this, R.string.error_filename_required, Toast.LENGTH_LONG).show();
+					return;
+				}
+				
+				// Try to create the file
+				File file = new File(filename);
+				try {
+					if ( file.exists() ) {
+						Toast.makeText(FileSelectActivity.this, R.string.error_database_exists, Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					file.createNewFile();
+				} catch (IOException e) {
+					Toast.makeText(FileSelectActivity.this, getText(R.string.error_file_not_create) + " " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+					return;
+				}
+				
+				// Prep an object to collect a password once the database has been created
+				CollectPassword password = new CollectPassword(new LaunchGroupActivity(filename));
+				
+				// Create the new database
+				CreateDB create = new CreateDB(filename, password, true);
+				ProgressTask createTask = new ProgressTask(FileSelectActivity.this, create, R.string.progress_create);
+				createTask.run();
+				
+			}
+			
+
+		});
+		
+		
 		fillData();
 		
+	}
+	
+	private class LaunchGroupActivity extends FileOnFinish {
+		private String mFilename;
+		
+		public LaunchGroupActivity(String filename) {
+			super(null);
+			
+			mFilename = filename;
+		}
+
+		@Override
+		public void run() {
+			if ( mSuccess ) {
+				// Add to recent files
+				FileDbHelper dbHelper = new FileDbHelper(FileSelectActivity.this);
+				dbHelper.open();
+				dbHelper.createFile(mFilename, getFilename());
+				dbHelper.close();
+
+				GroupActivity.Launch(FileSelectActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
+				
+			} else {
+				File file = new File(mFilename);
+				file.delete();
+			}
+		}
+	}
+	
+	private class CollectPassword extends FileOnFinish {
+		
+		public CollectPassword(FileOnFinish finish) {
+			super(finish);
+		}
+
+		@Override
+		public void run() {
+			SetPasswordDialog password = new SetPasswordDialog(FileSelectActivity.this, mOnFinish);
+			password.show();
+		}
+
 	}
 	
 	private void fillData() {
@@ -118,26 +226,6 @@ public class FileSelectActivity extends ListActivity {
 		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
 	}
 
-	private class ClickHandler implements View.OnClickListener {
-		Activity mAct;
-		
-		ClickHandler(Activity act) {
-			mAct = act;
-		}
-		
-		@Override
-		public void onClick(View v) {
-			String fileName = Util.getEditText(mAct, R.id.file_filename);
-			
-			try {
-				PasswordActivity.Launch(mAct, fileName);
-			} catch (FileNotFoundException e) {
-				Toast.makeText(mAct, R.string.FileNotFound, Toast.LENGTH_LONG).show();
-			}
-			
-		}
-		
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

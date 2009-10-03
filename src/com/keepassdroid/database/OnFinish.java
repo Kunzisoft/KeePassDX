@@ -35,7 +35,9 @@ public class OnFinish implements Runnable {
 	
 	protected OnFinish mOnFinish;
 	protected Handler mHandler;
-	
+
+	public OnFinish() {
+	}
 	
 	public OnFinish(Handler handler) {
 		mOnFinish = null;

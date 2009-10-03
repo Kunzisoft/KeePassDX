@@ -72,6 +72,8 @@
 	<string name="add_entry">Add entry</string>
 	<string name="error_pass_match">Passwords do not match.</string>
 	<string name="error_title_required">A title is required.</string>
+	<string name="error_filename_required">A filename is required.</string>
+	<string name="error_file_not_create">Could not create file:</string>
 	<string name="menu_search">Search</string>
 	<string name="search_label">Search</string>
 	<string name="search_hint">Entry title/description</string>
@@ -98,4 +100,7 @@
 	<string name="saving_database">Saving database...</string>
 	<string name="loading_database">Loading database...</string>
 	<string name="progress_title">Working...</string>
+	<string name="progress_create">Creating new database...</string>
+	<string name="error_database_exists">This file already exists.</string>
+	<string name="password_title">Enter database password</string>
 </resources>

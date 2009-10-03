@@ -206,4 +206,9 @@ public class FileDbHelper {
 		
 		return cursor.getString(0);
 	}
+	
+	public boolean hasRecentFiles() {
+		Cursor cursor = fetchAllFiles();
+		return cursor.getCount() > 0;
+	}
 }
