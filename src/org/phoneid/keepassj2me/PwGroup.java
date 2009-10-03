@@ -30,6 +30,8 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package org.phoneid.keepassj2me;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 
@@ -71,4 +73,30 @@ public class PwGroup {
 
 	/** Used by KeePass internally, don't use */
 	public int flags;
+	
+	public void sortGroupsByName() {
+		Collections.sort(childGroups, new GroupNameComparator());
+	}
+
+	public void sortEntriesByName() {
+		Collections.sort(childEntries, new EntryNameComparator());
+	}
+	
+	private class GroupNameComparator implements Comparator<PwGroup> {
+
+		@Override
+		public int compare(PwGroup object1, PwGroup object2) {
+			return object1.name.compareTo(object2.name);
+		}
+		
+	}
+
+	private class EntryNameComparator implements Comparator<PwEntry> {
+
+		@Override
+		public int compare(PwEntry object1, PwEntry object2) {
+			return object1.title.compareTo(object2.title);
+		}
+		
+	}
 }

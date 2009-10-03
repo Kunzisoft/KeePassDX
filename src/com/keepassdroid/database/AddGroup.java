@@ -51,6 +51,8 @@ public class AddGroup extends RunnableOnFinish {
 		// Generate new group
 		mGroup = pm.newGroup(mName, mParent);
 		
+		mParent.sortGroupsByName();
+		
 		// Commit to disk
 		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
 		save.run();

@@ -69,10 +69,14 @@ public class UpdateEntry extends RunnableOnFinish {
 				if ( ! mBackup.title.equals(mNewE.title) ) {
 					PwGroup parent = mBackup.parent;
 					if ( parent != null ) {
+						// Resort entries
+						parent.sortEntriesByName();
+
 						// Mark parent group dirty
 						mDb.gDirty.put(parent, new WeakReference<PwGroup>(parent));
+						
 					}
-
+					
 					// Update search index
 					mDb.searchHelper.updateEntry(mOldE);
 				}

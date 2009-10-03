@@ -50,6 +50,9 @@ public class AddEntry extends RunnableOnFinish {
 		// Add entry to PwManager
 		mDb.mPM.entries.add(mEntry);
 		
+		// Sort entries
+		parent.sortEntriesByName();
+		
 		// Commit to disk
 		SaveDB save = new SaveDB(mDb, mFinish);
 		save.run();
