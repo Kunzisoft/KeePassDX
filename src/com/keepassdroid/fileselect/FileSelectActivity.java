@@ -44,22 +44,24 @@ import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.Util;
 import com.keepassdroid.database.CreateDB;
 import com.keepassdroid.database.FileOnFinish;
-import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.intents.TimeoutIntents;
 
 public class FileSelectActivity extends ListActivity {
 
 	private static final int MENU_ABOUT = Menu.FIRST;
 	private FileDbHelper mDbHelper;
-	
+
+	private boolean recentMode = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		mDbHelper = new FileDbHelper(this);
 		mDbHelper.open();
-		
-		if ( mDbHelper.hasRecentFiles() ) {
+
+		if (mDbHelper.hasRecentFiles()) {
+			recentMode = true;
 			setContentView(R.layout.file_selection);
 		} else {
 			setContentView(R.layout.file_selection_no_recent);
@@ -68,154 +70,174 @@ public class FileSelectActivity extends ListActivity {
 		// Open button
 		Button openButton = (Button) findViewById(R.id.open);
 		openButton.setOnClickListener(new View.OnClickListener() {
-				
+
 			@Override
 			public void onClick(View v) {
-				String fileName = Util.getEditText(FileSelectActivity.this, R.id.file_filename);
-				
+				String fileName = Util.getEditText(FileSelectActivity.this,
+						R.id.file_filename);
+
 				try {
 					PasswordActivity.Launch(FileSelectActivity.this, fileName);
 				} catch (FileNotFoundException e) {
-					Toast.makeText(FileSelectActivity.this, R.string.FileNotFound, Toast.LENGTH_LONG).show();
+					Toast.makeText(FileSelectActivity.this,
+							R.string.FileNotFound, Toast.LENGTH_LONG).show();
 				}
-				
+
 			}
 		});
-		
+
 		// Create button
 		Button createButton = (Button) findViewById(R.id.create);
 		createButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				String filename = Util.getEditText(FileSelectActivity.this, R.id.file_filename);
-				
+				String filename = Util.getEditText(FileSelectActivity.this,
+						R.id.file_filename);
+
 				// Make sure file name exists
-				if ( filename.length() == 0 ) {
-					Toast.makeText(FileSelectActivity.this, R.string.error_filename_required, Toast.LENGTH_LONG).show();
+				if (filename.length() == 0) {
+					Toast
+							.makeText(FileSelectActivity.this,
+									R.string.error_filename_required,
+									Toast.LENGTH_LONG).show();
 					return;
 				}
-				
+
 				// Try to create the file
 				File file = new File(filename);
 				try {
-					if ( file.exists() ) {
-						Toast.makeText(FileSelectActivity.this, R.string.error_database_exists, Toast.LENGTH_LONG).show();
+					if (file.exists()) {
+						Toast.makeText(FileSelectActivity.this,
+								R.string.error_database_exists,
+								Toast.LENGTH_LONG).show();
 						return;
 					}
-					
+
 					file.createNewFile();
 				} catch (IOException e) {
-					Toast.makeText(FileSelectActivity.this, getText(R.string.error_file_not_create) + " " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+					Toast.makeText(
+							FileSelectActivity.this,
+							getText(R.string.error_file_not_create) + " "
+									+ e.getLocalizedMessage(),
+							Toast.LENGTH_LONG).show();
 					return;
 				}
-				
-				// Prep an object to collect a password once the database has been created
-				CollectPassword password = new CollectPassword(new LaunchGroupActivity(filename));
-				
+
+				// Prep an object to collect a password once the database has
+				// been created
+				CollectPassword password = new CollectPassword(
+						new LaunchGroupActivity(filename));
+
 				// Create the new database
 				CreateDB create = new CreateDB(filename, password, true);
-				ProgressTask createTask = new ProgressTask(FileSelectActivity.this, create, R.string.progress_create);
+				ProgressTask createTask = new ProgressTask(
+						FileSelectActivity.this, create,
+						R.string.progress_create);
 				createTask.run();
-				
+
 			}
-			
 
 		});
-		
-		
+
 		fillData();
-		
+
 	}
-	
+
 	private class LaunchGroupActivity extends FileOnFinish {
 		private String mFilename;
-		
+
 		public LaunchGroupActivity(String filename) {
 			super(null);
-			
+
 			mFilename = filename;
 		}
 
 		@Override
 		public void run() {
-			if ( mSuccess ) {
+			if (mSuccess) {
 				// Add to recent files
-				FileDbHelper dbHelper = new FileDbHelper(FileSelectActivity.this);
+				FileDbHelper dbHelper = new FileDbHelper(
+						FileSelectActivity.this);
 				dbHelper.open();
 				dbHelper.createFile(mFilename, getFilename());
 				dbHelper.close();
 
-				GroupActivity.Launch(FileSelectActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
-				
+				GroupActivity.Launch(FileSelectActivity.this, null,
+						GroupActivity.ADD_GROUP_ONLY);
+
 			} else {
 				File file = new File(mFilename);
 				file.delete();
 			}
 		}
 	}
-	
+
 	private class CollectPassword extends FileOnFinish {
-		
+
 		public CollectPassword(FileOnFinish finish) {
 			super(finish);
 		}
 
 		@Override
 		public void run() {
-			SetPasswordDialog password = new SetPasswordDialog(FileSelectActivity.this, mOnFinish);
+			SetPasswordDialog password = new SetPasswordDialog(
+					FileSelectActivity.this, mOnFinish);
 			password.show();
 		}
 
 	}
-	
+
 	private void fillData() {
-        // Get all of the rows from the database and create the item list
-        Cursor filesCursor = mDbHelper.fetchAllFiles();
-        startManagingCursor(filesCursor);
-        
-        // Create an array to specify the fields we want to display in the list (only TITLE)
-        String[] from = new String[]{FileDbHelper.KEY_FILE_FILENAME};
-        
-        // and an array of the fields we want to bind those fields to (in this case just text1)
-        int[] to = new int[]{R.id.file_filename};
-        
-        // Now create a simple cursor adapter and set it to display
-        SimpleCursorAdapter notes = 
-        	    new SimpleCursorAdapter(this, R.layout.file_row, filesCursor, from, to);
-        setListAdapter(notes);
+		// Get all of the rows from the database and create the item list
+		Cursor filesCursor = mDbHelper.fetchAllFiles();
+		startManagingCursor(filesCursor);
+
+		// Create an array to specify the fields we want to display in the list
+		// (only TITLE)
+		String[] from = new String[] { FileDbHelper.KEY_FILE_FILENAME };
+
+		// and an array of the fields we want to bind those fields to (in this
+		// case just text1)
+		int[] to = new int[] { R.id.file_filename };
+
+		// Now create a simple cursor adapter and set it to display
+		SimpleCursorAdapter notes = new SimpleCursorAdapter(this,
+				R.layout.file_row, filesCursor, from, to);
+		setListAdapter(notes);
 	}
 
-	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-	
+
 		Cursor cursor = mDbHelper.fetchFile(id);
 		startManagingCursor(cursor);
-		
-		String fileName = cursor.getString(cursor.getColumnIndexOrThrow(FileDbHelper.KEY_FILE_FILENAME));
-		String keyFile = cursor.getString(cursor.getColumnIndexOrThrow(FileDbHelper.KEY_FILE_KEYFILE));
-		
+
+		String fileName = cursor.getString(cursor
+				.getColumnIndexOrThrow(FileDbHelper.KEY_FILE_FILENAME));
+		String keyFile = cursor.getString(cursor
+				.getColumnIndexOrThrow(FileDbHelper.KEY_FILE_KEYFILE));
+
 		try {
 			PasswordActivity.Launch(this, fileName, keyFile);
 		} catch (FileNotFoundException e) {
-			Toast.makeText(this, R.string.FileNotFound, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.FileNotFound, Toast.LENGTH_LONG)
+					.show();
 		}
 	}
-
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		fillData();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
+
 		sendBroadcast(new Intent(TimeoutIntents.START));
 	}
 
@@ -224,28 +246,35 @@ public class FileSelectActivity extends ListActivity {
 		super.onResume();
 		
 		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
+		
+		// Check to see if we need to change modes
+		if ( mDbHelper.hasRecentFiles() != recentMode ) {
+			// Restart the activity
+			Intent intent = getIntent();
+			startActivity(intent);
+			finish();
+		}
 	}
 
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		
+
 		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
 		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
-		
+
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch ( item.getItemId() ) {
+		switch (item.getItemId()) {
 		case MENU_ABOUT:
 			AboutDialog dialog = new AboutDialog(this);
 			dialog.show();
 			return true;
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 
