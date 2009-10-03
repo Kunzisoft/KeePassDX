@@ -33,7 +33,6 @@ public class FileListAdapter extends BaseAdapter {
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return 20;
 	}
 
