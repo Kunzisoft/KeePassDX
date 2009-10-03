@@ -24,7 +24,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  style="?android:attr/listSeparatorTextViewStyle"
-	  android:text="Enter database filename:"/>
+	  android:text="@string/enter_filename"/>
   	<EditText android:id="@+id/file_filename"
   	  android:layout_width="fill_parent"
   	  android:layout_height="wrap_content"
@@ -32,16 +32,20 @@
   	  android:layout_below="@id/label_open_by_filename"
   	  android:text="/sdcard/keepass/keepass.kdb"/>
   	<Button android:id="@+id/open"
-  	  android:text="Open"
+  	  android:text="@string/menu_open"
   	  android:layout_height="wrap_content"
   	  android:layout_width="wrap_content"
   	  android:layout_below="@id/file_filename"
   	  android:width="100sp"/>
   	<Button android:id="@+id/create"
-  	  android:text="Create"
+  	  android:text="@string/menu_create"
   	  android:layout_height="wrap_content"
   	  android:layout_width="wrap_content"
   	  android:layout_below="@id/file_filename"
   	  android:layout_toRightOf="@id/open"
   	  android:width="100sp"/>
+  	<!-- Small hack because I need to include a list since this is a list activity -->
+  	<ListView android:id="@android:id/list"
+      android:layout_width="0sp"
+      android:layout_height="0sp"/>
 </RelativeLayout>

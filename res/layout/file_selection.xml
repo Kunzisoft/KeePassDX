@@ -24,15 +24,15 @@
   	  android:layout_width="fill_parent"
   	  android:layout_height="wrap_content"
 	  style="?android:attr/listSeparatorTextViewStyle"
-  	  android:text="Open recent database (click to open):"/>
+  	  android:text="@string/open_recent"/>
   	<Button android:id="@+id/open"
-  	  android:text="Open"
+  	  android:text="@string/menu_open"
   	  android:layout_height="wrap_content"
   	  android:layout_width="wrap_content"
   	  android:layout_alignParentBottom="true"
   	  android:width="100sp"/>
   	<Button android:id="@+id/create"
-  	  android:text="Create"
+  	  android:text="@string/menu_create"
   	  android:layout_height="wrap_content"
   	  android:layout_width="wrap_content"
   	  android:layout_alignParentBottom="true"
@@ -49,7 +49,7 @@
 	  android:layout_height="wrap_content"
 	  android:layout_above="@id/file_filename"
 	  style="?android:attr/listSeparatorTextViewStyle"
-	  android:text="Enter database filename:"/>
+	  android:text="@string/enter_filename"/>
   	<ListView android:id="@android:id/list"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"

@@ -35,7 +35,7 @@
 	  android:scaleType="fitXY"
 	  android:src="@android:drawable/divider_horizontal_dark"/>
 	<Button android:id="@+id/entry_edit"
-	  android:text="Edit"
+	  android:text="@string/menu_edit"
 	  android:layout_width="100sp"
 	  android:layout_height="wrap_content"
 	  android:layout_alignParentLeft="true"
