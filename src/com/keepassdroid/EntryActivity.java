@@ -49,11 +49,12 @@ public class EntryActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_REFRESH_POS = "refresh_pos";
 
-	private static final int MENU_PASS = Menu.FIRST;
-	private static final int MENU_GOTO_URL = Menu.FIRST + 1;
-	private static final int MENU_COPY_USER = Menu.FIRST + 2;
-	private static final int MENU_COPY_PASS = Menu.FIRST + 3;
-	private static final int MENU_LOCK = Menu.FIRST + 4; 
+	private static final int MENU_DONATE = Menu.FIRST;
+	private static final int MENU_PASS = Menu.FIRST + 1;
+	private static final int MENU_GOTO_URL = Menu.FIRST + 2;
+	private static final int MENU_COPY_USER = Menu.FIRST + 3;
+	private static final int MENU_COPY_PASS = Menu.FIRST + 4;
+	private static final int MENU_LOCK = Menu.FIRST + 5; 
 	
 	private static final long CLIP_CLEAR_TIME = 5 * 60 * 1000;
 	
@@ -144,6 +145,9 @@ public class EntryActivity extends LockingActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
+		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
+		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
+
 		menu.add(0, MENU_PASS, 0, R.string.menu_show_password);
 		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
 		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
@@ -171,6 +175,15 @@ public class EntryActivity extends LockingActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
+		case MENU_DONATE:
+			try {
+				Util.gotoUrl(this, R.string.donate_url);
+			} catch (ActivityNotFoundException e) {
+				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+				return false;
+			}
+			
+			return true;
 		case MENU_PASS:
 			if ( mShowPassword ) {
 				item.setTitle(R.string.menu_show_password);

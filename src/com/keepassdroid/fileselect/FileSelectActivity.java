@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.app.ListActivity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -48,7 +49,8 @@ import com.keepassdroid.intents.TimeoutIntents;
 
 public class FileSelectActivity extends ListActivity {
 
-	private static final int MENU_ABOUT = Menu.FIRST;
+	private static final int MENU_DONATE = Menu.FIRST;
+	private static final int MENU_ABOUT = Menu.FIRST + 1;
 	private FileDbHelper mDbHelper;
 
 	private boolean recentMode = false;
@@ -260,6 +262,9 @@ public class FileSelectActivity extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 
+		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
+		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
+
 		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
 		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
 
@@ -269,6 +274,15 @@ public class FileSelectActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case MENU_DONATE:
+			try {
+				Util.gotoUrl(this, R.string.donate_url);
+			} catch (ActivityNotFoundException e) {
+				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+				return false;
+			}
+			
+			return true;
 		case MENU_ABOUT:
 			AboutDialog dialog = new AboutDialog(this);
 			dialog.show();

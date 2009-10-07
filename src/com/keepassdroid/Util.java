@@ -44,6 +44,10 @@ public class Util {
 			context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
 		}
 	}
+	
+	public static void gotoUrl(Context context, int resId) throws ActivityNotFoundException {
+		gotoUrl(context, context.getString(resId));
+	}
 
 	public static String getEditText(Activity act, int resId) {
 		TextView te =  (TextView) act.findViewById(resId);
@@ -65,4 +69,6 @@ public class Util {
 		}
 	}
 
+	
+	
 }

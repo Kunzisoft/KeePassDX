@@ -29,6 +29,7 @@ import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,7 +52,8 @@ public class EntryEditActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
-	private static final int MENU_PASS = Menu.FIRST;
+	private static final int MENU_DONATE = Menu.FIRST;
+	private static final int MENU_PASS = Menu.FIRST + 1;
 
 	private PwEntry mEntry;
 	private boolean mShowPassword = false;
@@ -200,6 +202,9 @@ public class EntryEditActivity extends LockingActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
+		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
+		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
+
 		menu.add(0, MENU_PASS, 0, R.string.menu_show_password);
 		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
 		
@@ -208,6 +213,15 @@ public class EntryEditActivity extends LockingActivity {
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
+		case MENU_DONATE:
+			try {
+				Util.gotoUrl(this, R.string.donate_url);
+			} catch (ActivityNotFoundException e) {
+				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+				return false;
+			}
+			
+			return true;
 		case MENU_PASS:
 			if ( mShowPassword ) {
 				item.setTitle(R.string.menu_hide_password);

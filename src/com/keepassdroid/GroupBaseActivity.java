@@ -22,6 +22,7 @@ package com.keepassdroid;
 import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
@@ -42,10 +44,11 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_MODE = "mode";
 	
-	protected static final int MENU_LOCK = Menu.FIRST;
-	protected static final int MENU_SEARCH = Menu.FIRST + 1;
-	protected static final int MENU_DB_SETTINGS = Menu.FIRST + 2;
-	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 3;
+	protected static final int MENU_DONATE = Menu.FIRST;
+	protected static final int MENU_LOCK = Menu.FIRST + 1;
+	protected static final int MENU_SEARCH = Menu.FIRST + 2;
+	protected static final int MENU_DB_SETTINGS = Menu.FIRST + 3;
+	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 4;
 	
 	protected PwGroup mGroup;
 
@@ -129,6 +132,9 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
+		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
+		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
+
 		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
 		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
 		
@@ -146,6 +152,15 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
+		case MENU_DONATE:
+			try {
+				Util.gotoUrl(this, R.string.donate_url);
+			} catch (ActivityNotFoundException e) {
+				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+				return false;
+			}
+			
+			return true;
 		case MENU_LOCK:
 			KeePass.db.shutdown = true;
 			setResult(KeePass.EXIT_LOCK);

@@ -34,6 +34,7 @@
     <string name="current_group">Current Group: </string>
     <string name="current_group_root">Current Group: Root</string>
     <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
     <string name="enter_filename">Enter database filename:</string>
     <string name="entry_accessed">Accessed: </string>
     <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
@@ -52,6 +53,7 @@
     <string name="error_could_not_create_group">Error creating group.</string>
     <string name="error_database_exists">This file already exists.</string>
     <string name="error_database_settings">Failed to determine database settings.</string>
+    <string name="error_failed_to_launch_link">Failed to launch link.</string>
     <string name="error_filename_required">A filename is required.</string>
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_no_name">A name is required.</string>
@@ -80,6 +82,7 @@
     <string name="menu_create">Create</string>
     <string name="menu_db_settings">Database Settings</string>
     <string name="menu_delete">Delete</string>
+    <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_hide_password">Hide Password</string>
     <string name="menu_homepage">Go to Homepage</string>
