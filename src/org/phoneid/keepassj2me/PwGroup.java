@@ -86,7 +86,7 @@ public class PwGroup {
 
 		@Override
 		public int compare(PwGroup object1, PwGroup object2) {
-			return object1.name.compareTo(object2.name);
+			return object1.name.compareToIgnoreCase(object2.name);
 		}
 		
 	}
@@ -95,7 +95,7 @@ public class PwGroup {
 
 		@Override
 		public int compare(PwEntry object1, PwEntry object2) {
-			return object1.title.compareTo(object2.title);
+			return object1.title.compareToIgnoreCase(object2.title);
 		}
 		
 	}
