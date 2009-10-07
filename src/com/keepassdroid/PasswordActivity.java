@@ -26,12 +26,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
@@ -125,6 +129,24 @@ public class PasswordActivity extends Activity {
 
 		Button confirmButton = (Button) findViewById(R.id.pass_ok);
 		confirmButton.setOnClickListener(new ClickHandler());
+		
+		CheckBox checkBox = (CheckBox) findViewById(R.id.show_password);
+		// Show or hide password
+		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				TextView password = (TextView) findViewById(R.id.pass_password);
+
+				if ( isChecked ) {
+					password.setTransformationMethod(null);
+				} else {
+					password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+				}
+			}
+			
+		});
 	}
 	
 	private String getKeyFile(String filename) {

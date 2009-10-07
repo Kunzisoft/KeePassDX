@@ -109,4 +109,5 @@
     <string name="saving_database">Saving database...</string>
     <string name="search_hint">Entry title/description</string>
     <string name="search_label">Search</string>
+    <string name="show_password">Show password</string>
 </resources>
