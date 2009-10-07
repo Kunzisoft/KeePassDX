@@ -1,3 +1,8 @@
+KeePassDroid (0.9.1)
+  * Add donate link
+  * Sort case insensitive
+  * Add show password checkbox
+
 KeePassDroid (0.9)
   * Allow the creation of new databases on the device
   * Sort entries and groups when adding or renaming.
