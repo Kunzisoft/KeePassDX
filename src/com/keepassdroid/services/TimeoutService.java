@@ -30,7 +30,7 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.android.keepass.KeePass;
+import com.keepassdroid.app.App;
 import com.keepassdroid.intents.TimeoutIntents;
 
 public class TimeoutService extends Service {
@@ -91,9 +91,7 @@ public class TimeoutService extends Service {
 		public void run() {
 			timeout = true;
 			
-			if ( KeePass.db != null ) {
-				KeePass.db.shutdown = true;
-			}
+			App.getDB().shutdown = true;
 		}
 		
 	}

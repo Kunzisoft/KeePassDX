@@ -38,6 +38,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.AddGroup;
 
 public class GroupActivity extends GroupBaseActivity {
@@ -81,10 +82,11 @@ public class GroupActivity extends GroupBaseActivity {
 		
 		int id = intent.getIntExtra(KEY_ENTRY, -1);
 		
+		Database db = App.getDB();
 		if ( id == -1 ) {
-			mGroup = KeePass.db.gRoot;
+			mGroup = db.gRoot;
 		} else {
-			WeakReference<PwGroup> wPw = KeePass.db.gGroups.get(id);
+			WeakReference<PwGroup> wPw = db.gGroups.get(id);
 			mGroup = wPw.get();
 		}
 		assert(mGroup != null);
@@ -160,7 +162,7 @@ public class GroupActivity extends GroupBaseActivity {
 					if ( ! mDialog.canceled() && res.length() > 0 ) {
 						GroupActivity act = GroupActivity.this;
 						Handler handler = new Handler();
-						AddGroup task = new AddGroup(KeePass.db, res, mGroup, act.new RefreshTask(handler), false);
+						AddGroup task = new AddGroup(App.getDB(), res, mGroup, act.new RefreshTask(handler), false);
 						ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 						pt.run();
 					}

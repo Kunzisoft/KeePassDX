@@ -22,8 +22,8 @@ package com.keepassdroid.database;
 import org.phoneid.keepassj2me.PwDbHeader;
 import org.phoneid.keepassj2me.PwManager;
 
-import com.android.keepass.KeePass;
 import com.keepassdroid.Database;
+import com.keepassdroid.app.App;
 
 public class CreateDB extends RunnableOnFinish {
 
@@ -43,7 +43,7 @@ public class CreateDB extends RunnableOnFinish {
 	public void run() {
 		// Create new database record
 		Database db = new Database();
-		KeePass.db = db;
+		App.setDB(db);
 		
 		// Create the PwManager
 		PwManager pm = new PwManager();

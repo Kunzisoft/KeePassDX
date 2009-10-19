@@ -27,8 +27,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.FileOnFinish;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.database.SetPassword;
@@ -93,7 +93,7 @@ public class SetPasswordDialog extends CancelDialog {
 					
 				}
 				
-				SetPassword sp = new SetPassword(KeePass.db, pass, keyfile, new AfterSave(mFinish, new Handler()));
+				SetPassword sp = new SetPassword(App.getDB(), pass, keyfile, new AfterSave(mFinish, new Handler()));
 				ProgressTask pt = new ProgressTask(getContext(), sp, R.string.saving_database);
 				pt.run();
 			}

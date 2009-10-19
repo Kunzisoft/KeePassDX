@@ -20,6 +20,7 @@
 package com.keepassdroid;
 
 import com.android.keepass.KeePass;
+import com.keepassdroid.app.App;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class LockingListActivity extends ListActivity {
 
 		mLM.stopTimeout();
 		
-		if ( KeePass.db.shutdown ) {
+		if ( App.getDB().shutdown ) {
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 		}

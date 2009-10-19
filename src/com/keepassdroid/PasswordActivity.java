@@ -39,6 +39,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.LoadDB;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.fileselect.FileDbHelper;
@@ -81,7 +82,7 @@ public class PasswordActivity extends Activity {
 			finish();
 		}
 		
-		KeePass.db.clear(); 
+		App.getDB().clear(); 
 	}
 
 	@Override
@@ -214,10 +215,11 @@ public class PasswordActivity extends Activity {
 			
 			
 			// Clear before we load
-			KeePass.db.clear();
+			Database db = App.getDB();
+			db.clear();
 			
 			Handler handler = new Handler();
-			LoadDB task = new LoadDB(KeePass.db, PasswordActivity.this, fileName, pass, key, new AfterLoad(handler));
+			LoadDB task = new LoadDB(db, PasswordActivity.this, fileName, pass, key, new AfterLoad(handler));
 			ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
 			pt.run();
 		}			

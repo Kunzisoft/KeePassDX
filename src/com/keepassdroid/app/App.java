@@ -17,42 +17,35 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
+package com.keepassdroid.app;
 
-import com.android.keepass.KeePass;
-import com.keepassdroid.app.App;
+import android.app.Application;
 
-import android.app.Activity;
-import android.os.Bundle;
+import com.keepassdroid.Database;
 
-public class LockingActivity extends Activity {
+public class App extends Application {
+	private static Database db;
 
-	private LockManager mLM;
+	public static Database getDB() {
+		if ( db == null ) {
+			db = new Database();
+		}
+		
+		return db;
+	}
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		mLM = new LockManager(this);
+	public static void setDB(Database d) {
+		db = d;
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-
-		mLM.startTimeout();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
+	public void onTerminate() {
+		super.onTerminate();
 		
-		mLM.stopTimeout();
-
-		if ( App.getDB().shutdown ) {
-			setResult(KeePass.EXIT_LOCK);
-			finish();
+		if ( db != null ) {
+			db.clear();
 		}
 	}
+	
 	
 }

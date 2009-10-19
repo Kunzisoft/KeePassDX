@@ -30,9 +30,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.ProgressTask;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.database.SaveDB;
 
@@ -52,9 +52,7 @@ public class DatabaseSettingsActivity extends Activity {
 		setContentView(R.layout.database_settings);
 		
 		// Setup database reference
-		if ( KeePass.db != null ) {
-			mPM = KeePass.db.mPM;
-		}
+		mPM = App.getDB().mPM;
 		
 		if ( mPM == null ) {
 			Toast.makeText(this, R.string.error_database_settings, Toast.LENGTH_LONG).show();
@@ -97,7 +95,7 @@ public class DatabaseSettingsActivity extends Activity {
 				mPM.numKeyEncRounds = rounds;
 				
 				Handler handler = new Handler();
-				SaveDB save = new SaveDB(KeePass.db, new AfterSave(handler, oldRounds));
+				SaveDB save = new SaveDB(App.getDB(), new AfterSave(handler, oldRounds));
 				ProgressTask pt = new ProgressTask(DatabaseSettingsActivity.this, save, R.string.saving_database);
 				pt.run();
 			}

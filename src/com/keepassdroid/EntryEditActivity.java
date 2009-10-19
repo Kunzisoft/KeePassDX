@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.AddEntry;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.database.RunnableOnFinish;
@@ -82,8 +83,9 @@ public class EntryEditActivity extends LockingActivity {
 		setContentView(R.layout.entry_edit);
 		setResult(KeePass.EXIT_NORMAL);
 		
-		// Likely the app has been killed exit the activity 
-		if ( KeePass.db == null ) {
+		// Likely the app has been killed exit the activity
+		Database db = App.getDB();
+		if ( ! db.Loaded() ) {
 			finish();
 		}
 
@@ -93,14 +95,14 @@ public class EntryEditActivity extends LockingActivity {
 		if ( uuidBytes == null ) {
 			int groupId = i.getIntExtra(KEY_PARENT, -1);
 
-			mEntry = new PwEntry(KeePass.db, groupId);
+			mEntry = new PwEntry(db, groupId);
 			mIsNew = true;
 			
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			assert(uuid != null);
 
-			mEntry = KeePass.db.gEntries.get(uuid).get();
+			mEntry = db.gEntries.get(uuid).get();
 			mIsNew = false;
 			
 			fillData();
@@ -174,9 +176,9 @@ public class EntryEditActivity extends LockingActivity {
 				OnFinish onFinish = act.new AfterSave(new Handler());
 				
 				if ( mIsNew ) {
-					task = new AddEntry(KeePass.db, newEntry, onFinish);
+					task = new AddEntry(App.getDB(), newEntry, onFinish);
 				} else {
-					task = new UpdateEntry(KeePass.db, mEntry, newEntry, onFinish);
+					task = new UpdateEntry(App.getDB(), mEntry, newEntry, onFinish);
 				}
 				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 				pt.run();

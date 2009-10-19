@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 
 public class EntryActivity extends LockingActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -78,8 +79,10 @@ public class EntryActivity extends LockingActivity {
 		setContentView(R.layout.entry_view);
 		setResult(KeePass.EXIT_NORMAL);
 
+		
+		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
-		if ( KeePass.db == null ) {
+		if ( ! db.Loaded() ) {
 			finish();
 		}
 
@@ -88,7 +91,7 @@ public class EntryActivity extends LockingActivity {
 		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
 		assert(uuid != null);
 		
-		mEntry = KeePass.db.gEntries.get(uuid).get();
+		mEntry = db.gEntries.get(uuid).get();
 		
 		// Update last access time.
 		Calendar cal = Calendar.getInstance();
@@ -221,7 +224,7 @@ public class EntryActivity extends LockingActivity {
 			return true;
 			
 		case MENU_LOCK:
-			KeePass.db.shutdown = true;
+			App.getDB().shutdown = true;
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 			return true;

@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.settings.DatabaseSettingsActivity;
 
@@ -70,8 +71,9 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 	}
 	
 	public void refreshIfDirty() {
-		if ( KeePass.db.gDirty.get(mGroup) != null ) {
-			KeePass.db.gDirty.remove(mGroup);
+		Database db = App.getDB();
+		if ( db.gDirty.get(mGroup) != null ) {
+			db.gDirty.remove(mGroup);
 			BaseAdapter adapter = (BaseAdapter) getListAdapter();
 			adapter.notifyDataSetChanged();
 			
@@ -95,7 +97,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 		setResult(KeePass.EXIT_NORMAL);
 		
 		// Likely the app has been killed exit the activity 
-		if ( KeePass.db == null ) {
+		if ( ! App.getDB().Loaded() ) {
 			finish();
 		}
 
@@ -162,7 +164,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 			
 			return true;
 		case MENU_LOCK:
-			KeePass.db.shutdown = true;
+			App.getDB().shutdown = true;
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 			return true;
@@ -215,7 +217,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 				refreshIfDirty();
 			} else {
 				mHandler.post(new UIToastTask(GroupBaseActivity.this, "Unrecoverable error: " + mMessage));
-				KeePass.db.shutdown = true;
+				App.getDB().shutdown = true;
 				finish();
 			}
 		}

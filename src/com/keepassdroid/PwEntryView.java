@@ -29,8 +29,8 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.TextView;
 
-import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.DeleteEntry;
 
 public class PwEntryView extends ClickView {
@@ -75,7 +75,7 @@ public class PwEntryView extends ClickView {
 	
 	private void deleteEntry() {
 		Handler handler = new Handler();
-		DeleteEntry task = new DeleteEntry(KeePass.db, mPw, mAct, mAct.new RefreshTask(handler));
+		DeleteEntry task = new DeleteEntry(App.getDB(), mPw, mAct, mAct.new RefreshTask(handler));
 		ProgressTask pt = new ProgressTask(mAct, task, R.string.saving_database);
 		pt.run();
 		

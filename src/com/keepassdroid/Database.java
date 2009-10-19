@@ -57,6 +57,11 @@ public class Database {
 	public String mFilename;
 	public SearchDbHelper searchHelper;
 	public boolean shutdown = false;
+	private boolean loaded = false;
+	
+	public boolean Loaded() {
+		return loaded;
+	}
 	
 	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
 		LoadData(ctx, is, password, keyfile, !ImporterV3.DEBUG);
@@ -87,6 +92,8 @@ public class Database {
 		searchHelper = new SearchDbHelper(ctx);
 		searchHelper.open();
 		buildSearchIndex(ctx);
+		
+		loaded = true;
 		
 	}
 	
@@ -162,12 +169,14 @@ public class Database {
 			searchHelper.close();
 			searchHelper = null;
 		}
+		
 		gGroups.clear();
 		gEntries.clear();
 		gRoot = null;
 		mPM = null;
 		mFilename = null;
 		shutdown = false;
+		loaded = false;
 	}
 	
 }

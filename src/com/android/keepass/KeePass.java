@@ -23,7 +23,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.keepassdroid.Database;
 import com.keepassdroid.fileselect.FileSelectActivity;
 import com.keepassdroid.services.TimeoutService;
 
@@ -34,8 +33,6 @@ public class KeePass extends Activity {
 	public static final int EXIT_REFRESH = 2;
 	public static final int EXIT_REFRESH_TITLE = 3;
 	
-	public static Database db = new Database();
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,8 +40,6 @@ public class KeePass extends Activity {
 		
 		startService(new Intent(this, TimeoutService.class));
 		
-		//Intent i = new Intent(this, FileSelectActivity.class);
-		//startActivityForResult(i, 0);
 	}
 	
 	@Override

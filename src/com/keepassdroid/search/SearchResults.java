@@ -27,18 +27,24 @@ import android.os.Bundle;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.PwListAdapter;
+import com.keepassdroid.app.App;
 
 public class SearchResults extends GroupBaseActivity {
-
+	
+	private Database mDb;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setResult(KeePass.EXIT_NORMAL);
 		
+		mDb = App.getDB();
+		
 		// Likely the app has been killed exit the activity 
-		if ( KeePass.db == null ) {
+		if ( ! mDb.Loaded() ) {
 			finish();
 		}
 
@@ -70,7 +76,7 @@ public class SearchResults extends GroupBaseActivity {
         if ( Intent.ACTION_SEARCH.equals(queryAction) ) {
         	final String queryString = queryIntent.getStringExtra(SearchManager.QUERY);
         
-			return KeePass.db.Search(queryString);
+			return mDb.Search(queryString);
         }
         
         return null;

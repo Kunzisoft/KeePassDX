@@ -29,8 +29,8 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.TextView;
 
-import com.android.keepass.KeePass;
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.DeleteGroup;
 
 
@@ -84,7 +84,7 @@ public class PwGroupView extends ClickView {
 			
 		case MENU_DELETE:
 			Handler handler = new Handler();
-			DeleteGroup task = new DeleteGroup(KeePass.db, mPw, mAct, mAct.new AfterDeleteGroup(handler));
+			DeleteGroup task = new DeleteGroup(App.getDB(), mPw, mAct, mAct.new AfterDeleteGroup(handler));
 			ProgressTask pt = new ProgressTask(mAct, task, R.string.saving_database);
 			pt.run();
 			return true;
