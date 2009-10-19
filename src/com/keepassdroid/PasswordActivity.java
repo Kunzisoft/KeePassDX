@@ -218,6 +218,9 @@ public class PasswordActivity extends Activity {
 			Database db = App.getDB();
 			db.clear();
 			
+			// Clear the shutdown flag
+			App.clearShutdown();
+			
 			Handler handler = new Handler();
 			LoadDB task = new LoadDB(db, PasswordActivity.this, fileName, pass, key, new AfterLoad(handler));
 			ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);

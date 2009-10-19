@@ -48,7 +48,7 @@ public class LockingListActivity extends ListActivity {
 
 		mLM.stopTimeout();
 		
-		if ( App.getDB().shutdown ) {
+		if ( App.isShutdown() ) {
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 		}

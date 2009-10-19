@@ -224,7 +224,7 @@ public class EntryActivity extends LockingActivity {
 			return true;
 			
 		case MENU_LOCK:
-			App.getDB().shutdown = true;
+			App.setShutdown();
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 			return true;

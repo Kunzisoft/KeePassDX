@@ -91,7 +91,7 @@ public class TimeoutService extends Service {
 		public void run() {
 			timeout = true;
 			
-			App.getDB().shutdown = true;
+			App.setShutdown();
 		}
 		
 	}

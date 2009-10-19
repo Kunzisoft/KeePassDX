@@ -164,7 +164,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 			
 			return true;
 		case MENU_LOCK:
-			App.getDB().shutdown = true;
+			App.setShutdown();
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 			return true;
@@ -217,7 +217,7 @@ public abstract class GroupBaseActivity extends LockingListActivity {
 				refreshIfDirty();
 			} else {
 				mHandler.post(new UIToastTask(GroupBaseActivity.this, "Unrecoverable error: " + mMessage));
-				App.getDB().shutdown = true;
+				App.setShutdown();
 				finish();
 			}
 		}

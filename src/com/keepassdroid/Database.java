@@ -56,7 +56,6 @@ public class Database {
 	public PwManager mPM;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
-	public boolean shutdown = false;
 	private boolean loaded = false;
 	
 	public boolean Loaded() {
@@ -175,7 +174,6 @@ public class Database {
 		gRoot = null;
 		mPM = null;
 		mFilename = null;
-		shutdown = false;
 		loaded = false;
 	}
 	

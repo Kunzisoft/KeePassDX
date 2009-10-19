@@ -49,7 +49,7 @@ public class LockingActivity extends Activity {
 		
 		mLM.stopTimeout();
 
-		if ( App.getDB().shutdown ) {
+		if ( App.isShutdown() ) {
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 		}
