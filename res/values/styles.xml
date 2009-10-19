@@ -24,7 +24,7 @@
   </style>
  <style name="GroupTextLarge" parent="android:Theme">
  	<item name="@android:textColor">@color/group</item>
- 	<item name="@android:textSize">30sp</item>
+ 	<item name="@android:textSize">28sp</item>
   </style>
  <style name="ElementText">
  	<item name="@android:textSize">20sp</item>
@@ -33,8 +33,8 @@
  	<item name="@android:textColor">@color/group</item>
   </style>
  <style name="ElementTextLarge">
- 	<item name="@android:textSize">30sp</item>
-  </style>
+ 	<item name="@android:textSize">28sp</item>
+ </style>
  <style name="GroupLabel">
  	<item name="@android:textSize">20sp</item>
   </style>
