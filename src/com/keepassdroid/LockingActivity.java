@@ -19,35 +19,27 @@
  */
 package com.keepassdroid;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.android.keepass.KeePass;
 import com.keepassdroid.app.App;
-
-import android.app.Activity;
-import android.os.Bundle;
+import com.keepassdroid.intents.TimeoutIntents;
 
 public class LockingActivity extends Activity {
-
-	private LockManager mLM;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		mLM = new LockManager(this);
-	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		mLM.startTimeout();
+		
+		sendBroadcast(new Intent(TimeoutIntents.START));
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		
-		mLM.stopTimeout();
+		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
 
 		if ( App.isShutdown() ) {
 			setResult(KeePass.EXIT_LOCK);
