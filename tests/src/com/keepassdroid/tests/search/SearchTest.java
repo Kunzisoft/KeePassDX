@@ -34,7 +34,7 @@ public class SearchTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 	    super.setUp();
 	    
-	    mDb = TestData.GetDb1(getContext());
+	    mDb = TestData.GetDb1(getContext(), true);
 	}
 	
 	public void testSearch() {

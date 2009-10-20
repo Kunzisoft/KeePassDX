@@ -46,7 +46,8 @@ import com.keepassdroid.search.SearchDbHelper;
 
 /**
  * @author bpellin
- *
+ * TODO: Only one instance of the search DB can currently exist.  So, we cannot support multiple instances of the Database class.
+ *       I should either emit that this class should be static, or resolve that.
  */
 public class Database {
 	public HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
@@ -100,11 +101,15 @@ public class Database {
 	 * @param ctx
 	 */
 	private void buildSearchIndex() {
+
+		initSearch();
 		
 		searchHelper.open();
 		for ( int i = 0; i < mPM.entries.size(); i++) {
 			PwEntry entry = mPM.entries.get(i);
-			searchHelper.insertEntry(entry);
+			if ( ! entry.isMetaStream() ) {
+				searchHelper.insertEntry(entry);
+			}
 		}
 		searchHelper.close();
 	}
@@ -169,6 +174,7 @@ public class Database {
 	}
 	
 	public void clear() {
+		initSearch();
 		
 		gGroups.clear();
 		gEntries.clear();
@@ -176,6 +182,12 @@ public class Database {
 		mPM = null;
 		mFilename = null;
 		loaded = false;
+	}
+	
+	public void initSearch() {
+		searchHelper.open();
+		searchHelper.clear();
+		searchHelper.close();
 	}
 	
 }

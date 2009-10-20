@@ -82,16 +82,14 @@ public class SearchDbHelper {
 	public SearchDbHelper open() throws SQLException {
 		mDbHelper = new DatabaseHelper(mCtx);
 		mDb = mDbHelper.getWritableDatabase();
-		clear();
 		return this;
 	}
 	
 	public void close() {
-		clear();
 		mDb.close();
 	}
 
-	private void clear() {
+	public void clear() {
 		mDb.delete(SEARCH_TABLE, null, null);
 	}
 

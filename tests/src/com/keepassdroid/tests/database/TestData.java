@@ -41,7 +41,11 @@ public class TestData {
 
 	
 	public static Database GetDb1(Context ctx) throws IOException, InvalidCipherTextException, InvalidKeyFileException {
-		if ( mDb1 == null ) {
+		return GetDb1(ctx, false);
+	}
+	
+	public static Database GetDb1(Context ctx, boolean forceReload) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+		if ( mDb1 == null || forceReload ) {
 			mDb1 = GetDb(ctx, TEST1_KDB, TEST1_PASSWORD, TEST1_KEYFILE, "/sdcard/test1.kdb");
 		}
 		
