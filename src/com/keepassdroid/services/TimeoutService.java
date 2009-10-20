@@ -29,14 +29,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.intents.TimeoutIntents;
 
 public class TimeoutService extends Service {
+	private static final String TAG = "KeePassDroid Timer"; 
 	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
 	
-	private boolean timeout = false;
 	private Timer mTimer;
 	private BroadcastReceiver mIntentReceiver;
 	
@@ -50,8 +51,10 @@ public class TimeoutService extends Service {
 				String action = intent.getAction();
 				
 				if ( action.equals(TimeoutIntents.START) ) {
+					Log.w(TAG, "Start");
 					startTimeout(DEFAULT_TIMEOUT);
 				} else if ( action.equals(TimeoutIntents.CANCEL) ) {
+					Log.w(TAG, "Stop");
 					cancel();
 				}
 			}
@@ -81,7 +84,6 @@ public class TimeoutService extends Service {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return mBinder;
 	}
 	
@@ -89,8 +91,7 @@ public class TimeoutService extends Service {
 
 		@Override
 		public void run() {
-			timeout = true;
-			
+			Log.w(TAG, "Timeout");
 			App.setShutdown();
 		}
 		
@@ -106,10 +107,6 @@ public class TimeoutService extends Service {
 			mTimer.cancel();
 		}
 		
-		timeout = false;
 	}
 	
-	public boolean HasTimedOut() {
-		return timeout;
-	}
 }
