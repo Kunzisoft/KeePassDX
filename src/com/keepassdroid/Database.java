@@ -89,8 +89,7 @@ public class Database {
 		}
 
 		searchHelper = new SearchDbHelper(ctx);
-		searchHelper.open();
-		buildSearchIndex(ctx);
+		buildSearchIndex();
 		
 		loaded = true;
 		
@@ -100,17 +99,23 @@ public class Database {
 	/** Build the search index from the current database
 	 * @param ctx
 	 */
-	private void buildSearchIndex(Context ctx) {
+	private void buildSearchIndex() {
 		
-		
+		searchHelper.open();
 		for ( int i = 0; i < mPM.entries.size(); i++) {
 			PwEntry entry = mPM.entries.get(i);
 			searchHelper.insertEntry(entry);
 		}
+		searchHelper.close();
 	}
 	
 	public PwGroup Search(String str) {
-		return searchHelper.search(this, str);
+		searchHelper.open();
+		PwGroup group = searchHelper.search(this, str);
+		searchHelper.close();
+		
+		return group;
+		
 	}
 	
 	public void SaveData() throws IOException, PwManagerOutputException {
@@ -164,10 +169,6 @@ public class Database {
 	}
 	
 	public void clear() {
-		if ( searchHelper != null ) {
-			searchHelper.close();
-			searchHelper = null;
-		}
 		
 		gGroups.clear();
 		gEntries.clear();

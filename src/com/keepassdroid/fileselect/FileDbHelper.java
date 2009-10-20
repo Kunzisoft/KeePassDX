@@ -159,6 +159,9 @@ public class FileDbHelper {
 			e.printStackTrace();
 			assert(true);
 		}
+		
+		cursor.close();
+		
 		return result;
 		
 	}
@@ -173,6 +176,7 @@ public class FileDbHelper {
 			mDb.execSQL("DELETE FROM " + FILE_TABLE + " WHERE " + KEY_FILE_UPDATED + "<" + time + ";");
 		}
 		
+		cursor.close();
 		
 	}
 	
@@ -204,11 +208,17 @@ public class FileDbHelper {
 		
 		cursor.moveToFirst();
 		
-		return cursor.getString(0);
+		String filename = cursor.getString(0);
+		cursor.close();
+		return filename;
 	}
 	
 	public boolean hasRecentFiles() {
 		Cursor cursor = fetchAllFiles();
-		return cursor.getCount() > 0;
+		
+		boolean hasRecent = cursor.getCount() > 0;
+		cursor.close();
+		
+		return hasRecent; 
 	}
 }

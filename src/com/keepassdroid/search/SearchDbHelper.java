@@ -148,6 +148,8 @@ public class SearchDbHelper {
 			cursor.moveToNext();
 		}
 		
+		cursor.close();
+		
 		return group;
 	}
 	

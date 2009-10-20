@@ -81,7 +81,6 @@ public class DeleteEntry extends RunnableOnFinish {
 		save.run();
 	
 		
-		dbHelper.close();
 	}
 	
 	
@@ -122,6 +121,8 @@ public class DeleteEntry extends RunnableOnFinish {
 				}
 				
 			}
+			
+			mDbHelper.close();
 
 			super.run();
 			
