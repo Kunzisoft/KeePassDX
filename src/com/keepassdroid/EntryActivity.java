@@ -21,7 +21,6 @@ package com.keepassdroid;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -125,9 +124,19 @@ public class EntryActivity extends LockingActivity {
 		populateText(R.id.entry_modified, df.format(mEntry.tLastMod));
 		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess));
 		
+		if ( PwEntry.IsNever(mEntry.tExpire) ) {
+			populateText(R.id.entry_expires, R.string.never);
+		} else {
+			populateText(R.id.entry_expires, df.format(mEntry.tExpire));
+		}
 		populateText(R.id.entry_comment, mEntry.additional);
 	}
 	
+	private void populateText(int viewId, int resId) {
+		TextView tv = (TextView) findViewById(viewId);
+		tv.setText(resId);
+	}
+
 	private void populateText(int viewId, String text) {
 		TextView tv = (TextView) findViewById(viewId);
 		tv.setText(text);

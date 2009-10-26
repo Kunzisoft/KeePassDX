@@ -71,6 +71,24 @@ public class PwEntry {
 	  return cal.getTime();
 	}
 	
+	public static boolean IsNever(Date date) {
+		Calendar never = Calendar.getInstance();
+		never.setTime(NEVER_EXPIRE);
+		never.set(Calendar.MILLISECOND, 0);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		return (never.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) && 
+			(never.get(Calendar.MONTH) == cal.get(Calendar.MONTH)) &&
+			(never.get(Calendar.DAY_OF_MONTH) == cal.get(Calendar.DAY_OF_MONTH)) &&
+			(never.get(Calendar.HOUR) == cal.get(Calendar.HOUR)) &&
+			(never.get(Calendar.MINUTE) == cal.get(Calendar.MINUTE)) &&
+			(never.get(Calendar.SECOND) == cal.get(Calendar.SECOND));
+		
+	}
+	
 	// for tree traversing
 	public PwGroup parent = null;
     
