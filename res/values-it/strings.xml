@@ -16,6 +16,9 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+
+  Italian translation by Diego Pierotto
+
 -->
 <resources>
     <string name="about_feedback">Commenti:</string>
@@ -33,12 +36,12 @@
     <string name="ClearClipboard">Appunti eliminati.</string>
     <string name="current_group">Gruppo attuale: </string>
     <string name="current_group_root">Gruppo attuale: Principale</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009 di Brian Pellin viene distribuito con ASSOLUTAMENTE NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
-    <string name="enter_filename">Inserisci nome file database:</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009 di Brian Pellin viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
+    <string name="enter_filename">Inserisci il nome file del database:</string>
     <string name="entry_accessed">Ultimo accesso: </string>
     <string name="entry_and_or">Inserisci una password e/o file chiave per sbloccare il database:</string>
     <string name="entry_cancel">Annulla</string>
-    <string name="entry_comment">Commenti: </string>
+    <string name="entry_comment">Commento: </string>
     <string name="entry_confpassword">Conferma password:</string>
     <string name="entry_created">Creato: </string>
     <string name="entry_keyfile">File chiave (opzionale)</string>
@@ -48,7 +51,7 @@
     <string name="entry_title">Nome: </string>
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">Nome utente: </string>
-    <string name="error_can_not_handle_uri">KeePassDroid non può gestire questo url.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid non può gestire questo URL.</string>
     <string name="error_could_not_create_group">Errore creazione gruppo.</string>
     <string name="error_database_exists">File già esistente.</string>
     <string name="error_database_settings">Impossibile determinare le impostazioni database.</string>
@@ -87,13 +90,12 @@
     <string name="menu_open">Apri</string>
     <string name="menu_rename">Rinomina</string>
     <string name="menu_search">Cerca</string>
-    <string name="menu_show_password">Mostra Password</string>
     <string name="menu_url">Vai all\'URL</string>
     <string name="no_keys">Nessuna voce nel database o nel gruppo.</string>
     <string name="no_results">Nessun risultato di ricerca</string>
-    <string name="no_url_handler">Nessun gestore per questo url.</string>
-    <string name="open_recent">Apri database recente (clicca per aprire):</string>
-    <string name="pass_filename">Nome file database KeePass:</string>
+    <string name="no_url_handler">Nessun gestore per questo URL.</string>
+    <string name="open_recent">Apri un database recente (clicca per aprire):</string>
+    <string name="pass_filename">Nome file del database di KeePass:</string>
     <string name="pass_ok">Ok</string>
     <string name="password_title">Inserisci password database</string>
     <string name="progress_create">Creazione nuovo database...</string>
@@ -101,9 +103,10 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Principale</string>
     <string name="rounds">Livello cifratura:</string>
-    <string name="rounds_explaination">Un livello di cifratura elevato fornisce una protezione maggiore contro attacchi di tipo "forza brutta", ma può rallentare veramente il caricamento e il salvataggio.</string>
+    <string name="rounds_explaination">Un livello di cifratura elevato fornisce una protezione maggiore contro attacchi di tipo "forza brutta", ma può veramente rallentare il caricamento e il salvataggio.</string>
     <string name="rounds_hint">livello</string>
     <string name="saving_database">Salvataggio database...</string>
     <string name="search_hint">Titolo/descrizione voce</string>
     <string name="search_label">Cerca</string>
+    <string name="show_password">Mostra Password</string>
 </resources>
