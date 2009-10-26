@@ -25,6 +25,7 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.search.SearchDbHelper;
 
 public class UpdateEntry extends RunnableOnFinish {
 	private Database mDb;
@@ -78,7 +79,10 @@ public class UpdateEntry extends RunnableOnFinish {
 					}
 					
 					// Update search index
-					mDb.searchHelper.updateEntry(mOldE);
+					SearchDbHelper helper = mDb.searchHelper;
+					helper.open();
+					helper.updateEntry(mOldE);
+					helper.close();
 				}
 			} else {
 				// If we fail to save, back out changes to global structure

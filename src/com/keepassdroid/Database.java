@@ -185,9 +185,11 @@ public class Database {
 	}
 	
 	public void initSearch() {
-		searchHelper.open();
-		searchHelper.clear();
-		searchHelper.close();
+		if ( searchHelper != null ) {
+			searchHelper.open();
+			searchHelper.clear();
+			searchHelper.close();
+		}
 	}
 	
 }

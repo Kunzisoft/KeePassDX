@@ -26,6 +26,7 @@ import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.Types;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.search.SearchDbHelper;
 
 public class AddEntry extends RunnableOnFinish {
 	private Database mDb;
@@ -76,7 +77,10 @@ public class AddEntry extends RunnableOnFinish {
 				mDb.gEntries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntry>(mEntry));
 				
 				// Add entry to search index
-				mDb.searchHelper.insertEntry(mEntry);
+				SearchDbHelper helper = mDb.searchHelper;
+				helper.open();
+				helper.insertEntry(mEntry);
+				helper.close();
 			} else {
 				// Remove from group
 				mEntry.parent.childEntries.removeElement(mEntry);
