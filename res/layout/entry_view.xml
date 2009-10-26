@@ -131,12 +131,25 @@
 			  android:layout_alignLeft="@id/entry_user_name"
 			  android:layout_alignParentRight="true"
 			  android:layout_alignBottom="@id/entry_accessed_label"/>
+			<!-- Expires -->
+			<TextView android:id="@+id/entry_expires_label"
+			  android:layout_width="wrap_content"
+			  android:layout_height="wrap_content" 
+			  android:layout_alignParentLeft="true"
+			  android:layout_below="@id/entry_accessed" 
+			  android:text="@string/entry_expires" />
+			<TextView android:id="@+id/entry_expires" 
+			  android:layout_width="wrap_content"
+			  android:layout_height="wrap_content"
+			  android:layout_alignLeft="@id/entry_user_name"
+			  android:layout_alignParentRight="true"
+			  android:layout_alignBottom="@id/entry_expires_label"/>
 			<!-- Comment -->
 			<TextView android:id="@+id/entry_comment_label"
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content" 
 			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_accessed" 
+			  android:layout_below="@id/entry_expires" 
 			  android:text="@string/entry_comment" />
 			<TextView android:id="@+id/entry_comment" 
 		      android:layout_width="wrap_content"

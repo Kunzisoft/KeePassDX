@@ -21,6 +21,7 @@ package com.keepassdroid;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -123,6 +124,7 @@ public class EntryActivity extends LockingActivity {
 		populateText(R.id.entry_created, df.format(mEntry.tCreation));
 		populateText(R.id.entry_modified, df.format(mEntry.tLastMod));
 		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess));
+		
 		populateText(R.id.entry_comment, mEntry.additional);
 	}
 	
@@ -151,7 +153,7 @@ public class EntryActivity extends LockingActivity {
 		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
 		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
 
-		menu.add(0, MENU_PASS, 0, R.string.menu_show_password);
+		menu.add(0, MENU_PASS, 0, R.string.show_password);
 		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
 		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
 		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
@@ -189,7 +191,7 @@ public class EntryActivity extends LockingActivity {
 			return true;
 		case MENU_PASS:
 			if ( mShowPassword ) {
-				item.setTitle(R.string.menu_show_password);
+				item.setTitle(R.string.show_password);
 				mShowPassword = false;
 			} else {
 				item.setTitle(R.string.menu_hide_password);

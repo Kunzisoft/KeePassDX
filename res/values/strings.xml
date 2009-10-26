@@ -42,6 +42,7 @@
     <string name="entry_comment">Comments: </string>
     <string name="entry_confpassword">Confirm password:</string>
     <string name="entry_created">Created: </string>
+    <string name="entry_expires">Expires: </string>
     <string name="entry_keyfile">Key file (optional)</string>
     <string name="entry_modified">Modified: </string>
     <string name="entry_password">Password</string>
@@ -90,8 +91,8 @@
     <string name="menu_open">Open</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_search">Search</string>
-    <string name="menu_show_password">Show Password</string>
     <string name="menu_url">Go to URL</string>
+    <string name="never">Never</string>
     <string name="no_keys">No entries in the database or group.</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
