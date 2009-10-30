@@ -19,9 +19,6 @@
  */
 package com.keepassdroid.services;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,9 +33,6 @@ import com.keepassdroid.intents.TimeoutIntents;
 
 public class TimeoutService extends Service {
 	private static final String TAG = "KeePassDroid Timer"; 
-	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
-	
-	private Timer mTimer;
 	private BroadcastReceiver mIntentReceiver;
 	
 	@Override
@@ -50,24 +44,24 @@ public class TimeoutService extends Service {
 			public void onReceive(Context context, Intent intent) {
 				String action = intent.getAction();
 				
-				if ( action.equals(TimeoutIntents.START) ) {
-					Log.w(TAG, "Start");
-					startTimeout(DEFAULT_TIMEOUT);
-				} else if ( action.equals(TimeoutIntents.CANCEL) ) {
-					Log.w(TAG, "Stop");
-					cancel();
+				if ( action.equals(TimeoutIntents.TIMEOUT) ) {
+					timeout(context);
 				}
 			}
 		};
 		
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(TimeoutIntents.START);
-		filter.addAction(TimeoutIntents.CANCEL);
+		filter.addAction(TimeoutIntents.TIMEOUT);
 		registerReceiver(mIntentReceiver, filter);
 		
 	}
 	
-		@Override
+	private void timeout(Context context) {
+		Log.d(TAG, "Timeout");
+		App.setShutdown();
+	}
+	
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		
@@ -85,28 +79,6 @@ public class TimeoutService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		return mBinder;
-	}
-	
-	private class TimeoutTask extends TimerTask {
-
-		@Override
-		public void run() {
-			Log.w(TAG, "Timeout");
-			App.setShutdown();
-		}
-		
-	}
-	
-	public void startTimeout(long milliseconds) {
-		mTimer = new Timer();
-		mTimer.schedule(new TimeoutTask(), milliseconds);
-	}
-	
-	public void cancel() {
-		if ( mTimer != null ) {
-			mTimer.cancel();
-		}
-		
 	}
 	
 }

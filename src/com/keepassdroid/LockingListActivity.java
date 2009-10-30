@@ -20,11 +20,8 @@
 package com.keepassdroid;
 
 import android.app.ListActivity;
-import android.content.Intent;
 
-import com.android.keepass.KeePass;
-import com.keepassdroid.app.App;
-import com.keepassdroid.intents.TimeoutIntents;
+import com.keepassdroid.timers.Timeout;
 
 public class LockingListActivity extends ListActivity {
 
@@ -32,18 +29,13 @@ public class LockingListActivity extends ListActivity {
 	protected void onPause() {
 		super.onPause();
 
-		sendBroadcast(new Intent(TimeoutIntents.START));
+		Timeout.start(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
-		
-		if ( App.isShutdown() ) {
-			setResult(KeePass.EXIT_LOCK);
-			finish();
-		}
+		Timeout.cancel(this);
 	}
 }

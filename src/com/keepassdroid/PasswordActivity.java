@@ -44,7 +44,7 @@ import com.keepassdroid.database.LoadDB;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.fileselect.FileDbHelper;
 
-public class PasswordActivity extends Activity {
+public class PasswordActivity extends LockingActivity {
 
 	private static final int MENU_ABOUT = Menu.FIRST;
 	private static final String KEY_FILENAME = "fileName";
@@ -171,21 +171,6 @@ public class PasswordActivity extends Activity {
 		
 		// Clear password on Database state
 		setEditText(R.id.password, "");
-		
-		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		
-		sendBroadcast(new Intent(TimeoutIntents.START));
 	}
 
 	/*

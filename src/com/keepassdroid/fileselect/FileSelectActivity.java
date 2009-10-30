@@ -45,7 +45,6 @@ import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.Util;
 import com.keepassdroid.database.CreateDB;
 import com.keepassdroid.database.FileOnFinish;
-import com.keepassdroid.intents.TimeoutIntents;
 
 public class FileSelectActivity extends ListActivity {
 
@@ -239,15 +238,11 @@ public class FileSelectActivity extends ListActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		sendBroadcast(new Intent(TimeoutIntents.START));
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
 		
 		// Check to see if we need to change modes
 		if ( mDbHelper.hasRecentFiles() != recentMode ) {

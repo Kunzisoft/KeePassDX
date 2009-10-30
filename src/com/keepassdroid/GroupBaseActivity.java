@@ -41,7 +41,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.settings.DatabaseSettingsActivity;
 
-public abstract class GroupBaseActivity extends LockingListActivity {
+public abstract class GroupBaseActivity extends LockCloseListActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_MODE = "mode";
 	

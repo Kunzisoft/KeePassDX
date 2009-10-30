@@ -46,7 +46,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 
-public class EntryActivity extends LockingActivity {
+public class EntryActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_REFRESH_POS = "refresh_pos";
 

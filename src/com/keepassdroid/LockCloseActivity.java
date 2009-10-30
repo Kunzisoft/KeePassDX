@@ -19,24 +19,19 @@
  */
 package com.keepassdroid;
 
-import android.app.Activity;
+import com.android.keepass.KeePass;
+import com.keepassdroid.app.App;
 
-import com.keepassdroid.timers.Timeout;
-
-public class LockingActivity extends Activity {
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		
-		Timeout.start(this);
-	}
+public class LockCloseActivity extends LockingActivity {
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		
-		Timeout.cancel(this);
+		if ( App.isShutdown() ) {
+			setResult(KeePass.EXIT_LOCK);
+			finish();
+		}
 	}
-	
+
 }

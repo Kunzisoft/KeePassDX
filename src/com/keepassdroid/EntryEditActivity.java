@@ -49,7 +49,7 @@ import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.database.RunnableOnFinish;
 import com.keepassdroid.database.UpdateEntry;
 
-public class EntryEditActivity extends LockingActivity {
+public class EntryEditActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 

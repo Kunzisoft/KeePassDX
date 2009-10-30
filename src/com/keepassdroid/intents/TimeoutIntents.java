@@ -19,6 +19,5 @@
  */package com.keepassdroid.intents;
 
 public class TimeoutIntents {
-	public static final String START = "com.keepassdroid.timeout.start";
-	public static final String CANCEL = "com.keepassdroid.timeout.cancel";
+	public static final String TIMEOUT = "com.android.keepassdroid.timeout";
 }
