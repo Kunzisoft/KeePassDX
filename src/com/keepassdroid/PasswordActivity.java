@@ -43,7 +43,6 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.LoadDB;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.fileselect.FileDbHelper;
-import com.keepassdroid.intents.TimeoutIntents;
 
 public class PasswordActivity extends Activity {
 
@@ -138,7 +137,7 @@ public class PasswordActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				TextView password = (TextView) findViewById(R.id.pass_password);
+				TextView password = (TextView) findViewById(R.id.password);
 
 				if ( isChecked ) {
 					password.setTransformationMethod(null);
@@ -162,7 +161,7 @@ public class PasswordActivity extends Activity {
 	}
 	
 	private void populateView() {
-		setEditText(R.id.pass_filename, mFileName);
+		setEditText(R.id.filename, mFileName);
 		setEditText(R.id.pass_keyfile, mKeyFile);
 	}
 	
@@ -171,7 +170,7 @@ public class PasswordActivity extends Activity {
 		super.onResume();
 		
 		// Clear password on Database state
-		setEditText(R.id.pass_password, "");
+		setEditText(R.id.password, "");
 		
 		sendBroadcast(new Intent(TimeoutIntents.CANCEL));
 	}
@@ -204,14 +203,14 @@ public class PasswordActivity extends Activity {
 	private class ClickHandler implements View.OnClickListener {
 		
 		public void onClick(View view) {
-			String pass = getEditText(R.id.pass_password);
+			String pass = getEditText(R.id.password);
 			String key = getEditText(R.id.pass_keyfile);
 			if ( pass.length() == 0 && key.length() == 0 ) {
 				errorMessage(R.string.error_nopass);
 				return;
 			}
 			
-			String fileName = getEditText(R.id.pass_filename);
+			String fileName = getEditText(R.id.filename);
 			
 			
 			// Clear before we load
