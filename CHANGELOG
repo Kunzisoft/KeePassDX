@@ -1,3 +1,8 @@
+KeePassdroid (0.9.3)
+  * Fix up translations
+  * Fix up timeouts.
+  * Display expiration time.
+
 KeePassDroid (0.9.2)
   * Add Italian translations
   * Multiple screen sizes
