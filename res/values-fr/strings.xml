@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  French translation provided by Laurent.
+-->
+<resources>
+<string name="about_feedback">Commentaires :</string>
+<string name="about_homepage">Site web :</string>
+<string name="about_ok">OK</string>
+<string name="AboutText">KeePassDroid est une compatibilit� avec le logiciel KeePass Password Manager. KeePassDroid ne peut, pour le moment, que lire les bases de donn�es. Il ne peut pas cr�er de bases de donn�es. Pour l'instant, vous devez cr�er une base de donn�es avec le logiciel KeePass sur votre ordinateur puis la transf�rer sur la carte m�moire de votre appareil mobile.</string>
+<string name="about_twitter">Twitter :</string>
+<string name="add_entry">Ajouter une entr�e</string>
+<string name="add_group">Ajouter un groupe</string>
+<string name="add_group_title">Ajouter un groupe</string>
+<string name="algorithm">Algorithme</string>
+<string name="algorithm_colon">Algorithme :</string>
+<string name="app_name">KeePassDroid</string>    
+<string name="cancel">Annuler</string>    
+<string name="ClearClipboard">Presse-papier nettoy�.</string>    
+<string name="current_group">Groupe actuel : </string>    
+<string name="current_group_root">Groupe actuel : Root</string>    
+<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin n'offre ABSOLUMENT AUCUNE GARANTIE; il s'agit d'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de version GPL 2 ou sup�rieure.</string>    
+<string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
+<string name="enter_filename">Entrez le nom de fichier de la base de donn�es :</string>    
+<string name="entry_accessed">Acc�d� : </string>    
+<string name="entry_and_or">Entrez un mot de passe et/ou une cl� de fichier pour d�verrouiller votre base de donn�es :</string>    
+<string name="entry_cancel">Annuler</string>    
+<string name="entry_comment">Commentaires : </string>    
+<string name="entry_confpassword">Confirmer mot de passe :</string>    
+<string name="entry_created">Cr�� : </string>    
+<string name="entry_expires">Expire: </string>    
+<string name="entry_keyfile">Cl� de fichier (facultatif)</string>    
+<string name="entry_modified">Modifi� : </string>    
+<string name="entry_password">Mot de passe</string>    
+<string name="entry_save">Sauvegarder</string>    
+<string name="entry_title">Nom : </string>    
+<string name="entry_url">URL : </string>    
+<string name="entry_user_name">Nom d'utilisateur : </string>    
+<string name="error_can_not_handle_uri">KeePassDroid ne peut pas g�rer cette uri.</string>    
+<string name="error_could_not_create_group">Erreur de cr�ation de groupe.</string>    
+<string name="error_database_exists">Ce fichier existe d�j�.</string>    
+<string name="error_database_settings">Impossible de d�terminer les param�tres de base de donn�es.</string>    
+<string name="error_failed_to_launch_link">Echec lors du lancement du lien.</string>
+<string name="error_filename_required">Un nom de fichier est requis.</string>    
+<string name="error_file_not_create">Impossible de cr�er un fichier :</string>    
+<string name="error_no_name">Un nom est requis.</string>    
+<string name="error_nopass">Un mot de passe ou cl� de fichier est requis.</string>    
+<string name="error_pass_match">Les mots de passe ne correspondent pas.</string>    
+<string name="error_rounds_not_number">La s�rie doit �tre un nombre.</string>    
+<string name="error_title_required">Un titre est requis.</string>    
+<string name="FileNotFound">Fichier non trouv�.</string>    
+<string name="group">Groupe</string>    
+<string name="hint_comment">commentaire</string>    
+<string name="hint_conf_pass">confirmez mot de passe</string>    
+<string name="hint_group_name">Nom de groupe</string>    
+<string name="hint_keyfile">cl� de fichier</string>    
+<string name="hint_pass">mot de passe</string>    
+<string name="hint_title">nom</string>    
+<string name="hint_url">url</string>    
+<string name="hint_username">Nom d'utilisateur</string>    
+<string name="homepage">http://www.keepassdroid.com</string>    
+<string name="InvalidPassword">Mot de passe ou cl� de fichier incorrect.</string>    
+<string name="loading_database">Chargement de la base de donn�es...</string>    
+<string name="MaskedPassword">*****</string>    
+<string name="menu_about">A propos</string>    
+<string name="menu_change_key">Changer la Master Cl�</string>    
+<string name="menu_copy_pass">Copier mot de passe</string>    
+<string name="menu_copy_user">Copier Utilisateur</string>    
+<string name="menu_create">Cr�er</string>    
+<string name="menu_db_settings">Pr�f�rences base de donn�es</string>    
+<string name="menu_delete">Supprimer</string>    
+<string name="menu_donate">Faire un Don</string>    
+<string name="menu_edit">Editer</string>    
+<string name="menu_hide_password">Cacher le mot de passe</string>    
+<string name="menu_homepage">Aller � la page d'accueil</string>    
+<string name="menu_lock">Verrouiller la base de donn�es</string>    
+<string name="menu_open">Ouvrir</string>    
+<string name="menu_rename">Renommer</string>    
+<string name="menu_search">Rechercher</string>    
+<string name="menu_url">Aller � l'adresse URL</string>    
+<string name="never">Jamais</string>    
+<string name="no_keys">Aucune entr�e dans la base de donn�es ou le groupe.</string>    
+<string name="no_results">Aucun r�sultat pour cette recherche</string>    
+<string name="no_url_handler">Aucun gestionnaire pour cette url.</string>    
+<string name="open_recent">base de donn�es r�cemment ouverte (cliquez pour ouvrir) :</string>    
+<string name="pass_filename">Nom de fichier de base de donn�es KeePass :</string>    
+<string name="pass_ok">Ok</string>    
+<string name="password_title">Entrez le mot de passe de la base de donn�es</string>    
+<string name="progress_create">Cr�ation d'une nouvelle base de donn�es...</string>    
+<string name="progress_title">En cours...</string>    
+<string name="rijndael">Rijndael (AES)</string>    
+<string name="root">Racine</string>    
+<string name="rounds">Cycle du cryptage :</string>    
+<string name="rounds_explaination">Un cycle de cryptage sup�rieur assure une protection suppl�mentaire contre les attaques de force brute, mais peut consid�rablement ralentir le chargement et la sauvegarde.</string>    
+<string name="rounds_hint">cycles</string>    
+<string name="saving_database">Sauvegarde base de donn�es...</string>    
+<string name="search_hint">Titre de l'entr�e/description</string>    
+<string name="search_label">Rechercher</string>    
+<string name="show_password">Afficher le mot de passe</string>
+</resources>
