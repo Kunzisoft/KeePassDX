@@ -21,7 +21,7 @@
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
     <string name="about_ok">OK</string>
-    <string name="AboutText">KeePassDroid is an Android implementation of the KeePass password manager. Currently KeePassDroid can only view databases.  It cannot yet create databases.  For now, you will need to create a KeePass database on your PC and transfer it to your SD card.</string>
+    <string name="AboutText">KeePassDroid is an Android implementation of the KeePass password manager.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="add_entry">Add entry</string>
     <string name="add_group">Add group</string>
