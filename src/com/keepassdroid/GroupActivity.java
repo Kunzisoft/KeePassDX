@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ public class GroupActivity extends GroupBaseActivity {
 	public static final int VIEW_ONLY = 0;
 	public static final int ADD_GROUP_ONLY = 1;
 	public static final int FULL = 2;
+	private static final String TAG = "Group Activity:";
 	
 	public static void Launch(Activity act, PwGroup group, int mode) {
 		Intent i = new Intent(act, GroupActivity.class);
@@ -65,6 +67,7 @@ public class GroupActivity extends GroupBaseActivity {
 		super.onCreate(savedInstanceState);
 		setResult(KeePass.EXIT_NORMAL);
 		
+		Log.w(TAG, "Creating group view");
 		Intent intent = getIntent();
 		
 		int mode = intent.getIntExtra(KEY_MODE, UNINIT);
@@ -79,6 +82,7 @@ public class GroupActivity extends GroupBaseActivity {
 		default:
 			setContentView(R.layout.group_view_only);
 		}
+		Log.w(TAG, "Set view");
 		
 		int id = intent.getIntExtra(KEY_ENTRY, -1);
 		
@@ -89,7 +93,13 @@ public class GroupActivity extends GroupBaseActivity {
 			WeakReference<PwGroup> wPw = db.gGroups.get(id);
 			mGroup = wPw.get();
 		}
-		assert(mGroup != null);
+		Log.w(TAG, "Retrieved group");
+		if ( mGroup == null ) {
+			Log.w(TAG, "Group was null");
+			return;
+		}
+		
+		
 
 		if ( mode == FULL || mode == ADD_GROUP_ONLY ) {
 			// Add Group button
@@ -113,6 +123,7 @@ public class GroupActivity extends GroupBaseActivity {
 
 		setListAdapter(new PwListAdapter(this, mGroup));
 		registerForContextMenu(getListView());
+		Log.w(TAG, "Finished creating group");
 
 	}
 
