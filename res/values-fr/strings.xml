@@ -17,14 +17,14 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 
-  Italian translation by Laurent
+  French translation by Laurent
 
 -->
 <resources>
 	<string name="about_feedback">Commentaires :</string>
 	<string name="about_homepage">Site web :</string>
 	<string name="about_ok">OK</string>
-	<string name="AboutText">KeePassDroid est une compatibilité avec le logiciel KeePass Password Manager. KeePassDroid ne peut, pour le moment, que lire les bases de données. Il ne peut pas créer de bases de données. Pour l'instant, vous devez créer une base de données avec le logiciel KeePass sur votre ordinateur puis la transférer sur la carte mémoire de votre appareil mobile.</string>
+	<string name="AboutText">KeePassDroid est une compatibilité avec le logiciel KeePass Password Manager. Pour l\'instant, vous devez créer une base de données avec le logiciel KeePass sur votre ordinateur puis la transférer sur la carte mémoire de votre appareil mobile.</string>
 	<string name="about_twitter">Twitter :</string>
 	<string name="add_entry">Ajouter une entrée</string>
 	<string name="add_group">Ajouter un groupe</string>
@@ -36,7 +36,7 @@
 	<string name="ClearClipboard">Presse-papier nettoyé.</string>    
 	<string name="current_group">Groupe actuel : </string>    
 	<string name="current_group_root">Groupe actuel : Root</string>    
-	<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin n'offre ABSOLUMENT AUCUNE GARANTIE; il s'agit d'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de version GPL 2 ou supérieure.</string>    
+	<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de version GPL 2 ou supérieure.</string>    
 	<string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
 	<string name="enter_filename">Entrez le nom de fichier de la base de données :</string>    
 	<string name="entry_accessed">Accédé : </string>    
@@ -44,7 +44,7 @@
 	<string name="entry_cancel">Annuler</string>    
 	<string name="entry_comment">Commentaires : </string>    
 	<string name="entry_confpassword">Confirmer mot de passe :</string>    
-	<string name="entry_created">Créé : </string>    
+	<string name="entry_created">Créée : </string>    
 	<string name="entry_expires">Expire: </string>    
 	<string name="entry_keyfile">Clé de fichier (facultatif)</string>    
 	<string name="entry_modified">Modifié : </string>    
@@ -52,7 +52,7 @@
 	<string name="entry_save">Sauvegarder</string>    
 	<string name="entry_title">Nom : </string>    
 	<string name="entry_url">URL : </string>    
-	<string name="entry_user_name">Nom d'utilisateur : </string>    
+	<string name="entry_user_name">Nom d\'utilisateur : </string>    
 	<string name="error_can_not_handle_uri">KeePassDroid ne peut pas gérer cette uri.</string>    
 	<string name="error_could_not_create_group">Erreur de création de groupe.</string>    
 	<string name="error_database_exists">Ce fichier existe déjà.</string>    
@@ -74,7 +74,7 @@
 	<string name="hint_pass">mot de passe</string>    
 	<string name="hint_title">nom</string>    
 	<string name="hint_url">url</string>    
-	<string name="hint_username">Nom d'utilisateur</string>    
+	<string name="hint_username">Nom d\'utilisateur</string>    
 	<string name="homepage">http://www.keepassdroid.com</string>    
 	<string name="InvalidPassword">Mot de passe ou clé de fichier incorrect.</string>    
 	<string name="loading_database">Chargement de la base de données...</string>    
@@ -84,17 +84,17 @@
 	<string name="menu_copy_pass">Copier mot de passe</string>    
 	<string name="menu_copy_user">Copier Utilisateur</string>    
 	<string name="menu_create">Créer</string>    
-	<string name="menu_db_settings">Préférences base de données</string>    
+	<string name="menu_db_settings">Préférences</string>    
 	<string name="menu_delete">Supprimer</string>    
 	<string name="menu_donate">Faire un Don</string>    
 	<string name="menu_edit">Editer</string>    
 	<string name="menu_hide_password">Cacher le mot de passe</string>    
-	<string name="menu_homepage">Aller à la page d'accueil</string>    
-	<string name="menu_lock">Verrouiller la base de données</string>    
+	<string name="menu_homepage">Aller à la page d\'accueil</string>    
+	<string name="menu_lock">Verrouiller les données</string>    
 	<string name="menu_open">Ouvrir</string>    
 	<string name="menu_rename">Renommer</string>    
 	<string name="menu_search">Rechercher</string>    
-	<string name="menu_url">Aller à l'adresse URL</string>    
+	<string name="menu_url">Aller à l\'adresse URL</string>    
 	<string name="never">Jamais</string>    
 	<string name="no_keys">Aucune entrée dans la base de données ou le groupe.</string>    
 	<string name="no_results">Aucun résultat pour cette recherche</string>    
@@ -103,7 +103,7 @@
 	<string name="pass_filename">Nom de fichier de base de données KeePass :</string>    
 	<string name="pass_ok">Ok</string>    
 	<string name="password_title">Entrez le mot de passe de la base de données</string>    
-	<string name="progress_create">Création d'une nouvelle base de données...</string>    
+	<string name="progress_create">Création d\'une nouvelle base de données...</string>    
 	<string name="progress_title">En cours...</string>    
 	<string name="rijndael">Rijndael (AES)</string>    
 	<string name="root">Racine</string>    
@@ -111,7 +111,7 @@
 	<string name="rounds_explaination">Un cycle de cryptage supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir le chargement et la sauvegarde.</string>    
 	<string name="rounds_hint">cycles</string>    
 	<string name="saving_database">Sauvegarde base de données...</string>    
-	<string name="search_hint">Titre de l'entrée/description</string>    
+	<string name="search_hint">Titre de l\'entrée/description</string>    
 	<string name="search_label">Rechercher</string>    
 	<string name="show_password">Afficher le mot de passe</string>
 </resources>
