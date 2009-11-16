@@ -33,6 +33,7 @@
     <string name="ClearClipboard">Clipboard cleared.</string>
     <string name="copy_username">Copy username to clipboard</string>
     <string name="copy_password">Copy password to clipboard</string>
+    <string name="current_group">Current Group: </string>
     <string name="current_group_root">Current Group: Root</string>
     <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
