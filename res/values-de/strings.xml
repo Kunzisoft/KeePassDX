@@ -16,6 +16,8 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Translations from BoDEAN
 -->
 <resources>
     <string name="about_feedback">Feedback:</string>
