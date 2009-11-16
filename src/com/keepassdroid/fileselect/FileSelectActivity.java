@@ -114,7 +114,26 @@ public class FileSelectActivity extends ListActivity {
 								Toast.LENGTH_LONG).show();
 						return;
 					}
-
+					File parent = file.getParentFile();
+					
+					if ( parent.exists() && ! parent.isDirectory() ) {
+						Toast.makeText(FileSelectActivity.this,
+								R.string.error_invalid_path,
+								Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if ( ! parent.exists() ) {
+						// Create parent dircetory
+						if ( ! parent.mkdirs() ) {
+							Toast.makeText(FileSelectActivity.this,
+									R.string.error_could_not_create_parent,
+									Toast.LENGTH_LONG).show();
+							return;
+							
+						}
+					}
+					
 					file.createNewFile();
 				} catch (IOException e) {
 					Toast.makeText(

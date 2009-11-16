@@ -1,6 +1,7 @@
 KeePassDroid (0.9.5)
   * Add notification based username and password copy
   * Add German translations
+  * Try to create parent directory when creating database
 
 KeePassdroid (0.9.4)
   * Add French translation 

@@ -54,8 +54,10 @@
     <string name="entry_user_name">User Name: </string>
     <string name="error_can_not_handle_uri">KeePassDroid cannot handle this uri.</string>
     <string name="error_could_not_create_group">Error creating group.</string>
+    <string name="error_could_not_create_parent">Could not create parent directory.</string>
     <string name="error_database_exists">This file already exists.</string>
     <string name="error_database_settings">Failed to determine database settings.</string>
+    <string name="error_invalid_path">Invalid path.</string>
     <string name="error_failed_to_launch_link">Failed to launch link.</string>
     <string name="error_filename_required">A filename is required.</string>
     <string name="error_file_not_create">Could not create file:</string>
