@@ -1,3 +1,7 @@
+KeePassDroid (0.9.5)
+  * Add notification based username and password copy
+  * Add German translations
+
 KeePassdroid (0.9.4)
   * Add French translation 
   * Fix crash on timeout.
