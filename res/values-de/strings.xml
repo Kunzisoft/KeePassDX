@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="about_feedback">Feedback:</string>
+    <string name="about_homepage">Homepage:</string>
+    <string name="about_ok">OK</string>
+    <string name="AboutText">KeePassDroid ist die Implementierung des KeePass password manager für die Android Plattform.</string>    
+    <string name="about_twitter">Twitter:</string>
+    <string name="add_entry">Eintrag hinzufügen</string>
+    <string name="add_group">Gruppe hinzufügen</string>
+    <string name="add_group_title">Gruppe hinzufügen</string>
+    <string name="algorithm">Algorithmus</string>
+    <string name="algorithm_colon">Algorithmus:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="ClearClipboard">Zwischenablage geleert.</string>
+    <string name="current_group">Aktuelle Gruppe: </string>
+    <string name="current_group_root">Start</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
+    <string name="enter_filename">Dateinamen der Datenbank eingeben:</string>
+    <string name="entry_accessed">letzter Zugriff: </string>
+    <string name="entry_and_or">Passwort und/oder Schlüsseldatei, zum entschlüsseln Ihrer Datenbank, eingeben:</string>
+    <string name="entry_cancel">Abbrechen</string>
+    <string name="entry_comment">Kommentar: </string>
+    <string name="entry_confpassword">Passwort bestätigen:</string>
+    <string name="entry_created">Erstellt: </string>
+    <string name="entry_expires">Läuft ab: </string>
+    <string name="entry_keyfile">Schlüsseldatei (optional)</string>
+    <string name="entry_modified">letzte Bearbeitung: </string>
+    <string name="entry_password">Passwort:</string>
+    <string name="entry_save">Speichern</string>
+    <string name="entry_title">Titel: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Benutzerame: </string>
+    <string name="error_can_not_handle_uri">KeePassDroid kann diese Adresse nicht verarbeiten.</string>
+    <string name="error_could_not_create_group">Fehler beim erstellen der Gruppe.</string>
+    <string name="error_database_exists">Die Datei existiert bereits.</string>
+    <string name="error_database_settings">Fehler beim ermitteln der Datenbankeinstellungen.</string>
+    <string name="error_failed_to_launch_link">Konnte Verknüpfung nicht starten.</string>
+    <string name="error_filename_required">Ein Dateiname wird benötigt.</string>
+    <string name="error_file_not_create">Konnte Datei nicht erstellen:</string>
+    <string name="error_no_name">Ein Name wird benötigt.</string>
+    <string name="error_nopass">Ein Passwort oder eine Schlüsseldatei wird benötigt.</string>
+    <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
+    <string name="error_rounds_not_number">Anzahl der Wiederholungen muss eine Zahl sein.</string>
+    <string name="error_title_required">Ein Titel wird benötigt.</string>
+    <string name="FileNotFound">Datei nicht gefunden.</string>
+    <string name="group">Gruppe</string>
+    <string name="hint_comment">Kommentar</string>
+    <string name="hint_conf_pass">Passwort bestätigen</string>
+    <string name="hint_group_name">Name der Gruppe</string>
+    <string name="hint_keyfile">Schlüsseldatei</string>
+    <string name="hint_pass">Passwort</string>
+    <string name="hint_title">Name</string>
+    <string name="hint_url">Adresse</string>
+    <string name="hint_username">Benutzername</string>
+    <string name="homepage">http://www.keepassdroid.com</string>
+    <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
+    <string name="loading_database">Lade Datenbank...</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="menu_about">Über</string>
+    <string name="menu_change_key">Datenbankpasswort ändern</string>
+    <string name="menu_copy_pass">Passwort kopieren</string>
+    <string name="menu_copy_user">Benutzername kopieren</string>
+    <string name="menu_create">Erstellen</string>
+    <string name="menu_db_settings">Einstellungen</string>
+    <string name="menu_delete">Löschen</string>
+    <string name="menu_donate">Spenden</string>
+    <string name="menu_edit">Bearbeiten</string>
+    <string name="menu_hide_password">Passwort verstecken</string>
+    <string name="menu_homepage">Zur Hompage</string>
+    <string name="menu_lock">Datenbank sperren</string>
+    <string name="menu_open">Öffnen</string>
+    <string name="menu_rename">Umbenennen</string>
+    <string name="menu_search">Suchen</string>
+    <string name="menu_url">URL öffnen</string>
+    <string name="never">Niemals</string>
+    <string name="no_keys">Keine Einträge in dieser Datenbank oder Gruppe.</string>
+    <string name="no_results">Keine Suchergebnisse</string>
+    <string name="no_url_handler">Kann mit dieser Url nicht umgehen.</string>
+    <string name="open_recent">Zuletzt geöffnete Datenbank (Klicken zum Öffnen):</string>
+    <string name="pass_filename">KeePass Datenbankdatei:</string>
+    <string name="pass_ok">Ok</string>
+    <string name="password_title">Datenbankpasswort eingeben</string>
+    <string name="progress_create">Neue Datenbank anlegen...</string>
+    <string name="progress_title">In Bearbeitung...</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Start</string>
+    <string name="rounds">Wiederholungen:</string>
+    <string name="rounds_explaination">Höhere Wiederholungsanzahl steigert den Schutz gegen Brute-Force Angriffe, sie bremsen aber auch das laden und speichern der Datenbank.</string>
+    <string name="rounds_hint">Verschlüsslungs-Wiederholungen</string>
+    <string name="saving_database">Speichere Datenbank...</string>
+    <string name="search_hint">Titel/Beschreibung des Eintrags</string>
+    <string name="search_label">Suchen</string>
+    <string name="show_password">Passwort anzeigen</string>
+</resources>

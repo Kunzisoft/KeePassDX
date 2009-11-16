@@ -46,7 +46,7 @@
     <string name="entry_expires">Expires: </string>
     <string name="entry_keyfile">Key file (optional)</string>
     <string name="entry_modified">Modified: </string>
-    <string name="entry_password">Password</string>
+    <string name="entry_password">Password:</string>
     <string name="entry_save">Save</string>
     <string name="entry_title">Name: </string>
     <string name="entry_url">URL: </string>

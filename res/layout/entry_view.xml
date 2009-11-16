@@ -51,113 +51,89 @@
 	  android:layout_height="fill_parent"
 	  android:layout_above="@id/entry_divider2"
 	  android:layout_below="@id/entry_divider1">
-		<RelativeLayout android:layout_width="fill_parent"
+		<TableLayout android:layout_width="fill_parent"
 		  android:layout_height="fill_parent">	
 			<!-- Username -->
-			<TextView android:id="@+id/entry_user_name_label"
-			  android:layout_width="100px"
-			  android:layout_height="wrap_content"
-			  android:layout_alignParentLeft="true"
-			  android:text="@string/entry_user_name" />
-			<TextView android:id="@+id/entry_user_name" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_toRightOf="@id/entry_user_name_label"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignTop="@id/entry_user_name_label"/>
+			<TableRow>
+				<TextView android:id="@+id/entry_user_name_label"
+				  android:layout_width="100px"
+				  android:layout_height="wrap_content"
+				  android:text="@string/entry_user_name" />
+				<TextView android:id="@+id/entry_user_name" 
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"/>
+			</TableRow>
 			<!--  URL -->
-			<TextView android:id="@+id/entry_url_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_user_name" 
-			  android:text="@string/entry_url" />
-			<TextView android:id="@+id/entry_url" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_user_name"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignTop="@id/entry_url_label"/>
+			<TableRow>
+				<TextView android:id="@+id/entry_url_label"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:text="@string/entry_url" />
+				<TextView android:id="@+id/entry_url" 
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"/>
+			</TableRow>
 			<!-- Password -->
-			<TextView android:id="@+id/entry_password_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content" 
-			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_url" 
-			  android:text="@string/entry_password" />
-			<TextView android:id="@+id/entry_password" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:password="true"
-			  android:layout_alignLeft="@id/entry_user_name"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignTop="@id/entry_password_label"/>
+			<TableRow>
+				<TextView android:id="@+id/entry_password_label"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content" 
+				  android:text="@string/entry_password" />
+				<TextView android:id="@+id/entry_password" 
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:password="true"/>
+			</TableRow>
 			<!-- Created -->
-			<TextView android:id="@+id/entry_created_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content" 
-			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_password" 
-			  android:text="@string/entry_created" />
-			<TextView android:id="@+id/entry_created" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_user_name"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignTop="@id/entry_created_label"/>
+			<TableRow>
+				<TextView android:id="@+id/entry_created_label"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content" 
+				  android:text="@string/entry_created" />
+				<TextView android:id="@+id/entry_created" 
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"/>
+			</TableRow>
 			<!-- Modified -->
-			<TextView android:id="@+id/entry_modified_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content" 
-			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_created" 
-			  android:text="@string/entry_modified" />
-			<TextView android:id="@+id/entry_modified" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_user_name"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignTop="@id/entry_modified_label"/>
+			<TableRow>
+				<TextView android:id="@+id/entry_modified_label"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content" 
+				  android:text="@string/entry_modified" />
+				<TextView android:id="@+id/entry_modified" 
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"/>
+			</TableRow>
 			<!-- Accessed -->
-			<TextView android:id="@+id/entry_accessed_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content" 
-			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_modified" 
-			  android:text="@string/entry_accessed" />
-			<TextView android:id="@+id/entry_accessed" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_user_name"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignBottom="@id/entry_accessed_label"/>
+			<TableRow>
+				<TextView android:id="@+id/entry_accessed_label"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content" 
+				  android:text="@string/entry_accessed" />
+				<TextView android:id="@+id/entry_accessed" 
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"/>
+			</TableRow>
 			<!-- Expires -->
-			<TextView android:id="@+id/entry_expires_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content" 
-			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_accessed" 
-			  android:text="@string/entry_expires" />
-			<TextView android:id="@+id/entry_expires" 
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_user_name"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignBottom="@id/entry_expires_label"/>
+			<TableRow>
+				<TextView android:id="@+id/entry_expires_label"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content" 
+				  android:text="@string/entry_expires" />
+				<TextView android:id="@+id/entry_expires" 
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"/>
+			</TableRow>
 			<!-- Comment -->
-			<TextView android:id="@+id/entry_comment_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content" 
-			  android:layout_alignParentLeft="true"
-			  android:layout_below="@id/entry_expires" 
-			  android:text="@string/entry_comment" />
-			<TextView android:id="@+id/entry_comment" 
-		      android:layout_width="wrap_content"
-			  android:layout_height="wrap_content"
-			  android:layout_alignLeft="@id/entry_user_name"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignParentBottom="true"
-			  android:layout_alignTop="@id/entry_comment_label"/>
-		</RelativeLayout>
+			<TableRow>
+				<TextView android:id="@+id/entry_comment_label"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content" 
+				  android:text="@string/entry_comment" />
+				<TextView android:id="@+id/entry_comment" 
+			      android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"/>
+			</TableRow>
+		</TableLayout>
 	</ScrollView>
 </RelativeLayout>
