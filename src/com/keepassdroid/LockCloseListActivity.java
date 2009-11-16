@@ -1,7 +1,5 @@
 package com.keepassdroid;
 
-import android.os.Bundle;
-
 import com.android.keepass.KeePass;
 import com.keepassdroid.app.App;
 

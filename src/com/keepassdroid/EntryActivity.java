@@ -29,9 +29,14 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.PasswordTransformationMethod;
@@ -45,6 +50,7 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.intents.Intents;
 
 public class EntryActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -59,6 +65,9 @@ public class EntryActivity extends LockCloseActivity {
 	
 	private static final long CLIP_CLEAR_TIME = 5 * 60 * 1000;
 	
+	public static final int NOTIFY_USERNAME = 1;
+	public static final int NOTIFY_PASSWORD = 2;
+	
 	public static void Launch(Activity act, PwEntry pw, int pos) {
 		Intent i = new Intent(act, EntryActivity.class);
 		
@@ -72,6 +81,8 @@ public class EntryActivity extends LockCloseActivity {
 	private Timer mTimer = new Timer();
 	private boolean mShowPassword = false;
 	private int mPos;
+	private NotificationManager mNM;
+	private BroadcastReceiver mIntentReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +121,61 @@ public class EntryActivity extends LockCloseActivity {
 			}
 			
 		});
+		
+		// Notification Manager
+		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		
+		Notification password = getNotification(Intents.COPY_PASSWORD, R.string.copy_password);
+		mNM.notify(NOTIFY_PASSWORD, password);
+		
+		Notification username = getNotification(Intents.COPY_USERNAME, R.string.copy_username);
+		mNM.notify(NOTIFY_USERNAME, username);
+			
+		mIntentReceiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String action = intent.getAction();
+
+				if ( action.equals(Intents.COPY_USERNAME) ) {
+					String username = mEntry.username;
+					if ( username.length() > 0 ) {
+						timeoutCopyToClipboard(mEntry.username);
+					}
+				} else if ( action.equals(Intents.COPY_PASSWORD) ) {
+					String password = new String(mEntry.getPassword());
+					if ( password.length() > 0 ) {
+						timeoutCopyToClipboard(new String(mEntry.getPassword()));
+					}
+				}
+			}
+		};
+		
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Intents.COPY_USERNAME);
+		filter.addAction(Intents.COPY_PASSWORD);
+		registerReceiver(mIntentReceiver, filter);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(mIntentReceiver);
+		
+		mNM.cancelAll();
+		
+		super.onDestroy();
+	}
+
+	private Notification getNotification(String intentText, int descResId) {
+		String desc = getString(descResId);
+		Notification notify = new Notification(R.drawable.keepassdroid_launcher, desc, System.currentTimeMillis());
+		
+		Intent intent = new Intent(intentText);
+		PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		
+		notify.setLatestEventInfo(this, getString(R.string.app_name), desc, pending);
+		
+		return notify;
 	}
 	
 	private void fillData() {

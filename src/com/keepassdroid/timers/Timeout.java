@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.keepassdroid.intents.TimeoutIntents;
+import com.keepassdroid.intents.Intents;
 
 public class Timeout {
 	private static final int REQUEST_ID = 0;
@@ -14,7 +14,7 @@ public class Timeout {
 	private static String TAG = "KeePass Timeout";
 
 	private static PendingIntent buildIntent(Context ctx) {
-		Intent intent = new Intent(TimeoutIntents.TIMEOUT);
+		Intent intent = new Intent(Intents.TIMEOUT);
 		PendingIntent sender = PendingIntent.getBroadcast(ctx, REQUEST_ID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		return sender;
