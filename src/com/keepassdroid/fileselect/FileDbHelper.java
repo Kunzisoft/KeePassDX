@@ -206,9 +206,14 @@ public class FileDbHelper {
 			return "";
 		}
 		
-		cursor.moveToFirst();
+		String filename;
 		
-		String filename = cursor.getString(0);
+		if ( cursor.moveToFirst() ) {
+			filename = cursor.getString(0);
+		} else {
+			// Cursor is empty
+			filename = "";
+		}
 		cursor.close();
 		return filename;
 	}
