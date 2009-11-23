@@ -51,8 +51,9 @@
 	  android:layout_height="fill_parent"
 	  android:layout_above="@id/entry_divider2"
 	  android:layout_below="@id/entry_divider1">
-		<TableLayout android:layout_width="fill_parent"
-		  android:layout_height="fill_parent">	
+		<TableLayout android:id="@+id/entry_table"
+		  android:layout_height="fill_parent"
+		  android:layout_width="fill_parent">	
 			<!-- Username -->
 			<TableRow>
 				<TextView android:id="@+id/entry_user_name_label"

@@ -44,6 +44,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,10 @@ public class EntryActivity extends LockCloseActivity {
 	
 	public static final int NOTIFY_USERNAME = 1;
 	public static final int NOTIFY_PASSWORD = 2;
+	
+	@SuppressWarnings("unused")
+	private static final int COL_LABEL = 0;
+	private static final int COL_DATA = 1;
 	
 	public static void Launch(Activity act, PwEntry pw, int pos) {
 		Intent i = new Intent(act, EntryActivity.class);
@@ -111,6 +116,9 @@ public class EntryActivity extends LockCloseActivity {
 
 		View scroll = findViewById(R.id.entry_scroll);
 		scroll.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
+		
+		TableLayout table = (TableLayout) findViewById(R.id.entry_table);
+		table.setColumnShrinkable(COL_DATA, true);
 		
 		Button edit = (Button) findViewById(R.id.entry_edit);
 		edit.setOnClickListener(new View.OnClickListener() {
