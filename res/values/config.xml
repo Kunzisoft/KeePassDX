@@ -18,6 +18,8 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-	<color name="blue_highlight">#0000dd</color>
-	<color name="group">#ffffff</color>
-</resources>    
+    <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
+    <string name="homepage">http://www.keepassdroid.com</string>
+    <string name="keyfile_key">keyfile</string>
+    <bool name="keyfile_default">true</bool>
+</resources>

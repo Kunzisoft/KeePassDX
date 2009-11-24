@@ -37,7 +37,6 @@
 	<string name="current_group">Groupe actuel : </string>    
 	<string name="current_group_root">Groupe actuel : Root</string>    
 	<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de version GPL 2 ou supérieure.</string>    
-	<string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
 	<string name="enter_filename">Entrez le nom de fichier de la base de données :</string>    
 	<string name="entry_accessed">Accédé : </string>    
 	<string name="entry_and_or">Entrez un mot de passe et/ou une clé de fichier pour déverrouiller votre base de données :</string>    
@@ -75,7 +74,6 @@
 	<string name="hint_title">nom</string>    
 	<string name="hint_url">url</string>    
 	<string name="hint_username">Nom d\'utilisateur</string>    
-	<string name="homepage">http://www.keepassdroid.com</string>    
 	<string name="InvalidPassword">Mot de passe ou clé de fichier incorrect.</string>    
 	<string name="loading_database">Chargement de la base de données...</string>    
 	<string name="MaskedPassword">*****</string>    

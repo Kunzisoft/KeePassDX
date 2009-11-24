@@ -33,8 +33,6 @@
    <string name="ClearClipboard">Буфер обмена очищен.</string>
    <string name="current_group">Текущая группа:</string>
    <string name="current_group_root">Текущая группа: корень</string>
-   <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
-   <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
    <string name="enter_filename">Введите название базы данных:</string>
    <string name="entry_accessed">Доступ:</string>
    <string name="entry_and_or">Введите пароль и/или выберите файл-ключ:</string>
@@ -72,7 +70,6 @@
    <string name="hint_title">Название</string>
    <string name="hint_url">url</string>
    <string name="hint_username">Имя пользователя</string>
-   <string name="homepage">http://www.keepassdroid.com</string>
    <string name="InvalidPassword">неверный пароль или файл-ключ.</string>
    <string name="loading_database">Загрузка базы данных...</string>
    <string name="MaskedPassword">*****</string>

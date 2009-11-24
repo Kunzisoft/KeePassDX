@@ -25,6 +25,8 @@ import java.io.IOException;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
@@ -37,6 +39,7 @@ public class LoadDB extends RunnableOnFinish {
 	private String mKey;
 	private Database mDb;
 	private Context mCtx;
+	private boolean mRememberKeyfile;
 	
 	public LoadDB(Database db, Context ctx, String fileName, String pass, String key, OnFinish finish) {
 		super(finish);
@@ -46,13 +49,19 @@ public class LoadDB extends RunnableOnFinish {
 		mFileName = fileName;
 		mPass = pass;
 		mKey = key;
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		mRememberKeyfile = prefs.getBoolean(ctx.getString(R.string.keyfile_key), ctx.getResources().getBoolean(R.bool.keyfile_default));
 	}
 
 	@Override
 	public void run() {
 		try {
 			mDb.LoadData(mCtx, mFileName, mPass, mKey);
-			saveFileData(mFileName, mKey);
+			
+			if ( mRememberKeyfile ) {
+				saveFileData(mFileName, mKey);
+			}
 			
 		} catch (InvalidCipherTextException e) {
 			finish(false, mCtx.getString(R.string.InvalidPassword));

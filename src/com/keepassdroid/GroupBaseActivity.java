@@ -39,6 +39,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.OnFinish;
+import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.settings.DatabaseSettingsActivity;
 
 public abstract class GroupBaseActivity extends LockCloseListActivity {
@@ -50,6 +51,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected static final int MENU_SEARCH = Menu.FIRST + 2;
 	protected static final int MENU_DB_SETTINGS = Menu.FIRST + 3;
 	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 4;
+	protected static final int MENU_APP_SETTINGS = Menu.FIRST + 5;
 	
 	protected PwGroup mGroup;
 
@@ -146,6 +148,9 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		menu.add(0, MENU_DB_SETTINGS, 0, R.string.menu_db_settings);
 		menu.findItem(MENU_DB_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
 		
+		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
+		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
+		
 		menu.add(0, MENU_CHANGE_MASTER_KEY, 0, R.string.menu_change_key);
 		menu.findItem(MENU_CHANGE_MASTER_KEY).setIcon(android.R.drawable.ic_menu_manage);
 		return true;
@@ -175,6 +180,10 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			
 		case MENU_DB_SETTINGS:
 			DatabaseSettingsActivity.Launch(this);
+			return true;
+
+		case MENU_APP_SETTINGS:
+			AppSettingsActivity.Launch(this);
 			return true;
 
 		case MENU_CHANGE_MASTER_KEY:

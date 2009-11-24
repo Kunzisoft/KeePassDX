@@ -35,8 +35,6 @@
     <string name="ClearClipboard">Zwischenablage geleert.</string>
     <string name="current_group">Aktuelle Gruppe: </string>
     <string name="current_group_root">Start</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
-    <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
     <string name="enter_filename">Dateinamen der Datenbank eingeben:</string>
     <string name="entry_accessed">letzter Zugriff: </string>
     <string name="entry_and_or">Passwort und/oder Schlüsseldatei, zum entschlüsseln Ihrer Datenbank, eingeben:</string>
@@ -74,7 +72,6 @@
     <string name="hint_title">Name</string>
     <string name="hint_url">Adresse</string>
     <string name="hint_username">Benutzername</string>
-    <string name="homepage">http://www.keepassdroid.com</string>
     <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
     <string name="loading_database">Lade Datenbank...</string>
     <string name="MaskedPassword">*****</string>

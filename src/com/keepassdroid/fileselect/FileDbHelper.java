@@ -180,6 +180,10 @@ public class FileDbHelper {
 		
 	}
 	
+	public void deleteAll() {
+		mDb.delete(FILE_TABLE, null, null);
+	}
+	
 	public Cursor fetchAllFiles() {
 		Cursor ret;
 		ret = mDb.query(FILE_TABLE, new String[] {KEY_FILE_ID, KEY_FILE_FILENAME, KEY_FILE_KEYFILE }, null, null, null, null, KEY_FILE_UPDATED + " DESC", Integer.toString(MAX_FILES));

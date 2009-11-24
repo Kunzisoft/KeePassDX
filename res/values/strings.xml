@@ -36,7 +36,6 @@
     <string name="current_group">Current Group: </string>
     <string name="current_group_root">Current Group: Root</string>
     <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
-    <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
     <string name="enter_filename">Enter database filename:</string>
     <string name="entry_accessed">Accessed: </string>
     <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
@@ -76,7 +75,6 @@
     <string name="hint_title">name</string>
     <string name="hint_url">url</string>
     <string name="hint_username">username</string>
-    <string name="homepage">http://www.keepassdroid.com</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
     <string name="loading_database">Loading database...</string>
     <string name="MaskedPassword">*****</string>
@@ -85,6 +83,7 @@
     <string name="menu_copy_pass">Copy Password</string>
     <string name="menu_copy_user">Copy User</string>
     <string name="menu_create">Create</string>
+    <string name="menu_app_settings">App Settings</string>
     <string name="menu_db_settings">Database Settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
@@ -106,6 +105,8 @@
     <string name="password_title">Enter database password</string>
     <string name="progress_create">Creating new database...</string>
     <string name="progress_title">Working...</string>
+    <string name="remember_keyfile_summary">Remembers the location of keyfiles</string>
+    <string name="remember_keyfile_title">Save keyfile</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Encryption Rounds:</string>

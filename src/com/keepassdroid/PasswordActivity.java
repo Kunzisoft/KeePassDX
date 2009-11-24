@@ -24,8 +24,10 @@ import java.io.FileNotFoundException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,16 +45,20 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.LoadDB;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.fileselect.FileDbHelper;
+import com.keepassdroid.settings.AppSettingsActivity;
 
 public class PasswordActivity extends LockingActivity {
 
 	private static final int MENU_ABOUT = Menu.FIRST;
+	private static final int MENU_APP_SETTINGS = Menu.FIRST + 1;
+	
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
 	private static final String VIEW_INTENT = "android.intent.action.VIEW";
 
 	private String mFileName;
 	private String mKeyFile;
+	private boolean mRememberKeyfile;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -147,17 +153,28 @@ public class PasswordActivity extends LockingActivity {
 			}
 			
 		});
+		
+		retrieveSettings();
+	}
+	
+	private void retrieveSettings() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
 	}
 	
 	private String getKeyFile(String filename) {
-		FileDbHelper dbHelp = new FileDbHelper(this);
-		dbHelp.open();
-		
-		String keyfile = dbHelp.getFileByName(filename);
-		
-		dbHelp.close();
-		
-		return keyfile;
+		if ( mRememberKeyfile ) {
+			FileDbHelper dbHelp = new FileDbHelper(this);
+			dbHelp.open();
+			
+			String keyfile = dbHelp.getFileByName(filename);
+			
+			dbHelp.close();
+			
+			return keyfile;
+		} else {
+			return "";
+		}
 	}
 	
 	private void populateView() {
@@ -229,6 +246,9 @@ public class PasswordActivity extends LockingActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
+		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
+		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
+		
 		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
 		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
 		
@@ -241,6 +261,10 @@ public class PasswordActivity extends LockingActivity {
 		case MENU_ABOUT:
 			AboutDialog dialog = new AboutDialog(this);
 			dialog.show();
+			return true;
+			
+		case MENU_APP_SETTINGS:
+			AppSettingsActivity.Launch(this);
 			return true;
 		}
 		

@@ -45,11 +45,15 @@ import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.Util;
 import com.keepassdroid.database.CreateDB;
 import com.keepassdroid.database.FileOnFinish;
+import com.keepassdroid.settings.AppSettingsActivity;
 
 public class FileSelectActivity extends ListActivity {
 
 	private static final int MENU_DONATE = Menu.FIRST;
 	private static final int MENU_ABOUT = Menu.FIRST + 1;
+	private static final int MENU_APP_SETTINGS = Menu.FIRST + 2;
+
+	
 	private FileDbHelper mDbHelper;
 
 	private boolean recentMode = false;
@@ -177,14 +181,12 @@ public class FileSelectActivity extends ListActivity {
 		public void run() {
 			if (mSuccess) {
 				// Add to recent files
-				FileDbHelper dbHelper = new FileDbHelper(
-						FileSelectActivity.this);
+				FileDbHelper dbHelper = new FileDbHelper(FileSelectActivity.this);
 				dbHelper.open();
 				dbHelper.createFile(mFilename, getFilename());
 				dbHelper.close();
 
-				GroupActivity.Launch(FileSelectActivity.this, null,
-						GroupActivity.ADD_GROUP_ONLY);
+				GroupActivity.Launch(FileSelectActivity.this, null,	GroupActivity.ADD_GROUP_ONLY);
 
 			} else {
 				File file = new File(mFilename);
@@ -201,8 +203,7 @@ public class FileSelectActivity extends ListActivity {
 
 		@Override
 		public void run() {
-			SetPasswordDialog password = new SetPasswordDialog(
-					FileSelectActivity.this, mOnFinish);
+			SetPasswordDialog password = new SetPasswordDialog(FileSelectActivity.this, mOnFinish);
 			password.show();
 		}
 
@@ -274,6 +275,9 @@ public class FileSelectActivity extends ListActivity {
 		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
 		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
 
+		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
+		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
+		
 		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
 		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
 
@@ -292,9 +296,14 @@ public class FileSelectActivity extends ListActivity {
 			}
 			
 			return true;
+			
 		case MENU_ABOUT:
 			AboutDialog dialog = new AboutDialog(this);
 			dialog.show();
+			return true;
+			
+		case MENU_APP_SETTINGS:
+			AppSettingsActivity.Launch(this);
 			return true;
 		}
 
