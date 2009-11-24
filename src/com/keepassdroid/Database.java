@@ -63,6 +63,10 @@ public class Database {
 		return loaded;
 	}
 	
+	public void setLoaded() {
+		loaded = true;
+	}
+	
 	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
 		LoadData(ctx, is, password, keyfile, !ImporterV3.DEBUG);
 	}

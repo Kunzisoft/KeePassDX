@@ -57,6 +57,7 @@ public class CreateDB extends RunnableOnFinish {
 		db.gRoot = pm.rootGroup;
 		db.mPM = pm;
 		db.mFilename = mFilename;
+		db.setLoaded();
 		
 		// Add a couple default groups
 		AddGroup internet = new AddGroup(db, "Internet", pm.rootGroup, null, true);
