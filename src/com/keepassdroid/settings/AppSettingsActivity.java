@@ -27,6 +27,8 @@ import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 
 import com.android.keepass.R;
+import com.keepassdroid.Database;
+import com.keepassdroid.app.App;
 import com.keepassdroid.fileselect.FileDbHelper;
 
 public class AppSettingsActivity extends PreferenceActivity {
@@ -43,7 +45,6 @@ public class AppSettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		
 		addPreferencesFromResource(R.xml.preferences);
-		
 		
 		Preference keyFile = findPreference(getString(R.string.keyfile_key));
 		keyFile.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -62,6 +63,29 @@ public class AppSettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		});
+		
+		Database db = App.getDB();
+		if ( db.Loaded() ) {
+			Preference rounds = findPreference(getString(R.string.rounds_key));
+			rounds.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				
+				@Override
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					setRounds(App.getDB(), preference);
+					return true;
+				}
+			});
+			
+			setRounds(db, rounds);
+		} else {
+			Preference dbSettings = findPreference(getString(R.string.db_key));
+			dbSettings.setEnabled(false);
+		}
+	}
+	
+	private void setRounds(Database db, Preference rounds) {
+		rounds.setSummary(Integer.toString(db.mPM.numKeyEncRounds));
+		
 	}
 	
 	

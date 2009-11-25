@@ -105,7 +105,7 @@
 	<string name="progress_title">En cours...</string>    
 	<string name="rijndael">Rijndael (AES)</string>    
 	<string name="root">Racine</string>    
-	<string name="rounds">Cycle du cryptage :</string>    
+	<string name="rounds">Cycle du cryptage</string>    
 	<string name="rounds_explaination">Un cycle de cryptage supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir le chargement et la sauvegarde.</string>    
 	<string name="rounds_hint">cycles</string>    
 	<string name="saving_database">Sauvegarde base de données...</string>    

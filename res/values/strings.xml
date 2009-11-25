@@ -29,12 +29,15 @@
     <string name="algorithm">Algorithm</string>
     <string name="algorithm_colon">Algorithm:</string>
     <string name="app_name">KeePassDroid</string>
+    <string name="application">Application</string>
+    <string name="application_settings">Application settings</string>
     <string name="cancel">Cancel</string>
     <string name="ClearClipboard">Clipboard cleared.</string>
     <string name="copy_username">Copy username to clipboard</string>
     <string name="copy_password">Copy password to clipboard</string>
     <string name="current_group">Current Group: </string>
     <string name="current_group_root">Current Group: Root</string>
+    <string name="database">Database</string>
     <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="enter_filename">Enter database filename:</string>
     <string name="entry_accessed">Accessed: </string>
@@ -83,8 +86,8 @@
     <string name="menu_copy_pass">Copy Password</string>
     <string name="menu_copy_user">Copy User</string>
     <string name="menu_create">Create</string>
-    <string name="menu_app_settings">App Settings</string>
-    <string name="menu_db_settings">Database Settings</string>
+    <string name="menu_app_settings">Settings</string>
+    <string name="menu_db_settings">Database settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
@@ -109,7 +112,7 @@
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
-    <string name="rounds">Encryption Rounds:</string>
+    <string name="rounds">Encryption Rounds</string>
     <string name="rounds_explaination">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_hint">rounds</string>
     <string name="saving_database">Saving database...</string>

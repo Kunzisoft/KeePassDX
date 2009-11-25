@@ -19,9 +19,30 @@
 -->
 <PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android">
-	<CheckBoxPreference
-		android:key="@string/keyfile_key"
-		android:title="@string/remember_keyfile_title"
-		android:summary="@string/remember_keyfile_summary"
-		android:defaultValue="@bool/keyfile_default"/>
+	<PreferenceScreen
+	  android:key="@string/db_key"
+	  android:title="@string/database" 
+	  android:summary="@string/menu_db_settings">
+		<Preference
+		  android:title="@string/algorithm"
+		  android:summary="@string/rijndael"
+		  android:enabled="false"/>
+		<com.keepassdroid.settings.RoundsPreference
+		  android:key="@string/rounds_key"
+		  android:persistent="false"
+		  android:title="@string/rounds"
+		  android:dialogLayout="@layout/database_settings"
+		  android:positiveButtonText="@string/entry_save"
+		  android:negativeButtonText="@string/entry_cancel"/>
+	</PreferenceScreen>
+	<PreferenceScreen
+	  android:key="@string/app_key"
+	  android:title="@string/application"
+	  android:summary="@string/application_settings">
+		<CheckBoxPreference
+			android:key="@string/keyfile_key"
+			android:title="@string/remember_keyfile_title"
+			android:summary="@string/remember_keyfile_summary"
+			android:defaultValue="@bool/keyfile_default"/>
+	</PreferenceScreen>
 </PreferenceScreen>

@@ -40,7 +40,6 @@ import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
-import com.keepassdroid.settings.DatabaseSettingsActivity;
 
 public abstract class GroupBaseActivity extends LockCloseListActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -49,9 +48,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected static final int MENU_DONATE = Menu.FIRST;
 	protected static final int MENU_LOCK = Menu.FIRST + 1;
 	protected static final int MENU_SEARCH = Menu.FIRST + 2;
-	protected static final int MENU_DB_SETTINGS = Menu.FIRST + 3;
-	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 4;
-	protected static final int MENU_APP_SETTINGS = Menu.FIRST + 5;
+	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 3;
+	protected static final int MENU_APP_SETTINGS = Menu.FIRST + 4;
 	
 	protected PwGroup mGroup;
 
@@ -145,9 +143,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		menu.add(0, MENU_SEARCH, 0, R.string.menu_search);
 		menu.findItem(MENU_SEARCH).setIcon(android.R.drawable.ic_menu_search);
 		
-		menu.add(0, MENU_DB_SETTINGS, 0, R.string.menu_db_settings);
-		menu.findItem(MENU_DB_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
-		
 		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
 		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
 		
@@ -178,10 +173,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			onSearchRequested();
 			return true;
 			
-		case MENU_DB_SETTINGS:
-			DatabaseSettingsActivity.Launch(this);
-			return true;
-
 		case MENU_APP_SETTINGS:
 			AppSettingsActivity.Launch(this);
 			return true;
