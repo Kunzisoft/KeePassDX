@@ -180,8 +180,11 @@ public class FileDbHelper {
 		
 	}
 	
-	public void deleteAll() {
-		mDb.delete(FILE_TABLE, null, null);
+	public void deleteAllKeys() {
+		ContentValues vals = new ContentValues();
+		vals.put(KEY_FILE_KEYFILE, "");
+		
+		mDb.update(FILE_TABLE, vals, null, null);
 	}
 	
 	public Cursor fetchAllFiles() {

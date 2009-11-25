@@ -59,9 +59,7 @@ public class LoadDB extends RunnableOnFinish {
 		try {
 			mDb.LoadData(mCtx, mFileName, mPass, mKey);
 			
-			if ( mRememberKeyfile ) {
-				saveFileData(mFileName, mKey);
-			}
+			saveFileData(mFileName, mKey);
 			
 		} catch (InvalidCipherTextException e) {
 			finish(false, mCtx.getString(R.string.InvalidPassword));
@@ -83,6 +81,10 @@ public class LoadDB extends RunnableOnFinish {
 	private void saveFileData(String fileName, String key) {
 		FileDbHelper db = new FileDbHelper(mCtx);
 		db.open();
+		
+		if ( ! mRememberKeyfile ) {
+			key = "";
+		}
 		
 		db.createFile(fileName, key);
 		

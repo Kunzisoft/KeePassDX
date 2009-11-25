@@ -56,7 +56,7 @@ public class AppSettingsActivity extends PreferenceActivity {
 				if ( ! value.booleanValue() ) {
 					FileDbHelper helper = new FileDbHelper(AppSettingsActivity.this);
 					helper.open();
-					helper.deleteAll();
+					helper.deleteAllKeys();
 					helper.close();
 				}
 				
