@@ -65,6 +65,11 @@ public class GroupActivity extends GroupBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if ( isFinishing() ) {
+			return;
+		}
+		
 		setResult(KeePass.EXIT_NORMAL);
 		
 		Log.w(TAG, "Creating group view");

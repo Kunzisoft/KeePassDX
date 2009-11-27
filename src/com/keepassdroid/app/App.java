@@ -25,7 +25,7 @@ import com.keepassdroid.Database;
 
 public class App extends Application {
 	private static Database db;
-	private static boolean shutdown;
+	private static boolean shutdown = false;
 
 	public static Database getDB() {
 		if ( db == null ) {

@@ -87,6 +87,7 @@ public class EntryEditActivity extends LockCloseActivity {
 		Database db = App.getDB();
 		if ( ! db.Loaded() ) {
 			finish();
+			return;
 		}
 
 		Intent i = getIntent();

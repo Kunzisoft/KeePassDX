@@ -92,15 +92,16 @@ public class EntryActivity extends LockCloseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.entry_view);
-		setResult(KeePass.EXIT_NORMAL);
 
-		
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
 		if ( ! db.Loaded() ) {
 			finish();
+			return;
 		}
+
+		setContentView(R.layout.entry_view);
+		setResult(KeePass.EXIT_NORMAL);
 
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));

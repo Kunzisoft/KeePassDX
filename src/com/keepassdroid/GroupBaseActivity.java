@@ -93,13 +93,20 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.group_view_only);
-		setResult(KeePass.EXIT_NORMAL);
+		
+		// Parent could finish
+		if ( isFinishing() ) {
+			return;
+		}
 		
 		// Likely the app has been killed exit the activity 
-		if ( ! App.getDB().Loaded() ) {
+		if ( App.getDB().Loaded() ) {
 			finish();
+			return;
 		}
+
+		setContentView(R.layout.group_view_only);
+		setResult(KeePass.EXIT_NORMAL);
 
 		styleScrollBars();
 		

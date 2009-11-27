@@ -39,6 +39,11 @@ public class SearchResults extends GroupBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if ( isFinishing() ) {
+			return;
+		}
+		
 		setResult(KeePass.EXIT_NORMAL);
 		
 		mDb = App.getDB();
