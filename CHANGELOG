@@ -1,3 +1,10 @@
+KeePassDroid (0.9.6)
+  * Add Russian translations
+  * Revamp settings
+  * Fix comment field in entries
+  * Fix loading after creating new dbs
+  * Fix opening from file on initial run
+
 KeePassDroid (0.9.5)
   * Add notification based username and password copy
   * Add German translations
