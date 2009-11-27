@@ -99,7 +99,7 @@ public class PasswordActivity extends LockingActivity {
 		
 		if ( action != null && action.equals(VIEW_INTENT) ) {
 			mFileName = i.getDataString();
-
+			
 			if ( ! mFileName.substring(0, 7).equals("file://") ) {
 				Toast.makeText(this, R.string.error_can_not_handle_uri, Toast.LENGTH_LONG).show();
 				finish();
