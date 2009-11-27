@@ -187,6 +187,11 @@ public class FileDbHelper {
 		mDb.update(FILE_TABLE, vals, null, null);
 	}
 	
+	public void deleteFile(String filename) {
+		mDb.delete(FILE_TABLE, KEY_FILE_FILENAME + " = ?", new String[] {filename});
+	}
+	
+	
 	public Cursor fetchAllFiles() {
 		Cursor ret;
 		ret = mDb.query(FILE_TABLE, new String[] {KEY_FILE_ID, KEY_FILE_FILENAME, KEY_FILE_KEYFILE }, null, null, null, null, KEY_FILE_UPDATED + " DESC", Integer.toString(MAX_FILES));

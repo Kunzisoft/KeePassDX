@@ -110,6 +110,7 @@
     <string name="progress_title">Working...</string>
     <string name="remember_keyfile_summary">Remembers the location of keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
+    <string name="remove_from_filelist">Remove</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Encryption Rounds</string>

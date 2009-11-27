@@ -28,13 +28,18 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.android.keepass.R;
 import com.keepassdroid.AboutDialog;
@@ -52,7 +57,8 @@ public class FileSelectActivity extends ListActivity {
 	private static final int MENU_DONATE = Menu.FIRST;
 	private static final int MENU_ABOUT = Menu.FIRST + 1;
 	private static final int MENU_APP_SETTINGS = Menu.FIRST + 2;
-
+	
+	private static final int CMENU_CLEAR = Menu.FIRST;
 	
 	private FileDbHelper mDbHelper;
 
@@ -165,7 +171,8 @@ public class FileSelectActivity extends ListActivity {
 		});
 
 		fillData();
-
+		
+		registerForContextMenu(getListView());
 	}
 
 	private class LaunchGroupActivity extends FileOnFinish {
@@ -308,6 +315,39 @@ public class FileSelectActivity extends ListActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		
+		menu.add(0, CMENU_CLEAR, 0, R.string.remove_from_filelist);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		super.onContextItemSelected(item);
+		
+		if ( item.getItemId() == CMENU_CLEAR ) {
+			AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item.getMenuInfo();
+			
+			TextView tv = (TextView) acmi.targetView;
+			String filename = tv.getText().toString();
+			mDbHelper.deleteFile(filename);
+			
+			refreshList();
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private void refreshList() {
+		CursorAdapter ca = (CursorAdapter) getListAdapter();
+		Cursor cursor = ca.getCursor();
+		cursor.requery();
 	}
 
 }
