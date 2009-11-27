@@ -94,13 +94,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// Parent could finish
-		if ( isFinishing() ) {
-			return;
-		}
-		
 		// Likely the app has been killed exit the activity 
-		if ( App.getDB().Loaded() ) {
+		if ( ! App.getDB().Loaded() ) {
 			finish();
 			return;
 		}
