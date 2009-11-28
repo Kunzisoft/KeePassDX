@@ -33,6 +33,8 @@
     <string name="application_settings">Application settings</string>
     <string name="cancel">Cancel</string>
     <string name="ClearClipboard">Clipboard cleared.</string>
+    <string name="clipboard_timeout">Clipboard Timeout</string>
+    <string name="clipboard_timeout_summary">Time before clearing clipboard after copying username or password</string>
     <string name="copy_username">Copy username to clipboard</string>
     <string name="copy_password">Copy password to clipboard</string>
     <string name="current_group">Current Group: </string>
@@ -120,4 +122,11 @@
     <string name="search_hint">Entry title/description</string>
     <string name="search_label">Search</string>
     <string name="show_password">Show password</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 seconds</item>
+    	<item>1 minute</item>
+    	<item>5 minutes</item>
+    	<item>Never</item>
+    </string-array>
 </resources>

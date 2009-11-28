@@ -23,8 +23,17 @@
     
     <!--  Preference settings -->
     <string name="app_key">app</string>
+    <string name="clipboard_timeout_key">clip_timeout_key</string>
     <string name="db_key">db</string>
     <string name="rounds_key">rounds</string>
     <string name="keyfile_key">keyfile</string>
     <bool name="keyfile_default">true</bool>
+    
+    <string name="clipboard_timeout_default">300000</string>
+    <string-array name="clipboard_timeout_values">
+    	<item>30000</item>
+    	<item>60000</item>
+    	<item>300000</item>
+    	<item>-1</item>
+    </string-array>
 </resources>

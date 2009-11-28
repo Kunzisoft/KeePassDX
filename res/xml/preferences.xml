@@ -44,5 +44,13 @@
 			android:title="@string/remember_keyfile_title"
 			android:summary="@string/remember_keyfile_summary"
 			android:defaultValue="@bool/keyfile_default"/>
+		<ListPreference
+		  android:key="@string/clipboard_timeout_key"
+		  android:title="@string/clipboard_timeout"
+		  android:summary="@string/clipboard_timeout_summary"
+		  android:entries="@array/clipboard_timeout_options"
+		  android:entryValues="@array/clipboard_timeout_values"
+		  android:dialogTitle="@string/clipboard_timeout"
+		  android:defaultValue="@string/clipboard_timeout_default"/>
 	</PreferenceScreen>
 </PreferenceScreen>

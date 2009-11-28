@@ -37,8 +37,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,8 +65,6 @@ public class EntryActivity extends LockCloseActivity {
 	private static final int MENU_COPY_USER = Menu.FIRST + 3;
 	private static final int MENU_COPY_PASS = Menu.FIRST + 4;
 	private static final int MENU_LOCK = Menu.FIRST + 5; 
-	
-	private static final long CLIP_CLEAR_TIME = 5 * 60 * 1000;
 	
 	public static final int NOTIFY_USERNAME = 1;
 	public static final int NOTIFY_PASSWORD = 2;
@@ -321,7 +321,15 @@ public class EntryActivity extends LockCloseActivity {
 	
 	private void timeoutCopyToClipboard(String text) {
 		Util.copyToClipboard(this, text);
-		mTimer.schedule(new ClearClipboardTask(this, text), CLIP_CLEAR_TIME);
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		String sClipClear = prefs.getString(getString(R.string.clipboard_timeout_key), getString(R.string.clipboard_timeout_default));
+		
+		long clipClearTime = Integer.parseInt(sClipClear);
+		
+		if ( clipClearTime > 0 ) {
+			mTimer.schedule(new ClearClipboardTask(this, text), clipClearTime);
+		}
 	}
 	
 
