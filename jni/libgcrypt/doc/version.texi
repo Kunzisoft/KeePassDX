@@ -1,0 +1,4 @@
+@set UPDATED 22 January 2009
+@set UPDATED-MONTH January 2009
+@set EDITION 1.4.4
+@set VERSION 1.4.4

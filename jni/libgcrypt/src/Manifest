@@ -1,0 +1,58 @@
+# Manifest - checksums of the src directory
+# Copyright 2004 Free Software Foundation, Inc.
+#
+# This file is part of Libgcrypt.
+#
+# Libgcrypt is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser general Public License as
+# published by the Free Software Foundation; either version 2.1 of
+# the License, or (at your option) any later version.
+#
+# Libgcrypt is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+
+# Checksums for all source files in this directory. Format is
+# filename, blanks, base-64 part of an OpenPGP detached signature
+# without the header lines.  Blank lines and lines beginning with a
+# hash mark are ignored.  A tool to process this file is available by
+# cvs -d :pserver:anoncvs@cvs.gnupg.org:/cvs/wk co misc-scripts/manifest-tool
+#
+# The special entry "$names$" holds a signature over all sorted
+# filenames excluding itself.
+
+gcrypt.h iQCVAwUAQH5RsTEAnp832S/7AQK7xgP+Kc3NY9lipZkaAMrnHDkQVLdHYwTbZWuGOYdTLp8Xy7Auh9wtWV9hrWVUqs+kxDzT/2iF6XkO3WT3rf/PmQ/Q0TIGfOyjE3c/qvB/jVippaxoGda3tnGpODytdI3XPhfPS0Ss8nDzfCStPBGAEq0OVU7imnExrFzhRXt+Gljr0o0==Yagz
+gcrypt-module.h iQCVAwUAQH5UXzEAnp832S/7AQJMQgQAzumz9aaZelhw+FxTCeVadphBxt1bbNQvMrnddYYblyJv+AcxZ9ZxGz2oPeusN58Qg54DQcaW3lYhTgnWfXultsi+Ruxlz7400OUrzSXOl3At7KssdODAoscFzZIgh94G9lzQxEBr9lTXI9R3LsPFJP6muNG4frcNBAA42yckK7w==BBp5
+
+ath.c iQCVAwUAQH5E+DEAnp832S/7AQKFpgP+KSZHtVcnh9FFggIyHKbALUljW2FXauasZvFyN8Sk/mIMgKxyXFOG1THBAUzWLaKWIEWU+WkYU7uThqBtpnEImM5AenWzbQuJjftPC3gVHO8yjjmBWD4zmJj28htoKDoa/xDsoqumrHxae3FYcaCWtYGVjM/Pbl+OMRMOFAhp0ho==lQZ3
+ath.h iQCVAwUAQH5FODEAnp832S/7AQKiuQQAg4K+KOAn1LWBZN32MAhms4FeZKoce0fAuZW7BpyY4cCxIVgxqrtUC90CDykw8XegFfOyyYrgd0NmaMVdY7HZDncNOvIPxpgFQPCZrycsMOoAtoVwjK704RDeNo3zmeyxTKeDH+3M1J7JmLiafaEdSbOC8flX/W0icaV0Ol4dmBc==Ll6w
+
+cipher.h iQCVAwUAQH5FUzEAnp832S/7AQJKLgP9GSSk9f7EINIRqSQH1XKX+dYzt3phDHdqFTUGIfYNh7YzGdy0drvgFhG4k15nqDouKRuFVM/hKY3ZVY7JccmKXKGAH6+ZYShoG6LMFfIGgDX8zne0dNxc72PLfns3fVxNn/RlHmHBkrQ+ppjR9HnSthFmOqzbQaW1BKmc3Z2x5GU==lIeW
+g10lib.h iQCVAwUAQH5FejEAnp832S/7AQJ75wP/ZjOybwRix5eoXdfVeXPjoPygejzpYJJdMUGN3Y5UtkfBu9mPREsKfvZ6tH+Evjx+3xfeAb4bU/k2mRMp0tiWnk2koToS08vI9uxnioKQr9oulZH6r28S+NLSgMQuEGN1JNUky6RQ9TTNRndeTjKKSrEjZ7V6bv+rb8A1bYCKChs==P5mk
+mpi.h iQCVAwUAQH5FwzEAnp832S/7AQJJ4wP9E3jVkcO9M0YtSBHIbjG3hDWKWXzi86AlUh51qiE8/2XP0FfjA4TosyvmicZs7j48HitAByr9tHOSxnbeo7NBf17ICwAo6Eqty+wKDg+eyLeEGUy7VpVK3RJRQAA4H+kl3S2l3YMTKf3WJlbc7qkWSXZspdy5c9sAxeodCKrAubU==oALf
+
+global.c iQCVAwUAQH5HFzEAnp832S/7AQJc+QQAvi53ZkMCzLnVULHvhI6W+EX537zi9n8cplYguvIJqUhAZrP68yGAIyqyCONbZVDyB7wqeXdUMLzMk7W8fg+xuk5JSDpppAQf2m/bdQyze6XVqJso682eYBM8+b9z/IVEvLaFwhZcOKO1bcXudBlBCcJgVDpupfTtAWgPnewil9Q==Xwy1
+misc.c iQCVAwUAQH5IIjEAnp832S/7AQKNJAQAkEpyY3fCG7tvADJFAW9xA7DEQwLCa8YmiUhHvrEsWOI4YgvS7LUbWWc7VqK+ryORvXLKRAVieznbnHAuy0TKtqdnmA/kUmiurS0ah5SWqR/iuAeJtt0RGsmZaZ6oa2m4PZ2Y2GCHSTZqcclvwsetS9eq5AipxHxYFUltu5wGZNI==twM2
+missing-string.c iQCVAwUAQH5JfjEAnp832S/7AQI3ZQQAg55eEJbGQQHyBEJGxvt/FXpQiXcoDit3ZHzvdaQn/NUgdLjCHiWVzhyCXACGivLWMNModDaSaZk073NXxVkWfPcX9vkF//Wugwzidd5P3Bfu5k35o+Xxz82fsk5KuFGGq1mBUZ07xUYQ8KkKkhADUkr0QiQAuypp079Yq0uUC7Q==zvKn
+module.c iQCVAwUAQH5JvjEAnp832S/7AQKlMgQAjZYTXMpWb5kHxCMXzRi069Ku/4/xnWsD+S0dje1LiKzCnRpwTTxARzc/y10Y8OcygkMuR4unEaWedO+9syjjty3fBCcue/j7YlLitq5EC9UE4o23poWvWCuX9Tadm2DK5qf4p7smMJ22O22cLTYTVCyAoYTQ2xC8ajzBsBRkX80==yRRD
+secmem.c iQCVAwUAQH5LLDEAnp832S/7AQKtFwQAwY2wBr6WJC1cwqp/1DQoKzHx9C3plONxbZMazwR7VMI83NUbBAbv1mcxpeZWXmb2dRrnsR1VBbNPDSbJLN5T6czLQ2nIb6mnq9u8Ip4SAa+GCWfDV4AUtAJ4hN/yvWo8iEKu+KD5iJ6xJh31NdXjt5yk6vnk46SA6R4FkHdIEXc==UKVr
+secmem.h iQCVAwUAQH5LTDEAnp832S/7AQIsJwQAkZUu4hvmh9NXCLNm98+tGZFzWYvZO/NffC2wdPE8Q/OTa/m3g+oBbEhaV1ze3oY4t1F/p7ZHFx5CsIp4zVjyPkxlni8AAVMUOQr/LopyxouHn2OjKO+dVqecWQf01+nPWjklbL2FZ3mQ99k2qeWZlVSkz0nm8u39F3v7z3OTCss==AJqE
+sexp.c iQCVAwUAQH5LojEAnp832S/7AQKCTQQArlrj1KGwR2x93fcyN3M0iXuGkBq5R9KNu+1Bq04G4SLlpZ1RRY0OjV3L9To1BHTd01lXlO8MNz7NpRxWlG1Sw5FohbBlhWZQRcW8GdAawJPcfIY2Y8Ek6Yx8quZKbk9uD3bcBmStmg0P+TIA0nr20bmtfB3uX2KQVHQqWZQT5qU==P8FE
+stdmem.c iQCVAwUAQH5LzjEAnp832S/7AQLOUAP9FU16itXBBrkfRDGmhUjAOeEEKdd+brQ3XdT8xoLvP/IH/6U1Kq3ampP2/xcL4kwVdz2rw6NRzP7jlL/yM3tW722lSS/JPJkH+2+qUkcb0fYNoql/WYPMYp1/Mzu6ttXnjag1cQGlKIyYAD+G6h3FtpLwQy0hEJopnF9+Ovd8U7A==CkiZ
+stdmem.h iQCVAwUAQH5L8jEAnp832S/7AQIH0wP+Lyqh0tj++s2L79Tmf/gqgCK+HLMxTddcewF3XbsYf9T5FmLez1gz6Ggti4Ss9VjozOA3ti3trCiA/YNRmV9AYw4zLUPm+MsjJuveL/AgB9HdoD2v+RfJm0WwgSKiysp+8iyjg3Plopmhba4cGuOP5MJ3CWTqYwPmJVscUKC6g38==02MN
+
+types.h iQCVAwUAQH5MKTEAnp832S/7AQLqTAP6A3mUMD5MMkBkebq4bRY6Bq0KsgdKfZ8TLhc2o87gFay8YD0Uom3YJNG2LF/rAIct2ih4jYJaIb5dRfJ0KJoPi2ETd462J8OFCL4fjq9TaSjB2pXcB+kWoxzPasGNg2Ukk0dQ6lvF1tSYrtt32PVI7q/UaPsjTylgRmzLfX/VxrU==OMu3
+
+
+# Configuration
+Makefile.am iQCVAwUAQH5WVjEAnp832S/7AQLmsQP/bbI8/UWAC5yITVhGcCOCbN/FaMqXVKjxESzo6GTs02jxK1y3RuuaoNU1ssQZGAxpFiMJW8u933V3yTHFMxWpwHemDnEyv/a8YACxJBQ0tQgpgHS716BjMbHOfcuOis2WlCOOm0ErjhAYNa4NQ1q3jwkOvTDLFpdnqaWI2wWn08U==Yjun
+libgcrypt.m4 iQCVAwUAQH5MbTEAnp832S/7AQJ1uAQA1C6xI7qXiKVtUeXawhPytAldosrzcXmqz34xi7JklQqw83d68WtWHFMBEUa7MKfi4WCbuQb7FjGUvMRw5z/T9ez7CoDekHc63+cIIZLQ23weUK8GaA1uQLoD0scmT41J5RkBlJbH7ck1zRd3d04o75rWNEUNit6KBvrQ4Pd8oQ8==uMgB
+libgcrypt-config.in iQCVAwUAQH5UbzEAnp832S/7AQJISgP+Nbd2AQnDM/k8sQLbvz8YZjwX3LigZM+AkF1VAwyAm6YOU3nrXnz5t+cXkQD2dkz4L2F0AAsIkFiJsrgmZgCp2h1L6LeFnH+hoId9RhbYw4NkDaHb+MC9JcalpcfFvvxq6vM/W37bSFimM78P+5RLKypXCytVQNAAaIRgZjVfXY8==IGDS
+libgcrypt.vers iQCVAwUAQH5MjTEAnp832S/7AQKCdQQAotG6Z3zdcePI0V33YY2sh91uYkLBNhQw+PzyE3BRRAVhMGLOBD1nSWJHJvE3eyCVOqFY0ZmvpVex51Fa0D/TwsJOO4RVxf1L9bbAncu9OuEXaGXKytLZp54TliDTAWGDq0lvtx1TvDDgtM8TbbaXvMbjfQ4wXBxdLvaenFCTlR4==kgHq
+
+$names$ iQCVAwUAQH5UhDEAnp832S/7AQK/jwP9H7A3mI99M1NGuhD+16C+2gJIITB8GJeYeUd3vm8kWQ5n76WyMCdeA62qn0JUddIBjAbagtfvTL5aesnD9MlhEGaNlHauU7SINTIJ8njKf87EAAfDZrhS/tGDziC2nakMPweRxXQCLDWHkBPjYfrspSLLohjdegqBvTNyVM76+KE==3p9Z

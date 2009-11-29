@@ -1,0 +1,237 @@
+;; libgcrypt.defs -  Exported symbols for W32
+;; Copyright (C) 2003, 2007 Free Software Foundation, Inc.
+;; 
+;; This file is part of Libgcrypt.
+;;
+;; Libgcrypt is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU Lesser General Public License as
+;; published by the Free Software Foundation; either version 2.1 of
+;; the License, or (at your option) any later version.
+;;
+;; Libgcrypt is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU Lesser General Public License for more details.
+;;
+;; You should have received a copy of the GNU Lesser General Public
+;; License along with this program; if not, write to the Free Software
+;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+;;
+
+;; Note: This file should be updated manually and the ordinals shall
+;; never be changed.  Also check libgcrypt.vers and visibility.h.
+
+
+EXPORTS
+      gcry_check_version  @1
+      gcry_control  @2
+      
+      gcry_malloc  @3
+      gcry_calloc  @4
+      gcry_malloc_secure  @5
+      gcry_calloc_secure  @6
+      gcry_realloc  @7
+      gcry_strdup  @8
+      gcry_xmalloc  @9
+      gcry_xcalloc  @10
+      gcry_xmalloc_secure  @11
+      gcry_xcalloc_secure  @12
+      gcry_xrealloc  @13
+      gcry_xstrdup  @14
+      gcry_is_secure  @15
+      gcry_free  @16
+      
+      gcry_set_progress_handler  @17
+      gcry_set_allocation_handler  @18
+      gcry_set_outofcore_handler  @19
+      gcry_set_fatalerror_handler  @20
+      gcry_set_log_handler  @21
+      gcry_set_gettext_handler  @22
+      
+      gcry_strerror  @23
+      gcry_strsource  @24
+      gcry_err_code_from_errno  @25
+      gcry_err_code_to_errno  @26
+      gcry_err_make_from_errno  @27
+      gcry_error_from_errno  @28
+      
+      gcry_sexp_new  @29
+      gcry_sexp_create  @30
+      gcry_sexp_sscan  @31
+      gcry_sexp_build  @32
+      gcry_sexp_build_array  @33
+      gcry_sexp_release  @34
+      gcry_sexp_canon_len  @35
+      gcry_sexp_sprint  @36
+      gcry_sexp_dump  @37
+      gcry_sexp_cons  @38
+      gcry_sexp_alist  @39
+      gcry_sexp_vlist  @40
+      gcry_sexp_append  @41
+      gcry_sexp_prepend  @42
+      gcry_sexp_find_token  @43
+      gcry_sexp_length  @44
+      gcry_sexp_nth  @45
+      gcry_sexp_car  @46
+      gcry_sexp_cdr  @47
+      gcry_sexp_cadr  @48
+      gcry_sexp_nth_data  @49
+      gcry_sexp_nth_mpi  @50
+      
+      gcry_mpi_new  @51
+      gcry_mpi_snew  @52
+      gcry_mpi_release  @53
+      gcry_mpi_copy  @54
+      gcry_mpi_set  @55
+      gcry_mpi_set_ui  @56
+      gcry_mpi_swap  @57
+      gcry_mpi_cmp  @58
+      gcry_mpi_cmp_ui  @59
+      gcry_mpi_scan  @60
+      gcry_mpi_print  @61
+      gcry_mpi_aprint  @62
+      gcry_mpi_dump  @63
+      gcry_mpi_add  @64
+      gcry_mpi_add_ui  @65
+      gcry_mpi_addm  @66
+      gcry_mpi_sub  @67
+      gcry_mpi_sub_ui  @68
+      gcry_mpi_subm  @69
+      gcry_mpi_mul  @70
+      gcry_mpi_mul_ui  @71
+      gcry_mpi_mulm  @72
+      gcry_mpi_mul_2exp  @73
+      gcry_mpi_div  @74
+      gcry_mpi_mod  @75
+      gcry_mpi_powm  @76
+      gcry_mpi_gcd  @77
+      gcry_mpi_invm  @78
+      gcry_mpi_get_nbits  @79
+      gcry_mpi_test_bit  @80
+      gcry_mpi_set_bit  @81
+      gcry_mpi_clear_bit  @82
+      gcry_mpi_set_highbit  @83
+      gcry_mpi_clear_highbit  @84
+      gcry_mpi_rshift  @85
+      gcry_mpi_set_opaque  @86
+      gcry_mpi_get_opaque  @87
+      gcry_mpi_set_flag  @88
+      gcry_mpi_clear_flag  @89
+      gcry_mpi_get_flag  @90
+
+      
+      gcry_cipher_open  @92
+      gcry_cipher_close  @93
+      gcry_cipher_ctl  @94
+      gcry_cipher_info  @95
+      gcry_cipher_algo_info  @96
+      gcry_cipher_algo_name  @97
+      gcry_cipher_map_name  @98
+      gcry_cipher_mode_from_oid  @99
+      gcry_cipher_encrypt  @100
+      gcry_cipher_decrypt  @101
+      gcry_cipher_get_algo_keylen  @102
+      gcry_cipher_get_algo_blklen  @103
+      gcry_cipher_list  @104
+      
+      gcry_pk_encrypt  @105
+      gcry_pk_decrypt  @106
+      gcry_pk_sign  @107
+      gcry_pk_verify  @108
+      gcry_pk_testkey  @109
+      gcry_pk_genkey  @110
+      gcry_pk_ctl  @111
+      gcry_pk_algo_info  @112
+      gcry_pk_algo_name  @113
+      gcry_pk_map_name  @114
+      gcry_pk_get_nbits  @115
+      gcry_pk_get_keygrip  @116
+      gcry_pk_list  @117
+      
+      gcry_ac_data_new  @118
+      gcry_ac_data_destroy  @119
+      gcry_ac_data_set  @120
+      gcry_ac_data_copy  @121
+      gcry_ac_data_length  @122
+      gcry_ac_data_get_name  @123
+      gcry_ac_data_get_index  @124
+      gcry_ac_data_clear  @125
+      gcry_ac_open  @126
+      gcry_ac_close  @127
+      gcry_ac_key_init  @128
+      gcry_ac_key_pair_generate  @129
+      gcry_ac_key_pair_extract  @130
+      gcry_ac_key_data_get  @131
+      gcry_ac_key_test  @132
+      gcry_ac_key_get_nbits  @133
+      gcry_ac_key_get_grip  @134
+      gcry_ac_key_destroy  @135
+      gcry_ac_key_pair_destroy  @136
+      gcry_ac_data_encrypt  @137
+      gcry_ac_data_decrypt  @138
+      gcry_ac_data_sign  @139
+      gcry_ac_data_verify  @140
+      gcry_ac_id_to_name  @141
+      gcry_ac_name_to_id  @142
+      
+      gcry_md_open  @143
+      gcry_md_close  @144
+      gcry_md_enable  @145
+      gcry_md_copy  @146
+      gcry_md_reset  @147
+      gcry_md_ctl  @148
+      gcry_md_write  @149
+      gcry_md_read  @150
+      gcry_md_hash_buffer  @151
+      gcry_md_get_algo  @152
+      gcry_md_get_algo_dlen  @153
+      gcry_md_is_enabled  @154
+      gcry_md_is_secure  @155
+      gcry_md_info  @156
+      gcry_md_algo_info  @157
+      gcry_md_algo_name  @158
+      gcry_md_map_name  @159
+      gcry_md_setkey  @160
+      gcry_md_list  @161
+      
+      gcry_randomize  @162
+      gcry_random_add_bytes  @163
+      gcry_random_bytes  @164
+      gcry_random_bytes_secure  @165
+      gcry_mpi_randomize  @166
+      
+      gcry_prime_generate  @167
+      gcry_prime_group_generator  @168
+      gcry_prime_release_factors  @169
+      gcry_prime_check  @170
+
+      gcry_create_nonce  @171
+
+      gcry_md_debug  @172
+
+      gcry_cipher_register  @173
+      gcry_cipher_unregister @174
+      gcry_md_register  @175
+      gcry_md_unregister @176
+      gcry_pk_register  @177
+      gcry_pk_unregister @178
+       
+      gcry_ac_data_from_sexp  @179
+      gcry_ac_data_to_sexp  @180
+      gcry_ac_io_init  @181
+      gcry_ac_io_init_va  @182
+      gcry_ac_data_encrypt_scheme  @183
+      gcry_ac_data_decrypt_scheme  @184
+      gcry_ac_data_sign_scheme  @185
+      gcry_ac_data_verify_scheme  @186
+
+      gcry_sexp_nth_string  @187
+
+      gcry_cipher_setkey    @188
+      gcry_cipher_setiv     @189
+      gcry_cipher_setctr    @190
+      
+      gcry_mpi_lshift       @191
+  
+
+

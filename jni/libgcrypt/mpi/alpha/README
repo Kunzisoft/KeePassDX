@@ -1,0 +1,53 @@
+This directory contains mpn functions optimized for DEC Alpha processors.
+
+RELEVANT OPTIMIZATION ISSUES
+
+EV4
+
+1. This chip has very limited store bandwidth.  The on-chip L1 cache is
+write-through, and a cache line is transfered from the store buffer to the
+off-chip L2 in as much 15 cycles on most systems.  This delay hurts
+mpn_add_n, mpn_sub_n, mpn_lshift, and mpn_rshift.
+
+2. Pairing is possible between memory instructions and integer arithmetic
+instructions.
+
+3. mulq and umulh is documented to have a latency of 23 cycles, but 2 of
+these cycles are pipelined.  Thus, multiply instructions can be issued at a
+rate of one each 21nd cycle.
+
+EV5
+
+1. The memory bandwidth of this chip seems excellent, both for loads and
+stores.  Even when the working set is larger than the on-chip L1 and L2
+caches, the perfromance remain almost unaffected.
+
+2. mulq has a measured latency of 13 cycles and an issue rate of 1 each 8th
+cycle.  umulh has a measured latency of 15 cycles and an issue rate of 1
+each 10th cycle.  But the exact timing is somewhat confusing.
+
+3. mpn_add_n.  With 4-fold unrolling, we need 37 instructions, whereof 12
+   are memory operations.  This will take at least
+	ceil(37/2) [dual issue] + 1 [taken branch] = 20 cycles
+   We have 12 memory cycles, plus 4 after-store conflict cycles, or 16 data
+   cache cycles, which should be completely hidden in the 20 issue cycles.
+   The computation is inherently serial, with these dependencies:
+     addq
+     /   \
+   addq  cmpult
+     |     |
+   cmpult  |
+       \  /
+        or
+   I.e., there is a 4 cycle path for each limb, making 16 cycles the absolute
+   minimum.  We could replace the `or' with a cmoveq/cmovne, which would save
+   a cycle on EV5, but that might waste a cycle on EV4.  Also, cmov takes 2
+   cycles.
+     addq
+     /   \
+   addq  cmpult
+     |      \
+   cmpult -> cmovne
+
+STATUS
+

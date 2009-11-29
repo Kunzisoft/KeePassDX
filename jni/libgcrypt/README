@@ -1,0 +1,216 @@
+		    Libgcrypt - The GNU Crypto Library
+		   ------------------------------------
+                            Version 1.4.4
+ 
+
+    Copyright 2000, 2002, 2003, 2004, 2007, 2008,
+              2009 Free Software Foundation, Inc.
+
+    This file is free software; as a special exception the author gives
+    unlimited permission to copy and/or distribute it, with or without
+    modifications, as long as this notice is preserved.
+
+    This file is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+    implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+
+    Overview
+    --------
+
+    Libgcrypt is a general purpose crypto library based on the code
+    used in GnuPG.  Libgcrypt depends on the library `libgpg-error',
+    which must be installed correctly before Libgcrypt is to be built.
+    Libgcrypt is distributed under the LGPL, see the section "License"
+    below for details.
+
+
+    Build Instructions
+    ------------------
+
+    The download canonical location for libgcrypt is:
+
+      ftp://ftp.gnupg.org/gcrypt/libgcrypt/
+     
+    To build libgcrypt you need libgpg-error:
+
+      ftp://ftp.gnupg.org/gcrypt/libgpg-error/
+
+    You should get the latest versions of course.
+
+    After building and installing the libgpg-error package, you may
+    continue with Libgcrypt installation As with allmost all GNU
+    packages, you just have to do
+
+       ./configure
+       make
+       make check
+       make install
+
+    The "make check" is not required but a good idea to see whether
+    the library works as expected.  The check takes some while and
+    prints some benchmarking results.  Before doing "make install" you
+    probably need to become root.
+
+    To build libgcrypt for Microsoft Windows, you need to have the
+    mingw32 cross-building toolchain installed.  Instead of running a
+    plain configure you use
+
+      ./autogen.sh --build-w32
+      make
+      make install
+      
+    By default this command sequences expectsd a libgpg-error
+    installed below $HOME/w32root and installs libgcrypt to that
+    directory too.  See the autogen.sh code for details.
+
+    The documentation is available as an Info file (gcrypt.info).  To
+    build documentation in PDF, run this:
+
+      cd doc
+      make pdf
+
+
+
+    Mailing List
+    ------------
+
+    You may want to join the developer's mailing list
+    gcrypt-devel@gnupg.org by sending mail with a subject of
+    "subscribe" to gcrypt-devel-request@gnupg.org.  An archive of this
+    list is available at http://lists.gnupg.org .
+
+
+    Configure options 
+    -----------------
+    Here is a list of configure options which are sometimes useful 
+    for installation.
+
+     --enable-m-guard
+                     Enable the integrated malloc checking code. Please
+                     note that this feature does not work on all CPUs
+                     (e.g. SunOS 5.7 on UltraSparc-2) and might give
+                     you a bus error.
+
+     --disable-asm
+                     Do not use assembler modules.  It is not possible 
+                     to use this on some CPU types.
+                    
+     --enable-ld-version-script
+                     Libgcrypt tries to build a library where internal
+                     symbols are not exported.  This requires support
+                     from ld and is currently enabled for a few OSes.
+                     If you know that your ld supports the so called
+                     ELF version scripts, you can use this option to
+                     force its use.  OTOH, if you get error message
+                     from the linker, you probably want to use this
+                     option to disable the use of version scripts.
+                     Note, that you should never ever use an
+                     undocumented symbol or one which is prefixed with
+                     an underscore. 
+
+     --enable-ciphers=list
+     --enable-pubkey-ciphers=list
+     --enable-digests=list
+                     If not otherwise specified, all algorithms
+                     included in the libgcrypt source tree are built.
+		     An exception are algorithms, which depend on
+		     features not provided by the system, like 64bit
+		     data types.  With these switches it is possible
+                     to select exactly those algorithm modules, which
+		     should be built.  The algorithms are to be
+                     separated by spaces, commas or colons.  To view
+                     the list used with the current build the program
+                     tests/version may be used.
+
+     --disable-endian-check
+                     Don't let configure test for the endianness but
+                     try to use the OS provided macros at compile
+                     time.  This is helpful to create OS X fat binaries.
+
+     --enable-random-daemon
+                     Include support for a global random damon and
+                     build the daemon.  This is an experimental feature.
+
+     --enable-mpi-path=EXTRA_PATH
+                     Prepend EXTRA_PATH to list of CPU specific
+                     optimizations.  For example, if you want to add
+                     optimizations forn a Intel Pentium 4 compatible
+                     CPU, you may use
+                        --enable-mpi-path=pentium4/sse2:pentium4/mmx
+                     Take care: The generated library may crash on
+                     non-compatible CPUs.
+
+     --enable-random=NAME 
+                     Force the use of the random gathering module
+		     NAME.  Default is either to use /dev/random or
+		     the auto mode.  Possible values for NAME are:
+		       egd - Use the module which accesses the
+			     Entropy Gathering Daemon. See the webpages
+			     for more information about it.
+		      unix - Use the standard Unix module which does not
+			     have a very good performance.
+		     linux - Use the module which accesses /dev/random.
+			     This is the first choice and the default one
+			     for GNU/Linux or *BSD.
+                      auto - Compile linux, egd and unix in and 
+                             automagically select at runtime.
+  
+     --enable-hmac-binary-check
+                     Include support to check the binary at runtime
+                     against a HMAC checksum.  This works only in FIPS
+                     mode and on systems providing the dladdr function.
+
+     --disable-padlock-support
+                     Disable support for the PadLock engine of VIA
+                     processors.  The default is to use PadLock if
+                     available.  Try this if you get problems with
+                     assembler code.
+
+       
+
+
+    License
+    -------
+    
+    The library is distributed under the terms of the GNU Lesser
+    General Public License (LGPL); see the file COPYING.LIB for the
+    actual terms.  The helper programs (e.g. gcryptrnd and getrandom)
+    as well as the documentation are distributed under the terms of
+    the GNU General Public License (GPL); see the file COPYING for the
+    actual terms.
+
+    This library used to be available under the GPL - this was changed
+    with version 1.1.7 with the rationale that there are now many free
+    crypto libraries available and many of them come with capabilities
+    similar to Libcrypt.  We decided that to foster the use of
+    cryptography in Free Software an LGPLed library would make more
+    sense because it avoids problems due to license incompatibilities
+    between some Free Software licenses and the GPL.
+
+    Please note that in many cases it is better for a library to be
+    licensed under the GPL, so that it provides an advantage for free
+    software projects.  The Lesser GPL is so named because it does
+    less to protect the freedom of the users of the code that it
+    covers.  See http://www.gnu.org/philosophy/why-not-lgpl.html for
+    more explanation.
+
+
+    Contact
+    -------
+
+    See the file AUTHORS.
+
+    Commercial grade support for Libgcrypt is available; please see
+    http://www.gnupg.org/service.html .
+
+
+  This file is Free Software; as a special exception the authors gives
+  unlimited permission to copy and/or distribute it, with or without
+  modifications, as long as this notice is preserved. For conditions
+  of the whole package, please see the file COPYING.  This file is
+  distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY, to the extent permitted by law; without even the implied
+  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+

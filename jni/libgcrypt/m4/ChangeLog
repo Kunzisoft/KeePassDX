@@ -1,0 +1,35 @@
+2009-01-22  Werner Koch  <wk@g10code.com>
+
+	* noexecstack.m4: Replace non portable grep -q.  Reported by
+	Albert Chin.
+
+2007-02-22  Werner Koch  <wk@g10code.com>
+
+	* noexecstack.m4: Change default to enable it.
+
+2007-02-20  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am: New.
+
+	* noexecstack.m4:  New.  Taken from gnupg 1.4
+
+2006-10-11  Marcus Brinkmann  <marcus@g10code.de>
+
+	* fallback.m4: Removed again.
+
+2006-10-10  Marcus Brinkmann  <marcus@g10code.de>
+
+	* fallback.m4: New file from Pth.
+
+2006-07-04  Marcus Brinkmann  <marcus@g10code.de>
+
+	* sys_socket_h.m4, socklen.m4, onceonly.m4: New files from gnulib.
+	
+2004-04-06  Werner Koch  <wk@gnupg.org>
+
+	* libtool.m4: Updated from 1.5.4
+
+2003-12-08  Werner Koch  <wk@gnupg.org>
+
+	* libtool.m4: New.
+

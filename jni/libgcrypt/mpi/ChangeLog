@@ -1,0 +1,784 @@
+2008-12-05  Werner Koch  <wk@g10code.com>
+
+	* mpicoder.c (mpi_read_from_buffer): Do not bail out if the mpi is
+	larger than the buffer (potential problem).  Do not print error
+	messages.
+	(mpi_fromstr): Return an error instead of hitting an assert.
+	(gcry_mpi_scan) <PGP>: Fix potential double free problem.
+	(gcry_mpi_scan) <HEX>: Fix potential memory leak.
+	(do_get_buffer): Return NULL on memory allocation failure.
+	(gcry_mpi_print): Check result of do_get_buffer.
+	(gcry_mpi_aprint): Return error on a memory allocation failure.
+
+	* mpicoder.c: Re-indent.
+
+2008-12-03  Werner Koch  <wk@g10code.com>
+
+	* mpi-pow.c (gcry_mpi_powm): Fix last change.  Asserts are really
+	useful!
+
+2008-12-02  Werner Koch  <wk@g10code.com>
+
+	* mpi-pow.c (gcry_mpi_powm): Re-indent.
+	(gcry_mpi_powm): Simplified allocation of the result to fix a
+	double free bug.  This is bug#977.  Reported by Haakon Ringberg.
+
+2008-08-20  Werner Koch  <wk@g10code.com>
+
+	* mpi-bit.c (gcry_mpi_lshift): Actually implement.
+
+2008-08-19  Werner Koch  <wk@g10code.com>
+
+	* mpi-bit.c (gcry_mpi_lshift): New.
+
+2007-10-31  Werner Koch  <wk@g10code.com>
+
+	* mpi-mod.c (gcry_mpi_mod): Remove
+	* mpi-inv.c (_gcry_mpi_invm): Remove _ prefix.
+	* mpiutil.c (_gcry_mpi_swap): Remove.
+	(_gcry_mpi_new): Remove.
+	(_gcry_mpi_snew): Remove.
+	(gcry_mpi_invm): Remove.
+	(gcry_mpi_copy): Remove and rename _version to this.
+	(gcry_mpi_set, gcry_mpi_set_ui): Merge with _ version.
+	* mpi-inv.c (gcry_mpi_invm): Remove _ prefix and return 1.
+	* mpi-mul.c (gcry_mpi_mul_2exp): Remove and rename _ version to this.
+
+2007-10-29  Werner Koch  <wk@g10code.com>
+
+	* config.links: No Candadian Cross here, thus use $host instead of
+	$target.  
+
+2007-10-26  Werner Koch  <wk@g10code.com>
+
+	* config.links (mpi_optional_modules): Special rules for Apple
+	Darwin on ia32 from Gregor Riepl.
+
+2007-05-09  Marcus Brinkmann  <marcus@g10code.de>
+
+	* config.links: Rename assembler file links by suffixing "-asm".
+	* Makefile.am (CCASCOMPILE, LTCCASCOMPILE, CLEANFILES,
+	libmpi_la_LIBADD, libmpi_la_DEPENDENCIES, SUFFIXES, .S.o, .S.obj,
+	.S.lo): Removed variables and targets.
+	(mpih_add1, mpih_sub1, mpih_mul1, mpih_mul2, mpih_mul3,
+	mpih_lshift, mpih_rshift, mpih_udiv, mpih_udiv_qrnnd,
+	nodist_libmpi_la_SOURCES): New variables.
+	(DISTCLEANFILES): Rename assembler file links by suffixing "-asm".
+	Add variants for C file links.
+
+2007-05-04  Werner Koch  <wk@g10code.com>
+
+	* config.links (path): Allowthe sue of colons as delimiters. 
+
+2007-05-03  Werner Koch  <wk@g10code.com>
+
+	* pentium4/distfiles: Fixed.
+
+2007-04-30  Werner Koch  <wk@g10code.com>
+
+	* config.links: Create a file mod-source-info.h.
+	* Makefile.am (DISTCLEANFILES): Add that file.
+	* mpiutil.c (_gcry_mpi_get_hw_config): New.
+
+2007-04-28  Marcus Brinkmann  <marcus@g10code.de>
+
+	* config.links: Add additional assembler search directories.
+
+2007-03-28  Werner Koch  <wk@g10code.com>
+
+	* ec.c: New.
+
+2007-03-23  Werner Koch  <wk@g10code.com>
+
+	* mpi-bit.c (_gcry_mpi_lshift_limbs): Assign AP after the resize.
+
+	* mpi-div.c (gcry_mpi_mod, _gcry_mpi_mod): Moved to ..
+	* mpi-mod.c: .. new file.
+	(_gcry_mpi_barrett_init, _gcry_mpi_barrett_free): New.
+	(_gcry_mpi_mod_barrett): New.
+	(_gcry_mpi_mul_barrett): New.
+
+2007-03-22  Werner Koch  <wk@g10code.com>
+
+	* mpi-div.c (_gcry_mpi_mod): New.
+	* mpiutil.c (_gcry_mpi_new, _gcry_mpi_snew): New.
+
+2007-03-13  Werner Dittmann <Werner.Dittmann@t-online.de>  (wk)
+
+	* amd64/mpih-add1.S, amd64/mpih-add1.S, amd64/mpih-lshift.S
+	* amd64/mpih-mul1.S, amd64/mpih-mul2.S, amd64/mpih-mul3.S
+	* amd64/mpih-rshift.S, amd64/mpih-sub1.S: New.
+	* config.links:  Add case for x86_64.
+
+2007-02-23  Werner Koch  <wk@g10code.com>
+
+	* mpi-pow.c (gcry_mpi_powm): Remove unused var ESIGN.
+
+	* mpiutil.c (gcry_mpi_get_flag): Let it return a value to silent
+	MIPSpro cc warning.
+
+2007-02-21  Werner Koch  <wk@g10code.com>
+
+	* mpicoder.c (_gcry_mpi_set_buffer): Made BUFFER a void*.
+
+2006-11-15  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (.S.o): Check for srcdir also in in CPP pass.
+	(INCLUDES): Removed.
+	(AM_CPPFLAGS, AM_CFLAGS): New, modified. Merged with Moritz'
+	changes.
+
+2006-11-05  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (AM_CFLAGS): Added -I$(top_builddir)/src so that the
+	new gcrypt.h is used, not the one installed in the system.
+
+2006-10-23  Werner Koch  <wk@g10code.com>
+
+	* config.links (mpi_optional_modules): Make sure that powerpc64 is
+	matched before a generic powerpc.  Reported by Andreas Metzler.
+	Should fix Debian bug 284609.
+
+2006-08-25  Werner Koch  <wk@g10code.com>
+
+	* mpi-bit.c (gcry_mpi_rshift): Don't shift if N == 0 but do a
+	plain copy.
+
+2006-08-04  Werner Koch  <wk@g10code.com>
+
+	* mpi-bit.c (gcry_mpi_rshift): Rewritten to remove the limitation
+	on N (which used to be less than BITS_PER_MPI_LIMB).
+
+2006-08-03  Werner Koch  <wk@g10code.com>
+
+	* mpi-bit.c (gcry_mpi_set_bit, gcry_mpi_set_highbit): Fixed
+	allocation.  Reported by bpgcrypt at itaparica.org.
+	* mpiutil.c (_gcry_mpi_resize): Clear the new part of the resized
+	limb space.
+
+2006-07-26  Werner Koch  <wk@g10code.com>
+
+	* mpiutil.c (gcry_mpi_randomize): Changed P to unsigned char*.
+
+	* mpicoder.c (gcry_mpi_scan): Changed arg BUFFER to void*.
+	(mpi_read_from_buffer): Made BUFFER arg const.
+	(gcry_mpi_scan): Removed now needless cast. Add cast for arg to
+	mpi_fromstr.
+	(gcry_mpi_print): Made TMP unsigned.
+
+	* Makefile.am (AM_CCASFLAGS): New.
+
+2005-10-09  Moritz Schulte  <moritz@g10code.com>
+
+	* mpi-cmp.c (gcry_mpi_cmp_ui): Rewritten; correctly handle case of
+	zero limbs in U.
+
+2005-04-27  Moritz Schulte  <moritz@g10code.com>
+
+	* mpiutil.c (gcry_mpi_randomize): Store random data in secure
+	memory if the given MPI is secure - not the other way around (argl).
+
+2005-04-23  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am: Don't assume the compiler will pre-process the .S
+	files. Some compilers, like those from HP and IBM, don't do
+	this. So, we use the same solution gnupg-1.4.0 does. Preprocess
+	first and then compile.
+
+	* hppa1.1/mpih-mul3.S: Add "level 1.1" directive to disable
+	warning about using PA-RISC1.1 opcodes.
+	* hppa1.1/mpih-mul2.S: Likewise.
+	* hppa1.1/mpih-mul1.S: Likewise.
+	* hppa1.1/udiv-qrnnd.S: Likewise.
+
+2005-02-16  Moritz Schulte  <moritz@g10code.com>
+
+	* mpiutil.c (_gcry_mpi_alloc_limb_space): Rewritten, fixed memory
+	corruption.
+
+2005-02-06  Moritz Schulte  <moritz@g10code.com>
+
+	* mpiutil.c (_gcry_mpi_get_ui, gcry_mpi_get_ui): New functions.
+
+2005-01-05  Werner Koch  <wk@g10code.com>
+
+	* hppa1.1/udiv-qrnnd.S: Reverted change of 2004-03-02 but kept the
+	.align directive.
+
+2004-12-16  Werner Koch  <wk@g10code.com>
+
+	* config.links (mpi_optional_modules): Move entry for powerpc64
+	before generic powerpc.  Suggested by Rafael Ávila de Espíndola.
+
+2004-03-02  Werner Koch  <wk@gnupg.org>
+
+	* hppa1.1/udiv-qrnnd.S: Alignment fix from Lamont Jones for
+	Debian.  Taken from gnupg-1.3.
+
+	* longlong.h: Added PowerPC 64 bit code from GPM-4.1.2 but didn't
+	enable it yet.  Some whitespace changes in HPPA to fix assembler
+	problems on HP-UX.  From gnupg 1.3
+
+	* mpiutil.c (_gcry_mpi_alloc_limb_space): Better allocate
+	something even if NLIMBS is passed as 0.
+
+	* config.links: Updated system list to match gnupg 1.3.
+
+2003-12-19  Werner Koch  <wk@gnupg.org>
+
+	* mpi-internal.h [M_DEBUG]: Removed this unused code.
+	(struct karatsuba_ctx): Added TSPACE_NLIMBS and	TP_NLIMBS.
+	* mpiutil.c (_gcry_mpi_free_limb_space): Add arg NLIMBS and wipe
+	out the memory.  Changed all callers.
+	* mpih-mul.c (_gcry_mpih_mul_karatsuba_case): Keep track of
+	allocated limbs.
+	* mpi-div.c (_gcry_mpi_tdiv_qr): Keep track of allocated limbs.
+	* mpi-mul.c (gcry_mpi_mul): Ditto.
+	* mpi-pow.c (gcry_mpi_powm): Ditto.
+
+	* Manifest: Empty new file.  Also add Manifest files to all CPU
+	specific directories.
+	* Makefile.am: Added.
+
+	* mpiutil.c (gcry_mpi_randomize): Use gcry_create_nonce if WEAK
+	random has been requested.
+
+2003-10-31  Werner Koch  <wk@gnupg.org>
+
+	* i386/mpih-rshift.S, i386/mpih-lshift.S: Use %dl and not %edx for
+	testb; this avoids an assembler warning.
+
+	* mpi-pow.c (gcry_mpi_powm): s/exp/expo/ to avoid shadowing warning.
+
+2003-08-19  Marcus Brinkmann  <marcus@g10code.de>
+
+	* Makefile.am (SUFFIXES): New variable.
+	(.S.o, .S.lo, .S.obj): Rewritten.
+
+2003-07-30  Moritz Schulte  <moritz@g10code.com>
+
+	* longlong.h (__clz_tab): Renamed to _gcry_clz_tab.
+	* mpi-bit.c (__clz_tab): Likewise.
+
+2003-07-27  Werner Koch  <wk@gnupg.org>
+
+	* mpicoder.c (gcry_mpi_scan): New argument BUFLEN to replace the
+	use of the intial value of NBYTES.  Changed BUFFER to unsigned.
+	(gcry_mpi_print): Likewise.
+	(gcry_mpi_dump): New.
+	(_gcry_log_mpidump): Make use of gcry_mpi_dump.
+	(mpi_print): Removed.
+	(gcry_mpi_scan): Allocated mpi in secure memory when required.
+	(gcry_mpi_aprint): Changed BUFFER to unsigned char*.
+
+2003-07-14  Moritz Schulte  <moritz@g10code.com>
+
+	* mpicoder.c: Used gcry_err* wrappers for libgpg-error symbols.
+
+2003-06-16  Moritz Schulte  <moritz@g10code.com>
+
+	* mpi-add.c: Replace last occurences of old type names with newer
+	names (i.e. replace MPI with gcry_mpi_t).
+	* mpi-bit.c: Likewise.
+	* mpi-cmp.c: Likewise.
+	* mpi-div.c: Likewise.
+	* mpi-gcd.c: Likewise.
+	* mpi-internal.h: Likewise.
+	* mpi-inv.c: Likewise.
+	* mpi-mpow.c: Likewise.
+	* mpi-mul.c: Likewise.
+	* mpi-pow.c: Likewise.
+	* mpi-scan.c: Likewise.
+	* mpicoder.c: Likewise.
+	* mpiutil.c: Likewise.
+
+2003-06-09  Moritz Schulte  <moritz@g10code.com>
+
+	* mpicoder.c (gcry_mpi_scan): Adjust for libgpg-error.
+	(gcry_mpi_print): Likewise.
+	(gcry_mpi_aprint): Likewise.
+
+2003-06-07  Moritz Schulte  <moritz@g10code.com>
+
+	* longlong.h, mpi-add.c, mpi-bit.c, mpi-cmp.c, mpi-div.c,
+	mpi-gcd.c, mpi-inline.c, mpi-inline.h, mpi-internal.h, mpi-inv.c,
+	mpi-mpow.c, mpi-mul.c, mpi-pow.c, mpi-scan.c, mpicoder.c,
+	mpih-div.c, mpih-mul.c, mpiutil.c, generic/mpi-asm-defs.h,
+	generic/mpih-add1.c, generic/mpih-lshift.c, generic/mpih-mul1.c,
+	generic/mpih-mul2.c, generic/mpih-mul3.c, generic/mpih-rshift.c,
+	generic/mpih-sub1.c, generic/udiv-w-sdiv.c, i386/syntax.h,
+	m68k/syntax.h, mips3/mpi-asm-defs.h, powerpc32/syntax.h: Edited
+	all preprocessor instructions to remove whitespace before the '#'.
+	This is not required by C89, but there are some compilers out
+	there that don't like it.  Replaced any occurence of the now
+	deprecated type names with the new ones.
+
+2003-05-21  Moritz Schulte  <moritz@g10code.com>
+
+	* mpiutil.c (_gcry_mpi_alloc_limb_space): Only try to allocate
+	memory in case the amount of bytes to allocate is non-zero.
+
+2003-04-27  Moritz Schulte  <moritz@g10code.com>
+
+	* mpiutil.c (_gcry_mpi_resize): Allocate secure memory, in case
+	bit zero of `flags' is set.
+
+	* mpi-add.c (gcry_mpi_sub): Simplify function; always use a
+	temporary variable now.
+
+2003-04-15  Werner Koch  <wk@gnupg.org>
+
+	* longlong.h (umul_ppmm): Support SH3 and SH4.  Thanks to
+	kazuya.s@jp.yokogawa.com.
+
+2003-04-02  Werner Koch  <wk@gnupg.org>
+
+	* mpicoder.c (gcry_mpi_print): Fixed testing against possible
+	uninitialized LEN.  Valgrinded by Nikos Mavroyanopoulos.
+
+2003-01-15  Werner Koch  <wk@gnupg.org>
+
+	* longlong.h: Removed some spaces between backslashes and newlines.
+
+2002-09-20  Werner Koch  <wk@gnupg.org>
+
+	* mpi-mul.c (gcry_mpi_mul_2exp): New. This was declared in
+	gcrypt.h but only implemented as internal function.  Noted by Timo
+	but a few minutes to late for today's release.
+
+	* Makefile.am (DISTCLEANFILES): Include mpi-asm-defs.h
+
+2002-09-18  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am (.S.lo): Pass -DPIC. i386, PPC and Sparc code
+	require it.  It worked for me because I am using the i586 code.
+
+2002-08-23  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am (.S.lo): Fixed for libtool build with --disable-shared.
+
+2002-07-24  Werner Koch  <wk@gnupg.org>
+
+	* longlong.h: Replaced all K&R multiline strings by ISO ones for
+	the sake of modern compilers.  Suggested by Marco Parrone.
+
+2002-06-24  Werner Koch  <wk@gnupg.org>
+
+	* mpiutil.c (gcry_mpi_swap): New.
+
+	* mpi-div.c (gcry_mpi_div): New.
+	(gcry_mpi_mod): New.
+	* mpi-inv.c (gcry_mpi_invm): New.
+
+	* mpicoder.c (do_get_buffer): Make sure that we allocate at least
+	one byte.
+
+2002-06-12  Werner Koch  <wk@gnupg.org>
+
+	* hppa1.1/udiv-qrnnd.S: Changes for PIC by Randolph Chung.
+
+2002-05-15  Werner Koch  <wk@gnupg.org>
+
+	* config.links: Chnage the way the mpi modules are determined.
+	* Makefile.am: Revamped to better handle modules
+
+2002-05-14  Werner Koch  <wk@gnupg.org>
+
+	Changed license of all files to the LGPL.
+
+2002-04-18  Werner Koch  <wk@gnupg.org>
+
+	* mpicoder.c (gcry_mpi_scan): Don't use normalize on a NULL MPI.
+
+2002-03-20  Werner Koch  <wk@gnupg.org>
+
+	* mpicoder.c (mpi_read_from_buffer): Bail out on a zero length
+	buffer because we can't eventually do an malloc of this size.
+	Reported by Timo.
+
+2002-01-14  Werner Koch  <wk@gnupg.org>
+
+	* mpi-inv.c (_gcry_mpi_invm): Typo fixes, noted by Carlo Perassi.
+
+2001-11-01  Werner Koch  <wk@gnupg.org>
+
+	* mpicoder.c (gcry_mpi_scan): Allow to pass a nbytes as NULL or
+	with value 0 for format GCRY_FMT_SSH, so that the length is not
+	used for any checks, only the length stored in the bufer is used.
+	This is a nice format becuase we can just pass a buffer around and
+	don't need to care about its length.
+
+2001-08-03  Werner Koch  <wk@gnupg.org>
+
+	* config.links: Changed the way the list of files to be
+	symlinked is returned.
+
+2001-05-31  Werner Koch  <wk@gnupg.org>
+
+	* mpih-cmp.c: Removed and moved mpihelp_cmp to ..
+	* mpi-inline.h: .. here.
+
+	Major function renaming. All global functions are now prefixed
+	with _gcry_ or gcry_.  Renamed also all mpihelp_ to just mpih_ so
+	that functions names are not getting to long an unreadable and for
+	better matching with the filenames.
+	
+2001-05-28  Werner Koch  <wk@gnupg.org>
+
+	* mpicoder.c (mpi_fromstr): Made static and assume that all input
+	is in hexformat.
+
+	Updated all CPU specific code with the one from GnuPG-1.0.5.  This
+	is just a change of text formatting and the use of .label
+	instead of labels for hppa and pa7100.
+
+	* longlong.h: Fixes for ARM by Phil Blundell.
+
+2001-03-29  Werner Koch  <wk@gnupg.org>
+
+	* mpi-mul.c (mpi_mul): Make sure that secret temporary results are
+	not stored in w.  Suggested by Florian Weimer.
+
+	* config.links: Use i386 code for i386.  According to tests by
+	Kevin Ryde the i586 code runs slow on i386 CPUs.  Ditto for i786.
+
+2001-01-11  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am: Removed mpi.h.
+
+2000-12-19  Werner Koch  <wk@gnupg.org>
+
+	* mpi-internal.h: Put limb_t definition in an ifdef.
+
+ 	Major change:
+	Removed all GnuPG stuff and renamed this piece of software
+	to gcrypt. 
+
+2000-11-14  Werner Koch  <wk@gnupg.org>
+
+	* mpi-internal.h, mpi.h: Changed the way they are called and
+	introduced DID_MPI_LIMP_TYPEDEF hack.  Very ugly, should all be
+	revamped.
+	
+	* Makefile.am (OMIT_DEPENDENCIES): Hack to work around dependency
+	problems.
+
+2000-10-11  Werner Koch  <wk@gnupg.org>
+
+	* generic/mpi-asm-defs.h: New.
+	* mips3/mpi-asm-defs.h: New.
+	* config.links: Create a link to one of the above files.
+
+Fri Jul 28 18:19:11 CEST 2000  Werner Koch  <wk@openit.de>
+
+  * mpicoder.c (gcry_mpi_scan): Normalize the returned MPI.
+
+Tue Jul 25 17:44:15 CEST 2000  Werner Koch  <wk@openit.de>
+
+  * config.links: Support for powerpc--netbsd by Gabriel Rosenkoetter.
+
+Mon Jul 17 16:35:47 CEST 2000  Werner Koch  <wk@>
+
+  * power/: Add all files from GMP for this CPU. Converted comments to
+  CPP comments because some ASes complain about ' in comments.
+
+  * config.links:  Support for BSDI 4.x; by Wayne Chapeskie. Add support
+  for FreeBSD 5 and made the case stmt looking nicer; by Jun Kuriyama.
+  Add support for NetBSD.
+  (sparc8): Made the search path the same as sparc9
+  (sparc64-unknown-linux-gnu): use udiv module; by Adam Mitchell.
+
+  * Makefile.am: c/SFLAGS/ASFLAGS/. This has only been used by the
+  powerpc and actually never passed the -Wa,foo to the cc.
+
+  * mpih-div.c (mpihelp_divrem): The MPN_COPY_DECR copied one element
+  too many.  This is a gmp2.0.2p9.txt patch.
+
+  * longlong.h (umul_ppmm): Fixes for ARM-4. By Sean MacLennan.
+
+  * mpi-internal.h (karatsuba_ctx): New.
+  * mpih-mul.c (mpihelp_release_karatsuba_ctx): New.
+  (mpihelp_mul_karatsuba_case): New.
+  (mpihelp_mul): Splitted to make use of the new functions.
+  * mpi-pow.c (mpi_powm): Make use of the new splitted function to avoid
+  multiple allocation of temporary memory during the karatsuba operations.
+  * mpi_mpow.c: Removed the unused Barrett code.
+
+2000-03-21 16:17:30  Werner Koch  (wk@habibti.openit.de)
+
+	* config.links: Add support for FreeBSD 5.
+
+Mon Jan 24 22:24:38 CET 2000  Werner Koch  <wk@gnupg.de>
+
+	* mpicoder.c (gcry_mpi_aprint): Now really returns the length.
+
+Mon Jan 24 13:04:28 CET 2000  Werner Koch  <wk@gnupg.de>
+
+	* mpiutil.c: Removed all memory debugging code.
+
+	* mpicoder.c (gcry_mpi_aprint): New.
+
+	* Replaced all m_ memory functions by g10_ ones.
+
+Fri Dec 31 14:06:56 CET 1999  Werner Koch  <wk@gnupg.de>
+
+	* mpi-bit.c (gcry_mpi_get_nbits): New.
+
+	* mpiutil.c (mpi_set_secure): made static.
+	(gcry_mpi_get_flag): New.
+	(gcry_mpi_set_flag): New.
+	(gcry_mpi_clear_flag): New.
+	(mpi_set_opaque): renamed to gcry_mpi_set_opaque.
+	(mpi_get_opaque): renamed to gcry_mpi_get_opaque.
+
+Fri Dec 31 12:48:31 CET 1999  Werner Koch  <wk@gnupg.de>
+
+	* mpicoder.c (mpi_read_from_buffer): Made static.
+	(gcry_mpi_print): A buffer of NULL is now allowed to get the required
+	length back.
+	(mpi_get_keyid): Removed.
+	(mpi_print): Made static - should be removed.
+
+Wed Dec  8 21:58:32 CET 1999  Werner Koch  <wk@gnupg.de>
+
+	* Makefile.am (INCLUDES): Add ../gcrypt.
+
+	* g10m.c : Removed.
+
+	* mpicoder.c (mpi_write): Removed.
+	(mpi_read): Removed.
+	(gcry_mpi_scan): New. Taken from ../gcrypt/mpiapi.c.
+	(gcry_mpi_print): Ditto.
+
+	* mpi-pow.c (mpi_powm): Renamed to ...
+	(gcry_mpi_powm): ... this.
+
+	* mpiutil.c (gcry_mpi_new): New as a wrapper around the old function.
+	Taken from ../gcrypt/mpiapi.c.
+	(gcry_mpi_snew): Ditto.
+	(gcry_mpi_release): Ditto.
+	(gcry_mpi_copy): Ditto.
+	(gcry_mpi_set): Ditto.
+	(gcry_mpi_set_ui): Ditto.
+	(gcry_mpi_cmp): Ditto.
+	(gcry_mpi_cmp_ui): Ditto.
+	(gcry_mpi_randomize): Ditto.
+
+	* mpicoder.c (mpi_print): Removed the nbit_info kludge.
+	* mpi-bits.c (mpi_get_nbits): Replaced the is_protected stuff by
+	checking whether it is an opaque mpi and then returns it's length
+	in bits.
+	* mpiutil.c (mpi_set_opaque): Changed the interface to take a number
+	of bits for the length.  Adjusted all users.
+	(mpi_get_opaque): Ditto.
+
+Fri Nov 19 17:15:20 CET 1999  Werner Koch  <wk@gnupg.de>
+
+	* mpicoder.c (g10_log_mpidump): Add a temporary workaround
+
+	* mpih-mul.c (mpihelp_mul_n): s/m_is_ecure/g10_is_secure/
+
+	* mpiutil.c (mpi_alloc): Remved the debug mode because it has turned
+	out, that this feature was not very useful in the past.  Use the
+	new alloc functions.
+	(mpi_alloc_secure): Ditto.
+	(mpi_alloc_limb_space): Ditto.
+	(mpi_free_limb_space): Ditto.
+	(mpi_resize): Ditto.
+	(mpi_free): Ditto.
+	(mpi_set_secure): Removed the debug stuff.
+	(mpi_set_opaque): Ditto.
+	(mpi_copy): Ditto.
+	(mpi_alloc_set_ui): Ditto.
+	(mpi_m_check): Use g10_ wrapper.
+
+Mon Aug 30 20:38:33 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* config.links: Add case label for DJGPP
+
+Wed Jul 14 19:42:08 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* Makefile.am: Use .s files as temporaries, disabled other .S rules.
+
+Wed Jul  7 13:08:40 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* mpicoder.c (g10_log_mpidump): New.
+
+	* Makefile.am: Support for libtool.
+
+Fri Jul  2 11:45:54 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* mpi-bit.c (mpi_lshift_limbs,mpi_rshift_limbs): New.
+	* mpi-mpow.c (barrett_mulm): New but diabled.
+
+Tue Jun  1 16:01:46 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* config.links (i[56]86*-*-freebsdelf*): New.
+
+Sun May 23 14:20:22 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* config.links (sysdep.h): Not any more conditionally created.
+
+Tue May  4 15:47:53 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* mpiutil.c (mpi_alloc_like): New.
+
+Mon Apr 26 17:48:15 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* mpih-add.c, mpih-sub.c: Removed
+	* mpi-inline.c: New.
+	* mpi-inline.h: Make it usable by mpi-inline.c.
+
+Sun Apr 18 10:11:28 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* mpih-mul.c (mpihelp_mul_n): Fixed use of memory region.
+	(mpihelp_mul): Ditto.
+
+Wed Apr  7 20:51:39 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* Makefile.am: Explicit rules to invoke cpp on *.S
+
+Mon Mar  8 20:47:17 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* config.links: Take advantage of the with_symbol_underscore macro.
+	Add support for freebsd 4.
+
+Wed Feb 24 11:07:27 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* mips3/mpih-sub1.S: Removed left over junk in last line. (Should I
+	blame me or my editor?).
+
+Sat Feb 13 12:04:43 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* Makefile.am: Removed the +=. Add MPI_OPT_FLAGS.
+
+Sat Jan  9 16:02:23 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* mpi-cmp.c (mpi_cmp_ui): Normalized the arg.
+
+Thu Jan  7 18:00:58 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* mpi-bit.c (mpi_normalize): New.
+	(mpi_get_nbits): Normalize the MPI.
+	* mpi-bit.c (mpi_cmp): Normalize the MPI before the compare.
+
+
+Tue Dec  8 13:15:16 CET 1998  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* config.links: Moved the case for powerpc*linux
+	* powerpcp32/*.S: Removed some underscores.
+
+Thu Nov 26 07:27:52 1998  Werner Koch  <werner.koch@guug.de>
+
+	* config.links: Support for ppc with ELF
+	* powerpc32/syntax.h: New.
+	* powerpc32/*.S: Applied ELF patches (glibc patches)
+
+Tue Nov 10 19:31:37 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* power*/ : Started with stuff for PPC
+	* config.links: Some stuff for PPC.
+	* generic/udiv-w-sdiv.c: New but disabled.
+
+Tue Oct 27 12:37:46 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* config.links (freebsd): Fixes for FreeBSD 3.0
+
+Wed Oct 14 09:59:30 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* config.links (freebsd): ELF patches from Jun Kuriyama.
+
+Thu Oct  8 13:28:17 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mpi-mpow.c (mpi_mulpowm): Fixed mem leak (m_free/mpi_free).
+
+Thu Sep 17 18:08:50 1998  Werner Koch  (wk@(none))
+
+	* hppa1.1/udiv-qrnnd.S: Fix from Steffen Zahn for HPUX 10.20
+
+Thu Aug  6 16:39:28 1998  Werner Koch,mobil,,,	(wk@tobold)
+
+	* mpi-bit.c (mpi_set_bytes): Removed.
+
+Wed Aug  5 15:11:12 1998  Werner Koch  (wk@(none))
+
+	* mpicoder.c (mpi_read_from_buffer): New.
+
+	* mpiutil.c (mpi_set_opaque): New.
+	(mpi_get_opaque): New.
+	(mpi_copy): Changed to support opauqe flag
+	(mpi_free): Ditto.
+
+Sat Jul  4 10:11:11 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mpiutil.c (mpi_clear): Reset flags.
+	(mpi_set): Ditto.
+	(mpi_alloc_secure): Set flag to 1 and not ored the 1 in, tsss..
+
+Fri Jun 26 11:19:06 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mpiutil.c (mpi_alloc): set nbits to 0.
+	(mpi_alloc_secure): Ditto.
+	(mpi_clear): Ditto.
+
+Thu Jun 25 11:50:01 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mips3/*.S: New
+
+Mon May 18 13:47:06 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* config.links: split mpih-shift into mpih-[lr]shift and
+	changed all implementations.
+	* mpi/alpha: add some new assembler stuff.
+
+Wed May 13 11:04:29 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* config.links: Add support for MIPS
+
+Thu Apr  9 11:31:36 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mpicoder.c (mpi_get_secure_buffer): New.
+
+Wed Apr  8 09:44:33 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* config.links: Applied small fix from Ulf Möller.
+
+Mon Apr  6 12:38:52 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mpicoder.c (mpi_get_buffer): Removed returned leading zeroes
+	and changed all callers.
+
+Tue Mar 10 13:40:34 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mpi-bit.c (mpi_clear_highbit): New.
+
+Mon Mar  2 19:29:00 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* Makefile.am (DISTCLEANFILES): New
+
+Thu Feb 26 06:48:54 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* config.links (X86_BROKEN_ALIGN): Added for some systems.
+
+Mon Feb 23 12:21:40 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* mpi/m68k/mpih-shift.S (Lspecial): Changed duplicate symbol.
+
+Mon Feb 16 13:00:27 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* config.links : Add detection of m68k cpus
+
+
+ Copyright 1998,1999,2000,2001,2002,2003 Free Software Foundation, Inc.
+
+ This file is free software; as a special exception the author gives
+ unlimited permission to copy and/or distribute it, with or without
+ modifications, as long as this notice is preserved.
+
+ This file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

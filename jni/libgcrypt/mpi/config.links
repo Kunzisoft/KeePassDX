@@ -1,0 +1,363 @@
+# config.links - helper for ../configure             -*- mode: sh -*-
+# Copyright (C) 1998, 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+#
+# This file is part of Libgcrypt.
+#
+# Libgcrypt is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of
+# the License, or (at your option) any later version.
+#
+# Libgcrypt is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+#
+# sourced by ../configure to get the list of files to link
+# this should set $mpi_ln_list.
+# Note: this is called from the above directory.
+
+mpi_sflags=
+mpi_extra_modules=
+
+test -d ./mpi || mkdir ./mpi
+
+# We grep the list of modules from the Makefile so that
+# we don't need to maintain them here.
+mpi_standard_modules=`$AWK '/^#BEGIN_ASM_LIST/,/^#END_ASM_LIST/ {
+                 if( $3 != "O" ) print $2 }'  $srcdir/mpi/Makefile.am`
+mpi_optional_modules=`$AWK '/^#BEGIN_ASM_LIST/,/^#END_ASM_LIST/ {
+                 if( $3 == "O" ) print $2 }' $srcdir/mpi/Makefile.am`
+
+
+echo '/* created by config.links - do not edit */' >./mpi/asm-syntax.h
+echo "/* Host: ${host} */" >>./mpi/asm-syntax.h
+
+if test "$try_asm_modules" = "yes" ; then
+case "${host}" in
+    powerpc-apple-darwin*          | \
+    i[34567]86*-*-openbsd[12]*     | \
+    i[34567]86*-*-openbsd3.[0123]*)
+       echo '/* No working assembler modules available */' >>./mpi/asm-syntax.h
+       path=""
+       ;;
+    i[3467]86*-*-openbsd*      | \
+    i[3467]86*-*-freebsd*-elf  | \
+    i[3467]86*-*-freebsd[3-9]* | \
+    i[3467]86*-*-freebsdelf*   | \
+    i[3467]86*-*-netbsd*       | \
+    i[3467]86*-*-k*bsd*)
+       echo '#define ELF_SYNTAX' >>./mpi/asm-syntax.h
+       cat  $srcdir/mpi/i386/syntax.h	   >>./mpi/asm-syntax.h
+       path="i386"
+       ;;
+    i586*-*-openbsd*         | \
+    i586*-*-freebsd*-elf     | \
+    i586*-*-freebsd[3-9]*    | \
+    i586*-*-freebsdelf*      | \
+    i586*-*-netbsd*	     | \
+    i586*-*-k*bsd*	     | \
+    pentium-*-netbsd*	     | \
+    pentiumpro-*-netbsd*)
+       echo '#define ELF_SYNTAX' >>./mpi/asm-syntax.h
+       cat  $srcdir/mpi/i386/syntax.h	   >>./mpi/asm-syntax.h
+       path="i586 i386"
+       ;;
+    i[34]86*-*-bsdi4*)
+       echo '#define ELF_SYNTAX' >>./mpi/asm-syntax.h
+       cat  $srcdir/mpi/i386/syntax.h	 >>./mpi/asm-syntax.h
+       path="i386"
+       ;;
+    i[3467]86*-*-linuxaout*  | \
+    i[3467]86*-*-linuxoldld* | \
+    i[3467]86*-*-*bsd*)
+	echo '#define BSD_SYNTAX' >>./mpi/asm-syntax.h
+	echo '#define X86_BROKEN_ALIGN' >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/i386/syntax.h	    >>./mpi/asm-syntax.h
+	path="i386"
+	;;
+    i586*-*-linuxaout*  | \
+    i586*-*-linuxoldld* | \
+    i586*-*-*bsd*)
+	echo '#define BSD_SYNTAX' >>./mpi/asm-syntax.h
+	echo '#define X86_BROKEN_ALIGN' >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/i386/syntax.h	    >>./mpi/asm-syntax.h
+	path="i586 i386"
+	;;
+    i[3467]86*-msdosdjgpp* | \
+    i[34]86*-apple-darwin*)
+	echo '#define BSD_SYNTAX'        >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/i386/syntax.h	 >>./mpi/asm-syntax.h
+	path="i386"
+	;;
+    i586*-msdosdjgpp* | \
+    i[567]86*-apple-darwin*)
+	echo '#define BSD_SYNTAX'        >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/i386/syntax.h	 >>./mpi/asm-syntax.h
+	path="i586 i386"
+	;;
+    i[3467]86*-*-*)
+	echo '#define ELF_SYNTAX' >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/i386/syntax.h	    >>./mpi/asm-syntax.h
+	path="i386"
+	;;
+    i586*-*-*  | \
+    pentium-*-*   | \
+    pentiumpro-*-*)
+	echo '#define ELF_SYNTAX' >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/i386/syntax.h	    >>./mpi/asm-syntax.h
+	path="i586 i386"
+	;;
+    x86_64-*-*)
+	echo '#define ELF_SYNTAX' >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/i386/syntax.h	    >>./mpi/asm-syntax.h
+	path="amd64"
+	;;
+    alpha*-*-*)
+	echo '/* configured for alpha */' >>./mpi/asm-syntax.h
+	path="alpha"
+	mpi_extra_modules="udiv-qrnnd"
+	;;
+    hppa7000*-*-*)
+	echo '/* configured for HPPA (pa7000) */' >>./mpi/asm-syntax.h
+	path="hppa1.1 hppa"
+	mpi_extra_modules="udiv-qrnnd"
+	;;
+    hppa1.0*-*-*)
+	echo '/* configured for HPPA 1.0 */' >>./mpi/asm-syntax.h
+	path="hppa"
+	mpi_extra_modules="udiv-qrnnd"
+	;;
+    hppa*-*-*)	# assume pa7100
+	echo '/* configured for HPPA (pa7100) */' >>./mpi/asm-syntax.h
+	path="pa7100 hppa1.1 hppa"
+	mpi_extra_modules="udiv-qrnnd"
+	;;
+    sparc64-*-linux-gnu)
+	# An extra rule because we have an report for this one only.
+	# Should be compared against the next GMP version
+	echo '/* configured for sparc64-*-linux-gnu */' >>./mpi/asm-syntax.h
+	path="sparc32v8 sparc32"
+	mpi_extra_modules="udiv"
+	;;
+    sparc64-sun-solaris2*)
+	# Got a report that udiv is missing, so we try this one
+	echo '/* configured for sparc64-sun-solaris2 */' >>./mpi/asm-syntax.h
+	path="sparc32v8 sparc32"
+	mpi_extra_modules="udiv"
+        ;;
+    sparc64-*-netbsd* | sparc64-*-freebsd* | sparc64-*-openbsd*)
+       # There are no sparc64 assembler modules that work on the
+       # *BSDs, so use the generic C functions.
+       echo '/* No working assembler modules available */' >>./mpi/asm-syntax.h
+       path=""
+       ;;
+    sparc9*-*-*     | \
+    sparc64*-*-*    | \
+    ultrasparc*-*-* )
+	echo '/* configured for sparc9 or higher */' >>./mpi/asm-syntax.h
+	path="sparc32v8 sparc32"
+	;;
+    sparc8*-*-*     | \
+    microsparc*-*-*)
+	echo '/* configured for sparc8 */' >>./mpi/asm-syntax.h
+	path="sparc32v8 sparc32"
+	;;
+    supersparc*-*-*)
+	echo '/* configured for supersparc */' >>./mpi/asm-syntax.h
+	path="supersparc sparc32v8 sparc32"
+	mpi_extra_modules="udiv"
+	;;
+    sparc*-*-*)
+	echo '/* configured for sparc */' >>./mpi/asm-syntax.h
+	path="sparc32"
+	mpi_extra_modules="udiv"
+	;;
+    mips[34]*-*-* | \
+    mips*-*-irix6*)
+       echo '/* configured for MIPS3 */' >>./mpi/asm-syntax.h
+       path="mips3"
+       ;;
+    mips*-*-*)
+       echo '/* configured for MIPS2 */' >>./mpi/asm-syntax.h
+       path="mips2"
+       ;;
+
+    # Motorola 68k configurations.  Let m68k mean 68020-68040.
+    # mc68000 or mc68060 configurations need to be specified explicitly
+    m680[234]0*-*-linuxaout* | \
+    m68k*-*-linuxaout*)
+	echo '#define MIT_SYNTAX'           >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/m68k/syntax.h	    >>./mpi/asm-syntax.h
+	path="m68k/mc68020 m68k"
+	;;
+    m68060*-*-linuxaout*)
+	echo '#define MIT_SYNTAX'           >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/m68k/syntax.h	    >>./mpi/asm-syntax.h
+	path="m68k"
+	;;
+    m680[234]0*-*-linux* | \
+    m68k*-*-linux*)
+	echo '#define ELF_SYNTAX'           >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/m68k/syntax.h	    >>./mpi/asm-syntax.h
+	;;
+    m68060*-*-linux*)
+	echo '#define ELF_SYNTAX'           >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/m68k/syntax.h	    >>./mpi/asm-syntax.h
+	path="m68k"
+	;;
+    m68k-atari-mint)
+	echo '#define MIT_SYNTAX'           >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/m68k/syntax.h	    >>./mpi/asm-syntax.h
+	path="m68k/mc68020 m68k"
+	;;
+    m68000*-*-* | \
+    m68060*-*-*)
+	echo '#define MIT_SYNTAX'           >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/m68k/syntax.h	    >>./mpi/asm-syntax.h
+	path="m68k/mc68000"
+	;;
+    m680[234]0*-*-* | \
+    m68k*-*-*)
+	echo '#define MIT_SYNTAX'           >>./mpi/asm-syntax.h
+	cat  $srcdir/mpi/m68k/syntax.h	    >>./mpi/asm-syntax.h
+	path="m68k/mc68020 m68k"
+	;;
+
+    powerpc*-*-netbsd* | powerpc*-*-openbsd*)
+       echo '/* configured {Open,Net}BSD on powerpc */' >>./mpi/asm-syntax.h
+       echo '#define ELF_SYNTAX'                 >>./mpi/asm-syntax.h
+       cat   $srcdir/mpi/powerpc32/syntax.h	 >>./mpi/asm-syntax.h
+       mpi_sflags="-Wa,-mppc"
+       path="powerpc32"
+       ;;
+
+    ppc620-*-*	    | \
+    powerpc64*-*-*)
+	mpi_sflags="-Wa,-mppc"
+	path="powerpc64"
+	;;
+    powerpc*-*-linux*)
+	echo '/* configured for powerpc/ELF */' >>./mpi/asm-syntax.h
+	echo '#define ELF_SYNTAX'               >>./mpi/asm-syntax.h
+	cat   $srcdir/mpi/powerpc32/syntax.h	>>./mpi/asm-syntax.h
+	path="powerpc32"
+	;;
+
+    rs6000-*-aix[456789]*    | \
+    rs6000-*-aix3.2.[456789])
+	mpi_sflags="-Wa,-mpwr"
+	path="power"
+	mpi_extra_modules="udiv-w-sdiv"
+	;;
+    rs6000-*-* | \
+    power-*-*  | \
+    power2-*-*)
+	mpi_sflags="-Wa,-mppc"
+	path="power"
+	mpi_extra_modules="udiv-w-sdiv"
+	;;
+    powerpc-ibm-aix4.2.* )
+	# I am not sure about this one but a machine identified by
+	# powerpc-ibm-aix4.2.1.0 cannot use the powerpc32 code.
+	mpi_sflags="-Wa,-mpwr"
+	path="power"
+	mpi_extra_modules="udiv-w-sdiv"
+	;;
+    ppc601-*-*)
+	mpi_sflags="-Wa,-mppc"
+	path="power powerpc32"
+	;;
+    ppc60[234]*-*-*)
+	mpi_sflags="-Wa,-mppc"
+	path="powerpc32"
+	;;
+    powerpc*-*-*)
+	mpi_sflags="-Wa,-mppc"
+	path="powerpc32"
+	;;
+    *)
+	echo '/* No assembler modules configured */' >>./mpi/asm-syntax.h
+	path=""
+	;;
+esac
+else
+    echo '/* Assembler modules disabled on request */' >>./mpi/asm-syntax.h
+    path=""
+fi
+
+
+# Make sysdep.h
+echo '/* created by config.links - do not edit */' >./mpi/sysdep.h
+if test x$ac_cv_sys_symbol_underscore = xyes; then
+    cat <<EOF >>./mpi/sysdep.h
+#if __STDC__
+#define C_SYMBOL_NAME(name) _##name
+#else
+#define C_SYMBOL_NAME(name) _/**/name
+#endif
+EOF
+else
+    cat <<EOF >>./mpi/sysdep.h
+#define C_SYMBOL_NAME(name) name
+EOF
+fi
+
+
+# Figure the required modules out
+mpi_required_modules=$mpi_standard_modules
+if test "$mpi_extra_modules" != ""; then
+  for fn in $mpi_extra_modules; do
+      for i in $mpi_optional_modules; do 
+          if test "$fn" = "$i" ; then
+             mpi_required_modules="$mpi_required_modules $fn"
+          fi
+      done
+  done
+fi
+
+# Try to get file to link from the assembler subdirectory and
+# if this fails get it from the generic subdirectory.
+mpi_ln_list=
+mpi_mod_list=
+path=`echo "$mpi_extra_path $path generic" | tr ':' ' '`
+echo '/* Created by config.links - do not edit */' >./mpi/mod-source-info.h
+echo "/* Host: ${host} */" >>./mpi/mod-source-info.h
+echo "static char mod_source_info[] =" >>./mpi/mod-source-info.h
+for fn in $mpi_required_modules ; do
+    fnu=`echo $fn | sed 's/-/_/g'`
+    eval mpi_mod_c_${fnu}=no
+    eval mpi_mod_asm_${fnu}=no
+    for dir in $path ; do
+	rm -f $srcdir/mpi/$fn.[Sc]
+	if test -f $srcdir/mpi/$dir/$fn.S ; then
+            echo "  \":$dir/$fn.S\"" >>./mpi/mod-source-info.h
+            mpi_ln_list="$mpi_ln_list mpi/$fn-asm.S:mpi/$dir/$fn.S"
+            eval mpi_mod_asm_${fnu}=yes
+            mpi_mod_list="$mpi_mod_list $fn"
+	    break;
+	elif test -f $srcdir/mpi/$dir/$fn.c ; then
+            echo "  \":$dir/$fn.c\"" >>./mpi/mod-source-info.h
+            mpi_ln_list="$mpi_ln_list mpi/$fn.c:mpi/$dir/$fn.c"
+            eval mpi_mod_c_${fnu}=yes
+            mpi_mod_list="$mpi_mod_list $fn"
+	    break;
+	fi
+    done
+done
+echo "  ;" >>./mpi/mod-source-info.h
+
+# Same thing for the file which defines the limb size
+path=`echo "$path generic" | tr ':' ' '`
+for dir in $path ; do
+    rm -f $srcdir/mpi/mpi-asm-defs.h
+    if test -f $srcdir/mpi/$dir/mpi-asm-defs.h ; then
+        mpi_ln_list="$mpi_ln_list mpi/mpi-asm-defs.h:mpi/$dir/mpi-asm-defs.h"
+        break;
+    fi
+done
+

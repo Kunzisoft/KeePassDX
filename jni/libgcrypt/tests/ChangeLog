@@ -1,0 +1,757 @@
+2009-01-22  Werner Koch  <wk@g10code.com>
+
+	* cavs_tests.sh: Pass option -D to driver if required.
+
+	* fipsdrv.c (run_dsa_sign): Use hash of the data.
+	(dsa_gen_with_seed): New.
+	(run_dsa_pqg_gen): Add args SEED and SEEDLEN and use them.
+	(main): Optically take a seed for dsa-pgq-gen.
+	(standalone_mode): New.
+	(main): Add option --standalone.
+	(print_dsa_domain_parameters): Implement standalone mode.
+
+2009-01-21  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (run_dsa_verify): Use gcry_mpi_scan again.
+	(run_rsa_derive): Also print N.
+
+	* fipsdrv.c (run_dsa_verify): Use hash of the data.
+
+	* pubkey.c (get_dsa_key_fips186_with_seed_new): New.
+	(check_run): Call it.
+
+2008-12-11  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (run_rsa_derive): New.
+	(main): Add mode rsa-derive.
+
+2008-12-10  Werner Koch  <wk@g10code.com>
+
+	* basic.c (main): Check for error after running self-test in
+	non-fips mode.
+
+	* pubkey.c (get_dsa_key_with_domain_new): New.
+	(get_dsa_key_fips186_with_domain_new): New.
+	(check_run): Call them.
+
+2008-12-08  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c [W32]: Include fcntl.h.
+
+2008-12-05  Werner Koch  <wk@g10code.com>
+
+	* pubkey.c (get_dsa_key_new): Add arg transient_key.
+	(check_run): Use it.
+
+2008-12-03  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (run_dsa_pqg_gen): Facor code out into ..
+	(print_dsa_domain_parameters, dsa_gen): .. these two new functions.
+	(print_sexp, read_sexp_from_file): New.
+	(run_dsa_sign): New.
+	(run_dsa_verify): New.
+
+2008-12-02  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c: All standalone build.
+
+	* mpitests.c (mpi_powm): New.
+
+2008-11-28  Werner Koch  <wk@g10code.com>
+
+	* fips186-dsa.c: New.
+
+	* fipsdrv.c (print_mpi_line, print_data_line): New.
+	(run_dsa_pqg_gen): New.
+	(usage): Add mode dsa-pqg-gen.
+
+2008-11-25  Werner Koch  <wk@g10code.com>
+
+	* pubkey.c (get_dsa_key_new): New.
+
+2008-11-24  Werner Koch  <wk@g10code.com>
+
+	* tsexp.c (basic): Add test for format character S.
+
+	* pubkey.c (check_x931_derived_key): New.
+	(get_keys_x931_new): New.
+	(check_run): Check X9.31 generated RSA key.
+
+2008-11-07  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (run_cipher_mct_loop, get_current_iv): New.
+	(read_textline, read_hexline, skip_to_empty_line): New.
+	(main): New option --mct-server.
+	* cavs_driver.pl: Update from upstream and adjust to new fipsdrv.
+
+2008-11-05  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (run_encrypt_decrypt): Disable weak key detection.
+
+2008-10-31  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (run_rsa_sign): Buffer needs to be larger for SHA512.
+
+2008-10-27  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (run_encrypt_decrypt): Make IV_BUFFER optional.
+	(main): Ditto.
+	* cavs_driver.pl: Remove the --no-fips flags.
+	(libgcrypt_encdec($$$$$)): Make IV optional.
+	(libgcrypt_state_cipher($$$$$)): Ditto.
+
+2008-10-24  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (md_bench): Do not test MD5 in fips mode.
+	* basic.c (check_digests, check_hmac): Ditto.
+
+2008-10-06  Werner Koch  <wk@g10code.com>
+
+	* cavs_driver.pl: New version from upstream.
+	(libgcrypt_rsa_verify($$$$)): Pass pkcs1.
+	(libgcrypt_rsa_sign($$$)): Pass pkcs1 and hash algo.
+
+	* fipsdrv.c (run_rsa_sign): Hash data in pkcs1 mode.
+	(run_rsa_verify): Ditto.
+	(read_key_file): Rename to read_private_key_file.  Factor public
+	key code out to..
+	(read_public_key_file): .. new.
+
+2008-10-02  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c (print_buffer): Add base64 printing code.
+	(base64_decode, read_key_file, parse_tag, read_sig_file): New.
+	(run_rsa_gen, run_rsa_sign): New.
+	(main): Add modes rsa-gen, rsa-sign and rsa-verify.
+
+	
+2008-09-29  Werner Koch  <wk@g10code.com>
+
+	* fipsdrv.c: Merge code from fipsrngdrv.c
+	* fipsrngdrv.c: Remove.
+
+2008-09-26  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am: Distribute cavs_driver.pl.
+	* cavs_tests.sh: New. 
+	* fipsdrv.c: New.
+
+2008-09-18  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (main): Do not disable secure memory in FIPS mode.
+
+2008-09-18  Werner Koch  <wk@g10code.com>
+
+	* basic.c (main): Do not disable secure memory in FIPS mode.
+
+2008-09-16  Werner Koch  <wk@g10code.com>
+
+	* fipsrngdrv.c (main): Bail out on write error.  Implement verbose
+	option.
+	(main): Use flag to disable dup block checks.
+
+2008-09-15  Werner Koch  <wk@g10code.com>
+
+	* fipsrngdrv.c: New.
+
+2008-09-09  Werner Koch  <wk@g10code.com>
+
+	* basic.c (main): New option --selftest.
+
+2008-08-29  Werner Koch  <wk@g10code.com>
+
+	* keygrip.c: Update to also check ECDSA.
+
+2008-08-28  Werner Koch  <wk@g10code.com>
+
+	* rsa-16k.key: New sample key.
+
+2008-08-27  Werner Koch  <wk@g10code.com>
+
+	* pkbench.c (read_file): New.
+	(process_key_pair_file): Replace mmap by read_file.
+	(main): Add a --fips option.
+	* Makefile.am (EXTRA_DIST): Remove.
+	(EXTRA_PROGRAMS): Add pkbench.
+
+	* basic.c (main): Extended FIPS self-test test.
+
+2008-08-26  Werner Koch  <wk@g10code.com>
+
+	* basic.c (get_keys_new): Use transient-key flag. 
+	* benchmark.c (main): First check options then do the libgcrypt
+	initialization.
+	(rsa_bench): Use transient-key flag if not in fips mode.
+
+2008-08-20  Werner Koch  <wk@g10code.com>
+
+	* t-mpi-bit.c (test_lshift): New.
+	(mpi2bitstr_nlz, lshiftbitstring): New.
+	(main): Run test.
+
+2008-08-18  Werner Koch  <wk@g10code.com>
+
+	* basic.c (main): Add option --fips.
+
+2008-08-15  Werner Koch  <wk@g10code.com>
+
+	* register.c (main): Check for fips mode.
+	(check_run): Take care of fips mode.
+
+	* basic.c (check_cbc_mac_cipher, check_ciphers, check_digests)
+	(check_hmac, check_pubkey): Do not test unavalaible algorithms in
+	fips mode.
+	(main): Check for fips mode.
+
+2008-04-22  Werner Koch  <wk@g10code.com>
+
+	* basic.c (check_one_cipher): Also check in-place encryption.
+
+2008-03-17  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (main): Add option --cipher-repetition.
+	(cipher_bench): Use it.
+
+2008-03-12  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (rsa_bench): Add arg NO_BLINDING.
+	(main): Add option --no-blinding.
+
+2007-12-05  Werner Koch  <wk@g10code.com>
+
+	* pubkey.c (sample_private_key_1_1,sample_private_key_1_2): New.
+	(get_keys_sample): Add arg SECRET_VARIANT.
+	(check_run): Check all variants.  Also check gcry_pk_testkey.
+	(check_keys_crypt): Add DECRYPT_FAIL_CODE.
+	(check_keys): Ditto.
+
+2007-11-30  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (main): Add optione --verbose and reworked the
+	option parsing.
+	(random_bench): Dump random stats.
+
+2007-10-31  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (start_timer, stop_timer, elapsed_time) [W32]: Fixed.
+
+2007-06-20  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (rsa_bench): New.
+	(main): New command "rsa".
+
+2007-05-03  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (EXTRA_DIST): Do not build pkbench.c
+
+2007-05-02  David Shaw  <dshaw@jabberwocky.com>
+
+	* basic.c (check_ciphers): Add Camellia.
+
+2007-04-30  David Shaw  <dshaw@jabberwocky.com>
+
+	* basic.c (check_ciphers): #if out ciphers we don't have.  Add
+	test for GCRY_CIPHER_RFC2268_40.
+
+2007-04-30  Werner Koch  <wk@g10code.com>
+
+	* version.c: New.
+	* Makefile.am (TESTS): Add version.
+
+2007-04-30  Marcus Brinkmann  <marcus@g10code.de>
+
+	* benchmark.c (ecc_bench): Release KEY_SPEC.
+
+2007-04-28  Marcus Brinkmann  <marcus@g10code.de>
+
+	* ac-data.c (check_run): Don't give redundant GCRY_AC_FLAG_DEALLOC
+	in addition to GCRY_AC_FLAG_COPY.  Don't release LABEL1 or MPI0,
+	as those are donated to libgcrypt, but do release MPI0 and MPI2.
+
+2007-04-12  Marcus Brinkmann  <marcus@g10code.de>
+
+	* ac-schemes.c (scheme_spec): Revert last change.
+	
+	* ac-schemes.c (scheme_spec): Remove const qualifier from member M.
+	(es_check): Remove const qualifier from C and M2.
+
+2007-03-28  Werner Koch  <wk@g10code.com>
+
+	* pkbench.c (generate_key): Support named curves.
+
+	* benchmark.c (dsa_bench): New args ITERATIONS and PRINT_HEADER.
+	(main): Call dsa and ecc benchs.
+	(show_sexp): New.
+
+	* Makefile.am (TESTS): Move pkbench to EXTRA_PROGRAMS.
+
+2007-03-22  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (die): New.
+	(ecc_bench): New.
+
+	* pkbench.c (main): Reworked to provide proper option handling.
+
+2007-03-13  Werner Koch  <wk@g10code.com>
+
+	* mpitests.c: Reformatted to GNU standards.
+	(main): Add options --verbose and --debug for future use.
+
+2007-03-13  Werner Dittmann <Werner.Dittmann@t-online.de>  (wk)
+
+	* mpitests.c: New.
+
+2007-02-23  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (TEST): Run benchmark as last. 
+
+	* ac-data.c (check_sexp_conversion): Print label only in verbose
+	mode.
+
+	* pubkey.c (main): Run test just 2 times instead of 10.
+	(get_elg_key_new): New.
+	(check_run): Also run tests with Elgamal keys.
+	(check_keys): New arg NBITS_DATA.
+	(get_elg_key_new): Use only 400 for the 512 bit Elgamal test.
+
+	* random.c: New.
+
+2007-02-22  Werner Koch  <wk@g10code.com>
+
+	* basic.c (check_pubkey_sign): Also try signing using an OID.
+
+	* Makefile.am (TESTS) [W32]: Removed pkbench for now.
+	* pkbench.c (benchmark): Fixed for W32.
+
+2007-02-21  Werner Koch  <wk@g10code.com>
+
+	* hmac.c (check_one_mac): Make pointer args const.
+	* basic.c (check_one_md): Ditto.
+	(check_one_hmac): Ditto.
+
+	* keygen.c (progress_cb): Filter out line feeds.
+	* basic.c (progress_handler): Ditto.
+
+2006-12-18  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (AM_CFLAGS, AM_CPPFLAGS): Splitted and merged with
+	Moritz' changes.
+	(INCLUDES): Removed.
+
+	* keygen.c (progress_handler): New.
+	(main): Use it in verbose mode.
+
+2006-11-05  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (AM_CFLAGS): Added -I$(top_builddir)/src so that the
+	new gcrypt.h is used, not the one installed in the system.
+
+2006-10-17  Werner Koch  <wk@g10code.com>
+
+	* keygen.c (check_rsa_keys): Also create an 1536 bit DSA key.
+
+2006-08-03  Werner Koch  <wk@g10code.com>
+
+	* t-mpi-bit.c: New.
+
+2006-07-06  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (main): New option --use-random-daemon.  New command
+	strongrandom.
+	(random_bench): New arg VERY_STRONG.
+
+2006-03-14  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (main): Allow for seed file argument to random bench.
+
+	* basic.c (main): Use progress handler only in verbose mode.
+	(main): Speed up test key generation.
+	* ac-data.c (check_sexp_conversion, check_run): Take care of VERBOSE.
+	* ac.c (main): Ditto.
+	* pubkey.c (main): Ditto.
+	* pkbench.c (main): Ditto.
+	* keygen.c (main): Ditto.
+	(check_rsa_keys): Print key only in verbose mode.
+
+2006-03-10  Brad Hards  <bradh@frogmouth.net>  (wk, patch 2006-02-18)
+
+	* basic.c (check_one_hmac, check_hmac): New.
+
+2006-03-07  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (cipher_bench): Add OFB mode.
+
+2006-01-18  Brad Hards  <bradh@frogmouth.net> (wk 2006-03-07)
+
+	* basic.c: Added test cases for OFB and CFB modes. Fixed some
+	compiler warnings for signedness. 
+
+2005-11-12  Moritz Schulte  <moritz@g10code.com>
+
+	* ac-data.c: Added way more test cases.
+
+2005-09-15  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (TESTS): Added keygrip.
+	* keygrip.c: New.
+
+2005-09-19  Werner Koch  <wk@g10code.com>
+
+	* benchmark.c (dsa_bench): New.
+
+2005-08-19  Werner Koch  <wk@g10code.com>
+
+	* hmac.c (main): Added all FIPS tests.
+
+2005-08-18  Werner Koch  <wk@g10code.com>
+
+	* hmac.c: New.
+
+2005-04-22  Moritz Schulte  <moritz@g10code.com>
+
+	* tsexp.c: Include <config.h> in case HAVE_CONFIG_H is defined;
+	thanks to Albert Chin.
+	* testapi.c: Likewise.
+	* register.c: Likewise.
+	* pubkey.c: Likewise.
+	* prime.c: Likewise.
+	* pkbench.c: Likewise.
+	* keygen.c: Likewise.
+	* benchmark.c: Likewise.
+	* basic.c: Likewise.
+	* ac-schemes.c: Likewise.
+	* ac-data.c: Likewise.
+	* ac.c: Likewise.
+
+2005-04-16  Moritz Schulte  <moritz@g10code.com>
+
+	* ac-data.c (check_run): Include new test.
+
+2005-04-11  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c (check_digests): Add tests for Whirlpool.
+
+2005-03-30  Moritz Schulte  <moritz@g10code.com>
+
+	* ac-schemes.c: New file.
+	* ac-data.c: New file.
+	* Makefile.am (TESTS): Added ac-schemes and ac-data.
+
+2004-09-15  Moritz Schulte  <moritz@g10code.com>
+
+	* pkbench.c: Include <time.h>.
+
+2004-08-24  Moritz Schulte  <moritz@g10code.com>
+
+	* pkbench.c (context_init): Improve generation of test data.
+
+2004-08-23  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (TESTS): Added: pkbench.
+	* pkbench.c: New file.
+
+2004-02-25  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am (TEST): Add benchmark.
+
+	* benchmark.c (md_bench, cipher_bench): Allow NULL arg to to run
+	tests for all algorithms.
+	(main): Run all tests by default.
+
+2004-02-03  Werner Koch  <wk@gnupg.org>
+
+	* tsexp.c (basic): New pass to check secure memory switching.
+
+2004-01-12  Moritz Schulte  <mo@g10code.com>
+
+	* ac.c (check_one): Adjust to new ac API.
+
+2003-11-22  Werner Koch  <wk@gnupg.org>
+
+	* pubkey.c (check_keys_crypt): Fixed my last patch.
+
+2003-11-11  Werner Koch  <wk@gnupg.org>
+
+	* tsexp.c (basic): Add pass structure and a test for the %b
+	format. 
+
+2003-11-04  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am (noinst_PROGRAMS): Use this so that test programs
+	get always build.
+
+	* keygen.c (check_nonce): New.
+	(main): Add a basic check for the nocen function.
+
+2003-10-31  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (check_aes128_cbc_cts_cipher): Make it a prototype
+
+	* ac.c (check_run): Comment unused variable.
+
+2003-10-10  Werner Koch  <wk@gnupg.org>
+
+	* prime.c (check_primes): Generate a generator and avoid printing
+	unless in verbose mode.
+
+2003-10-07  Werner Koch  <wk@gnupg.org>
+
+	* tsexp.c (check_sscan): New.
+
+2003-09-04  Werner Koch  <wk@gnupg.org>
+
+	* pubkey.c (check_keys_crypt): Fix for compatibility mode.
+
+2003-09-02  Moritz Schulte  <mo@g10code.com>
+
+	* Makefile.am (TESTS): Added: prime.
+
+	* prime.c: New file.
+
+2003-08-27  Moritz Schulte  <mo@g10code.com>
+
+	* basic.c (check_ciphers): Added: Serpent.
+	Write braces around flags.
+
+2003-08-04  Moritz Schulte  <moritz@g10code.com>
+
+	* benchmark.c (do_powm): Adjust for new gcry_mpi_scan interface.
+
+2003-07-23  Moritz Schulte  <moritz@g10code.com>
+
+	* ac.c (key_copy): New function...
+	(check_one): ... use it.
+
+2003-07-22  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c (check_ciphers): Use gcry_cipher_map_name.
+
+2003-07-18  Moritz Schulte  <moritz@g10code.com>
+
+	* ac.c (check_run): Renamed to ...
+	(check_one): ... this, changed calling interface.
+	(check_run): New function.
+
+	* register.c: Adjust gcry_cipher_spec_t structure.
+
+2003-07-14  Moritz Schulte  <moritz@g10code.com>
+
+	* register.c: Adjust cipher specification structure.
+
+	* benchmark.c: New file.
+	* testapi.c: New file.
+
+	* Makefile.am (EXTRA_PROGRAMS): Set to: benchmark testapi.
+	(check_PROGRAMS): Set to: $(TESTS).
+
+2003-07-12  Moritz Schulte  <moritz@g10code.com>
+
+	* ac.c, basic.c, keygen.c, register.c, sexp.c, tsexp.c: Used
+	gcry_err* wrappers for libgpg symbols.
+
+	* basic.c (check_ciphers): Added: GCRY_CIPHER_TWOFISH128.
+
+2003-07-08  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (LIBS): Remove: -lpthread.
+
+	* basic.c (check_one_cipher): Fix variable initialization.  Thanks
+	to Simon Joseffson <jas@extundo.com>.
+
+2003-07-07  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (TESTS): Added: register.
+
+2003-07-05  Moritz Schulte  <moritz@g10code.com>
+
+	* register.c (check_run): Adjusted for new gcry_cipher_register API.
+
+2003-07-02  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (TESTS): Added: ac.
+	* ac.c: New file.
+
+2003-06-18  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (check_cbc_mac_cipher): Adjusted for new API of get_blklen
+	and get_keylen.
+	(check_ctr_cipher): Ditto.
+	(check_one_cipher): Ditto.
+	(check_one_md): Adjusted for new API of gcry_md_copy.
+
+2003-06-18  Moritz Schulte  <moritz@g10code.com>
+
+	* register.c: Replace old type GcryModule with newer one:
+	gcry_module_t.
+	Adjusted for new API.
+
+	* Makefile.am (AM_CFLAGS): Added: @GPG_ERROR_CFLAGS@.
+
+2003-06-15  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c (get_keys_new): New function.
+	(do_check_one_pubkey): New function ...
+	(check_one_pubkey): ... use it.
+	(progress_handler): New function.
+	(main): Use gcry_set_progress_handler.
+
+2003-06-14  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c: Replaced calls to gcry_strerror with calls to
+	gpg_strerror.
+	(check_one_md): Adjust for new gcry_md_copy API.
+
+	* tsexp.c: Likewise.
+	* keygen.c: Likewise.
+
+2003-06-12  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c: Changed here and there, reorganized pubkey checks,
+	added DSA and ELG keys.
+
+2003-06-09  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c, keygen.c, pubkey.c, register.c, tsexp.c: Changed to use
+	new API.
+	
+2003-06-01  Moritz Schulte  <moritz@g10code.com>
+
+	* tsexp.c (canon_len): Adjust for new gcry_sexp_canon_len API.
+
+2003-05-26  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c (verify_one_signature): Adjust for libgpg-error.
+	(check_pubkey_sign): Likewise.
+	(check_pubkey): Likewise.
+	* basic.c (check_pubkey_sign): Likewise.
+	* tsexp.c (canon_len): Likewise.
+	(back_and_forth_one): Likewise.
+
+2003-04-27  Moritz Schulte  <moritz@g10code.com>
+
+	* pubkey.c: Changed the sample private key to contain the
+	identifier `openpgp-rsa' instead of `rsa'.
+
+	* basic.c (check_digests): Enabled/fixed some tests for TIGER.
+
+2003-04-17  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (TESTS): Removed `register' for now.
+
+2003-04-17  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c (check_digests): Include checks for SHA512 and SHA384.
+
+2003-04-16  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c (check_one_md): Also test md_copy.
+
+2003-04-07  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (TESTS): Added register.
+
+	* register.c: New file.
+
+2003-03-30  Simon Josefsson  <jas@extundo.com>
+
+	* basic.c (check_one_cipher): New.  Test CTR.
+	(main): Call it.
+	(check_ciphers): Check CTR mode.
+
+2003-03-26  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (TESTS): Added pubkey.
+
+	* pubkey.c: New file.
+
+2003-03-22  Simon Josefsson  <jas@extundo.com>
+
+	* basic.c (check_cbc_mac_cipher): New.
+	(main): Use it.
+
+2003-03-19  Werner Koch  <wk@gnupg.org>
+
+	* keygen.c (check_rsa_keys): Don't expect an exponent when asking
+	for e=0.
+	(check_generated_rsa_key): Just print exponent if EXPECTED_E is 0.
+
+2003-03-02  Moritz Schulte  <moritz@g10code.com>
+
+	* basic.c (check_one_cipher): Use gcry_cipher_reset() instead of
+	gcry_cipher_close(), gcry_cipher_open and gcry_cipher_setkey().
+
+2003-01-23  Werner Koch  <wk@gnupg.org>
+
+	* keygen.c: New. 
+
+2003-01-20  Simon Josefsson  <jas@extundo.com>
+
+	* basic.c (check_digests): Add CRC.
+	(check_one_md): Print computed and expected values on error.
+
+2003-01-20  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (check_one_md): Kludge to check a one million "a".
+	(check_digests): Add checks for SHA-256.
+
+2003-01-20  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (check_pubkey): Check the keygrip for the sample key.
+
+2003-01-15  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (verify_one_signature,check_pubkey_sign)
+	(check_pubkey): New.
+	(main): Check public key functions. Add a --debug option.
+
+2002-11-23  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (check_digests): Add another test for MD4.  By Simon
+	Josefsson.
+
+2002-11-10  Simon Josefsson  <jas@extundo.com>
+
+	* basic.c (check_aes128_cbc_cts_cipher): New function.
+	(check_one_cipher): Add flags parameter.
+	(check_ciphers): Support flags parameter.
+	(main): Check CTS.
+
+2002-11-10  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (check_one_md): New.  By Simon Josefsson.
+	(check_digests): New tests for MD4.  By Simon.
+
+2002-08-26  Werner Koch  <wk@gnupg.org>
+
+	* basic.c (check_ciphers): Check simple DES.
+
+2002-05-16  Werner Koch  <wk@gnupg.org>
+
+	* tsexp.c (back_and_forth): Very minimal test of the new functions.
+
+2002-05-14  Werner Koch  <wk@gnupg.org>
+
+	Changed license of all files to the LGPL.
+
+2002-05-02  Werner Koch  <wk@gnupg.org>
+
+	* basic.c: Add option --verbose.
+
+2002-01-11  Werner Koch  <wk@gnupg.org>
+
+	* tsexp.c (canon_len): Fixed tests.
+
+2001-12-18  Werner Koch  <wk@gnupg.org>
+
+	* tsexp.c: New.
+
+	
+ Copyright 2001, 2002, 2003, 2008 Free Software Foundation, Inc.
+
+ This file is free software; as a special exception the author gives
+ unlimited permission to copy and/or distribute it, with or without
+ modifications, as long as this notice is preserved.
+
+ This file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

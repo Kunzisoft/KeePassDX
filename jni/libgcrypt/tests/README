@@ -1,0 +1,9 @@
+Some notes about the tests.
+
+rsa-16k.key - A 16384 bit RSA key (public and privat), created 2008-08-28.
+              It took 91 minutes to create it on a 1500Mhz Pentium M.
+              pkpench showed these results:
+                encrypt:    80 ms
+                decrypt: 14370 ms
+                   sign: 14110 ms
+                 verify:    30 ms

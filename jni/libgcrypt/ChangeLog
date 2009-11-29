@@ -1,0 +1,1345 @@
+2009-01-22  Werner Koch  <wk@g10code.com>
+
+	Release 1.4.4.
+	
+	* configure.ac: Bump LT version to C16/A5/R2.
+
+2008-10-30  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Remove option --enable-gcc-warnings.  Autodetect
+	useful gcc warnings in maintainer mode.
+
+2008-09-18  Werner Koch  <wk@g10code.com>
+
+	Release 1.4.3.
+
+	* configure.ac: Bump LT version to C16/A5/R1.
+
+2008-09-15  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Cehck for syslog.
+
+2008-09-08  Werner Koch  <wk@g10code.com>
+
+	Release 1.4.2.
+
+2008-09-01  Werner Koch  <wk@g10code.com>
+
+	Release 1.4.2rc2.
+
+	* configure.ac: Update svn_revision macro.
+
+2008-08-22  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Add option --enable-hmac-binary-check.
+	(DL_LIBS): Check whether -ldl is required.
+
+2008-08-19  Werner Koch  <wk@g10code.com>
+
+	Release 1.4.2rc1.
+	
+	* configure.ac: Bump LT version to C16/A5/R0.
+
+2008-08-18  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (EXTRA_DIST): Remove the unused BUGS file.
+
+2008-08-15  Werner Koch  <wk@g10code.com>
+
+	* configure.ac (AH_BOTTOM): Define GCRY_GPG_ERR_NOT_OPERATIONAL.
+
+2008-07-05  Werner Koch  <wk@g10code.com>
+
+	* random/: New.
+	* Makefile.am (DIST_SUBDIRS): Add random.
+	* configure.ac (AC_CONFIG_FILES): Add random/Makefile.
+
+2008-04-25  Werner Koch  <wk@g10code.com>
+
+	Release 1.4.1.
+	
+	* configure.ac: Bump LT version to C15/A4/R4.
+
+2008-04-22  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Set version to 1.4.1rc1.
+
+2008-04-18  Werner Koch  <wk@g10code.com>
+
+	* configure.ac (AH_BOTTOM): Add CAMELLIA_EXT_SYM_PREFIX.
+	(NAME_OF_DEV_RANDOM):  Remove special cases for Solaris etc.  This
+	matches the gnupg 1.4.9 version.
+
+2008-04-01  Werner Koch  <wk@g10code.com>
+
+	* configure.ac (AC_INIT): Fix quoting.
+
+2008-03-19  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Fix the tests for USE_<algo> to either define or
+	undef the macros.  Suggested by Dirk Stoecker.
+
+2008-03-18  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Test for uintptr_t.
+
+2008-02-18  Werner Koch  <wk@g10code.com>
+
+	* configure.ac (IS_DEVELOPMENT_VERSION): Set depending on the my_svn.
+
+2007-12-11  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: We actually require libgpg-error 1.4.  Reported by
+	Tim Mooney.
+
+2007-12-10  Werner Koch  <wk@g10code.com>
+
+	Released 1.4.0.
+	
+	* configure.ac: Set LT to C15/A4/R3.
+
+2007-12-05  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Add option --disable-padlock-support.
+
+2007-12-03  Werner Koch  <wk@g10code.com>
+
+	Released 1.3.2.
+
+	* configure.ac: Set LT to C15/A4/R2.
+
+	* config.sub, config.guess: Update to version 2007-11-19.
+
+2007-10-30  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Protect config.h against double inclusion.
+
+2007-10-26  Werner Koch  <wk@g10code.com>
+
+	Released 1.3.1.
+
+	* configure.ac: Set LT to C15/A4/R1.
+
+2007-08-22  Werner Koch  <wk@g10code.com>
+
+	* README: Rewrite the license description.
+	* configure.ac (USE_RNDW32, USE_RNDUNIX): Unmark as GPL modules.
+
+2007-08-08  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Use $host and not $target.
+
+2007-07-26  Werner Koch  <wk@g10code.com>
+
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): Fix a syntax error
+	in the test program which lurked there for 4 years.  Adjusted name
+	of libtools global_system_pipe variable and add extra cut stage.
+	Reported by Gregor Riepl.
+	
+2007-06-15  Werner Koch  <wk@g10code.com>
+
+	* autogen.sh (FORCE): Use = and not == in test to be POSIXly correct.
+
+2007-05-30  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Camellia is no longer GPL.
+
+2007-05-24  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Try to use -Wpointer-arith.
+
+2007-05-19  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac: Fix test for optional UDIV and UDIV_QRNND MPI
+	modules.
+
+2007-05-09  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac (ac_cv_mpi_config_done): Unused variable removed.
+	(ac_cv_mpi_mod_list, MPI_MOD_LIST_LO, MPI_MOD_LIST_O): Removed.
+	(MPI_MOD_ASM_MPIH_ADD1, MPI_MOD_ASM_MPIH_SUB1,
+	MPI_MOD_ASM_MPIH_MUL1, MPI_MOD_ASM_MPIH_MUL2,
+	MPI_MOD_ASM_MPIH_MUL3, MPI_MOD_ASM_MPIH_LSHIFT,
+	MPI_MOD_ASM_MPIH_RSHIFT, MPI_MOD_ASM_MPIH_UDIV,
+	MPI_MOD_ASM_MPIH_UDIV_QRNND, MPI_MOD_C_MPIH_ADD1,
+	MPI_MOD_C_MPIH_SUB1, MPI_MOD_C_MPIH_MUL1, MPI_MOD_C_MPIH_MUL2,
+	MPI_MOD_C_MPIH_MUL3, MPI_MOD_C_MPIH_LSHIFT, MPI_MOD_C_MPIH_RSHIFT,
+	MPI_MOD_C_MPIH_UDIV, MPI_MOD_C_MPIH_UDIV_QRNND): New automake
+	variables.
+
+2007-05-04  Werner Koch  <wk@g10code.com>
+
+	Released 1.3.0.
+
+	* configure.ac: Set LT to C15/A4/R0.
+	
+	* configure.ac: Require automake 1.10
+	(AM_PROG_CC_C_O): New.
+
+2007-05-03  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Fix detection of GPLed random modules.
+
+2007-05-02  Werner Koch  <wk@g10code.com>
+
+	* configure.ac (LIBGCRYPT_DIGESTS, LIBGCRYPT_CIPHERS) 
+	(LIBGCRYPT_PUBKEY_CIPHERS): Ac_define lists of algorithms.
+	(default_ciphers): Don't make camellia a default.
+
+2007-05-02  David Shaw  <dshaw@jabberwocky.com>
+
+	* NEWS, configure.ac: Add Camellia.
+
+2007-04-30  Werner Koch  <wk@g10code.com>
+
+	* README.apichanges: Move to doc/.
+	* Makefile.am (EXTRA_DIST): Removed that file.
+
+2007-04-28  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac: Allow to specify additional search directories
+	with --enable-mpi-path.
+
+2007-04-16  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Check for sysconf.
+	* acinclude.m4 (GNUPG_CHECK_MLOCK): Try to use sysconf to get the
+	page size and use getpagesize only then if available.
+
+2007-03-22  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Add support for ECC.
+
+2007-02-22  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS): Use
+	--enable-random-daemon.
+
+	* configure.ac: New option --enable-random-daemon.
+	Create versioninfo.rc and provide the build information.
+
+2007-02-21  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am, configure.ac: Ignore w32-dll/.
+
+2007-02-20  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Bump LT version to C14/A3/R0 in preparation for a
+	release.
+	
+	* autogen.sh: Add option --force.
+	* configure.ac: New option --disable-endian-check.  Use a real
+	noexecstack test instead of requiring an option.  Add SVN version
+	magic.
+
+2007-02-02  Werner Koch  <wk@g10code.com>
+
+	* configure.ac (FALLBACK_SOCKLEN_T): Special case for mingw32.
+
+2006-11-15  Werner Koch  <wk@g10code.com>
+
+	* autogen.sh: Add convenience option --build-amd64.
+
+2006-10-20  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (stowinstall): New convenience target.
+
+2006-10-12  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac (FALLBACK_SOCKLEN_T): Third time is a charm.
+	Define gcry_socklen_t, to avoid conflicts with socklen_t
+	definitions by autoconf.
+
+2006-10-11  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac (FALLBACK_SOCKLEN_T): Rewrite in terms of
+	socklen.m4.
+
+2006-10-11  Marcus Brinkmann  <marcus@g10code.de>
+
+	* acinclude.m4 (GNUPG_FIX_HDR_VERSION): Removed.
+	* configure.ac: Do not call GNUPG_FIX_HDR_VERSION.
+
+2006-10-10  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac: Invoke AC_CHECK_SOCKLEN_TYPE.
+	(AC_CONFIG_FILES): Add src/gcrypt.h.
+	(AC_CONFIG_SRCDIR): Change to src/libgcrypt.vers.
+
+2006-10-02  Werner Koch  <wk@g10code.com>
+
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): Test on HOST and not
+	TARGET.  Hardwire for mingw32. Allow setting via command line when
+	cross compiling.
+
+2006-08-29  Werner Koch  <wk@g10code.com>
+
+	* configure.ac (USE_SEED): New.
+
+2006-07-26  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: New options --enable-noexecstack and
+	--disable-optimization. 
+
+2006-07-04  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac: Call AC_LIBTOO_WIN32_DLL and AC_LIBTOOL_RC.
+
+	* configure.ac: Call gl_TYPE_SOCKLEN_T instead of the other
+	socklen_t checks.
+
+2006-06-08  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac (PTH_LIBS): Add --all to pth-config invocation.
+
+2006-03-14  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Check for fctnl and ftruncate.
+	(HAVE_PTH): Check for GNU Pth.
+	(HAVE_W32_SYSTEM): Define it.
+	* acinclude.m4 (GNUPG_PTH_VERSION_CHECK): New. Taken from GnuPG 1.4.
+
+2005-12-08  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Changed the random device names for netbsd.  From
+	Christian Biere.
+
+2005-11-02  Moritz Schulte  <moritz@g10code.com>
+
+	* NEWS: Documented minor API changes.
+
+2005-09-15  Moritz Schulte  <moritz@g10code.com>
+
+	* Makefile.am (EXTRA_DIST): Depend on README.SVN, not on README.CVS.
+
+2005-06-25  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Removed src/libgcrypt.pc from AC_CONFIG_FILES.
+
+2005-06-10  Werner Koch  <wk@g10code.com>
+
+	* configure.ac: Move detection of basic stuff to the top.  For
+	example we need to know whether gcc is used before testing for it.
+	Reported by Ralf Fassel.
+	
+2005-04-23  Moritz Schulte  <moritz@g10code.com>
+
+	* acinclude.m4 (TYPE_SOCKLEN_T): New type definition test;
+	provided by Albert Chin.
+	* configure.ac: Don't use $(CMD) as it's not portable; use CMD in
+	backticks instead.  Simpler -lnsl/-lsocket test.  Use
+	TYPE_SOCKLEN_T test.  Don't forget to set `random_modules'
+	correctly.
+
+2005-04-22  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Added support for pkgconfig; provided by Albert
+	Chin.
+
+2005-04-11  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Integrate Whirlpool.
+
+2005-01-04  Werner Koch  <wk@g10code.com>
+
+	Updated to automake 1.9.
+	
+	* acinclude.m4: Updated for use with automake 1.9. 
+
+	* configure.ac: Require libgpg-error 1.0; not really needed but
+	that is the first stable version.
+
+	* Makefile.am (ACLOCAL_AMFLAGS): New for -I m4.
+	(AUTOMAKE_OPTIONS): New to create a bzip archive.
+
+2005-02-03  Moritz Schulte  <moritz@g10code.com>
+
+	* THANKS: Updated.
+
+2004-08-09  Moritz Schulte  <moritz@g10code.com>
+
+	* THANKS: Updated.
+
+2004-07-04  Moritz Schulte  <moritz@g10code.com>
+
+	* THANKS: Updated.
+
+2004-04-21  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Don't print a warning if GNU make was not found.
+
+2004-05-07  Moritz Schulte  <moritz@g10code.de>
+
+	* THANKS: Updated.
+
+2004-04-02  Thomas Schwinge  <schwinge@nic-nac-project.de>
+
+	* autogen.sh: Added ACLOCAL_FLAGS.
+
+2004-04-15  Werner Koch  <wk@gnupg.org>
+
+	Released 1.2.0.
+	
+	* configure.ac: Set LT to C12/A1/R1.
+
+2004-04-06  Werner Koch  <wk@gnupg.org>
+
+	* config.guess, config.sub, ltmain.sh: Updated to those from
+	libtools 1.5.4.
+
+2004-03-29  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.94.
+
+	* configure.ac: Set LT to C12/A1/R0.
+
+2004-03-10  Marcus Brinkmann  <marcus@g10code.de>
+
+	* configure.ac (LIBGCRYPT_CONFIG_LIBS_PTHREAD,
+	LIBGCRYPT_CONFIG_CFLAGS_PTHREAD, LIBGCRYPT_CONFIG_LIBS_PTH,
+	LIBGCRYPT_CONFIG_CFLAGS_PTH, have_pth, have_pthread, AC_CHECK_PTH,
+	AC_CHECK_LIB(pthread), HAVE_PTH, HAVE_PTHREAD): Removed.
+
+2004-03-06  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.93.
+
+	* configure.ac (LIBGCRYPT_CONFIG_SONAME_NUMBER): Replaced by 
+	LIBGCRYPT_CONPIG_API_VERSION.  Set it to 1.  Set LT to C11/A0/R1.
+
+2004-03-05  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac (LIBGCRYPT_CONFIG_SONAME_NUMBER): New.
+
+2004-02-20  Werner Koch  <wk@gnupg.org>
+
+        Released 1.1.92.
+	
+	* configure.ac: Set LT to C11/A0/R0.
+
+2004-02-11  Werner Koch  <wk@gnupg.org>
+
+	* autogen.sh (check_version): Removed bashism and simplified.
+
+2004-02-06  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Add rfc2268 cipher algorithm.
+
+2004-01-25  Moritz Schulte  <mo@g10code.com>
+
+	* THANKS: Updated.
+
+2003-12-19  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.91.
+	
+	* configure.ac: Bumbed LT version to C10/A3/R1.
+
+2003-12-08  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am (dist-hook): Don't distribute stuff from the now
+	obsolete scripts dir.
+	(EXTRA_DIST): Remove README_alpha
+	* README-alpha: Removed.
+	* configure.ac (AM_CONFIG_AUX_DIR): Removed.
+
+	* COPYING.DOC: Removed.
+	* Makefile.am (EXTRA_DIST): Added README.CVS and
+	autogen.sh. Removed COPYING.DOC.
+
+2003-11-14  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.90.
+	
+	* configure.ac: Bumbed LT version to C10/A3/R0.
+	
+	* configure.ac (have_ld_version_script): Set the default in
+	a separate test.
+	(PRINTABLE_OS_NAME): Don't handle the Hurd extra, this leads to
+	conflicts with BSD based GNU systems.  The Hurd has now a working
+	uname.
+
+2003-11-04  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac (USE_SHA1): Make sure it is always included.
+	(USE_RMD160): Removed this AM conditional.
+
+2003-10-31  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Bumbed version number to 1.1.90-cvs for futher
+	development
+
+	Released 1.1.44.
+	
+	* acinclude.m4 (AC_CHECK_PTH): Added.
+	* configure.ac: Use it here instead of the generic lib test.
+	Bumbed LT vesion to C9/A2/R0.
+
+2003-10-27  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Give a hint on where libgpg-error is available.
+	Reformatted long lines.  Don't include gcrypt-defs.h.
+	(--enable-gcc-warnings): New option.
+
+2003-10-24  Moritz Schulte  <mo@g10code.com>
+
+	* configure.ac: Check for socklen_t.
+
+2003-10-11  Moritz Schulte  <mo@g10code.com>
+
+	* acinclude.m4: Update AM_PATH_GPG_ERROR macro.
+
+2003-09-04  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.43.
+
+	* configure.ac: Require libgpg-error 0.4 due to the prime interface.
+
+2003-08-29  Werner Koch  <wk@gnupg.org>
+
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): Re-implemented.
+	* configure.ac: Use it here.
+
+2003-08-27  Moritz Schulte  <mo@g10code.com>
+
+	* configure.ac: Substitute: LIBGCRYPT_CONFIG_LIBS_PTHREAD,
+	LIBGCRYPT_CONFIG_CFLAGS_PTHREAD, LIBGCRYPT_CONFIG_LIBS_PTH,
+	LIBGCRYPT_CONFIG_CFLAGS_PTH, LIBGCRYPT_THREAD_MODULES.
+
+2003-08-07  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Fail, if libgpg-error could not be found.
+
+2003-07-31  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.42.
+	
+	* configure.ac: Set LT version to 7/0/0.
+
+2003-07-30  Werner Koch  <wk@gnupg.org>
+
+	* AUTHORS (Maintainer): Assigned Moritz as Maintainer.
+
+2003-07-30  Moritz Schulte  <moritz@g10code.com>
+
+	* NEWS: Include much more complete list of `Interface changes
+	relative to the 1.1.12 release'.
+
+2003-07-14  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Bumbed version number up to 1.1.42-cvs.
+
+2003-07-09  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Reintroduce --disable-asm, since it is needed by
+	mpi/config.links.
+
+2003-07-05  Moritz Schulte  <moritz@g10code.com>
+
+	* README: Few changes, mention libgpg-error.
+	
+2003-06-18  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac (available_ciphers): Removed Serpent, hrrm.
+
+2003-06-17  Moritz Schulte  <moritz@g10code.com>
+
+	* acinclude.m4: Removed macro definitions: GNUPG_CHECK_FAQPROG,
+	GNUPG_CHECK_ENDIAN, GNUPG_CHECK_CACHE, GNUPG_CHECK_PIC,
+	GNUPG_CHECK_EXPORTDYNAMIC, GNUPG_CHECK_IPC, GNUPG_PROG_NM,
+	GNUPG_SYS_SYMBOL_UNDERSCORE, GNUPG_FUNC_MKDIR_TAKES_ONE_ARG,
+	GPH_PROG_DB2ANY.
+	Added macro definitions: AM_PATH_GPG_ERROR.
+	
+	* configure.ac: Use alternative approach for building based on
+	conditional sources, which does not make automake eat all your
+	memory, etc.
+	Removed unused tests.
+	Renamed --enable-static-rnd to --enable-random.
+	Use Autoconf's AC_C_BIGENDIAN macro instead of our own.
+	Re-organized the whole file.
+
+2003-06-16  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac (AC_CONFIG_FILES): Removed doc/version.sgml.
+
+2003-06-11  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Remove --enable-libgpg-error flag.
+	Ue AC_PATH_GPG_ERROR.
+
+2003-06-09  Moritz Schulte  <moritz@g10code.com>
+
+	* NEWS: Mention API changes and libgpg-error.
+
+2003-05-25  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac (USE_LIBGPG_ERROR): Implementation of the
+	--enable-libgpg-error switch.
+	Define USE_LIBGPG_ERROR in LIBGCRYPT_CONFIG_FLAGS, in case
+	libgpg-error is used.
+
+2003-05-22  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac (AC_CHECK_HEADERS): Removed unused headers:
+	termio.h, langinfo.h.
+	(AC_CHECK_FUNCS): Removed unused functions: strsep, strlwr,
+	tcgetattr, setrlimit, strftime, nl_langinfo, sigaction,
+	sigprocmask, fopen64, fstat64.
+
+2003-04-27  Moritz Schulte  <moritz@g10code.com>
+
+	* README: Documented new configure switches.
+	Mention the --enable-maintainer-switch.
+
+	* configure.ac: Merged some code from GnuPG's configure.ac for
+	disabling sha512/tiger in case no 64 data types are available.
+
+2003-04-17  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Include support for sha512.
+
+2003-04-17  Moritz Schulte  <moritz@g10code.com>
+
+	* AUTHORS: Updated.
+
+2003-04-16  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Implement command line switches: --enable-ciphers,
+	--enable-pubkey-ciphers and --enable-digests.
+	Set Automake conditionals and config.h symbols depending on the
+	selected ciphers, pubkey-ciphers, digests and random-modules.
+
+	* acinclude.m4 (LIST_MEMBER): New macro.
+
+	* configure.ac: Simplified, removed code for parsing
+	EXTRA_PROGRAMS from Makefile.am.
+
+2003-04-08  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Merged random-module selection code from GnuPG's
+	configure.ac.
+
+2003-04-07  Moritz Schulte  <moritz@g10code.com>
+
+	* configure.ac: Removed code for generating contruct.c.
+	Remove digest modules from the static_modules list, only handle
+	random module selection.
+	
+
+2003-03-24  Moritz Schulte  <moritz@g10code.com>
+
+	* NEWS: Mention new CBC_MAC flag.
+
+	* AUTHORS (Maintainer): Update entry for Simon Josefsson.
+
+2003-03-04  Moritz Schulte  <moritz@g10code.com>
+
+	* TODO: Remove item about resetting handles, since
+	gcry_cipher_reset is implemented by now.
+
+	* NEWS: Mentioned gcry_cipher_reset.
+
+2003-01-21  Werner Koch  <wk@gnupg.org>
+
+	* README (Configure options): New. 
+	* configure.ac (have_ld_version_script): New option
+	--enable-ld-version-script.
+
+2003-01-20  Simon Josefsson  <jas@extundo.com>
+
+	* configure.ac (MODULES_IN_CIPHER): Add crc.
+
+2003-01-20  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.12.
+	
+	* configure.ac (LIBGCRYPT_LT_REVISION): Bumbed up.
+
+2002-12-21  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.11.
+	
+	* configure.ac (LIBGCRYPT_LT_CURRENT: Bumbed to 6/5/0 due to a new
+	interface
+
+2002-12-19  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac (have_pthread): Check for pthreads in libc.
+	(have_ld_version_script): New.
+
+2002-11-10  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac (MODULES_IN_CIPHER): Add md4.c.  By Simon Josefsson.
+
+2002-09-20  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.10.
+
+	* configure.ac (HAVE_DEV_RANDOM_IOCTL): Don't check for it; it is
+	not used.
+	(AS_CHECK_HEADERS): Check for sys/select.h.
+	* Makefile.am (DIST_SUBDIRS): New to include the w32-dll directory
+
+2002-09-18  Timo Schulz  <ts@winpt.org>
+
+	* configure.ac: Added makefile for the W32 DLL.
+	
+2002-09-17  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Check for Pth and Pthreads.
+
+2002-08-23  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.9.
+	
+	* configure.ac (LIBGCRYPT_CONFIG_CFLAGS): Renamed from
+	LIBGCRYPT_CFLAGS and removed the libpath because it is set by the
+	config script.
+	(LIBGCRYPT_LT_REVISION): Set LT version to 5/4/1.
+
+2002-06-25  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.8.
+	
+	* configure.ac: Set LT version to 5/4/0. 
+
+2002-05-21  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.7.
+	
+	* configure.ac: Set LT version to 4/3/0.
+
+2002-05-17  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Removed all the dynamic loading stuff.
+
+2002-05-16  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Reordered the C_CHECK_FUNCS.
+
+2002-05-15  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Adjusted for new MPI module stuff.
+
+2002-05-14  Werner Koch  <wk@gnupg.org>
+
+	Changed license to the LGPL.
+
+2002-05-02  Werner Koch  <wk@gnupg.org>
+
+	* jnlib/: Removed.
+	* Makefile.am (SUBDIRS): Removed jnlib.
+	* configure.ac (jnlib/Makefile): Removed.
+
+	* configure.ac: Define _REENTRANT.
+	
+2002-02-18  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac (MPI_EXTRA_ASM_OBJS): Use .lo suffix.
+	(AC_CANONICAL_TARGET): Added.
+
+2002-02-07  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.6. 
+
+2002-01-24  Werner Koch  <wk@gnupg.org>
+
+	* jnlib/: Replaced by a fresh copy from GnuPG (actually the NewPG
+	development branch).  Adjusted Makefile.am and jnlib-config.h
+	accordingly.
+
+2001-12-18  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.5.
+
+	* Makefile.am (dist-hook): Only look in mpi and scripts for
+	distfiles; this way we don't include those of a stale "make dist"
+	directory.
+
+	* acinclude.m4 (GNUPG_FIX_HDR_VERSION): Make it work with the new
+	automake.
+	* configure.ac: Don't chmod db2any.
+
+2001-08-06  Werner Koch  <wk@gnupg.org>
+
+	* configure.ac: Removed cross compiling hacks.
+
+2001-08-03  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.4.
+
+	* acinclude.m4 (GNUPG_CHECK_TYPEDEF): Define GNU Source.
+	
+        Migrated to autoconf 2.52.
+	* acinclude.m4: Removed GNUPG_LINK_FILES and converted.
+	* acconfig.h: Removed
+	* configure.in: Replaced by...
+	* configure.ac: and modified for use with autoconf 2.52.  Replaced
+	GNUPG_LINK_FILES with AC_CONFIG_LINKS and moved some informational
+	messages to the end. Removed --enable-m-debug
+
+	* tests/: New.
+	* Makefile.am: Included tests directory
+	
+	* configure.in (DYNLINK_MOD_CFLAGS): Use -shared with dec-osf.
+	Reported by Chris Adams.  Merged some cases.
+
+2001-05-31  Werner Koch  <wk@gnupg.org>
+
+	Released 1.1.3.
+
+	* configure.in: Use _gcry_ prefix when creating the cipher constructor.
+
+	* acconfig.h (_GCRYPT_IN_LIBGCRYPT): Define it here.
+
+2001-05-28  Werner Koch  <wk@gnupg.org>
+
+	* acinclude.m4 (GPH_PROG_DOCBOOK): Removed.
+	(GPH_PROG_DB2ANY): New. Taken from GPH.
+	* configure.in: Use it here.
+
+2000-12-19  Werner Koch  <wk@gnupg.org>
+
+	Major change:
+	Removed all GnuPG stuff and renamed this piece of software
+	to gcrypt.  The directory gcrypt has been renamed to src.
+
+2000-11-14  Werner Koch  <wk@gnupg.org>
+
+	Version 1.1.2 released.
+
+2000-11-13  Werner Koch  <wk@gnupg.org>
+
+	* acinclude.m4 (GNUPG_FIX_HDR_VERSION): VPATH build fix.
+
+2000-10-10  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am (dist-hook): Create the version file.
+	* configure.in: Set the libtool version here, removed the need
+	for the version file.
+
+Mon Sep 18 16:35:45 CEST 2000  Werner Koch  <wk@openit.de>
+
+        * acinclude.m4 (GNUPG_CHECK_MLOCK):  Removed that silly mkdir().
+
+        * configure.in:  Changes to allow for Solaris random device.
+        By Nils Ellmenreich.
+        (--with-egd-socket): New.
+
+        * configure.in (GNUPG_HOMEDIR): New.
+
+        * configure.in: Check for fstat64 and fopen64
+
+        * acinclude.m4 (GNUPG_CHECK_FAQPROG): New.
+        * configure.in: Test for this.
+
+        * configure.in (DYNLINK_MOD_CFLAGS): Fix by David Champion.
+
+Tue Aug 22 14:31:15 CEST 2000  Werner Koch  <wk@openit.de>
+
+        Version 1.1.1
+
+Fri Aug 18 14:27:14 CEST 2000  Werner Koch  <wk@openit.de>
+
+  * agent/: New.
+  * Makefile.am, configure.in: Support for the new directory.
+
+Mon Jul 17 16:35:47 CEST 2000  Werner Koch  <wk@>
+
+  * configure.in (mingw32): Changes to allow for mingw32msvc
+
+Fri Jul 14 19:38:23 CEST 2000  Werner Koch  <wk@>
+
+  The big merge between this one and the stable branch 1.0.  Still need
+  to merge TNANKS, AUTHORS and such.  It probaly does not compile yet.
+
+  * acinclude.m4 (GNUPG_CHECK_MLOCK): Fixed syntax error in C code.
+
+  * configure.in: Add check for termio.h, wait unctiosn and sigaction.
+
+  * acinclude.m4, configure.in (GNUPG_CHECK_GNUMAKE): New.
+
+  * acinclude.m4 (MKDIR_TAKES_ONE_ARG): Check some headers. By Gaël Quéri.
+
+  * configure.in (AM_INIT_AUTOMAKE): Use this now. By Gaël.
+
+  * acinclude.m4 (GNUPG_CHECK_EXPORTDYNAMIC): Replacement for
+  GNUPG_CHECK_RDYNAMIC which should handle gcc with non GNU ld nicer.
+  Contributed by Dave Dykstra.
+  * configure.in (GNYPG_CHECK_RDYNAMIC): Replaced by the new check.
+
+  * configure.in: Add a test for unisgned long long.
+
+  * configure.in (DYNLINK_MOD_CFLAGS): Set different for NetBSD.
+
+  * configure.in: Add check for clock_gettime
+
+  * configure.in (ALL_LINGUAS): Add nl.
+  * configure.in (ALL_LINGUAS): Add Esperanto.
+  * configure.in (ALL_LINGUAS): Add sv and ja.
+
+  * configure.in: Use /usr/local for CFLAGS and LDFLAGS when
+  target is freebsd.  By Rémi.
+
+  * configure.in: Do not set development version when the version has
+  a dash in it.  Suggested by Dave Dykstra.
+
+  * configure.in: Removed substitution for doc/gph/Makefile.
+  Do all the gcc warning only in maintainer mode.
+
+  * configure.in (dlopen): Use CHECK_FUNC for a test of dlopen in libc.
+  Suggested by Alexandre Oliva.
+  (-Wall): Moved the settting of gcc warning options near to the end
+  so that tests don't get confused.  Suggested by Paul D. Smith.
+
+  * acinclude.m4 (GNUPG_SYS_NM_PARSE): Added BSDI support.
+  (GNUPG_CHECK_RDYNAMIC): Ditto.
+
+  * acinclude.m4 (GNUPG_CHECK_MLOCK): Changed the way to test for
+  librt.  Test suggested by Jeff Long.
+
+  * acinclude.m4 (GNUPG_CHECK_MLOCK): Do librt check only when
+  we can't link a test program.  This way GNU systems don't need
+  to link against linrt.
+  (GNUPG_CHECK_IPC): Fixed use of TRY_COMPILE macro.  From Tim Mooney.
+
+  * acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): Add support for
+  DJGPP.
+  (GNUPG_CHECK_MLOCK): Check whether mlock sits in librt.
+
+  * acinclude.m4 (GNUPG_CHECK_RDYNAMIC): Add NetBSD. By Thomas Klausner.
+
+  * acconfig.h (HAVE_MLOCK): Added
+
+Mon Mar 13 19:22:46 CET 2000  Werner Koch  <wk@openit.de>
+
+	* configure.in: Now uses the Docbook M4s from GPH.
+
+Mon Jan 31 17:46:35 CET 2000  Werner Koch  <wk@>
+
+	* Makefile.am: Re-added tools. By Rémi.
+
+Mon Jan 31 16:37:34 CET 2000  Werner Koch  <wk@gnupg.de>
+
+	* configure.in: Create a symlink for types.h in gcrypt/.
+
+Thu Jan 27 18:00:44 CET 2000  Werner Koch  <wk@gnupg.de>
+
+	* configure.in (g10defs.h): Replaced by gnupg-defs.h
+
+Mon Jan 24 13:04:28 CET 2000  Werner Koch  <wk@gnupg.de>
+
+	* jnlib/ : New.
+
+	* configure.in: Do set development version when the version has
+	a dash in it.  Suggested by Dave Dykstra.
+
+Thu Dec  9 17:22:27 CET 1999  Werner Koch  <wk@gnupg.de>
+
+	* acinclude.m4 (GNUPG_FIX_HDR_VERSION): New.
+	* configure.in: Check and fix the version number of gcrypt/gcrypt.h
+	so that it is always the save as VERSION.
+
+Thu Oct 28 16:17:46 CEST 1999  Werner Koch  <wk@gnupg.de>
+
+	* Started with development series 1.1 on 1999-10-26
+
+Tue Oct 26 14:10:21 CEST 1999  Werner Koch  <wk@gnupg.de>
+
+	* README-alpha: New
+
+	* configure.in: Fixed quoting in test for development version.
+
+	* THANKS: Add entries for Michael, Brenno and J Horacio who did
+	very nice Howto documents - I apoligize for forgetting to mention them
+	earlier.
+
+Fri Sep 17 12:56:42 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* configure.in: Add "-lcap" when capabilities are requested.
+	Add the conditional CROSS_COMPILING.
+	* Makefile.am: Don't use checks when CROSS_COMPILING.
+
+
+Wed Sep 15 16:22:17 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* configure.in (ALL_LINGUAS): Add pt_PT.
+
+	* configure.in: Some tweaks for cross compiling under MingW32
+	* acconfig.h (USE_STATIC_RNDW32): New.
+
+Tue Sep  7 17:08:10 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* VERSION: Set to 1.0.0.
+
+Mon Sep  6 19:59:08 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* configure.in: Create makefile in doc/gph
+
+	* acinclude.m4 (GNUPG_FUNC_MKDIR_TAKES_ONE_ARG): New
+	* configure.in: use the above.
+
+Thu Sep  2 16:40:55 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+
+	* VERSION: Set to 0.9.11.
+
+Tue Aug 31 17:20:44 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: Minor changes to the OS/2 and Mingw32 system labels.
+	Add a printable name for Hurd.
+
+Mon Aug 30 20:38:33 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: Some support for DJGPP (Mark Elbrecht)
+
+Wed Aug  4 10:34:46 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* VERSION: Set to 0.9.10.
+
+Mon Jul 26 09:34:46 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): remove init of ac_cv_...
+
+	* Makefile.am (DISCLEANFILES): New
+
+Fri Jul 23 13:53:03 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* VERSION: Set to 0.9.9.
+
+	* configure.in: Print a notice when rndunix is used.
+
+Thu Jul 15 10:15:35 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): Fixed last modification.
+
+Wed Jul  7 13:08:40 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* Makefile.am: Support for libtool.
+	* configure.in: Ditto.
+
+Tue Jun 29 21:44:25 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in (use_local_zlib): The lost dollar is back.
+
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): Add EMX case.
+	* configure.in: Another variant of the MX vendor string
+
+	* configure.in (--with-capabilities): Some test code (Remi).
+
+Sat Jun 26 12:15:59 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_CHECK_RDYNAMIC): Support for HPUX and IRIX.
+	* configure.in (HAVE_DL_SHL_LOAD): New for HPUX (Dave Dykstra).
+
+	* VERSION: Now 0.9.8
+
+Wed Jun 16 20:16:21 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: Add test for docbook-to-man
+
+Tue Jun 15 12:21:08 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_SYS_NM_PARSE): Support for {net,free}bsd,
+
+Thu Jun 10 14:18:23 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in (ZLIB,GDBM): Check both, header and lib.
+
+Sat Jun  5 15:30:33 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* pkclist.c (key_present_in_pk_list): New (Michael).
+
+Tue May 25 19:50:32 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in (IS_DEVELOPMENT_VERSION): Fixed detection.
+
+Sun May 23 14:20:22 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): assume yes when
+	cross-compiling.
+
+Mon May 17 21:54:43 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in (socket): Fix for Unisys by Katsuhiro Kondou.
+
+Sat May  8 19:28:08 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* NEWS: Add a marker line which I forgot to do for 0.9.6.
+
+Thu May  6 14:18:17 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* README: Minor updates
+
+	* VERSION: Now 0.9.6
+
+Thu Apr  8 09:35:53 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_CHECK_RDYNAMIC): Fix for
+					       amiga-openbsd (Peter Reich)
+	(GNUPG_PROG_NM): Ditto
+
+Wed Apr  7 20:51:39 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* Makefile.am (g10defs.h): Removed.
+	* configure.in (AC_OUTPUT_COMMANDS): Create g10defs.h
+
+Sat Mar 20 12:55:33 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* VERSION: Now 0.9.5
+
+Sun Mar 14 19:34:36 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (AM_SYS_SYMBOL_UNDERSCORE): Removed because it is
+	now in the latest libtool.
+
+Thu Mar 11 16:39:46 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: Removed the need for libtool
+
+Mon Mar  8 20:47:17 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in (DLSYM_NEEDS_UNDERSCORE): Replaced.
+	* acinclude.in (AM_SYS_SYMBOL_UNDERSCORE): New.
+
+	* VERSION: Now 0.9.4
+
+Sun Feb 28 19:11:00 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in (dld): Test disabled.
+
+Fri Feb 26 17:55:41 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* encode.c (encode_simple): temporary fix.
+
+Wed Feb 24 11:07:27 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: New option --enable-static-rnd.
+
+Mon Feb 22 20:04:00 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* BUGS: Now we assign bug numbers.
+	* OBUGS: New to keep rack o fixed bugs (CVS only)
+
+Fri Feb 19 18:01:54 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* VERSION: Released 0.9.3
+
+Fri Feb 19 15:49:15 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4: Removed gettext macros.
+
+Tue Feb 16 14:10:02 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in (socket): Check for -lsocket and -lnsl.
+	(osf4): Disable all warnings for DEC's cc.
+	(-Wall): Add more warning options for gcc
+
+Sat Feb 13 12:04:43 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: Changed detection of compiler flags.
+	* intl/ : Removed directory
+
+Wed Feb 10 17:15:39 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_CHECK_RDYNAMIC): Fix for freebsd 2.2
+
+	* configure.in: a lot of changes to allow selection of modules.
+	Add support for OS/2.
+
+	* acinclude.m4: add some more caching
+
+	* README: Spelling and grammar corrections (John A. Martin)
+	* INSTALL: Ditto.
+
+Wed Jan 20 21:40:21 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: --enable-m-guard is now default
+
+Wed Jan 13 12:49:36 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* INSTALL: Applied new information how to build rpms by Fabio Coatti
+	* Makefile.in (gnupg.spec): Changed the names.
+
+Tue Jan 12 11:17:18 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* config.links (m68k-atari-mint): New
+
+Tue Jan 12 09:17:19 CET 1999  Gaël Quéri <gqueri@mail.dotcom.fr>
+
+	* all: Fixed typos all over the place
+
+Sat Jan  9 16:02:23 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: Add a way to statically link rndunix
+
+Sun Jan  3 15:28:44 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m4 (GNUPG_CHECK_RDYNAMIC): New.
+	* configure.in (DYNLOAD_CFLAGS): Use result from CHECK_RDYNAMIC
+
+Wed Dec 23 13:18:14 CET 1998  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* README: Replaced the command overview with a short intro.
+
+Sat Dec 12 18:40:32 CET 1998  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* configure.in: Add check for dlopen in libc (Greg Troxel)
+	and a new define
+	* acconfig.h (DLSYM_NEEDS_UNDERSCORE): New.
+
+Thu Dec 10 20:15:36 CET 1998  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* acinclude.m (GNUPG_CHECK_PIC): New
+	* configure.in, acinclude.m4: Renamed all WK_ to GNUPG_
+
+Tue Dec  8 15:09:29 CET 1998  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* VERSION: Set to 0.4.5
+
+Wed Nov 25 12:38:29 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (USE_RNDLINUX): New.
+
+Fri Nov 20 19:34:57 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* VERSION: Released 0.4.4
+
+	* configure.in (try_asm_modules): For option --disable-asm
+
+Tue Nov 10 19:32:40 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (MPI_SFLAGS): New.
+
+Tue Nov 10 13:44:53 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* ABOUT-NLS: New
+	* configure.in (AC_REVISION): New.
+
+Sun Nov  8 18:20:35 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* VERSION: Set to 0.4.3
+
+Sun Oct 25 19:49:37 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* Makefile.am (g10defs.h): New macro GNUPG_DATADIR.
+
+Wed Oct 21 17:24:24 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in: Removed gettext kludge
+	* acinclude.m4: Add patched AM_WITH_NKS macro
+
+Tue Oct 20 19:03:36 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in: Kludge to make AM_GNU_GETTEXT work,
+	changed some macors to more modern versions. Also
+	changeg the all makefiles to remove duplicate ../intl.
+	* acinclude.m4: Removed the gettext stuff, as this
+	already comes with automake now.
+
+Wed Oct 14 12:11:34 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (NAME_OF_DEV_RANDOM): New.
+	(DYNLINK_MOD_CFLAGS): New.
+
+Thu Oct  8 10:55:15 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* Makefile.am (g10defs.h): creates include file
+	* acconfig.h: now includes g10defs.h
+	* configure.in: Removed G10_LOCALEDIR and GNUPG_LIB
+
+Thu Sep 17 18:49:40 1998  Werner Koch  (wk@(none))
+
+	* Makefile.am (dist-hook): Now creates RPM file.
+	* scripts/gnupg.spec: New template file for RPMs
+
+Thu Jul 30 19:17:07 1998  Werner Koch  (wk@(none))
+
+	* acinclude.h (WK_CHECK_IPC): New
+	* configure.in : Add checks for SysV IPC
+
+Thu Jun 25 11:18:49 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (--disable-dynload): New.
+
+Wed Jun 10 07:48:59 1998  Werner Koch,mobil,,,	(wk@tobold)
+
+	* configure.in (GNUPG_LIBDIR): New.
+
+Mon May 25 19:10:59 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* rand-unix.c (fast_random_poll): fixed syntax bug.
+
+Mon May 11 10:21:31 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (PRINTABLE_OS_NAME): Linux is now GNU/Linux
+
+Tue Apr 14 19:08:05 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* [all files]: Applied Matthew Skala's typo and grammar fixes.
+
+Wed Mar  4 10:32:40 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (getrusage,gettimeofday): New tests.
+
+Fri Feb 27 13:14:17 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (--disable-m-guard): New.
+
+Thu Feb 26 17:09:27 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in, acinclude.m4, intl/, po/: New macros taken
+	from GNOME, switched to automake 1.2f
+
+Thu Feb 26 09:05:46 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (doc/Makefile): New
+
+Thu Feb 26 07:40:47 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in: Changed gettext stuff
+
+Wed Feb 25 11:44:10 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* checks/*test : restructured the directory.
+
+Tue Feb 24 15:59:12 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in: Changed the name of the package to GNUPG and
+	chnaged several other names too.
+
+Wed Feb 18 17:36:45 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* Makefile.am (checks): New.
+
+Sat Feb 14 15:37:55 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (mpi_config_done): Removed asm links caching.
+
+Sat Feb 14 14:02:20 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in (PRINTABLE_OS_NAME): New.
+	* acconfig.h: Likewise.
+
+Fri Feb 13 19:43:41 1998  Werner Koch  (wk@isil.d.shuttle.de)
+
+	* configure.in : Fixed zlib stuff
+	* Makefile.am: Likewise
+
+	
+ Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2006,
+	   2007, 2008, 2009 Free Software Foundation, Inc.
+
+ This file is free software; as a special exception the author gives
+ unlimited permission to copy and/or distribute it, with or without
+ modifications, as long as this notice is preserved.
+
+ This file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		

@@ -1,0 +1,8 @@
+Manifest
+mpih-add1.S
+mpih-lshift.S
+mpih-mul1.S
+mpih-mul2.S
+mpih-mul3.S
+mpih-rshift.S
+mpih-sub1.S

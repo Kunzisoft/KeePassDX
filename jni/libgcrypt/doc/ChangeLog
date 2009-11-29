@@ -1,0 +1,444 @@
+2008-12-10  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Cryptographic Functions): Explain the domain
+	parameter for key generation.
+
+2008-12-05  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi: Updates for pubkey generation.
+
+2008-10-20  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Error handler): Fix description of
+	gcry_handler_no_mem_t.  Reported by Patrick Strateman.  desribe
+	what what the error handler is expected to do.  Fixes bug #961.
+
+2008-09-18  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (FIPS Mode): Add state transition Error to Error.
+	* fips-fsm.fig: Ditto.
+
+2008-09-18  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi: Add a couple of index items.
+	(FIPS Mode): Reflect recent changes. 
+	(Controlling the library): Describe gcry_fips_mode_active.
+
+2008-09-16  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (FIPS Mode): Describe new transitions 18 and 19.
+	* fips-fsm.fig: Add new transitions.
+
+2008-09-15  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi: Fold the two FIPS appendices into one.
+
+2008-09-11  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Public-Key Subsystem Architecture): Explain RSA
+	blinding.
+
+2008-09-08  Marcus Brinkmann  <marcus@g10code.com>
+
+	* gcrypt.texi: Some typos fixed.
+
+2008-09-08  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi: Formatting cleanups.
+	* lgpl.texi (Library Copying): Replace @appendix by @unnumbered.
+	* gpl.texi (Copying): Ditto.
+
+2008-08-27  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (online): Take care of development versions.
+
+2008-08-18  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Top): Remove the detailmenu.
+	(Public Key Cryptographi (II)): Move into a section of the PK
+	interface description.
+	(Hashing): Move after the encryption chapters.
+
+2008-08-15  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Controlling the library): Remove
+	GCRYCTL_DUMP_CONFIG because it is not implemented.
+	(Initializing the library): Describe initialization steps with
+	regard to secure memory.
+
+	* gcrypt.texi (Working with cipher handles): Adjust for
+	implementation changes of gcry_cipher_setkey, gcry_cipher_setiv and
+	gcry_cipher_setctr.
+
+2008-01-04  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Controlling the library): Add remark that the
+	theoritical attack on a seed file is not feasible under Linux.
+
+2007-12-11  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi: Various minor corrections as reported by Elie De
+	Brauer more than a year ago.
+
+2007-06-15  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Controlling the library): Clarified the use of
+	GCRYCTL_ENABLE_QUICK_RANDOM.
+
+2007-04-30  Werner Koch  <wk@g10code.com>
+
+	* HACKING: New.  Two items by Marcus.
+	* README.apichanges: Move from .. to here.
+	* Makefile.am (EXTRA_DIST): Add new files.
+
+2007-04-09  Marcus Brinkmann  <marcus@g10code.de>
+
+	* gcrypt.texi: Fix some typos.
+
+2006-11-05  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (General public-key related Functions): Typo.
+
+2006-09-19  Werner Koch  <wk@g10code.com>
+
+	* Makefile.am (online): New target.
+
+2006-08-29  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi (Available ciphers): Add missing ciphers.
+
+2006-03-10  Brad Hards  <bradh@frogmouth.net> (wk, patch 2005-04-25)
+
+	* gcrypt.texi: Document SHA-224 and typo fixes.
+
+2006-01-18  Brad Hards  <bradh@frogmouth.net> (wk 2006-03-07)
+
+	* gcrypt.texi (Available cipher modes): Typo fix, add a little
+	more detail on cipher modes vs cipher algorithms.
+
+2006-01-08  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Added documentation for more gcry_control commands.
+
+	* gcrypt.texi: Fixed several typos; thanks to Tommi Vainikainen.
+
+2005-12-16  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (MPI formats): Fix return types of functions:
+	gcry_mpi_scan, gcry_mpi_print, gcry_mpi_aprint.
+
+2005-11-26  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: New chapter: Prime numbers.
+
+2005-11-12  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (MPI formats): Document that for gcry_mpi_scan and
+	in the case of GCRYMPI_FMT_HEX, BUFLEN must be zero.
+
+2005-10-31  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Added more gcry_control related descriptions.
+
+2005-10-16  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Controlling the library): Start documenting the
+	existing control commands.
+
+2005-04-11  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Available hash algorithms): Add entry for Whirlpool.
+
+2005-03-30  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Working with IO objects): Document ac io objects;
+	adjust ac scheme functions, which do now use io objects.
+
+2005-03-19  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Working with cipher handles): Clarify CTS mode.
+
+2005-02-08  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi: Fixed direntry.
+
+2005-02-13  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Using cryptographic functions): Document new
+	encoding and scheme crypto functionality.
+
+2005-02-03  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Fixed several typos; thanks to Michele Baldessari.
+
+2005-01-04  Werner Koch  <wk@g10code.com>
+
+	* gcrypt.texi: Updated to use @copying.  Fixed list of copyright
+	years; we had real changes in 2004.  Fixed some formatting issues.
+
+2004-08-24  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Miscellaneous): Document gcry_mpi_randomize.
+
+2004-08-18  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Multi Threading): Document
+	GCRY_THREAD_OPTION_PTH_IMPL, GCRY_THREAD_OPTION_PTHREAD_IMPL.
+
+2004-05-07  Moritz Schulte  <moritz@g10code.de>
+
+	* gcrypt.texi: Merged several fixes reported by Umberto Salsi.
+
+2004-04-08  Moritz Schulte  <moritz@g10code.de>
+
+	* gcrypt.texi (Multi Threading): Typo fix.
+
+2004-03-11  Marcus Brinkmann  <marcus@g10code.de>
+
+	* gcrypt.texi (Multi Threading): Partially document new thread
+	support.
+
+2004-02-24  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi (Calculations): Typo fix.
+
+2004-01-25  Moritz Schulte  <mo@g10code.com>
+
+	* gcrypt.texi (General cipher functions): Fixed descriptions of
+	the arguments for GCRYCTL_GET_KEYLEN, GCRYCTL_GET_BLKLEN; reported
+	by Randy.
+
+2004-01-14  Moritz Schulte  <mo@g10code.com>
+
+	* gcrypt.texi (Public Key cryptography II): Adjusted to new
+	gcry_ac_* API; document flags.
+
+2003-12-04  Werner Koch  <wk@gnupg.org>
+
+	* Makefile.am (gcrypt_TEXINFOS): Removed fdl.texi.
+
+2003-12-03  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi: Changed license from FDL to GPL because this is a
+	reference manual only useful along with actual code.
+	* fdl.texi: Removed.
+
+	* gcrypt.texi: Minor cleanups
+	(Working with keys): Clarified generation of RSA's E parameter.
+	(Multi Threading): Clarified.
+	
+2003-11-11  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi (Working with S-expressions): Added "%b".
+
+2003-11-04  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi (Retrieving random numbers): Add gcry_create_nonce.
+
+2003-08-30  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi (Working with hash algorithms): Clarified that HMAC
+	does not work with all algorithms.
+
+2003-07-30  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Available asymmetric algorithms): Mention
+	GCRY_AC_ELG_E.
+
+2003-07-28  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Working with keys): Mention that gcry_pk_testkey
+	and gcry_ac_key_test only verify private keys.
+	(Working with keys): Fix typo.
+	(General public-key related Functions): Fixed some sentences,
+	thanks to Neil Spring.
+
+2003-07-27  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi: Adjusted description of gcry_mpi_scan and
+	gcry_mpi_dump. Add gcry_mpi_dump.
+
+2003-07-22  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Added more documentation for the register
+	mechanism.
+
+2003-07-18  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi (Misc): Add a warning on the use of opaque values.
+
+2003-07-14  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Overview): Mention the non-thread-safe-nature of
+	functions modifying context stored in handles.
+
+2003-07-12  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Available ciphers): Added: TWOFISH128.
+	(Error Handling): Merged a lot of documentation taken from GPGME.
+
+2003-07-08  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Working with sets of data): Documented:
+	gcry_ac_data_copy.
+
+2003-07-07  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Documented module system.
+
+2003-07-05  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Working with cipher handles): Small fix by Simon
+	Josefsson <jas@extundo.com>.
+
+2003-07-02  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Documented ac interface.
+
+2003-06-18  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Small fixes.
+
+2003-06-16  Moritz Schulte  <moritz@g10code.com>
+
+	* cipher-ref.sgml: Removed file.
+	* digest-ref.sgml: Likewise.
+	* misc-ref.sgml: Likewise.
+	* pubkey-ref.sgml: Likewise.
+	* reference.sgml: Likewise.
+	* version.sgml.in: Likewise.
+
+2003-06-15  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Documented several parts of the library, merged
+	some documentation from GPGME's manual, re-structured the whole
+	manual, added more menus.
+
+2003-06-14  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Hash Functions): Adjusteded description of
+	gcry_md_copy.
+	
+2003-06-12  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Public Key Functions): Fix example S-Exp, i.e.:
+	added the number of following digits as prefix to the number of
+	bits.
+	(Public Key Functions): Document the general usage of `flags',
+	including the no-blinding flag.
+
+2003-06-11  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi (Hash Functions): Document possible values of HD.
+
+2003-06-09  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Version Check): Changed description of
+	gcry_check_version; the user now *must* call the function to
+	initialize the library.
+
+2003-06-08  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi: Change for libgpg-error.
+
+2003-05-22  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Public Key Functions): Fixed typo.
+
+2003-05-17  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Public Key Functions): Mention that only the
+	checking of secret keys is supported currently.
+
+2003-03-30  Simon Josefsson  <jas@extundo.com>
+
+	* gcrypt.texi: Add CTR.
+
+2003-03-22  Simon Josefsson  <jas@extundo.com>
+
+	* gcrypt.texi: Add CBC-MAC.
+
+2003-03-04  Moritz Schulte  <moritz@g10code.com>
+
+	* gcrypt.texi (Cipher Functions): Added gcry_cipher_reset.
+
+2003-01-23  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi (gcry_pk_decrypt): Described use of FLAGS
+
+2003-01-20  Simon Josefsson  <jas@extundo.com>
+
+	* gcrypt.texi (Hash Functions): Add CRC.
+
+2003-01-19  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi: Most functions are now documented.  Still need to
+	fine tune the menu structure, document some utility functions,
+	mark up indices and references and add examples.
+
+2002-08-14  Werner Koch  <wk@gnupg.org>
+
+	* gcrypt.texi: Typo fixes.
+
+2002-05-14  Werner Koch  <wk@gnupg.org>
+
+	* lgpl.texi: New.
+	* gcrypt.texi: Included lgpl and commented not yet converted text.
+
+2002-04-16  Werner Koch  <wk@gnupg.org>
+
+	* version.sgml.in, cipher-ref.sgml, digest-ref.sgml, misc-ref.sgml
+	* pubkey-ref.sgml, reference.sgml: Removed.
+	* gcrypt.texi: New. Based on the old sgml version.
+	* gpl.texi, fdl.texi: New.
+	* Makefile.am: Adjusted for use with texinfo.
+
+2000-12-21  Werner Koch  <wk@gnupg.org>
+
+	Renamed the gcryptref.sgml files and removed the GnuPG stuff.
+
+Tue Oct 26 14:10:21 CEST 1999  Werner Koch  <wk@gnupg.de>
+
+	* Makefile.am (SUBDIRS): Removed gph from this development series
+
+Mon Sep  6 19:59:08 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* Makefile.am (SUBDIRS): New subdir gph for the manual.
+
+Thu Jul 22 20:03:03 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* gpg.sgml (--always-trust): Added.
+
+Wed Jul 14 19:42:08 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* Makefile.am: Create a dummy man page if docbook-to-man is missing.
+
+Wed Jun 16 20:16:21 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* gpg1.pod: Removed.
+	* gpg.sgml: New. Replaces the pod file
+	* Makefile.am: Add rule to make a man file from sgml
+
+Tue Jun 15 12:21:08 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* Makefile.in.in: Use DESTDIR.
+
+Mon May 31 19:41:10 CEST 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* gpg.1pod: Enhanced the Bugs section (Michael).
+
+Wed Feb 10 17:15:39 CET 1999  Werner Koch  <wk@isil.d.shuttle.de>
+
+	* gpg.1pod: Spelling and grammar corrections (John A. Martin)
+	* FAQ: Ditto.
+	* DETAILS: Ditto.
+
+ Copyright 1999, 2000, 2002, 2003, 2008 Free Software Foundation, Inc.
+
+ This file is free software; as a special exception the author gives
+ unlimited permission to copy and/or distribute it, with or without
+ modifications, as long as this notice is preserved.
+
+ This file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
