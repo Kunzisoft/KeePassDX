@@ -1,0 +1,263 @@
+Noteworthy changes in version 1.6 (2007-10-29)
+----------------------------------------------
+
+ * Fixed a build problem under Windows.
+
+ * Interface changes relative to the 1.4 release:
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ GPG_ERR_UNFINISHED            NEW
+ GPG_ERR_SOURCE_GPA            NEW
+ GPG_ERR_SOURCE_KLEO           NEW
+
+
+Noteworthy changes in version 1.5 (2006-11-30)
+----------------------------------------------
+
+ * Minor build system fixes.
+
+ * Updated gettext.  Removed included gettext copy.
+
+ * gpg-error has a new option --version.
+
+
+Noteworthy changes in version 1.4 (2006-09-14)
+----------------------------------------------
+
+ * Support for Common Lisp is included.
+
+ * New error codes for the Assuan IPC library.
+
+ * New error code GPG_ERR_MISSING_ERRNO to be used in cases when a
+   system accidently does not set errno but a system error definitely
+   occured.
+
+ * New error source GPG_ERR_SOURCE_ANY to allow proper use of
+   libgpg-error even if a specific source is not available.
+
+ * New convenience functions gpg_err_code_from_syserror and
+   gpg_error_from_syserror which make sure never to return 0. 
+
+ * Interface changes relative to the 1.2 release:
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ gpg_err_code_from_syserror    NEW
+ gpg_error_from_syserror       NEW
+ GPG_ERR_SOURCE_ANY            NEW
+ GPG_ERR_MISSING_ERRNO         NEW
+ GPG_ERR_UNKNOWN_OPTION        NEW
+ GPG_ERR_UNKNOWN_COMMAND       NEW
+ GPG_ERR_ASS_GENERAL           NEW
+ GPG_ERR_ASS_ACCEPT_FAILED     NEW
+ GPG_ERR_ASS_CONNECT_FAILED    NEW
+ GPG_ERR_ASS_INV_RESPONSE      NEW
+ GPG_ERR_ASS_INV_VALUE         NEW
+ GPG_ERR_ASS_INCOMPLETE_LINE   NEW
+ GPG_ERR_ASS_LINE_TOO_LONG     NEW
+ GPG_ERR_ASS_NESTED_COMMANDS   NEW
+ GPG_ERR_ASS_NO_DATA_CB        NEW
+ GPG_ERR_ASS_NO_INQUIRE_CB     NEW
+ GPG_ERR_ASS_NOT_A_SERVER      NEW
+ GPG_ERR_ASS_NOT_A_CLIENT      NEW
+ GPG_ERR_ASS_SERVER_START      NEW
+ GPG_ERR_ASS_READ_ERROR        NEW
+ GPG_ERR_ASS_WRITE_ERROR       NEW
+ GPG_ERR_ASS_TOO_MUCH_DATA     NEW
+ GPG_ERR_ASS_UNEXPECTED_CMD    NEW
+ GPG_ERR_ASS_UNKNOWN_CMD       NEW
+ GPG_ERR_ASS_SYNTAX            NEW
+ GPG_ERR_ASS_CANCELED          NEW
+ GPG_ERR_ASS_NO_INPUT          NEW
+ GPG_ERR_ASS_NO_OUTPUT         NEW
+ GPG_ERR_ASS_PARAMETER         NEW
+ GPG_ERR_ASS_UNKNOWN_INQUIRE   NEW
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Noteworthy changes in version 1.3 (2006-03-14)
+----------------------------------------------
+
+ * GNU gettext is included for systems that do not provide it.
+
+
+Noteworthy changes in version 1.2 (2006-03-03)
+----------------------------------------------
+
+ * New function gpg_err_init, which binds the locale directory to
+   the text domain.  This function is a constructor on GCC targets,
+   so it does not need to be called explicitely.  The header file
+   defines GPG_ERR_INITIALIZED in this case.  This is experimental for
+   now.
+
+ * "./autogen.sh --build-w32" does now also build a DLL for W32.
+   Translations are not yet provided for this platform.
+
+ * New error codes GPG_ERR_UNKNOWN_EXTN and GPG_ERR_UNKNOWN_CRIT_EXTN.
+
+ * New error code GPG_ERR_LOCKED.
+
+ * New translations included for France, Romania, and Vietnamese.
+
+ * Interface changes relative to the 1.1 release:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GPG_ERR_UNKNOWN_EXTN		NEW
+GPG_ERR_UNKNOWN_CRIT_EXTN	NEW
+GPG_ERR_LOCKED			NEW
+gpg_err_init			NEW
+GPG_ERR_INITIALIZED		NEW
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Noteworthy changes in version 1.1 (2005-06-20)
+----------------------------------------------
+
+ * Bug fixes.
+
+
+Noteworthy changes in version 1.0 (2004-07-30)
+----------------------------------------------
+
+ * Ported to Solaris 2.8.
+
+ * Added a new error source GPG_ERR_SOURCE_GSTI, and new error
+   codes GPG_ERR_PROTOCOL_VIOLATION and GPG_ERR_INV_MAC for this
+   source.
+
+ * Interface changes relative to the 0.7 release:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GPG_ERR_SOURCE_GSTI		NEW
+GPG_ERR_PROTOCOL_VIOLATION	NEW
+GPG_ERR_INV_MAC			NEW
+GPG_ERR_INV_REQUEST             NEW
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Noteworthy changes in version 0.7 (2004-03-07)
+----------------------------------------------
+
+ * libgpg-error can be built on systems where the errno macros do not
+   evaluate to plain numbers, but expressions.  If you want to
+   cross-compile, you might have to set CC_FOR_BUILD, though.
+
+ * A new tool gpg-error to convert error numbers into symbols into
+   strings is provided.
+
+ * Interface changes relative to the 0.6 release:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GPG_ERR_LOCALE_PROBLEM          NEW
+GPG_ERR_NOT_LOCKED              NEW
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Noteworthy changes in version 0.6 (2003-11-14)
+----------------------------------------------
+
+ * German translation included.
+
+ * It is now possible to use the inline functions even for non C99
+   compliant compilers by given e.g. -DGPG_ERR_INLINE=inline when
+   compiling an application using this library.  Note, that gcc will
+   use inline anyway.
+
+ * Interface changes relative to the 0.5 release:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GPG_ERR_SOURCE_KSBA             NEW
+GPG_ERR_SOURCE_DIRMNGR          NEW
+GPG_ERR_TRUNCATED		NEW
+GPG_ERR_NO_ENCODING_METHOD      NEW
+GPG_ERR_NO_ENCRYPTION_SCHEME    NEW
+GPG_ERR_NO_SIGNATURE_SCHEME     NEW
+GPG_ERR_INV_ATTR                NEW
+GPG_ERR_NO_VALUE                NEW
+GPG_ERR_NOT_FOUND               NEW
+GPG_ERR_VALUE_NOT_FOUND         NEW
+GPG_ERR_SYNTAX                  NEW
+GPG_ERR_INV_CRL                 NEW
+GPG_ERR_BAD_BER                 NEW
+GPG_ERR_INV_BER                 NEW
+GPG_ERR_ELEMENT_NOT_FOUND       NEW
+GPG_ERR_IDENTIFIER_NOT_FOUND    NEW
+GPG_ERR_INV_TAG                 NEW
+GPG_ERR_INV_LENGTH              NEW
+GPG_ERR_INV_KEYINFO             NEW
+GPG_ERR_UNEXPECTED_TAG          NEW
+GPG_ERR_NOT_DER_ENCODED,        NEW
+GPG_ERR_NO_CMS_OBJ              NEW
+GPG_ERR_INV_CMS_OBJ             NEW
+GPG_ERR_UNKNOWN_CMS_OBJ,        NEW
+GPG_ERR_UNSUPPORTED_CMS_OBJ     NEW
+GPG_ERR_UNSUPPORTED_ENCODING,   NEW
+GPG_ERR_UNSUPPORTED_CMS_VERSION NEW
+GPG_ERR_UNKNOWN_ALGORITHM       NEW
+GPG_ERR_ENCODING_PROBLEM        NEW
+GPG_ERR_INV_STATE               NEW
+GPG_ERR_DUP_VALUE,              NEW
+GPG_ERR_MISSING_ACTION          NEW
+GPG_ERR_MODULE_NOT_FOUND        NEW
+GPG_ERR_INV_OID_STRING          NEW
+GPG_ERR_INV_TIME                NEW
+GPG_ERR_INV_CRL_OBJ             NEW
+GPG_ERR_UNSUPPORTED_CRL_VERSION NEW
+GPG_ERR_INV_CERT_OBJ            NEW
+GPG_ERR_UNKNOWN_NAME            NEW
+GPG_ERR_BUFFER_TOO_SHORT.       NEW
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Noteworthy changes in version 0.5 (2003-10-06)
+----------------------------------------------
+
+ * New thread safe interface gpg_strerror_r.
+
+ * New error code GPG_ERR_PIN_NOT_SYNCED has been added.
+
+ * Interface changes relative to the 0.4 release:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gpg_strerror_r			NEW
+GPG_ERR_PIN_NOT_SYNCED		NEW
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Noteworthy changes in version 0.4 (2003-09-03)
+----------------------------------------------
+
+ * Fixed another bug that prevented that system errors were created
+   correctly in the first place.
+
+ * Use inline in public header file only on C99 compilers.
+
+
+Noteworthy changes in version 0.3 (2003-07-31)
+----------------------------------------------
+
+ * Fixed bug that prevented that system errors were mapped to error
+   strings correctly.
+
+
+Noteworthy changes in version 0.2 (2003-07-30)
+----------------------------------------------
+
+ * Value of the error code GPG_ERR_CANCELED was fixed.
+
+ * New error codes GPG_ERR_WRONG_CARD, GPG_ERR_HARDWARE,
+   GPG_ERR_PIN_BLOCKED and GPG_ERR_USE_CONDITIONS have been added.
+
+ * The header file has been made C++ clean.
+
+ * AM_PATH_GPG_ERR has been fixed to work without explicit version
+   number.
+
+ * The header file now uses inline instead __inline__ for non-GNU
+   compilers.
+
+
+Noteworthy changes in version 0.1 (2003-06-06)
+----------------------------------------------
+
+ * Initial release.
+
+
+ Copyright 2003, 2004, 2005 g10 Code GmbH
+
+ This file is free software; as a special exception the author gives
+ unlimited permission to copy and/or distribute it, with or without
+ modifications, as long as this notice is preserved.
+
+ This file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

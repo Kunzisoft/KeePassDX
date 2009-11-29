@@ -1,0 +1,100 @@
+2006-11-23  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* gettext.m4: Upgrade to gettext-0.15.
+	* inttypes-h.m4: New file, from gettext-0.15.
+	* inttypes-pri.m4: Upgrade to gettext-0.15.
+	* lib-link.m4: Upgrade to gettext-0.15.
+	* lib-prefix.m4: Upgrade to gettext-0.15.
+	* lock.m4: New file, from gettext-0.15.
+	* longdouble.m4: Upgrade to gettext-0.15.
+	* nls.m4: Upgrade to gettext-0.15.
+	* po.m4: Upgrade to gettext-0.15.
+	* size_max.m4: Upgrade to gettext-0.15.
+	* visibility.m4: New file, from gettext-0.15.
+	* Makefile.am (EXTRA_DIST): Add the new files.
+
+2006-09-14  Werner Koch  <wk@g10code.com>
+
+	* autobuild.m4: New.
+
+2006-03-14  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* codeset.m4: Upgrade to gettext-0.14.5.
+	* gettext.m4: Upgrade to gettext-0.14.5.
+	* glibc2.m4: New file, from gettext-0.14.5.
+	* glibc21.m4: Upgrade to gettext-0.14.5.
+	* iconv.m4: Upgrade to gettext-0.14.5.
+	* intdiv0.m4: Upgrade to gettext-0.14.5.
+	* intmax.m4: New file, from gettext-0.14.5.
+	* inttypes.m4: Upgrade to gettext-0.14.5.
+	* inttypes_h.m4: Upgrade to gettext-0.14.5.
+	* inttypes-pri.m4: Upgrade to gettext-0.14.5.
+	* isc-posix.m4: Upgrade to gettext-0.14.5.
+	* lcmessage.m4: Upgrade to gettext-0.14.5.
+	* lib-ld.m4: Upgrade to gettext-0.14.5.
+	* lib-link.m4: Upgrade to gettext-0.14.5.
+	* lib-prefix.m4: Upgrade to gettext-0.14.5.
+	* longdouble.m4: New file, from gettext-0.14.5.
+	* longlong.m4: New file, from gettext-0.14.5.
+	* nls.m4: Upgrade to gettext-0.14.5.
+	* po.m4: Upgrade to gettext-0.14.5.
+	* printf-posix.m4: New file, from gettext-0.14.5.
+	* progtest.m4: Upgrade to gettext-0.14.5.
+	* signed.m4: New file, from gettext-0.14.5.
+	* size_max.m4: New file, from gettext-0.14.5.
+	* stdint_h.m4: Upgrade to gettext-0.14.5.
+	* uintmax_t.m4: Upgrade to gettext-0.14.5.
+	* ulonglong.m4: Upgrade to gettext-0.14.5.
+	* wchar_t.m4: New file, from gettext-0.14.5.
+	* wint_t.m4: New file, from gettext-0.14.5.
+	* xsize.m4: New file, from gettext-0.14.5.
+	* Makefile.am (EXTRA_DIST): Add the new files.
+
+2005-10-02  Marcus Brinkmann  <marcus@g10code.de>
+
+	* libtool.m4: Update.
+
+2004-03-01  Marcus Brinkmann  <marcus@g10code.de>
+
+	* Makefile.am (EXTRA_DIST): Add ac_prog_cc_for_build.m4.
+	* ac_prog_cc_for_build.m4: New file.
+
+2003-12-08  Werner Koch  <wk@gnupg.org>
+
+	* libtool.m4: Added (CVS only).
+
+2003-12-08  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* gettext.m4: Upgrade to gettext-0.12.1.
+	* inttypes_h.m4: Upgrade to gettext-0.12.1.
+	* lib-ld.m4: Upgrade to gettext-0.12.1.
+	* lib-link.m4: Upgrade to gettext-0.12.1.
+	* lib-prefix.m4: Upgrade to gettext-0.12.1.
+	* nls.m4: New file, from gettext-0.12.1.
+	* po.m4: New file, from gettext-0.12.1.
+	* progtest.m4: Upgrade to gettext-0.12.1.
+	* stdint_h.m4: Upgrade to gettext-0.12.1.
+	* uintmax_t.m4: Upgrade to gettext-0.12.1.
+	* Makefile.am (EXTRA_DIST): Add the new files.
+
+2003-05-15  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* codeset.m4: New file, from gettext-0.11.5.
+	* gettext.m4: New file, from gettext-0.11.5.
+	* glibc21.m4: New file, from gettext-0.11.5.
+	* iconv.m4: New file, from gettext-0.11.5.
+	* intdiv0.m4: New file, from gettext-0.11.5.
+	* inttypes.m4: New file, from gettext-0.11.5.
+	* inttypes_h.m4: New file, from gettext-0.11.5.
+	* inttypes-pri.m4: New file, from gettext-0.11.5.
+	* isc-posix.m4: New file, from gettext-0.11.5.
+	* lcmessage.m4: New file, from gettext-0.11.5.
+	* lib-ld.m4: New file, from gettext-0.11.5.
+	* lib-link.m4: New file, from gettext-0.11.5.
+	* lib-prefix.m4: New file, from gettext-0.11.5.
+	* progtest.m4: New file, from gettext-0.11.5.
+	* stdint_h.m4: New file, from gettext-0.11.5.
+	* uintmax_t.m4: New file, from gettext-0.11.5.
+	* ulonglong.m4: New file, from gettext-0.11.5.
+	* Makefile.am: New file.
+

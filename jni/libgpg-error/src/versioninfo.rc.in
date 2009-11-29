@@ -1,0 +1,52 @@
+/* versioninfo.rc.in - for libgpg-error
+ *    Copyright (C) 2005 g10 Code GmbH
+ * 
+ * This file is free software; as a special exception the author gives
+ * unlimited permission to copy and/or distribute it, with or without
+ * modifications, as long as this notice is preserved.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+ 
+/* This file is processed by configure to create versioninfo.rc */
+
+#line __LINE__ "versioninfo.rc.in"
+
+#include <afxres.h>
+
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION @BUILD_FILEVERSION@
+ PRODUCTVERSION @BUILD_FILEVERSION@
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x21L
+#else
+ FILEFLAGS 0x20L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Provided under the terms of the GNU Lesser General Public License.\0"
+            VALUE "CompanyName", "g10 Code GmbH\0"
+            VALUE "FileDescription", "libgpg-error - Common error codes\0"
+            VALUE "FileVersion", "@VERSION@\0"
+            VALUE "InternalName", "libgpg-error\0"
+            VALUE "LegalCopyright", "Copyright © 2005 g10 Code GmbH\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "libgpg-error.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "libgpg-error\0"
+            VALUE "ProductVersion", "@VERSION@\0"
+            VALUE "SpecialBuild", "@BUILD_TIMESTAMP@\0"
+        END
+    END
+END
+

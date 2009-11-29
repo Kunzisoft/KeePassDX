@@ -1,0 +1,101 @@
+2007-10-29  Daniel Nylander <po@danielnylander.se>  (wk)
+
+	* sv.po: Update.
+
+2007-10-29  Clytie Siddall <clytie@riverland.net.au>  (wk)
+
+	* vi.po: Update.
+
+2007-10-29  Jakub Bogusz <qboosh@pld-linux.org>  (wk)
+
+	* pl.po: Update.
+
+2007-08-23  Werner Koch  <wk@g10code.com>
+
+	* de.po: Typo fix [bug#828].
+
+2007-02-26  Werner Koch  <wk@g10code.com>
+
+	* sv.po: Update from Daniel.
+
+2006-12-22  Werner Koch  <wk@g10code.com>
+
+	* LINGUAS, sv.po: Installed Swedish translation by Daniel Nylander.
+
+2006-11-23  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.15.
+
+2006-09-14  Werner Koch  <wk@g10code.com>
+
+	* de.po: Updated.
+
+2006-09-08  Werner Koch  <wk@g10code.com>
+
+	* pl.po: Updated. 
+
+2006-03-14  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.14.5.
+	* Rules-quot: Upgrade to gettext-0.14.5.
+
+2006-01-11  Werner Koch  <wk@g10code.com>
+
+	* vi.po: New.
+	* LINGUAS: Add vi.
+
+2005-09-29  Marcus Brinkmann  <marcus@g10code.de>
+
+	* fr.po: New file.
+	* LINGUAS: Add fr.
+
+2005-07-04  Werner Koch  <wk@g10code.com>
+
+	* ro.po: New.
+
+2005-06-16  Marcus Brinkmann  <marcus@g10code.de>
+
+	* de.po: Apply typo fixes from Debian #313977.
+
+2004-04-22  Marcus Brinkmann  <marcus@g10code.de>
+
+	* POTFILES.in: Add src/gpg-error.c.
+	* pl.po: Add messages for gpg-error.c.
+	* de.po: Likewise.
+
+	* pl.po: Update.
+
+2004-04-20  Marcus Brinkmann  <marcus@g10code.de>
+
+	* LINGUAS: Add pl.
+	* pl.po: New file.
+
+2003-12-08  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.12.1.
+
+2003-11-14  Werner Koch  <wk@gnupg.org>
+
+	* de.po: New.
+
+2003-05-15  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.in.in: New file, from gettext-0.11.5.
+	* boldquot.sed: New file, from gettext-0.11.5.
+	* en@boldquot.header: New file, from gettext-0.11.5.
+	* en@quot.header: New file, from gettext-0.11.5.
+	* insert-header.sin: New file, from gettext-0.11.5.
+	* quot.sed: New file, from gettext-0.11.5.
+	* remove-potcdate.sin: New file, from gettext-0.11.5.
+	* Rules-quot: New file, from gettext-0.11.5.
+
+	
+ Copyright 2003 g10 Code GmbH
+
+ This file is free software; as a special exception the author gives
+ unlimited permission to copy and/or distribute it, with or without
+ modifications, as long as this notice is preserved.
+
+ This file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

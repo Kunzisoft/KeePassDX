@@ -1,0 +1,8 @@
+Language Support for libgpg-error
+---------------------------------
+
+This directory contains support for other languages than C.
+
+Directory	Language
+
+cl		Common Lisp

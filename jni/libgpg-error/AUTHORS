@@ -1,0 +1,36 @@
+Package: libgpg-error
+Maintainer: Marcus Brinkmann <marcus@g10code.com>
+Bug reports: bug-gnupg@gnupg.org
+Security related bug reports: security@gnupg.org
+License: LGPLv2.1+
+
+
+g10 Code GmbH <code@g10code.com>
+ - Design and implementation.
+
+Laurentiu Buzdugan <lbuz@rolix.org> 
+ - TRANSLATION [ro]
+
+Clytie Siddall <clytie@riverland.net.au>
+ - TRANSLATION [vi]
+
+Daniel Nylander <po@danielnylander.se>
+ - TRANSLATION [sv]
+
+Jakub Bogusz <qboosh@pld-linux.org>
+ - TRANSLATION [pl]
+
+
+The RPM specs file libgpg-error.spec has been contributed by
+Robert Schiele <rschiele@uni-mannheim.de>
+
+
+ Copyright 2003, 2004, 2005, 2006, 2007 g10 Code GmbH
+
+ This file is free software; as a special exception the author gives
+ unlimited permission to copy and/or distribute it, with or without
+ modifications, as long as this notice is preserved.
+
+ This file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
