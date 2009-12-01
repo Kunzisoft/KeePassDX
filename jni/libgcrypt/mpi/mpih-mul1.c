@@ -1,1 +1,0 @@
-.././mpi/generic/mpih-mul1.c

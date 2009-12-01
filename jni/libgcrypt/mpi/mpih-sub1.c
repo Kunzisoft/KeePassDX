@@ -1,1 +1,0 @@
-.././mpi/generic/mpih-sub1.c

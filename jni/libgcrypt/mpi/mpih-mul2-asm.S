@@ -1,1 +1,0 @@
-.././mpi/amd64/mpih-mul2.S
