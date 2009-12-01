@@ -41,7 +41,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include <errno.h>
-#include <pth.h>
+/*#include <pth.h>*/
 #include <gcrypt.h>
 
 #define PGM "gcryptrnd"

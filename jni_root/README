@@ -1,1 +1,14 @@
-My jni build may be linux only.
+Build instructions:
+1. Arrange the build tree so that it is laid out as follows:
+  a. mkdir ${ndk-root}/apps/KeePassDroid
+  b. mkdir ${ndk-root}/apps/KeePassDroid/project
+  c. Move the KeePassDroid git root to ${ndk-root}/apps/KeePassDroid/project
+  d. cp -a ${ndk-root}/apps/KeePassDroid/project/jni_root ${ndk-root}/apps/KeePassDroid
+
+2. Run ./configure in ${ndk-root}/apps/KeePassDroid/project/jni/libgpg-error
+3. In ${ndk-root}/apps/KeePassDroid/project/jni/libgpg-error/src:
+  a. Run 'make gpg-error.h code-from-errno.h code-to-errno.h err-sources.h err-codes.h
+
+4. Run ./configure in ${ndk-root}/apps/KeePassDroid/project/jni/libgcrypt
+5. Add #include <sys/select.h> to libgcrypt/src/gcrypt.h
+6. In config.h make sure HAVE_ULONG_TYPEDEF and HAVE_USHORT_TYPEDEF is commented out

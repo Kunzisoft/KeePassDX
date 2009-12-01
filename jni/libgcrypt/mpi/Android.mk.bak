@@ -1,0 +1,27 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := libgcrypt-mpi
+
+LOCAL_SRC_FILES := \
+    mpi-add.c      \
+    mpi-bit.c      \
+    mpi-cmp.c      \
+    mpi-div.c      \
+    mpi-gcd.c      \
+    mpi-inline.c   \
+    mpi-inv.c      \
+    mpi-mul.c      \
+    mpi-mod.c      \
+    mpi-pow.c      \
+    mpi-mpow.c     \
+    mpi-scan.c     \
+    mpicoder.c     \
+    mpiutil.c      \
+    ec.c
+
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../  $(LOCAL_PATH)/../src $(LOCAL_PATH)/../../libgpg-error/src/ 
+
+include $(BUILD_STATIC_LIBRARY)

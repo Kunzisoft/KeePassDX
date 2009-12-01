@@ -24,6 +24,8 @@
 #include "g10lib.h"
 #include "cipher-proto.h"
 
+#include "visibility.h"
+
 
 
 const char *
@@ -1188,6 +1190,7 @@ gcry_ac_name_to_id (const char *name, gcry_ac_id_t *algorithm)
   return 0;
 }
 
+/*
 void
 gcry_randomize (void *buffer, size_t length, enum gcry_random_level level)
 {
@@ -1252,6 +1255,7 @@ gcry_create_nonce (void *buffer, size_t length)
     }
   _gcry_create_nonce (buffer, length);
 }
+*/
 
 gcry_error_t
 gcry_prime_generate (gcry_mpi_t *prime,
