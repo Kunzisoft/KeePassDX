@@ -1,0 +1,683 @@
+d1_both.c:356:	/* [01;31ms3-[00m[K>tmp is used to store messages that are unexpected, caused
+d1_both.c:358:	if (s->[01;31ms3-[00m[K>tmp.reuse_message)
+d1_both.c:360:		s->[01;31ms3-[00m[K>tmp.reuse_message=0;
+d1_both.c:361:		if ((mt >= 0) && (s->[01;31ms3-[00m[K>tmp.message_type != mt))
+d1_both.c:369:		s->init_num = (int)s->[01;31ms3-[00m[K>tmp.message_size;
+d1_both.c:483:		s->[01;31ms3-[00m[K>tmp.message_size  = msg_len;
+d1_both.c:485:		s->[01;31ms3-[00m[K>tmp.message_type  = msg_hdr->type;
+d1_both.c:734:			&(s->[01;31ms3-[00m[K>finish_dgst1),
+d1_both.c:735:			&(s->[01;31ms3-[00m[K>finish_dgst2),
+d1_both.c:736:			sender,slen,s->[01;31ms3-[00m[K>tmp.finish_md);
+d1_both.c:737:		s->[01;31ms3-[00m[K>tmp.finish_md_len = i;
+d1_both.c:738:		memcpy(p, s->[01;31ms3-[00m[K>tmp.finish_md, i);
+d1_both.c:765: * ssl->[01;31ms3-[00m[K>read_sequence		zero
+d1_both.c:766: * ssl->[01;31ms3-[00m[K>read_mac_secret		re-init
+d1_clnt.c:221:			memset(s->[01;31ms3-[00m>client_random,0,sizeof(s->[01;31ms3-[00m[K>client_random));
+d1_clnt.c:238:				s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_CR_SRVR_HELLO_A;
+d1_clnt.c:281:			if (!(s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL))
+d1_clnt.c:320:			if (s->[01;31ms3-[00m[K>tmp.cert_req)
+d1_clnt.c:342:			l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+d1_clnt.c:347:			if (s->[01;31ms3-[00m[K>tmp.cert_req == 1)
+d1_clnt.c:354:				s->[01;31ms3-[00m[K>change_cipher_spec=0;
+d1_clnt.c:366:			s->[01;31ms3-[00m[K>change_cipher_spec=0;
+d1_clnt.c:377:			s->session->cipher=s->[01;31ms3-[00m[K>tmp.new_cipher;
+d1_clnt.c:381:			if (s->[01;31ms3-[00m[K>tmp.new_compression == NULL)
+d1_clnt.c:385:					s->[01;31ms3-[00m[K>tmp.new_compression->id;
+d1_clnt.c:413:			s->[01;31ms3-[00m[K>flags&= ~SSL3_FLAGS_POP_BUFFER;
+d1_clnt.c:416:				s->[01;31ms3-[00m[K>tmp.next_state=SSL_ST_OK;
+d1_clnt.c:417:				if (s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_DELAY_CLIENT_FINISHED)
+d1_clnt.c:420:					s->[01;31ms3-[00m[K>flags|=SSL3_FLAGS_POP_BUFFER;
+d1_clnt.c:421:					s->[01;31ms3-[00m[K>delay_buf_pop_ret=0;
+d1_clnt.c:426:				s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_CR_FINISHED_A;
+d1_clnt.c:430:			memset (s->[01;31ms3-[00m>client_random,0,sizeof(s->[01;31ms3-[00m[K>client_random));
+d1_clnt.c:459:			s->state=s->[01;31ms3-[00m[K>tmp.next_state;
+d1_clnt.c:476:			if (!(s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_POP_BUFFER))
+d1_clnt.c:506:		if (!s->[01;31ms3-[00m[K>tmp.reuse_message && !skip)
+d1_clnt.c:553:		p=s->[01;31ms3-[00m[K>client_random;
+d1_clnt.c:556:		for (i=0;p[i]=='\0' && i<sizeof(s->[01;31ms3-[00m[K>client_random);i++) ;
+d1_clnt.c:557:		if (i==sizeof(s->[01;31ms3-[00m[K>client_random))
+d1_clnt.c:572:		memcpy(p,s->[01;31ms3-[00m[K>client_random,SSL3_RANDOM_SIZE);
+d1_clnt.c:660:	if (s->[01;31ms3-[00m[K>tmp.message_type != DTLS1_MT_HELLO_VERIFY_REQUEST)
+d1_clnt.c:663:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+d1_clnt.c:714:		l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+d1_clnt.c:1015:		s->method->ssl3_enc->cert_verify_mac(s,&(s->[01;31ms3-[00m[K>finish_dgst2),
+d1_clnt.c:1022:				&(s->[01;31ms3-[00m[K>finish_dgst1),&(data[0]));
+d1_clnt.c:1124:				s->[01;31ms3-[00m[K>tmp.cert_req=0;
+d1_clnt.c:1130:				s->[01;31ms3-[00m[K>tmp.cert_req=2;
+d1_clnt.c:1142:			(s->[01;31ms3-[00m[K>tmp.cert_req == 2)?NULL:s->cert->key->x509);
+d1_enc.c:142:		rec= &(s->[01;31ms3-[00m[K>wrec);
+d1_enc.c:164:		rec= &(s->[01;31ms3-[00m[K>rrec);
+d1_enc.c:196:				if (s->[01;31ms3-[00m[K>flags & TLS1_FLAGS_TLS_PADDING_BUG)
+d1_enc.c:252:				if ((memcmp(s->[01;31ms3-[00m[K>read_sequence,
+d1_enc.c:254:					s->[01;31ms3-[00m[K>flags|=TLS1_FLAGS_TLS_PADDING_BUG;
+d1_enc.c:255:				if (s->[01;31ms3-[00m[K>flags & TLS1_FLAGS_TLS_PADDING_BUG)
+d1_pkt.c:152:    if (s->[01;31ms3-[00m[K>rbuf.buf != NULL)
+d1_pkt.c:153:        OPENSSL_free(s->[01;31ms3-[00m[K>rbuf.buf);
+d1_pkt.c:157:    memcpy(&(s->[01;31ms3-[00m[K>rbuf), &(rdata->rbuf), sizeof(SSL3_BUFFER));
+d1_pkt.c:158:    memcpy(&(s->[01;31ms3-[00m[K>rrec), &(rdata->rrec), sizeof(SSL3_RECORD));
+d1_pkt.c:183:	memcpy(&(rdata->rbuf), &(s->[01;31ms3-[00m[K>rbuf), sizeof(SSL3_BUFFER));
+d1_pkt.c:184:	memcpy(&(rdata->rrec), &(s->[01;31ms3-[00m[K>rrec), sizeof(SSL3_RECORD));
+d1_pkt.c:198:	memset(&(s->[01;31ms3-[00m[K>rbuf), 0, sizeof(SSL3_BUFFER));
+d1_pkt.c:199:	memset(&(s->[01;31ms3-[00m[K>rrec), 0, sizeof(SSL3_RECORD));
+d1_pkt.c:266:                s->[01;31ms3-[00m[K>rrec.seq_num);
+d1_pkt.c:304:		if (s->[01;31ms3-[00m[K>rbuf.buf != NULL)
+d1_pkt.c:305:			OPENSSL_free(s->[01;31ms3-[00m[K>rbuf.buf);
+d1_pkt.c:309:		memcpy(&(s->[01;31ms3-[00m[K>rbuf), &(rdata->rbuf), sizeof(SSL3_BUFFER));
+d1_pkt.c:310:		memcpy(&(s->[01;31ms3-[00m[K>rrec), &(rdata->rrec), sizeof(SSL3_RECORD));
+d1_pkt.c:336:	rr= &(s->[01;31ms3-[00m[K>rrec);
+d1_pkt.c:447:	 * ssl->[01;31ms3-[00m[K>rrec.type 	is the type of record
+d1_pkt.c:448:	 * ssl->[01;31ms3-[00m[K>rrec.length	== number of bytes in record
+d1_pkt.c:449:	 * ssl->[01;31ms3-[00m[K>rrec.off	== offset to first valid byte
+d1_pkt.c:450:	 * ssl->[01;31ms3-[00m[K>rrec.data	== where to take bytes from, increment
+d1_pkt.c:478: * ssl->[01;31ms3-[00m[K>rrec.type    - is the type of record
+d1_pkt.c:479: * ssl->[01;31ms3-[00m[K>rrec.data, 	 - data
+d1_pkt.c:480: * ssl->[01;31ms3-[00m[K>rrec.length, - number of bytes
+d1_pkt.c:494:	rr= &(s->[01;31ms3-[00m[K>rrec);
+d1_pkt.c:512:		n=ssl3_read_n(s, DTLS1_RT_HEADER_LENGTH, s->[01;31ms3-[00m[K>rbuf.len, 0);
+d1_pkt.c:531:		memcpy(&(s->[01;31ms3-[00m[K>read_sequence[2]), p, 6);
+d1_pkt.c:666:	if (s->[01;31ms3-[00m[K>rbuf.buf == NULL) /* Not initialized yet */
+d1_pkt.c:700:	/* s->[01;31ms3-[00m[K>rrec.type	    - is the type of record
+d1_pkt.c:701:	 * s->[01;31ms3-[00m[K>rrec.data,    - data
+d1_pkt.c:702:	 * s->[01;31ms3-[00m[K>rrec.off,     - offset into 'data' for next read
+d1_pkt.c:703:	 * s->[01;31ms3-[00m[K>rrec.length,  - number of bytes. */
+d1_pkt.c:704:	rr = &(s->[01;31ms3-[00m[K>rrec);
+d1_pkt.c:723:	if (s->[01;31ms3-[00m[K>change_cipher_spec /* set when we receive ChangeCipherSpec,
+d1_pkt.c:866:			!(s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS) &&
+d1_pkt.c:867:			!s->[01;31ms3-[00m[K>renegotiate)
+d1_pkt.c:882:					if (s->[01;31ms3-[00m[K>rbuf.left == 0) /* no read-ahead left? */
+d1_pkt.c:927:			s->[01;31ms3-[00m[K>warn_alert = alert_descr;
+d1_pkt.c:962:			s->[01;31ms3-[00m[K>fatal_alert = alert_descr;
+d1_pkt.c:1011:		s->[01;31ms3-[00m[K>change_cipher_spec=1;
+d1_pkt.c:1039:			!(s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS))
+d1_pkt.c:1062:			if (s->[01;31ms3-[00m[K>rbuf.left == 0) /* no read-ahead left? */
+d1_pkt.c:1110:		if (s->[01;31ms3-[00m[K>in_read_app_data &&
+d1_pkt.c:1111:			(s->[01;31ms3-[00m[K>total_renegotiations != 0) &&
+d1_pkt.c:1123:			s->[01;31ms3-[00m[K>in_read_app_data=2;
+d1_pkt.c:1158:	tot = s->[01;31ms3-[00m[K>wnum;
+d1_pkt.c:1174:			s->[01;31ms3-[00m[K>empty_fragment_done = 0;
+d1_pkt.c:1231:	tot=s->[01;31ms3-[00m[K>wnum;
+d1_pkt.c:1254:		s->[01;31ms3-[00m[K>wnum=tot;
+d1_pkt.c:1258:	if ( (int)s->[01;31ms3-[00m[K>wnum + i == len)
+d1_pkt.c:1259:		s->[01;31ms3-[00m[K>wnum = 0;
+d1_pkt.c:1261:		s->[01;31ms3-[00m[K>wnum += i;
+d1_pkt.c:1278:	if (s->[01;31ms3-[00m[K>wbuf.left != 0)
+d1_pkt.c:1285:	if (s->[01;31ms3-[00m[K>alert_dispatch)
+d1_pkt.c:1296:	wr= &(s->[01;31ms3-[00m[K>wrec);
+d1_pkt.c:1297:	wb= &(s->[01;31ms3-[00m[K>wbuf);
+d1_pkt.c:1313:	if (!clear && !create_empty_fragment && !s->[01;31ms3-[00m[K>empty_fragment_done
+d1_pkt.c:1320:		if (s->[01;31ms3-[00m[K>need_empty_fragments && type == SSL3_RT_APPLICATION_DATA)
+d1_pkt.c:1330:			if (s->[01;31ms3-[00m[K>wbuf.len < (size_t)prefix_len + SSL3_RT_MAX_PACKET_SIZE)
+d1_pkt.c:1338:		s->[01;31ms3-[00m[K>empty_fragment_done = 1;
+d1_pkt.c:1431:	memcpy(pseq, &(s->[01;31ms3-[00m[K>write_sequence[2]), 6);
+d1_pkt.c:1445:			*((PQ_64BIT *)&(s->[01;31ms3-[00m[K>write_sequence[0])));
+d1_pkt.c:1448:	ssl3_record_sequence_update(&(s->[01;31ms3-[00m[K>write_sequence[0]));
+d1_pkt.c:1463:	s->[01;31ms3-[00m[K>wpend_tot=len;
+d1_pkt.c:1464:	s->[01;31ms3-[00m[K>wpend_buf=buf;
+d1_pkt.c:1465:	s->[01;31ms3-[00m[K>wpend_type=type;
+d1_pkt.c:1466:	s->[01;31ms3-[00m[K>wpend_ret=len;
+d1_pkt.c:1488:	pq_64bit_bin2num(&rcd_num, s->[01;31ms3-[00m[K>read_sequence, 8);
+d1_pkt.c:1545:	pq_64bit_bin2num(&rcd_num, s->[01;31ms3-[00m[K>read_sequence, 8);
+d1_pkt.c:1591:	s->[01;31ms3-[00m[K>alert_dispatch=0;
+d1_pkt.c:1594:	*ptr++ = s->[01;31ms3-[00m[K>send_alert[0];
+d1_pkt.c:1595:	*ptr++ = s->[01;31ms3-[00m[K>send_alert[1];
+d1_pkt.c:1598:	if (s->[01;31ms3-[00m[K>send_alert[1] == DTLS1_AD_MISSING_HANDSHAKE_MESSAGE)
+d1_pkt.c:1618:		s->[01;31ms3-[00m[K>alert_dispatch=1;
+d1_pkt.c:1623:		if (s->[01;31ms3-[00m[K>send_alert[0] == SSL3_AL_FATAL
+d1_pkt.c:1625:		    || s->[01;31ms3-[00m[K>send_alert[1] == DTLS1_AD_MISSING_HANDSHAKE_MESSAGE
+d1_pkt.c:1631:			s->msg_callback(1, s->version, SSL3_RT_ALERT, s->[01;31ms3-[00m[K>send_alert, 
+d1_pkt.c:1641:			j=(s->[01;31ms3-[00m>send_alert[0]<<8)|s->[01;31ms3-[00m[K>send_alert[1];
+d1_pkt.c:1740:	unsigned int seq_bytes = sizeof(s->[01;31ms3-[00m[K>read_sequence);
+d1_pkt.c:1744:		seq = s->[01;31ms3-[00m[K>read_sequence;
+d1_pkt.c:1760:		seq = s->[01;31ms3-[00m[K>write_sequence;
+d1_srvr.c:252:			s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SW_HELLO_REQ_C;
+d1_srvr.c:287:			s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SR_CLNT_HELLO_A;
+d1_srvr.c:309:			if (!(s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL))
+d1_srvr.c:322:			l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+d1_srvr.c:335:				s->[01;31ms3-[00m[K>tmp.use_rsa_tmp=1;
+d1_srvr.c:337:				s->[01;31ms3-[00m[K>tmp.use_rsa_tmp=0;
+d1_srvr.c:341:			if (s->[01;31ms3-[00m[K>tmp.use_rsa_tmp
+d1_srvr.c:345:				    || (SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher)
+d1_srvr.c:346:					&& EVP_PKEY_size(s->cert->pkeys[SSL_PKEY_RSA_ENC].privatekey)*8 > SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher)
+d1_srvr.c:373:				((s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL) &&
+d1_srvr.c:378:                                (s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aKRB5))
+d1_srvr.c:382:				s->[01;31ms3-[00m[K>tmp.cert_request=0;
+d1_srvr.c:387:				s->[01;31ms3-[00m[K>tmp.cert_request=1;
+d1_srvr.c:394:				s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SR_CERT_A;
+d1_srvr.c:404:			s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SR_CERT_A;
+d1_srvr.c:420:			s->state=s->[01;31ms3-[00m[K>tmp.next_state;
+d1_srvr.c:451:				&(s->[01;31ms3-[00m[K>finish_dgst1),
+d1_srvr.c:452:				&(s->[01;31ms3-[00m[K>tmp.cert_verify_md[0]));
+d1_srvr.c:454:				&(s->[01;31ms3-[00m[K>finish_dgst2),
+d1_srvr.c:455:				&(s->[01;31ms3-[00m[K>tmp.cert_verify_md[MD5_DIGEST_LENGTH]));
+d1_srvr.c:485:			s->session->cipher=s->[01;31ms3-[00m[K>tmp.new_cipher;
+d1_srvr.c:515:				s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SR_FINISHED_A;
+d1_srvr.c:517:				s->[01;31ms3-[00m[K>tmp.next_state=SSL_ST_OK;
+d1_srvr.c:567:		if (!s->[01;31ms3-[00m[K>tmp.reuse_message && !skip)
+d1_srvr.c:676:		p=s->[01;31ms3-[00m[K>server_random;
+d1_srvr.c:691:		memcpy(p,s->[01;31ms3-[00m[K>server_random,SSL3_RANDOM_SIZE);
+d1_srvr.c:716:		i=ssl3_put_cipher_by_char(s->[01;31ms3-[00m[K>tmp.new_cipher,p);
+d1_srvr.c:723:		if (s->[01;31ms3-[00m[K>tmp.new_compression == NULL)
+d1_srvr.c:726:			*(p++)=s->[01;31ms3-[00m[K>tmp.new_compression->id;
+d1_srvr.c:798:		type=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_MKEY_MASK;
+d1_srvr.c:812:				      SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher),
+d1_srvr.c:813:				      SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher));
+d1_srvr.c:831:			s->[01;31ms3-[00m[K>tmp.use_rsa_tmp=1;
+d1_srvr.c:841:				      SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher),
+d1_srvr.c:842:				      SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher));
+d1_srvr.c:850:			if (s->[01;31ms3-[00m[K>tmp.dh != NULL)
+d1_srvr.c:863:			s->[01;31ms3-[00m[K>tmp.dh=dh;
+d1_srvr.c:903:		if (!(s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL))
+d1_srvr.c:905:			if ((pkey=ssl_get_sign_pkey(s,s->[01;31ms3-[00m[K>tmp.new_cipher))
+d1_srvr.c:949:					EVP_DigestUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+d1_srvr.c:950:					EVP_DigestUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+d1_srvr.c:973:				EVP_SignUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+d1_srvr.c:974:				EVP_SignUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+d1_srvr.c:1128:                        (s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms
+s23_clnt.c:249:		p=s->[01;31ms3-[00m[K>client_random;
+s23_clnt.c:326:			memset(&(s->[01;31ms3-[00m[K>client_random[0]),0,SSL3_RANDOM_SIZE);
+s23_clnt.c:327:			if (RAND_pseudo_bytes(&(s->[01;31ms3-[00m[K>client_random[SSL3_RANDOM_SIZE-i]),i) <= 0)
+s23_clnt.c:330:			memcpy(p,&(s->[01;31ms3-[00m[K>client_random[SSL3_RANDOM_SIZE-i]),i);
+s23_clnt.c:354:			memcpy(p, s->[01;31ms3-[00m[K>client_random, SSL3_RANDOM_SIZE);
+s23_clnt.c:490:			&(s->[01;31ms3-[00m[K>client_random[SSL3_RANDOM_SIZE-i]),i);
+s23_clnt.c:539:		s->packet= &(s->[01;31ms3-[00m[K>rbuf.buf[0]);
+s23_clnt.c:541:		s->[01;31ms3-[00m[K>rbuf.left=n;
+s23_clnt.c:542:		s->[01;31ms3-[00m[K>rbuf.offset=0;
+s23_srvr.c:475:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+s23_srvr.c:476:		s->[01;31ms3-[00m[K>tmp.message_type=SSL3_MT_CLIENT_HELLO;
+s23_srvr.c:477:		s->[01;31ms3-[00m[K>tmp.message_size=i;
+s23_srvr.c:546:			s->packet= &(s->[01;31ms3-[00m[K>rbuf.buf[0]);
+s23_srvr.c:548:			s->[01;31ms3-[00m[K>rbuf.left=n;
+s23_srvr.c:549:			s->[01;31ms3-[00m[K>rbuf.offset=0;
+s23_srvr.c:554:			s->[01;31ms3-[00m[K>rbuf.left=0;
+s23_srvr.c:555:			s->[01;31ms3-[00m[K>rbuf.offset=0;
+s3_both.c:163:			&(s->[01;31ms3-[00m[K>finish_dgst1),
+s3_both.c:164:			&(s->[01;31ms3-[00m[K>finish_dgst2),
+s3_both.c:165:			sender,slen,s->[01;31ms3-[00m[K>tmp.finish_md);
+s3_both.c:166:		s->[01;31ms3-[00m[K>tmp.finish_md_len = i;
+s3_both.c:167:		memcpy(p, s->[01;31ms3-[00m[K>tmp.finish_md, i);
+s3_both.c:197:	 * change cipher spec message and is in s->[01;31ms3-[00m[K>tmp.peer_finish_md
+s3_both.c:210:	if (!s->[01;31ms3-[00m[K>change_cipher_spec)
+s3_both.c:216:	s->[01;31ms3-[00m[K>change_cipher_spec=0;
+s3_both.c:219:	i = s->[01;31ms3-[00m[K>tmp.peer_finish_md_len;
+s3_both.c:228:	if (memcmp(p, s->[01;31ms3-[00m[K>tmp.peer_finish_md, i) != 0)
+s3_both.c:243: * ssl->[01;31ms3-[00m[K>read_sequence		zero
+s3_both.c:244: * ssl->[01;31ms3-[00m[K>read_mac_secret		re-init
+s3_both.c:369:	if (s->[01;31ms3-[00m[K>tmp.reuse_message)
+s3_both.c:371:		s->[01;31ms3-[00m[K>tmp.reuse_message=0;
+s3_both.c:372:		if ((mt >= 0) && (s->[01;31ms3-[00m[K>tmp.message_type != mt))
+s3_both.c:380:		s->init_num = (int)s->[01;31ms3-[00m[K>tmp.message_size;
+s3_both.c:443:		s->[01;31ms3-[00m[K>tmp.message_type= *(p++);
+s3_both.c:463:		s->[01;31ms3-[00m[K>tmp.message_size=l;
+s3_both.c:472:	n = s->[01;31ms3-[00m[K>tmp.message_size - s->init_num;
+s3_both.c:595:	if (s->[01;31ms3-[00m[K>rbuf.buf == NULL)
+s3_both.c:604:		s->[01;31ms3-[00m[K>rbuf.buf = p;
+s3_both.c:605:		s->[01;31ms3-[00m[K>rbuf.len = len;
+s3_both.c:608:	if (s->[01;31ms3-[00m[K>wbuf.buf == NULL)
+s3_both.c:614:		s->[01;31ms3-[00m[K>wbuf.buf = p;
+s3_both.c:615:		s->[01;31ms3-[00m[K>wbuf.len = len;
+s3_both.c:617:	s->packet= &(s->[01;31ms3-[00m[K>rbuf.buf[0]);
+s3_clnt.c:292:			if (!(s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL))
+s3_clnt.c:345:			if (s->[01;31ms3-[00m[K>tmp.cert_req)
+s3_clnt.c:367:			l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_clnt.c:379:			if (s->[01;31ms3-[00m[K>tmp.cert_req == 1)
+s3_clnt.c:386:				s->[01;31ms3-[00m[K>change_cipher_spec=0;
+s3_clnt.c:398:			s->[01;31ms3-[00m[K>change_cipher_spec=0;
+s3_clnt.c:409:			s->session->cipher=s->[01;31ms3-[00m[K>tmp.new_cipher;
+s3_clnt.c:413:			if (s->[01;31ms3-[00m[K>tmp.new_compression == NULL)
+s3_clnt.c:417:					s->[01;31ms3-[00m[K>tmp.new_compression->id;
+s3_clnt.c:444:			s->[01;31ms3-[00m[K>flags&= ~SSL3_FLAGS_POP_BUFFER;
+s3_clnt.c:447:				s->[01;31ms3-[00m[K>tmp.next_state=SSL_ST_OK;
+s3_clnt.c:448:				if (s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_DELAY_CLIENT_FINISHED)
+s3_clnt.c:451:					s->[01;31ms3-[00m[K>flags|=SSL3_FLAGS_POP_BUFFER;
+s3_clnt.c:452:					s->[01;31ms3-[00m[K>delay_buf_pop_ret=0;
+s3_clnt.c:460:					s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_CR_SESSION_TICKET_A;
+s3_clnt.c:464:				s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_CR_FINISHED_A;
+s3_clnt.c:512:			s->state=s->[01;31ms3-[00m[K>tmp.next_state;
+s3_clnt.c:527:			if (!(s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_POP_BUFFER))
+s3_clnt.c:555:		if (!s->[01;31ms3-[00m[K>tmp.reuse_message && !skip)
+s3_clnt.c:606:		p=s->[01;31ms3-[00m[K>client_random;
+s3_clnt.c:620:		memcpy(p,s->[01;31ms3-[00m[K>client_random,SSL3_RANDOM_SIZE);
+s3_clnt.c:713:		if ( s->[01;31ms3-[00m[K>tmp.message_type == DTLS1_MT_HELLO_VERIFY_REQUEST)
+s3_clnt.c:717:				s->[01;31ms3-[00m[K>tmp.reuse_message = 1;
+s3_clnt.c:729:	if ( s->[01;31ms3-[00m[K>tmp.message_type != SSL3_MT_SERVER_HELLO)
+s3_clnt.c:749:	memcpy(s->[01;31ms3-[00m[K>server_random,p,SSL3_RANDOM_SIZE);
+s3_clnt.c:827:	s->[01;31ms3-[00m[K>tmp.new_cipher=c;
+s3_clnt.c:853:		s->[01;31ms3-[00m[K>tmp.new_compression=comp;
+s3_clnt.c:911:	if ((s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_SERVER_KEY_EXCHANGE) ||
+s3_clnt.c:912:		((s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aKRB5) && 
+s3_clnt.c:913:		(s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_SERVER_DONE)))
+s3_clnt.c:915:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+s3_clnt.c:919:	if (s->[01;31ms3-[00m[K>tmp.message_type != SSL3_MT_CERTIFICATE)
+s3_clnt.c:977:	        && (s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & (SSL_MKEY_MASK|SSL_AUTH_MASK))
+s3_clnt.c:1004:	need_cert =	((s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms
+s3_clnt.c:1011:	printf("cipher, alg, nc = %s, %lx, %d\n", s->[01;31ms3-[00m[K>tmp.new_cipher->name,
+s3_clnt.c:1012:	        s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms, need_cert);
+s3_clnt.c:1111:	if (s->[01;31ms3-[00m[K>tmp.message_type != SSL3_MT_SERVER_KEY_EXCHANGE)
+s3_clnt.c:1113:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+s3_clnt.c:1149:	alg=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_clnt.c:1330:		if (SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher) &&
+s3_clnt.c:1429:				EVP_DigestUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+s3_clnt.c:1430:				EVP_DigestUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+s3_clnt.c:1459:			EVP_VerifyUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+s3_clnt.c:1460:			EVP_VerifyUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+s3_clnt.c:1477:			EVP_VerifyUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+s3_clnt.c:1478:			EVP_VerifyUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+s3_clnt.c:1554:	s->[01;31ms3-[00m[K>tmp.cert_req=0;
+s3_clnt.c:1556:	if (s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_SERVER_DONE)
+s3_clnt.c:1558:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+s3_clnt.c:1562:	if (s->[01;31ms3-[00m[K>tmp.message_type != SSL3_MT_CERTIFICATE_REQUEST)
+s3_clnt.c:1572:		l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_clnt.c:1594:		s->[01;31ms3-[00m[K>tmp.ctype[i]= p[i];
+s3_clnt.c:1665:	s->[01;31ms3-[00m[K>tmp.cert_req=1;
+s3_clnt.c:1666:	s->[01;31ms3-[00m[K>tmp.ctype_num=ctype_num;
+s3_clnt.c:1667:	if (s->[01;31ms3-[00m[K>tmp.ca_names != NULL)
+s3_clnt.c:1668:		sk_X509_NAME_pop_free(s->[01;31ms3-[00m[K>tmp.ca_names,X509_NAME_free);
+s3_clnt.c:1669:	s->[01;31ms3-[00m[K>tmp.ca_names=ca_sk;
+s3_clnt.c:1700:	if (s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_FINISHED)
+s3_clnt.c:1702:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+s3_clnt.c:1705:	if (s->[01;31ms3-[00m[K>tmp.message_type != SSL3_MT_NEWSESSION_TICKET)
+s3_clnt.c:1871:		l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_clnt.c:2367:		s->method->ssl3_enc->cert_verify_mac(s,&(s->[01;31ms3-[00m[K>finish_dgst2),
+s3_clnt.c:2374:				&(s->[01;31ms3-[00m[K>finish_dgst1),&(data[0]));
+s3_clnt.c:2486:				s->[01;31ms3-[00m[K>tmp.cert_req=0;
+s3_clnt.c:2492:				s->[01;31ms3-[00m[K>tmp.cert_req=2;
+s3_clnt.c:2504:			(s->[01;31ms3-[00m[K>tmp.cert_req == 2)?NULL:s->cert->key->x509);
+s3_clnt.c:2529:	algs=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_clnt.c:2555:		    s->[01;31ms3-[00m[K>tmp.new_cipher) == 0) 
+s3_clnt.c:2613:	if (SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher) && !has_bits(i,EVP_PKT_EXP))
+s3_clnt.c:2619:			    || RSA_size(rsa)*8 > SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher))
+s3_clnt.c:2631:				|| DH_size(dh)*8 > SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher))
+s3_clnt.c:2719:	s->[01;31ms3-[00m[K>tmp.reuse_message = 1;
+s3_clnt.c:2720:	if ((s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_FINISHED)
+s3_clnt.c:2721:		|| (s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_NEWSESSION_TICKET))
+s3_enc.c:168:		EVP_DigestUpdate(&s1,s->[01;31ms3-[00m[K>server_random,SSL3_RANDOM_SIZE);
+s3_enc.c:169:		EVP_DigestUpdate(&s1,s->[01;31ms3-[00m[K>client_random,SSL3_RANDOM_SIZE);
+s3_enc.c:208:	is_exp=SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher);
+s3_enc.c:209:	c=s->[01;31ms3-[00m[K>tmp.new_sym_enc;
+s3_enc.c:210:	m=s->[01;31ms3-[00m[K>tmp.new_hash;
+s3_enc.c:212:	if (s->[01;31ms3-[00m[K>tmp.new_compression == NULL)
+s3_enc.c:215:		comp=s->[01;31ms3-[00m[K>tmp.new_compression->method;
+s3_enc.c:217:	key_block=s->[01;31ms3-[00m[K>tmp.key_block;
+s3_enc.c:245:			if (s->[01;31ms3-[00m[K>rrec.comp == NULL)
+s3_enc.c:246:				s->[01;31ms3-[00m[K>rrec.comp=(unsigned char *)
+s3_enc.c:248:			if (s->[01;31ms3-[00m[K>rrec.comp == NULL)
+s3_enc.c:252:		memset(&(s->[01;31ms3-[00m[K>read_sequence[0]),0,8);
+s3_enc.c:253:		mac_secret= &(s->[01;31ms3-[00m[K>read_mac_secret[0]);
+s3_enc.c:283:		memset(&(s->[01;31ms3-[00m[K>write_sequence[0]),0,8);
+s3_enc.c:284:		mac_secret= &(s->[01;31ms3-[00m[K>write_mac_secret[0]);
+s3_enc.c:290:	p=s->[01;31ms3-[00m[K>tmp.key_block;
+s3_enc.c:293:	j=is_exp ? (cl < SSL_C_EXPORT_KEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher) ?
+s3_enc.c:294:		 cl : SSL_C_EXPORT_KEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher)) : cl;
+s3_enc.c:303:		er1= &(s->[01;31ms3-[00m[K>client_random[0]);
+s3_enc.c:304:		er2= &(s->[01;31ms3-[00m[K>server_random[0]);
+s3_enc.c:312:		er1= &(s->[01;31ms3-[00m[K>server_random[0]);
+s3_enc.c:313:		er2= &(s->[01;31ms3-[00m[K>client_random[0]);
+s3_enc.c:316:	if (n > s->[01;31ms3-[00m[K>tmp.key_block_length)
+s3_enc.c:369:	if (s->[01;31ms3-[00m[K>tmp.key_block_length != 0)
+s3_enc.c:378:	s->[01;31ms3-[00m[K>tmp.new_sym_enc=c;
+s3_enc.c:379:	s->[01;31ms3-[00m[K>tmp.new_hash=hash;
+s3_enc.c:381:	s->[01;31ms3-[00m[K>tmp.new_compression=NULL;
+s3_enc.c:383:	s->[01;31ms3-[00m[K>tmp.new_compression=comp;
+s3_enc.c:394:	s->[01;31ms3-[00m[K>tmp.key_block_length=num;
+s3_enc.c:395:	s->[01;31ms3-[00m[K>tmp.key_block=p;
+s3_enc.c:404:		s->[01;31ms3-[00m[K>need_empty_fragments = 1;
+s3_enc.c:409:				s->[01;31ms3-[00m[K>need_empty_fragments = 0;
+s3_enc.c:413:				s->[01;31ms3-[00m[K>need_empty_fragments = 0;
+s3_enc.c:427:	if (s->[01;31ms3-[00m[K>tmp.key_block != NULL)
+s3_enc.c:429:		OPENSSL_cleanse(s->[01;31ms3-[00m[K>tmp.key_block,
+s3_enc.c:430:			s->[01;31ms3-[00m[K>tmp.key_block_length);
+s3_enc.c:431:		OPENSSL_free(s->[01;31ms3-[00m[K>tmp.key_block);
+s3_enc.c:432:		s->[01;31ms3-[00m[K>tmp.key_block=NULL;
+s3_enc.c:434:	s->[01;31ms3-[00m[K>tmp.key_block_length=0;
+s3_enc.c:448:		rec= &(s->[01;31ms3-[00m[K>wrec);
+s3_enc.c:457:		rec= &(s->[01;31ms3-[00m[K>rrec);
+s3_enc.c:522:	EVP_MD_CTX_set_flags(&(s->[01;31ms3-[00m[K>finish_dgst1),
+s3_enc.c:524:	EVP_DigestInit_ex(&(s->[01;31ms3-[00m[K>finish_dgst1),s->ctx->md5, NULL);
+s3_enc.c:525:	EVP_DigestInit_ex(&(s->[01;31ms3-[00m[K>finish_dgst2),s->ctx->sha1, NULL);
+s3_enc.c:530:	EVP_DigestUpdate(&(s->[01;31ms3-[00m[K>finish_dgst1),buf,len);
+s3_enc.c:531:	EVP_DigestUpdate(&(s->[01;31ms3-[00m[K>finish_dgst2),buf,len);
+s3_enc.c:597:		rec= &(ssl->[01;31ms3-[00m[K>wrec);
+s3_enc.c:598:		mac_sec= &(ssl->[01;31ms3-[00m[K>write_mac_secret[0]);
+s3_enc.c:599:		seq= &(ssl->[01;31ms3-[00m[K>write_sequence[0]);
+s3_enc.c:604:		rec= &(ssl->[01;31ms3-[00m[K>rrec);
+s3_enc.c:605:		mac_sec= &(ssl->[01;31ms3-[00m[K>read_mac_secret[0]);
+s3_enc.c:606:		seq= &(ssl->[01;31ms3-[00m[K>read_sequence[0]);
+s3_enc.c:676:		EVP_DigestUpdate(&ctx,&(s->[01;31ms3-[00m[K>client_random[0]),
+s3_enc.c:678:		EVP_DigestUpdate(&ctx,&(s->[01;31ms3-[00m[K>server_random[0]),
+s3_lib.c:1654:	return (s->[01;31ms3-[00m>rrec.type == SSL3_RT_APPLICATION_DATA) ? s->[01;31ms3-[00m[K>rrec.length : 0;
+s3_lib.c:1663:	EVP_MD_CTX_init(&[01;31ms3-[00m[K>finish_dgst1);
+s3_lib.c:1664:	EVP_MD_CTX_init(&[01;31ms3-[00m[K>finish_dgst2);
+s3_lib.c:1665:	pq_64bit_init(&([01;31ms3-[00m[K>rrec.seq_num));
+s3_lib.c:1666:	pq_64bit_init(&([01;31ms3-[00m[K>wrec.seq_num));
+s3_lib.c:1682:	if (s->[01;31ms3-[00m[K>rbuf.buf != NULL)
+s3_lib.c:1683:		OPENSSL_free(s->[01;31ms3-[00m[K>rbuf.buf);
+s3_lib.c:1684:	if (s->[01;31ms3-[00m[K>wbuf.buf != NULL)
+s3_lib.c:1685:		OPENSSL_free(s->[01;31ms3-[00m[K>wbuf.buf);
+s3_lib.c:1686:	if (s->[01;31ms3-[00m[K>rrec.comp != NULL)
+s3_lib.c:1687:		OPENSSL_free(s->[01;31ms3-[00m[K>rrec.comp);
+s3_lib.c:1689:	if (s->[01;31ms3-[00m[K>tmp.dh != NULL)
+s3_lib.c:1690:		DH_free(s->[01;31ms3-[00m[K>tmp.dh);
+s3_lib.c:1693:	if (s->[01;31ms3-[00m[K>tmp.ecdh != NULL)
+s3_lib.c:1694:		EC_KEY_free(s->[01;31ms3-[00m[K>tmp.ecdh);
+s3_lib.c:1697:	if (s->[01;31ms3-[00m[K>tmp.ca_names != NULL)
+s3_lib.c:1698:		sk_X509_NAME_pop_free(s->[01;31ms3-[00m[K>tmp.ca_names,X509_NAME_free);
+s3_lib.c:1699:	EVP_MD_CTX_cleanup(&s->[01;31ms3-[00m[K>finish_dgst1);
+s3_lib.c:1700:	EVP_MD_CTX_cleanup(&s->[01;31ms3-[00m[K>finish_dgst2);
+s3_lib.c:1701:	pq_64bit_free(&(s->[01;31ms3-[00m[K>rrec.seq_num));
+s3_lib.c:1702:	pq_64bit_free(&(s->[01;31ms3-[00m[K>wrec.seq_num));
+s3_lib.c:1715:	if (s->[01;31ms3-[00m[K>tmp.ca_names != NULL)
+s3_lib.c:1716:		sk_X509_NAME_pop_free(s->[01;31ms3-[00m[K>tmp.ca_names,X509_NAME_free);
+s3_lib.c:1718:	if (s->[01;31ms3-[00m[K>rrec.comp != NULL)
+s3_lib.c:1720:		OPENSSL_free(s->[01;31ms3-[00m[K>rrec.comp);
+s3_lib.c:1721:		s->[01;31ms3-[00m[K>rrec.comp=NULL;
+s3_lib.c:1724:	if (s->[01;31ms3-[00m[K>tmp.dh != NULL)
+s3_lib.c:1725:		DH_free(s->[01;31ms3-[00m[K>tmp.dh);
+s3_lib.c:1728:	if (s->[01;31ms3-[00m[K>tmp.ecdh != NULL)
+s3_lib.c:1729:		EC_KEY_free(s->[01;31ms3-[00m[K>tmp.ecdh);
+s3_lib.c:1732:	rp = s->[01;31ms3-[00m[K>rbuf.buf;
+s3_lib.c:1733:	wp = s->[01;31ms3-[00m[K>wbuf.buf;
+s3_lib.c:1734:	rlen = s->[01;31ms3-[00m[K>rbuf.len;
+s3_lib.c:1735: 	wlen = s->[01;31ms3-[00m[K>wbuf.len;
+s3_lib.c:1737:	EVP_MD_CTX_cleanup(&s->[01;31ms3-[00m[K>finish_dgst1);
+s3_lib.c:1738:	EVP_MD_CTX_cleanup(&s->[01;31ms3-[00m[K>finish_dgst2);
+s3_lib.c:1741:	s->[01;31ms3-[00m[K>rbuf.buf = rp;
+s3_lib.c:1742:	s->[01;31ms3-[00m[K>wbuf.buf = wp;
+s3_lib.c:1743:	s->[01;31ms3-[00m[K>rbuf.len = rlen;
+s3_lib.c:1744: 	s->[01;31ms3-[00m[K>wbuf.len = wlen;
+s3_lib.c:1749:	s->[01;31ms3-[00m[K>renegotiate=0;
+s3_lib.c:1750:	s->[01;31ms3-[00m[K>total_renegotiations=0;
+s3_lib.c:1751:	s->[01;31ms3-[00m[K>num_renegotiations=0;
+s3_lib.c:1752:	s->[01;31ms3-[00m[K>in_read_app_data=0;
+s3_lib.c:1788:		ret=s->[01;31ms3-[00m[K>num_renegotiations;
+s3_lib.c:1791:		ret=s->[01;31ms3-[00m[K>num_renegotiations;
+s3_lib.c:1792:		s->[01;31ms3-[00m[K>num_renegotiations=0;
+s3_lib.c:1795:		ret=s->[01;31ms3-[00m[K>total_renegotiations;
+s3_lib.c:1798:		ret=(int)(s->[01;31ms3-[00m[K>flags);
+s3_lib.c:2407:	alg=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_lib.c:2477:	 	 * to be written, s->[01;31ms3-[00m[K>alert_dispatch will be true */
+s3_lib.c:2479:	else if (s->[01;31ms3-[00m[K>alert_dispatch)
+s3_lib.c:2493:		!s->[01;31ms3-[00m[K>alert_dispatch)
+s3_lib.c:2511:	if (s->[01;31ms3-[00m[K>renegotiate) ssl3_renegotiate_check(s);
+s3_lib.c:2518:	if ((s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_POP_BUFFER) && (s->wbio == s->bbio))
+s3_lib.c:2521:		if (s->[01;31ms3-[00m[K>delay_buf_pop_ret == 0)
+s3_lib.c:2527:			s->[01;31ms3-[00m[K>delay_buf_pop_ret=ret;
+s3_lib.c:2537:		s->[01;31ms3-[00m[K>flags&= ~SSL3_FLAGS_POP_BUFFER;
+s3_lib.c:2539:		ret=s->[01;31ms3-[00m[K>delay_buf_pop_ret;
+s3_lib.c:2540:		s->[01;31ms3-[00m[K>delay_buf_pop_ret=0;
+s3_lib.c:2557:	if (s->[01;31ms3-[00m[K>renegotiate) ssl3_renegotiate_check(s);
+s3_lib.c:2558:	s->[01;31ms3-[00m[K>in_read_app_data=1;
+s3_lib.c:2560:	if ((ret == -1) && (s->[01;31ms3-[00m[K>in_read_app_data == 2))
+s3_lib.c:2572:		s->[01;31ms3-[00m[K>in_read_app_data=0;
+s3_lib.c:2592:	if (s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS)
+s3_lib.c:2595:	s->[01;31ms3-[00m[K>renegotiate=1;
+s3_lib.c:2603:	if (s->[01;31ms3-[00m[K>renegotiate)
+s3_lib.c:2605:		if (	(s->[01;31ms3-[00m[K>rbuf.left == 0) &&
+s3_lib.c:2606:			(s->[01;31ms3-[00m[K>wbuf.left == 0) &&
+s3_lib.c:2615:			s->[01;31ms3-[00m[K>renegotiate=0;
+s3_lib.c:2616:			s->[01;31ms3-[00m[K>num_renegotiations++;
+s3_lib.c:2617:			s->[01;31ms3-[00m[K>total_renegotiations++;
+s3_pkt.c:127:	 * The packet will be in the sub-array of s->[01;31ms3-[00m[K>rbuf.buf specified
+s3_pkt.c:137:		if (s->[01;31ms3-[00m[K>rbuf.left == 0)
+s3_pkt.c:138:			s->[01;31ms3-[00m[K>rbuf.offset = 0;
+s3_pkt.c:139:		s->packet = s->[01;31ms3-[00m>rbuf.buf + s->[01;31ms3-[00m[K>rbuf.offset;
+s3_pkt.c:148:		if ( s->[01;31ms3-[00m>rbuf.left > 0 && n > s->[01;31ms3-[00m[K>rbuf.left)
+s3_pkt.c:149:			n = s->[01;31ms3-[00m[K>rbuf.left;
+s3_pkt.c:153:	if (s->[01;31ms3-[00m[K>rbuf.left >= (int)n)
+s3_pkt.c:156:		s->[01;31ms3-[00m[K>rbuf.left-=n;
+s3_pkt.c:157:		s->[01;31ms3-[00m[K>rbuf.offset+=n;
+s3_pkt.c:167:		int max_max = s->[01;31ms3-[00m[K>rbuf.len - s->packet_length;
+s3_pkt.c:178:	newb = s->[01;31ms3-[00m[K>rbuf.left;
+s3_pkt.c:182:	if (s->packet != s->[01;31ms3-[00m[K>rbuf.buf)
+s3_pkt.c:185:		memmove(s->[01;31ms3-[00m[K>rbuf.buf, s->packet, off+newb);
+s3_pkt.c:186:		s->packet = s->[01;31ms3-[00m[K>rbuf.buf;
+s3_pkt.c:191:		/* Now we have off+newb bytes at the front of s->[01;31ms3-[00m[K>rbuf.buf and need
+s3_pkt.c:198:			i=BIO_read(s->rbio,	&(s->[01;31ms3-[00m[K>rbuf.buf[off+newb]), max-newb);
+s3_pkt.c:208:			s->[01;31ms3-[00m[K>rbuf.left = newb;
+s3_pkt.c:215:	s->[01;31ms3-[00m[K>rbuf.offset = off + n;
+s3_pkt.c:216:	s->[01;31ms3-[00m[K>rbuf.left = newb - n;
+s3_pkt.c:226: * ssl->[01;31ms3-[00m[K>rrec.type    - is the type of record
+s3_pkt.c:227: * ssl->[01;31ms3-[00m[K>rrec.data, 	 - data
+s3_pkt.c:228: * ssl->[01;31ms3-[00m[K>rrec.length, - number of bytes
+s3_pkt.c:246:	rr= &(s->[01;31ms3-[00m[K>rrec);
+s3_pkt.c:253:	if (extra != s->[01;31ms3-[00m[K>rbuf.len - SSL3_RT_MAX_PACKET_SIZE)
+s3_pkt.c:266:		n=ssl3_read_n(s, SSL3_RT_HEADER_LENGTH, s->[01;31ms3-[00m[K>rbuf.len, 0);
+s3_pkt.c:452:	 * ssl->[01;31ms3-[00m[K>rrec.type 	is the type of record
+s3_pkt.c:453:	 * ssl->[01;31ms3-[00m[K>rrec.length	== number of bytes in record
+s3_pkt.c:454:	 * ssl->[01;31ms3-[00m[K>rrec.off	== offset to first valid byte
+s3_pkt.c:455:	 * ssl->[01;31ms3-[00m[K>rrec.data	== where to take bytes from, increment
+s3_pkt.c:479:	rr= &(ssl->[01;31ms3-[00m[K>rrec);
+s3_pkt.c:497:	wr= &(ssl->[01;31ms3-[00m[K>wrec);
+s3_pkt.c:521:	tot=s->[01;31ms3-[00m[K>wnum;
+s3_pkt.c:522:	s->[01;31ms3-[00m[K>wnum=0;
+s3_pkt.c:546:			s->[01;31ms3-[00m[K>wnum=tot;
+s3_pkt.c:556:			s->[01;31ms3-[00m[K>empty_fragment_done = 0;
+s3_pkt.c:578:	if (s->[01;31ms3-[00m[K>wbuf.left != 0)
+s3_pkt.c:582:	if (s->[01;31ms3-[00m[K>alert_dispatch)
+s3_pkt.c:593:	wr= &(s->[01;31ms3-[00m[K>wrec);
+s3_pkt.c:594:	wb= &(s->[01;31ms3-[00m[K>wbuf);
+s3_pkt.c:608:	if (!clear && !create_empty_fragment && !s->[01;31ms3-[00m[K>empty_fragment_done)
+s3_pkt.c:613:		if (s->[01;31ms3-[00m[K>need_empty_fragments && type == SSL3_RT_APPLICATION_DATA)
+s3_pkt.c:623:			if (s->[01;31ms3-[00m[K>wbuf.len < (size_t)prefix_len + SSL3_RT_MAX_PACKET_SIZE)
+s3_pkt.c:631:		s->[01;31ms3-[00m[K>empty_fragment_done = 1;
+s3_pkt.c:708:	s->[01;31ms3-[00m[K>wpend_tot=len;
+s3_pkt.c:709:	s->[01;31ms3-[00m[K>wpend_buf=buf;
+s3_pkt.c:710:	s->[01;31ms3-[00m[K>wpend_type=type;
+s3_pkt.c:711:	s->[01;31ms3-[00m[K>wpend_ret=len;
+s3_pkt.c:719:/* if s->[01;31ms3-[00m[K>wbuf.left != 0, we need to call this */
+s3_pkt.c:726:	if ((s->[01;31ms3-[00m[K>wpend_tot > (int)len)
+s3_pkt.c:727:		|| ((s->[01;31ms3-[00m[K>wpend_buf != buf) &&
+s3_pkt.c:729:		|| (s->[01;31ms3-[00m[K>wpend_type != type))
+s3_pkt.c:742:				(char *)&(s->[01;31ms3-[00m>wbuf.buf[s->[01;31ms3-[00m[K>wbuf.offset]),
+s3_pkt.c:743:				(unsigned int)s->[01;31ms3-[00m[K>wbuf.left);
+s3_pkt.c:750:		if (i == s->[01;31ms3-[00m[K>wbuf.left)
+s3_pkt.c:752:			s->[01;31ms3-[00m[K>wbuf.left=0;
+s3_pkt.c:754:			return(s->[01;31ms3-[00m[K>wpend_ret);
+s3_pkt.c:761:				s->[01;31ms3-[00m[K>wbuf.left = 0;
+s3_pkt.c:765:		s->[01;31ms3-[00m[K>wbuf.offset+=i;
+s3_pkt.c:766:		s->[01;31ms3-[00m[K>wbuf.left-=i;
+s3_pkt.c:804:	if (s->[01;31ms3-[00m[K>rbuf.buf == NULL) /* Not initialized yet */
+s3_pkt.c:815:	if ((type == SSL3_RT_HANDSHAKE) && (s->[01;31ms3-[00m[K>handshake_fragment_len > 0))
+s3_pkt.c:818:		unsigned char *src = s->[01;31ms3-[00m[K>handshake_fragment;
+s3_pkt.c:824:		while ((len > 0) && (s->[01;31ms3-[00m[K>handshake_fragment_len > 0))
+s3_pkt.c:827:			len--; s->[01;31ms3-[00m[K>handshake_fragment_len--;
+s3_pkt.c:831:		for (k = 0; k < s->[01;31ms3-[00m[K>handshake_fragment_len; k++)
+s3_pkt.c:832:			s->[01;31ms3-[00m[K>handshake_fragment[k] = *src++;
+s3_pkt.c:836:	/* Now s->[01;31ms3-[00m[K>handshake_fragment_len == 0 if type == SSL3_RT_HANDSHAKE. */
+s3_pkt.c:852:	/* s->[01;31ms3-[00m[K>rrec.type	    - is the type of record
+s3_pkt.c:853:	 * s->[01;31ms3-[00m[K>rrec.data,    - data
+s3_pkt.c:854:	 * s->[01;31ms3-[00m[K>rrec.off,     - offset into 'data' for next read
+s3_pkt.c:855:	 * s->[01;31ms3-[00m[K>rrec.length,  - number of bytes. */
+s3_pkt.c:856:	rr = &(s->[01;31ms3-[00m[K>rrec);
+s3_pkt.c:867:	if (s->[01;31ms3-[00m[K>change_cipher_spec /* set when we receive ChangeCipherSpec,
+s3_pkt.c:933:			dest_maxlen = sizeof s->[01;31ms3-[00m[K>handshake_fragment;
+s3_pkt.c:934:			dest = s->[01;31ms3-[00m[K>handshake_fragment;
+s3_pkt.c:935:			dest_len = &s->[01;31ms3-[00m[K>handshake_fragment_len;
+s3_pkt.c:939:			dest_maxlen = sizeof s->[01;31ms3-[00m[K>alert_fragment;
+s3_pkt.c:940:			dest = s->[01;31ms3-[00m[K>alert_fragment;
+s3_pkt.c:941:			dest_len = &s->[01;31ms3-[00m[K>alert_fragment_len;
+s3_pkt.c:962:	/* s->[01;31ms3-[00m[K>handshake_fragment_len == 4  iff  rr->type == SSL3_RT_HANDSHAKE;
+s3_pkt.c:963:	 * s->[01;31ms3-[00m[K>alert_fragment_len == 2      iff  rr->type == SSL3_RT_ALERT.
+s3_pkt.c:968:		(s->[01;31ms3-[00m[K>handshake_fragment_len >= 4) &&
+s3_pkt.c:969:		(s->[01;31ms3-[00m[K>handshake_fragment[0] == SSL3_MT_HELLO_REQUEST) &&
+s3_pkt.c:972:		s->[01;31ms3-[00m[K>handshake_fragment_len = 0;
+s3_pkt.c:974:		if ((s->[01;31ms3-[00m[K>handshake_fragment[1] != 0) ||
+s3_pkt.c:975:			(s->[01;31ms3-[00m[K>handshake_fragment[2] != 0) ||
+s3_pkt.c:976:			(s->[01;31ms3-[00m[K>handshake_fragment[3] != 0))
+s3_pkt.c:984:			s->msg_callback(0, s->version, SSL3_RT_HANDSHAKE, s->[01;31ms3-[00m[K>handshake_fragment, 4, s, s->msg_callback_arg);
+s3_pkt.c:987:			!(s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS) &&
+s3_pkt.c:988:			!s->[01;31ms3-[00m[K>renegotiate)
+s3_pkt.c:1003:					if (s->[01;31ms3-[00m[K>rbuf.left == 0) /* no read-ahead left? */
+s3_pkt.c:1024:	if (s->[01;31ms3-[00m[K>alert_fragment_len >= 2)
+s3_pkt.c:1026:		int alert_level = s->[01;31ms3-[00m[K>alert_fragment[0];
+s3_pkt.c:1027:		int alert_descr = s->[01;31ms3-[00m[K>alert_fragment[1];
+s3_pkt.c:1029:		s->[01;31ms3-[00m[K>alert_fragment_len = 0;
+s3_pkt.c:1032:			s->msg_callback(0, s->version, SSL3_RT_ALERT, s->[01;31ms3-[00m[K>alert_fragment, 2, s, s->msg_callback_arg);
+s3_pkt.c:1047:			s->[01;31ms3-[00m[K>warn_alert = alert_descr;
+s3_pkt.c:1059:			s->[01;31ms3-[00m[K>fatal_alert = alert_descr;
+s3_pkt.c:1097:		if (s->[01;31ms3-[00m[K>tmp.new_cipher == NULL)
+s3_pkt.c:1109:		s->[01;31ms3-[00m[K>change_cipher_spec=1;
+s3_pkt.c:1117:	if ((s->[01;31ms3-[00m[K>handshake_fragment_len >= 4) &&	!s->in_handshake)
+s3_pkt.c:1120:			!(s->[01;31ms3-[00m[K>flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS))
+s3_pkt.c:1143:			if (s->[01;31ms3-[00m[K>rbuf.left == 0) /* no read-ahead left? */
+s3_pkt.c:1191:		if (s->[01;31ms3-[00m[K>in_read_app_data &&
+s3_pkt.c:1192:			(s->[01;31ms3-[00m[K>total_renegotiations != 0) &&
+s3_pkt.c:1204:			s->[01;31ms3-[00m[K>in_read_app_data=2;
+s3_pkt.c:1233:	if (s->[01;31ms3-[00m[K>tmp.key_block == NULL)
+s3_pkt.c:1242:		s->session->cipher=s->[01;31ms3-[00m[K>tmp.new_cipher;
+s3_pkt.c:1263:	s->[01;31ms3-[00m[K>tmp.peer_finish_md_len = s->method->ssl3_enc->final_finish_mac(s,
+s3_pkt.c:1264:		&(s->[01;31ms3-[00m[K>finish_dgst1),
+s3_pkt.c:1265:		&(s->[01;31ms3-[00m[K>finish_dgst2),
+s3_pkt.c:1266:		sender,slen,s->[01;31ms3-[00m[K>tmp.peer_finish_md);
+s3_pkt.c:1282:	s->[01;31ms3-[00m[K>alert_dispatch=1;
+s3_pkt.c:1283:	s->[01;31ms3-[00m[K>send_alert[0]=level;
+s3_pkt.c:1284:	s->[01;31ms3-[00m[K>send_alert[1]=desc;
+s3_pkt.c:1285:	if (s->[01;31ms3-[00m[K>wbuf.left == 0) /* data still being written out? */
+s3_pkt.c:1296:	s->[01;31ms3-[00m[K>alert_dispatch=0;
+s3_pkt.c:1297:	i = do_ssl3_write(s, SSL3_RT_ALERT, &s->[01;31ms3-[00m[K>send_alert[0], 2, 0);
+s3_pkt.c:1300:		s->[01;31ms3-[00m[K>alert_dispatch=1;
+s3_pkt.c:1307:		if (s->[01;31ms3-[00m[K>send_alert[0] == SSL3_AL_FATAL)
+s3_pkt.c:1311:			s->msg_callback(1, s->version, SSL3_RT_ALERT, s->[01;31ms3-[00m[K>send_alert, 2, s, s->msg_callback_arg);
+s3_pkt.c:1320:			j=(s->[01;31ms3-[00m>send_alert[0]<<8)|s->[01;31ms3-[00m[K>send_alert[1];
+s3_srvr.c:266:			s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SW_HELLO_REQ_C;
+s3_srvr.c:313:			if (!(s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL)
+s3_srvr.c:314:				&& !(s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aKRB5))
+s3_srvr.c:341:			l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_srvr.c:354:				s->[01;31ms3-[00m[K>tmp.use_rsa_tmp=1;
+s3_srvr.c:356:				s->[01;31ms3-[00m[K>tmp.use_rsa_tmp=0;
+s3_srvr.c:368:			if (s->[01;31ms3-[00m[K>tmp.use_rsa_tmp
+s3_srvr.c:373:				    || (SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher)
+s3_srvr.c:374:					&& EVP_PKEY_size(s->cert->pkeys[SSL_PKEY_RSA_ENC].privatekey)*8 > SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher)
+s3_srvr.c:401:				((s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL) &&
+s3_srvr.c:406:                                (s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aKRB5))
+s3_srvr.c:410:				s->[01;31ms3-[00m[K>tmp.cert_request=0;
+s3_srvr.c:415:				s->[01;31ms3-[00m[K>tmp.cert_request=1;
+s3_srvr.c:422:				s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SR_CERT_A;
+s3_srvr.c:432:			s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SR_CERT_A;
+s3_srvr.c:448:			s->state=s->[01;31ms3-[00m[K>tmp.next_state;
+s3_srvr.c:460:				if (s->[01;31ms3-[00m[K>tmp.cert_request)
+s3_srvr.c:494:				    &(s->[01;31ms3-[00m[K>finish_dgst1),
+s3_srvr.c:495:				    &(s->[01;31ms3-[00m[K>tmp.cert_verify_md[0]));
+s3_srvr.c:497:				    &(s->[01;31ms3-[00m[K>finish_dgst2),
+s3_srvr.c:498:				    &(s->[01;31ms3-[00m[K>tmp.cert_verify_md[MD5_DIGEST_LENGTH]));
+s3_srvr.c:551:			s->session->cipher=s->[01;31ms3-[00m[K>tmp.new_cipher;
+s3_srvr.c:580:				s->[01;31ms3-[00m[K>tmp.next_state=SSL3_ST_SR_FINISHED_A;
+s3_srvr.c:582:				s->[01;31ms3-[00m[K>tmp.next_state=SSL_ST_OK;
+s3_srvr.c:625:		if (!s->[01;31ms3-[00m[K>tmp.reuse_message && !skip)
+s3_srvr.c:689:	s->[01;31ms3-[00m[K>tmp.reuse_message = 1;
+s3_srvr.c:690:	if (s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_CLIENT_HELLO)
+s3_srvr.c:697:		if (s->[01;31ms3-[00m[K>tmp.dh != NULL)
+s3_srvr.c:699:			DH_free(s->[01;31ms3-[00m[K>tmp.dh);
+s3_srvr.c:700:			s->[01;31ms3-[00m[K>tmp.dh = NULL;
+s3_srvr.c:771:	memcpy(s->[01;31ms3-[00m[K>client_random,p,SSL3_RANDOM_SIZE);
+s3_srvr.c:981:	s->[01;31ms3-[00m[K>tmp.new_compression=NULL;
+s3_srvr.c:1003:			s->[01;31ms3-[00m[K>tmp.new_compression=comp;
+s3_srvr.c:1055:		s->[01;31ms3-[00m[K>tmp.new_cipher=c;
+s3_srvr.c:1077:				s->[01;31ms3-[00m[K>tmp.new_cipher=nc;
+s3_srvr.c:1079:				s->[01;31ms3-[00m[K>tmp.new_cipher=ec;
+s3_srvr.c:1081:				s->[01;31ms3-[00m[K>tmp.new_cipher=s->session->cipher;
+s3_srvr.c:1085:		s->[01;31ms3-[00m[K>tmp.new_cipher=s->session->cipher;
+s3_srvr.c:1120:		p=s->[01;31ms3-[00m[K>server_random;
+s3_srvr.c:1132:		memcpy(p,s->[01;31ms3-[00m[K>server_random,SSL3_RANDOM_SIZE);
+s3_srvr.c:1165:		i=ssl3_put_cipher_by_char(s->[01;31ms3-[00m[K>tmp.new_cipher,p);
+s3_srvr.c:1172:		if (s->[01;31ms3-[00m[K>tmp.new_compression == NULL)
+s3_srvr.c:1175:			*(p++)=s->[01;31ms3-[00m[K>tmp.new_compression->id;
+s3_srvr.c:1257:		type=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_MKEY_MASK;
+s3_srvr.c:1271:				      SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher),
+s3_srvr.c:1272:				      SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher));
+s3_srvr.c:1290:			s->[01;31ms3-[00m[K>tmp.use_rsa_tmp=1;
+s3_srvr.c:1300:				      SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher),
+s3_srvr.c:1301:				      SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher));
+s3_srvr.c:1309:			if (s->[01;31ms3-[00m[K>tmp.dh != NULL)
+s3_srvr.c:1322:			s->[01;31ms3-[00m[K>tmp.dh=dh;
+s3_srvr.c:1360:				      SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher),
+s3_srvr.c:1361:				      SSL_C_EXPORT_PKEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher));
+s3_srvr.c:1370:			if (s->[01;31ms3-[00m[K>tmp.ecdh != NULL)
+s3_srvr.c:1372:				EC_KEY_free(s->[01;31ms3-[00m[K>tmp.ecdh); 
+s3_srvr.c:1390:			s->[01;31ms3-[00m[K>tmp.ecdh=ecdh;
+s3_srvr.c:1410:			if (SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher) &&
+s3_srvr.c:1490:		if (!(s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms & SSL_aNULL))
+s3_srvr.c:1492:			if ((pkey=ssl_get_sign_pkey(s,s->[01;31ms3-[00m[K>tmp.new_cipher))
+s3_srvr.c:1562:					EVP_DigestUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+s3_srvr.c:1563:					EVP_DigestUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+s3_srvr.c:1586:				EVP_SignUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+s3_srvr.c:1587:				EVP_SignUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+s3_srvr.c:1605:				EVP_SignUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>client_random[0]),SSL3_RANDOM_SIZE);
+s3_srvr.c:1606:				EVP_SignUpdate(&md_ctx,&(s->[01;31ms3-[00m[K>server_random[0]),SSL3_RANDOM_SIZE);
+s3_srvr.c:1774:	l=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+s3_srvr.c:1780:		if (s->[01;31ms3-[00m[K>tmp.use_rsa_tmp)
+s3_srvr.c:1909:			if (s->[01;31ms3-[00m[K>tmp.dh == NULL)
+s3_srvr.c:1916:				dh_srvr=s->[01;31ms3-[00m[K>tmp.dh;
+s3_srvr.c:1934:		DH_free(s->[01;31ms3-[00m[K>tmp.dh);
+s3_srvr.c:1935:		s->[01;31ms3-[00m[K>tmp.dh=NULL;
+s3_srvr.c:2167:			tkey = s->[01;31ms3-[00m[K>tmp.ecdh;
+s3_srvr.c:2341:	if (s->[01;31ms3-[00m[K>tmp.message_type != SSL3_MT_CERTIFICATE_VERIFY)
+s3_srvr.c:2343:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+s3_srvr.c:2368:	if (s->[01;31ms3-[00m[K>change_cipher_spec)
+s3_srvr.c:2397:		i=RSA_verify(NID_md5_sha1, s->[01;31ms3-[00m[K>tmp.cert_verify_md,
+s3_srvr.c:2419:			&(s->[01;31ms3-[00m[K>tmp.cert_verify_md[MD5_DIGEST_LENGTH]),
+s3_srvr.c:2435:			&(s->[01;31ms3-[00m[K>tmp.cert_verify_md[MD5_DIGEST_LENGTH]),
+s3_srvr.c:2484:	if	(s->[01;31ms3-[00m[K>tmp.message_type == SSL3_MT_CLIENT_KEY_EXCHANGE)
+s3_srvr.c:2494:		if ((s->version > SSL3_VERSION) && s->[01;31ms3-[00m[K>tmp.cert_request)
+s3_srvr.c:2500:		s->[01;31ms3-[00m[K>tmp.reuse_message=1;
+s3_srvr.c:2504:	if (s->[01;31ms3-[00m[K>tmp.message_type != SSL3_MT_CERTIFICATE)
+s3_srvr.c:2632:                        (s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms
+ssl_cert.c:594:			return(s->[01;31ms3-[00m[K>tmp.ca_names);
+ssl_lib.c:668:		ret = s->[01;31ms3-[00m[K>tmp.finish_md_len;
+ssl_lib.c:671:		memcpy(buf, s->[01;31ms3-[00m[K>tmp.finish_md, count);
+ssl_lib.c:683:		ret = s->[01;31ms3-[00m[K>tmp.peer_finish_md_len;
+ssl_lib.c:686:		memcpy(buf, s->[01;31ms3-[00m[K>tmp.peer_finish_md, count);
+ssl_lib.c:1892:	ssl_set_cert_masks(c, s->[01;31ms3-[00m[K>tmp.new_cipher);
+ssl_lib.c:1893:	alg=s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms;
+ssl_lib.c:1894:	is_export=SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher);
+ssl_lib.c:2119:				(s->[01;31ms3-[00m[K>warn_alert == SSL_AD_CLOSE_NOTIFY))
+t1_enc.c:206:	memcpy(p,s->[01;31ms3-[00m[K>server_random,SSL3_RANDOM_SIZE);
+t1_enc.c:208:	memcpy(p,s->[01;31ms3-[00m[K>client_random,SSL3_RANDOM_SIZE);
+t1_enc.c:248:	is_export=SSL_C_IS_EXPORT(s->[01;31ms3-[00m[K>tmp.new_cipher);
+t1_enc.c:249:	c=s->[01;31ms3-[00m[K>tmp.new_sym_enc;
+t1_enc.c:250:	m=s->[01;31ms3-[00m[K>tmp.new_hash;
+t1_enc.c:252:	comp=s->[01;31ms3-[00m[K>tmp.new_compression;
+t1_enc.c:254:	key_block=s->[01;31ms3-[00m[K>tmp.key_block;
+t1_enc.c:258:	printf("\talg= %ld, comp= %p\n", s->[01;31ms3-[00m[K>tmp.new_cipher->algorithms,
+t1_enc.c:263:	printf("\tkey_block: len= %d, data= ", s->[01;31ms3-[00m[K>tmp.key_block_length);
+t1_enc.c:266:        for (ki=0; ki<s->[01;31ms3-[00m[K>tmp.key_block_length; ki++)
+t1_enc.c:296:			if (s->[01;31ms3-[00m[K>rrec.comp == NULL)
+t1_enc.c:297:				s->[01;31ms3-[00m[K>rrec.comp=(unsigned char *)
+t1_enc.c:299:			if (s->[01;31ms3-[00m[K>rrec.comp == NULL)
+t1_enc.c:305:			memset(&(s->[01;31ms3-[00m[K>read_sequence[0]),0,8);
+t1_enc.c:306:		mac_secret= &(s->[01;31ms3-[00m[K>read_mac_secret[0]);
+t1_enc.c:337:			memset(&(s->[01;31ms3-[00m[K>write_sequence[0]),0,8);
+t1_enc.c:338:		mac_secret= &(s->[01;31ms3-[00m[K>write_mac_secret[0]);
+t1_enc.c:344:	p=s->[01;31ms3-[00m[K>tmp.key_block;
+t1_enc.c:347:	j=is_export ? (cl < SSL_C_EXPORT_KEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher) ?
+t1_enc.c:348:	               cl : SSL_C_EXPORT_KEYLENGTH(s->[01;31ms3-[00m[K>tmp.new_cipher)) : cl;
+t1_enc.c:351:	er1= &(s->[01;31ms3-[00m[K>client_random[0]);
+t1_enc.c:352:	er2= &(s->[01;31ms3-[00m[K>server_random[0]);
+t1_enc.c:374:	if (n > s->[01;31ms3-[00m[K>tmp.key_block_length)
+t1_enc.c:393:		memcpy(p,s->[01;31ms3-[00m[K>client_random,SSL3_RANDOM_SIZE);
+t1_enc.c:395:		memcpy(p,s->[01;31ms3-[00m[K>server_random,SSL3_RANDOM_SIZE);
+t1_enc.c:407:			memcpy(p,s->[01;31ms3-[00m[K>client_random,SSL3_RANDOM_SIZE);
+t1_enc.c:409:			memcpy(p,s->[01;31ms3-[00m[K>server_random,SSL3_RANDOM_SIZE);
+t1_enc.c:466:	if (s->[01;31ms3-[00m[K>tmp.key_block_length != 0)
+t1_enc.c:475:	s->[01;31ms3-[00m[K>tmp.new_sym_enc=c;
+t1_enc.c:476:	s->[01;31ms3-[00m[K>tmp.new_hash=hash;
+t1_enc.c:488:	s->[01;31ms3-[00m[K>tmp.key_block_length=num;
+t1_enc.c:489:	s->[01;31ms3-[00m[K>tmp.key_block=p1;
+t1_enc.c:494:{ int z; for (z=0; z<SSL3_RANDOM_SIZE; z++) printf("%02X%c",s->[01;31ms3-[00m[K>client_random[z],((z+1)%16)?' ':'\n'); }
+t1_enc.c:496:{ int z; for (z=0; z<SSL3_RANDOM_SIZE; z++) printf("%02X%c",s->[01;31ms3-[00m[K>server_random[z],((z+1)%16)?' ':'\n'); }
+t1_enc.c:513:		s->[01;31ms3-[00m[K>need_empty_fragments = 1;
+t1_enc.c:518:				s->[01;31ms3-[00m[K>need_empty_fragments = 0;
+t1_enc.c:522:				s->[01;31ms3-[00m[K>need_empty_fragments = 0;
+t1_enc.c:546:		rec= &(s->[01;31ms3-[00m[K>wrec);
+t1_enc.c:557:		rec= &(s->[01;31ms3-[00m[K>rrec);
+t1_enc.c:589:				if (s->[01;31ms3-[00m[K>flags & TLS1_FLAGS_TLS_PADDING_BUG)
+t1_enc.c:653:				if ((memcmp(s->[01;31ms3-[00m[K>read_sequence,
+t1_enc.c:655:					s->[01;31ms3-[00m[K>flags|=TLS1_FLAGS_TLS_PADDING_BUG;
+t1_enc.c:656:				if (s->[01;31ms3-[00m[K>flags & TLS1_FLAGS_TLS_PADDING_BUG)
+t1_enc.c:735:		rec= &(ssl->[01;31ms3-[00m[K>wrec);
+t1_enc.c:736:		mac_sec= &(ssl->[01;31ms3-[00m[K>write_mac_secret[0]);
+t1_enc.c:737:		seq= &(ssl->[01;31ms3-[00m[K>write_sequence[0]);
+t1_enc.c:742:		rec= &(ssl->[01;31ms3-[00m[K>rrec);
+t1_enc.c:743:		mac_sec= &(ssl->[01;31ms3-[00m[K>read_mac_secret[0]);
+t1_enc.c:744:		seq= &(ssl->[01;31ms3-[00m[K>read_sequence[0]);
+t1_enc.c:825:		s->[01;31ms3-[00m[K>client_random,SSL3_RANDOM_SIZE);
+t1_enc.c:827:		s->[01;31ms3-[00m[K>server_random,SSL3_RANDOM_SIZE);
