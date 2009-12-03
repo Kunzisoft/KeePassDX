@@ -3,28 +3,28 @@
  Copyright 2009 Brian Pellin.
      
  This file is part of KeePassDroid.
-
+ 
   KeePassDroid is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
-
+ 
   KeePassDroid is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-
+ 
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
-
-  French translation by Laurent
-
+ 
+  French translation by Laurent, Norman
+ 
 -->
 <resources>
 	<string name="about_feedback">Commentaires :</string>
 	<string name="about_homepage">Site web :</string>
 	<string name="about_ok">OK</string>
-	<string name="AboutText">KeePassDroid est une compatibilité avec le logiciel KeePass Password Manager. Pour l\'instant, vous devez créer une base de données avec le logiciel KeePass sur votre ordinateur puis la transférer sur la carte mémoire de votre appareil mobile.</string>
+	<string name="AboutText">KeePassDroid est un portage du logiciel KeePass Password Manager. Pour l\'instant, vous devez créer une base de données avec le logiciel KeePass sur votre ordinateur puis la transférer sur la carte mémoire de votre appareil mobile.</string>
 	<string name="about_twitter">Twitter :</string>
 	<string name="add_entry">Ajouter une entrée</string>
 	<string name="add_group">Ajouter un groupe</string>
@@ -35,8 +35,8 @@
 	<string name="cancel">Annuler</string>    
 	<string name="ClearClipboard">Presse-papier nettoyé.</string>    
 	<string name="current_group">Groupe actuel : </string>    
-	<string name="current_group_root">Groupe actuel : Root</string>    
-	<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de version GPL 2 ou supérieure.</string>    
+	<string name="current_group_root">Groupe actuel : Racine</string>    
+	<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de la licenceGPL v2 ou ultérieure.</string>    
 	<string name="enter_filename">Entrez le nom de fichier de la base de données :</string>    
 	<string name="entry_accessed">Accédé : </string>    
 	<string name="entry_and_or">Entrez un mot de passe et/ou une clé de fichier pour déverrouiller votre base de données :</string>    
@@ -45,14 +45,14 @@
 	<string name="entry_confpassword">Confirmer mot de passe :</string>    
 	<string name="entry_created">Créée : </string>    
 	<string name="entry_expires">Expire: </string>    
-	<string name="entry_keyfile">Clé de fichier (facultatif)</string>    
+	<string name="entry_keyfile">Clé (facultative)</string>    
 	<string name="entry_modified">Modifié : </string>    
 	<string name="entry_password">Mot de passe</string>    
-	<string name="entry_save">Sauvegarder</string>    
+	<string name="entry_save">Sauver</string>    
 	<string name="entry_title">Nom : </string>    
 	<string name="entry_url">URL : </string>    
 	<string name="entry_user_name">Nom d\'utilisateur : </string>    
-	<string name="error_can_not_handle_uri">KeePassDroid ne peut pas gérer cette uri.</string>    
+	<string name="error_can_not_handle_uri">KeePassDroid ne peut pas gérer cette URI.</string>    
 	<string name="error_could_not_create_group">Erreur de création de groupe.</string>    
 	<string name="error_database_exists">Ce fichier existe déjà.</string>    
 	<string name="error_database_settings">Impossible de déterminer les paramètres de base de données.</string>    
@@ -78,7 +78,7 @@
 	<string name="loading_database">Chargement de la base de données...</string>    
 	<string name="MaskedPassword">*****</string>    
 	<string name="menu_about">A propos</string>    
-	<string name="menu_change_key">Changer la Master Clé</string>    
+	<string name="menu_change_key">Changer la Clé maître</string>    
 	<string name="menu_copy_pass">Copier mot de passe</string>    
 	<string name="menu_copy_user">Copier Utilisateur</string>    
 	<string name="menu_create">Créer</string>    
@@ -97,7 +97,7 @@
 	<string name="no_keys">Aucune entrée dans la base de données ou le groupe.</string>    
 	<string name="no_results">Aucun résultat pour cette recherche</string>    
 	<string name="no_url_handler">Aucun gestionnaire pour cette url.</string>    
-	<string name="open_recent">base de données récemment ouverte (cliquez pour ouvrir) :</string>    
+	<string name="open_recent">base de données récemment ouvertes (cliquez pour ouvrir) :</string>    
 	<string name="pass_filename">Nom de fichier de base de données KeePass :</string>    
 	<string name="pass_ok">Ok</string>    
 	<string name="password_title">Entrez le mot de passe de la base de données</string>    
@@ -105,9 +105,9 @@
 	<string name="progress_title">En cours...</string>    
 	<string name="rijndael">Rijndael (AES)</string>    
 	<string name="root">Racine</string>    
-	<string name="rounds">Cycle du cryptage</string>    
-	<string name="rounds_explaination">Un cycle de cryptage supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir le chargement et la sauvegarde.</string>    
-	<string name="rounds_hint">cycles</string>    
+	<string name="rounds">Niveau du cryptage</string>    
+	<string name="rounds_explaination">Un niveau de cryptage supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir le chargement et la sauvegarde.</string>    
+	<string name="rounds_hint">niveaux</string>    
 	<string name="saving_database">Sauvegarde base de données...</string>    
 	<string name="search_hint">Titre de l\'entrée/description</string>    
 	<string name="search_label">Rechercher</string>    
