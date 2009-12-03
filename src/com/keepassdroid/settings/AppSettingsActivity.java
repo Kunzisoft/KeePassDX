@@ -23,15 +23,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
+import com.keepassdroid.LockingClosePreferenceActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.fileselect.FileDbHelper;
 
-public class AppSettingsActivity extends PreferenceActivity {
+public class AppSettingsActivity extends LockingClosePreferenceActivity {
 	public static boolean KEYFILE_DEFAULT = false;
 	
 	public static void Launch(Context ctx) {

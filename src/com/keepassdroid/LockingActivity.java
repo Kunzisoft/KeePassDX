@@ -21,6 +21,7 @@ package com.keepassdroid;
 
 import android.app.Activity;
 
+import com.keepassdroid.app.App;
 import com.keepassdroid.timers.Timeout;
 
 public class LockingActivity extends Activity {
@@ -28,15 +29,17 @@ public class LockingActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
-		Timeout.start(this);
+		if ( App.getDB().Loaded() ) {
+			Timeout.start(this);
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		Timeout.cancel(this);
+
+		if ( App.getDB().Loaded() ) {
+			Timeout.cancel(this);
+		}
 	}
-	
 }

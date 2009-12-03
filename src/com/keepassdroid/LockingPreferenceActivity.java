@@ -19,12 +19,13 @@
  */
 package com.keepassdroid;
 
-import android.app.ListActivity;
-
 import com.keepassdroid.app.App;
 import com.keepassdroid.timers.Timeout;
 
-public class LockingListActivity extends ListActivity {
+import android.preference.PreferenceActivity;
+
+public class LockingPreferenceActivity extends PreferenceActivity {
+
 	@Override
 	protected void onPause() {
 		super.onPause();

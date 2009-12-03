@@ -32,7 +32,7 @@ public class LockCloseActivity extends LockingActivity {
 	}
 	
 	private void checkShutdown() {
-		if ( App.isShutdown() ) {
+		if ( App.isShutdown() && App.getDB().Loaded() ) {
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 		}
