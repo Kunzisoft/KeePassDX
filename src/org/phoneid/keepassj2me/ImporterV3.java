@@ -302,7 +302,7 @@ public class ImporterV3 {
 	 */
 	public static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
 	{
-		FinalKey key = FinalKeyFactory.createFinalKey(true);
+		FinalKey key = FinalKeyFactory.createFinalKey();
 		
 		return key.transformMasterKey(pKeySeed, pKey, rounds);
 	}
