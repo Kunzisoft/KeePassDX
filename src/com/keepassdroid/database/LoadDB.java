@@ -26,6 +26,7 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
@@ -57,9 +58,11 @@ public class LoadDB extends RunnableOnFinish {
 	@Override
 	public void run() {
 		try {
+			Debug.startMethodTracing("load");
 			mDb.LoadData(mCtx, mFileName, mPass, mKey);
 			
 			saveFileData(mFileName, mKey);
+			Debug.stopMethodTracing();
 			
 		} catch (InvalidCipherTextException e) {
 			finish(false, mCtx.getString(R.string.InvalidPassword));
