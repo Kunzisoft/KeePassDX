@@ -20,8 +20,6 @@
 package com.keepassdroid.crypto.finalkey;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public class NativeFinalKey extends FinalKey {
@@ -51,19 +49,7 @@ public class NativeFinalKey extends FinalKey {
 	public byte[] transformMasterKey(byte[] seed, byte[] key, int rounds) throws IOException {
 		init();
 		
-		byte[] newKey = nativeTransformMasterKey(seed, key, rounds);
-		
-		// Hash the key
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			assert true;
-			throw new IOException("SHA-256 not implemented here: " + e.getMessage());
-		}
-
-		md.update(newKey);
-		return md.digest();
+		return nativeTransformMasterKey(seed, key, rounds);
 
 	}
 	
