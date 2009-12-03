@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.app;
 
+import java.util.Calendar;
+
 import android.app.Application;
 
 import com.keepassdroid.Database;
@@ -26,6 +28,7 @@ import com.keepassdroid.Database;
 public class App extends Application {
 	private static Database db;
 	private static boolean shutdown = false;
+	private static Calendar calendar;
 
 	public static Database getDB() {
 		if ( db == null ) {
@@ -49,6 +52,14 @@ public class App extends Application {
 	
 	public static void clearShutdown() {
 		shutdown = false;
+	}
+	
+	public static Calendar getCalendar() {
+		if ( calendar == null ) {
+			calendar = Calendar.getInstance();
+		}
+		
+		return calendar;
 	}
 
 	@Override

@@ -219,13 +219,15 @@ public class Types {
     //return null;
   }
   
-  public static byte[] writeTime(Date date) {
+  public static byte[] writeTime(Date date, Calendar cal) {
 	  if ( date == null ) {
 		  return null;
 	  }
 	  
 	  byte[] buf = new byte[5];
-	  Calendar cal = Calendar.getInstance();
+	  if ( cal == null ) {
+	  	cal = Calendar.getInstance();
+	  }
 	  cal.setTime(date);
 	  
 	  int year = cal.get(Calendar.YEAR);

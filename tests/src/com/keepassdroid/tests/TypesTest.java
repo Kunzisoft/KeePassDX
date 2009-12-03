@@ -118,10 +118,12 @@ public class TypesTest extends TestCase {
 	}
 	
 	public void testDate() {
+		Calendar cal = Calendar.getInstance();
+		
 		Calendar expected = Calendar.getInstance();
 		expected.set(2008, 1, 2, 3, 4, 5);
 		
-		byte[] buf = Types.writeTime(expected.getTime());
+		byte[] buf = Types.writeTime(expected.getTime(), cal);
 		Calendar actual = Calendar.getInstance();
 		actual.setTime(Types.readTime(buf, 0));
 		

@@ -39,6 +39,7 @@ import org.phoneid.keepassj2me.Types;
 
 import android.content.Context;
 
+import com.keepassdroid.app.App;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
 import com.keepassdroid.keepasslib.PwManagerOutput;
 import com.keepassdroid.keepasslib.PwManagerOutputException;
@@ -134,7 +135,7 @@ public class Database {
 	public void SaveData(String filename) throws IOException, PwManagerOutputException {
 		File tempFile = new File(filename + ".tmp");
 		FileOutputStream fos = new FileOutputStream(tempFile);
-		PwManagerOutput pmo = new PwManagerOutput(mPM, fos);
+		PwManagerOutput pmo = new PwManagerOutput(mPM, fos, App.getCalendar());
 		pmo.output();
 		fos.close();
 		

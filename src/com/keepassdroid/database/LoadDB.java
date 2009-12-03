@@ -26,7 +26,6 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Debug;
 import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
