@@ -17,37 +17,25 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.crypto.finalkey;
+package com.keepassdroid.crypto;
 
-import java.io.IOException;
-
-import com.keepassdroid.crypto.NativeLib;
-
-
-public class NativeFinalKey extends FinalKey {
+public class NativeLib {
+	private static boolean isLoaded = false;
+	private static boolean loadSuccess = false;
 	
-	public static boolean availble() {
-		return NativeLib.init();
-	}
-
-	@Override
-	public byte[] transformMasterKey(byte[] seed, byte[] key, int rounds) throws IOException {
-		NativeLib.init();
+	public static boolean init() {
+		if ( ! isLoaded ) {
+			try {
+				System.loadLibrary("final-key");
+			} catch ( UnsatisfiedLinkError e) {
+				return false;
+			}
+			isLoaded = true;
+			loadSuccess = true;
+		}
 		
-		return nativeTransformMasterKey(seed, key, rounds);
-
-	}
-	
-	private static native byte[] nativeTransformMasterKey(byte[] seed, byte[] key, int rounds);
-
-	// For testing
-	public static byte[] reflect(byte[] key) {
-		NativeLib.init();
+		return loadSuccess;
 		
-		return nativeReflect(key);
 	}
-	
-	private static native byte[] nativeReflect(byte[] key);
-	
 
 }
