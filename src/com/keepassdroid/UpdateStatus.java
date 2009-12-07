@@ -17,38 +17,44 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database;
+package com.keepassdroid;
 
-import com.keepassdroid.UpdateStatus;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.Handler;
 
-
-public abstract class RunnableOnFinish implements Runnable {
+public class UpdateStatus {
+	private ProgressDialog mPD;
+	private Context mCtx;
+	private Handler mHandler;
 	
-	public OnFinish mFinish;
-	public UpdateStatus mStatus;
-	
-	public RunnableOnFinish(OnFinish finish) {
-		mFinish = finish;
+	public UpdateStatus() {
+		
 	}
 	
-	protected void finish(boolean result, String message) {
-		if ( mFinish != null ) {
-			mFinish.setResult(result, message);
-			mFinish.run();
+	public UpdateStatus(Context ctx, Handler handler, ProgressDialog pd) {
+		mCtx = ctx;
+		mPD = pd;
+		mHandler = handler;
+	}
+	
+	public void updateMessage(int resId) {
+		if ( mCtx != null && mPD != null && mHandler != null ) {
+			mHandler.post(new UpdateMessage(resId));
 		}
 	}
 	
-	protected void finish(boolean result) {
-		if ( mFinish != null ) {
-			mFinish.setResult(result);
-			mFinish.run();
+	private class UpdateMessage implements Runnable {
+		private int mResId;
+		
+		public UpdateMessage(int resId) {
+			mResId = resId;
 		}
+		
+		@Override
+		public void run() {
+			mPD.setMessage(mCtx.getString(mResId));
+		}
+		
 	}
-	
-	public void setStatus(UpdateStatus status) {
-		mStatus = status;
-	}
-	
-	@Override
-	abstract public void run();
 }

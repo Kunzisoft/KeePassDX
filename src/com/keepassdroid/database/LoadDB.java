@@ -57,7 +57,7 @@ public class LoadDB extends RunnableOnFinish {
 	@Override
 	public void run() {
 		try {
-			mDb.LoadData(mCtx, mFileName, mPass, mKey);
+			mDb.LoadData(mCtx, mFileName, mPass, mKey, mStatus);
 			
 			saveFileData(mFileName, mKey);
 			

@@ -39,6 +39,7 @@ import org.phoneid.keepassj2me.Types;
 
 import android.content.Context;
 
+import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
 import com.keepassdroid.keepasslib.PwManagerOutput;
@@ -69,36 +70,44 @@ public class Database {
 	}
 	
 	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
-		LoadData(ctx, is, password, keyfile, !ImporterV3.DEBUG);
+		LoadData(ctx, is, password, keyfile, new UpdateStatus(), !ImporterV3.DEBUG);
 	}
 
 	public void LoadData(Context ctx, String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
-		LoadData(ctx, filename, password, keyfile, !ImporterV3.DEBUG);
+		LoadData(ctx, filename, password, keyfile, new UpdateStatus(), !ImporterV3.DEBUG);
 	}
 	
-	public void LoadData(Context ctx, String filename, String password, String keyfile, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+		LoadData(ctx, filename, password, keyfile, status, !ImporterV3.DEBUG);
+	}
+	
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
-		LoadData(ctx, fis, password, keyfile, debug);
+		LoadData(ctx, fis, password, keyfile, status, debug);
 	
 		mFilename = filename;
 	}
 
 	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+		LoadData(ctx, is, password, keyfile, new UpdateStatus(), debug);
+	}
+
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
 		ImporterV3 Importer = new ImporterV3(debug);
 		
-		mPM = Importer.openDatabase(is, password, keyfile);
+		mPM = Importer.openDatabase(is, password, keyfile, status);
 		if ( mPM != null ) {
 			mPM.constructTree(null);
 			populateGlobals(null);
 		}
 
+		status.updateMessage(R.string.building_search_idx);
 		searchHelper = new SearchDbHelper(ctx);
 		buildSearchIndex();
 		
 		loaded = true;
-		
 	}
 	
 	

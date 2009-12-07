@@ -49,6 +49,8 @@ import org.phoneid.PhoneIDUtil;
 
 import android.util.Log;
 
+import com.android.keepass.R;
+import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
@@ -96,6 +98,12 @@ public class ImporterV3 {
 	public PwManager openDatabase( InputStream inStream, String password, String keyfile )
 	throws IOException, InvalidCipherTextException, InvalidKeyFileException
 	{
+		return openDatabase(inStream, password, keyfile, new UpdateStatus());
+	}
+
+	public PwManager openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
+	throws IOException, InvalidCipherTextException, InvalidKeyFileException
+	{
 		PwManager        newManager;
 		byte[]           finalKey;
 
@@ -118,6 +126,7 @@ public class ImporterV3 {
 			//throw new IOException( "Bad database file version" );
 		}
 
+		status.updateMessage(R.string.creating_db_key);
 		newManager = new PwManager();
 		newManager.setMasterKey( password, keyfile );
 
@@ -146,6 +155,7 @@ public class ImporterV3 {
 		newManager.finalKey = new byte[finalKey.length];
 		System.arraycopy(finalKey, 0, newManager.finalKey, 0, finalKey.length);
 
+		status.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm
 		// Cipher cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding" );
 		//PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()));

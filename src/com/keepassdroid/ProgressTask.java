@@ -51,6 +51,7 @@ public class ProgressTask implements Runnable {
 		mPd.setMessage(ctx.getText(messageId));
 
 		// Set code to run when this is finished
+		mTask.setStatus(new UpdateStatus(ctx, mHandler, mPd));
 		mTask.mFinish = new AfterTask(task.mFinish, mHandler);
 		
 	}
