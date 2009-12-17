@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+` * Copyright 2009 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -40,6 +40,8 @@ import org.phoneid.keepassj2me.PwDbHeader;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
+
+import com.keepassdroid.crypto.finalkey.AESProvider;
 
 public class PwManagerOutput {
 	private PwManager mPM;
@@ -89,7 +91,7 @@ public class PwManagerOutput {
 		
 		Cipher cipher;
 		try {
-			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", new AESProvider());
 		} catch (Exception e) {
 			throw new PwManagerOutputException("Algorithm not supported.");
 		}

@@ -22,7 +22,6 @@ package com.keepassdroid.tests.database;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwManager;
 
@@ -31,6 +30,7 @@ import android.content.res.AssetManager;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
+import com.keepassdroid.keepasslib.InvalidPasswordException;
 
 public class TestData {
 	private static final String TEST1_KEYFILE = "";
@@ -40,11 +40,11 @@ public class TestData {
 	private static Database mDb1;
 
 	
-	public static Database GetDb1(Context ctx) throws IOException, InvalidCipherTextException, InvalidKeyFileException {
+	public static Database GetDb1(Context ctx) throws IOException, InvalidKeyFileException, InvalidPasswordException {
 		return GetDb1(ctx, false);
 	}
 	
-	public static Database GetDb1(Context ctx, boolean forceReload) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+	public static Database GetDb1(Context ctx, boolean forceReload) throws IOException, InvalidKeyFileException, InvalidPasswordException {
 		if ( mDb1 == null || forceReload ) {
 			mDb1 = GetDb(ctx, TEST1_KDB, TEST1_PASSWORD, TEST1_KEYFILE, "/sdcard/test1.kdb");
 		}
@@ -52,7 +52,7 @@ public class TestData {
 		return mDb1;
 	}
 	
-	public static Database GetDb(Context ctx, String asset, String password, String keyfile, String filename) throws IOException, InvalidCipherTextException, InvalidKeyFileException {
+	public static Database GetDb(Context ctx, String asset, String password, String keyfile, String filename) throws InvalidKeyFileException, IOException, InvalidPasswordException {
 		AssetManager am = ctx.getAssets();
 		InputStream is = am.open(asset, AssetManager.ACCESS_STREAMING);
 
@@ -64,7 +64,7 @@ public class TestData {
 		
 	}
 	
-	public static PwManager GetTest1(Context ctx) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+	public static PwManager GetTest1(Context ctx) throws IOException, InvalidKeyFileException, InvalidPasswordException {
 		if ( mDb1 == null ) {
 			GetDb1(ctx);
 		}

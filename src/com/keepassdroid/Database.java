@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
 
-import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.phoneid.keepassj2me.ImporterV3;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
@@ -42,6 +41,7 @@ import android.content.Context;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
+import com.keepassdroid.keepasslib.InvalidPasswordException;
 import com.keepassdroid.keepasslib.PwManagerOutput;
 import com.keepassdroid.keepasslib.PwManagerOutputException;
 import com.keepassdroid.search.SearchDbHelper;
@@ -69,19 +69,19 @@ public class Database {
 		loaded = true;
 	}
 	
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws IOException, InvalidKeyFileException, InvalidPasswordException {
 		LoadData(ctx, is, password, keyfile, new UpdateStatus(), !ImporterV3.DEBUG);
 	}
 
-	public void LoadData(Context ctx, String filename, String password, String keyfile) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException {
 		LoadData(ctx, filename, password, keyfile, new UpdateStatus(), !ImporterV3.DEBUG);
 	}
 	
-	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException {
 		LoadData(ctx, filename, password, keyfile, status, !ImporterV3.DEBUG);
 	}
 	
-	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException, FileNotFoundException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
@@ -90,11 +90,11 @@ public class Database {
 		mFilename = filename;
 	}
 
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException {
 		LoadData(ctx, is, password, keyfile, new UpdateStatus(), debug);
 	}
 
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws InvalidCipherTextException, IOException, InvalidKeyFileException {
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException {
 		ImporterV3 Importer = new ImporterV3(debug);
 		
 		mPM = Importer.openDatabase(is, password, keyfile, status);

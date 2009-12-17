@@ -32,20 +32,15 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.ShortBufferException;
-
-import org.bouncycastle.crypto.BufferedBlockCipher;
-import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.crypto.modes.CBCBlockCipher;
-import org.bouncycastle.crypto.paddings.PKCS7Padding;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithIV;
-import org.phoneid.PhoneIDUtil;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Log;
 
@@ -54,6 +49,7 @@ import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
+import com.keepassdroid.keepasslib.InvalidPasswordException;
 import com.keepassdroid.keepasslib.NullOutputStream;
 
 /**
@@ -87,7 +83,8 @@ public class ImporterV3 {
 	 * 
 	 * @throws IOException on any file error.
 	 * @throws InvalidKeyFileException 
-	 * @throws InvalidKeyException on a decryption error, or possible internal bug.
+	 * @throws InvalidPasswordException 
+	 * @throws InvalidPasswordException on a decryption error, or possible internal bug.
 	 * @throws IllegalBlockSizeException on a decryption error, or possible internal bug.
 	 * @throws BadPaddingException on a decryption error, or possible internal bug.
 	 * @throws NoSuchAlgorithmException on a decryption error, or possible internal bug.
@@ -96,13 +93,13 @@ public class ImporterV3 {
 	 * @throws ShortBufferException if error decrypting main file body.
 	 */
 	public PwManager openDatabase( InputStream inStream, String password, String keyfile )
-	throws IOException, InvalidCipherTextException, InvalidKeyFileException
+	throws IOException, InvalidKeyFileException, InvalidPasswordException
 	{
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
 	}
 
 	public PwManager openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
-	throws IOException, InvalidCipherTextException, InvalidKeyFileException
+	throws IOException, InvalidKeyFileException, InvalidPasswordException
 	{
 		PwManager        newManager;
 		byte[]           finalKey;
@@ -157,26 +154,50 @@ public class ImporterV3 {
 
 		status.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm
-		// Cipher cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding" );
+		Cipher cipher;
+		try {
+			cipher = Cipher.getInstance( "AES/CBC/PKCS5Padding" );
+		} catch (NoSuchAlgorithmException e1) {
+			throw new IOException("No such algorithm");
+		} catch (NoSuchPaddingException e1) {
+			throw new IOException("No such pdading");
+		}
 		//PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
-		BufferedBlockCipher cipher = new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
+		//BufferedBlockCipher cipher = new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
 
-		//cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( finalKey, "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
+		try {
+			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( finalKey, "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
+		} catch (InvalidKeyException e1) {
+			throw new IOException("Invalid key");
+		} catch (InvalidAlgorithmParameterException e1) {
+			throw new IOException("Invalid algorithm parameter.");
+		}
 
-		cipher.init(false, new ParametersWithIV(new KeyParameter(finalKey), hdr.encryptionIV));
+		//cipher.init(false, new ParametersWithIV(new KeyParameter(finalKey), hdr.encryptionIV));
 		// Decrypt! The first bytes aren't encrypted (that's the header)
-		//int encryptedPartSize = cipher.doFinal( filebuf, PwDbHeader.BUF_SIZE, filebuf.length - PwDbHeader.BUF_SIZE, filebuf, PwDbHeader.BUF_SIZE );
+		int encryptedPartSize;
+		try {
+			encryptedPartSize = cipher.doFinal(filebuf, PwDbHeader.BUF_SIZE, filebuf.length - PwDbHeader.BUF_SIZE, filebuf, PwDbHeader.BUF_SIZE );
+		} catch (ShortBufferException e1) {
+			throw new IOException("Buffer too short");
+		} catch (IllegalBlockSizeException e1) {
+			throw new IOException("Invalid block size");
+		} catch (BadPaddingException e1) {
+			throw new InvalidPasswordException();
+		}
 		//int encryptedPartSize
-		int paddedEncryptedPartSize = cipher.processBytes(filebuf, PwDbHeader.BUF_SIZE, filebuf.length - PwDbHeader.BUF_SIZE, filebuf, PwDbHeader.BUF_SIZE );
+		//int paddedEncryptedPartSize = cipher.processBytes(filebuf, PwDbHeader.BUF_SIZE, filebuf.length - PwDbHeader.BUF_SIZE, filebuf, PwDbHeader.BUF_SIZE );
 
-		int encryptedPartSize = 0;
+		//int encryptedPartSize = 0;
 		//try {
-		PKCS7Padding padding = new PKCS7Padding();
-		int paddingSize = padding.padCount(filebuf);
-		encryptedPartSize = paddedEncryptedPartSize - paddingSize;
+		//PKCS7Padding padding = new PKCS7Padding();
+		//int paddingSize = padding.padCount(filebuf);
+		//encryptedPartSize = paddedEncryptedPartSize - paddingSize;
+		/*
 		if ( mDebug ) {
 			newManager.paddingBytes = paddingSize;
 		}
+		*/
 
 		if ( mDebug ) {
 			newManager.postHeader = new byte[encryptedPartSize];
@@ -195,9 +216,10 @@ public class ImporterV3 {
 		dos.close();
 		finalKey = md.digest();
 		
-		if( PhoneIDUtil.compare( finalKey, hdr.contentsHash ) == false) {
+		if( ! Arrays.equals(finalKey, hdr.contentsHash) ) {
 
 			Log.w("KeePassDroid","Database file did not decrypt correctly. (checksum code is broken)");
+			throw new InvalidPasswordException();
 		}
 
 		// Import all groups

@@ -22,8 +22,6 @@ package com.keepassdroid.database;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.bouncycastle.crypto.InvalidCipherTextException;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -32,6 +30,7 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.fileselect.FileDbHelper;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
+import com.keepassdroid.keepasslib.InvalidPasswordException;
 
 public class LoadDB extends RunnableOnFinish {
 	private String mFileName;
@@ -61,7 +60,7 @@ public class LoadDB extends RunnableOnFinish {
 			
 			saveFileData(mFileName, mKey);
 			
-		} catch (InvalidCipherTextException e) {
+		} catch (InvalidPasswordException e) {
 			finish(false, mCtx.getString(R.string.InvalidPassword));
 			return;
 		} catch (FileNotFoundException e) {

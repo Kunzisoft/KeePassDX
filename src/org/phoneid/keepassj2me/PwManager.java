@@ -76,7 +76,7 @@ public class PwManager {
     
     // Debugging entries
     public PwDbHeader dbHeader;
-    public long paddingBytes;
+    //public long paddingBytes;
     public byte[] finalKey;
 
     // root group
