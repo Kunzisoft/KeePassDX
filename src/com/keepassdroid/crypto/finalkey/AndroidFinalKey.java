@@ -45,7 +45,7 @@ public class AndroidFinalKey extends FinalKey {
 		try {
 			cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(pKeySeed, "AES"));
 		} catch (InvalidKeyException e) {
-			throw new IOException("InvalidKeyException: " + e.getMessage());
+			throw new IOException("InvalidPasswordException: " + e.getMessage());
 		}
 
 		// Encrypt key rounds times
