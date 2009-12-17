@@ -5,7 +5,7 @@
 
 #include <android/log.h>
 
-#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, "KeePassDroidNative", __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_VERBOSE, "KeePassDroidNative", __VA_ARGS__)
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG  , "KeePassDroidNative", __VA_ARGS__)
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO   , "KeePassDroidNative", __VA_ARGS__)
 #define LOGW(...) __android_log_print(ANDROID_LOG_WARN   , "KeePassDroidNative", __VA_ARGS__)
@@ -15,39 +15,39 @@ jlong Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeInit(JNIEnv *env,
         jobject this, jboolean encrypt, jbyteArray key, jbyteArray iv,
         jboolean padding) {
 
-    LOGV("1");
+    LOGD("1");
     // Convert keys to c
     jsize key_len = (*env)->GetArrayLength(env, key);
     char *c_key = (char *) malloc(key_len);
     (*env)->GetByteArrayRegion(env, key, 0, key_len, c_key);
-    LOGV("2: Keylen: %d", key_len);
+    LOGD("2: Keylen: %d", key_len);
 
     
     // Covert iv to c
     jsize iv_len = (*env)->GetArrayLength(env, iv);
     char *c_iv = (char *) malloc(iv_len);
     (*env)->GetByteArrayRegion(env, iv, 0, iv_len, c_iv);
-    LOGV("3: IvLen: %d", iv_len);
+    LOGD("3: IvLen: %d", iv_len);
 
     EVP_CIPHER_CTX *ctx = (EVP_CIPHER_CTX *) malloc(sizeof(EVP_CIPHER_CTX));
-    LOGV("3.5: %d", sizeof(EVP_CIPHER_CTX));
+    LOGD("3.5: %d", sizeof(EVP_CIPHER_CTX));
 
     EVP_CIPHER_CTX_init(ctx);
     EVP_CipherInit_ex(ctx, EVP_aes_256_cbc(), NULL, c_key, c_iv, encrypt);
 
-    LOGV("4");
+    LOGD("4");
     if ( padding ) {
         EVP_CIPHER_CTX_set_padding(ctx, 1);
     } else {
         EVP_CIPHER_CTX_set_padding(ctx, 0);
     }
 
-    LOGV("5");
+    LOGD("5");
     // Free allocated memory
     free(c_iv);
     free(c_key);
 
-    LOGV("6: ctxPtr=%d",ctx);
+    LOGD("6: ctxPtr=%d",ctx);
 
     return (jlong) ctx;
 }
@@ -55,7 +55,7 @@ jlong Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeInit(JNIEnv *env,
 void Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeCleanup(JNIEnv *env, 
         jobject this, jlong ctxPtr) {
 
-    LOGV("cleanup");
+    LOGD("cleanup");
     EVP_CIPHER_CTX *ctx = (EVP_CIPHER_CTX *) ctxPtr;
 
     EVP_CIPHER_CTX_cleanup(ctx);
@@ -67,7 +67,7 @@ jint Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeUpdate(JNIEnv *env,
         jint inputLen, jbyteArray output, jint outputOffset, jint outputSize) {
 
 
-    LOGV("InputSize: %d; OutputSize: %d", inputLen, outputSize);
+    LOGD("InputSize: %d; OutputSize: %d", inputLen, outputSize);
     if ( inputLen == 0 ) {
         return 0;
     }
@@ -84,25 +84,25 @@ jint Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeUpdate(JNIEnv *env,
     c_output = (char *) malloc(outputSize);
 
     EVP_CIPHER_CTX *ctx = (EVP_CIPHER_CTX *) ctxPtr;
-    LOGV("Pre: ctxPtr=%d", ctx);
+    LOGD("Pre: ctxPtr=%d", ctx);
     EVP_CipherUpdate(ctx, c_output, &outLen, c_input, inputLen);
-    LOGV("Post");
+    LOGD("Post");
 
     /* output can differ on final 
     if ( outLen != ((int) outputSize) ) {
-        LOGV("Outsize differs: %d", outLen);
+        LOGD("Outsize differs: %d", outLen);
         free(c_output);
         free(c_input);
         return -1;
     }
     */
 
-    LOGV("PreOut: OutLen=%d", outLen);
+    LOGD("PreOut: OutLen=%d", outLen);
     (*env)->SetByteArrayRegion(env, output, outputOffset, outLen, c_output);
 
     free(c_output);
     free(c_input);
-    LOGV("PostOut");
+    LOGD("PostOut");
 
 
 
@@ -114,7 +114,7 @@ jint Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeDoFinal(JNIEnv *env,
         jobject this, jlong ctxPtr, jbyteArray output, jint outputOffset, 
         jint outputSize) {
 
-    LOGV("outputOffset=%d", outputOffset);
+    LOGD("outputOffset=%d", outputOffset);
     char *c_output = (char *) malloc(outputSize);
 
     int outLen;
@@ -127,7 +127,7 @@ jint Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeDoFinal(JNIEnv *env,
         return -1;
     }
     */
-    LOGV("Final: OutputLen=%d, outputOffset=%d", outLen, (int)outputOffset);
+    LOGD("Final: OutputLen=%d, outputOffset=%d", outLen, (int)outputOffset);
 
     (*env)->SetByteArrayRegion(env, output, outputOffset, outLen, c_output);
 
