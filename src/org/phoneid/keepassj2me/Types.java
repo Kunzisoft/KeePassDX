@@ -194,7 +194,7 @@ public class Types {
    * Unpack date from 5 byte format.
    * The five bytes at 'offset' are unpacked to a java.util.Date instance.
    */
-  public static Date readTime( byte[] buf, int offset ) {
+  public static Date readTime( byte[] buf, int offset, Calendar time ) {
     int dw1 = readUByte( buf, offset );
     int dw2 = readUByte( buf, offset + 1 );
     int dw3 = readUByte( buf, offset + 2 );
@@ -210,7 +210,9 @@ public class Types {
     int minute = ((dw4 & 0x0000000F) << 2) | (dw5 >> 6);
     int second =   dw5 & 0x0000003F;
   
-    Calendar time = Calendar.getInstance();
+    if ( time == null ) {
+    	time = Calendar.getInstance();
+    }
     // File format is a 1 based month, java Calendar uses a zero based month
     time.set( year, month-1, day, hour, minute, second );
   

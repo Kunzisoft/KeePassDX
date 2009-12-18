@@ -33,6 +33,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -63,13 +64,16 @@ public class ImporterV3 {
 	public static final boolean DEBUG = true;
 
 	private final boolean mDebug;
+	private Calendar mCal;
 
-	public ImporterV3() {
+	public ImporterV3(Calendar cal) {
 		mDebug = false;
+		mCal = cal;
 	}
 
-	public ImporterV3(boolean debug) {
+	public ImporterV3(Calendar cal, boolean debug) {
 		mDebug = debug;
+		mCal = cal;
 	}
 
 
@@ -357,16 +361,16 @@ public class ImporterV3 {
 			grp.name = new String( buf, offset, Types.strlen( buf, offset ) );
 			break;
 		case 0x0003 :
-			grp.tCreation = Types.readTime( buf, offset );
+			grp.tCreation = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x0004 :
-			grp.tLastMod = Types.readTime( buf, offset );
+			grp.tLastMod = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x0005 :
-			grp.tLastAccess = Types.readTime( buf, offset );
+			grp.tLastAccess = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x0006 :
-			grp.tExpire = Types.readTime( buf, offset );
+			grp.tExpire = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x0007 :
 			grp.imageId = Types.readInt( buf, offset );
@@ -419,16 +423,16 @@ public class ImporterV3 {
 			ent.additional = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );
 			break;
 		case 0x0009 :
-			ent.tCreation = Types.readTime( buf, offset );
+			ent.tCreation = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x000A :
-			ent.tLastMod = Types.readTime( buf, offset );
+			ent.tLastMod = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x000B :
-			ent.tLastAccess = Types.readTime( buf, offset );
+			ent.tLastAccess = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x000C :
-			ent.tExpire = Types.readTime( buf, offset );
+			ent.tExpire = Types.readTime( buf, offset, mCal );
 			break;
 		case 0x000D :
 			ent.binaryDesc = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );

@@ -95,8 +95,9 @@ public class Database {
 	}
 
 	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException {
-		ImporterV3 Importer = new ImporterV3(debug);
+		ImporterV3 Importer = new ImporterV3(App.getCalendar(), debug);
 		
+		//Debug.startMethodTracing("load");
 		mPM = Importer.openDatabase(is, password, keyfile, status);
 		if ( mPM != null ) {
 			mPM.constructTree(null);
@@ -106,6 +107,7 @@ public class Database {
 		status.updateMessage(R.string.building_search_idx);
 		searchHelper = new SearchDbHelper(ctx);
 		buildSearchIndex();
+		//Debug.stopMethodTracing();
 		
 		loaded = true;
 	}
@@ -144,8 +146,13 @@ public class Database {
 	public void SaveData(String filename) throws IOException, PwManagerOutputException {
 		File tempFile = new File(filename + ".tmp");
 		FileOutputStream fos = new FileOutputStream(tempFile);
+		//BufferedOutputStream bos = new BufferedOutputStream(fos);
+		
+		//PwManagerOutput pmo = new PwManagerOutput(mPM, bos, App.getCalendar());
 		PwManagerOutput pmo = new PwManagerOutput(mPM, fos, App.getCalendar());
 		pmo.output();
+		//bos.flush();
+		//bos.close();
 		fos.close();
 		
 		File orig = new File(filename);

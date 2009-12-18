@@ -125,7 +125,7 @@ public class TypesTest extends TestCase {
 		
 		byte[] buf = Types.writeTime(expected.getTime(), cal);
 		Calendar actual = Calendar.getInstance();
-		actual.setTime(Types.readTime(buf, 0));
+		actual.setTime(Types.readTime(buf, 0, cal));
 		
 		assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR));
 		assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH));
