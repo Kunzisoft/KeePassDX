@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.keepasslib;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.DigestOutputStream;
@@ -99,8 +100,11 @@ public class PwManagerOutput {
 		try {
 			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(finalKey, "AES" ), new IvParameterSpec(header.encryptionIV) );
 			CipherOutputStream cos = new CipherOutputStream(mOS, cipher);
-			outputPlanGroupAndEntries(cos);
-			cos.close();
+			BufferedOutputStream bos = new BufferedOutputStream(cos);
+			outputPlanGroupAndEntries(bos);
+			bos.flush();
+			bos.close();
+
 		} catch (InvalidKeyException e) {
 			throw new PwManagerOutputException("Invalid key");
 		} catch (InvalidAlgorithmParameterException e) {
@@ -159,9 +163,11 @@ public class PwManagerOutput {
 		NullOutputStream nos;
 		nos = new NullOutputStream();
 		DigestOutputStream dos = new DigestOutputStream(nos, md);
+		BufferedOutputStream bos = new BufferedOutputStream(dos);
 		try {
-			outputPlanGroupAndEntries(dos);
-			dos.close();
+			outputPlanGroupAndEntries(bos);
+			bos.flush();
+			bos.close();
 		} catch (IOException e) {
 			throw new PwManagerOutputException("Failed to generate checksum.");
 		}
