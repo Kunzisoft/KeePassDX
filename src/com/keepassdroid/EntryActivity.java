@@ -203,7 +203,7 @@ public class EntryActivity extends LockCloseActivity {
 		if ( PwEntry.IsNever(mEntry.tExpire.getJDate()) ) {
 			populateText(R.id.entry_expires, R.string.never);
 		} else {
-			populateText(R.id.entry_expires, df.format(mEntry.tExpire));
+			populateText(R.id.entry_expires, df.format(mEntry.tExpire.getJDate()));
 		}
 		populateText(R.id.entry_comment, mEntry.additional);
 	}

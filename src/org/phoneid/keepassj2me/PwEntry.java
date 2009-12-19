@@ -30,6 +30,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import android.util.Log;
+
 import com.keepassdroid.Database;
 import com.keepassdroid.keepasslib.PwDate;
 
@@ -78,6 +80,13 @@ public class PwEntry {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.set(Calendar.MILLISECOND, 0);
+		
+		Log.d("never", "L="+ never.get(Calendar.YEAR) + " R=" + cal.get(Calendar.YEAR));
+		Log.d("never", "L="+ never.get(Calendar.MONTH) + " R=" + cal.get(Calendar.MONTH));
+		Log.d("never", "L="+ never.get(Calendar.DAY_OF_MONTH) + " R=" + cal.get(Calendar.DAY_OF_MONTH));
+		Log.d("never", "L="+ never.get(Calendar.HOUR) + " R=" + cal.get(Calendar.HOUR));
+		Log.d("never", "L="+ never.get(Calendar.MINUTE) + " R=" + cal.get(Calendar.MINUTE));
+		Log.d("never", "L="+ never.get(Calendar.SECOND) + " R=" + cal.get(Calendar.SECOND));
 		
 		return (never.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) && 
 			(never.get(Calendar.MONTH) == cal.get(Calendar.MONTH)) &&

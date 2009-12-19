@@ -55,6 +55,7 @@ public class App extends Application {
 	}
 	
 	public static Calendar getCalendar() {
+		
 		if ( calendar == null ) {
 			calendar = Calendar.getInstance();
 		}
