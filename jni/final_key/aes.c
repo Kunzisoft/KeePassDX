@@ -5,7 +5,8 @@
 
 #include <android/log.h>
 
-#define LOGD(...) __android_log_print(ANDROID_LOG_VERBOSE, "KeePassDroidNative", __VA_ARGS__)
+//#define LOGD(...) __android_log_print(ANDROID_LOG_VERBOSE, "KeePassDroidNative", __VA_ARGS__)
+#define LOGD(...) 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG  , "KeePassDroidNative", __VA_ARGS__)
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO   , "KeePassDroidNative", __VA_ARGS__)
 #define LOGW(...) __android_log_print(ANDROID_LOG_WARN   , "KeePassDroidNative", __VA_ARGS__)
