@@ -35,7 +35,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import junit.framework.TestCase;
 
-import com.keepassdroid.crypto.finalkey.AESProvider;
+import com.keepassdroid.crypto.AESProvider;
 
 public class AESTest extends TestCase {
 	

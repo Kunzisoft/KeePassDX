@@ -47,7 +47,7 @@ import android.util.Log;
 
 import com.android.keepass.R;
 import com.keepassdroid.UpdateStatus;
-import com.keepassdroid.crypto.finalkey.AESProvider;
+import com.keepassdroid.crypto.AESProvider;
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;

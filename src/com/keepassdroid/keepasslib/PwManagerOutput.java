@@ -42,7 +42,7 @@ import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.PwManager;
 
-import com.keepassdroid.crypto.finalkey.AESProvider;
+import com.keepassdroid.crypto.AESProvider;
 
 public class PwManagerOutput {
 	private PwManager mPM;
