@@ -38,7 +38,7 @@ public class SearchTest extends AndroidTestCase {
 	}
 	
 	public void testSearch() {
-		
+		mDb.buildSearchIndex(getContext());
 		PwGroup results = mDb.Search("Amazon");
 		assertTrue("Search result not found.", results.childEntries.size() > 0);
 		
