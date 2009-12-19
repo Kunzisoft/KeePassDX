@@ -48,6 +48,7 @@ import com.keepassdroid.database.AddEntry;
 import com.keepassdroid.database.OnFinish;
 import com.keepassdroid.database.RunnableOnFinish;
 import com.keepassdroid.database.UpdateEntry;
+import com.keepassdroid.keepasslib.PwDate;
 
 public class EntryEditActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -146,8 +147,8 @@ public class EntryEditActivity extends LockCloseActivity {
 				newEntry.uuid = mEntry.uuid;
 				
 				Date now = Calendar.getInstance().getTime(); 
-				newEntry.tLastAccess = now;
-				newEntry.tLastMod = now;
+				newEntry.tLastAccess = new PwDate(now);
+				newEntry.tLastMod = new PwDate(now);
 				
 				byte[] binaryData = mEntry.getBinaryData();
 				if ( binaryData != null ) {

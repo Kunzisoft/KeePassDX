@@ -19,11 +19,15 @@
  */
 package com.keepassdroid.tests;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.Calendar;
 
 import junit.framework.TestCase;
+
 import org.phoneid.keepassj2me.Types;
-import static org.junit.Assert.*;
+
+import com.keepassdroid.keepasslib.PwDate;
 
 public class TypesTest extends TestCase {
 	
@@ -123,9 +127,9 @@ public class TypesTest extends TestCase {
 		Calendar expected = Calendar.getInstance();
 		expected.set(2008, 1, 2, 3, 4, 5);
 		
-		byte[] buf = Types.writeTime(expected.getTime(), cal);
+		byte[] buf = PwDate.writeTime(expected.getTime(), cal);
 		Calendar actual = Calendar.getInstance();
-		actual.setTime(Types.readTime(buf, 0, cal));
+		actual.setTime(PwDate.readTime(buf, 0, cal));
 		
 		assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR));
 		assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH));

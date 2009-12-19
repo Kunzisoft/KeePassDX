@@ -21,7 +21,6 @@ package com.keepassdroid.keepasslib;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Calendar;
 
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.Types;
@@ -56,16 +55,14 @@ public class PwEntryOutput {
 	private OutputStream mOS;
 	private PwEntry mPE;
 	private long outputBytes = 0;
-	private Calendar mCal;
 	
 	/** Output the PwGroup to the stream
 	 * @param pe
 	 * @param os
 	 */
-	public PwEntryOutput(PwEntry pe, OutputStream os, Calendar cal) {
+	public PwEntryOutput(PwEntry pe, OutputStream os) {
 		mPE = pe;
 		mOS = os;
-		mCal = cal;
 	}
 
 	//NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
@@ -118,16 +115,16 @@ public class PwEntryOutput {
 		outputBytes += addlLen;
 
 		// Create date
-		writeDate(CREATE_FIELD_TYPE, Types.writeTime(mPE.tCreation, mCal));
+		writeDate(CREATE_FIELD_TYPE, mPE.tCreation.getCDate());
 		
 		// Modification date
-		writeDate(MOD_FIELD_TYPE, Types.writeTime(mPE.tLastMod, mCal));
+		writeDate(MOD_FIELD_TYPE, mPE.tLastMod.getCDate());
 
 		// Access date
-		writeDate(ACCESS_FIELD_TYPE, Types.writeTime(mPE.tLastAccess, mCal));
+		writeDate(ACCESS_FIELD_TYPE, mPE.tLastAccess.getCDate());
 
 		// Expiration date
-		writeDate(EXPIRE_FIELD_TYPE, Types.writeTime(mPE.tExpire, mCal));
+		writeDate(EXPIRE_FIELD_TYPE, mPE.tExpire.getCDate());
 	
 		// Binary desc
 		mOS.write(BINARY_DESC_FIELD_TYPE);

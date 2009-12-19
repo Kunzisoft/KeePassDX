@@ -26,8 +26,6 @@ package org.phoneid.keepassj2me;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -186,67 +184,6 @@ public class Types {
     byte[] b2 = new byte[len];
     System.arraycopy( b, offset, b2, 0, len );
     return b2;
-  }
-
-
-
-  /**
-   * Unpack date from 5 byte format.
-   * The five bytes at 'offset' are unpacked to a java.util.Date instance.
-   */
-  public static Date readTime( byte[] buf, int offset, Calendar time ) {
-    int dw1 = readUByte( buf, offset );
-    int dw2 = readUByte( buf, offset + 1 );
-    int dw3 = readUByte( buf, offset + 2 );
-    int dw4 = readUByte( buf, offset + 3 );
-    int dw5 = readUByte( buf, offset + 4 );
-  
-    // Unpack 5 byte structure to date and time
-    int year   =  (dw1 << 6) | (dw2 >> 2);
-    int month  = ((dw2 & 0x00000003) << 2) | (dw3 >> 6);
-    
-    int day    =  (dw3 >> 1) & 0x0000001F;
-    int hour   = ((dw3 & 0x00000001) << 4) | (dw4 >> 4);
-    int minute = ((dw4 & 0x0000000F) << 2) | (dw5 >> 6);
-    int second =   dw5 & 0x0000003F;
-  
-    if ( time == null ) {
-    	time = Calendar.getInstance();
-    }
-    // File format is a 1 based month, java Calendar uses a zero based month
-    time.set( year, month-1, day, hour, minute, second );
-  
-    return time.getTime();
-
-    //return null;
-  }
-  
-  public static byte[] writeTime(Date date, Calendar cal) {
-	  if ( date == null ) {
-		  return null;
-	  }
-	  
-	  byte[] buf = new byte[5];
-	  if ( cal == null ) {
-	  	cal = Calendar.getInstance();
-	  }
-	  cal.setTime(date);
-	  
-	  int year = cal.get(Calendar.YEAR);
-      // File format is a 1 based month, java Calendar uses a zero based month
-	  int month = cal.get(Calendar.MONTH)+1;
-	  int day = cal.get(Calendar.DAY_OF_MONTH);
-	  int hour = cal.get(Calendar.HOUR_OF_DAY);
-	  int minute = cal.get(Calendar.MINUTE);
-	  int second = cal.get(Calendar.SECOND);
-	  
-	  buf[0] = writeUByte(((year >> 6) & 0x0000003F));
-	  buf[1] = writeUByte(((year & 0x0000003F) << 2) | ((month >> 2) & 0x00000003) );
-      buf[2] = (byte)(((month & 0x00000003) << 6) | ((day & 0x0000001F) << 1) | ((hour >> 4) & 0x00000001));
-      buf[3] = (byte)(((hour & 0x0000000F) << 4) | ((minute >> 2) & 0x0000000F));
-      buf[4] = (byte)(((minute & 0x00000003) << 6) | (second & 0x0000003F));
-      
-      return buf;
   }
 
   public static int writeCString(String str, OutputStream os) throws IOException {

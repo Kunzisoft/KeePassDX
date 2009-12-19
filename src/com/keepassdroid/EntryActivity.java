@@ -54,6 +54,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.keepasslib.PwDate;
 
 public class EntryActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -112,7 +113,7 @@ public class EntryActivity extends LockCloseActivity {
 		
 		// Update last access time.
 		Calendar cal = Calendar.getInstance();
-		mEntry.tLastAccess = cal.getTime();
+		mEntry.tLastAccess = new PwDate(cal.getTime());
 		fillData();
 
 		View scroll = findViewById(R.id.entry_scroll);
@@ -195,11 +196,11 @@ public class EntryActivity extends LockCloseActivity {
 		setPasswordStyle();
 		
 		DateFormat df = DateFormat.getInstance();
-		populateText(R.id.entry_created, df.format(mEntry.tCreation));
-		populateText(R.id.entry_modified, df.format(mEntry.tLastMod));
-		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess));
+		populateText(R.id.entry_created, df.format(mEntry.tCreation.getJDate()));
+		populateText(R.id.entry_modified, df.format(mEntry.tLastMod.getJDate()));
+		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess.getJDate()));
 		
-		if ( PwEntry.IsNever(mEntry.tExpire) ) {
+		if ( PwEntry.IsNever(mEntry.tExpire.getJDate()) ) {
 			populateText(R.id.entry_expires, R.string.never);
 		} else {
 			populateText(R.id.entry_expires, df.format(mEntry.tExpire));

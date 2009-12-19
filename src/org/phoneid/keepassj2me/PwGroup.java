@@ -35,6 +35,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 
+import com.keepassdroid.keepasslib.PwDate;
+
 
 /**
  * @author Brian Pellin <bpellin@gmail.com>
@@ -64,10 +66,10 @@ public class PwGroup {
 	public int imageId;
 	public String name;
 
-	public Date tCreation;
-	public Date tLastMod;
-	public Date tLastAccess;
-	public Date tExpire;
+	public PwDate tCreation;
+	public PwDate tLastMod;
+	public PwDate tLastAccess;
+	public PwDate tExpire;
 
 	public int level; // short
 

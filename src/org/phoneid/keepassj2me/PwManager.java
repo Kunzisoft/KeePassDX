@@ -39,6 +39,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
+import com.keepassdroid.keepasslib.PwDate;
 
 /**
  * @author Naomaru Itoi <nao@phoneid.org>
@@ -365,10 +366,10 @@ public class PwManager {
     	group.name = name;
     	
     	Date now = Calendar.getInstance().getTime();
-    	group.tCreation = now;
-    	group.tLastAccess = now;
-    	group.tLastMod = now;
-    	group.tExpire = PwGroup.NEVER_EXPIRE;
+    	group.tCreation = new PwDate(now);
+    	group.tLastAccess = new PwDate(now);
+    	group.tLastMod = new PwDate(now);
+    	group.tExpire = new PwDate(PwGroup.NEVER_EXPIRE);
     	
    		group.level = parent.level + 1;
 

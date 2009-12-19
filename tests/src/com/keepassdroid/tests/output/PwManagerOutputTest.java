@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Calendar;
 
 import org.phoneid.keepassj2me.PwDbHeader;
 import org.phoneid.keepassj2me.PwManager;
@@ -44,20 +43,18 @@ import com.keepassdroid.tests.database.TestData;
  
 public class PwManagerOutputTest extends AndroidTestCase {
   PwManager mPM;
-  Calendar mCal;
   
   @Override
   protected void setUp() throws Exception {
     super.setUp();
     
     mPM = TestData.GetTest1(getContext());
-    mCal = Calendar.getInstance();
   }
   
   public void testPlainContent() throws IOException, PwManagerOutputException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
  
-    PwManagerOutput pos = new PwManagerOutput(mPM, bos, mCal, PwManagerOutput.DEBUG);
+    PwManagerOutput pos = new PwManagerOutput(mPM, bos, PwManagerOutput.DEBUG);
     pos.outputPlanGroupAndEntries(bos);
     
     assertTrue("No output", bos.toByteArray().length > 0);
@@ -72,7 +69,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
     
     DigestOutputStream dos = new DigestOutputStream(nos, md);
   
-    PwManagerOutput pos = new PwManagerOutput(mPM, dos, mCal, PwManagerOutput.DEBUG);
+    PwManagerOutput pos = new PwManagerOutput(mPM, dos, PwManagerOutput.DEBUG);
     pos.outputPlanGroupAndEntries(dos);
     dos.close();
     
@@ -97,7 +94,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
   
   public void testHeader() throws PwManagerOutputException, IOException {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-    PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, mCal, PwManagerOutput.DEBUG);
+    PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
     PwDbHeader header = pActual.outputHeader(bActual);
     
     ByteArrayOutputStream bExpected = new ByteArrayOutputStream();
@@ -111,7 +108,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
   
   public void testFinalKey() throws PwManagerOutputException {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-    PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, mCal, PwManagerOutput.DEBUG);
+    PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
     PwDbHeader hActual = pActual.outputHeader(bActual);
     byte[] finalKey = pActual.getFinalKey2(hActual);
     
@@ -134,7 +131,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	}
 	
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-	PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, mCal, PwManagerOutput.DEBUG);
+	PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
 	pActual.output();
 	//pActual.close();
 

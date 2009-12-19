@@ -33,7 +33,6 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Calendar;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -53,6 +52,7 @@ import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
 import com.keepassdroid.keepasslib.InvalidPasswordException;
 import com.keepassdroid.keepasslib.NullOutputStream;
+import com.keepassdroid.keepasslib.PwDate;
 
 /**
  * Load a v3 database file.
@@ -65,16 +65,13 @@ public class ImporterV3 {
 	public static final boolean DEBUG = true;
 
 	private final boolean mDebug;
-	private Calendar mCal;
 
-	public ImporterV3(Calendar cal) {
+	public ImporterV3() {
 		mDebug = false;
-		mCal = cal;
 	}
 
-	public ImporterV3(Calendar cal, boolean debug) {
+	public ImporterV3(boolean debug) {
 		mDebug = debug;
-		mCal = cal;
 	}
 
 
@@ -362,16 +359,16 @@ public class ImporterV3 {
 			grp.name = new String( buf, offset, Types.strlen( buf, offset ) );
 			break;
 		case 0x0003 :
-			grp.tCreation = Types.readTime( buf, offset, mCal );
+			grp.tCreation = new PwDate(buf, offset);
 			break;
 		case 0x0004 :
-			grp.tLastMod = Types.readTime( buf, offset, mCal );
+			grp.tLastMod = new PwDate(buf, offset);
 			break;
 		case 0x0005 :
-			grp.tLastAccess = Types.readTime( buf, offset, mCal );
+			grp.tLastAccess = new PwDate(buf, offset);
 			break;
 		case 0x0006 :
-			grp.tExpire = Types.readTime( buf, offset, mCal );
+			grp.tExpire = new PwDate(buf, offset);
 			break;
 		case 0x0007 :
 			grp.imageId = Types.readInt( buf, offset );
@@ -424,16 +421,16 @@ public class ImporterV3 {
 			ent.additional = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );
 			break;
 		case 0x0009 :
-			ent.tCreation = Types.readTime( buf, offset, mCal );
+			ent.tCreation = new PwDate(buf, offset);
 			break;
 		case 0x000A :
-			ent.tLastMod = Types.readTime( buf, offset, mCal );
+			ent.tLastMod = new PwDate(buf, offset);
 			break;
 		case 0x000B :
-			ent.tLastAccess = Types.readTime( buf, offset, mCal );
+			ent.tLastAccess = new PwDate(buf, offset);
 			break;
 		case 0x000C :
-			ent.tExpire = Types.readTime( buf, offset, mCal );
+			ent.tExpire = new PwDate(buf, offset);
 			break;
 		case 0x000D :
 			ent.binaryDesc = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );

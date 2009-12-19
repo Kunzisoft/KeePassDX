@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.Random;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.keepasslib.PwDate;
 
 
 /**
@@ -110,10 +111,10 @@ public class PwEntry {
 		
 		Calendar cal = Calendar.getInstance();
 		Date now = cal.getTime();
-		tCreation = now;
-		tLastAccess = now;
-		tLastMod = now;
-		tExpire = NEVER_EXPIRE;
+		tCreation = new PwDate(now);
+		tLastAccess = new PwDate(now);
+		tLastMod = new PwDate(now);
+		tExpire = new PwDate(NEVER_EXPIRE);
 
 	}
 
@@ -195,10 +196,10 @@ public class PwEntry {
 	  System.arraycopy(source.password, 0, password, 0, passLen);
 	  
 	  additional = source.additional;
-	  tCreation = new Date(source.tCreation.getTime());
-	  tLastMod = new Date(source.tLastMod.getTime());
-	  tLastAccess = new Date(source.tLastAccess.getTime());
-	  tExpire = new Date(source.tExpire.getTime());
+	  tCreation = (PwDate) source.tCreation.clone();
+	  tLastMod = (PwDate) source.tLastMod.clone();
+	  tLastAccess = (PwDate) source.tLastAccess.clone();
+	  tExpire = (PwDate) source.tExpire.clone();
 
 	  binaryDesc = source.binaryDesc;
 	  
@@ -231,10 +232,10 @@ public class PwEntry {
   
   public String           additional;
 
-  public Date             tCreation;
-  public Date             tLastMod;
-  public Date             tLastAccess;
-  public Date             tExpire;
+  public PwDate             tCreation;
+  public PwDate             tLastMod;
+  public PwDate             tLastAccess;
+  public PwDate             tExpire;
 
   /** A string describing what is in pBinaryData */
   public String           binaryDesc;

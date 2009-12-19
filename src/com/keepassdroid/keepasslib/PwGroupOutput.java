@@ -21,7 +21,6 @@ package com.keepassdroid.keepasslib;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Calendar;
 
 import org.phoneid.keepassj2me.PwGroup;
 import org.phoneid.keepassj2me.Types;
@@ -48,16 +47,14 @@ public class PwGroupOutput {
 	
 	private OutputStream mOS;
 	private PwGroup mPG;
-	private Calendar mCal;
 	
 	/** Output the PwGroup to the stream
 	 * @param pg
 	 * @param os
 	 */
-	public PwGroupOutput(PwGroup pg, OutputStream os, Calendar cal) {
+	public PwGroupOutput(PwGroup pg, OutputStream os) {
 		mPG = pg;
 		mOS = os;
-		mCal = cal;
 	}
 
 	public void output() throws IOException {
@@ -75,22 +72,22 @@ public class PwGroupOutput {
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPG.tCreation, mCal));
+		mOS.write(mPG.tCreation.getCDate());
 		
 		// Modification date
 		mOS.write(MOD_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPG.tLastMod, mCal));
+		mOS.write(mPG.tLastMod.getCDate());
 		
 		// Access date
 		mOS.write(ACCESS_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPG.tLastAccess, mCal));
+		mOS.write(mPG.tLastAccess.getCDate());
 		
 		// Expiration date
 		mOS.write(EXPIRE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(Types.writeTime(mPG.tExpire, mCal));
+		mOS.write(mPG.tExpire.getCDate());
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);

@@ -38,7 +38,6 @@ import org.phoneid.keepassj2me.Types;
 
 import android.content.Context;
 
-import com.keepassdroid.app.App;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
 import com.keepassdroid.keepasslib.InvalidPasswordException;
 import com.keepassdroid.keepasslib.PwManagerOutput;
@@ -94,18 +93,13 @@ public class Database {
 	}
 
 	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException {
-		ImporterV3 Importer = new ImporterV3(App.getCalendar(), debug);
+		ImporterV3 Importer = new ImporterV3(debug);
 		
-		//Debug.startMethodTracing("load");
 		mPM = Importer.openDatabase(is, password, keyfile, status);
 		if ( mPM != null ) {
 			mPM.constructTree(null);
 			populateGlobals(null);
 		}
-
-		//status.updateMessage(R.string.building_search_idx);
-		//buildSearchIndex();
-		//Debug.stopMethodTracing();
 		
 		loaded = true;
 	}
@@ -151,7 +145,7 @@ public class Database {
 		//BufferedOutputStream bos = new BufferedOutputStream(fos);
 		
 		//PwManagerOutput pmo = new PwManagerOutput(mPM, bos, App.getCalendar());
-		PwManagerOutput pmo = new PwManagerOutput(mPM, fos, App.getCalendar());
+		PwManagerOutput pmo = new PwManagerOutput(mPM, fos);
 		pmo.output();
 		//bos.flush();
 		//bos.close();

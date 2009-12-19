@@ -28,7 +28,6 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Calendar;
 import java.util.Vector;
 
 import javax.crypto.Cipher;
@@ -49,19 +48,16 @@ public class PwManagerOutput {
 	private OutputStream mOS;
 	private final boolean mDebug;
 	public static final boolean DEBUG = true;
-	private Calendar mCal;
 	
-	public PwManagerOutput(PwManager pm, OutputStream os, Calendar cal) {
+	public PwManagerOutput(PwManager pm, OutputStream os) {
 		mPM = pm;
 		mOS = os;
-		mCal = cal;
 		mDebug = false;
 	}
 
-	public PwManagerOutput(PwManager pm, OutputStream os, Calendar cal, boolean debug) {
+	public PwManagerOutput(PwManager pm, OutputStream os, boolean debug) {
 		mPM = pm;
 		mOS = os;
-		mCal = cal;
 		mDebug = debug;
 	}
 	
@@ -191,7 +187,7 @@ public class PwManagerOutput {
 		// Groups
 		for ( int i = 0; i < mPM.groups.size(); i++ ) {
 			PwGroup pg = mPM.groups.get(i);
-			PwGroupOutput pgo = new PwGroupOutput(pg, os, mCal);
+			PwGroupOutput pgo = new PwGroupOutput(pg, os);
 			try {
 				pgo.output();
 			} catch (IOException e) {
@@ -202,7 +198,7 @@ public class PwManagerOutput {
 		// Entries
 		for (int i = 0; i < mPM.entries.size(); i++ ) {
 			PwEntry pe = mPM.entries.get(i);
-			PwEntryOutput peo = new PwEntryOutput(pe, os, mCal);
+			PwEntryOutput peo = new PwEntryOutput(pe, os);
 			try {
 				peo.output();
 			} catch (IOException e) {

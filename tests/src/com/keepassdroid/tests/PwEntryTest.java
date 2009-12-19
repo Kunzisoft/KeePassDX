@@ -54,7 +54,7 @@ public class PwEntryTest extends AndroidTestCase {
 	
 	public void testCreation() {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(mPE.tCreation);
+		cal.setTime(mPE.tCreation.getJDate());
 		
 		assertEquals("Incorrect year.", cal.get(Calendar.YEAR), 2009);
 		assertEquals("Incorrect month.", cal.get(Calendar.MONTH), 3);
