@@ -38,7 +38,6 @@ import org.phoneid.keepassj2me.Types;
 
 import android.content.Context;
 
-import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
 import com.keepassdroid.keepasslib.InvalidPasswordException;
@@ -48,8 +47,6 @@ import com.keepassdroid.search.SearchDbHelper;
 
 /**
  * @author bpellin
- * TODO: Only one instance of the search DB can currently exist.  So, we cannot support multiple instances of the Database class.
- *       I should either emit that this class should be static, or resolve that.
  */
 public class Database {
 	public HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
@@ -59,6 +56,8 @@ public class Database {
 	public PwManager mPM;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
+	public boolean indexBuilt = false;
+	
 	private boolean loaded = false;
 	
 	public boolean Loaded() {
@@ -104,9 +103,8 @@ public class Database {
 			populateGlobals(null);
 		}
 
-		status.updateMessage(R.string.building_search_idx);
-		searchHelper = new SearchDbHelper(ctx);
-		buildSearchIndex();
+		//status.updateMessage(R.string.building_search_idx);
+		//buildSearchIndex();
 		//Debug.stopMethodTracing();
 		
 		loaded = true;
@@ -114,10 +112,12 @@ public class Database {
 	
 	
 	/** Build the search index from the current database
-	 * @param ctx
+	 * @param ctx (this should be an App context not an activity constant to avoid leaks)
 	 */
-	private void buildSearchIndex() {
+	public void buildSearchIndex(Context ctx) {
 
+		searchHelper = new SearchDbHelper(ctx);
+		
 		initSearch();
 		
 		searchHelper.open();
@@ -128,6 +128,8 @@ public class Database {
 			}
 		}
 		searchHelper.close();
+		
+		indexBuilt = true;
 	}
 	
 	public PwGroup Search(String str) {

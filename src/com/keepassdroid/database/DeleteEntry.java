@@ -24,8 +24,6 @@ import java.lang.ref.WeakReference;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
-import android.content.Context;
-
 import com.keepassdroid.Database;
 import com.keepassdroid.search.SearchDbHelper;
 
@@ -37,34 +35,28 @@ public class DeleteEntry extends RunnableOnFinish {
 
 	private Database mDb;
 	private PwEntry mEntry;
-	private Context mCtx;
 	private boolean mDontSave;
 	
-	public DeleteEntry(Database db, PwEntry entry, Context ctx, OnFinish finish) {
+	public DeleteEntry(Database db, PwEntry entry, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
 		mEntry = entry;
-		mCtx = ctx;
 		mDontSave = false;
 		
 	}
 	
-	public DeleteEntry(Database db, PwEntry entry, Context ctx, OnFinish finish, boolean dontSave) {
+	public DeleteEntry(Database db, PwEntry entry, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
 		mEntry = entry;
-		mCtx = ctx;
 		mDontSave = dontSave;
 		
 	}
 	
 	@Override
 	public void run() {
-		SearchDbHelper dbHelper = new SearchDbHelper(mCtx);
-		dbHelper.open();
-		
 
 		// Remove Entry from parent
 		PwGroup parent = mEntry.parent;
@@ -74,7 +66,7 @@ public class DeleteEntry extends RunnableOnFinish {
 		mDb.mPM.entries.remove(mEntry);
 		
 		// Save
-		mFinish = new AfterDelete(mFinish, dbHelper, parent, mEntry);
+		mFinish = new AfterDelete(mFinish, parent, mEntry);
 		
 		// Commit database
 		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
@@ -86,14 +78,12 @@ public class DeleteEntry extends RunnableOnFinish {
 	
 	private class AfterDelete extends OnFinish {
 
-		private SearchDbHelper mDbHelper;
 		private PwGroup mParent;
 		private PwEntry mEntry;
 		
-		public AfterDelete(OnFinish finish, SearchDbHelper helper, PwGroup parent, PwEntry entry) {
+		public AfterDelete(OnFinish finish, PwGroup parent, PwEntry entry) {
 			super(finish);
 			
-			mDbHelper = helper;
 			mParent = parent;
 			mEntry = entry;
 		}
@@ -101,11 +91,17 @@ public class DeleteEntry extends RunnableOnFinish {
 		@Override
 		public void run() {
 			if ( mSuccess ) {
-				// Remove from entry global
-				mDb.gEntries.remove(mEntry);
-				
-				// Remove from search db
-				mDbHelper.deleteEntry(mEntry);
+				if ( mDb.indexBuilt ) {
+					SearchDbHelper dbHelper = mDb.searchHelper;
+					dbHelper.open();
+	
+					// Remove from entry global
+					mDb.gEntries.remove(mEntry);
+					
+					// Remove from search db
+					dbHelper.deleteEntry(mEntry);
+					dbHelper.close();
+				}
 				
 				// Mark parent dirty
 				if ( mParent != null ) {
@@ -121,8 +117,6 @@ public class DeleteEntry extends RunnableOnFinish {
 				}
 				
 			}
-			
-			mDbHelper.close();
 
 			super.run();
 			

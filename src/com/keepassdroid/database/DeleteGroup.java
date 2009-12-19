@@ -25,8 +25,6 @@ import java.util.Vector;
 import org.phoneid.keepassj2me.PwEntry;
 import org.phoneid.keepassj2me.PwGroup;
 
-import android.content.Context;
-
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
 
@@ -35,35 +33,28 @@ public class DeleteGroup extends RunnableOnFinish {
 	private Database mDb;
 	private PwGroup mGroup;
 	private GroupBaseActivity mAct;
-	private Context mCtx;
 	private boolean mDontSave;
 	
 	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish) {
 		super(finish);
-		setMembers(db, group, act, act, false);
+		setMembers(db, group, act, false);
 	}
 	
 	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish, boolean dontSave) {
 		super(finish);
-		setMembers(db, group, act, act, dontSave);
-	}
-
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, Context ctx, OnFinish finish, boolean dontSave) {
-		super(finish);
-		setMembers(db, group, act, ctx, dontSave);
+		setMembers(db, group, act, dontSave);
 	}
 
 	
-	public DeleteGroup(Database db, PwGroup group, Context ctx, OnFinish finish, boolean dontSave) {
+	public DeleteGroup(Database db, PwGroup group, OnFinish finish, boolean dontSave) {
 		super(finish);
-		setMembers(db, group, null, ctx, dontSave);
+		setMembers(db, group, null, dontSave);
 	}
 
-	private void setMembers(Database db, PwGroup group, GroupBaseActivity act, Context ctx, boolean dontSave) {
+	private void setMembers(Database db, PwGroup group, GroupBaseActivity act, boolean dontSave) {
 		mDb = db;
 		mGroup = group;
 		mAct = act;
-		mCtx = ctx;
 		mDontSave = dontSave;
 
 		mFinish = new AfterDelete(mFinish);
@@ -78,14 +69,14 @@ public class DeleteGroup extends RunnableOnFinish {
 		// Remove child entries
 		Vector<PwEntry> childEnt = (Vector<PwEntry>) mGroup.childEntries.clone();
 		for ( int i = 0; i < childEnt.size(); i++ ) {
-			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), mCtx, null, true);
+			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), null, true);
 			task.run();
 		}
 		
 		// Remove child groups
 		Vector<PwGroup> childGrp = (Vector<PwGroup>) mGroup.childGroups.clone();
 		for ( int i = 0; i < childGrp.size(); i++ ) {
-			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, mCtx, null, true);
+			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, null, true);
 			task.run();
 		}
 		

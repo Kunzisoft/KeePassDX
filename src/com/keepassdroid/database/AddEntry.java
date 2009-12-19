@@ -76,11 +76,13 @@ public class AddEntry extends RunnableOnFinish {
 				// Add entry to global
 				mDb.gEntries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntry>(mEntry));
 				
-				// Add entry to search index
-				SearchDbHelper helper = mDb.searchHelper;
-				helper.open();
-				helper.insertEntry(mEntry);
-				helper.close();
+				if ( mDb.indexBuilt ) {
+					// Add entry to search index
+					SearchDbHelper helper = mDb.searchHelper;
+					helper.open();
+					helper.insertEntry(mEntry);
+					helper.close();
+				}
 			} else {
 				// Remove from group
 				mEntry.parent.childEntries.removeElement(mEntry);

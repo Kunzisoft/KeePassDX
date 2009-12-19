@@ -59,7 +59,7 @@ public class DeleteEntry extends AndroidTestCase {
 		assertNotNull("Could not find group1", group1);
 		
 		// Delete the group
-		DeleteGroup task = new DeleteGroup(db, group1, ctx, null, true);
+		DeleteGroup task = new DeleteGroup(db, group1, null, true);
 		task.run();
 		
 		// Verify the entries were deleted

@@ -78,11 +78,13 @@ public class UpdateEntry extends RunnableOnFinish {
 						
 					}
 					
-					// Update search index
-					SearchDbHelper helper = mDb.searchHelper;
-					helper.open();
-					helper.updateEntry(mOldE);
-					helper.close();
+					if ( mDb.indexBuilt ) {
+						// Update search index
+						SearchDbHelper helper = mDb.searchHelper;
+						helper.open();
+						helper.updateEntry(mOldE);
+						helper.close();
+					}
 				}
 			} else {
 				// If we fail to save, back out changes to global structure
