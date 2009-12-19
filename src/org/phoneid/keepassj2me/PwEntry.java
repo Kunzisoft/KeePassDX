@@ -25,14 +25,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package org.phoneid.keepassj2me;
 
 // PhoneID
-import org.phoneid.*;
+import java.lang.ref.WeakReference;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
 import com.keepassdroid.Database;
-
-
-// Java
-import java.lang.ref.WeakReference;
-import java.util.*;
 
 
 /**
@@ -127,12 +125,21 @@ public class PwEntry {
   }
 
 
+  /**
+   * fill byte array
+   */
+  private static void fill(byte[] array, byte value)
+  {
+	for (int i=0; i<array.length; i++)
+	    array[i] = value;
+	return;
+  }
 
   /** Securely erase old password before copying new. */
   public void setPassword( byte[] buf, int offset, int len ) {
     if( password != null ) {
-	PhoneIDUtil.fill( password, (byte)0 );
-	password = null;
+		fill( password, (byte)0 );
+		password = null;
     }
     password = new byte[len];
     System.arraycopy( buf, offset, password, 0, len );
@@ -152,8 +159,8 @@ public class PwEntry {
   /** Securely erase old data before copying new. */
   public void setBinaryData( byte[] buf, int offset, int len ) {
     if( binaryData != null ) {
-	PhoneIDUtil.fill( binaryData, (byte)0 );
-	binaryData = null;
+		fill( binaryData, (byte)0 );
+		binaryData = null;
     }
     binaryData = new byte[len];
     System.arraycopy( buf, offset, binaryData, 0, len );
