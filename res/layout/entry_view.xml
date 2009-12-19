@@ -53,7 +53,7 @@
 	  android:layout_below="@id/entry_divider1">
 		<TableLayout android:id="@+id/entry_table"
 		  android:layout_height="fill_parent"
-		  android:layout_width="fill_parent">	
+		  android:layout_width="wrap_content">	
 			<!-- Username -->
 			<TableRow>
 				<TextView android:id="@+id/entry_user_name_label"
