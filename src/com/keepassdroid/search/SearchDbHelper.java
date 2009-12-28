@@ -53,6 +53,8 @@ public class SearchDbHelper {
 		+ KEY_URL + ", "
 		+ KEY_COMMENT + ");";
 	
+	private static final String PRAGMA_NO_SYNCHRONOUS = "pragma synchronous = off;";
+	
 	private final Context mCtx;
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -82,6 +84,7 @@ public class SearchDbHelper {
 	public SearchDbHelper open() throws SQLException {
 		mDbHelper = new DatabaseHelper(mCtx);
 		mDb = mDbHelper.getWritableDatabase();
+		mDb.execSQL(PRAGMA_NO_SYNCHRONOUS);
 		return this;
 	}
 	
@@ -110,6 +113,19 @@ public class SearchDbHelper {
 	public void insertEntry(PwEntry entry) {
 		ContentValues cv = buildNewEntryContent(entry);
 		mDb.insert(SEARCH_TABLE, null, cv);
+	}
+	
+	public void insertEntry(Vector<PwEntry> entries) {
+		mDb.beginTransaction();
+
+		try {
+			for (int i=0; i < entries.size(); i++) {
+				insertEntry(entries.get(i));
+			}
+			mDb.setTransactionSuccessful();
+		} finally {
+			mDb.endTransaction();
+		}
 	}
 	
 	public void updateEntry(PwEntry entry) {

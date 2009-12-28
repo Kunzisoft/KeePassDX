@@ -37,6 +37,7 @@ import org.phoneid.keepassj2me.PwManager;
 import org.phoneid.keepassj2me.Types;
 
 import android.content.Context;
+import android.os.Debug;
 
 import com.keepassdroid.keepasslib.InvalidKeyFileException;
 import com.keepassdroid.keepasslib.InvalidPasswordException;
@@ -110,20 +111,23 @@ public class Database {
 	 */
 	public void buildSearchIndex(Context ctx) {
 
+		Debug.startMethodTracing("search");
 		searchHelper = new SearchDbHelper(ctx);
 		
 		initSearch();
 		
 		searchHelper.open();
-		for ( int i = 0; i < mPM.entries.size(); i++) {
+		searchHelper.insertEntry(mPM.entries);
+		/*for ( int i = 0; i < mPM.entries.size(); i++) {
 			PwEntry entry = mPM.entries.get(i);
 			if ( ! entry.isMetaStream() ) {
 				searchHelper.insertEntry(entry);
 			}
-		}
+		} */
 		searchHelper.close();
 		
 		indexBuilt = true;
+		Debug.stopMethodTracing();
 	}
 	
 	public PwGroup Search(String str) {
