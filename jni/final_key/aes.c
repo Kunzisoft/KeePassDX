@@ -5,9 +5,9 @@
 
 #include <android/log.h>
 
-//#define LOGD(...) __android_log_print(ANDROID_LOG_VERBOSE, "KeePassDroidNative", __VA_ARGS__)
+#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, "KeePassDroidNative", __VA_ARGS__)
 #define LOGD(...) 
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG  , "KeePassDroidNative", __VA_ARGS__)
+//#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG  , "KeePassDroidNative", __VA_ARGS__)
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO   , "KeePassDroidNative", __VA_ARGS__)
 #define LOGW(...) __android_log_print(ANDROID_LOG_WARN   , "KeePassDroidNative", __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR  , "KeePassDroidNative", __VA_ARGS__) 
@@ -54,7 +54,7 @@ jlong Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeInit(JNIEnv *env,
 }
 
 void Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeCleanup(JNIEnv *env, 
-        jobject this, jlong ctxPtr) {
+        jclass this, jlong ctxPtr) {
 
     LOGD("cleanup");
     EVP_CIPHER_CTX *ctx = (EVP_CIPHER_CTX *) ctxPtr;

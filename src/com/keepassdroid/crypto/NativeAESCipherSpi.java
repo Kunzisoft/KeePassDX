@@ -19,6 +19,9 @@
  */
 package com.keepassdroid.crypto;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
 import java.security.AlgorithmParameters;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -27,6 +30,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.HashMap;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -36,8 +40,14 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
 
-public class NativeAESCipherSpi extends CipherSpi {
+import android.util.Log;
 
+public class NativeAESCipherSpi extends CipherSpi {
+	
+	private static boolean mIsStaticInit = false;
+	private static HashMap<PhantomReference<NativeAESCipherSpi>, Long> mCleanup = new HashMap<PhantomReference<NativeAESCipherSpi>, Long>();
+	private static ReferenceQueue<NativeAESCipherSpi> mQueue = new ReferenceQueue<NativeAESCipherSpi>();
+	
 	private final int AES_BLOCK_SIZE = 16;
 	private byte[] mIV;
 	
@@ -47,7 +57,53 @@ public class NativeAESCipherSpi extends CipherSpi {
 	
 	private int mBuffered;
 	private boolean mPadding = false;
+	
+	private static void staticInit() {
+		mIsStaticInit = true;
+		
+		// Start the cipher context cleanup thread to run forever
+		(new Thread(new Cleanup())).start();
+	}
+	
+	private static void addToCleanupQueue(NativeAESCipherSpi ref, long ptr) {
+		Log.d("KeepassDroid", "queued cipher context: " + ptr);
+		mCleanup.put(new PhantomReference<NativeAESCipherSpi>(ref, mQueue), ptr);
+	}
+	
+	/** Work with the garabage collector to clean up openssl memory when the cipher
+	 *  context is garbage collected.
+	 * @author bpellin
+	 *
+	 */
+	private static class Cleanup implements Runnable {
 
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					Reference<? extends NativeAESCipherSpi> ref = mQueue.remove();
+					
+					long ctx = mCleanup.remove(ref);
+					nativeCleanup(ctx);
+					Log.d("KeePassDroid", "Cleaned up cipher context: " + ctx);
+					
+				} catch (InterruptedException e) {
+					// Do nothing, but resume looping if mQueue.remove is interrupted
+				}
+			}
+		}
+		
+	}
+	
+	private static native void nativeCleanup(long ctxPtr);
+
+	public NativeAESCipherSpi() {
+		if ( ! mIsStaticInit ) {
+			staticInit();
+		}
+	}
+
+	
 	@Override
 	protected byte[] engineDoFinal(byte[] input, int inputOffset, int inputLen)
 			throws IllegalBlockSizeException, BadPaddingException {
@@ -166,26 +222,23 @@ public class NativeAESCipherSpi extends CipherSpi {
 
 	private void init(int opmode, Key key, IvParameterSpec params) {
 		if ( mIsInited ) {
-			cleanup();
+			// Do not allow multiple inits
+			assert(true);
+			throw new RuntimeException("Don't allow multiple inits");
+		} else {
 			NativeLib.init();
+			mIsInited = true;
 		}
 		
 		mIV = params.getIV();
 		mEncrypting = opmode == Cipher.ENCRYPT_MODE;
 		mBuffered = 0;
 		mCtxPtr = nativeInit(mEncrypting, key.getEncoded(), mIV, mPadding);
+		addToCleanupQueue(this, mCtxPtr);
 	}
 	
 	private native long nativeInit(boolean encrypt, byte[] key, byte[] iv, boolean mPadding);
 	
-	private void cleanup() {
-		nativeCleanup(mCtxPtr);
-		
-		mCtxPtr = 0;
-	}
-	
-	private native void nativeCleanup(long ctxPtr);
-
 	@Override
 	protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
 		if ( ! mode.equals("CBC") ) {
