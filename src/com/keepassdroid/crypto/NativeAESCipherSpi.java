@@ -70,7 +70,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 		mCleanup.put(new PhantomReference<NativeAESCipherSpi>(ref, mQueue), ptr);
 	}
 	
-	/** Work with the garabage collector to clean up openssl memory when the cipher
+	/** Work with the garbage collector to clean up openssl memory when the cipher
 	 *  context is garbage collected.
 	 * @author bpellin
 	 *
