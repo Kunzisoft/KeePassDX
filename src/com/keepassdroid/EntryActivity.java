@@ -169,9 +169,14 @@ public class EntryActivity extends LockCloseActivity {
 	
 	@Override
 	protected void onDestroy() {
-		unregisterReceiver(mIntentReceiver);
+		// These members might never get initialized if the app timed out
+		if ( mIntentReceiver != null ) {
+			unregisterReceiver(mIntentReceiver);
+		}
 		
-		mNM.cancelAll();
+		if ( mNM != null ) {
+			mNM.cancelAll();
+		}
 		
 		super.onDestroy();
 	}
