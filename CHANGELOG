@@ -1,3 +1,6 @@
+KeePassDroid (1.0.2)
+  * Fix file associations
+
 KeePassDroid (1.0.1)
   * Fix crash on resume
   * Fix memory leak in NativeAESCipherSpi
