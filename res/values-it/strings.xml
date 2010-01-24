@@ -24,7 +24,7 @@
     <string name="about_feedback">Commenti:</string>
     <string name="about_homepage">Pagina web:</string>
     <string name="about_ok">OK</string>
-    <string name="AboutText">KeePassDroid è un\'implementazione del gestore password KeePass. Attualmente KeePassDroid può soltanto mostrare i database ma non può ancora crearli.  Per adesso, dovrai creare il database di KeePass sul computer e poi trasferirlo nella scheda SD.</string>
+    <string name="AboutText">KeePassDroid è un\'implementazione del gestore password KeePass.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="add_entry">Aggiungi voce</string>
     <string name="add_group">Aggiungi gruppo</string>
@@ -32,10 +32,20 @@
     <string name="algorithm">Algoritmo</string>
     <string name="algorithm_colon">Algoritmo:</string>
     <string name="app_name">KeePassDroid</string>
+<string name="application">Applicazione</string>
+<string name="application_settings">Impostazioni Applicazione</string>
+<string name="building_search_idx">Creazione indice di ricerca...</string>
     <string name="cancel">Annulla</string>
     <string name="ClearClipboard">Appunti eliminati.</string>
+    <string name="clipboard_timeout">Scadenza appunti</string>
+    <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti dopo la copia del nome file o password</string>
+    <string name="copy_username">Copia nome utente negli appunti</string>
+    <string name="copy_password">Copia password negli appunti</string>
+    <string name="creating_db_key">Creazione file chiave database...</string>
     <string name="current_group">Gruppo attuale: </string>
     <string name="current_group_root">Gruppo attuale: Principale</string>
+    <string name="database">Database</string>
+    <string name="decrypting_db">Decodifica contenuto database...</string>
     <string name="disclaimer_formal">KeePassDroid Copyright 2009 di Brian Pellin viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
     <string name="enter_filename">Inserisci il nome file del database:</string>
     <string name="entry_accessed">Ultimo accesso: </string>
@@ -44,6 +54,7 @@
     <string name="entry_comment">Commento: </string>
     <string name="entry_confpassword">Conferma password:</string>
     <string name="entry_created">Creato: </string>
+    <string name="entry_expires">Scade: </string>
     <string name="entry_keyfile">File chiave (opzionale)</string>
     <string name="entry_modified">Modificato: </string>
     <string name="entry_password">Password</string>
@@ -53,8 +64,11 @@
     <string name="entry_user_name">Nome utente: </string>
     <string name="error_can_not_handle_uri">KeePassDroid non può gestire questo URL.</string>
     <string name="error_could_not_create_group">Errore creazione gruppo.</string>
+    <string name="error_could_not_create_parent">Impossibile creare la directory principale.</string>
     <string name="error_database_exists">File già esistente.</string>
     <string name="error_database_settings">Impossibile determinare le impostazioni database.</string>
+    <string name="error_invalid_path">Percorso non valido.</string>
+    <string name="error_failed_to_launch_link">Impossibile aprire il collegamento.</string>
     <string name="error_filename_required">E\' necessario un nome file.</string>
     <string name="error_file_not_create">Impossibile creare il file:</string>
     <string name="error_no_name">E\' necessario un nome.</string>
@@ -72,7 +86,6 @@
     <string name="hint_title">nome</string>
     <string name="hint_url">url</string>
     <string name="hint_username">nome utente</string>
-    <string name="homepage">http://www.keepassdroid.com</string>
     <string name="InvalidPassword">Password o file chiave non validi.</string>
     <string name="loading_database">Caricamento database...</string>
     <string name="MaskedPassword">*****</string>
@@ -81,8 +94,10 @@
     <string name="menu_copy_pass">Copia Password</string>
     <string name="menu_copy_user">Copia Utente</string>
     <string name="menu_create">Crea</string>
+    <string name="menu_app_settings">Impostazioni</string>
     <string name="menu_db_settings">Impostazioni Database</string>
     <string name="menu_delete">Elimina</string>
+    <string name="menu_donate">Dona</string>
     <string name="menu_edit">Modifica</string>
     <string name="menu_hide_password">Nascondi Password</string>
     <string name="menu_homepage">Vai alla pagina web</string>
@@ -91,6 +106,7 @@
     <string name="menu_rename">Rinomina</string>
     <string name="menu_search">Cerca</string>
     <string name="menu_url">Vai all\'URL</string>
+    <string name="never">Mai</string>
     <string name="no_keys">Nessuna voce nel database o nel gruppo.</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Nessun gestore per questo URL.</string>
@@ -100,6 +116,9 @@
     <string name="password_title">Inserisci password database</string>
     <string name="progress_create">Creazione nuovo database...</string>
     <string name="progress_title">In corso...</string>
+    <string name="remember_keyfile_summary">Ricorda la posizione dei file chiave</string>
+    <string name="remember_keyfile_title">Salva il file chiave</string>
+    <string name="remove_from_filelist">Elimina</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Principale</string>
     <string name="rounds">Livello cifratura</string>
@@ -109,4 +128,11 @@
     <string name="search_hint">Titolo/descrizione voce</string>
     <string name="search_label">Cerca</string>
     <string name="show_password">Mostra Password</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 secondi</item>
+    	<item>1 minuto</item>
+    	<item>5 minuti</item>
+    	<item>Mai</item>
+    </string-array>
 </resources>
