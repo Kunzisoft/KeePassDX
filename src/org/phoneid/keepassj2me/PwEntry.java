@@ -212,9 +212,11 @@ public class PwEntry {
 
 	  binaryDesc = source.binaryDesc;
 	  
-	  int descLen = source.binaryData.length;
-	  binaryData = new byte[descLen]; 
-	  System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
+	  if ( source.binaryData != null ) {
+		  int descLen = source.binaryData.length;
+		  binaryData = new byte[descLen]; 
+		  System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
+	  }
 	  
 	  parent = source.parent;
 	  
