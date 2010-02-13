@@ -197,6 +197,7 @@ public class Database {
 	public void clear() {
 		initSearch();
 		
+		indexBuilt = false;
 		gGroups.clear();
 		gEntries.clear();
 		gRoot = null;
