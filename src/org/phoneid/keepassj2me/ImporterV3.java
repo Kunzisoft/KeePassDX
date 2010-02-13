@@ -346,17 +346,18 @@ public class ImporterV3 {
 	 * @param buf
 	 * @param offset
 	 * @return If >0, 
+	 * @throws UnsupportedEncodingException 
 	 */
-	void readGroupField( PwGroup grp, int fieldType, byte[] buf, int offset ) {
+	void readGroupField( PwGroup grp, int fieldType, byte[] buf, int offset ) throws UnsupportedEncodingException {
 		switch( fieldType ) {
 		case 0x0000 :
 			// Ignore field
 			break;
 		case 0x0001 :
-			grp.groupId = Types.readInt( buf, offset );
+			grp.groupId = Types.readInt(buf, offset);
 			break;
 		case 0x0002 :
-			grp.name = new String( buf, offset, Types.strlen( buf, offset ) );
+			grp.name = Types.readCString(buf, offset);
 			break;
 		case 0x0003 :
 			grp.tCreation = new PwDate(buf, offset);
@@ -371,13 +372,13 @@ public class ImporterV3 {
 			grp.tExpire = new PwDate(buf, offset);
 			break;
 		case 0x0007 :
-			grp.imageId = Types.readInt( buf, offset );
+			grp.imageId = Types.readInt(buf, offset);
 			break;
 		case 0x0008 :
-			grp.level = Types.readShort( buf, offset );
+			grp.level = Types.readShort(buf, offset);
 			break;
 		case 0x0009 :
-			grp.flags = Types.readInt( buf, offset );
+			grp.flags = Types.readInt(buf, offset);
 			break;
 		}
 	}
@@ -387,9 +388,9 @@ public class ImporterV3 {
 	void readEntryField( PwEntry ent, byte[] buf, int offset )
 	throws UnsupportedEncodingException
 	{
-		int fieldType = Types.readShort( buf, offset );
+		int fieldType = Types.readShort(buf, offset);
 		offset += 2;
-		int fieldSize = Types.readInt( buf, offset );
+		int fieldSize = Types.readInt(buf, offset);
 		offset += 4;
 
 		switch( fieldType ) {
@@ -397,28 +398,28 @@ public class ImporterV3 {
 			// Ignore field
 			break;
 		case 0x0001 :
-			System.arraycopy( buf, offset, ent.uuid, 0, 16 );
+			System.arraycopy(buf, offset, ent.uuid, 0, 16);
 			break;
 		case 0x0002 :
-			ent.groupId = Types.readInt( buf, offset );
+			ent.groupId = Types.readInt(buf, offset);
 			break;
 		case 0x0003 :
-			ent.imageId = Types.readInt( buf, offset );
+			ent.imageId = Types.readInt(buf, offset);
 			break;
 		case 0x0004 :
-			ent.title = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );
+			ent.title = Types.readCString(buf, offset); 
 			break;
 		case 0x0005 :
-			ent.url = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );
+			ent.url = Types.readCString(buf, offset);
 			break;
 		case 0x0006 :
-			ent.username = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );
+			ent.username = Types.readCString(buf, offset);
 			break;
 		case 0x0007 :
-			ent.setPassword( buf, offset, Types.strlen( buf, offset ) );
+			ent.setPassword(buf, offset, Types.strlen(buf, offset));
 			break;
 		case 0x0008 :
-			ent.additional = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );
+			ent.additional = Types.readCString(buf, offset);
 			break;
 		case 0x0009 :
 			ent.tCreation = new PwDate(buf, offset);
@@ -433,10 +434,10 @@ public class ImporterV3 {
 			ent.tExpire = new PwDate(buf, offset);
 			break;
 		case 0x000D :
-			ent.binaryDesc = new String( buf, offset, Types.strlen( buf, offset ), "UTF-8" );
+			ent.binaryDesc = Types.readCString(buf, offset);
 			break;
 		case 0x000E :
-			ent.setBinaryData( buf, offset, fieldSize );
+			ent.setBinaryData(buf, offset, fieldSize);
 			break;
 		}
 	}

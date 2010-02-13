@@ -26,6 +26,7 @@ package org.phoneid.keepassj2me;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 /**
@@ -185,6 +186,22 @@ public class Types {
     System.arraycopy( b, offset, b2, 0, len );
     return b2;
   }
+  
+  
+  private static final byte[] CRLFbuf = { 0x0D, 0x0A };
+  private static final String CRLF = new String(CRLFbuf);
+  private static final String SEP = System.getProperty("line.separator");
+  private static final boolean REPLACE = ! SEP.equals(CRLF);
+  
+  public static String readCString(byte[] buf, int offset) throws UnsupportedEncodingException {
+	  String jstring = new String(buf, offset, strlen(buf, offset), "UTF-8");
+	  
+	  if ( REPLACE ) {
+		  jstring = jstring.replace(CRLF, SEP);
+	  }
+	  
+	  return jstring;
+  }
 
   public static int writeCString(String str, OutputStream os) throws IOException {
 	  if ( str == null ) {
@@ -193,6 +210,11 @@ public class Types {
 		  os.write(0x00);
 		  return 0;
 	  }
+	  
+	  if ( REPLACE ) {
+		  str = str.replace(SEP, CRLF);
+	  }
+	  
 	  byte[] initial = str.getBytes("UTF-8");
 	  
 	  int length = initial.length+1;
