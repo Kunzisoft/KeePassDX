@@ -1,3 +1,9 @@
+KeePassDroid (1.0.3)
+  * Update Italian translations
+  * Fix crash on saving entries
+  * Fix way empty strings were being saved (this made it look like there was
+    attachment in the Windows KeePass client).
+
 KeePassDroid (1.0.2)
   * Fix file associations
 
