@@ -27,6 +27,8 @@
     <string name="db_key">db</string>
     <string name="rounds_key">rounds</string>
     <string name="keyfile_key">keyfile</string>
+    <string name="maskpass_key">maskpass</string>
+    <bool name="maskpass_default">true</bool>
     <bool name="keyfile_default">true</bool>
     
     <string name="clipboard_timeout_default">300000</string>

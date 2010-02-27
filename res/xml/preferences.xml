@@ -52,5 +52,10 @@
 		  android:entryValues="@array/clipboard_timeout_values"
 		  android:dialogTitle="@string/clipboard_timeout"
 		  android:defaultValue="@string/clipboard_timeout_default"/>
+		<CheckBoxPreference
+		  android:key="@string/maskpass_key"
+		  android:title="@string/maskpass_title"
+		  android:summary="@string/maskpass_summary"
+		  android:defaultValue="@bool/maskpass_default"/>
 	</PreferenceScreen>
 </PreferenceScreen>

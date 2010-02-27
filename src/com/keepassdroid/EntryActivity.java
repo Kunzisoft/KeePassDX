@@ -85,7 +85,7 @@ public class EntryActivity extends LockCloseActivity {
 	
 	private PwEntry mEntry;
 	private Timer mTimer = new Timer();
-	private boolean mShowPassword = false;
+	private boolean mShowPassword;
 	private int mPos;
 	private NotificationManager mNM;
 	private BroadcastReceiver mIntentReceiver;
@@ -114,6 +114,9 @@ public class EntryActivity extends LockCloseActivity {
 		// Update last access time.
 		Calendar cal = Calendar.getInstance();
 		mEntry.tLastAccess = new PwDate(cal.getTime());
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
 		fillData();
 
 		View scroll = findViewById(R.id.entry_scroll);
@@ -211,6 +214,7 @@ public class EntryActivity extends LockCloseActivity {
 			populateText(R.id.entry_expires, df.format(mEntry.tExpire.getJDate()));
 		}
 		populateText(R.id.entry_comment, mEntry.additional);
+
 	}
 	
 	private void populateText(int viewId, int resId) {
@@ -242,8 +246,12 @@ public class EntryActivity extends LockCloseActivity {
 		
 		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
 		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
-
-		menu.add(0, MENU_PASS, 0, R.string.show_password);
+		
+		if ( mShowPassword ) {
+			menu.add(0, MENU_PASS, 0, R.string.menu_hide_password);
+		} else {
+			menu.add(0, MENU_PASS, 0, R.string.show_password);
+		}
 		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
 		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
 		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
