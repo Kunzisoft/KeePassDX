@@ -7,10 +7,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.services.TimeoutService;
 
 public class Timeout {
 	private static final int REQUEST_ID = 0;
-	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
+	private static final long DEFAULT_TIMEOUT = 20 * 1000;  // 5 minutes
 	private static String TAG = "KeePass Timeout";
 
 	private static PendingIntent buildIntent(Context ctx) {
@@ -21,8 +22,10 @@ public class Timeout {
 	}
 	
 	public static void start(Context ctx) {
+
+		ctx.startService(new Intent(ctx, TimeoutService.class));
+
 		long triggerTime = System.currentTimeMillis() + DEFAULT_TIMEOUT;
-		
 		AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		
 		Log.d(TAG, "Timeout start");
@@ -34,6 +37,9 @@ public class Timeout {
 		
 		Log.d(TAG, "Timeout cancel");
 		am.cancel(buildIntent(ctx));
+		
+		ctx.stopService(new Intent(ctx, TimeoutService.class));
+
 	}
 
 }

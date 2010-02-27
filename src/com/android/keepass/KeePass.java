@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.keepassdroid.fileselect.FileSelectActivity;
-import com.keepassdroid.services.TimeoutService;
 
 public class KeePass extends Activity {
 
@@ -37,7 +36,6 @@ public class KeePass extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		startService(new Intent(this, TimeoutService.class));
 		
 	}
 	
@@ -56,8 +54,6 @@ public class KeePass extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
-		stopService(new Intent(this, TimeoutService.class));
 	}
 
 	@Override
