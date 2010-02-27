@@ -1,3 +1,6 @@
+KeePassDroid (1.0.5.1)
+  * Restore timeout to 5 minutes instead of 20 seconds
+
 KeePassDroid (1.0.5)
   * Fix search after lock bug
   * Add option to disable password masking by default

@@ -11,7 +11,7 @@ import com.keepassdroid.services.TimeoutService;
 
 public class Timeout {
 	private static final int REQUEST_ID = 0;
-	private static final long DEFAULT_TIMEOUT = 20 * 1000;  // 5 minutes
+	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
 	private static String TAG = "KeePass Timeout";
 
 	private static PendingIntent buildIntent(Context ctx) {
