@@ -22,15 +22,15 @@ package com.keepassdroid.tests.database;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.phoneid.keepassj2me.ImporterV3;
-import org.phoneid.keepassj2me.PwManager;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.keepasslib.InvalidKeyFileException;
-import com.keepassdroid.keepasslib.InvalidPasswordException;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.load.ImporterV3;
+import com.keepassdroid.database.save.InvalidKeyFileException;
+import com.keepassdroid.database.save.InvalidPasswordException;
 
 public class TestData {
 	private static final String TEST1_KEYFILE = "";
@@ -64,7 +64,7 @@ public class TestData {
 		
 	}
 	
-	public static PwManager GetTest1(Context ctx) throws IOException, InvalidKeyFileException, InvalidPasswordException {
+	public static PwDatabaseV3 GetTest1(Context ctx) throws IOException, InvalidKeyFileException, InvalidPasswordException {
 		if ( mDb1 == null ) {
 			GetDb1(ctx);
 		}

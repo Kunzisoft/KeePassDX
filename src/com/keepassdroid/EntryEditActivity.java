@@ -24,9 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-import org.phoneid.keepassj2me.PwEntry;
-import org.phoneid.keepassj2me.PwGroup;
-import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -44,11 +41,15 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.AddEntry;
-import com.keepassdroid.database.OnFinish;
-import com.keepassdroid.database.RunnableOnFinish;
-import com.keepassdroid.database.UpdateEntry;
-import com.keepassdroid.keepasslib.PwDate;
+import com.keepassdroid.database.PwDate;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.edit.AddEntry;
+import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.database.edit.RunnableOnFinish;
+import com.keepassdroid.database.edit.UpdateEntry;
+import com.keepassdroid.utils.Types;
+import com.keepassdroid.utils.Util;
 
 public class EntryEditActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -57,11 +58,11 @@ public class EntryEditActivity extends LockCloseActivity {
 	private static final int MENU_DONATE = Menu.FIRST;
 	private static final int MENU_PASS = Menu.FIRST + 1;
 
-	private PwEntry mEntry;
+	private PwEntryV3 mEntry;
 	private boolean mShowPassword = false;
 	private boolean mIsNew;
 	
-	public static void Launch(Activity act, PwEntry pw) {
+	public static void Launch(Activity act, PwEntryV3 pw) {
 		Intent i = new Intent(act, EntryEditActivity.class);
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
@@ -69,7 +70,7 @@ public class EntryEditActivity extends LockCloseActivity {
 		act.startActivityForResult(i, 0);
 	}
 	
-	public static void Launch(Activity act, PwGroup parent) {
+	public static void Launch(Activity act, PwGroupV3 parent) {
 		Intent i = new Intent(act, EntryEditActivity.class);
 		
 		i.putExtra(KEY_PARENT, parent.groupId);
@@ -97,7 +98,7 @@ public class EntryEditActivity extends LockCloseActivity {
 		if ( uuidBytes == null ) {
 			int groupId = i.getIntExtra(KEY_PARENT, -1);
 
-			mEntry = new PwEntry(db, groupId);
+			mEntry = new PwEntryV3(db, groupId);
 			mIsNew = true;
 			
 		} else {
@@ -136,7 +137,7 @@ public class EntryEditActivity extends LockCloseActivity {
 					return;
 				}
 				
-				PwEntry newEntry = new PwEntry();
+				PwEntryV3 newEntry = new PwEntryV3();
 				
 				newEntry.binaryDesc = mEntry.binaryDesc;
 				newEntry.groupId = mEntry.groupId;

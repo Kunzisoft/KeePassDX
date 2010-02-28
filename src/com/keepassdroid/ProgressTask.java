@@ -24,8 +24,8 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.android.keepass.R;
-import com.keepassdroid.database.OnFinish;
-import com.keepassdroid.database.RunnableOnFinish;
+import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.database.edit.RunnableOnFinish;
 
 /** Designed to Pop up a progress dialog, run a thread in the background, 
  *  run cleanup in the current thread, close the dialog.  Without blocking 

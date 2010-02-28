@@ -19,7 +19,6 @@
  */
 package com.keepassdroid;
 
-import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -38,8 +37,10 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.OnFinish;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.utils.Util;
 
 public abstract class GroupBaseActivity extends LockCloseListActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -51,9 +52,9 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 3;
 	protected static final int MENU_APP_SETTINGS = Menu.FIRST + 4;
 	
-	protected PwGroup mGroup;
+	protected PwGroupV3 mGroup;
 
-	public static void Launch(Activity act, PwGroup group) {
+	public static void Launch(Activity act, PwGroupV3 group) {
 		Intent i = new Intent(act, GroupActivity.class);
 		
 		if ( group != null ) {

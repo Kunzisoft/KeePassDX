@@ -30,30 +30,30 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
 
-import org.phoneid.keepassj2me.ImporterV3;
-import org.phoneid.keepassj2me.PwEntry;
-import org.phoneid.keepassj2me.PwGroup;
-import org.phoneid.keepassj2me.PwManager;
-import org.phoneid.keepassj2me.Types;
 
 import android.content.Context;
 import android.os.Debug;
 
-import com.keepassdroid.keepasslib.InvalidKeyFileException;
-import com.keepassdroid.keepasslib.InvalidPasswordException;
-import com.keepassdroid.keepasslib.PwManagerOutput;
-import com.keepassdroid.keepasslib.PwManagerOutputException;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.load.ImporterV3;
+import com.keepassdroid.database.save.InvalidKeyFileException;
+import com.keepassdroid.database.save.InvalidPasswordException;
+import com.keepassdroid.database.save.PwDbV3Output;
+import com.keepassdroid.database.save.PwDbOutputException;
 import com.keepassdroid.search.SearchDbHelper;
+import com.keepassdroid.utils.Types;
 
 /**
  * @author bpellin
  */
 public class Database {
-	public HashMap<Integer, WeakReference<PwGroup>> gGroups = new HashMap<Integer, WeakReference<PwGroup>>();
-	public HashMap<UUID, WeakReference<PwEntry>> gEntries = new HashMap<UUID, WeakReference<PwEntry>>();
-	public HashMap<PwGroup, WeakReference<PwGroup>> gDirty = new HashMap<PwGroup, WeakReference<PwGroup>>();
-	public PwGroup gRoot;
-	public PwManager mPM;
+	public HashMap<Integer, WeakReference<PwGroupV3>> gGroups = new HashMap<Integer, WeakReference<PwGroupV3>>();
+	public HashMap<UUID, WeakReference<PwEntryV3>> gEntries = new HashMap<UUID, WeakReference<PwEntryV3>>();
+	public HashMap<PwGroupV3, WeakReference<PwGroupV3>> gDirty = new HashMap<PwGroupV3, WeakReference<PwGroupV3>>();
+	public PwGroupV3 gRoot;
+	public PwDatabaseV3 mPM;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
 	public boolean indexBuilt = false;
@@ -119,7 +119,7 @@ public class Database {
 		searchHelper.open();
 		searchHelper.insertEntry(mPM.entries);
 		/*for ( int i = 0; i < mPM.entries.size(); i++) {
-			PwEntry entry = mPM.entries.get(i);
+			PwEntryV3 entry = mPM.entries.get(i);
 			if ( ! entry.isMetaStream() ) {
 				searchHelper.insertEntry(entry);
 			}
@@ -130,26 +130,26 @@ public class Database {
 		Debug.stopMethodTracing();
 	}
 	
-	public PwGroup Search(String str) {
+	public PwGroupV3 Search(String str) {
 		searchHelper.open();
-		PwGroup group = searchHelper.search(this, str);
+		PwGroupV3 group = searchHelper.search(this, str);
 		searchHelper.close();
 		
 		return group;
 		
 	}
 	
-	public void SaveData() throws IOException, PwManagerOutputException {
+	public void SaveData() throws IOException, PwDbOutputException {
 		SaveData(mFilename);
 	}
 	
-	public void SaveData(String filename) throws IOException, PwManagerOutputException {
+	public void SaveData(String filename) throws IOException, PwDbOutputException {
 		File tempFile = new File(filename + ".tmp");
 		FileOutputStream fos = new FileOutputStream(tempFile);
 		//BufferedOutputStream bos = new BufferedOutputStream(fos);
 		
-		//PwManagerOutput pmo = new PwManagerOutput(mPM, bos, App.getCalendar());
-		PwManagerOutput pmo = new PwManagerOutput(mPM, fos);
+		//PwDbV3Output pmo = new PwDbV3Output(mPM, bos, App.getCalendar());
+		PwDbV3Output pmo = new PwDbV3Output(mPM, fos);
 		pmo.output();
 		//bos.flush();
 		//bos.close();
@@ -166,30 +166,30 @@ public class Database {
 		
 	}
 	
-	private void populateGlobals(PwGroup currentGroup) {
+	private void populateGlobals(PwGroupV3 currentGroup) {
 		if (currentGroup == null) {
-			Vector<PwGroup> rootChildGroups = mPM.getGrpRoots();
+			Vector<PwGroupV3> rootChildGroups = mPM.getGrpRoots();
 			for (int i = 0; i < rootChildGroups.size(); i++ ){
-				PwGroup cur = rootChildGroups.elementAt(i);
+				PwGroupV3 cur = rootChildGroups.elementAt(i);
 				gRoot = cur.parent;
-				gGroups.put(cur.groupId, new WeakReference<PwGroup>(cur));
+				gGroups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
 				populateGlobals(cur);
 			}
 			
 			return;
 		}
 		
-		Vector<PwGroup> childGroups = currentGroup.childGroups;
-		Vector<PwEntry> childEntries = currentGroup.childEntries;
+		Vector<PwGroupV3> childGroups = currentGroup.childGroups;
+		Vector<PwEntryV3> childEntries = currentGroup.childEntries;
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
-			PwEntry cur = childEntries.elementAt(i);
-			gEntries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntry>(cur));
+			PwEntryV3 cur = childEntries.elementAt(i);
+			gEntries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntryV3>(cur));
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {
-			PwGroup cur = childGroups.elementAt(i);
-			gGroups.put(cur.groupId, new WeakReference<PwGroup>(cur));
+			PwGroupV3 cur = childGroups.elementAt(i);
+			gGroups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
 			populateGlobals(cur);
 		}
 	}

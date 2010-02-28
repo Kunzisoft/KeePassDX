@@ -19,7 +19,6 @@
  */
 package com.keepassdroid;
 
-import org.phoneid.keepassj2me.PwGroup;
 
 import android.os.Handler;
 import android.view.ContextMenu;
@@ -31,19 +30,20 @@ import android.widget.TextView;
 
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.DeleteGroup;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.edit.DeleteGroup;
 
 
 public class PwGroupView extends ClickView {
 	
-	private PwGroup mPw;
+	private PwGroupV3 mPw;
 	private GroupBaseActivity mAct;
 
 	private static final int MENU_OPEN = Menu.FIRST;
 	private static final int MENU_DELETE = Menu.FIRST + 1;
 	//private static final int MENU_RENAME = Menu.FIRST + 2;
 	
-	public PwGroupView(GroupBaseActivity act, PwGroup pw) {
+	public PwGroupView(GroupBaseActivity act, PwGroupV3 pw) {
 		super(act);
 		mAct = act;
 		mPw = pw;

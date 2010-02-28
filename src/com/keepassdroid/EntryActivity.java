@@ -25,8 +25,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import org.phoneid.keepassj2me.PwEntry;
-import org.phoneid.keepassj2me.Types;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -53,8 +51,11 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwDate;
+import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.intents.Intents;
-import com.keepassdroid.keepasslib.PwDate;
+import com.keepassdroid.utils.Types;
+import com.keepassdroid.utils.Util;
 
 public class EntryActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -74,7 +75,7 @@ public class EntryActivity extends LockCloseActivity {
 	private static final int COL_LABEL = 0;
 	private static final int COL_DATA = 1;
 	
-	public static void Launch(Activity act, PwEntry pw, int pos) {
+	public static void Launch(Activity act, PwEntryV3 pw, int pos) {
 		Intent i = new Intent(act, EntryActivity.class);
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
@@ -83,7 +84,7 @@ public class EntryActivity extends LockCloseActivity {
 		act.startActivityForResult(i,0);
 	}
 	
-	private PwEntry mEntry;
+	private PwEntryV3 mEntry;
 	private Timer mTimer = new Timer();
 	private boolean mShowPassword;
 	private int mPos;
@@ -208,7 +209,7 @@ public class EntryActivity extends LockCloseActivity {
 		populateText(R.id.entry_modified, df.format(mEntry.tLastMod.getJDate()));
 		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess.getJDate()));
 		
-		if ( PwEntry.IsNever(mEntry.tExpire.getJDate()) ) {
+		if ( PwEntryV3.IsNever(mEntry.tExpire.getJDate()) ) {
 			populateText(R.id.entry_expires, R.string.never);
 		} else {
 			populateText(R.id.entry_expires, df.format(mEntry.tExpire.getJDate()));

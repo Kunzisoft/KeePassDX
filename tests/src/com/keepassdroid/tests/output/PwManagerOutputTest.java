@@ -29,20 +29,20 @@ import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.phoneid.keepassj2me.PwDbHeader;
-import org.phoneid.keepassj2me.PwManager;
 
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.keepassdroid.keepasslib.NullOutputStream;
-import com.keepassdroid.keepasslib.PwDbHeaderOutput;
-import com.keepassdroid.keepasslib.PwManagerOutput;
-import com.keepassdroid.keepasslib.PwManagerOutputException;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.save.NullOutputStream;
+import com.keepassdroid.database.save.PwDbHeaderOutput;
+import com.keepassdroid.database.save.PwDbV3Output;
+import com.keepassdroid.database.save.PwDbOutputException;
 import com.keepassdroid.tests.database.TestData;
  
 public class PwManagerOutputTest extends AndroidTestCase {
-  PwManager mPM;
+  PwDatabaseV3 mPM;
   
   @Override
   protected void setUp() throws Exception {
@@ -51,10 +51,10 @@ public class PwManagerOutputTest extends AndroidTestCase {
     mPM = TestData.GetTest1(getContext());
   }
   
-  public void testPlainContent() throws IOException, PwManagerOutputException {
+  public void testPlainContent() throws IOException, PwDbOutputException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
  
-    PwManagerOutput pos = new PwManagerOutput(mPM, bos, PwManagerOutput.DEBUG);
+    PwDbV3Output pos = new PwDbV3Output(mPM, bos, PwDbV3Output.DEBUG);
     pos.outputPlanGroupAndEntries(bos);
     
     assertTrue("No output", bos.toByteArray().length > 0);
@@ -62,14 +62,14 @@ public class PwManagerOutputTest extends AndroidTestCase {
  
   }
  
-  public void testChecksum() throws NoSuchAlgorithmException, IOException, PwManagerOutputException {
+  public void testChecksum() throws NoSuchAlgorithmException, IOException, PwDbOutputException {
     //FileOutputStream fos = new FileOutputStream("/dev/null");
 	NullOutputStream nos = new NullOutputStream();
     MessageDigest md = MessageDigest.getInstance("SHA-256");
     
     DigestOutputStream dos = new DigestOutputStream(nos, md);
   
-    PwManagerOutput pos = new PwManagerOutput(mPM, dos, PwManagerOutput.DEBUG);
+    PwDbV3Output pos = new PwDbV3Output(mPM, dos, PwDbV3Output.DEBUG);
     pos.outputPlanGroupAndEntries(dos);
     dos.close();
     
@@ -78,7 +78,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
     assertArrayEquals("Hash of groups and entries failed.", mPM.dbHeader.contentsHash, digest);
   }
  
-  private void assertHeadersEquals(PwDbHeader expected, PwDbHeader actual) {
+  private void assertHeadersEquals(PwDbHeaderV3 expected, PwDbHeaderV3 actual) {
 	  assertEquals("Flags unequal", expected.flags, actual.flags);
 	  assertEquals("Entries unequal", expected.numEntries, actual.numEntries);
 	  assertEquals("Groups unequal", expected.numGroups, actual.numGroups);
@@ -92,10 +92,10 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	  assertArrayEquals("Seed2 unequal", expected.masterSeed2, actual.masterSeed2);
   }
   
-  public void testHeader() throws PwManagerOutputException, IOException {
+  public void testHeader() throws PwDbOutputException, IOException {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-    PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
-    PwDbHeader header = pActual.outputHeader(bActual);
+    PwDbV3Output pActual = new PwDbV3Output(mPM, bActual, PwDbV3Output.DEBUG);
+    PwDbHeaderV3 header = pActual.outputHeader(bActual);
     
     ByteArrayOutputStream bExpected = new ByteArrayOutputStream();
     PwDbHeaderOutput outExpected = new PwDbHeaderOutput(mPM.dbHeader, bExpected);
@@ -106,17 +106,17 @@ public class PwManagerOutputTest extends AndroidTestCase {
     assertArrayEquals("Header does not match.", bExpected.toByteArray(), bActual.toByteArray()); 
   }
   
-  public void testFinalKey() throws PwManagerOutputException {
+  public void testFinalKey() throws PwDbOutputException {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-    PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
-    PwDbHeader hActual = pActual.outputHeader(bActual);
+    PwDbV3Output pActual = new PwDbV3Output(mPM, bActual, PwDbV3Output.DEBUG);
+    PwDbHeaderV3 hActual = pActual.outputHeader(bActual);
     byte[] finalKey = pActual.getFinalKey2(hActual);
     
     assertArrayEquals("Keys mismatched", mPM.finalKey, finalKey);
 	  
   }
   
-  public void testFullWrite() throws IOException, PwManagerOutputException  {
+  public void testFullWrite() throws IOException, PwDbOutputException  {
 	AssetManager am = getContext().getAssets();
 	InputStream is = am.open("test1.kdb");
 
@@ -131,7 +131,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	}
 	
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-	PwManagerOutput pActual = new PwManagerOutput(mPM, bActual, PwManagerOutput.DEBUG);
+	PwDbV3Output pActual = new PwDbV3Output(mPM, bActual, PwDbV3Output.DEBUG);
 	pActual.output();
 	//pActual.close();
 

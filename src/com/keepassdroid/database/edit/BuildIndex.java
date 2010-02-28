@@ -5,7 +5,7 @@
  *
  *  KeePassDroid is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
+ *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
  *  KeePassDroid is distributed in the hope that it will be useful,
@@ -17,28 +17,29 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.tests;
+package com.keepassdroid.database.edit;
 
+import android.content.Context;
 
-import android.test.AndroidTestCase;
+import com.keepassdroid.Database;
 
-import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.tests.database.TestData;
-
-public class PwGroupTest extends AndroidTestCase {
-
-	PwGroupV3 mPG;
+public class BuildIndex extends RunnableOnFinish {
+	
+	private Database mDb;
+	private Context mCtx;
+	
+	public BuildIndex(Database db, Context ctx, OnFinish finish) {
+		super(finish);
+		
+		mDb = db;
+		mCtx = ctx.getApplicationContext();
+		
+	}
 	
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		mPG = TestData.GetTest1(getContext()).groups.get(0);
-		
+	public void run() {
+		mDb.buildSearchIndex(mCtx);
+		finish(true);
 	}
-	
-	public void testGroupName() {
-		 assertTrue("Name was " + mPG.name, mPG.name.equals("Internet"));
-	}
-}
 
+}

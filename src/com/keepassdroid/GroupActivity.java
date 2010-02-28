@@ -21,7 +21,6 @@ package com.keepassdroid;
 
 import java.lang.ref.WeakReference;
 
-import org.phoneid.keepassj2me.PwGroup;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -40,7 +39,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.AddGroup;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.edit.AddGroup;
 
 public class GroupActivity extends GroupBaseActivity {
 	
@@ -50,7 +50,7 @@ public class GroupActivity extends GroupBaseActivity {
 	public static final int FULL = 2;
 	private static final String TAG = "Group Activity:";
 	
-	public static void Launch(Activity act, PwGroup group, int mode) {
+	public static void Launch(Activity act, PwGroupV3 group, int mode) {
 		Intent i = new Intent(act, GroupActivity.class);
 	
 		if ( group != null ) {
@@ -95,7 +95,7 @@ public class GroupActivity extends GroupBaseActivity {
 		if ( id == -1 ) {
 			mGroup = db.gRoot;
 		} else {
-			WeakReference<PwGroup> wPw = db.gGroups.get(id);
+			WeakReference<PwGroupV3> wPw = db.gGroups.get(id);
 			mGroup = wPw.get();
 		}
 		Log.w(TAG, "Retrieved group");
@@ -155,10 +155,10 @@ public class GroupActivity extends GroupBaseActivity {
 
 	private class GroupAddHandler implements View.OnClickListener {
 		private GroupBaseActivity mAct;
-		private PwGroup mGroup;
+		private PwGroupV3 mGroup;
 		private GroupCreateDialog mDialog;
 		
-		GroupAddHandler(GroupBaseActivity act, PwGroup group) {
+		GroupAddHandler(GroupBaseActivity act, PwGroupV3 group) {
 			mAct = act;
 			mGroup = group;
 		}

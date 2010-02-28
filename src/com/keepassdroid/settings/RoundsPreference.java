@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.settings;
 
-import org.phoneid.keepassj2me.PwManager;
 
 import android.content.Context;
 import android.os.Handler;
@@ -33,12 +32,13 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.OnFinish;
-import com.keepassdroid.database.SaveDB;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.database.edit.SaveDB;
 
 public class RoundsPreference extends DialogPreference {
 	
-	private PwManager mPM;
+	private PwDatabaseV3 mPM;
 	private TextView mRoundsView;
 
 	@Override

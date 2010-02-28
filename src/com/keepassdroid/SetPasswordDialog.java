@@ -29,9 +29,9 @@ import android.widget.Toast;
 
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.FileOnFinish;
-import com.keepassdroid.database.OnFinish;
-import com.keepassdroid.database.SetPassword;
+import com.keepassdroid.database.edit.FileOnFinish;
+import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.database.edit.SetPassword;
 
 public class SetPasswordDialog extends CancelDialog {
 

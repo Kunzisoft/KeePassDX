@@ -43,10 +43,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.LoadDB;
-import com.keepassdroid.database.OnFinish;
+import com.keepassdroid.database.edit.LoadDB;
+import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fileselect.FileDbHelper;
 import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.utils.Util;
 
 public class PasswordActivity extends LockingActivity {
 

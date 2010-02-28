@@ -24,14 +24,14 @@ import static org.junit.Assert.assertArrayEquals;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
-import org.phoneid.keepassj2me.PwEntry;
 
 import android.test.AndroidTestCase;
 
+import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.tests.database.TestData;
 
 public class PwEntryTest extends AndroidTestCase {
-	PwEntry mPE;
+	PwEntryV3 mPE;
 	
 	@Override
 	protected void setUp() throws Exception {

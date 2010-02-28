@@ -22,9 +22,6 @@ package com.keepassdroid.search;
 import java.util.UUID;
 import java.util.Vector;
 
-import org.phoneid.keepassj2me.PwEntry;
-import org.phoneid.keepassj2me.PwGroup;
-import org.phoneid.keepassj2me.Types;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -35,6 +32,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.utils.Types;
 
 public class SearchDbHelper {
 	private static final String DATABASE_NAME = "search";
@@ -96,7 +96,7 @@ public class SearchDbHelper {
 		mDb.delete(SEARCH_TABLE, null, null);
 	}
 
-	private ContentValues buildNewEntryContent(PwEntry entry) {
+	private ContentValues buildNewEntryContent(PwEntryV3 entry) {
 
 		ContentValues cv = new ContentValues();
 		UUID uuid = Types.bytestoUUID(entry.uuid);
@@ -110,12 +110,12 @@ public class SearchDbHelper {
 		return cv;
 	}
 	
-	public void insertEntry(PwEntry entry) {
+	public void insertEntry(PwEntryV3 entry) {
 		ContentValues cv = buildNewEntryContent(entry);
 		mDb.insert(SEARCH_TABLE, null, cv);
 	}
 	
-	public void insertEntry(Vector<PwEntry> entries) {
+	public void insertEntry(Vector<PwEntryV3> entries) {
 		mDb.beginTransaction();
 
 		try {
@@ -128,35 +128,35 @@ public class SearchDbHelper {
 		}
 	}
 	
-	public void updateEntry(PwEntry entry) {
+	public void updateEntry(PwEntryV3 entry) {
 		ContentValues cv = buildNewEntryContent(entry);
 		String uuidStr = cv.getAsString(KEY_UUID);
 		
 		mDb.update(SEARCH_TABLE, cv, KEY_UUID + " = ?", new String[] {uuidStr});
 	}
 	
-	public void deleteEntry(PwEntry entry) {
+	public void deleteEntry(PwEntryV3 entry) {
 		UUID uuid = Types.bytestoUUID(entry.uuid);
 		String uuidStr = uuid.toString();
 		
 		mDb.delete(SEARCH_TABLE, KEY_UUID + " = ?", new String[] {uuidStr});
 	}
 	
-	public PwGroup search(Database db, String qStr) {
+	public PwGroupV3 search(Database db, String qStr) {
 		Cursor cursor;
 		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, SEARCH_TABLE + " match ?", new String[] {qStr}, null, null, null, null);
 
-		PwGroup group = new PwGroup();
+		PwGroupV3 group = new PwGroupV3();
 		group.name = "Search results";
-		group.childEntries = new Vector<PwEntry>();
-		group.childGroups = new Vector<PwGroup>();
+		group.childEntries = new Vector<PwEntryV3>();
+		group.childGroups = new Vector<PwGroupV3>();
 		
 		cursor.moveToFirst();
 		while ( ! cursor.isAfterLast() ) {
 			String sUUID = cursor.getString(0);
 			UUID uuid = UUID.fromString(sUUID);
 			Log.d("TAG", uuid.toString()); 
-			PwEntry entry = db.gEntries.get(uuid).get();
+			PwEntryV3 entry = db.gEntries.get(uuid).get();
 			group.childEntries.add(entry);
 			
 			cursor.moveToNext();

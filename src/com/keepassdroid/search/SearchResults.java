@@ -31,8 +31,8 @@ import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.PwListAdapter;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.BuildIndex;
-import com.keepassdroid.database.OnFinish;
+import com.keepassdroid.database.edit.BuildIndex;
+import com.keepassdroid.database.edit.OnFinish;
 
 public class SearchResults extends GroupBaseActivity {
 	
@@ -123,7 +123,7 @@ public class SearchResults extends GroupBaseActivity {
 	}
 	
 	/*
-	private PwGroup processSearchIntent(Intent queryIntent) {
+	private PwGroupV3 processSearchIntent(Intent queryIntent) {
         // get and process search query here
         final String queryAction = queryIntent.getAction();
         if ( Intent.ACTION_SEARCH.equals(queryAction) ) {

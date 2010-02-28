@@ -21,8 +21,9 @@ package com.keepassdroid;
 
 import java.util.Vector;
 
-import org.phoneid.keepassj2me.PwEntry;
-import org.phoneid.keepassj2me.PwGroup;
+
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroupV3;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +46,10 @@ public class PwListAdapter extends BaseAdapter {
 	}
 
 	private GroupBaseActivity mAct;
-	private PwGroup mGroup;
-	private Vector<PwEntry> filteredEntries;
+	private PwGroupV3 mGroup;
+	private Vector<PwEntryV3> filteredEntries;
 	
-	public PwListAdapter(GroupBaseActivity act, PwGroup group) {
+	public PwListAdapter(GroupBaseActivity act, PwGroupV3 group) {
 		mAct = act;
 		mGroup = group;
 		
@@ -57,10 +58,10 @@ public class PwListAdapter extends BaseAdapter {
 	}
 	
 	private void filter() {
-		filteredEntries = new Vector<PwEntry>();
+		filteredEntries = new Vector<PwEntryV3>();
 		
 		for (int i = 0; i < mGroup.childEntries.size(); i++) {
-			PwEntry entry = (PwEntry) mGroup.childEntries.elementAt(i);
+			PwEntryV3 entry = (PwEntryV3) mGroup.childEntries.elementAt(i);
 			if ( ! entry.isMetaStream() ) {
 				filteredEntries.add(entry);
 			}
@@ -97,12 +98,12 @@ public class PwListAdapter extends BaseAdapter {
 	private View createGroupView(int position, View convertView) {
 		PwGroupView gv;
 		//if (convertView == null || ! (convertView instanceof PwGroupView)) {
-			PwGroup group = (PwGroup) mGroup.childGroups.elementAt(position);
+			PwGroupV3 group = (PwGroupV3) mGroup.childGroups.elementAt(position);
 			gv = new PwGroupView(mAct, group);
 		/*
 		} else {
 			gv = (PwGroupView) convertView;
-			gv.setGroup((PwGroup) mGroup.childGroups.elementAt(position));
+			gv.setGroup((PwGroupV3) mGroup.childGroups.elementAt(position));
 		}
 		*/
 		return gv;

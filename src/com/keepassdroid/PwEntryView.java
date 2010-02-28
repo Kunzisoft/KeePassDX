@@ -19,7 +19,6 @@
  */
 package com.keepassdroid;
 
-import org.phoneid.keepassj2me.PwEntry;
 
 import android.os.Handler;
 import android.view.ContextMenu;
@@ -31,19 +30,20 @@ import android.widget.TextView;
 
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.DeleteEntry;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.edit.DeleteEntry;
 
 public class PwEntryView extends ClickView {
 
 	private GroupBaseActivity mAct;
-	private PwEntry mPw;
+	private PwEntryV3 mPw;
 	private TextView mTv;
 	private int mPos;
 	
 	private static final int MENU_OPEN = Menu.FIRST;
 	private static final int MENU_DELETE = Menu.FIRST + 1;
 	
-	public PwEntryView(GroupBaseActivity act, PwEntry pw, int pos) {
+	public PwEntryView(GroupBaseActivity act, PwEntryV3 pw, int pos) {
 		super(act);
 		mAct = act;
 		mPw = pw;

@@ -25,9 +25,9 @@ import java.util.Calendar;
 
 import junit.framework.TestCase;
 
-import org.phoneid.keepassj2me.Types;
 
-import com.keepassdroid.keepasslib.PwDate;
+import com.keepassdroid.database.PwDate;
+import com.keepassdroid.utils.Types;
 
 public class TypesTest extends TestCase {
 	

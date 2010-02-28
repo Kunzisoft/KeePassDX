@@ -47,10 +47,10 @@ import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.SetPasswordDialog;
-import com.keepassdroid.Util;
-import com.keepassdroid.database.CreateDB;
-import com.keepassdroid.database.FileOnFinish;
+import com.keepassdroid.database.edit.CreateDB;
+import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.utils.Util;
 
 public class FileSelectActivity extends ListActivity {
 

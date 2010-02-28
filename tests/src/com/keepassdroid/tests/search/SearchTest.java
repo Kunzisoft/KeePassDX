@@ -19,11 +19,11 @@
 */
 package com.keepassdroid.tests.search;
 
-import org.phoneid.keepassj2me.PwGroup;
 
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.tests.database.TestData;
 
 public class SearchTest extends AndroidTestCase {
@@ -39,7 +39,7 @@ public class SearchTest extends AndroidTestCase {
 	
 	public void testSearch() {
 		mDb.buildSearchIndex(getContext());
-		PwGroup results = mDb.Search("Amazon");
+		PwGroupV3 results = mDb.Search("Amazon");
 		assertTrue("Search result not found.", results.childEntries.size() > 0);
 		
 	}
