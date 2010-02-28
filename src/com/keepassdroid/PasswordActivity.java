@@ -21,6 +21,7 @@ package com.keepassdroid;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -106,7 +107,7 @@ public class PasswordActivity extends LockingActivity {
 				return;
 			}
 			
-			mFileName = mFileName.substring(7, mFileName.length());
+			mFileName = URLDecoder.decode(mFileName.substring(7, mFileName.length()));
 						
 			if ( mFileName.length() == 0 ) {
 				// No file name
