@@ -32,6 +32,7 @@ import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.edit.DeleteGroup;
+import com.keepassdroid.settings.PrefsUtil;
 
 
 public class PwGroupView extends ClickView {
@@ -51,6 +52,11 @@ public class PwGroupView extends ClickView {
 		View gv = View.inflate(act, R.layout.group_list_entry, null);
 		TextView tv = (TextView) gv.findViewById(R.id.group_text);
 		tv.setText(pw.name);
+		float size = PrefsUtil.getListTextSize(act); 
+		tv.setTextSize(size);
+		
+		TextView label = (TextView) gv.findViewById(R.id.group_label);
+		label.setTextSize(size-8);
 		
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		

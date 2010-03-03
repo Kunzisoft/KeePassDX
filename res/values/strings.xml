@@ -84,6 +84,8 @@
     <string name="hint_url">url</string>
     <string name="hint_username">username</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
+    <string name="list_size_title">Group list size</string>
+    <string name="list_size_summary">Text size in the group list</string>
     <string name="loading_database">Loading database...</string>
     <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Mask password</string>
@@ -133,5 +135,10 @@
     	<item>1 minute</item>
     	<item>5 minutes</item>
     	<item>Never</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Small</item>
+    	<item>Medium</item>
+    	<item>Large</item>
     </string-array>
 </resources>

@@ -32,6 +32,7 @@ import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.edit.DeleteEntry;
+import com.keepassdroid.settings.PrefsUtil;
 
 public class PwEntryView extends ClickView {
 
@@ -52,6 +53,8 @@ public class PwEntryView extends ClickView {
 		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
 		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
 		tv.setText(mPw.getDisplayTitle());
+		tv.setTextSize(PrefsUtil.getListTextSize(act));
+		
 		mTv = tv;
 		
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);

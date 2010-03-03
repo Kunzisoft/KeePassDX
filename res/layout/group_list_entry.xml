@@ -29,7 +29,8 @@
 		  style="@style/GroupTextLarge"
 		/>
 		<View/>
-		<TextView android:layout_width="wrap_content"
+		<TextView android:id="@+id/group_label"
+		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
 		  style="@style/GroupLabel"
 		  android:text="@string/group"/>

@@ -28,6 +28,7 @@
     <string name="rounds_key">rounds</string>
     <string name="keyfile_key">keyfile</string>
     <string name="maskpass_key">maskpass</string>
+    <string name="list_size_key">list_size</string>
     <bool name="maskpass_default">true</bool>
     <bool name="keyfile_default">true</bool>
     
@@ -37,5 +38,11 @@
     	<item>60000</item>
     	<item>300000</item>
     	<item>-1</item>
+    </string-array>
+    <string name="list_size_default">28</string>
+    <string-array name="list_size_values">
+    	<item>15</item>
+    	<item>20</item>
+    	<item>28</item>
     </string-array>
 </resources>
