@@ -51,7 +51,7 @@ public class PwEntryView extends ClickView {
 		
 		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
 		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
-		tv.setText(mPw.title);
+		tv.setText(mPw.getDisplayTitle());
 		mTv = tv;
 		
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
@@ -61,7 +61,7 @@ public class PwEntryView extends ClickView {
 	}
 	
 	public void refreshTitle() {
-		mTv.setText(mPw.title);
+		mTv.setText(mPw.getDisplayTitle());
 	}
 	
 	public void onClick() {

@@ -59,14 +59,15 @@ import com.keepassdroid.Database;
 public class PwEntryV3 extends PwEntry {
 
 	public static final Date NEVER_EXPIRE = getNeverExpire();
+	
 
 	/** Size of byte buffer needed to hold this struct. */
-	public static final int BUF_SIZE = 124;
-
 	public static final String PMS_ID_BINDESC = "bin-stream";
 	public static final String PMS_ID_TITLE   = "Meta-Info";
 	public static final String PMS_ID_USER    = "SYSTEM";
 	public static final String PMS_ID_URL     = "$";
+	private static final String PMS_TAN_ENTRY ="<TAN>";
+
 
 
 	public byte             uuid[]   = new byte[16];
@@ -155,6 +156,18 @@ public class PwEntryV3 extends PwEntry {
 		tLastMod = new PwDate(now);
 		tExpire = new PwDate(NEVER_EXPIRE);
 
+	}
+	
+	public boolean isTan() {
+		return title.equals(PMS_TAN_ENTRY);
+	}
+	
+	public String getDisplayTitle() {
+		if ( isTan() ) {
+			return PMS_TAN_ENTRY + " " + username;
+		} else {
+			return title;	
+		}
 	}
 
 	/**
