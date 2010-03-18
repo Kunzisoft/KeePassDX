@@ -1,3 +1,9 @@
+KeePassDroid (1.0.6)
+  * Update Italian translations
+  * Font size setting
+  * URL decoding fix
+  * TAN handling
+
 KeePassDroid (1.0.5.1)
   * Restore timeout to 5 minutes instead of 20 seconds
 
