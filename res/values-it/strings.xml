@@ -87,8 +87,12 @@
     <string name="hint_url">url</string>
     <string name="hint_username">nome utente</string>
     <string name="InvalidPassword">Password o file chiave non validi.</string>
+    <string name="list_size_title">Dimensione elenco gruppo</string>
+    <string name="list_size_summary">Dimensione del testo nell\'elenco del gruppo</string>
     <string name="loading_database">Caricamento database...</string>
     <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Maschera password</string>
+    <string name="maskpass_summary">Nascondi le password in modo predefinito</string>
     <string name="menu_about">Info</string>
     <string name="menu_change_key">Modifica chiave Principale</string>
     <string name="menu_copy_pass">Copia Password</string>
@@ -134,5 +138,10 @@
     	<item>1 minuto</item>
     	<item>5 minuti</item>
     	<item>Mai</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Piccolo</item>
+    	<item>Medio</item>
+    	<item>Grande</item>
     </string-array>
 </resources>
