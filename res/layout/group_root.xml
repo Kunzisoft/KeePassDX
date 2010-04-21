@@ -20,29 +20,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-	<TextView android:id="@+id/group_header" 
+	<com.keepassdroid.GroupHeaderView
+	  android:id="@+id/group_header"
 	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:textSize="15sp"
-	  android:text="@string/current_group"
-	  android:textStyle="bold"
-	  android:layout_weight="0"/>
-	<TextView android:id="@+id/group_name" 
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:layout_alignTop="@id/group_header"
-	  android:layout_toRightOf="@id/group_header"
-	  android:layout_marginLeft="3sp"
-	  android:text="@string/root"
-	  style="@style/GroupTextSmall"
-	  android:layout_weight="0"/>
-	<ImageView android:id="@+id/divider1"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:layout_below="@id/group_header"
-	  android:scaleType="fitXY"
-	  android:tint="@color/blue_highlight"
-	  android:src="@android:drawable/divider_horizontal_dark"/>
+	  android:layout_height="wrap_content"/>
 	<Button android:id="@+id/add_group"
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
@@ -59,5 +40,5 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_above="@id/divider2"
-      android:layout_below="@id/divider1"/>
+      android:layout_below="@id/group_header"/>
 </RelativeLayout>
