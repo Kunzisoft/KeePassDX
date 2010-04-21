@@ -79,13 +79,13 @@ public class GroupActivity extends GroupBaseActivity {
 		
 		switch ( mode ) {
 		case FULL:
-			setContentView(R.layout.group_add_entry);
+			setContentView(new GroupAddEntryView(this));
 			break;
 		case ADD_GROUP_ONLY:
-			setContentView(R.layout.group_root);
+			setContentView(new GroupRootView(this));
 			break;
 		default:
-			setContentView(R.layout.group_view_only);
+			setContentView(new GroupViewOnlyView(this));
 		}
 		Log.w(TAG, "Set view");
 		

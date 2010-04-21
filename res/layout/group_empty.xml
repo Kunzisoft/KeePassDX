@@ -34,8 +34,7 @@
 	  android:layout_toRightOf="@id/group_header"
 	  android:layout_marginLeft="3sp"
 	  android:text="@string/root"
-	  style="@style/GroupTextSmall"
-	  android:layout_weight="0"/>
+	  style="@style/GroupTextSmall"/>
 	<ImageView android:id="@+id/divider1"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"

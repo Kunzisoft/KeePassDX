@@ -25,8 +25,7 @@
 	  android:layout_height="wrap_content"
 	  android:textSize="15sp"
 	  android:text="@string/current_group"
-	  android:textStyle="bold"
-	  android:layout_weight="0"/>
+	  android:textStyle="bold"/>
 	<TextView android:id="@+id/group_name" 
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"

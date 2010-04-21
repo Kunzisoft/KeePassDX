@@ -28,6 +28,8 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
+import com.keepassdroid.GroupEmptyView;
+import com.keepassdroid.GroupViewOnlyView;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.PwListAdapter;
 import com.keepassdroid.app.App;
@@ -89,9 +91,9 @@ public class SearchResults extends GroupBaseActivity {
 		mGroup = mDb.Search(query);
 
 		if ( mGroup == null || mGroup.childEntries.size() < 1 ) {
-			setContentView(R.layout.group_empty);
+			setContentView(new GroupEmptyView(this));
 		} else {
-			setContentView(R.layout.group_view_only);
+			setContentView(new GroupViewOnlyView(this));
 		}
 		
 		setGroupTitle();
