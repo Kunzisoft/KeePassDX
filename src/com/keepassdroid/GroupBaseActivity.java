@@ -101,7 +101,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			return;
 		}
 
-		setContentView(R.layout.group_view_only);
+		setContentView(new GroupViewOnlyView(this));
 		setResult(KeePass.EXIT_NORMAL);
 
 		styleScrollBars();
