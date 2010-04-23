@@ -17,20 +17,15 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.save;
+package com.keepassdroid.database;
 
-public class InvalidPasswordException extends Exception {
+public class PwDbHeaderV4 extends PwDbHeader {
+	public static final int PWM_DBSIG_PRE2            = 0xB54BFB66;
+    public static final int PWM_DBSIG_2               = 0xB54BFB67;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8729476180242058319L;
-
-	public InvalidPasswordException(String str) {
-		super(str);
+	@Override
+	public boolean matchesHeader(int sig1, int sig2) {
+		return (sig1 == PWM_DBSIG_1) && ( (sig2 == PWM_DBSIG_2) || (sig2 == PWM_DBSIG_2) );
 	}
-	
-	public InvalidPasswordException() {
-		super();
-	}
+    
 }

@@ -16,15 +16,21 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
- */package com.keepassdroid.database.save;
+ */
+package com.keepassdroid.database.exception;
 
-public class InvalidKeyFileException extends Exception {
+public class InvalidPasswordException extends Exception {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5540694419562294464L;
+	private static final long serialVersionUID = -8729476180242058319L;
 
-	public InvalidKeyFileException(String str) {
+	public InvalidPasswordException(String str) {
 		super(str);
+	}
+	
+	public InvalidPasswordException() {
+		super();
 	}
 }

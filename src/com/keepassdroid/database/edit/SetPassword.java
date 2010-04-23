@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.save.InvalidKeyFileException;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 public class SetPassword extends RunnableOnFinish {
 	

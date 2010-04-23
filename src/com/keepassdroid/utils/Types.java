@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.keepassdroid.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -80,6 +81,13 @@ public class Types {
            + ((buf[offset + 3] & 0xFF) << 24);
   }
 
+  public static int readInt(InputStream is) throws IOException {
+	  byte[] buf = new byte[4];
+
+	  is.read(buf, 0, 4);
+	  
+	  return Types.readInt(buf, 0);
+  }
 
 
   /**

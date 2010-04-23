@@ -19,6 +19,7 @@
  */
 package com.keepassdroid;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,18 +31,21 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
 
-
 import android.content.Context;
 import android.os.Debug;
 
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.exception.InvalidDBSignatureException;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.InvalidPasswordException;
+import com.keepassdroid.database.exception.Kdb4Exception;
+import com.keepassdroid.database.exception.PwDbOutputException;
+import com.keepassdroid.database.load.Importer;
+import com.keepassdroid.database.load.ImporterFactory;
 import com.keepassdroid.database.load.ImporterV3;
-import com.keepassdroid.database.save.InvalidKeyFileException;
-import com.keepassdroid.database.save.InvalidPasswordException;
 import com.keepassdroid.database.save.PwDbV3Output;
-import com.keepassdroid.database.save.PwDbOutputException;
 import com.keepassdroid.search.SearchDbHelper;
 import com.keepassdroid.utils.Types;
 
@@ -68,19 +72,19 @@ public class Database {
 		loaded = true;
 	}
 	
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws IOException, InvalidKeyFileException, InvalidPasswordException {
-		LoadData(ctx, is, password, keyfile, new UpdateStatus(), !ImporterV3.DEBUG);
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception {
+		LoadData(ctx, is, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
 	}
 
-	public void LoadData(Context ctx, String filename, String password, String keyfile) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException {
-		LoadData(ctx, filename, password, keyfile, new UpdateStatus(), !ImporterV3.DEBUG);
+	public void LoadData(Context ctx, String filename, String password, String keyfile) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception {
+		LoadData(ctx, filename, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
 	}
 	
-	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException {
-		LoadData(ctx, filename, password, keyfile, status, !ImporterV3.DEBUG);
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception {
+		LoadData(ctx, filename, password, keyfile, status, !Importer.DEBUG);
 	}
 	
-	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
@@ -89,14 +93,30 @@ public class Database {
 		mFilename = filename;
 	}
 
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException {
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception {
 		LoadData(ctx, is, password, keyfile, new UpdateStatus(), debug);
 	}
 
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException {
-		ImporterV3 Importer = new ImporterV3(debug);
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception {
+
+		BufferedInputStream bis = new BufferedInputStream(is);
 		
-		mPM = Importer.openDatabase(is, password, keyfile, status);
+		if ( ! bis.markSupported() ) {
+			throw new IOException("Input stream does not support mark.");
+		}
+		
+		// We'll end up reading 8 bytes to identify the header. Might as well use two extra.
+		bis.mark(10);
+		
+		Importer imp = ImporterFactory.createImporter(bis, debug);
+
+		
+		ImporterV3 Importer;
+		Importer = (ImporterV3) imp;  // Remove me when V4 support is in
+		
+		bis.reset();  // Return to the start
+		
+		mPM = Importer.openDatabase(bis, password, keyfile, status);
 		if ( mPM != null ) {
 			mPM.constructTree(null);
 			populateGlobals(null);

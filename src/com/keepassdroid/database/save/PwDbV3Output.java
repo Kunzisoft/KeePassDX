@@ -41,6 +41,7 @@ import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.load.ImporterV3;
 
 public class PwDbV3Output {

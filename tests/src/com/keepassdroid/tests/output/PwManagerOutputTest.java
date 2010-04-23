@@ -35,10 +35,10 @@ import android.test.AndroidTestCase;
 
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.save.NullOutputStream;
 import com.keepassdroid.database.save.PwDbHeaderOutput;
 import com.keepassdroid.database.save.PwDbV3Output;
-import com.keepassdroid.database.save.PwDbOutputException;
 import com.keepassdroid.tests.database.TestData;
  
 public class PwManagerOutputTest extends AndroidTestCase {

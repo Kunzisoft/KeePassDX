@@ -22,7 +22,7 @@ package com.keepassdroid.database.edit;
 import java.io.IOException;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.database.save.PwDbOutputException;
+import com.keepassdroid.database.exception.PwDbOutputException;
 
 public class SaveDB extends RunnableOnFinish {
 	private Database mDb;

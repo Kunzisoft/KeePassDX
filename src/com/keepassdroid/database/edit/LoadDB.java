@@ -28,8 +28,10 @@ import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
-import com.keepassdroid.database.save.InvalidKeyFileException;
-import com.keepassdroid.database.save.InvalidPasswordException;
+import com.keepassdroid.database.exception.InvalidDBSignatureException;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.InvalidPasswordException;
+import com.keepassdroid.database.exception.Kdb4Exception;
 import com.keepassdroid.fileselect.FileDbHelper;
 
 public class LoadDB extends RunnableOnFinish {
@@ -71,6 +73,12 @@ public class LoadDB extends RunnableOnFinish {
 			return;
 		} catch (InvalidKeyFileException e) {
 			finish(false, e.getMessage());
+			return;
+		} catch (InvalidDBSignatureException e) {
+			finish(false, mCtx.getString(R.string.invalid_db_sig));
+			return;
+		} catch (Kdb4Exception e) {
+			finish(false, mCtx.getString(R.string.error_kdb4));
 			return;
 		}
 		

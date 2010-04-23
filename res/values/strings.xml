@@ -64,12 +64,13 @@
     <string name="error_could_not_create_parent">Could not create parent directory.</string>
     <string name="error_database_exists">This file already exists.</string>
     <string name="error_database_settings">Failed to determine database settings.</string>
-    <string name="error_invalid_path">Invalid path.</string>
     <string name="error_failed_to_launch_link">Failed to launch link.</string>
     <string name="error_filename_required">A filename is required.</string>
     <string name="error_file_not_create">Could not create file:</string>
+    <string name="error_invalid_path">Invalid path.</string>
+    <string name="error_kdb4">KeePass version 2 databases</string>
     <string name="error_no_name">A name is required.</string>
-    <string name="error_nopass">A password or a keyfile is requried.</string>
+    <string name="error_nopass">A password or a keyfile is required.</string>
     <string name="error_pass_match">Passwords do not match.</string>
     <string name="error_rounds_not_number">Rounds must be a number.</string>
     <string name="error_title_required">A title is required.</string>
@@ -84,6 +85,7 @@
     <string name="hint_url">url</string>
     <string name="hint_username">username</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
+    <string name="invalid_db_sig">Database format not recognized.</string>
     <string name="list_size_title">Group list size</string>
     <string name="list_size_summary">Text size in the group list</string>
     <string name="loading_database">Loading database...</string>

@@ -17,15 +17,21 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.save;
+package com.keepassdroid.database.load;
 
-public class PwDbOutputException extends Exception {
-	public PwDbOutputException(String string) {
-		super(string);
+public class Importer {
+
+	public static final boolean DEBUG = true;
+	protected final boolean mDebug;
+	
+	public Importer() {
+		mDebug = false;
 	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3321212743159473368L;
+	public Importer(boolean debug) {
+		mDebug = debug;
+	}
+
+
+
 }

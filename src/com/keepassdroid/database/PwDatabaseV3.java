@@ -39,7 +39,7 @@ import java.util.Random;
 import java.util.Vector;
 
 
-import com.keepassdroid.database.save.InvalidKeyFileException;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 /**
  * @author Naomaru Itoi <nao@phoneid.org>

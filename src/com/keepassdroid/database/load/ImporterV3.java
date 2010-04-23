@@ -55,8 +55,9 @@ import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.database.save.InvalidKeyFileException;
-import com.keepassdroid.database.save.InvalidPasswordException;
+import com.keepassdroid.database.exception.InvalidDBSignatureException;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.database.save.NullOutputStream;
 import com.keepassdroid.utils.Types;
 
@@ -66,18 +67,14 @@ import com.keepassdroid.utils.Types;
  * @author Naomaru Itoi <nao@phoneid.org>
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
-public class ImporterV3 {
-
-	public static final boolean DEBUG = true;
-
-	private final boolean mDebug;
+public class ImporterV3 extends Importer {
 
 	public ImporterV3() {
-		mDebug = false;
+		super();
 	}
 
 	public ImporterV3(boolean debug) {
-		mDebug = debug;
+		super(debug);
 	}
 
 
@@ -93,6 +90,7 @@ public class ImporterV3 {
 	 * @throws InvalidKeyFileException 
 	 * @throws InvalidPasswordException 
 	 * @throws InvalidPasswordException on a decryption error, or possible internal bug.
+	 * @throws InvalidDBSignatureException 
 	 * @throws IllegalBlockSizeException on a decryption error, or possible internal bug.
 	 * @throws BadPaddingException on a decryption error, or possible internal bug.
 	 * @throws NoSuchAlgorithmException on a decryption error, or possible internal bug.
@@ -101,13 +99,13 @@ public class ImporterV3 {
 	 * @throws ShortBufferException if error decrypting main file body.
 	 */
 	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile )
-	throws IOException, InvalidKeyFileException, InvalidPasswordException
+	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException
 	{
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
 	}
 
 	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
-	throws IOException, InvalidKeyFileException, InvalidPasswordException
+	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException
 	{
 		PwDatabaseV3        newManager;
 		byte[]           finalKey;
@@ -124,7 +122,7 @@ public class ImporterV3 {
 		PwDbHeaderV3 hdr = new PwDbHeaderV3( filebuf, 0 );
 
 		if( (hdr.signature1 != PwDbHeaderV3.PWM_DBSIG_1) || (hdr.signature2 != PwDbHeaderV3.PWM_DBSIG_2) ) {
-			throw new IOException( "Bad database file signature" );
+			throw new InvalidDBSignatureException();
 		}
 
 		if( hdr.version != PwDbHeaderV3.PWM_DBVER_DW ) {
