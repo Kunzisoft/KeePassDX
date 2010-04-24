@@ -121,11 +121,11 @@ public class ImporterV3 extends Importer {
 			throw new IOException( "File too short for header" );
 		PwDbHeaderV3 hdr = new PwDbHeaderV3( filebuf, 0 );
 
-		if( (hdr.signature1 != PwDbHeaderV3.PWM_DBSIG_1) || (hdr.signature2 != PwDbHeaderV3.PWM_DBSIG_2) ) {
+		if( (hdr.signature1 != PwDbHeaderV3.PWM_DBSIG_1) || (hdr.signature2 != PwDbHeaderV3.DBSIG_2) ) {
 			throw new InvalidDBSignatureException();
 		}
 
-		if( hdr.version != PwDbHeaderV3.PWM_DBVER_DW ) {
+		if( hdr.version != PwDbHeaderV3.DBVER_DW ) {
 			//throw new IOException( "Bad database file version" );
 		}
 
@@ -134,9 +134,9 @@ public class ImporterV3 extends Importer {
 		newManager.setMasterKey( password, keyfile );
 
 		// Select algorithm
-		if( (hdr.flags & PwDbHeaderV3.PWM_FLAG_RIJNDAEL) != 0 ) {
+		if( (hdr.flags & PwDbHeaderV3.FLAG_RIJNDAEL) != 0 ) {
 			newManager.algorithm = PwDbHeaderV3.ALGO_AES;
-		} else if( (hdr.flags & PwDbHeaderV3.PWM_FLAG_TWOFISH) != 0 ) {
+		} else if( (hdr.flags & PwDbHeaderV3.FLAG_TWOFISH) != 0 ) {
 			newManager.algorithm = PwDbHeaderV3.ALGO_TWOFISH;
 		} else {
 			throw new IOException( "Unknown algorithm." );

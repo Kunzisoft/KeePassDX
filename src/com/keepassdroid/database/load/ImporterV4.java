@@ -19,6 +19,33 @@
  */
 package com.keepassdroid.database.load;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import com.keepassdroid.UpdateStatus;
+import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.exception.InvalidDBSignatureException;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.InvalidPasswordException;
+
 public class ImporterV4 extends Importer {
+
+	@Override
+	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
+			String keyfile) throws IOException, InvalidKeyFileException,
+			InvalidPasswordException, InvalidDBSignatureException {
+
+		return openDatabase(inStream, password, keyfile, new UpdateStatus());
+	}
+	
+	@Override
+	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
+			String keyfile, UpdateStatus status) throws IOException,
+			InvalidKeyFileException, InvalidPasswordException,
+			InvalidDBSignatureException {
+
+		return null;
+	}
+
 
 }

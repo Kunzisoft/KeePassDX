@@ -19,13 +19,21 @@
  */
 package com.keepassdroid.database;
 
-public class PwDbHeaderV4 extends PwDbHeader {
-	public static final int PWM_DBSIG_PRE2            = 0xB54BFB66;
-    public static final int PWM_DBSIG_2               = 0xB54BFB67;
+import java.io.InputStream;
 
-	@Override
-	public boolean matchesHeader(int sig1, int sig2) {
-		return (sig1 == PWM_DBSIG_1) && ( (sig2 == PWM_DBSIG_2) || (sig2 == PWM_DBSIG_2) );
+public class PwDbHeaderV4 extends PwDbHeader {
+	public static final int DBSIG_PRE2            = 0xB54BFB66;
+    public static final int DBSIG_2               = 0xB54BFB67;
+
+	/** Assumes the input stream is at the beginning of the .kdbx file
+	 * @param is
+	 */
+	public PwDbHeaderV4(InputStream is) {
+		
+	}
+
+	public static boolean matchesHeader(int sig1, int sig2) {
+		return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_2) || (sig2 == DBSIG_2) );
 	}
     
 }

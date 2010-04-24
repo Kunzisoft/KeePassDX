@@ -23,6 +23,4 @@ public abstract class PwDbHeader {
 
 	public static final int PWM_DBSIG_1 = 0x9AA2D903;
 	
-	public abstract boolean matchesHeader(int sig1, int sig2);
-	
 }

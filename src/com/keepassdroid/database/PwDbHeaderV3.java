@@ -29,14 +29,14 @@ import com.keepassdroid.utils.Types;
 public class PwDbHeaderV3 extends PwDbHeader {
 
 	// DB sig from KeePass 1.03
-	public static final int PWM_DBSIG_2               = 0xB54BFB65;
+	public static final int DBSIG_2               = 0xB54BFB65;
 	// DB sig from KeePass 1.03
-	public static final int PWM_DBVER_DW              = 0x00030002;
+	public static final int DBVER_DW              = 0x00030002;
 
-	public static final int PWM_FLAG_SHA2             = 1;
-	public static final int PWM_FLAG_RIJNDAEL         = 2;
-	public static final int PWM_FLAG_ARCFOUR          = 4;
-	public static final int PWM_FLAG_TWOFISH          = 8;
+	public static final int FLAG_SHA2             = 1;
+	public static final int FLAG_RIJNDAEL         = 2;
+	public static final int FLAG_ARCFOUR          = 4;
+	public static final int FLAG_TWOFISH          = 8;
 
 	public static final int ALGO_AES                  = 0;
 	public static final int ALGO_TWOFISH              = 1;
@@ -47,7 +47,7 @@ public class PwDbHeaderV3 extends PwDbHeader {
 
 
 	public int              signature1;                  // = PWM_DBSIG_1
-	public int              signature2;                  // = PWM_DBSIG_2
+	public int              signature2;                  // = DBSIG_2
 	public int              flags;
 	public int              version;
 
@@ -94,8 +94,8 @@ public class PwDbHeaderV3 extends PwDbHeader {
 
 	}
 
-	public boolean matchesHeader(int sig1, int sig2) {
-		return (sig1 == PWM_DBSIG_1) && (sig2 == PWM_DBSIG_2);
+	public static boolean matchesHeader(int sig1, int sig2) {
+		return (sig1 == PWM_DBSIG_1) && (sig2 == DBSIG_2);
 	}
 
 

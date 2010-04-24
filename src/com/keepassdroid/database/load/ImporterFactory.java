@@ -39,12 +39,9 @@ public class ImporterFactory {
 		int sig1 = Types.readInt(is);
 		int sig2 = Types.readInt(is);
 		
-		PwDbHeaderV3 h3 = new PwDbHeaderV3();
-		PwDbHeaderV4 h4 = new PwDbHeaderV4();
-
-		if ( h3.matchesHeader(sig1, sig2) ) {
+		if ( PwDbHeaderV3.matchesHeader(sig1, sig2) ) {
 			return new ImporterV3(debug);
-		} else if ( h4.matchesHeader(sig1, sig2) ) {
+		} else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
 			throw new Kdb4Exception();
 			//return new ImporterV4();
 		}

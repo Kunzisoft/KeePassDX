@@ -115,19 +115,19 @@ public class PwDbV3Output {
 		// Build header
 		PwDbHeaderV3 header = new PwDbHeaderV3();
 		header.signature1 = PwDbHeaderV3.PWM_DBSIG_1;
-		header.signature2 = PwDbHeaderV3.PWM_DBSIG_2;
-		header.flags = PwDbHeaderV3.PWM_FLAG_SHA2;
+		header.signature2 = PwDbHeaderV3.DBSIG_2;
+		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
 		if ( mPM.getAlgorithm() == PwDbHeaderV3.ALGO_AES ) {
-			header.flags |= PwDbHeaderV3.PWM_FLAG_RIJNDAEL;
+			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
 		} else if ( mPM.getAlgorithm() == PwDbHeaderV3.ALGO_TWOFISH ) {
-			header.flags |= PwDbHeaderV3.PWM_FLAG_TWOFISH;
+			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;
 			throw new PwDbOutputException("Unsupported algorithm.");
 		} else {
 			throw new PwDbOutputException("Unsupported algorithm.");
 		}
 		
-		header.version = PwDbHeaderV3.PWM_DBVER_DW;
+		header.version = PwDbHeaderV3.DBVER_DW;
 		header.numGroups = mPM.groups.size();
 		header.numEntries = mPM.entries.size();
 		header.numKeyEncRounds = mPM.getNumKeyEncRecords();
