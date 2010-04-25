@@ -24,6 +24,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.keepassdroid.database;
 
+import java.io.IOException;
+
 import com.keepassdroid.utils.Types;
 
 public class PwDbHeaderV3 extends PwDbHeader {
@@ -67,8 +69,9 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	/**
 	 * Parse given buf, as read from file.
 	 * @param buf
+	 * @throws IOException 
 	 */
-	public void loadFromFile( byte buf[], int offset ) {
+	public void loadFromFile( byte buf[], int offset ) throws IOException {
 		signature1 = Types.readInt( buf, offset + 0 );
 		signature2 = Types.readInt( buf, offset + 4 );
 		flags = Types.readInt( buf, offset + 8 );
@@ -84,6 +87,10 @@ public class PwDbHeaderV3 extends PwDbHeader {
 
 		System.arraycopy( buf, offset + 88, mTransformSeed, 0, 32 );
 		numKeyEncRounds = Types.readInt( buf, offset + 120 );
+		if ( numKeyEncRounds < 0 ) {
+			// TODO: Really treat this like an unsigned integer
+			throw new IOException("Does not support more than " + Integer.MAX_VALUE + " rounds.");
+		}
 	}
 
 	public PwDbHeaderV3() {
