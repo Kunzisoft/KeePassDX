@@ -40,12 +40,12 @@ public class PwDbHeaderOutput {
 		mOS.write(Types.writeInt(mHeader.signature2));
 		mOS.write(Types.writeInt(mHeader.flags));
 		mOS.write(Types.writeInt(mHeader.version));
-		mOS.write(mHeader.masterSeed);
+		mOS.write(mHeader.mMasterSeed);
 		mOS.write(mHeader.encryptionIV);
 		mOS.write(Types.writeInt(mHeader.numGroups));
 		mOS.write(Types.writeInt(mHeader.numEntries));
 		mOS.write(mHeader.contentsHash);
-		mOS.write(mHeader.masterSeed2);
+		mOS.write(mHeader.mTransformSeed);
 		mOS.write(Types.writeInt(mHeader.numKeyEncRounds));
 		
 	}

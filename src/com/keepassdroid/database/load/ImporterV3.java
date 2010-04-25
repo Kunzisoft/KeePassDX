@@ -42,7 +42,6 @@ import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-
 import android.util.Log;
 
 import com.android.keepass.R;
@@ -52,10 +51,12 @@ import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDate;
+import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
+import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.database.save.NullOutputStream;
@@ -91,6 +92,7 @@ public class ImporterV3 extends Importer {
 	 * @throws InvalidPasswordException 
 	 * @throws InvalidPasswordException on a decryption error, or possible internal bug.
 	 * @throws InvalidDBSignatureException 
+	 * @throws InvalidDBVersionException 
 	 * @throws IllegalBlockSizeException on a decryption error, or possible internal bug.
 	 * @throws BadPaddingException on a decryption error, or possible internal bug.
 	 * @throws NoSuchAlgorithmException on a decryption error, or possible internal bug.
@@ -99,13 +101,13 @@ public class ImporterV3 extends Importer {
 	 * @throws ShortBufferException if error decrypting main file body.
 	 */
 	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile )
-	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException
+	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException
 	{
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
 	}
 
 	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
-	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException
+	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException
 	{
 		PwDatabaseV3        newManager;
 		byte[]           finalKey;
@@ -119,14 +121,15 @@ public class ImporterV3 extends Importer {
 		// Parse header (unencrypted)
 		if( filebuf.length < PwDbHeaderV3.BUF_SIZE )
 			throw new IOException( "File too short for header" );
-		PwDbHeaderV3 hdr = new PwDbHeaderV3( filebuf, 0 );
+		PwDbHeaderV3 hdr = new PwDbHeaderV3();
+		hdr.loadFromFile(filebuf, 0 );
 
-		if( (hdr.signature1 != PwDbHeaderV3.PWM_DBSIG_1) || (hdr.signature2 != PwDbHeaderV3.DBSIG_2) ) {
+		if( (hdr.signature1 != PwDbHeader.PWM_DBSIG_1) || (hdr.signature2 != PwDbHeaderV3.DBSIG_2) ) {
 			throw new InvalidDBSignatureException();
 		}
 
 		if( hdr.version != PwDbHeaderV3.DBVER_DW ) {
-			//throw new IOException( "Bad database file version" );
+			throw new InvalidDBVersionException();
 		}
 
 		status.updateMessage(R.string.creating_db_key);
@@ -154,7 +157,7 @@ public class ImporterV3 extends Importer {
 		newManager.name = "KeePass Password Manager";
 
 		// Generate transformedMasterKey from masterKey
-		finalKey = makeFinalKey(hdr.masterSeed, hdr.masterSeed2, newManager.masterKey, newManager.numKeyEncRounds);
+		finalKey = makeFinalKey(hdr.mMasterSeed, hdr.mTransformSeed, newManager.masterKey, newManager.numKeyEncRounds);
 		newManager.finalKey = new byte[finalKey.length];
 		System.arraycopy(finalKey, 0, newManager.finalKey, 0, finalKey.length);
 

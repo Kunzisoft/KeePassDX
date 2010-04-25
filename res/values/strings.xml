@@ -131,6 +131,7 @@
     <string name="search_hint">Entry title/description</string>
     <string name="search_label">Search</string>
     <string name="show_password">Show password</string>
+    <string name="unsupported_db_version">Unsupported database version.</string>
     
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

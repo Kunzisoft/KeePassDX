@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2010 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,14 +19,13 @@
  */
 package com.keepassdroid.database;
 
-public abstract class PwDbHeader {
-
-	public static final int PWM_DBSIG_1 = 0x9AA2D903;
-
-	/** Seed that gets hashed with the userkey to form the final key */
-	public byte mMasterSeed[];
-
-	/** Used for the dwKeyEncRounds AES transformations */
-	public byte mTransformSeed[];
+public class PwCompressionAlgorithm {
+	// Note: We can get away with using int's to store unsigned 32-bit ints
+	//       since we won't do arithmetic on these values (also unlikely to
+	//       reach 
 	
+	public static final int None  = 0;
+	public static final int Gzip  = 1;
+	
+	public static final int Count = 2;
 }

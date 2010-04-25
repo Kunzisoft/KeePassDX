@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
+import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.database.exception.Kdb4Exception;
@@ -79,6 +80,9 @@ public class LoadDB extends RunnableOnFinish {
 			return;
 		} catch (Kdb4Exception e) {
 			finish(false, mCtx.getString(R.string.error_kdb4));
+			return;
+		} catch (InvalidDBVersionException e) {
+			finish(false, mCtx.getString(R.string.unsupported_db_version));
 			return;
 		}
 		

@@ -37,6 +37,8 @@ import java.util.UUID;
  */
 public class Types {
 	
+	private static final long INT_TO_LONG_MASK = 0xffffffffL; 
+	
 	/*
 	public static long readUInt(byte buf[], int offset) {
         int firstByte = 0;
@@ -80,6 +82,10 @@ public class Types {
     return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8) + ((buf[offset + 2] & 0xFF) << 16)
            + ((buf[offset + 3] & 0xFF) << 24);
   }
+  
+  public static long readUInt( byte buf[], int offset ) {
+	  return (readInt(buf, offset) & INT_TO_LONG_MASK);
+  }
 
   public static int readInt(InputStream is) throws IOException {
 	  byte[] buf = new byte[4];
@@ -87,6 +93,10 @@ public class Types {
 	  is.read(buf, 0, 4);
 	  
 	  return Types.readInt(buf, 0);
+  }
+  
+  public static long readUInt(InputStream is) throws IOException {
+	  return (readInt(is) & INT_TO_LONG_MASK);
   }
 
 
@@ -120,6 +130,14 @@ public class Types {
    */
   public static int readShort( byte[] buf, int offset ) {
     return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
+  }
+  
+  public static int readShort(InputStream is) throws IOException {
+	  byte[] buf = new byte[2];
+	  
+	  is.read(buf, 0, 2);
+	  
+	  return readShort(buf, 0); 
   }
   
   /** Write an unsigned 16-bit value

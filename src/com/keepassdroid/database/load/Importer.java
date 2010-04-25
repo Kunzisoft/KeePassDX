@@ -25,6 +25,7 @@ import java.io.InputStream;
 import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
+import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
 
@@ -42,10 +43,10 @@ public abstract class Importer {
 	}
 
 	public abstract PwDatabase openDatabase( InputStream inStream, String password, String keyfile ) 
-		throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException;
+		throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException;
 
 	public abstract PwDatabase openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status ) 
-		throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException;
+		throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException;
 
 
 }

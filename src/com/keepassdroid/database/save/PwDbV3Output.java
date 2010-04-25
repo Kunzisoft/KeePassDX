@@ -38,6 +38,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.keepassdroid.crypto.AESProvider;
 import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
@@ -62,17 +63,17 @@ public class PwDbV3Output {
 		mDebug = debug;
 	}
 	
-	public byte[] getFinalKey(PwDbHeaderV3 header) throws PwDbOutputException {
+	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
-			return ImporterV3.makeFinalKey(header.masterSeed, header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds);
+			return ImporterV3.makeFinalKey(header.mMasterSeed, header.mTransformSeed, mPM.masterKey, mPM.numKeyEncRounds);
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
 		}
 	}
 	
-	public byte[] getFinalKey2(PwDbHeaderV3 header) throws PwDbOutputException {
+	public byte[] getFinalKey2(PwDbHeader header) throws PwDbOutputException {
 		try {
-			return ImporterV3.makeFinalKey(header.masterSeed, header.masterSeed2, mPM.masterKey, mPM.numKeyEncRounds);
+			return ImporterV3.makeFinalKey(header.mMasterSeed, header.mTransformSeed, mPM.masterKey, mPM.numKeyEncRounds);
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
 		}
@@ -114,7 +115,7 @@ public class PwDbV3Output {
 	public PwDbHeaderV3 outputHeader(OutputStream os) throws PwDbOutputException {
 		// Build header
 		PwDbHeaderV3 header = new PwDbHeaderV3();
-		header.signature1 = PwDbHeaderV3.PWM_DBSIG_1;
+		header.signature1 = PwDbHeader.PWM_DBSIG_1;
 		header.signature2 = PwDbHeaderV3.DBSIG_2;
 		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
@@ -135,8 +136,8 @@ public class PwDbV3Output {
 		// Reuse random values to test equivalence in debug mode
 		if ( mDebug ) {
 			System.arraycopy(mPM.dbHeader.encryptionIV, 0, header.encryptionIV, 0, mPM.dbHeader.encryptionIV.length);
-			System.arraycopy(mPM.dbHeader.masterSeed, 0, header.masterSeed, 0, mPM.dbHeader.masterSeed.length);
-			System.arraycopy(mPM.dbHeader.masterSeed2, 0, header.masterSeed2, 0, mPM.dbHeader.masterSeed2.length);
+			System.arraycopy(mPM.dbHeader.mMasterSeed, 0, header.mMasterSeed, 0, mPM.dbHeader.mMasterSeed.length);
+			System.arraycopy(mPM.dbHeader.mTransformSeed, 0, header.mTransformSeed, 0, mPM.dbHeader.mTransformSeed.length);
 		} else {
 			SecureRandom random;
 			try {
@@ -145,8 +146,8 @@ public class PwDbV3Output {
 				throw new PwDbOutputException("Does not support secure random number generation.");
 			}
 			random.nextBytes(header.encryptionIV);
-			random.nextBytes(header.masterSeed);
-			random.nextBytes(header.masterSeed2);
+			random.nextBytes(header.mMasterSeed);
+			random.nextBytes(header.mTransformSeed);
 		}
 		
 		// Write checksum Checksum

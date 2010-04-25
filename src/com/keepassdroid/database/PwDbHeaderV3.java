@@ -51,8 +51,6 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	public int              flags;
 	public int              version;
 
-	/** Seed that gets hashed with the userkey to form the final key */
-	public byte             masterSeed[]   = new byte[16];
 	/** IV used for content encryption */
 	public byte             encryptionIV[] = new byte[16];
 
@@ -64,21 +62,19 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	/** SHA-256 hash of the database, used for integrity check */
 	public byte             contentsHash[] = new byte[32];
 
-	/** Used for the dwKeyEncRounds AES transformations */
-	public byte             masterSeed2[]  = new byte[32];
 	public int              numKeyEncRounds;
 
 	/**
 	 * Parse given buf, as read from file.
 	 * @param buf
 	 */
-	public PwDbHeaderV3( byte buf[], int offset ) {
+	public void loadFromFile( byte buf[], int offset ) {
 		signature1 = Types.readInt( buf, offset + 0 );
 		signature2 = Types.readInt( buf, offset + 4 );
 		flags = Types.readInt( buf, offset + 8 );
 		version = Types.readInt( buf, offset + 12 );
 
-		System.arraycopy( buf, offset + 16, masterSeed, 0, 16 );
+		System.arraycopy( buf, offset + 16, mMasterSeed, 0, 16 );
 		System.arraycopy( buf, offset + 32, encryptionIV, 0, 16 );
 
 		numGroups = Types.readInt( buf, offset + 48 );
@@ -86,12 +82,13 @@ public class PwDbHeaderV3 extends PwDbHeader {
 
 		System.arraycopy( buf, offset + 56, contentsHash, 0, 32 );
 
-		System.arraycopy( buf, offset + 88, masterSeed2, 0, 32 );
+		System.arraycopy( buf, offset + 88, mTransformSeed, 0, 32 );
 		numKeyEncRounds = Types.readInt( buf, offset + 120 );
 	}
 
 	public PwDbHeaderV3() {
-
+		mMasterSeed = new byte[16];
+		mTransformSeed = new byte[32];
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {

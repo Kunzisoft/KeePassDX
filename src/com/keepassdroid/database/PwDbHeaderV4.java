@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2010 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,16 +19,127 @@
  */
 package com.keepassdroid.database;
 
+import java.io.IOException;
 import java.io.InputStream;
+
+import com.keepassdroid.database.exception.InvalidDBVersionException;
+import com.keepassdroid.utils.Types;
 
 public class PwDbHeaderV4 extends PwDbHeader {
 	public static final int DBSIG_PRE2            = 0xB54BFB66;
     public static final int DBSIG_2               = 0xB54BFB67;
+    
+    private static final int FILE_VERSION_CRITICAL_MASK = 0xFFFF0000;
+    private static final int FILE_VERSION_32 =            0x00020000;
+    
+    private class PwDbHeaderV4Fields {
+        public static final byte EndOfHeader = 0;
+        public static final byte Comment = 1;
+        public static final byte CipherID = 2;
+        public static final byte CompressionFlags = 3;
+        public static final byte MasterSeed = 4;
+        public static final byte TransformSeed = 5;
+        public static final byte TransformRounds = 6;
+        public static final byte EncryptionIV = 7;
+        public static final byte ProtectedStreamKey = 8;
+        public static final byte StreamStartBytes = 8;
+        public static final byte InnerRandomStreamID = 9;
+
+    }
+    
+    private PwDatabaseV4 mDb;
+
+    public PwDbHeaderV4(PwDatabaseV4 db) {
+    	mDb = db;
+    }
 
 	/** Assumes the input stream is at the beginning of the .kdbx file
 	 * @param is
+	 * @throws IOException 
+	 * @throws InvalidDBVersionException 
 	 */
-	public PwDbHeaderV4(InputStream is) {
+	public void loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
+		
+		long version = Types.readUInt(is);
+		if ( ! validVersion(version) ) {
+			throw new InvalidDBVersionException();
+		}
+		
+		boolean done = false;
+		while ( ! done ) {
+			done = readHeaderField(is);
+		}
+	}
+	
+	private boolean readHeaderField(InputStream is) throws IOException {
+		byte fieldID = (byte) is.read();
+		
+		int fieldSize = Types.readShort(is);
+		
+		byte[] fieldData = null;
+		if ( fieldSize > 0 ) {
+			fieldData = new byte[fieldSize];
+			
+			int readSize = is.read(fieldData);
+			if ( readSize != fieldSize ) {
+				throw new IOException("Header ended early.");
+			}
+		}
+		
+		switch ( fieldID ) {
+			case PwDbHeaderV4Fields.EndOfHeader:
+				return true;
+				
+			case PwDbHeaderV4Fields.CipherID:
+				setCipher(fieldData);
+				
+			case PwDbHeaderV4Fields.CompressionFlags:
+				setCompressionFlags(fieldData);
+				
+			case PwDbHeaderV4Fields.MasterSeed:
+				mMasterSeed = fieldData;
+				
+			case PwDbHeaderV4Fields.TransformSeed:
+				mTransformSeed = fieldData;
+				
+			case PwDbHeaderV4Fields.TransformRounds:
+		}
+		
+		return false;
+	}
+	
+	private void setCipher(byte[] pbId) throws IOException {
+		if ( pbId == null || pbId.length != 16 ) {
+			throw new IOException("Invalid cipher ID.");
+		}
+		
+		mDb.mDataCipher = Types.bytestoUUID(pbId);
+	}
+	
+	private void setCompressionFlags(byte[] pbFlags) throws IOException {
+		if ( pbFlags == null || pbFlags.length != 4 ) {
+			throw new IOException("Invalid compression flags.");
+		}
+		
+		int flag = Types.readInt(pbFlags, 0);
+		if ( flag >= PwCompressionAlgorithm.Count ) {
+			throw new IOException("Unrecognized compression flag.");
+		}
+		
+		mDb.mCompression = flag;
+		
+	}
+	
+	/** Determines if this is a supported version.
+	 * 
+	 *  A long is needed here to represent the unsigned int since we perform
+	 *  arithmetic on it.
+	 * @param version
+	 * @return
+	 */
+	private boolean validVersion(long version) {
+		
+		return ! ((version & FILE_VERSION_CRITICAL_MASK) > (FILE_VERSION_32 & FILE_VERSION_CRITICAL_MASK));
 		
 	}
 
