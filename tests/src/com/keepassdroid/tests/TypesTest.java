@@ -22,6 +22,7 @@ package com.keepassdroid.tests;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.util.Calendar;
+import java.util.Random;
 
 import junit.framework.TestCase;
 
@@ -30,6 +31,39 @@ import com.keepassdroid.database.PwDate;
 import com.keepassdroid.utils.Types;
 
 public class TypesTest extends TestCase {
+
+	public void testReadWriteLongZero() {
+		testReadWriteLong((byte) 0);
+	}
+	
+	public void testReadWriteLongMax() {
+		testReadWriteLong(Byte.MAX_VALUE);
+	}
+	
+	public void testReadWriteLongMin() {
+		testReadWriteLong(Byte.MIN_VALUE);
+	}
+	
+	public void testReadWriteLongRnd() {
+		Random rnd = new Random();
+		byte[] buf = new byte[1];
+		rnd.nextBytes(buf);
+		
+		testReadWriteLong(buf[0]);
+	}
+	
+	private void testReadWriteLong(byte value) {
+		byte[] orig = new byte[8];
+		byte[] dest = new byte[8];
+		
+		setArray(orig, value, 0, 8);
+		
+		long one = Types.readLong(orig, 0);
+		Types.writeLong(one, dest, 0);
+		
+		assertArrayEquals(orig, dest);
+
+	}
 	
 	public void testReadWriteIntZero() {
 		testReadWriteInt((byte) 0);
@@ -97,6 +131,9 @@ public class TypesTest extends TestCase {
 		
 		int one = Types.readShort(orig, 0);
 		Types.writeShort(one, dest, 0);
+		
+		assertArrayEquals(orig, dest);
+
 	}
 
 	public void testReadWriteByteZero() {
@@ -119,6 +156,9 @@ public class TypesTest extends TestCase {
 		
 		int one = Types.readUByte(orig, 0);
 		Types.writeUByte(one, dest, 0);
+		
+		assertArrayEquals(orig, dest);
+		
 	}
 	
 	public void testDate() {

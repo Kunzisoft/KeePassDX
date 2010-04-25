@@ -84,7 +84,7 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 	}
 	
 	private void setRounds(Database db, Preference rounds) {
-		rounds.setSummary(Integer.toString(db.mPM.numKeyEncRounds));
+		rounds.setSummary(Integer.toString(db.mPM.mNumKeyEncRounds));
 		
 	}
 	

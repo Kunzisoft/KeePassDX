@@ -103,6 +103,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				mTransformSeed = fieldData;
 				
 			case PwDbHeaderV4Fields.TransformRounds:
+				setTransformRounds(fieldData);
 		}
 		
 		return false;
@@ -127,6 +128,20 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 		
 		mDb.mCompression = flag;
+		
+	}
+	
+	private void setTransformRounds(byte[] rounds) throws IOException {
+		if ( rounds == null || rounds.length != 8 ) {
+			throw new IOException("Invalid rounds.");
+		}
+		
+		long rnd = Types.readLong(rounds, 0);
+		
+		if ( rnd < 0 ) {
+			//TODO: Actually support really large numbers
+			throw new IOException("Rounds higher than " + Long.MAX_VALUE + " are not currently supported.");
+		}
 		
 	}
 	

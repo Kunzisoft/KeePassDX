@@ -152,12 +152,12 @@ public class ImporterV3 extends Importer {
 			newManager.dbHeader = hdr;
 		}
 
-		newManager.numKeyEncRounds = hdr.numKeyEncRounds;
+		newManager.mNumKeyEncRounds = hdr.numKeyEncRounds;
 
 		newManager.name = "KeePass Password Manager";
 
 		// Generate transformedMasterKey from masterKey
-		finalKey = makeFinalKey(hdr.mMasterSeed, hdr.mTransformSeed, newManager.masterKey, newManager.numKeyEncRounds);
+		finalKey = makeFinalKey(hdr.mMasterSeed, hdr.mTransformSeed, newManager.masterKey, newManager.mNumKeyEncRounds);
 		newManager.finalKey = new byte[finalKey.length];
 		System.arraycopy(finalKey, 0, newManager.finalKey, 0, finalKey.length);
 

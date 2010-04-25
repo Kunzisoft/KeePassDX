@@ -73,7 +73,7 @@ public class PwDatabaseV3 extends PwDatabase {
     public byte             masterKey[]            = new byte[32];
     // Algorithm used to encrypt the database
     public int              algorithm;
-    public int              numKeyEncRounds;
+    public int              mNumKeyEncRounds;
     
     // Debugging entries
     public PwDbHeaderV3 dbHeader;
@@ -88,7 +88,7 @@ public class PwDatabaseV3 extends PwDatabase {
     }
     
     public int getNumKeyEncRecords() {
-    	return numKeyEncRounds;
+    	return mNumKeyEncRounds;
     }
     
     public void setMasterKey( String key, String keyFileName ) throws InvalidKeyFileException, IOException {
