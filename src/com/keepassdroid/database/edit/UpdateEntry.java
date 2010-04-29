@@ -74,7 +74,7 @@ public class UpdateEntry extends RunnableOnFinish {
 						parent.sortEntriesByName();
 
 						// Mark parent group dirty
-						mDb.gDirty.put(parent, new WeakReference<PwGroupV3>(parent));
+						mDb.dirty.put(parent, new WeakReference<PwGroupV3>(parent));
 						
 					}
 					

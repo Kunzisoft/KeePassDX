@@ -39,7 +39,7 @@ public class Kdb4Header extends AndroidTestCase {
 
 		PwDatabaseV4 db = importer.openDatabase(is, null, null);
 		
-		assertEquals(6000, db.mNumKeyEncRounds);
+		assertEquals(6000, db.numKeyEncRounds);
 
 	}
 }

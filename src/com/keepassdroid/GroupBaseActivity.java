@@ -73,8 +73,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	
 	public void refreshIfDirty() {
 		Database db = App.getDB();
-		if ( db.gDirty.get(mGroup) != null ) {
-			db.gDirty.remove(mGroup);
+		if ( db.dirty.get(mGroup) != null ) {
+			db.dirty.remove(mGroup);
 			BaseAdapter adapter = (BaseAdapter) getListAdapter();
 			adapter.notifyDataSetChanged();
 			

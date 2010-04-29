@@ -156,7 +156,7 @@ public class SearchDbHelper {
 			String sUUID = cursor.getString(0);
 			UUID uuid = UUID.fromString(sUUID);
 			Log.d("TAG", uuid.toString()); 
-			PwEntryV3 entry = db.gEntries.get(uuid).get();
+			PwEntryV3 entry = db.entries.get(uuid).get();
 			group.childEntries.add(entry);
 			
 			cursor.moveToNext();

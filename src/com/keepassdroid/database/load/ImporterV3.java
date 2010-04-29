@@ -149,16 +149,16 @@ public class ImporterV3 extends Importer {
 		if( newManager.algorithm == PwDbHeaderV3.ALGO_TWOFISH )
 			throw new IOException( "TwoFish algorithm is not supported" );
 
-		if ( mDebug ) {
+		if ( debug ) {
 			newManager.dbHeader = hdr;
 		}
 
-		newManager.mNumKeyEncRounds = hdr.numKeyEncRounds;
+		newManager.numKeyEncRounds = hdr.numKeyEncRounds;
 
 		newManager.name = "KeePass Password Manager";
 
 		// Generate transformedMasterKey from masterKey
-		finalKey = makeFinalKey(hdr.mMasterSeed, hdr.mTransformSeed, newManager.masterKey, newManager.mNumKeyEncRounds);
+		finalKey = makeFinalKey(hdr.mMasterSeed, hdr.mTransformSeed, newManager.masterKey, newManager.numKeyEncRounds);
 		newManager.finalKey = new byte[finalKey.length];
 		System.arraycopy(finalKey, 0, newManager.finalKey, 0, finalKey.length);
 
@@ -204,12 +204,12 @@ public class ImporterV3 extends Importer {
 		//int paddingSize = padding.padCount(filebuf);
 		//encryptedPartSize = paddedEncryptedPartSize - paddingSize;
 		/*
-		if ( mDebug ) {
+		if ( debug ) {
 			newManager.paddingBytes = paddingSize;
 		}
 		*/
 
-		if ( mDebug ) {
+		if ( debug ) {
 			newManager.postHeader = new byte[encryptedPartSize];
 			System.arraycopy(filebuf, PwDbHeaderV3.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
 		}

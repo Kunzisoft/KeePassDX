@@ -54,11 +54,11 @@ import com.keepassdroid.utils.Types;
  * @author bpellin
  */
 public class Database {
-	public HashMap<Integer, WeakReference<PwGroupV3>> gGroups = new HashMap<Integer, WeakReference<PwGroupV3>>();
-	public HashMap<UUID, WeakReference<PwEntryV3>> gEntries = new HashMap<UUID, WeakReference<PwEntryV3>>();
-	public HashMap<PwGroupV3, WeakReference<PwGroupV3>> gDirty = new HashMap<PwGroupV3, WeakReference<PwGroupV3>>();
-	public PwGroupV3 gRoot;
-	public PwDatabaseV3 mPM;
+	public HashMap<Integer, WeakReference<PwGroupV3>> groups = new HashMap<Integer, WeakReference<PwGroupV3>>();
+	public HashMap<UUID, WeakReference<PwEntryV3>> entries = new HashMap<UUID, WeakReference<PwEntryV3>>();
+	public HashMap<PwGroupV3, WeakReference<PwGroupV3>> dirty = new HashMap<PwGroupV3, WeakReference<PwGroupV3>>();
+	public PwGroupV3 root;
+	public PwDatabaseV3 pm;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
 	public boolean indexBuilt = false;
@@ -117,9 +117,9 @@ public class Database {
 		
 		bis.reset();  // Return to the start
 		
-		mPM = Importer.openDatabase(bis, password, keyfile, status);
-		if ( mPM != null ) {
-			mPM.constructTree(null);
+		pm = Importer.openDatabase(bis, password, keyfile, status);
+		if ( pm != null ) {
+			pm.constructTree(null);
 			populateGlobals(null);
 		}
 		
@@ -138,9 +138,9 @@ public class Database {
 		initSearch();
 		
 		searchHelper.open();
-		searchHelper.insertEntry(mPM.entries);
-		/*for ( int i = 0; i < mPM.entries.size(); i++) {
-			PwEntryV3 entry = mPM.entries.get(i);
+		searchHelper.insertEntry(pm.entries);
+		/*for ( int i = 0; i < pm.entries.size(); i++) {
+			PwEntryV3 entry = pm.entries.get(i);
 			if ( ! entry.isMetaStream() ) {
 				searchHelper.insertEntry(entry);
 			}
@@ -169,8 +169,8 @@ public class Database {
 		FileOutputStream fos = new FileOutputStream(tempFile);
 		//BufferedOutputStream bos = new BufferedOutputStream(fos);
 		
-		//PwDbV3Output pmo = new PwDbV3Output(mPM, bos, App.getCalendar());
-		PwDbV3Output pmo = new PwDbV3Output(mPM, fos);
+		//PwDbV3Output pmo = new PwDbV3Output(pm, bos, App.getCalendar());
+		PwDbV3Output pmo = new PwDbV3Output(pm, fos);
 		pmo.output();
 		//bos.flush();
 		//bos.close();
@@ -189,11 +189,11 @@ public class Database {
 	
 	private void populateGlobals(PwGroupV3 currentGroup) {
 		if (currentGroup == null) {
-			Vector<PwGroupV3> rootChildGroups = mPM.getGrpRoots();
+			Vector<PwGroupV3> rootChildGroups = pm.getGrpRoots();
 			for (int i = 0; i < rootChildGroups.size(); i++ ){
 				PwGroupV3 cur = rootChildGroups.elementAt(i);
-				gRoot = cur.parent;
-				gGroups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
+				root = cur.parent;
+				groups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
 				populateGlobals(cur);
 			}
 			
@@ -205,12 +205,12 @@ public class Database {
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
 			PwEntryV3 cur = childEntries.elementAt(i);
-			gEntries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntryV3>(cur));
+			entries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntryV3>(cur));
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {
 			PwGroupV3 cur = childGroups.elementAt(i);
-			gGroups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
+			groups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
 			populateGlobals(cur);
 		}
 	}
@@ -219,10 +219,10 @@ public class Database {
 		initSearch();
 		
 		indexBuilt = false;
-		gGroups.clear();
-		gEntries.clear();
-		gRoot = null;
-		mPM = null;
+		groups.clear();
+		entries.clear();
+		root = null;
+		pm = null;
 		mFilename = null;
 		loaded = false;
 	}

@@ -19,6 +19,173 @@
  */
 package com.keepassdroid.database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+
 public class PwDatabase {
+
+	public byte masterKey[] = new byte[32];
+
+	public static byte[] getMasterKey(String key, String keyFileName)
+			throws InvalidKeyFileException, IOException {
+				assert( key != null && keyFileName != null );
+				
+				if ( key.length() > 0 && keyFileName.length() > 0 ) {
+					return getCompositeKey(key, keyFileName);
+				} else if ( key.length() > 0 ) {
+					return getPasswordKey(key);
+				} else if ( keyFileName.length() > 0 ) {
+					return getFileKey(keyFileName);
+				} else {
+					throw new IllegalArgumentException( "Key cannot be empty." );
+				}
+				
+			}
+
+	public void setMasterKey(String key, String keyFileName)
+			throws InvalidKeyFileException, IOException {
+				assert( key != null && keyFileName != null );
+			
+				masterKey = getMasterKey(key, keyFileName);
+			}
+
+	private static byte[] getCompositeKey(String key, String keyFileName)
+			throws InvalidKeyFileException, IOException {
+				assert(key != null && keyFileName != null);
+				
+				byte[] fileKey = getFileKey(keyFileName);
+				
+				byte[] passwordKey = getPasswordKey(key);
+				
+				MessageDigest md;
+				try {
+					md = MessageDigest.getInstance("SHA-256");
+				} catch (NoSuchAlgorithmException e) {
+					throw new IOException("SHA-256 not supported");
+				}
+				
+				md.update(passwordKey);
+				
+				return md.digest(fileKey);
+				
+			
+				
+				/*
+				SHA256Digest md = new SHA256Digest();
+				md.update(passwordKey, 0, 32);
+				md.update(fileKey, 0, 32);
+				
+				byte[] outputKey = new byte[md.getDigestSize()];
+				md.doFinal(outputKey, 0);
+				
+				return outputKey;
+				*/
+			}
+
+	private static byte[] getFileKey(String fileName)
+			throws InvalidKeyFileException, IOException {
+				assert(fileName != null);
+				
+				File keyfile = new File(fileName);
+				long fileSize = keyfile.length();
+			
+				if ( ! keyfile.exists() ) {
+					throw new InvalidKeyFileException("Key file does not exist.");
+				}
+				
+				
+				FileInputStream fis;
+				try {
+					fis = new FileInputStream(keyfile);
+				} catch (FileNotFoundException e) {
+					throw new InvalidKeyFileException("Key file does not exist.");
+				}
+				
+				if ( fileSize == 0 ) {
+					throw new InvalidKeyFileException("Key file is empty.");
+				} else if ( fileSize == 32 ) {
+					byte[] outputKey = new byte[32];
+					if ( fis.read(outputKey, 0, 32) != 32 ) {
+						throw new IOException("Error reading key.");
+					}
+					
+					return outputKey;
+				} else if ( fileSize == 64 ) {
+					byte[] hex = new byte[64];
+					
+					if ( fis.read(hex, 0, 64) != 64 ) {
+						throw new IOException("Error reading key.");
+					}
+			
+					return hexStringToByteArray(new String(hex));
+				}
+			
+				MessageDigest md;
+				try {
+					md = MessageDigest.getInstance("SHA-256");
+				} catch (NoSuchAlgorithmException e) {
+					throw new IOException("SHA-256 not supported");
+				}
+				//SHA256Digest md = new SHA256Digest();
+				byte[] buffer = new byte[2048];
+				int offset = 0;
+				
+				try {
+					while (true) {
+						int bytesRead = fis.read(buffer, 0, 2048);
+						if ( bytesRead == -1 ) break;  // End of file
+						
+						md.update(buffer, 0, bytesRead);
+						offset += bytesRead;
+						
+					}
+				} catch (Exception e) {
+					System.out.println(e.toString());
+				}
+			
+				return md.digest();
+			}
+
+	public static byte[] hexStringToByteArray(String s) {
+	    int len = s.length();
+	    byte[] data = new byte[len / 2];
+	    for (int i = 0; i < len; i += 2) {
+	        data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+	                             + Character.digit(s.charAt(i+1), 16));
+	    }
+	    return data;
+	}
+
+	private static byte[] getPasswordKey(String key) throws IOException {
+		assert(key!=null);
+		
+		if ( key.length() == 0 )
+		    throw new IllegalArgumentException( "Key cannot be empty." );
+		
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("SHA-256 not supported");
+		}
+		//SHA256Digest md = new SHA256Digest();
+		byte[] bKey;
+		try {
+			bKey = key.getBytes("ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			assert false;
+			bKey = key.getBytes();
+		}
+		md.update(bKey, 0, bKey.length );
+		//byte[] outputKey = new byte[md.getDigestSize()];
+		return md.digest();
+	}
 
 }

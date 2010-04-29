@@ -46,7 +46,7 @@ public class AddGroup extends RunnableOnFinish {
 	
 	@Override
 	public void run() {
-		PwDatabaseV3 pm = mDb.mPM;
+		PwDatabaseV3 pm = mDb.pm;
 		
 		// Generate new group
 		mGroup = pm.newGroup(mName, mParent);
@@ -69,12 +69,12 @@ public class AddGroup extends RunnableOnFinish {
 			
 			if ( mSuccess ) {
 				// Mark parent group dirty
-				mDb.gDirty.put(mParent, new WeakReference<PwGroupV3>(mParent));
+				mDb.dirty.put(mParent, new WeakReference<PwGroupV3>(mParent));
 				
 				// Add group to global list
-				mDb.gGroups.put(mGroup.groupId, new WeakReference<PwGroupV3>(mGroup));
+				mDb.groups.put(mGroup.groupId, new WeakReference<PwGroupV3>(mGroup));
 			} else {
-				mDb.mPM.removeGroup(mGroup);
+				mDb.pm.removeGroup(mGroup);
 			}
 			
 			super.run();

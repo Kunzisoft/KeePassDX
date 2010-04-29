@@ -65,6 +65,6 @@ public class TestData {
 			GetDb1(ctx);
 		}
 		
-		return mDb1.mPM;
+		return mDb1.pm;
 	}
 }

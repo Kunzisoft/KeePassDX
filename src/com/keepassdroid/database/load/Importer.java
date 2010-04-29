@@ -32,14 +32,14 @@ import com.keepassdroid.database.exception.InvalidPasswordException;
 public abstract class Importer {
 
 	public static final boolean DEBUG = true;
-	protected final boolean mDebug;
+	protected final boolean debug;
 	
 	public Importer() {
-		mDebug = false;
+		debug = false;
 	}
 
-	public Importer(boolean debug) {
-		mDebug = debug;
+	public Importer(boolean d) {
+		debug = d;
 	}
 
 	public abstract PwDatabase openDatabase( InputStream inStream, String password, String keyfile ) 

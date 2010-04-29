@@ -105,7 +105,7 @@ public class EntryEditActivity extends LockCloseActivity {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			assert(uuid != null);
 
-			mEntry = db.gEntries.get(uuid).get();
+			mEntry = db.entries.get(uuid).get();
 			mIsNew = false;
 			
 			fillData();

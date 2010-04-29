@@ -63,7 +63,7 @@ public class DeleteEntry extends RunnableOnFinish {
 		parent.childEntries.remove(mEntry);
 		
 		// Remove Entry from PwDatabaseV3
-		mDb.mPM.entries.remove(mEntry);
+		mDb.pm.entries.remove(mEntry);
 		
 		// Save
 		mFinish = new AfterDelete(mFinish, parent, mEntry);
@@ -96,7 +96,7 @@ public class DeleteEntry extends RunnableOnFinish {
 					dbHelper.open();
 	
 					// Remove from entry global
-					mDb.gEntries.remove(mEntry);
+					mDb.entries.remove(mEntry);
 					
 					// Remove from search db
 					dbHelper.deleteEntry(mEntry);
@@ -105,11 +105,11 @@ public class DeleteEntry extends RunnableOnFinish {
 				
 				// Mark parent dirty
 				if ( mParent != null ) {
-					mDb.gDirty.put(mParent, new WeakReference<PwGroupV3>(mParent));
+					mDb.dirty.put(mParent, new WeakReference<PwGroupV3>(mParent));
 				}
 			} else {
 				// Undo remove entry
-				mDb.mPM.entries.add(mEntry);
+				mDb.pm.entries.add(mEntry);
 				
 				PwGroupV3 parent = mEntry.parent;
 				if ( parent != null ) {

@@ -88,7 +88,7 @@ public class DeleteGroup extends RunnableOnFinish {
 		}
 		
 		// Remove from PwDatabaseV3
-		mDb.mPM.groups.remove(mGroup);
+		mDb.pm.groups.remove(mGroup);
 		
 		// Save
 		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
@@ -104,11 +104,11 @@ public class DeleteGroup extends RunnableOnFinish {
 		public void run() {
 			if ( mSuccess ) {
 				// Remove from group global
-				mDb.gGroups.remove(mGroup.groupId);
+				mDb.groups.remove(mGroup.groupId);
 				
 				// Remove group from the dirty global (if it is present), not a big deal if this fails
 				try {
-					mDb.gDirty.remove(mGroup);
+					mDb.dirty.remove(mGroup);
 				} catch ( Exception e) {
 					// Suppress
 				}
@@ -116,7 +116,7 @@ public class DeleteGroup extends RunnableOnFinish {
 				// Mark parent dirty
 				PwGroupV3 parent = mGroup.parent;
 				if ( parent != null ) {
-					mDb.gDirty.put(parent, new WeakReference<PwGroupV3>(parent));
+					mDb.dirty.put(parent, new WeakReference<PwGroupV3>(parent));
 				}
 			} else {
 				// Let's not bother recovering from a failure to save a deleted group.  It is too much work.

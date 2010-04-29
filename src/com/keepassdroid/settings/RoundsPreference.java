@@ -48,8 +48,8 @@ public class RoundsPreference extends DialogPreference {
 		mRoundsView = (TextView) view.findViewById(R.id.rounds);
 		
 		Database db = App.getDB();
-		mPM = db.mPM;
-		int numRounds = mPM.mNumKeyEncRounds;
+		mPM = db.pm;
+		int numRounds = mPM.numKeyEncRounds;
 		mRoundsView.setText(Integer.toString(numRounds));
 		
 		return view;
@@ -82,8 +82,8 @@ public class RoundsPreference extends DialogPreference {
 				rounds = 1;
 			}
 			
-			int oldRounds = mPM.mNumKeyEncRounds;
-			mPM.mNumKeyEncRounds = rounds;
+			int oldRounds = mPM.numKeyEncRounds;
+			mPM.numKeyEncRounds = rounds;
 			
 			Handler handler = new Handler();
 			SaveDB save = new SaveDB(App.getDB(), new AfterSave(getContext(), handler, oldRounds));
@@ -114,7 +114,7 @@ public class RoundsPreference extends DialogPreference {
 				}
 			} else {
 				displayMessage(mCtx);
-				mPM.mNumKeyEncRounds = mOldRounds;
+				mPM.numKeyEncRounds = mOldRounds;
 			}
 			
 			super.run();

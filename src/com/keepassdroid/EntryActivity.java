@@ -110,7 +110,7 @@ public class EntryActivity extends LockCloseActivity {
 		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
 		assert(uuid != null);
 		
-		mEntry = db.gEntries.get(uuid).get();
+		mEntry = db.entries.get(uuid).get();
 		
 		// Update last access time.
 		Calendar cal = Calendar.getInstance();

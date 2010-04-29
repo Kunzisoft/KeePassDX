@@ -65,7 +65,7 @@ public class PwDbV3Output {
 	
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
-			return ImporterV3.makeFinalKey(header.mMasterSeed, header.mTransformSeed, mPM.masterKey, mPM.mNumKeyEncRounds);
+			return ImporterV3.makeFinalKey(header.mMasterSeed, header.mTransformSeed, mPM.masterKey, mPM.numKeyEncRounds);
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
 		}
@@ -73,7 +73,7 @@ public class PwDbV3Output {
 	
 	public byte[] getFinalKey2(PwDbHeader header) throws PwDbOutputException {
 		try {
-			return ImporterV3.makeFinalKey(header.mMasterSeed, header.mTransformSeed, mPM.masterKey, mPM.mNumKeyEncRounds);
+			return ImporterV3.makeFinalKey(header.mMasterSeed, header.mTransformSeed, mPM.masterKey, mPM.numKeyEncRounds);
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
 		}

@@ -47,13 +47,13 @@ public class PwDbHeaderV4 extends PwDbHeader {
 
     }
     
-    private PwDatabaseV4 mDb;
-    private byte[] mProtectedStreamKey;
-    private byte[] mStreamStartBytes;
-    private int mInnerRandomStream;
+    private PwDatabaseV4 db;
+    public byte[] protectedStreamKey;
+    public byte[] streamStartBytes;
+    public int innerRandomStream;
 
-    public PwDbHeaderV4(PwDatabaseV4 db) {
-    	mDb = db;
+    public PwDbHeaderV4(PwDatabaseV4 d) {
+    	db = d;
     }
 
 	/** Assumes the input stream is at the beginning of the .kdbx file
@@ -125,11 +125,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.ProtectedStreamKey:
-				mProtectedStreamKey = fieldData;
+				protectedStreamKey = fieldData;
 				break;
 				
 			case PwDbHeaderV4Fields.StreamStartBytes:
-				mStreamStartBytes = fieldData;
+				streamStartBytes = fieldData;
 				break;
 			
 			case PwDbHeaderV4Fields.InnerRandomStreamID:
@@ -149,7 +149,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Invalid cipher ID.");
 		}
 		
-		mDb.mDataCipher = Types.bytestoUUID(pbId);
+		db.dataCipher = Types.bytestoUUID(pbId);
 	}
 	
 	private void setCompressionFlags(byte[] pbFlags) throws IOException {
@@ -162,7 +162,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Unrecognized compression flag.");
 		}
 		
-		mDb.mCompression = flag;
+		db.compressionAlgorithm = flag;
 		
 	}
 	
@@ -178,7 +178,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Rounds higher than " + Long.MAX_VALUE + " are not currently supported.");
 		}
 		
-		mDb.mNumKeyEncRounds = rnd;
+		db.numKeyEncRounds = rnd;
 		
 	}
 	
@@ -192,7 +192,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Invalid stream id.");
 		}
 		
-		mInnerRandomStream = id;
+		innerRandomStream = id;
 	}
 	
 	/** Determines if this is a supported version.

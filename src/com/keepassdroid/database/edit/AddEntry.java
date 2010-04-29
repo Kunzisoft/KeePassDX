@@ -49,7 +49,7 @@ public class AddEntry extends RunnableOnFinish {
 		parent.childEntries.add(mEntry);
 		
 		// Add entry to PwDatabaseV3
-		mDb.mPM.entries.add(mEntry);
+		mDb.pm.entries.add(mEntry);
 		
 		// Sort entries
 		parent.sortEntriesByName();
@@ -71,10 +71,10 @@ public class AddEntry extends RunnableOnFinish {
 				PwGroupV3 parent = mEntry.parent;
 
 				// Mark parent group dirty
-				mDb.gDirty.put(parent, new WeakReference<PwGroupV3>(parent));
+				mDb.dirty.put(parent, new WeakReference<PwGroupV3>(parent));
 
 				// Add entry to global
-				mDb.gEntries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntryV3>(mEntry));
+				mDb.entries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntryV3>(mEntry));
 				
 				if ( mDb.indexBuilt ) {
 					// Add entry to search index
@@ -88,7 +88,7 @@ public class AddEntry extends RunnableOnFinish {
 				mEntry.parent.childEntries.removeElement(mEntry);
 				
 				// Remove from manager
-				mDb.mPM.entries.removeElement(mEntry);
+				mDb.pm.entries.removeElement(mEntry);
 
 			}
 			

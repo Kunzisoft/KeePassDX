@@ -53,7 +53,7 @@ public class SetPassword extends RunnableOnFinish {
 
 	@Override
 	public void run() {
-		PwDatabase pm = mDb.mPM;
+		PwDatabase pm = mDb.pm;
 		
 		byte[] backupKey = new byte[pm.masterKey.length];
 		System.arraycopy(pm.masterKey, 0, backupKey, 0, backupKey.length);
@@ -90,8 +90,8 @@ public class SetPassword extends RunnableOnFinish {
 		public void run() {
 			if ( ! mSuccess ) {
 				// Erase the current master key
-				erase(mDb.mPM.masterKey);
-				mDb.mPM.masterKey = mBackup;
+				erase(mDb.pm.masterKey);
+				mDb.pm.masterKey = mBackup;
 			}
 			
 			super.run();

@@ -55,7 +55,7 @@ public class DeleteEntry extends AndroidTestCase {
 		}
 		
 		
-		PwGroupV3 group1 = getGroup(db.mPM, GROUP1_NAME);
+		PwGroupV3 group1 = getGroup(db.pm, GROUP1_NAME);
 		assertNotNull("Could not find group1", group1);
 		
 		// Delete the group
@@ -63,10 +63,10 @@ public class DeleteEntry extends AndroidTestCase {
 		task.run();
 		
 		// Verify the entries were deleted
-		PwEntryV3 entry1 = getEntry(db.mPM, ENTRY1_NAME);
+		PwEntryV3 entry1 = getEntry(db.pm, ENTRY1_NAME);
 		assertNull("Entry 1 was not removed", entry1);
 
-		PwEntryV3 entry2 = getEntry(db.mPM, ENTRY2_NAME);
+		PwEntryV3 entry2 = getEntry(db.pm, ENTRY2_NAME);
 		assertNull("Entry 2 was not removed", entry2);
 		
 		// Verify the entries were removed from the search index
@@ -80,7 +80,7 @@ public class DeleteEntry extends AndroidTestCase {
 		assertEquals("Entry2 was not removed from the search results", 0, results2.childEntries.size());
 		
 		// Verify the group was deleted
-		group1 = getGroup(db.mPM, GROUP1_NAME);
+		group1 = getGroup(db.pm, GROUP1_NAME);
 		assertNull("Group 1 was not removed.", group1);
 		
 		

@@ -48,14 +48,14 @@ public class CreateDB extends RunnableOnFinish {
 		// Create the PwDatabaseV3
 		PwDatabaseV3 pm = new PwDatabaseV3();
 		pm.algorithm = PwDbHeaderV3.ALGO_AES;
-		pm.mNumKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
+		pm.numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
 		pm.name = "KeePass Password Manager";
 		// Build the root group
 		pm.constructTree(null);
 		
 		// Set Database state
-		db.gRoot = pm.rootGroup;
-		db.mPM = pm;
+		db.root = pm.rootGroup;
+		db.pm = pm;
 		db.mFilename = mFilename;
 		db.setLoaded();
 		

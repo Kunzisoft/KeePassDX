@@ -93,9 +93,9 @@ public class GroupActivity extends GroupBaseActivity {
 		
 		Database db = App.getDB();
 		if ( id == -1 ) {
-			mGroup = db.gRoot;
+			mGroup = db.root;
 		} else {
-			WeakReference<PwGroupV3> wPw = db.gGroups.get(id);
+			WeakReference<PwGroupV3> wPw = db.groups.get(id);
 			mGroup = wPw.get();
 		}
 		Log.w(TAG, "Retrieved group");
