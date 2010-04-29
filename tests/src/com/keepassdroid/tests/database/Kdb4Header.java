@@ -19,33 +19,27 @@
  */
 package com.keepassdroid.tests.database;
 
-import java.io.IOException;
 import java.io.InputStream;
-
-import com.keepassdroid.database.exception.InvalidDBSignatureException;
-import com.keepassdroid.database.exception.Kdb4Exception;
-import com.keepassdroid.database.load.ImporterFactory;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-public class Kdb4 extends AndroidTestCase {
+import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.load.ImporterV4;
 
-	public void testDetection() throws IOException, InvalidDBSignatureException {
+public class Kdb4Header extends AndroidTestCase {
+	public void testReadHeader() throws Exception {
 		Context ctx = getContext();
 		
 		AssetManager am = ctx.getAssets();
 		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
 		
-		try {
-			ImporterFactory.createImporter(is);
-		} catch (Kdb4Exception e) {
-			return;
-		}
+		ImporterV4 importer = new ImporterV4();
+
+		PwDatabaseV4 db = importer.openDatabase(is, null, null);
 		
-		assertTrue(false);
-		
+		assertEquals(6000, db.mNumKeyEncRounds);
+
 	}
-	
 }

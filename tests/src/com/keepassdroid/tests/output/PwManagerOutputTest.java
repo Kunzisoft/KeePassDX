@@ -88,7 +88,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	  assertEquals("Signature2 unequal", expected.signature2, actual.signature2);
 	  assertEquals("Version unequal", expected.version, actual.version);
 	  assertArrayEquals("Hash unequal", expected.contentsHash, actual.contentsHash);
-	  assertArrayEquals("IV unequal", expected.encryptionIV, actual.encryptionIV);
+	  assertArrayEquals("IV unequal", expected.mEncryptionIV, actual.mEncryptionIV);
 	  assertArrayEquals("Seed unequal", expected.mMasterSeed, actual.mMasterSeed);
 	  assertArrayEquals("Seed2 unequal", expected.mTransformSeed, actual.mTransformSeed);
   }

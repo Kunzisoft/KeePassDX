@@ -84,7 +84,7 @@ public class PwDbV3Output {
 		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the group hierarchy
 		sortGroupsForOutput();
 		
-		PwDbHeaderV3 header = outputHeader(mOS);
+		PwDbHeader header = outputHeader(mOS);
 		
 		byte[] finalKey = getFinalKey(header);
 		
@@ -96,7 +96,7 @@ public class PwDbV3Output {
 		}
 
 		try {
-			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(finalKey, "AES" ), new IvParameterSpec(header.encryptionIV) );
+			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(finalKey, "AES" ), new IvParameterSpec(header.mEncryptionIV) );
 			CipherOutputStream cos = new CipherOutputStream(mOS, cipher);
 			BufferedOutputStream bos = new BufferedOutputStream(cos);
 			outputPlanGroupAndEntries(bos);
@@ -135,7 +135,7 @@ public class PwDbV3Output {
 		
 		// Reuse random values to test equivalence in debug mode
 		if ( mDebug ) {
-			System.arraycopy(mPM.dbHeader.encryptionIV, 0, header.encryptionIV, 0, mPM.dbHeader.encryptionIV.length);
+			System.arraycopy(mPM.dbHeader.mEncryptionIV, 0, header.mEncryptionIV, 0, mPM.dbHeader.mEncryptionIV.length);
 			System.arraycopy(mPM.dbHeader.mMasterSeed, 0, header.mMasterSeed, 0, mPM.dbHeader.mMasterSeed.length);
 			System.arraycopy(mPM.dbHeader.mTransformSeed, 0, header.mTransformSeed, 0, mPM.dbHeader.mTransformSeed.length);
 		} else {
@@ -145,7 +145,7 @@ public class PwDbV3Output {
 			} catch (NoSuchAlgorithmException e) {
 				throw new PwDbOutputException("Does not support secure random number generation.");
 			}
-			random.nextBytes(header.encryptionIV);
+			random.nextBytes(header.mEncryptionIV);
 			random.nextBytes(header.mMasterSeed);
 			random.nextBytes(header.mTransformSeed);
 		}

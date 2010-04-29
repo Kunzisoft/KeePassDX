@@ -53,9 +53,6 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	public int              flags;
 	public int              version;
 
-	/** IV used for content encryption */
-	public byte             encryptionIV[] = new byte[16];
-
 	/** Number of groups in the database */
 	public int              numGroups;
 	/** Number of entries in the database */
@@ -78,7 +75,7 @@ public class PwDbHeaderV3 extends PwDbHeader {
 		version = Types.readInt( buf, offset + 12 );
 
 		System.arraycopy( buf, offset + 16, mMasterSeed, 0, 16 );
-		System.arraycopy( buf, offset + 32, encryptionIV, 0, 16 );
+		System.arraycopy( buf, offset + 32, mEncryptionIV, 0, 16 );
 
 		numGroups = Types.readInt( buf, offset + 48 );
 		numEntries = Types.readInt( buf, offset + 52 );
@@ -96,6 +93,7 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	public PwDbHeaderV3() {
 		mMasterSeed = new byte[16];
 		mTransformSeed = new byte[32];
+		mEncryptionIV = new byte[16];
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {

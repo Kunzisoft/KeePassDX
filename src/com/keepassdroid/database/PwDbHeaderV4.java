@@ -42,12 +42,15 @@ public class PwDbHeaderV4 extends PwDbHeader {
         public static final byte TransformRounds = 6;
         public static final byte EncryptionIV = 7;
         public static final byte ProtectedStreamKey = 8;
-        public static final byte StreamStartBytes = 8;
-        public static final byte InnerRandomStreamID = 9;
+        public static final byte StreamStartBytes = 9;
+        public static final byte InnerRandomStreamID = 10;
 
     }
     
     private PwDatabaseV4 mDb;
+    private byte[] mProtectedStreamKey;
+    private byte[] mStreamStartBytes;
+    private int mInnerRandomStream;
 
     public PwDbHeaderV4(PwDatabaseV4 db) {
     	mDb = db;
@@ -59,6 +62,13 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	 * @throws InvalidDBVersionException 
 	 */
 	public void loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
+
+		int sig1 = Types.readInt(is);
+		int sig2 = Types.readInt(is);
+		
+		if ( ! matchesHeader(sig1, sig2) ) {
+			throw new InvalidDBVersionException();
+		}
 		
 		long version = Types.readUInt(is);
 		if ( ! validVersion(version) ) {
@@ -92,18 +102,43 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				
 			case PwDbHeaderV4Fields.CipherID:
 				setCipher(fieldData);
+				break;
 				
 			case PwDbHeaderV4Fields.CompressionFlags:
 				setCompressionFlags(fieldData);
+				break;
 				
 			case PwDbHeaderV4Fields.MasterSeed:
 				mMasterSeed = fieldData;
+				break;
 				
 			case PwDbHeaderV4Fields.TransformSeed:
 				mTransformSeed = fieldData;
+				break;
 				
 			case PwDbHeaderV4Fields.TransformRounds:
 				setTransformRounds(fieldData);
+				break;
+				
+			case PwDbHeaderV4Fields.EncryptionIV:
+				mEncryptionIV = fieldData;
+				break;
+				
+			case PwDbHeaderV4Fields.ProtectedStreamKey:
+				mProtectedStreamKey = fieldData;
+				break;
+				
+			case PwDbHeaderV4Fields.StreamStartBytes:
+				mStreamStartBytes = fieldData;
+				break;
+			
+			case PwDbHeaderV4Fields.InnerRandomStreamID:
+				setRandomStreamID(fieldData);
+				break;
+				
+			default:
+				throw new IOException("Invalid header type.");
+			
 		}
 		
 		return false;
@@ -123,7 +158,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 		
 		int flag = Types.readInt(pbFlags, 0);
-		if ( flag >= PwCompressionAlgorithm.Count ) {
+		if ( flag < 0 || flag >= PwCompressionAlgorithm.Count ) {
 			throw new IOException("Unrecognized compression flag.");
 		}
 		
@@ -143,6 +178,21 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Rounds higher than " + Long.MAX_VALUE + " are not currently supported.");
 		}
 		
+		mDb.mNumKeyEncRounds = rnd;
+		
+	}
+	
+	private void setRandomStreamID(byte[] streamID) throws IOException {
+		if ( streamID == null || streamID.length != 4 ) {
+			throw new IOException("Invalid stream id.");
+		}
+		
+		int id = Types.readInt(streamID, 0);
+		if ( id < 0 || id >= CrsAlgorithm.Count ) {
+			throw new IOException("Invalid stream id.");
+		}
+		
+		mInnerRandomStream = id;
 	}
 	
 	/** Determines if this is a supported version.

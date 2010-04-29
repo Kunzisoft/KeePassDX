@@ -23,7 +23,7 @@ import java.io.IOException;
 
 
 import com.keepassdroid.Database;
-import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 public class SetPassword extends RunnableOnFinish {
@@ -53,7 +53,7 @@ public class SetPassword extends RunnableOnFinish {
 
 	@Override
 	public void run() {
-		PwDatabaseV3 pm = mDb.mPM;
+		PwDatabase pm = mDb.mPM;
 		
 		byte[] backupKey = new byte[pm.masterKey.length];
 		System.arraycopy(pm.masterKey, 0, backupKey, 0, backupKey.length);

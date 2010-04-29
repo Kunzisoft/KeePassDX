@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2010 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,17 +19,10 @@
  */
 package com.keepassdroid.database;
 
-public abstract class PwDbHeader {
-
-	public static final int PWM_DBSIG_1 = 0x9AA2D903;
-
-	/** Seed that gets hashed with the userkey to form the final key */
-	public byte mMasterSeed[];
-
-	/** Used for the dwKeyEncRounds AES transformations */
-	public byte mTransformSeed[];
-
-	/** IV used for content encryption */
-	public byte mEncryptionIV[];
+public class CrsAlgorithm {
+	public static final int Null           = 0;
+	public static final int ArcFourVariant = 1;
+	public static final int Salsa20        = 2;
 	
+	public static final int Count          = 3;
 }

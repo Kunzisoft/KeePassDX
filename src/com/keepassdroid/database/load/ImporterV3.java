@@ -49,6 +49,7 @@ import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.AESProvider;
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwDbHeader;
@@ -100,7 +101,7 @@ public class ImporterV3 extends Importer {
 	 * @throws InvalidAlgorithmParameterException if error decrypting main file body. 
 	 * @throws ShortBufferException if error decrypting main file body.
 	 */
-	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile )
+	public PwDatabase openDatabase( InputStream inStream, String password, String keyfile )
 	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException
 	{
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
@@ -175,7 +176,7 @@ public class ImporterV3 extends Importer {
 		//BufferedBlockCipher cipher = new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
 
 		try {
-			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( finalKey, "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
+			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( finalKey, "AES" ), new IvParameterSpec( hdr.mEncryptionIV ) );
 		} catch (InvalidKeyException e1) {
 			throw new IOException("Invalid key");
 		} catch (InvalidAlgorithmParameterException e1) {

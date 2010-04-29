@@ -41,7 +41,7 @@ public class PwDbHeaderOutput {
 		mOS.write(Types.writeInt(mHeader.flags));
 		mOS.write(Types.writeInt(mHeader.version));
 		mOS.write(mHeader.mMasterSeed);
-		mOS.write(mHeader.encryptionIV);
+		mOS.write(mHeader.mEncryptionIV);
 		mOS.write(Types.writeInt(mHeader.numGroups));
 		mOS.write(Types.writeInt(mHeader.numEntries));
 		mOS.write(mHeader.contentsHash);
