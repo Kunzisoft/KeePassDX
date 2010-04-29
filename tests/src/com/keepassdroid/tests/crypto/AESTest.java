@@ -35,7 +35,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import junit.framework.TestCase;
 
-import com.keepassdroid.crypto.AESProvider;
+import com.keepassdroid.crypto.CipherFactory;
 
 public class AESTest extends TestCase {
 	
@@ -68,12 +68,11 @@ public class AESTest extends TestCase {
 		mRand.nextBytes(ivArray);
 		IvParameterSpec iv = new IvParameterSpec(ivArray);
 		
-		Cipher android = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		Cipher android = CipherFactory.getInstance("AES/CBC/PKCS5Padding", true);
 		android.init(Cipher.ENCRYPT_MODE, key, iv);
 		byte[] outAndroid = android.doFinal(input, 0, dataSize);
 		
-		AESProvider prov = new AESProvider();
-		Cipher nat = Cipher.getInstance("AES/CBC/PKCS5Padding", prov);
+		Cipher nat = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 		nat.init(Cipher.ENCRYPT_MODE, key, iv);
 		byte[] outNative = nat.doFinal(input, 0, dataSize);
 		

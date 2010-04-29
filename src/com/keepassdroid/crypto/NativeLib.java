@@ -23,6 +23,10 @@ public class NativeLib {
 	private static boolean isLoaded = false;
 	private static boolean loadSuccess = false;
 	
+	public static boolean loaded() {
+		return init();
+	}
+	
 	public static boolean init() {
 		if ( ! isLoaded ) {
 			try {

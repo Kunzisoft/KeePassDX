@@ -35,8 +35,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-
-import com.keepassdroid.crypto.AESProvider;
+import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
@@ -90,7 +89,7 @@ public class PwDbV3Output {
 		
 		Cipher cipher;
 		try {
-			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", new AESProvider());
+			cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 		} catch (Exception e) {
 			throw new PwDbOutputException("Algorithm not supported.");
 		}

@@ -53,6 +53,9 @@ public class ImporterV4 extends Importer {
 		
 		header.loadFromFile(inStream);
 		
+		// Attach decryptor
+		//if ( db.compressionAlgorithm == )
+		
 		return db;
 	}
 
