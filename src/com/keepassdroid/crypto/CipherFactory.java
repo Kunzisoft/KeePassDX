@@ -20,9 +20,12 @@
 package com.keepassdroid.crypto;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
+
+import com.keepassdroid.utils.Types;
 
 
 public class CipherFactory {
@@ -42,5 +45,26 @@ public class CipherFactory {
 	
 	private static boolean hasNativeImplementation(String transformation) {
 		return transformation.equals("AES/CBC/PKCS5Padding");
+	}
+	
+	
+	public static final UUID AES_CIPHER = Types.bytestoUUID(
+			new byte[]{(byte)0x31, (byte)0xC1, (byte)0xF2, (byte)0xE6, (byte)0xBF, (byte)0x71, (byte)0x43, (byte)0x50,
+					   (byte)0xBE, (byte)0x58, (byte)0x05, (byte)0x21, (byte)0x6A, (byte)0xFC, 0x5A, (byte)0xFF 
+	});
+	
+	
+	/** Generate appropriate cipher based on KeePass 2.x UUID's
+	 * @param uuid
+	 * @return
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchAlgorithmException 
+	 */
+	public static Cipher getInstance(UUID uuid) throws NoSuchAlgorithmException, NoSuchPaddingException {
+		if ( uuid.equals(AES_CIPHER) ) {
+			return CipherFactory.getInstance("AES/CBC/PKCS5Padding");
+		}
+		
+		throw new NoSuchAlgorithmException("UUID unrecognized.");
 	}
 }

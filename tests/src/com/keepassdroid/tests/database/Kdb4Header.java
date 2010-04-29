@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
+import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.load.ImporterV4;
 
@@ -40,6 +41,8 @@ public class Kdb4Header extends AndroidTestCase {
 		PwDatabaseV4 db = importer.openDatabase(is, null, null);
 		
 		assertEquals(6000, db.numKeyEncRounds);
+		
+		assertTrue(db.dataCipher.equals(CipherFactory.AES_CIPHER));
 
 	}
 }
