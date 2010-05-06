@@ -74,15 +74,15 @@ public class PwDbHeaderV3 extends PwDbHeader {
 		flags = Types.readInt( buf, offset + 8 );
 		version = Types.readInt( buf, offset + 12 );
 
-		System.arraycopy( buf, offset + 16, mMasterSeed, 0, 16 );
-		System.arraycopy( buf, offset + 32, mEncryptionIV, 0, 16 );
+		System.arraycopy( buf, offset + 16, masterSeed, 0, 16 );
+		System.arraycopy( buf, offset + 32, encryptionIV, 0, 16 );
 
 		numGroups = Types.readInt( buf, offset + 48 );
 		numEntries = Types.readInt( buf, offset + 52 );
 
 		System.arraycopy( buf, offset + 56, contentsHash, 0, 32 );
 
-		System.arraycopy( buf, offset + 88, mTransformSeed, 0, 32 );
+		System.arraycopy( buf, offset + 88, transformSeed, 0, 32 );
 		numKeyEncRounds = Types.readInt( buf, offset + 120 );
 		if ( numKeyEncRounds < 0 ) {
 			// TODO: Really treat this like an unsigned integer
@@ -91,9 +91,9 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	}
 
 	public PwDbHeaderV3() {
-		mMasterSeed = new byte[16];
-		mTransformSeed = new byte[32];
-		mEncryptionIV = new byte[16];
+		masterSeed = new byte[16];
+		transformSeed = new byte[32];
+		encryptionIV = new byte[16];
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {

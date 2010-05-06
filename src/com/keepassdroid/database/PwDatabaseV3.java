@@ -61,9 +61,6 @@ public class PwDatabaseV3 extends PwDatabase {
     
     // Debugging entries
     public PwDbHeaderV3 dbHeader;
-    //public long paddingBytes;
-    public byte[] finalKey;
-
     // root group
     public PwGroupV3 rootGroup;
    

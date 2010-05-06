@@ -47,8 +47,6 @@ import android.util.Log;
 import com.android.keepass.R;
 import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
-import com.keepassdroid.crypto.finalkey.FinalKey;
-import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDate;
@@ -60,7 +58,7 @@ import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
-import com.keepassdroid.database.save.NullOutputStream;
+import com.keepassdroid.stream.NullOutputStream;
 import com.keepassdroid.utils.Types;
 
 /**
@@ -111,7 +109,6 @@ public class ImporterV3 extends Importer {
 	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException
 	{
 		PwDatabaseV3        newManager;
-		byte[]           finalKey;
 
 
 		// Load entire file, most of it's encrypted.
@@ -158,9 +155,7 @@ public class ImporterV3 extends Importer {
 		newManager.name = "KeePass Password Manager";
 
 		// Generate transformedMasterKey from masterKey
-		finalKey = makeFinalKey(hdr.mMasterSeed, hdr.mTransformSeed, newManager.masterKey, newManager.numKeyEncRounds);
-		newManager.finalKey = new byte[finalKey.length];
-		System.arraycopy(finalKey, 0, newManager.finalKey, 0, finalKey.length);
+		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.numKeyEncRounds);
 
 		status.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm
@@ -176,7 +171,7 @@ public class ImporterV3 extends Importer {
 		//BufferedBlockCipher cipher = new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
 
 		try {
-			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( finalKey, "AES" ), new IvParameterSpec( hdr.mEncryptionIV ) );
+			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( newManager.finalKey, "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
 		} catch (InvalidKeyException e1) {
 			throw new IOException("Invalid key");
 		} catch (InvalidAlgorithmParameterException e1) {
@@ -224,9 +219,9 @@ public class ImporterV3 extends Importer {
 		DigestOutputStream dos = new DigestOutputStream(nos, md);
 		dos.write(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize);
 		dos.close();
-		finalKey = md.digest();
+		byte[] hash = md.digest();
 		
-		if( ! Arrays.equals(finalKey, hdr.contentsHash) ) {
+		if( ! Arrays.equals(hash, hdr.contentsHash) ) {
 
 			Log.w("KeePassDroid","Database file did not decrypt correctly. (checksum code is broken)");
 			throw new InvalidPasswordException();
@@ -276,25 +271,6 @@ public class ImporterV3 extends Importer {
 		return newManager;
 	}
 
-	public static byte[] makeFinalKey(byte[] masterSeed, byte[] masterSeed2, byte[] masterKey, int numRounds) throws IOException {
-
-		// Write checksum Checksum
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("SHA-256 not implemented here.");
-		}
-		NullOutputStream nos = new NullOutputStream();
-		DigestOutputStream dos = new DigestOutputStream(nos, md);
-
-		byte[] transformedMasterKey = ImporterV3.transformMasterKey(masterSeed2, masterKey, numRounds); 
-		dos.write(masterSeed);
-		dos.write(transformedMasterKey);
-
-		return md.digest();
-	}
-
 	/**
 	 * KeePass's custom pad style.
 	 * 
@@ -337,17 +313,6 @@ public class ImporterV3 extends Importer {
 		ary[offset+2] = t;
 	}
 
-
-	/**
-	 * Encrypt the master key a few times to make brute-force key-search harder
-	 * @throws IOException 
-	 */
-	public static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
-	{
-		FinalKey key = FinalKeyFactory.createFinalKey();
-		
-		return key.transformMasterKey(pKeySeed, pKey, rounds);
-	}
 
 	/**
 	 * Parse and save one record from binary file.

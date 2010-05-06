@@ -38,11 +38,13 @@ public class Kdb4Header extends AndroidTestCase {
 		
 		ImporterV4 importer = new ImporterV4();
 
-		PwDatabaseV4 db = importer.openDatabase(is, null, null);
+		PwDatabaseV4 db = importer.openDatabase(is, "12345", "");
 		
 		assertEquals(6000, db.numKeyEncRounds);
 		
 		assertTrue(db.dataCipher.equals(CipherFactory.AES_CIPHER));
+		
+		am.close();
 
 	}
 }

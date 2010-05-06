@@ -24,14 +24,50 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.keepassdroid.crypto.finalkey.FinalKey;
+import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.stream.NullOutputStream;
 
 public class PwDatabase {
 
 	public byte masterKey[] = new byte[32];
+	public byte[] finalKey;
+
+	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
+
+		// Write checksum Checksum
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("SHA-256 not implemented here.");
+		}
+		NullOutputStream nos = new NullOutputStream();
+		DigestOutputStream dos = new DigestOutputStream(nos, md);
+
+		byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds); 
+		dos.write(masterSeed);
+		dos.write(transformedMasterKey);
+
+		finalKey = md.digest();
+	}
+	
+	/**
+	 * Encrypt the master key a few times to make brute-force key-search harder
+	 * @throws IOException 
+	 */
+	private static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
+	{
+		FinalKey key = FinalKeyFactory.createFinalKey();
+		
+		return key.transformMasterKey(pKeySeed, pKey, rounds);
+	}
+
 
 	public static byte[] getMasterKey(String key, String keyFileName)
 			throws InvalidKeyFileException, IOException {
@@ -74,20 +110,7 @@ public class PwDatabase {
 				md.update(passwordKey);
 				
 				return md.digest(fileKey);
-				
-			
-				
-				/*
-				SHA256Digest md = new SHA256Digest();
-				md.update(passwordKey, 0, 32);
-				md.update(fileKey, 0, 32);
-				
-				byte[] outputKey = new byte[md.getDigestSize()];
-				md.doFinal(outputKey, 0);
-				
-				return outputKey;
-				*/
-			}
+	}
 
 	private static byte[] getFileKey(String fileName)
 			throws InvalidKeyFileException, IOException {
@@ -175,7 +198,7 @@ public class PwDatabase {
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException("SHA-256 not supported");
 		}
-		//SHA256Digest md = new SHA256Digest();
+
 		byte[] bKey;
 		try {
 			bKey = key.getBytes("ISO-8859-1");
@@ -184,7 +207,7 @@ public class PwDatabase {
 			bKey = key.getBytes();
 		}
 		md.update(bKey, 0, bKey.length );
-		//byte[] outputKey = new byte[md.getDigestSize()];
+
 		return md.digest();
 	}
 

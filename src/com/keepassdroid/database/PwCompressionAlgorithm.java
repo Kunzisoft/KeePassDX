@@ -19,13 +19,29 @@
  */
 package com.keepassdroid.database;
 
-public class PwCompressionAlgorithm {
+public enum PwCompressionAlgorithm {
+	
+	None(0),
+	Gzip(1);
+	
 	// Note: We can get away with using int's to store unsigned 32-bit ints
 	//       since we won't do arithmetic on these values (also unlikely to
-	//       reach 
+	//       reach
+	private final int id;
+	public static final int count = 2;
 	
-	public static final int None  = 0;
-	public static final int Gzip  = 1;
+	private PwCompressionAlgorithm(int num) {
+		id = num;
+	}
 	
-	public static final int Count = 2;
+	public static PwCompressionAlgorithm fromId(int num) {
+		for ( PwCompressionAlgorithm e : PwCompressionAlgorithm.values() ) {
+			if ( e.id == num ) {
+				return e;
+			}
+		}
+		
+		return null;
+	}
+	
 }

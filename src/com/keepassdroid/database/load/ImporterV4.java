@@ -19,10 +19,23 @@
  */
 package com.keepassdroid.database.load;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.zip.GZIPInputStream;
+
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.NoSuchPaddingException;
 
 import com.keepassdroid.UpdateStatus;
+import com.keepassdroid.crypto.CipherFactory;
+import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
@@ -52,9 +65,51 @@ public class ImporterV4 extends Importer {
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
 		
 		header.loadFromFile(inStream);
+			
+		db.setMasterKey(password, keyfile);
+		db.makeFinalKey(header.masterSeed, header.transformSeed, (int)db.numKeyEncRounds);
 		
 		// Attach decryptor
-		//if ( db.compressionAlgorithm == )
+		Cipher cipher;
+		try {
+			cipher = CipherFactory.getInstance(db.dataCipher, db.finalKey, header.encryptionIV);
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("Invalid algorithm.");
+		} catch (NoSuchPaddingException e) {
+			throw new IOException("Invalid algorithm.");
+		} catch (InvalidKeyException e) {
+			throw new IOException("Invalid algorithm.");
+		} catch (InvalidAlgorithmParameterException e) {
+			throw new IOException("Invalid algorithm.");
+		}
+		
+		InputStream decrypted = new CipherInputStream(inStream, cipher);
+		
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("SHA-256 not implemented here.");
+		}
+		
+		InputStream hashed = new DigestInputStream(decrypted, md); 
+		
+		InputStream decompressed;
+		if ( db.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {
+			decompressed = new GZIPInputStream(hashed); 
+		} else {
+			decompressed = hashed;
+		}
+		
+		FileOutputStream fos = new FileOutputStream("output.xml");
+		
+		byte[] buf = new byte[1024];
+		int byteReads;
+		while (( byteReads = decompressed.read(buf)) != -1 ) {
+			fos.write(buf);
+		}
+		
+		fos.close();
 		
 		return db;
 	}

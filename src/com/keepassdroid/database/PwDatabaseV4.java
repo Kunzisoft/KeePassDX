@@ -25,7 +25,7 @@ import java.util.UUID;
 public class PwDatabaseV4 extends PwDatabase {
 
 	public UUID dataCipher;
-	public int compressionAlgorithm;
+	public PwCompressionAlgorithm compressionAlgorithm;
     public long numKeyEncRounds;
 
 }

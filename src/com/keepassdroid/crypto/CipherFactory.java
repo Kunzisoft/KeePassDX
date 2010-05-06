@@ -19,11 +19,15 @@
  */
 package com.keepassdroid.crypto;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import com.keepassdroid.utils.Types;
 
@@ -59,10 +63,16 @@ public class CipherFactory {
 	 * @return
 	 * @throws NoSuchPaddingException 
 	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws InvalidKeyException 
 	 */
-	public static Cipher getInstance(UUID uuid) throws NoSuchAlgorithmException, NoSuchPaddingException {
+	public static Cipher getInstance(UUID uuid, byte[] key, byte[] IV) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
 		if ( uuid.equals(AES_CIPHER) ) {
-			return CipherFactory.getInstance("AES/CBC/PKCS5Padding");
+			Cipher cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding"); 
+			
+			cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
+			
+			return cipher;
 		}
 		
 		throw new NoSuchAlgorithmException("UUID unrecognized.");

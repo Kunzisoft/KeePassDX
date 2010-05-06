@@ -30,47 +30,14 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
+import com.keepassdroid.stream.BetterDataInputStream;
+
 /**
  * Tools for slicing and dicing Java and KeePass data types.
  * 
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
 public class Types {
-	
-	private static final long INT_TO_LONG_MASK = 0xffffffffL; 
-	
-	/*
-	public static long readUInt(byte buf[], int offset) {
-        int firstByte = 0;
-        int secondByte = 0;
-        int thirdByte = 0;
-        int fourthByte = 0;
-
-        firstByte = (0x000000FF & ((int)buf[offset]));
-        secondByte = (0x000000FF & ((int)buf[offset+1]));
-        thirdByte = (0x000000FF & ((int)buf[offset+2]));
-        fourthByte = (0x000000FF & ((int)buf[offset+3]));
-
-        return ((long) (firstByte << 24
-	                 | secondByte << 16
-                     | thirdByte << 8
-                     | fourthByte))
-                     & 0xFFFFFFFFL;
-
-	}
-	
-	public static byte[] writeUInt(long val) {
-		byte[] buf = new byte[4];
-		
-		buf[0] = (byte) ((val & 0xFF000000L) >> 24);
-		buf[1] = (byte) ((val & 0x00FF0000L) >> 16);
-		buf[2] = (byte) ((val & 0x0000FF00L) >> 8);
-		buf[3] = (byte) (val & 0x000000FFL);
-		
-		return buf;
-	}
-	*/
-
 	
 	public static long readLong( byte buf[], int offset ) {
 		return ((long)buf[offset + 0] & 0xFF) + (((long)buf[offset + 1] & 0xFF) << 8) 
@@ -103,7 +70,7 @@ public class Types {
   }
   
   public static long readUInt( byte buf[], int offset ) {
-	  return (readInt(buf, offset) & INT_TO_LONG_MASK);
+	  return (readInt(buf, offset) & BetterDataInputStream.INT_TO_LONG_MASK);
   }
 
   public static int readInt(InputStream is) throws IOException {
@@ -115,7 +82,7 @@ public class Types {
   }
   
   public static long readUInt(InputStream is) throws IOException {
-	  return (readInt(is) & INT_TO_LONG_MASK);
+	  return (readInt(is) & BetterDataInputStream.INT_TO_LONG_MASK);
   }
 
   

@@ -37,9 +37,9 @@ import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.exception.PwDbOutputException;
-import com.keepassdroid.database.save.NullOutputStream;
 import com.keepassdroid.database.save.PwDbHeaderOutput;
 import com.keepassdroid.database.save.PwDbV3Output;
+import com.keepassdroid.stream.NullOutputStream;
 import com.keepassdroid.tests.database.TestData;
  
 public class PwManagerOutputTest extends AndroidTestCase {
@@ -88,9 +88,9 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	  assertEquals("Signature2 unequal", expected.signature2, actual.signature2);
 	  assertEquals("Version unequal", expected.version, actual.version);
 	  assertArrayEquals("Hash unequal", expected.contentsHash, actual.contentsHash);
-	  assertArrayEquals("IV unequal", expected.mEncryptionIV, actual.mEncryptionIV);
-	  assertArrayEquals("Seed unequal", expected.mMasterSeed, actual.mMasterSeed);
-	  assertArrayEquals("Seed2 unequal", expected.mTransformSeed, actual.mTransformSeed);
+	  assertArrayEquals("IV unequal", expected.encryptionIV, actual.encryptionIV);
+	  assertArrayEquals("Seed unequal", expected.masterSeed, actual.masterSeed);
+	  assertArrayEquals("Seed2 unequal", expected.transformSeed, actual.transformSeed);
   }
   
   public void testHeader() throws PwDbOutputException, IOException {
@@ -111,7 +111,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
     PwDbV3Output pActual = new PwDbV3Output(mPM, bActual, PwDbV3Output.DEBUG);
     PwDbHeader hActual = pActual.outputHeader(bActual);
-    byte[] finalKey = pActual.getFinalKey2(hActual);
+    byte[] finalKey = pActual.getFinalKey(hActual);
     
     assertArrayEquals("Keys mismatched", mPM.finalKey, finalKey);
 	  

@@ -17,48 +17,35 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.save;
+package com.keepassdroid.stream;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 
-public class RandomFileOutputStream extends OutputStream {
+public class NullOutputStream extends OutputStream {
 
-	RandomAccessFile mFile;
-	
-	RandomFileOutputStream(RandomAccessFile file) {
-		mFile = file;
-	}
-	
 	@Override
 	public void close() throws IOException {
 		super.close();
-		
-		mFile.close();		
+	}
+
+	@Override
+	public void flush() throws IOException {
+		super.flush();
 	}
 
 	@Override
 	public void write(byte[] buffer, int offset, int count) throws IOException {
 		super.write(buffer, offset, count);
-		
-		mFile.write(buffer, offset, count);
 	}
 
 	@Override
 	public void write(byte[] buffer) throws IOException {
 		super.write(buffer);
-		
-		mFile.write(buffer);
 	}
 
 	@Override
 	public void write(int oneByte) throws IOException {
-		mFile.write(oneByte);
-	}
-	
-	public void seek(long pos) throws IOException {
-		mFile.seek(pos);
 	}
 
 }

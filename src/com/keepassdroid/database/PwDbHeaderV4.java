@@ -34,7 +34,8 @@ public class PwDbHeaderV4 extends PwDbHeader {
     
     private class PwDbHeaderV4Fields {
         public static final byte EndOfHeader = 0;
-        public static final byte Comment = 1;
+        @SuppressWarnings("unused")
+		public static final byte Comment = 1;
         public static final byte CipherID = 2;
         public static final byte CompressionFlags = 3;
         public static final byte MasterSeed = 4;
@@ -109,11 +110,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.MasterSeed:
-				mMasterSeed = fieldData;
+				masterSeed = fieldData;
 				break;
 				
 			case PwDbHeaderV4Fields.TransformSeed:
-				mTransformSeed = fieldData;
+				transformSeed = fieldData;
 				break;
 				
 			case PwDbHeaderV4Fields.TransformRounds:
@@ -121,7 +122,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:
-				mEncryptionIV = fieldData;
+				encryptionIV = fieldData;
 				break;
 				
 			case PwDbHeaderV4Fields.ProtectedStreamKey:
@@ -158,11 +159,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 		
 		int flag = Types.readInt(pbFlags, 0);
-		if ( flag < 0 || flag >= PwCompressionAlgorithm.Count ) {
+		if ( flag < 0 || flag >= PwCompressionAlgorithm.count ) {
 			throw new IOException("Unrecognized compression flag.");
 		}
 		
-		db.compressionAlgorithm = flag;
+		db.compressionAlgorithm = PwCompressionAlgorithm.fromId(flag);
 		
 	}
 	
@@ -173,9 +174,9 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		
 		long rnd = Types.readLong(rounds, 0);
 		
-		if ( rnd < 0 ) {
+		if ( rnd < 0 || rnd > Integer.MAX_VALUE ) {
 			//TODO: Actually support really large numbers
-			throw new IOException("Rounds higher than " + Long.MAX_VALUE + " are not currently supported.");
+			throw new IOException("Rounds higher than " + Integer.MAX_VALUE + " are not currently supported.");
 		}
 		
 		db.numKeyEncRounds = rnd;
