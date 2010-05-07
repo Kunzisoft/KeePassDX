@@ -27,7 +27,6 @@ import java.util.Arrays;
 
 public class HashedBlockInputStream extends InputStream {
 	
-	// private final static int BUFFER_SIZE = 1024 * 1024; // I think this is only needed in the writer 
 	private final static int HASH_SIZE = 32;
 
 	private BetterDataInputStream baseStream;

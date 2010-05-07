@@ -32,15 +32,23 @@ import com.keepassdroid.stream.HashedBlockInputStream;
 import com.keepassdroid.stream.HashedBlockOutputStream;
 
 public class HashedBlock extends TestCase {
+
 	public void testBlockAligned() throws IOException {
-		final int blockSize = 1024;
+		testSize(1024, 1024);
+	}
+	
+	public void testOffset() throws IOException {
+		testSize(1500, 1024);
+	}
+	
+	private void testSize(int blockSize, int bufferSize) throws IOException {
 		byte[] orig = new byte[blockSize];
 		
 		Random rnd = new Random();
 		rnd.nextBytes(orig);
 		
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		HashedBlockOutputStream output = new HashedBlockOutputStream(bos, blockSize);
+		HashedBlockOutputStream output = new HashedBlockOutputStream(bos, bufferSize);
 		output.write(orig);
 		output.close();
 		
