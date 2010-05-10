@@ -110,8 +110,9 @@ public class ImporterV4 extends Importer {
 		FileOutputStream fos = new FileOutputStream("/sdcard/output.xml");
 		
 		byte[] buf = new byte[1024];
-		while ( decompressed.read(buf) != -1 ) {
-			fos.write(buf);
+		int bytesRead;
+		while ( (bytesRead = decompressed.read(buf)) != -1 ) {
+			fos.write(buf, 0, bytesRead);
 		}
 		
 		fos.close();
