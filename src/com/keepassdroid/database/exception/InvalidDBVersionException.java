@@ -17,20 +17,16 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.stream;
+package com.keepassdroid.database.exception;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+public class InvalidDBVersionException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4260650987856400586L;
 
-public class BetterDataOutputStream extends DataOutputStream {
-
-	public BetterDataOutputStream(OutputStream out) {
-		super(out);
-	}
-	
-	public void writeUInt(long uint) throws IOException {
-		writeInt((int)uint);
+	public InvalidDBVersionException() {
+		super();
 	}
 
 }

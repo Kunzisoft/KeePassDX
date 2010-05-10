@@ -58,6 +58,8 @@ import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
+import com.keepassdroid.stream.LEDataInputStream;
+import com.keepassdroid.stream.LEDataOutputStream;
 import com.keepassdroid.stream.NullOutputStream;
 import com.keepassdroid.utils.Types;
 
@@ -234,7 +236,7 @@ public class ImporterV3 extends Importer {
 		for( int i = 0; i < hdr.numGroups; ) {
 			int fieldType = Types.readShort( filebuf, pos );
 			pos += 2;
-			int fieldSize = Types.readInt( filebuf, pos );
+			int fieldSize = LEDataInputStream.readInt( filebuf, pos );
 			pos += 4;
 
 			if( fieldType == 0xFFFF ) {
@@ -254,7 +256,7 @@ public class ImporterV3 extends Importer {
 		PwEntryV3 newEnt = new PwEntryV3();
 		for( int i = 0; i < hdr.numEntries; ) {
 			int fieldType = Types.readShort( filebuf, pos );
-			int fieldSize = Types.readInt( filebuf, pos + 2 );
+			int fieldSize = LEDataInputStream.readInt( filebuf, pos + 2 );
 
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
@@ -295,10 +297,10 @@ public class ImporterV3 extends Importer {
 
 		// write length*8 to end of final block
 		int ix = thisblk + nextblk - 8;
-		Types.writeInt( data.length>>29, pad, ix );
+		LEDataOutputStream.writeInt( data.length>>29, pad, ix );
 		bsw32( pad, ix );
 		ix += 4;
-		Types.writeInt( data.length<<3, pad, ix );
+		LEDataOutputStream.writeInt( data.length<<3, pad, ix );
 		bsw32( pad, ix );
 
 		return pad;
@@ -327,7 +329,7 @@ public class ImporterV3 extends Importer {
 			// Ignore field
 			break;
 		case 0x0001 :
-			grp.groupId = Types.readInt(buf, offset);
+			grp.groupId = LEDataInputStream.readInt(buf, offset);
 			break;
 		case 0x0002 :
 			grp.name = Types.readCString(buf, offset);
@@ -345,13 +347,13 @@ public class ImporterV3 extends Importer {
 			grp.tExpire = new PwDate(buf, offset);
 			break;
 		case 0x0007 :
-			grp.imageId = Types.readInt(buf, offset);
+			grp.imageId = LEDataInputStream.readInt(buf, offset);
 			break;
 		case 0x0008 :
 			grp.level = Types.readShort(buf, offset);
 			break;
 		case 0x0009 :
-			grp.flags = Types.readInt(buf, offset);
+			grp.flags = LEDataInputStream.readInt(buf, offset);
 			break;
 		}
 	}
@@ -363,7 +365,7 @@ public class ImporterV3 extends Importer {
 	{
 		int fieldType = Types.readShort(buf, offset);
 		offset += 2;
-		int fieldSize = Types.readInt(buf, offset);
+		int fieldSize = LEDataInputStream.readInt(buf, offset);
 		offset += 4;
 
 		switch( fieldType ) {
@@ -374,10 +376,10 @@ public class ImporterV3 extends Importer {
 			System.arraycopy(buf, offset, ent.uuid, 0, 16);
 			break;
 		case 0x0002 :
-			ent.groupId = Types.readInt(buf, offset);
+			ent.groupId = LEDataInputStream.readInt(buf, offset);
 			break;
 		case 0x0003 :
-			ent.imageId = Types.readInt(buf, offset);
+			ent.imageId = LEDataInputStream.readInt(buf, offset);
 			break;
 		case 0x0004 :
 			ent.title = Types.readCString(buf, offset); 

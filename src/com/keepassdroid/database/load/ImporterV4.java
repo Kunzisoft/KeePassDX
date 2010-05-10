@@ -22,11 +22,10 @@ package com.keepassdroid.database.load;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.DigestInputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 
 import javax.crypto.Cipher;
@@ -42,6 +41,8 @@ import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
+import com.keepassdroid.stream.LEDataInputStream;
+import com.keepassdroid.stream.HashedBlockInputStream;
 
 public class ImporterV4 extends Importer {
 
@@ -84,15 +85,19 @@ public class ImporterV4 extends Importer {
 		}
 		
 		InputStream decrypted = new CipherInputStream(inStream, cipher);
-		
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("SHA-256 not implemented here.");
+		LEDataInputStream dataDecrypted = new LEDataInputStream(decrypted);
+		byte[] storedStartBytes = dataDecrypted.readBytes(32);
+		if ( storedStartBytes == null || storedStartBytes.length != 32 ) {
+			throw new IOException("Invalid data.");
 		}
 		
-		InputStream hashed = new DigestInputStream(decrypted, md); 
+		if ( ! Arrays.equals(storedStartBytes, header.streamStartBytes) ) {
+			// TODO: Probably need a special error here.  This would probably indicate
+			//       an incorrect password/key
+			throw new IOException("Bad database key");
+		}
+		
+		HashedBlockInputStream hashed = new HashedBlockInputStream(decrypted); 
 		
 		InputStream decompressed;
 		if ( db.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {
@@ -101,11 +106,11 @@ public class ImporterV4 extends Importer {
 			decompressed = hashed;
 		}
 		
-		FileOutputStream fos = new FileOutputStream("output.xml");
+		// TODO: output into database instead of file
+		FileOutputStream fos = new FileOutputStream("/sdcard/output.xml");
 		
 		byte[] buf = new byte[1024];
-		int byteReads;
-		while (( byteReads = decompressed.read(buf)) != -1 ) {
+		while ( decompressed.read(buf) != -1 ) {
 			fos.write(buf);
 		}
 		

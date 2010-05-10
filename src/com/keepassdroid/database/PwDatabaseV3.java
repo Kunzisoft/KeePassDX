@@ -26,10 +26,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.keepassdroid.database;
 
 // Java
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.Vector;
+
+import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 
 
@@ -239,4 +242,25 @@ public class PwDatabaseV3 extends PwDatabase {
     	
     	return false;
     }
+    
+	public byte[] getMasterKey(String key, String keyFileName)
+	throws InvalidKeyFileException, IOException {
+		assert( key != null && keyFileName != null );
+		
+		if ( key.length() > 0 && keyFileName.length() > 0 ) {
+			return getCompositeKey(key, keyFileName);
+		} else if ( key.length() > 0 ) {
+			return getPasswordKey(key);
+		} else if ( keyFileName.length() > 0 ) {
+			return getFileKey(keyFileName);
+		} else {
+			throw new IllegalArgumentException( "Key cannot be empty." );
+		}
+		
+	}
+
+	public byte[] getPasswordKey(String key) throws IOException {
+		return getPasswordKey(key, "ISO-8859-1");
+	}
+
 }

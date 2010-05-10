@@ -26,7 +26,7 @@ package com.keepassdroid.database;
 
 import java.io.IOException;
 
-import com.keepassdroid.utils.Types;
+import com.keepassdroid.stream.LEDataInputStream;
 
 public class PwDbHeaderV3 extends PwDbHeader {
 
@@ -69,21 +69,21 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	 * @throws IOException 
 	 */
 	public void loadFromFile( byte buf[], int offset ) throws IOException {
-		signature1 = Types.readInt( buf, offset + 0 );
-		signature2 = Types.readInt( buf, offset + 4 );
-		flags = Types.readInt( buf, offset + 8 );
-		version = Types.readInt( buf, offset + 12 );
+		signature1 = LEDataInputStream.readInt( buf, offset + 0 );
+		signature2 = LEDataInputStream.readInt( buf, offset + 4 );
+		flags = LEDataInputStream.readInt( buf, offset + 8 );
+		version = LEDataInputStream.readInt( buf, offset + 12 );
 
 		System.arraycopy( buf, offset + 16, masterSeed, 0, 16 );
 		System.arraycopy( buf, offset + 32, encryptionIV, 0, 16 );
 
-		numGroups = Types.readInt( buf, offset + 48 );
-		numEntries = Types.readInt( buf, offset + 52 );
+		numGroups = LEDataInputStream.readInt( buf, offset + 48 );
+		numEntries = LEDataInputStream.readInt( buf, offset + 52 );
 
 		System.arraycopy( buf, offset + 56, contentsHash, 0, 32 );
 
 		System.arraycopy( buf, offset + 88, transformSeed, 0, 32 );
-		numKeyEncRounds = Types.readInt( buf, offset + 120 );
+		numKeyEncRounds = LEDataInputStream.readInt( buf, offset + 120 );
 		if ( numKeyEncRounds < 0 ) {
 			// TODO: Really treat this like an unsigned integer
 			throw new IOException("Does not support more than " + Integer.MAX_VALUE + " rounds.");

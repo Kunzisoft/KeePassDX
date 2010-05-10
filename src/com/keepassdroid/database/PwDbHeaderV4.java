@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.keepassdroid.database.exception.InvalidDBVersionException;
+import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.Types;
 
 public class PwDbHeaderV4 extends PwDbHeader {
@@ -64,14 +65,14 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	 */
 	public void loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
 
-		int sig1 = Types.readInt(is);
-		int sig2 = Types.readInt(is);
+		int sig1 = LEDataInputStream.readInt(is);
+		int sig2 = LEDataInputStream.readInt(is);
 		
 		if ( ! matchesHeader(sig1, sig2) ) {
 			throw new InvalidDBVersionException();
 		}
 		
-		long version = Types.readUInt(is);
+		long version = LEDataInputStream.readUInt(is);
 		if ( ! validVersion(version) ) {
 			throw new InvalidDBVersionException();
 		}
@@ -158,7 +159,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Invalid compression flags.");
 		}
 		
-		int flag = Types.readInt(pbFlags, 0);
+		int flag = LEDataInputStream.readInt(pbFlags, 0);
 		if ( flag < 0 || flag >= PwCompressionAlgorithm.count ) {
 			throw new IOException("Unrecognized compression flag.");
 		}
@@ -172,7 +173,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Invalid rounds.");
 		}
 		
-		long rnd = Types.readLong(rounds, 0);
+		long rnd = LEDataInputStream.readLong(rounds, 0);
 		
 		if ( rnd < 0 || rnd > Integer.MAX_VALUE ) {
 			//TODO: Actually support really large numbers
@@ -188,7 +189,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Invalid stream id.");
 		}
 		
-		int id = Types.readInt(streamID, 0);
+		int id = LEDataInputStream.readInt(streamID, 0);
 		if ( id < 0 || id >= CrsAlgorithm.Count ) {
 			throw new IOException("Invalid stream id.");
 		}

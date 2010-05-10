@@ -19,7 +19,12 @@
  */
 package com.keepassdroid.database;
 
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
+
+import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 
 public class PwDatabaseV4 extends PwDatabase {
@@ -27,5 +32,37 @@ public class PwDatabaseV4 extends PwDatabase {
 	public UUID dataCipher;
 	public PwCompressionAlgorithm compressionAlgorithm;
     public long numKeyEncRounds;
+
+	@Override
+	public byte[] getMasterKey(String key, String keyFileName)
+			throws InvalidKeyFileException, IOException {
+		assert( key != null && keyFileName != null );
+		
+		byte[] fKey;
+		
+		if ( key.length() > 0 && keyFileName.length() > 0 ) {
+			return getCompositeKey(key, keyFileName);
+		} else if ( key.length() > 0 ) {
+			fKey =  getPasswordKey(key);
+		} else if ( keyFileName.length() > 0 ) {
+			fKey = getFileKey(keyFileName);
+		} else {
+			throw new IllegalArgumentException( "Key cannot be empty." );
+		}
+		
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("No SHA-256 implementation");
+		}
+		
+		return md.digest(fKey);
+	}
+
+    @Override
+	public byte[] getPasswordKey(String key) throws IOException {
+		return getPasswordKey(key, "UTF-8");
+	}
 
 }

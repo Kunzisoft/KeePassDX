@@ -68,7 +68,7 @@ public class CipherFactory {
 	 */
 	public static Cipher getInstance(UUID uuid, byte[] key, byte[] IV) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
 		if ( uuid.equals(AES_CIPHER) ) {
-			Cipher cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding"); 
+			Cipher cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding", true); 
 			
 			cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
 			

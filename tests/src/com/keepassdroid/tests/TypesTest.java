@@ -28,6 +28,8 @@ import junit.framework.TestCase;
 
 
 import com.keepassdroid.database.PwDate;
+import com.keepassdroid.stream.LEDataInputStream;
+import com.keepassdroid.stream.LEDataOutputStream;
 import com.keepassdroid.utils.Types;
 
 public class TypesTest extends TestCase {
@@ -58,8 +60,8 @@ public class TypesTest extends TestCase {
 		
 		setArray(orig, value, 0, 8);
 		
-		long one = Types.readLong(orig, 0);
-		Types.writeLong(one, dest, 0);
+		long one = LEDataInputStream.readLong(orig, 0);
+		LEDataOutputStream.writeLong(one, dest, 0);
 		
 		assertArrayEquals(orig, dest);
 
@@ -87,9 +89,9 @@ public class TypesTest extends TestCase {
 		
 		setArray(orig, value, 0, 4);
 				
-		int one = Types.readInt(orig, 0);
+		int one = LEDataInputStream.readInt(orig, 0);
 		
-		Types.writeInt(one, dest, 0);
+		LEDataOutputStream.writeInt(one, dest, 0);
 
 		assertArrayEquals(orig, dest);
 		

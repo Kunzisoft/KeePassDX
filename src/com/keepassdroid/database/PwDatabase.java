@@ -33,7 +33,7 @@ import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.stream.NullOutputStream;
 
-public class PwDatabase {
+public abstract class PwDatabase {
 
 	public byte masterKey[] = new byte[32];
 	public byte[] finalKey;
@@ -69,21 +69,10 @@ public class PwDatabase {
 	}
 
 
-	public static byte[] getMasterKey(String key, String keyFileName)
-			throws InvalidKeyFileException, IOException {
-				assert( key != null && keyFileName != null );
-				
-				if ( key.length() > 0 && keyFileName.length() > 0 ) {
-					return getCompositeKey(key, keyFileName);
-				} else if ( key.length() > 0 ) {
-					return getPasswordKey(key);
-				} else if ( keyFileName.length() > 0 ) {
-					return getFileKey(keyFileName);
-				} else {
-					throw new IllegalArgumentException( "Key cannot be empty." );
-				}
-				
-			}
+	public abstract byte[] getMasterKey(String key, String keyFileName) throws InvalidKeyFileException, IOException;
+	
+	// TODO: This needs to work differently for KDB4.  It always produces a composite key.
+	// So even if there is just a password it gets SHA-256'ed twice.
 
 	public void setMasterKey(String key, String keyFileName)
 			throws InvalidKeyFileException, IOException {
@@ -92,7 +81,7 @@ public class PwDatabase {
 				masterKey = getMasterKey(key, keyFileName);
 			}
 
-	private static byte[] getCompositeKey(String key, String keyFileName)
+	protected byte[] getCompositeKey(String key, String keyFileName)
 			throws InvalidKeyFileException, IOException {
 				assert(key != null && keyFileName != null);
 				
@@ -112,7 +101,7 @@ public class PwDatabase {
 				return md.digest(fileKey);
 	}
 
-	private static byte[] getFileKey(String fileName)
+	protected static byte[] getFileKey(String fileName)
 			throws InvalidKeyFileException, IOException {
 				assert(fileName != null);
 				
@@ -186,7 +175,7 @@ public class PwDatabase {
 	    return data;
 	}
 
-	private static byte[] getPasswordKey(String key) throws IOException {
+	protected byte[] getPasswordKey(String key, String encoding) throws IOException {
 		assert(key!=null);
 		
 		if ( key.length() == 0 )
@@ -201,7 +190,8 @@ public class PwDatabase {
 
 		byte[] bKey;
 		try {
-			bKey = key.getBytes("ISO-8859-1");
+			// TODO: Need to make this UTF-8 in kdb4
+			bKey = key.getBytes(encoding);
 		} catch (UnsupportedEncodingException e) {
 			assert false;
 			bKey = key.getBytes();
@@ -210,5 +200,7 @@ public class PwDatabase {
 
 		return md.digest();
 	}
+	
+	public abstract byte[] getPasswordKey(String key) throws IOException;
 
 }

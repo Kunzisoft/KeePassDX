@@ -25,11 +25,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+
 public class HashedBlockInputStream extends InputStream {
 	
 	private final static int HASH_SIZE = 32;
 
-	private BetterDataInputStream baseStream;
+	private LEDataInputStream baseStream;
 	private int bufferPos = 0;
 	private byte[] buffer = new byte[0];
 	private long bufferIndex = 0;
@@ -42,7 +43,7 @@ public class HashedBlockInputStream extends InputStream {
 	}
 
 	public HashedBlockInputStream(InputStream is) {
-		baseStream = new BetterDataInputStream(is);
+		baseStream = new LEDataInputStream(is);
 	}
 	
 	@Override
@@ -89,12 +90,12 @@ public class HashedBlockInputStream extends InputStream {
 		}
 		bufferIndex++;
 		
-		byte[] storedHash = baseStream.readBytes(HASH_SIZE);
+		byte[] storedHash = baseStream.readBytes(32);
 		if ( storedHash == null || storedHash.length != HASH_SIZE) {
 			throw new IOException("Invalid data format");
 		}
 		
-		int bufferSize = baseStream.readInt();
+		int bufferSize = LEDataInputStream.readInt(baseStream);
 		if ( bufferSize < 0 ) {
 			throw new IOException("Invalid data format");
 		}
