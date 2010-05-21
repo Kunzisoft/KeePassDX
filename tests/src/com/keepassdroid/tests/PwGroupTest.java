@@ -33,7 +33,7 @@ public class PwGroupTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		mPG = TestData.GetTest1(getContext()).groups.get(0);
+		mPG = (PwGroupV3) TestData.GetTest1(getContext()).getGroups().get(0);
 		
 	}
 	

@@ -37,7 +37,7 @@ import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.exception.PwDbOutputException;
-import com.keepassdroid.database.save.PwDbHeaderOutput;
+import com.keepassdroid.database.save.PwDbHeaderOutputV3;
 import com.keepassdroid.database.save.PwDbV3Output;
 import com.keepassdroid.stream.NullOutputStream;
 import com.keepassdroid.tests.database.TestData;
@@ -99,7 +99,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
     PwDbHeaderV3 header = pActual.outputHeader(bActual);
     
     ByteArrayOutputStream bExpected = new ByteArrayOutputStream();
-    PwDbHeaderOutput outExpected = new PwDbHeaderOutput(mPM.dbHeader, bExpected);
+    PwDbHeaderOutputV3 outExpected = new PwDbHeaderOutputV3(mPM.dbHeader, bExpected);
     outExpected.output();
     
     assertHeadersEquals(mPM.dbHeader, header);    

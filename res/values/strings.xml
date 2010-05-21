@@ -73,6 +73,7 @@
     <string name="error_nopass">A password or a keyfile is required.</string>
     <string name="error_pass_match">Passwords do not match.</string>
     <string name="error_rounds_not_number">Rounds must be a number.</string>
+    <string name="error_rounds_too_large">Rounds too big.  Setting to 2147483648.</string>
     <string name="error_title_required">A title is required.</string>
     <string name="FileNotFound">File not found.</string>
     <string name="group">Group</string>

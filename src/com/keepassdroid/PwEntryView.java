@@ -30,21 +30,21 @@ import android.widget.TextView;
 
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.edit.DeleteEntry;
 import com.keepassdroid.settings.PrefsUtil;
 
 public class PwEntryView extends ClickView {
 
 	private GroupBaseActivity mAct;
-	private PwEntryV3 mPw;
+	private PwEntry mPw;
 	private TextView mTv;
 	private int mPos;
 	
 	private static final int MENU_OPEN = Menu.FIRST;
 	private static final int MENU_DELETE = Menu.FIRST + 1;
 	
-	public PwEntryView(GroupBaseActivity act, PwEntryV3 pw, int pos) {
+	public PwEntryView(GroupBaseActivity act, PwEntry pw, int pos) {
 		super(act);
 		mAct = act;
 		mPw = pw;

@@ -26,7 +26,7 @@ import java.io.OutputStream;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.utils.Types;
 
-public class PwEntryOutput {
+public class PwEntryOutputV3 {
 	// Constants
 	public static final byte[] UUID_FIELD_TYPE =     Types.writeShort(1);
 	public static final byte[] GROUPID_FIELD_TYPE =  Types.writeShort(2);
@@ -61,7 +61,7 @@ public class PwEntryOutput {
 	 * @param pe
 	 * @param os
 	 */
-	public PwEntryOutput(PwEntryV3 pe, OutputStream os) {
+	public PwEntryOutputV3(PwEntryV3 pe, OutputStream os) {
 		mPE = pe;
 		mOS = os;
 	}
@@ -103,7 +103,7 @@ public class PwEntryOutput {
 		outputBytes += userLen;
 		
 		// Password
-		byte[] password = mPE.getPassword();
+		byte[] password = mPE.getPasswordBytes();
 		mOS.write(PASSWORD_FIELD_TYPE);
 		mOS.write(Types.writeInt(password.length+1));
 		mOS.write(password);

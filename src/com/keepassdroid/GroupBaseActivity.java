@@ -20,9 +20,7 @@
 package com.keepassdroid;
 
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -37,7 +35,7 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Util;
@@ -52,9 +50,10 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 3;
 	protected static final int MENU_APP_SETTINGS = Menu.FIRST + 4;
 	
-	protected PwGroupV3 mGroup;
+	protected PwGroup mGroup;
 
-	public static void Launch(Activity act, PwGroupV3 group) {
+	/*
+	public static void Launch(Activity act, PwGroup group) {
 		Intent i = new Intent(act, GroupActivity.class);
 		
 		if ( group != null ) {
@@ -63,6 +62,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		
 		act.startActivityForResult(i,0);
 	}
+	*/
 
 	@Override
 	protected void onResume() {
@@ -117,7 +117,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	
 	protected void setGroupTitle() {
 		if ( mGroup != null ) {
-			String name = mGroup.name;
+			String name = mGroup.getName();
 			if ( name != null && name.length() > 0 ) {
 				TextView tv = (TextView) findViewById(R.id.group_name);
 				if ( tv != null ) {

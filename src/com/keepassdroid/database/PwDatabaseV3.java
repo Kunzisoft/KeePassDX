@@ -52,12 +52,12 @@ public class PwDatabaseV3 extends PwDatabase {
     public  String   name = "KeePass database";
   
     // Special entry for settings
-    public PwEntryV3   metaInfo;
+    public PwEntry   metaInfo;
 
     // all entries
-    public Vector<PwEntryV3> entries = new Vector<PwEntryV3>();
+    public Vector<PwEntry> entries = new Vector<PwEntry>();
     // all groups
-    public Vector<PwGroupV3> groups = new Vector<PwGroupV3>();
+    private Vector<PwGroup> groups = new Vector<PwGroup>();
     // Algorithm used to encrypt the database
     public int              algorithm;
     public int              numKeyEncRounds;
@@ -74,12 +74,28 @@ public class PwDatabaseV3 extends PwDatabase {
     public int getNumKeyEncRecords() {
     	return numKeyEncRounds;
     }
+
+    @Override
+    public Vector<PwGroup> getGroups() {
+    	return groups;
+    }
     
-    public Vector<PwGroupV3> getGrpRoots() {
+	@Override
+	public Vector<PwEntry> getEntries() {
+		return entries;
+	}
+	
+   
+    public void setGroups(Vector<PwGroup> grp) {
+    	groups = grp;
+    }
+    
+    @Override
+    public Vector<PwGroup> getGrpRoots() {
 	int target = 0;
-	Vector<PwGroupV3> kids = new Vector<PwGroupV3>();
+	Vector<PwGroup> kids = new Vector<PwGroup>();
 	for( int i=0; i < groups.size(); i++ ) {
-	    PwGroupV3 grp = groups.elementAt( i );
+	    PwGroupV3 grp = (PwGroupV3) groups.elementAt( i );
 	    if( grp.level == target )
 		kids.addElement( grp );
 	}
@@ -88,7 +104,7 @@ public class PwDatabaseV3 extends PwDatabase {
     
     public int getRootGroupId() {
     	for ( int i = 0; i < groups.size(); i++ ) {
-    		PwGroupV3 grp = groups.elementAt(i);
+    		PwGroupV3 grp = (PwGroupV3) groups.elementAt(i);
     		if ( grp.level == 0 ) {
     			return grp.groupId;
     		}
@@ -97,35 +113,34 @@ public class PwDatabaseV3 extends PwDatabase {
     	return -1;
     }
 
-    public Vector<PwGroupV3> getGrpChildren( PwGroupV3 parent ) {
-	int idx = groups.indexOf( parent );
-	int target = parent.level + 1;
-	Vector<PwGroupV3> kids = new Vector<PwGroupV3>();
-	while( ++idx < groups.size() ) {
-	    PwGroupV3 grp = groups.elementAt( idx );
-	    if( grp.level < target )
-		break;
-	    else
-		if( grp.level == target )
-		    kids.addElement( grp );
+	public Vector<PwGroup> getGrpChildren(PwGroupV3 parent) {
+		int idx = groups.indexOf(parent);
+		int target = parent.level + 1;
+		Vector<PwGroup> kids = new Vector<PwGroup>();
+		while (++idx < groups.size()) {
+			PwGroupV3 grp = (PwGroupV3) groups.elementAt(idx);
+			if (grp.level < target)
+				break;
+			else if (grp.level == target)
+				kids.addElement(grp);
+		}
+		return kids;
 	}
-	return kids;
-    }
 
-    public Vector<PwEntryV3> getEntries( PwGroupV3 parent ) {
-	Vector<PwEntryV3> kids = new Vector<PwEntryV3>();
-	/*for( Iterator i = entries.iterator(); i.hasNext(); ) {
-	    PwEntryV3 ent = (PwEntryV3)i.next();
-	    if( ent.groupId == parent.groupId )
-		kids.add( ent );
-		}*/
-	for (int i=0; i<entries.size(); i++) {
-	    PwEntryV3 ent = entries.elementAt(i);
-	    if( ent.groupId == parent.groupId )
-		kids.addElement( ent );
+	public Vector<PwEntry> getEntries(PwGroupV3 parent) {
+		Vector<PwEntry> kids = new Vector<PwEntry>();
+		/*
+		 * for( Iterator i = entries.iterator(); i.hasNext(); ) { PwEntryV3 ent
+		 * = (PwEntryV3)i.next(); if( ent.groupId == parent.groupId ) kids.add(
+		 * ent ); }
+		 */
+		for (int i = 0; i < entries.size(); i++) {
+			PwEntryV3 ent = (PwEntryV3) entries.elementAt(i);
+			if (ent.groupId == parent.groupId)
+				kids.addElement(ent);
+		}
+		return kids;
 	}
-	return kids;
-    }
 
   public String toString() {
     return name;
@@ -149,30 +164,33 @@ public class PwDatabaseV3 extends PwDatabase {
 	if (currentGroup == null) {
 	    rootGroup = new PwGroupV3();
 		
-	    Vector<PwGroupV3> rootChildGroups = getGrpRoots();
-	    rootGroup.childGroups = rootChildGroups;
-	    rootGroup.childEntries = new Vector<PwEntryV3>();
+	    Vector<PwGroup> rootChildGroups = getGrpRoots();
+	    rootGroup.setGroups(rootChildGroups);
+	    rootGroup.childEntries = new Vector<PwEntry>();
 	    rootGroup.level = -1;
 	    for (int i=0; i<rootChildGroups.size(); i++) {
-		rootChildGroups.elementAt(i).parent = rootGroup;
-		constructTree(rootChildGroups.elementAt(i));
+	    	PwGroupV3 grp = (PwGroupV3) rootChildGroups.elementAt(i);
+			grp.parent = rootGroup;
+			constructTree(grp);
 	    }
 	    return;
 	}
 
 	// I'm in non-root
 	// get child groups
-	currentGroup.childGroups = getGrpChildren(currentGroup);
+	currentGroup.setGroups(getGrpChildren(currentGroup));
 	currentGroup.childEntries = getEntries(currentGroup);
 
 	// set parent in child entries
 	for (int i=0; i<currentGroup.childEntries.size(); i++) {
-	    currentGroup.childEntries.elementAt(i).parent = currentGroup;
+		PwEntryV3 entry = (PwEntryV3) currentGroup.childEntries.elementAt(i);
+	    entry.parent = currentGroup;
 	}
 	// recursively construct child groups
 	for (int i=0; i<currentGroup.childGroups.size(); i++) {
-	    currentGroup.childGroups.elementAt(i).parent = currentGroup;
-	    constructTree(currentGroup.childGroups.elementAt(i));
+		PwGroupV3 grp = (PwGroupV3) currentGroup.childGroups.elementAt(i); 
+	    grp.parent = currentGroup;
+	    constructTree((PwGroupV3) currentGroup.childGroups.elementAt(i));
 	}
 	return;
     }
@@ -194,8 +212,8 @@ public class PwDatabaseV3 extends PwDatabase {
     	
    		group.level = parent.level + 1;
 
-   		group.childEntries = new Vector<PwEntryV3>();
-   		group.childGroups = new Vector<PwGroupV3>();
+   		group.childEntries = new Vector<PwEntry>();
+   		group.setGroups(new Vector<PwGroup>());
    		
    		// Add group PwDatabaseV3 and Parent
    		parent.childGroups.add(group);
@@ -235,7 +253,8 @@ public class PwDatabaseV3 extends PwDatabase {
      */
     private boolean isGroupIdUsed(int id) {
     	for ( int i = 0; i < groups.size(); i++ ) {
-    		if ( groups.get(i).groupId == id ) {
+    		PwGroupV3 group = (PwGroupV3) groups.get(i);
+    		if ( group.groupId == id ) {
     			return true;
     		}
     	}
@@ -262,5 +281,20 @@ public class PwDatabaseV3 extends PwDatabase {
 	public byte[] getPasswordKey(String key) throws IOException {
 		return getPasswordKey(key, "ISO-8859-1");
 	}
+
+	@Override
+	public long getNumRounds() {
+		return numKeyEncRounds;
+	}
+
+	@Override
+	public void setNumRonuds(long rounds) throws NumberFormatException {
+		if ( rounds > Integer.MAX_VALUE || rounds < Integer.MIN_VALUE ) {
+			throw new NumberFormatException();
+		}
+		
+		numKeyEncRounds = (int) rounds;
+	}
+
 
 }

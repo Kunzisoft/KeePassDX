@@ -137,7 +137,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 	}
 	
 	private int doFinal(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) {
-		mBuffered = 0;
 		
 		int outputSize = engineGetOutputSize(inputLen);
 		
@@ -145,7 +144,11 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 		int finalAmt = nativeDoFinal(mCtxPtr, output, outputOffset + updateAmt, outputSize - updateAmt); 
 		
-		return updateAmt + finalAmt;
+		int out = updateAmt + finalAmt;
+		
+		mBuffered = 0;
+		
+		return out;
 	}
 	
 	private native int nativeDoFinal(long ctxPtr, byte[] output, int outputOffest, int outputSize);
@@ -163,10 +166,12 @@ public class NativeAESCipherSpi extends CipherSpi {
 	@Override
 	protected int engineGetOutputSize(int inputLen) {
 		int totalLen = mBuffered + inputLen;
-		
+
+		/*
 		if ( ! mPadding || ! mEncrypting ) {
 			return totalLen;
 		}
+		*/
 		
 		int padLen = AES_BLOCK_SIZE - (totalLen % AES_BLOCK_SIZE);
 
@@ -299,8 +304,15 @@ public class NativeAESCipherSpi extends CipherSpi {
 	}
 	
 	int update(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) {
-		mBuffered = (mBuffered + inputLen) % AES_BLOCK_SIZE; 
-		return nativeUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, engineGetOutputSize(inputLen));
+		int outputSize = engineGetOutputSize(inputLen);
+		
+		int out = nativeUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		
+		mBuffered = (mBuffered + ((inputLen - out))) % AES_BLOCK_SIZE;
+		
+		return out;
+		
+		
 	}
 	
 	private native int nativeUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);

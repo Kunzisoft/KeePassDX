@@ -70,17 +70,12 @@ public class PwEntryV3 extends PwEntry {
 
 
 
-	public byte             uuid[]   = new byte[16];
 	public int              groupId;
 	public int              imageId;
 
-	public String           title;
-	public String           url;
 	public String           username;
 
 	private byte[]          password;
-
-	public String           additional;
 
 	public PwDate             tCreation;
 	public PwDate             tLastMod;
@@ -132,17 +127,20 @@ public class PwEntryV3 extends PwEntry {
 	public PwGroupV3 parent = null;
 
 	public PwEntryV3() {
+		super();
 	}
 
+	/*
 	public PwEntryV3(PwEntryV3 source) {
 		assign(source);
 	}
+	*/
 
 	public PwEntryV3(Database db, int parentId) {
 
-		WeakReference<PwGroupV3> wPw = db.groups.get(parentId);
+		WeakReference<PwGroup> wPw = db.groups.get(parentId);
 
-		parent = wPw.get();
+		parent = (PwGroupV3) wPw.get();
 		groupId = parentId;
 
 		Random random = new Random();
@@ -162,6 +160,7 @@ public class PwEntryV3 extends PwEntry {
 		return title.equals(PMS_TAN_ENTRY);
 	}
 	
+	@Override
 	public String getDisplayTitle() {
 		if ( isTan() ) {
 			return PMS_TAN_ENTRY + " " + username;
@@ -173,7 +172,12 @@ public class PwEntryV3 extends PwEntry {
 	/**
 	 * @return the actual password byte array.
 	 */
-	public byte[] getPassword() {
+	@Override
+	public String getPassword() {
+		return new String(password);
+	}
+	
+	public byte[] getPasswordBytes() {
 		return password;
 	}
 
@@ -235,19 +239,31 @@ public class PwEntryV3 extends PwEntry {
 		return true;
 	}
 
-	public void assign(PwEntryV3 source) {
-		System.arraycopy(source.uuid, 0, uuid, 0, source.uuid.length);
+	
+	@Override
+	public void assign(PwEntry source) {
+		
+		if ( ! (source instanceof PwEntryV3) ) {
+			throw new RuntimeException("DB version mix");
+		}
+		
+		super.assign(source);
+		
+		PwEntryV3 src = (PwEntryV3) source;
+		assign(src);
+	
+	}
+
+	private void assign(PwEntryV3 source) {
+		
 		groupId = source.groupId;
 		imageId = source.imageId;
-		title = source.title;
-		url = source.url;
 		username = source.username;
 
 		int passLen = source.password.length;
 		password = new byte[passLen]; 
 		System.arraycopy(source.password, 0, password, 0, passLen);
 
-		additional = source.additional;
 		tCreation = (PwDate) source.tCreation.clone();
 		tLastMod = (PwDate) source.tLastMod.clone();
 		tLastAccess = (PwDate) source.tLastAccess.clone();
@@ -263,6 +279,70 @@ public class PwEntryV3 extends PwEntry {
 
 		parent = source.parent;
 
+	}
+	
+	@Override
+	public Object clone() {
+		PwEntryV3 newEntry = (PwEntryV3) super.clone();
+		
+		int passLen = password.length;
+		password = new byte[passLen]; 
+		System.arraycopy(password, 0, newEntry.password, 0, passLen);
+
+		newEntry.tCreation = (PwDate) tCreation.clone();
+		newEntry.tLastMod = (PwDate) tLastMod.clone();
+		newEntry.tLastAccess = (PwDate) tLastAccess.clone();
+		newEntry.tExpire = (PwDate) tExpire.clone();
+		
+		newEntry.binaryDesc = binaryDesc;
+
+		if ( binaryData != null ) {
+			int descLen = binaryData.length;
+			newEntry.binaryData = new byte[descLen]; 
+			System.arraycopy(binaryData, 0, newEntry.binaryData, 0, descLen);
+		}
+
+		newEntry.parent = parent;
+
+		
+		return newEntry;
+	}
+
+	@Override
+	public void stampLastAccess() {
+		Calendar cal = Calendar.getInstance();
+		tLastAccess = new PwDate(cal.getTime());
+		
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public Date getAccess() {
+		return tLastAccess.getJDate();
+	}
+
+	@Override
+	public Date getCreate() {
+		return tCreation.getJDate();
+	}
+
+	@Override
+	public Date getExpire() {
+		return tExpire.getJDate();
+	}
+
+	@Override
+	public Date getMod() {
+		return tLastMod.getJDate();
+	}
+
+	@Override
+	public PwGroupV3 getParent() {
+		return parent;
 	}
 
 }

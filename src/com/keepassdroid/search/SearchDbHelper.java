@@ -22,7 +22,6 @@ package com.keepassdroid.search;
 import java.util.UUID;
 import java.util.Vector;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -32,7 +31,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.utils.Types;
 
@@ -96,7 +97,7 @@ public class SearchDbHelper {
 		mDb.delete(SEARCH_TABLE, null, null);
 	}
 
-	private ContentValues buildNewEntryContent(PwEntryV3 entry) {
+	private ContentValues buildNewEntryContent(PwEntry entry) {
 
 		ContentValues cv = new ContentValues();
 		UUID uuid = Types.bytestoUUID(entry.uuid);
@@ -110,12 +111,12 @@ public class SearchDbHelper {
 		return cv;
 	}
 	
-	public void insertEntry(PwEntryV3 entry) {
+	public void insertEntry(PwEntry entry) {
 		ContentValues cv = buildNewEntryContent(entry);
 		mDb.insert(SEARCH_TABLE, null, cv);
 	}
 	
-	public void insertEntry(Vector<PwEntryV3> entries) {
+	public void insertEntry(Vector<? extends PwEntry> entries) {
 		mDb.beginTransaction();
 
 		try {
@@ -128,14 +129,14 @@ public class SearchDbHelper {
 		}
 	}
 	
-	public void updateEntry(PwEntryV3 entry) {
+	public void updateEntry(PwEntry entry) {
 		ContentValues cv = buildNewEntryContent(entry);
 		String uuidStr = cv.getAsString(KEY_UUID);
 		
 		mDb.update(SEARCH_TABLE, cv, KEY_UUID + " = ?", new String[] {uuidStr});
 	}
 	
-	public void deleteEntry(PwEntryV3 entry) {
+	public void deleteEntry(PwEntry entry) {
 		UUID uuid = Types.bytestoUUID(entry.uuid);
 		String uuidStr = uuid.toString();
 		
@@ -148,15 +149,15 @@ public class SearchDbHelper {
 
 		PwGroupV3 group = new PwGroupV3();
 		group.name = "Search results";
-		group.childEntries = new Vector<PwEntryV3>();
-		group.childGroups = new Vector<PwGroupV3>();
+		group.childEntries = new Vector<PwEntry>();
+		group.setGroups(new Vector<PwGroup>());
 		
 		cursor.moveToFirst();
 		while ( ! cursor.isAfterLast() ) {
 			String sUUID = cursor.getString(0);
 			UUID uuid = UUID.fromString(sUUID);
 			Log.d("TAG", uuid.toString()); 
-			PwEntryV3 entry = db.entries.get(uuid).get();
+			PwEntryV3 entry = (PwEntryV3) db.entries.get(uuid).get();
 			group.childEntries.add(entry);
 			
 			cursor.moveToNext();

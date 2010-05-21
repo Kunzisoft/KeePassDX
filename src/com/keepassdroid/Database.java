@@ -34,8 +34,10 @@ import java.util.Vector;
 import android.content.Context;
 import android.os.Debug;
 
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
@@ -46,7 +48,7 @@ import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.load.Importer;
 import com.keepassdroid.database.load.ImporterFactory;
 import com.keepassdroid.database.load.ImporterV3;
-import com.keepassdroid.database.save.PwDbV3Output;
+import com.keepassdroid.database.save.PwDbOutput;
 import com.keepassdroid.search.SearchDbHelper;
 import com.keepassdroid.utils.Types;
 
@@ -54,11 +56,11 @@ import com.keepassdroid.utils.Types;
  * @author bpellin
  */
 public class Database {
-	public HashMap<Integer, WeakReference<PwGroupV3>> groups = new HashMap<Integer, WeakReference<PwGroupV3>>();
-	public HashMap<UUID, WeakReference<PwEntryV3>> entries = new HashMap<UUID, WeakReference<PwEntryV3>>();
-	public HashMap<PwGroupV3, WeakReference<PwGroupV3>> dirty = new HashMap<PwGroupV3, WeakReference<PwGroupV3>>();
-	public PwGroupV3 root;
-	public PwDatabaseV3 pm;
+	public HashMap<PwGroupId, WeakReference<PwGroup>> groups = new HashMap<PwGroupId, WeakReference<PwGroup>>();
+	public HashMap<UUID, WeakReference<PwEntry>> entries = new HashMap<UUID, WeakReference<PwEntry>>();
+	public HashMap<PwGroup, WeakReference<PwGroup>> dirty = new HashMap<PwGroup, WeakReference<PwGroup>>();
+	public PwGroup root;
+	public PwDatabase pm;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
 	public boolean indexBuilt = false;
@@ -119,7 +121,6 @@ public class Database {
 		
 		pm = Importer.openDatabase(bis, password, keyfile, status);
 		if ( pm != null ) {
-			pm.constructTree(null);
 			populateGlobals(null);
 		}
 		
@@ -138,7 +139,7 @@ public class Database {
 		initSearch();
 		
 		searchHelper.open();
-		searchHelper.insertEntry(pm.entries);
+		searchHelper.insertEntry(pm.getEntries());
 		/*for ( int i = 0; i < pm.entries.size(); i++) {
 			PwEntryV3 entry = pm.entries.get(i);
 			if ( ! entry.isMetaStream() ) {
@@ -170,7 +171,7 @@ public class Database {
 		//BufferedOutputStream bos = new BufferedOutputStream(fos);
 		
 		//PwDbV3Output pmo = new PwDbV3Output(pm, bos, App.getCalendar());
-		PwDbV3Output pmo = new PwDbV3Output(pm, fos);
+		PwDbOutput pmo = PwDbOutput.getInstance(pm, fos);
 		pmo.output();
 		//bos.flush();
 		//bos.close();
@@ -187,30 +188,30 @@ public class Database {
 		
 	}
 	
-	private void populateGlobals(PwGroupV3 currentGroup) {
+	private void populateGlobals(PwGroup currentGroup) {
 		if (currentGroup == null) {
-			Vector<PwGroupV3> rootChildGroups = pm.getGrpRoots();
+			Vector<? extends PwGroup> rootChildGroups = pm.getGrpRoots();
 			for (int i = 0; i < rootChildGroups.size(); i++ ){
-				PwGroupV3 cur = rootChildGroups.elementAt(i);
-				root = cur.parent;
-				groups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
+				PwGroup cur = rootChildGroups.elementAt(i);
+				root = cur.getParent();
+				groups.put(cur.getId(), new WeakReference<PwGroup>(cur));
 				populateGlobals(cur);
 			}
 			
 			return;
 		}
 		
-		Vector<PwGroupV3> childGroups = currentGroup.childGroups;
-		Vector<PwEntryV3> childEntries = currentGroup.childEntries;
+		Vector<PwGroup> childGroups = currentGroup.childGroups;
+		Vector<PwEntry> childEntries = currentGroup.childEntries;
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
-			PwEntryV3 cur = childEntries.elementAt(i);
-			entries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntryV3>(cur));
+			PwEntry cur = childEntries.elementAt(i);
+			entries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntry>(cur));
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {
-			PwGroupV3 cur = childGroups.elementAt(i);
-			groups.put(cur.groupId, new WeakReference<PwGroupV3>(cur));
+			PwGroup cur = childGroups.elementAt(i);
+			groups.put(cur.getId(), new WeakReference<PwGroup>(cur));
 			populateGlobals(cur);
 		}
 	}

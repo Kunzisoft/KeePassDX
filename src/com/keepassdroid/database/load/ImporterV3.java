@@ -270,6 +270,8 @@ public class ImporterV3 extends Importer {
 			pos += 2 + 4 + fieldSize;
 		}
 
+		newManager.constructTree(null);
+		
 		return newManager;
 	}
 

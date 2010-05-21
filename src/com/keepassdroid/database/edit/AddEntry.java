@@ -21,18 +21,27 @@ package com.keepassdroid.database.edit;
 
 import java.lang.ref.WeakReference;
 
-
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
-import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.search.SearchDbHelper;
 import com.keepassdroid.utils.Types;
 
-public class AddEntry extends RunnableOnFinish {
-	private Database mDb;
-	private PwEntryV3 mEntry;
+public abstract class AddEntry extends RunnableOnFinish {
+	protected Database mDb;
+	private PwEntry mEntry;
 	
-	public AddEntry(Database db, PwEntryV3 entry, OnFinish finish) {
+	public static AddEntry getInstance(Database db, PwEntry entry, OnFinish finish) {
+		if ( entry instanceof PwEntryV3 ) {
+			return new AddEntryV3(db, (PwEntryV3) entry, finish);
+		} else {
+			// TODO: Implement me
+			throw new RuntimeException("Not implemented yet.");
+		}
+	}
+	
+	protected AddEntry(Database db, PwEntry entry, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
@@ -41,18 +50,11 @@ public class AddEntry extends RunnableOnFinish {
 		mFinish = new AfterAdd(mFinish);
 	}
 	
+	public abstract void addEntry();
+	
 	@Override
 	public void run() {
-		PwGroupV3 parent = mEntry.parent;
-		
-		// Add entry to group
-		parent.childEntries.add(mEntry);
-		
-		// Add entry to PwDatabaseV3
-		mDb.pm.entries.add(mEntry);
-		
-		// Sort entries
-		parent.sortEntriesByName();
+		addEntry();
 		
 		// Commit to disk
 		SaveDB save = new SaveDB(mDb, mFinish);
@@ -68,13 +70,13 @@ public class AddEntry extends RunnableOnFinish {
 		@Override
 		public void run() {
 			if ( mSuccess ) {
-				PwGroupV3 parent = mEntry.parent;
+				PwGroup parent = mEntry.getParent();
 
 				// Mark parent group dirty
-				mDb.dirty.put(parent, new WeakReference<PwGroupV3>(parent));
+				mDb.dirty.put(parent, new WeakReference<PwGroup>(parent));
 
 				// Add entry to global
-				mDb.entries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntryV3>(mEntry));
+				mDb.entries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntry>(mEntry));
 				
 				if ( mDb.indexBuilt ) {
 					// Add entry to search index
@@ -85,10 +87,10 @@ public class AddEntry extends RunnableOnFinish {
 				}
 			} else {
 				// Remove from group
-				mEntry.parent.childEntries.removeElement(mEntry);
+				mEntry.getParent().childEntries.removeElement(mEntry);
 				
 				// Remove from manager
-				mDb.pm.entries.removeElement(mEntry);
+				mDb.pm.getEntries().removeElement(mEntry);
 
 			}
 			

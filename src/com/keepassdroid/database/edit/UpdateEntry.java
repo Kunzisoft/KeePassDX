@@ -21,18 +21,19 @@ package com.keepassdroid.database.edit;
 
 import java.lang.ref.WeakReference;
 
-
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.search.SearchDbHelper;
 
 public class UpdateEntry extends RunnableOnFinish {
 	private Database mDb;
-	private PwEntryV3 mOldE;
-	private PwEntryV3 mNewE;
+	private PwEntry mOldE;
+	private PwEntry mNewE;
 	
-	public UpdateEntry(Database db, PwEntryV3 oldE, PwEntryV3 newE, OnFinish finish) {
+	public UpdateEntry(Database db, PwEntry oldE, PwEntry newE, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
@@ -40,7 +41,9 @@ public class UpdateEntry extends RunnableOnFinish {
 		mNewE = newE;
 		
 		// Keep backup of original values in case save fails
-		PwEntryV3 backup = new PwEntryV3(mOldE);
+		PwEntryV3 backup;
+		backup = (PwEntryV3) mOldE.clone();
+		
 		mFinish = new AfterUpdate(backup, finish);
 	}
 
@@ -74,7 +77,7 @@ public class UpdateEntry extends RunnableOnFinish {
 						parent.sortEntriesByName();
 
 						// Mark parent group dirty
-						mDb.dirty.put(parent, new WeakReference<PwGroupV3>(parent));
+						mDb.dirty.put(parent, new WeakReference<PwGroup>(parent));
 						
 					}
 					

@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.database.load;
 
-import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidAlgorithmParameterException;
@@ -29,20 +29,27 @@ import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 
 import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
 import javax.crypto.NoSuchPaddingException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwDbHeaderV4;
+import com.keepassdroid.database.exception.InconsistentDBException;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
-import com.keepassdroid.stream.LEDataInputStream;
+import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.HashedBlockInputStream;
+import com.keepassdroid.stream.LEDataInputStream;
 
 public class ImporterV4 extends Importer {
 
@@ -60,12 +67,14 @@ public class ImporterV4 extends Importer {
 			InvalidKeyFileException, InvalidPasswordException,
 			InvalidDBSignatureException, InvalidDBVersionException {
 
-		
+		// TODO: Measure whether this buffer is better or worse for performance
+		BufferedInputStream bis = new BufferedInputStream(inStream);
+
 		PwDatabaseV4 db = new PwDatabaseV4();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
 		
-		header.loadFromFile(inStream);
+		header.loadFromFile(bis);
 			
 		db.setMasterKey(password, keyfile);
 		db.makeFinalKey(header.masterSeed, header.transformSeed, (int)db.numKeyEncRounds);
@@ -84,7 +93,7 @@ public class ImporterV4 extends Importer {
 			throw new IOException("Invalid algorithm.");
 		}
 		
-		InputStream decrypted = new CipherInputStream(inStream, cipher);
+		InputStream decrypted = new BetterCipherInputStream(bis, cipher, 50 * 1024);
 		LEDataInputStream dataDecrypted = new LEDataInputStream(decrypted);
 		byte[] storedStartBytes = dataDecrypted.readBytes(32);
 		if ( storedStartBytes == null || storedStartBytes.length != 32 ) {
@@ -96,8 +105,8 @@ public class ImporterV4 extends Importer {
 			//       an incorrect password/key
 			throw new IOException("Bad database key");
 		}
-		
-		HashedBlockInputStream hashed = new HashedBlockInputStream(decrypted); 
+
+				HashedBlockInputStream hashed = new HashedBlockInputStream(dataDecrypted); 
 		
 		InputStream decompressed;
 		if ( db.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {
@@ -106,18 +115,44 @@ public class ImporterV4 extends Importer {
 			decompressed = hashed;
 		}
 		
-		// TODO: output into database instead of file
-		FileOutputStream fos = new FileOutputStream("/sdcard/output.xml");
+		// TODO: Measure whether this buffer is better or worse for performance
+		BufferedInputStream bis2 = new BufferedInputStream(decompressed);
 		
+		// Parse the xml document
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docB;
+		try {
+			docB = dbf.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			throw new IOException("Couldn't create document builder.");
+		}
+		
+		Document doc;
+		try {
+			doc = docB.parse(bis2);
+		} catch (SAXException e) {
+			throw new IOException("Failed to parse db xml: " + e.getLocalizedMessage());
+		}
+		
+		try {
+			db.parseDB(doc);
+		} catch (InconsistentDBException e) {
+			throw new IOException(e.getLocalizedMessage());
+		}
+		
+		/*
+		FileOutputStream fos = new FileOutputStream("/sdcard/outputx.xml");
 		byte[] buf = new byte[1024];
 		int bytesRead;
 		while ( (bytesRead = decompressed.read(buf)) != -1 ) {
 			fos.write(buf, 0, bytesRead);
 		}
-		
 		fos.close();
+		*/
 		
 		return db;
+		
+		
 	}
 
 

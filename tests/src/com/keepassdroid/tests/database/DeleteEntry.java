@@ -21,13 +21,13 @@ package com.keepassdroid.tests.database;
 
 import java.util.Vector;
 
-
 import android.content.Context;
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.edit.DeleteGroup;
 import com.keepassdroid.search.SearchDbHelper;
@@ -54,8 +54,8 @@ public class DeleteEntry extends AndroidTestCase {
 			return;
 		}
 		
-		
-		PwGroupV3 group1 = getGroup(db.pm, GROUP1_NAME);
+		PwDatabaseV3 pm = (PwDatabaseV3) db.pm;
+		PwGroup group1 = getGroup(pm, GROUP1_NAME);
 		assertNotNull("Could not find group1", group1);
 		
 		// Delete the group
@@ -63,10 +63,10 @@ public class DeleteEntry extends AndroidTestCase {
 		task.run();
 		
 		// Verify the entries were deleted
-		PwEntryV3 entry1 = getEntry(db.pm, ENTRY1_NAME);
+		PwEntry entry1 = getEntry(pm, ENTRY1_NAME);
 		assertNull("Entry 1 was not removed", entry1);
 
-		PwEntryV3 entry2 = getEntry(db.pm, ENTRY2_NAME);
+		PwEntry entry2 = getEntry(pm, ENTRY2_NAME);
 		assertNull("Entry 2 was not removed", entry2);
 		
 		// Verify the entries were removed from the search index
@@ -80,17 +80,17 @@ public class DeleteEntry extends AndroidTestCase {
 		assertEquals("Entry2 was not removed from the search results", 0, results2.childEntries.size());
 		
 		// Verify the group was deleted
-		group1 = getGroup(db.pm, GROUP1_NAME);
+		group1 = getGroup(pm, GROUP1_NAME);
 		assertNull("Group 1 was not removed.", group1);
 		
 		
 		
 	}
 	
-	private PwEntryV3 getEntry(PwDatabaseV3 pm, String name) {
-		Vector<PwEntryV3> entries = pm.entries;
+	private PwEntry getEntry(PwDatabaseV3 pm, String name) {
+		Vector<PwEntry> entries = pm.entries;
 		for ( int i = 0; i < entries.size(); i++ ) {
-			PwEntryV3 entry = entries.get(i);
+			PwEntry entry = entries.get(i);
 			if ( entry.title.equals(name) ) {
 				return entry;
 			}
@@ -100,11 +100,11 @@ public class DeleteEntry extends AndroidTestCase {
 		
 	}
 	
-	private PwGroupV3 getGroup(PwDatabaseV3 pm, String name) {
-		Vector<PwGroupV3> groups = pm.groups;
+	private PwGroup getGroup(PwDatabaseV3 pm, String name) {
+		Vector<PwGroup> groups = pm.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
-			PwGroupV3 group = groups.get(i);
-			if ( group.name.equals(name) ) {
+			PwGroup group = groups.get(i);
+			if ( group.getName().equals(name) ) {
 				return group;
 			}
 		}

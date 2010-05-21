@@ -26,7 +26,7 @@ import java.io.OutputStream;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.utils.Types;
 
-public class PwGroupOutput {
+public class PwGroupOutputV3 {
 	// Constants
 	public static final byte[] GROUPID_FIELD_TYPE = Types.writeShort(1);
 	public static final byte[] NAME_FIELD_TYPE =    Types.writeShort(2);
@@ -53,7 +53,7 @@ public class PwGroupOutput {
 	 * @param pg
 	 * @param os
 	 */
-	public PwGroupOutput(PwGroupV3 pg, OutputStream os) {
+	public PwGroupOutputV3(PwGroupV3 pg, OutputStream os) {
 		mPG = pg;
 		mOS = os;
 	}

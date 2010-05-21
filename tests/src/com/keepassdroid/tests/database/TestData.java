@@ -65,6 +65,6 @@ public class TestData {
 			GetDb1(ctx);
 		}
 		
-		return mDb1.pm;
+		return (PwDatabaseV3) mDb1.pm;
 	}
 }

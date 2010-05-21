@@ -21,10 +21,9 @@ package com.keepassdroid.database.edit;
 
 import java.lang.ref.WeakReference;
 
-
 import com.keepassdroid.Database;
-import com.keepassdroid.database.PwEntryV3;
-import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.search.SearchDbHelper;
 
 /** Task to delete entries
@@ -34,10 +33,10 @@ import com.keepassdroid.search.SearchDbHelper;
 public class DeleteEntry extends RunnableOnFinish {
 
 	private Database mDb;
-	private PwEntryV3 mEntry;
+	private PwEntry mEntry;
 	private boolean mDontSave;
 	
-	public DeleteEntry(Database db, PwEntryV3 entry, OnFinish finish) {
+	public DeleteEntry(Database db, PwEntry entry, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
@@ -46,7 +45,7 @@ public class DeleteEntry extends RunnableOnFinish {
 		
 	}
 	
-	public DeleteEntry(Database db, PwEntryV3 entry, OnFinish finish, boolean dontSave) {
+	public DeleteEntry(Database db, PwEntry entry, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
@@ -59,11 +58,11 @@ public class DeleteEntry extends RunnableOnFinish {
 	public void run() {
 
 		// Remove Entry from parent
-		PwGroupV3 parent = mEntry.parent;
+		PwGroup parent = mEntry.getParent();
 		parent.childEntries.remove(mEntry);
 		
-		// Remove Entry from PwDatabaseV3
-		mDb.pm.entries.remove(mEntry);
+		// Remove Entry from PwDatabase
+		mDb.pm.getEntries().remove(mEntry);
 		
 		// Save
 		mFinish = new AfterDelete(mFinish, parent, mEntry);
@@ -74,14 +73,13 @@ public class DeleteEntry extends RunnableOnFinish {
 	
 		
 	}
-	
-	
+
 	private class AfterDelete extends OnFinish {
 
-		private PwGroupV3 mParent;
-		private PwEntryV3 mEntry;
+		private PwGroup mParent;
+		private PwEntry mEntry;
 		
-		public AfterDelete(OnFinish finish, PwGroupV3 parent, PwEntryV3 entry) {
+		public AfterDelete(OnFinish finish, PwGroup parent, PwEntry entry) {
 			super(finish);
 			
 			mParent = parent;
@@ -105,22 +103,21 @@ public class DeleteEntry extends RunnableOnFinish {
 				
 				// Mark parent dirty
 				if ( mParent != null ) {
-					mDb.dirty.put(mParent, new WeakReference<PwGroupV3>(mParent));
+					mDb.dirty.put(mParent, new WeakReference<PwGroup>(mParent));
 				}
 			} else {
-				// Undo remove entry
-				mDb.pm.entries.add(mEntry);
+				mDb.pm.getEntries().add(mEntry);
 				
-				PwGroupV3 parent = mEntry.parent;
+				PwGroup parent = mEntry.getParent();
 				if ( parent != null ) {
 					parent.childEntries.add(mEntry);
 				}
-				
 			}
 
 			super.run();
 			
 		}
+		
 	}
 	
 }

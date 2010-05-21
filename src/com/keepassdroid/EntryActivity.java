@@ -20,11 +20,10 @@
 package com.keepassdroid;
 
 import java.text.DateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-
 
 import android.app.Activity;
 import android.app.Notification;
@@ -51,7 +50,7 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwDate;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.Types;
@@ -75,7 +74,7 @@ public class EntryActivity extends LockCloseActivity {
 	private static final int COL_LABEL = 0;
 	private static final int COL_DATA = 1;
 	
-	public static void Launch(Activity act, PwEntryV3 pw, int pos) {
+	public static void Launch(Activity act, PwEntry pw, int pos) {
 		Intent i = new Intent(act, EntryActivity.class);
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
@@ -84,7 +83,7 @@ public class EntryActivity extends LockCloseActivity {
 		act.startActivityForResult(i,0);
 	}
 	
-	private PwEntryV3 mEntry;
+	private PwEntry mEntry;
 	private Timer mTimer = new Timer();
 	private boolean mShowPassword;
 	private int mPos;
@@ -113,8 +112,7 @@ public class EntryActivity extends LockCloseActivity {
 		mEntry = db.entries.get(uuid).get();
 		
 		// Update last access time.
-		Calendar cal = Calendar.getInstance();
-		mEntry.tLastAccess = new PwDate(cal.getTime());
+		mEntry.stampLastAccess();
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
@@ -152,9 +150,9 @@ public class EntryActivity extends LockCloseActivity {
 				String action = intent.getAction();
 
 				if ( action.equals(Intents.COPY_USERNAME) ) {
-					String username = mEntry.username;
+					String username = mEntry.getUsername();
 					if ( username.length() > 0 ) {
-						timeoutCopyToClipboard(mEntry.username);
+						timeoutCopyToClipboard(username);
 					}
 				} else if ( action.equals(Intents.COPY_PASSWORD) ) {
 					String password = new String(mEntry.getPassword());
@@ -199,20 +197,21 @@ public class EntryActivity extends LockCloseActivity {
 	
 	private void fillData() {
 		populateText(R.id.entry_title, mEntry.title);
-		populateText(R.id.entry_user_name, mEntry.username);
+		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.url);
-		populateText(R.id.entry_password, new String(mEntry.getPassword()));
+		populateText(R.id.entry_password, mEntry.getPassword());
 		setPasswordStyle();
 		
 		DateFormat df = DateFormat.getInstance();
-		populateText(R.id.entry_created, df.format(mEntry.tCreation.getJDate()));
-		populateText(R.id.entry_modified, df.format(mEntry.tLastMod.getJDate()));
-		populateText(R.id.entry_accessed, df.format(mEntry.tLastAccess.getJDate()));
+		populateText(R.id.entry_created, df.format(mEntry.getCreate()));
+		populateText(R.id.entry_modified, df.format(mEntry.getMod()));
+		populateText(R.id.entry_accessed, df.format(mEntry.getAccess()));
 		
-		if ( PwEntryV3.IsNever(mEntry.tExpire.getJDate()) ) {
+		Date expires = mEntry.getExpire();
+		if ( PwEntryV3.IsNever(expires) ) {
 			populateText(R.id.entry_expires, R.string.never);
 		} else {
-			populateText(R.id.entry_expires, df.format(mEntry.tExpire.getJDate()));
+			populateText(R.id.entry_expires, df.format(expires));
 		}
 		populateText(R.id.entry_comment, mEntry.additional);
 
@@ -317,7 +316,7 @@ public class EntryActivity extends LockCloseActivity {
 			return true;
 			
 		case MENU_COPY_USER:
-			timeoutCopyToClipboard(mEntry.username);
+			timeoutCopyToClipboard(mEntry.getUsername());
 			return true;
 			
 		case MENU_COPY_PASS:

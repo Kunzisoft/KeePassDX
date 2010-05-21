@@ -19,6 +19,54 @@
  */
 package com.keepassdroid.database;
 
-public abstract class PwEntry {
+import java.util.Date;
+
+public abstract class PwEntry implements Cloneable {
+
+	public byte uuid[] = new byte[16];
+	public String title;
+	public String url;
+	public String additional;
+
+	public PwEntry() {
+		
+	}
+	
+	@Override
+	public Object clone() {
+		PwEntry newEntry;
+		try {
+			newEntry = (PwEntry) super.clone();
+		} catch (CloneNotSupportedException e) {
+			assert(false);
+			throw new RuntimeException("Clone should be supported");
+		}
+		
+		System.arraycopy(uuid, 0, newEntry.uuid, 0, uuid.length);
+		newEntry.title = title;
+		newEntry.url = url;
+		newEntry.additional = additional;
+		
+		return newEntry;
+	}
+	
+	public void assign(PwEntry source) {
+		System.arraycopy(source.uuid, 0, uuid, 0, source.uuid.length);
+		title = source.title;
+		url = source.url;
+		additional = source.additional;
+	}
+
+	public abstract void stampLastAccess();
+	
+	public abstract String getUsername();
+	public abstract String getPassword();
+	public abstract Date getCreate();
+	public abstract Date getMod();
+	public abstract Date getAccess();
+	public abstract Date getExpire();
+	public abstract PwGroup getParent();
+
+	public abstract String getDisplayTitle();
 
 }

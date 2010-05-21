@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2010 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,30 +20,34 @@
 package com.keepassdroid.database.edit;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
 
-public abstract class AddGroup extends RunnableOnFinish {
-	protected Database mDb;
-	protected boolean mDontSave;
+public class AddEntryV3 extends AddEntry {
 	
-	public static AddGroup getInstance(Database db, String name, PwGroup parent, OnFinish finish, boolean dontSave) {
-		if ( parent instanceof PwGroupV3 ) {
-			return new AddGroupV3(db, name, (PwGroupV3) parent, finish, dontSave);
-		} else {
-			throw new RuntimeException("Not yet implemented");
-		}
+	private PwEntryV3 mEntry;
+	
+	protected AddEntryV3(Database db, PwEntryV3 entry, OnFinish finish) {
+		super(db, entry, finish);
+		
+		mEntry = entry;
 	}
 	
-	protected AddGroup(Database db, OnFinish finish, boolean dontSave) {
-		super(finish);
+	
+	public void addEntry() {
+		PwGroupV3 parent = mEntry.getParent();
 		
-		mDb = db;
-		mDontSave = dontSave;
+		// Add entry to group
+		parent.childEntries.add(mEntry);
+		
+		// Add entry to PwDatabaseV3
+		PwDatabaseV3 pm = (PwDatabaseV3) mDb.pm;
+		pm.getEntries().add(mEntry);
+		
+		// Sort entries
+		parent.sortEntriesByName();
 		
 	}
-
-	public abstract void run();
-	
 
 }

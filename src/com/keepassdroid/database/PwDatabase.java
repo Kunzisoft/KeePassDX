@@ -27,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Vector;
 
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
@@ -37,7 +38,7 @@ public abstract class PwDatabase {
 
 	public byte masterKey[] = new byte[32];
 	public byte[] finalKey;
-
+	
 	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
 
 		// Write checksum Checksum
@@ -202,5 +203,15 @@ public abstract class PwDatabase {
 	}
 	
 	public abstract byte[] getPasswordKey(String key) throws IOException;
+
+	public abstract Vector<PwGroup> getGrpRoots();
+	
+	public abstract Vector<PwGroup> getGroups();
+
+	public abstract Vector<PwEntry> getEntries();
+	
+	public abstract long getNumRounds();
+	
+	public abstract void setNumRonuds(long rounds) throws NumberFormatException;
 
 }

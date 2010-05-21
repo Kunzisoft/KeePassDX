@@ -57,8 +57,6 @@ public class PwGroupV3 extends PwGroup {
 	public static final int BUF_SIZE = 124;
 
 	// for tree traversing
-	public Vector<PwGroupV3> childGroups = null;
-	public Vector<PwEntryV3> childEntries = null;
 	public PwGroupV3 parent = null;
 
 	public int groupId;
@@ -75,29 +73,49 @@ public class PwGroupV3 extends PwGroup {
 	/** Used by KeePass internally, don't use */
 	public int flags;
 	
+	public void setGroups(Vector<PwGroup> groups) {
+		childGroups = groups;
+	}
+	
 	public void sortGroupsByName() {
 		Collections.sort(childGroups, new GroupNameComparator());
+	}
+
+	@Override
+	public PwGroup getParent() {
+		return parent;
 	}
 
 	public void sortEntriesByName() {
 		Collections.sort(childEntries, new EntryNameComparator());
 	}
 	
-	private class GroupNameComparator implements Comparator<PwGroupV3> {
+	private class GroupNameComparator implements Comparator<PwGroup> {
 
 		@Override
-		public int compare(PwGroupV3 object1, PwGroupV3 object2) {
-			return object1.name.compareToIgnoreCase(object2.name);
+		public int compare(PwGroup object1, PwGroup object2) {
+			return object1.getName().compareToIgnoreCase(object2.getName());
 		}
 		
 	}
 
-	private class EntryNameComparator implements Comparator<PwEntryV3> {
+	private class EntryNameComparator implements Comparator<PwEntry> {
 
 		@Override
-		public int compare(PwEntryV3 object1, PwEntryV3 object2) {
+		public int compare(PwEntry object1, PwEntry object2) {
 			return object1.title.compareToIgnoreCase(object2.title);
 		}
 		
 	}
+
+	@Override
+	public PwGroupId getId() {
+		return new PwGroupIdV3(groupId);
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
 }

@@ -21,7 +21,6 @@ package com.keepassdroid;
 
 import java.lang.ref.WeakReference;
 
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -39,10 +38,15 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.edit.AddGroup;
 
-public class GroupActivity extends GroupBaseActivity {
+public abstract class GroupActivity extends GroupBaseActivity {
 	
 	public static final int UNINIT = -1;
 	public static final int VIEW_ONLY = 0;
@@ -50,17 +54,31 @@ public class GroupActivity extends GroupBaseActivity {
 	public static final int FULL = 2;
 	private static final String TAG = "Group Activity:";
 	
-	public static void Launch(Activity act, PwGroupV3 group, int mode) {
-		Intent i = new Intent(act, GroupActivity.class);
-	
-		if ( group != null ) {
-			i.putExtra(KEY_ENTRY, group.groupId);
+	public static void Launch(Activity act, PwGroup group, int mode) {
+		Intent i;
+		
+		PwDatabase pm = App.getDB().pm;
+		if ( pm instanceof PwDatabaseV3 ) {
+			i = new Intent(act, GroupActivityV3.class);
+		
+			if ( group != null ) {
+				PwGroupV3 g = (PwGroupV3) group;
+				i.putExtra(KEY_ENTRY, g.groupId);
+			}
+		} else if ( pm instanceof PwDatabaseV4 ) {
+			throw new RuntimeException("Not yet implemented.");
+		} else {
+			assert(true); // Should never be reached
+			throw new RuntimeException("Should never be reached.");
 		}
 		
 		i.putExtra(KEY_MODE, mode);
 		
 		act.startActivityForResult(i,0);
 	}
+	
+	protected abstract PwGroupId retrieveGroupId(Intent i);
+	protected abstract PwGroup getGroup();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +107,13 @@ public class GroupActivity extends GroupBaseActivity {
 		}
 		Log.w(TAG, "Set view");
 		
-		int id = intent.getIntExtra(KEY_ENTRY, -1);
+		PwGroupId id = retrieveGroupId(intent);
 		
 		Database db = App.getDB();
-		if ( id == -1 ) {
+		if ( id == null ) {
 			mGroup = db.root;
 		} else {
-			WeakReference<PwGroupV3> wPw = db.groups.get(id);
+			WeakReference<PwGroup> wPw = db.groups.get(id);
 			mGroup = wPw.get();
 		}
 		Log.w(TAG, "Retrieved group");
@@ -103,7 +121,6 @@ public class GroupActivity extends GroupBaseActivity {
 			Log.w(TAG, "Group was null");
 			return;
 		}
-		
 		
 
 		if ( mode == FULL || mode == ADD_GROUP_ONLY ) {
@@ -155,10 +172,10 @@ public class GroupActivity extends GroupBaseActivity {
 
 	private class GroupAddHandler implements View.OnClickListener {
 		private GroupBaseActivity mAct;
-		private PwGroupV3 mGroup;
+		private PwGroup mGroup;
 		private GroupCreateDialog mDialog;
 		
-		GroupAddHandler(GroupBaseActivity act, PwGroupV3 group) {
+		GroupAddHandler(GroupBaseActivity act, PwGroup group) {
 			mAct = act;
 			mGroup = group;
 		}
@@ -178,7 +195,7 @@ public class GroupActivity extends GroupBaseActivity {
 					if ( ! mDialog.canceled() && res.length() > 0 ) {
 						GroupActivity act = GroupActivity.this;
 						Handler handler = new Handler();
-						AddGroup task = new AddGroup(App.getDB(), res, mGroup, act.new RefreshTask(handler), false);
+						AddGroup task = AddGroup.getInstance(App.getDB(), res, mGroup, act.new RefreshTask(handler), false);
 						ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 						pt.run();
 					}

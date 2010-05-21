@@ -21,13 +21,14 @@ package com.keepassdroid;
 
 import java.util.Vector;
 
-
-import com.keepassdroid.database.PwEntryV3;
-import com.keepassdroid.database.PwGroupV3;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.PwGroupV3;
 
 public class PwListAdapter extends BaseAdapter {
 
@@ -46,10 +47,10 @@ public class PwListAdapter extends BaseAdapter {
 	}
 
 	private GroupBaseActivity mAct;
-	private PwGroupV3 mGroup;
-	private Vector<PwEntryV3> filteredEntries;
+	private PwGroup mGroup;
+	private Vector<PwEntry> filteredEntries;
 	
-	public PwListAdapter(GroupBaseActivity act, PwGroupV3 group) {
+	public PwListAdapter(GroupBaseActivity act, PwGroup group) {
 		mAct = act;
 		mGroup = group;
 		
@@ -58,7 +59,7 @@ public class PwListAdapter extends BaseAdapter {
 	}
 	
 	private void filter() {
-		filteredEntries = new Vector<PwEntryV3>();
+		filteredEntries = new Vector<PwEntry>();
 		
 		for (int i = 0; i < mGroup.childEntries.size(); i++) {
 			PwEntryV3 entry = (PwEntryV3) mGroup.childEntries.elementAt(i);

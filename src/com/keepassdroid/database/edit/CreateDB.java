@@ -60,9 +60,9 @@ public class CreateDB extends RunnableOnFinish {
 		db.setLoaded();
 		
 		// Add a couple default groups
-		AddGroup internet = new AddGroup(db, "Internet", pm.rootGroup, null, true);
+		AddGroup internet = AddGroup.getInstance(db, "Internet", pm.rootGroup, null, true);
 		internet.run();
-		AddGroup email = new AddGroup(db, "eMail", pm.rootGroup, null, true);
+		AddGroup email = AddGroup.getInstance(db, "eMail", pm.rootGroup, null, true);
 		email.run();
 		
 		// Commit changes

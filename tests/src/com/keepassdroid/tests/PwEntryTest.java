@@ -37,7 +37,7 @@ public class PwEntryTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		mPE = TestData.GetTest1(getContext()).entries.get(0);
+		mPE = (PwEntryV3) TestData.GetTest1(getContext()).entries.get(0);
 		
 	}
 	
@@ -49,7 +49,7 @@ public class PwEntryTest extends AndroidTestCase {
 		String sPass = "12345";
 		byte[] password = sPass.getBytes("UTF-8");
 		
-		assertArrayEquals(password, mPE.getPassword());
+		assertArrayEquals(password, mPE.getPasswordBytes());
 	}
 	
 	public void testCreation() {

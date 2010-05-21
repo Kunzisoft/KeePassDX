@@ -24,7 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -42,7 +41,9 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDate;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.edit.AddEntry;
 import com.keepassdroid.database.edit.OnFinish;
@@ -62,7 +63,11 @@ public class EntryEditActivity extends LockCloseActivity {
 	private boolean mShowPassword = false;
 	private boolean mIsNew;
 	
-	public static void Launch(Activity act, PwEntryV3 pw) {
+	public static void Launch(Activity act, PwEntry pw) {
+		if ( !(pw instanceof PwEntryV3) ) {
+			throw new RuntimeException("Not yet implemented.");
+		}
+		
 		Intent i = new Intent(act, EntryEditActivity.class);
 		
 		i.putExtra(KEY_ENTRY, pw.uuid);
@@ -70,9 +75,14 @@ public class EntryEditActivity extends LockCloseActivity {
 		act.startActivityForResult(i, 0);
 	}
 	
-	public static void Launch(Activity act, PwGroupV3 parent) {
+	public static void Launch(Activity act, PwGroup pw) {
+		if ( !(pw instanceof PwGroupV3) ) {
+			throw new RuntimeException("Not yet implemented.");
+		}
+
 		Intent i = new Intent(act, EntryEditActivity.class);
 		
+		PwGroupV3 parent = (PwGroupV3) pw;
 		i.putExtra(KEY_PARENT, parent.groupId);
 		
 		act.startActivityForResult(i, 0);
@@ -105,7 +115,7 @@ public class EntryEditActivity extends LockCloseActivity {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			assert(uuid != null);
 
-			mEntry = db.entries.get(uuid).get();
+			mEntry = (PwEntryV3) db.entries.get(uuid).get();
 			mIsNew = false;
 			
 			fillData();
@@ -179,7 +189,7 @@ public class EntryEditActivity extends LockCloseActivity {
 				OnFinish onFinish = act.new AfterSave(new Handler());
 				
 				if ( mIsNew ) {
-					task = new AddEntry(App.getDB(), newEntry, onFinish);
+					task = AddEntry.getInstance(App.getDB(), newEntry, onFinish);
 				} else {
 					task = new UpdateEntry(App.getDB(), mEntry, newEntry, onFinish);
 				}
@@ -259,7 +269,7 @@ public class EntryEditActivity extends LockCloseActivity {
 
 	private void fillData() {
 		populateText(R.id.entry_title, mEntry.title);
-		populateText(R.id.entry_user_name, mEntry.username);
+		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.url);
 		
 		String password = new String(mEntry.getPassword());

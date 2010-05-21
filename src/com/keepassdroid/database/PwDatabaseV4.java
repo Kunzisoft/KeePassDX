@@ -23,7 +23,13 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
+import java.util.Vector;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import com.keepassdroid.database.exception.InconsistentDBException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 
@@ -32,7 +38,11 @@ public class PwDatabaseV4 extends PwDatabase {
 	public UUID dataCipher;
 	public PwCompressionAlgorithm compressionAlgorithm;
     public long numKeyEncRounds;
-
+    private Document doc;
+    
+    //private Vector<PwGroupV4> groups = new Vector<PwGroupV4>();
+    private PwGroupV4 rootGroup;
+    
 	@Override
 	public byte[] getMasterKey(String key, String keyFileName)
 			throws InvalidKeyFileException, IOException {
@@ -63,6 +73,53 @@ public class PwDatabaseV4 extends PwDatabase {
     @Override
 	public byte[] getPasswordKey(String key) throws IOException {
 		return getPasswordKey(key, "UTF-8");
+	}
+
+	@Override
+	public Vector<PwGroup> getGroups() {
+		Vector<PwGroup> list = new Vector<PwGroup>();
+		rootGroup.buildChildGroupsRecursive(list);
+		
+		return list;
+	}
+
+	public void parseDB(Document d) throws InconsistentDBException {
+		doc = d;
+	
+		NodeList list = doc.getElementsByTagName("Root");
+		
+		int len = list.getLength();
+		if ( len < 0 || len > 1 ) {
+			throw new InconsistentDBException("Missing root node");
+		}
+		
+		Node root = list.item(1);
+		
+		rootGroup = new PwGroupV4(root);
+	}
+
+	@Override
+	public Vector<PwGroup> getGrpRoots() {
+		return rootGroup.childGroups;
+	}
+
+	@Override
+	public Vector<PwEntry> getEntries() {
+		Vector<PwEntry> list = new Vector<PwEntry>();
+		rootGroup.buildChildEntriesRecursive(list);
+		
+		return list;
+	}
+
+	@Override
+	public long getNumRounds() {
+		return numKeyEncRounds;
+	}
+
+	@Override
+	public void setNumRonuds(long rounds) throws NumberFormatException {
+		numKeyEncRounds = rounds;
+		
 	}
 
 }

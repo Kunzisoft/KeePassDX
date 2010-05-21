@@ -44,6 +44,9 @@ public class Kdb4 extends AndroidTestCase {
 			return;
 		}
 		
+		
+		is.close();
+		
 		assertTrue(false);
 		
 	}

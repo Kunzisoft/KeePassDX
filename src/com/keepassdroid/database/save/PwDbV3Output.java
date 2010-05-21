@@ -40,11 +40,12 @@ import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.stream.NullOutputStream;
 
-public class PwDbV3Output {
+public class PwDbV3Output extends PwDbOutput {
 	private PwDatabaseV3 mPM;
 	private OutputStream mOS;
 	private final boolean mDebug;
@@ -121,7 +122,7 @@ public class PwDbV3Output {
 		}
 		
 		header.version = PwDbHeaderV3.DBVER_DW;
-		header.numGroups = mPM.groups.size();
+		header.numGroups = mPM.getGroups().size();
 		header.numEntries = mPM.entries.size();
 		header.numKeyEncRounds = mPM.getNumKeyEncRecords();
 		
@@ -165,7 +166,7 @@ public class PwDbV3Output {
 		header.contentsHash = md.digest();
 		
 		// Output header
-		PwDbHeaderOutput pho = new PwDbHeaderOutput(header, os);
+		PwDbHeaderOutputV3 pho = new PwDbHeaderOutputV3(header, os);
 		try {
 			pho.output();
 		} catch (IOException e) {
@@ -179,9 +180,10 @@ public class PwDbV3Output {
 		//long size = 0;
 		
 		// Groups
-		for ( int i = 0; i < mPM.groups.size(); i++ ) {
-			PwGroupV3 pg = mPM.groups.get(i);
-			PwGroupOutput pgo = new PwGroupOutput(pg, os);
+		Vector<PwGroup> groups = mPM.getGroups();
+		for ( int i = 0; i < groups.size(); i++ ) {
+			PwGroupV3 pg = (PwGroupV3) groups.get(i);
+			PwGroupOutputV3 pgo = new PwGroupOutputV3(pg, os);
 			try {
 				pgo.output();
 			} catch (IOException e) {
@@ -191,8 +193,8 @@ public class PwDbV3Output {
 		
 		// Entries
 		for (int i = 0; i < mPM.entries.size(); i++ ) {
-			PwEntryV3 pe = mPM.entries.get(i);
-			PwEntryOutput peo = new PwEntryOutput(pe, os);
+			PwEntryV3 pe = (PwEntryV3) mPM.entries.get(i);
+			PwEntryOutputV3 peo = new PwEntryOutputV3(pe, os);
 			try {
 				peo.output();
 			} catch (IOException e) {
@@ -202,24 +204,24 @@ public class PwDbV3Output {
 	}
 	
 	private void sortGroupsForOutput() {
-		Vector<PwGroupV3> groupList = new Vector<PwGroupV3>();
+		Vector<PwGroup> groupList = new Vector<PwGroup>();
 		
 		// Rebuild list according to coalation sorting order removing any orphaned groups
-		Vector<PwGroupV3> roots = mPM.getGrpRoots();
+		Vector<PwGroup> roots = mPM.getGrpRoots();
 		for ( int i = 0; i < roots.size(); i++ ) {
-			sortGroup(roots.get(i), groupList);
+			sortGroup((PwGroupV3) roots.get(i), groupList);
 		}
 		
-		mPM.groups = groupList;
+		mPM.setGroups(groupList);
 	}
 	
-	private void sortGroup(PwGroupV3 group, Vector<PwGroupV3> groupList) {
+	private void sortGroup(PwGroupV3 group, Vector<PwGroup> groupList) {
 		// Add current group
 		groupList.add(group);
 		
 		// Recurse over children
 		for ( int i = 0; i < group.childGroups.size(); i++ ) {
-			sortGroup(group.childGroups.get(i), groupList);
+			sortGroup((PwGroupV3) group.childGroups.get(i), groupList);
 		}
 	}
 }

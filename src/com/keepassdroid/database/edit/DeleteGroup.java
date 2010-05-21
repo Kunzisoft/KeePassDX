@@ -22,36 +22,36 @@ package com.keepassdroid.database.edit;
 import java.lang.ref.WeakReference;
 import java.util.Vector;
 
-
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
-import com.keepassdroid.database.PwEntryV3;
-import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwGroup;
 
 public class DeleteGroup extends RunnableOnFinish {
 	
 	private Database mDb;
-	private PwGroupV3 mGroup;
+	private PwGroup mGroup;
 	private GroupBaseActivity mAct;
 	private boolean mDontSave;
 	
-	public DeleteGroup(Database db, PwGroupV3 group, GroupBaseActivity act, OnFinish finish) {
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish) {
 		super(finish);
 		setMembers(db, group, act, false);
 	}
 	
-	public DeleteGroup(Database db, PwGroupV3 group, GroupBaseActivity act, OnFinish finish, boolean dontSave) {
+	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish, boolean dontSave) {
 		super(finish);
 		setMembers(db, group, act, dontSave);
 	}
 
 	
-	public DeleteGroup(Database db, PwGroupV3 group, OnFinish finish, boolean dontSave) {
+	public DeleteGroup(Database db, PwGroup group, OnFinish finish, boolean dontSave) {
 		super(finish);
 		setMembers(db, group, null, dontSave);
 	}
 
-	private void setMembers(Database db, PwGroupV3 group, GroupBaseActivity act, boolean dontSave) {
+	private void setMembers(Database db, PwGroup group, GroupBaseActivity act, boolean dontSave) {
 		mDb = db;
 		mGroup = group;
 		mAct = act;
@@ -67,14 +67,14 @@ public class DeleteGroup extends RunnableOnFinish {
 	public void run() {
 		
 		// Remove child entries
-		Vector<PwEntryV3> childEnt = (Vector<PwEntryV3>) mGroup.childEntries.clone();
+		Vector<PwEntry> childEnt = (Vector<PwEntry>) mGroup.childEntries.clone();
 		for ( int i = 0; i < childEnt.size(); i++ ) {
 			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), null, true);
 			task.run();
 		}
 		
 		// Remove child groups
-		Vector<PwGroupV3> childGrp = (Vector<PwGroupV3>) mGroup.childGroups.clone();
+		Vector<PwGroup> childGrp = (Vector<PwGroup>) mGroup.childGroups.clone();
 		for ( int i = 0; i < childGrp.size(); i++ ) {
 			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, null, true);
 			task.run();
@@ -82,13 +82,13 @@ public class DeleteGroup extends RunnableOnFinish {
 		
 		
 		// Remove from parent
-		PwGroupV3 parent = mGroup.parent;
+		PwGroup parent = mGroup.getParent();
 		if ( parent != null ) {
 			parent.childGroups.remove(mGroup);
 		}
 		
 		// Remove from PwDatabaseV3
-		mDb.pm.groups.remove(mGroup);
+		mDb.pm.getGroups().remove(mGroup);
 		
 		// Save
 		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
@@ -104,7 +104,7 @@ public class DeleteGroup extends RunnableOnFinish {
 		public void run() {
 			if ( mSuccess ) {
 				// Remove from group global
-				mDb.groups.remove(mGroup.groupId);
+				mDb.groups.remove(mGroup.getId());
 				
 				// Remove group from the dirty global (if it is present), not a big deal if this fails
 				try {
@@ -114,12 +114,13 @@ public class DeleteGroup extends RunnableOnFinish {
 				}
 				
 				// Mark parent dirty
-				PwGroupV3 parent = mGroup.parent;
+				PwGroup parent = mGroup.getParent();
 				if ( parent != null ) {
-					mDb.dirty.put(parent, new WeakReference<PwGroupV3>(parent));
+					mDb.dirty.put(parent, new WeakReference<PwGroup>(parent));
 				}
 			} else {
 				// Let's not bother recovering from a failure to save a deleted group.  It is too much work.
+				App.setShutdown();
 			}
 			
 			super.run();

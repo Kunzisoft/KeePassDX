@@ -29,7 +29,7 @@
 			    <data android:pathPattern=".*\\.kdb" />
     		</intent-filter>
     	</activity>
-    	<activity android:name="com.keepassdroid.GroupActivity" android:configChanges="orientation|keyboardHidden">
+    	<activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden">
             <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
             <!-- whenever the user invokes search while in this Activity. -->
             <meta-data android:name="android.app.default_searchable"

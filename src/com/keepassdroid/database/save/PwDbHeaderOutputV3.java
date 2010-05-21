@@ -26,11 +26,11 @@ import java.io.OutputStream;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.utils.Types;
 
-public class PwDbHeaderOutput {
+public class PwDbHeaderOutputV3 {
 	private PwDbHeaderV3 mHeader;
 	private OutputStream mOS;
 	
-	public PwDbHeaderOutput(PwDbHeaderV3 header, OutputStream os) {
+	public PwDbHeaderOutputV3(PwDbHeaderV3 header, OutputStream os) {
 		mHeader = header;
 		mOS = os;
 	}

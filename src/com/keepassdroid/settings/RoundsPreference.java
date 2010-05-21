@@ -32,13 +32,13 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.SaveDB;
 
 public class RoundsPreference extends DialogPreference {
 	
-	private PwDatabaseV3 mPM;
+	private PwDatabase mPM;
 	private TextView mRoundsView;
 
 	@Override
@@ -49,8 +49,8 @@ public class RoundsPreference extends DialogPreference {
 		
 		Database db = App.getDB();
 		mPM = db.pm;
-		int numRounds = mPM.numKeyEncRounds;
-		mRoundsView.setText(Integer.toString(numRounds));
+		long numRounds = mPM.getNumRounds();
+		mRoundsView.setText(Long.toString(numRounds));
 		
 		return view;
 	}
@@ -82,8 +82,13 @@ public class RoundsPreference extends DialogPreference {
 				rounds = 1;
 			}
 			
-			int oldRounds = mPM.numKeyEncRounds;
-			mPM.numKeyEncRounds = rounds;
+			long oldRounds = mPM.getNumRounds();
+			try {
+				mPM.setNumRonuds(rounds);
+			} catch (NumberFormatException e) {
+				Toast.makeText(getContext(), R.string.error_rounds_too_large, Toast.LENGTH_LONG).show();
+				mPM.setNumRonuds(Integer.MAX_VALUE);
+			}
 			
 			Handler handler = new Handler();
 			SaveDB save = new SaveDB(App.getDB(), new AfterSave(getContext(), handler, oldRounds));
@@ -95,10 +100,10 @@ public class RoundsPreference extends DialogPreference {
 	}
 	
 	private class AfterSave extends OnFinish {
-		private int mOldRounds;
+		private long mOldRounds;
 		private Context mCtx;
 		
-		public AfterSave(Context ctx, Handler handler, int oldRounds) {
+		public AfterSave(Context ctx, Handler handler, long oldRounds) {
 			super(handler);
 			
 			mCtx = ctx;
@@ -114,7 +119,7 @@ public class RoundsPreference extends DialogPreference {
 				}
 			} else {
 				displayMessage(mCtx);
-				mPM.numKeyEncRounds = mOldRounds;
+				mPM.setNumRonuds(mOldRounds);
 			}
 			
 			super.run();

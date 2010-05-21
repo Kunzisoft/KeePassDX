@@ -44,7 +44,7 @@ public class Kdb4Header extends AndroidTestCase {
 		
 		assertTrue(db.dataCipher.equals(CipherFactory.AES_CIPHER));
 		
-		am.close();
+		is.close();
 
 	}
 }

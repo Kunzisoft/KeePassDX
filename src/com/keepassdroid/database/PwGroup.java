@@ -19,6 +19,16 @@
  */
 package com.keepassdroid.database;
 
-public class PwGroup {
+import java.util.Vector;
+
+public abstract class PwGroup {
+	public Vector<PwGroup> childGroups = new Vector<PwGroup>();
+	public Vector<PwEntry> childEntries = new Vector<PwEntry>();
+
+	public abstract PwGroup getParent();
+	
+	public abstract PwGroupId getId();
+	
+	public abstract String getName();
 
 }

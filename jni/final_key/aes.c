@@ -68,7 +68,8 @@ jint Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeUpdate(JNIEnv *env,
         jint inputLen, jbyteArray output, jint outputOffset, jint outputSize) {
 
 
-    LOGD("InputSize: %d; OutputSize: %d", inputLen, outputSize);
+    LOGD("InputSize: %d; InputOffset: %d, OutputOffset: %d, OutputSize: %d", inputLen, inputOffset, 
+            outputOffset, outputSize);
     if ( inputLen == 0 ) {
         return 0;
     }
@@ -98,7 +99,7 @@ jint Java_com_keepassdroid_crypto_NativeAESCipherSpi_nativeUpdate(JNIEnv *env,
     }
     */
 
-    LOGD("PreOut: OutLen=%d", outLen);
+    LOGD("PreOut: outputSize=%d, outputOffset=%d, OutLen=%d", outputSize, outputOffset, outLen);
     (*env)->SetByteArrayRegion(env, output, outputOffset, outLen, c_output);
 
     free(c_output);
