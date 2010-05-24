@@ -67,14 +67,11 @@ public class ImporterV4 extends Importer {
 			InvalidKeyFileException, InvalidPasswordException,
 			InvalidDBSignatureException, InvalidDBVersionException {
 
-		// TODO: Measure whether this buffer is better or worse for performance
-		BufferedInputStream bis = new BufferedInputStream(inStream);
-
 		PwDatabaseV4 db = new PwDatabaseV4();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
 		
-		header.loadFromFile(bis);
+		header.loadFromFile(inStream);
 			
 		db.setMasterKey(password, keyfile);
 		db.makeFinalKey(header.masterSeed, header.transformSeed, (int)db.numKeyEncRounds);
@@ -93,7 +90,7 @@ public class ImporterV4 extends Importer {
 			throw new IOException("Invalid algorithm.");
 		}
 		
-		InputStream decrypted = new BetterCipherInputStream(bis, cipher, 50 * 1024);
+		InputStream decrypted = new BetterCipherInputStream(inStream, cipher, 50 * 1024);
 		LEDataInputStream dataDecrypted = new LEDataInputStream(decrypted);
 		byte[] storedStartBytes = dataDecrypted.readBytes(32);
 		if ( storedStartBytes == null || storedStartBytes.length != 32 ) {

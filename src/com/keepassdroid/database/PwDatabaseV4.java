@@ -93,7 +93,7 @@ public class PwDatabaseV4 extends PwDatabase {
 			throw new InconsistentDBException("Missing root node");
 		}
 		
-		Node root = list.item(1);
+		Node root = list.item(0);
 		
 		rootGroup = new PwGroupV4(root);
 	}
