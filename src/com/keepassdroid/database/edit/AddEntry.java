@@ -86,7 +86,7 @@ public abstract class AddEntry extends RunnableOnFinish {
 				}
 			} else {
 				// Remove from group
-				mEntry.getParent().childEntries.removeElement(mEntry);
+				mEntry.getParent().childEntries.remove(mEntry);
 				
 				// Remove from manager
 				mDb.pm.getEntries().removeElement(mEntry);

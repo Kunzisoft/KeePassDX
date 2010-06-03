@@ -26,9 +26,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.view.PwEntryView;
 import com.keepassdroid.view.PwGroupView;
 
@@ -64,7 +62,7 @@ public class PwListAdapter extends BaseAdapter {
 		filteredEntries = new Vector<PwEntry>();
 		
 		for (int i = 0; i < mGroup.childEntries.size(); i++) {
-			PwEntryV3 entry = (PwEntryV3) mGroup.childEntries.elementAt(i);
+			PwEntry entry = mGroup.childEntries.get(i);
 			if ( ! entry.isMetaStream() ) {
 				filteredEntries.add(entry);
 			}
@@ -100,26 +98,18 @@ public class PwListAdapter extends BaseAdapter {
 
 	private View createGroupView(int position, View convertView) {
 		PwGroupView gv;
-		//if (convertView == null || ! (convertView instanceof PwGroupView)) {
-			PwGroupV3 group = (PwGroupV3) mGroup.childGroups.elementAt(position);
-			gv = PwGroupView.getInstance(mAct, group);
-		/*
-		} else {
-			gv = (PwGroupView) convertView;
-			gv.setGroup((PwGroupV3) mGroup.childGroups.elementAt(position));
-		}
-		*/
+
+		PwGroup group = mGroup.childGroups.get(position);
+		gv = PwGroupView.getInstance(mAct, group);
+
 		return gv;
 	}
 
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
-//		if (convertView == null || ! (convertView instanceof PwEntryView) ) {
-			ev = PwEntryView.getInstance(mAct, filteredEntries.elementAt(position), position);
-//		} else {
-//			ev = (PwEntryView) convertView;
-//			ev.setEntry(filteredEntries.elementAt(position));
-//		}
+
+		ev = PwEntryView.getInstance(mAct, filteredEntries.elementAt(position), position);
+
 		return ev;
 	}
 

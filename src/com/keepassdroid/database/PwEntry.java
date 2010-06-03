@@ -73,4 +73,8 @@ public abstract class PwEntry implements Cloneable {
 
 	public abstract String getDisplayTitle();
 
+	public boolean isMetaStream() {
+		return false;
+	}
+
 }

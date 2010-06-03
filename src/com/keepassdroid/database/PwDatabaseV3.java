@@ -61,8 +61,6 @@ public class PwDatabaseV3 extends PwDatabase {
     
     // Debugging entries
     public PwDbHeaderV3 dbHeader;
-    // root group
-    public PwGroupV3 rootGroup;
    
     public int getAlgorithm() {
     	return algorithm;
@@ -159,15 +157,17 @@ public class PwDatabaseV3 extends PwDatabase {
     {
 	// I'm in root
 	if (currentGroup == null) {
-	    rootGroup = new PwGroupV3();
+	    PwGroupV3 root = new PwGroupV3();
+	    rootGroup = root;
+	    
 		
 	    Vector<PwGroup> rootChildGroups = getGrpRoots();
-	    rootGroup.setGroups(rootChildGroups);
-	    rootGroup.childEntries = new Vector<PwEntry>();
-	    rootGroup.level = -1;
+	    root.setGroups(rootChildGroups);
+	    root.childEntries = new Vector<PwEntry>();
+	    root.level = -1;
 	    for (int i=0; i<rootChildGroups.size(); i++) {
 	    	PwGroupV3 grp = (PwGroupV3) rootChildGroups.elementAt(i);
-			grp.parent = rootGroup;
+			grp.parent = root;
 			constructTree(grp);
 	    }
 	    return;

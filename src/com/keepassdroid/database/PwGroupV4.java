@@ -19,9 +19,7 @@
  */
 package com.keepassdroid.database;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -46,10 +44,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	private boolean expires = false;
 	private long usageCount = 0;
 		
-	
-	public List<PwGroupV4> listGroups = new ArrayList<PwGroupV4>();
-	public List<PwEntryV4> listEntries = new ArrayList<PwEntryV4>();
-	
 	public PwGroupV4() {
 		
 	}
@@ -61,7 +55,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership, boolean updateLocationChanged) {
 		if ( subGroup == null ) throw new RuntimeException("subGroup");
 		
-		listGroups.add(subGroup);
+		childGroups.add(subGroup);
 		
 		if ( takeOwnership ) subGroup.parent = this;
 		
@@ -76,7 +70,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public void AddEntry(PwEntryV4 pe, boolean takeOwnership, boolean updateLocationChanged) {
 		assert(pe != null);
 		
-		listEntries.add(pe);
+		childEntries.add(pe);
 		
 		if ( takeOwnership ) pe.parent = this;
 		

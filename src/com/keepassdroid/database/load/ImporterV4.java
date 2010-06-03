@@ -464,7 +464,7 @@ public class ImporterV4 extends Importer {
 				if ( ctxGroups.size() != 0 ) throw new IOException("Group list should be empty.");
 				
 				db.rootGroup = new PwGroupV4();
-				ctxGroups.push(db.rootGroup);
+				ctxGroups.push((PwGroupV4)db.rootGroup);
 				ctxGroup = ctxGroups.peek();
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);

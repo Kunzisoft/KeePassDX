@@ -223,7 +223,8 @@ public class PwEntryV3 extends PwEntry {
 		System.arraycopy( buf, offset, binaryData, 0, len );
 	}
 
-	// Determine if this is a MetaStream entrie
+	// Determine if this is a MetaStream entry
+	@Override
 	public boolean isMetaStream() {
 		if ( binaryData == null ) return false;
 		if ( additional == null || additional.length() == 0 ) return false;

@@ -44,6 +44,7 @@ import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.edit.AddGroup;
 
 public abstract class GroupActivity extends GroupBaseActivity {
@@ -57,16 +58,22 @@ public abstract class GroupActivity extends GroupBaseActivity {
 	public static void Launch(Activity act, PwGroup group, int mode) {
 		Intent i;
 		
-		PwDatabase pm = App.getDB().pm;
-		if ( pm instanceof PwDatabaseV3 ) {
+		// Need to use PwDatabase since group may be null
+		PwDatabase db = App.getDB().pm;
+		if ( db instanceof PwDatabaseV3 ) {
 			i = new Intent(act, GroupActivityV3.class);
 		
 			if ( group != null ) {
 				PwGroupV3 g = (PwGroupV3) group;
 				i.putExtra(KEY_ENTRY, g.groupId);
 			}
-		} else if ( pm instanceof PwDatabaseV4 ) {
-			throw new RuntimeException("Not yet implemented.");
+		} else if ( db instanceof PwDatabaseV4 ) {
+			i = new Intent(act, GroupActivityV4.class);
+			
+			if ( group != null ) {
+				PwGroupV4 g = (PwGroupV4) group;
+				i.putExtra(KEY_ENTRY, g.uuid.toString());
+			}
 		} else {
 			assert(true); // Should never be reached
 			throw new RuntimeException("Should never be reached.");
@@ -78,7 +85,6 @@ public abstract class GroupActivity extends GroupBaseActivity {
 	}
 	
 	protected abstract PwGroupId retrieveGroupId(Intent i);
-	protected abstract PwGroup getGroup();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

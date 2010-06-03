@@ -20,7 +20,6 @@
 package com.keepassdroid.database;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.Vector;
 
-import com.keepassdroid.database.exception.InconsistentDBException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 
@@ -80,9 +78,6 @@ public class PwDatabaseV4 extends PwDatabase {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
     
-    //private Vector<PwGroupV4> groups = new Vector<PwGroupV4>();
-    public PwGroupV4 rootGroup;
-    
 	@Override
 	public byte[] getMasterKey(String key, String keyFileName)
 			throws InvalidKeyFileException, IOException {
@@ -118,13 +113,10 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public Vector<PwGroup> getGroups() {
 		Vector<PwGroup> list = new Vector<PwGroup>();
-		rootGroup.buildChildGroupsRecursive(list);
+		PwGroupV4 root = (PwGroupV4) rootGroup;
+		root.buildChildGroupsRecursive(list);
 		
 		return list;
-	}
-
-	public void parseDB(InputStream in) throws InconsistentDBException {
-		//TODO Implement Me
 	}
 
 	@Override
@@ -135,7 +127,8 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public Vector<PwEntry> getEntries() {
 		Vector<PwEntry> list = new Vector<PwEntry>();
-		rootGroup.buildChildEntriesRecursive(list);
+		PwGroupV4 root = (PwGroupV4) rootGroup;
+		root.buildChildEntriesRecursive(list);
 		
 		return list;
 	}

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -47,7 +48,6 @@ import com.keepassdroid.database.exception.Kdb4Exception;
 import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.load.Importer;
 import com.keepassdroid.database.load.ImporterFactory;
-import com.keepassdroid.database.load.ImporterV3;
 import com.keepassdroid.database.save.PwDbOutput;
 import com.keepassdroid.search.SearchDbHelper;
 
@@ -112,14 +112,17 @@ public class Database {
 		
 		Importer imp = ImporterFactory.createImporter(bis, debug);
 
-		
+
+		/*
 		ImporterV3 Importer;
 		Importer = (ImporterV3) imp;  // Remove me when V4 support is in
+		*/
 		
 		bis.reset();  // Return to the start
 		
-		pm = Importer.openDatabase(bis, password, keyfile, status);
+		pm = imp.openDatabase(bis, password, keyfile, status);
 		if ( pm != null ) {
+			root = pm.rootGroup;
 			populateGlobals(null);
 		}
 		
@@ -192,7 +195,6 @@ public class Database {
 			Vector<? extends PwGroup> rootChildGroups = pm.getGrpRoots();
 			for (int i = 0; i < rootChildGroups.size(); i++ ){
 				PwGroup cur = rootChildGroups.elementAt(i);
-				root = cur.getParent();
 				groups.put(cur.getId(), new WeakReference<PwGroup>(cur));
 				populateGlobals(cur);
 			}
@@ -200,16 +202,16 @@ public class Database {
 			return;
 		}
 		
-		Vector<PwGroup> childGroups = currentGroup.childGroups;
-		Vector<PwEntry> childEntries = currentGroup.childEntries;
+		List<PwGroup> childGroups = currentGroup.childGroups;
+		List<PwEntry> childEntries = currentGroup.childEntries;
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
-			PwEntry cur = childEntries.elementAt(i);
+			PwEntry cur = childEntries.get(i);
 			entries.put(cur.getUUID(), new WeakReference<PwEntry>(cur));
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {
-			PwGroup cur = childGroups.elementAt(i);
+			PwGroup cur = childGroups.get(i);
 			groups.put(cur.getId(), new WeakReference<PwGroup>(cur));
 			populateGlobals(cur);
 		}

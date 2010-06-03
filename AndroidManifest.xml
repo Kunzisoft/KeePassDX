@@ -35,6 +35,12 @@
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults" />
     	</activity>
+    	<activity android:name="com.keepassdroid.GroupActivityV4" android:configChanges="orientation|keyboardHidden">
+            <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
+            <!-- whenever the user invokes search while in this Activity. -->
+            <meta-data android:name="android.app.default_searchable"
+                       android:value="com.keepassdroid.search.SearchResults" />
+    	</activity>
 		<activity android:name="com.keepassdroid.EntryActivity"></activity>
 		<activity android:name="com.keepassdroid.LockingActivity"></activity>
 		<activity android:name="com.keepassdroid.EntryEditActivity" android:configChanges="orientation|keyboardHidden"></activity>

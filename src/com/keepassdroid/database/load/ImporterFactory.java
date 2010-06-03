@@ -42,7 +42,8 @@ public class ImporterFactory {
 		if ( PwDbHeaderV3.matchesHeader(sig1, sig2) ) {
 			return new ImporterV3(debug);
 		} else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
-			throw new Kdb4Exception();
+			return new ImporterV4();
+			//throw new Kdb4Exception();
 			//return new ImporterV4();
 		}
 
