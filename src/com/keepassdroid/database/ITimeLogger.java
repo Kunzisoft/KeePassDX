@@ -17,37 +17,30 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.edit;
+package com.keepassdroid.database;
 
-import com.keepassdroid.Database;
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwGroupV3;
+import java.util.Date;
 
-public class AddEntryV3 extends AddEntry {
+public interface ITimeLogger {
+	Date getLastModificationTime();
+	void setLastModificationTime(Date date);
 	
-	private PwEntry mEntry;
+	Date getCreationTime();
+	void setCreationTime(Date date);
 	
-	protected AddEntryV3(Database db, PwEntry entry, OnFinish finish) {
-		super(db, entry, finish);
-		
-		mEntry = entry;
-	}
+	Date getLastAccessTime();
+	void setLastAccessTime(Date date);
 	
+	Date getExpiryTime();
+	void setExpiryTime(Date date);
 	
-	public void addEntry() {
-		PwGroupV3 parent = (PwGroupV3) mEntry.getParent();
-		
-		// Add entry to group
-		parent.childEntries.add(mEntry);
-		
-		// Add entry to PwDatabaseV3
-		PwDatabase pm = (PwDatabase) mDb.pm;
-		pm.getEntries().add(mEntry);
-		
-		// Sort entries
-		parent.sortEntriesByName();
-		
-	}
+	boolean expires();
+	void setExpires(boolean exp);
+	
+	long getUsageCount();
+	void setUsageCount(long count);
+	
+	Date getLocationChanged();
+	void setLocationChanged(Date date);
 
 }

@@ -32,10 +32,8 @@ import android.util.Log;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.utils.Types;
 
 public class SearchDbHelper {
 	private static final String DATABASE_NAME = "search";
@@ -100,7 +98,7 @@ public class SearchDbHelper {
 	private ContentValues buildNewEntryContent(PwEntry entry) {
 
 		ContentValues cv = new ContentValues();
-		UUID uuid = Types.bytestoUUID(entry.uuid);
+		UUID uuid = entry.getUUID();
 		String uuidStr = uuid.toString();
 		
 		cv.put(KEY_UUID, uuidStr);
@@ -137,7 +135,7 @@ public class SearchDbHelper {
 	}
 	
 	public void deleteEntry(PwEntry entry) {
-		UUID uuid = Types.bytestoUUID(entry.uuid);
+		UUID uuid = entry.getUUID();
 		String uuidStr = uuid.toString();
 		
 		mDb.delete(SEARCH_TABLE, KEY_UUID + " = ?", new String[] {uuidStr});
@@ -157,7 +155,7 @@ public class SearchDbHelper {
 			String sUUID = cursor.getString(0);
 			UUID uuid = UUID.fromString(sUUID);
 			Log.d("TAG", uuid.toString()); 
-			PwEntryV3 entry = (PwEntryV3) db.entries.get(uuid).get();
+			PwEntry entry = (PwEntry) db.entries.get(uuid).get();
 			group.childEntries.add(entry);
 			
 			cursor.moveToNext();

@@ -19,45 +19,70 @@
  */
 package com.keepassdroid.database;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
-import com.keepassdroid.database.exception.InconsistentDBException;
-
-public class PwGroupV4 extends PwGroup {
-
-	private Node node;
-	private PwGroup parent;
-	
-	public PwGroupV4(Node n) throws InconsistentDBException {
-		this(n, null);
-	}
-
-	public PwGroupV4(Node n, PwGroup p) throws InconsistentDBException {
-		node = n;
-		parent = p;
-		buildTree();
-	}
-	
-	private void buildTree() throws InconsistentDBException {
-		NodeList children = node.getChildNodes();
+	public PwGroupV4 parent = null;
+	public UUID uuid;
+	public String name;
+	public String notes;
+	public int iconId;
+	public UUID customIconUuid;
+	public boolean isExpanded;
+	public String defaultAutoTypeSequence;
+	public Boolean enableAutoType;
+	public Boolean enableSearching;
+	public UUID lastTopVisibleEntry;
+	private Date parentGroupLastMod;
+	private Date creation;
+	private Date lastMod;
+	private Date lastAccess;
+	private Date expireDate;
+	private boolean expires = false;
+	private long usageCount = 0;
 		
-		for ( int i = 0; i < children.getLength(); i++ ) {
-			Node child = children.item(i);
-			String name = child.getNodeName();
-			if ( name.equalsIgnoreCase("Group") ) {
-				PwGroupV4 group = new PwGroupV4(child, this);
-				childGroups.add(group);
-			} else if ( name.equalsIgnoreCase("Entry") ) {
-				PwEntryV4 entry = new PwEntryV4(child);
-				childEntries.add(entry);
-			}
-		}
+	
+	public List<PwGroupV4> listGroups = new ArrayList<PwGroupV4>();
+	public List<PwEntryV4> listEntries = new ArrayList<PwEntryV4>();
+	
+	public PwGroupV4() {
+		
 	}
-
+	
+	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership) {
+		AddGroup(subGroup, takeOwnership, false);
+	}
+	
+	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership, boolean updateLocationChanged) {
+		if ( subGroup == null ) throw new RuntimeException("subGroup");
+		
+		listGroups.add(subGroup);
+		
+		if ( takeOwnership ) subGroup.parent = this;
+		
+		if ( updateLocationChanged ) subGroup.parentGroupLastMod = new Date(System.currentTimeMillis());
+		
+	}
+	
+	public void AddEntry(PwEntryV4 pe, boolean takeOwnership) {
+		AddEntry(pe, takeOwnership, false);
+	}
+	
+	public void AddEntry(PwEntryV4 pe, boolean takeOwnership, boolean updateLocationChanged) {
+		assert(pe != null);
+		
+		listEntries.add(pe);
+		
+		if ( takeOwnership ) pe.parent = this;
+		
+		if ( updateLocationChanged ) pe.setLocationChanged(new Date(System.currentTimeMillis()));
+	}
+	
 	@Override
 	public PwGroup getParent() {
 		return parent;
@@ -87,18 +112,88 @@ public class PwGroupV4 extends PwGroup {
 
 	@Override
 	public PwGroupId getId() {
-		return new PwGroupIdV4(getUUID());
-	}
-
-	public UUID getUUID() {
-		// TODO: Get UUID from document
-		return null;
+		return new PwGroupIdV4(uuid);
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
+	}
+
+	@Override
+	public Date getLastMod() {
+		return parentGroupLastMod;
+	}
+
+	@Override
+	public Date getCreationTime() {
+		return creation;
+	}
+
+	@Override
+	public Date getExpiryTime() {
+		return expireDate;
+	}
+
+	@Override
+	public Date getLastAccessTime() {
+		return lastAccess;
+	}
+
+	@Override
+	public Date getLastModificationTime() {
+		return lastMod;
+	}
+
+	@Override
+	public Date getLocationChanged() {
+		return parentGroupLastMod;
+	}
+
+	@Override
+	public long getUsageCount() {
+		return usageCount;
+	}
+
+	@Override
+	public void setCreationTime(Date date) {
+		creation = date;
+		
+	}
+
+	@Override
+	public void setExpiryTime(Date date) {
+		expireDate = date;
+	}
+
+	@Override
+	public void setLastAccessTime(Date date) {
+		lastAccess = date;
+	}
+
+	@Override
+	public void setLastModificationTime(Date date) {
+		lastMod = date;
+	}
+
+	@Override
+	public void setLocationChanged(Date date) {
+		parentGroupLastMod = date;
+	}
+
+	@Override
+	public void setUsageCount(long count) {
+		usageCount = count;
+	}
+
+	@Override
+	public boolean expires() {
+		return expires;
+	}
+
+	@Override
+	public void setExpires(boolean exp) {
+		expires = exp;
 	}
 	
 

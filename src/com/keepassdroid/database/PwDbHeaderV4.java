@@ -52,7 +52,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
     private PwDatabaseV4 db;
     public byte[] protectedStreamKey;
     public byte[] streamStartBytes;
-    public int innerRandomStream;
+    public CrsAlgorithm innerRandomStream;
 
     public PwDbHeaderV4(PwDatabaseV4 d) {
     	db = d;
@@ -190,11 +190,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 		
 		int id = LEDataInputStream.readInt(streamID, 0);
-		if ( id < 0 || id >= CrsAlgorithm.Count ) {
+		if ( id < 0 || id >= CrsAlgorithm.count ) {
 			throw new IOException("Invalid stream id.");
 		}
 		
-		innerRandomStream = id;
+		innerRandomStream = CrsAlgorithm.fromId(id);
 	}
 	
 	/** Determines if this is a supported version.

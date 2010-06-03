@@ -25,6 +25,7 @@ import android.content.Context;
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
@@ -100,7 +101,7 @@ public class DeleteEntry extends AndroidTestCase {
 		
 	}
 	
-	private PwGroup getGroup(PwDatabaseV3 pm, String name) {
+	private PwGroup getGroup(PwDatabase pm, String name) {
 		Vector<PwGroup> groups = pm.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
 			PwGroup group = groups.get(i);

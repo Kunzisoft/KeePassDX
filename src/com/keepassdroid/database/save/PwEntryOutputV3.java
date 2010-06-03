@@ -74,7 +74,7 @@ public class PwEntryOutputV3 {
 		// UUID
 		mOS.write(UUID_FIELD_TYPE);
 		mOS.write(UUID_FIELD_SIZE);
-		mOS.write(mPE.uuid);
+		mOS.write(Types.UUIDtoBytes(mPE.getUUID()));
 		
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);

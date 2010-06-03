@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.database;
 
+import java.util.Date;
 import java.util.Vector;
 
 public abstract class PwGroup {
@@ -30,5 +31,7 @@ public abstract class PwGroup {
 	public abstract PwGroupId getId();
 	
 	public abstract String getName();
+	
+	public abstract Date getLastMod();
 
 }

@@ -34,7 +34,7 @@ public abstract class AddEntry extends RunnableOnFinish {
 	
 	public static AddEntry getInstance(Database db, PwEntry entry, OnFinish finish) {
 		if ( entry instanceof PwEntryV3 ) {
-			return new AddEntryV3(db, (PwEntryV3) entry, finish);
+			return new AddEntryV3(db, (PwEntry) entry, finish);
 		} else {
 			// TODO: Implement me
 			throw new RuntimeException("Not implemented yet.");
@@ -76,7 +76,7 @@ public abstract class AddEntry extends RunnableOnFinish {
 				mDb.dirty.put(parent, new WeakReference<PwGroup>(parent));
 
 				// Add entry to global
-				mDb.entries.put(Types.bytestoUUID(mEntry.uuid), new WeakReference<PwEntry>(mEntry));
+				mDb.entries.put(mEntry.getUUID(), new WeakReference<PwEntry>(mEntry));
 				
 				if ( mDb.indexBuilt ) {
 					// Add entry to search index

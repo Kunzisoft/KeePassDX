@@ -19,15 +19,50 @@
  */
 package com.keepassdroid.database;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-import org.w3c.dom.Node;
-
-public class PwEntryV4 extends PwEntry {
-	private Node node;
+public class PwEntryV4 extends PwEntry implements ITimeLogger {
+	private static final String STR_USERNAME = "UserName";
 	
-	public PwEntryV4(Node n) {
-		node = n;
+	public PwGroupV4 parent;
+	public UUID uuid;
+	public Map<String, String> strings = new HashMap<String, String>();
+	public Map<String, byte[]> binaries = new HashMap<String, byte[]>();
+	public UUID customIconUuid;
+	public String foregroundColor;
+	public String backgroupColor;
+	public String overrideURL;
+	public AutoType autoType = new AutoType();
+	public List<PwEntryV4> history = new ArrayList<PwEntryV4>();
+	
+	private Date parentGroupLastMod;
+	private Date creation;
+	private Date lastMod;
+	private Date lastAccess;
+	private Date expireDate;
+	private boolean expires = false;
+	private long usageCount = 0;
+
+	
+	public class AutoType {
+		public boolean enabled;
+		public long obfuscationOptions;
+		public String defaultSequence;
+		
+		private Map<String, String> windowSeqPairs = new HashMap<String, String>();
+		
+		public void put(String key, String value) {
+			windowSeqPairs.put(key, value);
+		}
+	}
+	
+	public PwEntryV4() {
+
 	}
 
 	@Override
@@ -43,7 +78,7 @@ public class PwEntryV4 extends PwEntry {
 	}
 	
 	private void assign(PwEntryV4 source) {
-		node = source.node;
+		// TODO: Implement me
 	}
 
 	@Override
@@ -60,50 +95,131 @@ public class PwEntryV4 extends PwEntry {
 
 	@Override
 	public String getUsername() {
-		// TODO Implement me
-		return null;
+		return getString(STR_USERNAME);
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Implement me
 		return null;
 	}
 
 	@Override
 	public Date getAccess() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Date getCreate() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Date getExpire() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Date getMod() {
-		// TODO Auto-generated method stub
-		return null;
+		return parentGroupLastMod;
 	}
 
 	@Override
 	public String getDisplayTitle() {
-		// TOOD: Add special TAN handling for V4?
 		return title;
 	}
 
 	@Override
 	public PwGroupV4 getParent() {
-		// TODO Auto-generated method stub
-		return null;
+		return parent;
 	}
 
+	@Override
+	public UUID getUUID() {
+		return uuid;
+	}
+
+
+	@Override
+	public void setUUID(UUID u) {
+		uuid = u;
+	}
+	
+	public String getString(String key) {
+		String value = strings.get(key);
+		
+		if ( value == null ) return new String("");
+		
+		return value;
+	}
+
+	@Override
+	public Date getCreationTime() {
+		return creation;
+	}
+
+	@Override
+	public Date getExpiryTime() {
+		return expireDate;
+	}
+
+	@Override
+	public Date getLastAccessTime() {
+		return lastAccess;
+	}
+
+	@Override
+	public Date getLastModificationTime() {
+		return lastMod;
+	}
+
+	@Override
+	public Date getLocationChanged() {
+		return parentGroupLastMod;
+	}
+
+	@Override
+	public long getUsageCount() {
+		return usageCount;
+	}
+
+	@Override
+	public void setCreationTime(Date date) {
+		creation = date;
+		
+	}
+
+	@Override
+	public void setExpiryTime(Date date) {
+		expireDate = date;
+	}
+
+	@Override
+	public void setLastAccessTime(Date date) {
+		lastAccess = date;
+	}
+
+	@Override
+	public void setLastModificationTime(Date date) {
+		lastMod = date;
+	}
+
+	@Override
+	public void setLocationChanged(Date date) {
+		parentGroupLastMod = date;
+	}
+
+	@Override
+	public void setUsageCount(long count) {
+		usageCount = count;
+	}
+	
+	@Override
+	public boolean expires() {
+		return expires;
+	}
+
+	@Override
+	public void setExpires(boolean exp) {
+		expires = exp;
+	}
 }

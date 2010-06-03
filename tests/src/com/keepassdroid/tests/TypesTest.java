@@ -23,9 +23,9 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.util.Calendar;
 import java.util.Random;
+import java.util.UUID;
 
 import junit.framework.TestCase;
-
 
 import com.keepassdroid.database.PwDate;
 import com.keepassdroid.stream.LEDataInputStream;
@@ -179,5 +179,16 @@ public class TypesTest extends TestCase {
 		assertEquals("Hour mismatch: ", 3, actual.get(Calendar.HOUR_OF_DAY));
 		assertEquals("Minute mismatch: ", 4, actual.get(Calendar.MINUTE));
 		assertEquals("Second mismatch: ", 5, actual.get(Calendar.SECOND));
+	}
+	
+	public void testUUID() {
+		Random rnd = new Random();
+		byte[] bUUID = new byte[16];
+		rnd.nextBytes(bUUID);
+		
+		UUID uuid = Types.bytestoUUID(bUUID);
+		byte[] eUUID = Types.UUIDtoBytes(uuid);
+		
+		assertArrayEquals("UUID match failed", bUUID, eUUID);
 	}
 }

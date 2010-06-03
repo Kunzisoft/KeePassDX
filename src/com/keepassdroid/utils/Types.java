@@ -178,19 +178,31 @@ public class Types {
   }
     
   public static UUID bytestoUUID(byte[] buf) {
-
-	  long msb = 0;
-	  for (int i = 0; i < 8; i++) {
-		  msb = (msb << 8) | (buf[i] & 0xff);
-	  }
-
+	  return bytestoUUID(buf, 0);
+  }
+  
+  public static UUID bytestoUUID(byte[] buf, int offset) {
 	  long lsb = 0;
-	  for (int i = 8; i < 16; i++) {
-		  lsb = (lsb << 8) | (buf[i] & 0xff);
+	  for (int i = 15; i >= 8; i--) {
+		  lsb = (lsb << 8) | (buf[i + offset] & 0xff);
+	  }
+	  
+	  long msb = 0;
+	  for (int i = 7; i >= 0; i--) {
+		  msb = (msb << 8) | (buf[i + offset] & 0xff);
 	  }
 
 	  return new UUID(msb, lsb);
 
   }
-
+  
+  public static byte[] UUIDtoBytes(UUID uuid) {
+	  byte[] buf = new byte[16];
+	  
+	  LEDataOutputStream.writeLong(uuid.getMostSignificantBits(), buf, 0);
+	  LEDataOutputStream.writeLong(uuid.getLeastSignificantBits(), buf, 8);
+	  
+	  return buf;
+  }
+  
 }

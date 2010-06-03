@@ -17,37 +17,18 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.edit;
+package com.keepassdroid.database;
 
-import com.keepassdroid.Database;
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwGroupV3;
+public class PwDefsV4 {
 
-public class AddEntryV3 extends AddEntry {
-	
-	private PwEntry mEntry;
-	
-	protected AddEntryV3(Database db, PwEntry entry, OnFinish finish) {
-		super(db, entry, finish);
-		
-		mEntry = entry;
-	}
-	
-	
-	public void addEntry() {
-		PwGroupV3 parent = (PwGroupV3) mEntry.getParent();
-		
-		// Add entry to group
-		parent.childEntries.add(mEntry);
-		
-		// Add entry to PwDatabaseV3
-		PwDatabase pm = (PwDatabase) mDb.pm;
-		pm.getEntries().add(mEntry);
-		
-		// Sort entries
-		parent.sortEntriesByName();
-		
-	}
+	public static final String TITLE_FIELD = "Title";
+
+    public static final String USERNAME_FIELD = "UserName";
+
+    public static final String PASSWORD_FIELD = "Password";
+
+    public static final String URL_FIELD = "URL";
+
+    public static final String NOTES_FIELD = "Notes";
 
 }

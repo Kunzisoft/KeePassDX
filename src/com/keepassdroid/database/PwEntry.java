@@ -20,13 +20,15 @@
 package com.keepassdroid.database;
 
 import java.util.Date;
+import java.util.UUID;
 
 public abstract class PwEntry implements Cloneable {
 
-	public byte uuid[] = new byte[16];
+	//public byte uuid[] = new byte[16];
 	public String title;
 	public String url;
 	public String additional;
+	public int imageId;
 
 	public PwEntry() {
 		
@@ -42,7 +44,7 @@ public abstract class PwEntry implements Cloneable {
 			throw new RuntimeException("Clone should be supported");
 		}
 		
-		System.arraycopy(uuid, 0, newEntry.uuid, 0, uuid.length);
+		newEntry.setUUID(getUUID());
 		newEntry.title = title;
 		newEntry.url = url;
 		newEntry.additional = additional;
@@ -51,14 +53,16 @@ public abstract class PwEntry implements Cloneable {
 	}
 	
 	public void assign(PwEntry source) {
-		System.arraycopy(source.uuid, 0, uuid, 0, source.uuid.length);
+		setUUID(source.getUUID());
 		title = source.title;
 		url = source.url;
 		additional = source.additional;
 	}
 
 	public abstract void stampLastAccess();
-	
+
+	public abstract UUID getUUID();
+	public abstract void setUUID(UUID u);
 	public abstract String getUsername();
 	public abstract String getPassword();
 	public abstract Date getCreate();

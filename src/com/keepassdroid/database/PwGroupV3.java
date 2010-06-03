@@ -118,4 +118,9 @@ public class PwGroupV3 extends PwGroup {
 		return name;
 	}
 
+	@Override
+	public Date getLastMod() {
+		return tLastMod.getJDate();
+	}
+
 }

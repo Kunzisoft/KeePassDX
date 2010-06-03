@@ -70,7 +70,7 @@ public class EntryEditActivity extends LockCloseActivity {
 		
 		Intent i = new Intent(act, EntryEditActivity.class);
 		
-		i.putExtra(KEY_ENTRY, pw.uuid);
+		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
 		
 		act.startActivityForResult(i, 0);
 	}
@@ -155,7 +155,7 @@ public class EntryEditActivity extends LockCloseActivity {
 				newEntry.parent = mEntry.parent;
 				newEntry.tCreation = mEntry.tCreation;
 				newEntry.tExpire = mEntry.tExpire;
-				newEntry.uuid = mEntry.uuid;
+				newEntry.setUUID(mEntry.getUUID());
 				
 				Date now = Calendar.getInstance().getTime(); 
 				newEntry.tLastAccess = new PwDate(now);

@@ -29,11 +29,13 @@ import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
 
 import android.util.Log;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.utils.Types;
 
 
 /**
@@ -71,11 +73,9 @@ public class PwEntryV3 extends PwEntry {
 
 
 	public int              groupId;
-	public int              imageId;
-
-	public String           username;
-
+	public 	String 			username;
 	private byte[]          password;
+	private byte[]          uuid;
 
 	public PwDate             tCreation;
 	public PwDate             tLastMod;
@@ -316,11 +316,6 @@ public class PwEntryV3 extends PwEntry {
 	}
 
 	@Override
-	public String getUsername() {
-		return username;
-	}
-
-	@Override
 	public Date getAccess() {
 		return tLastAccess.getJDate();
 	}
@@ -343,6 +338,21 @@ public class PwEntryV3 extends PwEntry {
 	@Override
 	public PwGroupV3 getParent() {
 		return parent;
+	}
+
+	@Override
+	public UUID getUUID() {
+		return Types.bytestoUUID(uuid);
+	}
+
+	@Override
+	public void setUUID(UUID u) {
+		uuid = Types.UUIDtoBytes(u);
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
 	}
 
 }

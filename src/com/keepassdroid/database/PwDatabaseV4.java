@@ -20,14 +20,16 @@
 package com.keepassdroid.database;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.Vector;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.keepassdroid.database.exception.InconsistentDBException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
@@ -38,10 +40,48 @@ public class PwDatabaseV4 extends PwDatabase {
 	public UUID dataCipher;
 	public PwCompressionAlgorithm compressionAlgorithm;
     public long numKeyEncRounds;
-    private Document doc;
+    public Date nameChanged;
+    public String description;
+    public Date descriptionChanged;
+    public String defaultUserName;
+    public Date defaultUserNameChanged;
+    public long maintenanceHistoryDays;
+    public boolean recycleBinEnabled;
+    public UUID recycleBinUUID;
+    public Date recycleBinChanged;
+    public UUID entryTemplatesGroup;
+    public Date entryTemplatesGroupChanged;
+    public UUID lastSelectedGroup;
+    public UUID lastTopVisibleGroup;
+    public MemoryProtectionConfig memoryProtection = new MemoryProtectionConfig();
+    public List<PwDeletedObject> deletedObjects = new ArrayList<PwDeletedObject>();
+    public List<PwCustomIcon> customIcons;
+    public Map<String, String> customData = new HashMap<String, String>();
+    
+    public class MemoryProtectionConfig {
+    	public boolean protectTitle = false;
+    	public boolean protectUserName = false;
+    	public boolean protectPassword = false;
+    	public boolean protectUrl = false;
+    	public boolean protectNotes = false;
+    	
+    	public boolean autoEnableVisualHiding = false;
+    	
+    	public boolean GetProtection(String field) {
+    		if ( field.equalsIgnoreCase(PwDefsV4.TITLE_FIELD)) return protectTitle;
+    		if ( field.equalsIgnoreCase(PwDefsV4.USERNAME_FIELD)) return protectUserName;
+    		if ( field.equalsIgnoreCase(PwDefsV4.PASSWORD_FIELD)) return protectPassword;
+    		if ( field.equalsIgnoreCase(PwDefsV4.URL_FIELD)) return protectUrl;
+    		if ( field.equalsIgnoreCase(PwDefsV4.NOTES_FIELD)) return protectNotes;
+    		
+    		return false;
+    	}
+    }
+
+    public static final UUID UUID_ZERO = new UUID(0,0);
     
     //private Vector<PwGroupV4> groups = new Vector<PwGroupV4>();
-    private PwGroupV4 rootGroup;
+    public PwGroupV4 rootGroup;
     
 	@Override
 	public byte[] getMasterKey(String key, String keyFileName)
@@ -83,19 +123,8 @@ public class PwDatabaseV4 extends PwDatabase {
 		return list;
 	}
 
-	public void parseDB(Document d) throws InconsistentDBException {
-		doc = d;
-	
-		NodeList list = doc.getElementsByTagName("Root");
-		
-		int len = list.getLength();
-		if ( len < 0 || len > 1 ) {
-			throw new InconsistentDBException("Missing root node");
-		}
-		
-		Node root = list.item(0);
-		
-		rootGroup = new PwGroupV4(root);
+	public void parseDB(InputStream in) throws InconsistentDBException {
+		//TODO Implement Me
 	}
 
 	@Override

@@ -107,7 +107,7 @@ public class ImporterV3 extends Importer {
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
 	}
 
-	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
+	public PwDatabase openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
 	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException
 	{
 		PwDatabaseV3        newManager;
@@ -375,7 +375,7 @@ public class ImporterV3 extends Importer {
 			// Ignore field
 			break;
 		case 0x0001 :
-			System.arraycopy(buf, offset, ent.uuid, 0, 16);
+			ent.setUUID(Types.bytestoUUID(buf, offset));
 			break;
 		case 0x0002 :
 			ent.groupId = LEDataInputStream.readInt(buf, offset);

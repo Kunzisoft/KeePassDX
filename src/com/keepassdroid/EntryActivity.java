@@ -77,7 +77,7 @@ public class EntryActivity extends LockCloseActivity {
 	public static void Launch(Activity act, PwEntry pw, int pos) {
 		Intent i = new Intent(act, EntryActivity.class);
 		
-		i.putExtra(KEY_ENTRY, pw.uuid);
+		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
 		i.putExtra(KEY_REFRESH_POS, pos);
 		
 		act.startActivityForResult(i,0);

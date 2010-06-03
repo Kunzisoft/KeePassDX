@@ -50,7 +50,6 @@ import com.keepassdroid.database.load.ImporterFactory;
 import com.keepassdroid.database.load.ImporterV3;
 import com.keepassdroid.database.save.PwDbOutput;
 import com.keepassdroid.search.SearchDbHelper;
-import com.keepassdroid.utils.Types;
 
 /**
  * @author bpellin
@@ -206,7 +205,7 @@ public class Database {
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
 			PwEntry cur = childEntries.elementAt(i);
-			entries.put(Types.bytestoUUID(cur.uuid), new WeakReference<PwEntry>(cur));
+			entries.put(cur.getUUID(), new WeakReference<PwEntry>(cur));
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {

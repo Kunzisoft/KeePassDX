@@ -38,6 +38,7 @@ public abstract class PwDatabase {
 
 	public byte masterKey[] = new byte[32];
 	public byte[] finalKey;
+	public String name = "KeePass database";
 	
 	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
 

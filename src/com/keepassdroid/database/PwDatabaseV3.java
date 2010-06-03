@@ -48,9 +48,6 @@ public class PwDatabaseV3 extends PwDatabase {
     // Constants
     // private static final int PWM_SESSION_KEY_SIZE = 12;
 
-    // Descriptive name for database, used in GUI.
-    public  String   name = "KeePass database";
-  
     // Special entry for settings
     public PwEntry   metaInfo;
 
@@ -153,7 +150,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	groups.addElement(group);
     }
     
-    public void addEntry(PwEntryV3 entry)
+    public void addEntry(PwEntry entry)
     {
 	entries.addElement(entry);
     }

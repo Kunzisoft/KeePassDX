@@ -17,37 +17,16 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.edit;
+package com.keepassdroid.database;
 
-import com.keepassdroid.Database;
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwGroupV3;
+import java.util.UUID;
 
-public class AddEntryV3 extends AddEntry {
+public class PwCustomIcon {
+	private UUID uuid;
+	private byte[] imageData;
 	
-	private PwEntry mEntry;
-	
-	protected AddEntryV3(Database db, PwEntry entry, OnFinish finish) {
-		super(db, entry, finish);
-		
-		mEntry = entry;
+	public PwCustomIcon(UUID u, byte[] data) {
+		uuid = u;
+		imageData = data;
 	}
-	
-	
-	public void addEntry() {
-		PwGroupV3 parent = (PwGroupV3) mEntry.getParent();
-		
-		// Add entry to group
-		parent.childEntries.add(mEntry);
-		
-		// Add entry to PwDatabaseV3
-		PwDatabase pm = (PwDatabase) mDb.pm;
-		pm.getEntries().add(mEntry);
-		
-		// Sort entries
-		parent.sortEntriesByName();
-		
-	}
-
 }
