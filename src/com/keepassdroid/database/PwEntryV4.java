@@ -78,7 +78,23 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 	
 	private void assign(PwEntryV4 source) {
-		// TODO: Implement me
+		parent = source.parent;
+		uuid = source.uuid;
+		strings = source.strings;
+		customIconUuid = source.customIconUuid;
+		foregroundColor = source.foregroundColor;
+		backgroupColor = source.backgroupColor;
+		overrideURL = source.overrideURL;
+		autoType = source.autoType;
+		history = source.history;
+		parentGroupLastMod = source.parentGroupLastMod;
+		creation = source.creation;
+		lastMod = source.lastMod;
+		lastAccess = source.lastAccess;
+		expireDate = source.expireDate;
+		expires = source.expires;
+		usageCount = source.usageCount;
+		
 	}
 
 	@Override
@@ -90,7 +106,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public void stampLastAccess() {
-		// TODO Implement me
+		lastAccess = new Date(System.currentTimeMillis());
 	}
 
 	@Override

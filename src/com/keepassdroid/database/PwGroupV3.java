@@ -30,8 +30,6 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package com.keepassdroid.database;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 
@@ -77,35 +75,9 @@ public class PwGroupV3 extends PwGroup {
 		childGroups = groups;
 	}
 	
-	public void sortGroupsByName() {
-		Collections.sort(childGroups, new GroupNameComparator());
-	}
-
 	@Override
 	public PwGroup getParent() {
 		return parent;
-	}
-
-	public void sortEntriesByName() {
-		Collections.sort(childEntries, new EntryNameComparator());
-	}
-	
-	private class GroupNameComparator implements Comparator<PwGroup> {
-
-		@Override
-		public int compare(PwGroup object1, PwGroup object2) {
-			return object1.getName().compareToIgnoreCase(object2.getName());
-		}
-		
-	}
-
-	private class EntryNameComparator implements Comparator<PwEntry> {
-
-		@Override
-		public int compare(PwEntry object1, PwEntry object2) {
-			return object1.title.compareToIgnoreCase(object2.title);
-		}
-		
 	}
 
 	@Override

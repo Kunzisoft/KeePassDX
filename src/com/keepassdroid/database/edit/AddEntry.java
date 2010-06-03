@@ -26,7 +26,6 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.search.SearchDbHelper;
-import com.keepassdroid.utils.Types;
 
 public abstract class AddEntry extends RunnableOnFinish {
 	protected Database mDb;

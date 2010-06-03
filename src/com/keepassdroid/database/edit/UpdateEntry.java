@@ -23,9 +23,7 @@ import java.lang.ref.WeakReference;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.search.SearchDbHelper;
 
 public class UpdateEntry extends RunnableOnFinish {
@@ -41,8 +39,8 @@ public class UpdateEntry extends RunnableOnFinish {
 		mNewE = newE;
 		
 		// Keep backup of original values in case save fails
-		PwEntryV3 backup;
-		backup = (PwEntryV3) mOldE.clone();
+		PwEntry backup;
+		backup = (PwEntry) mOldE.clone();
 		
 		mFinish = new AfterUpdate(backup, finish);
 	}
@@ -58,9 +56,9 @@ public class UpdateEntry extends RunnableOnFinish {
 	}
 	
 	private class AfterUpdate extends OnFinish {
-		private PwEntryV3 mBackup;
+		private PwEntry mBackup;
 		
-		public AfterUpdate(PwEntryV3 backup, OnFinish finish) {
+		public AfterUpdate(PwEntry backup, OnFinish finish) {
 			super(finish);
 			
 			mBackup = backup;
@@ -71,7 +69,7 @@ public class UpdateEntry extends RunnableOnFinish {
 			if ( mSuccess ) {
 				// Mark group dirty if title changes
 				if ( ! mBackup.title.equals(mNewE.title) ) {
-					PwGroupV3 parent = mBackup.parent;
+					PwGroup parent = mBackup.getParent();
 					if ( parent != null ) {
 						// Resort entries
 						parent.sortEntriesByName();

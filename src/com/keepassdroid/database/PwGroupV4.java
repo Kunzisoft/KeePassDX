@@ -195,6 +195,5 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public void setExpires(boolean exp) {
 		expires = exp;
 	}
-	
 
 }
