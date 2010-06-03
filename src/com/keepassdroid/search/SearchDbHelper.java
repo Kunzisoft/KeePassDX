@@ -102,7 +102,7 @@ public class SearchDbHelper {
 		String uuidStr = uuid.toString();
 		
 		cv.put(KEY_UUID, uuidStr);
-		cv.put(KEY_TITLE, entry.title);
+		cv.put(KEY_TITLE, entry.getTitle());
 		cv.put(KEY_URL, entry.url);
 		cv.put(KEY_COMMENT, entry.additional);
 		

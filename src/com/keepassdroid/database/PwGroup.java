@@ -57,7 +57,7 @@ public abstract class PwGroup {
 
 		@Override
 		public int compare(PwEntry object1, PwEntry object2) {
-			return object1.title.compareToIgnoreCase(object2.title);
+			return object1.getTitle().compareToIgnoreCase(object2.getTitle());
 		}
 		
 	}

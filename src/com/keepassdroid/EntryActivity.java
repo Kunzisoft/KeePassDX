@@ -196,7 +196,7 @@ public class EntryActivity extends LockCloseActivity {
 	}
 	
 	private void fillData() {
-		populateText(R.id.entry_title, mEntry.title);
+		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.url);
 		populateText(R.id.entry_password, mEntry.getPassword());

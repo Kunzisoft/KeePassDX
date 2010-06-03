@@ -24,10 +24,10 @@ import java.util.UUID;
 
 public abstract class PwEntry implements Cloneable {
 
-	//public byte uuid[] = new byte[16];
-	public String title;
+	// TODO none of these belong here.  They aren't stored this way in PwEntryV4 
 	public String url;
 	public String additional;
+	
 	public int imageId;
 
 	public PwEntry() {
@@ -45,7 +45,6 @@ public abstract class PwEntry implements Cloneable {
 		}
 		
 		newEntry.setUUID(getUUID());
-		newEntry.title = title;
 		newEntry.url = url;
 		newEntry.additional = additional;
 		
@@ -54,7 +53,6 @@ public abstract class PwEntry implements Cloneable {
 	
 	public void assign(PwEntry source) {
 		setUUID(source.getUUID());
-		title = source.title;
 		url = source.url;
 		additional = source.additional;
 	}
@@ -63,6 +61,7 @@ public abstract class PwEntry implements Cloneable {
 
 	public abstract UUID getUUID();
 	public abstract void setUUID(UUID u);
+	public abstract String getTitle();
 	public abstract String getUsername();
 	public abstract String getPassword();
 	public abstract Date getCreate();

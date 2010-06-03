@@ -126,6 +126,9 @@ public class PwEntryV3 extends PwEntry {
 	// for tree traversing
 	public PwGroupV3 parent = null;
 
+
+	public String title;
+
 	public PwEntryV3() {
 		super();
 	}
@@ -256,7 +259,7 @@ public class PwEntryV3 extends PwEntry {
 	}
 
 	private void assign(PwEntryV3 source) {
-		
+		title = source.title;
 		groupId = source.groupId;
 		imageId = source.imageId;
 		username = source.username;
@@ -354,6 +357,11 @@ public class PwEntryV3 extends PwEntry {
 	@Override
 	public String getUsername() {
 		return username;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
 	}
 
 }

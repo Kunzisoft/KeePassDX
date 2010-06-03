@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
+	private static final String STR_TITLE = "Title";
 	private static final String STR_USERNAME = "UserName";
 	
 	public PwGroupV4 parent;
@@ -48,7 +49,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private boolean expires = false;
 	private long usageCount = 0;
 
-	
 	public class AutoType {
 		public boolean enabled;
 		public long obfuscationOptions;
@@ -115,22 +115,31 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 
 	@Override
+	public String getTitle() {
+		return getString(STR_TITLE);
+	}
+	
+	@Override
 	public String getPassword() {
+		// TODO
 		return null;
 	}
 
 	@Override
 	public Date getAccess() {
+		// TODO
 		return null;
 	}
 
 	@Override
 	public Date getCreate() {
+		// TODO
 		return null;
 	}
 
 	@Override
 	public Date getExpire() {
+		// TODO
 		return null;
 	}
 
@@ -141,7 +150,8 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public String getDisplayTitle() {
-		return title;
+		// TODO: Add TAN supprot
+		return getTitle();
 	}
 
 	@Override
@@ -238,4 +248,5 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public void setExpires(boolean exp) {
 		expires = exp;
 	}
+
 }
