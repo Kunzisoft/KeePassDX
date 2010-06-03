@@ -17,10 +17,9 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
+package com.keepassdroid.view;
 
 
-import android.os.Handler;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,75 +28,79 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.TextView;
 
 import com.android.keepass.R;
-import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.database.edit.DeleteGroup;
+import com.keepassdroid.ClickView;
+import com.keepassdroid.EntryActivity;
+import com.keepassdroid.GroupBaseActivity;
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.settings.PrefsUtil;
 
+public class PwEntryView extends ClickView {
 
-public class PwGroupView extends ClickView {
+	protected GroupBaseActivity mAct;
+	protected PwEntry mPw;
+	private TextView mTv;
+	private int mPos;
 	
-	private PwGroupV3 mPw;
-	private GroupBaseActivity mAct;
-
-	private static final int MENU_OPEN = Menu.FIRST;
-	private static final int MENU_DELETE = Menu.FIRST + 1;
-	//private static final int MENU_RENAME = Menu.FIRST + 2;
+	protected static final int MENU_OPEN = Menu.FIRST;
 	
-	public PwGroupView(GroupBaseActivity act, PwGroupV3 pw) {
+	public static PwEntryView getInstance(GroupBaseActivity act, PwEntry pw, int pos) {
+		if ( pw instanceof PwEntryV3 ) {
+			return new PwEntryViewV3(act, (PwEntryV3) pw, pos);
+		} else {
+			return new PwEntryView(act, pw, pos);
+		}
+	}
+	
+	protected PwEntryView(GroupBaseActivity act, PwEntry pw, int pos) {
 		super(act);
 		mAct = act;
 		mPw = pw;
+		mPos = pos;
 		
-		View gv = View.inflate(act, R.layout.group_list_entry, null);
-		TextView tv = (TextView) gv.findViewById(R.id.group_text);
-		tv.setText(pw.name);
-		float size = PrefsUtil.getListTextSize(act); 
-		tv.setTextSize(size);
+		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
+		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
+		tv.setText(mPw.getDisplayTitle());
+		tv.setTextSize(PrefsUtil.getListTextSize(act));
 		
-		TextView label = (TextView) gv.findViewById(R.id.group_label);
-		label.setTextSize(size-8);
+		mTv = tv;
 		
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		
-		addView(gv, lp);
-		
-	}
+		addView(ev, lp);
 
-	public void onClick() {
-		launchGroup();
 	}
 	
-	private void launchGroup() {
-		GroupActivity.Launch(mAct, mPw, GroupActivity.FULL);
+	public void refreshTitle() {
+		mTv.setText(mPw.getDisplayTitle());
 	}
-
+	
+	public void onClick() {
+		launchEntry();
+	}
+		
+	private void launchEntry() {
+		EntryActivity.Launch(mAct, mPw, mPos);
+		
+	}
+	
 	@Override
 	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
 		menu.add(0, MENU_OPEN, 0, R.string.menu_open);
-		menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
-		// TODO: Re-enable need to address entries and last group issue
-		//menu.add(0, MENU_RENAME, 0, R.string.menu_rename);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-			
-		case MENU_OPEN:
-			launchGroup();
-			return true;
-			
-		case MENU_DELETE:
-			Handler handler = new Handler();
-			DeleteGroup task = new DeleteGroup(App.getDB(), mPw, mAct, mAct.new AfterDeleteGroup(handler));
-			ProgressTask pt = new ProgressTask(mAct, task, R.string.saving_database);
-			pt.run();
-			return true;
 		
+		case MENU_OPEN:
+			launchEntry();
+			return true;
+			
 		default:
 			return false;
 		}
 	}
-
+	
+	
 }

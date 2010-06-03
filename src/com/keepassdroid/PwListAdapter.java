@@ -29,6 +29,8 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.view.PwEntryView;
+import com.keepassdroid.view.PwGroupView;
 
 public class PwListAdapter extends BaseAdapter {
 
@@ -100,7 +102,7 @@ public class PwListAdapter extends BaseAdapter {
 		PwGroupView gv;
 		//if (convertView == null || ! (convertView instanceof PwGroupView)) {
 			PwGroupV3 group = (PwGroupV3) mGroup.childGroups.elementAt(position);
-			gv = new PwGroupView(mAct, group);
+			gv = PwGroupView.getInstance(mAct, group);
 		/*
 		} else {
 			gv = (PwGroupView) convertView;
@@ -113,7 +115,7 @@ public class PwListAdapter extends BaseAdapter {
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
 //		if (convertView == null || ! (convertView instanceof PwEntryView) ) {
-			ev = new PwEntryView(mAct, filteredEntries.elementAt(position), position);
+			ev = PwEntryView.getInstance(mAct, filteredEntries.elementAt(position), position);
 //		} else {
 //			ev = (PwEntryView) convertView;
 //			ev.setEntry(filteredEntries.elementAt(position));

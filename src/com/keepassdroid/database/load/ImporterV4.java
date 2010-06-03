@@ -146,39 +146,6 @@ public class ImporterV4 extends Importer {
 			e.printStackTrace();
 		}
 
-		/*
-		// TODO: Measure whether this buffer is better or worse for performance
-		BufferedInputStream bis2 = new BufferedInputStream(decompressed);
-		
-		// Parse the xml document
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docB;
-		try {
-			docB = dbf.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			throw new IOException("Couldn't create document builder.");
-		}
-		
-
-		
-		Document doc;
-		try {
-			doc = docB.parse(bis2);
-		} catch (SAXException e) {
-			throw new IOException("Failed to parse db xml: " + e.getLocalizedMessage());
-		}
-		*/
-		
-		/*
-		FileOutputStream fos = new FileOutputStream("/sdcard/outputx.xml");
-		byte[] buf = new byte[1024];
-		int bytesRead;
-		while ( (bytesRead = decompressed.read(buf)) != -1 ) {
-			fos.write(buf, 0, bytesRead);
-		}
-		fos.close();
-		*/
-		
 		return db;
 		
 		

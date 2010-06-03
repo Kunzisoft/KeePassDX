@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2010 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -17,63 +17,26 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
-
+package com.keepassdroid.view;
 
 import android.os.Handler;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.TextView;
 
 import com.android.keepass.R;
+import com.keepassdroid.GroupBaseActivity;
+import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.edit.DeleteEntry;
-import com.keepassdroid.settings.PrefsUtil;
 
-public class PwEntryView extends ClickView {
+public class PwEntryViewV3 extends PwEntryView {
 
-	private GroupBaseActivity mAct;
-	private PwEntry mPw;
-	private TextView mTv;
-	private int mPos;
-	
-	private static final int MENU_OPEN = Menu.FIRST;
-	private static final int MENU_DELETE = Menu.FIRST + 1;
-	
-	public PwEntryView(GroupBaseActivity act, PwEntry pw, int pos) {
-		super(act);
-		mAct = act;
-		mPw = pw;
-		mPos = pos;
-		
-		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
-		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
-		tv.setText(mPw.getDisplayTitle());
-		tv.setTextSize(PrefsUtil.getListTextSize(act));
-		
-		mTv = tv;
-		
-		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		
-		addView(ev, lp);
+	private static final int MENU_DELETE = MENU_OPEN + 1;
 
-	}
-	
-	public void refreshTitle() {
-		mTv.setText(mPw.getDisplayTitle());
-	}
-	
-	public void onClick() {
-		launchEntry();
-	}
-		
-	private void launchEntry() {
-		EntryActivity.Launch(mAct, mPw, mPos);
-		
+	protected PwEntryViewV3(GroupBaseActivity act, PwEntry pw, int pos) {
+		super(act, pw, pos);
 	}
 	
 	private void deleteEntry() {
@@ -86,26 +49,26 @@ public class PwEntryView extends ClickView {
 
 	@Override
 	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
-		menu.add(0, MENU_OPEN, 0, R.string.menu_open);
+		super.onCreateMenu(menu, menuInfo);
+		
 		menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		switch ( item.getItemId() ) {
-		
-		case MENU_OPEN:
-			launchEntry();
-			return true;
+		if ( ! super.onContextItemSelected(item) ) {
+			switch ( item.getItemId() ) {
+			case MENU_DELETE:
+				deleteEntry();
+				return true;
+			}
 			
-		case MENU_DELETE:
-			deleteEntry();
-			return true;
-			
-		default:
-			return false;
 		}
+		
+		return false;
 	}
-	
-	
+
+
+
 }
