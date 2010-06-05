@@ -76,6 +76,10 @@ public class PwEntryV3 extends PwEntry {
 	public 	String 			username;
 	private byte[]          password;
 	private byte[]          uuid;
+	public String title;
+	public String url;
+	public String additional;
+
 
 	public PwDate             tCreation;
 	public PwDate             tLastMod;
@@ -126,8 +130,6 @@ public class PwEntryV3 extends PwEntry {
 	// for tree traversing
 	public PwGroupV3 parent = null;
 
-
-	public String title;
 
 	public PwEntryV3() {
 		super();
@@ -260,9 +262,12 @@ public class PwEntryV3 extends PwEntry {
 
 	private void assign(PwEntryV3 source) {
 		title = source.title;
+		url = source.url;
 		groupId = source.groupId;
 		imageId = source.imageId;
 		username = source.username;
+		additional = source.additional;
+		uuid = source.uuid;
 
 		int passLen = source.password.length;
 		password = new byte[passLen]; 
@@ -362,6 +367,21 @@ public class PwEntryV3 extends PwEntry {
 	@Override
 	public String getTitle() {
 		return title;
+	}
+
+	@Override
+	public String getNotes() {
+		return additional;
+	}
+
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	@Override
+	public boolean expires() {
+		return ! IsNever(tExpire.getJDate());
 	}
 
 }

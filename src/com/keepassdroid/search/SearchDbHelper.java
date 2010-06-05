@@ -103,8 +103,8 @@ public class SearchDbHelper {
 		
 		cv.put(KEY_UUID, uuidStr);
 		cv.put(KEY_TITLE, entry.getTitle());
-		cv.put(KEY_URL, entry.url);
-		cv.put(KEY_COMMENT, entry.additional);
+		cv.put(KEY_URL, entry.getUrl());
+		cv.put(KEY_COMMENT, entry.getNotes());
 		
 		return cv;
 	}

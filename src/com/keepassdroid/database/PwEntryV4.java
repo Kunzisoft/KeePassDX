@@ -29,6 +29,9 @@ import java.util.UUID;
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private static final String STR_TITLE = "Title";
 	private static final String STR_USERNAME = "UserName";
+	private static final String STR_PASSWORD = "Password";
+	private static final String STR_URL = "URL";
+	private static final String STR_NOTES = "Notes";
 	
 	public PwGroupV4 parent;
 	public UUID uuid;
@@ -48,6 +51,8 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private Date expireDate;
 	private boolean expires = false;
 	private long usageCount = 0;
+	public String url;
+	public String additional;
 
 	public class AutoType {
 		public boolean enabled;
@@ -121,26 +126,22 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	
 	@Override
 	public String getPassword() {
-		// TODO
-		return null;
+		return getString(STR_PASSWORD);
 	}
 
 	@Override
 	public Date getAccess() {
-		// TODO
-		return null;
+		return lastAccess;
 	}
 
 	@Override
 	public Date getCreate() {
-		// TODO
-		return null;
+		return creation;
 	}
 
 	@Override
 	public Date getExpire() {
-		// TODO
-		return null;
+		return expireDate;
 	}
 
 	@Override
@@ -150,7 +151,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public String getDisplayTitle() {
-		// TODO: Add TAN supprot
+		// TODO: Add TAN support
 		return getTitle();
 	}
 
@@ -247,6 +248,16 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void setExpires(boolean exp) {
 		expires = exp;
+	}
+
+	@Override
+	public String getNotes() {
+		return getString(STR_NOTES);
+	}
+
+	@Override
+	public String getUrl() {
+		return getString(STR_URL);
 	}
 
 }

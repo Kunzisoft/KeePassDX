@@ -92,7 +92,7 @@ public class DeleteEntry extends AndroidTestCase {
 		Vector<PwEntry> entries = pm.entries;
 		for ( int i = 0; i < entries.size(); i++ ) {
 			PwEntry entry = entries.get(i);
-			if ( entry.title.equals(name) ) {
+			if ( entry.getTitle().equals(name) ) {
 				return entry;
 			}
 		}

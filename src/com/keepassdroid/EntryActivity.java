@@ -198,7 +198,7 @@ public class EntryActivity extends LockCloseActivity {
 	private void fillData() {
 		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());
-		populateText(R.id.entry_url, mEntry.url);
+		populateText(R.id.entry_url, mEntry.getUrl());
 		populateText(R.id.entry_password, mEntry.getPassword());
 		setPasswordStyle();
 		
@@ -213,7 +213,7 @@ public class EntryActivity extends LockCloseActivity {
 		} else {
 			populateText(R.id.entry_expires, df.format(expires));
 		}
-		populateText(R.id.entry_comment, mEntry.additional);
+		populateText(R.id.entry_comment, mEntry.getNotes());
 
 	}
 	
@@ -301,7 +301,7 @@ public class EntryActivity extends LockCloseActivity {
 			
 		case MENU_GOTO_URL:
 			String url;
-			url = mEntry.url;
+			url = mEntry.getUrl();
 			
 			// Default http:// if no protocol specified
 			if ( ! url.contains("://") ) {

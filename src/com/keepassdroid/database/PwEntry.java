@@ -24,9 +24,7 @@ import java.util.UUID;
 
 public abstract class PwEntry implements Cloneable {
 
-	// TODO none of these belong here.  They aren't stored this way in PwEntryV4 
-	public String url;
-	public String additional;
+	// TODO none of these belong here.  They aren't stored this way in PwEntryV4
 	
 	public int imageId;
 
@@ -44,17 +42,10 @@ public abstract class PwEntry implements Cloneable {
 			throw new RuntimeException("Clone should be supported");
 		}
 		
-		newEntry.setUUID(getUUID());
-		newEntry.url = url;
-		newEntry.additional = additional;
-		
 		return newEntry;
 	}
 	
 	public void assign(PwEntry source) {
-		setUUID(source.getUUID());
-		url = source.url;
-		additional = source.additional;
 	}
 
 	public abstract void stampLastAccess();
@@ -64,10 +55,13 @@ public abstract class PwEntry implements Cloneable {
 	public abstract String getTitle();
 	public abstract String getUsername();
 	public abstract String getPassword();
+	public abstract String getUrl();
+	public abstract String getNotes();
 	public abstract Date getCreate();
 	public abstract Date getMod();
 	public abstract Date getAccess();
 	public abstract Date getExpire();
+	public abstract boolean expires();
 	public abstract PwGroup getParent();
 
 	public abstract String getDisplayTitle();
