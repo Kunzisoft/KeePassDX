@@ -123,7 +123,7 @@ public class Database {
 		pm = imp.openDatabase(bis, password, keyfile, status);
 		if ( pm != null ) {
 			root = pm.rootGroup;
-			populateGlobals(null);
+			populateGlobals(root);
 		}
 		
 		loaded = true;
@@ -191,17 +191,7 @@ public class Database {
 	}
 	
 	private void populateGlobals(PwGroup currentGroup) {
-		if (currentGroup == null) {
-			Vector<? extends PwGroup> rootChildGroups = pm.getGrpRoots();
-			for (int i = 0; i < rootChildGroups.size(); i++ ){
-				PwGroup cur = rootChildGroups.elementAt(i);
-				groups.put(cur.getId(), new WeakReference<PwGroup>(cur));
-				populateGlobals(cur);
-			}
-			
-			return;
-		}
-		
+
 		List<PwGroup> childGroups = currentGroup.childGroups;
 		List<PwEntry> childEntries = currentGroup.childEntries;
 		
