@@ -39,6 +39,7 @@ import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Util;
+import com.keepassdroid.view.GroupViewOnlyView;
 
 public abstract class GroupBaseActivity extends LockCloseListActivity {
 	public static final String KEY_ENTRY = "entry";

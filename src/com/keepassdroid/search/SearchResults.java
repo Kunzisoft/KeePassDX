@@ -28,13 +28,13 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
-import com.keepassdroid.GroupEmptyView;
-import com.keepassdroid.GroupViewOnlyView;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.PwListAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.BuildIndex;
 import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.view.GroupEmptyView;
+import com.keepassdroid.view.GroupViewOnlyView;
 
 public class SearchResults extends GroupBaseActivity {
 	

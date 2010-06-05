@@ -17,7 +17,7 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
+package com.keepassdroid.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -26,15 +26,15 @@ import android.widget.RelativeLayout;
 
 import com.android.keepass.R;
 
-public class GroupViewOnlyView extends RelativeLayout {
+public class GroupHeaderView extends RelativeLayout {
 
-	public GroupViewOnlyView(Context context) {
+	public GroupHeaderView(Context context) {
 		super(context);
 		
 		inflate(context);
 	}
 	
-	public GroupViewOnlyView(Context context, AttributeSet attrs) {
+	public GroupHeaderView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
 		inflate(context);
@@ -42,7 +42,7 @@ public class GroupViewOnlyView extends RelativeLayout {
 	
 	private void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.group_view_only, this);
+		inflater.inflate(R.layout.group_header, this);
 		
 	}
 
