@@ -185,7 +185,7 @@ public class EntryActivity extends LockCloseActivity {
 
 	private Notification getNotification(String intentText, int descResId) {
 		String desc = getString(descResId);
-		Notification notify = new Notification(R.drawable.keepassdroid_launcher, desc, System.currentTimeMillis());
+		Notification notify = new Notification(R.drawable.launcher, desc, System.currentTimeMillis());
 		
 		Intent intent = new Intent(intentText);
 		PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
