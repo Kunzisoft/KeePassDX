@@ -53,12 +53,17 @@ import com.keepassdroid.view.GroupViewOnlyView;
 public abstract class GroupActivity extends GroupBaseActivity {
 	
 	public static final int UNINIT = -1;
-	public static final int VIEW_ONLY = 0;
-	public static final int ADD_GROUP_ONLY = 1;
-	public static final int FULL = 2;
+	
+	protected boolean addGroupEnabled = false;
+	protected boolean addEntryEnabled = false;
+	
 	private static final String TAG = "Group Activity:";
 	
-	public static void Launch(Activity act, PwGroup group, int mode) {
+	public static void Launch(Activity act) {
+		Launch(act, null);
+	}
+	
+	public static void Launch(Activity act, PwGroup group) {
 		Intent i;
 		
 		// Need to use PwDatabase since group may be null
@@ -82,12 +87,12 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			throw new RuntimeException("Should never be reached.");
 		}
 		
-		i.putExtra(KEY_MODE, mode);
-		
 		act.startActivityForResult(i,0);
 	}
 	
 	protected abstract PwGroupId retrieveGroupId(Intent i);
+	
+	protected abstract void setupButtons();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,20 +107,6 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		Log.w(TAG, "Creating group view");
 		Intent intent = getIntent();
 		
-		int mode = intent.getIntExtra(KEY_MODE, UNINIT);
-		
-		switch ( mode ) {
-		case FULL:
-			setContentView(new GroupAddEntryView(this));
-			break;
-		case ADD_GROUP_ONLY:
-			setContentView(new GroupRootView(this));
-			break;
-		default:
-			setContentView(new GroupViewOnlyView(this));
-		}
-		Log.w(TAG, "Set view");
-		
 		PwGroupId id = retrieveGroupId(intent);
 		
 		Database db = App.getDB();
@@ -125,20 +116,33 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			WeakReference<PwGroup> wPw = db.groups.get(id);
 			mGroup = wPw.get();
 		}
+		
 		Log.w(TAG, "Retrieved group");
 		if ( mGroup == null ) {
 			Log.w(TAG, "Group was null");
 			return;
 		}
 		
+		setupButtons();
 
-		if ( mode == FULL || mode == ADD_GROUP_ONLY ) {
+		if ( addGroupEnabled && addEntryEnabled ) {
+			setContentView(new GroupAddEntryView(this));
+		} else if ( addGroupEnabled ) {
+			setContentView(new GroupRootView(this));
+		} else if ( addEntryEnabled ) {
+			throw new RuntimeException("This mode is not supported.");
+		} else {
+			setContentView(new GroupViewOnlyView(this));
+		}
+		Log.w(TAG, "Set view");
+
+		if ( addGroupEnabled ) {
 			// Add Group button
 			Button addGroup = (Button) findViewById(R.id.add_group);
 			addGroup.setOnClickListener(new GroupAddHandler(this, mGroup));
 		}
 		
-		if ( mode == FULL ) {
+		if ( addEntryEnabled ) {
 			// Add Entry button
 			Button addEntry = (Button) findViewById(R.id.add_entry);
 			addEntry.setOnClickListener(new View.OnClickListener() {

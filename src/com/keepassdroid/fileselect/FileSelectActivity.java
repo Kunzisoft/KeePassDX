@@ -193,7 +193,7 @@ public class FileSelectActivity extends ListActivity {
 				dbHelper.createFile(mFilename, getFilename());
 				dbHelper.close();
 
-				GroupActivity.Launch(FileSelectActivity.this, null,	GroupActivity.ADD_GROUP_ONLY);
+				GroupActivity.Launch(FileSelectActivity.this);
 
 			} else {
 				File file = new File(mFilename);

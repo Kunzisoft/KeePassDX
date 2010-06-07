@@ -139,9 +139,14 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public void setNumRonuds(long rounds) throws NumberFormatException {
+	public void setNumRounds(long rounds) throws NumberFormatException {
 		numKeyEncRounds = rounds;
 		
+	}
+
+	@Override
+	public boolean appSettingsEnabled() {
+		return false;
 	}
 
 }

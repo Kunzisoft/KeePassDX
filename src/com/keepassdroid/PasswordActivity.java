@@ -282,7 +282,7 @@ public class PasswordActivity extends LockingActivity {
 		@Override
 		public void run() {
 			if ( mSuccess ) {
-				GroupActivity.Launch(PasswordActivity.this, null, GroupActivity.ADD_GROUP_ONLY);
+				GroupActivity.Launch(PasswordActivity.this);
 			} else {
 				displayMessage(PasswordActivity.this);
 			}

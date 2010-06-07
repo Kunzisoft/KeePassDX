@@ -42,6 +42,7 @@
                        android:value="com.keepassdroid.search.SearchResults" />
     	</activity>
 		<activity android:name="com.keepassdroid.EntryActivity"></activity>
+		<activity android:name="com.keepassdroid.EntryActivityV4"></activity>
 		<activity android:name="com.keepassdroid.LockingActivity"></activity>
 		<activity android:name="com.keepassdroid.EntryEditActivity" android:configChanges="orientation|keyboardHidden"></activity>
 		<activity android:name="com.keepassdroid.search.SearchResults" android:launchMode="standard">

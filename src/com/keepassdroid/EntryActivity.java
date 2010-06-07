@@ -52,6 +52,7 @@ import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
@@ -75,7 +76,13 @@ public class EntryActivity extends LockCloseActivity {
 	private static final int COL_DATA = 1;
 	
 	public static void Launch(Activity act, PwEntry pw, int pos) {
-		Intent i = new Intent(act, EntryActivity.class);
+		Intent i;
+		
+		if ( pw instanceof PwEntryV4 ) {
+			i = new Intent(act, EntryActivityV4.class);
+		} else {
+			i = new Intent(act, EntryActivity.class);
+		}
 		
 		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
 		i.putExtra(KEY_REFRESH_POS, pos);
@@ -89,6 +96,23 @@ public class EntryActivity extends LockCloseActivity {
 	private int mPos;
 	private NotificationManager mNM;
 	private BroadcastReceiver mIntentReceiver;
+	
+	protected void setEntryView() {
+		setContentView(R.layout.entry_view);
+	}
+	
+	protected void setupEditButtons() {
+		Button edit = (Button) findViewById(R.id.entry_edit);
+		edit.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				EntryEditActivity.Launch(EntryActivity.this, mEntry);
+			}
+			
+		});
+		
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +125,7 @@ public class EntryActivity extends LockCloseActivity {
 			return;
 		}
 
-		setContentView(R.layout.entry_view);
+		setEntryView();
 		setResult(KeePass.EXIT_NORMAL);
 
 		Intent i = getIntent();
@@ -123,16 +147,6 @@ public class EntryActivity extends LockCloseActivity {
 		
 		TableLayout table = (TableLayout) findViewById(R.id.entry_table);
 		table.setColumnShrinkable(COL_DATA, true);
-		
-		Button edit = (Button) findViewById(R.id.entry_edit);
-		edit.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				EntryEditActivity.Launch(EntryActivity.this, mEntry);
-			}
-			
-		});
 		
 		// Notification Manager
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

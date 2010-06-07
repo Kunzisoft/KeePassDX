@@ -84,10 +84,10 @@ public class RoundsPreference extends DialogPreference {
 			
 			long oldRounds = mPM.getNumRounds();
 			try {
-				mPM.setNumRonuds(rounds);
+				mPM.setNumRounds(rounds);
 			} catch (NumberFormatException e) {
 				Toast.makeText(getContext(), R.string.error_rounds_too_large, Toast.LENGTH_LONG).show();
-				mPM.setNumRonuds(Integer.MAX_VALUE);
+				mPM.setNumRounds(Integer.MAX_VALUE);
 			}
 			
 			Handler handler = new Handler();
@@ -119,7 +119,7 @@ public class RoundsPreference extends DialogPreference {
 				}
 			} else {
 				displayMessage(mCtx);
-				mPM.setNumRonuds(mOldRounds);
+				mPM.setNumRounds(mOldRounds);
 			}
 			
 			super.run();

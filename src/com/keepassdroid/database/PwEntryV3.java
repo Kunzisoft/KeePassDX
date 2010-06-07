@@ -143,7 +143,7 @@ public class PwEntryV3 extends PwEntry {
 
 	public PwEntryV3(Database db, int parentId) {
 
-		WeakReference<PwGroup> wPw = db.groups.get(parentId);
+		WeakReference<PwGroup> wPw = db.groups.get(new PwGroupIdV3(parentId));
 
 		parent = (PwGroupV3) wPw.get();
 		groupId = parentId;

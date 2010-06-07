@@ -65,7 +65,7 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 		});
 		
 		Database db = App.getDB();
-		if ( db.Loaded() ) {
+		if ( db.Loaded() && db.pm.appSettingsEnabled() ) {
 			Preference rounds = findPreference(getString(R.string.rounds_key));
 			rounds.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				

@@ -76,7 +76,7 @@ public class PwGroupView extends ClickView {
 	}
 	
 	private void launchGroup() {
-		GroupActivity.Launch(mAct, mPw, GroupActivity.FULL);
+		GroupActivity.Launch(mAct, mPw);
 	}
 
 	@Override

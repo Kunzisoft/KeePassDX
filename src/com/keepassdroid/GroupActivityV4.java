@@ -53,15 +53,23 @@ public class GroupActivityV4 extends GroupActivity {
 		/*
 		menu.add(0, MENU_SEARCH, 0, R.string.menu_search);
 		menu.findItem(MENU_SEARCH).setIcon(android.R.drawable.ic_menu_search);
+		*/
 		
 		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
 		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
 		
+		/*
 		menu.add(0, MENU_CHANGE_MASTER_KEY, 0, R.string.menu_change_key);
 		menu.findItem(MENU_CHANGE_MASTER_KEY).setIcon(android.R.drawable.ic_menu_manage);
 		*/
 		return true;
 
+	}
+
+	@Override
+	protected void setupButtons() {
+		addGroupEnabled = false;
+		addEntryEnabled = false;
 	}
 
 }

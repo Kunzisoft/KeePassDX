@@ -19,32 +19,20 @@
  */
 package com.keepassdroid;
 
-import android.content.Intent;
+import com.android.keepass.R;
 
-import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwGroupIdV3;
 
-public class GroupActivityV3 extends GroupActivity {
+public class EntryActivityV4 extends EntryActivity {
 
 	@Override
-	protected PwGroupIdV3 retrieveGroupId(Intent i) {
-		int id = i.getIntExtra(KEY_ENTRY, -1);
-		
-		if ( id == -1 ) {
-			return null;
-		}
-		
-		return new PwGroupIdV3(id);
+	protected void setEntryView() {
+		setContentView(R.layout.entry_view_v4);
 	}
 
 	@Override
-	protected void setupButtons() {
-		if ( mGroup == App.getDB().root ) {
-			addGroupEnabled = true;
-		} else {
-			addGroupEnabled = true;
-			addEntryEnabled = true;
-		}
+	protected void setupEditButtons() {
+		// No edit buttons yet
 	}
+
 
 }

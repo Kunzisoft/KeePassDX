@@ -214,6 +214,8 @@ public abstract class PwDatabase {
 	
 	public abstract long getNumRounds();
 	
-	public abstract void setNumRonuds(long rounds) throws NumberFormatException;
+	public abstract void setNumRounds(long rounds) throws NumberFormatException;
+	
+	public abstract boolean appSettingsEnabled();
 
 }

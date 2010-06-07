@@ -285,12 +285,17 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public void setNumRonuds(long rounds) throws NumberFormatException {
+	public void setNumRounds(long rounds) throws NumberFormatException {
 		if ( rounds > Integer.MAX_VALUE || rounds < Integer.MIN_VALUE ) {
 			throw new NumberFormatException();
 		}
 		
 		numKeyEncRounds = (int) rounds;
+	}
+
+	@Override
+	public boolean appSettingsEnabled() {
+		return true;
 	}
 
 
