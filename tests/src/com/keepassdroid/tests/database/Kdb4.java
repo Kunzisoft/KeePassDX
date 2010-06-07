@@ -22,32 +22,29 @@ package com.keepassdroid.tests.database;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.keepassdroid.database.exception.InvalidDBSignatureException;
-import com.keepassdroid.database.exception.Kdb4Exception;
-import com.keepassdroid.database.load.ImporterFactory;
-
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
+import com.keepassdroid.database.exception.InvalidDBException;
+import com.keepassdroid.database.load.Importer;
+import com.keepassdroid.database.load.ImporterFactory;
+import com.keepassdroid.database.load.ImporterV4;
+
 public class Kdb4 extends AndroidTestCase {
 
-	public void testDetection() throws IOException, InvalidDBSignatureException {
+	public void testDetection() throws IOException, InvalidDBException {
 		Context ctx = getContext();
 		
 		AssetManager am = ctx.getAssets();
 		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
 		
-		try {
-			ImporterFactory.createImporter(is);
-		} catch (Kdb4Exception e) {
-			return;
-		}
+		Importer importer = ImporterFactory.createImporter(is);
 		
 		
 		is.close();
 		
-		assertTrue(false);
+		assertTrue(importer instanceof ImporterV4);
 		
 	}
 	

@@ -54,6 +54,7 @@ import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
@@ -102,13 +103,13 @@ public class ImporterV3 extends Importer {
 	 * @throws ShortBufferException if error decrypting main file body.
 	 */
 	public PwDatabase openDatabase( InputStream inStream, String password, String keyfile )
-	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException
+	throws IOException, InvalidDBException
 	{
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
 	}
 
 	public PwDatabase openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
-	throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException
+	throws IOException, InvalidDBException
 	{
 		PwDatabaseV3        newManager;
 

@@ -17,33 +17,21 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.load;
+package com.keepassdroid.database.exception;
 
-import java.io.IOException;
-import java.io.InputStream;
+public class InvalidDBException extends Exception {
 
-import com.keepassdroid.UpdateStatus;
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.exception.InvalidDBException;
-
-public abstract class Importer {
-
-	public static final boolean DEBUG = true;
-	protected final boolean debug;
-	
-	public Importer() {
-		debug = false;
+	public InvalidDBException(String str) {
+		super(str);
 	}
 
-	public Importer(boolean d) {
-		debug = d;
+	public InvalidDBException() {
+		super();
 	}
 
-	public abstract PwDatabase openDatabase( InputStream inStream, String password, String keyfile ) 
-		throws IOException, InvalidDBException;
-
-	public abstract PwDatabase openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status ) 
-		throws IOException, InvalidDBException;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5191964825154190923L;
 
 }

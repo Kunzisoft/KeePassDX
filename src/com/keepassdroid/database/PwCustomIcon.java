@@ -22,7 +22,9 @@ package com.keepassdroid.database;
 import java.util.UUID;
 
 public class PwCustomIcon {
+	@SuppressWarnings("unused")
 	private UUID uuid;
+	@SuppressWarnings("unused")
 	private byte[] imageData;
 	
 	public PwCustomIcon(UUID u, byte[] data) {

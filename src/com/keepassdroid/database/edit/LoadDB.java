@@ -28,11 +28,12 @@ import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
+import com.keepassdroid.database.exception.ArcFourException;
+import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
-import com.keepassdroid.database.exception.Kdb4Exception;
 import com.keepassdroid.fileselect.FileDbHelper;
 
 public class LoadDB extends RunnableOnFinish {
@@ -62,7 +63,10 @@ public class LoadDB extends RunnableOnFinish {
 			mDb.LoadData(mCtx, mFileName, mPass, mKey, mStatus);
 			
 			saveFileData(mFileName, mKey);
-			
+		
+		} catch (ArcFourException e) {
+			finish(false, mCtx.getString(R.string.error_arc4));
+			return;
 		} catch (InvalidPasswordException e) {
 			finish(false, mCtx.getString(R.string.InvalidPassword));
 			return;
@@ -78,11 +82,11 @@ public class LoadDB extends RunnableOnFinish {
 		} catch (InvalidDBSignatureException e) {
 			finish(false, mCtx.getString(R.string.invalid_db_sig));
 			return;
-		} catch (Kdb4Exception e) {
-			finish(false, mCtx.getString(R.string.error_kdb4));
-			return;
 		} catch (InvalidDBVersionException e) {
 			finish(false, mCtx.getString(R.string.unsupported_db_version));
+			return;
+		} catch (InvalidDBException e) {
+			finish(false, mCtx.getString(R.string.error_invalid_db));
 			return;
 		}
 		

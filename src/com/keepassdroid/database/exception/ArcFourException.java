@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2010 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,14 +19,11 @@
  */
 package com.keepassdroid.database.exception;
 
-public class Kdb4Exception extends Exception {
+public class ArcFourException extends InvalidDBException {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5752830362506792816L;
-
-	public Kdb4Exception() {
-		super();
-	}
+	private static final long serialVersionUID = 2103983626687861237L;
 
 }

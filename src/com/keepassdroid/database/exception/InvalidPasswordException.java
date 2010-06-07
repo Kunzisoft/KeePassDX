@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.database.exception;
 
-public class InvalidPasswordException extends Exception {
+public class InvalidPasswordException extends InvalidDBException {
 
 	/**
 	 * 

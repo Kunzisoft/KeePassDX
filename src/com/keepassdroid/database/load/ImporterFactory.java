@@ -25,16 +25,15 @@ import java.io.InputStream;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
-import com.keepassdroid.database.exception.Kdb4Exception;
 import com.keepassdroid.stream.LEDataInputStream;
 
 public class ImporterFactory {
-	public static Importer createImporter(InputStream is) throws Kdb4Exception, InvalidDBSignatureException, IOException
+	public static Importer createImporter(InputStream is) throws InvalidDBSignatureException, IOException
 	{
 		return createImporter(is, false);
 	}
 
-	public static Importer createImporter(InputStream is, boolean debug) throws Kdb4Exception, InvalidDBSignatureException, IOException
+	public static Importer createImporter(InputStream is, boolean debug) throws InvalidDBSignatureException, IOException
 	{
 		int sig1 = LEDataInputStream.readInt(is);
 		int sig2 = LEDataInputStream.readInt(is);
@@ -43,8 +42,6 @@ public class ImporterFactory {
 			return new ImporterV3(debug);
 		} else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
 			return new ImporterV4();
-			//throw new Kdb4Exception();
-			//return new ImporterV4();
 		}
 
 		throw new InvalidDBSignatureException();

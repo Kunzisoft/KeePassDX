@@ -54,9 +54,8 @@ import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDeletedObject;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroupV4;
-import com.keepassdroid.database.exception.InvalidDBSignatureException;
-import com.keepassdroid.database.exception.InvalidDBVersionException;
-import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.ArcFourException;
+import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.HashedBlockInputStream;
@@ -70,8 +69,7 @@ public class ImporterV4 extends Importer {
 
 	@Override
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-			String keyfile) throws IOException, InvalidKeyFileException,
-			InvalidPasswordException, InvalidDBSignatureException, InvalidDBVersionException {
+			String keyfile) throws IOException, InvalidDBException {
 
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
 	}
@@ -79,8 +77,7 @@ public class ImporterV4 extends Importer {
 	@Override
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
 			String keyfile, UpdateStatus status) throws IOException,
-			InvalidKeyFileException, InvalidPasswordException,
-			InvalidDBSignatureException, InvalidDBVersionException {
+			InvalidDBException {
 
 		db = new PwDatabaseV4();
 		
@@ -113,9 +110,7 @@ public class ImporterV4 extends Importer {
 		}
 		
 		if ( ! Arrays.equals(storedStartBytes, header.streamStartBytes) ) {
-			// TODO: Probably need a special error here.  This would probably indicate
-			//       an incorrect password/key
-			throw new IOException("Bad database key");
+			throw new InvalidPasswordException();
 		}
 
 				HashedBlockInputStream hashed = new HashedBlockInputStream(dataDecrypted); 
@@ -134,17 +129,11 @@ public class ImporterV4 extends Importer {
 		
 		randomStream = PwStreamCipherFactory.getInstance(header.innerRandomStream, header.protectedStreamKey);
 		
-		// TODO: Probably good to add a special note here for Arc4 mode
 		if ( randomStream == null ) {
-			throw new IOException("Protected stream type not supported.");
+			throw new ArcFourException();
 		}
 		
-		try {
-			ReadXmlStreamed(decompressed);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ReadXmlStreamed(decompressed);
 
 		return db;
 		
@@ -255,7 +244,8 @@ public class ImporterV4 extends Importer {
     private static final String ElemDeletedObject = "DeletedObject";
     private static final String ElemDeletionTime = "DeletionTime";
 
-    private static final String ValFalse = "False";
+    @SuppressWarnings("unused")
+	private static final String ValFalse = "False";
     private static final String ValTrue = "True";
 
     private static final String ElemCustomData = "CustomData";

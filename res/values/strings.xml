@@ -43,6 +43,7 @@
     <string name="current_group_root">Current Group: Root</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Decrypting database contents...</string>
+    <string name="decrypting_entry">Decrypting entry</string>
     <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="enter_filename">Enter database filename:</string>
     <string name="entry_accessed">Accessed: </string>
@@ -59,6 +60,7 @@
     <string name="entry_title">Name: </string>
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">User Name: </string>
+    <string name="error_arc4">The ArcFour stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">KeePassDroid cannot handle this uri.</string>
     <string name="error_could_not_create_group">Error creating group.</string>
     <string name="error_could_not_create_parent">Could not create parent directory.</string>
@@ -67,8 +69,8 @@
     <string name="error_failed_to_launch_link">Failed to launch link.</string>
     <string name="error_filename_required">A filename is required.</string>
     <string name="error_file_not_create">Could not create file:</string>
+    <string name="error_invalid_db">Invalid database.</string>
     <string name="error_invalid_path">Invalid path.</string>
-    <string name="error_kdb4">KeePass version 2 databases</string>
     <string name="error_no_name">A name is required.</string>
     <string name="error_nopass">A password or a keyfile is required.</string>
     <string name="error_pass_match">Passwords do not match.</string>

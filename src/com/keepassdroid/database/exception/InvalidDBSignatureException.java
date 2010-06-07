@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.database.exception;
 
-public class InvalidDBSignatureException extends Exception {
+public class InvalidDBSignatureException extends InvalidDBException {
 	/**
 	 * 
 	 */

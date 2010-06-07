@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.database.exception;
 
-public class InvalidDBVersionException extends Exception {
+public class InvalidDBVersionException extends InvalidDBException {
 	/**
 	 * 
 	 */

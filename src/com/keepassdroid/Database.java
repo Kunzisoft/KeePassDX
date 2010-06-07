@@ -30,7 +30,6 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.Vector;
 
 import android.content.Context;
 import android.os.Debug;
@@ -40,11 +39,7 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.database.exception.InvalidDBSignatureException;
-import com.keepassdroid.database.exception.InvalidDBVersionException;
-import com.keepassdroid.database.exception.InvalidKeyFileException;
-import com.keepassdroid.database.exception.InvalidPasswordException;
-import com.keepassdroid.database.exception.Kdb4Exception;
+import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.load.Importer;
 import com.keepassdroid.database.load.ImporterFactory;
@@ -74,19 +69,19 @@ public class Database {
 		loaded = true;
 	}
 	
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception, InvalidDBVersionException {
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws IOException, InvalidDBException {
 		LoadData(ctx, is, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
 	}
 
-	public void LoadData(Context ctx, String filename, String password, String keyfile) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception, InvalidDBVersionException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile) throws IOException, FileNotFoundException, InvalidDBException {
 		LoadData(ctx, filename, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
 	}
 	
-	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception, InvalidDBVersionException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
 		LoadData(ctx, filename, password, keyfile, status, !Importer.DEBUG);
 	}
 	
-	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, FileNotFoundException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception, InvalidDBVersionException {
+	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
 		FileInputStream fis;
 		fis = new FileInputStream(filename);
 		
@@ -95,11 +90,11 @@ public class Database {
 		mFilename = filename;
 	}
 
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception, InvalidDBVersionException {
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws IOException, InvalidDBException {
 		LoadData(ctx, is, password, keyfile, new UpdateStatus(), debug);
 	}
 
-	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidKeyFileException, InvalidPasswordException, InvalidDBSignatureException, Kdb4Exception, InvalidDBVersionException {
+	public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
 
 		BufferedInputStream bis = new BufferedInputStream(is);
 		

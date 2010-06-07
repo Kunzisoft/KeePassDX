@@ -18,7 +18,7 @@
  *
  */package com.keepassdroid.database.exception;
 
-public class InvalidKeyFileException extends Exception {
+public class InvalidKeyFileException extends InvalidDBException {
 	/**
 	 * 
 	 */
