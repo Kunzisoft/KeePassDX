@@ -30,7 +30,7 @@ import android.test.AndroidTestCase;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.tests.database.TestData;
 
-public class PwEntryTest extends AndroidTestCase {
+public class PwEntryTestV3 extends AndroidTestCase {
 	PwEntryV3 mPE;
 	
 	@Override

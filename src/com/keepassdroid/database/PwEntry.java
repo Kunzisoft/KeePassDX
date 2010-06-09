@@ -46,8 +46,11 @@ public abstract class PwEntry implements Cloneable {
 	}
 	
 	public void assign(PwEntry source) {
+		imageId = source.imageId;
 	}
-
+	
+	
+	
 	public abstract void stampLastAccess();
 
 	public abstract UUID getUUID();
@@ -69,5 +72,21 @@ public abstract class PwEntry implements Cloneable {
 	public boolean isMetaStream() {
 		return false;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PwEntry other = (PwEntry) obj;
+		if (imageId != other.imageId)
+			return false;
+		return true;
+	}
+	
+	
 
 }

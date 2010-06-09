@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.database;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -160,6 +161,30 @@ public class PwDate implements Cloneable {
 		buf[4] = (byte) (((minute & 0x00000003) << 6) | (second & 0x0000003F));
 
 		return buf;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if ( this == o ) {
+			return true;
+		}
+		if ( o == null ) {
+			return false;
+		}
+		if ( getClass() != o.getClass() ) {
+			return false;
+		}
+		
+		PwDate date = (PwDate) o;
+		if ( cDateBuilt && date.cDateBuilt ) {
+			return cDate.equals(date.cDate);
+		} else if ( jDateBuilt && date.jDateBuilt ) {
+			return jDate.equals(date.jDate);
+		} else if ( cDateBuilt && date.jDateBuilt ) {
+			return Arrays.equals(date.getCDate(), cDate);
+		} else {
+			return date.getJDate().equals(jDate);
+		}
 	}
 
 }

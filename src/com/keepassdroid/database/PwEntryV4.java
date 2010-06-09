@@ -64,6 +64,59 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		public void put(String key, String value) {
 			windowSeqPairs.put(key, value);
 		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime
+					* result
+					+ ((defaultSequence == null) ? 0 : defaultSequence
+							.hashCode());
+			result = prime * result + (enabled ? 1231 : 1237);
+			result = prime * result
+					+ (int) (obfuscationOptions ^ (obfuscationOptions >>> 32));
+			result = prime
+					* result
+					+ ((windowSeqPairs == null) ? 0 : windowSeqPairs.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			AutoType other = (AutoType) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (defaultSequence == null) {
+				if (other.defaultSequence != null)
+					return false;
+			} else if (!defaultSequence.equals(other.defaultSequence))
+				return false;
+			if (enabled != other.enabled)
+				return false;
+			if (obfuscationOptions != other.obfuscationOptions)
+				return false;
+			if (windowSeqPairs == null) {
+				if (other.windowSeqPairs != null)
+					return false;
+			} else if (!windowSeqPairs.equals(other.windowSeqPairs))
+				return false;
+			return true;
+		}
+
+		private PwEntryV4 getOuterType() {
+			return PwEntryV4.this;
+		}
+		
+		
+
 	}
 	
 	public PwEntryV4() {
@@ -72,20 +125,22 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public void assign(PwEntry source) {
-		super.assign(source);
 		
 		if ( ! (source instanceof PwEntryV4) ) {
 			throw new RuntimeException("DB version mix.");
 		}
 		
+		super.assign(source);
+		
 		PwEntryV4 src = (PwEntryV4) source;
 		assign(src);
 	}
-	
+
 	private void assign(PwEntryV4 source) {
 		parent = source.parent;
 		uuid = source.uuid;
 		strings = source.strings;
+		binaries = source.binaries;
 		customIconUuid = source.customIconUuid;
 		foregroundColor = source.foregroundColor;
 		backgroupColor = source.backgroupColor;
@@ -99,9 +154,11 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		expireDate = source.expireDate;
 		expires = source.expires;
 		usageCount = source.usageCount;
+		url = source.url;
+		additional = source.additional;
 		
 	}
-
+	
 	@Override
 	public Object clone() {
 		PwEntryV4 newEntry = (PwEntryV4) super.clone();
@@ -260,4 +317,104 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		return getString(STR_URL);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PwEntryV4 other = (PwEntryV4) obj;
+		if (additional == null) {
+			if (other.additional != null)
+				return false;
+		} else if (!additional.equals(other.additional))
+			return false;
+		if (autoType == null) {
+			if (other.autoType != null)
+				return false;
+		} else if (!autoType.equals(other.autoType))
+			return false;
+		if (backgroupColor == null) {
+			if (other.backgroupColor != null)
+				return false;
+		} else if (!backgroupColor.equals(other.backgroupColor))
+			return false;
+		if (binaries == null) {
+			if (other.binaries != null)
+				return false;
+		} else if (!binaries.equals(other.binaries))
+			return false;
+		if (creation == null) {
+			if (other.creation != null)
+				return false;
+		} else if (!creation.equals(other.creation))
+			return false;
+		if (customIconUuid == null) {
+			if (other.customIconUuid != null)
+				return false;
+		} else if (!customIconUuid.equals(other.customIconUuid))
+			return false;
+		if (expireDate == null) {
+			if (other.expireDate != null)
+				return false;
+		} else if (!expireDate.equals(other.expireDate))
+			return false;
+		if (expires != other.expires)
+			return false;
+		if (foregroundColor == null) {
+			if (other.foregroundColor != null)
+				return false;
+		} else if (!foregroundColor.equals(other.foregroundColor))
+			return false;
+		if (history == null) {
+			if (other.history != null)
+				return false;
+		} else if (!history.equals(other.history))
+			return false;
+		if (lastAccess == null) {
+			if (other.lastAccess != null)
+				return false;
+		} else if (!lastAccess.equals(other.lastAccess))
+			return false;
+		if (lastMod == null) {
+			if (other.lastMod != null)
+				return false;
+		} else if (!lastMod.equals(other.lastMod))
+			return false;
+		if (overrideURL == null) {
+			if (other.overrideURL != null)
+				return false;
+		} else if (!overrideURL.equals(other.overrideURL))
+			return false;
+		if (parent == null) {
+			if (other.parent != null)
+				return false;
+		} else if (!parent.equals(other.parent))
+			return false;
+		if (parentGroupLastMod == null) {
+			if (other.parentGroupLastMod != null)
+				return false;
+		} else if (!parentGroupLastMod.equals(other.parentGroupLastMod))
+			return false;
+		if (strings == null) {
+			if (other.strings != null)
+				return false;
+		} else if (!strings.equals(other.strings))
+			return false;
+		if (url == null) {
+			if (other.url != null)
+				return false;
+		} else if (!url.equals(other.url))
+			return false;
+		if (usageCount != other.usageCount)
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
 }

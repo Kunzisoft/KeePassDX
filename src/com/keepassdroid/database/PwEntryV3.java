@@ -264,7 +264,6 @@ public class PwEntryV3 extends PwEntry {
 		title = source.title;
 		url = source.url;
 		groupId = source.groupId;
-		imageId = source.imageId;
 		username = source.username;
 		additional = source.additional;
 		uuid = source.uuid;

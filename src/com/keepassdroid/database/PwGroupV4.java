@@ -190,4 +190,97 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		expires = exp;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PwGroupV4 other = (PwGroupV4) obj;
+		if (creation == null) {
+			if (other.creation != null)
+				return false;
+		} else if (!creation.equals(other.creation))
+			return false;
+		if (customIconUuid == null) {
+			if (other.customIconUuid != null)
+				return false;
+		} else if (!customIconUuid.equals(other.customIconUuid))
+			return false;
+		if (defaultAutoTypeSequence == null) {
+			if (other.defaultAutoTypeSequence != null)
+				return false;
+		} else if (!defaultAutoTypeSequence
+				.equals(other.defaultAutoTypeSequence))
+			return false;
+		if (enableAutoType == null) {
+			if (other.enableAutoType != null)
+				return false;
+		} else if (!enableAutoType.equals(other.enableAutoType))
+			return false;
+		if (enableSearching == null) {
+			if (other.enableSearching != null)
+				return false;
+		} else if (!enableSearching.equals(other.enableSearching))
+			return false;
+		if (expireDate == null) {
+			if (other.expireDate != null)
+				return false;
+		} else if (!expireDate.equals(other.expireDate))
+			return false;
+		if (expires != other.expires)
+			return false;
+		if (iconId != other.iconId)
+			return false;
+		if (isExpanded != other.isExpanded)
+			return false;
+		if (lastAccess == null) {
+			if (other.lastAccess != null)
+				return false;
+		} else if (!lastAccess.equals(other.lastAccess))
+			return false;
+		if (lastMod == null) {
+			if (other.lastMod != null)
+				return false;
+		} else if (!lastMod.equals(other.lastMod))
+			return false;
+		if (lastTopVisibleEntry == null) {
+			if (other.lastTopVisibleEntry != null)
+				return false;
+		} else if (!lastTopVisibleEntry.equals(other.lastTopVisibleEntry))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (notes == null) {
+			if (other.notes != null)
+				return false;
+		} else if (!notes.equals(other.notes))
+			return false;
+		if (parent == null) {
+			if (other.parent != null)
+				return false;
+		} else if (!parent.equals(other.parent))
+			return false;
+		if (parentGroupLastMod == null) {
+			if (other.parentGroupLastMod != null)
+				return false;
+		} else if (!parentGroupLastMod.equals(other.parentGroupLastMod))
+			return false;
+		if (usageCount != other.usageCount)
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+	
+	
+
 }

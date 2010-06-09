@@ -88,6 +88,9 @@ public class LoadDB extends RunnableOnFinish {
 		} catch (InvalidDBException e) {
 			finish(false, mCtx.getString(R.string.error_invalid_db));
 			return;
+		} catch (OutOfMemoryError e) {
+			finish(false, mCtx.getString(R.string.error_out_of_memory));
+			return;
 		}
 		
 		finish(true);
