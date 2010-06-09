@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.android.keepass"
-      android:versionName="1.5" android:versionCode="40">
+      android:versionName="1.5.1" android:versionCode="42">
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4"/>
 	<supports-screens
       android:smallScreens="true"
@@ -27,6 +27,15 @@
 			    <data android:mimeType="*/*" />
 			    <data android:host="*" />
 			    <data android:pathPattern=".*\\.kdb" />
+    		</intent-filter>
+    		<intent-filter>
+			    <action android:name="android.intent.action.VIEW" />
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <category android:name="android.intent.category.BROWSABLE" />
+			    <data android:scheme="file" />
+			    <data android:mimeType="*/*" />
+			    <data android:host="*" />
+			    <data android:pathPattern=".*\\.kdbx" />
     		</intent-filter>
     	</activity>
     	<activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden">
