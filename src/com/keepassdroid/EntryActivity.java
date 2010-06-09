@@ -148,6 +148,8 @@ public class EntryActivity extends LockCloseActivity {
 		TableLayout table = (TableLayout) findViewById(R.id.entry_table);
 		table.setColumnShrinkable(COL_DATA, true);
 		
+		setupEditButtons();
+		
 		// Notification Manager
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		
