@@ -53,7 +53,9 @@ public class PwEntryTestV4 extends TestCase {
 		PwEntryV4 target = new PwEntryV4();
 		target.assign(entry);
 		
+		/* This test is not so useful now that I am not implementing value equality for Entries
 		assertTrue("Entries do not match.", entry.equals(target));
+		*/
 		
 	}
 

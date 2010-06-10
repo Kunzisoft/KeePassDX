@@ -73,20 +73,4 @@ public abstract class PwEntry implements Cloneable {
 		return false;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PwEntry other = (PwEntry) obj;
-		if (imageId != other.imageId)
-			return false;
-		return true;
-	}
-	
-	
-
 }
