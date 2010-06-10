@@ -1,3 +1,6 @@
+KeePassDroid (1.5.1)
+  * Handle .kdbx file extension
+
 KeePassDroid (1.5)
   * Add beta read-only .kdbx support.
 
