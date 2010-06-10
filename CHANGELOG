@@ -1,3 +1,7 @@
+KeePassDroid (1.5.2)
+  * Various crash fixes
+  * Fix group and entry deletion
+
 KeePassDroid (1.5.1)
   * Handle .kdbx file extension
 
