@@ -203,7 +203,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public Date getMod() {
-		return parentGroupLastMod;
+		return lastMod;
 	}
 
 	@Override
