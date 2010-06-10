@@ -126,7 +126,7 @@ public class FileSelectActivity extends ListActivity {
 					}
 					File parent = file.getParentFile();
 					
-					if ( parent.exists() && ! parent.isDirectory() ) {
+					if ( parent == null || (parent.exists() && ! parent.isDirectory()) ) {
 						Toast.makeText(FileSelectActivity.this,
 								R.string.error_invalid_path,
 								Toast.LENGTH_LONG).show();
