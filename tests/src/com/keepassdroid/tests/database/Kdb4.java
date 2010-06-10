@@ -41,10 +41,22 @@ public class Kdb4 extends AndroidTestCase {
 		
 		Importer importer = ImporterFactory.createImporter(is);
 		
+		assertTrue(importer instanceof ImporterV4);
+		is.close();
+		
+	}
+	
+	public void testParsing() throws IOException, InvalidDBException {
+		Context ctx = getContext();
+		
+		AssetManager am = ctx.getAssets();
+		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
+		
+		ImporterV4 importer = new ImporterV4();
+		importer.openDatabase(is, "12345", "");
 		
 		is.close();
 		
-		assertTrue(importer instanceof ImporterV4);
 		
 	}
 	
