@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.UUID;
 
 import android.content.Context;
-import android.os.Debug;
 
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
@@ -107,12 +106,6 @@ public class Database {
 		
 		Importer imp = ImporterFactory.createImporter(bis, debug);
 
-
-		/*
-		ImporterV3 Importer;
-		Importer = (ImporterV3) imp;  // Remove me when V4 support is in
-		*/
-		
 		bis.reset();  // Return to the start
 		
 		pm = imp.openDatabase(bis, password, keyfile, status);
@@ -130,23 +123,15 @@ public class Database {
 	 */
 	public void buildSearchIndex(Context ctx) {
 
-		Debug.startMethodTracing("search");
 		searchHelper = new SearchDbHelper(ctx);
 		
 		initSearch();
 		
 		searchHelper.open();
 		searchHelper.insertEntry(pm.getEntries());
-		/*for ( int i = 0; i < pm.entries.size(); i++) {
-			PwEntryV3 entry = pm.entries.get(i);
-			if ( ! entry.isMetaStream() ) {
-				searchHelper.insertEntry(entry);
-			}
-		} */
 		searchHelper.close();
 		
 		indexBuilt = true;
-		Debug.stopMethodTracing();
 	}
 	
 	public PwGroupV3 Search(String str) {

@@ -1,3 +1,6 @@
+KeePassDroid (1.5.3)
+  * Remove debug tracing
+
 KeePassDroid (1.5.2)
   * Various crash fixes
   * Fix group and entry deletion
