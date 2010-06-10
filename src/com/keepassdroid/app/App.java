@@ -24,12 +24,15 @@ import java.util.Calendar;
 import android.app.Application;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.fileselect.FileDbHelper;
 
 public class App extends Application {
 	private static Database db;
 	private static boolean shutdown = false;
 	private static Calendar calendar;
-
+	
+	public static FileDbHelper fileDbHelper;
+	
 	public static Database getDB() {
 		if ( db == null ) {
 			db = new Database();
@@ -64,11 +67,24 @@ public class App extends Application {
 	}
 
 	@Override
+	public void onCreate() {
+		super.onCreate();
+		
+		fileDbHelper = new FileDbHelper(this);
+		fileDbHelper.open();
+		
+	}
+
+	@Override
 	public void onTerminate() {
 		super.onTerminate();
 		
 		if ( db != null ) {
 			db.clear();
+		}
+		
+		if ( fileDbHelper != null && fileDbHelper.isOpen() ) {
+			fileDbHelper.close();
 		}
 	}
 	

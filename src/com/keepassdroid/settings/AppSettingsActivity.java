@@ -54,10 +54,9 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 				Boolean value = (Boolean) newValue;
 				
 				if ( ! value.booleanValue() ) {
-					FileDbHelper helper = new FileDbHelper(AppSettingsActivity.this);
-					helper.open();
+					FileDbHelper helper = App.fileDbHelper;
+
 					helper.deleteAllKeys();
-					helper.close();
 				}
 				
 				return true;

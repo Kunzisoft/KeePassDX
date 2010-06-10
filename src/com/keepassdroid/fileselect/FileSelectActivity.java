@@ -47,6 +47,7 @@ import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.SetPasswordDialog;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
@@ -67,9 +68,8 @@ public class FileSelectActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mDbHelper = new FileDbHelper(this);
-		mDbHelper.open();
+		
+		mDbHelper = App.fileDbHelper;
 
 		if (mDbHelper.hasRecentFiles()) {
 			recentMode = true;
@@ -188,10 +188,9 @@ public class FileSelectActivity extends ListActivity {
 		public void run() {
 			if (mSuccess) {
 				// Add to recent files
-				FileDbHelper dbHelper = new FileDbHelper(FileSelectActivity.this);
-				dbHelper.open();
+				FileDbHelper dbHelper = App.fileDbHelper;
+
 				dbHelper.createFile(mFilename, getFilename());
-				dbHelper.close();
 
 				GroupActivity.Launch(FileSelectActivity.this);
 

@@ -114,6 +114,10 @@ public class FileDbHelper {
 		return this;
 	}
 	
+	public boolean isOpen() {
+		return mDb.isOpen();
+	}
+	
 	public void close() {
 		mDb.close();
 	}

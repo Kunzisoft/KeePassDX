@@ -166,12 +166,9 @@ public class PasswordActivity extends LockingActivity {
 	
 	private String getKeyFile(String filename) {
 		if ( mRememberKeyfile ) {
-			FileDbHelper dbHelp = new FileDbHelper(this);
-			dbHelp.open();
+			FileDbHelper dbHelp = App.fileDbHelper;
 			
 			String keyfile = dbHelp.getFileByName(filename);
-			
-			dbHelp.close();
 			
 			return keyfile;
 		} else {

@@ -9,7 +9,7 @@
       android:largeScreens="true"
       android:anyDensity="true"
     />
-    <application android:label="@string/app_name" android:icon="@drawable/launcher">
+    <application android:label="@string/app_name" android:icon="@drawable/launcher" android:name="com.keepassdroid.app.App">
         <activity android:name=".KeePass"
                   android:label="@string/app_name">
             <intent-filter>

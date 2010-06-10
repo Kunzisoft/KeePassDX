@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.exception.ArcFourException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
@@ -97,16 +98,13 @@ public class LoadDB extends RunnableOnFinish {
 	}
 	
 	private void saveFileData(String fileName, String key) {
-		FileDbHelper db = new FileDbHelper(mCtx);
-		db.open();
+		FileDbHelper db = App.fileDbHelper;
 		
 		if ( ! mRememberKeyfile ) {
 			key = "";
 		}
 		
 		db.createFile(fileName, key);
-		
-		db.close();
 	}
 	
 
