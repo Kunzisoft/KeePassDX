@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.Vector;
 
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 
@@ -111,8 +110,8 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public Vector<PwGroup> getGroups() {
-		Vector<PwGroup> list = new Vector<PwGroup>();
+	public List<PwGroup> getGroups() {
+		List<PwGroup> list = new ArrayList<PwGroup>();
 		PwGroupV4 root = (PwGroupV4) rootGroup;
 		root.buildChildGroupsRecursive(list);
 		
@@ -120,13 +119,13 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public Vector<PwGroup> getGrpRoots() {
+	public List<PwGroup> getGrpRoots() {
 		return rootGroup.childGroups;
 	}
 
 	@Override
-	public Vector<PwEntry> getEntries() {
-		Vector<PwEntry> list = new Vector<PwEntry>();
+	public List<PwEntry> getEntries() {
+		List<PwEntry> list = new ArrayList<PwEntry>();
 		PwGroupV4 root = (PwGroupV4) rootGroup;
 		root.buildChildEntriesRecursive(list);
 		

@@ -28,7 +28,8 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
@@ -180,7 +181,7 @@ public class PwDbV3Output extends PwDbOutput {
 		//long size = 0;
 		
 		// Groups
-		Vector<PwGroup> groups = mPM.getGroups();
+		List<PwGroup> groups = mPM.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
 			PwGroupV3 pg = (PwGroupV3) groups.get(i);
 			PwGroupOutputV3 pgo = new PwGroupOutputV3(pg, os);
@@ -204,10 +205,10 @@ public class PwDbV3Output extends PwDbOutput {
 	}
 	
 	private void sortGroupsForOutput() {
-		Vector<PwGroup> groupList = new Vector<PwGroup>();
+		List<PwGroup> groupList = new ArrayList<PwGroup>();
 		
 		// Rebuild list according to coalation sorting order removing any orphaned groups
-		Vector<PwGroup> roots = mPM.getGrpRoots();
+		List<PwGroup> roots = mPM.getGrpRoots();
 		for ( int i = 0; i < roots.size(); i++ ) {
 			sortGroup((PwGroupV3) roots.get(i), groupList);
 		}
@@ -215,7 +216,7 @@ public class PwDbV3Output extends PwDbOutput {
 		mPM.setGroups(groupList);
 	}
 	
-	private void sortGroup(PwGroupV3 group, Vector<PwGroup> groupList) {
+	private void sortGroup(PwGroupV3 group, List<PwGroup> groupList) {
 		// Add current group
 		groupList.add(group);
 		

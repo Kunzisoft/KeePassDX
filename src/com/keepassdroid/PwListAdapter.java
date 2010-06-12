@@ -19,7 +19,8 @@
  */
 package com.keepassdroid;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class PwListAdapter extends BaseAdapter {
 		super.notifyDataSetChanged();
 		
 		filter();
+		sort();
 	}
 
 	@Override
@@ -44,22 +46,29 @@ public class PwListAdapter extends BaseAdapter {
 		super.notifyDataSetInvalidated();
 		
 		filter();
+		sort();
 	}
 
 	private GroupBaseActivity mAct;
 	private PwGroup mGroup;
-	private Vector<PwEntry> filteredEntries;
+	private List<PwEntry> filteredEntries;
 	
 	public PwListAdapter(GroupBaseActivity act, PwGroup group) {
 		mAct = act;
 		mGroup = group;
 		
 		filter();
+		sort();
 		
 	}
 	
+	private void sort() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void filter() {
-		filteredEntries = new Vector<PwEntry>();
+		filteredEntries = new ArrayList<PwEntry>();
 		
 		for (int i = 0; i < mGroup.childEntries.size(); i++) {
 			PwEntry entry = mGroup.childEntries.get(i);
@@ -108,7 +117,7 @@ public class PwListAdapter extends BaseAdapter {
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
 
-		ev = PwEntryView.getInstance(mAct, filteredEntries.elementAt(position), position);
+		ev = PwEntryView.getInstance(mAct, filteredEntries.get(position), position);
 
 		return ev;
 	}

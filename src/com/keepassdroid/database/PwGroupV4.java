@@ -20,8 +20,8 @@
 package com.keepassdroid.database;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
-import java.util.Vector;
 
 public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
@@ -82,7 +82,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		return parent;
 	}
 	
-	public void buildChildGroupsRecursive(Vector<PwGroup> list) {
+	public void buildChildGroupsRecursive(List<PwGroup> list) {
 		list.add(this);
 		
 		for ( int i = 0; i < childGroups.size(); i++) {
@@ -92,7 +92,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		}
 	}
 
-	public void buildChildEntriesRecursive(Vector<PwEntry> list) {
+	public void buildChildEntriesRecursive(List<PwEntry> list) {
 		for ( int i = 0; i < childEntries.size(); i++ ) {
 			list.add(childEntries.get(i));
 		}

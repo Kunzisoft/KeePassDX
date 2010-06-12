@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.tests.database;
 
-import java.util.Vector;
+import java.util.List;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
@@ -89,7 +89,7 @@ public class DeleteEntry extends AndroidTestCase {
 	}
 	
 	private PwEntry getEntry(PwDatabaseV3 pm, String name) {
-		Vector<PwEntry> entries = pm.entries;
+		List<PwEntry> entries = pm.entries;
 		for ( int i = 0; i < entries.size(); i++ ) {
 			PwEntry entry = entries.get(i);
 			if ( entry.getTitle().equals(name) ) {
@@ -102,7 +102,7 @@ public class DeleteEntry extends AndroidTestCase {
 	}
 	
 	private PwGroup getGroup(PwDatabase pm, String name) {
-		Vector<PwGroup> groups = pm.getGroups();
+		List<PwGroup> groups = pm.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
 			PwGroup group = groups.get(i);
 			if ( group.getName().equals(name) ) {

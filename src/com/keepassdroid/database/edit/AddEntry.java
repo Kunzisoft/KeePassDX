@@ -89,7 +89,7 @@ public abstract class AddEntry extends RunnableOnFinish {
 				mEntry.getParent().childEntries.remove(mEntry);
 				
 				// Remove from manager
-				mDb.pm.getEntries().removeElement(mEntry);
+				mDb.pm.getEntries().remove(mEntry);
 
 			}
 			

@@ -27,7 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Vector;
+import java.util.List;
 
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
@@ -206,11 +206,11 @@ public abstract class PwDatabase {
 	
 	public abstract byte[] getPasswordKey(String key) throws IOException;
 
-	public abstract Vector<PwGroup> getGrpRoots();
+	public abstract List<PwGroup> getGrpRoots();
 	
-	public abstract Vector<PwGroup> getGroups();
+	public abstract List<PwGroup> getGroups();
 
-	public abstract Vector<PwEntry> getEntries();
+	public abstract List<PwEntry> getEntries();
 	
 	public abstract long getNumRounds();
 	

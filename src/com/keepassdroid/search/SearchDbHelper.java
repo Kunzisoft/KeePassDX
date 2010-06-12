@@ -19,8 +19,9 @@
  */
 package com.keepassdroid.search;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
-import java.util.Vector;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -114,7 +115,7 @@ public class SearchDbHelper {
 		mDb.insert(SEARCH_TABLE, null, cv);
 	}
 	
-	public void insertEntry(Vector<? extends PwEntry> entries) {
+	public void insertEntry(List<? extends PwEntry> entries) {
 		mDb.beginTransaction();
 
 		try {
@@ -147,8 +148,8 @@ public class SearchDbHelper {
 
 		PwGroupV3 group = new PwGroupV3();
 		group.name = "Search results";
-		group.childEntries = new Vector<PwEntry>();
-		group.setGroups(new Vector<PwGroup>());
+		group.childEntries = new ArrayList<PwEntry>();
+		group.setGroups(new ArrayList<PwGroup>());
 		
 		cursor.moveToFirst();
 		while ( ! cursor.isAfterLast() ) {

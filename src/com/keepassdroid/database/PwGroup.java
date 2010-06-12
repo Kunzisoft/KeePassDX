@@ -19,14 +19,15 @@
  */
 package com.keepassdroid.database;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 public abstract class PwGroup {
-	public Vector<PwGroup> childGroups = new Vector<PwGroup>();
-	public Vector<PwEntry> childEntries = new Vector<PwEntry>();
+	public List<PwGroup> childGroups = new ArrayList<PwGroup>();
+	public List<PwEntry> childEntries = new ArrayList<PwEntry>();
 
 	public abstract PwGroup getParent();
 	

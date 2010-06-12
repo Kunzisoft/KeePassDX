@@ -65,12 +65,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			windowSeqPairs.put(key, value);
 		}
 
-		private PwEntryV4 getOuterType() {
-			return PwEntryV4.this;
-		}
-		
-		
-
 	}
 	
 	public PwEntryV4() {

@@ -31,7 +31,7 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 package com.keepassdroid.database;
 
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 
 
@@ -71,7 +71,7 @@ public class PwGroupV3 extends PwGroup {
 	/** Used by KeePass internally, don't use */
 	public int flags;
 	
-	public void setGroups(Vector<PwGroup> groups) {
+	public void setGroups(List<PwGroup> groups) {
 		childGroups = groups;
 	}
 	

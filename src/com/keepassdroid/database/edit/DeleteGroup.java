@@ -20,7 +20,8 @@
 package com.keepassdroid.database.edit;
 
 import java.lang.ref.WeakReference;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
@@ -62,19 +63,18 @@ public class DeleteGroup extends RunnableOnFinish {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 		
 		// Remove child entries
-		Vector<PwEntry> childEnt = (Vector<PwEntry>) mGroup.childEntries.clone();
+		List<PwEntry> childEnt = new ArrayList<PwEntry>(mGroup.childEntries);
 		for ( int i = 0; i < childEnt.size(); i++ ) {
 			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), null, true);
 			task.run();
 		}
 		
 		// Remove child groups
-		Vector<PwGroup> childGrp = (Vector<PwGroup>) mGroup.childGroups.clone();
+		List<PwGroup> childGrp = new ArrayList<PwGroup>(mGroup.childGroups);
 		for ( int i = 0; i < childGrp.size(); i++ ) {
 			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, null, true);
 			task.run();
