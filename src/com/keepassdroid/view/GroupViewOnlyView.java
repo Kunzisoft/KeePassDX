@@ -22,6 +22,7 @@ package com.keepassdroid.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.android.keepass.R;
@@ -42,7 +43,22 @@ public class GroupViewOnlyView extends RelativeLayout {
 	
 	private void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.group_view_only, this);
+		inflater.inflate(R.layout.group_add_entry, this);
+
+		// Hide the buttons
+		View addGroup = findViewById(R.id.add_group);
+		addGroup.setVisibility(INVISIBLE);
+		
+		View addEntry = findViewById(R.id.add_entry);
+		addEntry.setVisibility(INVISIBLE);
+		
+		View divider2 = findViewById(R.id.divider2);
+		divider2.setVisibility(INVISIBLE);
+		
+		View list = findViewById(android.R.id.list);
+		LayoutParams lp = (RelativeLayout.LayoutParams) list.getLayoutParams();
+		lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);
+		
 		
 	}
 

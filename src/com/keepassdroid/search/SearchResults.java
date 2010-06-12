@@ -59,20 +59,7 @@ public class SearchResults extends GroupBaseActivity {
 		}
 
 		performSearch(getSearchStr(getIntent()));
-		/*
-		mGroup = processSearchIntent(getIntent());
-		assert(mGroup != null);
 		
-		if ( mGroup == null || mGroup.childEntries.size() < 1 ) {
-			setContentView(R.layout.group_empty);
-		} else {
-			setContentView(R.layout.group_view_only);
-		}
-		
-		setGroupTitle();
-		
-		setListAdapter(new PwListAdapter(this, mGroup));
-		*/
 	}
 	
 	private void performSearch(String query) {

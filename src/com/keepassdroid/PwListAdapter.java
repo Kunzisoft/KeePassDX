@@ -20,12 +20,17 @@
 package com.keepassdroid;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.android.keepass.R;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.view.PwEntryView;
@@ -33,55 +38,62 @@ import com.keepassdroid.view.PwGroupView;
 
 public class PwListAdapter extends BaseAdapter {
 
+	private GroupBaseActivity mAct;
+	private PwGroup mGroup;
+	private List<PwGroup> groupsForViewing;
+	private List<PwEntry> entriesForViewing;
+	private Comparator<PwEntry> entryComp = new PwEntry.EntryNameComparator();
+	private Comparator<PwGroup> groupComp = new PwGroup.GroupNameComparator();
+	private SharedPreferences prefs;
+	
+	public PwListAdapter(GroupBaseActivity act, PwGroup group) {
+		mAct = act;
+		mGroup = group;
+		prefs = PreferenceManager.getDefaultSharedPreferences(act);
+		
+		filterAndSort();
+		
+	}
+	
 	@Override
 	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();
 		
-		filter();
-		sort();
+		filterAndSort();
 	}
 
 	@Override
 	public void notifyDataSetInvalidated() {
 		super.notifyDataSetInvalidated();
 		
-		filter();
-		sort();
+		filterAndSort();
 	}
 
-	private GroupBaseActivity mAct;
-	private PwGroup mGroup;
-	private List<PwEntry> filteredEntries;
-	
-	public PwListAdapter(GroupBaseActivity act, PwGroup group) {
-		mAct = act;
-		mGroup = group;
-		
-		filter();
-		sort();
-		
-	}
-	
-	private void sort() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void filter() {
-		filteredEntries = new ArrayList<PwEntry>();
+	private void filterAndSort() {
+		entriesForViewing = new ArrayList<PwEntry>();
 		
 		for (int i = 0; i < mGroup.childEntries.size(); i++) {
 			PwEntry entry = mGroup.childEntries.get(i);
 			if ( ! entry.isMetaStream() ) {
-				filteredEntries.add(entry);
+				entriesForViewing.add(entry);
 			}
+		}
+		
+		boolean sortLists = prefs.getBoolean(mAct.getString(R.string.sort_key),	mAct.getResources().getBoolean(R.bool.sort_default)); 
+		if ( sortLists ) {
+			groupsForViewing = new ArrayList<PwGroup>(mGroup.childGroups);
+			
+			Collections.sort(entriesForViewing, entryComp);
+			Collections.sort(groupsForViewing, groupComp);
+		} else {
+			groupsForViewing = mGroup.childGroups;
 		}
 	}
 	
 	@Override
 	public int getCount() {
 		
-		return mGroup.childGroups.size() + filteredEntries.size();
+		return groupsForViewing.size() + entriesForViewing.size();
 	}
 
 	@Override
@@ -96,7 +108,7 @@ public class PwListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		int size = mGroup.childGroups.size();
+		int size = groupsForViewing.size();
 		
 		if ( position < size ) { 
 			return createGroupView(position, convertView);
@@ -108,7 +120,7 @@ public class PwListAdapter extends BaseAdapter {
 	private View createGroupView(int position, View convertView) {
 		PwGroupView gv;
 
-		PwGroup group = mGroup.childGroups.get(position);
+		PwGroup group = groupsForViewing.get(position);
 		gv = PwGroupView.getInstance(mAct, group);
 
 		return gv;
@@ -117,7 +129,7 @@ public class PwListAdapter extends BaseAdapter {
 	private PwEntryView createEntryView(int position, View convertView) {
 		PwEntryView ev;
 
-		ev = PwEntryView.getInstance(mAct, filteredEntries.get(position), position);
+		ev = PwEntryView.getInstance(mAct, entriesForViewing.get(position), position);
 
 		return ev;
 	}

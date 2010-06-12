@@ -41,7 +41,7 @@ public abstract class PwGroup {
 		Collections.sort(childGroups, new GroupNameComparator());
 	}
 
-	private class GroupNameComparator implements Comparator<PwGroup> {
+	public static class GroupNameComparator implements Comparator<PwGroup> {
 
 		@Override
 		public int compare(PwGroup object1, PwGroup object2) {
@@ -51,16 +51,7 @@ public abstract class PwGroup {
 	}
 	
 	public void sortEntriesByName() {
-		Collections.sort(childEntries, new EntryNameComparator());
+		Collections.sort(childEntries, new PwEntry.EntryNameComparator());
 	}
 	
-	private class EntryNameComparator implements Comparator<PwEntry> {
-
-		@Override
-		public int compare(PwEntry object1, PwEntry object2) {
-			return object1.getTitle().compareToIgnoreCase(object2.getTitle());
-		}
-		
-	}
-
 }

@@ -19,12 +19,9 @@
  */
 package com.keepassdroid.database.edit;
 
-import java.lang.ref.WeakReference;
-
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
-import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.search.SearchDbHelper;
 
 public abstract class AddEntry extends RunnableOnFinish {
@@ -69,13 +66,15 @@ public abstract class AddEntry extends RunnableOnFinish {
 		@Override
 		public void run() {
 			if ( mSuccess ) {
+				/*
 				PwGroup parent = mEntry.getParent();
 
 				// Mark parent group dirty
 				mDb.dirty.put(parent, new WeakReference<PwGroup>(parent));
+				*/
 
 				// Add entry to global
-				mDb.entries.put(mEntry.getUUID(), new WeakReference<PwEntry>(mEntry));
+				mDb.entries.put(mEntry.getUUID(), mEntry);
 				
 				if ( mDb.indexBuilt ) {
 					// Add entry to search index

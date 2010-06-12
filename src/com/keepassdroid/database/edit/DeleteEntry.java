@@ -19,8 +19,6 @@
  */
 package com.keepassdroid.database.edit;
 
-import java.lang.ref.WeakReference;
-
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
@@ -103,7 +101,7 @@ public class DeleteEntry extends RunnableOnFinish {
 				
 				// Mark parent dirty
 				if ( mParent != null ) {
-					mDb.dirty.put(mParent, new WeakReference<PwGroup>(mParent));
+					mDb.dirty.add(mParent);
 				}
 			} else {
 				mDb.pm.getEntries().add(mEntry);

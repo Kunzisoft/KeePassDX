@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.database.edit;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,16 +106,12 @@ public class DeleteGroup extends RunnableOnFinish {
 				mDb.groups.remove(mGroup.getId());
 				
 				// Remove group from the dirty global (if it is present), not a big deal if this fails
-				try {
-					mDb.dirty.remove(mGroup);
-				} catch ( Exception e) {
-					// Suppress
-				}
+				mDb.dirty.remove(mGroup);
 				
 				// Mark parent dirty
 				PwGroup parent = mGroup.getParent();
 				if ( parent != null ) {
-					mDb.dirty.put(parent, new WeakReference<PwGroup>(parent));
+					mDb.dirty.add(parent);
 				}
 			} else {
 				// Let's not bother recovering from a failure to save a deleted group.  It is too much work.

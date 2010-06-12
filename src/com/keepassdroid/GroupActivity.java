@@ -19,8 +19,6 @@
  */
 package com.keepassdroid;
 
-import java.lang.ref.WeakReference;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -114,8 +112,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		if ( id == null ) {
 			mGroup = db.root;
 		} else {
-			WeakReference<PwGroup> wPw = db.groups.get(id);
-			mGroup = wPw.get();
+			mGroup = db.groups.get(id);
 		}
 		
 		Log.w(TAG, "Retrieved group");
@@ -154,7 +151,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 				}
 			});
 		}
-
+		
 		setGroupTitle();
 
 		setListAdapter(new PwListAdapter(this, mGroup));

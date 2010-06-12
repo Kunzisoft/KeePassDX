@@ -132,6 +132,8 @@
     <string name="rounds_explaination">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_hint">rounds</string>
     <string name="saving_database">Saving database...</string>
+    <string name="sort_name">Sort by name</string>
+    <string name="sort_db">DB sort order</string>
     <string name="search_hint">Entry title/description</string>
     <string name="search_label">Search</string>
     <string name="show_password">Show password</string>

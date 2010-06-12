@@ -21,8 +21,11 @@ package com.keepassdroid;
 
 
 import android.content.ActivityNotFoundException;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,20 +54,11 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected static final int MENU_SEARCH = Menu.FIRST + 2;
 	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 3;
 	protected static final int MENU_APP_SETTINGS = Menu.FIRST + 4;
+	protected static final int MENU_SORT = Menu.FIRST + 5;
+	
+	private SharedPreferences prefs;
 	
 	protected PwGroup mGroup;
-
-	/*
-	public static void Launch(Activity act, PwGroup group) {
-		Intent i = new Intent(act, GroupActivity.class);
-		
-		if ( group != null ) {
-			i.putExtra(KEY_ENTRY, group.groupId);
-		}
-		
-		act.startActivityForResult(i,0);
-	}
-	*/
 
 	@Override
 	protected void onResume() {
@@ -75,7 +69,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	
 	public void refreshIfDirty() {
 		Database db = App.getDB();
-		if ( db.dirty.get(mGroup) != null ) {
+		if ( db.dirty.contains(mGroup) ) {
 			db.dirty.remove(mGroup);
 			BaseAdapter adapter = (BaseAdapter) getListAdapter();
 			adapter.notifyDataSetChanged();
@@ -102,6 +96,10 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			finish();
 			return;
 		}
+		
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
 
 		setContentView(new GroupViewOnlyView(this));
 		setResult(KeePass.EXIT_NORMAL);
@@ -153,6 +151,36 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		
 		menu.add(0, MENU_CHANGE_MASTER_KEY, 0, R.string.menu_change_key);
 		menu.findItem(MENU_CHANGE_MASTER_KEY).setIcon(android.R.drawable.ic_menu_manage);
+
+		menu.add(0, MENU_SORT, 0, R.string.sort_name);
+		menu.findItem(MENU_SORT).setIcon(android.R.drawable.ic_menu_sort_by_size);
+		
+		return true;
+	}
+
+	private void setSortMenuText(Menu menu) {
+		boolean sortByName = prefs.getBoolean(getString(R.string.sort_key), getResources().getBoolean(R.bool.sort_default));
+		
+		int resId;
+		if ( sortByName ) {
+			resId = R.string.sort_db;
+		} else {
+			resId = R.string.sort_name;
+		}
+			
+			
+		menu.findItem(MENU_SORT).setTitle(resId);
+
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if ( ! super.onPrepareOptionsMenu(menu) ) {
+			return false;
+		}
+		
+		setSortMenuText(menu);
+		
 		return true;
 	}
 
@@ -185,11 +213,36 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		case MENU_CHANGE_MASTER_KEY:
 			setPassword();
 			return true;
+			
+		case MENU_SORT:
+			toggleSort();
+			return true;
+
 		}
 		
 		return super.onOptionsItemSelected(item);
 	}
 	
+	private void toggleSort() {
+		// Toggle setting
+		String sortKey = getString(R.string.sort_key);
+		boolean sortByName = prefs.getBoolean(sortKey, getResources().getBoolean(R.bool.sort_default));
+		Editor editor = prefs.edit();
+		editor.putBoolean(sortKey, ! sortByName);
+		editor.commit();
+		
+		// Mark all groups as dirty now to refresh them on load
+		Database db = App.getDB();
+		db.markAllGroupsAsDirty();
+		// We'll manually refresh this group so we can remove it
+		db.dirty.remove(mGroup);
+		
+		// Tell the adapter to refresh it's list
+		BaseAdapter adapter = (BaseAdapter) getListAdapter();
+		adapter.notifyDataSetChanged();
+		
+	}
+
 	private void setPassword() {
 		SetPasswordDialog dialog = new SetPasswordDialog(this);
 		

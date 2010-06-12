@@ -19,12 +19,21 @@
  */
 package com.keepassdroid.database;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
 public abstract class PwEntry implements Cloneable {
 
-	// TODO none of these belong here.  They aren't stored this way in PwEntryV4
+	public static class EntryNameComparator implements Comparator<PwEntry> {
+
+		@Override
+		public int compare(PwEntry object1, PwEntry object2) {
+			return object1.getTitle().compareToIgnoreCase(object2.getTitle());
+		}
+		
+	}
+
 	
 	public int imageId;
 

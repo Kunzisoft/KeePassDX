@@ -1,10 +1,7 @@
 package com.keepassdroid.database.edit;
 
-import java.lang.ref.WeakReference;
-
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 
 public class AddGroupV3 extends AddGroup {
@@ -50,10 +47,10 @@ public class AddGroupV3 extends AddGroup {
 			
 			if ( mSuccess ) {
 				// Mark parent group dirty
-				mDb.dirty.put(mParent, new WeakReference<PwGroup>(mParent));
+				mDb.dirty.add(mParent);
 				
 				// Add group to global list
-				mDb.groups.put(mGroup.getId(), new WeakReference<PwGroup>(mGroup));
+				mDb.groups.put(mGroup.getId(), mGroup);
 			} else {
 				PwDatabaseV3 pm = (PwDatabaseV3) mDb.pm;
 				pm.removeGroup(mGroup);

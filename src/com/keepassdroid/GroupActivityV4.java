@@ -62,6 +62,10 @@ public class GroupActivityV4 extends GroupActivity {
 		menu.add(0, MENU_CHANGE_MASTER_KEY, 0, R.string.menu_change_key);
 		menu.findItem(MENU_CHANGE_MASTER_KEY).setIcon(android.R.drawable.ic_menu_manage);
 		*/
+		
+		menu.add(0, MENU_SORT, 0, R.string.sort_name);
+		menu.findItem(MENU_SORT).setIcon(android.R.drawable.ic_menu_sort_by_size);
+		
 		return true;
 
 	}

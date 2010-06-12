@@ -133,7 +133,7 @@ public class EntryActivity extends LockCloseActivity {
 		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
 		assert(uuid != null);
 		
-		mEntry = db.entries.get(uuid).get();
+		mEntry = db.entries.get(uuid);
 		
 		// Update last access time.
 		mEntry.stampLastAccess();

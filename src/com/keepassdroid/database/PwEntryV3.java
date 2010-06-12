@@ -25,12 +25,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.keepassdroid.database;
 
 // PhoneID
-import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
-
 
 import android.util.Log;
 
@@ -143,9 +141,9 @@ public class PwEntryV3 extends PwEntry {
 
 	public PwEntryV3(Database db, int parentId) {
 
-		WeakReference<PwGroup> wPw = db.groups.get(new PwGroupIdV3(parentId));
+		
 
-		parent = (PwGroupV3) wPw.get();
+		parent = (PwGroupV3) db.groups.get(new PwGroupIdV3(parentId));
 		groupId = parentId;
 
 		Random random = new Random();

@@ -26,14 +26,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import android.content.Context;
 
 import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
@@ -49,9 +52,9 @@ import com.keepassdroid.search.SearchDbHelper;
  * @author bpellin
  */
 public class Database {
-	public HashMap<PwGroupId, WeakReference<PwGroup>> groups = new HashMap<PwGroupId, WeakReference<PwGroup>>();
-	public HashMap<UUID, WeakReference<PwEntry>> entries = new HashMap<UUID, WeakReference<PwEntry>>();
-	public HashMap<PwGroup, WeakReference<PwGroup>> dirty = new HashMap<PwGroup, WeakReference<PwGroup>>();
+	public Map<PwGroupId, PwGroup> groups = new HashMap<PwGroupId, PwGroup>();
+	public Map<UUID, PwEntry> entries = new HashMap<UUID, PwEntry>();
+	public Set<PwGroup> dirty = new HashSet<PwGroup>();
 	public PwGroup root;
 	public PwDatabase pm;
 	public String mFilename;
@@ -177,12 +180,12 @@ public class Database {
 		
 		for (int i = 0; i < childEntries.size(); i++ ) {
 			PwEntry cur = childEntries.get(i);
-			entries.put(cur.getUUID(), new WeakReference<PwEntry>(cur));
+			entries.put(cur.getUUID(), cur);
 		}
 		
 		for (int i = 0; i < childGroups.size(); i++ ) {
 			PwGroup cur = childGroups.get(i);
-			groups.put(cur.getId(), new WeakReference<PwGroup>(cur));
+			groups.put(cur.getId(), cur);
 			populateGlobals(cur);
 		}
 	}
@@ -193,6 +196,8 @@ public class Database {
 		indexBuilt = false;
 		groups.clear();
 		entries.clear();
+		dirty.clear();
+		
 		root = null;
 		pm = null;
 		mFilename = null;
@@ -204,6 +209,18 @@ public class Database {
 			searchHelper.open();
 			searchHelper.clear();
 			searchHelper.close();
+		}
+	}
+	
+	public void markAllGroupsAsDirty() {
+		for ( PwGroup group : pm.getGroups() ) {
+			dirty.add(group);
+		}
+		
+		// TODO: This should probably be abstracted out
+		// The root group in v3 is not an 'official' group
+		if ( pm instanceof PwDatabaseV3 ) {
+			dirty.add(root);		
 		}
 	}
 	
