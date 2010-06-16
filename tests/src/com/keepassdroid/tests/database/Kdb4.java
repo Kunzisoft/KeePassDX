@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.tests.database;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -54,6 +55,54 @@ public class Kdb4 extends AndroidTestCase {
 		
 		ImporterV4 importer = new ImporterV4();
 		importer.openDatabase(is, "12345", "");
+		
+		is.close();
+		
+		
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		
+		InputStream key = getContext().getAssets().open("keyfile.key", AssetManager.ACCESS_STREAMING);
+		
+		FileOutputStream keyFile = new FileOutputStream("/sdcard/key");
+		while (true) {
+			byte[] buf = new byte[1024];
+			int read = key.read(buf);
+			if ( read == -1 ) {
+				break;
+			} else {
+				keyFile.write(buf);
+			}
+		}
+		
+		keyFile.close();
+
+	}
+
+	public void testComposite() throws IOException, InvalidDBException {
+		Context ctx = getContext();
+		
+		AssetManager am = ctx.getAssets();
+		InputStream is = am.open("keyfile.kdbx", AssetManager.ACCESS_STREAMING);
+		
+		ImporterV4 importer = new ImporterV4();
+		importer.openDatabase(is, "12345", "/sdcard/key");
+		
+		is.close();
+		
+	}
+	
+	public void testKeyfile() throws IOException, InvalidDBException {
+		Context ctx = getContext();
+		
+		AssetManager am = ctx.getAssets();
+		InputStream is = am.open("key-only.kdbx", AssetManager.ACCESS_STREAMING);
+		
+		ImporterV4 importer = new ImporterV4();
+		importer.openDatabase(is, "", "/sdcard/key");
 		
 		is.close();
 		
