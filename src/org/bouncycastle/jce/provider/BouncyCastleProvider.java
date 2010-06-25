@@ -6,13 +6,13 @@ import java.security.Provider;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.bouncycastle.asn1.DERObjectIdentifier;
+//import org.bouncycastle.asn1.DERObjectIdentifier;
 //import org.bouncycastle.asn1.bc.BCObjectIdentifiers;
 //import org.bouncycastle.asn1.cryptopro.CryptoProObjectIdentifiers;
-import org.bouncycastle.asn1.iana.IANAObjectIdentifiers;
+//import org.bouncycastle.asn1.iana.IANAObjectIdentifiers;
 //import org.bouncycastle.asn1.nist.NISTObjectIdentifiers;
 //import org.bouncycastle.asn1.oiw.OIWObjectIdentifiers;
-import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
+//import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 //import org.bouncycastle.asn1.teletrust.TeleTrusTObjectIdentifiers;
 import org.bouncycastle.jce.interfaces.ConfigurableProvider;
 
@@ -646,6 +646,7 @@ public final class BouncyCastleProvider extends Provider
     //
     private void addMacAlgorithms()
     {
+    	/*
         put("Mac.DESMAC", "org.bouncycastle.jce.provider.JCEMac$DES");
         put("Alg.Alias.Mac.DES", "DESMAC");
         put("Mac.DESMAC/CFB8", "org.bouncycastle.jce.provider.JCEMac$DESCFB8");
@@ -726,8 +727,10 @@ public final class BouncyCastleProvider extends Provider
         put("Mac.PBEWITHHMACSHA1", "org.bouncycastle.jce.provider.JCEMac$PBEWithSHA");
         put("Mac.PBEWITHHMACRIPEMD160", "org.bouncycastle.jce.provider.JCEMac$PBEWithRIPEMD160");
         put("Alg.Alias.Mac.1.3.14.3.2.26", "PBEWITHHMACSHA");
+        */
     }
 
+    /*
     private void addHMACAlgorithm(
         String algorithm,
         String algorithmClassName,
@@ -752,6 +755,7 @@ public final class BouncyCastleProvider extends Provider
         put("Alg.Alias.Mac." + oid, mainName);
         put("Alg.Alias.KeyGenerator." + oid, mainName);
     }
+    */
 
     //
     // message digests
