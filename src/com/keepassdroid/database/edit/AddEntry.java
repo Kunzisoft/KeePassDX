@@ -19,8 +19,6 @@
  */
 package com.keepassdroid.database.edit;
 
-import java.lang.ref.WeakReference;
-
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
