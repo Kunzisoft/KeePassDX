@@ -43,6 +43,13 @@ public class CipherFactory {
 		if ( (! androidOverride) && hasNativeImplementation(transformation) && NativeLib.loaded() ) {
 			return Cipher.getInstance(transformation, new AESProvider());
 		} else {
+		try {
+				return Cipher.getInstance(transformation, new BouncyCastleProvider());
+			} catch (NoSuchAlgorithmException e) {
+				// Do nothing, fall through
+			} catch (NoSuchPaddingException e) {
+				// Do nothing, fall through
+			}
 			return Cipher.getInstance(transformation);
 		}
 	}

@@ -1226,7 +1226,7 @@ public class JCEBlockCipher extends WrapCipherSpi
     /**
      * PBEWithSHAAndTwofish-CBC
      */
-    /*
+    
     static public class PBEWithSHAAndTwofish
         extends JCEBlockCipher
     {

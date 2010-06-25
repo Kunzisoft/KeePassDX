@@ -84,7 +84,13 @@ public class PwDbV3Output extends PwDbOutput {
 		
 		Cipher cipher;
 		try {
-			cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
+			if (mPM.algorithm == PwDbHeaderV3.ALGO_AES) {
+				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
+			} else if (mPM.algorithm == PwDbHeaderV3.ALGO_TWOFISH){
+				cipher = CipherFactory.getInstance("TWOFISH/CBC/PKCS7PADDING");
+			} else {
+				throw new Exception();
+			}
 		} catch (Exception e) {
 			throw new PwDbOutputException("Algorithm not supported.");
 		}
@@ -117,7 +123,6 @@ public class PwDbV3Output extends PwDbOutput {
 			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
 		} else if ( mPM.getAlgorithm() == PwDbHeaderV3.ALGO_TWOFISH ) {
 			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;
-			throw new PwDbOutputException("Unsupported algorithm.");
 		} else {
 			throw new PwDbOutputException("Unsupported algorithm.");
 		}

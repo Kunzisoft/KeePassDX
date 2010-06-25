@@ -47,7 +47,6 @@ import android.util.Log;
 import com.android.keepass.R;
 import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
-import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwDbHeader;
@@ -102,13 +101,13 @@ public class ImporterV3 extends Importer {
 	 * @throws InvalidAlgorithmParameterException if error decrypting main file body. 
 	 * @throws ShortBufferException if error decrypting main file body.
 	 */
-	public PwDatabase openDatabase( InputStream inStream, String password, String keyfile )
+	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile )
 	throws IOException, InvalidDBException
 	{
 		return openDatabase(inStream, password, keyfile, new UpdateStatus());
 	}
 
-	public PwDatabase openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
+	public PwDatabaseV3 openDatabase( InputStream inStream, String password, String keyfile, UpdateStatus status )
 	throws IOException, InvalidDBException
 	{
 		PwDatabaseV3        newManager;
@@ -146,8 +145,6 @@ public class ImporterV3 extends Importer {
 			throw new IOException( "Unknown algorithm." );
 		}
 
-		if( newManager.algorithm == PwDbHeaderV3.ALGO_TWOFISH )
-			throw new IOException( "TwoFish algorithm is not supported" );
 
 		if ( debug ) {
 			newManager.dbHeader = hdr;
@@ -164,14 +161,19 @@ public class ImporterV3 extends Importer {
 		// Initialize Rijndael algorithm
 		Cipher cipher;
 		try {
-			cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
+			if ( newManager.algorithm == PwDbHeaderV3.ALGO_AES ) {
+				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
+			} else if ( newManager.algorithm == PwDbHeaderV3.ALGO_TWOFISH ) {
+				cipher = CipherFactory.getInstance("TWOFISH/CBC/PKCS7PADDING");
+			} else {
+				throw new IOException( "Encryption algorithm is not supported" );
+			}
+
 		} catch (NoSuchAlgorithmException e1) {
 			throw new IOException("No such algorithm");
 		} catch (NoSuchPaddingException e1) {
 			throw new IOException("No such pdading");
 		}
-		//PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
-		//BufferedBlockCipher cipher = new BufferedBlockCipher(new CBCBlockCipher(new AESEngine()));
 
 		try {
 			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( newManager.finalKey, "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
@@ -181,7 +183,6 @@ public class ImporterV3 extends Importer {
 			throw new IOException("Invalid algorithm parameter.");
 		}
 
-		//cipher.init(false, new ParametersWithIV(new KeyParameter(finalKey), hdr.encryptionIV));
 		// Decrypt! The first bytes aren't encrypted (that's the header)
 		int encryptedPartSize;
 		try {
@@ -193,19 +194,6 @@ public class ImporterV3 extends Importer {
 		} catch (BadPaddingException e1) {
 			throw new InvalidPasswordException();
 		}
-		//int encryptedPartSize
-		//int paddedEncryptedPartSize = cipher.processBytes(filebuf, PwDbHeaderV3.BUF_SIZE, filebuf.length - PwDbHeaderV3.BUF_SIZE, filebuf, PwDbHeaderV3.BUF_SIZE );
-
-		//int encryptedPartSize = 0;
-		//try {
-		//PKCS7Padding padding = new PKCS7Padding();
-		//int paddingSize = padding.padCount(filebuf);
-		//encryptedPartSize = paddedEncryptedPartSize - paddingSize;
-		/*
-		if ( debug ) {
-			newManager.paddingBytes = paddingSize;
-		}
-		*/
 
 		if ( debug ) {
 			newManager.postHeader = new byte[encryptedPartSize];

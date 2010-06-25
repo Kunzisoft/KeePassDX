@@ -136,7 +136,8 @@ public class ASN1InputStream
                 case SEQUENCE:
                     if (lazyEvaluate)
                     {
-                        return new LazyDERSequence(defIn.toByteArray());
+                    	assert(false);
+                        //return new LazyDERSequence(defIn.toByteArray());
                     }
                     else
                     {
