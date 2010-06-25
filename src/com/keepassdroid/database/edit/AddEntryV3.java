@@ -24,7 +24,7 @@ import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroupV3;
 
-public class AddEntryV3 extends AddEntry {
+class AddEntryV3 extends AddEntry {
 	
 	private PwEntry mEntry;
 	

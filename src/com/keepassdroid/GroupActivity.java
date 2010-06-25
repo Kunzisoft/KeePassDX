@@ -82,8 +82,9 @@ public abstract class GroupActivity extends GroupBaseActivity {
 				i.putExtra(KEY_ENTRY, g.uuid.toString());
 			}
 		} else {
-			assert(true); // Should never be reached
-			throw new RuntimeException("Should never be reached.");
+			// Reached if db is null
+			Log.d(TAG, "Tried to launch with null db");
+			return;
 		}
 		
 		act.startActivityForResult(i,0);
