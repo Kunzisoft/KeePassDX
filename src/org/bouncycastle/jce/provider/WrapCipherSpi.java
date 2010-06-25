@@ -1,12 +1,14 @@
 package org.bouncycastle.jce.provider;
 
+/*
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.DERObjectIdentifier;
-//import org.bouncycastle.asn1.cryptopro.CryptoProObjectIdentifiers;
+import org.bouncycastle.asn1.cryptopro.CryptoProObjectIdentifiers;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x9.X9ObjectIdentifiers;
+*/
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.Wrapper;
@@ -35,7 +37,7 @@ import java.security.Key;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
+//import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.InvalidKeySpecException;
@@ -340,12 +342,13 @@ public abstract class WrapCipherSpi extends CipherSpi
         {
             return new SecretKeySpec(encoded, wrappedKeyAlgorithm);
         }
+        /*
         else if (wrappedKeyAlgorithm.equals("") && wrappedKeyType == Cipher.PRIVATE_KEY)
         {
-            /*
-             * The caller doesnt know the algorithm as it is part of
-             * the encrypted data.
-             */
+            
+            // * The caller doesnt know the algorithm as it is part of
+            // * the encrypted data.
+             
             ASN1InputStream bIn = new ASN1InputStream(encoded);
             PrivateKey      privKey;
 
@@ -356,7 +359,7 @@ public abstract class WrapCipherSpi extends CipherSpi
 
                 DERObjectIdentifier  oid = in.getAlgorithmId().getObjectId();
 
-                /*
+                
                 if (oid.equals(X9ObjectIdentifiers.id_ecPublicKey))
                 {
                     privKey = new JCEECPrivateKey(in);
@@ -366,7 +369,7 @@ public abstract class WrapCipherSpi extends CipherSpi
                     privKey = new JDKGOST3410PrivateKey(in);
                 }
                 
-                else*/ if (oid.equals(X9ObjectIdentifiers.id_dsa))
+                else if (oid.equals(X9ObjectIdentifiers.id_dsa))
                 {
                     privKey = new JDKDSAPrivateKey(in);
                 }
@@ -390,6 +393,7 @@ public abstract class WrapCipherSpi extends CipherSpi
 
             return privKey;
         }
+		*/
         else
         {
             try
