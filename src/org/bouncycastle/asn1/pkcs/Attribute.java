@@ -1,4 +1,4 @@
-package org.bouncycastle.asn1.x509;
+package org.bouncycastle.asn1.pkcs;
 
 import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1EncodableVector;
@@ -39,13 +39,8 @@ public class Attribute
     public Attribute(
         ASN1Sequence seq)
     {
-        if (seq.size() != 2)
-        {
-            throw new IllegalArgumentException("Bad sequence size: " + seq.size());
-        }
-
-        attrType = DERObjectIdentifier.getInstance(seq.getObjectAt(0));
-        attrValues = ASN1Set.getInstance(seq.getObjectAt(1));
+        attrType = (DERObjectIdentifier)seq.getObjectAt(0);
+        attrValues = (ASN1Set)seq.getObjectAt(1);
     }
 
     public Attribute(
