@@ -1,3 +1,7 @@
+KeePassDroid (1.5.5)
+  * Twofish support for .kdb
+  * Refresh fixes
+
 KeePassDroid (1.5.4)
   * Key file fixes
   * Implement sorting
