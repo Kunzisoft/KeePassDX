@@ -24,8 +24,8 @@
 	  android:title="@string/database" 
 	  android:summary="@string/menu_db_settings">
 		<Preference
+		  android:key="@string/algorithm_key"
 		  android:title="@string/algorithm"
-		  android:summary="@string/rijndael"
 		  android:enabled="false"/>
 		<com.keepassdroid.settings.RoundsPreference
 		  android:key="@string/rounds_key"

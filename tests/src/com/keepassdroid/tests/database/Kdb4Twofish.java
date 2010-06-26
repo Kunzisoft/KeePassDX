@@ -26,7 +26,7 @@ import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.database.load.ImporterV3;
 
 public class Kdb4Twofish extends AndroidTestCase {
@@ -40,7 +40,7 @@ public class Kdb4Twofish extends AndroidTestCase {
 
 		PwDatabaseV3 db = importer.openDatabase(is, "12345", "");
 		
-		assertTrue(db.algorithm == PwDbHeaderV3.ALGO_TWOFISH);
+		assertTrue(db.algorithm == PwEncryptionAlgorithm.Twofish);
 		
 		is.close();
 

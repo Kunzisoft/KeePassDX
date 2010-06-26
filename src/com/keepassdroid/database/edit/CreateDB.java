@@ -23,7 +23,7 @@ package com.keepassdroid.database.edit;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
 
 public class CreateDB extends RunnableOnFinish {
 
@@ -47,7 +47,7 @@ public class CreateDB extends RunnableOnFinish {
 		
 		// Create the PwDatabaseV3
 		PwDatabaseV3 pm = new PwDatabaseV3();
-		pm.algorithm = PwDbHeaderV3.ALGO_AES;
+		pm.algorithm = PwEncryptionAlgorithm.Rjindal;
 		pm.numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
 		pm.name = "KeePass Password Manager";
 		// Build the root group

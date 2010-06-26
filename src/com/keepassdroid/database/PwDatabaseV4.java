@@ -148,4 +148,9 @@ public class PwDatabaseV4 extends PwDatabase {
 		return false;
 	}
 
+	@Override
+	public PwEncryptionAlgorithm getEncAlgorithm() {
+		return PwEncryptionAlgorithm.Rjindal;
+	}
+
 }

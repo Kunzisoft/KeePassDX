@@ -51,6 +51,7 @@ import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.exception.InvalidDBException;
@@ -138,9 +139,9 @@ public class ImporterV3 extends Importer {
 
 		// Select algorithm
 		if( (hdr.flags & PwDbHeaderV3.FLAG_RIJNDAEL) != 0 ) {
-			newManager.algorithm = PwDbHeaderV3.ALGO_AES;
+			newManager.algorithm = PwEncryptionAlgorithm.Rjindal;
 		} else if( (hdr.flags & PwDbHeaderV3.FLAG_TWOFISH) != 0 ) {
-			newManager.algorithm = PwDbHeaderV3.ALGO_TWOFISH;
+			newManager.algorithm = PwEncryptionAlgorithm.Twofish;
 		} else {
 			throw new IOException( "Unknown algorithm." );
 		}
@@ -161,9 +162,9 @@ public class ImporterV3 extends Importer {
 		// Initialize Rijndael algorithm
 		Cipher cipher;
 		try {
-			if ( newManager.algorithm == PwDbHeaderV3.ALGO_AES ) {
+			if ( newManager.algorithm == PwEncryptionAlgorithm.Rjindal ) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
-			} else if ( newManager.algorithm == PwDbHeaderV3.ALGO_TWOFISH ) {
+			} else if ( newManager.algorithm == PwEncryptionAlgorithm.Twofish ) {
 				cipher = CipherFactory.getInstance("TWOFISH/CBC/PKCS7PADDING");
 			} else {
 				throw new IOException( "Encryption algorithm is not supported" );

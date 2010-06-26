@@ -40,6 +40,7 @@ import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
@@ -84,9 +85,9 @@ public class PwDbV3Output extends PwDbOutput {
 		
 		Cipher cipher;
 		try {
-			if (mPM.algorithm == PwDbHeaderV3.ALGO_AES) {
+			if (mPM.algorithm == PwEncryptionAlgorithm.Rjindal) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
-			} else if (mPM.algorithm == PwDbHeaderV3.ALGO_TWOFISH){
+			} else if (mPM.algorithm == PwEncryptionAlgorithm.Twofish){
 				cipher = CipherFactory.getInstance("TWOFISH/CBC/PKCS7PADDING");
 			} else {
 				throw new Exception();
@@ -119,9 +120,9 @@ public class PwDbV3Output extends PwDbOutput {
 		header.signature2 = PwDbHeaderV3.DBSIG_2;
 		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
-		if ( mPM.getAlgorithm() == PwDbHeaderV3.ALGO_AES ) {
+		if ( mPM.getEncAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
 			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
-		} else if ( mPM.getAlgorithm() == PwDbHeaderV3.ALGO_TWOFISH ) {
+		} else if ( mPM.getEncAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;
 		} else {
 			throw new PwDbOutputException("Unsupported algorithm.");

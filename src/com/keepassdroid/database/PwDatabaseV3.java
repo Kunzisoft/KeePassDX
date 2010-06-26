@@ -55,13 +55,14 @@ public class PwDatabaseV3 extends PwDatabase {
 	// all groups
 	private List<PwGroup> groups = new ArrayList<PwGroup>();
 	// Algorithm used to encrypt the database
-	public int algorithm;
+	public PwEncryptionAlgorithm algorithm;
 	public int numKeyEncRounds;
 
 	// Debugging entries
 	public PwDbHeaderV3 dbHeader;
 
-	public int getAlgorithm() {
+	@Override
+	public PwEncryptionAlgorithm getEncAlgorithm() {
 		return algorithm;
 	}
 

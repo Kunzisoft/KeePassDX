@@ -29,6 +29,7 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.LockingClosePreferenceActivity;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.fileselect.FileDbHelper;
 
 public class AppSettingsActivity extends LockingClosePreferenceActivity {
@@ -76,6 +77,9 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 			});
 			
 			setRounds(db, rounds);
+			
+			Preference algorithm = findPreference(getString(R.string.algorithm_key));
+			setAlgorithm(db, algorithm);
 		} else {
 			Preference dbSettings = findPreference(getString(R.string.db_key));
 			dbSettings.setEnabled(false);
@@ -84,7 +88,17 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 	
 	private void setRounds(Database db, Preference rounds) {
 		rounds.setSummary(Long.toString(db.pm.getNumRounds()));
+	}
+	
+	private void setAlgorithm(Database db, Preference algorithm) {
+		int resId;
+		if ( db.pm.getEncAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+			resId = R.string.rijndael;
+		} else  {
+			resId = R.string.twofish;
+		}
 		
+		algorithm.setSummary(resId);
 	}
 	
 	

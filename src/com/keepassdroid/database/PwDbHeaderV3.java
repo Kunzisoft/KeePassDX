@@ -40,9 +40,6 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	public static final int FLAG_ARCFOUR          = 4;
 	public static final int FLAG_TWOFISH          = 8;
 
-	public static final int ALGO_AES                  = 0;
-	public static final int ALGO_TWOFISH              = 1;
-
 	/** Size of byte buffer needed to hold this struct. */
 	public static final int BUF_SIZE        = 124;
 

@@ -277,5 +277,7 @@ public abstract class PwDatabase {
 	public abstract void setNumRounds(long rounds) throws NumberFormatException;
 	
 	public abstract boolean appSettingsEnabled();
+	
+	public abstract PwEncryptionAlgorithm getEncAlgorithm();
 
 }
