@@ -34,6 +34,8 @@ import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 public class PwDatabaseV4 extends PwDatabase {
 
+	public static final Date DEFAULT_NOW = new Date();
+	
 	public UUID dataCipher;
 	public PwCompressionAlgorithm compressionAlgorithm;
     public long numKeyEncRounds;
@@ -151,6 +153,24 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public PwEncryptionAlgorithm getEncAlgorithm() {
 		return PwEncryptionAlgorithm.Rjindal;
+	}
+
+	@Override
+	public PwGroupIdV4 newGroupId() {
+		PwGroupIdV4 id = new PwGroupIdV4(UUID_ZERO);
+		
+		while (true) {
+			id = new PwGroupIdV4(UUID.randomUUID());
+			
+			if (!isGroupIdUsed(id)) break;
+		}
+		
+		return id;
+	}
+
+	@Override
+	public PwGroup createGroup() {
+		return new PwGroupV4();
 	}
 
 }

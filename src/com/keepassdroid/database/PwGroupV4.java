@@ -25,22 +25,23 @@ import java.util.UUID;
 
 public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
+	public static final int FOLDER_ICON = 48;
+	
 	public PwGroupV4 parent = null;
-	public UUID uuid;
-	public String name;
-	public String notes;
-	public int iconId;
-	public UUID customIconUuid;
-	public boolean isExpanded;
-	public String defaultAutoTypeSequence;
-	public Boolean enableAutoType;
-	public Boolean enableSearching;
-	public UUID lastTopVisibleEntry;
+	public UUID uuid = PwDatabaseV4.UUID_ZERO;
+	public String notes = "";
+	public int iconId = FOLDER_ICON;
+	public UUID customIconUuid = PwDatabaseV4.UUID_ZERO;
+	public boolean isExpanded = true;
+	public String defaultAutoTypeSequence = "";
+	public Boolean enableAutoType = null;
+	public Boolean enableSearching = null;
+	public UUID lastTopVisibleEntry = PwDatabaseV4.UUID_ZERO;
 	private Date parentGroupLastMod;
-	private Date creation;
-	private Date lastMod;
-	private Date lastAccess;
-	private Date expireDate;
+	private Date creation = PwDatabaseV4.DEFAULT_NOW;
+	private Date lastMod = PwDatabaseV4.DEFAULT_NOW;
+	private Date lastAccess = PwDatabaseV4.DEFAULT_NOW;
+	private Date expireDate = PwDatabaseV4.DEFAULT_NOW;
 	private boolean expires = false;
 	private long usageCount = 0;
 		
@@ -107,6 +108,12 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	@Override
 	public PwGroupId getId() {
 		return new PwGroupIdV4(uuid);
+	}
+
+	@Override
+	public void setId(PwGroupId id) {
+		PwGroupIdV4 id4 = (PwGroupIdV4) id;
+		uuid = id4.getId();
 	}
 
 	@Override
@@ -188,6 +195,12 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	@Override
 	public void setExpires(boolean exp) {
 		expires = exp;
+	}
+
+	@Override
+	public void setParent(PwGroup prt) {
+		parent = (PwGroupV4) prt;
+		
 	}
 
 }

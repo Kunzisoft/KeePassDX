@@ -21,21 +21,15 @@ package com.keepassdroid.database.edit;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.search.SearchDbHelper;
 
-public abstract class AddEntry extends RunnableOnFinish {
+public class AddEntry extends RunnableOnFinish {
 	protected Database mDb;
 	private PwEntry mEntry;
 	
 	public static AddEntry getInstance(Database db, PwEntry entry, OnFinish finish) {
-		if ( entry instanceof PwEntryV3 ) {
-			return new AddEntryV3(db, (PwEntry) entry, finish);
-		} else {
-			// TODO: Implement me
-			throw new RuntimeException("Not implemented yet.");
-		}
+		return new AddEntry(db, entry, finish);
 	}
 	
 	protected AddEntry(Database db, PwEntry entry, OnFinish finish) {
@@ -47,11 +41,9 @@ public abstract class AddEntry extends RunnableOnFinish {
 		mFinish = new AfterAdd(mFinish);
 	}
 	
-	public abstract void addEntry();
-	
 	@Override
 	public void run() {
-		addEntry();
+		mDb.pm.addEntryTo(mEntry, mEntry.getParent());
 		
 		// Commit to disk
 		SaveDB save = new SaveDB(mDb, mFinish);
@@ -72,8 +64,7 @@ public abstract class AddEntry extends RunnableOnFinish {
 
 				// Mark parent group dirty
 				mDb.dirty.add(parent);
-				
-
+		
 				// Add entry to global
 				mDb.entries.put(mEntry.getUUID(), mEntry);
 				
@@ -85,12 +76,7 @@ public abstract class AddEntry extends RunnableOnFinish {
 					helper.close();
 				}
 			} else {
-				// Remove from group
-				mEntry.getParent().childEntries.remove(mEntry);
-				
-				// Remove from manager
-				mDb.pm.getEntries().remove(mEntry);
-
+				mDb.pm.removeEntryFrom(mEntry, mEntry.getParent());
 			}
 			
 			super.run();

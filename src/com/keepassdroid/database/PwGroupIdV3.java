@@ -24,6 +24,9 @@ public class PwGroupIdV3 extends PwGroupId {
 		return i.hashCode();
 	}
 	
+	public int getId() {
+		return id;
+	}
 	
 
 }

@@ -28,10 +28,13 @@ import java.util.List;
 public abstract class PwGroup {
 	public List<PwGroup> childGroups = new ArrayList<PwGroup>();
 	public List<PwEntry> childEntries = new ArrayList<PwEntry>();
+	public String name = "";
 
 	public abstract PwGroup getParent();
+	public abstract void setParent(PwGroup parent);
 	
 	public abstract PwGroupId getId();
+	public abstract void setId(PwGroupId id);
 	
 	public abstract String getName();
 	
@@ -54,4 +57,9 @@ public abstract class PwGroup {
 		Collections.sort(childEntries, new PwEntry.EntryNameComparator());
 	}
 	
+	public void initNewGroup(String nm, PwGroupId newId) {
+		setId(newId);
+		name = nm;
+	}
+
 }

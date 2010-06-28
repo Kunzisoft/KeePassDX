@@ -30,6 +30,7 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package com.keepassdroid.database;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +60,6 @@ public class PwGroupV3 extends PwGroup {
 
 	public int groupId;
 	public int imageId;
-	public String name;
 
 	public PwDate tCreation;
 	public PwDate tLastMod;
@@ -86,6 +86,12 @@ public class PwGroupV3 extends PwGroup {
 	}
 
 	@Override
+	public void setId(PwGroupId id) {
+		PwGroupIdV3 id3 = (PwGroupIdV3) id;
+		groupId = id3.getId();
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -93,6 +99,26 @@ public class PwGroupV3 extends PwGroup {
 	@Override
 	public Date getLastMod() {
 		return tLastMod.getJDate();
+	}
+
+	@Override
+	public void setParent(PwGroup prt) {
+		parent = (PwGroupV3) prt;
+		level = parent.level + 1;
+		
+	}
+
+	@Override
+	public void initNewGroup(String nm, PwGroupId newId) {
+		super.initNewGroup(nm, newId);
+		
+		imageId = 0;
+		Date now = Calendar.getInstance().getTime();
+		tCreation = new PwDate(now);
+		tLastAccess = new PwDate(now);
+		tLastMod = new PwDate(now);
+		tExpire = new PwDate(PwGroupV3.NEVER_EXPIRE);
+
 	}
 
 }

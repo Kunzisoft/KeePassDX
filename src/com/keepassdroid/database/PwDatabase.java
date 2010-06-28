@@ -253,7 +253,6 @@ public abstract class PwDatabase {
 
 		byte[] bKey;
 		try {
-			// TODO: Need to make this UTF-8 in kdb4
 			bKey = key.getBytes(encoding);
 		} catch (UnsupportedEncodingException e) {
 			assert false;
@@ -279,5 +278,54 @@ public abstract class PwDatabase {
 	public abstract boolean appSettingsEnabled();
 	
 	public abstract PwEncryptionAlgorithm getEncAlgorithm();
+	
+	public void addGroupTo(PwGroup newGroup, PwGroup parent) {
+		// Add group to parent group
+		if ( parent == null ) {
+			parent = rootGroup;
+		}
+		
+		parent.childGroups.add(newGroup);
+		newGroup.setParent(parent);
+	}
+	
+	public void removeGroupFrom(PwGroup remove, PwGroup parent) {
+		// Remove group from parent group
+		parent.childGroups.remove(remove);
+	}
+	
+	public void addEntryTo(PwEntry newEntry, PwGroup parent) {
+		// Add entry to parent
+		parent.childEntries.add(newEntry);
+	}
+	
+	public void removeEntryFrom(PwEntry remove, PwGroup parent) {
+		// Remove entry for parent
+		parent.childEntries.remove(remove);
+	}
+
+	public abstract PwGroupId newGroupId();
+	
+	/**
+	 * Determine if an id number is already in use
+	 * 
+	 * @param id
+	 *            ID number to check for
+	 * @return True if the ID is used, false otherwise
+	 */
+	protected boolean isGroupIdUsed(PwGroupId id) {
+		List<PwGroup> groups = getGroups();
+		
+		for (int i = 0; i < groups.size(); i++) {
+			PwGroup group =groups.get(i);
+			if (group.getId().equals(id)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	public abstract PwGroup createGroup();
 
 }

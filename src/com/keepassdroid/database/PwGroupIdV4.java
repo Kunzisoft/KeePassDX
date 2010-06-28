@@ -24,5 +24,9 @@ public class PwGroupIdV4 extends PwGroupId {
 	public int hashCode() {
 		return uuid.hashCode();
 	}
+	
+	public UUID getId() {
+		return uuid;
+	}
 
 }

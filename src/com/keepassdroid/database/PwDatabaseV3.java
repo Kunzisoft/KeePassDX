@@ -28,8 +28,6 @@ package com.keepassdroid.database;
 // Java
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -53,7 +51,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	// all entries
 	public List<PwEntry> entries = new ArrayList<PwEntry>();
 	// all groups
-	private List<PwGroup> groups = new ArrayList<PwGroup>();
+	public List<PwGroup> groups = new ArrayList<PwGroup>();
 	// Algorithm used to encrypt the database
 	public PwEncryptionAlgorithm algorithm;
 	public int numKeyEncRounds;
@@ -140,14 +138,6 @@ public class PwDatabaseV3 extends PwDatabase {
 		return name;
 	}
 
-	public void addGroup(PwGroupV3 group) {
-		groups.add(group);
-	}
-
-	public void addEntry(PwEntry entry) {
-		entries.add(entry);
-	}
-
 	public void constructTree(PwGroupV3 currentGroup) {
 		// I'm in root
 		if (currentGroup == null) {
@@ -185,76 +175,31 @@ public class PwDatabaseV3 extends PwDatabase {
 		return;
 	}
 
-	public PwGroupV3 newGroup(String name, PwGroupV3 parent) {
-		// Initialize group
-		PwGroupV3 group = new PwGroupV3();
-
-		group.parent = parent;
-		group.groupId = newGroupId();
-		group.imageId = 0;
-		group.name = name;
-
-		Date now = Calendar.getInstance().getTime();
-		group.tCreation = new PwDate(now);
-		group.tLastAccess = new PwDate(now);
-		group.tLastMod = new PwDate(now);
-		group.tExpire = new PwDate(PwGroupV3.NEVER_EXPIRE);
-
-		group.level = parent.level + 1;
-
-		group.childEntries = new ArrayList<PwEntry>();
-		group.setGroups(new ArrayList<PwGroup>());
-
-		// Add group PwDatabaseV3 and Parent
-		parent.childGroups.add(group);
-		groups.add(group);
-
-		return group;
-	}
-
+	/*
 	public void removeGroup(PwGroupV3 group) {
 		group.parent.childGroups.remove(group);
 		groups.remove(group);
 	}
+	*/
 
 	/**
 	 * Generates an unused random group id
 	 * 
 	 * @return new group id
 	 */
-	private int newGroupId() {
-		boolean foundUnusedId = false;
-		int newId = 0;
+	@Override
+	public PwGroupIdV3 newGroupId() {
+		PwGroupIdV3 newId = new PwGroupIdV3(0);
 
 		Random random = new Random();
 
-		while (!foundUnusedId) {
-			newId = random.nextInt();
+		while (true) {
+			newId = new PwGroupIdV3(random.nextInt());
 
-			if (!isGroupIdUsed(newId)) {
-				foundUnusedId = true;
-			}
+			if (!isGroupIdUsed(newId)) break;
 		}
 
 		return newId;
-	}
-
-	/**
-	 * Determine if an id number is already in use
-	 * 
-	 * @param id
-	 *            ID number to check for
-	 * @return True if the ID is used, false otherwise
-	 */
-	private boolean isGroupIdUsed(int id) {
-		for (int i = 0; i < groups.size(); i++) {
-			PwGroupV3 group = (PwGroupV3) groups.get(i);
-			if (group.groupId == id) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public byte[] getMasterKey(String key, String keyFileName)
@@ -294,6 +239,45 @@ public class PwDatabaseV3 extends PwDatabase {
 	@Override
 	public boolean appSettingsEnabled() {
 		return true;
+	}
+
+	@Override
+	public void addEntryTo(PwEntry newEntry, PwGroup parent) {
+		super.addEntryTo(newEntry, parent);
+		
+		// Add entry to root entries
+		entries.add(newEntry);
+		
+	}
+
+	@Override
+	public void addGroupTo(PwGroup newGroup, PwGroup parent) {
+		super.addGroupTo(newGroup, parent);
+		
+		// Add group to root groups
+		groups.add(newGroup);
+		
+	}
+
+	@Override
+	public void removeEntryFrom(PwEntry remove, PwGroup parent) {
+		super.removeEntryFrom(remove, parent);
+		
+		// Remove entry from root entry
+		entries.remove(remove);
+	}
+
+	@Override
+	public void removeGroupFrom(PwGroup remove, PwGroup parent) {
+		super.removeGroupFrom(remove, parent);
+		
+		// Remove group from root entry
+		groups.remove(remove);
+	}
+
+	@Override
+	public PwGroup createGroup() {
+		return new PwGroupV3();
 	}
 
 }
