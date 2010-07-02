@@ -221,6 +221,13 @@ public class PwDatabaseV3 extends PwDatabase {
 	public byte[] getPasswordKey(String key) throws IOException {
 		return getPasswordKey(key, "ISO-8859-1");
 	}
+	
+	@Override
+	protected byte[] loadXmlKeyFile(String fileName) {
+		return null;
+	}
+
+
 
 	@Override
 	public long getNumRounds() {

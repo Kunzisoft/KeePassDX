@@ -28,39 +28,9 @@ import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.database.exception.InvalidDBException;
-import com.keepassdroid.database.load.Importer;
-import com.keepassdroid.database.load.ImporterFactory;
-import com.keepassdroid.database.load.ImporterV4;
+import com.keepassdroid.database.load.ImporterV3;
 
-public class Kdb4 extends AndroidTestCase {
-
-	public void testDetection() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		Importer importer = ImporterFactory.createImporter(is);
-		
-		assertTrue(importer instanceof ImporterV4);
-		is.close();
-		
-	}
-	
-	public void testParsing() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "12345", "");
-		
-		is.close();
-		
-		
-	}
-	
+public class Kdb3 extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -81,32 +51,19 @@ public class Kdb4 extends AndroidTestCase {
 		keyFile.close();
 
 	}
-
-	public void testComposite() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("keyfile.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "12345", "/sdcard/key");
-		
-		is.close();
-		
-	}
 	
 	public void testKeyfile() throws IOException, InvalidDBException {
 		Context ctx = getContext();
 		
 		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("key-only.kdbx", AssetManager.ACCESS_STREAMING);
+		InputStream is = am.open("kdb_with_xml_keyfile.kdb", AssetManager.ACCESS_STREAMING);
 		
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "", "/sdcard/key");
+		ImporterV3 importer = new ImporterV3();
+		importer.openDatabase(is, "12345", "/sdcard/key");
 		
 		is.close();
 		
 		
 	}
-	
+
 }
