@@ -56,7 +56,12 @@ public class PwDatabaseV4 extends PwDatabase {
     public Date descriptionChanged;
     public String defaultUserName;
     public Date defaultUserNameChanged;
-    public long maintenanceHistoryDays;
+    
+    public Date keyLastChanged = DEFAULT_NOW;
+    public long keyChangeRecDays = -1;
+    public long keyChangeForceDays = 1;
+    
+    public long maintenanceHistoryDays = 365;
     public boolean recycleBinEnabled;
     public UUID recycleBinUUID;
     public Date recycleBinChanged;

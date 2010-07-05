@@ -53,6 +53,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private long usageCount = 0;
 	public String url;
 	public String additional;
+	public String tags;
 
 	public class AutoType {
 		public boolean enabled;

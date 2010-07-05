@@ -31,7 +31,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
     public static final int DBSIG_2               = 0xB54BFB67;
     
     private static final int FILE_VERSION_CRITICAL_MASK = 0xFFFF0000;
-    private static final int FILE_VERSION_32 =            0x00020000;
+    private static final int FILE_VERSION_32 =            0x02010100;
     
     private class PwDbHeaderV4Fields {
         public static final byte EndOfHeader = 0;

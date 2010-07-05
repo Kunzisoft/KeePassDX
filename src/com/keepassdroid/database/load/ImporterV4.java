@@ -177,6 +177,9 @@ public class ImporterV4 extends Importer {
     private static final String ElemDbDefaultUser = "DefaultUserName";
     private static final String ElemDbDefaultUserChanged = "DefaultUserNameChanged";
     private static final String ElemDbMntncHistoryDays = "MaintenanceHistoryDays";
+    private static final String ElemDbKeyChanged = "MasterKeyChanged";
+    private static final String ElemDbKeyChangeRec = "MasterKeyChangeRec";
+    private static final String ElemDbKeyChangeForce = "MasterKeyChangeForce";
     private static final String ElemRecycleBinEnabled = "RecycleBinEnabled";
     private static final String ElemRecycleBinUuid = "RecycleBinUUID";
     private static final String ElemRecycleBinChanged = "RecycleBinChanged";
@@ -210,6 +213,7 @@ public class ImporterV4 extends Importer {
     private static final String ElemBgColor = "BackgroundColor";
     private static final String ElemOverrideUrl = "OverrideURL";
     private static final String ElemTimes = "Times";
+    private static final String ElemTags = "Tags";
 
     private static final String ElemCreationTime = "CreationTime";
     private static final String ElemLastModTime = "LastModificationTime";
@@ -366,6 +370,12 @@ public class ImporterV4 extends Importer {
 				db.defaultUserNameChanged = ReadTime(xpp);
 			} else if ( name.equalsIgnoreCase(ElemDbMntncHistoryDays) ) {
 				db.maintenanceHistoryDays = ReadUInt(xpp, DEFAULT_HISTORY_DAYS);
+			} else if ( name.equalsIgnoreCase(ElemDbKeyChanged) ) {
+				db.keyLastChanged = ReadTime(xpp);
+			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeRec) ) {
+				db.keyChangeRecDays = ReadLong(xpp, -1);
+			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeForce) ) {
+				db.keyChangeForceDays = ReadLong(xpp, -1);
 			} else if ( name.equalsIgnoreCase(ElemMemoryProt) ) {
 				return SwitchContext(ctx, KdbContext.MemoryProtection, xpp);
 			} else if ( name.equalsIgnoreCase(ElemCustomIcons) ) {
@@ -518,6 +528,8 @@ public class ImporterV4 extends Importer {
 				ctxEntry.backgroupColor = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemOverrideUrl) ) {
 				ctxEntry.overrideURL = ReadString(xpp);
+			} else if ( name.equalsIgnoreCase(ElemTags) ) {
+				ctxEntry.tags = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.EntryTimes, xpp);
 			} else if ( name.equalsIgnoreCase(ElemString) ) {
@@ -822,13 +834,23 @@ public class ImporterV4 extends Importer {
 		
 	}
 	
-	private long ReadULong(XmlPullParser xpp, long uDefault) throws IOException, XmlPullParserException {
+	private long ReadLong(XmlPullParser xpp, long def) throws IOException, XmlPullParserException {
 		String str = ReadString(xpp);
 		
 		long u;
 		try {
 			u = Long.parseLong(str);
 		} catch( NumberFormatException e) {
+			u = def;
+		}
+		
+		return u;
+	}
+	
+	private long ReadULong(XmlPullParser xpp, long uDefault) throws IOException, XmlPullParserException {
+		long u = ReadLong(xpp, uDefault);
+		
+		if ( u < 0 ) {
 			u = uDefault;
 		}
 		
