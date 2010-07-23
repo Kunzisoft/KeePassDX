@@ -1,6 +1,7 @@
 KeePassDroid (1.5.8)
   * Update Russian translations
   * Add Nynorsk translations
+  * Fix no compression .kdbx files
   
 
 KeePassDroid (1.5.7)

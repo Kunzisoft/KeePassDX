@@ -113,7 +113,7 @@ public class ImporterV4 extends Importer {
 			throw new InvalidPasswordException();
 		}
 
-				HashedBlockInputStream hashed = new HashedBlockInputStream(dataDecrypted); 
+		HashedBlockInputStream hashed = new HashedBlockInputStream(dataDecrypted); 
 		
 		InputStream decompressed;
 		if ( db.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {

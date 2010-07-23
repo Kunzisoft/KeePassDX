@@ -143,7 +143,16 @@ public class HashedBlockInputStream extends InputStream {
 
 	@Override
 	public int read() throws IOException {
-		throw new IOException("Not implemented.");
+		if ( atEnd ) return -1;
+		
+		if ( bufferPos == buffer.length ) {
+			if ( ! ReadHashedBlock() ) return -1;
+		}
+		
+		int output = buffer[bufferPos];
+		bufferPos++;
+		
+		return output;
 	}
 
 	@Override

@@ -108,5 +108,19 @@ public class Kdb4 extends AndroidTestCase {
 		
 		
 	}
+
+	public void testNoGzip() throws IOException, InvalidDBException {
+		Context ctx = getContext();
+		
+		AssetManager am = ctx.getAssets();
+		InputStream is = am.open("no-encrypt.kdbx", AssetManager.ACCESS_STREAMING);
+		
+		ImporterV4 importer = new ImporterV4();
+		importer.openDatabase(is, "12345", "");
+		
+		is.close();
+		
+		
+	}
 	
 }
