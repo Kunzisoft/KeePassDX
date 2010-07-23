@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="about_feedback">Tilbakemelding:</string>
+    <string name="about_homepage">Heimeside:</string>
+    <string name="about_ok">OK</string>
+    <string name="AboutText">KeePassDroid er ei Android-utgåve av KeePass passordstyrar.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="add_entry">Legg til post</string>
+    <string name="add_group">Legg til gruppe</string>
+    <string name="add_group_title">Legg til gruppe</string>
+    <string name="algorithm">Algoritme</string>
+    <string name="algorithm_colon">Algoritme:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="application">Program</string>
+    <string name="application_settings">Programinnstillingar</string>
+    <string name="building_search_idx">Byggjer søkjeindeks…</string>
+    <string name="cancel">Avbryt</string>
+    <string name="ClearClipboard">Utklippstavla er tømt.</string>
+    <string name="clipboard_timeout">Tidsavbrot på utklippstavla</string>
+    <string name="clipboard_timeout_summary">Tid før utklippstavla blir tømt etter at brukarnamnet eller passordet er kopiert.</string>
+    <string name="copy_username">Kopier brukarnamnet til utklippstavla</string>
+    <string name="copy_password">Kopier passordet til utklippstavla</string>
+    <string name="creating_db_key">Lagar databasenøkkelen…</string>
+    <string name="current_group">Gjeldande gruppe: </string>
+    <string name="current_group_root">Gjeldande gruppe: Rot</string>
+    <string name="database">Database</string>
+    <string name="decrypting_db">Dekrypterer databasen…</string>
+    <string name="decrypting_entry">Dekrypterer posten</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL, utgåve 2 eller nyare.</string>
+    <string name="enter_filename">Skriv filnamnet til databasen:</string>
+    <string name="entry_accessed">Brukt: </string>
+    <string name="entry_and_or">Skriv inn passordet og/eller ei nøkkelfil for å låsa opp databasen din:</string>
+    <string name="entry_cancel">Avbryt</string>
+    <string name="entry_comment">Merknader: </string>
+    <string name="entry_confpassword">Stadfest passordet:</string>
+    <string name="entry_created">Laga: </string>
+    <string name="entry_expires">Går ut: </string>
+    <string name="entry_keyfile">Nøkkelfil (valfri)</string>
+    <string name="entry_modified">Endra: </string>
+    <string name="entry_password">Passord:</string>
+    <string name="entry_save">Lagra</string>
+    <string name="entry_title">Namn: </string>
+    <string name="entry_url">Adresse: </string>
+    <string name="entry_user_name">Brukaramn: </string>
+    <string name="error_arc4">Kan ikkje bruka ArcFour dataflytkryptering.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid kan ikkje bruka denne ressursen.</string>
+    <string name="error_could_not_create_group">Klarer ikkje å laga gruppa.</string>
+    <string name="error_could_not_create_parent">Klarte ikkje å laga foreldrekatalogen.</string>
+    <string name="error_database_exists">Denne fila finst allereie.</string>
+    <string name="error_database_settings">Klarte ikkje å bestemma databaseinnstillingane.</string>
+    <string name="error_failed_to_launch_link">Klarte ikkje å lasta lenkja.</string>
+    <string name="error_filename_required">Treng eit filnamn.</string>
+    <string name="error_file_not_create">Klarte ikkje å laga fila:</string>
+    <string name="error_invalid_db">Ugyldig database.</string>
+    <string name="error_invalid_path">Ugyldig stig.</string>
+    <string name="error_no_name">Treng eit namn.</string>
+    <string name="error_nopass">Treng eit passord eller ei nøkkelfil.</string>
+    <string name="error_out_of_memory">Telefonen gjekk tom for minne ved lesinga av databasen din. Databasen er kanskje for stor.</string>
+    <string name="error_pass_match">Passorda samsvarer ikkje.</string>
+    <string name="error_rounds_not_number">Omgangar må vera eit tal.</string>
+    <string name="error_rounds_too_large">For mange omgangar. Bruker 2147483648.</string>
+    <string name="error_title_required">Treng ein tittel.</string>
+    <string name="FileNotFound">Fann ikkje fila.</string>
+    <string name="group">Gruppe</string>
+    <string name="hint_comment">merknad</string>
+    <string name="hint_conf_pass">stadfest passordet</string>
+    <string name="hint_group_name">Gruppenamn</string>
+    <string name="hint_keyfile">nøkkelfil</string>
+    <string name="hint_pass">passord</string>
+    <string name="hint_title">namn</string>
+    <string name="hint_url">adresse</string>
+    <string name="hint_username">brukarnamn</string>
+    <string name="InvalidPassword">Ugyldig passord eller nøkkelfil.</string>
+    <string name="invalid_db_sig">Kjende ikkje att databaseformatet.</string>
+    <string name="list_size_title">Gruppelistestorleik</string>
+    <string name="list_size_summary">Tekststorleik i gruppelista</string>
+    <string name="loading_database">Lastar databasen…</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Masker passord</string>
+    <string name="maskpass_summary">Gøym passorda (standardval)</string>
+    <string name="menu_about">Om</string>
+    <string name="menu_change_key">Endra hovudnøkkelen</string>
+    <string name="menu_copy_pass">Kopier passordet</string>
+    <string name="menu_copy_user">Kopier brukaren</string>
+    <string name="menu_create">Lag</string>
+    <string name="menu_app_settings">Innstillingar</string>
+    <string name="menu_db_settings">Databaseinnstillingar</string>
+    <string name="menu_delete">Slett</string>
+    <string name="menu_donate">Doner</string>
+    <string name="menu_edit">Endra</string>
+    <string name="menu_hide_password">Gøym passordet</string>
+    <string name="menu_homepage">Gå til heimesida</string>
+    <string name="menu_lock">Lås databasen</string>
+    <string name="menu_open">Opna</string>
+    <string name="menu_rename">Gje nytt namn</string>
+    <string name="menu_search">Søk</string>
+    <string name="menu_url">Gå til adressa</string>
+    <string name="never">Aldri</string>
+    <string name="no_keys">Ingen postar i databasen eller gruppa.</string>
+    <string name="no_results">Ingen søkjeresultat</string>
+    <string name="no_url_handler">Ingen behandlar for denne adressa.</string>
+    <string name="open_recent">Opna nyleg brukt database (klikk for å opna):</string>
+    <string name="pass_filename">Filnamnet til KeePass-databasen:</string>
+    <string name="pass_ok">OK</string>
+    <string name="password_title">Skriv databasepassordet</string>
+    <string name="progress_create">Lager ny database…</string>
+    <string name="progress_title">Arbeider…</string>
+    <string name="remember_keyfile_summary">Hugsar staden til nøkkelfilene</string>
+    <string name="remember_keyfile_title">Lagra nøkkelfila</string>
+    <string name="remove_from_filelist">Ta vekk</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Rot</string>
+    <string name="rounds">Krypteringsomgangar</string>
+    <string name="rounds_explaination">Fleire krypteringsomgangar gjev tilleggsvern mot rå makt-åtak, men kan òg gjera lasting og lagring mykje tregare.</string>
+    <string name="rounds_hint">omgangar</string>
+    <string name="saving_database">Lagrar databasen…</string>
+    <string name="sort_name">Sorter etter namn</string>
+    <string name="sort_db">DB-sortering</string>
+    <string name="search_hint">Posttittel/skildring</string>
+    <string name="search_label">Søk</string>
+    <string name="show_password">Syn passordet</string>
+    <string name="twofish">Twofish</string>
+    <string name="unsupported_db_version">Kan ikkje bruka databaseutgåva.</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 sekund</item>
+    	<item>1 minutt</item>
+    	<item>5 minutt</item>
+    	<item>Aldri</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Liten</item>
+    	<item>Middels</item>
+    	<item>Stor</item>
+    </string-array>
+</resources>
