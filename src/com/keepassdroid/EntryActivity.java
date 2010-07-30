@@ -355,7 +355,7 @@ public class EntryActivity extends LockCloseActivity {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String sClipClear = prefs.getString(getString(R.string.clipboard_timeout_key), getString(R.string.clipboard_timeout_default));
 		
-		long clipClearTime = Integer.parseInt(sClipClear);
+		long clipClearTime = Long.parseLong(sClipClear);
 		
 		if ( clipClearTime > 0 ) {
 			mTimer.schedule(new ClearClipboardTask(this, text), clipClearTime);

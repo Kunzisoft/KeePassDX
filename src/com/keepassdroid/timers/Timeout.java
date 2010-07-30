@@ -4,8 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.android.keepass.R;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.services.TimeoutService;
 
@@ -23,9 +26,25 @@ public class Timeout {
 	
 	public static void start(Context ctx) {
 
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		String sTimeout = prefs.getString(ctx.getString(R.string.app_timeout_key), ctx.getString(R.string.clipboard_timeout_default));
+		
+		long timeout;
+		try {
+			timeout = Long.parseLong(sTimeout);
+		} catch (NumberFormatException e) {
+			timeout = DEFAULT_TIMEOUT;
+		}
+		
+		if ( timeout == -1 ) {
+			// No timeout don't start timeout service
+			return;
+		}
+		
 		ctx.startService(new Intent(ctx, TimeoutService.class));
 
-		long triggerTime = System.currentTimeMillis() + DEFAULT_TIMEOUT;
+		long triggerTime = System.currentTimeMillis() + timeout;
 		AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		
 		Log.d(TAG, "Timeout start");

@@ -1,3 +1,6 @@
+KeePassDroid (1.5.10)
+  * Add setting to control timeout duration.
+
 KeePassDroid (1.5.9)
   * Bump target sdk to 8
   * Allow install to sdcard

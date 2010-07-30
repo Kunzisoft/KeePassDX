@@ -29,6 +29,8 @@
     <string name="algorithm">Algorithm</string>
     <string name="algorithm_colon">Algorithm:</string>
     <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Application timeout</string>
+    <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
     <string name="application_settings">Application settings</string>
     <string name="building_search_idx">Building search index...</string>

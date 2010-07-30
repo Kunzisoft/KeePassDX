@@ -24,6 +24,7 @@
     <!--  Preference settings -->
     <string name="algorithm_key">algorithm</string>
     <string name="app_key">app</string>
+    <string name="app_timeout_key">app_timeout_key</string>
     <string name="clipboard_timeout_key">clip_timeout_key</string>
     <string name="db_key">db</string>
     <string name="rounds_key">rounds</string>
