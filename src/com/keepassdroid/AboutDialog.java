@@ -28,12 +28,9 @@ import android.widget.Button;
 import com.android.keepass.R;
 
 public class AboutDialog extends Dialog {
-	Context mCtx;
 	
 	public AboutDialog(Context context) {
 		super(context);
-		
-		mCtx = context;
 	}
 
 	@Override

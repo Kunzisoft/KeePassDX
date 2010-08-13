@@ -33,6 +33,7 @@
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
     <string name="application_settings">Application settings</string>
+    <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="building_search_idx">Building search index...</string>
     <string name="cancel">Cancel</string>
     <string name="ClearClipboard">Clipboard cleared.</string>
@@ -81,6 +82,7 @@
     <string name="error_rounds_too_large">Rounds too big.  Setting to 2147483648.</string>
     <string name="error_title_required">A title is required.</string>
     <string name="FileNotFound">File not found.</string>
+    <string name="file_browser">File Browser</string>
     <string name="group">Group</string>
     <string name="hint_comment">comment</string>
     <string name="hint_conf_pass">confirm password</string>
@@ -90,6 +92,8 @@
     <string name="hint_title">name</string>
     <string name="hint_url">url</string>
     <string name="hint_username">username</string>
+    <string name="install_from_market">Install from Market</string>
+    <string name="install_from_website">Install from Web</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
     <string name="invalid_db_sig">Database format not recognized.</string>
     <string name="list_size_title">Group list size</string>

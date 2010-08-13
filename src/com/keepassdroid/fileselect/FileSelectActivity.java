@@ -27,6 +27,7 @@ import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -35,6 +36,8 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -51,6 +54,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.Util;
 
 public class FileSelectActivity extends ListActivity {
@@ -60,6 +64,9 @@ public class FileSelectActivity extends ListActivity {
 	private static final int MENU_APP_SETTINGS = Menu.FIRST + 2;
 	
 	private static final int CMENU_CLEAR = Menu.FIRST;
+	
+	private static final String FILE_BROWSE_INTENT = "org.openintents.action.PICK_FILE";
+	public static final int FILE_BROWSE = 1;
 	
 	private FileDbHelper mDbHelper;
 
@@ -169,6 +176,24 @@ public class FileSelectActivity extends ListActivity {
 			}
 
 		});
+		
+		ImageButton browseButton = (ImageButton) findViewById(R.id.browse_button);
+		browseButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (Interaction.isIntentAvailable(FileSelectActivity.this, FILE_BROWSE_INTENT)) {
+					Intent i = new Intent(FILE_BROWSE_INTENT);
+					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
+					startActivityForResult(i, FILE_BROWSE);
+					
+				} else {
+					BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
+					diag.show();
+				}
+				
+			}
+		});
 
 		fillData();
 		
@@ -259,6 +284,20 @@ public class FileSelectActivity extends ListActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		fillData();
+		
+		if (requestCode == FILE_BROWSE && resultCode == RESULT_OK) {
+			String filename = data.getDataString();
+			if (filename != null) {
+				if (filename.startsWith("file://")) {
+					filename = filename.substring(7);
+				}
+				
+				EditText fn = (EditText) findViewById(R.id.file_filename);
+				fn.setText(filename);
+				
+			}
+			
+		}
 	}
 
 	@Override

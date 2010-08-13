@@ -1,5 +1,6 @@
-KeePassDroid (1.5.10)
+KeePassDroid (1.6)
   * Add setting to control timeout duration.
+  * Add file browser
 
 KeePassDroid (1.5.9)
   * Bump target sdk to 8
