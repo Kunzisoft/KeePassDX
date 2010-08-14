@@ -53,6 +53,7 @@ import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
+import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.Util;
@@ -65,7 +66,6 @@ public class FileSelectActivity extends ListActivity {
 	
 	private static final int CMENU_CLEAR = Menu.FIRST;
 	
-	private static final String FILE_BROWSE_INTENT = "org.openintents.action.PICK_FILE";
 	public static final int FILE_BROWSE = 1;
 	
 	private FileDbHelper mDbHelper;
@@ -182,8 +182,8 @@ public class FileSelectActivity extends ListActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if (Interaction.isIntentAvailable(FileSelectActivity.this, FILE_BROWSE_INTENT)) {
-					Intent i = new Intent(FILE_BROWSE_INTENT);
+				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.FILE_BROWSE)) {
+					Intent i = new Intent(Intents.FILE_BROWSE);
 					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
 					startActivityForResult(i, FILE_BROWSE);
 					

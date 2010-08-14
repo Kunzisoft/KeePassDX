@@ -26,6 +26,7 @@ import java.net.URLDecoder;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -36,6 +37,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -45,8 +48,11 @@ import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.fileselect.FileDbHelper;
+import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.Util;
 
 public class PasswordActivity extends LockingActivity {
@@ -57,6 +63,8 @@ public class PasswordActivity extends LockingActivity {
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
 	private static final String VIEW_INTENT = "android.intent.action.VIEW";
+	
+	private static final int FILE_BROWSE = 256;
 
 	private String mFileName;
 	private String mKeyFile;
@@ -84,12 +92,28 @@ public class PasswordActivity extends LockingActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		if (resultCode == KeePass.EXIT_LOCK) {
+		switch (requestCode) {
+		
+		case KeePass.EXIT_LOCK:
 			setResult(KeePass.EXIT_LOCK);
 			finish();
+			App.getDB().clear(); 
+			break;
+		case FILE_BROWSE:
+			if (resultCode == RESULT_OK) {
+				String filename = data.getDataString();
+				if (filename != null) {
+					if (filename.startsWith("file://")) {
+						filename = filename.substring(7);
+					}
+					
+					EditText fn = (EditText) findViewById(R.id.pass_keyfile);
+					fn.setText(filename);
+				}
+			}
+			break;
 		}
 		
-		App.getDB().clear(); 
 	}
 
 	@Override
@@ -154,6 +178,31 @@ public class PasswordActivity extends LockingActivity {
 				}
 			}
 			
+		});
+		
+		ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
+		browse.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.FILE_BROWSE)) {
+					Intent i = new Intent(Intents.FILE_BROWSE);
+					
+					if (mFileName.length() > 0) {
+						File keyfile = new File(mFileName);
+						File parent = keyfile.getParentFile();
+						if (parent != null) {
+							i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
+						}
+					}
+					
+					startActivityForResult(i, FILE_BROWSE);
+				} else {
+					BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
+					diag.show();
+				}
+					
+			}
 		});
 		
 		retrieveSettings();
