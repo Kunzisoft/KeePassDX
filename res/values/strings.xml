@@ -145,6 +145,8 @@
     <string name="show_password">Show password</string>
     <string name="twofish">Twofish</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
+    <string name="warning_read_only">Your sd card is currently read-only. You may not be able to save changes to your database.</string>
+    <string name="warning_unmounted">Your sd card is not currently mounted on your device. You will not be able to load or create your database.</string>
     
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

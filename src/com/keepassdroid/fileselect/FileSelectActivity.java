@@ -58,6 +58,7 @@ import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.Util;
+import com.keepassdroid.view.FileNameView;
 
 public class FileSelectActivity extends ListActivity {
 
@@ -316,6 +317,9 @@ public class FileSelectActivity extends ListActivity {
 			startActivity(intent);
 			finish();
 		}
+		
+		FileNameView fnv = (FileNameView) findViewById(R.id.file_select);
+		fnv.updateExternalStorageWarning();
 	}
 
 	@Override
