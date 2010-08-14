@@ -25,6 +25,12 @@
   	  android:layout_height="wrap_content"
 	  style="?android:attr/listSeparatorTextViewStyle"
   	  android:text="@string/open_recent"/>
+  	<com.keepassdroid.view.FileNameView android:id="@+id/file_select"
+  	  android:layout_width="fill_parent"
+  	  android:layout_height="wrap_content"
+  	  android:layout_alignParentBottom="true"
+  	/>
+  	<!--
   	<Button android:id="@+id/open"
   	  android:text="@string/menu_open"
   	  android:layout_height="wrap_content"
@@ -51,16 +57,17 @@
   	  android:singleLine="true"
   	  android:layout_above="@id/open"
   	  android:layout_toLeftOf="@id/browse_button"
-  	  android:text="/sdcard/keepass/keepass.kdb"/>
+  	/>
 	<TextView android:id="@+id/label_open_by_filename" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:layout_above="@id/file_filename"
 	  style="?android:attr/listSeparatorTextViewStyle"
 	  android:text="@string/enter_filename"/>
+	-->
   	<ListView android:id="@android:id/list"
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="fill_parent"
       android:layout_below="@id/file_listtop"
-      android:layout_above="@id/label_open_by_filename"/>
+      android:layout_above="@id/file_select"/>
 </RelativeLayout>

@@ -18,6 +18,7 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="default_file_path">/keepass/keepass.kdb</string>
     <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
     <string name="homepage">http://www.keepassdroid.com</string>
     <string name="oi_filemanager_market">market://details?id=org.openintents.filemanager</string>

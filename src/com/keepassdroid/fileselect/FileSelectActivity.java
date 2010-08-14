@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -241,6 +242,10 @@ public class FileSelectActivity extends ListActivity {
 	}
 
 	private void fillData() {
+		// Set the intial value of the filename
+		EditText filename = (EditText) findViewById(R.id.file_filename);
+		filename.setText(Environment.getExternalStorageDirectory() + getString(R.string.default_file_path));
+		
 		// Get all of the rows from the database and create the item list
 		Cursor filesCursor = mDbHelper.fetchAllFiles();
 		startManagingCursor(filesCursor);

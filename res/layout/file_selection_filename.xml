@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+ Copyright 2010 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -18,13 +18,9 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-	
-	<com.keepassdroid.view.FileNameView
-	  android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"/>
-	<!-- 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+>
 	<TextView android:id="@+id/label_open_by_filename" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -57,9 +53,4 @@
   	  android:layout_below="@id/file_filename"
   	  android:layout_toRightOf="@id/open"
   	  android:width="100sp"/>
-  	-->
-  	<!-- Small hack because I need to include a list since this is a list activity -->
-  	<ListView android:id="@android:id/list"
-      android:layout_width="0sp"
-      android:layout_height="0sp"/>
 </RelativeLayout>
