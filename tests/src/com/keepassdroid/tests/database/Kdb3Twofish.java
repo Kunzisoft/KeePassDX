@@ -29,7 +29,7 @@ import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.database.load.ImporterV3;
 
-public class Kdb4Twofish extends AndroidTestCase {
+public class Kdb3Twofish extends AndroidTestCase {
 	public void testReadTwofish() throws Exception {
 		Context ctx = getContext();
 		
