@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.tests.database;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -31,6 +30,7 @@ import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.load.Importer;
 import com.keepassdroid.database.load.ImporterFactory;
 import com.keepassdroid.database.load.ImporterV4;
+import com.keepassdroid.tests.TestUtil;
 
 public class Kdb4 extends AndroidTestCase {
 
@@ -65,21 +65,7 @@ public class Kdb4 extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		InputStream key = getContext().getAssets().open("keyfile.key", AssetManager.ACCESS_STREAMING);
-		
-		FileOutputStream keyFile = new FileOutputStream("/sdcard/key");
-		while (true) {
-			byte[] buf = new byte[1024];
-			int read = key.read(buf);
-			if ( read == -1 ) {
-				break;
-			} else {
-				keyFile.write(buf, 0, read);
-			}
-		}
-		
-		keyFile.close();
-
+		TestUtil.extractKey(getContext(), "keyfile.key", "/sdcard/key");
 	}
 
 	public void testComposite() throws IOException, InvalidDBException {

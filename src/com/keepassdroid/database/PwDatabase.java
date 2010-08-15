@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.database;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -123,12 +124,14 @@ public abstract class PwDatabase {
 					throw new InvalidKeyFileException("Key file does not exist.");
 				}
 				
+				BufferedInputStream bis = new BufferedInputStream(fis, 64);
+				
 				long fileSize = keyfile.length();
 				if ( fileSize == 0 ) {
 					throw new InvalidKeyFileException("Key file is empty.");
 				} else if ( fileSize == 32 ) {
 					byte[] outputKey = new byte[32];
-					if ( fis.read(outputKey, 0, 32) != 32 ) {
+					if ( bis.read(outputKey, 0, 32) != 32 ) {
 						throw new IOException("Error reading key.");
 					}
 					
@@ -136,11 +139,17 @@ public abstract class PwDatabase {
 				} else if ( fileSize == 64 ) {
 					byte[] hex = new byte[64];
 					
-					if ( fis.read(hex, 0, 64) != 64 ) {
+					bis.mark(64);
+					if ( bis.read(hex, 0, 64) != 64 ) {
 						throw new IOException("Error reading key.");
 					}
 			
-					return hexStringToByteArray(new String(hex));
+					try {
+						return hexStringToByteArray(new String(hex));
+					} catch (IndexOutOfBoundsException e) {
+						// Key is not base 64, treat it as binary data
+						bis.reset();
+					}
 				}
 			
 				MessageDigest md;
@@ -155,7 +164,7 @@ public abstract class PwDatabase {
 				
 				try {
 					while (true) {
-						int bytesRead = fis.read(buffer, 0, 2048);
+						int bytesRead = bis.read(buffer, 0, 2048);
 						if ( bytesRead == -1 ) break;  // End of file
 						
 						md.update(buffer, 0, bytesRead);
