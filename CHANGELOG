@@ -1,3 +1,6 @@
+KeePassDroid (1.6.2)
+  * Fix layout issues on Android 1.5
+  
 KeePassDroid (1.6.1)
   * Add file browser for keyfiles
   * Add missing sdcard warning

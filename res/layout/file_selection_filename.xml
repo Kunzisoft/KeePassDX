@@ -36,7 +36,7 @@
 	  android:layout_height="wrap_content"
 	  android:src="@drawable/ic_launcher_folder_small"	
 	  android:layout_alignParentRight="true"
-	  android:layout_alignTop="@id/file_filename"
+	  android:layout_below="@id/label_open_by_filename"
 	/>
   	<EditText android:id="@+id/file_filename"
   	  android:layout_width="fill_parent"
