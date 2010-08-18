@@ -20,9 +20,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
+	<ImageButton android:id="@+id/icon_button"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:src="@drawable/ic00"
+	  android:layout_alignParentRight="true"
+	  android:layout_alignParentTop="true"/>
 	<EditText android:id="@+id/group_name" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
+	  android:layout_marginLeft="4dp"
+	  android:layout_toLeftOf="@+id/icon_button"
 	  android:singleLine="true"
 	  android:hint="@string/hint_group_name"/>
 	<Button android:id="@+id/ok" 

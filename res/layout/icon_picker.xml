@@ -17,9 +17,14 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
-	<color name="blue_highlight">#0000dd</color>
-	<color name="group">#ffffff</color>
-	<color name="icon_background">#555555</color>
-	<color name="icon_text">#000000</color>
-</resources>    
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/IconGridView" 
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent" 
+   android:background="@color/icon_background"
+   android:verticalSpacing="5dp"
+   android:horizontalSpacing="5dp"
+   android:columnWidth="60dp" 
+   android:numColumns="auto_fit"
+   android:stretchMode="columnWidth">
+</GridView>

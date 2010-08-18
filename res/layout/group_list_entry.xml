@@ -23,11 +23,16 @@
   android:stretchColumns="1">
 	<TableRow android:layout_width="fill_parent"
 	  android:layout_height="wrap_content">
+		<ImageView android:id="@+id/group_icon"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:padding="5dp"
+		  android:scaleType="fitXY"
+		  android:src="@drawable/ic99_blank"/>
 		<TextView android:id="@+id/group_text"
 		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
-		  style="@style/GroupTextLarge"
-		/>
+		  style="@style/GroupTextLarge"/>
 		<View/>
 		<TextView android:id="@+id/group_label"
 		  android:layout_width="wrap_content"
