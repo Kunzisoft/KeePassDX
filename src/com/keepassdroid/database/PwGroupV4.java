@@ -117,6 +117,16 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 
 	@Override
+	public int getIconId() {
+		return iconId;
+	}
+
+	@Override
+	public void setIconId(int id) {
+		iconId = id;
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}

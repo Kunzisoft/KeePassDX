@@ -35,6 +35,9 @@ public abstract class PwGroup {
 	
 	public abstract PwGroupId getId();
 	public abstract void setId(PwGroupId id);
+
+	public abstract int getIconId();
+	public abstract void setIconId(int id);
 	
 	public abstract String getName();
 	

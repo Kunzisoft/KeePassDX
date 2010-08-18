@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.keepass.R;
@@ -58,6 +59,12 @@ public class PwEntryView extends ClickView {
 		mPos = pos;
 		
 		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
+		int currIconResId = R.drawable.ic00 + pw.imageId;
+		if (currIconResId < R.drawable.ic99_blank)
+		{
+			ImageView iv = (ImageView) ev.findViewById(R.id.entry_icon);
+			iv.setImageResource(currIconResId);
+		}
 		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
 		tv.setText(mPw.getDisplayTitle());
 		tv.setTextSize(PrefsUtil.getListTextSize(act));

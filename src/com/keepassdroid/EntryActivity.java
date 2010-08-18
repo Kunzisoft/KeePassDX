@@ -43,6 +43,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -212,6 +213,13 @@ public class EntryActivity extends LockCloseActivity {
 	}
 	
 	private void fillData() {
+		int currIconResId = R.drawable.ic00 + mEntry.imageId;
+		if (currIconResId < R.drawable.ic99_blank)
+		{
+			ImageView iv = (ImageView) findViewById(R.id.entry_icon);
+			iv.setImageResource(currIconResId);
+		}
+
 		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.getUrl());

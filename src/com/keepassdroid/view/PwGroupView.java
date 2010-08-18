@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.keepass.R;
@@ -56,6 +57,12 @@ public class PwGroupView extends ClickView {
 		mPw = pw;
 		
 		View gv = View.inflate(act, R.layout.group_list_entry, null);
+		int currIconResId = R.drawable.ic00 + pw.getIconId();
+		if (currIconResId < R.drawable.ic99_blank)
+		{
+			ImageView iv = (ImageView) gv.findViewById(R.id.group_icon);
+			iv.setImageResource(currIconResId);
+		}
 		TextView tv = (TextView) gv.findViewById(R.id.group_text);
 		tv.setText(pw.getName());
 		float size = PrefsUtil.getListTextSize(act); 

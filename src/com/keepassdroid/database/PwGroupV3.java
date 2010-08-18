@@ -92,6 +92,16 @@ public class PwGroupV3 extends PwGroup {
 	}
 
 	@Override
+	public int getIconId() {
+		return imageId;
+	}
+
+	@Override
+	public void setIconId(int id) {
+		imageId = id;
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}
