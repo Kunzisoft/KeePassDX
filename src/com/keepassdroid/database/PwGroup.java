@@ -49,7 +49,6 @@ public abstract class PwGroup {
 
 	public static class GroupNameComparator implements Comparator<PwGroup> {
 
-		@Override
 		public int compare(PwGroup object1, PwGroup object2) {
 			return object1.getName().compareToIgnoreCase(object2.getName());
 		}

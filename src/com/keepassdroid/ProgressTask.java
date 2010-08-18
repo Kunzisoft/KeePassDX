@@ -86,7 +86,6 @@ public class ProgressTask implements Runnable {
 	
 	private class CloseProcessDialog implements Runnable {
 
-		@Override
 		public void run() {
 			mPd.dismiss();
 		}

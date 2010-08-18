@@ -106,7 +106,6 @@ public class EntryActivity extends LockCloseActivity {
 		Button edit = (Button) findViewById(R.id.entry_edit);
 		edit.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				EntryEditActivity.Launch(EntryActivity.this, mEntry);
 			}

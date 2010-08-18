@@ -27,7 +27,6 @@ public abstract class PwEntry implements Cloneable {
 
 	public static class EntryNameComparator implements Comparator<PwEntry> {
 
-		@Override
 		public int compare(PwEntry object1, PwEntry object2) {
 			return object1.getTitle().compareToIgnoreCase(object2.getTitle());
 		}

@@ -137,7 +137,6 @@ public class EntryEditActivity extends LockCloseActivity {
 		Button save = (Button) findViewById(R.id.entry_save);
 		save.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				EntryEditActivity act = EntryEditActivity.this;
 				
@@ -212,7 +211,6 @@ public class EntryEditActivity extends LockCloseActivity {
 		Button cancel = (Button) findViewById(R.id.entry_cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				finish();
 				

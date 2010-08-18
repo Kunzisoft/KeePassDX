@@ -77,7 +77,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 	 */
 	private static class Cleanup implements Runnable {
 
-		@Override
 		public void run() {
 			while (true) {
 				try {

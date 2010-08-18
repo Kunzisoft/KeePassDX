@@ -166,7 +166,6 @@ public class PasswordActivity extends LockingActivity {
 		// Show or hide password
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				TextView password = (TextView) findViewById(R.id.password);
@@ -183,7 +182,6 @@ public class PasswordActivity extends LockingActivity {
 		ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
 		browse.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.FILE_BROWSE)) {
 					Intent i = new Intent(Intents.FILE_BROWSE);

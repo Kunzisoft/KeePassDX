@@ -91,7 +91,6 @@ public class FileSelectActivity extends ListActivity {
 		Button openButton = (Button) findViewById(R.id.open);
 		openButton.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				String fileName = Util.getEditText(FileSelectActivity.this,
 						R.id.file_filename);
@@ -110,7 +109,6 @@ public class FileSelectActivity extends ListActivity {
 		Button createButton = (Button) findViewById(R.id.create);
 		createButton.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				String filename = Util.getEditText(FileSelectActivity.this,
 						R.id.file_filename);
@@ -182,7 +180,6 @@ public class FileSelectActivity extends ListActivity {
 		ImageButton browseButton = (ImageButton) findViewById(R.id.browse_button);
 		browseButton.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.FILE_BROWSE)) {
 					Intent i = new Intent(Intents.FILE_BROWSE);

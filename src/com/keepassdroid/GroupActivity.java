@@ -149,7 +149,6 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			Button addEntry = (Button) findViewById(R.id.add_entry);
 			addEntry.setOnClickListener(new View.OnClickListener() {
 	
-				@Override
 				public void onClick(View v) {
 					EntryEditActivity.Launch(GroupActivity.this, mGroup);
 				}
