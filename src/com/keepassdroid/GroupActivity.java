@@ -189,10 +189,10 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		{
 			case Activity.RESULT_OK:
 				String GroupName = data.getExtras().getString(GroupEditActivity.KEY_NAME);
-				/* int GroupIconID = data.getExtras().getInt(GroupEditActivity.OUT_ICON_ID); */
+				int GroupIconID = data.getExtras().getInt(GroupEditActivity.KEY_ICON_ID);
 				GroupActivity act = GroupActivity.this;
 				Handler handler = new Handler();
-				AddGroup task = AddGroup.getInstance(App.getDB(), GroupName, mGroup, act.new RefreshTask(handler), false);
+				AddGroup task = AddGroup.getInstance(App.getDB(), GroupName, GroupIconID, mGroup, act.new RefreshTask(handler), false);
 				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 				pt.run();
 				break;

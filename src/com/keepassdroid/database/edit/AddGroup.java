@@ -27,21 +27,23 @@ import com.keepassdroid.database.PwGroup;
 public class AddGroup extends RunnableOnFinish {
 	protected Database mDb;
 	private String mName;
+	private int mIconID;
 	private PwGroup mGroup;
 	private PwGroup mParent;
 	protected boolean mDontSave;
 	
 	
-	public static AddGroup getInstance(Database db, String name, PwGroup parent, OnFinish finish, boolean dontSave) {
-		return new AddGroup(db, name, parent, finish, dontSave);
+	public static AddGroup getInstance(Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
+		return new AddGroup(db, name, iconid, parent, finish, dontSave);
 	}
 	
 	
-	private AddGroup(Database db, String name, PwGroup parent, OnFinish finish, boolean dontSave) {
+	private AddGroup(Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
 		mName = name;
+		mIconID = iconid;
 		mParent = parent;
 		mDontSave = dontSave;
 		
@@ -55,6 +57,7 @@ public class AddGroup extends RunnableOnFinish {
 		// Generate new group
 		mGroup = pm.createGroup();
 		mGroup.initNewGroup(mName, pm.newGroupId());
+		mGroup.setIconId(mIconID);
 		pm.addGroupTo(mGroup, mParent);
 		
 		//mParent.sortGroupsByName();
