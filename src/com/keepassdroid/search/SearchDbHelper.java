@@ -32,9 +32,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.PwGroupV4;
 
 public class SearchDbHelper {
 	private static final String DATABASE_NAME = "search";
@@ -142,14 +145,22 @@ public class SearchDbHelper {
 		mDb.delete(SEARCH_TABLE, KEY_UUID + " = ?", new String[] {uuidStr});
 	}
 	
-	public PwGroupV3 search(Database db, String qStr) {
+	public PwGroup search(Database db, String qStr) {
 		Cursor cursor;
-		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, SEARCH_TABLE + " match ?", new String[] {qStr}, null, null, null, null);
+		String queryWithWildCard = addWildCard(qStr);
+		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, SEARCH_TABLE + " match ?", new String[] {queryWithWildCard}, null, null, null, null);
 
-		PwGroupV3 group = new PwGroupV3();
+		PwGroup group;
+		if ( db.pm instanceof PwDatabaseV3 ) {
+			group = new PwGroupV3();
+		} else if ( db.pm instanceof PwDatabaseV4 ) {
+			group = new PwGroupV4();
+		} else {
+			Log.d("SearchDbHelper", "Tried to search with unknown db");
+			return null;
+		}
 		group.name = "Search results";
 		group.childEntries = new ArrayList<PwEntry>();
-		group.setGroups(new ArrayList<PwGroup>());
 		
 		cursor.moveToFirst();
 		while ( ! cursor.isAfterLast() ) {
@@ -165,6 +176,18 @@ public class SearchDbHelper {
 		cursor.close();
 		
 		return group;
+	}
+
+	private String addWildCard(String qStr) {
+		String result = new String(qStr);
+		if (qStr.endsWith("\"") || qStr.endsWith("*")) {
+			// Do Nothing
+		}
+		else if (qStr.endsWith("%")){
+			result = result.substring(0, result.length()-1);
+		}
+		result = result + "*";
+		return result;
 	}
 	
 }
