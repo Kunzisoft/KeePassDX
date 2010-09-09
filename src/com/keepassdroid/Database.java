@@ -137,9 +137,9 @@ public class Database {
 		indexBuilt = true;
 	}
 	
-	public PwGroupV3 Search(String str) {
+	public PwGroup Search(String str) {
 		searchHelper.open();
-		PwGroupV3 group = searchHelper.search(this, str);
+		PwGroup group = searchHelper.search(this, str);
 		searchHelper.close();
 		
 		return group;
