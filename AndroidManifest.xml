@@ -54,6 +54,8 @@
 		<activity android:name="com.keepassdroid.EntryActivityV4"></activity>
 		<activity android:name="com.keepassdroid.LockingActivity"></activity>
 		<activity android:name="com.keepassdroid.EntryEditActivity" android:configChanges="orientation|keyboardHidden"></activity>
+		<activity android:name="com.keepassdroid.GroupEditActivity" android:theme="@android:style/Theme.Dialog"></activity>
+		<activity android:name="com.keepassdroid.IconPickerActivity"></activity>
 		<activity android:name="com.keepassdroid.search.SearchResults" android:launchMode="standard">
 		    <intent-filter>
 			    <action android:name="android.intent.action.SEARCH" />

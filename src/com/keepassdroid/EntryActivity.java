@@ -43,6 +43,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,7 +106,6 @@ public class EntryActivity extends LockCloseActivity {
 		Button edit = (Button) findViewById(R.id.entry_edit);
 		edit.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				EntryEditActivity.Launch(EntryActivity.this, mEntry);
 			}
@@ -201,7 +201,7 @@ public class EntryActivity extends LockCloseActivity {
 
 	private Notification getNotification(String intentText, int descResId) {
 		String desc = getString(descResId);
-		Notification notify = new Notification(R.drawable.launcher, desc, System.currentTimeMillis());
+		Notification notify = new Notification(R.drawable.notify, desc, System.currentTimeMillis());
 		
 		Intent intent = new Intent(intentText);
 		PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -212,6 +212,13 @@ public class EntryActivity extends LockCloseActivity {
 	}
 	
 	private void fillData() {
+		int currIconResId = R.drawable.ic00 + mEntry.imageId;
+		if (currIconResId < R.drawable.ic99_blank)
+		{
+			ImageView iv = (ImageView) findViewById(R.id.entry_icon);
+			iv.setImageResource(currIconResId);
+		}
+
 		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.getUrl());

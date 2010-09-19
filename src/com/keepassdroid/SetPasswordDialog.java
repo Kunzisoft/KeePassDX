@@ -68,7 +68,6 @@ public class SetPasswordDialog extends CancelDialog {
 		Button okButton = (Button) findViewById(R.id.ok);
 		okButton.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				TextView passView = (TextView) findViewById(R.id.pass_password);
 				String pass = passView.getText().toString();
@@ -104,7 +103,6 @@ public class SetPasswordDialog extends CancelDialog {
 		Button cancel = (Button) findViewById(R.id.cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				cancel();
 				if ( mFinish != null ) {

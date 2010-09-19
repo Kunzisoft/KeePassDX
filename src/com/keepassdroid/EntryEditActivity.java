@@ -34,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +63,7 @@ public class EntryEditActivity extends LockCloseActivity {
 	private PwEntryV3 mEntry;
 	private boolean mShowPassword = false;
 	private boolean mIsNew;
+	private int mSelectedIconID;
 	
 	public static void Launch(Activity act, PwEntry pw) {
 		if ( !(pw instanceof PwEntryV3) ) {
@@ -124,11 +126,17 @@ public class EntryEditActivity extends LockCloseActivity {
 		View scrollView = findViewById(R.id.entry_scroll);
 		scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 
+		ImageButton iconButton = (ImageButton) findViewById(R.id.icon_button);
+		iconButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				IconPickerActivity.Launch(EntryEditActivity.this);
+			}
+		});
+
 		// Save button
 		Button save = (Button) findViewById(R.id.entry_save);
 		save.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				EntryEditActivity act = EntryEditActivity.this;
 				
@@ -151,7 +159,7 @@ public class EntryEditActivity extends LockCloseActivity {
 				
 				newEntry.binaryDesc = mEntry.binaryDesc;
 				newEntry.groupId = mEntry.groupId;
-				newEntry.imageId = mEntry.imageId;
+				newEntry.imageId = mSelectedIconID;
 				newEntry.parent = mEntry.parent;
 				newEntry.tCreation = mEntry.tCreation;
 				newEntry.tExpire = mEntry.tExpire;
@@ -203,7 +211,6 @@ public class EntryEditActivity extends LockCloseActivity {
 		Button cancel = (Button) findViewById(R.id.entry_cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				finish();
 				
@@ -211,6 +218,23 @@ public class EntryEditActivity extends LockCloseActivity {
 			
 		});
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		switch (resultCode)
+		{
+			case Activity.RESULT_OK:
+				mSelectedIconID = data.getExtras().getInt(IconPickerActivity.KEY_ICON_ID);
+				ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
+				currIconButton.setImageResource(R.drawable.ic00 + mSelectedIconID);
+				break;
+
+			case Activity.RESULT_CANCELED:
+			default:
+				break;
+		}
 	}
 
 	@Override
@@ -268,6 +292,14 @@ public class EntryEditActivity extends LockCloseActivity {
 	}
 
 	private void fillData() {
+		int currIconResId = R.drawable.ic00 + mEntry.imageId;
+		mSelectedIconID = mEntry.imageId;
+		if (currIconResId < R.drawable.ic99_blank)
+		{
+			ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
+			currIconButton.setImageResource(currIconResId);
+		}
+
 		populateText(R.id.entry_title, mEntry.title);
 		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.url);

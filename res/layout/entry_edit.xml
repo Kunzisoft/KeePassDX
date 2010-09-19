@@ -48,9 +48,16 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content" 
 			  android:text="@string/entry_title" />
+			<ImageButton android:id="@+id/icon_button"
+			  android:layout_width="wrap_content"
+			  android:layout_height="wrap_content"
+			  android:src="@drawable/ic00"
+			  android:layout_alignParentRight="true"
+			  android:layout_below="@id/entry_title_label"/>
 			<EditText android:id="@+id/entry_title" 
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
+			  android:layout_toLeftOf="@+id/icon_button"
 			  android:singleLine="true"
 			  android:layout_below="@id/entry_title_label"
 			  android:hint="@string/hint_title"/>
@@ -58,7 +65,7 @@
 			<TextView android:id="@+id/entry_user_name_label"
 			  android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
-			  android:layout_below="@id/entry_title" 
+			  android:layout_below="@id/icon_button"
 			  android:text="@string/entry_user_name" />
 			<EditText android:id="@+id/entry_user_name" 
 			  android:layout_width="fill_parent"

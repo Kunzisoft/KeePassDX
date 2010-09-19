@@ -20,8 +20,6 @@
 package com.keepassdroid;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -138,7 +136,12 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		if ( addGroupEnabled ) {
 			// Add Group button
 			Button addGroup = (Button) findViewById(R.id.add_group);
-			addGroup.setOnClickListener(new GroupAddHandler(this, mGroup));
+			addGroup.setOnClickListener(new View.OnClickListener() {
+
+				public void onClick(View v) {
+					GroupEditActivity.Launch(GroupActivity.this, mGroup);
+				}
+			});
 		}
 		
 		if ( addEntryEnabled ) {
@@ -146,7 +149,6 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			Button addEntry = (Button) findViewById(R.id.add_entry);
 			addEntry.setOnClickListener(new View.OnClickListener() {
 	
-				@Override
 				public void onClick(View v) {
 					EntryEditActivity.Launch(GroupActivity.this, mGroup);
 				}
@@ -179,46 +181,25 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		
 		return cv.onContextItemSelected(item);
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		switch (resultCode)
+		{
+			case Activity.RESULT_OK:
+				String GroupName = data.getExtras().getString(GroupEditActivity.KEY_NAME);
+				int GroupIconID = data.getExtras().getInt(GroupEditActivity.KEY_ICON_ID);
+				GroupActivity act = GroupActivity.this;
+				Handler handler = new Handler();
+				AddGroup task = AddGroup.getInstance(App.getDB(), GroupName, GroupIconID, mGroup, act.new RefreshTask(handler), false);
+				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
+				pt.run();
+				break;
 
-
-
-	private class GroupAddHandler implements View.OnClickListener {
-		private GroupBaseActivity mAct;
-		private PwGroup mGroup;
-		private GroupCreateDialog mDialog;
-		
-		GroupAddHandler(GroupBaseActivity act, PwGroup group) {
-			mAct = act;
-			mGroup = group;
+			case Activity.RESULT_CANCELED:
+			default:
+				break;
 		}
-
-		@Override
-		public void onClick(View v) {
-			GroupCreateDialog dialog = new GroupCreateDialog(mAct);
-			mDialog = dialog;
-			
-			// Register Listener
-			dialog.setOnDismissListener(new Dialog.OnDismissListener() {
-
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					String res = mDialog.getResponse();
-					
-					if ( ! mDialog.canceled() && res.length() > 0 ) {
-						GroupActivity act = GroupActivity.this;
-						Handler handler = new Handler();
-						AddGroup task = AddGroup.getInstance(App.getDB(), res, mGroup, act.new RefreshTask(handler), false);
-						ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
-						pt.run();
-					}
-				}
-				
-			});
-			
-			// Show the dialog
-			dialog.show();
-		}
-		
 	}
-
 }

@@ -49,6 +49,5 @@ public abstract class RunnableOnFinish implements Runnable {
 		mStatus = status;
 	}
 	
-	@Override
 	abstract public void run();
 }

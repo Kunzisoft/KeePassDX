@@ -90,23 +90,19 @@ public class PwListAdapter extends BaseAdapter {
 		}
 	}
 	
-	@Override
 	public int getCount() {
 		
 		return groupsForViewing.size() + entriesForViewing.size();
 	}
 
-	@Override
 	public Object getItem(int position) {
 		return position;
 	}
 
-	@Override
 	public long getItemId(int position) {
 		return position;
 	}
 
-	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		int size = groupsForViewing.size();
 		

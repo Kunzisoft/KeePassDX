@@ -24,7 +24,6 @@ public class BrowserDialog extends Dialog {
 		Button cancel = (Button) findViewById(R.id.cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				BrowserDialog.this.cancel();
 			}
@@ -33,7 +32,6 @@ public class BrowserDialog extends Dialog {
 		Button market = (Button) findViewById(R.id.install_market);
 		market.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				Util.gotoUrl(getContext(), R.string.oi_filemanager_market);
 				BrowserDialog.this.cancel();
@@ -43,7 +41,6 @@ public class BrowserDialog extends Dialog {
 		Button web = (Button) findViewById(R.id.install_web);
 		web.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				Util.gotoUrl(getContext(), R.string.oi_filemanager_web);
 				BrowserDialog.this.cancel();

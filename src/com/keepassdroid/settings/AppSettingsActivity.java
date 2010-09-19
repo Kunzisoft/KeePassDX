@@ -50,7 +50,6 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 		Preference keyFile = findPreference(getString(R.string.keyfile_key));
 		keyFile.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
-			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				Boolean value = (Boolean) newValue;
 				
@@ -69,7 +68,6 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 			Preference rounds = findPreference(getString(R.string.rounds_key));
 			rounds.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				
-				@Override
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					setRounds(App.getDB(), preference);
 					return true;

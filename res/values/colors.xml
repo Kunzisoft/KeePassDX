@@ -20,4 +20,6 @@
 <resources>
 	<color name="blue_highlight">#0000dd</color>
 	<color name="group">#ffffff</color>
+	<color name="icon_background">#555555</color>
+	<color name="icon_text">#000000</color>
 </resources>    

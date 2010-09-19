@@ -17,8 +17,23 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/entry_text"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
   android:layout_height="wrap_content"
-  android:layout_width="wrap_content"
-  style="@style/ElementTextLarge"/>
+  android:stretchColumns="1">
+    <TableRow android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+        <ImageView android:id="@+id/entry_icon"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:scaleType="fitXY"
+          android:src="@drawable/ic99_blank"/>
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/entry_text"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          style="@style/ElementTextLarge"/>
+        <View/>
+    </TableRow>
+</TableLayout>
