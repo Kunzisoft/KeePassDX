@@ -34,6 +34,7 @@ import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.utils.Icons;
 
 public class PwEntryView extends ClickView {
 
@@ -59,12 +60,10 @@ public class PwEntryView extends ClickView {
 		mPos = pos;
 		
 		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
-		int currIconResId = R.drawable.ic00 + pw.imageId;
-		if (currIconResId < R.drawable.ic99_blank)
-		{
-			ImageView iv = (ImageView) ev.findViewById(R.id.entry_icon);
-			iv.setImageResource(currIconResId);
-		}
+		
+		ImageView iv = (ImageView) ev.findViewById(R.id.entry_icon);
+		iv.setImageResource(Icons.iconToResId(pw.imageId));
+		
 		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
 		tv.setText(mPw.getDisplayTitle());
 		tv.setTextSize(PrefsUtil.getListTextSize(act));

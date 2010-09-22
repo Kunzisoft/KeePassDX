@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.keepass.R;
+import com.keepassdroid.utils.Icons;
 
 public class IconPickerActivity extends Activity
 {
@@ -80,7 +81,7 @@ public class IconPickerActivity extends Activity
    	public int getCount()
    	{
    		/* Return number of KeePass icons */
-   		return (R.drawable.ic99_blank - R.drawable.ic00);
+   		return Icons.count();
    	}
    	
    	public Object getItem(int position)
@@ -109,7 +110,7 @@ public class IconPickerActivity extends Activity
    		TextView tv = (TextView) currView.findViewById(R.id.icon_text);
    		tv.setText("" + position);
    		ImageView iv = (ImageView) currView.findViewById(R.id.icon_image);
-   		iv.setImageResource(R.drawable.ic00 + position);
+   		iv.setImageResource(Icons.iconToResId(position));
  
    		return currView;
    	}

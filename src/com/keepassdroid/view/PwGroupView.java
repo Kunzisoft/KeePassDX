@@ -34,6 +34,7 @@ import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.utils.Icons;
 
 
 public class PwGroupView extends ClickView {
@@ -57,12 +58,10 @@ public class PwGroupView extends ClickView {
 		mPw = pw;
 		
 		View gv = View.inflate(act, R.layout.group_list_entry, null);
-		int currIconResId = R.drawable.ic00 + pw.getIconId();
-		if (currIconResId < R.drawable.ic99_blank)
-		{
-			ImageView iv = (ImageView) gv.findViewById(R.id.group_icon);
-			iv.setImageResource(currIconResId);
-		}
+		
+		ImageView iv = (ImageView) gv.findViewById(R.id.group_icon);
+		iv.setImageResource(Icons.iconToResId(pw.getIconId()));
+		
 		TextView tv = (TextView) gv.findViewById(R.id.group_text);
 		tv.setText(pw.getName());
 		float size = PrefsUtil.getListTextSize(act); 

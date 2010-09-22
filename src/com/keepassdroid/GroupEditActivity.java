@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.android.keepass.R;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.utils.Icons;
 
 public class GroupEditActivity extends Activity
 {
@@ -116,7 +117,7 @@ public class GroupEditActivity extends Activity
 			case Activity.RESULT_OK:
 				mSelectedIconID = data.getExtras().getInt(IconPickerActivity.KEY_ICON_ID);
 				ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
-				currIconButton.setImageResource(R.drawable.ic00 + mSelectedIconID);
+				currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
 				break;
 
 			case Activity.RESULT_CANCELED:
