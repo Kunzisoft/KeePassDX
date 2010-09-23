@@ -64,6 +64,7 @@
 			<meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
 		</activity>
 		<activity android:name="com.keepassdroid.settings.AppSettingsActivity"></activity>
+		<activity android:name="com.keepassdroid.GeneratePasswordActivity"></activity>
 		<service android:name="com.keepassdroid.services.TimeoutService"></service>
 		<meta-data android:name="com.a0soft.gphone.aTrackDog.webURL" android:value="http://keepassdroid.com" />
 	</application>

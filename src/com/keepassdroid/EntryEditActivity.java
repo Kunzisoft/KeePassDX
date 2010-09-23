@@ -33,7 +33,9 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +62,9 @@ public class EntryEditActivity extends LockCloseActivity {
 
 	private static final int MENU_DONATE = Menu.FIRST;
 	private static final int MENU_PASS = Menu.FIRST + 1;
+	
+	public static final int RESULT_OK_ICON_PICKER = 1000;
+	public static final int RESULT_OK_PASSWORD_GENERATOR = RESULT_OK_ICON_PICKER + 1;
 
 	private PwEntryV3 mEntry;
 	private boolean mShowPassword = false;
@@ -239,28 +244,25 @@ public class EntryEditActivity extends LockCloseActivity {
 	{
 		switch (resultCode)
 		{
-			case Activity.RESULT_OK:
+			case RESULT_OK_ICON_PICKER:
 				mSelectedIconID = data.getExtras().getInt(IconPickerActivity.KEY_ICON_ID);
 				ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
 				currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
 				break;
+				
+			case RESULT_OK_PASSWORD_GENERATOR:
+				String generatedPassword = data.getStringExtra("com.keepassdroid.password.generated_password");
+				EditText password = (EditText) findViewById(R.id.entry_password);
+				EditText confPassword = (EditText) findViewById(R.id.entry_confpassword);
+				
+				password.setText(generatedPassword);
+				confPassword.setText(generatedPassword);
 
+				break;
 			case Activity.RESULT_CANCELED:
 			default:
 				break;
 		}
-	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			String generatedPassword = data.getStringExtra("com.keepassdroid.password.generated_password");
-			EditText password = (EditText) findViewById(R.id.entry_password);
-			EditText confPassword = (EditText) findViewById(R.id.entry_confpassword);
-			
-			password.setText(generatedPassword);
-			confPassword.setText(generatedPassword);
-		} 
 	}
 
 	@Override
