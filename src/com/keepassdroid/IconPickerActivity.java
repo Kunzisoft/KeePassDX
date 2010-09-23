@@ -36,7 +36,7 @@ import android.widget.TextView;
 import com.android.keepass.R;
 import com.keepassdroid.utils.Icons;
 
-public class IconPickerActivity extends Activity
+public class IconPickerActivity extends LockCloseActivity
 {
 	public static final String KEY_ICON_ID = "icon_id";
 
