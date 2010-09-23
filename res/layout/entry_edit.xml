@@ -91,19 +91,24 @@
 			  android:layout_height="wrap_content" 
 			  android:layout_below="@id/entry_url" 
 			  android:text="@string/entry_password" />
+			<Button android:id="@+id/generate_button"
+			  android:layout_below="@id/entry_password_label"
+			  android:layout_width="wrap_content"
+			  android:text=". . ."
+			  android:layout_height="wrap_content"
+			  android:layout_alignParentRight="true"/>
 			<EditText android:id="@+id/entry_password" 
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:password="true"
 			  android:singleLine="true"
-			  android:layout_below="@id/entry_password_label"
-			  android:hint="@string/hint_pass"/>
+			  android:layout_toLeftOf="@id/generate_button"
+			  android:hint="@string/hint_pass"
+			  android:layout_alignTop="@id/generate_button"/>
 			<!-- Confirm Password -->
 			<TextView android:id="@+id/entry_confpassword_label"
-			  android:layout_width="wrap_content"
-			  android:layout_height="wrap_content" 
-			  android:layout_below="@id/entry_password" 
-			  android:text="@string/entry_confpassword" />
+			  android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:layout_below="@id/entry_password" android:text="@string/entry_confpassword" />
 			<EditText android:id="@+id/entry_confpassword" 
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
@@ -123,6 +128,7 @@
 		      android:layout_height="wrap_content"
 			  android:layout_below="@id/entry_comment_label"
 			  android:hint="@string/hint_comment"/>
-		</RelativeLayout>
+		
+</RelativeLayout>
 	</ScrollView>
 </RelativeLayout>

@@ -134,6 +134,19 @@ public class EntryEditActivity extends LockCloseActivity {
 			}
 		});
 
+		// Generate password button
+		Button generatePassword = (Button) findViewById(R.id.generate_button);
+		generatePassword.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//EntryEditActivity.Launch(EntryActivity.this, mEntry);
+				GeneratePasswordActivity.Launch(EntryEditActivity.this);
+			}
+		});
+		
+
+		
 		// Save button
 		Button save = (Button) findViewById(R.id.entry_save);
 		save.setOnClickListener(new View.OnClickListener() {
@@ -236,6 +249,18 @@ public class EntryEditActivity extends LockCloseActivity {
 			default:
 				break;
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			String generatedPassword = data.getStringExtra("com.keepassdroid.password.generated_password");
+			EditText password = (EditText) findViewById(R.id.entry_password);
+			EditText confPassword = (EditText) findViewById(R.id.entry_confpassword);
+			
+			password.setText(generatedPassword);
+			confPassword.setText(generatedPassword);
+		} 
 	}
 
 	@Override
