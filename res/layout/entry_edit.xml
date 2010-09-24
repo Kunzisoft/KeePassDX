@@ -94,7 +94,7 @@
 			<Button android:id="@+id/generate_button"
 			  android:layout_below="@id/entry_password_label"
 			  android:layout_width="wrap_content"
-			  android:text=". . ."
+			  android:text="@string/ellipsis"
 			  android:layout_height="wrap_content"
 			  android:layout_alignParentRight="true"/>
 			<EditText android:id="@+id/entry_password" 

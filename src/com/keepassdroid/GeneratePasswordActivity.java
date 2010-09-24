@@ -34,7 +34,7 @@ import com.android.keepass.R;
 import com.keepassdroid.password.PasswordGenerator;
 
 public class GeneratePasswordActivity extends LockCloseActivity {
-	private static final int[] BUTTON_IDS = new int [] {R.id.btn_length4, R.id.btn_length6, R.id.btn_length8, R.id.btn_length12, R.id.btn_length16};
+	private static final int[] BUTTON_IDS = new int [] {R.id.btn_length6, R.id.btn_length8, R.id.btn_length12, R.id.btn_length16};
 	
 	public static void Launch(Activity act) {
 		Intent i = new Intent(act, GeneratePasswordActivity.class);
