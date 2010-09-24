@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2010 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -62,7 +62,7 @@ public class IconPickerActivity extends LockCloseActivity
 				final Intent intent = new Intent();
 				
 				intent.putExtra(KEY_ICON_ID, position);
-				setResult(Activity.RESULT_OK, intent);
+				setResult(EntryEditActivity.RESULT_OK_ICON_PICKER, intent);
 				
 				finish();
 			}
