@@ -35,8 +35,8 @@ public class PasswordGenerator {
 		
 		StringBuffer buffer = new StringBuffer();
 
+		Random random = new Random();
 		if (size > 0) {
-			Random random = new Random();
 			
 			for (int i = 0; i < length; i++) {
 				char c = characterSet.charAt((char) random.nextInt(size));
