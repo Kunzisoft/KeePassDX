@@ -483,9 +483,9 @@ public class ImporterV4 extends Importer {
 			} else if ( name.equalsIgnoreCase(ElemNotes) ) {
 				ctxGroup.notes = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxGroup.iconId = (int)ReadUInt(xpp, 0);
+				ctxGroup.icon = db.iconFactory.getIcon((int)ReadUInt(xpp, 0));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxGroup.customIconUuid = ReadUuid(xpp);
+				ctxGroup.customIcon = db.iconFactory.getIcon(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.GroupTimes, xpp);
 			} else if ( name.equalsIgnoreCase(ElemIsExpanded) ) {

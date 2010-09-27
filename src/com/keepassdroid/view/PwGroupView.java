@@ -31,9 +31,9 @@ import android.widget.TextView;
 import com.android.keepass.R;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.GroupBaseActivity;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.icons.Icons;
 import com.keepassdroid.settings.PrefsUtil;
 
 
@@ -60,7 +60,7 @@ public class PwGroupView extends ClickView {
 		View gv = View.inflate(act, R.layout.group_list_entry, null);
 		
 		ImageView iv = (ImageView) gv.findViewById(R.id.group_icon);
-		iv.setImageResource(Icons.iconToResId(pw.getIconId()));
+		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), pw.getIcon());
 		
 		TextView tv = (TextView) gv.findViewById(R.id.group_text);
 		tv.setText(pw.getName());

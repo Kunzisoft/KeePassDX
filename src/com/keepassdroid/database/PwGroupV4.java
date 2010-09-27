@@ -25,13 +25,12 @@ import java.util.UUID;
 
 public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
-	public static final int FOLDER_ICON = 48;
+	//public static final int FOLDER_ICON = 48;
 	
 	public PwGroupV4 parent = null;
 	public UUID uuid = PwDatabaseV4.UUID_ZERO;
 	public String notes = "";
-	public int iconId = FOLDER_ICON;
-	public UUID customIconUuid = PwDatabaseV4.UUID_ZERO;
+	public PwIconCustom customIcon = PwIconCustom.ZERO;
 	public boolean isExpanded = true;
 	public String defaultAutoTypeSequence = "";
 	public Boolean enableAutoType = null;
@@ -117,16 +116,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 
 	@Override
-	public int getIconId() {
-		return iconId;
-	}
-
-	@Override
-	public void setIconId(int id) {
-		iconId = id;
-	}
-
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -197,6 +186,15 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public void setParent(PwGroup prt) {
 		parent = (PwGroupV4) prt;
 		
+	}
+
+	@Override
+	public PwIcon getIcon() {
+		if (customIcon == null || customIcon.uuid.equals(PwDatabaseV4.UUID_ZERO)) {
+			return super.getIcon();
+		} else {
+			return customIcon;
+		}
 	}
 
 }

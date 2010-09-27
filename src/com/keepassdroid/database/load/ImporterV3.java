@@ -339,7 +339,7 @@ public class ImporterV3 extends Importer {
 			grp.tExpire = new PwDate(buf, offset);
 			break;
 		case 0x0007 :
-			grp.imageId = LEDataInputStream.readInt(buf, offset);
+			grp.icon = db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0008 :
 			grp.level = Types.readShort(buf, offset);

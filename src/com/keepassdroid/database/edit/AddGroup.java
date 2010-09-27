@@ -57,7 +57,7 @@ public class AddGroup extends RunnableOnFinish {
 		// Generate new group
 		mGroup = pm.createGroup();
 		mGroup.initNewGroup(mName, pm.newGroupId());
-		mGroup.setIconId(mIconID);
+		mGroup.icon = mDb.pm.iconFactory.getIcon(mIconID);
 		pm.addGroupTo(mGroup, mParent);
 		
 		//mParent.sortGroupsByName();

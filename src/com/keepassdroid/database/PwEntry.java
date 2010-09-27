@@ -33,7 +33,7 @@ public abstract class PwEntry implements Cloneable {
 		
 	}
 	
-	public PwIcon icon;
+	public PwIconStandard icon;
 
 	public PwEntry() {
 		

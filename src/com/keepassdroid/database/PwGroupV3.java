@@ -59,7 +59,6 @@ public class PwGroupV3 extends PwGroup {
 	public PwGroupV3 parent = null;
 
 	public int groupId;
-	public int imageId;
 
 	public PwDate tCreation;
 	public PwDate tLastMod;
@@ -92,16 +91,6 @@ public class PwGroupV3 extends PwGroup {
 	}
 
 	@Override
-	public int getIconId() {
-		return imageId;
-	}
-
-	@Override
-	public void setIconId(int id) {
-		imageId = id;
-	}
-
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -122,7 +111,6 @@ public class PwGroupV3 extends PwGroup {
 	public void initNewGroup(String nm, PwGroupId newId) {
 		super.initNewGroup(nm, newId);
 		
-		imageId = 0;
 		Date now = Calendar.getInstance().getTime();
 		tCreation = new PwDate(now);
 		tLastAccess = new PwDate(now);

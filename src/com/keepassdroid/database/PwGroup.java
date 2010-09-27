@@ -29,6 +29,7 @@ public abstract class PwGroup {
 	public List<PwGroup> childGroups = new ArrayList<PwGroup>();
 	public List<PwEntry> childEntries = new ArrayList<PwEntry>();
 	public String name = "";
+	public PwIconStandard icon;
 
 	public abstract PwGroup getParent();
 	public abstract void setParent(PwGroup parent);
@@ -36,12 +37,13 @@ public abstract class PwGroup {
 	public abstract PwGroupId getId();
 	public abstract void setId(PwGroupId id);
 
-	public abstract int getIconId();
-	public abstract void setIconId(int id);
-	
 	public abstract String getName();
 	
 	public abstract Date getLastMod();
+	
+	public PwIcon getIcon() {
+		return icon;
+	}
 
 	public void sortGroupsByName() {
 		Collections.sort(childGroups, new GroupNameComparator());
