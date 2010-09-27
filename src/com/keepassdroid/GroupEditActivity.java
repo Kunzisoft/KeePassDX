@@ -114,7 +114,7 @@ public class GroupEditActivity extends Activity
 	{
 		switch (resultCode)
 		{
-			case Activity.RESULT_OK:
+			case EntryEditActivity.RESULT_OK_ICON_PICKER:
 				mSelectedIconID = data.getExtras().getInt(IconPickerActivity.KEY_ICON_ID);
 				ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
 				currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
