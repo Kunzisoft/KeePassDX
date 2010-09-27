@@ -66,7 +66,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		public void run() {
 			if ( mSuccess ) {
 				// Mark group dirty if title or icon changes
-				if ( ! mBackup.getTitle().equals(mNewE.getTitle()) || mBackup.imageId != mNewE.imageId ) {
+				if ( ! mBackup.getTitle().equals(mNewE.getTitle()) || ! mBackup.getIcon().equals(mNewE.getIcon()) ) {
 					PwGroup parent = mBackup.getParent();
 					if ( parent != null ) {
 						// Resort entries

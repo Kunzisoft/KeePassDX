@@ -71,7 +71,7 @@ public class PwDatabaseV4 extends PwDatabase {
     public UUID lastTopVisibleGroup;
     public MemoryProtectionConfig memoryProtection = new MemoryProtectionConfig();
     public List<PwDeletedObject> deletedObjects = new ArrayList<PwDeletedObject>();
-    public List<PwCustomIcon> customIcons = new ArrayList<PwCustomIcon>();
+    public List<PwIconCustom> customIcons = new ArrayList<PwIconCustom>();
     public Map<String, String> customData = new HashMap<String, String>();
     
     public class MemoryProtectionConfig {

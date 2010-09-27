@@ -37,7 +37,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public UUID uuid;
 	public Map<String, String> strings = new HashMap<String, String>();
 	public Map<String, byte[]> binaries = new HashMap<String, byte[]>();
-	public UUID customIconUuid;
+	public PwIconCustom customIcon;
 	public String foregroundColor;
 	public String backgroupColor;
 	public String overrideURL;
@@ -90,7 +90,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		uuid = source.uuid;
 		strings = source.strings;
 		binaries = source.binaries;
-		customIconUuid = source.customIconUuid;
+		customIcon = source.customIcon;
 		foregroundColor = source.foregroundColor;
 		backgroupColor = source.backgroupColor;
 		overrideURL = source.overrideURL;
@@ -251,6 +251,16 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public String getUrl() {
 		return getString(STR_URL);
+	}
+
+	@Override
+	public PwIcon getIcon() {
+		if (customIcon == null || customIcon.equals(PwDatabaseV4.UUID_ZERO)) {
+			return super.getIcon();
+		} else {
+			return customIcon;
+		}
+		
 	}
 
 }

@@ -45,6 +45,7 @@ import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.load.Importer;
 import com.keepassdroid.database.load.ImporterFactory;
 import com.keepassdroid.database.save.PwDbOutput;
+import com.keepassdroid.icons.DrawableFactory;
 import com.keepassdroid.search.SearchDbHelper;
 
 /**
@@ -59,6 +60,8 @@ public class Database {
 	public String mFilename;
 	public SearchDbHelper searchHelper;
 	public boolean indexBuilt = false;
+	
+	public DrawableFactory drawFactory = new DrawableFactory();
 	
 	private boolean loaded = false;
 	
@@ -196,6 +199,7 @@ public class Database {
 		groups.clear();
 		entries.clear();
 		dirty.clear();
+		drawFactory.clear();
 		
 		root = null;
 		pm = null;
@@ -222,5 +226,6 @@ public class Database {
 			dirty.add(root);		
 		}
 	}
+	
 	
 }

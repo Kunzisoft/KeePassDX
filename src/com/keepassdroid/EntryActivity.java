@@ -55,7 +55,6 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.intents.Intents;
-import com.keepassdroid.utils.Icons;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
@@ -214,7 +213,7 @@ public class EntryActivity extends LockCloseActivity {
 	
 	private void fillData() {
 		ImageView iv = (ImageView) findViewById(R.id.entry_icon);
-		iv.setImageResource(Icons.iconToResId(mEntry.imageId));
+		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mEntry.getIcon());
 
 		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());

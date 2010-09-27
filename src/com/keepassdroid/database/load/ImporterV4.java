@@ -48,7 +48,7 @@ import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
-import com.keepassdroid.database.PwCustomIcon;
+import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDeletedObject;
@@ -519,9 +519,9 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(ElemUuid) ) {
 				ctxEntry.setUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxEntry.imageId = (int)ReadUInt(xpp, 0);
+				ctxEntry.icon = db.iconFactory.getIcon((int)ReadUInt(xpp, 0));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxEntry.customIconUuid = ReadUuid(xpp);
+				ctxEntry.customIcon = db.iconFactory.getIcon(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemFgColor) ) {
 				ctxEntry.foregroundColor = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemBgColor) ) {
@@ -679,7 +679,9 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Meta;
 		} else if ( ctx == KdbContext.CustomIcon && name.equalsIgnoreCase(ElemCustomIconItem) ) {
 			if ( ! customIconID.equals(PwDatabaseV4.UUID_ZERO) ) {
-				db.customIcons.add(new PwCustomIcon(customIconID, customIconData));
+				PwIconCustom icon = new PwIconCustom(customIconID, customIconData);
+				db.customIcons.add(icon);
+				db.iconFactory.put(icon);
 			} else assert(false);
 			
 			customIconID = PwDatabaseV4.UUID_ZERO;

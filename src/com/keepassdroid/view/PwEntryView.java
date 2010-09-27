@@ -31,10 +31,10 @@ import android.widget.TextView;
 import com.android.keepass.R;
 import com.keepassdroid.EntryActivity;
 import com.keepassdroid.GroupBaseActivity;
+import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.settings.PrefsUtil;
-import com.keepassdroid.utils.Icons;
 
 public class PwEntryView extends ClickView {
 
@@ -62,7 +62,7 @@ public class PwEntryView extends ClickView {
 		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
 		
 		ImageView iv = (ImageView) ev.findViewById(R.id.entry_icon);
-		iv.setImageResource(Icons.iconToResId(pw.imageId));
+		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), pw.getIcon());
 		
 		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
 		tv.setText(mPw.getDisplayTitle());

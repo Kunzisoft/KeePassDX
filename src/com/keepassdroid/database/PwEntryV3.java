@@ -238,7 +238,7 @@ public class PwEntryV3 extends PwEntry {
 		if ( ! username.equals(PMS_ID_USER) ) return false;
 		if ( url == null ) return false;
 		if ( ! url.equals(PMS_ID_URL)) return false;
-		if ( imageId != 0 ) return false;
+		if ( !icon.isMetaStreamIcon() ) return false;
 
 		return true;
 	}

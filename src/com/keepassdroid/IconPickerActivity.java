@@ -34,7 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.keepass.R;
-import com.keepassdroid.utils.Icons;
+import com.keepassdroid.icons.Icons;
 
 public class IconPickerActivity extends LockCloseActivity
 {

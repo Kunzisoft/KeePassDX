@@ -19,16 +19,37 @@
  */
 package com.keepassdroid.database;
 
-import java.util.UUID;
-
-public class PwCustomIcon {
-	@SuppressWarnings("unused")
-	private UUID uuid;
-	@SuppressWarnings("unused")
-	private byte[] imageData;
+public class PwIconStandard extends PwIcon {
+	public final int iconId;
 	
-	public PwCustomIcon(UUID u, byte[] data) {
-		uuid = u;
-		imageData = data;
+	public PwIconStandard(int iconId) {
+		this.iconId = iconId;
+	}
+
+	@Override
+	public boolean isMetaStreamIcon() {
+		return iconId == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + iconId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PwIconStandard other = (PwIconStandard) obj;
+		if (iconId != other.iconId)
+			return false;
+		return true;
 	}
 }

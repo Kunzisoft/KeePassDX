@@ -22,8 +22,8 @@ package com.keepassdroid.database.save;
 import java.io.IOException;
 import java.io.OutputStream;
 
-
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwIconStandard;
 import com.keepassdroid.utils.Types;
 
 public class PwEntryOutputV3 {
@@ -84,7 +84,9 @@ public class PwEntryOutputV3 {
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(Types.writeInt(mPE.imageId));
+		
+		PwIconStandard icon = (PwIconStandard) mPE.getIcon();
+		mOS.write(Types.writeInt(icon.iconId));
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");

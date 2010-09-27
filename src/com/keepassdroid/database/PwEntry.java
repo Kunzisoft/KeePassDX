@@ -32,9 +32,8 @@ public abstract class PwEntry implements Cloneable {
 		}
 		
 	}
-
 	
-	public int imageId;
+	public PwIcon icon;
 
 	public PwEntry() {
 		
@@ -54,10 +53,8 @@ public abstract class PwEntry implements Cloneable {
 	}
 	
 	public void assign(PwEntry source) {
-		imageId = source.imageId;
+		icon = source.icon;
 	}
-	
-	
 	
 	public abstract void stampLastAccess();
 
@@ -74,6 +71,10 @@ public abstract class PwEntry implements Cloneable {
 	public abstract Date getExpire();
 	public abstract boolean expires();
 	public abstract PwGroup getParent();
+	
+	public PwIcon getIcon() {
+		return icon;
+	}
 
 	public abstract String getDisplayTitle();
 

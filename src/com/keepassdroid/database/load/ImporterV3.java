@@ -237,7 +237,7 @@ public class ImporterV3 extends Importer {
 				i++;
 			}
 			else {
-				readGroupField( newGrp, fieldType, filebuf, pos );
+				readGroupField(newManager, newGrp, fieldType, filebuf, pos);
 			}
 			pos += fieldSize;
 		}
@@ -255,7 +255,7 @@ public class ImporterV3 extends Importer {
 				i++;
 			}
 			else {
-				readEntryField( newEnt, filebuf, pos );
+				readEntryField(newManager, newEnt, filebuf, pos);
 			}
 			pos += 2 + 4 + fieldSize;
 		}
@@ -315,7 +315,7 @@ public class ImporterV3 extends Importer {
 	 * @return If >0, 
 	 * @throws UnsupportedEncodingException 
 	 */
-	void readGroupField( PwGroupV3 grp, int fieldType, byte[] buf, int offset ) throws UnsupportedEncodingException {
+	void readGroupField(PwDatabaseV3 db, PwGroupV3 grp, int fieldType, byte[] buf, int offset) throws UnsupportedEncodingException {
 		switch( fieldType ) {
 		case 0x0000 :
 			// Ignore field
@@ -352,7 +352,7 @@ public class ImporterV3 extends Importer {
 
 
 
-	void readEntryField( PwEntryV3 ent, byte[] buf, int offset )
+	void readEntryField(PwDatabaseV3 db, PwEntryV3 ent, byte[] buf, int offset)
 	throws UnsupportedEncodingException
 	{
 		int fieldType = Types.readShort(buf, offset);
@@ -371,7 +371,7 @@ public class ImporterV3 extends Importer {
 			ent.groupId = LEDataInputStream.readInt(buf, offset);
 			break;
 		case 0x0003 :
-			ent.imageId = LEDataInputStream.readInt(buf, offset);
+			ent.icon = db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0004 :
 			ent.title = Types.readCString(buf, offset); 

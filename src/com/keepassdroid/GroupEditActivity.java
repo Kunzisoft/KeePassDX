@@ -31,7 +31,7 @@ import android.widget.Toast;
 import com.android.keepass.R;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.utils.Icons;
+import com.keepassdroid.icons.Icons;
 
 public class GroupEditActivity extends Activity
 {

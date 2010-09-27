@@ -52,7 +52,7 @@ import com.keepassdroid.database.edit.AddEntry;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
 import com.keepassdroid.database.edit.UpdateEntry;
-import com.keepassdroid.utils.Icons;
+import com.keepassdroid.icons.Icons;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
@@ -178,7 +178,7 @@ public class EntryEditActivity extends LockCloseActivity {
 				
 				newEntry.binaryDesc = mEntry.binaryDesc;
 				newEntry.groupId = mEntry.groupId;
-				newEntry.imageId = mSelectedIconID;
+				newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
 				newEntry.parent = mEntry.parent;
 				newEntry.tCreation = mEntry.tCreation;
 				newEntry.tExpire = mEntry.tExpire;
@@ -321,8 +321,9 @@ public class EntryEditActivity extends LockCloseActivity {
 
 	private void fillData() {
 		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
-		currIconButton.setImageResource(Icons.iconToResId(mEntry.imageId));
-
+		
+		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
+		
 		populateText(R.id.entry_title, mEntry.title);
 		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.url);

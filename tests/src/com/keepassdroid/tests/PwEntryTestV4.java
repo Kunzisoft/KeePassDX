@@ -25,6 +25,8 @@ import junit.framework.TestCase;
 
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroupV4;
+import com.keepassdroid.database.PwIconCustom;
+import com.keepassdroid.database.PwIconStandard;
 
 public class PwEntryTestV4 extends TestCase {
 	public void testAssign() {
@@ -40,10 +42,10 @@ public class PwEntryTestV4 extends TestCase {
 		
 		entry.backgroupColor = "blue";
 		entry.binaries.put("key1", new byte[] {0,1});
-		entry.customIconUuid = UUID.randomUUID();
+		entry.customIcon = new PwIconCustom(UUID.randomUUID(), new byte[0]);
 		entry.foregroundColor = "red";
 		entry.history.add(new PwEntryV4());
-		entry.imageId = 5;
+		entry.icon = new PwIconStandard(5);
 		entry.overrideURL = "override";
 		entry.parent = new PwGroupV4();
 		entry.strings.put("key2", "value2");

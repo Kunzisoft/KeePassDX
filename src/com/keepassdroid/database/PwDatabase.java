@@ -41,6 +41,8 @@ public abstract class PwDatabase {
 	public byte[] finalKey;
 	public String name = "KeePass database";
 	public PwGroup rootGroup;
+	public PwIconFactory iconFactory = new PwIconFactory();
+	
 	
 	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
 
@@ -279,5 +281,5 @@ public abstract class PwDatabase {
 	}
 	
 	public abstract PwGroup createGroup();
-
+	
 }

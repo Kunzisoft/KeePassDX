@@ -17,7 +17,7 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.utils;
+package com.keepassdroid.icons;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

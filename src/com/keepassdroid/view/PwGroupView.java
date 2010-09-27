@@ -33,8 +33,8 @@ import com.keepassdroid.GroupActivity;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.icons.Icons;
 import com.keepassdroid.settings.PrefsUtil;
-import com.keepassdroid.utils.Icons;
 
 
 public class PwGroupView extends ClickView {
