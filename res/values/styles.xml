@@ -18,31 +18,31 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
- <style name="GroupTextSmall" parent="android:Theme">
- 	<item name="@android:textColor">@color/group</item>
- 	<item name="@android:textSize">15sp</item>
-  </style>
- <style name="GroupText" parent="android:Theme">
- 	<item name="@android:textColor">@color/group</item>
- 	<item name="@android:textSize">20sp</item>
-  </style>
- <style name="GroupTextLarge" parent="android:Theme">
- 	<item name="@android:textColor">@color/group</item>
- 	<item name="@android:textSize">28sp</item>
-  </style>
- <style name="ElementTextSmall">
- 	<item name="@android:textSize">15sp</item>
-  </style>
- <style name="ElementText">
- 	<item name="@android:textSize">20sp</item>
-  </style>
- <style name="ElementTextLarge">
- 	<item name="@android:textSize">28sp</item>
- </style>
- <style name="ElementTextTitle" parent="ElementText">
- 	<item name="@android:textColor">@color/group</item>
-  </style>
- <style name="GroupLabel">
- 	<item name="@android:textSize">20sp</item>
-  </style>
+	<style name="GroupTextSmall" parent="android:Theme">
+		<item name="@android:textColor">@color/group</item>
+		<item name="@android:textSize">15sp</item>
+	</style>
+	<style name="GroupText" parent="android:Theme">
+		<item name="@android:textColor">@color/group</item>
+		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="GroupTextLarge" parent="android:Theme">
+		<item name="@android:textColor">@color/group</item>
+		<item name="@android:textSize">28sp</item>
+	</style>
+	<style name="ElementTextSmall">
+		<item name="@android:textSize">15sp</item>
+	</style>
+	<style name="ElementText">
+		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="ElementTextLarge">
+		<item name="@android:textSize">28sp</item>
+	</style>
+	<style name="ElementTextTitle" parent="ElementText">
+		<item name="@android:textColor">@color/group</item>
+	</style>
+	<style name="GroupLabel">
+		<item name="@android:textSize">20sp</item>
+	</style>
 </resources>
