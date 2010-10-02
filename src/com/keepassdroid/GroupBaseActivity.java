@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -130,6 +131,13 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 				}
 				
 			}
+		}
+	}
+	
+	protected void setGroupIcon() {
+		if (mGroup != null) {
+			ImageView iv = (ImageView) findViewById(R.id.icon);
+			App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mGroup.getIcon());
 		}
 	}
 	

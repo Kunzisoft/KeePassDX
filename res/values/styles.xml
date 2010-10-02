@@ -39,10 +39,15 @@
 	<style name="ElementTextLarge">
 		<item name="@android:textSize">28sp</item>
 	</style>
-	<style name="ElementTextTitle" parent="ElementText">
-		<item name="@android:textColor">@color/group</item>
-	</style>
 	<style name="GroupLabel">
 		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="WhiteOnBlack">
+		<item name="@android:background">#666666</item>
+		<item name="@android:textColor">@android:color/primary_text_dark</item>
+		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="ElementTextTitle" parent="WhiteOnBlack">
+		<item name="@android:textColor">@color/group</item>
 	</style>
 </resources>

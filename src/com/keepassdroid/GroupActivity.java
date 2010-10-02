@@ -156,6 +156,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		}
 		
 		setGroupTitle();
+		setGroupIcon();
 
 		setListAdapter(new PwListAdapter(this, mGroup));
 		registerForContextMenu(getListView());

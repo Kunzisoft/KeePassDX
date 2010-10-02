@@ -18,28 +18,25 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
-	<TextView android:id="@+id/group_title" 
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:textSize="15sp"
-	  android:text="@string/current_group"
-	  android:textStyle="bold"/>
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:padding="2sp"
+  style="@style/WhiteOnBlack">
 	<TextView android:id="@+id/group_name" 
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:layout_alignTop="@id/group_title"
-	  android:layout_toRightOf="@id/group_title"
-	  android:layout_marginLeft="3sp"
+	  android:layout_alignParentLeft="true"
+	  android:layout_centerVertical="true"
 	  android:text="@string/root"
-	  style="@style/GroupTextSmall"
+  	  style="@style/WhiteOnBlack"
 	/>
-	<ImageView android:id="@+id/divider1"
-	  android:layout_width="fill_parent"
+	<ImageView android:id="@+id/icon"
+	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:layout_below="@id/group_title"
+	  android:layout_alignParentRight="true"
+	  android:layout_centerVertical="true"
 	  android:scaleType="fitXY"
-	  android:tint="@color/blue_highlight"
-	  android:src="@android:drawable/divider_horizontal_dark"/>
+	  android:src="@drawable/ic99_blank"
+	  style="@style/WhiteOnBlack"
+	/>
 </RelativeLayout>

@@ -72,6 +72,11 @@ public class DrawableFactory {
 	}
 
 	public Drawable getIconDrawable(Resources res, PwIconCustom icon) {
+		initBlank(res);
+		if (icon == null) {
+			return blank;
+		}
+		
 		Drawable draw = customIconMap.get(icon.uuid);
 		
 		if (draw == null) {
@@ -79,8 +84,6 @@ public class DrawableFactory {
 			
 			// Could not understand custom icon
 			if (bitmap == null) {
-				initBlank(res);
-				
 				return blank;
 			}
 			

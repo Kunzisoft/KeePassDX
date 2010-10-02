@@ -22,6 +22,7 @@
   android:layout_height="wrap_content"
   android:stretchColumns="1">
 	<TableRow android:layout_width="fill_parent"
+	  android:gravity="center_vertical"
 	  android:layout_height="wrap_content">
 		<ImageView android:id="@+id/group_icon"
 		  android:layout_width="wrap_content"
@@ -32,6 +33,8 @@
 		<TextView android:id="@+id/group_text"
 		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
+		  android:paddingTop="2dp"
+		  android:paddingBottom="2dp"
 		  style="@style/GroupTextLarge"/>
 		<View/>
 		<TextView android:id="@+id/group_label"

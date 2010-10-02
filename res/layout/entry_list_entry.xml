@@ -22,7 +22,8 @@
   android:layout_height="wrap_content"
   android:stretchColumns="1">
     <TableRow android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+	  android:gravity="center_vertical">
         <ImageView android:id="@+id/entry_icon"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
