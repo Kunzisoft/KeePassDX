@@ -17,7 +17,7 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.backup;
+package com.keepassdroid.compat;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

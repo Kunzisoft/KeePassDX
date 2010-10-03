@@ -29,7 +29,7 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.LockingClosePreferenceActivity;
 import com.keepassdroid.app.App;
-import com.keepassdroid.backup.BackupManagerCompat;
+import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.fileselect.FileDbHelper;
 
