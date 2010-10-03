@@ -29,11 +29,14 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.LockingClosePreferenceActivity;
 import com.keepassdroid.app.App;
+import com.keepassdroid.backup.BackupManagerCompat;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.fileselect.FileDbHelper;
 
 public class AppSettingsActivity extends LockingClosePreferenceActivity {
 	public static boolean KEYFILE_DEFAULT = false;
+	
+	private BackupManagerCompat backupManager;
 	
 	public static void Launch(Context ctx) {
 		Intent i = new Intent(ctx, AppSettingsActivity.class);
@@ -82,8 +85,18 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 			Preference dbSettings = findPreference(getString(R.string.db_key));
 			dbSettings.setEnabled(false);
 		}
+		
+		backupManager = new BackupManagerCompat(this);
+		
 	}
 	
+	@Override
+	protected void onStop() {
+		backupManager.dataChanged();
+		
+		super.onStop();
+	}
+
 	private void setRounds(Database db, Preference rounds) {
 		rounds.setSummary(Long.toString(db.pm.getNumRounds()));
 	}
