@@ -21,29 +21,28 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
 	<!--  Title -->	
-	<RelativeLayout android:id="@+id/title_block"
+	<LinearLayout android:id="@+id/title_block"
 	  android:layout_alignParentTop="true"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
+	  android:gravity="center_vertical"
 	  android:padding="2dp"
 	  style="@style/WhiteOnBlack">
 		<TextView android:id="@+id/entry_title"
 		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
-		  android:layout_alignParentLeft="true"
-		  android:layout_centerVertical="true"
-		  android:layout_toLeftOf="@id/entry_icon"
+		  android:layout_gravity="left|center_vertical"
+		  android:layout_weight="1"
 		  android:minHeight="32dp"
 		  style="@style/ElementTextTitle"/>
 		<ImageView android:id="@+id/entry_icon"
 		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
-		  android:layout_alignParentRight="true"
-		  android:layout_centerVertical="true"
+		  android:layout_gravity="right|center_vertical"
 		  android:scaleType="fitXY"
 		  android:src="@drawable/ic99_blank"
 		  style="@style/WhiteOnBlack"/>
-	</RelativeLayout> 
+	</LinearLayout> 
 	<ScrollView android:id="@+id/entry_scroll" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="fill_parent"
