@@ -17,26 +17,26 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
+  android:gravity="center_vertical"
   android:padding="2sp"
   style="@style/WhiteOnBlack">
 	<TextView android:id="@+id/group_name" 
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:layout_alignParentLeft="true"
-	  android:layout_centerVertical="true"
+	  android:layout_gravity="left|center_vertical"
+	  android:layout_weight="1"
 	  android:text="@string/root"
   	  style="@style/WhiteOnBlack"
 	/>
 	<ImageView android:id="@+id/icon"
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:layout_alignParentRight="true"
-	  android:layout_centerVertical="true"
+	  android:layout_gravity="right|center_vertical"
 	  android:scaleType="fitXY"
 	  android:src="@drawable/ic99_blank"
 	  style="@style/WhiteOnBlack"
 	/>
-</RelativeLayout>
+</LinearLayout>
