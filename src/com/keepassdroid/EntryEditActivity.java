@@ -143,7 +143,6 @@ public class EntryEditActivity extends LockCloseActivity {
 		Button generatePassword = (Button) findViewById(R.id.generate_button);
 		generatePassword.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				//EntryEditActivity.Launch(EntryActivity.this, mEntry);
 				GeneratePasswordActivity.Launch(EntryEditActivity.this);

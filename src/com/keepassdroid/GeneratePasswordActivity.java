@@ -75,7 +75,6 @@ public class GeneratePasswordActivity extends LockCloseActivity {
         Button acceptButton = (Button) findViewById(R.id.accept_button);
         acceptButton.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				EditText password = (EditText) findViewById(R.id.password);
 				
@@ -91,7 +90,6 @@ public class GeneratePasswordActivity extends LockCloseActivity {
         Button cancelButton = (Button) findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				setResult(RESULT_CANCELED);
 				
