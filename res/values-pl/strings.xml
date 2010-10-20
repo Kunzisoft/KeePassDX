@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2009 Brian Pellin.
+This file is part of KeePassDroid.
+
+KeePassDroid is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+KeePassDroid is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="about_feedback">Feedback:</string>
+    <string name="about_homepage">Strona domowa:</string>
+    <string name="about_ok">OK</string>
+    <string name="AboutText">KeePassDroid to Androidowa implementacja menadżera haseł KeePass.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Akceptuj</string>
+    <string name="add_entry">Dodaj wpis</string>
+    <string name="add_group">Dodaj grupę</string>
+    <string name="add_group_title">Dodaj grupę</string>
+    <string name="algorithm">Algorytm</string>
+    <string name="algorithm_colon">Algorytm:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Czas wygaśnięcia aplikacji</string>
+    <string name="app_timeout_summary">Czas do zablokowania bazy danych przy bezczynności aplikacji.</string>
+    <string name="application">Aplikacja</string>
+    <string name="application_settings">Ustawienia aplikacji</string>
+    <string name="brackets">Brackets</string>
+    <string name="browser_intall_text">Przeglądanie plików wymaga programu Open Intents File Manager, kliknij poniżej by go zainstalować. Ze względu na pewne, dziwne zachowania menadżera plików przeglądanie może nie działać poprawnie przy pierwszym użyciu.</string>
+    <string name="building_search_idx">Tworzenie indeksu wyszukiwania...</string>
+    <string name="cancel">Anuluj</string>
+    <string name="ClearClipboard">Schowek wyczyszczony.</string>
+    <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
+    <string name="clipboard_timeout_summary">Czas do wyczyszczenia zawartości schowka po kopiowaniu nazwy użytkownika i hasła</string>
+    <string name="copy_username">Kopiuj nazwę użytkownika do schowka</string>
+    <string name="copy_password">Kopiuj hasło do schowka</string>
+    <string name="creating_db_key">Tworzenie klucza bazy danych...</string>
+    <string name="current_group">Aktualna grupa: </string>
+    <string name="current_group_root">Aktualna grupa: Root</string>
+    <string name="database">Baza danych</string>
+    <string name="decrypting_db">Deszyfracja bazy danych...</string>
+    <string name="decrypting_entry">Deszyfracja wpisu</string>
+    <string name="digits">Cyfry</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Wprowadź nazwę pliku bazy danych:</string>
+    <string name="entry_accessed">Dostęp do pliku: </string>
+    <string name="entry_and_or">Wprowadź hasło i/lub plik klucza by uzyskać dostęp do bazy danych:</string>
+    <string name="entry_cancel">Anuluj</string>
+    <string name="entry_comment">Komentarz: </string>
+    <string name="entry_confpassword">Potwierdź hasło:</string>
+    <string name="entry_created">Utworzono: </string>
+    <string name="entry_expires">Wygasa: </string>
+    <string name="entry_keyfile">Plik klucza (opcjonalnie)</string>
+    <string name="entry_modified">Zmodyfikowano: </string>
+    <string name="entry_password">Hasło:</string>
+    <string name="entry_save">Zapisz</string>
+    <string name="entry_title">Tytuł: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Nazwa użytkownika: </string>
+    <string name="error_arc4">Strumieniowe szyfrowanie ArcFour nie jest wspierane.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid nie potrafi obsłużyć tego uri.</string>
+    <string name="error_could_not_create_group">Błąd podczas tworzenia grupy.</string>
+    <string name="error_could_not_create_parent">Nie można utworzyć folderu nadrzędnego.</string>
+    <string name="error_database_exists">Plik o podanej nazwie już istnieje.</string>
+    <string name="error_database_settings">Błąd przy wykrywaniu ustawień bazy danych.</string>
+    <string name="error_failed_to_launch_link">Błąd przy uruchamianiu linku.</string>
+    <string name="error_filename_required">Wymagana nazwa pliku.</string>
+    <string name="error_file_not_create">Nie można utworzyć pliku:</string>
+    <string name="error_invalid_db">Nieprawidłowa baza danych.</string>
+    <string name="error_invalid_path">Nieprawidłowa ścieżka dostępu.</string>
+    <string name="error_no_name">Wymagana nazwa.</string>
+    <string name="error_nopass">Wymagane hasło lub plik klucza.</string>
+    <string name="error_out_of_memory">Podczas parsowania bazy danych zabrakło pamięci. Być może ta baza danych jest za duża dla Twojego urządzenia.</string>
+    <string name="error_pass_gen_type">Przynajmniej jeden sposób generowania hasła musi być wybrany</string>
+    <string name="error_pass_match">Pasła nie pasują do siebie.</string>
+    <string name="error_rounds_not_number">Wartość musi być liczbą.</string>
+    <string name="error_rounds_too_large">Wartość za duża. Ustaw 2147483648.</string>
+    <string name="error_title_required">Wymagany tytuł.</string>
+    <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą.</string>
+    <string name="FileNotFound">Plik nie istnieje.</string>
+    <string name="file_browser">Przeglądarka plików</string>
+    <string name="generate_password">Generator hasła</string>
+    <string name="group">Grupa</string>
+    <string name="hint_comment">komentarz</string>
+    <string name="hint_conf_pass">potwierdź hasło</string>
+    <string name="hint_generated_password">hasło wygenerowane</string>
+    <string name="hint_group_name">Nazwa grupy</string>
+    <string name="hint_keyfile">plik klucza</string>
+    <string name="hint_length">długość</string>
+    <string name="hint_pass">hasło</string>
+    <string name="hint_title">nazwa</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">nazwa użytkownika</string>
+    <string name="install_from_market">Zainstaluj z Marketu</string>
+    <string name="install_from_website">Zainstaluj z WWW</string>
+    <string name="InvalidPassword">Nieprawidłowe hasło lub plik klucza.</string>
+    <string name="invalid_db_sig">Format bazy danych nierozpoznany.</string>
+    <string name="length">Długość</string>
+    <string name="list_size_title">Wielkość listy grup</string>
+    <string name="list_size_summary">Wielkość tekstu w liście grup</string>
+    <string name="loading_database">Wczytywanie bazy danych...</string>
+    <string name="lowercase">Małe litery</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Maska hasła</string>
+    <string name="maskpass_summary">Standardowo ukrywaj hasło</string>
+    <string name="menu_about">O programie</string>
+    <string name="menu_change_key">Zmień klucz główny</string>
+    <string name="menu_copy_pass">Kopiuj hasło</string>
+    <string name="menu_copy_user">Kopiuj nazwę użytkownika</string>
+    <string name="menu_create">Utwórz</string>
+    <string name="menu_app_settings">Ustawienia</string>
+    <string name="menu_db_settings">Ustawienia bazy danych</string>
+    <string name="menu_delete">Usuń</string>
+    <string name="menu_donate">Dotuj</string>
+    <string name="menu_edit">Edytuj</string>
+    <string name="menu_hide_password">Ukryj hasło</string>
+    <string name="menu_homepage">Przejdź do strony domowej</string>
+    <string name="menu_lock">Zablokuj bazę danych</string>
+    <string name="menu_open">Otwórz</string>
+    <string name="menu_rename">Zmień nazwę</string>
+    <string name="menu_search">Szukaj</string>
+    <string name="menu_url">Przejdź do URL</string>
+    <string name="minus">Minus</string>
+    <string name="never">Nigdy</string>
+    <string name="no_keys">Brak wpisów w bazie danych lub grupie.</string>
+    <string name="no_results">Brak wyników wyszukiwania</string>
+    <string name="no_url_handler">Brak obsługi dla tego urla.</string>
+    <string name="open_recent">Otwórz ostatnio używaną bazę danych (kliknij by otworzyć):</string>
+    <string name="pass_filename">Nazwa pliku bazy danych KeePass:</string>
+    <string name="pass_ok">OK</string>
+    <string name="password_title">Wprowadź hasło bazy danych</string>
+    <string name="progress_create">Tworzenie nowej bazy danych...</string>
+    <string name="progress_title">Pracuję...</string>
+    <string name="remember_keyfile_summary">Zapamiętaj lokację plików kluczy</string>
+    <string name="remember_keyfile_title">Zapisz plik klucza</string>
+    <string name="remove_from_filelist">Usuń</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Root</string>
+    <string name="rounds">Złożoność szyfrowania</string>
+    <string name="rounds_explaination">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
+    <string name="rounds_hint">złożoność</string>
+    <string name="saving_database">Zapisywanie bazy danych...</string>
+    <string name="space">Spacja</string>
+    <string name="search_label">Szukaj</string>
+    <string name="show_password">Wyświetl hasło</string>
+    <string name="sort_name">Sortuj wg nazwy</string>
+    <string name="sort_db">Porządek sortowani bazy danych</string>
+    <string name="special">Special</string>
+    <string name="search_hint">Tytuł/opis wpisu</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Podkreślenie</string>
+    <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
+    <string name="uppercase">Wielkie litery</string>
+    <string name="warning_read_only">Karta SD jest obecnie w trybie tylko do odczytu. Możesz nie być w stanie zapisać zmian w bazie danych.</string>
+    <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
+    
+    <string-array name="clipboard_timeout_options">
+     <item>30 sekund</item>
+     <item>1 minuta</item>
+     <item>5 minut</item>
+     <item>Nigdy</item>
+    </string-array>
+    <string-array name="list_size_options">
+     <item>Mały</item>
+     <item>Średni</item>
+     <item>Duży</item>
+    </string-array>
+</resources>
+
