@@ -153,11 +153,17 @@ public class EntryActivity extends LockCloseActivity {
 		// Notification Manager
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		
-		Notification password = getNotification(Intents.COPY_PASSWORD, R.string.copy_password);
-		mNM.notify(NOTIFY_PASSWORD, password);
+		if ( mEntry.getPassword().length() > 0 ) {
+			// only show notification if password is available
+			Notification password = getNotification(Intents.COPY_PASSWORD, R.string.copy_password);
+			mNM.notify(NOTIFY_PASSWORD, password);
+		}
 		
-		Notification username = getNotification(Intents.COPY_USERNAME, R.string.copy_username);
-		mNM.notify(NOTIFY_USERNAME, username);
+		if ( mEntry.getUsername().length() > 0 ) {
+			// only show notification if username is available
+			Notification username = getNotification(Intents.COPY_USERNAME, R.string.copy_username);
+			mNM.notify(NOTIFY_USERNAME, username);
+		}
 			
 		mIntentReceiver = new BroadcastReceiver() {
 			
@@ -274,10 +280,22 @@ public class EntryActivity extends LockCloseActivity {
 		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
 		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
 		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
+		if ( mEntry.getUrl().length() == 0 ) {
+			// disable button if url is not available
+			menu.findItem(MENU_GOTO_URL).setEnabled(false);
+		}
 		menu.add(0, MENU_COPY_USER, 0, R.string.menu_copy_user);
 		menu.findItem(MENU_COPY_USER).setIcon(android.R.drawable.ic_menu_set_as);
+		if ( mEntry.getUsername().length() == 0 ) {
+			// disable button if username is not available
+			menu.findItem(MENU_COPY_USER).setEnabled(false);
+		}
 		menu.add(0, MENU_COPY_PASS, 0, R.string.menu_copy_pass);
 		menu.findItem(MENU_COPY_PASS).setIcon(android.R.drawable.ic_menu_agenda);
+		if ( mEntry.getPassword().length() == 0 ) {
+			// disable button if password is not available
+			menu.findItem(MENU_COPY_PASS).setEnabled(false);
+		}
 		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
 		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
 		
