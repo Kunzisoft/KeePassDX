@@ -69,7 +69,7 @@ public class EntryEditActivity extends LockCloseActivity {
 	private PwEntryV3 mEntry;
 	private boolean mShowPassword = false;
 	private boolean mIsNew;
-	private int mSelectedIconID;
+	private int mSelectedIconID = -1;
 	
 	public static void Launch(Activity act, PwEntry pw) {
 		if ( !(pw instanceof PwEntryV3) ) {
@@ -177,7 +177,15 @@ public class EntryEditActivity extends LockCloseActivity {
 				
 				newEntry.binaryDesc = mEntry.binaryDesc;
 				newEntry.groupId = mEntry.groupId;
-				newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
+
+				// Keep previous icon, if no new one was selected
+				if (-1 == mSelectedIconID) {
+					newEntry.icon = mEntry.icon;
+				}
+				else {
+					newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
+				}
+
 				newEntry.parent = mEntry.parent;
 				newEntry.tCreation = mEntry.tCreation;
 				newEntry.tExpire = mEntry.tExpire;
@@ -320,7 +328,6 @@ public class EntryEditActivity extends LockCloseActivity {
 
 	private void fillData() {
 		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
-		
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 		
 		populateText(R.id.entry_title, mEntry.title);
