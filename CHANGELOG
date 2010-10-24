@@ -1,6 +1,8 @@
+KeePassdroid (1.8.2)
   * Support Android 2.2 backup manager
   * Add Polish translations
   * Only show notifications if username and password exist
+  * Keep icons on entry update
 
 KeePassdroid (1.8.1)
   * Android 1.5 compatibility fixes
