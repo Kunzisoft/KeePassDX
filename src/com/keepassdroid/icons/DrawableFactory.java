@@ -80,6 +80,10 @@ public class DrawableFactory {
 		Drawable draw = customIconMap.get(icon.uuid);
 		
 		if (draw == null) {
+			if (icon.imageData == null) {
+				return blank;
+			}
+			
 			Bitmap bitmap = BitmapFactory.decodeByteArray(icon.imageData, 0, icon.imageData.length);
 			
 			// Could not understand custom icon
