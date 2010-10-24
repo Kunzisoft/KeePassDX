@@ -22,6 +22,7 @@ package com.keepassdroid.fileselect;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
@@ -294,6 +295,8 @@ public class FileSelectActivity extends ListActivity {
 				if (filename.startsWith("file://")) {
 					filename = filename.substring(7);
 				}
+				
+				filename = URLDecoder.decode(filename);
 				
 				EditText fn = (EditText) findViewById(R.id.file_filename);
 				fn.setText(filename);
