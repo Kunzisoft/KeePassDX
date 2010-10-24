@@ -33,7 +33,7 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="app_timeout_summary">Czas do zablokowania bazy danych przy bezczynności aplikacji.</string>
     <string name="application">Aplikacja</string>
     <string name="application_settings">Ustawienia aplikacji</string>
-    <string name="brackets">Brackets</string>
+    <string name="brackets">Nawiasy</string>
     <string name="browser_intall_text">Przeglądanie plików wymaga programu Open Intents File Manager, kliknij poniżej by go zainstalować. Ze względu na pewne, dziwne zachowania menadżera plików przeglądanie może nie działać poprawnie przy pierwszym użyciu.</string>
     <string name="building_search_idx">Tworzenie indeksu wyszukiwania...</string>
     <string name="cancel">Anuluj</string>
@@ -61,7 +61,7 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_expires">Wygasa: </string>
     <string name="entry_keyfile">Plik klucza (opcjonalnie)</string>
     <string name="entry_modified">Zmodyfikowano: </string>
-    <string name="entry_password">Hasło:</string>
+    <string name="entry_password">Hasło</string>
     <string name="entry_save">Zapisz</string>
     <string name="entry_title">Tytuł: </string>
     <string name="entry_url">URL: </string>
@@ -88,7 +88,7 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą.</string>
     <string name="FileNotFound">Plik nie istnieje.</string>
     <string name="file_browser">Przeglądarka plików</string>
-    <string name="generate_password">Generator hasła</string>
+    <string name="generate_password">Generuj hasło</string>
     <string name="group">Grupa</string>
     <string name="hint_comment">komentarz</string>
     <string name="hint_conf_pass">potwierdź hasło</string>
@@ -111,7 +111,7 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="lowercase">Małe litery</string>
     <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Maska hasła</string>
-    <string name="maskpass_summary">Standardowo ukrywaj hasło</string>
+    <string name="maskpass_summary">Domyślnie ukrywa hasło</string>
     <string name="menu_about">O programie</string>
     <string name="menu_change_key">Zmień klucz główny</string>
     <string name="menu_copy_pass">Kopiuj hasło</string>
@@ -151,10 +151,10 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="saving_database">Zapisywanie bazy danych...</string>
     <string name="space">Spacja</string>
     <string name="search_label">Szukaj</string>
-    <string name="show_password">Wyświetl hasło</string>
+    <string name="show_password">Pokaż hasło</string>
     <string name="sort_name">Sortuj wg nazwy</string>
-    <string name="sort_db">Porządek sortowani bazy danych</string>
-    <string name="special">Special</string>
+    <string name="sort_db">Sortuj wg daty</string>
+    <string name="special">Znaki specjalne</string>
     <string name="search_hint">Tytuł/opis wpisu</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Podkreślenie</string>
@@ -170,9 +170,9 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
      <item>Nigdy</item>
     </string-array>
     <string-array name="list_size_options">
-     <item>Mały</item>
-     <item>Średni</item>
-     <item>Duży</item>
+     <item>Mała</item>
+     <item>Średnia</item>
+     <item>Duża</item>
     </string-array>
 </resources>
 
