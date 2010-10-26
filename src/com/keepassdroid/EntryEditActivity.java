@@ -178,9 +178,13 @@ public class EntryEditActivity extends LockCloseActivity {
 				newEntry.binaryDesc = mEntry.binaryDesc;
 				newEntry.groupId = mEntry.groupId;
 
-				// Keep previous icon, if no new one was selected
-				if (-1 == mSelectedIconID) {
-					newEntry.icon = mEntry.icon;
+				if (mSelectedIconID == -1) {
+					if (mIsNew) {
+						newEntry.icon = App.getDB().pm.iconFactory.getIcon(0);
+					} else {
+						// Keep previous icon, if no new one was selected
+						newEntry.icon = mEntry.icon;
+					}
 				}
 				else {
 					newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
