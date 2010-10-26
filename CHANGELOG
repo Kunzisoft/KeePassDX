@@ -1,3 +1,6 @@
+KeePassdroid (1.8.4)
+  * Fix crash on saving new entries
+  
 KeePassdroid (1.8.3)
   * Guard against crash when loading icons
   * Handle spaces correctly from file browser
