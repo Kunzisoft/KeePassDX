@@ -46,6 +46,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fileselect.BrowserDialog;
@@ -60,6 +61,7 @@ public class PasswordActivity extends LockingActivity {
 	private static final int MENU_ABOUT = Menu.FIRST;
 	private static final int MENU_APP_SETTINGS = Menu.FIRST + 1;
 	
+	public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
 	private static final String VIEW_INTENT = "android.intent.action.VIEW";
@@ -69,6 +71,7 @@ public class PasswordActivity extends LockingActivity {
 	private String mFileName;
 	private String mKeyFile;
 	private boolean mRememberKeyfile;
+	SharedPreferences prefs;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -156,11 +159,12 @@ public class PasswordActivity extends LockingActivity {
 			mKeyFile = i.getStringExtra(KEY_KEYFILE);
 		}
 		
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		setContentView(R.layout.password);
 		populateView();
 
 		Button confirmButton = (Button) findViewById(R.id.pass_ok);
-		confirmButton.setOnClickListener(new ClickHandler());
+		confirmButton.setOnClickListener(new OkClickHandler());
 		
 		CheckBox checkBox = (CheckBox) findViewById(R.id.show_password);
 		// Show or hide password
@@ -178,6 +182,9 @@ public class PasswordActivity extends LockingActivity {
 			}
 			
 		});
+		
+		CheckBox defaultCheck = (CheckBox) findViewById(R.id.default_database);
+		defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
 		
 		ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
 		browse.setOnClickListener(new View.OnClickListener() {
@@ -207,8 +214,15 @@ public class PasswordActivity extends LockingActivity {
 	}
 	
 	private void retrieveSettings() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
+		
+		String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
+		if (mFileName.length() > 0 && mFileName.equals(defaultFilename)) {
+			CheckBox checkbox = (CheckBox) findViewById(R.id.default_database);
+			checkbox.setChecked(true);
+			
+			
+		}
 	}
 	
 	private String getKeyFile(String filename) {
@@ -225,6 +239,7 @@ public class PasswordActivity extends LockingActivity {
 	
 	private void populateView() {
 		setEditText(R.id.filename, mFileName);
+		
 		setEditText(R.id.pass_keyfile, mKeyFile);
 	}
 	
@@ -248,7 +263,32 @@ public class PasswordActivity extends LockingActivity {
 		Toast.makeText(this, resId, Toast.LENGTH_LONG).show();
 	}
 	
-	private class ClickHandler implements View.OnClickListener {
+	private class DefaultCheckChange implements CompoundButton.OnCheckedChangeListener {
+		
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			
+			String newDefaultFileName;
+			
+			if (isChecked) {
+				newDefaultFileName = mFileName;
+			} else {
+				newDefaultFileName = "";
+			}
+			
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putString(KEY_DEFAULT_FILENAME, newDefaultFileName);
+			editor.commit();
+			
+			BackupManagerCompat backupManager = new BackupManagerCompat(PasswordActivity.this);
+			backupManager.dataChanged();
+			
+		}
+		
+	}
+	
+	private class OkClickHandler implements View.OnClickListener {
 		
 		public void onClick(View view) {
 			String pass = getEditText(R.id.password);

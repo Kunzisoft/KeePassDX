@@ -27,10 +27,12 @@ import java.net.URLDecoder;
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -198,6 +200,17 @@ public class FileSelectActivity extends ListActivity {
 		fillData();
 		
 		registerForContextMenu(getListView());
+		
+		// Load default database
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		String fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "");
+		if (fileName.length() > 0) {
+			try {
+				PasswordActivity.Launch(FileSelectActivity.this, fileName);
+			} catch (Exception e) {
+				// Ignore exception
+			}
+		}
 	}
 
 	private class LaunchGroupActivity extends FileOnFinish {
