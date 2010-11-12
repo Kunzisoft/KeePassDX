@@ -254,7 +254,7 @@ public class FileSelectActivity extends ListActivity {
 	}
 
 	private void fillData() {
-		// Set the intial value of the filename
+		// Set the initial value of the filename
 		EditText filename = (EditText) findViewById(R.id.file_filename);
 		filename.setText(Environment.getExternalStorageDirectory() + getString(R.string.default_file_path));
 		
