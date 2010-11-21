@@ -5,6 +5,4 @@ Build instructions:
   c. Move the KeePassDroid git root to ${ndk-root}/apps/KeePassDroid/project
   d. cp -a ${ndk-root}/apps/KeePassDroid/project/jni_root ${ndk-root}/apps/KeePassDroid
 
-2. Run prep-build.sh from ${ndk-root}/apps/KeePassDroid to download, unpack, and patch the openssl sources.
-
-3. At ${ndk-root} run 'make APP=KeePassDroid' to build the native sources.
+2. At ${ndk-root} run 'make APP=KeePassDroid' to build the native sources.
