@@ -39,20 +39,6 @@ public class FinalKeyTest extends TestCase {
 		mRand = new Random();
 	}
 	
-	public void testReflect() {
-		boolean available = NativeFinalKey.availble();
-		assertTrue("NativeFinalKey library cannot be loaded", available);
-		
-		byte[] key = new byte[32];
-		mRand.nextBytes(key);
-		
-		byte[] out = NativeFinalKey.reflect(key);
-		
-		assertArrayEquals("Array not reflected correctly", key, out);
-		
-		
-	}
-
 	public void testNativeAndroid() throws IOException {
 		// Test both an old and an even number to test my flip variable
 		testNativeFinalKey(5);

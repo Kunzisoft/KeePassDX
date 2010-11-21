@@ -83,7 +83,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 					Reference<? extends NativeAESCipherSpi> ref = mQueue.remove();
 					
 					long ctx = mCleanup.remove(ref);
-					nativeCleanup(ctx);
+					nCleanup(ctx);
 					Log.d("KeePassDroid", "Cleaned up cipher context: " + ctx);
 					
 				} catch (InterruptedException e) {
@@ -94,14 +94,13 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 	}
 	
-	private static native void nativeCleanup(long ctxPtr);
+	private static native void nCleanup(long ctxPtr);
 
 	public NativeAESCipherSpi() {
 		if ( ! mIsStaticInit ) {
 			staticInit();
 		}
 	}
-
 	
 	@Override
 	protected byte[] engineDoFinal(byte[] input, int inputOffset, int inputLen)
@@ -139,9 +138,9 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 		int outputSize = engineGetOutputSize(inputLen);
 		
-		int updateAmt =	nativeUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		int updateAmt =	nativeUpdateWrap(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
 		
-		int finalAmt = nativeDoFinal(mCtxPtr, output, outputOffset + updateAmt, outputSize - updateAmt); 
+		int finalAmt = nativeDoFinalWrap(mCtxPtr, output, outputOffset + updateAmt, outputSize - updateAmt); 
 		
 		int out = updateAmt + finalAmt;
 		
@@ -150,7 +149,16 @@ public class NativeAESCipherSpi extends CipherSpi {
 		return out;
 	}
 	
-	private native int nativeDoFinal(long ctxPtr, byte[] output, int outputOffest, int outputSize);
+	private int nativeDoFinalWrap(long ctxPtr, byte[] output, int outputOffest, int outputSize) {
+		if (mEncrypting) {
+			return nEncryptFinal(ctxPtr, output, outputOffest, outputSize);
+		} else {
+			return nDecryptFinal(ctxPtr, output, outputOffest, outputSize);
+		}
+		
+	}
+	private native int nEncryptFinal(long ctxPtr, byte[] output, int outputOffest, int outputSize);
+	private native int nDecryptFinal(long ctxPtr, byte[] output, int outputOffest, int outputSize);
 
 	@Override
 	protected int engineGetBlockSize() {
@@ -166,12 +174,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 	protected int engineGetOutputSize(int inputLen) {
 		int totalLen = mBuffered + inputLen;
 
-		/*
-		if ( ! mPadding || ! mEncrypting ) {
-			return totalLen;
-		}
-		*/
-		
 		int padLen = AES_BLOCK_SIZE - (totalLen % AES_BLOCK_SIZE);
 
 		// TODO: Round up to nearest full block (there's probably a better way to do this)
@@ -237,11 +239,21 @@ public class NativeAESCipherSpi extends CipherSpi {
 		mIV = params.getIV();
 		mEncrypting = opmode == Cipher.ENCRYPT_MODE;
 		mBuffered = 0;
-		mCtxPtr = nativeInit(mEncrypting, key.getEncoded(), mIV, mPadding);
+		mCtxPtr = nativeInitWrap(key.getEncoded(), mIV);
 		addToCleanupQueue(this, mCtxPtr);
 	}
 	
-	private native long nativeInit(boolean encrypt, byte[] key, byte[] iv, boolean mPadding);
+	private long nativeInitWrap(byte[] key, byte[] iv) {
+		if (mEncrypting) {
+			return nEncryptInit(key, iv);
+		} else {
+			return nDecryptInit(key, iv);
+		}
+		
+	}
+	
+	private native long nEncryptInit(byte[] key, byte[] iv);
+	private native long nDecryptInit(byte[] key, byte[] iv);
 	
 	@Override
 	protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
@@ -305,7 +317,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 	int update(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) {
 		int outputSize = engineGetOutputSize(inputLen);
 		
-		int out = nativeUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		int out = nativeUpdateWrap(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
 		
 		mBuffered = (mBuffered + ((inputLen - out))) % AES_BLOCK_SIZE;
 		
@@ -314,6 +326,15 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 	}
 	
-	private native int nativeUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);
+	private int nativeUpdateWrap(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize) {
+		if (mEncrypting) {
+			return nEncryptUpdate(ctxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		} else {
+			return nDecryptUpdate(ctxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		}
+	}
+	
+	private native int nEncryptUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);
+	private native int nDecryptUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);
 	
 }

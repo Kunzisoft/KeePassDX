@@ -34,13 +34,14 @@ public class NativeFinalKey extends FinalKey {
 	public byte[] transformMasterKey(byte[] seed, byte[] key, int rounds) throws IOException {
 		NativeLib.init();
 		
-		return nativeTransformMasterKey(seed, key, rounds);
+		return nTransformMasterKey(seed, key, rounds);
 
 	}
 	
-	private static native byte[] nativeTransformMasterKey(byte[] seed, byte[] key, int rounds);
+	private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, int rounds);
 
 	// For testing
+	/*
 	public static byte[] reflect(byte[] key) {
 		NativeLib.init();
 		
@@ -48,6 +49,7 @@ public class NativeFinalKey extends FinalKey {
 	}
 	
 	private static native byte[] nativeReflect(byte[] key);
+	*/
 	
 
 }
