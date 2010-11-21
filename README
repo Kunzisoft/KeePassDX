@@ -1,8 +1,7 @@
-Build instructions:
-1. Arrange the build tree so that it is laid out as follows:
-  a. mkdir ${ndk-root}/apps/KeePassDroid
-  b. mkdir ${ndk-root}/apps/KeePassDroid/project
-  c. Move the KeePassDroid git root to ${ndk-root}/apps/KeePassDroid/project
-  d. cp -a ${ndk-root}/apps/KeePassDroid/project/jni_root ${ndk-root}/apps/KeePassDroid
+Native library build instructions:
+1. Make sure you have the latest android ndk installed: 
+  http://developer.android.com/sdk/ndk/index.html
 
-2. At ${ndk-root} run 'make APP=KeePassDroid' to build the native sources.
+2. From KeePassDroid/jni, call prep_build.sh to download and unpack the crypto sources.
+
+3. From the KeePassDroid root directory, call ${path-to-ndk}/ndk-build
