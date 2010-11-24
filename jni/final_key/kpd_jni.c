@@ -87,7 +87,7 @@ JNIEXPORT void JNICALL JNI_OnUnload( JavaVM *vm, void *reserved ) {
 }
 
 JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptInit(JNIEnv *env, jobject this, jbyteArray key, jbyteArray iv) {
-  unsigned char ckey[32];
+  uint8_t ckey[32];
   aes_encryption_state *state;
   jint key_len = (*env)->GetArrayLength(env, key);
   jint iv_len = (*env)->GetArrayLength(env, iv);
@@ -114,7 +114,7 @@ JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncrypt
 }
 
 JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptInit(JNIEnv *env, jobject this, jbyteArray key, jbyteArray iv) {
-  unsigned char ckey[32];
+  uint8_t ckey[32];
   aes_decryption_state *state;
   jint key_len = (*env)->GetArrayLength(env, key);
   jint iv_len = (*env)->GetArrayLength(env, iv);
@@ -153,7 +153,7 @@ JNIEXPORT void JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nCleanup(
 
 JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptUpdate(JNIEnv *env, jobject this,
 	jlong state, jbyteArray input, jint inputOffset, jint inputLen, jbyteArray output, jint outputOffset, jint outputSize) {
-  int32_t outLen, trailing_bytes, input_plus_cache_len;
+  uint32_t outLen, trailing_bytes, input_plus_cache_len;
   uint8_t *c_input, *c_output;
   aes_encryption_state *c_state;
 
@@ -175,7 +175,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptU
   }
   trailing_bytes = input_plus_cache_len & 15; // mask bottom 4 bits
   outLen = (input_plus_cache_len - trailing_bytes); // output length is now aligned to a 16-byte boundary
-  if( outLen > outputSize ) {
+  if( outLen > (uint32_t)outputSize ) {
     (*env)->ThrowNew(env, bad_arg, "Output buffer does not have enough space");
     return -1;
   }
@@ -235,7 +235,7 @@ Parameters:
 */
 JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptUpdate(JNIEnv *env, jobject this,
 	jlong state, jbyteArray input, jint inputOffset, jint inputLen, jbyteArray output, jint outputOffset, jint outputSize) {
-  int32_t outLen, trailing_bytes, input_plus_cache_len;
+  uint32_t outLen, trailing_bytes, input_plus_cache_len;
   uint8_t *c_input, *c_output;
   aes_decryption_state *c_state;
 
@@ -257,7 +257,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptU
   }
   trailing_bytes = input_plus_cache_len & 15; // mask bottom 4 bits
   outLen = (input_plus_cache_len - trailing_bytes); // output length is now aligned to a 16-byte boundary
-  if( outLen > outputSize ) {
+  if( outLen > (uint32_t)outputSize ) {
     (*env)->ThrowNew(env, bad_arg, "Output buffer does not have enough space");
     return -1;
   }
@@ -354,7 +354,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptF
     return -1;
   }
   c_state = (aes_decryption_state *)state;
-    if( c_state->direction != DECRYPTION ) {
+  if( c_state->direction != DECRYPTION ) {
     (*env)->ThrowNew(env, bad_arg, "Cannot finalize the passed state identifier");
     return -1;
   }
@@ -373,13 +373,13 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptF
 
 #define MASTER_KEY_SIZE 32
 JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jint rounds) {
-  int i, flip = 0;
+  uint32_t i, flip = 0;
   jbyteArray result;
   aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
   sha256_ctx h_ctx[1] __attribute__ ((aligned (16)));
-  unsigned char c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  unsigned char key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  unsigned char key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
 
   // step 1: housekeeping - sanity checks and fetch data from the JVM
   if( (*env)->GetArrayLength(env, seed) != MASTER_KEY_SIZE ) {
@@ -395,15 +395,15 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
 
   // step 2: encrypt the hash "rounds" (default: 6000) times
   aes_encrypt_key(c_seed, MASTER_KEY_SIZE, e_ctx);
-  for (i = 0; i < rounds; i++) {
+  for (i = 0; i < (uint32_t)rounds; i++) {
     if ( flip ) {
       aes_ecb_encrypt(key2, key1, MASTER_KEY_SIZE, e_ctx);
       flip = 0;
     } else {
       aes_ecb_encrypt(key1, key2, MASTER_KEY_SIZE, e_ctx);
       flip = 1;
-    } // if
-  } // for
+    }
+  }
 
   // step 3: final SHA256 hash
   sha256_begin(h_ctx);
@@ -426,3 +426,33 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
   return result;
 }
 #undef MASTER_KEY_SIZE
+
+JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetEncryptCacheSize(JNIEnv* env, jobject this, jlong state) {
+  aes_encryption_state *c_state;
+
+  if( state <= 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "Invalid state");
+    return -1;
+  }
+  c_state = (aes_encryption_state *)state;
+  if( c_state->direction != ENCRYPTION ) {
+    (*env)->ThrowNew(env, bad_arg, "Invalid state");
+    return -1;
+  }
+  return c_state->cache_len;
+}
+
+JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetDecryptCacheSize(JNIEnv* env, jobject this, jlong state) {
+  aes_decryption_state *c_state;
+
+  if( state <= 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "Invalid state");
+    return -1;
+  }
+  c_state = (aes_decryption_state *)state;
+  if( c_state->direction != DECRYPTION ) {
+    (*env)->ThrowNew(env, bad_arg, "Invalid state");
+    return -1;
+  }
+  return c_state->cache_len;
+}
