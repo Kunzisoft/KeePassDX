@@ -56,7 +56,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 	private long mCtxPtr;
 	
 	private int mBuffered;
-	private boolean mPadding = false;
 	
 	private static void staticInit() {
 		mIsStaticInit = true;
@@ -167,7 +166,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 
 	@Override
 	protected byte[] engineGetIV() {
-		return mIV;
+		return mIV.clone();
 	}
 
 	@Override
@@ -278,8 +277,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 			throw new NoSuchPaddingException("Only supports PKCS5Padding.");
 		}
 			
-		mPadding = true;
-
 	}
 	
 	@Override
