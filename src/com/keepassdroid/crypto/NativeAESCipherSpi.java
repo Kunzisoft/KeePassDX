@@ -138,7 +138,12 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 		int outputSize = engineGetOutputSize(inputLen);
 		
-		int updateAmt =	nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		int updateAmt;
+		if (input != null && inputLen > 0) {
+			updateAmt = nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		} else {
+			updateAmt = 0;
+		}
 		
 		int finalAmt = nFinal(mCtxPtr, mPadding, output, outputOffset + updateAmt, outputSize - updateAmt); 
 		
