@@ -34,19 +34,15 @@ typedef enum {
   FINALIZED
 } edir_t;
 
-typedef struct _aes_encryption_state {
+typedef struct _aes_state {
   edir_t direction;
   uint32_t cache_len;
   uint8_t iv[16], cache[16];
-  aes_encrypt_ctx ctx[1];
-} aes_encryption_state;
+  uint8_t ctx[sizeof(aes_encrypt_ctx)]; // 244
+} aes_state;
 
-typedef struct _aes_decryption_state {
-  edir_t direction;
-  uint32_t cache_len;
-  uint8_t iv[16], cache[16];
-  aes_decrypt_ctx ctx[1];
-} aes_decryption_state;
+#define ENC_CTX(state) (((aes_encrypt_ctx *)((state)->ctx)))
+#define DEC_CTX(state) (((aes_decrypt_ctx *)((state)->ctx)))
 
 JNIEXPORT jint JNICALL JNI_OnLoad( JavaVM *vm, void *reserved ) {
   JNIEnv *env;
@@ -86,9 +82,9 @@ JNIEXPORT void JNICALL JNI_OnUnload( JavaVM *vm, void *reserved ) {
   return;
 }
 
-JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptInit(JNIEnv *env, jobject this, jbyteArray key, jbyteArray iv) {
+JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nInit(JNIEnv *env, jobject this, jboolean encrypting, jbyteArray key, jbyteArray iv) {
   uint8_t ckey[32];
-  aes_encryption_state *state;
+  aes_state *state;
   jint key_len = (*env)->GetArrayLength(env, key);
   jint iv_len = (*env)->GetArrayLength(env, iv);
 
@@ -97,45 +93,23 @@ JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncrypt
     return -1;
   }
 
-  state = (aes_encryption_state *)malloc(sizeof(aes_encryption_state));
+  state = (aes_state *)malloc(sizeof(aes_state));
   if( state == NULL ) {
     (*env)->ThrowNew(env, no_mem, "Cannot allocate memory for the encryption state");
     return -1;
   }
-  memset(state, 0, sizeof(aes_encryption_state));
+  memset(state, 0, sizeof(aes_state));
 
   (*env)->GetByteArrayRegion(env, key, (jint)0, key_len, (jbyte *)ckey);
-
-  state->direction = ENCRYPTION;
   (*env)->GetByteArrayRegion(env, iv, (jint)0, iv_len, (jbyte *)state->iv);
-  aes_encrypt_key(ckey, key_len, state->ctx);
 
-  return (jlong)state;
-}
-
-JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptInit(JNIEnv *env, jobject this, jbyteArray key, jbyteArray iv) {
-  uint8_t ckey[32];
-  aes_decryption_state *state;
-  jint key_len = (*env)->GetArrayLength(env, key);
-  jint iv_len = (*env)->GetArrayLength(env, iv);
-
-  if( ! ( key_len == 16 || key_len == 24 || key_len == 32 ) || iv_len != 16 ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid length of key or iv");
-    return -1;
+  if( encrypting ) {
+    state->direction = ENCRYPTION;
+    aes_encrypt_key(ckey, key_len, ENC_CTX(state));
+  } else {
+    state->direction = DECRYPTION;
+    aes_decrypt_key(ckey, key_len, DEC_CTX(state));
   }
-
-  state = (aes_decryption_state *)malloc(sizeof(aes_decryption_state));
-  if( state == NULL ) {
-    (*env)->ThrowNew(env, no_mem, "Cannot allocate memory for the decryption state");
-    return -1;
-  }
-  memset(state, 0, sizeof(aes_decryption_state));
-
-  (*env)->GetByteArrayRegion(env, key, (jint)0, key_len, (jbyte *)ckey);
-
-  state->direction = DECRYPTION;
-  (*env)->GetByteArrayRegion(env, iv, (jint)0, iv_len, (jbyte *)state->iv);
-  aes_decrypt_key(ckey, key_len, state->ctx);
 
   return (jlong)state;
 }
@@ -145,26 +119,21 @@ JNIEXPORT void JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nCleanup(
   free((void *)state);
 }
 
-/*
-  TODO:
-  ---Performance--- [low priority]
-  Align memory with posix_memalign() (does Android support this?)
-*/
-
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptUpdate(JNIEnv *env, jobject this,
+JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nUpdate(JNIEnv *env, jobject this,
 	jlong state, jbyteArray input, jint inputOffset, jint inputLen, jbyteArray output, jint outputOffset, jint outputSize) {
+  int aes_ret;
   uint32_t outLen, trailing_bytes, input_plus_cache_len;
   uint8_t *c_input, *c_output;
-  aes_encryption_state *c_state;
+  aes_state *c_state;
 
   // step 1: first, some housecleaning
   if( !inputLen || state <= 0 ) {
     (*env)->ThrowNew(env, bad_arg, "Invalid input length or state");
     return -1;
   }
-  c_state = (aes_encryption_state *)state;
-  if( c_state->direction != ENCRYPTION ) {
-    (*env)->ThrowNew(env, bad_arg, "Decryption state passed to encryption function");
+  c_state = (aes_state *)state;
+  if( c_state->direction == FINALIZED ) {
+    (*env)->ThrowNew(env, bad_arg, "Trying to update a finalized state");
     return -1;
   }
   input_plus_cache_len = inputLen + c_state->cache_len;
@@ -193,14 +162,18 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptU
     return -1;
   }
 
-  // step 3: copy data from Java and encrypt it
+  // step 3: copy data from Java and en/decrypt it
   if( c_state->cache_len ) {
     memcpy(c_input, c_state->cache, c_state->cache_len);
     (*env)->GetByteArrayRegion(env, input, inputOffset, inputLen, (jbyte *)(c_input + c_state->cache_len));
   } else {
     (*env)->GetByteArrayRegion(env, input, inputOffset, inputLen, (jbyte *)c_input);
   }
-  if( aes_cbc_encrypt(c_input, c_output, outLen, c_state->iv, c_state->ctx) != EXIT_SUCCESS ) {
+  if( c_state->direction == ENCRYPTION )
+    aes_ret = aes_cbc_encrypt(c_input, c_output, outLen, c_state->iv, ENC_CTX(c_state));
+  else
+    aes_ret = aes_cbc_decrypt(c_input, c_output, outLen, c_state->iv, DEC_CTX(c_state));
+  if( aes_ret != EXIT_SUCCESS ) {
     free(c_input);
     free(c_output);
     (*env)->ThrowNew(env, bad_arg, "Failed to encrypt input data"); // FIXME: get a better exception class for this...
@@ -222,104 +195,20 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptU
   return outLen;
 }
 
-/*
-nDecryptUpdate: decrypt a block of data.  The input need not be a multiple of the AES block size.
-Parameters:
-  state - a saved pointer obtained from a call to nDecryptInit()
-  input - an allocated Java byte[] object containing the input data
-  inputOffset - encrypted data will be decrypted starting at inputOffset bytes from the beginning of input
-  inputLen - a limit on how many bytes will be encrypted from input
-  output - analogous to input
-  outputOffset - analogous inputOffset
-  outputSize - a limit to how many bytes will be accepted for output
-*/
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptUpdate(JNIEnv *env, jobject this,
-	jlong state, jbyteArray input, jint inputOffset, jint inputLen, jbyteArray output, jint outputOffset, jint outputSize) {
-  uint32_t outLen, trailing_bytes, input_plus_cache_len;
-  uint8_t *c_input, *c_output;
-  aes_decryption_state *c_state;
-
-  // step 1: first, some housecleaning
-  if( !inputLen || state <= 0 ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid input length or state");
-    return -1;
-  }
-  c_state = (aes_decryption_state *)state;
-  if( c_state->direction != DECRYPTION ) {
-    (*env)->ThrowNew(env, bad_arg, "Encryption state passed to decryption function");
-    return -1;
-  }
-  input_plus_cache_len = inputLen + c_state->cache_len;
-  if( input_plus_cache_len < 16 ) {
-    (*env)->GetByteArrayRegion(env, input, inputOffset, inputLen, (jbyte *)(c_state->cache + c_state->cache_len));
-    c_state->cache_len = input_plus_cache_len;
-    return 0;
-  }
-  trailing_bytes = input_plus_cache_len & 15; // mask bottom 4 bits
-  outLen = (input_plus_cache_len - trailing_bytes); // output length is now aligned to a 16-byte boundary
-  if( outLen > (uint32_t)outputSize ) {
-    (*env)->ThrowNew(env, bad_arg, "Output buffer does not have enough space");
-    return -1;
-  }
-
-  // step 2: allocate memory to hold input and output data
-  c_input = (uint8_t *)malloc(input_plus_cache_len);
-  if( c_input == NULL ) {
-    (*env)->ThrowNew(env, no_mem, "Unable to allocate heap space for decryption input");
-    return -1;
-  }
-  c_output = (uint8_t *)malloc(outLen);
-  if( c_output == NULL ) {
-    free(c_input);
-    (*env)->ThrowNew(env, no_mem, "Unable to allocate heap space for decryption output");
-    return -1;
-  }
-
-  // step 3: copy data from Java and decrypt it
-  if( c_state->cache_len ) {
-    memcpy(c_input, c_state->cache, c_state->cache_len);
-    (*env)->GetByteArrayRegion(env, input, inputOffset, inputLen, (jbyte *)(c_input + c_state->cache_len));
-  } else {
-    (*env)->GetByteArrayRegion(env, input, inputOffset, inputLen, (jbyte *)c_input);
-  }
-  if( aes_cbc_decrypt(c_input, c_output, outLen, c_state->iv, c_state->ctx) != EXIT_SUCCESS ) {
-    free(c_input);
-    free(c_output);
-    (*env)->ThrowNew(env, bad_arg, "Failed to decrypt input data"); // FIXME: get a better exception class for this...
-    return -1;
-  }
-  (*env)->SetByteArrayRegion(env, output, outputOffset, outLen, (jbyte *)c_output);
-
-  // step 4: cleanup and return
-  if( trailing_bytes ) {
-    c_state->cache_len = trailing_bytes; // set new cache length
-    memcpy(c_state->cache, (c_input + outLen), trailing_bytes); // cache overflow bytes for next call
-  } else {
-    c_state->cache_len = 0;
-  }
-
-  free(c_input);
-  free(c_output);
-
-  return outLen;
-}
-
-/*
-nEncryptFinal: encrypt any data remaining in the state's block cache and perform PKCS#5 padding
-*/
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptFinal(JNIEnv *env, jobject this,
+JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JNIEnv *env, jobject this,
 	jlong state, jboolean doPadding, jbyteArray output, jint outputOffset, jint outputSize) {
+  int aes_ret;
   uint32_t pad;
   uint8_t final_output[16] __attribute__ ((aligned (16)));
-  aes_encryption_state *c_state;
+  aes_state *c_state;
 
   if( outputSize < 16 || state <= 0 ) {
     (*env)->ThrowNew(env, bad_arg, "Invalid state or outputSize too small");
     return -1;
   }
-  c_state = (aes_encryption_state *)state;
-  if( c_state->direction != ENCRYPTION ) {
-    (*env)->ThrowNew(env, bad_arg, "Cannot finalize the passed state identifier");
+  c_state = (aes_state *)state;
+  if( c_state->direction == FINALIZED ) {
+    (*env)->ThrowNew(env, bad_arg, "This state has already been finalized");
     return -1;
   }
 
@@ -330,45 +219,45 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nEncryptF
     return c_state->cache_len;
   }
 
-  if( c_state->cache_len ) {
-    pad = 16 - c_state->cache_len;
-    memset(c_state->cache + c_state->cache_len, pad, pad);
+  if( c_state->direction == ENCRYPTION ) {
+    if( c_state->cache_len ) {
+      pad = 16 - c_state->cache_len;
+      memset(c_state->cache + c_state->cache_len, pad, pad);
+    } else {
+      memset(c_state->cache, 0x10, 16);
+    }
+    aes_ret = aes_cbc_encrypt(c_state->cache, final_output, 16, c_state->iv, ENC_CTX(c_state));
+    if( aes_ret != EXIT_SUCCESS ) {
+      (*env)->ThrowNew(env, bad_arg, "Failed to encrypt the final data block"); // FIXME: get a better exception class for this...
+      return -1;
+    }
+    (*env)->SetByteArrayRegion(env, output, outputOffset, 16, (jbyte *)final_output);
+    c_state->direction = FINALIZED;
+    return 16;
   } else {
-    memset(c_state->cache, 0x10, 16);
+    if( c_state->cache_len ) {
+      (*env)->ThrowNew(env, bad_arg, "Incomplete final block in cache for decryption state");
+      return -1;
+    } else {
+      c_state->direction = FINALIZED;
+      return 0;
+    }
   }
-  if( aes_cbc_encrypt(c_state->cache, final_output, 16, c_state->iv, c_state->ctx) != EXIT_SUCCESS ) {
-    (*env)->ThrowNew(env, bad_arg, "Failed to encrypt final data block"); // FIXME: get a better exception class for this...
-    return -1;
-  }
-  (*env)->SetByteArrayRegion(env, output, outputOffset, 16, (jbyte *)final_output);
-  c_state->direction = FINALIZED;
-  return 16;
 }
 
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nDecryptFinal(JNIEnv *env, jobject this,
-	jlong state, jboolean doPadding, jbyteArray output, jint outputOffset, jint outputSize) {
-  aes_decryption_state *c_state;
+JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCacheSize(JNIEnv* env, jobject this, jlong state) {
+  aes_state *c_state;
 
-  if( outputSize < 16 || state <= 0 ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid state or outputSize too small");
+  if( state <= 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "Invalid state");
     return -1;
   }
-  c_state = (aes_decryption_state *)state;
-  if( c_state->direction != DECRYPTION ) {
-    (*env)->ThrowNew(env, bad_arg, "Cannot finalize the passed state identifier");
+  c_state = (aes_state *)state;
+  if( c_state->direction == FINALIZED ) {
+    (*env)->ThrowNew(env, bad_arg, "Invalid state");
     return -1;
   }
-
-  // allow fetching of remaining bytes from cache
-  if( !doPadding ) {
-    (*env)->SetByteArrayRegion(env, output, outputOffset, c_state->cache_len, (jbyte *)c_state->cache);
-    c_state->direction = FINALIZED;
-    return c_state->cache_len;
-  }
-
-  // FIXME: is there anything else to do here?
-  c_state->direction = FINALIZED;
-  return 0;
+  return c_state->cache_len;
 }
 
 #define MASTER_KEY_SIZE 32
@@ -426,33 +315,3 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
   return result;
 }
 #undef MASTER_KEY_SIZE
-
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetEncryptCacheSize(JNIEnv* env, jobject this, jlong state) {
-  aes_encryption_state *c_state;
-
-  if( state <= 0 ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid state");
-    return -1;
-  }
-  c_state = (aes_encryption_state *)state;
-  if( c_state->direction != ENCRYPTION ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid state");
-    return -1;
-  }
-  return c_state->cache_len;
-}
-
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetDecryptCacheSize(JNIEnv* env, jobject this, jlong state) {
-  aes_decryption_state *c_state;
-
-  if( state <= 0 ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid state");
-    return -1;
-  }
-  c_state = (aes_decryption_state *)state;
-  if( c_state->direction != DECRYPTION ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid state");
-    return -1;
-  }
-  return c_state->cache_len;
-}

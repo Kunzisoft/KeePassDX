@@ -56,6 +56,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 	private long mCtxPtr;
 	
 	private int mBuffered;
+	private boolean mPadding  = false;
 	
 	private static void staticInit() {
 		mIsStaticInit = true;
@@ -137,9 +138,9 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 		int outputSize = engineGetOutputSize(inputLen);
 		
-		int updateAmt =	nativeUpdateWrap(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		int updateAmt =	nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
 		
-		int finalAmt = nativeDoFinalWrap(mCtxPtr, output, outputOffset + updateAmt, outputSize - updateAmt); 
+		int finalAmt = nFinal(mCtxPtr, mPadding, output, outputOffset + updateAmt, outputSize - updateAmt); 
 		
 		int out = updateAmt + finalAmt;
 		
@@ -148,16 +149,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 		return out;
 	}
 	
-	private int nativeDoFinalWrap(long ctxPtr, byte[] output, int outputOffest, int outputSize) {
-		if (mEncrypting) {
-			return nEncryptFinal(ctxPtr, output, outputOffest, outputSize);
-		} else {
-			return nDecryptFinal(ctxPtr, output, outputOffest, outputSize);
-		}
-		
-	}
-	private native int nEncryptFinal(long ctxPtr, byte[] output, int outputOffest, int outputSize);
-	private native int nDecryptFinal(long ctxPtr, byte[] output, int outputOffest, int outputSize);
+	private native int nFinal(long ctxPtr, boolean usePadding, byte[] output, int outputOffest, int outputSize);
 
 	@Override
 	protected int engineGetBlockSize() {
@@ -238,21 +230,11 @@ public class NativeAESCipherSpi extends CipherSpi {
 		mIV = params.getIV();
 		mEncrypting = opmode == Cipher.ENCRYPT_MODE;
 		mBuffered = 0;
-		mCtxPtr = nativeInitWrap(key.getEncoded(), mIV);
+		mCtxPtr = nInit(mEncrypting, key.getEncoded(), mIV);
 		addToCleanupQueue(this, mCtxPtr);
 	}
 	
-	private long nativeInitWrap(byte[] key, byte[] iv) {
-		if (mEncrypting) {
-			return nEncryptInit(key, iv);
-		} else {
-			return nDecryptInit(key, iv);
-		}
-		
-	}
-	
-	private native long nEncryptInit(byte[] key, byte[] iv);
-	private native long nDecryptInit(byte[] key, byte[] iv);
+	private native long nInit(boolean encrypting, byte[] key, byte[] iv);
 	
 	@Override
 	protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
@@ -276,6 +258,8 @@ public class NativeAESCipherSpi extends CipherSpi {
 		if ( ! padding.equals("PKCS5Padding") ) {
 			throw new NoSuchPaddingException("Only supports PKCS5Padding.");
 		}
+		
+		mPadding = true;
 			
 	}
 	
@@ -314,7 +298,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 	int update(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) {
 		int outputSize = engineGetOutputSize(inputLen);
 		
-		int out = nativeUpdateWrap(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
+		int out = nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
 		
 		mBuffered = (mBuffered + ((inputLen - out))) % AES_BLOCK_SIZE;
 		
@@ -323,15 +307,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 	}
 	
-	private int nativeUpdateWrap(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize) {
-		if (mEncrypting) {
-			return nEncryptUpdate(ctxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
-		} else {
-			return nDecryptUpdate(ctxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
-		}
-	}
-	
-	private native int nEncryptUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);
-	private native int nDecryptUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);
+	private native int nUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);
 	
 }
