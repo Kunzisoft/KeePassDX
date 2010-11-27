@@ -55,7 +55,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 	private boolean mEncrypting = false;
 	private long mCtxPtr;
 	
-	private int mBuffered;
 	private boolean mPadding  = false;
 	
 	private static void staticInit() {
@@ -149,7 +148,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 		int out = updateAmt + finalAmt;
 		
-		mBuffered = 0;
 		
 		return out;
 	}
@@ -168,13 +166,10 @@ public class NativeAESCipherSpi extends CipherSpi {
 
 	@Override
 	protected int engineGetOutputSize(int inputLen) {
-		int totalLen = mBuffered + inputLen;
-
-		int padLen = AES_BLOCK_SIZE - (totalLen % AES_BLOCK_SIZE);
-
-		// TODO: Round up to nearest full block (there's probably a better way to do this)
-		return totalLen + padLen;
+		return inputLen + nGetCacheSize(mCtxPtr) + AES_BLOCK_SIZE;
 	}
+	
+	private native int nGetCacheSize(long ctxPtr);
 
 	@Override
 	protected AlgorithmParameters engineGetParameters() {
@@ -234,7 +229,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 		mIV = params.getIV();
 		mEncrypting = opmode == Cipher.ENCRYPT_MODE;
-		mBuffered = 0;
 		mCtxPtr = nInit(mEncrypting, key.getEncoded(), mIV);
 		addToCleanupQueue(this, mCtxPtr);
 	}
@@ -305,7 +299,6 @@ public class NativeAESCipherSpi extends CipherSpi {
 		
 		int out = nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
 		
-		mBuffered = (mBuffered + ((inputLen - out))) % AES_BLOCK_SIZE;
 		
 		return out;
 		
