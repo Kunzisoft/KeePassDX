@@ -107,7 +107,14 @@ public class NativeAESCipherSpi extends CipherSpi {
 		int maxSize = engineGetOutputSize(inputLen);
 		byte[] output = new byte[maxSize];
 		
-		int finalSize = doFinal(input, inputOffset, inputLen, output, 0);
+		int finalSize;
+		
+		try {
+			finalSize = doFinal(input, inputOffset, inputLen, output, 0);
+		} catch (ShortBufferException e) {
+			// This shouldn't be possible rethrow as RuntimeException
+			throw new RuntimeException("Short buffer exception shouldn't be possible from here.");
+		}
 		
 		if ( maxSize == finalSize ) {
 			return output;
@@ -133,7 +140,8 @@ public class NativeAESCipherSpi extends CipherSpi {
 		return result;
 	}
 	
-	private int doFinal(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) {
+	private int doFinal(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) 
+			throws ShortBufferException, IllegalBlockSizeException, BadPaddingException {
 		
 		int outputSize = engineGetOutputSize(inputLen);
 		
@@ -152,7 +160,8 @@ public class NativeAESCipherSpi extends CipherSpi {
 		return out;
 	}
 	
-	private native int nFinal(long ctxPtr, boolean usePadding, byte[] output, int outputOffest, int outputSize);
+	private native int nFinal(long ctxPtr, boolean usePadding, byte[] output, int outputOffest, int outputSize)
+			throws ShortBufferException, IllegalBlockSizeException, BadPaddingException;
 
 	@Override
 	protected int engineGetBlockSize() {
