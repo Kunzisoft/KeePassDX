@@ -22,6 +22,18 @@
 #include <string.h>
 #include <jni.h>
 
+/* Tune as desired */
+#define KPD_PROFILE
+#define KPD_DEBUG
+
+#if defined(KPD_PROFILE)
+#include <time.h>
+#endif
+
+#if defined(KPD_DEBUG)
+#include <android/log.h>
+#endif
+
 #include "aes.h"
 #include "sha2.h"
 
@@ -99,6 +111,9 @@ JNIEXPORT void JNICALL JNI_OnUnload( JavaVM *vm, void *reserved ) {
   }
   (*env)->DeleteWeakGlobalRef(env, bad_arg);
   (*env)->DeleteWeakGlobalRef(env, no_mem);
+  (*env)->DeleteWeakGlobalRef(env, bad_padding);
+  (*env)->DeleteWeakGlobalRef(env, short_buf);
+  (*env)->DeleteWeakGlobalRef(env, block_size);
   return;
 }
 
@@ -155,6 +170,10 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nUpdate(J
   void *in, *out;
   uint8_t *c_input, *c_output;
   aes_state *c_state;
+
+  #if defined(KPD_DEBUG)
+  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nUpdate", "entry: inputLen=%d, outputSize=%d", inputLen, outputSize);
+  #endif
 
   // step 1: first, some housecleaning
   if( !inputLen || !outputSize || outputOffset < 0 || state <= 0 || !input || !output ) {
@@ -228,6 +247,10 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nUpdate(J
   free(in);
   free(out);
 
+  #if defined(KPD_DEBUG)
+  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nUpdate", "exit: outLen=%d", outLen);
+  #endif
+
   return outLen;
 }
 
@@ -241,6 +264,10 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
   uint32_t padValue, paddedCacheLen, j;
   uint8_t final_output[CACHE_SIZE] __attribute__ ((aligned (16)));
   aes_state *c_state;
+
+  #if defined(KPD_DEBUG)
+  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "entry: outputOffset=%d, outputSize=%d", outputOffset, outputSize);
+  #endif
 
   if( !output || outputOffset < 0 || state <= 0 ) {
     (*env)->ThrowNew(env, bad_arg, "Invalid argument(s) passed to nFinal");
@@ -258,6 +285,10 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
     c_state->direction = FINALIZED;
     return c_state->cache_len;
   }
+
+  #if defined(KPD_DEBUG)
+  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "crypto operation starts");
+  #endif
 
   if( c_state->direction == ENCRYPTION ) {
     if( c_state->cache_len >= 16 ) {
@@ -278,6 +309,9 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
     }
     (*env)->SetByteArrayRegion(env, output, outputOffset, paddedCacheLen, (jbyte *)final_output);
     c_state->direction = FINALIZED;
+    #if defined(KPD_DEBUG)
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "encryption operation completed, returning %d bytes", paddedCacheLen);
+    #endif
     return paddedCacheLen;
   } else { // DECRYPTION
     paddedCacheLen = c_state->cache_len;
@@ -302,6 +336,9 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
     j = 16 - j;
     (*env)->SetByteArrayRegion(env, output, outputOffset, j, (jbyte *)final_output);
     c_state->direction = FINALIZED;
+    #if defined(KPD_DEBUG)
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "decryption operation completed, returning %d bytes", j);
+    #endif
     return j;
   }
 }
@@ -323,6 +360,9 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCache
 
 #define MASTER_KEY_SIZE 32
 JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jint rounds) {
+  #if defined(KPD_PROFILE)
+  struct timespec start, end;
+  #endif
   uint32_t i, flip = 0;
   jbyteArray result;
   aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
@@ -330,6 +370,10 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
   uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
   uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
   uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+
+  #if defined(KPD_PROFILE)
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
+  #endif
 
   // step 1: housekeeping - sanity checks and fetch data from the JVM
   if( (*env)->GetArrayLength(env, seed) != MASTER_KEY_SIZE ) {
@@ -373,6 +417,12 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)key2);
   else
     (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)key1);
+
+  #if defined(KPD_PROFILE)
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
+  #endif
+
   return result;
 }
 #undef MASTER_KEY_SIZE
