@@ -72,31 +72,31 @@ JNIEXPORT jint JNICALL JNI_OnLoad( JavaVM *vm, void *reserved ) {
   cls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
   if( cls == NULL )
     return JNI_ERR;
-  bad_arg = (*env)->NewWeakGlobalRef(env, cls);
+  bad_arg = (*env)->NewGlobalRef(env, cls);
   if( bad_arg == NULL )
     return JNI_ERR;
 
   cls = (*env)->FindClass(env, "java/lang/OutOfMemoryError");
   if( cls == NULL )
     return JNI_ERR;
-  no_mem = (*env)->NewWeakGlobalRef(env, cls);
+  no_mem = (*env)->NewGlobalRef(env, cls);
   if( no_mem == NULL )
     return JNI_ERR;
 
   cls = (*env)->FindClass(env, "javax/crypto/BadPaddingException");
   if( cls == NULL )
     return JNI_ERR;
-  bad_padding = (*env)->NewWeakGlobalRef(env, cls);
+  bad_padding = (*env)->NewGlobalRef(env, cls);
 
   cls = (*env)->FindClass(env, "javax/crypto/ShortBufferException");
   if( cls == NULL )
     return JNI_ERR;
-  short_buf = (*env)->NewWeakGlobalRef(env, cls);
+  short_buf = (*env)->NewGlobalRef(env, cls);
 
   cls = (*env)->FindClass(env, "javax/crypto/IllegalBlockSizeException");
   if( cls == NULL )
     return JNI_ERR;
-  block_size = (*env)->NewWeakGlobalRef(env, cls);
+  block_size = (*env)->NewGlobalRef(env, cls);
 
   aes_init();
 
@@ -109,11 +109,11 @@ JNIEXPORT void JNICALL JNI_OnUnload( JavaVM *vm, void *reserved ) {
   if((*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_6)) {
     return;
   }
-  (*env)->DeleteWeakGlobalRef(env, bad_arg);
-  (*env)->DeleteWeakGlobalRef(env, no_mem);
-  (*env)->DeleteWeakGlobalRef(env, bad_padding);
-  (*env)->DeleteWeakGlobalRef(env, short_buf);
-  (*env)->DeleteWeakGlobalRef(env, block_size);
+  (*env)->DeleteGlobalRef(env, bad_arg);
+  (*env)->DeleteGlobalRef(env, no_mem);
+  (*env)->DeleteGlobalRef(env, bad_padding);
+  (*env)->DeleteGlobalRef(env, short_buf);
+  (*env)->DeleteGlobalRef(env, block_size);
   return;
 }
 
