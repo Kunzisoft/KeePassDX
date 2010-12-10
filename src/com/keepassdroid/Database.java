@@ -164,6 +164,9 @@ public class Database {
 		//bos.close();
 		fos.close();
 		
+		// Force data to disk before continuing
+		fos.getFD().sync();
+		
 		File orig = new File(filename);
 		orig.delete();
 		
