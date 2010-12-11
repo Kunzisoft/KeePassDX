@@ -29,7 +29,7 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.ProgressTask;
-import com.keepassdroid.PwListAdapter;
+import com.keepassdroid.PwGroupListAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.BuildIndex;
 import com.keepassdroid.database.edit.OnFinish;
@@ -85,7 +85,7 @@ public class SearchResults extends GroupBaseActivity {
 		
 		setGroupTitle();
 		
-		setListAdapter(new PwListAdapter(this, mGroup));
+		setListAdapter(new PwGroupListAdapter(this, mGroup));
 	}
 	
 	/*

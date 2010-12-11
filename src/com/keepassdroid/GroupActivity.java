@@ -158,7 +158,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		setGroupTitle();
 		setGroupIcon();
 
-		setListAdapter(new PwListAdapter(this, mGroup));
+		setListAdapter(new PwGroupListAdapter(this, mGroup));
 		registerForContextMenu(getListView());
 		Log.w(TAG, "Finished creating group");
 

@@ -36,7 +36,7 @@ import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.view.PwEntryView;
 import com.keepassdroid.view.PwGroupView;
 
-public class PwListAdapter extends BaseAdapter {
+public class PwGroupListAdapter extends BaseAdapter {
 
 	private GroupBaseActivity mAct;
 	private PwGroup mGroup;
@@ -46,7 +46,7 @@ public class PwListAdapter extends BaseAdapter {
 	private Comparator<PwGroup> groupComp = new PwGroup.GroupNameComparator();
 	private SharedPreferences prefs;
 	
-	public PwListAdapter(GroupBaseActivity act, PwGroup group) {
+	public PwGroupListAdapter(GroupBaseActivity act, PwGroup group) {
 		mAct = act;
 		mGroup = group;
 		prefs = PreferenceManager.getDefaultSharedPreferences(act);
