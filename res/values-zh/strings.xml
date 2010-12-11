@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="about_feedback">反馈：</string>
+    <string name="about_homepage">主页：</string>
+    <string name="about_ok">确定</string>
+    <string name="AboutText">KeePassDroid是KeePass密码管理软件的Android版本。</string>
+    <string name="about_twitter">Twitter：</string>
+    <string name="accept">接受</string>
+    <string name="add_entry">添加条目</string>
+    <string name="add_group">添加群组</string>
+    <string name="add_group_title">添加群</string>
+    <string name="algorithm">算法</string>
+    <string name="algorithm_colon">算法：</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">应用程序超时</string>
+    <string name="app_timeout_summary">应用程序处于非活动时锁定数据库。</string>
+    <string name="application">应用程序</string>
+    <string name="application_settings">应用程序设置</string>
+    <string name="brackets">括号</string>
+    <string name="browser_intall_text">	浏览文件需要安装Open Intents File Manager软件，点下面安装。由于一些文件管理软件的差异，在你第一次浏览时可能无法正常工作。</string>
+    <string name="building_search_idx">建立搜索索引......</string>
+    <string name="cancel">取消</string>
+    <string name="ClearClipboard">剪贴板已清除。</string>
+    <string name="clipboard_timeout">剪贴板超时。</string>
+    <string name="clipboard_timeout_summary">复制用户名或密码到剪贴板后清除的时间</string>
+    <string name="copy_username">复制用户名到剪贴板</string>
+    <string name="copy_password">复制密码到剪贴板</string>
+    <string name="creating_db_key">创建数据库密钥...</string>
+    <string name="current_group">当前群组：</string>
+    <string name="current_group_root">当前群组：Root</string>
+    <string name="database">数据库</string>
+    <string name="decrypting_db">解密数据库内容中...</string>
+    <string name="decrypting_entry">解密条目中</string>
+    <string name="default_checkbox">使用这做为我的默认数据库</string>
+    <string name="digits">数字</string>
+    <string name="disclaimer_formal">KeePassDroid版权归Brian Pellin；软件不带有绝对担保；是自由软件，您可在遵循GPL 2或者更高版本的情况下重新发布。</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">输入数据库名：</string>
+    <string name="entry_accessed">访问时间：</string>
+    <string name="entry_and_or">输入密码和/或一个密钥文件来解锁你的数据库：</string>
+    <string name="entry_cancel">取消</string>
+    <string name="entry_comment">备注：</string>
+    <string name="entry_confpassword">确认密码：</string>
+    <string name="entry_created">创建：</string>
+    <string name="entry_expires">失效时间：</string>
+    <string name="entry_keyfile">密钥文件（可选）</string>
+    <string name="entry_modified">修改时间：: </string>
+    <string name="entry_password">密码：</string>
+    <string name="entry_save">保存</string>
+    <string name="entry_title">名称：</string>
+    <string name="entry_url">网址：</string>
+    <string name="entry_user_name">用户名：</string>
+    <string name="error_arc4">ArcFour流密码不被支持。</string>
+    <string name="error_can_not_handle_uri">KeePassDroid无法处理此URI。</string>
+    <string name="error_could_not_create_group">创建群组错误。</string>
+    <string name="error_could_not_create_parent">无法创建上级目录。</string>
+    <string name="error_database_exists">文件已存在。</string>
+    <string name="error_database_settings">无法确定数据库设置。</string>
+    <string name="error_failed_to_launch_link">运行链接失败。</string>
+    <string name="error_filename_required">请求一个文件名：</string>
+    <string name="error_file_not_create">不能创建文件：</string>
+    <string name="error_invalid_db">非法数据库。</string>
+    <string name="error_invalid_path">非法路径。</string>
+    <string name="error_no_name">用户名是必须的。</string>
+    <string name="error_nopass">密码或者密钥文件是必须的。</string>
+    <string name="error_out_of_memory">这款手机运行内存不足而不能解析数据库。这可能是数据库太大的缘故。</string>
+    <string name="error_pass_gen_type">至少必须选择一个密码生成类型</string>
+    <string name="error_pass_match">密码不匹配。</string>
+    <string name="error_rounds_not_number">次数必须是数字。</string>
+    <string name="error_rounds_too_large">次数太大。最大设置到2147483648。</string>
+    <string name="error_title_required">标题是必填项。</string>
+    <string name="error_wrong_length">长度字段输入一个正整数</string>
+    <string name="FileNotFound">文件未找到。</string>
+    <string name="file_browser">文件浏览</string>
+    <string name="generate_password">生成密码</string>
+    <string name="group">群组</string>
+    <string name="hint_comment">备注</string>
+    <string name="hint_conf_pass">确认密码</string>
+    <string name="hint_generated_password">生成密码</string>
+    <string name="hint_group_name">群组名</string>
+    <string name="hint_keyfile">密钥文件</string>
+    <string name="hint_length">长度</string>
+    <string name="hint_pass">密码</string>
+    <string name="hint_title">名称</string>
+    <string name="hint_url">网址</string>
+    <string name="hint_username">用户名</string>
+    <string name="install_from_market">从电子市场安装</string>
+    <string name="install_from_website">从网络安装</string>
+    <string name="InvalidPassword">非法的密码或密钥文件。</string>
+    <string name="invalid_db_sig">数据库格式无法识别。</string>
+    <string name="length">长度</string>
+    <string name="list_size_title">群列表尺寸</string>
+    <string name="list_size_summary">群列表中的文本尺寸</string>
+    <string name="loading_database">加载数据库中......</string>
+    <string name="lowercase">小写</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">密码掩膜</string>
+    <string name="maskpass_summary">默认隐藏密码</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_change_key">改变主密钥</string>
+    <string name="menu_copy_pass">复制密码</string>
+    <string name="menu_copy_user">复制用户</string>
+    <string name="menu_create">创建</string>
+    <string name="menu_app_settings">设置</string>
+    <string name="menu_db_settings">数据库设置</string>
+    <string name="menu_delete">删除</string>
+    <string name="menu_donate">捐赠</string>
+    <string name="menu_edit">编辑</string>
+    <string name="menu_hide_password">隐藏密码</string>
+    <string name="menu_homepage">到主页</string>
+    <string name="menu_lock">锁定数据库</string>
+    <string name="menu_open">打开</string>
+    <string name="menu_rename">重命名</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_url">到网址</string>
+    <string name="minus">减</string>
+    <string name="never">从不</string>
+    <string name="no_keys">数据库或群组中无条目。</string>
+    <string name="no_results">没有搜索结果</string>
+    <string name="no_url_handler">没有这个链接的处理程序。</string>
+    <string name="open_recent">打开最近数据库（点击打开）：</string>
+    <string name="pass_filename">KeePass数据库文件名：</string>
+    <string name="pass_ok">确认</string>
+    <string name="password_title">输入数据库密码</string>
+    <string name="progress_create">创建新数据库中......</string>
+    <string name="progress_title">工作中......</string>
+    <string name="remember_keyfile_summary">记住密钥文件的位置</string>
+    <string name="remember_keyfile_title">保存密钥文件</string>
+    <string name="remove_from_filelist">移除</string>
+    <string name="rijndael">Rijndael加密(AES)</string>
+    <string name="root">Root</string>
+    <string name="rounds">加密次数</string>
+    <string name="rounds_explaination">更高级的加密次数对暴力攻击能提供额外保护，但也会增加加载和保存的时间。</string>
+    <string name="rounds_hint">次数</string>
+    <string name="saving_database">正在保存数据库......</string>
+    <string name="space">空格</string>
+    <string name="search_label">搜索</string>
+    <string name="show_password">显示密码</string>
+    <string name="sort_name">通过名称排序</string>
+    <string name="sort_db">数据库的排序顺序</string>
+    <string name="special">特别</string>
+    <string name="search_hint">条目名称/说明</string>
+    <string name="twofish">Twofish算法</string>
+    <string name="underline">强调</string>
+    <string name="unsupported_db_version">不支持的数据库版本。</string>
+    <string name="uppercase">大写</string>
+    <string name="warning_read_only">你的SD卡目前是只读状态。您可能无法将更改保存到数据库。</string>
+    <string name="warning_unmounted">你的SD卡目前尚未安装在您的设备上。你将无法加载或创建您的数据库。</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30秒</item>
+    	<item>1分钟</item>
+    	<item>5分钟</item>
+    	<item>从不</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>小</item>
+    	<item>中</item>
+    	<item>大</item>
+    </string-array>
+</resources>
