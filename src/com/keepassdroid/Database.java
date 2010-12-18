@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.SyncFailedException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -163,6 +164,13 @@ public class Database {
 		//bos.flush();
 		//bos.close();
 		fos.close();
+		
+		// Force data to disk before continuing
+		try {
+			fos.getFD().sync();
+		} catch (SyncFailedException e) {
+			// Ignore if fsync fails. We tried.
+		}
 		
 		File orig = new File(filename);
 		orig.delete();
