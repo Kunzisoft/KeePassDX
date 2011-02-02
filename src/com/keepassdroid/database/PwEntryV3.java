@@ -177,6 +177,10 @@ public class PwEntryV3 extends PwEntry {
 	 */
 	@Override
 	public String getPassword() {
+		if (password == null) {
+			return "";
+		}
+		
 		return new String(password);
 	}
 	
@@ -358,6 +362,10 @@ public class PwEntryV3 extends PwEntry {
 
 	@Override
 	public String getUsername() {
+		if (username == null) {
+			return "";
+		}
+		
 		return username;
 	}
 
