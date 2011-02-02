@@ -25,10 +25,9 @@ import java.lang.reflect.Method;
 import android.content.Context;
 
 
+@SuppressWarnings("unchecked")
 public class BackupManagerCompat {
-	@SuppressWarnings("unchecked")
 	private static Class classBackupManager;
-	@SuppressWarnings("unchecked")
 	private static Constructor constructorBackupManager;
 	private static Method dataChanged;
 	
