@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -263,4 +263,10 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		
 	}
 
+	public static boolean IsStandardString(String key) {
+		return key.equals(STR_TITLE) || key.equals(STR_USERNAME) 
+		  || key.equals(STR_PASSWORD) || key.equals(STR_URL)
+		  || key.equals(STR_NOTES);
+	}
+	
 }

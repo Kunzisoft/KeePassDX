@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -44,7 +44,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,10 +71,6 @@ public class EntryActivity extends LockCloseActivity {
 	public static final int NOTIFY_USERNAME = 1;
 	public static final int NOTIFY_PASSWORD = 2;
 	
-	@SuppressWarnings("unused")
-	private static final int COL_LABEL = 0;
-	private static final int COL_DATA = 1;
-	
 	public static void Launch(Activity act, PwEntry pw, int pos) {
 		Intent i;
 		
@@ -91,7 +86,7 @@ public class EntryActivity extends LockCloseActivity {
 		act.startActivityForResult(i,0);
 	}
 	
-	private PwEntry mEntry;
+	protected PwEntry mEntry;
 	private Timer mTimer = new Timer();
 	private boolean mShowPassword;
 	private int mPos;
@@ -117,6 +112,7 @@ public class EntryActivity extends LockCloseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setEntryView();
 
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
@@ -125,7 +121,6 @@ public class EntryActivity extends LockCloseActivity {
 			return;
 		}
 
-		setEntryView();
 		setResult(KeePass.EXIT_NORMAL);
 
 		Intent i = getIntent();
@@ -142,12 +137,6 @@ public class EntryActivity extends LockCloseActivity {
 		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
 		fillData();
 
-		View scroll = findViewById(R.id.entry_scroll);
-		scroll.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-		
-		TableLayout table = (TableLayout) findViewById(R.id.entry_table);
-		table.setColumnShrinkable(COL_DATA, true);
-		
 		setupEditButtons();
 		
 		// Notification Manager
@@ -217,12 +206,13 @@ public class EntryActivity extends LockCloseActivity {
 		return notify;
 	}
 	
-	private void fillData() {
+	protected void fillData() {
 		ImageView iv = (ImageView) findViewById(R.id.entry_icon);
 		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mEntry.getIcon());
 
 		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());
+		
 		populateText(R.id.entry_url, mEntry.getUrl());
 		populateText(R.id.entry_password, mEntry.getPassword());
 		setPasswordStyle();

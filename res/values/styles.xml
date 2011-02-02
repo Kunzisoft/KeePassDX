@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+ Copyright 2009-2011 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -47,7 +47,17 @@
 		<item name="@android:textColor">@android:color/primary_text_dark</item>
 		<item name="@android:textSize">20sp</item>
 	</style>
+	<style name="WhiteOnBlackSmall" parent="WhiteOnBlack">
+		<item name="@android:textSize">12sp</item>
+	</style>
+	<style name="WhiteOnDarkSmall" parent="WhiteOnBlack">
+		<item name="@android:textSize">12sp</item>
+		<item name="@android:background">#222222</item>
+	</style>
 	<style name="ElementTextTitle" parent="WhiteOnBlack">
 		<item name="@android:textColor">@color/group</item>
+	</style>
+	<style name="EntryItem">
+		<item name="@android:padding">5sp</item>
 	</style>
 </resources>

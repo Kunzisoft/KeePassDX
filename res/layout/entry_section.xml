@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2010 Brian Pellin.
+ Copyright 2010-2011 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -24,10 +24,12 @@
 	<TextView android:id="@+id/title"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  style="@style/WhiteOnBlack"
+	  style="@style/WhiteOnDarkSmall"
 	/>
-	<TextView android:id="@+id/value"
+	<com.keepassdroid.view.TextViewSelect 
+	  android:id="@+id/value"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
+	  style="@style/EntryItem"
 	/>
 </LinearLayout> 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2011 Brian Pellin.
+ * Copyright 2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -23,29 +23,40 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.keepass.R;
 
-public class EntryContentsView extends LinearLayout {
-	
-	public EntryContentsView(Context context) {
+public class EntrySection extends LinearLayout {
+
+	public EntrySection(Context context) {
 		this(context, null);
 	}
 	
-	public EntryContentsView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		
-		inflate(context);
+	public EntrySection(Context context, AttributeSet attrs) {
+		this(context, attrs, null, null);
 	}
 	
-	private void inflate(Context context) {
+	public EntrySection(Context context, AttributeSet attrs, String title, String value) {
+		super(context, attrs);
+		
+		inflate(context, title, value);
+	}
+
+
+	private void inflate(Context context, String title, String value) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.entry_view_contents, this);
+		inflater.inflate(R.layout.entry_section, this);
+		
+		setText(R.id.title, title);
+		setText(R.id.value, value);
 	}
-
-	@Override
-	protected LayoutParams generateDefaultLayoutParams() {
-		return new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+	
+	private void setText(int resId, String str) {
+		if (str != null) {
+			TextView tvTitle = (TextView) findViewById(resId);
+			tvTitle.setText(str);
+		}
+		
 	}
-
 }

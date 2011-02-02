@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+ Copyright 2009-2011 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -58,9 +58,11 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="fill_parent"
 	  android:layout_above="@id/entry_divider2"
-	  android:layout_below="@id/title_block">
-		<com.keepassdroid.view.EntryContentsView android:id="@+id/entry_table"
-		  android:layout_height="fill_parent"
-		  android:layout_width="wrap_content" />	
+	  android:layout_below="@id/title_block"
+	  android:fillViewport="true"
+	  android:scrollbarStyle="insideOverlay">
+		<com.keepassdroid.view.EntryContentsView android:id="@+id/entry_contents"
+		  android:layout_height="wrap_content"
+		  android:layout_width="fill_parent" />	
 	</ScrollView>
 </RelativeLayout>

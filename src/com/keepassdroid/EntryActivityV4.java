@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,7 +19,14 @@
  */
 package com.keepassdroid;
 
+import java.util.Map;
+
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.android.keepass.R;
+import com.keepassdroid.database.PwEntryV4;
+import com.keepassdroid.view.EntrySection;
 
 
 public class EntryActivityV4 extends EntryActivity {
@@ -32,6 +39,28 @@ public class EntryActivityV4 extends EntryActivity {
 	@Override
 	protected void setupEditButtons() {
 		// No edit buttons yet
+	}
+
+	@Override
+	protected void fillData() {
+		super.fillData();
+		
+		ViewGroup group = (ViewGroup) findViewById(R.id.extra_strings);
+		
+		PwEntryV4 entry = (PwEntryV4) mEntry;
+		
+		// Display custom strings
+		if (entry.strings.size() > 0) {
+			for (Map.Entry<String, String> pair : entry.strings.entrySet()) {
+				String key = pair.getKey();
+				
+				if (!PwEntryV4.IsStandardString(key)) {
+					View view = new EntrySection(this, null, key, pair.getValue());
+					group.addView(view);
+				}
+			}
+		}
+			
 	}
 
 

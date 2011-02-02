@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2011 Brian Pellin.
+ * Copyright 2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,32 +20,42 @@
 package com.keepassdroid.view;
 
 import android.content.Context;
+import android.text.method.ArrowKeyMovementMethod;
+import android.text.method.MovementMethod;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.android.keepass.R;
+public class TextViewSelect extends TextView {
 
-public class EntryContentsView extends LinearLayout {
-	
-	public EntryContentsView(Context context) {
+	public TextViewSelect(Context context) {
 		this(context, null);
 	}
-	
-	public EntryContentsView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		
-		inflate(context);
+
+	public TextViewSelect(Context context, AttributeSet attrs) {
+		this(context, attrs, android.R.attr.textViewStyle);
 	}
 	
-	private void inflate(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.entry_view_contents, this);
+	public TextViewSelect(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		
+		setFocusable(true);
+		setFocusableInTouchMode(true);
+	}
+
+
+	@Override
+	protected MovementMethod getDefaultMovementMethod() {
+		return ArrowKeyMovementMethod.getInstance();
 	}
 
 	@Override
-	protected LayoutParams generateDefaultLayoutParams() {
-		return new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+	protected boolean getDefaultEditable() {
+		return false;
+	}
+
+	@Override
+	public void setText(CharSequence text, BufferType type) {
+		super.setText(text, BufferType.EDITABLE);
 	}
 
 }
