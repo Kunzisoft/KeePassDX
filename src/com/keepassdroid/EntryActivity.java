@@ -51,7 +51,6 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.Types;
@@ -223,10 +222,10 @@ public class EntryActivity extends LockCloseActivity {
 		populateText(R.id.entry_accessed, df.format(mEntry.getAccess()));
 		
 		Date expires = mEntry.getExpire();
-		if ( PwEntryV3.IsNever(expires) ) {
-			populateText(R.id.entry_expires, R.string.never);
-		} else {
+		if ( mEntry.expires() ) {
 			populateText(R.id.entry_expires, df.format(expires));
+		} else {
+			populateText(R.id.entry_expires, R.string.never);
 		}
 		populateText(R.id.entry_comment, mEntry.getNotes());
 
