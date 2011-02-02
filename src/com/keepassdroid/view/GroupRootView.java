@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -30,9 +30,7 @@ import com.android.keepass.R;
 public class GroupRootView extends RelativeLayout {
 
 	public GroupRootView(Context context) {
-		super(context);
-		
-		inflate(context);
+		this(context, null);
 	}
 	
 	public GroupRootView(Context context, AttributeSet attrs) {

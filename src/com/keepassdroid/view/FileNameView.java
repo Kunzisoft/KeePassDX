@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -31,9 +31,7 @@ import com.android.keepass.R;
 public class FileNameView extends RelativeLayout {
 
 	public FileNameView(Context context) {
-		super(context);
-		
-		inflate(context);
+		this(context, null);
 	}
 
 	public FileNameView(Context context, AttributeSet attrs) {
