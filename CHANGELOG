@@ -2,38 +2,38 @@
  * Show custom strings in .kdbx databases
  * Fix expiry date in .kdbx databases
 
-KeePassdroid (1.8.6.4)
+KeePassDroid (1.8.6.4)
   * Update Chinese translations
   
-KeePassdroid (1.8.6.3)
+KeePassDroid (1.8.6.3)
   * Fix db saving issue
   
-KeePassdroid (1.8.6.2)
+KeePassDroid (1.8.6.2)
   * Add Chinese translations
   
-KeePassdroid (1.8.6)
+KeePassDroid (1.8.6)
   * New native crypto implementation
   
-KeePassdroid (1.8.5.1)
+KeePassDroid (1.8.5.1)
   * Update Polish translation
   
-KeePassdroid (1.8.5)
+KeePassDroid (1.8.5)
   * Add default database checkbox
   
-KeePassdroid (1.8.4)
+KeePassDroid (1.8.4)
   * Fix crash on saving new entries
   
-KeePassdroid (1.8.3)
+KeePassDroid (1.8.3)
   * Guard against crash when loading icons
   * Handle spaces correctly from file browser
   
-KeePassdroid (1.8.2)
+KeePassDroid (1.8.2)
   * Support Android 2.2 backup manager
   * Add Polish translations
   * Only show notifications if username and password exist
   * Keep icons on entry update
 
-KeePassdroid (1.8.1)
+KeePassDroid (1.8.1)
   * Android 1.5 compatibility fixes
 
 KeePassDroid (1.8)
@@ -151,11 +151,11 @@ KeePassDroid (0.9.5)
   * Add German translations
   * Try to create parent directory when creating database
 
-KeePassdroid (0.9.4)
+KeePassDroid (0.9.4)
   * Add French translation 
   * Fix crash on timeout.
   
-KeePassdroid (0.9.3)
+KeePassDroid (0.9.3)
   * Fix up translations
   * Fix up timeouts.
   * Display expiration time.
@@ -263,6 +263,6 @@ KeePassDroid (0.1.1)
 
   * Minor tweaks to layout.
 
-KeePassdroid (0.0.1)
+KeePassDroid (0.0.1)
 
   * Initial Release
