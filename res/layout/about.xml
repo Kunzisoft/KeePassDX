@@ -48,7 +48,7 @@
 	  android:text="@string/about_feedback"/>
 	<TextView android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:text="keepassdroid.uservoice.com"
+	  android:text="bit.ly/kpd_issues"
 	  android:layout_below="@id/homepage"
 	  android:layout_alignParentRight="true"
 	  android:autoLink="web"/>
