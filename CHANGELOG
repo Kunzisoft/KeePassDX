@@ -1,5 +1,6 @@
   * Don't default to missing files
   * Search the username field
+  * Respect mask password setting in the edit entry activity
 
 KeePassDroid (1.9)
   * New entry view design

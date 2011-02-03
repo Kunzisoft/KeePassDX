@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -27,8 +27,10 @@ import java.util.UUID;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -247,6 +249,16 @@ public class EntryEditActivity extends LockCloseActivity {
 			}
 			
 		});
+		
+		// Respect mask password setting
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if (! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default))) {
+			EditText pass = (EditText) findViewById(R.id.entry_password);
+			pass.setTransformationMethod(null);
+			
+			EditText conf = (EditText) findViewById(R.id.entry_confpassword);
+			conf.setTransformationMethod(null);
+		}
 		
 	}
 	
