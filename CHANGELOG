@@ -1,3 +1,5 @@
+  * Don't default to missing files
+
 KeePassDroid (1.9)
   * New entry view design
   * Show custom strings in .kdbx databases

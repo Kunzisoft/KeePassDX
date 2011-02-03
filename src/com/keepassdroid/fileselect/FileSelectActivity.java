@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -204,11 +204,16 @@ public class FileSelectActivity extends ListActivity {
 		// Load default database
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "");
+		
 		if (fileName.length() > 0) {
-			try {
-				PasswordActivity.Launch(FileSelectActivity.this, fileName);
-			} catch (Exception e) {
-				// Ignore exception
+			File db = new File(fileName);
+			
+			if (db.exists()) {
+				try {
+					PasswordActivity.Launch(FileSelectActivity.this, fileName);
+				} catch (Exception e) {
+					// Ignore exception
+				}
 			}
 		}
 	}
