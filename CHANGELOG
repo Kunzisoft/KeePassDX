@@ -1,7 +1,7 @@
 KeePassDroid (1.9)
- * New entry view design
- * Show custom strings in .kdbx databases
- * Fix expiry date in .kdbx databases
+  * New entry view design
+  * Show custom strings in .kdbx databases
+  * Fix expiry date in .kdbx databases
 
 KeePassDroid (1.8.6.4)
   * Update Chinese translations
