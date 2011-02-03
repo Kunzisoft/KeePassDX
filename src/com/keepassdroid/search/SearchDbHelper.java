@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -42,11 +42,12 @@ import com.keepassdroid.database.PwGroupV4;
 public class SearchDbHelper {
 	private static final String DATABASE_NAME = "search";
 	private static final String SEARCH_TABLE = "entries";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	
 	private static final String KEY_UUID = "uuid";
 	private static final String KEY_TITLE = "title";
 	private static final String KEY_URL = "url";
+	private static final String KEY_USERNAME = "username";
 	private static final String KEY_COMMENT = "comment";
 
 	private static final String DATABASE_CREATE = 
@@ -54,7 +55,11 @@ public class SearchDbHelper {
 		+ KEY_UUID + ", "
 		+ KEY_TITLE + ", " 
 		+ KEY_URL + ", "
+		+ KEY_USERNAME + ", "
 		+ KEY_COMMENT + ");";
+	
+	private static final String DATABASE_DROP =
+		"drop table " + SEARCH_TABLE;
 	
 	private static final String PRAGMA_NO_SYNCHRONOUS = "pragma synchronous = off;";
 	
@@ -75,7 +80,10 @@ public class SearchDbHelper {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// Only one database version so far
+			if (oldVersion != DATABASE_VERSION) {
+				db.execSQL(DATABASE_DROP);
+				db.execSQL(DATABASE_CREATE);
+			}
 		}
 		
 	}
@@ -108,6 +116,7 @@ public class SearchDbHelper {
 		cv.put(KEY_UUID, uuidStr);
 		cv.put(KEY_TITLE, entry.getTitle());
 		cv.put(KEY_URL, entry.getUrl());
+		cv.put(KEY_USERNAME, entry.getUsername());
 		cv.put(KEY_COMMENT, entry.getNotes());
 		
 		return cv;
