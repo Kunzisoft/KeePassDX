@@ -29,15 +29,6 @@ import com.keepassdroid.database.exception.InvalidDBException;
 public abstract class Importer {
 
 	public static final boolean DEBUG = true;
-	protected final boolean debug;
-	
-	public Importer() {
-		debug = false;
-	}
-
-	public Importer(boolean d) {
-		debug = d;
-	}
 
 	public abstract PwDatabase openDatabase( InputStream inStream, String password, String keyfile ) 
 		throws IOException, InvalidDBException;

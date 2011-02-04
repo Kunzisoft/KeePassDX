@@ -1,4 +1,7 @@
 /*
+Copyright 2011 Brian Pellin <bpellin@keepassdroid.com> 
+ 
+This file was derived from 
 
 KeePass for J2ME
 
@@ -39,12 +42,6 @@ import com.keepassdroid.database.exception.InvalidKeyFileException;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
 public class PwDatabaseV3 extends PwDatabase {
-	/**
-	 * This is only set in debug mode. This contains the decrypted portion 
-	 * of the database contents.
-	 */
-	public byte[] postHeader;
-
 	// Constants
 	// private static final int PWM_SESSION_KEY_SIZE = 12;
 
@@ -58,10 +55,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	// Algorithm used to encrypt the database
 	public PwEncryptionAlgorithm algorithm;
 	public int numKeyEncRounds;
-
-	// Debugging entries
-	public PwDbHeaderV3 dbHeader;
-
+	
 	@Override
 	public PwEncryptionAlgorithm getEncAlgorithm() {
 		return algorithm;
@@ -289,5 +283,14 @@ public class PwDatabaseV3 extends PwDatabase {
 	public PwGroup createGroup() {
 		return new PwGroupV3();
 	}
+	
+	// TODO: This could still be refactored cleaner
+	public void copyEncrypted(byte[] buf, int offset, int size) {
+		// No-op
+	}
 
+	// TODO: This could still be refactored cleaner
+	public void copyHeader(PwDbHeaderV3 header) {
+		// No-op
+	}
 }

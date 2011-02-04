@@ -75,9 +75,14 @@ import com.keepassdroid.utils.Types;
  */
 public class ImporterV3 extends Importer {
 
-	public ImporterV3(boolean debug) {
-		super(debug);
+	public ImporterV3() {
+		super();
 	}
+
+	protected PwDatabaseV3 createDB() {
+		return new PwDatabaseV3();
+	}
+
 
 	/**
 	 * Load a v3 database file, return contents in a new PwDatabaseV3.
@@ -132,7 +137,7 @@ public class ImporterV3 extends Importer {
 		}
 
 		status.updateMessage(R.string.creating_db_key);
-		newManager = new PwDatabaseV3();
+		newManager = createDB();
 		newManager.setMasterKey( password, keyfile );
 
 		// Select algorithm
@@ -144,11 +149,9 @@ public class ImporterV3 extends Importer {
 			throw new IOException( "Unknown algorithm." );
 		}
 
-
-		if ( debug ) {
-			newManager.dbHeader = hdr;
-		}
-
+		// Copy for testing
+		newManager.copyHeader(hdr);
+		
 		newManager.numKeyEncRounds = hdr.numKeyEncRounds;
 
 		newManager.name = "KeePass Password Manager";
@@ -194,10 +197,8 @@ public class ImporterV3 extends Importer {
 			throw new InvalidPasswordException();
 		}
 
-		if ( debug ) {
-			newManager.postHeader = new byte[encryptedPartSize];
-			System.arraycopy(filebuf, PwDbHeaderV3.BUF_SIZE, newManager.postHeader, 0, encryptedPartSize);
-		}
+		// Copy decrypted data for testing
+		newManager.copyEncrypted(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize);
 
 		MessageDigest md = null;
 		try {

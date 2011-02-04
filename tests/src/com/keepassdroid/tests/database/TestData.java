@@ -25,7 +25,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDatabaseV3Debug;
 import com.keepassdroid.database.load.Importer;
 
 public class TestData {
@@ -60,11 +60,11 @@ public class TestData {
 		
 	}
 	
-	public static PwDatabaseV3 GetTest1(Context ctx) throws Exception {
+	public static PwDatabaseV3Debug GetTest1(Context ctx) throws Exception {
 		if ( mDb1 == null ) {
 			GetDb1(ctx);
 		}
 		
-		return (PwDatabaseV3) mDb1.pm;
+		return (PwDatabaseV3Debug) mDb1.pm;
 	}
 }

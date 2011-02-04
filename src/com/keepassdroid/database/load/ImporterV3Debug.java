@@ -1,5 +1,5 @@
 /*
-` * Copyright 2010 Brian Pellin.
+ * Copyright 2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -17,26 +17,28 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.save;
+package com.keepassdroid.database.load;
 
-import java.io.OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDatabaseV4;
-import com.keepassdroid.database.exception.PwDbOutputException;
+import com.keepassdroid.UpdateStatus;
+import com.keepassdroid.database.PwDatabaseV3Debug;
+import com.keepassdroid.database.exception.InvalidDBException;
 
-public abstract class PwDbOutput {
-	public abstract void output() throws PwDbOutputException;
-	
-	public static PwDbOutput getInstance(PwDatabase pm, OutputStream os) {
-		if ( pm instanceof PwDatabaseV3 ) {
-			return new PwDbV3Output((PwDatabaseV3)pm, os);
-		} else if ( pm instanceof PwDatabaseV4 ) {
-			// TODO: Implement me
-			throw new RuntimeException(".kdbx output not yet supported.");
-		}
-		
-		return null;
+public class ImporterV3Debug extends ImporterV3 {
+
+	@Override
+	protected PwDatabaseV3Debug createDB() {
+		return new PwDatabaseV3Debug();
 	}
+	
+	@Override
+	public PwDatabaseV3Debug openDatabase(InputStream inStream, String password,
+			String keyfile, UpdateStatus status) throws IOException,
+			InvalidDBException {
+		return (PwDatabaseV3Debug) super.openDatabase(inStream, password, keyfile, status);
+	}
+
+
 }

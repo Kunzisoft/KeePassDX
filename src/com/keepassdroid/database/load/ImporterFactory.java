@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -39,7 +39,11 @@ public class ImporterFactory {
 		int sig2 = LEDataInputStream.readInt(is);
 		
 		if ( PwDbHeaderV3.matchesHeader(sig1, sig2) ) {
-			return new ImporterV3(debug);
+			if (debug) {
+				return new ImporterV3Debug();
+			}
+			
+			return new ImporterV3();
 		} else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
 			return new ImporterV4();
 		}

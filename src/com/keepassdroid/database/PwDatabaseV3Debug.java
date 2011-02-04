@@ -1,5 +1,5 @@
 /*
-` * Copyright 2010 Brian Pellin.
+ * Copyright 2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -17,26 +17,19 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.save;
+package com.keepassdroid.database;
 
-import java.io.OutputStream;
-
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDatabaseV4;
-import com.keepassdroid.database.exception.PwDbOutputException;
-
-public abstract class PwDbOutput {
-	public abstract void output() throws PwDbOutputException;
+public class PwDatabaseV3Debug extends PwDatabaseV3 {
+	public byte[] postHeader;
+	public PwDbHeaderV3 dbHeader;
 	
-	public static PwDbOutput getInstance(PwDatabase pm, OutputStream os) {
-		if ( pm instanceof PwDatabaseV3 ) {
-			return new PwDbV3Output((PwDatabaseV3)pm, os);
-		} else if ( pm instanceof PwDatabaseV4 ) {
-			// TODO: Implement me
-			throw new RuntimeException(".kdbx output not yet supported.");
-		}
-		
-		return null;
+	@Override
+	public void copyEncrypted(byte[] buf, int offset, int size) {
+		postHeader = new byte[size];
+		System.arraycopy(buf, offset, postHeader, 0, size);
+	}
+	@Override
+	public void copyHeader(PwDbHeaderV3 header) {
+		dbHeader = header;
 	}
 }

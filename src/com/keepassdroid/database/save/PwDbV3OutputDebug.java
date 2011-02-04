@@ -1,5 +1,5 @@
 /*
-` * Copyright 2010 Brian Pellin.
+` * Copyright 2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,22 +21,28 @@ package com.keepassdroid.database.save;
 
 import java.io.OutputStream;
 
-import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwDatabaseV3Debug;
+import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.exception.PwDbOutputException;
 
-public abstract class PwDbOutput {
-	public abstract void output() throws PwDbOutputException;
-	
-	public static PwDbOutput getInstance(PwDatabase pm, OutputStream os) {
-		if ( pm instanceof PwDatabaseV3 ) {
-			return new PwDbV3Output((PwDatabaseV3)pm, os);
-		} else if ( pm instanceof PwDatabaseV4 ) {
-			// TODO: Implement me
-			throw new RuntimeException(".kdbx output not yet supported.");
-		}
-		
-		return null;
+public class PwDbV3OutputDebug extends PwDbV3Output {
+
+	public PwDbV3OutputDebug(PwDatabaseV3 pm, OutputStream os) {
+		super(pm, os);
 	}
+
+	@Override
+	protected void setIVs(PwDatabaseV3 db, PwDbHeaderV3 header)
+			throws PwDbOutputException {
+		
+		PwDatabaseV3Debug debugDb = (PwDatabaseV3Debug) db;
+		
+		// Reuse random values to test equivalence in debug mode
+		PwDbHeaderV3 origHeader = debugDb.dbHeader;
+		System.arraycopy(origHeader.encryptionIV, 0, header.encryptionIV, 0, origHeader.encryptionIV.length);
+		System.arraycopy(origHeader.masterSeed, 0, header.masterSeed, 0, origHeader.masterSeed.length);
+		System.arraycopy(origHeader.transformSeed, 0, header.transformSeed, 0, origHeader.transformSeed.length);
+	}
+
 }
