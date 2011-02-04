@@ -39,7 +39,10 @@ import com.keepassdroid.database.exception.InvalidKeyFileException;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
 public class PwDatabaseV3 extends PwDatabase {
-	// TODO: delete ME
+	/**
+	 * This is only set in debug mode. This contains the decrypted portion 
+	 * of the database contents.
+	 */
 	public byte[] postHeader;
 
 	// Constants
