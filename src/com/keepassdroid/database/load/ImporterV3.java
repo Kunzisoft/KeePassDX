@@ -1,4 +1,7 @@
 /*
+ Copyright 2011 Brian Pellin <bpellin@keepassdroid.com> 
+ 
+This file was derived from 
 KeePass for J2ME
 
 Copyright 2007 Naomaru Itoi <nao@phoneid.org>
@@ -72,14 +75,9 @@ import com.keepassdroid.utils.Types;
  */
 public class ImporterV3 extends Importer {
 
-	public ImporterV3() {
-		super();
-	}
-
 	public ImporterV3(boolean debug) {
 		super(debug);
 	}
-
 
 	/**
 	 * Load a v3 database file, return contents in a new PwDatabaseV3.
