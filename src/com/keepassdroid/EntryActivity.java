@@ -92,6 +92,9 @@ public class EntryActivity extends LockCloseActivity {
 	private NotificationManager mNM;
 	private BroadcastReceiver mIntentReceiver;
 	
+	private DateFormat dateFormat;
+	private DateFormat timeFormat;
+	
 	protected void setEntryView() {
 		setContentView(R.layout.entry_view);
 	}
@@ -112,6 +115,10 @@ public class EntryActivity extends LockCloseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setEntryView();
+		
+		Context appCtx = getApplicationContext();
+		dateFormat = android.text.format.DateFormat.getDateFormat(appCtx);
+		timeFormat = android.text.format.DateFormat.getTimeFormat(appCtx);
 
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
@@ -205,6 +212,11 @@ public class EntryActivity extends LockCloseActivity {
 		return notify;
 	}
 	
+	private String getDateTime(Date dt) {
+		return dateFormat.format(dt) + " " + timeFormat.format(dt);
+		
+	}
+	
 	protected void fillData() {
 		ImageView iv = (ImageView) findViewById(R.id.entry_icon);
 		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mEntry.getIcon());
@@ -216,14 +228,13 @@ public class EntryActivity extends LockCloseActivity {
 		populateText(R.id.entry_password, mEntry.getPassword());
 		setPasswordStyle();
 		
-		DateFormat df = DateFormat.getInstance();
-		populateText(R.id.entry_created, df.format(mEntry.getCreate()));
-		populateText(R.id.entry_modified, df.format(mEntry.getMod()));
-		populateText(R.id.entry_accessed, df.format(mEntry.getAccess()));
+		populateText(R.id.entry_created, getDateTime(mEntry.getCreate()));
+		populateText(R.id.entry_modified, getDateTime(mEntry.getMod()));
+		populateText(R.id.entry_accessed, getDateTime(mEntry.getAccess()));
 		
 		Date expires = mEntry.getExpire();
 		if ( mEntry.expires() ) {
-			populateText(R.id.entry_expires, df.format(expires));
+			populateText(R.id.entry_expires, getDateTime(expires));
 		} else {
 			populateText(R.id.entry_expires, R.string.never);
 		}

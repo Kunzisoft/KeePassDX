@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Stack;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
@@ -48,12 +49,12 @@ import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
-import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDeletedObject;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroupV4;
+import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.exception.ArcFourException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
@@ -256,6 +257,13 @@ public class ImporterV4 extends Importer {
     private static final String ElemStringDictExItem = "Item";
     
     private static final long DEFAULT_HISTORY_DAYS = 365;
+    
+	private static final SimpleDateFormat dateFormat;
+	
+	static {
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+	}
 
 	
 	private boolean readNextNode = true;
@@ -763,7 +771,6 @@ public class ImporterV4 extends Importer {
 		}
 	}
 	
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ss'Z'");
 	private Date ReadTime(XmlPullParser xpp) throws IOException, XmlPullParserException {
 		String sDate = ReadString(xpp);
 		

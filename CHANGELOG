@@ -1,3 +1,5 @@
+  * Fix date display in .kdbx entries
+
 KeePassDroid (1.9.1)
   * Don't default to missing files
   * Search the username field
