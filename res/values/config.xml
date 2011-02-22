@@ -33,11 +33,13 @@
     <string name="rounds_key">rounds</string>
     <string name="keyfile_key">keyfile</string>
     <string name="maskpass_key">maskpass</string>
+    <string name="omitbackup_key">omitbackup</string>    
     <string name="list_size_key">list_size</string>
     <string name="sort_key">sort_key</string>
     <bool name="maskpass_default">true</bool>
     <bool name="keyfile_default">true</bool>
     <bool name="sort_default">true</bool>
+    <bool name="omitbackup_default">true</bool>
     
     <string name="clipboard_timeout_default">300000</string>
     <string-array name="clipboard_timeout_values">
