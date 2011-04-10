@@ -1,5 +1,5 @@
 /*
-` * Copyright 2009 Brian Pellin.
+` * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -49,11 +49,11 @@ import com.keepassdroid.stream.NullOutputStream;
 
 public class PwDbV3Output extends PwDbOutput {
 	private PwDatabaseV3 mPM;
-	private OutputStream mOS;
 	
 	public PwDbV3Output(PwDatabaseV3 pm, OutputStream os) {
+		super(os);
+		
 		mPM = pm;
-		mOS = os;
 	}
 
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
@@ -65,10 +65,9 @@ public class PwDbV3Output extends PwDbOutput {
 		}
 	}
 	
+	@Override
 	public void output() throws PwDbOutputException {
-		
-		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the group hierarchy
-		sortGroupsForOutput();
+		prepForOutput();
 		
 		PwDbHeader header = outputHeader(mOS);
 		
@@ -104,6 +103,11 @@ public class PwDbV3Output extends PwDbOutput {
 		}
 	}
 	
+	private void prepForOutput() {
+		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the group hierarchy
+		sortGroupsForOutput();
+	}
+
 	protected void setIVs(PwDatabaseV3 db, PwDbHeaderV3 header) throws PwDbOutputException {
 			SecureRandom random;
 			try {

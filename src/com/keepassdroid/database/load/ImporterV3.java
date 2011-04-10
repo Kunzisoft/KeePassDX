@@ -83,7 +83,6 @@ public class ImporterV3 extends Importer {
 		return new PwDatabaseV3();
 	}
 
-
 	/**
 	 * Load a v3 database file, return contents in a new PwDatabaseV3.
 	 * 

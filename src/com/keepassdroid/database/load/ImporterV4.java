@@ -67,6 +67,10 @@ public class ImporterV4 extends Importer {
 	
 	private StreamCipher randomStream;
 	private PwDatabaseV4 db;
+	
+	protected PwDatabaseV4 createDB() {
+		return new PwDatabaseV4();
+	}
 
 	@Override
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
@@ -80,7 +84,7 @@ public class ImporterV4 extends Importer {
 			String keyfile, UpdateStatus status) throws IOException,
 			InvalidDBException {
 
-		db = new PwDatabaseV4();
+		db = createDB();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
 		

@@ -24,10 +24,12 @@ import java.io.OutputStream;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.exception.PwDbOutputException;
 
 public abstract class PwDbOutput {
-	public abstract void output() throws PwDbOutputException;
+	
+	protected OutputStream mOS;
 	
 	public static PwDbOutput getInstance(PwDatabase pm, OutputStream os) {
 		if ( pm instanceof PwDatabaseV3 ) {
@@ -39,4 +41,13 @@ public abstract class PwDbOutput {
 		
 		return null;
 	}
+	
+	protected PwDbOutput(OutputStream os) {
+		mOS = os;
+	}
+	
+	public abstract void output() throws PwDbOutputException;
+	
+	public abstract PwDbHeader outputHeader(OutputStream os) throws PwDbOutputException;
+	
 }
