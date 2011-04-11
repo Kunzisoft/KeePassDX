@@ -1,3 +1,4 @@
+KeePassDroid (1.9.2)
   * Fix date display in .kdbx entries
   * Support .kdbx format changes in KeePass 2.15
   * Move dates to the bottom of the entry view
