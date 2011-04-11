@@ -73,6 +73,8 @@ public class PwDatabaseV4 extends PwDatabase {
     public List<PwDeletedObject> deletedObjects = new ArrayList<PwDeletedObject>();
     public List<PwIconCustom> customIcons = new ArrayList<PwIconCustom>();
     public Map<String, String> customData = new HashMap<String, String>();
+    public Map<String, byte[]> binPool = new HashMap<String, byte[]>();
+    public Map<String, byte[]> binPoolCopyOnRead = new HashMap<String, byte[]>();
     
     public class MemoryProtectionConfig {
     	public boolean protectTitle = false;
