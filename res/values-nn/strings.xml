@@ -44,7 +44,7 @@
     <string name="database">Database</string>
     <string name="decrypting_db">Dekrypterer databasen…</string>
     <string name="decrypting_entry">Dekrypterer posten</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL, utgåve 2 eller nyare.</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009-2011 Brian Pellin kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL, utgåve 2 eller nyare.</string>
     <string name="enter_filename">Skriv filnamnet til databasen:</string>
     <string name="entry_accessed">Brukt: </string>
     <string name="entry_and_or">Skriv inn passordet og/eller ei nøkkelfil for å låsa opp databasen din:</string>

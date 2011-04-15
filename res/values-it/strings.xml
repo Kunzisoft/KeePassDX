@@ -46,7 +46,7 @@
     <string name="current_group_root">Gruppo attuale: Principale</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Decodifica contenuto database...</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009 di Brian Pellin viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009-2011 di Brian Pellin viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
     <string name="enter_filename">Inserisci il nome file del database:</string>
     <string name="entry_accessed">Ultimo accesso: </string>
     <string name="entry_and_or">Inserisci una password e/o file chiave per sbloccare il database:</string>
