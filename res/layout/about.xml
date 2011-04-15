@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+ Copyright 2009-2011 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -24,21 +24,37 @@
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
 	  android:text="@string/AboutText"/>
-	<ImageView android:id="@+id/divider"
+	<ImageView android:id="@+id/divider1"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:layout_below="@id/about_title"
 	  android:scaleType="fitXY"
 	  android:src="@android:drawable/divider_horizontal_dark"/>
+	<TextView android:id="@+id/version_title" 
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_below="@id/divider1"
+	  android:text="@string/version_label"/>
+	<TextView android:id="@+id/version"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_below="@id/divider1"
+	  android:layout_alignParentRight="true"/>
+	<ImageView android:id="@+id/divider2"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_below="@id/version_title"
+	  android:scaleType="fitXY"
+	  android:src="@android:drawable/divider_horizontal_dark"/>
 	<TextView android:id="@+id/homepage" 
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:layout_below="@id/divider"
+	  android:layout_below="@id/divider2"
 	  android:text="@string/about_homepage"/>
 	<TextView android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:text="www.keepassdroid.com"
-	  android:layout_below="@id/divider"
+	  android:text="@string/homepage_short"
+	  android:layout_below="@id/divider2"
 	  android:layout_alignParentRight="true"
 	  android:autoLink="web"/>
 	<TextView android:id="@+id/feedback" 
@@ -48,7 +64,7 @@
 	  android:text="@string/about_feedback"/>
 	<TextView android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:text="bit.ly/kpd_issues"
+	  android:text="@string/issues"
 	  android:layout_below="@id/homepage"
 	  android:layout_alignParentRight="true"
 	  android:autoLink="web"/>
@@ -59,11 +75,11 @@
 	  android:text="@string/about_twitter"/>
 	<TextView android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
-	  android:text="twitter.com/KeePassDroid"
+	  android:text="@string/twitter"
 	  android:layout_below="@id/feedback"
 	  android:layout_alignParentRight="true"
 	  android:autoLink="web"/>
-	<ImageView android:id="@+id/divider2"
+	<ImageView android:id="@+id/divider3"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:layout_below="@id/Twitter"
@@ -72,7 +88,7 @@
 	<TextView android:id="@+id/disclaimer" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:layout_below="@id/divider2"
+	  android:layout_below="@id/divider3"
 	  android:text="@string/disclaimer_formal"/>
 	<Button android:id="@+id/about_button"
   	  android:layout_height="wrap_content"
