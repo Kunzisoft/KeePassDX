@@ -25,12 +25,15 @@ import java.util.UUID;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDatabaseV4;
@@ -42,12 +45,13 @@ import com.keepassdroid.database.PwGroupV4;
 public class SearchDbHelper {
 	private static final String DATABASE_NAME = "search";
 	private static final String SEARCH_TABLE = "entries";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	
 	private static final String KEY_UUID = "uuid";
 	private static final String KEY_TITLE = "title";
 	private static final String KEY_URL = "url";
 	private static final String KEY_USERNAME = "username";
+	private static final String KEY_BACKUP = "backup"; //Indicates whether entry belongs to the root 'backup' group.
 	private static final String KEY_COMMENT = "comment";
 
 	private static final String DATABASE_CREATE = 
@@ -56,6 +60,7 @@ public class SearchDbHelper {
 		+ KEY_TITLE + ", " 
 		+ KEY_URL + ", "
 		+ KEY_USERNAME + ", "
+		+ KEY_BACKUP + ", "
 		+ KEY_COMMENT + ");";
 	
 	private static final String DATABASE_DROP =
@@ -117,6 +122,8 @@ public class SearchDbHelper {
 		cv.put(KEY_TITLE, entry.getTitle());
 		cv.put(KEY_URL, entry.getUrl());
 		cv.put(KEY_USERNAME, entry.getUsername());
+		cv.put(KEY_BACKUP, 
+				entry.getParent().getParent().getParent() == null ? entry.getParent().getName().compareToIgnoreCase("Backup") == 0 : false); //XXX whether the entry is in the root 'backup' group
 		cv.put(KEY_COMMENT, entry.getNotes());
 		
 		return cv;
@@ -157,7 +164,11 @@ public class SearchDbHelper {
 	public PwGroup search(Database db, String qStr) {
 		Cursor cursor;
 		String queryWithWildCard = addWildCard(qStr);
-		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, SEARCH_TABLE + " match ?", new String[] {queryWithWildCard}, null, null, null, null);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mCtx);
+		boolean isOmitPassword = prefs.getBoolean(mCtx.getString(R.string.omitbackup_key), mCtx.getResources().getBoolean(R.bool.omitbackup_default));
+		
+		cursor = mDb.query(true, SEARCH_TABLE, new String[] {KEY_UUID}, SEARCH_TABLE + " match ?" + 
+				(isOmitPassword ? " AND " + KEY_BACKUP + " = 0" : ""), new String[] {queryWithWildCard}, null, null, null, null);
 
 		PwGroup group;
 		if ( db.pm instanceof PwDatabaseV3 ) {
