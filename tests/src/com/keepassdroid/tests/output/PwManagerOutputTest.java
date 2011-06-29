@@ -1,5 +1,5 @@
 /*
-* Copyright 2009 Brian Pellin.
+* Copyright 2009-2011 Brian Pellin.
 *
 * This file is part of KeePassDroid.
 *
@@ -86,7 +86,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	  assertEquals("Key Rounds unequal", expected.numKeyEncRounds, actual.numKeyEncRounds);
 	  assertEquals("Signature1 unequal", expected.signature1, actual.signature1);
 	  assertEquals("Signature2 unequal", expected.signature2, actual.signature2);
-	  assertEquals("Version unequal", expected.version, actual.version);
+	  assertTrue("Version incompatible", PwDbHeaderV3.compatibleHeaders(expected.version, actual.version));
 	  assertArrayEquals("Hash unequal", expected.contentsHash, actual.contentsHash);
 	  assertArrayEquals("IV unequal", expected.encryptionIV, actual.encryptionIV);
 	  assertArrayEquals("Seed unequal", expected.masterSeed, actual.masterSeed);

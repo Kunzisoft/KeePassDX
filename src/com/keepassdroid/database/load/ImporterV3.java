@@ -1,4 +1,25 @@
 /*
+ * Copyright 2009-2011 Brian Pellin.
+ *     
+ * This file is part of KeePassDroid.
+ *
+ *  KeePassDroid is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+
+Derived from
+
 KeePass for J2ME
 
 Copyright 2007 Naomaru Itoi <nao@phoneid.org>
@@ -129,7 +150,7 @@ public class ImporterV3 extends Importer {
 			throw new InvalidDBSignatureException();
 		}
 
-		if( hdr.version != PwDbHeaderV3.DBVER_DW ) {
+		if( !hdr.matchesVersion() ) {
 			throw new InvalidDBVersionException();
 		}
 
