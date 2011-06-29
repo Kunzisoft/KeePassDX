@@ -1,4 +1,22 @@
 /*
+ * Copyright 2009-2011 Brian Pellin.
+ *     
+ * This file is part of KeePassDroid.
+ *
+ *  KeePassDroid is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
 KeePass for J2ME
 
 Copyright 2007 Naomaru Itoi <nao@phoneid.org>
@@ -25,7 +43,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.keepassdroid.utils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -47,25 +64,6 @@ public class Types {
 	  return buf;
   }
 
-  /**
-   * Read an unsigned 16-bit value.
-   * 
-   * @param buf
-   * @param offset
-   * @return
-   */
-  public static int readShort( byte[] buf, int offset ) {
-    return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
-  }
-  
-  public static int readShort(InputStream is) throws IOException {
-	  byte[] buf = new byte[2];
-	  
-	  is.read(buf, 0, 2);
-	  
-	  return readShort(buf, 0); 
-  }
-  
   /** Write an unsigned 16-bit value
    * 
    * @param val
