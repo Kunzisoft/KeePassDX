@@ -99,6 +99,7 @@ public class PasswordActivity extends LockingActivity {
 		
 		case KeePass.EXIT_NORMAL:
 			setEditText(R.id.password, "");
+			App.getDB().clear();
 			break;
 		
 		case KeePass.EXIT_LOCK:
@@ -133,6 +134,9 @@ public class PasswordActivity extends LockingActivity {
 		Intent i = getIntent();
 		String action = i.getAction();
 		
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
+		
 		if ( action != null && action.equals(VIEW_INTENT) ) {
 			mFileName = i.getDataString();
 			
@@ -164,9 +168,11 @@ public class PasswordActivity extends LockingActivity {
 		} else {
 			mFileName = i.getStringExtra(KEY_FILENAME);
 			mKeyFile = i.getStringExtra(KEY_KEYFILE);
+			if ( mKeyFile == null || mKeyFile.length() == 0) {
+				mKeyFile = getKeyFile(mFileName);
+			}
 		}
 		
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		setContentView(R.layout.password);
 		populateView();
 
@@ -221,14 +227,10 @@ public class PasswordActivity extends LockingActivity {
 	}
 	
 	private void retrieveSettings() {
-		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
-		
 		String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
 		if (mFileName.length() > 0 && mFileName.equals(defaultFilename)) {
 			CheckBox checkbox = (CheckBox) findViewById(R.id.default_database);
 			checkbox.setChecked(true);
-			
-			
 		}
 	}
 	

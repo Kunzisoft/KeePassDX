@@ -1,8 +1,10 @@
+KeePassDroid (1.9.3)
   * New setting to omit backup and recycle bin entries (based on contribution
     from ABGH)
   * Support databases from KeePass 1.20 (closes: #197)
   * Handle spaces correctly when browsing for keyfiles (closes: #163)
   * Don't clear password when browsing for a keyfile (closes: #166)
+  * Fix problems with remembering the keyfile location (closes: #167)
 
 KeePassDroid (1.9.2)
   * Fix date display in .kdbx entries
