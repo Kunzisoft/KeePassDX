@@ -1,6 +1,7 @@
 /*
 KeePass for J2ME
 
+
 Copyright 2007 Naomaru Itoi <nao@phoneid.org>
 
 This file was derived from 
@@ -33,7 +34,7 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	// DB sig from KeePass 1.03
 	public static final int DBSIG_2               = 0xB54BFB65;
 	// DB sig from KeePass 1.03
-	public static final int DBVER_DW              = 0x00030002;
+	public static final int DBVER_DW              = 0x00030003;
 
 	public static final int FLAG_SHA2             = 1;
 	public static final int FLAG_RIJNDAEL         = 2;

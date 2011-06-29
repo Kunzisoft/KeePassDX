@@ -1,5 +1,6 @@
   * New setting to omit backup and recycle bin entries (based on contribution
     from ABGH)
+  * Support databases from KeePass 1.20
 
 KeePassDroid (1.9.2)
   * Fix date display in .kdbx entries
