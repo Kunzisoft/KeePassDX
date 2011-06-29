@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -110,7 +110,7 @@ public class TypesTest extends TestCase {
 		orig[0] = 0;
 		orig[1] = 1;
 		
-		int one = Types.readShort(orig, 0);
+		int one = LEDataInputStream.readShort(orig, 0);
 		dest = Types.writeShort(one);
 		
 		assertArrayEquals(orig, dest);
@@ -131,7 +131,7 @@ public class TypesTest extends TestCase {
 		
 		setArray(orig, value, 0, 2);
 		
-		int one = Types.readShort(orig, 0);
+		int one = LEDataInputStream.readShort(orig, 0);
 		Types.writeShort(one, dest, 0);
 		
 		assertArrayEquals(orig, dest);

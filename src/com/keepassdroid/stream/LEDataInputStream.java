@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -122,6 +122,29 @@ public class LEDataInputStream extends InputStream {
 		
 		return buf;
 	}
+
+	public static int readShort(InputStream is) throws IOException {
+		  byte[] buf = new byte[2];
+		  
+		  is.read(buf, 0, 2);
+		  
+		  return readShort(buf, 0); 
+	  }
+	
+	public int readShort() throws IOException {
+		return readShort(baseStream);
+	}
+
+	/**
+	   * Read an unsigned 16-bit value.
+	   * 
+	   * @param buf
+	   * @param offset
+	   * @return
+	   */
+	  public static int readShort( byte[] buf, int offset ) {
+	    return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
+	  }
 
 	public static long readLong( byte buf[], int offset ) {
 		return ((long)buf[offset + 0] & 0xFF) + (((long)buf[offset + 1] & 0xFF) << 8) 
