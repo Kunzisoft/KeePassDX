@@ -97,8 +97,13 @@ public class PasswordActivity extends LockingActivity {
 		
 		switch (requestCode) {
 		
+		case KeePass.EXIT_NORMAL:
+			setEditText(R.id.password, "");
+			break;
+		
 		case KeePass.EXIT_LOCK:
 			setResult(KeePass.EXIT_LOCK);
+			setEditText(R.id.password, "");
 			finish();
 			App.getDB().clear(); 
 			break;
@@ -245,14 +250,6 @@ public class PasswordActivity extends LockingActivity {
 		setEditText(R.id.pass_keyfile, mKeyFile);
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		// Clear password on Database state
-		setEditText(R.id.password, "");
-	}
-
 	/*
 	private void errorMessage(CharSequence text)
 	{
