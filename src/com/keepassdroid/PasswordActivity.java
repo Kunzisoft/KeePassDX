@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -109,6 +109,8 @@ public class PasswordActivity extends LockingActivity {
 					if (filename.startsWith("file://")) {
 						filename = filename.substring(7);
 					}
+					
+					filename = URLDecoder.decode(filename);
 					
 					EditText fn = (EditText) findViewById(R.id.pass_keyfile);
 					fn.setText(filename);
