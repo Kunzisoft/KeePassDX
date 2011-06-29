@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -81,7 +81,7 @@ public class UpdateEntry extends RunnableOnFinish {
 						// Update search index
 						SearchDbHelper helper = mDb.searchHelper;
 						helper.open();
-						helper.updateEntry(mOldE);
+						helper.updateEntry(mDb.pm, mOldE);
 						helper.close();
 					}
 				}

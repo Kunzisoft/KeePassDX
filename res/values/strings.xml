@@ -137,8 +137,8 @@
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
     <string name="open_recent">Open recent database (click to open):</string>
-    <string name="omitbackup_title">Omit Backup Search</string>
-    <string name="omitbackup_summary">Omit \'Backup\' group from search results</string>
+    <string name="omitbackup_title">Don\'t search backup and recycle bin entries</string>
+    <string name="omitbackup_summary">Omit \'Backup\' and Recycle Bin group from search results</string>
     <string name="pass_filename">KeePass database filename:</string>
     <string name="pass_ok">Ok</string>
     <string name="password_title">Enter database password</string>

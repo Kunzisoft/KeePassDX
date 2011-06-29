@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -281,5 +281,7 @@ public abstract class PwDatabase {
 	}
 	
 	public abstract PwGroup createGroup();
+	
+	public abstract boolean isBackup(PwGroup group);
 	
 }

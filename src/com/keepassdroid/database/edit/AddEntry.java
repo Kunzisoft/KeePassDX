@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -72,7 +72,7 @@ public class AddEntry extends RunnableOnFinish {
 					// Add entry to search index
 					SearchDbHelper helper = mDb.searchHelper;
 					helper.open();
-					helper.insertEntry(mEntry);
+					helper.insertEntry(mDb.pm, mEntry);
 					helper.close();
 				}
 			} else {

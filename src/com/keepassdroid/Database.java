@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -134,7 +134,7 @@ public class Database {
 		initSearch();
 		
 		searchHelper.open();
-		searchHelper.insertEntry(pm.getEntries());
+		searchHelper.insertEntry(pm, pm.getEntries());
 		searchHelper.close();
 		
 		indexBuilt = true;
@@ -203,7 +203,6 @@ public class Database {
 	public void clear() {
 		initSearch();
 		
-		indexBuilt = false;
 		groups.clear();
 		entries.clear();
 		dirty.clear();
@@ -216,6 +215,7 @@ public class Database {
 	}
 	
 	public void initSearch() {
+		indexBuilt = false;
 		if ( searchHelper != null ) {
 			searchHelper.open();
 			searchHelper.clear();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -81,10 +81,20 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 			
 			Preference algorithm = findPreference(getString(R.string.algorithm_key));
 			setAlgorithm(db, algorithm);
+			
 		} else {
 			Preference dbSettings = findPreference(getString(R.string.db_key));
 			dbSettings.setEnabled(false);
 		}
+		
+		Preference omitBackup = findPreference(getString(R.string.omitbackup_key));
+		omitBackup.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				App.getDB().initSearch();
+				return true;
+			}
+		});
 		
 		backupManager = new BackupManagerCompat(this);
 		

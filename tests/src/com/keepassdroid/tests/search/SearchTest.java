@@ -1,5 +1,5 @@
 /*
-* Copyright 2009 Brian Pellin.
+* Copyright 2009-2011 Brian Pellin.
 *
 * This file is part of KeePassDroid.
 *
@@ -20,8 +20,12 @@
 package com.keepassdroid.tests.search;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
+import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.tests.database.TestData;
@@ -38,9 +42,38 @@ public class SearchTest extends AndroidTestCase {
 	}
 	
 	public void testSearch() {
+		mDb.indexBuilt = false;
 		mDb.buildSearchIndex(getContext());
 		PwGroup results = mDb.Search("Amazon");
 		assertTrue("Search result not found.", results.childEntries.size() > 0);
+		
+	}
+	
+	public void testBackupIncluded() {
+		updateOmitSetting(false);
+		mDb.indexBuilt = false;
+		mDb.buildSearchIndex(getContext());
+		PwGroup results = mDb.Search("BackupOnly");
+		
+		assertTrue("Search result not found.", results.childEntries.size() > 0);
+	}
+	
+	public void testBackupExcluded() {
+		updateOmitSetting(true);
+		mDb.indexBuilt = false;
+		mDb.buildSearchIndex(getContext());
+		PwGroup results = mDb.Search("BackupOnly");
+		
+		assertFalse("Search result found, but should not have been.", results.childEntries.size() > 0);
+	}
+	
+	private void updateOmitSetting(boolean setting) {
+		Context ctx = getContext();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		
+		editor.putBoolean(ctx.getString(R.string.omitbackup_key), setting);
+		editor.commit();
 		
 	}
 }
