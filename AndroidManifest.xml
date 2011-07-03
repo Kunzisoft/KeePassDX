@@ -58,9 +58,9 @@
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults" />
     	</activity>
-		<activity android:name="com.keepassdroid.EntryActivity" 
+		<activity android:name="com.keepassdroid.EntryActivity" android:configChanges="orientation|keyboardHidden"
 			android:theme="@android:style/Theme.NoTitleBar"></activity>
-		<activity android:name="com.keepassdroid.EntryActivityV4" 
+		<activity android:name="com.keepassdroid.EntryActivityV4"  android:configChanges="orientation|keyboardHidden" 
 			android:theme="@android:style/Theme.NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.LockingActivity" 
 			android:theme="@android:style/Theme.NoTitleBar"></activity>
