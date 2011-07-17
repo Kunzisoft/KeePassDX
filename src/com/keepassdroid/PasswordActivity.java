@@ -24,7 +24,10 @@ import java.io.FileNotFoundException;
 import java.net.URLDecoder;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -72,6 +75,7 @@ public class PasswordActivity extends LockingActivity {
 	private String mKeyFile;
 	private boolean mRememberKeyfile;
 	SharedPreferences prefs;
+	BroadcastReceiver mIntentReceiver;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -224,8 +228,28 @@ public class PasswordActivity extends LockingActivity {
 		});
 		
 		retrieveSettings();
+		
+		mIntentReceiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String action = intent.getAction();
+				if (action.equals(Intents.TIMEOUT)) {
+					setEditText(R.id.password, "");
+				}
+				
+			}
+		};
+		registerReceiver(mIntentReceiver, new IntentFilter());
 	}
 	
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(mIntentReceiver);
+		
+		super.onDestroy();
+	}
+
 	private void retrieveSettings() {
 		String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
 		if (mFileName.length() > 0 && mFileName.equals(defaultFilename)) {
