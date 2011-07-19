@@ -51,8 +51,9 @@ public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
 			throw new NoSuchElementException("Past final string");
 		}
 		
+		String str = getCurrentString();
 		current++;
-		return getCurrentString();
+		return str;
 	}
 	
 	private String getCurrentString() {
