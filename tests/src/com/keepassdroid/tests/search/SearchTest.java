@@ -42,8 +42,6 @@ public class SearchTest extends AndroidTestCase {
 	}
 	
 	public void testSearch() {
-		mDb.indexBuilt = false;
-		mDb.buildSearchIndex(getContext());
 		PwGroup results = mDb.Search("Amazon");
 		assertTrue("Search result not found.", results.childEntries.size() > 0);
 		
@@ -51,8 +49,6 @@ public class SearchTest extends AndroidTestCase {
 	
 	public void testBackupIncluded() {
 		updateOmitSetting(false);
-		mDb.indexBuilt = false;
-		mDb.buildSearchIndex(getContext());
 		PwGroup results = mDb.Search("BackupOnly");
 		
 		assertTrue("Search result not found.", results.childEntries.size() > 0);
@@ -60,8 +56,6 @@ public class SearchTest extends AndroidTestCase {
 	
 	public void testBackupExcluded() {
 		updateOmitSetting(true);
-		mDb.indexBuilt = false;
-		mDb.buildSearchIndex(getContext());
 		PwGroup results = mDb.Search("BackupOnly");
 		
 		assertFalse("Search result found, but should not have been.", results.childEntries.size() > 0);
