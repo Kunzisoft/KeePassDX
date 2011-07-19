@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -22,7 +22,6 @@ package com.keepassdroid.database.edit;
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.search.SearchDbHelper;
 
 /** Task to delete entries
  * @author bpellin
@@ -87,18 +86,6 @@ public class DeleteEntry extends RunnableOnFinish {
 		@Override
 		public void run() {
 			if ( mSuccess ) {
-				if ( mDb.indexBuilt ) {
-					SearchDbHelper dbHelper = mDb.searchHelper;
-					dbHelper.open();
-	
-					// Remove from entry global
-					mDb.entries.remove(mEntry);
-					
-					// Remove from search db
-					dbHelper.deleteEntry(mEntry);
-					dbHelper.close();
-				}
-				
 				// Mark parent dirty
 				if ( mParent != null ) {
 					mDb.dirty.add(mParent);

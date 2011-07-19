@@ -388,5 +388,4 @@ public class PwEntryV3 extends PwEntry {
 	public boolean expires() {
 		return ! IsNever(tExpire.getJDate());
 	}
-
 }

@@ -22,7 +22,6 @@ package com.keepassdroid.database.edit;
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.search.SearchDbHelper;
 
 public class UpdateEntry extends RunnableOnFinish {
 	private Database mDb;
@@ -75,14 +74,6 @@ public class UpdateEntry extends RunnableOnFinish {
 						// Mark parent group dirty
 						mDb.dirty.add(parent);
 						
-					}
-					
-					if ( mDb.indexBuilt ) {
-						// Update search index
-						SearchDbHelper helper = mDb.searchHelper;
-						helper.open();
-						helper.updateEntry(mDb.pm, mOldE);
-						helper.close();
 					}
 				}
 			} else {

@@ -29,7 +29,7 @@ import java.util.UUID;
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private static final String STR_TITLE = "Title";
 	private static final String STR_USERNAME = "UserName";
-	private static final String STR_PASSWORD = "Password";
+	public static final String STR_PASSWORD = "Password";
 	private static final String STR_URL = "URL";
 	private static final String STR_NOTES = "Notes";
 	

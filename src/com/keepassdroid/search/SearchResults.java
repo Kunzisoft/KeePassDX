@@ -22,17 +22,12 @@ package com.keepassdroid.search;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 import com.android.keepass.KeePass;
-import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
-import com.keepassdroid.ProgressTask;
 import com.keepassdroid.PwGroupListAdapter;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.edit.BuildIndex;
-import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.view.GroupEmptyView;
 import com.keepassdroid.view.GroupViewOnlyView;
 
@@ -63,15 +58,7 @@ public class SearchResults extends GroupBaseActivity {
 	}
 	
 	private void performSearch(String query) {
-		if ( mDb.indexBuilt ) {
-			query(query);
-		} else {
-			PerformSearch task = new PerformSearch(query, new Handler());
-			ProgressTask pt = new ProgressTask(this, new BuildIndex(mDb, this, task), R.string.building_search_idx);
-			pt.run();
-			
-		}
-		
+		query(query);
 	}
 	
 	private void query(String query) {
@@ -111,35 +98,4 @@ public class SearchResults extends GroupBaseActivity {
 		
 	}
 	
-	/*
-	private PwGroupV3 processSearchIntent(Intent queryIntent) {
-        // get and process search query here
-        final String queryAction = queryIntent.getAction();
-        if ( Intent.ACTION_SEARCH.equals(queryAction) ) {
-        	final String queryString = queryIntent.getStringExtra(SearchManager.QUERY);
-        
-			return mDb.Search(queryString);
-        }
-        
-        return null;
-		
-	}
-	*/
-	
-	private class PerformSearch extends OnFinish {
-		
-		private String mQuery;
-		
-		public PerformSearch(String query, Handler handler) {
-			super(handler);
-			
-			mQuery = query;
-		}
-		
-		@Override
-		public void run() {
-			query(mQuery);
-		}
-		
-	}
 }

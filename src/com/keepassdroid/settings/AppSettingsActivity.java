@@ -87,15 +87,6 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 			dbSettings.setEnabled(false);
 		}
 		
-		Preference omitBackup = findPreference(getString(R.string.omitbackup_key));
-		omitBackup.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				App.getDB().initSearch();
-				return true;
-			}
-		});
-		
 		backupManager = new BackupManagerCompat(this);
 		
 	}

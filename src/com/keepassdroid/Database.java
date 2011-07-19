@@ -60,7 +60,6 @@ public class Database {
 	public PwDatabase pm;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
-	public boolean indexBuilt = false;
 	
 	public DrawableFactory drawFactory = new DrawableFactory();
 	
@@ -120,30 +119,13 @@ public class Database {
 			populateGlobals(root);
 		}
 		
+		searchHelper = new SearchDbHelper(ctx);
+		
 		loaded = true;
 	}
 	
-	
-	/** Build the search index from the current database
-	 * @param ctx (this should be an App context not an activity constant to avoid leaks)
-	 */
-	public void buildSearchIndex(Context ctx) {
-
-		searchHelper = new SearchDbHelper(ctx);
-		
-		initSearch();
-		
-		searchHelper.open();
-		searchHelper.insertEntry(pm, pm.getEntries());
-		searchHelper.close();
-		
-		indexBuilt = true;
-	}
-	
 	public PwGroup Search(String str) {
-		searchHelper.open();
 		PwGroup group = searchHelper.search(this, str);
-		searchHelper.close();
 		
 		return group;
 		
@@ -201,8 +183,6 @@ public class Database {
 	}
 	
 	public void clear() {
-		initSearch();
-		
 		groups.clear();
 		entries.clear();
 		dirty.clear();
@@ -212,15 +192,6 @@ public class Database {
 		pm = null;
 		mFilename = null;
 		loaded = false;
-	}
-	
-	public void initSearch() {
-		indexBuilt = false;
-		if ( searchHelper != null ) {
-			searchHelper.open();
-			searchHelper.clear();
-			searchHelper.close();
-		}
 	}
 	
 	public void markAllGroupsAsDirty() {

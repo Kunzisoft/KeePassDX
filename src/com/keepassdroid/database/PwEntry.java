@@ -23,6 +23,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
+import com.keepassdroid.database.iterator.EntrySearchStringIterator;
+
 public abstract class PwEntry implements Cloneable {
 
 	public static class EntryNameComparator implements Comparator<PwEntry> {
@@ -80,6 +82,10 @@ public abstract class PwEntry implements Cloneable {
 
 	public boolean isMetaStream() {
 		return false;
+	}
+	
+	public EntrySearchStringIterator stringIterator() {
+		return EntrySearchStringIterator.getInstance(this);
 	}
 
 }
