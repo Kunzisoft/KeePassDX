@@ -47,7 +47,6 @@ public class SearchDbHelper {
 		"drop table " + SEARCH_TABLE;
 	
 	private final Context mCtx;
-	private boolean isOmitBackup;
 	
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		
@@ -75,13 +74,11 @@ public class SearchDbHelper {
 		DatabaseHelper dbHelper = new DatabaseHelper(ctx);
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		db.close();
-		
-		initOmitBackup();
 	}
 	
-	private void initOmitBackup() {
+	private boolean omitBackup() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mCtx);
-		isOmitBackup = prefs.getBoolean(mCtx.getString(R.string.omitbackup_key), mCtx.getResources().getBoolean(R.bool.omitbackup_default));
+		return prefs.getBoolean(mCtx.getString(R.string.omitbackup_key), mCtx.getResources().getBoolean(R.bool.omitbackup_default));
 		
 	}
 	
@@ -101,6 +98,7 @@ public class SearchDbHelper {
 		
 		// Search all entries
 		qStr = qStr.toLowerCase();
+		boolean isOmitBackup = omitBackup();
 		for (PwEntry entry : db.pm.getEntries()) {
 			
 			if (!isOmitBackup || !db.pm.isBackup(entry.getParent())) {
