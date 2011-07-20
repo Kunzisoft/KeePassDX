@@ -2,6 +2,9 @@ package com.keepassdroid.fileselect;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +40,9 @@ public class BrowserDialog extends Dialog {
 				BrowserDialog.this.cancel();
 			}
 		});
+		if (!isMarketInstalled()) {
+			market.setVisibility(View.GONE);
+		}
 		
 		Button web = (Button) findViewById(R.id.install_web);
 		web.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +52,16 @@ public class BrowserDialog extends Dialog {
 				BrowserDialog.this.cancel();
 			}
 		});
+	}
+	
+	private boolean isMarketInstalled() {
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("market://search?q=foo"));
+		PackageManager pm = getContext().getPackageManager();
+		
+		// Check if anything is available to handle this intent
+		return pm.queryIntentActivities(intent, 0).size() > 0;
 	}
 
 }
