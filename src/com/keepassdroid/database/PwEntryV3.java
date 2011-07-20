@@ -295,9 +295,11 @@ public class PwEntryV3 extends PwEntry {
 	public Object clone() {
 		PwEntryV3 newEntry = (PwEntryV3) super.clone();
 		
-		int passLen = password.length;
-		password = new byte[passLen]; 
-		System.arraycopy(password, 0, newEntry.password, 0, passLen);
+		if (password != null) {
+			int passLen = password.length;
+			password = new byte[passLen]; 
+			System.arraycopy(password, 0, newEntry.password, 0, passLen);
+		}
 
 		newEntry.tCreation = (PwDate) tCreation.clone();
 		newEntry.tLastMod = (PwDate) tLastMod.clone();
