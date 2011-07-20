@@ -24,8 +24,6 @@ import java.util.Iterator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -39,41 +37,10 @@ import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.PwGroupV4;
 
 public class SearchDbHelper {
-	private static final String DATABASE_NAME = "search";
-	private static final String SEARCH_TABLE = "entries";
-	private static final int DATABASE_VERSION = 4;
-	
-	private static final String DATABASE_DROP =
-		"drop table " + SEARCH_TABLE;
-	
 	private final Context mCtx;
-	
-	private static class DatabaseHelper extends SQLiteOpenHelper {
-		
-		DatabaseHelper(Context ctx) {
-			super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			if (oldVersion != DATABASE_VERSION) {
-				db.execSQL(DATABASE_DROP);
-			}
-		}
-		
-	}
 	
 	public SearchDbHelper(Context ctx) {
 		mCtx = ctx;
-		
-		// Delete old database if it is still there
-		DatabaseHelper dbHelper = new DatabaseHelper(ctx);
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		db.close();
 	}
 	
 	private boolean omitBackup() {
