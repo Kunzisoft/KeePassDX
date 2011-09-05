@@ -306,12 +306,10 @@ public class PwDatabaseV3 extends PwDatabase {
 		// No-op
 	}
 
-<<<<<<< HEAD
 	// TODO: This could still be refactored cleaner
 	public void copyHeader(PwDbHeaderV3 header) {
 		// No-op
 	}
-=======
 	@Override
 	public boolean isBackup(PwGroup group) {
 		PwGroupV3 g = (PwGroupV3) group;
@@ -325,6 +323,4 @@ public class PwDatabaseV3 extends PwDatabase {
 		
 		return false;
 	}
-
->>>>>>> master
 }
