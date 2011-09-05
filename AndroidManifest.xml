@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.android.keepass"
-      android:installLocation="auto" android:versionName="1.9.1" android:versionCode="77">
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="8"/>
+      android:installLocation="auto" android:versionCode="82" android:versionName="1.9.5">
+    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="10"/>
 	<supports-screens
       android:smallScreens="true"
       android:normalScreens="true"
@@ -58,9 +58,9 @@
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults" />
     	</activity>
-		<activity android:name="com.keepassdroid.EntryActivity" 
+		<activity android:name="com.keepassdroid.EntryActivity" android:configChanges="orientation|keyboardHidden"
 			android:theme="@android:style/Theme.NoTitleBar"></activity>
-		<activity android:name="com.keepassdroid.EntryActivityV4" 
+		<activity android:name="com.keepassdroid.EntryActivityV4"  android:configChanges="orientation|keyboardHidden" 
 			android:theme="@android:style/Theme.NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.LockingActivity" 
 			android:theme="@android:style/Theme.NoTitleBar"></activity>

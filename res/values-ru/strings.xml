@@ -44,7 +44,6 @@
     <string name="database">База данных</string>
     <string name="decrypting_db">Дешифровка базы данных...</string>
     <string name="decrypting_entry">Расшифровка записи</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="enter_filename">Введите название базы данных:</string>
     <string name="entry_accessed">Доступ:</string>
     <string name="entry_and_or">Введите пароль и/или выберите файл-ключ:</string>

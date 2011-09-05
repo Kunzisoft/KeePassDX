@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -73,6 +73,8 @@ public class PwDatabaseV4 extends PwDatabase {
     public List<PwDeletedObject> deletedObjects = new ArrayList<PwDeletedObject>();
     public List<PwIconCustom> customIcons = new ArrayList<PwIconCustom>();
     public Map<String, String> customData = new HashMap<String, String>();
+    public Map<String, byte[]> binPool = new HashMap<String, byte[]>();
+    public Map<String, byte[]> binPoolCopyOnRead = new HashMap<String, byte[]>();
     
     public class MemoryProtectionConfig {
     	public boolean protectTitle = false;
@@ -238,5 +240,24 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public PwGroup createGroup() {
 		return new PwGroupV4();
+	}
+
+	@Override
+	public boolean isBackup(PwGroup group) {
+		if (!recycleBinEnabled) {
+			return false;
+		}
+		PwGroupV4 g = (PwGroupV4) group;
+		
+		// Need to loop upwards to see if any ancestor is the recycle bin
+		while (g != null) {
+			if (recycleBinUUID.equals(g.uuid) || g.name.equalsIgnoreCase("Backup")) {
+				return true;
+			}
+			
+			g = g.parent;
+		}
+		
+		return false;
 	}
 }

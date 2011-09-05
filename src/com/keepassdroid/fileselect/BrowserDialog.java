@@ -1,7 +1,29 @@
+/*
+ * Copyright 2011 Brian Pellin.
+ *     
+ * This file is part of KeePassDroid.
+ *
+ *  KeePassDroid is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.keepassdroid.fileselect;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +59,9 @@ public class BrowserDialog extends Dialog {
 				BrowserDialog.this.cancel();
 			}
 		});
+		if (!isMarketInstalled()) {
+			market.setVisibility(View.GONE);
+		}
 		
 		Button web = (Button) findViewById(R.id.install_web);
 		web.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +71,16 @@ public class BrowserDialog extends Dialog {
 				BrowserDialog.this.cancel();
 			}
 		});
+	}
+	
+	private boolean isMarketInstalled() {
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("market://search?q=foo"));
+		PackageManager pm = getContext().getPackageManager();
+		
+		// Check if anything is available to handle this intent
+		return pm.queryIntentActivities(intent, 0).size() > 0;
 	}
 
 }

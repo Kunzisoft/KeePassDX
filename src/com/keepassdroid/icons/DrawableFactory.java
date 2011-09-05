@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -37,6 +37,9 @@ import com.keepassdroid.database.PwIconStandard;
 
 public class DrawableFactory {
 	private static Drawable blank = null;
+	private static int blankWidth = -1;
+	private static int blankHeight = -1;
+	
 	private Map<UUID, Drawable> customIconMap = new WeakHashMap<UUID, Drawable>();
 	private Map<Integer, Drawable> standardIconMap = new WeakHashMap<Integer, Drawable>();
 	
@@ -53,9 +56,11 @@ public class DrawableFactory {
 		}
 	}
 
-	private void initBlank(Resources res) {
+	private static void initBlank(Resources res) {
 		if (blank==null) {
 			blank = res.getDrawable(R.drawable.ic99_blank);
+			blankWidth = blank.getIntrinsicWidth();
+			blankHeight = blank.getIntrinsicHeight();
 		}
 	}
 	
@@ -91,11 +96,28 @@ public class DrawableFactory {
 				return blank;
 			}
 			
+			bitmap = resize(bitmap);
+			
 			draw = BitmapDrawableCompat.getBitmapDrawable(res, bitmap);
 			customIconMap.put(icon.uuid, draw);
 		}
 		
 		return draw;
+	}
+	
+	/** Resize the custom icon to match the built in icons
+	 * @param bitmap
+	 * @return
+	 */
+	private Bitmap resize(Bitmap bitmap) {
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		
+		if (width == blankWidth && height == blankHeight) {
+			return bitmap;
+		}
+		
+		return Bitmap.createScaledBitmap(bitmap, blankWidth, blankHeight, true);
 	}
 	
 	public void clear() {

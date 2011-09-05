@@ -60,6 +60,23 @@
 	  android:password="true"
 	  style="@style/EntryItem"
 	/>
+	<!-- Comment -->
+	<TextView android:id="@+id/entry_comment_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_comment"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_comment" 
+      android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  style="@style/EntryItem"
+	/>
+	<LinearLayout android:id="@+id/extra_strings"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:orientation="vertical">
+	</LinearLayout>
 	<!-- Created -->
 	<TextView android:id="@+id/entry_created_label"
 	  android:layout_width="fill_parent"
@@ -108,21 +125,4 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
-	<!-- Comment -->
-	<TextView android:id="@+id/entry_comment_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content" 
-	  android:text="@string/entry_comment"
-	  style="@style/WhiteOnDarkSmall"
-	/>
-	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_comment" 
-      android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="@style/EntryItem"
-	/>
-	<LinearLayout android:id="@+id/extra_strings"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:orientation="vertical">
-	</LinearLayout>
 </LinearLayout>

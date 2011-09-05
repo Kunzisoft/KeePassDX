@@ -165,7 +165,8 @@ public class ImporterV4 extends Importer {
         EntryBinary,
         EntryAutoType,
         EntryAutoTypeItem,
-        EntryHistory
+        EntryHistory,
+        Binaries
 	}
 	
     private static final String ElemDocNode = "KeePassFile";
@@ -182,6 +183,7 @@ public class ImporterV4 extends Importer {
     private static final String ElemDbDefaultUser = "DefaultUserName";
     private static final String ElemDbDefaultUserChanged = "DefaultUserNameChanged";
     private static final String ElemDbMntncHistoryDays = "MaintenanceHistoryDays";
+    private static final String ElemDbColor = "Color";
     private static final String ElemDbKeyChanged = "MasterKeyChanged";
     private static final String ElemDbKeyChangeRec = "MasterKeyChangeRec";
     private static final String ElemDbKeyChangeForce = "MasterKeyChangeForce";
@@ -190,6 +192,8 @@ public class ImporterV4 extends Importer {
     private static final String ElemRecycleBinChanged = "RecycleBinChanged";
     private static final String ElemEntryTemplatesGroup = "EntryTemplatesGroup";
     private static final String ElemEntryTemplatesGroupChanged = "EntryTemplatesGroupChanged";
+    private static final String ElemHistoryMaxItems = "HistoryMaxItems";
+    private static final String ElemHistoryMaxSize = "HistoryMaxSize";
     private static final String ElemLastSelectedGroup = "LastSelectedGroup";
     private static final String ElemLastTopVisibleGroup = "LastTopVisibleGroup";
 
@@ -243,8 +247,13 @@ public class ImporterV4 extends Importer {
     private static final String ElemAutoTypeItem = "Association";
     private static final String ElemWindow = "Window";
     private static final String ElemKeystrokeSequence = "KeystrokeSequence";
+    
+    private static final String ElemBinaries = "Binaries";
 
+    private static final String AttrId = "ID";
+    private static final String AttrRef = "Ref";
     private static final String AttrProtected = "Protected";
+    private static final String AttrCompressed = "Compressed";
 
     private static final String ElemIsExpanded = "IsExpanded";
     private static final String ElemLastTopVisibleEntry = "LastTopVisibleEntry";
@@ -380,6 +389,9 @@ public class ImporterV4 extends Importer {
 				db.defaultUserName = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemDbDefaultUserChanged) ) {
 				db.defaultUserNameChanged = ReadTime(xpp);
+			} else if ( name.equalsIgnoreCase(ElemDbColor)) {
+				// TODO: Store this somewhere when writing enabled
+				ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemDbMntncHistoryDays) ) {
 				db.maintenanceHistoryDays = ReadUInt(xpp, DEFAULT_HISTORY_DAYS);
 			} else if ( name.equalsIgnoreCase(ElemDbKeyChanged) ) {
@@ -402,10 +414,20 @@ public class ImporterV4 extends Importer {
 				db.entryTemplatesGroup = ReadUuid(xpp);
 			} else if ( name.equalsIgnoreCase(ElemEntryTemplatesGroupChanged) ) {
 				db.entryTemplatesGroupChanged = ReadTime(xpp);
+			} else if ( name.equalsIgnoreCase(ElemHistoryMaxItems) ) {
+				// TODO: Store this somewhere when writing enabled
+				ReadInt(xpp, -1);
+			} else if ( name.equalsIgnoreCase(ElemHistoryMaxSize) ) {
+				// TODO: Store this somewhere when writing enabled
+				ReadLong(xpp, -1);
+			} else if ( name.equalsIgnoreCase(ElemEntryTemplatesGroupChanged) ) {
+				db.entryTemplatesGroupChanged = ReadTime(xpp);
 			} else if ( name.equalsIgnoreCase(ElemLastSelectedGroup) ) {
 				db.lastSelectedGroup = ReadUuid(xpp);
 			} else if ( name.equalsIgnoreCase(ElemLastTopVisibleGroup) ) {
 				db.lastTopVisibleGroup = ReadUuid(xpp);
+			} else if ( name.equalsIgnoreCase(ElemBinaries) ) {
+				return SwitchContext(ctx, KdbContext.Binaries, xpp);
 			} else if ( name.equalsIgnoreCase(ElemCustomData) ) {
 				return SwitchContext(ctx, KdbContext.CustomData, xpp);
 			}
@@ -450,6 +472,22 @@ public class ImporterV4 extends Importer {
 			} else {
 				ReadUnknown(xpp);
 			}
+			break;
+			
+		case Binaries:
+			if ( name.equalsIgnoreCase(ElemBinary) ) {
+				String key = xpp.getAttributeValue(null, AttrId);
+				if ( key != null ) {
+					// TODO: Store this somewhere when writing enabled
+					@SuppressWarnings("unused")
+					byte[] pbData = ReadProtectedBinary(xpp);
+				} else {
+					ReadUnknown(xpp);
+				}
+			} else {
+				ReadUnknown(xpp);
+			}
+			
 			break;
 
 		case CustomData:
@@ -700,6 +738,8 @@ public class ImporterV4 extends Importer {
 			customIconData = null;
 			
 			return KdbContext.CustomIcons;
+		} else if ( ctx == KdbContext.Binaries && name.equalsIgnoreCase(ElemBinaries) ) {
+			return KdbContext.Meta;
 		} else if ( ctx == KdbContext.CustomData && name.equalsIgnoreCase(ElemCustomData) ) {
 			return KdbContext.Meta;
 		} else if ( ctx == KdbContext.CustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem) ) {
@@ -834,6 +874,19 @@ public class ImporterV4 extends Importer {
 		return Types.bytestoUUID(buf);
 	}
 	
+	private int ReadInt(XmlPullParser xpp, int def) throws IOException, XmlPullParserException {
+		String str = ReadString(xpp);
+		
+		int u;
+		try {
+			u = Integer.parseInt(str);
+		} catch( NumberFormatException e) {
+			u = def;
+		}
+		
+		return u;
+	}
+	
 	private static final long MAX_UINT = 4294967296L; // 2^32
 	private long ReadUInt(XmlPullParser xpp, long uDefault) throws IOException, XmlPullParserException {
 		long u;
@@ -887,6 +940,20 @@ public class ImporterV4 extends Importer {
 	}
 	
 	private byte[] ReadProtectedBinary(XmlPullParser xpp) throws XmlPullParserException, IOException {
+		String ref = xpp.getAttributeValue(null, AttrRef);
+		if (ref != null) {
+			xpp.next(); // Consume end tag
+			
+			// TODO: Get binary from binpool
+			return new byte[0];
+		} 
+		
+		boolean compressed = false;
+		String comp = xpp.getAttributeValue(null, AttrCompressed);
+		if (comp != null) {
+			compressed = comp.equalsIgnoreCase(ValTrue);
+		}
+		
 		byte[] buf = ProcessNode(xpp);
 		
 		if ( buf != null ) return buf;
@@ -894,7 +961,12 @@ public class ImporterV4 extends Importer {
 		String base64 = ReadString(xpp);
 		if ( base64.length() == 0 ) return new byte[0];
 		
-		return Base64Coder.decode(base64);
+		byte[] data = Base64Coder.decode(base64);
+		
+		if (compressed) {
+			// TODO: Decompress data, it's gzipped, for now ignore since we don't use this data
+		}
+		return data;
 	}
 	
 	private String ReadString(XmlPullParser xpp) throws IOException, XmlPullParserException {

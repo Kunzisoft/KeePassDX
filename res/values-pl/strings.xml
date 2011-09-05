@@ -50,7 +50,6 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="decrypting_entry">Deszyfracja wpisu</string>
     <string name="default_checkbox">Używaj tej bazy danych jako domyślnej</string>
     <string name="digits">Cyfry</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Wprowadź nazwę pliku bazy danych:</string>
     <string name="entry_accessed">Dostęp do pliku: </string>

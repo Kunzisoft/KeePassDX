@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,9 +21,12 @@ package com.keepassdroid;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.keepass.R;
 
@@ -39,12 +42,32 @@ public class AboutDialog extends Dialog {
 		setContentView(R.layout.about);
 		setTitle(R.string.app_name);
 		
+		setVersion();
+		
 		Button okButton = (Button) findViewById(R.id.about_button);
 		okButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				dismiss();
 			}
 		});
+	}
+
+	private void setVersion() {
+		Context ctx = getContext();
+		
+		String version;
+		try {
+			PackageInfo packageInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+			version = packageInfo.versionName;
+			
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+			version = "";
+		}
+		
+		TextView tv = (TextView) findViewById(R.id.version);
+		tv.setText(version);
+		
 	}
 
 }

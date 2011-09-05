@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -64,35 +64,36 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	 * @throws InvalidDBVersionException 
 	 */
 	public void loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
+		LEDataInputStream dis = new LEDataInputStream(is);
 
-		int sig1 = LEDataInputStream.readInt(is);
-		int sig2 = LEDataInputStream.readInt(is);
+		int sig1 = dis.readInt();
+		int sig2 = dis.readInt();
 		
 		if ( ! matchesHeader(sig1, sig2) ) {
 			throw new InvalidDBVersionException();
 		}
 		
-		long version = LEDataInputStream.readUInt(is);
+		long version = dis.readUInt();
 		if ( ! validVersion(version) ) {
 			throw new InvalidDBVersionException();
 		}
 		
 		boolean done = false;
 		while ( ! done ) {
-			done = readHeaderField(is);
+			done = readHeaderField(dis);
 		}
 	}
 	
-	private boolean readHeaderField(InputStream is) throws IOException {
-		byte fieldID = (byte) is.read();
+	private boolean readHeaderField(LEDataInputStream dis) throws IOException {
+		byte fieldID = (byte) dis.read();
 		
-		int fieldSize = Types.readShort(is);
+		int fieldSize = dis.readShort();
 		
 		byte[] fieldData = null;
 		if ( fieldSize > 0 ) {
 			fieldData = new byte[fieldSize];
 			
-			int readSize = is.read(fieldData);
+			int readSize = dis.read(fieldData);
 			if ( readSize != fieldSize ) {
 				throw new IOException("Header ended early.");
 			}

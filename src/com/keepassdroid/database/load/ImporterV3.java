@@ -1,7 +1,25 @@
 /*
- Copyright 2011 Brian Pellin <bpellin@keepassdroid.com> 
- 
-This file was derived from 
+ * Copyright 2009-2011 Brian Pellin.
+ *     
+ * This file is part of KeePassDroid.
+ *
+ *  KeePassDroid is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+
+Derived from
+
 KeePass for J2ME
 
 Copyright 2007 Naomaru Itoi <nao@phoneid.org>
@@ -131,7 +149,7 @@ public class ImporterV3 extends Importer {
 			throw new InvalidDBSignatureException();
 		}
 
-		if( hdr.version != PwDbHeaderV3.DBVER_DW ) {
+		if( !hdr.matchesVersion() ) {
 			throw new InvalidDBVersionException();
 		}
 
@@ -222,7 +240,7 @@ public class ImporterV3 extends Importer {
 		int pos = PwDbHeaderV3.BUF_SIZE;
 		PwGroupV3 newGrp = new PwGroupV3();
 		for( int i = 0; i < hdr.numGroups; ) {
-			int fieldType = Types.readShort( filebuf, pos );
+			int fieldType = LEDataInputStream.readShort( filebuf, pos );
 			pos += 2;
 			int fieldSize = LEDataInputStream.readInt( filebuf, pos );
 			pos += 4;
@@ -243,7 +261,7 @@ public class ImporterV3 extends Importer {
 		// Import all entries
 		PwEntryV3 newEnt = new PwEntryV3();
 		for( int i = 0; i < hdr.numEntries; ) {
-			int fieldType = Types.readShort( filebuf, pos );
+			int fieldType = LEDataInputStream.readShort( filebuf, pos );
 			int fieldSize = LEDataInputStream.readInt( filebuf, pos + 2 );
 
 			if( fieldType == 0xFFFF ) {
@@ -340,7 +358,7 @@ public class ImporterV3 extends Importer {
 			grp.icon = db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0008 :
-			grp.level = Types.readShort(buf, offset);
+			grp.level = LEDataInputStream.readShort(buf, offset);
 			break;
 		case 0x0009 :
 			grp.flags = LEDataInputStream.readInt(buf, offset);
@@ -353,7 +371,7 @@ public class ImporterV3 extends Importer {
 	void readEntryField(PwDatabaseV3 db, PwEntryV3 ent, byte[] buf, int offset)
 	throws UnsupportedEncodingException
 	{
-		int fieldType = Types.readShort(buf, offset);
+		int fieldType = LEDataInputStream.readShort(buf, offset);
 		offset += 2;
 		int fieldSize = LEDataInputStream.readInt(buf, offset);
 		offset += 4;

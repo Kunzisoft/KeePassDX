@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -24,7 +24,10 @@ import java.io.FileNotFoundException;
 import java.net.URLDecoder;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -72,6 +75,7 @@ public class PasswordActivity extends LockingActivity {
 	private String mKeyFile;
 	private boolean mRememberKeyfile;
 	SharedPreferences prefs;
+	BroadcastReceiver mIntentReceiver;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -97,8 +101,14 @@ public class PasswordActivity extends LockingActivity {
 		
 		switch (requestCode) {
 		
+		case KeePass.EXIT_NORMAL:
+			setEditText(R.id.password, "");
+			App.getDB().clear();
+			break;
+		
 		case KeePass.EXIT_LOCK:
 			setResult(KeePass.EXIT_LOCK);
+			setEditText(R.id.password, "");
 			finish();
 			App.getDB().clear(); 
 			break;
@@ -109,6 +119,8 @@ public class PasswordActivity extends LockingActivity {
 					if (filename.startsWith("file://")) {
 						filename = filename.substring(7);
 					}
+					
+					filename = URLDecoder.decode(filename);
 					
 					EditText fn = (EditText) findViewById(R.id.pass_keyfile);
 					fn.setText(filename);
@@ -125,6 +137,9 @@ public class PasswordActivity extends LockingActivity {
 	
 		Intent i = getIntent();
 		String action = i.getAction();
+		
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
 		
 		if ( action != null && action.equals(VIEW_INTENT) ) {
 			mFileName = i.getDataString();
@@ -157,9 +172,11 @@ public class PasswordActivity extends LockingActivity {
 		} else {
 			mFileName = i.getStringExtra(KEY_FILENAME);
 			mKeyFile = i.getStringExtra(KEY_KEYFILE);
+			if ( mKeyFile == null || mKeyFile.length() == 0) {
+				mKeyFile = getKeyFile(mFileName);
+			}
 		}
 		
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		setContentView(R.layout.password);
 		populateView();
 
@@ -211,17 +228,33 @@ public class PasswordActivity extends LockingActivity {
 		});
 		
 		retrieveSettings();
+		
+		mIntentReceiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String action = intent.getAction();
+				if (action.equals(Intents.TIMEOUT)) {
+					setEditText(R.id.password, "");
+				}
+				
+			}
+		};
+		registerReceiver(mIntentReceiver, new IntentFilter());
 	}
 	
-	private void retrieveSettings() {
-		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(mIntentReceiver);
 		
+		super.onDestroy();
+	}
+
+	private void retrieveSettings() {
 		String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
 		if (mFileName.length() > 0 && mFileName.equals(defaultFilename)) {
 			CheckBox checkbox = (CheckBox) findViewById(R.id.default_database);
 			checkbox.setChecked(true);
-			
-			
 		}
 	}
 	
@@ -243,14 +276,6 @@ public class PasswordActivity extends LockingActivity {
 		setEditText(R.id.pass_keyfile, mKeyFile);
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		// Clear password on Database state
-		setEditText(R.id.password, "");
-	}
-
 	/*
 	private void errorMessage(CharSequence text)
 	{

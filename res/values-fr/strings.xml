@@ -36,7 +36,7 @@
 	<string name="ClearClipboard">Presse-papier nettoyé.</string>    
 	<string name="current_group">Groupe actuel : </string>    
 	<string name="current_group_root">Groupe actuel : Racine</string>    
-	<string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de la licenceGPL v2 ou ultérieure.</string>    
+	<string name="disclaimer_formal">KeePassDroid Copyright 2009-2011 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de la licenceGPL v2 ou ultérieure.</string>    
 	<string name="enter_filename">Entrez le nom de fichier de la base de données :</string>    
 	<string name="entry_accessed">Accédé : </string>    
 	<string name="entry_and_or">Entrez un mot de passe et/ou une clé de fichier pour déverrouiller votre base de données :</string>    

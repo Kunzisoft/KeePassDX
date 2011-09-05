@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2011 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -22,7 +22,6 @@ package com.keepassdroid.database.edit;
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.search.SearchDbHelper;
 
 public class AddEntry extends RunnableOnFinish {
 	protected Database mDb;
@@ -68,13 +67,6 @@ public class AddEntry extends RunnableOnFinish {
 				// Add entry to global
 				mDb.entries.put(mEntry.getUUID(), mEntry);
 				
-				if ( mDb.indexBuilt ) {
-					// Add entry to search index
-					SearchDbHelper helper = mDb.searchHelper;
-					helper.open();
-					helper.insertEntry(mEntry);
-					helper.close();
-				}
 			} else {
 				mDb.pm.removeEntryFrom(mEntry, mEntry.getParent());
 			}
