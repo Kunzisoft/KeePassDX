@@ -155,7 +155,6 @@ public class Database {
 		}
 		
 		File orig = new File(filename);
-		orig.delete();
 		
 		if ( ! tempFile.renameTo(orig) ) {
 			throw new IOException("Failed to store database.");
