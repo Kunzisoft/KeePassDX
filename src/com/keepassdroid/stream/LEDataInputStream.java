@@ -123,16 +123,16 @@ public class LEDataInputStream extends InputStream {
 		return buf;
 	}
 
-	public static int readShort(InputStream is) throws IOException {
+	public static int readUShort(InputStream is) throws IOException {
 		  byte[] buf = new byte[2];
 		  
 		  is.read(buf, 0, 2);
 		  
-		  return readShort(buf, 0); 
+		  return readUShort(buf, 0); 
 	  }
 	
-	public int readShort() throws IOException {
-		return readShort(baseStream);
+	public int readUShort() throws IOException {
+		return readUShort(baseStream);
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class LEDataInputStream extends InputStream {
 	   * @param offset
 	   * @return
 	   */
-	  public static int readShort( byte[] buf, int offset ) {
+	  public static int readUShort( byte[] buf, int offset ) {
 	    return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
 	  }
 

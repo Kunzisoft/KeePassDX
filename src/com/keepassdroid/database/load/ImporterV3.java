@@ -240,7 +240,7 @@ public class ImporterV3 extends Importer {
 		int pos = PwDbHeaderV3.BUF_SIZE;
 		PwGroupV3 newGrp = new PwGroupV3();
 		for( int i = 0; i < hdr.numGroups; ) {
-			int fieldType = LEDataInputStream.readShort( filebuf, pos );
+			int fieldType = LEDataInputStream.readUShort( filebuf, pos );
 			pos += 2;
 			int fieldSize = LEDataInputStream.readInt( filebuf, pos );
 			pos += 4;
@@ -261,7 +261,7 @@ public class ImporterV3 extends Importer {
 		// Import all entries
 		PwEntryV3 newEnt = new PwEntryV3();
 		for( int i = 0; i < hdr.numEntries; ) {
-			int fieldType = LEDataInputStream.readShort( filebuf, pos );
+			int fieldType = LEDataInputStream.readUShort( filebuf, pos );
 			int fieldSize = LEDataInputStream.readInt( filebuf, pos + 2 );
 
 			if( fieldType == 0xFFFF ) {
@@ -358,7 +358,7 @@ public class ImporterV3 extends Importer {
 			grp.icon = db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0008 :
-			grp.level = LEDataInputStream.readShort(buf, offset);
+			grp.level = LEDataInputStream.readUShort(buf, offset);
 			break;
 		case 0x0009 :
 			grp.flags = LEDataInputStream.readInt(buf, offset);
@@ -371,7 +371,7 @@ public class ImporterV3 extends Importer {
 	void readEntryField(PwDatabaseV3 db, PwEntryV3 ent, byte[] buf, int offset)
 	throws UnsupportedEncodingException
 	{
-		int fieldType = LEDataInputStream.readShort(buf, offset);
+		int fieldType = LEDataInputStream.readUShort(buf, offset);
 		offset += 2;
 		int fieldSize = LEDataInputStream.readInt(buf, offset);
 		offset += 4;

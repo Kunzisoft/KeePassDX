@@ -89,7 +89,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	private boolean readHeaderField(LEDataInputStream dis) throws IOException {
 		byte fieldID = (byte) dis.read();
 		
-		int fieldSize = dis.readShort();
+		int fieldSize = dis.readUShort();
 		
 		byte[] fieldData = null;
 		if ( fieldSize > 0 ) {
