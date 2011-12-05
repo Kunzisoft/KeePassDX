@@ -111,8 +111,6 @@ public class PwDbHeaderV3 extends PwDbHeader {
 
 	public PwDbHeaderV3() {
 		masterSeed = new byte[16];
-		transformSeed = new byte[32];
-		encryptionIV = new byte[16];
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {

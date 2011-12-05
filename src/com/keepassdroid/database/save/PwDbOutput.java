@@ -20,6 +20,8 @@
 package com.keepassdroid.database.save;
 
 import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
@@ -44,6 +46,20 @@ public abstract class PwDbOutput {
 	
 	protected PwDbOutput(OutputStream os) {
 		mOS = os;
+	}
+	
+	protected SecureRandom setIVs(PwDbHeader header) throws PwDbOutputException  {
+		SecureRandom random;
+		try {
+			random = SecureRandom.getInstance("SHA1PRNG");
+		} catch (NoSuchAlgorithmException e) {
+			throw new PwDbOutputException("Does not support secure random number generation.");
+		}
+		random.nextBytes(header.encryptionIV);
+		random.nextBytes(header.masterSeed);
+		random.nextBytes(header.transformSeed);
+		
+		return random;
 	}
 	
 	public abstract void output() throws PwDbOutputException;

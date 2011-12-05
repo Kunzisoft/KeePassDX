@@ -20,29 +20,34 @@
 package com.keepassdroid.database.save;
 
 import java.io.OutputStream;
+import java.security.SecureRandom;
 
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDatabaseV3Debug;
+import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.exception.PwDbOutputException;
 
 public class PwDbV3OutputDebug extends PwDbV3Output {
+	PwDatabaseV3Debug debugDb;
 
 	public PwDbV3OutputDebug(PwDatabaseV3 pm, OutputStream os) {
 		super(pm, os);
+		debugDb = (PwDatabaseV3Debug) pm;
 	}
 
 	@Override
-	protected void setIVs(PwDatabaseV3 db, PwDbHeaderV3 header)
-			throws PwDbOutputException {
+	protected SecureRandom setIVs(PwDbHeader h) throws PwDbOutputException {
+		PwDbHeaderV3 header = (PwDbHeaderV3) h;
 		
-		PwDatabaseV3Debug debugDb = (PwDatabaseV3Debug) db;
 		
 		// Reuse random values to test equivalence in debug mode
 		PwDbHeaderV3 origHeader = debugDb.dbHeader;
 		System.arraycopy(origHeader.encryptionIV, 0, header.encryptionIV, 0, origHeader.encryptionIV.length);
 		System.arraycopy(origHeader.masterSeed, 0, header.masterSeed, 0, origHeader.masterSeed.length);
 		System.arraycopy(origHeader.transformSeed, 0, header.transformSeed, 0, origHeader.transformSeed.length);
+		
+		return null;
 	}
 
 }

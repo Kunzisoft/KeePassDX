@@ -27,7 +27,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,18 +107,6 @@ public class PwDbV3Output extends PwDbOutput {
 		sortGroupsForOutput();
 	}
 
-	protected void setIVs(PwDatabaseV3 db, PwDbHeaderV3 header) throws PwDbOutputException {
-			SecureRandom random;
-			try {
-				random = SecureRandom.getInstance("SHA1PRNG");
-			} catch (NoSuchAlgorithmException e) {
-				throw new PwDbOutputException("Does not support secure random number generation.");
-			}
-			random.nextBytes(header.encryptionIV);
-			random.nextBytes(header.masterSeed);
-			random.nextBytes(header.transformSeed);
-	}
-	
 	public PwDbHeaderV3 outputHeader(OutputStream os) throws PwDbOutputException {
 		// Build header
 		PwDbHeaderV3 header = new PwDbHeaderV3();
@@ -140,7 +127,7 @@ public class PwDbV3Output extends PwDbOutput {
 		header.numEntries = mPM.entries.size();
 		header.numKeyEncRounds = mPM.getNumKeyEncRecords();
 		
-		setIVs(mPM, header);
+		setIVs(header);
 		
 		// Write checksum Checksum
 		MessageDigest md = null;
