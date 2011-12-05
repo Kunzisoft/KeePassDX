@@ -39,13 +39,13 @@ public class PwGroupOutputV3 {
 	public static final byte[] LEVEL_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(8);
 	public static final byte[] FLAGS_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(9);
 	public static final byte[] END_FIELD_TYPE =     LEDataOutputStream.writeUShortBuf(0xFFFF);
-	public static final byte[] LONG_FOUR =          Types.writeInt(4);
+	public static final byte[] LONG_FOUR =          LEDataOutputStream.writeIntBuf(4);
 	public static final byte[] GROUPID_FIELD_SIZE = LONG_FOUR;
-	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
+	public static final byte[] DATE_FIELD_SIZE =    LEDataOutputStream.writeIntBuf(5);
 	public static final byte[] IMAGEID_FIELD_SIZE = LONG_FOUR;
-	public static final byte[] LEVEL_FIELD_SIZE =   Types.writeInt(2);
+	public static final byte[] LEVEL_FIELD_SIZE =   LEDataOutputStream.writeIntBuf(2);
 	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
-	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
+	public static final byte[] ZERO_FIELD_SIZE =    LEDataOutputStream.writeIntBuf(0);
 	
 	private OutputStream mOS;
 	private PwGroupV3 mPG;
@@ -65,7 +65,7 @@ public class PwGroupOutputV3 {
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(GROUPID_FIELD_SIZE);
-		mOS.write(Types.writeInt(mPG.groupId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.groupId));
 		
 		// Name
 		mOS.write(NAME_FIELD_TYPE);
@@ -94,7 +94,7 @@ public class PwGroupOutputV3 {
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(IMAGEID_FIELD_SIZE);
-		mOS.write(Types.writeInt(mPG.icon.iconId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.icon.iconId));
 		
 		// Level
 		mOS.write(LEVEL_FIELD_TYPE);
@@ -104,7 +104,7 @@ public class PwGroupOutputV3 {
 		// Flags
 		mOS.write(FLAGS_FIELD_TYPE);
 		mOS.write(FLAGS_FIELD_SIZE);
-		mOS.write(Types.writeInt(mPG.flags));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.flags));
 
 		// End
 		mOS.write(END_FIELD_TYPE);

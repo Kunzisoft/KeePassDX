@@ -26,7 +26,7 @@ public enum CrsAlgorithm {
 	Salsa20(2);
 	
 	public static final int count = 3;
-	private final int id;
+	public final int id;
 	
 	private CrsAlgorithm(int num) {
 		id = num;

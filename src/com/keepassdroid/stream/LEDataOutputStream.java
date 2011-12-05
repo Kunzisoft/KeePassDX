@@ -22,7 +22,6 @@ package com.keepassdroid.stream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.keepassdroid.utils.Types;
 
 /** Little Endian version of the DataOutputStream
  * @author bpellin
@@ -37,7 +36,7 @@ public class LEDataOutputStream extends OutputStream {
 	}
 	
 	public void writeUInt(long uint) throws IOException {
-		baseStream.write(Types.writeInt((int) uint));
+		baseStream.write(LEDataOutputStream.writeIntBuf((int) uint));
 	}
 
 	@Override
@@ -85,6 +84,13 @@ public class LEDataOutputStream extends OutputStream {
 		baseStream.write(buf);
 	}
 
+	public static byte[] writeIntBuf(int val) {
+		  byte[] buf = new byte[4];
+		  writeInt(val, buf, 0);
+	
+		  return buf;
+	  }
+
 	public static byte[] writeUShortBuf(int val) {
 		  byte[] buf = new byte[2];
 		  
@@ -116,6 +122,12 @@ public class LEDataOutputStream extends OutputStream {
 	    buf[offset + 1] = (byte)((val >>> 8) & 0xFF);
 	    buf[offset + 2] = (byte)((val >>> 16) & 0xFF);
 	    buf[offset + 3] = (byte)((val >>> 24) & 0xFF);
+	  }
+	  
+	  public static byte[] writeLongBuf(long val) {
+		  byte[] buf = new byte[8];
+		  writeLong(val, buf, 0);
+		  return buf;
 	  }
 
 	public static void writeLong( long val, byte[] buf, int offset ) {

@@ -43,13 +43,13 @@ public class PwEntryOutputV3 {
 	public static final byte[] BINARY_DESC_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(13);
 	public static final byte[] BINARY_DATA_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(14);
 	public static final byte[] END_FIELD_TYPE =     LEDataOutputStream.writeUShortBuf(0xFFFF);
-	public static final byte[] LONG_FOUR = Types.writeInt(4);
-	public static final byte[] UUID_FIELD_SIZE =    Types.writeInt(16);
-	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
+	public static final byte[] LONG_FOUR = LEDataOutputStream.writeIntBuf(4);
+	public static final byte[] UUID_FIELD_SIZE =    LEDataOutputStream.writeIntBuf(16);
+	public static final byte[] DATE_FIELD_SIZE =    LEDataOutputStream.writeIntBuf(5);
 	public static final byte[] IMAGEID_FIELD_SIZE = LONG_FOUR;
 	public static final byte[] LEVEL_FIELD_SIZE =   LONG_FOUR;
 	public static final byte[] FLAGS_FIELD_SIZE =   LONG_FOUR;
-	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
+	public static final byte[] ZERO_FIELD_SIZE =    LEDataOutputStream.writeIntBuf(0);
 	public static final byte[] ZERO_FIVE       =   {0x00, 0x00, 0x00, 0x00, 0x00};
 	public static final byte[] TEST = {0x33, 0x33, 0x33, 0x33};
 
@@ -79,12 +79,12 @@ public class PwEntryOutputV3 {
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(Types.writeInt(mPE.groupId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.groupId));
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(Types.writeInt(mPE.icon.iconId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.icon.iconId));
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");
@@ -105,7 +105,7 @@ public class PwEntryOutputV3 {
 		// Password
 		byte[] password = mPE.getPasswordBytes();
 		mOS.write(PASSWORD_FIELD_TYPE);
-		mOS.write(Types.writeInt(password.length+1));
+		mOS.write(LEDataOutputStream.writeIntBuf(password.length+1));
 		mOS.write(password);
 		mOS.write(0);
 		outputBytes += password.length + 1;
@@ -149,7 +149,7 @@ public class PwEntryOutputV3 {
 			dataLen = 0;
 		}
 		mOS.write(BINARY_DATA_FIELD_TYPE);
-		mOS.write(Types.writeInt(dataLen));
+		mOS.write(LEDataOutputStream.writeIntBuf(dataLen));
 		if ( data != null ) {
 			mOS.write(data);
 		}
