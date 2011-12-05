@@ -78,6 +78,31 @@ public class LEDataOutputStream extends OutputStream {
 		
 		baseStream.write(buf);
 	}
+	
+	public void writeUShort(int val) throws IOException {
+		byte[] buf = new byte[2];
+		writeUShort(val, buf, 0);
+		baseStream.write(buf);
+	}
+
+	public static byte[] writeUShortBuf(int val) {
+		  byte[] buf = new byte[2];
+		  
+		  writeUShort(val, buf, 0);
+		  
+		  return buf;
+	  }
+
+	/** Write an unsigned 16-bit value
+	   * 
+	   * @param val
+	   * @param buf
+	   * @param offset
+	   */
+	  public static void writeUShort(int val, byte[] buf, int offset) {
+		  buf[offset + 0] = (byte)(val & 0x00FF);
+		  buf[offset + 1] = (byte)((val & 0xFF00) >> 8);
+	  }
 
 	/**
 	   * Write a 32-bit value.

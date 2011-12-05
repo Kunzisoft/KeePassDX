@@ -24,20 +24,21 @@ import java.io.OutputStream;
 
 
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.stream.LEDataOutputStream;
 import com.keepassdroid.utils.Types;
 
 public class PwGroupOutputV3 {
 	// Constants
-	public static final byte[] GROUPID_FIELD_TYPE = Types.writeShort(1);
-	public static final byte[] NAME_FIELD_TYPE =    Types.writeShort(2);
-	public static final byte[] CREATE_FIELD_TYPE =  Types.writeShort(3);
-	public static final byte[] MOD_FIELD_TYPE =     Types.writeShort(4);
-	public static final byte[] ACCESS_FIELD_TYPE =  Types.writeShort(5);
-	public static final byte[] EXPIRE_FIELD_TYPE =  Types.writeShort(6);
-	public static final byte[] IMAGEID_FIELD_TYPE = Types.writeShort(7);
-	public static final byte[] LEVEL_FIELD_TYPE =   Types.writeShort(8);
-	public static final byte[] FLAGS_FIELD_TYPE =   Types.writeShort(9);
-	public static final byte[] END_FIELD_TYPE =     Types.writeShort(0xFFFF);
+	public static final byte[] GROUPID_FIELD_TYPE = LEDataOutputStream.writeUShortBuf(1);
+	public static final byte[] NAME_FIELD_TYPE =    LEDataOutputStream.writeUShortBuf(2);
+	public static final byte[] CREATE_FIELD_TYPE =  LEDataOutputStream.writeUShortBuf(3);
+	public static final byte[] MOD_FIELD_TYPE =     LEDataOutputStream.writeUShortBuf(4);
+	public static final byte[] ACCESS_FIELD_TYPE =  LEDataOutputStream.writeUShortBuf(5);
+	public static final byte[] EXPIRE_FIELD_TYPE =  LEDataOutputStream.writeUShortBuf(6);
+	public static final byte[] IMAGEID_FIELD_TYPE = LEDataOutputStream.writeUShortBuf(7);
+	public static final byte[] LEVEL_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(8);
+	public static final byte[] FLAGS_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(9);
+	public static final byte[] END_FIELD_TYPE =     LEDataOutputStream.writeUShortBuf(0xFFFF);
 	public static final byte[] LONG_FOUR =          Types.writeInt(4);
 	public static final byte[] GROUPID_FIELD_SIZE = LONG_FOUR;
 	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
@@ -98,7 +99,7 @@ public class PwGroupOutputV3 {
 		// Level
 		mOS.write(LEVEL_FIELD_TYPE);
 		mOS.write(LEVEL_FIELD_SIZE);
-		mOS.write(Types.writeShort(mPG.level));
+		mOS.write(LEDataOutputStream.writeUShortBuf(mPG.level));
 		
 		// Flags
 		mOS.write(FLAGS_FIELD_TYPE);

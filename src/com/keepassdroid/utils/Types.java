@@ -64,25 +64,6 @@ public class Types {
 	  return buf;
   }
 
-  /** Write an unsigned 16-bit value
-   * 
-   * @param val
-   * @param buf
-   * @param offset
-   */
-  public static void writeShort(int val, byte[] buf, int offset) {
-	  buf[offset + 0] = (byte)(val & 0x00FF);
-	  buf[offset + 1] = (byte)((val & 0xFF00) >> 8);
-  }
-
-  public static byte[] writeShort(int val) {
-	  byte[] buf = new byte[2];
-	  
-	  writeShort(val, buf, 0);
-	  
-	  return buf;
-  }
-                     
   /** Read an unsigned byte */
   public static int readUByte( byte[] buf, int offset ) {
     return ((int)buf[offset] & 0xFF);

@@ -111,7 +111,7 @@ public class TypesTest extends TestCase {
 		orig[1] = 1;
 		
 		int one = LEDataInputStream.readUShort(orig, 0);
-		dest = Types.writeShort(one);
+		dest = LEDataOutputStream.writeUShortBuf(one);
 		
 		assertArrayEquals(orig, dest);
 		
@@ -132,7 +132,7 @@ public class TypesTest extends TestCase {
 		setArray(orig, value, 0, 2);
 		
 		int one = LEDataInputStream.readUShort(orig, 0);
-		Types.writeShort(one, dest, 0);
+		LEDataOutputStream.writeUShort(one, dest, 0);
 		
 		assertArrayEquals(orig, dest);
 

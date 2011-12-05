@@ -23,25 +23,26 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.stream.LEDataOutputStream;
 import com.keepassdroid.utils.Types;
 
 public class PwEntryOutputV3 {
 	// Constants
-	public static final byte[] UUID_FIELD_TYPE =     Types.writeShort(1);
-	public static final byte[] GROUPID_FIELD_TYPE =  Types.writeShort(2);
-	public static final byte[] IMAGEID_FIELD_TYPE =  Types.writeShort(3);
-	public static final byte[] TITLE_FIELD_TYPE =    Types.writeShort(4);
-	public static final byte[] URL_FIELD_TYPE =      Types.writeShort(5);
-	public static final byte[] USERNAME_FIELD_TYPE =  Types.writeShort(6);
-	public static final byte[] PASSWORD_FIELD_TYPE = Types.writeShort(7);
-	public static final byte[] ADDITIONAL_FIELD_TYPE =   Types.writeShort(8);
-	public static final byte[] CREATE_FIELD_TYPE =   Types.writeShort(9);
-	public static final byte[] MOD_FIELD_TYPE =   Types.writeShort(10);
-	public static final byte[] ACCESS_FIELD_TYPE =   Types.writeShort(11);
-	public static final byte[] EXPIRE_FIELD_TYPE =   Types.writeShort(12);
-	public static final byte[] BINARY_DESC_FIELD_TYPE =   Types.writeShort(13);
-	public static final byte[] BINARY_DATA_FIELD_TYPE =   Types.writeShort(14);
-	public static final byte[] END_FIELD_TYPE =     Types.writeShort(0xFFFF);
+	public static final byte[] UUID_FIELD_TYPE =     LEDataOutputStream.writeUShortBuf(1);
+	public static final byte[] GROUPID_FIELD_TYPE =  LEDataOutputStream.writeUShortBuf(2);
+	public static final byte[] IMAGEID_FIELD_TYPE =  LEDataOutputStream.writeUShortBuf(3);
+	public static final byte[] TITLE_FIELD_TYPE =    LEDataOutputStream.writeUShortBuf(4);
+	public static final byte[] URL_FIELD_TYPE =      LEDataOutputStream.writeUShortBuf(5);
+	public static final byte[] USERNAME_FIELD_TYPE =  LEDataOutputStream.writeUShortBuf(6);
+	public static final byte[] PASSWORD_FIELD_TYPE = LEDataOutputStream.writeUShortBuf(7);
+	public static final byte[] ADDITIONAL_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(8);
+	public static final byte[] CREATE_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(9);
+	public static final byte[] MOD_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(10);
+	public static final byte[] ACCESS_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(11);
+	public static final byte[] EXPIRE_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(12);
+	public static final byte[] BINARY_DESC_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(13);
+	public static final byte[] BINARY_DATA_FIELD_TYPE =   LEDataOutputStream.writeUShortBuf(14);
+	public static final byte[] END_FIELD_TYPE =     LEDataOutputStream.writeUShortBuf(0xFFFF);
 	public static final byte[] LONG_FOUR = Types.writeInt(4);
 	public static final byte[] UUID_FIELD_SIZE =    Types.writeInt(16);
 	public static final byte[] DATE_FIELD_SIZE =    Types.writeInt(5);
