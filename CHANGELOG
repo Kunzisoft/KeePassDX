@@ -1,3 +1,4 @@
+KeePassdroid (1.9.6)
   * Fix file association errors for paths with '.'s. (Will now match paths
     with up to 10 dots)
   * Update Norwegian Nynorsk translations
