@@ -1,6 +1,7 @@
   * Fix file association errors for paths with '.'s. (Will now match paths
     with up to 10 dots)
   * Update Norwegian Nynorsk translations
+  * Add new icons and market graphics (thanks to Hadley)
 
 KeePassDroid (1.9.5)
   * Update Norwegian Nynorsk translations
