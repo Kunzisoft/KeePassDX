@@ -33,15 +33,25 @@
 			    <data android:mimeType="*/*" />
 			    <data android:host="*" />
 			    <data android:pathPattern=".*\\.kdb" />
-    		</intent-filter>
-    		<intent-filter>
-			    <action android:name="android.intent.action.VIEW" />
-			    <category android:name="android.intent.category.DEFAULT" />
-			    <category android:name="android.intent.category.BROWSABLE" />
-			    <data android:scheme="file" />
-			    <data android:mimeType="*/*" />
-			    <data android:host="*" />
+			    <data android:pathPattern=".*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
 			    <data android:pathPattern=".*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
     		</intent-filter>
     	</activity>
     	<activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden"
