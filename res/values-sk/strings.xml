@@ -39,10 +39,10 @@
     <string name="building_search_idx">Spracúvam index hľadania...</string>
     <string name="cancel">Zrušiť</string>
     <string name="ClearClipboard">Schránka vyčistená.</string>
-    <string name="clipboard_timeout">Schránka vypršala</string>
+    <string name="clipboard_timeout">Timeout Schránky</string>
     <string name="clipboard_timeout_summary">Čas pred vyčistením schránky po skopírovaní mena alebo hesla</string>
-    <string name="copy_username">Kopírovať prihlasovacie meno do schránky</string>
-    <string name="copy_password">Kopírovať heslo do schránky</string>
+    <string name="copy_username">Meno skopírované do schránky</string>
+    <string name="copy_password">Heslo skopírované do schránky</string>
     <string name="creating_db_key">Vytváram databázový kľúč...</string>
     <string name="current_group">Aktuálna skupina: </string>
     <string name="current_group_root">Aktuálna skupina: Root</string>
@@ -117,7 +117,7 @@
     <string name="menu_about">O Programe</string>
     <string name="menu_change_key">Zmeniť hlavný Kľúč</string>
     <string name="menu_copy_pass">Kopíruj Heslo</string>
-    <string name="menu_copy_user">Kopíruj Užívať.</string>
+    <string name="menu_copy_user">Kopíruj Užívateľa</string>
     <string name="menu_create">Vytvoriť</string>
     <string name="menu_app_settings">Nastavenia</string>
     <string name="menu_db_settings">Nastavenia Databázy</string>
@@ -137,7 +137,7 @@
     <string name="no_results">Žiadne výsledky hľadania</string>
     <string name="no_url_handler">Žiaden manažér pre url.</string>
     <string name="open_recent">Otvoriť poslednú databázu (kliknutím otvoriť):</string>
-    <string name="omitbackup_title">Neprehľadávať položky záloh a vymazané</string>
+    <string name="omitbackup_title">Neprehľadávať položky</string>
     <string name="omitbackup_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
     <string name="pass_filename">KeePass databázový súbor:</string>
     <string name="pass_ok">Ok</string>
@@ -150,7 +150,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrovacie opakovania</string>
-    <string name="rounds_explaination">Vyššie opakaovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
+    <string name="rounds_explaination">Vyššie opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
     <string name="rounds_hint">opakovania</string>
     <string name="saving_database">Ukladám databázu...</string>
     <string name="space">Miesto</string>
@@ -170,7 +170,7 @@
     
     <string-array name="clipboard_timeout_options">
       <item>30 sekúnd</item>
-    	<item>1 minúta</item>
+     <item>1 minúta</item>
     	<item>5 minút</item>
     	<item>Nikdy</item>
     </string-array>
