@@ -49,7 +49,7 @@
     <string name="entry_save">Speichern</string>
     <string name="entry_title">Titel: </string>
     <string name="entry_url">URL: </string>
-    <string name="entry_user_name">Benutzerame: </string>
+    <string name="entry_user_name">Benutzername: </string>
     <string name="error_can_not_handle_uri">KeePassDroid kann diese Adresse nicht verarbeiten.</string>
     <string name="error_could_not_create_group">Fehler beim erstellen der Gruppe.</string>
     <string name="error_database_exists">Die Datei existiert bereits.</string>
