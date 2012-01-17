@@ -818,8 +818,7 @@ public class ImporterV4 extends Importer {
 		try {
 			utcDate = dateFormat.parse(sDate);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			throw new IOException(e.getLocalizedMessage());
+			utcDate = new Date(0L);
 		}
 		
 		return utcDate;
