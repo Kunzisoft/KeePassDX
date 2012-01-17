@@ -35,11 +35,11 @@
     <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Scadenza applicazione</string>
     <string name="app_timeout_summary">Tempo prima che venga bloccato il database quando l\'applicazione è inattiva.</string>
-<string name="application">Applicazione</string>
-<string name="application_settings">Impostazioni Applicazione</string>
+    <string name="application">Applicazione</string>
+    <string name="application_settings">Impostazioni Applicazione</string>
     <string name="brackets">Parentesi</string>
     <string name="browser_intall_text">Sfogliare i file richiede l\'applicazione Gestore File di Open Intents, clicca sotto per installarlo. A causa di alcune stranezze nel gestore file, la prima volta la navigazione potrebbe non funzionare correttamente.</string>
-<string name="building_search_idx">Creazione indice di ricerca...</string>
+    <string name="building_search_idx">Creazione indice di ricerca...</string>
     <string name="cancel">Annulla</string>
     <string name="ClearClipboard">Appunti eliminati.</string>
     <string name="clipboard_timeout">Scadenza appunti</string>
@@ -140,6 +140,8 @@
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Nessun gestore per questo URL.</string>
     <string name="open_recent">Apri un database recente (clicca per aprire):</string>
+    <string name="omitbackup_title">Non cercare voci di backup e nel Cestino</string>
+    <string name="omitbackup_summary">Ometti i gruppi \'Backup\' e Cestino dai risultati di ricerca</string>
     <string name="pass_filename">Nome file del database di KeePass:</string>
     <string name="pass_ok">OK</string>
     <string name="password_title">Inserisci password database</string>
