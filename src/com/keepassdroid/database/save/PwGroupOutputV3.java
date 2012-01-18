@@ -67,33 +67,45 @@ public class PwGroupOutputV3 {
 		mOS.write(Types.writeInt(mPG.groupId));
 		
 		// Name
-		mOS.write(NAME_FIELD_TYPE);
-		Types.writeCString(mPG.name, mOS);
+		if (mPG.name != null) {
+			mOS.write(NAME_FIELD_TYPE);
+			Types.writeCString(mPG.name, mOS);
+		}
 
 		// Create date
-		mOS.write(CREATE_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tCreation.getCDate());
+		if (mPG.tCreation != null) {
+			mOS.write(CREATE_FIELD_TYPE);
+			mOS.write(DATE_FIELD_SIZE);
+			mOS.write(mPG.tCreation.getCDate());
+		}
 		
 		// Modification date
-		mOS.write(MOD_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tLastMod.getCDate());
+		if (mPG.tLastMod != null) {
+			mOS.write(MOD_FIELD_TYPE);
+			mOS.write(DATE_FIELD_SIZE);
+			mOS.write(mPG.tLastMod.getCDate());
+		}
 		
 		// Access date
-		mOS.write(ACCESS_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tLastAccess.getCDate());
+		if (mPG.tLastAccess != null) {
+			mOS.write(ACCESS_FIELD_TYPE);
+			mOS.write(DATE_FIELD_SIZE);
+			mOS.write(mPG.tLastAccess.getCDate());
+		}
 		
 		// Expiration date
-		mOS.write(EXPIRE_FIELD_TYPE);
-		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tExpire.getCDate());
+		if (mPG.tExpire != null) {
+			mOS.write(EXPIRE_FIELD_TYPE);
+			mOS.write(DATE_FIELD_SIZE);
+			mOS.write(mPG.tExpire.getCDate());
+		}
 		
 		// Image ID
-		mOS.write(IMAGEID_FIELD_TYPE);
-		mOS.write(IMAGEID_FIELD_SIZE);
-		mOS.write(Types.writeInt(mPG.icon.iconId));
+		if (mPG.icon != null) { 
+			mOS.write(IMAGEID_FIELD_TYPE);
+			mOS.write(IMAGEID_FIELD_SIZE);
+			mOS.write(Types.writeInt(mPG.icon.iconId));
+		}
 		
 		// Level
 		mOS.write(LEVEL_FIELD_TYPE);

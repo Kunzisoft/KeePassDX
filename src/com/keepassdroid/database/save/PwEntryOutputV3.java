@@ -81,9 +81,11 @@ public class PwEntryOutputV3 {
 		mOS.write(Types.writeInt(mPE.groupId));
 		
 		// Image ID
-		mOS.write(IMAGEID_FIELD_TYPE);
-		mOS.write(LONG_FOUR);
-		mOS.write(Types.writeInt(mPE.icon.iconId));
+		if (mPE.icon != null) {
+			mOS.write(IMAGEID_FIELD_TYPE);
+			mOS.write(LONG_FOUR);
+			mOS.write(Types.writeInt(mPE.icon.iconId));
+		}
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");
@@ -115,21 +117,31 @@ public class PwEntryOutputV3 {
 		outputBytes += addlLen;
 
 		// Create date
-		writeDate(CREATE_FIELD_TYPE, mPE.tCreation.getCDate());
+		if (mPE.tCreation != null) {
+			writeDate(CREATE_FIELD_TYPE, mPE.tCreation.getCDate());
+		}
 		
 		// Modification date
-		writeDate(MOD_FIELD_TYPE, mPE.tLastMod.getCDate());
+		if (mPE.tLastMod != null) {
+			writeDate(MOD_FIELD_TYPE, mPE.tLastMod.getCDate());
+		}
 
 		// Access date
-		writeDate(ACCESS_FIELD_TYPE, mPE.tLastAccess.getCDate());
+		if (mPE.tLastAccess != null) {
+			writeDate(ACCESS_FIELD_TYPE, mPE.tLastAccess.getCDate());
+		}
 
 		// Expiration date
-		writeDate(EXPIRE_FIELD_TYPE, mPE.tExpire.getCDate());
+		if (mPE.tExpire != null) {
+			writeDate(EXPIRE_FIELD_TYPE, mPE.tExpire.getCDate());
+		}
 	
 		// Binary desc
-		mOS.write(BINARY_DESC_FIELD_TYPE);
-		int descLen = Types.writeCString(mPE.binaryDesc, mOS);
-		outputBytes += descLen;
+		if (mPE.binaryDesc != null) {
+			mOS.write(BINARY_DESC_FIELD_TYPE);
+			int descLen = Types.writeCString(mPE.binaryDesc, mOS);
+			outputBytes += descLen;
+		}
 	
 		// Binary data
 		int dataLen = writeByteArray(mPE.getBinaryData());

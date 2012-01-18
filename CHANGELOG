@@ -1,6 +1,8 @@
   * Add Slovak translation from Tomáš Pytlíček
   * Italian translation updates.
-  * Handle blank dates gracefully (improves compatibility with iOS KeePass)
+  * iOS KeePass compatibility improvements:
+	  * Handle blank dates gracefully
+	  * Prevent crash on saving when data is missing.
 
 KeePassdroid (1.9.6)
   * Fix file association errors for paths with '.'s. (Will now match paths
