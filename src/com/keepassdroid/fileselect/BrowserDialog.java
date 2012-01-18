@@ -23,6 +23,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -74,13 +75,16 @@ public class BrowserDialog extends Dialog {
 	}
 	
 	private boolean isMarketInstalled() {
-		Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse("market://search?q=foo"));
 		PackageManager pm = getContext().getPackageManager();
 		
-		// Check if anything is available to handle this intent
-		return pm.queryIntentActivities(intent, 0).size() > 0;
+		try {
+			pm.getPackageInfo("com.android.vending", 0);
+		} catch (NameNotFoundException e) {
+			return false;
+		}
+		
+		return true;
+		
 	}
 
 }
