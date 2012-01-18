@@ -1,3 +1,4 @@
+KeePassDroid (1.9.7)
   * Add Slovak translation from Tomáš Pytlíček
   * Italian translation updates.
   * iOS KeePass compatibility improvements:
@@ -6,7 +7,7 @@
 	  * Don't crash when opening menu in the Entry activity if there is no URL
 	  * Don't crash when building search index
 
-KeePassdroid (1.9.6)
+KeePassDroid (1.9.6)
   * Fix file association errors for paths with '.'s. (Will now match paths
     with up to 10 dots)
   * Update Norwegian Nynorsk translations
