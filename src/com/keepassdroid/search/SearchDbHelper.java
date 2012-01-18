@@ -72,10 +72,13 @@ public class SearchDbHelper {
 				// Search all strings in the entry
 				Iterator<String> iter = entry.stringIterator();
 				while (iter.hasNext()) {
-					String str = iter.next().toLowerCase();
-					if (str.contains(qStr)) {
-						group.childEntries.add(entry);
-						break;
+					String str = iter.next();
+					if (str != null) {
+						String lower = str.toLowerCase();
+						if (lower.contains(qStr)) {
+							group.childEntries.add(entry);
+							break;
+						}
 					}
 				}
 			}

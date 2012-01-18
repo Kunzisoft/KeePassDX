@@ -4,6 +4,7 @@
 	  * Handle blank dates gracefully
 	  * Prevent crash on saving when data is missing.
 	  * Don't crash when opening menu in the Entry activity if there is no URL
+	  * Don't crash when building search index
 
 KeePassdroid (1.9.6)
   * Fix file association errors for paths with '.'s. (Will now match paths
