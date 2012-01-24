@@ -24,7 +24,7 @@ import com.keepassdroid.database.PwEntryV3;
 
 public class EmptyUtils {
 	public static boolean isNullOrEmpty(String str) {
-		return (str == null) || str.isEmpty();
+		return (str == null) || (str.length() == 0);
 	}
 	
 	public static boolean isNullOrEmpty(byte[] buf) {

@@ -52,7 +52,7 @@ public class PwEntryOutputV3 {
 	public static final byte[] ZERO_FIELD_SIZE =    Types.writeInt(0);
 	public static final byte[] ZERO_FIVE       =   {0x00, 0x00, 0x00, 0x00, 0x00};
 	public static final byte[] TEST = {0x33, 0x33, 0x33, 0x33};
-
+	
 	private OutputStream mOS;
 	private PwEntryV3 mPE;
 	private long outputBytes = 0;
@@ -144,6 +144,11 @@ public class PwEntryOutputV3 {
 
 		// Expiration date
 		if (mPE.tExpire != null) {
+			// Correct previously saved wrong expiry dates
+			if (mPE.tExpire.equals(PwEntryV3.PW_NEVER_EXPIRE_BUG)) {
+				mPE.tExpire = PwEntryV3.PW_NEVER_EXPIRE;
+			}
+			
 			writeDate(EXPIRE_FIELD_TYPE, mPE.tExpire.getCDate());
 		}
 	

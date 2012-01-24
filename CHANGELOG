@@ -1,4 +1,5 @@
  * Fix crashes related to saving missing entries
+ * Fix issues with setting wrong expiry date
 
 KeePassDroid (1.9.7)
   * Add Slovak translation from Typhoon

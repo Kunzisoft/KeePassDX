@@ -24,6 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 
+import android.util.Log;
+
 import com.keepassdroid.app.App;
 import com.keepassdroid.utils.Types;
 
@@ -127,12 +129,17 @@ public class PwDate implements Cloneable {
 			time = Calendar.getInstance();
 		}
 		// File format is a 1 based month, java Calendar uses a zero based month
-		time.set(year, month - 1, day, hour, minute, second);
+		// File format is a 0 based day, java Calendar uses a 1 based day
+		time.set(year, month - 1, day + 1, hour, minute, second);
 
 		return time.getTime();
 
 	}
 
+	public static byte[] writeTime(Date date) {
+		return writeTime(date, null);
+	}
+	
 	public static byte[] writeTime(Date date, Calendar cal) {
 		if (date == null) {
 			return null;
@@ -147,7 +154,8 @@ public class PwDate implements Cloneable {
 		int year = cal.get(Calendar.YEAR);
 		// File format is a 1 based month, java Calendar uses a zero based month
 		int month = cal.get(Calendar.MONTH) + 1;
-		int day = cal.get(Calendar.DAY_OF_MONTH);
+		// File format is a 0 based day, java Calendar uses a 1 based day
+		int day = cal.get(Calendar.DAY_OF_MONTH) - 1;
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		int minute = cal.get(Calendar.MINUTE);
 		int second = cal.get(Calendar.SECOND);
@@ -177,14 +185,32 @@ public class PwDate implements Cloneable {
 		
 		PwDate date = (PwDate) o;
 		if ( cDateBuilt && date.cDateBuilt ) {
-			return cDate.equals(date.cDate);
+			return Arrays.equals(cDate, date.cDate);
 		} else if ( jDateBuilt && date.jDateBuilt ) {
-			return jDate.equals(date.jDate);
+			return IsSameDate(jDate, date.jDate);
 		} else if ( cDateBuilt && date.jDateBuilt ) {
 			return Arrays.equals(date.getCDate(), cDate);
 		} else {
-			return date.getJDate().equals(jDate);
+			return IsSameDate(date.getJDate(), jDate);
 		}
+	}
+
+	public static boolean IsSameDate(Date d1, Date d2) {
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(d1);
+		cal1.set(Calendar.MILLISECOND, 0);
+	
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(d2);
+		cal2.set(Calendar.MILLISECOND, 0);
+		
+		return (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) && 
+		(cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)) &&
+		(cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) &&
+		(cal1.get(Calendar.HOUR) == cal2.get(Calendar.HOUR)) &&
+		(cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE)) &&
+		(cal1.get(Calendar.SECOND) == cal2.get(Calendar.SECOND));
+	
 	}
 
 }

@@ -22,7 +22,7 @@ package com.keepassdroid.database.save;
 import java.io.IOException;
 import java.io.OutputStream;
 
-
+import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
@@ -96,6 +96,10 @@ public class PwGroupOutputV3 {
 		
 		// Expiration date
 		if (!EmptyUtils.isNullOrEmpty(mPG.tExpire)) {
+			// Correct previously saved wrong expiry dates
+			if (mPG.tExpire.equals(PwEntryV3.PW_NEVER_EXPIRE_BUG)) {
+				mPG.tExpire = PwEntryV3.PW_NEVER_EXPIRE;
+			}
 			mOS.write(EXPIRE_FIELD_TYPE);
 			mOS.write(DATE_FIELD_SIZE);
 			mOS.write(mPG.tExpire.getCDate());
