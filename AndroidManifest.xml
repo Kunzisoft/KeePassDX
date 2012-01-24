@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.android.keepass"
-      android:installLocation="auto" android:versionCode="84" android:versionName="1.9.7">
+      android:installLocation="auto" android:versionCode="85" android:versionName="1.9.8">
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="10"/>
 	<supports-screens
       android:smallScreens="true"
@@ -9,6 +9,7 @@
       android:largeScreens="true"
       android:anyDensity="true"
     />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <application 
       android:label="@string/app_name"
       android:icon="@drawable/launcher"
@@ -93,5 +94,4 @@
 		<service android:name="com.keepassdroid.services.TimeoutService"></service>
 		<meta-data android:name="com.a0soft.gphone.aTrackDog.webURL" android:value="http://keepassdroid.com" />
 	</application>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 
