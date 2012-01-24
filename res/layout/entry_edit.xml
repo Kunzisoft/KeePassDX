@@ -42,7 +42,7 @@
 	  android:layout_height="fill_parent"
 	  android:layout_above="@id/entry_divider">
 		<RelativeLayout android:layout_width="fill_parent"
-		  android:layout_height="fill_parent">
+		  android:layout_height="wrap_content">
 			<!--  Title -->	
 			<TextView android:id="@+id/entry_title_label"
 			  android:layout_width="fill_parent"
