@@ -253,6 +253,7 @@ public class ImporterV3 extends Importer {
 			if( fieldType == 0xFFFF ) {
 
 				// End-Group record.  Save group and count it.
+				newGrp.populateBlankFields(newManager);
 				newManager.groups.add(newGrp);
 				newGrp = new PwGroupV3();
 				i++;
@@ -271,6 +272,7 @@ public class ImporterV3 extends Importer {
 
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
+				newEnt.populateBlankFields(newManager);
 				newManager.entries.add(newEnt);
 				newEnt = new PwEntryV3();
 				i++;

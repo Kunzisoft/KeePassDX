@@ -59,6 +59,9 @@ import com.keepassdroid.utils.Types;
 public class PwEntryV3 extends PwEntry {
 
 	public static final Date NEVER_EXPIRE = getNeverExpire();
+	public static final Date DEFAULT_DATE = getDefaultDate();
+	public static final PwDate PW_NEVER_EXPIRE = new PwDate(NEVER_EXPIRE);
+	public static final PwDate DEFAULT_PWDATE = new PwDate(DEFAULT_DATE);
 	
 
 	/** Size of byte buffer needed to hold this struct. */
@@ -87,6 +90,18 @@ public class PwEntryV3 extends PwEntry {
 	/** A string describing what is in pBinaryData */
 	public String           binaryDesc;
 	private byte[]          binaryData;
+
+	private static Date getDefaultDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2004);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+
+		return cal.getTime();
+	}
 
 	private static Date getNeverExpire() {
 		Calendar cal = Calendar.getInstance();
@@ -389,5 +404,59 @@ public class PwEntryV3 extends PwEntry {
 	@Override
 	public boolean expires() {
 		return ! IsNever(tExpire.getJDate());
+	}
+	
+	public void populateBlankFields(PwDatabaseV3 db) {
+		if (icon == null) {
+			icon = db.iconFactory.getIcon(1);
+		}
+		
+		if (username == null) {
+			username = "";
+		}
+		
+		if (password == null) {
+			password = new byte[0];
+		}
+		
+		if (uuid == null) {
+			uuid = Types.UUIDtoBytes(UUID.randomUUID());
+		}
+		
+		if (title == null) {
+			title = "";
+		}
+		
+		if (url == null) {
+			url = "";
+		}
+		
+		if (additional == null) {
+			additional = "";
+		}
+		
+		if (tCreation == null) {
+			tCreation = DEFAULT_PWDATE;
+		}
+		
+		if (tLastMod == null) {
+			tLastMod = DEFAULT_PWDATE;
+		}
+		
+		if (tLastAccess == null) {
+			tLastAccess = DEFAULT_PWDATE;
+		}
+		
+		if (tExpire == null) {
+			tExpire = PW_NEVER_EXPIRE;
+		}
+		
+		if (binaryDesc == null) {
+			binaryDesc = "";
+		}
+		
+		if (binaryData == null) {
+			binaryData = new byte[0];
+		}
 	}
 }

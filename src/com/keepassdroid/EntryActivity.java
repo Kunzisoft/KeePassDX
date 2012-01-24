@@ -281,8 +281,7 @@ public class EntryActivity extends LockCloseActivity {
 		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
 		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
 		
-		String url = mEntry.getUrl();
-		if ( url != null && url.length() == 0 ) {
+		if ( mEntry.getUrl().length() == 0 ) {
 			// disable button if url is not available
 			menu.findItem(MENU_GOTO_URL).setEnabled(false);
 		}

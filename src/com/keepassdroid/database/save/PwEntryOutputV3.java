@@ -89,19 +89,25 @@ public class PwEntryOutputV3 {
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");
-		mOS.write(TITLE_FIELD_TYPE);
-		int titleLen = Types.writeCString(mPE.title, mOS);
-		outputBytes += titleLen;
+		if (mPE.title != null) {
+			mOS.write(TITLE_FIELD_TYPE);
+			int titleLen = Types.writeCString(mPE.title, mOS);
+			outputBytes += titleLen;
+		}
 
 		// URL
-		mOS.write(URL_FIELD_TYPE);
-		int urlLen = Types.writeCString(mPE.url, mOS);
-		outputBytes += urlLen;
+		if (mPE.url != null) {
+			mOS.write(URL_FIELD_TYPE);
+			int urlLen = Types.writeCString(mPE.url, mOS);
+			outputBytes += urlLen;
+		}
 		
 		// Username
-		mOS.write(USERNAME_FIELD_TYPE);
-		int userLen = Types.writeCString(mPE.username, mOS);
-		outputBytes += userLen;
+		if (mPE.username != null) {
+			mOS.write(USERNAME_FIELD_TYPE);
+			int userLen = Types.writeCString(mPE.username, mOS);
+			outputBytes += userLen;
+		}
 		
 		// Password
 		byte[] password = mPE.getPasswordBytes();
@@ -112,9 +118,11 @@ public class PwEntryOutputV3 {
 		outputBytes += password.length + 1;
 
 		// Additional
-		mOS.write(ADDITIONAL_FIELD_TYPE);
-		int addlLen = Types.writeCString(mPE.additional, mOS);
-		outputBytes += addlLen;
+		if (mPE.additional != null) {
+			mOS.write(ADDITIONAL_FIELD_TYPE);
+			int addlLen = Types.writeCString(mPE.additional, mOS);
+			outputBytes += addlLen;
+		}
 
 		// Create date
 		if (mPE.tCreation != null) {
@@ -144,8 +152,11 @@ public class PwEntryOutputV3 {
 		}
 	
 		// Binary data
-		int dataLen = writeByteArray(mPE.getBinaryData());
-		outputBytes += dataLen;
+		byte[] binaryData = mPE.getBinaryData();
+		if (binaryData != null) {
+			int dataLen = writeByteArray(binaryData);
+			outputBytes += dataLen;
+		}
 
 		// End
 		mOS.write(END_FIELD_TYPE);

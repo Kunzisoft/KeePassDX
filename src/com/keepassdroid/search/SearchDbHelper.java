@@ -73,7 +73,7 @@ public class SearchDbHelper {
 				Iterator<String> iter = entry.stringIterator();
 				while (iter.hasNext()) {
 					String str = iter.next();
-					if (str != null) {
+					if (str != null && str.length() != 0) {
 						String lower = str.toLowerCase();
 						if (lower.contains(qStr)) {
 							group.childEntries.add(entry);
