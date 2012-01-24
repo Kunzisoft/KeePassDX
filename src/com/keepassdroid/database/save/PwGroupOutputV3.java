@@ -24,6 +24,7 @@ import java.io.OutputStream;
 
 
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
 
 public class PwGroupOutputV3 {
@@ -67,34 +68,34 @@ public class PwGroupOutputV3 {
 		mOS.write(Types.writeInt(mPG.groupId));
 		
 		// Name
-		if (mPG.name != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPG.name)) {
 			mOS.write(NAME_FIELD_TYPE);
 			Types.writeCString(mPG.name, mOS);
 		}
 
 		// Create date
-		if (mPG.tCreation != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPG.tCreation)) {
 			mOS.write(CREATE_FIELD_TYPE);
 			mOS.write(DATE_FIELD_SIZE);
 			mOS.write(mPG.tCreation.getCDate());
 		}
 		
 		// Modification date
-		if (mPG.tLastMod != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPG.tLastMod)) {
 			mOS.write(MOD_FIELD_TYPE);
 			mOS.write(DATE_FIELD_SIZE);
 			mOS.write(mPG.tLastMod.getCDate());
 		}
 		
 		// Access date
-		if (mPG.tLastAccess != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPG.tLastAccess)) {
 			mOS.write(ACCESS_FIELD_TYPE);
 			mOS.write(DATE_FIELD_SIZE);
 			mOS.write(mPG.tLastAccess.getCDate());
 		}
 		
 		// Expiration date
-		if (mPG.tExpire != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPG.tExpire)) {
 			mOS.write(EXPIRE_FIELD_TYPE);
 			mOS.write(DATE_FIELD_SIZE);
 			mOS.write(mPG.tExpire.getCDate());

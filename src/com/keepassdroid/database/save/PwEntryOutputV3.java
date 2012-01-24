@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
 
 public class PwEntryOutputV3 {
@@ -89,21 +90,21 @@ public class PwEntryOutputV3 {
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");
-		if (mPE.title != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.title)) {
 			mOS.write(TITLE_FIELD_TYPE);
 			int titleLen = Types.writeCString(mPE.title, mOS);
 			outputBytes += titleLen;
 		}
 
 		// URL
-		if (mPE.url != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.url)) {
 			mOS.write(URL_FIELD_TYPE);
 			int urlLen = Types.writeCString(mPE.url, mOS);
 			outputBytes += urlLen;
 		}
 		
 		// Username
-		if (mPE.username != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.username)) {
 			mOS.write(USERNAME_FIELD_TYPE);
 			int userLen = Types.writeCString(mPE.username, mOS);
 			outputBytes += userLen;
@@ -111,31 +112,33 @@ public class PwEntryOutputV3 {
 		
 		// Password
 		byte[] password = mPE.getPasswordBytes();
-		mOS.write(PASSWORD_FIELD_TYPE);
-		mOS.write(Types.writeInt(password.length+1));
-		mOS.write(password);
-		mOS.write(0);
-		outputBytes += password.length + 1;
+		if (!EmptyUtils.isNullOrEmpty(password)) {
+			mOS.write(PASSWORD_FIELD_TYPE);
+			mOS.write(Types.writeInt(password.length+1));
+			mOS.write(password);
+			mOS.write(0);
+			outputBytes += password.length + 1;
+		}
 
 		// Additional
-		if (mPE.additional != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.additional)) {
 			mOS.write(ADDITIONAL_FIELD_TYPE);
 			int addlLen = Types.writeCString(mPE.additional, mOS);
 			outputBytes += addlLen;
 		}
 
 		// Create date
-		if (mPE.tCreation != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.tCreation)) {
 			writeDate(CREATE_FIELD_TYPE, mPE.tCreation.getCDate());
 		}
 		
 		// Modification date
-		if (mPE.tLastMod != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.tLastMod)) {
 			writeDate(MOD_FIELD_TYPE, mPE.tLastMod.getCDate());
 		}
 
 		// Access date
-		if (mPE.tLastAccess != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.tLastAccess)) {
 			writeDate(ACCESS_FIELD_TYPE, mPE.tLastAccess.getCDate());
 		}
 
@@ -145,7 +148,7 @@ public class PwEntryOutputV3 {
 		}
 	
 		// Binary desc
-		if (mPE.binaryDesc != null) {
+		if (!EmptyUtils.isNullOrEmpty(mPE.binaryDesc)) {
 			mOS.write(BINARY_DESC_FIELD_TYPE);
 			int descLen = Types.writeCString(mPE.binaryDesc, mOS);
 			outputBytes += descLen;
@@ -153,7 +156,7 @@ public class PwEntryOutputV3 {
 	
 		// Binary data
 		byte[] binaryData = mPE.getBinaryData();
-		if (binaryData != null) {
+		if (!EmptyUtils.isNullOrEmpty(binaryData)) {
 			int dataLen = writeByteArray(binaryData);
 			outputBytes += dataLen;
 		}
