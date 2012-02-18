@@ -2,4 +2,7 @@
 armeabi
 armeabi-v7a
 x86
+mips
+mips-r2
+mips-r2-sf
 ant-contrib-0.3.jar
