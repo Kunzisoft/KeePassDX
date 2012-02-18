@@ -1,5 +1,8 @@
  * Go back to explicitly storing blank fields in the database
    (works around bug in keepassx)
+ * Add support for native code on MIPS architectures
+ * Adding Vibrate permission. On some devices notifications fail
+   without the vibrate permission.
 
 KeePassdroid (1.9.8)
  * Fix crashes related to saving missing entries
