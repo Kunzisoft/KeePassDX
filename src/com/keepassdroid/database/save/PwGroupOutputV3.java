@@ -22,9 +22,8 @@ package com.keepassdroid.database.save;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.keepassdroid.database.PwEntryV3;
+
 import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
 
 public class PwGroupOutputV3 {
@@ -68,49 +67,33 @@ public class PwGroupOutputV3 {
 		mOS.write(Types.writeInt(mPG.groupId));
 		
 		// Name
-		if (!EmptyUtils.isNullOrEmpty(mPG.name)) {
-			mOS.write(NAME_FIELD_TYPE);
-			Types.writeCString(mPG.name, mOS);
-		}
+		mOS.write(NAME_FIELD_TYPE);
+		Types.writeCString(mPG.name, mOS);
 
 		// Create date
-		if (!EmptyUtils.isNullOrEmpty(mPG.tCreation)) {
-			mOS.write(CREATE_FIELD_TYPE);
-			mOS.write(DATE_FIELD_SIZE);
-			mOS.write(mPG.tCreation.getCDate());
-		}
+		mOS.write(CREATE_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(mPG.tCreation.getCDate());
 		
 		// Modification date
-		if (!EmptyUtils.isNullOrEmpty(mPG.tLastMod)) {
-			mOS.write(MOD_FIELD_TYPE);
-			mOS.write(DATE_FIELD_SIZE);
-			mOS.write(mPG.tLastMod.getCDate());
-		}
+		mOS.write(MOD_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(mPG.tLastMod.getCDate());
 		
 		// Access date
-		if (!EmptyUtils.isNullOrEmpty(mPG.tLastAccess)) {
-			mOS.write(ACCESS_FIELD_TYPE);
-			mOS.write(DATE_FIELD_SIZE);
-			mOS.write(mPG.tLastAccess.getCDate());
-		}
+		mOS.write(ACCESS_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(mPG.tLastAccess.getCDate());
 		
 		// Expiration date
-		if (!EmptyUtils.isNullOrEmpty(mPG.tExpire)) {
-			// Correct previously saved wrong expiry dates
-			if (mPG.tExpire.equals(PwEntryV3.PW_NEVER_EXPIRE_BUG)) {
-				mPG.tExpire = PwEntryV3.PW_NEVER_EXPIRE;
-			}
-			mOS.write(EXPIRE_FIELD_TYPE);
-			mOS.write(DATE_FIELD_SIZE);
-			mOS.write(mPG.tExpire.getCDate());
-		}
+		mOS.write(EXPIRE_FIELD_TYPE);
+		mOS.write(DATE_FIELD_SIZE);
+		mOS.write(mPG.tExpire.getCDate());
 		
 		// Image ID
-		if (mPG.icon != null) { 
-			mOS.write(IMAGEID_FIELD_TYPE);
-			mOS.write(IMAGEID_FIELD_SIZE);
-			mOS.write(Types.writeInt(mPG.icon.iconId));
-		}
+		mOS.write(IMAGEID_FIELD_TYPE);
+		mOS.write(IMAGEID_FIELD_SIZE);
+		mOS.write(Types.writeInt(mPG.icon.iconId));
 		
 		// Level
 		mOS.write(LEVEL_FIELD_TYPE);
