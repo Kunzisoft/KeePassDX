@@ -245,7 +245,9 @@ public class PasswordActivity extends LockingActivity {
 	
 	@Override
 	protected void onDestroy() {
-		unregisterReceiver(mIntentReceiver);
+		if (mIntentReceiver != null) {
+			unregisterReceiver(mIntentReceiver);
+		}
 		
 		super.onDestroy();
 	}
