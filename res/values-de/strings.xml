@@ -73,7 +73,7 @@
     <string name="hint_url">Adresse</string>
     <string name="hint_username">Benutzername</string>
     <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
-    <string name="loading_database">Lade Datenbank...</string>
+    <string name="loading_database">Lade Datenbank&#8230;</string>
     <string name="MaskedPassword">*****</string>
     <string name="menu_about">Über</string>
     <string name="menu_change_key">Datenbankpasswort ändern</string>
@@ -99,14 +99,14 @@
     <string name="pass_filename">KeePass Datenbankdatei:</string>
     <string name="pass_ok">Ok</string>
     <string name="password_title">Datenbankpasswort eingeben</string>
-    <string name="progress_create">Neue Datenbank anlegen...</string>
-    <string name="progress_title">In Bearbeitung...</string>
+    <string name="progress_create">Neue Datenbank anlegen&#8230;</string>
+    <string name="progress_title">In Bearbeitung&#8230;</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
     <string name="rounds">Wiederholungen</string>
     <string name="rounds_explaination">Höhere Wiederholungsanzahl steigert den Schutz gegen Brute-Force Angriffe, sie bremsen aber auch das laden und speichern der Datenbank.</string>
     <string name="rounds_hint">Verschlüsslungs-Wiederholungen</string>
-    <string name="saving_database">Speichere Datenbank...</string>
+    <string name="saving_database">Speichere Datenbank&#8230;</string>
     <string name="search_hint">Titel/Beschreibung des Eintrags</string>
     <string name="search_label">Suchen</string>
     <string name="show_password">Passwort anzeigen</string>

@@ -36,7 +36,7 @@
 	<string name="ClearClipboard">Presse-papier nettoyé.</string>    
 	<string name="current_group">Groupe actuel : </string>    
 	<string name="current_group_root">Groupe actuel : Racine</string>    
-	<string name="disclaimer_formal">KeePassDroid Copyright 2009-2011 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de la licenceGPL v2 ou ultérieure.</string>    
+	<string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, et vous pouvez le redistribuer sous les conditions de la licenceGPL v2 ou ultérieure.</string>    
 	<string name="enter_filename">Entrez le nom de fichier de la base de données :</string>    
 	<string name="entry_accessed">Accédé : </string>    
 	<string name="entry_and_or">Entrez un mot de passe et/ou une clé de fichier pour déverrouiller votre base de données :</string>    
@@ -75,7 +75,7 @@
 	<string name="hint_url">url</string>    
 	<string name="hint_username">Nom d\'utilisateur</string>    
 	<string name="InvalidPassword">Mot de passe ou clé de fichier incorrect.</string>    
-	<string name="loading_database">Chargement de la base de données...</string>    
+	<string name="loading_database">Chargement de la base de données&#8230;</string>    
 	<string name="MaskedPassword">*****</string>    
 	<string name="menu_about">A propos</string>    
 	<string name="menu_change_key">Changer la Clé maître</string>    
@@ -101,14 +101,14 @@
 	<string name="pass_filename">Nom de fichier de base de données KeePass :</string>    
 	<string name="pass_ok">Ok</string>    
 	<string name="password_title">Entrez le mot de passe de la base de données</string>    
-	<string name="progress_create">Création d\'une nouvelle base de données...</string>    
-	<string name="progress_title">En cours...</string>    
+	<string name="progress_create">Création d\'une nouvelle base de données&#8230;</string>    
+	<string name="progress_title">En cours&#8230;</string>    
 	<string name="rijndael">Rijndael (AES)</string>    
 	<string name="root">Racine</string>    
 	<string name="rounds">Niveau du cryptage</string>    
 	<string name="rounds_explaination">Un niveau de cryptage supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir le chargement et la sauvegarde.</string>    
 	<string name="rounds_hint">niveaux</string>    
-	<string name="saving_database">Sauvegarde base de données...</string>    
+	<string name="saving_database">Sauvegarde base de données&#8230;</string>    
 	<string name="search_hint">Titre de l\'entrée/description</string>    
 	<string name="search_label">Rechercher</string>    
 	<string name="show_password">Afficher le mot de passe</string>
