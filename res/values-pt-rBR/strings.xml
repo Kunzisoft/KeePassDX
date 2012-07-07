@@ -16,6 +16,9 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Portuguese translation by Carlos Schlyter.
+  
 -->
 <resources>
     <string name="about_feedback">Comentários:</string>
