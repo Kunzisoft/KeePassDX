@@ -41,8 +41,8 @@
     <string name="ClearClipboard">クリップボードを消去しました。</string>
     <string name="clipboard_timeout">クリップボード タイムアウト</string>
     <string name="clipboard_timeout_summary">コピーした情報をクリップボードから消去する時間</string>
-    <string name="copy_username">ユーザー名をクリップボードにコピーしました</string>
-    <string name="copy_password">パスワードをクリップボードにコピーしました</string>
+    <string name="copy_username">ここをタップするとユーザー名をクリップボードにコピーします</string>
+    <string name="copy_password">ここをタップするとパスワードをクリップボードにコピーします</string>
     <string name="creating_db_key">データベース認証中&#8230;</string>
     <string name="current_group">現在のグループ: </string>
     <string name="current_group_root">現在のグループ: Root</string>
