@@ -372,19 +372,32 @@ typedef struct _master_key {
 
 void *generate_key_material(void *arg) {
   uint32_t i, flip = 0;
+  uint8_t *key1, *key2;
   master_key *mk = (master_key *)arg;
   aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
 
-  aes_encrypt_key(mk->c_seed, MASTER_KEY_SIZE, e_ctx);
+  if( pthread_mutex_trylock(&mk->lock) == 0 ) {
+    key1 = mk->key1;
+    key2 = mk->key2;
+  } else {
+    key1 = mk->key1 + 16;
+    key2 = mk->key2 + 16;
+  }
+
+  aes_encrypt_key256(mk->c_seed, e_ctx);
   for (i = 0; i < mk->rounds; i++) {
     if ( flip ) {
-      aes_ecb_encrypt(mk->key2, mk->key1, MASTER_KEY_SIZE, e_ctx);
+      aes_encrypt(key2, key1, e_ctx);
       flip = 0;
     } else {
-      aes_ecb_encrypt(mk->key1, mk->key2, MASTER_KEY_SIZE, e_ctx);
+      aes_encrypt(key1, key2, e_ctx);
       flip = 1;
     }
   }
+
+  if( key1 == mk->key1 )
+    pthread_mutex_unlock(&mk->lock);
+
   return (void *)flip;
 }
 
@@ -394,6 +407,9 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
   #endif
   master_key mk;
   uint32_t flip;
+  pthread_t t1, t2;
+  int iret;
+  void *vret1, *vret2;
   jbyteArray result;
   sha256_ctx h_ctx[1] __attribute__ ((aligned (16)));
 
@@ -423,7 +439,32 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
   (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
   // step 2: encrypt the hash "rounds" (default: 6000) times
-  flip = (uint32_t)generate_key_material(&mk);
+  iret = pthread_create( &t1, NULL, generate_key_material, (void*)&mk );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 1"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  iret = pthread_create( &t2, NULL, generate_key_material, (void*)&mk );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 2"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  iret = pthread_join( t1, &vret1 );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to join thread 1"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  iret = pthread_join( t2, &vret2 );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to join thread 2"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  if( vret1 != vret2 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: flip values from threads do not match"); // FIXME: get a better exception class for this...
+    return NULL;
+  } else {
+    flip = (uint32_t)vret1;
+  }
 
   // step 3: final SHA256 hash
   sha256_begin(h_ctx);
