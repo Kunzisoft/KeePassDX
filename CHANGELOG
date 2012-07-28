@@ -1,3 +1,10 @@
+KeePassDroid (1.9.10)
+ * Add support for the Holo theme on devices > 3.0 from Space Cowboy
+ * Add Ukranian translations from andriykopanytsia
+ * Add Portugese translations from Carlos Schlyter
+ * Japanese translation corrections from Matsuu Takuto
+
+
 KeePassDroid (1.9.9)
  * Go back to explicitly storing blank fields in the database
    (works around bug in keepassx)
