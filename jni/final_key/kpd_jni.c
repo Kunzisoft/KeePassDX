@@ -371,6 +371,9 @@ typedef struct _master_key {
 
 
 void *generate_key_material(void *arg) {
+  #if defined(KPD_PROFILE)
+  struct timespec start, end;
+  #endif
   uint32_t i, flip = 0;
   uint8_t *key1, *key2;
   master_key *mk = (master_key *)arg;
@@ -384,6 +387,10 @@ void *generate_key_material(void *arg) {
     key2 = mk->key2 + 16;
   }
 
+  #if defined(KPD_PROFILE)
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
+  #endif
+
   aes_encrypt_key256(mk->c_seed, e_ctx);
   for (i = 0; i < mk->rounds; i++) {
     if ( flip ) {
@@ -395,6 +402,14 @@ void *generate_key_material(void *arg) {
     }
   }
 
+  #if defined(KPD_PROFILE)
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+  if( key1 == mk->key1 )
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Thread 1 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
+  else
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Thread 2 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
+  #endif
+
   if( key1 == mk->key1 )
     pthread_mutex_unlock(&mk->lock);
 
@@ -402,9 +417,6 @@ void *generate_key_material(void *arg) {
 }
 
 JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jint rounds) {
-  #if defined(KPD_PROFILE)
-  struct timespec start, end;
-  #endif
   master_key mk;
   uint32_t flip;
   pthread_t t1, t2;
@@ -412,10 +424,6 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
   void *vret1, *vret2;
   jbyteArray result;
   sha256_ctx h_ctx[1] __attribute__ ((aligned (16)));
-
-  #if defined(KPD_PROFILE)
-  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
-  #endif
 
   // step 1: housekeeping - sanity checks and fetch data from the JVM
   if( (*env)->GetArrayLength(env, seed) != MASTER_KEY_SIZE ) {
@@ -484,11 +492,6 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key2);
   else
     (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
-
-  #if defined(KPD_PROFILE)
-  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
-  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
-  #endif
 
   return result;
 }
