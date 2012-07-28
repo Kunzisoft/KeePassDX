@@ -362,8 +362,8 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCache
 #define MASTER_KEY_SIZE 32
 
 typedef struct _master_key {
-  uint32_t rounds;
-  pthread_mutex_t lock; // locks the first half of the key material
+  uint32_t rounds, done[2];
+  pthread_mutex_t lock1, lock2; // these lock the two halves of the key material
   uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
   uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
   uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
@@ -379,12 +379,15 @@ void *generate_key_material(void *arg) {
   master_key *mk = (master_key *)arg;
   aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
 
-  if( pthread_mutex_trylock(&mk->lock) == 0 ) {
+  if( mk->done[0] == 0 && pthread_mutex_trylock(&mk->lock1) == 0 ) {
     key1 = mk->key1;
     key2 = mk->key2;
+  } else if( mk->done[1] == 0 && pthread_mutex_trylock(&mk->lock2) == 0 ) {
+    key1 = mk->key1 + (MASTER_KEY_SIZE/2);
+    key2 = mk->key2 + (MASTER_KEY_SIZE/2);
   } else {
-    key1 = mk->key1 + 16;
-    key2 = mk->key2 + 16;
+    // this can only be scaled to two threads
+    pthread_exit( (void *)(-1) );
   }
 
   #if defined(KPD_PROFILE)
@@ -410,8 +413,13 @@ void *generate_key_material(void *arg) {
     __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Thread 2 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
   #endif
 
-  if( key1 == mk->key1 )
-    pthread_mutex_unlock(&mk->lock);
+  if( key1 == mk->key1 ) {
+    mk->done[0] = 1;
+    pthread_mutex_unlock(&mk->lock1);
+  } else {
+    mk->done[1] = 1;
+    pthread_mutex_unlock(&mk->lock2);
+  }
 
   return (void *)flip;
 }
@@ -439,8 +447,13 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     return NULL;
   }
   mk.rounds = (uint32_t)rounds;
-  if( pthread_mutex_init(&mk.lock, NULL) != 0 ) {
-    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to initialize the mutex"); // FIXME: get a better exception class for this...
+  mk.done[0] = mk.done[1] = 0;
+  if( pthread_mutex_init(&mk.lock1, NULL) != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to initialize the mutex for thread 1"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  if( pthread_mutex_init(&mk.lock2, NULL) != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to initialize the mutex for thread 2"); // FIXME: get a better exception class for this...
     return NULL;
   }
   (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)mk.c_seed);
@@ -467,8 +480,8 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to join thread 2"); // FIXME: get a better exception class for this...
     return NULL;
   }
-  if( vret1 != vret2 ) {
-    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: flip values from threads do not match"); // FIXME: get a better exception class for this...
+  if( vret1 == (void *)(-1) || vret2 == (void *)(-1) || vret1 != vret2 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: invalid flip value(s) from completed thread(s)"); // FIXME: get a better exception class for this...
     return NULL;
   } else {
     flip = (uint32_t)vret1;

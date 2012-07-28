@@ -4,6 +4,8 @@ KeePassDroid (1.9.10)
  * Add Portugese translations from Carlos Schlyter
  * Japanese translation corrections from Matsuu Takuto
  * Fix x86 key generation compatibility
+ * Add 2 thread support to key generation for dual core devices from 
+     Mike Mohr
 
 
 KeePassDroid (1.9.9)
