@@ -18,17 +18,18 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="NoTitleBar" parent="android:Theme.NoTitleBar"></style>
-    <style name="Dialog" parent="android:Theme.Dialog"></style>
-	<style name="GroupTextSmall" parent="android:Theme">
+    <style name="NoTitleBar" 
+parent="android:Theme.Holo.NoActionBar"></style>
+    <style name="Dialog" parent="android:Theme.Holo.Dialog"></style>
+	<style name="GroupTextSmall" parent="android:Theme.Holo">
 		<item name="@android:textColor">@color/group</item>
 		<item name="@android:textSize">15sp</item>
 	</style>
-	<style name="GroupText" parent="android:Theme">
+	<style name="GroupText" parent="android:Theme.Holo">
 		<item name="@android:textColor">@color/group</item>
 		<item name="@android:textSize">20sp</item>
 	</style>
-	<style name="GroupTextLarge" parent="android:Theme">
+	<style name="GroupTextLarge" parent="android:Theme.Holo">
 		<item name="@android:textColor">@color/group</item>
 		<item name="@android:textSize">28sp</item>
 	</style>
@@ -46,7 +47,8 @@
 	</style>
 	<style name="WhiteOnBlack">
 		<item name="@android:background">#666666</item>
-		<item name="@android:textColor">@android:color/primary_text_dark</item>
+		<item 
+name="@android:textColor">@android:color/primary_text_dark</item>
 		<item name="@android:textSize">20sp</item>
 	</style>
 	<style name="WhiteOnBlackSmall" parent="WhiteOnBlack">
