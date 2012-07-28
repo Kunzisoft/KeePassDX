@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <string.h>
+#include <pthread.h>
 #include <jni.h>
 
 /* Tune as desired */
@@ -359,17 +360,42 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCache
 }
 
 #define MASTER_KEY_SIZE 32
+
+typedef struct _master_key {
+  uint32_t rounds;
+  pthread_mutex_t lock; // locks the first half of the key material
+  uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+} master_key;
+
+
+void *generate_key_material(void *arg) {
+  uint32_t i, flip = 0;
+  master_key *mk = (master_key *)arg;
+  aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
+
+  aes_encrypt_key(mk->c_seed, MASTER_KEY_SIZE, e_ctx);
+  for (i = 0; i < mk->rounds; i++) {
+    if ( flip ) {
+      aes_ecb_encrypt(mk->key2, mk->key1, MASTER_KEY_SIZE, e_ctx);
+      flip = 0;
+    } else {
+      aes_ecb_encrypt(mk->key1, mk->key2, MASTER_KEY_SIZE, e_ctx);
+      flip = 1;
+    }
+  }
+  return (void *)flip;
+}
+
 JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jint rounds) {
   #if defined(KPD_PROFILE)
   struct timespec start, end;
   #endif
-  uint32_t i, flip = 0;
+  master_key mk;
+  uint32_t flip;
   jbyteArray result;
-  aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
   sha256_ctx h_ctx[1] __attribute__ ((aligned (16)));
-  uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
 
   #if defined(KPD_PROFILE)
   clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
@@ -384,39 +410,39 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: the key is not the correct size");
     return NULL;
   }
-  (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)c_seed);
-  (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)key1);
+  if( rounds <= 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: illegal number of encryption rounds");
+    return NULL;
+  }
+  mk.rounds = (uint32_t)rounds;
+  if( pthread_mutex_init(&mk.lock, NULL) != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to initialize the mutex"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)mk.c_seed);
+  (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
   // step 2: encrypt the hash "rounds" (default: 6000) times
-  aes_encrypt_key(c_seed, MASTER_KEY_SIZE, e_ctx);
-  for (i = 0; i < (uint32_t)rounds; i++) {
-    if ( flip ) {
-      aes_ecb_encrypt(key2, key1, MASTER_KEY_SIZE, e_ctx);
-      flip = 0;
-    } else {
-      aes_ecb_encrypt(key1, key2, MASTER_KEY_SIZE, e_ctx);
-      flip = 1;
-    }
-  }
+  flip = (uint32_t)generate_key_material(&mk);
 
   // step 3: final SHA256 hash
   sha256_begin(h_ctx);
   if( flip ) {
-    sha256_hash(key2, MASTER_KEY_SIZE, h_ctx);
-    sha256_end(key1, h_ctx);
+    sha256_hash(mk.key2, MASTER_KEY_SIZE, h_ctx);
+    sha256_end(mk.key1, h_ctx);
     flip = 0;
   } else {
-    sha256_hash(key1, MASTER_KEY_SIZE, h_ctx);
-    sha256_end(key2, h_ctx);
+    sha256_hash(mk.key1, MASTER_KEY_SIZE, h_ctx);
+    sha256_end(mk.key2, h_ctx);
     flip = 1;
   }
 
   // step 4: send the hash into the JVM
   result = (*env)->NewByteArray(env, MASTER_KEY_SIZE);
   if( flip )
-    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)key2);
+    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key2);
   else
-    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)key1);
+    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
   #if defined(KPD_PROFILE)
   clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
@@ -426,3 +452,4 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
   return result;
 }
 #undef MASTER_KEY_SIZE
+
