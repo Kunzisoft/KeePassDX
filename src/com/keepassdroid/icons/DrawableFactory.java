@@ -19,9 +19,8 @@
  */
 package com.keepassdroid.icons;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.WeakHashMap;
+import org.apache.commons.collections.map.AbstractReferenceMap;
+import org.apache.commons.collections.map.ReferenceMap;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -40,8 +39,17 @@ public class DrawableFactory {
 	private static int blankWidth = -1;
 	private static int blankHeight = -1;
 	
-	private Map<UUID, Drawable> customIconMap = new WeakHashMap<UUID, Drawable>();
-	private Map<Integer, Drawable> standardIconMap = new WeakHashMap<Integer, Drawable>();
+	/** customIconMap
+	 *  Cache for icon drawable. 
+	 *  Keys: UUID, Values: Drawables
+	 */
+	private ReferenceMap customIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
+	
+	/** standardIconMap
+	 *  Cache for icon drawable. 
+	 *  Keys: Integer, Values: Drawables
+	 */
+	private ReferenceMap standardIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
 	
 	public void assignDrawableTo(ImageView iv, Resources res, PwIcon icon) {
 		Drawable draw = getIconDrawable(res, icon);
@@ -67,7 +75,7 @@ public class DrawableFactory {
 	public Drawable getIconDrawable(Resources res, PwIconStandard icon) {
 		int resId = Icons.iconToResId(icon.iconId);
 		
-		Drawable draw = standardIconMap.get(resId);
+		Drawable draw = (Drawable) standardIconMap.get(resId);
 		if (draw == null) {
 			draw = res.getDrawable(resId);
 			standardIconMap.put(resId, draw);
@@ -82,7 +90,7 @@ public class DrawableFactory {
 			return blank;
 		}
 		
-		Drawable draw = customIconMap.get(icon.uuid);
+		Drawable draw = (Drawable) customIconMap.get(icon.uuid);
 		
 		if (draw == null) {
 			if (icon.imageData == null) {
