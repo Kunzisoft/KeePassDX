@@ -3,6 +3,7 @@ KeePassDroid (1.9.10)
  * Add Ukranian translations from andriykopanytsia
  * Add Portugese translations from Carlos Schlyter
  * Japanese translation corrections from Matsuu Takuto
+ * Fix x86 key generation compatibility
 
 
 KeePassDroid (1.9.9)
