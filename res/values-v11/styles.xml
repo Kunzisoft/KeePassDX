@@ -19,7 +19,7 @@
 -->
 <resources>
     <style name="NoTitleBar" 
-parent="android:Theme.Holo.NoActionBar"></style>
+parent="android:Theme.Holo"></style>
     <style name="Dialog" parent="android:Theme.Holo.Dialog"></style>
 	<style name="GroupTextSmall" parent="android:Theme.Holo">
 		<item name="@android:textColor">@color/group</item>

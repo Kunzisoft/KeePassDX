@@ -1,3 +1,6 @@
+KeePassDroid (1.9.12)
+ * Add title bar on Honeycomb+ devices, so ... menu is always available
+
 KeePassDroid (1.9.11)
  * Protect against crashes when clicking on the browse icon
  * Add Hungarian translations from Antal Zoltán
