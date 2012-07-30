@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -41,6 +41,7 @@ public class PwGroupView extends ClickView {
 	
 	protected PwGroup mPw;
 	protected GroupBaseActivity mAct;
+	protected TextView mTv;
 
 	protected static final int MENU_OPEN = Menu.FIRST;
 	
@@ -55,25 +56,34 @@ public class PwGroupView extends ClickView {
 	protected PwGroupView(GroupBaseActivity act, PwGroup pw) {
 		super(act);
 		mAct = act;
-		mPw = pw;
 		
 		View gv = View.inflate(act, R.layout.group_list_entry, null);
 		
-		ImageView iv = (ImageView) gv.findViewById(R.id.group_icon);
-		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), pw.getIcon());
-		
-		TextView tv = (TextView) gv.findViewById(R.id.group_text);
-		tv.setText(pw.getName());
+		mTv = (TextView) gv.findViewById(R.id.group_text);
 		float size = PrefsUtil.getListTextSize(act); 
-		tv.setTextSize(size);
+		mTv.setTextSize(size);
 		
 		TextView label = (TextView) gv.findViewById(R.id.group_label);
 		label.setTextSize(size-8);
 		
+		populateView(gv, pw);
+		
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		
 		addView(gv, lp);
+	}
+	
+	private void populateView(View gv, PwGroup pw) {
+		mPw = pw;
 		
+		ImageView iv = (ImageView) gv.findViewById(R.id.group_icon);
+		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), pw.getIcon());
+		
+		mTv.setText(pw.getName());
+	}
+	
+	public void convertView(PwGroup pw) {
+		populateView(this, pw);
 	}
 
 	public void onClick() {

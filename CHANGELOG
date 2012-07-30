@@ -6,6 +6,8 @@ KeePassDroid (1.9.10)
  * Fix x86 key generation compatibility
  * Add 2 thread support to key generation for dual core devices from 
      Mike Mohr
+ * Use memory more efficiently in main group view. Prevent out of memory
+   crashes when scrolling.
 
 
 KeePassDroid (1.9.9)
