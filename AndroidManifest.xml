@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.android.keepass"
-      android:installLocation="auto" android:versionCode="88" android:versionName="1.9.11">
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="11"/>
+      android:installLocation="auto" android:versionCode="88" android:versionName="1.9.12">
+    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="12"/>
 	<supports-screens
       android:smallScreens="true"
       android:normalScreens="true"
