@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.net.URLDecoder;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -218,7 +219,12 @@ public class PasswordActivity extends LockingActivity {
 						}
 					}
 					
-					startActivityForResult(i, FILE_BROWSE);
+					try {
+						startActivityForResult(i, FILE_BROWSE);
+					} catch (ActivityNotFoundException e) {
+						BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
+						diag.show();
+					}
 				} else {
 					BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
 					diag.show();

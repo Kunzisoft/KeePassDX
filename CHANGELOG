@@ -1,3 +1,5 @@
+ * Protect against crashes when clicking on the browse icon
+
 KeePassDroid (1.9.10)
  * Add support for the Holo theme on devices > 3.0 from Space Cowboy
  * Add Ukranian translations from andriykopanytsia

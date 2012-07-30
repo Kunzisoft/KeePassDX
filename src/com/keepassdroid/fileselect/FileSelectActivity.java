@@ -187,7 +187,12 @@ public class FileSelectActivity extends ListActivity {
 				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.FILE_BROWSE)) {
 					Intent i = new Intent(Intents.FILE_BROWSE);
 					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
-					startActivityForResult(i, FILE_BROWSE);
+					try {
+						startActivityForResult(i, FILE_BROWSE);
+					} catch (ActivityNotFoundException e) {
+						BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
+						diag.show();
+					}
 					
 				} else {
 					BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
