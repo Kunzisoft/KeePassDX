@@ -1,3 +1,5 @@
+ * Allow keys with 0 encryption rounds
+
 KeePassDroid (1.9.12.1)
  * Add title bar on Honeycomb+ devices, so ... menu is always available
 

@@ -442,7 +442,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: the key is not the correct size");
     return NULL;
   }
-  if( rounds <= 0 ) {
+  if( rounds < 0 ) {
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: illegal number of encryption rounds");
     return NULL;
   }
