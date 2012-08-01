@@ -53,6 +53,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
@@ -281,7 +282,8 @@ public class EntryActivity extends LockCloseActivity {
 		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
 		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
 		
-		if ( mEntry.getUrl().length() == 0 ) {
+		String url = mEntry.getUrl();
+		if (EmptyUtils.isNullOrEmpty(url)) {
 			// disable button if url is not available
 			menu.findItem(MENU_GOTO_URL).setEnabled(false);
 		}
