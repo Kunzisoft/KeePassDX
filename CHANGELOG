@@ -2,6 +2,7 @@
  * Czech translations from H Vanek
  * Updated Russian translations from I Nedoboy
  * Clarify text on notification pop-ups
+ * Fix text selection in entries on devices with Android >= 3.0
 
 KeePassDroid (1.9.12.1)
  * Add title bar on Honeycomb+ devices, so ... menu is always available
