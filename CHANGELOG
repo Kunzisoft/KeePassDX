@@ -1,6 +1,7 @@
  * Allow keys with 0 encryption rounds
  * Czech translations from H Vanek
  * Updated Russian translations from I Nedoboy
+ * Clarify text on notification pop-ups
 
 KeePassDroid (1.9.12.1)
  * Add title bar on Honeycomb+ devices, so ... menu is always available

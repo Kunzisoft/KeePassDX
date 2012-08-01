@@ -41,8 +41,8 @@
     <string name="ClearClipboard">Clipboard cleared.</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Time before clearing clipboard after copying username or password</string>
-    <string name="copy_username">Copy username to clipboard</string>
-    <string name="copy_password">Copy password to clipboard</string>
+    <string name="copy_username">Select to copy username to clipboard</string>
+    <string name="copy_password">Select to copy password to clipboard</string>
     <string name="creating_db_key">Creating database key&#8230;</string>
     <string name="current_group">Current Group: </string>
     <string name="current_group_root">Current Group: Root</string>
