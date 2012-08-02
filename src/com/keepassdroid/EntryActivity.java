@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -50,6 +50,7 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.intents.Intents;
@@ -109,7 +110,6 @@ public class EntryActivity extends LockCloseActivity {
 			}
 			
 		});
-		
 	}
 
 	@Override
@@ -136,6 +136,10 @@ public class EntryActivity extends LockCloseActivity {
 		assert(uuid != null);
 		
 		mEntry = db.entries.get(uuid);
+		
+		
+		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
+		ActivityCompat.invalidateOptionsMenu(this);
 		
 		// Update last access time.
 		mEntry.stampLastAccess();
@@ -282,23 +286,28 @@ public class EntryActivity extends LockCloseActivity {
 		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
 		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
 		
-		String url = mEntry.getUrl();
-		if (EmptyUtils.isNullOrEmpty(url)) {
-			// disable button if url is not available
-			menu.findItem(MENU_GOTO_URL).setEnabled(false);
+		// In API >= 11 onCreateOptionsMenu may be called before onCreate completes
+		// so mEntry may not be set
+		if (mEntry != null) {
+			String url = mEntry.getUrl();
+			if (EmptyUtils.isNullOrEmpty(url)) {
+				// disable button if url is not available
+				menu.findItem(MENU_GOTO_URL).setEnabled(false);
+			}
+			menu.add(0, MENU_COPY_USER, 0, R.string.menu_copy_user);
+			menu.findItem(MENU_COPY_USER).setIcon(android.R.drawable.ic_menu_set_as);
+			if ( mEntry.getUsername().length() == 0 ) {
+				// disable button if username is not available
+				menu.findItem(MENU_COPY_USER).setEnabled(false);
+			}
+			menu.add(0, MENU_COPY_PASS, 0, R.string.menu_copy_pass);
+			menu.findItem(MENU_COPY_PASS).setIcon(android.R.drawable.ic_menu_agenda);
+			if ( mEntry.getPassword().length() == 0 ) {
+				// disable button if password is not available
+				menu.findItem(MENU_COPY_PASS).setEnabled(false);
+			}
 		}
-		menu.add(0, MENU_COPY_USER, 0, R.string.menu_copy_user);
-		menu.findItem(MENU_COPY_USER).setIcon(android.R.drawable.ic_menu_set_as);
-		if ( mEntry.getUsername().length() == 0 ) {
-			// disable button if username is not available
-			menu.findItem(MENU_COPY_USER).setEnabled(false);
-		}
-		menu.add(0, MENU_COPY_PASS, 0, R.string.menu_copy_pass);
-		menu.findItem(MENU_COPY_PASS).setIcon(android.R.drawable.ic_menu_agenda);
-		if ( mEntry.getPassword().length() == 0 ) {
-			// disable button if password is not available
-			menu.findItem(MENU_COPY_PASS).setEnabled(false);
-		}
+		
 		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
 		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
 		
