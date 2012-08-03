@@ -1,6 +1,7 @@
  * Resolve crashes when switch back to the entry view
  * Start making use of action bar on devices with Android >= 3.0
  * Updated Russian translations from I Nedoboy
+ * Fix Czech translations
 
 KeePassDroid (1.9.13)
  * Allow keys with 0 encryption rounds
