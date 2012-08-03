@@ -44,25 +44,9 @@ public class GroupActivityV4 extends GroupActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		
-		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
-		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
-
-		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
-		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
-	
-		menu.add(0, MENU_SEARCH, 0, R.string.menu_search);
-		menu.findItem(MENU_SEARCH).setIcon(android.R.drawable.ic_menu_search);
+		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
-		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
-		
-		/*
-		menu.add(0, MENU_CHANGE_MASTER_KEY, 0, R.string.menu_change_key);
-		menu.findItem(MENU_CHANGE_MASTER_KEY).setIcon(android.R.drawable.ic_menu_manage);
-		*/
-		
-		menu.add(0, MENU_SORT, 0, R.string.sort_name);
-		menu.findItem(MENU_SORT).setIcon(android.R.drawable.ic_menu_sort_by_size);
+		menu.findItem(R.id.menu_change_master_key).setVisible(false);
 		
 		return true;
 

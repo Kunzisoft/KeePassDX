@@ -36,16 +36,17 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
@@ -62,9 +63,6 @@ import com.keepassdroid.utils.Util;
 
 public class PasswordActivity extends LockingActivity {
 
-	private static final int MENU_ABOUT = Menu.FIRST;
-	private static final int MENU_APP_SETTINGS = Menu.FIRST + 1;
-	
 	public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
@@ -365,11 +363,8 @@ public class PasswordActivity extends LockingActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
-		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
-		
-		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
-		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
+		MenuInflater inflate = getMenuInflater();
+		inflate.inflate(R.menu.password, menu);
 		
 		return true;
 	}
@@ -377,12 +372,12 @@ public class PasswordActivity extends LockingActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_ABOUT:
+		case R.id.menu_about:
 			AboutDialog dialog = new AboutDialog(this);
 			dialog.show();
 			return true;
 			
-		case MENU_APP_SETTINGS:
+		case R.id.menu_app_settings:
 			AppSettingsActivity.Launch(this);
 			return true;
 		}
