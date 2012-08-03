@@ -1,3 +1,4 @@
+KeePassDroid (1.9.14)
  * Resolve crashes when switch back to the entry view
  * Start making use of action bar on devices with Android >= 3.0
  * Updated Russian translations from I Nedoboy
