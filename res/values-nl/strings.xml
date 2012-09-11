@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2011 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Dutch translation by Erik Devriendt
+-->
+<resources>
+    <string name="about_feedback">Feedback:</string>
+    <string name="about_homepage">Homepage:</string>
+    <string name="about_ok">OK</string>
+    <string name="AboutText">KeePassDroid is een Android implementatie van de KeePass paswoord manager.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Aanvaarden</string>
+    <string name="add_entry">Record toevoegen</string>
+    <string name="add_group">Groep toevoegen</string>
+    <string name="add_group_title">Groep toevoegen</string>
+    <string name="algorithm">Algorithme</string>
+    <string name="algorithm_colon">Algorithme:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Applicatie timeout</string>
+    <string name="app_timeout_summary">Tijd tot het vergrendelen van de database bij inactiviteit.</string>
+    <string name="application">Applicatie</string>
+    <string name="application_settings">Applicatie instellingen</string>
+    <string name="brackets">Haakjes</string>
+    <string name="browser_intall_text">Een bestand opzoeken kan alleen met de Open Intents File Manager, klik hieronder om die te installeren. Door gebreken in deze file manager, kan het opzoeken van een bestand echter de eerste keer falen.</string>
+    <string name="building_search_idx">Zoekindex wordt opgebouwd&#8230;</string>
+    <string name="cancel">Annuleren</string>
+    <string name="ClearClipboard">Klembord gewist.</string>
+    <string name="clipboard_timeout">Klembord timeout</string>
+    <string name="clipboard_timeout_summary">Tijd tussen het copiëren van gebruikersnaam of paswoord en het wissen van het klembord</string>
+    <string name="copy_username">Selecteer om gebruikersnaam naar klembord te copieren</string>
+    <string name="copy_password">Selecteer om paswoord naar klembord te copierend</string>
+    <string name="creating_db_key">Database sleutel wordt aangemaakt&#8230;</string>
+    <string name="current_group">Huidige Groep: </string>
+    <string name="current_group_root">Huidige Groep: Top</string>
+    <string name="database">Database</string>
+    <string name="decrypting_db">Databaseinhoud wordt ontcijferd&#8230;</string>
+    <string name="decrypting_entry">Record wordt ontcijferd</string>
+    <string name="default_checkbox">Gebruik dit als mijn standaard database</string>
+    <string name="digits">Cijfers</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin biedt GEEN ENKELE GARANTIE; Dit is vrije software, u mag deze software verspreiden onder de voorwaarden van de GPL versie 2 of recenter.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Geef de database bestandsnaam:</string>
+    <string name="entry_accessed">Geconsulteerd: </string>
+    <string name="entry_and_or">Geef het paswoord en/of het sleutelbestand om uw database te ontgrendelen:</string>
+    <string name="entry_cancel">Annuleren</string>
+    <string name="entry_comment">Commentaar: </string>
+    <string name="entry_confpassword">Bevestig paswoord:</string>
+    <string name="entry_created">Aangemaakt op: </string>
+    <string name="entry_expires">Verloopt op: </string>
+    <string name="entry_keyfile">Sleutelbestand (optioneel)</string>
+    <string name="entry_modified">Gewijzigd op: </string>
+    <string name="entry_password">Paswoord:</string>
+    <string name="entry_save">Bewaren</string>
+    <string name="entry_title">Naam: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Gebruikersnaam: </string>
+    <string name="error_arc4">De ArcFour stream-versleuteling wordt niet ondersteund.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid kan deze uri niet verwerken.</string>
+    <string name="error_could_not_create_group">Fout bij het aanmaken van de groep.</string>
+    <string name="error_could_not_create_parent">Kan de hogerliggende map niet aanmaken.</string>
+    <string name="error_database_exists">Dit bestand bestaat reeds.</string>
+    <string name="error_database_settings">Kon de instellingen van de database niet bepalen.</string>
+    <string name="error_failed_to_launch_link">Kon de koppeling niet opstarten.</string>
+    <string name="error_filename_required">Een bestandsnaam ontbreekt.</string>
+    <string name="error_file_not_create">Kon het bestand niet aanmaken:</string>
+    <string name="error_invalid_db">Ongeldige database.</string>
+    <string name="error_invalid_path">Ongeldige padnaam.</string>
+    <string name="error_no_name">Een naam ontbreekt.</string>
+    <string name="error_nopass">Een paswoord of sleutenbestand ontbreekt.</string>
+    <string name="error_out_of_memory">Onvoldoende vrij geheugen om de database te lezen. Misschien is de database te groot voor deze telefoon.</string>
+    <string name="error_pass_gen_type">U moet minstens één type van paswoordgeneratie kiezen.</string>
+    <string name="error_pass_match">Paswoorden zijn niet gelijk.</string>
+    <string name="error_rounds_not_number">Cycli-waarde moet een getal zijn.</string>
+    <string name="error_rounds_too_large">Cycli-waarde te groot.  Ik gebruik 2147483648.</string>
+    <string name="error_title_required">Een titel ontbreekt.</string>
+    <string name="error_wrong_length">Geef een positief geheel getal voor het lengte veld</string>
+    <string name="FileNotFound">Bestand niet gevonden.</string>
+    <string name="file_browser">Verkenner</string>
+    <string name="generate_password">Genereer Passwoord</string>
+    <string name="group">Groep</string>
+    <string name="hint_comment">commentaar</string>
+    <string name="hint_conf_pass">bevestig paswoord</string>
+    <string name="hint_generated_password">gegenereerd paswoord</string>
+    <string name="hint_group_name">Groepnaam</string>
+    <string name="hint_keyfile">sleutelbestand</string>
+    <string name="hint_length">lengte</string>
+    <string name="hint_pass">paswoord</string>
+    <string name="hint_title">naam</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">gebruikersnaam</string>
+    <string name="install_from_market">Installeer van Market</string>
+    <string name="install_from_website">Installeer van Web</string>
+    <string name="InvalidPassword">Ongeldig paswoord of sleutelbestand.</string>
+    <string name="invalid_db_sig">Databaseformaat niet herkend.</string>
+    <string name="length">Lengte</string>
+    <string name="list_size_title">Grootte van de Groeplijst</string>
+    <string name="list_size_summary">Grootte van de tekst in de groeplijst</string>
+    <string name="loading_database">Database wordt geladen&#8230;</string>
+    <string name="lowercase">Kleine letters</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Maskeer paswoord</string>
+    <string name="maskpass_summary">Verberg paswoorden standaardmatig</string>
+    <string name="menu_about">Over</string>
+    <string name="menu_change_key">Wijzig Hoofdsleutel</string>
+    <string name="menu_copy_pass">Copieer Paswoord</string>
+    <string name="menu_copy_user">Copieer Gebruiker</string>
+    <string name="menu_create">Aanmaken</string>
+    <string name="menu_app_settings">Instellingen</string>
+    <string name="menu_db_settings">Database instellingen</string>
+    <string name="menu_delete">Wissen</string>
+    <string name="menu_donate">Doneren</string>
+    <string name="menu_edit">Editeren</string>
+    <string name="menu_hide_password">Paswoord Verbergen</string>
+    <string name="menu_homepage">Ga naar Homepage</string>
+    <string name="menu_lock">Vergrendel Database</string>
+    <string name="menu_open">Openen</string>
+    <string name="menu_rename">Hernoemen</string>
+    <string name="menu_search">Zoeken</string>
+    <string name="menu_url">Ga to URL</string>
+    <string name="minus">Minus</string>
+    <string name="never">Nooit</string>
+    <string name="no_keys">Geen records in de database of groep.</string>
+    <string name="no_results">Geen zoekresultaten</string>
+    <string name="no_url_handler">Geen afhandelaar voor deze url.</string>
+    <string name="open_recent">Recente database openen (klik om te openen):</string>
+    <string name="omitbackup_title">Niet in backup en prullenbak zoeken</string>
+    <string name="omitbackup_summary">Laat \'Backup\' and Prullenbak-groep weg uit zoekresultaten</string>
+    <string name="pass_filename">KeePass database bestandsnaam:</string>
+    <string name="pass_ok">Ok</string>
+    <string name="password_title">Geef database paswoord</string>
+    <string name="progress_create">Nieuwe database wordt aangemaakt&#8230;</string>
+    <string name="progress_title">Bezig&#8230;</string>
+    <string name="remember_keyfile_summary">Onthoudt de locatie van de sleutelbestanden</string>
+    <string name="remember_keyfile_title">Bewaar sleutelbestand</string>
+    <string name="remove_from_filelist">Verwijder</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Top</string>
+    <string name="rounds">Encryptie-cycli</string>
+    <string name="rounds_explaination">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute kracht aanvallen., maar kan het laden en bewaren sterk vertragen.</string>
+    <string name="rounds_hint">cycli</string>
+    <string name="saving_database">Database wordt bewaard&#8230;</string>
+    <string name="space">Ruimte</string>
+    <string name="search_label">Zoeken</string>
+    <string name="show_password">Toon paswoord</string>
+    <string name="sort_name">Sorteren op naam</string>
+    <string name="sort_db">DB sorteringsvolgorde</string>
+    <string name="special">Speciaal</string>
+    <string name="search_hint">Record titel/beschrijving</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Onderlijnen</string>
+    <string name="unsupported_db_version">Niet gesupporteerde database versie.</string>
+    <string name="uppercase">Hoofdletters</string>
+    <string name="warning_read_only">Uw sd card is mementeel niet beschrijfbaar. U zal wijzigingen in de database niet kunnen bewaren.</string>
+    <string name="warning_unmounted">Uw sd card is momenteel niet gemonteerd in uw toestel. U zal geen database kunnen inladen of aanmaken.</string>
+    <string name="version_label">Versie:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 seconden</item>
+    	<item>1 minuut</item>
+    	<item>5 minuten</item>
+    	<item>Nooit</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Klein</item>
+    	<item>Medium</item>
+    	<item>Groot</item>
+    </string-array>
+</resources>
