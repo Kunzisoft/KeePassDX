@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -61,12 +61,15 @@ import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.HashedBlockInputStream;
 import com.keepassdroid.stream.LEDataInputStream;
+import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
 
 public class ImporterV4 extends Importer {
 	
 	private StreamCipher randomStream;
 	private PwDatabaseV4 db;
+	
+	private byte[] hashOfHeader = null;
 
 	@Override
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
@@ -84,7 +87,7 @@ public class ImporterV4 extends Importer {
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
 		
-		header.loadFromFile(inStream);
+		hashOfHeader = header.loadFromFile(inStream);
 			
 		db.setMasterKey(password, keyfile);
 		db.makeFinalKey(header.masterSeed, header.transformSeed, (int)db.numKeyEncRounds);
@@ -172,6 +175,7 @@ public class ImporterV4 extends Importer {
     private static final String ElemEntry = "Entry";
 
     private static final String ElemGenerator = "Generator";
+    private static final String ElemHeaderHash = "HeaderHash";
     private static final String ElemDbName = "DatabaseName";
     private static final String ElemDbNameChanged = "DatabaseNameChanged";
     private static final String ElemDbDesc = "DatabaseDescription";
@@ -293,7 +297,7 @@ public class ImporterV4 extends Importer {
 	private String customDataKey = null;
 	private String customDataValue = null;
 	
-	private void ReadXmlStreamed(InputStream readerStream) throws IOException {
+	private void ReadXmlStreamed(InputStream readerStream) throws IOException, InvalidDBException {
 		
 			try {
 				ReadDocumentStreamed(CreatePullParser(readerStream));
@@ -313,7 +317,7 @@ public class ImporterV4 extends Importer {
 		return xpp;
 	}
 
-	private void ReadDocumentStreamed(XmlPullParser xpp) throws XmlPullParserException, IOException {
+	private void ReadDocumentStreamed(XmlPullParser xpp) throws XmlPullParserException, IOException, InvalidDBException {
 
 		ctxGroups.clear();
 		
@@ -351,7 +355,7 @@ public class ImporterV4 extends Importer {
 	}
 
 
-	private KdbContext ReadXmlElement(KdbContext ctx, XmlPullParser xpp) throws XmlPullParserException, IOException {
+	private KdbContext ReadXmlElement(KdbContext ctx, XmlPullParser xpp) throws XmlPullParserException, IOException, InvalidDBException {
 		String name = xpp.getName();
 		switch (ctx) {
 		case Null:
@@ -373,6 +377,14 @@ public class ImporterV4 extends Importer {
 		case Meta:
 			if ( name.equalsIgnoreCase(ElemGenerator) ) {
 				ReadString(xpp); // Ignore
+			} else if ( name.equalsIgnoreCase(ElemHeaderHash) ) {
+				String encodedHash = ReadString(xpp);
+				if (EmptyUtils.isNullOrEmpty(encodedHash) && (encodedHash != null)) {
+					byte[] hash = Base64Coder.decode(encodedHash);
+					if (!Arrays.equals(hash, hashOfHeader)) {
+						throw new InvalidDBException();
+					}
+				}
 			} else if ( name.equalsIgnoreCase(ElemDbName) ) {
 				db.name = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemDbNameChanged) ) {

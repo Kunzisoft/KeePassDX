@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2011 Brian Pellin.
+ * Copyright 2010-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,6 +21,9 @@ package com.keepassdroid.database;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.stream.LEDataInputStream;
@@ -63,25 +66,35 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	 * @throws IOException 
 	 * @throws InvalidDBVersionException 
 	 */
-	public void loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
-		LEDataInputStream dis = new LEDataInputStream(is);
+	public byte[] loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("No SHA-256 implementation");
+		}
+		
+		DigestInputStream dis = new DigestInputStream(is, md);
+		LEDataInputStream lis = new LEDataInputStream(dis);
 
-		int sig1 = dis.readInt();
-		int sig2 = dis.readInt();
+		int sig1 = lis.readInt();
+		int sig2 = lis.readInt();
 		
 		if ( ! matchesHeader(sig1, sig2) ) {
 			throw new InvalidDBVersionException();
 		}
 		
-		long version = dis.readUInt();
+		long version = lis.readUInt();
 		if ( ! validVersion(version) ) {
 			throw new InvalidDBVersionException();
 		}
 		
 		boolean done = false;
 		while ( ! done ) {
-			done = readHeaderField(dis);
+			done = readHeaderField(lis);
 		}
+		
+		return md.digest();
 	}
 	
 	private boolean readHeaderField(LEDataInputStream dis) throws IOException {
