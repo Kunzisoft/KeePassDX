@@ -102,7 +102,7 @@
     <string name="hint_title">name</string>
     <string name="hint_url">url</string>
     <string name="hint_username">username</string>
-    <string name="install_from_market">Install from Market</string>
+    <string name="install_from_market">Install from Play Store</string>
     <string name="install_from_website">Install from Web</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
     <string name="invalid_db_sig">Database format not recognized.</string>
