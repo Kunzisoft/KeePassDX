@@ -75,7 +75,7 @@
     <string name="generate_password">Jelszó generálás</string>
     <string name="group">Csoport</string>
     <string name="hint_comment">megjegyzés</string>
-    <string name="hint_conf_pass">jelszó megerőítése</string>
+    <string name="hint_conf_pass">jelszó megerősítése</string>
     <string name="hint_generated_password">generált jelszó</string>
     <string name="hint_group_name">Csoportnév</string>
     <string name="hint_keyfile">kulcsfájl</string>
@@ -105,7 +105,7 @@
     <string name="menu_db_settings">Adatbázis beállítások</string>
     <string name="menu_delete">Törlés</string>
     <string name="menu_donate">Támogatás</string>
-    <string name="menu_edit">Szerkesztés</string>
+    <string name="menu_edit">Szerkeszt</string>
     <string name="menu_hide_password">Jelszó elrejtése</string>
     <string name="menu_homepage">Weboldal megtekintése</string>
     <string name="menu_lock">Adatbázis lezárása</string>
@@ -139,7 +139,7 @@
     <string name="search_label">Keresés</string>
     <string name="show_password">Jelszó megjelenítése</string>
     <string name="sort_name">Rendezés név alapján</string>
-    <string name="sort_db">Adatbázis rendezése</string>
+    <string name="sort_db">Rendezés dátum alapján</string>
     <string name="special">Speciális</string>
     <string name="search_hint">Bejegyzés cím/leírás</string>
     <string name="twofish">Twofish</string>
@@ -151,15 +151,14 @@
     <string name="version_label">Verzió:</string>
     
     <string-array name="clipboard_timeout_options">
-    	<item>30 seconds</item>
-    	<item>1 minute</item>
-    	<item>5 minutes</item>
-    	<item>Never</item>
+        <item>30 másodperc</item>
+        <item>1 perc</item>
+        <item>5 perc</item>
+        <item>Soha</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Small</item>
-    	<item>Medium</item>
-    	<item>Large</item>
+        <item>Kicsi</item>
+        <item>Közepes</item>
+        <item>Nagy</item>
     </string-array>
-    
 </resources>

@@ -1,3 +1,5 @@
+ * Updated Hungarian translations from intel
+
 KeePassDroid (1.9.15)
  * Fix compatibility with desktop KeePass 2.20
  * Verify header integrity of .kdbx databases
@@ -20,7 +22,7 @@ KeePassDroid (1.9.12.1)
 
 KeePassDroid (1.9.11)
  * Protect against crashes when clicking on the browse icon
- * Add Hungarian translations from Antal Zoltán
+ * Add Hungarian translations from intel
 
 KeePassDroid (1.9.10)
  * Add support for the Holo theme on devices > 3.0 from Space Cowboy
