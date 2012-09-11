@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2011 Brian Pellin.
+ Copyright 2009-2012 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -160,6 +160,7 @@
     <string name="sort_db">DB sort order</string>
     <string name="special">Special</string>
     <string name="search_hint">Entry title/description</string>
+    <string name="search_results">Search results</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>

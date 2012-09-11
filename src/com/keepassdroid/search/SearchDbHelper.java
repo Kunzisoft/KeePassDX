@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -60,7 +60,7 @@ public class SearchDbHelper {
 			Log.d("SearchDbHelper", "Tried to search with unknown db");
 			return null;
 		}
-		group.name = "Search results";
+		group.name = mCtx.getString(R.string.search_results);
 		group.childEntries = new ArrayList<PwEntry>();
 		
 		// Search all entries
