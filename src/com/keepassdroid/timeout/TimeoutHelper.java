@@ -26,6 +26,7 @@ import android.preference.PreferenceManager;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.compat.EditorCompat;
 
 public class TimeoutHelper {
 	
@@ -39,8 +40,7 @@ public class TimeoutHelper {
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.putLong(act.getString(R.string.timeout_key), time);
 		
-		// TODO: Replace with compat wrapper to call .apply when available
-		edit.commit();
+		EditorCompat.apply(edit);
 	}
 	
 	public static void resume(Activity act) {

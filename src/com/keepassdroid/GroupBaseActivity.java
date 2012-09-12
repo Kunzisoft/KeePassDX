@@ -41,6 +41,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
+import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
@@ -216,7 +217,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		boolean sortByName = prefs.getBoolean(sortKey, getResources().getBoolean(R.bool.sort_default));
 		Editor editor = prefs.edit();
 		editor.putBoolean(sortKey, ! sortByName);
-		editor.commit();
+		EditorCompat.apply(editor);
 		
 		// Refresh menu titles
 		ActivityCompat.invalidateOptionsMenu(this);

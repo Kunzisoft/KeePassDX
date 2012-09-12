@@ -49,6 +49,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
+import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fileselect.BrowserDialog;
@@ -299,7 +300,7 @@ public class PasswordActivity extends LockingActivity {
 			
 			SharedPreferences.Editor editor = prefs.edit();
 			editor.putString(KEY_DEFAULT_FILENAME, newDefaultFileName);
-			editor.commit();
+			EditorCompat.apply(editor);
 			
 			BackupManagerCompat backupManager = new BackupManagerCompat(PasswordActivity.this);
 			backupManager.dataChanged();
