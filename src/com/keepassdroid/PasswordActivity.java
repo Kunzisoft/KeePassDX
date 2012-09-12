@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -25,10 +25,7 @@ import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,7 +71,6 @@ public class PasswordActivity extends LockingActivity {
 	private String mKeyFile;
 	private boolean mRememberKeyfile;
 	SharedPreferences prefs;
-	BroadcastReceiver mIntentReceiver;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -232,28 +228,21 @@ public class PasswordActivity extends LockingActivity {
 		});
 		
 		retrieveSettings();
-		
-		mIntentReceiver = new BroadcastReceiver() {
-			
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String action = intent.getAction();
-				if (action.equals(Intents.TIMEOUT)) {
-					setEditText(R.id.password, "");
-				}
-				
-			}
-		};
-		registerReceiver(mIntentReceiver, new IntentFilter());
 	}
 	
 	@Override
-	protected void onDestroy() {
-		if (mIntentReceiver != null) {
-			unregisterReceiver(mIntentReceiver);
+	protected void onResume() {
+		super.onResume();
+		
+		// If the application was shutdown make sure to clear the password field, if it
+		// was saved in the instance state
+		if (App.isShutdown()) {
+			TextView password = (TextView) findViewById(R.id.password);
+			password.setText("");
 		}
 		
-		super.onDestroy();
+		// Clear the shutdown flag
+		App.clearShutdown();
 	}
 
 	private void retrieveSettings() {

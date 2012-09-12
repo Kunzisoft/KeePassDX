@@ -2,6 +2,7 @@
  * New Spanish translations from jipanos
  * New Dutch translations Erik Fdevriendt
  * Fix header verification in .kdbx
+ * Rework timeout implementation should fix some bugs with passwords persisting
 
 KeePassDroid (1.9.16)
  * Updated Hungarian translations from intel
