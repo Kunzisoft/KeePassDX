@@ -379,7 +379,7 @@ public class ImporterV4 extends Importer {
 				ReadString(xpp); // Ignore
 			} else if ( name.equalsIgnoreCase(ElemHeaderHash) ) {
 				String encodedHash = ReadString(xpp);
-				if (EmptyUtils.isNullOrEmpty(encodedHash) && (encodedHash != null)) {
+				if (!EmptyUtils.isNullOrEmpty(encodedHash) && (hashOfHeader != null)) {
 					byte[] hash = Base64Coder.decode(encodedHash);
 					if (!Arrays.equals(hash, hashOfHeader)) {
 						throw new InvalidDBException();
