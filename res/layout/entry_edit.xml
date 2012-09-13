@@ -103,6 +103,7 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:inputType="textPassword"
+			  android:typeface="monospace"
 			  android:singleLine="true"
 			  android:layout_toLeftOf="@id/generate_button"
 			  android:hint="@string/hint_pass"
@@ -115,6 +116,7 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:inputType="textPassword"
+			  android:typeface="monospace"
 			  android:singleLine="true"
 			  android:layout_below="@id/entry_confpassword_label"
 			  android:hint="@string/hint_conf_pass"/>

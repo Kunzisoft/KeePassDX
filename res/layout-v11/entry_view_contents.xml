@@ -61,6 +61,7 @@
 	  android:layout_height="wrap_content"
 	  android:password="true"
 	  android:textIsSelectable="true"
+	  android:typeface="monospace"
 	  style="@style/EntryItem"
 	/>
 	<!-- Comment -->

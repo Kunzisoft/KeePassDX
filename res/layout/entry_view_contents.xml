@@ -58,6 +58,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:password="true"
+	  android:typeface="monospace"
 	  style="@style/EntryItem"
 	/>
 	<!-- Comment -->
