@@ -62,13 +62,7 @@ public class Icons {
 	public static int iconToResId(int iconId) {
 		buildList();
 		
-		Integer resId = icons.get(iconId);
-		
-		if (resId == null) {
-			return R.drawable.ic99_blank;
-		}
-		
-		return resId;
+		return icons.get(iconId, R.drawable.ic99_blank);
 	}
 	
 	public static int count() {

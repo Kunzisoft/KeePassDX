@@ -1,3 +1,5 @@
+ * Fix crash with blank icons
+
 KeePassDroid (1.9.18)
  * Add input types to entry fields
  * Show username in the title list for TAN entries
