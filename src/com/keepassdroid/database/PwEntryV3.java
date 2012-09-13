@@ -70,7 +70,6 @@ public class PwEntryV3 extends PwEntry {
 	public static final String PMS_ID_TITLE   = "Meta-Info";
 	public static final String PMS_ID_USER    = "SYSTEM";
 	public static final String PMS_ID_URL     = "$";
-	private static final String PMS_TAN_ENTRY ="<TAN>";
 
 
 
@@ -172,19 +171,6 @@ public class PwEntryV3 extends PwEntry {
 
 	}
 	
-	public boolean isTan() {
-		return title.equals(PMS_TAN_ENTRY);
-	}
-	
-	@Override
-	public String getDisplayTitle() {
-		if ( isTan() ) {
-			return PMS_TAN_ENTRY + " " + username;
-		} else {
-			return title;	
-		}
-	}
-
 	/**
 	 * @return the actual password byte array.
 	 */
