@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,9 +63,6 @@ public class EntryEditActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
-	private static final int MENU_DONATE = Menu.FIRST;
-	private static final int MENU_PASS = Menu.FIRST + 1;
-	
 	public static final int RESULT_OK_ICON_PICKER = 1000;
 	public static final int RESULT_OK_PASSWORD_GENERATOR = RESULT_OK_ICON_PICKER + 1;
 
@@ -292,18 +290,15 @@ public class EntryEditActivity extends LockCloseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
-		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
-
-		menu.add(0, MENU_PASS, 0, R.string.show_password);
-		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.entry_edit, menu);
 		
 		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_DONATE:
+		case R.id.menu_donate:
 			try {
 				Util.gotoUrl(this, R.string.donate_url);
 			} catch (ActivityNotFoundException e) {
@@ -312,12 +307,12 @@ public class EntryEditActivity extends LockCloseActivity {
 			}
 			
 			return true;
-		case MENU_PASS:
+		case R.id.menu_toggle_pass:
 			if ( mShowPassword ) {
-				item.setTitle(R.string.menu_hide_password);
+				item.setTitle(R.string.show_password);
 				mShowPassword = false;
 			} else {
-				item.setTitle(R.string.show_password);
+				item.setTitle(R.string.menu_hide_password);
 				mShowPassword = true;
 			}
 			setPasswordStyle();

@@ -1,6 +1,7 @@
  * Add input types to entry fields
  * Show username in the title list for TAN entries
  * Switch to monospace font for password fields
+ * Implement action bar on entry edit activity
 
 KeePassDroid (1.9.17)
  * Updated Russian translations from I Nedoboy
