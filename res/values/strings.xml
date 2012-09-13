@@ -99,6 +99,7 @@
     <string name="hint_keyfile">key file</string>
     <string name="hint_length">length</string>
     <string name="hint_pass">password</string>
+    <string name="hint_login_pass">Password</string>
     <string name="hint_title">name</string>
     <string name="hint_url">url</string>
     <string name="hint_username">username</string>

@@ -98,6 +98,7 @@
     <string name="hint_group_name">имя группы</string>
     <string name="hint_keyfile">ключевой файл</string>
     <string name="hint_length">длина</string>
+    <string name="hint_login_pass">Пароль</string>
     <string name="hint_pass">пароль</string>
     <string name="hint_title">название</string>
     <string name="hint_url">ссылка</string>

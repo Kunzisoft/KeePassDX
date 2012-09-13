@@ -98,6 +98,7 @@
     <string name="hint_group_name">グループ名</string>
     <string name="hint_keyfile">キーファイル</string>
     <string name="hint_length">長さ</string>
+    <string name="hint_login_pass">パスワード</string>
     <string name="hint_pass">パスワード</string>
     <string name="hint_title">タイトル</string>
     <string name="hint_url">url</string>

@@ -98,6 +98,7 @@
     <string name="hint_group_name">群组名</string>
     <string name="hint_keyfile">密钥文件</string>
     <string name="hint_length">长度</string>
+    <string name="hint_login_pass">密码</string>
     <string name="hint_pass">密码</string>
     <string name="hint_title">名称</string>
     <string name="hint_url">网址</string>

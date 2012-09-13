@@ -98,6 +98,7 @@
     <string name="hint_group_name">Gruppenamn</string>
     <string name="hint_keyfile">nøkkelfil</string>
     <string name="hint_length">lengd</string>
+    <string name="hint_login_pass">Passord</string>
     <string name="hint_pass">passord</string>
     <string name="hint_title">namn</string>
     <string name="hint_url">adresse</string>

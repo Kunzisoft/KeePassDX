@@ -80,6 +80,7 @@
     <string name="hint_group_name">Csoportnév</string>
     <string name="hint_keyfile">kulcsfájl</string>
     <string name="hint_length">hosszúság</string>
+    <string name="hint_login_pass">Jelszó</string>
     <string name="hint_pass">jelszó</string>
     <string name="hint_title">név</string>
     <string name="hint_url">url</string>

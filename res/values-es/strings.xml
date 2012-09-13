@@ -100,6 +100,7 @@ Spanish translation by José I. Paños
     <string name="hint_group_name">Nombre de grupo</string>
     <string name="hint_keyfile">archivo clave</string>
     <string name="hint_length">longitud</string>
+    <string name="hint_login_pass">Contraseña</string>
     <string name="hint_pass">contraseña</string>
     <string name="hint_title">combre</string>
     <string name="hint_url">url</string>

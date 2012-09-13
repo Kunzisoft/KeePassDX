@@ -100,6 +100,7 @@
     <string name="hint_group_name">Groepnaam</string>
     <string name="hint_keyfile">sleutelbestand</string>
     <string name="hint_length">lengte</string>
+    <string name="hint_login_pass">Paswoord</string>
     <string name="hint_pass">paswoord</string>
     <string name="hint_title">naam</string>
     <string name="hint_url">url</string>

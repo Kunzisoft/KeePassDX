@@ -70,6 +70,7 @@
 	<string name="hint_conf_pass">confirmez mot de passe</string>    
 	<string name="hint_group_name">Nom de groupe</string>    
 	<string name="hint_keyfile">clé de fichier</string>    
+	<string name="hint_login_pass">Mot de passe</string>    
 	<string name="hint_pass">mot de passe</string>    
 	<string name="hint_title">nom</string>    
 	<string name="hint_url">url</string>    

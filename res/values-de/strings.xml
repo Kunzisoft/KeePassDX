@@ -100,6 +100,7 @@
     <string name="hint_group_name">Name der Gruppe</string>
     <string name="hint_keyfile">Schlüsseldatei</string>
     <string name="hint_length">Länge</string>
+    <string name="hint_login_pass">Kennwort</string>
     <string name="hint_pass">Kennwort</string>
     <string name="hint_title">Name</string>
     <string name="hint_url">Adresse</string>

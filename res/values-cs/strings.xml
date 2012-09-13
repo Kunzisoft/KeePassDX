@@ -99,6 +99,7 @@
     <string name="hint_keyfile">klíčový soubor</string>
     <string name="hint_length">délka</string>
     <string name="hint_pass">heslo</string>
+    <string name="hint_login_pass">Heslo</string>
     <string name="hint_title">název</string>
     <string name="hint_url">url</string>
     <string name="hint_username">uživatelské jméno</string>
