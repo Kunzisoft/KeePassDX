@@ -141,7 +141,6 @@
     <string name="omitbackup_title">Neprehľadávať položky</string>
     <string name="omitbackup_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
     <string name="pass_filename">KeePass databázový súbor:</string>
-    <string name="pass_ok">Ok</string>
     <string name="password_title">Vložte heslo databázy</string>
     <string name="progress_create">Vytváram novú databázu&#8230;</string>
     <string name="progress_title">Pracujem&#8230;</string>

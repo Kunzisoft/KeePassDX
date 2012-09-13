@@ -100,7 +100,6 @@
 	<string name="no_url_handler">Aucun gestionnaire pour cette url.</string>    
 	<string name="open_recent">base de données récemment ouvertes (cliquez pour ouvrir) :</string>    
 	<string name="pass_filename">Nom de fichier de base de données KeePass :</string>    
-	<string name="pass_ok">Ok</string>    
 	<string name="password_title">Entrez le mot de passe de la base de données</string>    
 	<string name="progress_create">Création d\'une nouvelle base de données&#8230;</string>    
 	<string name="progress_title">En cours&#8230;</string>    

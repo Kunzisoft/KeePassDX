@@ -141,7 +141,6 @@
     <string name="omitbackup_title">Не шукати записів з резервного копіювання та кошиків</string>
     <string name="omitbackup_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
     <string name="pass_filename">ім’я бази даних KeePass:</string>
-    <string name="pass_ok">Гаразд</string>
     <string name="password_title">Введіть пароль бази даних</string>
     <string name="progress_create">Створення нової бази даних&#8230;</string>
     <string name="progress_title">Працює&#8230;</string>

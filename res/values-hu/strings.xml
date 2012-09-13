@@ -123,7 +123,6 @@
     <string name="omitbackup_title">Keresési kivételek</string>
     <string name="omitbackup_summary">A Backup és Lomtár csoportok kihagyása a keresésből</string>
     <string name="pass_filename">KeePass adatbázis fájlnév:</string>
-    <string name="pass_ok">Ok</string>
     <string name="password_title">Adatbázis jelszó megadása</string>
     <string name="progress_create">Új adatbázis létrehozása…</string>
     <string name="progress_title">Feldolgozás…</string>

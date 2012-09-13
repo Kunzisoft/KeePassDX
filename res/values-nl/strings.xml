@@ -143,7 +143,6 @@
     <string name="omitbackup_title">Niet in backup en prullenbak zoeken</string>
     <string name="omitbackup_summary">Laat \'Backup\' and Prullenbak-groep weg uit zoekresultaten</string>
     <string name="pass_filename">KeePass database bestandsnaam:</string>
-    <string name="pass_ok">Ok</string>
     <string name="password_title">Geef database paswoord</string>
     <string name="progress_create">Nieuwe database wordt aangemaakt&#8230;</string>
     <string name="progress_title">Bezig&#8230;</string>

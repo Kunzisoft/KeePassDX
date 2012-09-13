@@ -137,7 +137,6 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="no_url_handler">Brak obsługi dla tego urla.</string>
     <string name="open_recent">Otwórz ostatnio używaną bazę danych (kliknij by otworzyć):</string>
     <string name="pass_filename">Nazwa pliku bazy danych KeePass:</string>
-    <string name="pass_ok">OK</string>
     <string name="password_title">Wprowadź hasło bazy danych</string>
     <string name="progress_create">Tworzenie nowej bazy danych&#8230;</string>
     <string name="progress_title">Pracuję&#8230;</string>

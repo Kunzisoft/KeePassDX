@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,18 +20,18 @@
 package com.keepassdroid.icons;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+
+import android.util.SparseIntArray;
 
 import com.android.keepass.R;
 
 
 public class Icons {
-	private static Map<Integer, Integer> icons = null;
+	private static SparseIntArray icons = null;
 	
 	private static void buildList() {
 		if (icons == null) {
-			icons = new HashMap<Integer, Integer>();
+			icons = new SparseIntArray();
 			
 			Class<com.android.keepass.R.drawable> c = com.android.keepass.R.drawable.class;
 			

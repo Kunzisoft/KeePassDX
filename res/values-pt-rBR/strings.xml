@@ -144,7 +144,6 @@
     <string name="omitbackup_title">Não procurar entradas no backup ou na lixeira.</string>
     <string name="omitbackup_summary">Omitir os grupos \'Backup\' e \'Lixeira\' dos resultados da busca</string>
     <string name="pass_filename">Arquivo de banco de dados do KeePass:</string>
-    <string name="pass_ok">Ok</string>
     <string name="password_title">Digite a senha do banco de dados</string>
     <string name="progress_create">Criando novo banco de dados&#8230;</string>
     <string name="progress_title">Trabalhando&#8230;</string>

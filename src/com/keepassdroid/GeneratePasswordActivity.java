@@ -102,7 +102,7 @@ public class GeneratePasswordActivity extends LockCloseActivity {
     	String password = "";
     	
     	try {
-    		int length = new Integer(((EditText) findViewById(R.id.length)).getText().toString());
+    		int length = Integer.valueOf(((EditText) findViewById(R.id.length)).getText().toString());
     		
     		((CheckBox) findViewById(R.id.cb_uppercase)).isChecked();
         	

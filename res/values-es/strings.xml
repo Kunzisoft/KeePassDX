@@ -143,7 +143,6 @@ Spanish translation by José I. Paños
     <string name="omitbackup_title">No buscar en las entradas de copia de seguridad o papelera de reciclaje</string>
     <string name="omitbackup_summary">Omitir \'Backup\' y grupo de Papelera de Reciclaje en los resultados de búsqueda</string>
     <string name="pass_filename">Nombre de archivo de base de datos de KeePass:</string>
-    <string name="pass_ok">Correcto</string>
     <string name="password_title">Introduzca la contraseña de la base de datos</string>
     <string name="progress_create">Creando nueva base de datos&#8230;</string>
     <string name="progress_title">Trabajando&#8230;</string>

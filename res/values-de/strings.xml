@@ -143,7 +143,6 @@
     <string name="omitbackup_title">"Papier-/Sicherungskorb nicht durchsuchen"</string>
     <string name="omitbackup_summary">"Gelöschte Dateien des Papier-/Sicherungskorbs werden bei der Suche nicht berücksichtigt"</string>
     <string name="pass_filename">KeePass Datenbankdatei:</string>
-    <string name="pass_ok">Ok</string>
     <string name="password_title">Datenbank-Kennwort eingeben</string>
     <string name="progress_create">Neue Datenbank anlegen…</string>
     <string name="progress_title">In Bearbeitung…</string>

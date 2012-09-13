@@ -141,7 +141,6 @@
     <string name="omitbackup_title">検索対象から除外</string>
     <string name="omitbackup_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
     <string name="pass_filename">KeePassデータベースファイル:</string>
-    <string name="pass_ok">OK</string>
     <string name="password_title">データベースのパスワード設定</string>
     <string name="progress_create">データベースファイルを作成中&#8230;</string>
     <string name="progress_title">実行中&#8230;</string>

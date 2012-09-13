@@ -141,7 +141,6 @@
     <string name="omitbackup_title">Neprohledávat zálohy a koš</string>
     <string name="omitbackup_summary">Vynechat skupiny Záloha a Koš ve výsledcích hledání</string>
     <string name="pass_filename">Název souboru KeePass databáze:</string>
-    <string name="pass_ok">Ok</string>
     <string name="password_title">Zadejte heslo do databáze</string>
     <string name="progress_create">Vytvářím novou databázi&#8230;</string>
     <string name="progress_title">Zpracovávám&#8230;</string>

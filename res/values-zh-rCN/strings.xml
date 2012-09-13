@@ -139,7 +139,6 @@
     <string name="no_url_handler">没有这个链接的处理程序。</string>
     <string name="open_recent">打开最近数据库（点击打开）：</string>
     <string name="pass_filename">KeePass数据库文件名：</string>
-    <string name="pass_ok">确认</string>
     <string name="password_title">输入数据库密码</string>
     <string name="progress_create">创建新数据库中&#8230;</string>
     <string name="progress_title">工作中&#8230;</string>

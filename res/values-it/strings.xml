@@ -144,7 +144,6 @@
     <string name="omitbackup_title">Non cercare voci di backup e nel Cestino</string>
     <string name="omitbackup_summary">Ometti i gruppi \'Backup\' e Cestino dai risultati di ricerca</string>
     <string name="pass_filename">Nome file del database di KeePass:</string>
-    <string name="pass_ok">OK</string>
     <string name="password_title">Inserisci password database</string>
     <string name="progress_create">Creazione nuovo database&#8230;</string>
     <string name="progress_title">In corso&#8230;</string>
