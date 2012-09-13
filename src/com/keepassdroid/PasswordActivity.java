@@ -31,7 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.method.PasswordTransformationMethod;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -188,9 +188,9 @@ public class PasswordActivity extends LockingActivity {
 				TextView password = (TextView) findViewById(R.id.password);
 
 				if ( isChecked ) {
-					password.setTransformationMethod(null);
+					password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 				} else {
-					password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+					password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 				}
 			}
 			

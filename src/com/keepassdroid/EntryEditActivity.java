@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -31,7 +31,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.method.PasswordTransformationMethod;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -254,10 +254,10 @@ public class EntryEditActivity extends LockCloseActivity {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default))) {
 			EditText pass = (EditText) findViewById(R.id.entry_password);
-			pass.setTransformationMethod(null);
-			
 			EditText conf = (EditText) findViewById(R.id.entry_confpassword);
-			conf.setTransformationMethod(null);
+			
+			pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+			conf.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 		}
 		
 	}
@@ -332,13 +332,12 @@ public class EntryEditActivity extends LockCloseActivity {
 		TextView confpassword = (TextView) findViewById(R.id.entry_confpassword);
 
 		if ( mShowPassword ) {
-			password.setTransformationMethod(null);
-			confpassword.setTransformationMethod(null);
+			password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+			confpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
 		} else {
-			PasswordTransformationMethod ptm = PasswordTransformationMethod.getInstance();
-			password.setTransformationMethod(ptm);
-			confpassword.setTransformationMethod(ptm);
+			password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+			confpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		}
 	}
 
