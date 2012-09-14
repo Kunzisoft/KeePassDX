@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+ Copyright 2009-2011 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -23,7 +23,7 @@
     <string name="about_ok">OK</string>
     <string name="AboutText">KeePassDroid er ei android-utgåve av KeePass passordstyrar.</string>
     <string name="about_twitter">Twitter:</string>
-	<string name="accept">Godta</string>    
+    <string name="accept">Godta</string>    
     <string name="add_entry">Legg til post</string>
     <string name="add_group">Legg til gruppe</string>
     <string name="add_group_title">Legg til gruppe</string>
@@ -35,8 +35,8 @@
     <string name="application">Program</string>
     <string name="application_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>
-    <string name="browser_intall_text">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første goingen du bruker det.</string>
-    <string name="building_search_idx">Byggjer søkjeindeks …</string>
+    <string name="browser_intall_text">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
+    <string name="building_search_idx">Byggjer søkjeindeksen …</string>
     <string name="cancel">Avbryt</string>
     <string name="ClearClipboard">Utklippstavla er tømt.</string>
     <string name="clipboard_timeout">Tidsavbrot på utklippstavla</string>
@@ -48,14 +48,14 @@
     <string name="current_group_root">Gjeldande gruppe: Rot</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Dekrypterer databasen …</string>
-    <string name="decrypting_entry">Dekrypterer posten</string>
-    <string name="default_checkbox">Han er standarddatabasen</string>
-    <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009 Brian Pellin kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL utgåve 2 eller nyare.</string>
+    <string name="decrypting_entry">Dekrypterer oppføringa</string>
+    <string name="default_checkbox">Standarddatabasen</string>
+    <string name="digits">Tal</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL utgåve 2 eller nyare.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Skriv filnamnet til databasen:</string>
     <string name="entry_accessed">Brukt: </string>
-    <string name="entry_and_or">Skriv inn passordet og/eller ei nøkkelfil for å låsa opp databasen din:</string>
+    <string name="entry_and_or">Skriv inn passordet og/eller nøkkelfil for å låsa opp databasen:</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_comment">Merknader: </string>
     <string name="entry_confpassword">Stadfest passordet:</string>
@@ -70,7 +70,7 @@
     <string name="entry_user_name">Brukaramn: </string>
     <string name="error_arc4">Kan ikkje bruka ArcFour dataflytkryptering.</string>
     <string name="error_can_not_handle_uri">KeePassDroid kan ikkje bruka denne ressursen.</string>
-    <string name="error_could_not_create_group">Klarer ikkje å laga gruppa.</string>
+    <string name="error_could_not_create_group">Klarte ikkje å laga gruppa.</string>
     <string name="error_could_not_create_parent">Klarte ikkje å laga foreldrekatalogen.</string>
     <string name="error_database_exists">Denne fila finst allereie.</string>
     <string name="error_database_settings">Klarte ikkje å bestemma databaseinnstillingane.</string>
@@ -98,14 +98,15 @@
     <string name="hint_group_name">Gruppenamn</string>
     <string name="hint_keyfile">nøkkelfil</string>
     <string name="hint_length">lengd</string>
+    <string name="hint_login_pass">Passord</string>
     <string name="hint_pass">passord</string>
     <string name="hint_title">namn</string>
     <string name="hint_url">adresse</string>
     <string name="hint_username">brukarnamn</string>
-    <string name="install_from_market">Installer frå Marknaden</string>
+    <string name="install_from_market">Installer frå marknaden</string>
     <string name="install_from_website">Installer frå nettet</string>
     <string name="InvalidPassword">Ugyldig passord eller nøkkelfil.</string>
-    <string name="invalid_db_sig">Kjende ikkje att databaseformatet.</string>
+    <string name="invalid_db_sig">Ukjent databaseformat.</string>
     <string name="length">Lengd</string>
     <string name="list_size_title">Gruppelistestorleik</string>
     <string name="list_size_summary">Tekststorleik i gruppelista</string>
@@ -133,14 +134,13 @@
     <string name="menu_url">Gå til adressa</string>
     <string name="minus">Minus</string>
     <string name="never">Aldri</string>
-    <string name="no_keys">Ingen postar i databasen eller gruppa.</string>
+    <string name="no_keys">Ingen oppføringar i databasen eller gruppa.</string>
     <string name="no_results">Ingen søkjeresultat</string>
     <string name="no_url_handler">Ingen behandlar for denne adressa.</string>
     <string name="open_recent">Opna nyleg brukt database (klikk for å opna):</string>
     <string name="omitbackup_title">Søk ikkje i kopipostane eller søppelbøtta</string>
-    <string name="omitbackup_summary">Søkjeresultatet inneheld ikkje postar frå \'Backup\' eller søppelbøtta</string>
+    <string name="omitbackup_summary">Søkjeresultatet inneheld ikkje oppføringar frå \'Backup\' eller søppelbøtta</string>
     <string name="pass_filename">Filnamnet til KeePass-databasen:</string>
-    <string name="pass_ok">OK</string>
     <string name="password_title">Skriv databasepassordet</string>
     <string name="progress_create">Lager ny database …</string>
     <string name="progress_title">Arbeider …</string>
@@ -159,7 +159,7 @@
     <string name="sort_name">Sorter etter namn</string>
     <string name="sort_db">DB-sortering</string>
     <string name="special">Spesial</string>
-    <string name="search_hint">Posttittel/skildring</string>
+    <string name="search_hint">Oppføringa sin tittel/skildring</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Understreking</string>
     <string name="unsupported_db_version">Kan ikkje bruka databaseutgåva.</string>

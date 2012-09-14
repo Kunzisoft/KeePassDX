@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+ Copyright 2009-2012 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -42,7 +42,7 @@
 	  android:layout_height="fill_parent"
 	  android:layout_above="@id/entry_divider">
 		<RelativeLayout android:layout_width="fill_parent"
-		  android:layout_height="fill_parent">
+		  android:layout_height="wrap_content">
 			<!--  Title -->	
 			<TextView android:id="@+id/entry_title_label"
 			  android:layout_width="fill_parent"
@@ -71,6 +71,7 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:singleLine="true"
+			  android:inputType="textEmailAddress"
 			  android:layout_below="@id/entry_user_name_label"
 			  android:hint="@string/hint_username"/>
 			<!--  URL -->
@@ -83,6 +84,7 @@
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:singleLine="true"
+			  android:inputType="textUri"
 			  android:layout_below="@id/entry_url_label"
 			  android:hint="@string/hint_url"/>
 			<!-- Password -->
@@ -100,7 +102,8 @@
 			<EditText android:id="@+id/entry_password" 
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
-			  android:password="true"
+			  android:inputType="textPassword"
+			  android:typeface="monospace"
 			  android:singleLine="true"
 			  android:layout_toLeftOf="@id/generate_button"
 			  android:hint="@string/hint_pass"
@@ -112,7 +115,8 @@
 			<EditText android:id="@+id/entry_confpassword" 
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
-			  android:password="true"
+			  android:inputType="textPassword"
+			  android:typeface="monospace"
 			  android:singleLine="true"
 			  android:layout_below="@id/entry_confpassword_label"
 			  android:hint="@string/hint_conf_pass"/>

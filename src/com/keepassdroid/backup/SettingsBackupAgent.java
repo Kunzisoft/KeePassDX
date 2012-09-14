@@ -19,9 +19,11 @@
  */
 package com.keepassdroid.backup;
 
+import android.annotation.SuppressLint;
 import android.app.backup.BackupAgentHelper;
 import android.app.backup.SharedPreferencesBackupHelper;
 
+@SuppressLint("NewApi")
 public class SettingsBackupAgent extends BackupAgentHelper {
 	
 	private static final String PREFS_BACKUP_KEY = "prefs";

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2009-2011 Brian Pellin.
+This file is part of KeePassDroid.
+
+KeePassDroid is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+KeePassDroid is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
+
+Spanish translation by José I. Paños
+
+-->
+<resources>
+    <string name="about_feedback">Realimentación:</string>
+    <string name="about_homepage">Inicio:</string>
+    <string name="about_ok">Aceptar</string>
+    <string name="AboutText">KeePassDroid es una implementación para Android del gestor de contraseñas KeePass.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Aceptar</string>
+    <string name="add_entry">Añadir entrada</string>
+    <string name="add_group">Añadir grupo</string>
+    <string name="add_group_title">Añadir grupo</string>
+    <string name="algorithm">Algoritmo</string>
+    <string name="algorithm_colon">Algoritmo:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Tiempo de espera de aplicación</string>
+    <string name="app_timeout_summary">Tiempo hasta bloquear la base de datos cuando la aplicación está inacttiva.</string>
+    <string name="application">Aplicación</string>
+    <string name="application_settings">Configuración de la aplicación</string>
+    <string name="brackets">Paréntesis</string>
+    <string name="browser_intall_text">La exploración de archivos necesita Open Intents File Manager, haz clic a continuación para instalarlo. Debido a algunas peculiaridades en el gestor de archivos, puede que la exploración no funcione correctamente la primera vez que la realices.</string>
+    <string name="building_search_idx">Construcción de índice de búsqueda&#8230;</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ClearClipboard">Portapapeles vaciado.</string>
+    <string name="clipboard_timeout">Portapapeles caducado</string>
+    <string name="clipboard_timeout_summary">Tiempo hasta que el portapapeles se vacía después de copiar el usuario o la contraseña</string>
+    <string name="copy_username">Seleccionar para copiar el usuario al portapapeles</string>
+    <string name="copy_password">Seleccionar para copiar la contraseña al portapapeles</string>
+    <string name="creating_db_key">Creando clave de la base de datos&#8230;</string>
+    <string name="current_group">Grupo actual: </string>
+    <string name="current_group_root">Grupo actual: Raíz</string>
+    <string name="database">Base de datos</string>
+    <string name="decrypting_db">Descifrando el contenido de la base de datos&#8230;</string>
+    <string name="decrypting_entry">Descrifrando la entrada entry</string>
+    <string name="default_checkbox">Utilice esto como base de datos por defecto</string>
+    <string name="digits">Dígitos</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin NO TIENE TOTAL GARANTÍA; Este es software libre, y puedes redristribuirlo bajo las condiciones de la licencia GPL version 2 o posterior.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Introduzca el nombre del archivo de base de datos:</string>
+    <string name="entry_accessed">Acceso: </string>
+    <string name="entry_and_or">Introduzca una contraseña y/o un archivo de clave para desbloquear su base de datos:</string>
+    <string name="entry_cancel">Cancelar</string>
+    <string name="entry_comment">Comentario: </string>
+    <string name="entry_confpassword">Confirmar contraseña:</string>
+    <string name="entry_created">Creación: </string>
+    <string name="entry_expires">Caducidad: </string>
+    <string name="entry_keyfile">Archivo de clave (opcional)</string>
+    <string name="entry_modified">Modificación: </string>
+    <string name="entry_password">Contraseña:</string>
+    <string name="entry_save">Guardar</string>
+    <string name="entry_title">Nombre: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Nombre de usuario: </string>
+    <string name="error_arc4">Secuencia de cifrado ArcFour no soportada.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid no puede manejar este uri.</string>
+    <string name="error_could_not_create_group">Error creando grupo.</string>
+    <string name="error_could_not_create_parent">No pudo crearse el directorio padre.</string>
+    <string name="error_database_exists">Este archivo ya existe.</string>
+    <string name="error_database_settings">Fallo al determinar la configuración de la base de datos.</string>
+    <string name="error_failed_to_launch_link">Fallo al abrir el enlace.</string>
+    <string name="error_filename_required">Se necesita un nombre de archivo.</string>
+    <string name="error_file_not_create">No se pudo crear el archivo:</string>
+    <string name="error_invalid_db">Base de datos no válida.</string>
+    <string name="error_invalid_path">Ruta no válida.</string>
+    <string name="error_no_name">Se necesita un nombre.</string>
+    <string name="error_nopass">Se necesita una contraseña o un archivo de clave.</string>
+    <string name="error_out_of_memory">El dispositivo se quedó sin memory mientras analizada la base de datos. Puede ser demasiado grande para este dispositivo.</string>
+    <string name="error_pass_gen_type">Debe seleccionar al menos un tipo de generación de contraseñas</string>
+    <string name="error_pass_match">Las contraseñas no coinciden.</string>
+    <string name="error_rounds_not_number">Pasadas debe de ser un número.</string>
+    <string name="error_rounds_too_large">Pasadas demasiado grande. Establecido a 2147483648.</string>
+    <string name="error_title_required">Se necesita un título.</string>
+    <string name="error_wrong_length">Introduzca un entero positivo en el campo longitud</string>
+    <string name="FileNotFound">Archivo no encontrado.</string>
+    <string name="file_browser">Expolrador de Archivos</string>
+    <string name="generate_password">Generar Contraseña</string>
+    <string name="group">Grupo</string>
+    <string name="hint_comment">comentario</string>
+    <string name="hint_conf_pass">confirmar contraseña</string>
+    <string name="hint_generated_password">contraseña generada</string>
+    <string name="hint_group_name">Nombre de grupo</string>
+    <string name="hint_keyfile">archivo clave</string>
+    <string name="hint_length">longitud</string>
+    <string name="hint_login_pass">Contraseña</string>
+    <string name="hint_pass">contraseña</string>
+    <string name="hint_title">combre</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">nombre de usuario</string>
+    <string name="install_from_market">Instalar desde Market</string>
+    <string name="install_from_website">Instalar desde Web</string>
+    <string name="InvalidPassword">Contraseña o archivo de clave no válido.</string>
+    <string name="invalid_db_sig">Formato de base de datos no reconocido.</string>
+    <string name="length">Longitud</string>
+    <string name="list_size_title">Tamaño de la lista de Grupo</string>
+    <string name="list_size_summary">Tamaño del texto de la lista de grupo</string>
+    <string name="loading_database">Cargando base de datos&#8230;</string>
+    <string name="lowercase">Minúsculas</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Ocultar contraseña</string>
+    <string name="maskpass_summary">Ocultar contraseñas por defecto</string>
+    <string name="menu_about">Acerca de</string>
+    <string name="menu_change_key">Cambiar Contraseña Maestra</string>
+    <string name="menu_copy_pass">Copiar Contraseña</string>
+    <string name="menu_copy_user">Copiar Usuario</string>
+    <string name="menu_create">Crear</string>
+    <string name="menu_app_settings">Configuración</string>
+    <string name="menu_db_settings">Configuración de Base de datos</string>
+    <string name="menu_delete">Eliminar</string>
+    <string name="menu_donate">Donar</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_hide_password">Ocultar Contraseña</string>
+    <string name="menu_homepage">Ir a Inicio</string>
+    <string name="menu_lock">Bloquear Base de datos</string>
+    <string name="menu_open">Abrir</string>
+    <string name="menu_rename">Renombar</string>
+    <string name="menu_search">Buscar</string>
+    <string name="menu_url">Ir a URL</string>
+    <string name="minus">Menos</string>
+    <string name="never">Nunca</string>
+    <string name="no_keys">Sin entradas en la base de datos o grupo.</string>
+    <string name="no_results">Sin resultado de búsqueda</string>
+    <string name="no_url_handler">Sin manejador para esta url.</string>
+    <string name="open_recent">Abrir base de datos reciente (clic para abrir):</string>
+    <string name="omitbackup_title">No buscar en las entradas de copia de seguridad o papelera de reciclaje</string>
+    <string name="omitbackup_summary">Omitir \'Backup\' y grupo de Papelera de Reciclaje en los resultados de búsqueda</string>
+    <string name="pass_filename">Nombre de archivo de base de datos de KeePass:</string>
+    <string name="password_title">Introduzca la contraseña de la base de datos</string>
+    <string name="progress_create">Creando nueva base de datos&#8230;</string>
+    <string name="progress_title">Trabajando&#8230;</string>
+    <string name="remember_keyfile_summary">Recordar la ubicación de archivos de clave</string>
+    <string name="remember_keyfile_title">Guardando archivo de clave</string>
+    <string name="remove_from_filelist">Borrar</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Raíz</string>
+    <string name="rounds">Pasadas de Cifrado</string>
+    <string name="rounds_explaination">Un alto número de pasadas de cifrado proporciona protección adicional contra ataques de fuerza bruta, pero puede ralentizar mucho el cargado y el guardado.</string>
+    <string name="rounds_hint">pasadas</string>
+    <string name="saving_database">Guardando base de datos&#8230;</string>
+    <string name="space">Espacio</string>
+    <string name="search_label">Buscar</string>
+    <string name="show_password">Mostrar contraseña</string>
+    <string name="sort_name">Ordenar por nombre</string>
+    <string name="sort_db">Orden de BD</string>
+    <string name="special">Especial</string>
+    <string name="search_hint">Título/descripción de entrada</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Subrayado</string>
+    <string name="unsupported_db_version">Versión de base de datos no soportada.</string>
+    <string name="uppercase">Mayúsculas</string>
+    <string name="warning_read_only">Actualmente su tarjeta SD es de sólo lectura. No podrá guardar los cambios de su base de datos.</string>
+    <string name="warning_unmounted">Actualmente su tarjeta SD no está montada en el dispositivo. No podrá cargar o crear su base de datos.</string>
+    <string name="version_label">Versión:</string>
+    
+    <string-array name="clipboard_timeout_options">
+     <item>30 segundos</item>
+     <item>1 minuto</item>
+     <item>5 minutos</item>
+     <item>Nunca</item>
+    </string-array>
+    <string-array name="list_size_options">
+     <item>Pequeño</item>
+     <item>Mediano</item>
+     <item>Grande</item>
+    </string-array>
+</resources>

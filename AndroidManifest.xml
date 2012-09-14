@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.android.keepass"
-      android:installLocation="auto" android:versionCode="82" android:versionName="1.9.5">
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="10"/>
+      android:installLocation="auto" android:versionCode="96" android:versionName="1.9.18.1">
+    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="12"/>
 	<supports-screens
       android:smallScreens="true"
       android:normalScreens="true"
       android:largeScreens="true"
       android:anyDensity="true"
     />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <application 
       android:label="@string/app_name"
       android:icon="@drawable/launcher"
@@ -33,43 +35,53 @@
 			    <data android:mimeType="*/*" />
 			    <data android:host="*" />
 			    <data android:pathPattern=".*\\.kdb" />
-    		</intent-filter>
-    		<intent-filter>
-			    <action android:name="android.intent.action.VIEW" />
-			    <category android:name="android.intent.category.DEFAULT" />
-			    <category android:name="android.intent.category.BROWSABLE" />
-			    <data android:scheme="file" />
-			    <data android:mimeType="*/*" />
-			    <data android:host="*" />
+			    <data android:pathPattern=".*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
 			    <data android:pathPattern=".*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
     		</intent-filter>
     	</activity>
     	<activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden"
-    		android:theme="@android:style/Theme.NoTitleBar">
+    		android:theme="@style/NoTitleBar">
             <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
             <!-- whenever the user invokes search while in this Activity. -->
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults" />
     	</activity>
     	<activity android:name="com.keepassdroid.GroupActivityV4" android:configChanges="orientation|keyboardHidden"
-    		android:theme="@android:style/Theme.NoTitleBar">
+    		android:theme="@style/NoTitleBar">
             <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
             <!-- whenever the user invokes search while in this Activity. -->
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults" />
     	</activity>
 		<activity android:name="com.keepassdroid.EntryActivity" android:configChanges="orientation|keyboardHidden"
-			android:theme="@android:style/Theme.NoTitleBar"></activity>
+			android:theme="@style/NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.EntryActivityV4"  android:configChanges="orientation|keyboardHidden" 
-			android:theme="@android:style/Theme.NoTitleBar"></activity>
+			android:theme="@style/NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.LockingActivity" 
-			android:theme="@android:style/Theme.NoTitleBar"></activity>
+			android:theme="@style/NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.EntryEditActivity" android:configChanges="orientation|keyboardHidden"
-			android:theme="@android:style/Theme.NoTitleBar"></activity>
-		<activity android:name="com.keepassdroid.GroupEditActivity" android:theme="@android:style/Theme.Dialog"></activity>
-		<activity android:name="com.keepassdroid.IconPickerActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.GroupEditActivity" android:theme="@style/Dialog"></activity>
+		<activity android:name="com.keepassdroid.IconPickerActivity" android:theme="@style/NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.search.SearchResults" android:launchMode="standard"
-			android:theme="@android:style/Theme.NoTitleBar">
+			android:theme="@style/NoTitleBar">
 		    <intent-filter>
 			    <action android:name="android.intent.action.SEARCH" />
 			    <category android:name="android.intent.category.DEFAULT" />
@@ -77,11 +89,9 @@
 			<meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
 		</activity>
 		<activity android:name="com.keepassdroid.settings.AppSettingsActivity" 
-			android:theme="@android:style/Theme.NoTitleBar"></activity>
+			android:theme="@style/NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.GeneratePasswordActivity" 
-			android:theme="@android:style/Theme.NoTitleBar"></activity>
-		<service android:name="com.keepassdroid.services.TimeoutService"></service>
+			android:theme="@style/NoTitleBar"></activity>
 		<meta-data android:name="com.a0soft.gphone.aTrackDog.webURL" android:value="http://keepassdroid.com" />
 	</application>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 

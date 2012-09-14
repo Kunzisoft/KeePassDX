@@ -1,15 +1,25 @@
 package com.keepassdroid.database;
 
-import java.util.Map;
 import java.util.UUID;
-import java.util.WeakHashMap;
+
+import org.apache.commons.collections.map.AbstractReferenceMap;
+import org.apache.commons.collections.map.ReferenceMap;
 
 public class PwIconFactory {
-	private Map<Integer, PwIconStandard> cache = new WeakHashMap<Integer, PwIconStandard>();
-	private Map<UUID, PwIconCustom> customCache = new WeakHashMap<UUID, PwIconCustom>();
+	/** customIconMap
+	 *  Cache for icon drawable. 
+	 *  Keys: Integer, Values: PwIconStandard
+	 */
+	private ReferenceMap cache = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
+	
+	/** standardIconMap
+	 *  Cache for icon drawable. 
+	 *  Keys: UUID, Values: PwIconCustom
+	 */
+	private ReferenceMap customCache = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
 	
 	public PwIconStandard getIcon(int iconId) {
-		PwIconStandard icon = cache.get(iconId);
+		PwIconStandard icon = (PwIconStandard) cache.get(iconId);
 		
 		if (icon == null) {
 			icon = new PwIconStandard(iconId);
@@ -20,7 +30,7 @@ public class PwIconFactory {
 	}
 	
 	public PwIconCustom getIcon(UUID iconUuid) {
-		PwIconCustom icon = customCache.get(iconUuid);
+		PwIconCustom icon = (PwIconCustom) customCache.get(iconUuid);
 		
 		if (icon == null) {
 			icon = new PwIconCustom(iconUuid, null);
@@ -31,7 +41,7 @@ public class PwIconFactory {
 	}
 	
 	public PwIconCustom getIcon(UUID iconUuid, byte[] data) {
-		PwIconCustom icon = customCache.get(iconUuid);
+		PwIconCustom icon = (PwIconCustom) customCache.get(iconUuid);
 		
 		if (icon == null) {
 			icon = new PwIconCustom(iconUuid, data);

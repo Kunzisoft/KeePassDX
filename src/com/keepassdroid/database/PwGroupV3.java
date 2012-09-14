@@ -118,5 +118,31 @@ public class PwGroupV3 extends PwGroup {
 		tExpire = new PwDate(PwGroupV3.NEVER_EXPIRE);
 
 	}
+	
+	public void populateBlankFields(PwDatabaseV3 db) {
+		if (icon == null) {
+			icon = db.iconFactory.getIcon(1);
+		}
+		
+		if (name == null) {
+			name = "";
+		}
+		
+		if (tCreation == null) {
+			tCreation = PwEntryV3.DEFAULT_PWDATE;
+		}
+		
+		if (tLastMod == null) {
+			tLastMod = PwEntryV3.DEFAULT_PWDATE;
+		}
+		
+		if (tLastAccess == null) {
+			tLastAccess = PwEntryV3.DEFAULT_PWDATE;
+		}
+		
+		if (tExpire == null) {
+			tExpire = PwEntryV3.DEFAULT_PWDATE;
+		}
+	}
 
 }

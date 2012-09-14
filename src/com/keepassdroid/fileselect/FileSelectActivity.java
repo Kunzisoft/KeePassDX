@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -34,10 +34,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
@@ -46,7 +48,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.android.keepass.R;
 import com.keepassdroid.AboutDialog;
@@ -65,10 +66,6 @@ import com.keepassdroid.view.FileNameView;
 
 public class FileSelectActivity extends ListActivity {
 
-	private static final int MENU_DONATE = Menu.FIRST;
-	private static final int MENU_ABOUT = Menu.FIRST + 1;
-	private static final int MENU_APP_SETTINGS = Menu.FIRST + 2;
-	
 	private static final int CMENU_CLEAR = Menu.FIRST;
 	
 	public static final int FILE_BROWSE = 1;
@@ -187,7 +184,12 @@ public class FileSelectActivity extends ListActivity {
 				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.FILE_BROWSE)) {
 					Intent i = new Intent(Intents.FILE_BROWSE);
 					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
-					startActivityForResult(i, FILE_BROWSE);
+					try {
+						startActivityForResult(i, FILE_BROWSE);
+					} catch (ActivityNotFoundException e) {
+						BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
+						diag.show();
+					}
 					
 				} else {
 					BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
@@ -343,15 +345,9 @@ public class FileSelectActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-
-		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
-		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
-
-		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
-		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
 		
-		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
-		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.fileselect, menu);
 
 		return true;
 	}
@@ -359,7 +355,7 @@ public class FileSelectActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case MENU_DONATE:
+		case R.id.menu_donate:
 			try {
 				Util.gotoUrl(this, R.string.donate_url);
 			} catch (ActivityNotFoundException e) {
@@ -369,12 +365,12 @@ public class FileSelectActivity extends ListActivity {
 			
 			return true;
 			
-		case MENU_ABOUT:
+		case R.id.menu_about:
 			AboutDialog dialog = new AboutDialog(this);
 			dialog.show();
 			return true;
 			
-		case MENU_APP_SETTINGS:
+		case R.id.menu_app_settings:
 			AppSettingsActivity.Launch(this);
 			return true;
 		}

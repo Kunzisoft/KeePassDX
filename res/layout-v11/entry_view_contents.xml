@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2009-2012 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+  android:id="@+id/entry_table"
+  android:layout_height="wrap_content"
+  android:layout_width="fill_parent"
+  android:orientation="vertical">	
+	<!-- Username -->
+	<TextView android:id="@+id/entry_user_name_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="@string/entry_user_name"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_user_name" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:textIsSelectable="true"
+	  style="@style/EntryItem"
+	/>
+	<!--  URL -->
+	<TextView android:id="@+id/entry_url_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="@string/entry_url" 
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_url" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:autoLink="all"
+	  android:textIsSelectable="true"
+	  style="@style/EntryItem"
+	/>
+	<!-- Password -->
+	<TextView android:id="@+id/entry_password_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_password"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_password" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:password="true"
+	  android:textIsSelectable="true"
+	  android:typeface="monospace"
+	  style="@style/EntryItem"
+	/>
+	<!-- Comment -->
+	<TextView android:id="@+id/entry_comment_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_comment"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_comment" 
+      android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:textIsSelectable="true"
+	  style="@style/EntryItem"
+	/>
+	<LinearLayout android:id="@+id/extra_strings"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:orientation="vertical">
+	</LinearLayout>
+	<!-- Created -->
+	<TextView android:id="@+id/entry_created_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_created"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_created" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  style="@style/EntryItem"
+	/>
+	<!-- Modified -->
+	<TextView android:id="@+id/entry_modified_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_modified"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_modified" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  style="@style/EntryItem"
+	/>
+	<!-- Accessed -->
+	<TextView android:id="@+id/entry_accessed_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_accessed"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_accessed" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  style="@style/EntryItem"
+	/>
+	<!-- Expires -->
+	<TextView android:id="@+id/entry_expires_label"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content" 
+	  android:text="@string/entry_expires"
+	  style="@style/WhiteOnDarkSmall"
+	/>
+	<TextView android:id="@+id/entry_expires" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  style="@style/EntryItem"
+	/>
+</LinearLayout>

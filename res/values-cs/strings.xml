@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2011 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="about_feedback">Připomínky:</string>
+    <string name="about_homepage">Domovská stránka:</string>
+    <string name="about_ok">OK</string>
+    <string name="AboutText">KeePassDroid je Android implementace správce hesel KeePass.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Přijat</string>
+    <string name="add_entry">Přidat záznam</string>
+    <string name="add_group">Přidat skupinu</string>
+    <string name="add_group_title">Přidat skupinu</string>
+    <string name="algorithm">Algoritmus</string>
+    <string name="algorithm_colon">Algoritmus:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Časový limit aplikace</string>
+    <string name="app_timeout_summary">Čas před zamknutím databáze, když je aplikace neaktivní.</string>
+    <string name="application">Aplikace</string>
+    <string name="application_settings">Nastavení aplikace</string>
+    <string name="brackets">Závorky</string>
+    <string name="browser_intall_text">Procházení souborů vyžaduje Open Intents File Manager, klikněte níže pro jeho nainstalování. Kvůli zvláštnostem ve správci souborů, nemusí procházení správně fungovat při prvním spuštění.</string>
+    <string name="building_search_idx">Vytvářím vyhledávací index&#8230;</string>
+    <string name="cancel">Storno</string>
+    <string name="ClearClipboard">Schránka vyčištěna.</string>
+    <string name="clipboard_timeout">Časový limit schránky</string>
+    <string name="clipboard_timeout_summary">Čas před vyčištěním schránky po zkopírování jména nebo hesla</string>
+    <string name="copy_username">Kopírovat uživatelské jméno do schránky</string>
+    <string name="copy_password">Kopírovat heslo do schránky</string>
+    <string name="creating_db_key">Vytvářím databázový klíč&#8230;</string>
+    <string name="current_group">Aktuální skupina: </string>
+    <string name="current_group_root">Aktuální skupina: Kořen</string>
+    <string name="database">Databáze</string>
+    <string name="decrypting_db">Dešifruji obsah databáze&#8230;</string>
+    <string name="decrypting_entry">Dešifruji záznam</string>
+    <string name="default_checkbox">Použít jako výchozí databázi</string>
+    <string name="digits">Čísla</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Zadejte názvev souboru databáze:</string>
+    <string name="entry_accessed">Poslední přístup: </string>
+    <string name="entry_and_or">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze:</string>
+    <string name="entry_cancel">Storno</string>
+    <string name="entry_comment">Poznámky: </string>
+    <string name="entry_confpassword">Potvrďte heslo:</string>
+    <string name="entry_created">Vytvořeno: </string>
+    <string name="entry_expires">Vyprší: </string>
+    <string name="entry_keyfile">Klíčový soubor (nepovinné)</string>
+    <string name="entry_modified">Změněno: </string>
+    <string name="entry_password">Heslo:</string>
+    <string name="entry_save">Uložit</string>
+    <string name="entry_title">Název: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Uživatelské jméno: </string>
+    <string name="error_arc4">ArcFour stream šifra není podporována.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid nemůže zpracovat tuto uri.</string>
+    <string name="error_could_not_create_group">Chyba při vytváření skupiny.</string>
+    <string name="error_could_not_create_parent">Nelze vyvořit nadřazený adresář.</string>
+    <string name="error_database_exists">Tento soubor již existuje.</string>
+    <string name="error_database_settings">Chyba při zjišťování nastavení databáze.</string>
+    <string name="error_failed_to_launch_link">Nelze spustit odkaz.</string>
+    <string name="error_filename_required">Je požadováno jméno souboru.</string>
+    <string name="error_file_not_create">Nelze vytvořit soubor:</string>
+    <string name="error_invalid_db">Chybná databáze.</string>
+    <string name="error_invalid_path">Chybná cesta.</string>
+    <string name="error_no_name">Jméno je povinné.</string>
+    <string name="error_nopass">Heslo nebo klíčový soubor jsou povinné.</string>
+    <string name="error_out_of_memory">Přístroj má málo paměti pro zpracování databáze. Možná je příliš velká pro Váš přístroj.</string>
+    <string name="error_pass_gen_type">Minimálně jeden typ generování hesla musí být zvolen</string>
+    <string name="error_pass_match">Hesla se neshodují.</string>
+    <string name="error_rounds_not_number">Opakování musí být číslo.</string>
+    <string name="error_rounds_too_large">Opakování příliš mnoho.  Nastavuji na 2147483648.</string>
+    <string name="error_title_required">Název je povinný.</string>
+    <string name="error_wrong_length">Zadejte celé kladné číslo do délky pole</string>
+    <string name="FileNotFound">Soubor nenalezen.</string>
+    <string name="file_browser">Správce souborů</string>
+    <string name="generate_password">Generovat heslo</string>
+    <string name="group">Skupina</string>
+    <string name="hint_comment">poznámka</string>
+    <string name="hint_conf_pass">potvrdit heslo</string>
+    <string name="hint_generated_password">generované heslo</string>
+    <string name="hint_group_name">Název skupiny</string>
+    <string name="hint_keyfile">klíčový soubor</string>
+    <string name="hint_length">délka</string>
+    <string name="hint_pass">heslo</string>
+    <string name="hint_login_pass">Heslo</string>
+    <string name="hint_title">název</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">uživatelské jméno</string>
+    <string name="install_from_market">Instalovat z Play</string>
+    <string name="install_from_website">Instalovat z webu</string>
+    <string name="InvalidPassword">Chybné heslo nebo klíčový soubor.</string>
+    <string name="invalid_db_sig">Databázový formát nelze rozpoznat.</string>
+    <string name="length">Délka</string>
+    <string name="list_size_title">Velikost seznamu skupin</string>
+    <string name="list_size_summary">Velikost textu v seznamu skupin</string>
+    <string name="loading_database">Načítám databázi&#8230;</string>
+    <string name="lowercase">Malá písmena</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Skrýt heslo</string>
+    <string name="maskpass_summary">Skrýt heslo jako výchozí</string>
+    <string name="menu_about">O aplikaci</string>
+    <string name="menu_change_key">Změnit hlavní klíč</string>
+    <string name="menu_copy_pass">Kopírovat heslo</string>
+    <string name="menu_copy_user">Kopírovat uživatelské jméno</string>
+    <string name="menu_create">Vytvořit</string>
+    <string name="menu_app_settings">Nastavení</string>
+    <string name="menu_db_settings">Nastavení databáze</string>
+    <string name="menu_delete">Smazat</string>
+    <string name="menu_donate">Přispět</string>
+    <string name="menu_edit">Změnit</string>
+    <string name="menu_hide_password">Skrýt heslo</string>
+    <string name="menu_homepage">Jít na domovskou stránku</string>
+    <string name="menu_lock">Zamknout databázi</string>
+    <string name="menu_open">Otevřít</string>
+    <string name="menu_rename">Přejmenovat</string>
+    <string name="menu_search">Hledat</string>
+    <string name="menu_url">Jdi na URL</string>
+    <string name="minus">Mínus</string>
+    <string name="never">Nikdy</string>
+    <string name="no_keys">Žádný záznam v databázi nebo ve skupině.</string>
+    <string name="no_results">žádný výsledek hledání</string>
+    <string name="no_url_handler">Žádný handler pro toto url.</string>
+    <string name="open_recent">Otevřít poslední databázi (kliknout pro otevření):</string>
+    <string name="omitbackup_title">Neprohledávat zálohy a koš</string>
+    <string name="omitbackup_summary">Vynechat skupiny Záloha a Koš ve výsledcích hledání</string>
+    <string name="pass_filename">Název souboru KeePass databáze:</string>
+    <string name="password_title">Zadejte heslo do databáze</string>
+    <string name="progress_create">Vytvářím novou databázi&#8230;</string>
+    <string name="progress_title">Zpracovávám&#8230;</string>
+    <string name="remember_keyfile_summary">Pamatovat si umístění klíčového souboru</string>
+    <string name="remember_keyfile_title">Uložit klíčový soubor</string>
+    <string name="remove_from_filelist">Odstranit</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Kořen</string>
+    <string name="rounds">Počet zašifrování</string>
+    <string name="rounds_explaination">Vyšší počet opakování šifrování zvýší bezpečnost proti hrubému útoku, ale může výrazně zpomalit načítání a ukládání.</string>
+    <string name="rounds_hint">opakování</string>
+    <string name="saving_database">Ukládám databázi&#8230;</string>
+    <string name="space">Místo</string>
+    <string name="search_label">Hledat</string>
+    <string name="show_password">Zobrazit heslo</string>
+    <string name="sort_name">Seřadit podle jména</string>
+    <string name="sort_db">Seřadit podle DB</string>
+    <string name="special">Speciální</string>
+    <string name="search_hint">Zadejte název/popis</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Podtrženo</string>
+    <string name="unsupported_db_version">Nepodporovaná verze databáze.</string>
+    <string name="uppercase">Velká písmena</string>
+    <string name="warning_read_only">Vaše SD karta je v módu jen pro čtení. Nebudete moct ukládat změny v databázi.</string>
+    <string name="warning_unmounted">Vaše SD karta není momentálně připojena v zařízení. Nebudete moct načíst nebo vytvořit databázi.</string>
+    <string name="version_label">Verze:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 sekund</item>
+    	<item>1 minuta</item>
+    	<item>5 minut</item>
+    	<item>Nikdy</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Malý</item>
+    	<item>Střední</item>
+    	<item>Velký</item>
+    </string-array>
+</resources>

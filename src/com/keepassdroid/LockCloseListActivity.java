@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,8 +19,7 @@
  */
 package com.keepassdroid;
 
-import com.android.keepass.KeePass;
-import com.keepassdroid.app.App;
+import com.keepassdroid.timeout.TimeoutHelper;
 
 public class LockCloseListActivity extends LockingListActivity {
 
@@ -28,14 +27,6 @@ public class LockCloseListActivity extends LockingListActivity {
 	protected void onResume() {
 		super.onResume();
 
-		checkShutdown();
-	}
-
-	private void checkShutdown() {
-		if ( App.isShutdown() && App.getDB().Loaded() ) {
-			setResult(KeePass.EXIT_LOCK);
-			finish();
-		}
-		
+		TimeoutHelper.checkShutdown(this);
 	}
 }

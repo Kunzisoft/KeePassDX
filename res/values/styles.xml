@@ -18,6 +18,8 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <style name="NoTitleBar" parent="android:Theme.NoTitleBar"></style>
+    <style name="Dialog" parent="android:Theme.Dialog"></style>
 	<style name="GroupTextSmall" parent="android:Theme">
 		<item name="@android:textColor">@color/group</item>
 		<item name="@android:textSize">15sp</item>

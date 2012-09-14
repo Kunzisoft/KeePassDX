@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -39,6 +40,8 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.compat.ActivityCompat;
+import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.settings.AppSettingsActivity;
@@ -49,13 +52,6 @@ import com.keepassdroid.view.GroupViewOnlyView;
 public abstract class GroupBaseActivity extends LockCloseListActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_MODE = "mode";
-	
-	protected static final int MENU_DONATE = Menu.FIRST;
-	protected static final int MENU_LOCK = Menu.FIRST + 1;
-	protected static final int MENU_SEARCH = Menu.FIRST + 2;
-	protected static final int MENU_CHANGE_MASTER_KEY = Menu.FIRST + 3;
-	protected static final int MENU_APP_SETTINGS = Menu.FIRST + 4;
-	protected static final int MENU_SORT = Menu.FIRST + 5;
 	
 	private SharedPreferences prefs;
 	
@@ -145,23 +141,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
-		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
-
-		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
-		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
-		
-		menu.add(0, MENU_SEARCH, 0, R.string.menu_search);
-		menu.findItem(MENU_SEARCH).setIcon(android.R.drawable.ic_menu_search);
-		
-		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
-		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
-		
-		menu.add(0, MENU_CHANGE_MASTER_KEY, 0, R.string.menu_change_key);
-		menu.findItem(MENU_CHANGE_MASTER_KEY).setIcon(android.R.drawable.ic_menu_manage);
-
-		menu.add(0, MENU_SORT, 0, R.string.sort_name);
-		menu.findItem(MENU_SORT).setIcon(android.R.drawable.ic_menu_sort_by_size);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.group, menu);
 		
 		return true;
 	}
@@ -176,8 +157,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			resId = R.string.sort_name;
 		}
 			
-			
-		menu.findItem(MENU_SORT).setTitle(resId);
+		menu.findItem(R.id.menu_sort).setTitle(resId);
 
 	}
 	
@@ -195,7 +175,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_DONATE:
+		case R.id.menu_donate:
 			try {
 				Util.gotoUrl(this, R.string.donate_url);
 			} catch (ActivityNotFoundException e) {
@@ -204,25 +184,25 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			}
 			
 			return true;
-		case MENU_LOCK:
+		case R.id.menu_lock:
 			App.setShutdown();
 			setResult(KeePass.EXIT_LOCK);
 			finish();
 			return true;
 		
-		case MENU_SEARCH:
+		case R.id.menu_search:
 			onSearchRequested();
 			return true;
 			
-		case MENU_APP_SETTINGS:
+		case R.id.menu_app_settings:
 			AppSettingsActivity.Launch(this);
 			return true;
 
-		case MENU_CHANGE_MASTER_KEY:
+		case R.id.menu_change_master_key:
 			setPassword();
 			return true;
 			
-		case MENU_SORT:
+		case R.id.menu_sort:
 			toggleSort();
 			return true;
 
@@ -237,7 +217,10 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		boolean sortByName = prefs.getBoolean(sortKey, getResources().getBoolean(R.bool.sort_default));
 		Editor editor = prefs.edit();
 		editor.putBoolean(sortKey, ! sortByName);
-		editor.commit();
+		EditorCompat.apply(editor);
+		
+		// Refresh menu titles
+		ActivityCompat.invalidateOptionsMenu(this);
 		
 		// Mark all groups as dirty now to refresh them on load
 		Database db = App.getDB();

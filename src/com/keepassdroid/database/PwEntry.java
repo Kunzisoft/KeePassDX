@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -27,6 +27,8 @@ import com.keepassdroid.database.iterator.EntrySearchStringIterator;
 
 public abstract class PwEntry implements Cloneable {
 
+	protected static final String PMS_TAN_ENTRY = "<TAN>";
+	
 	public static class EntryNameComparator implements Comparator<PwEntry> {
 
 		public int compare(PwEntry object1, PwEntry object2) {
@@ -74,11 +76,23 @@ public abstract class PwEntry implements Cloneable {
 	public abstract boolean expires();
 	public abstract PwGroup getParent();
 	
+	
 	public PwIcon getIcon() {
 		return icon;
 	}
+	
+	public boolean isTan() {
+		return getTitle().equals(PMS_TAN_ENTRY) && (getUsername().length() > 0);
+	}
 
-	public abstract String getDisplayTitle();
+	public String getDisplayTitle() {
+		if ( isTan() ) {
+			return PMS_TAN_ENTRY + " " + getUsername();
+		} else {
+			return getTitle();
+		}
+	}
+
 
 	public boolean isMetaStream() {
 		return false;

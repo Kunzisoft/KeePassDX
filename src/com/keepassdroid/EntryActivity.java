@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -40,6 +40,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -50,9 +51,11 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
@@ -60,13 +63,6 @@ public class EntryActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_REFRESH_POS = "refresh_pos";
 
-	private static final int MENU_DONATE = Menu.FIRST;
-	private static final int MENU_PASS = Menu.FIRST + 1;
-	private static final int MENU_GOTO_URL = Menu.FIRST + 2;
-	private static final int MENU_COPY_USER = Menu.FIRST + 3;
-	private static final int MENU_COPY_PASS = Menu.FIRST + 4;
-	private static final int MENU_LOCK = Menu.FIRST + 5; 
-	
 	public static final int NOTIFY_USERNAME = 1;
 	public static final int NOTIFY_PASSWORD = 2;
 	
@@ -108,7 +104,6 @@ public class EntryActivity extends LockCloseActivity {
 			}
 			
 		});
-		
 	}
 
 	@Override
@@ -135,6 +130,10 @@ public class EntryActivity extends LockCloseActivity {
 		assert(uuid != null);
 		
 		mEntry = db.entries.get(uuid);
+		
+		
+		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
+		ActivityCompat.invalidateOptionsMenu(this);
 		
 		// Update last access time.
 		mEntry.stampLastAccess();
@@ -269,35 +268,42 @@ public class EntryActivity extends LockCloseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
-		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.entry, menu);
 		
+		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
 		if ( mShowPassword ) {
-			menu.add(0, MENU_PASS, 0, R.string.menu_hide_password);
+			togglePassword.setTitle(R.string.menu_hide_password);
 		} else {
-			menu.add(0, MENU_PASS, 0, R.string.show_password);
+			togglePassword.setTitle(R.string.show_password);
 		}
-		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
-		menu.add(0, MENU_GOTO_URL, 0, R.string.menu_url);
-		menu.findItem(MENU_GOTO_URL).setIcon(android.R.drawable.ic_menu_upload);
-		if ( mEntry.getUrl().length() == 0 ) {
-			// disable button if url is not available
-			menu.findItem(MENU_GOTO_URL).setEnabled(false);
+		
+		MenuItem gotoUrl = menu.findItem(R.id.menu_goto_url);
+		MenuItem copyUser = menu.findItem(R.id.menu_copy_user);
+		MenuItem copyPass = menu.findItem(R.id.menu_copy_pass);
+		
+		// In API >= 11 onCreateOptionsMenu may be called before onCreate completes
+		// so mEntry may not be set
+		if (mEntry == null) {
+			gotoUrl.setVisible(false);
+			copyUser.setVisible(false);
+			copyPass.setVisible(false);
 		}
-		menu.add(0, MENU_COPY_USER, 0, R.string.menu_copy_user);
-		menu.findItem(MENU_COPY_USER).setIcon(android.R.drawable.ic_menu_set_as);
-		if ( mEntry.getUsername().length() == 0 ) {
-			// disable button if username is not available
-			menu.findItem(MENU_COPY_USER).setEnabled(false);
+		else {
+			String url = mEntry.getUrl();
+			if (EmptyUtils.isNullOrEmpty(url)) {
+				// disable button if url is not available
+				gotoUrl.setVisible(false);
+			}
+			if ( mEntry.getUsername().length() == 0 ) {
+				// disable button if username is not available
+				copyUser.setVisible(false);
+			}
+			if ( mEntry.getPassword().length() == 0 ) {
+				// disable button if password is not available
+				copyPass.setVisible(false);
+			}
 		}
-		menu.add(0, MENU_COPY_PASS, 0, R.string.menu_copy_pass);
-		menu.findItem(MENU_COPY_PASS).setIcon(android.R.drawable.ic_menu_agenda);
-		if ( mEntry.getPassword().length() == 0 ) {
-			// disable button if password is not available
-			menu.findItem(MENU_COPY_PASS).setEnabled(false);
-		}
-		menu.add(0, MENU_LOCK, 0, R.string.menu_lock);
-		menu.findItem(MENU_LOCK).setIcon(android.R.drawable.ic_lock_lock);
 		
 		return true;
 	}
@@ -315,7 +321,7 @@ public class EntryActivity extends LockCloseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_DONATE:
+		case R.id.menu_donate:
 			try {
 				Util.gotoUrl(this, R.string.donate_url);
 			} catch (ActivityNotFoundException e) {
@@ -324,7 +330,7 @@ public class EntryActivity extends LockCloseActivity {
 			}
 			
 			return true;
-		case MENU_PASS:
+		case R.id.menu_toggle_pass:
 			if ( mShowPassword ) {
 				item.setTitle(R.string.show_password);
 				mShowPassword = false;
@@ -336,7 +342,7 @@ public class EntryActivity extends LockCloseActivity {
 
 			return true;
 			
-		case MENU_GOTO_URL:
+		case R.id.menu_goto_url:
 			String url;
 			url = mEntry.getUrl();
 			
@@ -352,15 +358,15 @@ public class EntryActivity extends LockCloseActivity {
 			}
 			return true;
 			
-		case MENU_COPY_USER:
+		case R.id.menu_copy_user:
 			timeoutCopyToClipboard(mEntry.getUsername());
 			return true;
 			
-		case MENU_COPY_PASS:
+		case R.id.menu_copy_pass:
 			timeoutCopyToClipboard(new String(mEntry.getPassword()));
 			return true;
 			
-		case MENU_LOCK:
+		case R.id.menu_lock:
 			App.setShutdown();
 			setResult(KeePass.EXIT_LOCK);
 			finish();

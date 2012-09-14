@@ -1,3 +1,86 @@
+KeePassDroid (1.9.18.1)
+ * Fix crash with blank icons
+
+KeePassDroid (1.9.18)
+ * Add input types to entry fields
+ * Show username in the title list for TAN entries
+ * Switch to monospace font for password fields
+ * Implement action bar on entry edit activity
+ * Updated Russian translations from I Nedoboy
+
+KeePassDroid (1.9.17)
+ * Updated Russian translations from I Nedoboy
+ * New Spanish translations from jipanos
+ * New Dutch translations Erik Fdevriendt
+ * Fix header verification in .kdbx
+ * Rework timeout implementation should fix some bugs with passwords persisting
+
+KeePassDroid (1.9.16)
+ * Updated Hungarian translations from intel
+ * Updated German translations from rvs2008
+
+KeePassDroid (1.9.15)
+ * Fix compatibility with desktop KeePass 2.20
+ * Verify header integrity of .kdbx databases
+
+KeePassDroid (1.9.14)
+ * Resolve crashes when switch back to the entry view
+ * Start making use of action bar on devices with Android >= 3.0
+ * Updated Russian translations from I Nedoboy
+ * Fix Czech translations
+
+KeePassDroid (1.9.13)
+ * Allow keys with 0 encryption rounds
+ * Czech translations from H Vanek
+ * Updated Russian translations from I Nedoboy
+ * Clarify text on notification pop-ups
+ * Fix text selection in entries on devices with Android >= 3.0
+
+KeePassDroid (1.9.12.1)
+ * Add title bar on Honeycomb+ devices, so ... menu is always available
+
+KeePassDroid (1.9.11)
+ * Protect against crashes when clicking on the browse icon
+ * Add Hungarian translations from intel
+
+KeePassDroid (1.9.10)
+ * Add support for the Holo theme on devices > 3.0 from Space Cowboy
+ * Add Ukranian translations from andriykopanytsia
+ * Add Portugese translations from Carlos Schlyter
+ * Japanese translation corrections from Matsuu Takuto
+ * Fix x86 key generation compatibility
+ * Add 2 thread support to key generation for dual core devices from 
+     Mike Mohr
+ * Use memory more efficiently in main group view. Prevent out of memory
+   crashes when scrolling.
+
+
+KeePassDroid (1.9.9)
+ * Go back to explicitly storing blank fields in the database
+   (works around bug in keepassx)
+ * Add support for native code on MIPS architectures
+ * Adding Vibrate permission. On some devices notifications fail
+   without the vibrate permission.
+
+KeePassDroid (1.9.8)
+ * Fix crashes related to saving missing entries
+ * Fix issues with setting wrong expiry date
+
+KeePassDroid (1.9.7)
+  * Add Slovak translation from Typhoon
+  * Italian translation updates.
+  * iOS KeePass compatibility improvements:
+	  * Handle blank dates gracefully
+	  * Prevent crash on saving when data is missing.
+	  * Don't crash when opening menu in the Entry activity if there is no URL
+	  * Don't crash when building search index
+
+KeePassDroid (1.9.6)
+  * Fix file association errors for paths with '.'s. (Will now match paths
+    with up to 10 dots)
+  * Update Norwegian Nynorsk translations
+  * Add new icons and market graphics (thanks to Hadley)
+
 KeePassDroid (1.9.5)
   * Update Norwegian Nynorsk translations
   * Resize custom icons

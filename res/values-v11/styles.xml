@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2011 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <style name="NoTitleBar" 
+parent="android:Theme.Holo"></style>
+    <style name="Dialog" parent="android:Theme.Holo.Dialog"></style>
+	<style name="GroupTextSmall" parent="android:Theme.Holo">
+		<item name="@android:textColor">@color/group</item>
+		<item name="@android:textSize">15sp</item>
+	</style>
+	<style name="GroupText" parent="android:Theme.Holo">
+		<item name="@android:textColor">@color/group</item>
+		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="GroupTextLarge" parent="android:Theme.Holo">
+		<item name="@android:textColor">@color/group</item>
+		<item name="@android:textSize">28sp</item>
+	</style>
+	<style name="ElementTextSmall">
+		<item name="@android:textSize">15sp</item>
+	</style>
+	<style name="ElementText">
+		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="ElementTextLarge">
+		<item name="@android:textSize">28sp</item>
+	</style>
+	<style name="GroupLabel">
+		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="WhiteOnBlack">
+		<item name="@android:background">#666666</item>
+		<item 
+name="@android:textColor">@android:color/primary_text_dark</item>
+		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="WhiteOnBlackSmall" parent="WhiteOnBlack">
+		<item name="@android:textSize">12sp</item>
+	</style>
+	<style name="WhiteOnDarkSmall" parent="WhiteOnBlack">
+		<item name="@android:textSize">12sp</item>
+		<item name="@android:background">#222222</item>
+	</style>
+	<style name="ElementTextTitle" parent="WhiteOnBlack">
+		<item name="@android:textColor">@color/group</item>
+	</style>
+	<style name="EntryItem">
+		<item name="@android:padding">5sp</item>
+	</style>
+</resources>

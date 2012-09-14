@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,27 +19,23 @@
  */
 package com.keepassdroid;
 
-import com.keepassdroid.app.App;
-import com.keepassdroid.timers.Timeout;
-
 import android.preference.PreferenceActivity;
+
+import com.keepassdroid.timeout.TimeoutHelper;
 
 public class LockingPreferenceActivity extends PreferenceActivity {
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if ( App.getDB().Loaded() ) {
-			Timeout.start(this);
-		}
+		
+		TimeoutHelper.pause(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		if ( App.getDB().Loaded() ) {
-			Timeout.cancel(this);
-		}
+		TimeoutHelper.resume(this);
 	}
 }

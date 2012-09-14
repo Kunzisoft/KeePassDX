@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <string.h>
+#include <pthread.h>
 #include <jni.h>
 
 /* Tune as desired */
@@ -359,21 +360,78 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCache
 }
 
 #define MASTER_KEY_SIZE 32
-JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jint rounds) {
+
+typedef struct _master_key {
+  uint32_t rounds, done[2];
+  pthread_mutex_t lock1, lock2; // these lock the two halves of the key material
+  uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+} master_key;
+
+
+void *generate_key_material(void *arg) {
   #if defined(KPD_PROFILE)
   struct timespec start, end;
   #endif
   uint32_t i, flip = 0;
-  jbyteArray result;
+  uint8_t *key1, *key2;
+  master_key *mk = (master_key *)arg;
   aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
-  sha256_ctx h_ctx[1] __attribute__ ((aligned (16)));
-  uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+
+  if( mk->done[0] == 0 && pthread_mutex_trylock(&mk->lock1) == 0 ) {
+    key1 = mk->key1;
+    key2 = mk->key2;
+  } else if( mk->done[1] == 0 && pthread_mutex_trylock(&mk->lock2) == 0 ) {
+    key1 = mk->key1 + (MASTER_KEY_SIZE/2);
+    key2 = mk->key2 + (MASTER_KEY_SIZE/2);
+  } else {
+    // this can only be scaled to two threads
+    pthread_exit( (void *)(-1) );
+  }
 
   #if defined(KPD_PROFILE)
   clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
   #endif
+
+  aes_encrypt_key256(mk->c_seed, e_ctx);
+  for (i = 0; i < mk->rounds; i++) {
+    if ( flip ) {
+      aes_encrypt(key2, key1, e_ctx);
+      flip = 0;
+    } else {
+      aes_encrypt(key1, key2, e_ctx);
+      flip = 1;
+    }
+  }
+
+  #if defined(KPD_PROFILE)
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+  if( key1 == mk->key1 )
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Thread 1 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
+  else
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Thread 2 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
+  #endif
+
+  if( key1 == mk->key1 ) {
+    mk->done[0] = 1;
+    pthread_mutex_unlock(&mk->lock1);
+  } else {
+    mk->done[1] = 1;
+    pthread_mutex_unlock(&mk->lock2);
+  }
+
+  return (void *)flip;
+}
+
+JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jint rounds) {
+  master_key mk;
+  uint32_t flip;
+  pthread_t t1, t2;
+  int iret;
+  void *vret1, *vret2;
+  jbyteArray result;
+  sha256_ctx h_ctx[1] __attribute__ ((aligned (16)));
 
   // step 1: housekeeping - sanity checks and fetch data from the JVM
   if( (*env)->GetArrayLength(env, seed) != MASTER_KEY_SIZE ) {
@@ -384,45 +442,71 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: the key is not the correct size");
     return NULL;
   }
-  (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)c_seed);
-  (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)key1);
+  if( rounds < 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: illegal number of encryption rounds");
+    return NULL;
+  }
+  mk.rounds = (uint32_t)rounds;
+  mk.done[0] = mk.done[1] = 0;
+  if( pthread_mutex_init(&mk.lock1, NULL) != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to initialize the mutex for thread 1"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  if( pthread_mutex_init(&mk.lock2, NULL) != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to initialize the mutex for thread 2"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)mk.c_seed);
+  (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
   // step 2: encrypt the hash "rounds" (default: 6000) times
-  aes_encrypt_key(c_seed, MASTER_KEY_SIZE, e_ctx);
-  for (i = 0; i < (uint32_t)rounds; i++) {
-    if ( flip ) {
-      aes_ecb_encrypt(key2, key1, MASTER_KEY_SIZE, e_ctx);
-      flip = 0;
-    } else {
-      aes_ecb_encrypt(key1, key2, MASTER_KEY_SIZE, e_ctx);
-      flip = 1;
-    }
+  iret = pthread_create( &t1, NULL, generate_key_material, (void*)&mk );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 1"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  iret = pthread_create( &t2, NULL, generate_key_material, (void*)&mk );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 2"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  iret = pthread_join( t1, &vret1 );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to join thread 1"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  iret = pthread_join( t2, &vret2 );
+  if( iret != 0 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to join thread 2"); // FIXME: get a better exception class for this...
+    return NULL;
+  }
+  if( vret1 == (void *)(-1) || vret2 == (void *)(-1) || vret1 != vret2 ) {
+    (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: invalid flip value(s) from completed thread(s)"); // FIXME: get a better exception class for this...
+    return NULL;
+  } else {
+    flip = (uint32_t)vret1;
   }
 
   // step 3: final SHA256 hash
   sha256_begin(h_ctx);
   if( flip ) {
-    sha256_hash(key2, MASTER_KEY_SIZE, h_ctx);
-    sha256_end(key1, h_ctx);
+    sha256_hash(mk.key2, MASTER_KEY_SIZE, h_ctx);
+    sha256_end(mk.key1, h_ctx);
     flip = 0;
   } else {
-    sha256_hash(key1, MASTER_KEY_SIZE, h_ctx);
-    sha256_end(key2, h_ctx);
+    sha256_hash(mk.key1, MASTER_KEY_SIZE, h_ctx);
+    sha256_end(mk.key2, h_ctx);
     flip = 1;
   }
 
   // step 4: send the hash into the JVM
   result = (*env)->NewByteArray(env, MASTER_KEY_SIZE);
   if( flip )
-    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)key2);
+    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key2);
   else
-    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)key1);
-
-  #if defined(KPD_PROFILE)
-  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
-  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
-  #endif
+    (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
   return result;
 }
 #undef MASTER_KEY_SIZE
+

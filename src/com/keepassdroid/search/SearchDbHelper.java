@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -60,7 +60,7 @@ public class SearchDbHelper {
 			Log.d("SearchDbHelper", "Tried to search with unknown db");
 			return null;
 		}
-		group.name = "Search results";
+		group.name = mCtx.getString(R.string.search_results);
 		group.childEntries = new ArrayList<PwEntry>();
 		
 		// Search all entries
@@ -72,10 +72,13 @@ public class SearchDbHelper {
 				// Search all strings in the entry
 				Iterator<String> iter = entry.stringIterator();
 				while (iter.hasNext()) {
-					String str = iter.next().toLowerCase();
-					if (str.contains(qStr)) {
-						group.childEntries.add(entry);
-						break;
+					String str = iter.next();
+					if (str != null && str.length() != 0) {
+						String lower = str.toLowerCase();
+						if (lower.contains(qStr)) {
+							group.childEntries.add(entry);
+							break;
+						}
 					}
 				}
 			}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -31,8 +31,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.method.PasswordTransformationMethod;
+import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,9 +63,6 @@ public class EntryEditActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
-	private static final int MENU_DONATE = Menu.FIRST;
-	private static final int MENU_PASS = Menu.FIRST + 1;
-	
 	public static final int RESULT_OK_ICON_PICKER = 1000;
 	public static final int RESULT_OK_PASSWORD_GENERATOR = RESULT_OK_ICON_PICKER + 1;
 
@@ -254,10 +252,10 @@ public class EntryEditActivity extends LockCloseActivity {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default))) {
 			EditText pass = (EditText) findViewById(R.id.entry_password);
-			pass.setTransformationMethod(null);
-			
 			EditText conf = (EditText) findViewById(R.id.entry_confpassword);
-			conf.setTransformationMethod(null);
+			
+			pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+			conf.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 		}
 		
 	}
@@ -292,18 +290,15 @@ public class EntryEditActivity extends LockCloseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_DONATE, 0, R.string.menu_donate);
-		menu.findItem(MENU_DONATE).setIcon(android.R.drawable.ic_menu_share);
-
-		menu.add(0, MENU_PASS, 0, R.string.show_password);
-		menu.findItem(MENU_PASS).setIcon(android.R.drawable.ic_menu_view);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.entry_edit, menu);
 		
 		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_DONATE:
+		case R.id.menu_donate:
 			try {
 				Util.gotoUrl(this, R.string.donate_url);
 			} catch (ActivityNotFoundException e) {
@@ -312,12 +307,12 @@ public class EntryEditActivity extends LockCloseActivity {
 			}
 			
 			return true;
-		case MENU_PASS:
+		case R.id.menu_toggle_pass:
 			if ( mShowPassword ) {
-				item.setTitle(R.string.menu_hide_password);
+				item.setTitle(R.string.show_password);
 				mShowPassword = false;
 			} else {
-				item.setTitle(R.string.show_password);
+				item.setTitle(R.string.menu_hide_password);
 				mShowPassword = true;
 			}
 			setPasswordStyle();
@@ -332,13 +327,12 @@ public class EntryEditActivity extends LockCloseActivity {
 		TextView confpassword = (TextView) findViewById(R.id.entry_confpassword);
 
 		if ( mShowPassword ) {
-			password.setTransformationMethod(null);
-			confpassword.setTransformationMethod(null);
+			password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+			confpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
 		} else {
-			PasswordTransformationMethod ptm = PasswordTransformationMethod.getInstance();
-			password.setTransformationMethod(ptm);
-			confpassword.setTransformationMethod(ptm);
+			password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+			confpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		}
 	}
 

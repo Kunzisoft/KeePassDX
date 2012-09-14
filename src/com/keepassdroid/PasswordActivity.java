@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -24,32 +24,32 @@ import java.io.FileNotFoundException;
 import java.net.URLDecoder;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.method.PasswordTransformationMethod;
+import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
+import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fileselect.BrowserDialog;
@@ -61,9 +61,6 @@ import com.keepassdroid.utils.Util;
 
 public class PasswordActivity extends LockingActivity {
 
-	private static final int MENU_ABOUT = Menu.FIRST;
-	private static final int MENU_APP_SETTINGS = Menu.FIRST + 1;
-	
 	public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
@@ -75,7 +72,6 @@ public class PasswordActivity extends LockingActivity {
 	private String mKeyFile;
 	private boolean mRememberKeyfile;
 	SharedPreferences prefs;
-	BroadcastReceiver mIntentReceiver;
 	
 	public static void Launch(Activity act, String fileName) throws FileNotFoundException {
 		Launch(act,fileName,"");
@@ -192,9 +188,9 @@ public class PasswordActivity extends LockingActivity {
 				TextView password = (TextView) findViewById(R.id.password);
 
 				if ( isChecked ) {
-					password.setTransformationMethod(null);
+					password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 				} else {
-					password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+					password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 				}
 			}
 			
@@ -218,7 +214,12 @@ public class PasswordActivity extends LockingActivity {
 						}
 					}
 					
-					startActivityForResult(i, FILE_BROWSE);
+					try {
+						startActivityForResult(i, FILE_BROWSE);
+					} catch (ActivityNotFoundException e) {
+						BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
+						diag.show();
+					}
 				} else {
 					BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
 					diag.show();
@@ -228,26 +229,21 @@ public class PasswordActivity extends LockingActivity {
 		});
 		
 		retrieveSettings();
-		
-		mIntentReceiver = new BroadcastReceiver() {
-			
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String action = intent.getAction();
-				if (action.equals(Intents.TIMEOUT)) {
-					setEditText(R.id.password, "");
-				}
-				
-			}
-		};
-		registerReceiver(mIntentReceiver, new IntentFilter());
 	}
 	
 	@Override
-	protected void onDestroy() {
-		unregisterReceiver(mIntentReceiver);
+	protected void onResume() {
+		super.onResume();
 		
-		super.onDestroy();
+		// If the application was shutdown make sure to clear the password field, if it
+		// was saved in the instance state
+		if (App.isShutdown()) {
+			TextView password = (TextView) findViewById(R.id.password);
+			password.setText("");
+		}
+		
+		// Clear the shutdown flag
+		App.clearShutdown();
 	}
 
 	private void retrieveSettings() {
@@ -304,7 +300,7 @@ public class PasswordActivity extends LockingActivity {
 			
 			SharedPreferences.Editor editor = prefs.edit();
 			editor.putString(KEY_DEFAULT_FILENAME, newDefaultFileName);
-			editor.commit();
+			EditorCompat.apply(editor);
 			
 			BackupManagerCompat backupManager = new BackupManagerCompat(PasswordActivity.this);
 			backupManager.dataChanged();
@@ -357,11 +353,8 @@ public class PasswordActivity extends LockingActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, MENU_APP_SETTINGS, 0, R.string.menu_app_settings);
-		menu.findItem(MENU_APP_SETTINGS).setIcon(android.R.drawable.ic_menu_preferences);
-		
-		menu.add(0, MENU_ABOUT, 0, R.string.menu_about);
-		menu.findItem(MENU_ABOUT).setIcon(android.R.drawable.ic_menu_help);
+		MenuInflater inflate = getMenuInflater();
+		inflate.inflate(R.menu.password, menu);
 		
 		return true;
 	}
@@ -369,12 +362,12 @@ public class PasswordActivity extends LockingActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case MENU_ABOUT:
+		case R.id.menu_about:
 			AboutDialog dialog = new AboutDialog(this);
 			dialog.show();
 			return true;
 			
-		case MENU_APP_SETTINGS:
+		case R.id.menu_app_settings:
 			AppSettingsActivity.Launch(this);
 			return true;
 		}

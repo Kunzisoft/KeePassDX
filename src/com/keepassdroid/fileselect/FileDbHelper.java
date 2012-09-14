@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -18,6 +18,8 @@
  *
  */
 package com.keepassdroid.fileselect;
+
+import com.keepassdroid.compat.EditorCompat;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -97,7 +99,7 @@ public class FileDbHelper {
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.remove(LAST_FILENAME);
 				editor.remove(LAST_KEYFILE);
-				editor.commit();
+				EditorCompat.apply(editor);
 			} catch (Exception e) {
 				assert(true);
 			}

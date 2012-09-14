@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2011 Brian Pellin.
+ * Copyright 2010-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -153,12 +153,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public Date getMod() {
 		return lastMod;
-	}
-
-	@Override
-	public String getDisplayTitle() {
-		// TODO: Add TAN support
-		return getTitle();
 	}
 
 	@Override

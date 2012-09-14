@@ -114,18 +114,33 @@ public class PwGroupListAdapter extends BaseAdapter {
 	}
 
 	private View createGroupView(int position, View convertView) {
-		PwGroupView gv;
-
 		PwGroup group = groupsForViewing.get(position);
-		gv = PwGroupView.getInstance(mAct, group);
-
+		PwGroupView gv;
+		
+		if (convertView == null || !(convertView instanceof PwGroupView)) {
+	
+			gv = PwGroupView.getInstance(mAct, group);
+		} 
+		else {
+			gv = (PwGroupView) convertView;
+			gv.convertView(group);
+			
+		}
+		
 		return gv;
 	}
 
 	private PwEntryView createEntryView(int position, View convertView) {
+		PwEntry entry = entriesForViewing.get(position);
 		PwEntryView ev;
 
-		ev = PwEntryView.getInstance(mAct, entriesForViewing.get(position), position);
+		if (convertView == null || !(convertView instanceof PwEntryView)) {
+			ev = PwEntryView.getInstance(mAct, entry, position);
+		}
+		else {
+			ev = (PwEntryView) convertView;
+			ev.convertView(entry, position);
+		}
 
 		return ev;
 	}

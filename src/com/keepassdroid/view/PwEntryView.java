@@ -56,24 +56,31 @@ public class PwEntryView extends ClickView {
 	protected PwEntryView(GroupBaseActivity act, PwEntry pw, int pos) {
 		super(act);
 		mAct = act;
-		mPw = pw;
-		mPos = pos;
 		
 		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
+		mTv = (TextView) ev.findViewById(R.id.entry_text);
+		mTv.setTextSize(PrefsUtil.getListTextSize(act));
 		
-		ImageView iv = (ImageView) ev.findViewById(R.id.entry_icon);
-		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), pw.getIcon());
-		
-		TextView tv = (TextView) ev.findViewById(R.id.entry_text);
-		tv.setText(mPw.getDisplayTitle());
-		tv.setTextSize(PrefsUtil.getListTextSize(act));
-		
-		mTv = tv;
+		populateView(ev, pw, pos);
 		
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		
 		addView(ev, lp);
 
+	}
+	
+	private void populateView(View ev, PwEntry pw, int pos) {
+		mPw = pw;
+		mPos = pos;
+		
+		ImageView iv = (ImageView) ev.findViewById(R.id.entry_icon);
+		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), pw.getIcon());
+		
+		mTv.setText(mPw.getDisplayTitle());
+	}
+	
+	public void convertView(PwEntry pw, int pos) {
+		populateView(this, pw, pos);
 	}
 	
 	public void refreshTitle() {

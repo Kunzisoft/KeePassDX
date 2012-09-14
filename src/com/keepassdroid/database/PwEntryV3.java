@@ -30,7 +30,6 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
-import android.util.Log;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.utils.Types;
@@ -59,6 +58,11 @@ import com.keepassdroid.utils.Types;
 public class PwEntryV3 extends PwEntry {
 
 	public static final Date NEVER_EXPIRE = getNeverExpire();
+	public static final Date NEVER_EXPIRE_BUG = getNeverExpireBug();
+	public static final Date DEFAULT_DATE = getDefaultDate();
+	public static final PwDate PW_NEVER_EXPIRE = new PwDate(NEVER_EXPIRE);
+	public static final PwDate PW_NEVER_EXPIRE_BUG = new PwDate(NEVER_EXPIRE_BUG);
+	public static final PwDate DEFAULT_PWDATE = new PwDate(DEFAULT_DATE);
 	
 
 	/** Size of byte buffer needed to hold this struct. */
@@ -66,7 +70,6 @@ public class PwEntryV3 extends PwEntry {
 	public static final String PMS_ID_TITLE   = "Meta-Info";
 	public static final String PMS_ID_USER    = "SYSTEM";
 	public static final String PMS_ID_URL     = "$";
-	private static final String PMS_TAN_ENTRY ="<TAN>";
 
 
 
@@ -88,6 +91,18 @@ public class PwEntryV3 extends PwEntry {
 	public String           binaryDesc;
 	private byte[]          binaryData;
 
+	private static Date getDefaultDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2004);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+
+		return cal.getTime();
+	}
+
 	private static Date getNeverExpire() {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2999);
@@ -99,32 +114,29 @@ public class PwEntryV3 extends PwEntry {
 
 		return cal.getTime();
 	}
-
-	public static boolean IsNever(Date date) {
-		Calendar never = Calendar.getInstance();
-		never.setTime(NEVER_EXPIRE);
-		never.set(Calendar.MILLISECOND, 0);
-
+	
+	/** This date was was accidentally being written
+	 *  out when an entry was supposed to be marked as
+	 *  expired. We'll use this to silently correct those
+	 *  entries.
+	 * @return
+	 */
+	private static Date getNeverExpireBug() {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		cal.set(Calendar.MILLISECOND, 0);
+		cal.set(Calendar.YEAR, 2999);
+		cal.set(Calendar.MONTH, 11);
+		cal.set(Calendar.DAY_OF_MONTH, 30);
+		cal.set(Calendar.HOUR, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
 
-		Log.d("never", "L="+ never.get(Calendar.YEAR) + " R=" + cal.get(Calendar.YEAR));
-		Log.d("never", "L="+ never.get(Calendar.MONTH) + " R=" + cal.get(Calendar.MONTH));
-		Log.d("never", "L="+ never.get(Calendar.DAY_OF_MONTH) + " R=" + cal.get(Calendar.DAY_OF_MONTH));
-		Log.d("never", "L="+ never.get(Calendar.HOUR) + " R=" + cal.get(Calendar.HOUR));
-		Log.d("never", "L="+ never.get(Calendar.MINUTE) + " R=" + cal.get(Calendar.MINUTE));
-		Log.d("never", "L="+ never.get(Calendar.SECOND) + " R=" + cal.get(Calendar.SECOND));
-
-		return (never.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) && 
-		(never.get(Calendar.MONTH) == cal.get(Calendar.MONTH)) &&
-		(never.get(Calendar.DAY_OF_MONTH) == cal.get(Calendar.DAY_OF_MONTH)) &&
-		(never.get(Calendar.HOUR) == cal.get(Calendar.HOUR)) &&
-		(never.get(Calendar.MINUTE) == cal.get(Calendar.MINUTE)) &&
-		(never.get(Calendar.SECOND) == cal.get(Calendar.SECOND));
-
+		return cal.getTime();
 	}
 
+	public static boolean IsNever(Date date) {
+		return PwDate.IsSameDate(NEVER_EXPIRE, date);
+	}
+	
 	// for tree traversing
 	public PwGroupV3 parent = null;
 
@@ -159,19 +171,6 @@ public class PwEntryV3 extends PwEntry {
 
 	}
 	
-	public boolean isTan() {
-		return title.equals(PMS_TAN_ENTRY);
-	}
-	
-	@Override
-	public String getDisplayTitle() {
-		if ( isTan() ) {
-			return PMS_TAN_ENTRY + " " + username;
-		} else {
-			return title;	
-		}
-	}
-
 	/**
 	 * @return the actual password byte array.
 	 */
@@ -389,5 +388,59 @@ public class PwEntryV3 extends PwEntry {
 	@Override
 	public boolean expires() {
 		return ! IsNever(tExpire.getJDate());
+	}
+	
+	public void populateBlankFields(PwDatabaseV3 db) {
+		if (icon == null) {
+			icon = db.iconFactory.getIcon(1);
+		}
+		
+		if (username == null) {
+			username = "";
+		}
+		
+		if (password == null) {
+			password = new byte[0];
+		}
+		
+		if (uuid == null) {
+			uuid = Types.UUIDtoBytes(UUID.randomUUID());
+		}
+		
+		if (title == null) {
+			title = "";
+		}
+		
+		if (url == null) {
+			url = "";
+		}
+		
+		if (additional == null) {
+			additional = "";
+		}
+		
+		if (tCreation == null) {
+			tCreation = DEFAULT_PWDATE;
+		}
+		
+		if (tLastMod == null) {
+			tLastMod = DEFAULT_PWDATE;
+		}
+		
+		if (tLastAccess == null) {
+			tLastAccess = DEFAULT_PWDATE;
+		}
+		
+		if (tExpire == null) {
+			tExpire = PW_NEVER_EXPIRE;
+		}
+		
+		if (binaryDesc == null) {
+			binaryDesc = "";
+		}
+		
+		if (binaryData == null) {
+			binaryData = new byte[0];
+		}
 	}
 }
