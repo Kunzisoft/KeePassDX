@@ -108,6 +108,9 @@ public class EntryActivity extends LockCloseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
+		
 		super.onCreate(savedInstanceState);
 		setEntryView();
 		
@@ -138,8 +141,6 @@ public class EntryActivity extends LockCloseActivity {
 		// Update last access time.
 		mEntry.stampLastAccess();
 		
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
 		fillData();
 
 		setupEditButtons();
