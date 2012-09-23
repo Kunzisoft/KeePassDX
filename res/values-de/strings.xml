@@ -22,7 +22,6 @@
 <resources>
     <string name="about_feedback">Supportanfrage:</string>
     <string name="about_homepage">Webseite:</string>
-    <string name="about_ok">Ok</string>
     <string name="AboutText">KeePassDroid ist die Implementierung des KeePass password manager für die Android Plattform.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Akzeptieren</string>

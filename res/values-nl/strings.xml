@@ -22,7 +22,6 @@
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
-    <string name="about_ok">OK</string>
     <string name="AboutText">KeePassDroid is een Android implementatie van de KeePass wachtwoordmanager.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Aanvaarden</string>
