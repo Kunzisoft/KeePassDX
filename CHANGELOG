@@ -4,6 +4,7 @@
  * i18n more database error strings
  * Updated Russian translations from I Nedoboy
  * New Catalan translations from Oriol Garrote
+ * Remove eye icon on Android >3.0 devices
 
 KeePassDroid (1.9.18.2)
  * Updated Dutch translations from Erik Jan Meijer
