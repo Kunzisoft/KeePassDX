@@ -66,6 +66,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content" 
 	  android:text="@string/entry_comment"
+	  android:autoLink="all"
 	  style="@style/WhiteOnDarkSmall"
 	/>
 	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_comment" 

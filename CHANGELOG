@@ -1,5 +1,6 @@
  * Restore the timeout service, we need it to keep the app in memory long
    enough to clear the clipboard and to remove the notifications.
+ * Autolink comment and advanced fields
 
 KeePassDroid (1.9.18.2)
  * Updated Dutch translations from Erik Jan Meijer
