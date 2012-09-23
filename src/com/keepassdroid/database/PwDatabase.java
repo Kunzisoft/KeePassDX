@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -33,6 +33,7 @@ import java.util.List;
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.KeyFileEmptyException;
 import com.keepassdroid.stream.NullOutputStream;
 
 public abstract class PwDatabase {
@@ -111,7 +112,7 @@ public abstract class PwDatabase {
 				File keyfile = new File(fileName);
 				
 				if ( ! keyfile.exists() ) {
-					throw new InvalidKeyFileException("Key file does not exist.");
+					throw new InvalidKeyFileException();
 				}
 				
 				byte[] key = loadXmlKeyFile(fileName);
@@ -123,14 +124,14 @@ public abstract class PwDatabase {
 				try {
 					fis = new FileInputStream(keyfile);
 				} catch (FileNotFoundException e) {
-					throw new InvalidKeyFileException("Key file does not exist.");
+					throw new InvalidKeyFileException();
 				}
 				
 				BufferedInputStream bis = new BufferedInputStream(fis, 64);
 				
 				long fileSize = keyfile.length();
 				if ( fileSize == 0 ) {
-					throw new InvalidKeyFileException("Key file is empty.");
+					throw new KeyFileEmptyException();
 				} else if ( fileSize == 32 ) {
 					byte[] outputKey = new byte[32];
 					if ( bis.read(outputKey, 0, 32) != 32 ) {

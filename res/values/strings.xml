@@ -106,7 +106,10 @@
     <string name="install_from_market">Install from Play Store</string>
     <string name="install_from_website">Install from Web</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
+    <string name="invalid_algorithm">Invalid algorithm.</string>
     <string name="invalid_db_sig">Database format not recognized.</string>
+    <string name="keyfile_does_not_exist">Key file does not exist.</string>
+    <string name="keyfile_is_empty">Key file is empty.</string>
     <string name="length">Length</string>
     <string name="list_size_title">Group list size</string>
     <string name="list_size_summary">Text size in the group list</string>

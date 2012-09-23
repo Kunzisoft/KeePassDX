@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -16,15 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
- */package com.keepassdroid.database.exception;
+ */
+package com.keepassdroid.database.exception;
 
-public class InvalidKeyFileException extends InvalidDBException {
+public class InvalidAlgorithmException extends InvalidDBException {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5540694419562294464L;
+	private static final long serialVersionUID = 3062682891863487208L;
 
-	public InvalidKeyFileException() {
+	public InvalidAlgorithmException() {
 		super();
 	}
+
 }
