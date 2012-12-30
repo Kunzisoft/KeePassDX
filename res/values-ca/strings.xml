@@ -162,7 +162,7 @@
     <string name="sort_name">Ordena per nom</string>
     <string name="sort_db">Ordenació de base de dades</string>
     <string name="special">Especial</string>
-    <string name="search_hint">Títol/descripció d'entrada</string>
+    <string name="search_hint">Títol/descripció d\'entrada</string>
     <string name="search_results">Resultats de cerca</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Subratllat</string>
