@@ -1,3 +1,5 @@
+* Update Catalan translations (closes: #445)
+
 KeePassDroid (1.9.18.3)
  * Restore the timeout service, we need it to keep the app in memory long
    enough to clear the clipboard and to remove the notifications.
