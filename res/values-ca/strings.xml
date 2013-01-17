@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2012 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Catalan translation by Oriol Garrote
+  
+-->
+<resources>
+    <string name="about_feedback">Comentaris:</string>
+    <string name="about_homepage">Pàgina inici:</string>
+    <string name="about_ok">D\'acord</string>
+    <string name="AboutText">KeePassDroid és una implementació per Android de KeePass password manager.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Accepta</string>
+    <string name="add_entry">Afegeix entrada</string>
+    <string name="add_group">Afegeix grup</string>
+    <string name="add_group_title">Afegeix grup</string>
+    <string name="algorithm">Algoritme</string>
+    <string name="algorithm_colon">Algoritme:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Temps d\'espera de l\'aplicació</string>
+    <string name="app_timeout_summary">Temps abans de bloquejar la base de dades quan l\'applicació està inactiva.</string>
+    <string name="application">Aplicació</string>
+    <string name="application_settings">Paràmetres de l\'aplicació</string>
+    <string name="brackets">Parèntesis</string>
+    <string name="browser_intall_text">L\'exploració d\'arxius necessita l\'aplicació Open Intents File Manager, clica a sota per instal·lar-la. Degut a peculiaritats de l\'explorador d\'arxius pot ser que no funcioni correctament la primera execució.</string>
+    <string name="building_search_idx">Construint índex de cerca&#8230;</string>
+    <string name="cancel">Cancel·la</string>
+    <string name="ClearClipboard">Porta-retalls netejat.</string>
+    <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
+    <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls després de copiar un usuari o contrasenya</string>
+    <string name="copy_username">Selecciona per copiar l\'usuari al porta-retalls</string>
+    <string name="copy_password">Selecciona per copiar la contrasenya al porta-retalls</string>
+    <string name="creating_db_key">Creant clau de base de dades&#8230;</string>
+    <string name="current_group">Grup actual: </string>
+    <string name="current_group_root">Grup actual: Arrel</string>
+    <string name="database">Base de dades</string>
+    <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
+    <string name="decrypting_entry">Desencriptant entrada</string>
+    <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
+    <string name="digits">Dígits</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin ve SENSE CAP MENA DE GARANTIA; Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 2 o posterior.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Introdueix el nom de la base de dades:</string>
+    <string name="entry_accessed">Accedida: </string>
+    <string name="entry_and_or">Introdueix una contrasenya i/o un arxiu clau per desbloquejar la base de dades:</string>
+    <string name="entry_cancel">Cancel·la</string>
+    <string name="entry_comment">Comentaris: </string>
+    <string name="entry_confpassword">Confirma contrasenya:</string>
+    <string name="entry_created">Creada: </string>
+    <string name="entry_expires">Expira: </string>
+    <string name="entry_keyfile">Arxiu clau (opcional)</string>
+    <string name="entry_modified">Modificada: </string>
+    <string name="entry_password">Contrasenya:</string>
+    <string name="entry_save">Guarda</string>
+    <string name="entry_title">Nom: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Usuari: </string>
+    <string name="error_arc4">L\'encriptació ArcFour no està suportada.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid no pot manejar aquesta uri.</string>
+    <string name="error_could_not_create_group">Error creant grup.</string>
+    <string name="error_could_not_create_parent">No s\'ha pogut crear el directori pare.</string>
+    <string name="error_database_exists">Aquest arxiu ja existeix.</string>
+    <string name="error_database_settings">Error en determinar la configuració de la base de dades.</string>
+    <string name="error_failed_to_launch_link">Error en executar enllaç.</string>
+    <string name="error_filename_required">Es requereix un nom d\'arxiu.</string>
+    <string name="error_file_not_create">No s\'ha pogut crear l\'arxiu:</string>
+    <string name="error_invalid_db">Base de dades invàlida.</string>
+    <string name="error_invalid_path">Camí invàlid.</string>
+    <string name="error_no_name">És necessari un nom.</string>
+    <string name="error_nopass">És necessaria una contrasenya o un arxiu clau.</string>
+    <string name="error_out_of_memory">El telèfon sha quedat sense memòria processant la teva base de dades. Potser és massa gran pel teu telèfon.</string>
+    <string name="error_pass_gen_type">Has de seleccionar almenys un tipus de generador de contrasenyes</string>
+    <string name="error_pass_match">Les contrasenyes no coincideixen.</string>
+    <string name="error_rounds_not_number">Les passades han de ser un número.</string>
+    <string name="error_rounds_too_large">Massa passades. Establint a 2147483648.</string>
+    <string name="error_title_required">És necessari un títol.</string>
+    <string name="error_wrong_length">Insereix un enter positiu al camp longitud</string>
+    <string name="FileNotFound">Arxiu no trobat.</string>
+    <string name="file_browser">Explorador d\'arxius</string>
+    <string name="generate_password">Generar contrasenya</string>
+    <string name="group">Grup</string>
+    <string name="hint_comment">comentari</string>
+    <string name="hint_conf_pass">confirma contrasenya</string>
+    <string name="hint_generated_password">contrasenya generada</string>
+    <string name="hint_group_name">Nom del grup</string>
+    <string name="hint_keyfile">arxiu clau</string>
+    <string name="hint_length">longitud</string>
+    <string name="hint_pass">contrasenya</string>
+    <string name="hint_login_pass">Contrasenya</string>
+    <string name="hint_title">nom</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">usuari</string>
+    <string name="install_from_market">Instal·la de la Play Store</string>
+    <string name="install_from_website">Instal·la de la web</string>
+    <string name="InvalidPassword">Contrasenya o arxiu clau invàlids.</string>
+    <string name="invalid_db_sig">Format de base de dades desconegut.</string>
+    <string name="length">Longitud</string>
+    <string name="list_size_title">Mida de la llista de grups</string>
+    <string name="list_size_summary">Mida del text a la llista de grups</string>
+    <string name="loading_database">Carregant base de dades&#8230;</string>
+    <string name="lowercase">Minúscules</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Emmascara contrasenya</string>
+    <string name="maskpass_summary">Amaga les contrasenyes per defecte</string>
+    <string name="menu_about">Sobre</string>
+    <string name="menu_change_key">Canvia Clau Mestra</string>
+    <string name="menu_copy_pass">Copia contrasenya</string>
+    <string name="menu_copy_user">Copia usuari</string>
+    <string name="menu_create">Crear</string>
+    <string name="menu_app_settings">Paràmetres</string>
+    <string name="menu_db_settings">Paràmetres de la base de dades</string>
+    <string name="menu_delete">Esborra</string>
+    <string name="menu_donate">Donar</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_hide_password">Amaga contrasenya</string>
+    <string name="menu_homepage">Vés a l\'inici</string>
+    <string name="menu_lock">Bloqueja la base de dades</string>
+    <string name="menu_open">Obre</string>
+    <string name="menu_rename">Reanomena</string>
+    <string name="menu_search">Cerca</string>
+    <string name="menu_url">Ves a la URL</string>
+    <string name="minus">Menys</string>
+    <string name="never">Mai</string>
+    <string name="no_keys">Sense entrades a la base de dades o grup.</string>
+    <string name="no_results">Cap resultat de cerca</string>
+    <string name="no_url_handler">Sense gestor per aquesta url.</string>
+    <string name="open_recent">Obre base de dades recent (clica per obrir):</string>
+    <string name="omitbackup_title">No cerquis entrades a còpia de seguretat ni paperera</string>
+    <string name="omitbackup_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
+    <string name="pass_filename">Nom de base de dades KeePass:</string>
+    <string name="password_title">Introdueix contrasenya de la base de dades</string>
+    <string name="progress_create">Creant nova base de dades&#8230;</string>
+    <string name="progress_title">Treballant&#8230;</string>
+    <string name="remember_keyfile_summary">Recorda la localització d\'arxius clau</string>
+    <string name="remember_keyfile_title">Guarda arxiu clau</string>
+    <string name="remove_from_filelist">Elimina</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Arrel</string>
+    <string name="rounds">Passades d\'encriptació</string>
+    <string name="rounds_explaination">Més passades d\'encriptació dónen protecció adicional contra atacs de força bruta, però poden alentir molt carregar i guardar la base de dades.</string>
+    <string name="rounds_hint">passades</string>
+    <string name="saving_database">Guardant la base de dades&#8230;</string>
+    <string name="space">Espai</string>
+    <string name="search_label">Cerca</string>
+    <string name="show_password">Mostra contrasenya</string>
+    <string name="sort_name">Ordena per nom</string>
+    <string name="sort_db">Ordenació de base de dades</string>
+    <string name="special">Especial</string>
+    <string name="search_hint">Títol/descripció d\'entrada</string>
+    <string name="search_results">Resultats de cerca</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Subratllat</string>
+    <string name="unsupported_db_version">Versió de la base de dades no suportada.</string>
+    <string name="uppercase">Majúscules</string>
+    <string name="warning_read_only">La teva tarja SD és de només lectura. No podràs guardar canvis a la teva base de dades.</string>
+    <string name="warning_unmounted">La teva tarja SD no està muntada al teu dispositiu. No podràs carregar ni guardar una base de dades.</string>
+    <string name="version_label">Versió:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 segons</item>
+    	<item>1 minut</item>
+    	<item>5 minuts</item>
+    	<item>Mai</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Petita</item>
+    	<item>Mitjana</item>
+    	<item>Gran</item>
+    </string-array>
+</resources>

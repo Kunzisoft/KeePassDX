@@ -99,6 +99,9 @@ public class EntryEditActivity extends LockCloseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_edit);
 		setResult(KeePass.EXIT_NORMAL);
@@ -249,8 +252,7 @@ public class EntryEditActivity extends LockCloseActivity {
 		});
 		
 		// Respect mask password setting
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if (! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default))) {
+		if (mShowPassword) {
 			EditText pass = (EditText) findViewById(R.id.entry_password);
 			EditText conf = (EditText) findViewById(R.id.entry_confpassword);
 			
@@ -292,6 +294,14 @@ public class EntryEditActivity extends LockCloseActivity {
 		
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.entry_edit, menu);
+		
+		
+		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
+		if ( mShowPassword ) {
+			togglePassword.setTitle(R.string.menu_hide_password);
+		} else {
+			togglePassword.setTitle(R.string.show_password);
+		}
 		
 		return true;
 	}

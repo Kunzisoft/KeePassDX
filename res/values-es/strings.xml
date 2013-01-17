@@ -22,7 +22,6 @@ Spanish translation by José I. Paños
 <resources>
     <string name="about_feedback">Realimentación:</string>
     <string name="about_homepage">Inicio:</string>
-    <string name="about_ok">Aceptar</string>
     <string name="AboutText">KeePassDroid es una implementación para Android del gestor de contraseñas KeePass.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Aceptar</string>

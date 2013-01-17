@@ -1,3 +1,21 @@
+* Update Catalan translations (closes: #445)
+* Trim whitespace from queries from josefwells (closes: #467)
+
+KeePassDroid (1.9.18.3)
+ * Restore the timeout service, we need it to keep the app in memory long
+   enough to clear the clipboard and to remove the notifications.
+ * Autolink comment and advanced fields
+ * i18n more database error strings
+ * Updated Russian translations from I Nedoboy
+ * New Catalan translations from Oriol Garrote
+ * Remove eye icon on Android >3.0 devices
+ * Fix logic for when to display the words Show Password vs. Hide Password
+
+KeePassDroid (1.9.18.2)
+ * Updated Dutch translations from Erik Jan Meijer
+ * Updated Russian translations from I Nedoboy
+ * Add Danish translations from Frederik Svarre
+
 KeePassDroid (1.9.18.1)
  * Fix crash with blank icons
 

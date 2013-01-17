@@ -95,6 +95,6 @@
   	  android:layout_width="wrap_content"
   	  android:layout_below="@id/disclaimer"
   	  android:layout_centerHorizontal="true"
-  	  android:text="@string/about_ok"
+  	  android:text="@android:string/ok"
   	  android:width="100sp"/>
 </RelativeLayout>

@@ -23,7 +23,6 @@
 <resources>
 	<string name="about_feedback">Commentaires :</string>
 	<string name="about_homepage">Site web :</string>
-	<string name="about_ok">OK</string>
 	<string name="AboutText">KeePassDroid est un portage du logiciel KeePass Password Manager. Pour l\'instant, vous devez créer une base de données avec le logiciel KeePass sur votre ordinateur puis la transférer sur la carte mémoire de votre appareil mobile.</string>
 	<string name="about_twitter">Twitter :</string>
 	<string name="add_entry">Ajouter une entrée</string>

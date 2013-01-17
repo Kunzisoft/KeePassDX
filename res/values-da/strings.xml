@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2012 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Danish translation by Frederik Svarre (fsvarre@gmail.com)
+-->
+<resources>
+    <string name="about_feedback">Tilbagemelding:</string>
+    <string name="about_homepage">Hjemmeside:</string>
+    <string name="AboutText">KeePassDroid er en Android implementering af KeePass password manager.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Accepter</string>
+    <string name="add_entry">Tilføj post</string>
+    <string name="add_group">Tilføj gruppe</string>
+    <string name="add_group_title">Tilføj gruppe</string>
+    <string name="algorithm">Algoritme</string>
+    <string name="algorithm_colon">Algoritme:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Applikations timeout</string>
+    <string name="app_timeout_summary">Tid før databasen låses, når applikationen er inaktiv.</string>
+    <string name="application">Applikation</string>
+    <string name="application_settings">Applikationsindstillinger</string>
+    <string name="brackets">Parenteser</string>
+    <string name="browser_intall_text">Fil-browsing kræver applikationen "Open Intents File Manager", klik nedenfor for at installere den. Grundet nogle særheder i filmanageren er det ikke sikkert, at fil-browsing virker korrekt forste gang, at du anvender applikationen.</string>
+    <string name="building_search_idx">Bygger søgeindeks&#8230;</string>
+    <string name="cancel">Annuller</string>
+    <string name="ClearClipboard">Udklipsholder ryddet.</string>
+    <string name="clipboard_timeout">Udklipsholder timeout</string>
+    <string name="clipboard_timeout_summary">Tid før udklipsholderen bliver ryddet efter kopiering af brugernavn eller adgangskode</string>
+    <string name="copy_username">Vælg for at kopiere brugernavn til udklipsholderen</string>
+    <string name="copy_password">Vælg for at kopiere adgangskode til udklipsholderen</string>
+    <string name="creating_db_key">Opretter databasenøgle&#8230;</string>
+    <string name="current_group">Aktuel gruppe:</string>
+    <string name="current_group_root">Aktuel gruppe: Root</string>
+    <string name="database">Database</string>
+    <string name="decrypting_db">Dekrypterer databaseindhold&#8230;</string>
+    <string name="decrypting_entry">Dekrypterer post</string>
+    <string name="default_checkbox">Brug denne database som standard</string>
+    <string name="digits">Cifre</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Angiv navn på databasefil:</string>
+    <string name="entry_accessed">Seneste åbnede: </string>
+    <string name="entry_and_or">Angiv en adgangskode og/eller en nøglefil for at få adgang til din database:</string>
+    <string name="entry_cancel">Annuller</string>
+    <string name="entry_comment">Kommentarer: </string>
+    <string name="entry_confpassword">Bekræft adgangskode:</string>
+    <string name="entry_created">Oprettet: </string>
+    <string name="entry_expires">Udløber: </string>
+    <string name="entry_keyfile">Nøglefil (valgfri)</string>
+    <string name="entry_modified">Ændret: </string>
+    <string name="entry_password">Adgangskode:</string>
+    <string name="entry_save">Gem</string>
+    <string name="entry_title">Navn: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Brugernavn: </string>
+    <string name="error_arc4">"ArcFour stream cipher" er ikke understøttet.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid kan ikke håndtere denne uri.</string>
+    <string name="error_could_not_create_group">Fejl ved oprettelse af gruppe.</string>
+    <string name="error_could_not_create_parent">Kunne ikke oprette rodbiblioteket.</string>
+    <string name="error_database_exists">Denne fil eksisterer allerede.</string>
+    <string name="error_database_settings">Kunne ikke afgøre databaseindstilinger.</string>
+    <string name="error_failed_to_launch_link">Det mislykkedes at åbne linket.</string>
+    <string name="error_filename_required">Et filnavn er påkrævet.</string>
+    <string name="error_file_not_create">Kunne ikke oprette fil:</string>
+    <string name="error_invalid_db">Ugyldig database.</string>
+    <string name="error_invalid_path">Ugyldig sti.</string>
+    <string name="error_no_name">Et navn er påkrævet.</string>
+    <string name="error_nopass">En adgangskode eller nøglefil er påkrævet.</string>
+    <string name="error_out_of_memory">Telefonen løb tør for hukommelse under analysen af din database. Den kan være for stor til, at din telefon kan håndtere den.</string>
+    <string name="error_pass_gen_type">Mindst én adgangskode-genererings-type skal vælges</string>
+    <string name="error_pass_match">Adgangskoder matcher ikke.</string>
+    <string name="error_rounds_not_number">Gentagelser skal være en talværdi.</string>
+    <string name="error_rounds_too_large">For stor gentagelses-værdi.  Maksimal gentagelses-værdi er 2147483648.</string>
+    <string name="error_title_required">En titel er påkrævet.</string>
+    <string name="error_wrong_length">Angiv et positivt helt tal i feltet</string>
+    <string name="FileNotFound">Filen blev ikke fundet.</string>
+    <string name="file_browser">Fil-browser</string>
+    <string name="generate_password">Generer adgangskode</string>
+    <string name="group">Gruppe</string>
+    <string name="hint_comment">kommentar</string>
+    <string name="hint_conf_pass">bekræft adgangskode</string>
+    <string name="hint_generated_password">genereret adgangskode</string>
+    <string name="hint_group_name">Gruppenavn</string>
+    <string name="hint_keyfile">nøglefil</string>
+    <string name="hint_length">længde</string>
+    <string name="hint_pass">adgangskode</string>
+    <string name="hint_login_pass">Adgangskode</string>
+    <string name="hint_title">navn</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">brugernavn</string>
+    <string name="install_from_market">Installer fra Play butik</string>
+    <string name="install_from_website">Installer fra internettet</string>
+    <string name="InvalidPassword">Ugyldig adgangskode eller nøglefil.</string>
+    <string name="invalid_db_sig">Databaseformatet blev ikke genkendt.</string>
+    <string name="length">Længde</string>
+    <string name="list_size_title">Gruppeliste størrelse</string>
+    <string name="list_size_summary">Tekststørrelse i gruppelisten</string>
+    <string name="loading_database">Indlæser database&#8230;</string>
+    <string name="lowercase">Små bogstaver</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Skjul adgangskode</string>
+    <string name="maskpass_summary">Skjul adgangskoder som standard</string>
+    <string name="menu_about">Om</string>
+    <string name="menu_change_key">Skift master-adgangskode</string>
+    <string name="menu_copy_pass">Kopier adgangskode</string>
+    <string name="menu_copy_user">Kopier brugernavn</string>
+    <string name="menu_create">Opret</string>
+    <string name="menu_app_settings">Indstillinger</string>
+    <string name="menu_db_settings">Database indstillinger</string>
+    <string name="menu_delete">Slet</string>
+    <string name="menu_donate">Donér</string>
+    <string name="menu_edit">Rediger</string>
+    <string name="menu_hide_password">Skjul adgangskode</string>
+    <string name="menu_homepage">Gå til hjemmeside</string>
+    <string name="menu_lock">Lås database</string>
+    <string name="menu_open">Åbn</string>
+    <string name="menu_rename">Omdøb</string>
+    <string name="menu_search">Søg</string>
+    <string name="menu_url">Gå til URL</string>
+    <string name="minus">Minus</string>
+    <string name="never">Aldrig</string>
+    <string name="no_keys">Ingen poster i databasen eller gruppen.</string>
+    <string name="no_results">Ingen søgeresultater</string>
+    <string name="no_url_handler">Kan ikke håndtere denne url.</string>
+    <string name="open_recent">Åbn seneste database (klik for at åbne):</string>
+    <string name="omitbackup_title">Søg ikke efter backup poster og poster i papirkurven</string>
+    <string name="omitbackup_summary">Udelad \'Backup\' og papirkurvs-gruppen i søgeresultater</string>
+    <string name="pass_filename">KeePass database filnavn:</string>
+    <string name="password_title">Angiv database adgangskode</string>
+    <string name="progress_create">Opretter ny database&#8230;</string>
+    <string name="progress_title">Arbejder&#8230;</string>
+    <string name="remember_keyfile_summary">Husker placeringen af nøglefiler</string>
+    <string name="remember_keyfile_title">Gem nøglefil</string>
+    <string name="remove_from_filelist">Fjern</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Root</string>
+    <string name="rounds">Krypterings-gentagelser</string>
+    <string name="rounds_explaination">Højere krypterings-gentagelser giver øget beskyttelse imod brute-force angreb, men kan påvirke læsnings- og skrivehastigheden betydentligt.</string>
+    <string name="rounds_hint">gentagelser</string>
+    <string name="saving_database">Gemmer database&#8230;</string>
+    <string name="space">Mellemrum</string>
+    <string name="search_label">Søg</string>
+    <string name="show_password">Vis adgangskode</string>
+    <string name="sort_name">Sorter efter navn</string>
+    <string name="sort_db">DB sorteringsrækkefølge</string>
+    <string name="special">Speciel</string>
+    <string name="search_hint">Post titel/beskrivelse</string>
+    <string name="search_results">Søgeresultater</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Understreget</string>
+    <string name="unsupported_db_version">Database-versionen er ikke understøttet.</string>
+    <string name="uppercase">Store bogstaver</string>
+    <string name="warning_read_only">Dit sd-kort er skrivebeskyttet. Du er muligvis ikke i stand til at gemme ændringer til din database.</string>
+    <string name="warning_unmounted">Dit sd-kort er ikke monteret i din enhed. Du vil ikke være i stand til at indlæse eller oprette din database.</string>
+    <string name="version_label">Version:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 sekunder</item>
+    	<item>1 minut</item>
+    	<item>5 minutter</item>
+    	<item>Aldrig</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Lille</item>
+    	<item>Mellem</item>
+    	<item>Stor</item>
+    </string-array>
+</resources>

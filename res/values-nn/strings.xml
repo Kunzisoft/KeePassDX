@@ -20,7 +20,6 @@
 <resources>
     <string name="about_feedback">Tilbakemelding:</string>
     <string name="about_homepage">Heimeside:</string>
-    <string name="about_ok">OK</string>
     <string name="AboutText">KeePassDroid er ei android-utgåve av KeePass passordstyrar.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Godta</string>    

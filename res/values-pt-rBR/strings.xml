@@ -23,7 +23,6 @@
 <resources>
     <string name="about_feedback">Comentários:</string>
     <string name="about_homepage">Página inicial:</string>
-    <string name="about_ok">OK</string>
     <string name="AboutText">KeePassDroid é uma implementação do gerenciador de senhas KeePass.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Aceitar</string>
@@ -44,7 +43,7 @@
     <string name="ClearClipboard">Clipboard limpo.</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
     <string name="clipboard_timeout_summary">Tempo até limpar o clipboard após copiar usuário ou senha.</string>
-    <string name="copy_username">Copar usuário para o clipboard</string>
+    <string name="copy_username">Copiar usuário para o clipboard</string>
     <string name="copy_password">Copiar senha para o clipboard</string>
     <string name="creating_db_key">Criando a chave do banco de dados&#8230;</string>
     <string name="current_group">Grupo atual: </string>

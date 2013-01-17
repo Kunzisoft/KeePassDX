@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2012 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -75,6 +75,7 @@ import com.keepassdroid.database.PwDbHeaderV3;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.exception.InvalidAlgorithmException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
@@ -163,7 +164,7 @@ public class ImporterV3 extends Importer {
 		} else if( (hdr.flags & PwDbHeaderV3.FLAG_TWOFISH) != 0 ) {
 			newManager.algorithm = PwEncryptionAlgorithm.Twofish;
 		} else {
-			throw new IOException( "Unknown algorithm." );
+			throw new InvalidAlgorithmException();
 		}
 
 		// Copy for testing

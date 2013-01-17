@@ -20,7 +20,6 @@
 <resources>
     <string name="about_feedback">回饋：</string>
     <string name="about_homepage">主頁：</string>
-    <string name="about_ok">確定</string>
     <string name="AboutText">KeePassDroid是KeePass密碼管理軟體的Android版本。</string>
     <string name="about_twitter">Twitter：</string>
     <string name="accept">接受</string>

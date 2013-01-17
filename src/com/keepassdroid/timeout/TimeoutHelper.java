@@ -27,6 +27,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.timers.Timeout;
 
 public class TimeoutHelper {
 	
@@ -41,9 +42,19 @@ public class TimeoutHelper {
 		edit.putLong(act.getString(R.string.timeout_key), time);
 		
 		EditorCompat.apply(edit);
+		
+		if ( App.getDB().Loaded() ) {
+	        Timeout.start(act);
+		}
+
 	}
 	
 	public static void resume(Activity act) {
+		if ( App.getDB().Loaded() ) {
+	        Timeout.cancel(act);
+		}
+
+		
 		// Check whether the timeout has expired
 		long cur_time = System.currentTimeMillis();
 		

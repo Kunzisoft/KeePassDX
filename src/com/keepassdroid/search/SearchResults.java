@@ -58,7 +58,7 @@ public class SearchResults extends GroupBaseActivity {
 	}
 	
 	private void performSearch(String query) {
-		query(query);
+		query(query.trim());
 	}
 	
 	private void query(String query) {

@@ -20,7 +20,6 @@
 <resources>
     <string name="about_feedback">Зворотний зв’язок:</string>
     <string name="about_homepage">Домашня сторінка:</string>
-    <string name="about_ok">Гаразд</string>
     <string name="AboutText">KeePassDroid є Android версією менеджера паролів KeePass.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Прийняти</string>

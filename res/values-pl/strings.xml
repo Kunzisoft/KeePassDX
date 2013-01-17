@@ -19,7 +19,6 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Strona domowa:</string>
-    <string name="about_ok">OK</string>
     <string name="AboutText">KeePassDroid to Androidowa implementacja menadżera haseł KeePass.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Akceptuj</string>
