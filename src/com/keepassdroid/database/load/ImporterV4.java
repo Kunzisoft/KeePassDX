@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -50,6 +50,7 @@ import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
+import static com.keepassdroid.database.PwDatabaseV4XML.*;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDeletedObject;
 import com.keepassdroid.database.PwEntryV4;
@@ -173,106 +174,6 @@ public class ImporterV4 extends Importer {
         Binaries
 	}
 	
-    private static final String ElemDocNode = "KeePassFile";
-    private static final String ElemMeta = "Meta";
-    private static final String ElemRoot = "Root";
-    private static final String ElemGroup = "Group";
-    private static final String ElemEntry = "Entry";
-
-    private static final String ElemGenerator = "Generator";
-    private static final String ElemHeaderHash = "HeaderHash";
-    private static final String ElemDbName = "DatabaseName";
-    private static final String ElemDbNameChanged = "DatabaseNameChanged";
-    private static final String ElemDbDesc = "DatabaseDescription";
-    private static final String ElemDbDescChanged = "DatabaseDescriptionChanged";
-    private static final String ElemDbDefaultUser = "DefaultUserName";
-    private static final String ElemDbDefaultUserChanged = "DefaultUserNameChanged";
-    private static final String ElemDbMntncHistoryDays = "MaintenanceHistoryDays";
-    private static final String ElemDbColor = "Color";
-    private static final String ElemDbKeyChanged = "MasterKeyChanged";
-    private static final String ElemDbKeyChangeRec = "MasterKeyChangeRec";
-    private static final String ElemDbKeyChangeForce = "MasterKeyChangeForce";
-    private static final String ElemRecycleBinEnabled = "RecycleBinEnabled";
-    private static final String ElemRecycleBinUuid = "RecycleBinUUID";
-    private static final String ElemRecycleBinChanged = "RecycleBinChanged";
-    private static final String ElemEntryTemplatesGroup = "EntryTemplatesGroup";
-    private static final String ElemEntryTemplatesGroupChanged = "EntryTemplatesGroupChanged";
-    private static final String ElemHistoryMaxItems = "HistoryMaxItems";
-    private static final String ElemHistoryMaxSize = "HistoryMaxSize";
-    private static final String ElemLastSelectedGroup = "LastSelectedGroup";
-    private static final String ElemLastTopVisibleGroup = "LastTopVisibleGroup";
-
-    private static final String ElemMemoryProt = "MemoryProtection";
-    private static final String ElemProtTitle = "ProtectTitle";
-    private static final String ElemProtUserName = "ProtectUserName";
-    private static final String ElemProtPassword = "ProtectPassword";
-    private static final String ElemProtURL = "ProtectURL";
-    private static final String ElemProtNotes = "ProtectNotes";
-    private static final String ElemProtAutoHide = "AutoEnableVisualHiding";
-
-    private static final String ElemCustomIcons = "CustomIcons";
-    private static final String ElemCustomIconItem = "Icon";
-    private static final String ElemCustomIconItemID = "UUID";
-    private static final String ElemCustomIconItemData = "Data";
-
-    private static final String ElemAutoType = "AutoType";
-    private static final String ElemHistory = "History";
-
-    private static final String ElemName = "Name";
-    private static final String ElemNotes = "Notes";
-    private static final String ElemUuid = "UUID";
-    private static final String ElemIcon = "IconID";
-    private static final String ElemCustomIconID = "CustomIconUUID";
-    private static final String ElemFgColor = "ForegroundColor";
-    private static final String ElemBgColor = "BackgroundColor";
-    private static final String ElemOverrideUrl = "OverrideURL";
-    private static final String ElemTimes = "Times";
-    private static final String ElemTags = "Tags";
-
-    private static final String ElemCreationTime = "CreationTime";
-    private static final String ElemLastModTime = "LastModificationTime";
-    private static final String ElemLastAccessTime = "LastAccessTime";
-    private static final String ElemExpiryTime = "ExpiryTime";
-    private static final String ElemExpires = "Expires";
-    private static final String ElemUsageCount = "UsageCount";
-    private static final String ElemLocationChanged = "LocationChanged";
-
-    private static final String ElemGroupDefaultAutoTypeSeq = "DefaultAutoTypeSequence";
-    private static final String ElemEnableAutoType = "EnableAutoType";
-    private static final String ElemEnableSearching = "EnableSearching";
-
-    private static final String ElemString = "String";
-    private static final String ElemBinary = "Binary";
-    private static final String ElemKey = "Key";
-    private static final String ElemValue = "Value";
-
-    private static final String ElemAutoTypeEnabled = "Enabled";
-    private static final String ElemAutoTypeObfuscation = "DataTransferObfuscation";
-    private static final String ElemAutoTypeDefaultSeq = "DefaultSequence";
-    private static final String ElemAutoTypeItem = "Association";
-    private static final String ElemWindow = "Window";
-    private static final String ElemKeystrokeSequence = "KeystrokeSequence";
-    
-    private static final String ElemBinaries = "Binaries";
-
-    private static final String AttrId = "ID";
-    private static final String AttrRef = "Ref";
-    private static final String AttrProtected = "Protected";
-    private static final String AttrCompressed = "Compressed";
-
-    private static final String ElemIsExpanded = "IsExpanded";
-    private static final String ElemLastTopVisibleEntry = "LastTopVisibleEntry";
-
-    private static final String ElemDeletedObjects = "DeletedObjects";
-    private static final String ElemDeletedObject = "DeletedObject";
-    private static final String ElemDeletionTime = "DeletionTime";
-
-    @SuppressWarnings("unused")
-	private static final String ValFalse = "False";
-    private static final String ValTrue = "True";
-
-    private static final String ElemCustomData = "CustomData";
-    private static final String ElemStringDictExItem = "Item";
     
     private static final long DEFAULT_HISTORY_DAYS = 365;
     
