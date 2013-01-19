@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2011 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -47,6 +47,8 @@ import com.keepassdroid.database.exception.InvalidKeyFileException;
 public class PwDatabaseV4 extends PwDatabase {
 
 	public static final Date DEFAULT_NOW = new Date();
+	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
+	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
 	
 	public UUID dataCipher;
 	public PwCompressionAlgorithm compressionAlgorithm;
@@ -62,11 +64,14 @@ public class PwDatabaseV4 extends PwDatabase {
     public long keyChangeForceDays = 1;
     
     public long maintenanceHistoryDays = 365;
+    public String color = "";
     public boolean recycleBinEnabled;
     public UUID recycleBinUUID;
     public Date recycleBinChanged;
     public UUID entryTemplatesGroup;
     public Date entryTemplatesGroupChanged;
+    public int historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS;
+    public long historyMaxSize = DEFAULT_HISTORY_MAX_SIZE;
     public UUID lastSelectedGroup;
     public UUID lastTopVisibleGroup;
     public MemoryProtectionConfig memoryProtection = new MemoryProtectionConfig();
@@ -75,6 +80,8 @@ public class PwDatabaseV4 extends PwDatabase {
     public Map<String, String> customData = new HashMap<String, String>();
     public Map<String, byte[]> binPool = new HashMap<String, byte[]>();
     public Map<String, byte[]> binPoolCopyOnRead = new HashMap<String, byte[]>();
+    
+    public String localizedAppName = "KeePassDroid";
     
     public class MemoryProtectionConfig {
     	public boolean protectTitle = false;

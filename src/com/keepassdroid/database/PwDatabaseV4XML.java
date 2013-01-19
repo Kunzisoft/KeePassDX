@@ -19,8 +19,18 @@
  */
 package com.keepassdroid.database;
 
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
 public class PwDatabaseV4XML {
 
+	public static final SimpleDateFormat dateFormat;
+	
+	static {
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+	}
+	
     public static final String ElemDocNode = "KeePassFile";
     public static final String ElemMeta = "Meta";
     public static final String ElemRoot = "Root";
