@@ -19,6 +19,11 @@
  */
 package com.keepassdroid.database.load;
 
+import static com.keepassdroid.database.PwDatabaseV4XML.*;
+
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -45,11 +50,10 @@ import biz.source_code.base64Coder.Base64Coder;
 import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
+import com.keepassdroid.database.BinaryPool;
 import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
-import static com.keepassdroid.database.PwDatabaseV4XML.*;
-
 import com.keepassdroid.database.PwDatabaseV4XML;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDeletedObject;
@@ -59,16 +63,19 @@ import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.exception.ArcFourException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
+import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.HashedBlockInputStream;
 import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
+import com.keepassdroid.utils.Util;
 
 public class ImporterV4 extends Importer {
 	
 	private StreamCipher randomStream;
 	private PwDatabaseV4 db;
+	private BinaryPool binPool = new BinaryPool();
 
 		private byte[] hashOfHeader = null;
 	
@@ -184,7 +191,7 @@ public class ImporterV4 extends Importer {
 	private String ctxStringName = null;
 	private String ctxStringValue = null;
 	private String ctxBinaryName = null;
-	private byte[] ctxBinaryValue = null;
+	private ProtectedBinary ctxBinaryValue = null;
 	private String ctxATName = null;
 	private String ctxATSeq = null;
 	private boolean entryInHistory = false;
@@ -382,9 +389,8 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(ElemBinary) ) {
 				String key = xpp.getAttributeValue(null, AttrId);
 				if ( key != null ) {
-					// TODO: Store this somewhere when writing enabled
-					@SuppressWarnings("unused")
-					byte[] pbData = ReadProtectedBinary(xpp);
+					ProtectedBinary pbData = ReadProtectedBinary(xpp);
+					binPool.put(key, pbData);
 				} else {
 					ReadUnknown(xpp);
 				}
@@ -842,13 +848,12 @@ public class ImporterV4 extends Importer {
 		return ReadString(xpp);
 	}
 	
-	private byte[] ReadProtectedBinary(XmlPullParser xpp) throws XmlPullParserException, IOException {
+	private ProtectedBinary ReadProtectedBinary(XmlPullParser xpp) throws XmlPullParserException, IOException {
 		String ref = xpp.getAttributeValue(null, AttrRef);
 		if (ref != null) {
 			xpp.next(); // Consume end tag
 			
-			// TODO: Get binary from binpool
-			return new byte[0];
+			return binPool.get(ref);
 		} 
 		
 		boolean compressed = false;
@@ -859,17 +864,25 @@ public class ImporterV4 extends Importer {
 		
 		byte[] buf = ProcessNode(xpp);
 		
-		if ( buf != null ) return buf;
+		if ( buf != null ) return new ProtectedBinary(true, buf);
 		
 		String base64 = ReadString(xpp);
-		if ( base64.length() == 0 ) return new byte[0];
+		if ( base64.length() == 0 ) return ProtectedBinary.EMPTY;
 		
 		byte[] data = Base64Coder.decode(base64);
 		
 		if (compressed) {
 			// TODO: Decompress data, it's gzipped, for now ignore since we don't use this data
+			ByteArrayInputStream bais = new ByteArrayInputStream(data);
+			GZIPInputStream gzis = new GZIPInputStream(bais);
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			Util.copyStream(gzis, baos);
+			
+			data = baos.toByteArray();
 		}
-		return data;
+		
+		return new ProtectedBinary(false, data);
 	}
 	
 	private String ReadString(XmlPullParser xpp) throws IOException, XmlPullParserException {

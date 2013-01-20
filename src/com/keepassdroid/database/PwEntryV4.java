@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.keepassdroid.database.security.ProtectedBinary;
+
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private static final String STR_TITLE = "Title";
 	private static final String STR_USERNAME = "UserName";
@@ -36,7 +38,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public PwGroupV4 parent;
 	public UUID uuid;
 	public Map<String, String> strings = new HashMap<String, String>();
-	public Map<String, byte[]> binaries = new HashMap<String, byte[]>();
+	public Map<String, ProtectedBinary> binaries = new HashMap<String, ProtectedBinary>();
 	public PwIconCustom customIcon = PwIconCustom.ZERO;
 	public String foregroundColor;
 	public String backgroupColor;

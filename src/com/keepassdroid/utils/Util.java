@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -18,6 +18,10 @@
  *
  */
 package com.keepassdroid.utils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -66,6 +70,14 @@ public class Util {
 		
 		if (te != null) {
 			te.setText(str);
+		}
+	}
+	
+	public static void copyStream(InputStream in, OutputStream out) throws IOException {
+		byte[] buf = new byte[1024];
+		int read;
+		while ((read = in.read(buf)) != -1) {
+			out.write(buf, 0, read);
 		}
 	}
 
