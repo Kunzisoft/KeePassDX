@@ -28,6 +28,7 @@ import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.PwIconStandard;
 import com.keepassdroid.database.security.ProtectedBinary;
+import com.keepassdroid.database.security.ProtectedString;
 
 public class PwEntryTestV4 extends TestCase {
 	public void testAssign() {
@@ -49,7 +50,7 @@ public class PwEntryTestV4 extends TestCase {
 		entry.icon = new PwIconStandard(5);
 		entry.overrideURL = "override";
 		entry.parent = new PwGroupV4();
-		entry.strings.put("key2", "value2");
+		entry.strings.put("key2", new ProtectedString(false, "value2"));
 		entry.url = "http://localhost";
 		entry.uuid = UUID.randomUUID();
 

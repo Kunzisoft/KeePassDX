@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.keepassdroid.database.security.ProtectedBinary;
+import com.keepassdroid.database.security.ProtectedString;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private static final String STR_TITLE = "Title";
@@ -37,7 +38,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	
 	public PwGroupV4 parent;
 	public UUID uuid;
-	public Map<String, String> strings = new HashMap<String, String>();
+	public Map<String, ProtectedString> strings = new HashMap<String, ProtectedString>();
 	public Map<String, ProtectedBinary> binaries = new HashMap<String, ProtectedBinary>();
 	public PwIconCustom customIcon = PwIconCustom.ZERO;
 	public String foregroundColor;
@@ -174,11 +175,11 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 	
 	public String getString(String key) {
-		String value = strings.get(key);
+		ProtectedString value = strings.get(key);
 		
 		if ( value == null ) return new String("");
 		
-		return value;
+		return value.toString();
 	}
 
 	public Date getCreationTime() {

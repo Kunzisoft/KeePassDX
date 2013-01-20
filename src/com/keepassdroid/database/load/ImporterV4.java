@@ -21,7 +21,6 @@ package com.keepassdroid.database.load;
 
 import static com.keepassdroid.database.PwDatabaseV4XML.*;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -64,6 +63,7 @@ import com.keepassdroid.database.exception.ArcFourException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.database.security.ProtectedBinary;
+import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.HashedBlockInputStream;
 import com.keepassdroid.stream.LEDataInputStream;
@@ -189,7 +189,7 @@ public class ImporterV4 extends Importer {
 	private PwGroupV4 ctxGroup = null;
 	private PwEntryV4 ctxEntry = null;
 	private String ctxStringName = null;
-	private String ctxStringValue = null;
+	private ProtectedString ctxStringValue = null;
 	private String ctxBinaryName = null;
 	private ProtectedBinary ctxBinaryValue = null;
 	private String ctxATName = null;
@@ -833,19 +833,19 @@ public class ImporterV4 extends Importer {
 		
 	}
 	
-	private String ReadProtectedString(XmlPullParser xpp) throws XmlPullParserException, IOException {
+	private ProtectedString ReadProtectedString(XmlPullParser xpp) throws XmlPullParserException, IOException {
 		byte[] buf = ProcessNode(xpp);
 		
 		if ( buf != null) {
 			try {
-				return new String(buf, "UTF-8");
+				return new ProtectedString(true, new String(buf, "UTF-8"));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 				throw new IOException(e.getLocalizedMessage());
 			} 
 		}
 		
-		return ReadString(xpp);
+		return new ProtectedString(false, ReadString(xpp));
 	}
 	
 	private ProtectedBinary ReadProtectedBinary(XmlPullParser xpp) throws XmlPullParserException, IOException {

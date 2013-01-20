@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2011 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 
 import com.android.keepass.R;
 import com.keepassdroid.database.PwEntryV4;
+import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.view.EntrySection;
 
 
@@ -51,11 +52,11 @@ public class EntryActivityV4 extends EntryActivity {
 		
 		// Display custom strings
 		if (entry.strings.size() > 0) {
-			for (Map.Entry<String, String> pair : entry.strings.entrySet()) {
+			for (Map.Entry<String, ProtectedString> pair : entry.strings.entrySet()) {
 				String key = pair.getKey();
 				
 				if (!PwEntryV4.IsStandardString(key)) {
-					View view = new EntrySection(this, null, key, pair.getValue());
+					View view = new EntrySection(this, null, key, pair.getValue().toString());
 					group.addView(view);
 				}
 			}
