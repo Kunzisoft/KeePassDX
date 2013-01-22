@@ -68,6 +68,7 @@ import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.HashedBlockInputStream;
 import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.EmptyUtils;
+import com.keepassdroid.utils.MemUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
@@ -872,14 +873,7 @@ public class ImporterV4 extends Importer {
 		byte[] data = Base64Coder.decode(base64);
 		
 		if (compressed) {
-			// TODO: Decompress data, it's gzipped, for now ignore since we don't use this data
-			ByteArrayInputStream bais = new ByteArrayInputStream(data);
-			GZIPInputStream gzis = new GZIPInputStream(bais);
-			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			Util.copyStream(gzis, baos);
-			
-			data = baos.toByteArray();
+			data = MemUtil.decompress(data);
 		}
 		
 		return new ProtectedBinary(false, data);

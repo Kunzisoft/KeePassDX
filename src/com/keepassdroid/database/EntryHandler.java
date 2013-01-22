@@ -17,46 +17,14 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.security;
+package com.keepassdroid.database;
 
-import java.util.Arrays;
-
-public class ProtectedBinary {
-	
-	public final static ProtectedBinary EMPTY = new ProtectedBinary();
-	
-	private byte[] data;
-	private boolean protect;
-	
-	public boolean isProtected() {
-		return protect;
-	}
-	
-	public int length() {
-		if (data == null) {
-			return 0;
-		}
-		
-		return data.length;
-	}
-	
-	public ProtectedBinary() {
-		this(false, new byte[0]);
-		
-	}
-	
-	public ProtectedBinary(boolean enableProtection, byte[] data) {
-		protect = enableProtection;
-		this.data = data;
-		
-	}
-	
-	public byte[] getData() {
-		return data;
-	}
-	
-	public boolean equals(ProtectedBinary rhs) {
-		return (protect == rhs.protect) && Arrays.equals(data, rhs.data);
-	}
-
+/** "Delegate" class for operating on each entry when traversing all of
+ * them
+ * @author bpellin
+ *
+ */
+public abstract class EntryHandler {
+	public abstract boolean operate(PwEntryV4 entry);
 }
+	

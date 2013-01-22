@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -43,7 +43,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	private Date expireDate = PwDatabaseV4.DEFAULT_NOW;
 	private boolean expires = false;
 	private long usageCount = 0;
-		
+
 	public PwGroupV4() {
 		
 	}
@@ -195,6 +195,27 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		} else {
 			return customIcon;
 		}
+	}
+	
+	public boolean preOrderTraverseTree(GroupHandler groupHandler, EntryHandler entryHandler) {
+		if (entryHandler != null) {
+			for (PwEntry entry : childEntries) {
+				if (!entryHandler.operate((PwEntryV4) entry)) return false;
+				
+			}
+		}
+	
+		for (PwGroup g : childGroups) {
+			PwGroupV4 group = (PwGroupV4) g;
+			
+			if ((groupHandler != null) && !groupHandler.operate(group)) return false;
+			
+			group.preOrderTraverseTree(groupHandler, entryHandler);
+		}
+		
+		
+		return true;
+		
 	}
 
 }
