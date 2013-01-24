@@ -108,14 +108,11 @@ public class PwDbV4Output extends PwDbOutput {
 		try {
 			outputDatabase(compressed);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new PwDbOutputException(e);
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new PwDbOutputException(e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new PwDbOutputException(e);
 		}
 	}
 	
