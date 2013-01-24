@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
 
@@ -44,12 +45,19 @@ import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.database.BinaryPool;
 import com.keepassdroid.database.CrsAlgorithm;
+import com.keepassdroid.database.EntryHandler;
+import com.keepassdroid.database.GroupHandler;
+import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwDatabaseV4.MemoryProtectionConfig;
 import com.keepassdroid.database.PwDatabaseV4XML;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV4;
+import com.keepassdroid.database.PwDefsV4;
+import com.keepassdroid.database.PwDeletedObject;
+import com.keepassdroid.database.PwEntryV4;
+import com.keepassdroid.database.PwEntryV4.AutoType;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.exception.PwDbOutputException;
@@ -111,6 +119,54 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 	}
 	
+	private class GroupWriter extends GroupHandler {
+		private Stack<PwGroupV4> groupStack;
+		
+		public GroupWriter(Stack<PwGroupV4> gs) {
+			groupStack = gs;
+		}
+
+		@Override
+		public boolean operate(PwGroupV4 group) {
+			assert(group != null);
+			
+			while(true) {
+				try {
+					if (group.parent == groupStack.peek()) {
+						groupStack.push(group);
+						startGroup(group);
+						break;
+					} else {
+						groupStack.pop();
+						if (groupStack.size() <= 0) return false;
+						endGroup();
+					}
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+			
+			return true;
+		}
+	}
+	
+	private class EntryWriter extends EntryHandler {
+
+		@Override
+		public boolean operate(PwEntryV4 entry) {
+			assert(entry != null);
+			
+			try {
+				writeEntry(entry, false);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			
+			return true;
+		}
+		
+	}
+	
 	private void outputDatabase(OutputStream os) throws IllegalArgumentException, IllegalStateException, IOException {
 		binPool = new BinaryPool((PwGroupV4)mPM.rootGroup);
 		
@@ -122,6 +178,25 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.startTag(null, ElemDocNode);
 		
 		writeMeta();
+		
+		PwGroupV4 root = (PwGroupV4) mPM.rootGroup;
+		xml.startTag(null, ElemRoot);
+		startGroup(root);
+		Stack<PwGroupV4> groupStack = new Stack<PwGroupV4>();
+		groupStack.push(root);
+		
+		if (!root.preOrderTraverseTree(new GroupWriter(groupStack), new EntryWriter())) throw new RuntimeException("Writing groups failed");
+		
+		while (groupStack.size() > 1) {
+			xml.endTag(null, ElemGroup);
+			groupStack.pop();
+		}
+		
+		endGroup();
+		
+		writeList(ElemDeletedObjects, mPM.deletedObjects);
+		
+		xml.endTag(null, ElemRoot);
 		
 		xml.endTag(null, ElemDocNode);
 		xml.endDocument();
@@ -222,15 +297,98 @@ public class PwDbV4Output extends PwDbOutput {
 		return header;
 	}
 	
+	private void startGroup(PwGroupV4 group) throws IllegalArgumentException, IllegalStateException, IOException {
+		xml.startTag(null, ElemGroup);
+		writeObject(ElemUuid, group.uuid);
+		writeObject(ElemName, group.name);
+		writeObject(ElemNotes, group.notes);
+		writeObject(ElemIcon, group.icon.iconId);
+		
+		if (!group.customIcon.equals(PwIconCustom.ZERO)) {
+			writeObject(ElemCustomIconID, group.customIcon.uuid);
+		}
+		
+		writeList(ElemTimes, group);
+		writeObject(ElemIsExpanded, group.isExpanded);
+		writeObject(ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence);
+		writeObject(ElemEnableAutoType, group.enableAutoType);
+		writeObject(ElemEnableSearching, group.enableSearching);
+		writeObject(ElemLastTopVisibleEntry, group.lastTopVisibleEntry);
+		
+	}
+	
+	private void endGroup() throws IllegalArgumentException, IllegalStateException, IOException {
+		xml.endTag(null, ElemGroup);
+	}
+	
+	private void writeEntry(PwEntryV4 entry, boolean isHistory) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(entry != null);
+		
+		xml.startTag(null, ElemEntry);
+		
+		writeObject(ElemUuid, entry.uuid);
+		writeObject(ElemIcon, entry.icon.iconId);
+		
+		if (entry.customIcon.equals(PwIconCustom.ZERO)) {
+			writeObject(ElemCustomIconID, entry.customIcon.uuid);
+		}
+		
+		writeObject(ElemFgColor, entry.foregroundColor);
+		writeObject(ElemBgColor, entry.backgroupColor);
+		writeObject(ElemOverrideUrl, entry.overrideURL);
+		writeObject(ElemTags, entry.tags);
+		
+		writeList(ElemTimes, entry);
+		
+		writeList(entry.strings, true);
+		writeList(entry.binaries);
+		writeList(ElemAutoType, entry.autoType);
+		
+		if (!isHistory) {
+			writeList(ElemHistory, entry.history, true);
+		} else {
+			assert(entry.history.size() == 0);
+		}
+		
+		xml.endTag(null, ElemEntry);
+	}
+	
+
+	private void writeObject(String key, ProtectedBinary value, boolean allowRef) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(key != null && value != null);
+		
+		xml.startTag(null, ElemBinary);
+		xml.startTag(null, ElemKey);
+		xml.text(safeXmlString(key));
+		xml.endTag(null, ElemKey);
+		
+		xml.startTag(null, ElemValue);
+		String strRef = null;
+		if (allowRef) {
+			strRef = binPool.poolFind(value);
+		}
+		
+		if (strRef != null) {
+			xml.attribute(null, AttrRef, strRef);
+		}
+		else {
+			subWriteValue(value);
+		}
+		
+		xml.endTag(null, ElemBinary);
+	}
+	
 	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
 		if (value.isProtected()) {
 			xml.attribute(null, AttrProtected, ValTrue);
 			
 			int valLength = value.length();
-			byte[] encoded = new byte[valLength];
-			randomStream.processBytes(value.getData(), 0, valLength, encoded, 0);
-			
-			xml.text(String.valueOf(Base64Coder.encode(encoded)));
+			if (valLength > 0) {
+				byte[] encoded = new byte[valLength];
+				randomStream.processBytes(value.getData(), 0, valLength, encoded, 0);
+				
+				xml.text(String.valueOf(Base64Coder.encode(encoded)));
+			}
 			
 		} else {
 			if (mPM.compressionAlgorithm == PwCompressionAlgorithm.Gzip) {
@@ -270,8 +428,19 @@ public class PwDbV4Output extends PwDbOutput {
 		writeObject(name, String.valueOf(value));
 	}
 	
-	private void writeObject(String name, boolean value) throws IllegalArgumentException, IllegalStateException, IOException {
-		writeObject(name, value ? ValTrue : ValFalse);
+	private void writeObject(String name, Boolean value) throws IllegalArgumentException, IllegalStateException, IOException {
+		String text;
+		if (value == null) {
+			text = "null";
+		}
+		else if (value) {
+			text = ValTrue;
+		}
+		else {
+			text = ValFalse;
+		}
+		
+		writeObject(name, text);
 	}
 	
 	private void writeObject(String name, UUID uuid) throws IllegalArgumentException, IllegalStateException, IOException {
@@ -293,6 +462,118 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.endTag(null, name);
 	}
 	
+	private void writeList(String name, AutoType autoType) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(name != null && autoType != null);
+		
+		xml.startTag(null, name);
+		
+		writeObject(ElemAutoTypeEnabled, autoType.enabled);
+		writeObject(ElemAutoTypeObfuscation, autoType.obfuscationOptions);
+		
+		if (autoType.defaultSequence.length() > 0) {
+			writeObject(ElemAutoTypeDefaultSeq, autoType.defaultSequence, true);
+		}
+		
+		for (Entry<String, String> pair : autoType.entrySet()) {
+			writeObject(ElemAutoTypeItem, ElemWindow, pair.getKey(), ElemKeystrokeSequence, pair.getValue());
+		}
+		
+		xml.endTag(null, name);
+		
+	}
+
+	private void writeList(Map<String, ProtectedString> strings, boolean isEntryString) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert (strings != null);
+		
+		for (Entry<String, ProtectedString> pair : strings.entrySet()) {
+			writeObject(pair.getKey(), pair.getValue(), isEntryString);
+			
+		}
+		
+	}
+
+	private void writeObject(String key, ProtectedString value, boolean isEntryString) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(key !=null && value != null);
+		
+		xml.startTag(null, ElemString);
+		xml.startTag(null, ElemKey);
+		xml.text(safeXmlString(key));
+		xml.endTag(null, ElemKey);
+		
+		xml.startTag(null, ElemValue);
+		boolean protect = value.isProtected();
+		if (isEntryString) {
+			if (key.equals(PwDefsV4.TITLE_FIELD)) {
+				protect = mPM.memoryProtection.protectTitle;
+			}
+			else if (key.equals(PwDefsV4.USERNAME_FIELD)) {
+				protect = mPM.memoryProtection.protectUserName;
+			}
+			else if (key.equals(PwDefsV4.PASSWORD_FIELD)) {
+				protect = mPM.memoryProtection.protectPassword;
+			}
+			else if (key.equals(PwDefsV4.URL_FIELD)) {
+				protect = mPM.memoryProtection.protectUrl;
+			}
+			else if (key.equals(PwDefsV4.NOTES_FIELD)) {
+				protect = mPM.memoryProtection.protectNotes;
+			}
+		}
+		
+		if (protect) {
+			xml.attribute(null, AttrProtected, ValTrue);
+			
+			byte[] data = value.toString().getBytes("UTF-8");
+			int valLength = data.length;
+			
+			if (valLength > 0) {
+				byte[] encoded = new byte[valLength];
+				randomStream.processBytes(data, 0, valLength, encoded, 0);
+				xml.text(String.valueOf(Base64Coder.encode(encoded)));
+			}
+			else {
+				xml.text(value.toString());
+			}
+		}
+		
+		xml.endTag(null, ElemValue);
+		xml.endTag(null, ElemString);
+		
+	}
+
+	private void writeObject(String name, PwDeletedObject value) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(name != null && value != null);
+		
+		xml.startTag(null, name);
+		
+		writeObject(ElemUuid, value.uuid);
+		writeObject(ElemDeletionTime, value.getDeletionTime());
+		
+		xml.endTag(null, name);
+	}
+
+	private void writeList(Map<String, ProtectedBinary> binaries) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(binaries != null);
+		
+		for (Entry<String, ProtectedBinary> pair : binaries.entrySet()) {
+			writeObject(pair.getKey(), pair.getValue(), true);
+		}
+	}
+
+
+	private void writeList(String name, List<PwDeletedObject> value) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(name != null && value != null);
+		
+		xml.startTag(null, name);
+		
+		for (PwDeletedObject pdo : value) {
+			writeObject(ElemDeletedObject, pdo);
+		}
+		
+		xml.endTag(null, name);
+		
+	}
+
 	private void writeList(String name, MemoryProtectionConfig value) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(name != null && value != null);
 		
@@ -316,6 +597,35 @@ public class PwDbV4Output extends PwDbOutput {
 		for (Entry<String, String> pair : customData.entrySet()) {
 			writeObject(ElemStringDictExItem, ElemKey, pair.getKey(), ElemValue, pair.getValue());
 			  
+		}
+		
+		xml.endTag(null, name);
+		
+	}
+	
+	private void writeList(String name, ITimeLogger it) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(name != null && it != null);
+		
+		xml.startTag(null, name);
+		
+		writeObject(ElemLastModTime, it.getLastModificationTime());
+		writeObject(ElemCreationTime, it.getCreationTime());
+		writeObject(ElemLastAccessTime, it.getLastAccessTime());
+		writeObject(ElemExpiryTime, it.getExpiryTime());
+		writeObject(ElemExpires, it.expires());
+		writeObject(ElemUsageCount, it.getUsageCount());
+		writeObject(ElemLocationChanged, it.getLocationChanged());
+		
+		xml.endTag(null, name);
+	}
+
+	private void writeList(String name, List<PwEntryV4> value, boolean isHistory) throws IllegalArgumentException, IllegalStateException, IOException {
+		assert(name != null && value != null);
+		
+		xml.startTag(null, name);
+		
+		for (PwEntryV4 entry : value) {
+			writeEntry(entry, isHistory);
 		}
 		
 		xml.endTag(null, name);

@@ -38,7 +38,6 @@ public class PwDbHeaderV4 extends PwDbHeader {
     
     public class PwDbHeaderV4Fields {
         public static final byte EndOfHeader = 0;
-        @SuppressWarnings("unused")
 		public static final byte Comment = 1;
         public static final byte CipherID = 2;
         public static final byte CompressionFlags = 3;

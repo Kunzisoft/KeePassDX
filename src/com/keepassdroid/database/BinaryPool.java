@@ -79,7 +79,7 @@ public class BinaryPool {
 		pool.put(String.valueOf(pool.size()), pb);
 	}
 	
-	private String poolFind(ProtectedBinary pb) {
+	public String poolFind(ProtectedBinary pb) {
 		for (Entry<String, ProtectedBinary> pair : pool.entrySet()) {
 			if (pair.getValue().equals(pb)) return pair.getKey();
 		}

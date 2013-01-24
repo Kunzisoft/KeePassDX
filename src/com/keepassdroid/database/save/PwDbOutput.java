@@ -37,8 +37,7 @@ public abstract class PwDbOutput {
 		if ( pm instanceof PwDatabaseV3 ) {
 			return new PwDbV3Output((PwDatabaseV3)pm, os);
 		} else if ( pm instanceof PwDatabaseV4 ) {
-			// TODO: Implement me
-			throw new RuntimeException(".kdbx output not yet supported.");
+			return new PwDbV4Output((PwDatabaseV4)pm, os);
 		}
 		
 		return null;

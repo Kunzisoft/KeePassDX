@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
 import com.keepassdroid.database.security.ProtectedBinary;
@@ -37,36 +39,42 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private static final String STR_NOTES = "Notes";
 	
 	public PwGroupV4 parent;
-	public UUID uuid;
+	public UUID uuid = PwDatabaseV4.UUID_ZERO;
 	public Map<String, ProtectedString> strings = new HashMap<String, ProtectedString>();
 	public Map<String, ProtectedBinary> binaries = new HashMap<String, ProtectedBinary>();
 	public PwIconCustom customIcon = PwIconCustom.ZERO;
-	public String foregroundColor;
-	public String backgroupColor;
-	public String overrideURL;
+	public String foregroundColor = "";
+	public String backgroupColor = "";
+	public String overrideURL = "";
 	public AutoType autoType = new AutoType();
 	public List<PwEntryV4> history = new ArrayList<PwEntryV4>();
 	
-	private Date parentGroupLastMod;
-	private Date creation;
-	private Date lastMod;
-	private Date lastAccess;
-	private Date expireDate;
+	private Date parentGroupLastMod = PwDatabaseV4.DEFAULT_NOW;
+	private Date creation = PwDatabaseV4.DEFAULT_NOW;
+	private Date lastMod = PwDatabaseV4.DEFAULT_NOW;
+	private Date lastAccess = PwDatabaseV4.DEFAULT_NOW;
+	private Date expireDate = PwDatabaseV4.DEFAULT_NOW;
 	private boolean expires = false;
 	private long usageCount = 0;
-	public String url;
-	public String additional;
-	public String tags;
+	public String url = "";
+	public String additional = "";
+	public String tags = "";
 
 	public class AutoType {
-		public boolean enabled;
-		public long obfuscationOptions;
-		public String defaultSequence;
+		private static final long OBF_OPT_NONE = 0;
+		
+		public boolean enabled = true;
+		public long obfuscationOptions = OBF_OPT_NONE;
+		public String defaultSequence = "";
 		
 		private Map<String, String> windowSeqPairs = new HashMap<String, String>();
 		
 		public void put(String key, String value) {
 			windowSeqPairs.put(key, value);
+		}
+		
+		public Set<Entry<String, String>> entrySet() {
+			return windowSeqPairs.entrySet();
 		}
 
 	}

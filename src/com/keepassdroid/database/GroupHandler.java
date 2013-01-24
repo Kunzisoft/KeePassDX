@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.database;
 
+
 /** "Delegate" class for operating on each group when traversing all of
  * them
  * @author bpellin
