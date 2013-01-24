@@ -247,7 +247,7 @@ public class PwDbV4Output extends PwDbOutput {
 		Cipher cipher;
 		try {
 			mPM.makeFinalKey(header.masterSeed, header.transformSeed, (int)mPM.numKeyEncRounds);
-			cipher = CipherFactory.getInstance(mPM.dataCipher, mPM.finalKey, header.encryptionIV);
+			cipher = CipherFactory.getInstance(mPM.dataCipher, Cipher.ENCRYPT_MODE, mPM.finalKey, header.encryptionIV);
 		} catch (Exception e) {
 			throw new PwDbOutputException("Invalid algorithm.");
 		}

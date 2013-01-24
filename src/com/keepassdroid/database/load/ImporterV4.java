@@ -68,7 +68,6 @@ import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MemUtil;
 import com.keepassdroid.utils.Types;
-import com.keepassdroid.utils.Util;
 
 public class ImporterV4 extends Importer {
 	
@@ -107,7 +106,7 @@ public class ImporterV4 extends Importer {
 		// Attach decryptor
 		Cipher cipher;
 		try {
-			cipher = CipherFactory.getInstance(db.dataCipher, db.finalKey, header.encryptionIV);
+			cipher = CipherFactory.getInstance(db.dataCipher, Cipher.DECRYPT_MODE, db.finalKey, header.encryptionIV);
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException("Invalid algorithm.");
 		} catch (NoSuchPaddingException e) {
