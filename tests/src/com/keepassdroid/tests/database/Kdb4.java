@@ -19,7 +19,8 @@
  */
 package com.keepassdroid.tests.database;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -76,11 +77,17 @@ public class Kdb4 extends AndroidTestCase {
 		PwDatabaseV4 db = importer.openDatabase(is, "12345", "");
 		is.close();
 		
-		FileOutputStream fos = new FileOutputStream("/sdcard/test-out.kdbx", false);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		
-		PwDbV4Output output =  (PwDbV4Output) PwDbOutput.getInstance(db, fos);
+		PwDbV4Output output =  (PwDbV4Output) PwDbOutput.getInstance(db, bos);
 		output.output();
-		fos.close();
+		
+		byte[] data = bos.toByteArray();
+		
+		ByteArrayInputStream bis = new ByteArrayInputStream(data);
+		importer = new ImporterV4();
+		db = importer.openDatabase(bis, "12345", "");
+		bis.close();
 		
 		
 	}
