@@ -119,9 +119,14 @@ public class ImporterV4 extends Importer {
 		
 		InputStream decrypted = new BetterCipherInputStream(inStream, cipher, 50 * 1024);
 		LEDataInputStream dataDecrypted = new LEDataInputStream(decrypted);
-		byte[] storedStartBytes = dataDecrypted.readBytes(32);
-		if ( storedStartBytes == null || storedStartBytes.length != 32 ) {
-			throw new IOException("Invalid data.");
+		byte[] storedStartBytes = null;
+		try {
+			storedStartBytes = dataDecrypted.readBytes(32);
+			if ( storedStartBytes == null || storedStartBytes.length != 32 ) {
+				throw new InvalidPasswordException();
+			}
+		} catch (IOException e) {
+			throw new InvalidPasswordException();
 		}
 		
 		if ( ! Arrays.equals(storedStartBytes, header.streamStartBytes) ) {
