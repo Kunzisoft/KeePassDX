@@ -74,8 +74,12 @@ public class CipherFactory {
 	 * @throws InvalidKeyException 
 	 */
 	public static Cipher getInstance(UUID uuid, int opmode, byte[] key, byte[] IV) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+		return getInstance(uuid, opmode, key, IV, false);
+	}
+	
+	public static Cipher getInstance(UUID uuid, int opmode, byte[] key, byte[] IV, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
 		if ( uuid.equals(AES_CIPHER) ) {
-			Cipher cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding"); 
+			Cipher cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding", androidOverride); 
 			
 			cipher.init(opmode, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
 			
