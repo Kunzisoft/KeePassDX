@@ -92,7 +92,7 @@ public class PwDbV4Output extends PwDbOutput {
 		OutputStream compressed;
 		try {
 			cos.write(header.streamStartBytes);
-		
+			
 			HashedBlockOutputStream hashed = new HashedBlockOutputStream(cos);
 			
 			if ( mPM.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {
@@ -100,13 +100,9 @@ public class PwDbV4Output extends PwDbOutput {
 			} else {
 				compressed = hashed;
 			}
-			
-		} catch (IOException e) {
-			throw new PwDbOutputException("Failed to set up output stream.");
-		}
 	
-		try {
 			outputDatabase(compressed);
+			compressed.close();
 		} catch (IllegalArgumentException e) {
 			throw new PwDbOutputException(e);
 		} catch (IllegalStateException e) {
