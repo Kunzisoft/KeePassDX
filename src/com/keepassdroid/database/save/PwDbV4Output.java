@@ -524,9 +524,9 @@ public class PwDbV4Output extends PwDbOutput {
 				randomStream.processBytes(data, 0, valLength, encoded, 0);
 				xml.text(String.valueOf(Base64Coder.encode(encoded)));
 			}
-			else {
-				xml.text(value.toString());
-			}
+		}
+		else {
+			xml.text(safeXmlString(value.toString()));
 		}
 		
 		xml.endTag(null, ElemValue);
