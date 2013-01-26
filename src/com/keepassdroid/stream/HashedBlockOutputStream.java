@@ -54,6 +54,7 @@ public class HashedBlockOutputStream extends OutputStream {
 	@Override
 	public void write(int oneByte) throws IOException {
 		byte[] buf = new byte[1];
+		buf[0] = (byte)oneByte;
 		write(buf, 0, 1);
 	}
 
