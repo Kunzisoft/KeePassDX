@@ -1,5 +1,5 @@
 /*
-* Copyright 2010 Brian Pellin.
+* Copyright 2010-2013 Brian Pellin.
 *
 * This file is part of KeePassDroid.
 *
@@ -25,6 +25,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import junit.framework.TestCase;
 
@@ -32,6 +34,8 @@ import com.keepassdroid.stream.HashedBlockInputStream;
 import com.keepassdroid.stream.HashedBlockOutputStream;
 
 public class HashedBlock extends TestCase {
+	
+	private static Random rand = new Random();
 
 	public void testBlockAligned() throws IOException {
 		testSize(1024, 1024);
@@ -44,8 +48,7 @@ public class HashedBlock extends TestCase {
 	private void testSize(int blockSize, int bufferSize) throws IOException {
 		byte[] orig = new byte[blockSize];
 		
-		Random rnd = new Random();
-		rnd.nextBytes(orig);
+		rand.nextBytes(orig);
 		
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		HashedBlockOutputStream output = new HashedBlockOutputStream(bos, bufferSize);
@@ -71,6 +74,37 @@ public class HashedBlock extends TestCase {
 		byte[] out = decoded.toByteArray();
 		
 		assertArrayEquals(orig, out);
+		
+	}
+	
+	public void testGZIPStream() throws IOException {
+		final int testLength = 32000;
+		
+		byte[] orig = new byte[testLength];
+		rand.nextBytes(orig);
+		
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		HashedBlockOutputStream hos = new HashedBlockOutputStream(bos);
+		GZIPOutputStream zos = new GZIPOutputStream(hos);
+		
+		zos.write(orig);
+		zos.close();
+		
+		byte[] compressed = bos.toByteArray();
+		ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
+		HashedBlockInputStream his = new HashedBlockInputStream(bis);
+		GZIPInputStream zis = new GZIPInputStream(his);
+		
+		byte[] uncompressed = new byte[testLength];
+		
+		int read = 0;
+		while (read != -1 && testLength - read > 0) {
+			read += zis.read(uncompressed, read, testLength - read);
+			
+		}
+		
+		assertArrayEquals("Output not equal to input", orig, uncompressed);
+		
 		
 	}
 }
