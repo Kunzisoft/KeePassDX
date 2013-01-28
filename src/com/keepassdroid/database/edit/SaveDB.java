@@ -52,8 +52,12 @@ public class SaveDB extends RunnableOnFinish {
 				finish(false, e.getMessage());
 				return;
 			} catch (PwDbOutputException e) {
+				// TODO: Restore
+				throw new RuntimeException(e);
+				/*
 				finish(false, e.getMessage());
 				return;
+				*/
 			}
 		}
 
