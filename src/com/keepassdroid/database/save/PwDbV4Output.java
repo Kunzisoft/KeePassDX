@@ -367,6 +367,7 @@ public class PwDbV4Output extends PwDbOutput {
 		else {
 			subWriteValue(value);
 		}
+		xml.endTag(null, ElemValue);
 		
 		xml.endTag(null, ElemBinary);
 	}
