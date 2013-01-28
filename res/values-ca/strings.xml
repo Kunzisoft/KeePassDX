@@ -23,7 +23,6 @@
 <resources>
     <string name="about_feedback">Comentaris:</string>
     <string name="about_homepage">Pàgina inici:</string>
-    <string name="about_ok">D\'acord</string>
     <string name="AboutText">KeePassDroid és una implementació per Android de KeePass password manager.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Accepta</string>

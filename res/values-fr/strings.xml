@@ -55,7 +55,7 @@
 	<string name="error_could_not_create_group">Erreur de création de groupe.</string>    
 	<string name="error_database_exists">Ce fichier existe déjà.</string>    
 	<string name="error_database_settings">Impossible de déterminer les paramètres de la base de données.</string>    
-	<string name="error_failed_to_launch_link">Echec lors de l'ouverture du lien.</string>
+	<string name="error_failed_to_launch_link">Echec lors de l\'ouverture du lien.</string>
 	<string name="error_filename_required">Le nom de fichier est obligatoire.</string>    
 	<string name="error_file_not_create">Impossible de créer le fichier :</string>    
 	<string name="error_no_name">Le nom est obligatoire.</string>    
@@ -85,7 +85,7 @@
 	<string name="menu_db_settings">Préférences</string>    
 	<string name="menu_delete">Supprimer</string>    
 	<string name="menu_donate">Faire un Don</string>    
-	<string name="menu_edit">Modifier/string>    
+	<string name="menu_edit">Modifier</string>    
 	<string name="menu_hide_password">Masquer le mot de passe</string>    
 	<string name="menu_homepage">Aller à la page d\'accueil</string>    
 	<string name="menu_lock">Verrouiller les données</string>    

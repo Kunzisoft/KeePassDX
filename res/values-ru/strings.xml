@@ -140,7 +140,6 @@
     <string name="omitbackup_title">Искать в актуальных</string>
     <string name="omitbackup_summary">Не искать в Резервировании и Корзине</string>
     <string name="pass_filename">База KeePass:</string>
-    <string name="pass_ok">OK</string>
     <string name="password_title">Изменение пароля базы</string>
     <string name="progress_create">Создание базы&#8230;</string>
     <string name="progress_title">Обработка</string>
