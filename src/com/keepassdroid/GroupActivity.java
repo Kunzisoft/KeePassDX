@@ -127,7 +127,9 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		} else if ( addGroupEnabled ) {
 			setContentView(new GroupRootView(this));
 		} else if ( addEntryEnabled ) {
-			throw new RuntimeException("This mode is not supported.");
+			setContentView(new GroupAddEntryView(this));
+			Button addGroup = (Button) findViewById(R.id.add_group);
+			addGroup.setVisibility(View.GONE);
 		} else {
 			setContentView(new GroupViewOnlyView(this));
 		}
