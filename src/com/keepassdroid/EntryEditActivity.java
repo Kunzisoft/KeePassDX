@@ -130,7 +130,7 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 
 		if ( uuidBytes == null ) {
 
-			PwGroupId parentId = getParentGroupId(i, KEY_ENTRY);
+			PwGroupId parentId = getParentGroupId(i, KEY_PARENT);
 			PwGroup parent = db.groups.get(parentId);
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
