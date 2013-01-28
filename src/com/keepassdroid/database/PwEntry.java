@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -43,6 +43,22 @@ public abstract class PwEntry implements Cloneable {
 		
 	}
 	
+	public static PwEntry getInstance(PwGroup parent) {
+		return PwEntry.getInstance(parent, true, true);
+	}
+	
+	public static PwEntry getInstance(PwGroup parent, boolean initId, boolean initDates) {
+		if (parent instanceof PwGroupV3) {
+			return new PwEntryV3((PwGroupV3)parent);
+		}
+		else if (parent instanceof PwGroupV4) {
+			return new PwEntryV4((PwGroupV4)parent);
+		}
+		else {
+			throw new RuntimeException("Unknow PwGroup instance.");
+		}
+	}
+	
 	@Override
 	public Object clone() {
 		PwEntry newEntry;
@@ -54,6 +70,10 @@ public abstract class PwEntry implements Cloneable {
 		}
 		
 		return newEntry;
+	}
+	
+	public PwEntry clone(boolean deepStrings) {
+		return (PwEntry) clone();
 	}
 	
 	public void assign(PwEntry source) {
@@ -69,12 +89,23 @@ public abstract class PwEntry implements Cloneable {
 	public abstract String getPassword();
 	public abstract String getUrl();
 	public abstract String getNotes();
-	public abstract Date getCreate();
-	public abstract Date getMod();
-	public abstract Date getAccess();
-	public abstract Date getExpire();
+	public abstract Date getCreationTime();
+	public abstract Date getLastModificationTime();
+	public abstract Date getLastAccessTime();
+	public abstract Date getExpiryTime();
 	public abstract boolean expires();
 	public abstract PwGroup getParent();
+	
+	public abstract void setTitle(String title, PwDatabase db);
+	public abstract void setUsername(String user, PwDatabase db);
+	public abstract void setPassword(String pass, PwDatabase db);
+	public abstract void setUrl(String url, PwDatabase db);
+	public abstract void setNotes(String notes, PwDatabase db);
+	public abstract void setCreationTime(Date create);
+	public abstract void setLastModificationTime(Date mod);
+	public abstract void setLastAccessTime(Date access);
+	public abstract void setExpires(boolean exp);
+	public abstract void setExpiryTime(Date expires);
 	
 	
 	public PwIcon getIcon() {

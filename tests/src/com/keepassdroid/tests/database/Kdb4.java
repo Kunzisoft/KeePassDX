@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,6 +21,7 @@ package com.keepassdroid.tests.database;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -36,6 +37,7 @@ import com.keepassdroid.database.load.ImporterFactory;
 import com.keepassdroid.database.load.ImporterV4;
 import com.keepassdroid.database.save.PwDbOutput;
 import com.keepassdroid.database.save.PwDbV4Output;
+import com.keepassdroid.stream.CopyInputStream;
 import com.keepassdroid.tests.TestUtil;
 
 public class Kdb4 extends AndroidTestCase {
@@ -84,11 +86,15 @@ public class Kdb4 extends AndroidTestCase {
 		
 		byte[] data = bos.toByteArray();
 		
-		ByteArrayInputStream bis = new ByteArrayInputStream(data);
+		FileOutputStream fos = new FileOutputStream("/sdcard/test-out.kdbx", false);
+		
+		InputStream bis = new ByteArrayInputStream(data);
+		bis = new CopyInputStream(bis, fos);
 		importer = new ImporterV4();
 		db = importer.openDatabase(bis, "12345", "");
 		bis.close();
 		
+		fos.close();
 		
 	}
 	

@@ -76,7 +76,9 @@
 			android:theme="@style/NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.LockingActivity" 
 			android:theme="@style/NoTitleBar"></activity>
-		<activity android:name="com.keepassdroid.EntryEditActivity" android:configChanges="orientation|keyboardHidden"
+		<activity android:name="com.keepassdroid.EntryEditActivityV3" android:configChanges="orientation|keyboardHidden"
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.EntryEditActivityV4" android:configChanges="orientation|keyboardHidden"
 			android:theme="@style/NoTitleBar"></activity>
 		<activity android:name="com.keepassdroid.GroupEditActivity" android:theme="@style/Dialog"></activity>
 		<activity android:name="com.keepassdroid.IconPickerActivity" android:theme="@style/NoTitleBar"></activity>

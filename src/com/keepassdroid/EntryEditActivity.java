@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,7 +19,6 @@
  */
 package com.keepassdroid;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -46,11 +45,14 @@ import android.widget.Toast;
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwDate;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.edit.AddEntry;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
@@ -59,24 +61,29 @@ import com.keepassdroid.icons.Icons;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
-public class EntryEditActivity extends LockCloseActivity {
+public abstract class EntryEditActivity extends LockCloseActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
 	public static final int RESULT_OK_ICON_PICKER = 1000;
 	public static final int RESULT_OK_PASSWORD_GENERATOR = RESULT_OK_ICON_PICKER + 1;
 
-	private PwEntryV3 mEntry;
+	protected PwEntry mEntry;
 	private boolean mShowPassword = false;
 	private boolean mIsNew;
 	private int mSelectedIconID = -1;
 	
 	public static void Launch(Activity act, PwEntry pw) {
-		if ( !(pw instanceof PwEntryV3) ) {
+		Intent i;
+		if (pw instanceof PwEntryV3) {
+			i = new Intent(act, EntryEditActivityV3.class);
+		}
+		else if (pw instanceof PwEntryV4) {
+			i = new Intent(act, EntryEditActivityV4.class);
+		}
+		else {
 			throw new RuntimeException("Not yet implemented.");
 		}
-		
-		Intent i = new Intent(act, EntryEditActivity.class);
 		
 		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
 		
@@ -84,18 +91,23 @@ public class EntryEditActivity extends LockCloseActivity {
 	}
 	
 	public static void Launch(Activity act, PwGroup pw) {
-		if ( !(pw instanceof PwGroupV3) ) {
+		Intent i;
+		if (pw instanceof PwGroupV3) {
+			i = new Intent(act, EntryEditActivityV3.class);
+			EntryEditActivityV3.putParentId(i, KEY_PARENT, (PwGroupV3)pw);
+		}
+		else if (pw instanceof PwGroupV4) {
+			i = new Intent(act, EntryEditActivityV4.class);
+			EntryEditActivityV4.putParentId(i, KEY_PARENT, (PwGroupV4)pw);
+		}
+		else {
 			throw new RuntimeException("Not yet implemented.");
 		}
 
-		Intent i = new Intent(act, EntryEditActivity.class);
-		
-		PwGroupV3 parent = (PwGroupV3) pw;
-		i.putExtra(KEY_PARENT, parent.groupId);
-		
 		act.startActivityForResult(i, 0);
 	}
 	
+	protected abstract PwGroupId getParentGroupId(Intent i, String key);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,16 +129,17 @@ public class EntryEditActivity extends LockCloseActivity {
 		byte[] uuidBytes = i.getByteArrayExtra(KEY_ENTRY);
 
 		if ( uuidBytes == null ) {
-			int groupId = i.getIntExtra(KEY_PARENT, -1);
 
-			mEntry = new PwEntryV3(db, groupId);
+			PwGroupId parentId = getParentGroupId(i, KEY_ENTRY);
+			PwGroup parent = db.groups.get(parentId);
+			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
 			
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			assert(uuid != null);
 
-			mEntry = (PwEntryV3) db.entries.get(uuid);
+			mEntry = db.entries.get(uuid);
 			mIsNew = false;
 			
 			fillData();
@@ -147,12 +160,9 @@ public class EntryEditActivity extends LockCloseActivity {
 		generatePassword.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				//EntryEditActivity.Launch(EntryActivity.this, mEntry);
 				GeneratePasswordActivity.Launch(EntryEditActivity.this);
 			}
 		});
-		
-
 		
 		// Save button
 		Button save = (Button) findViewById(R.id.entry_save);
@@ -176,51 +186,9 @@ public class EntryEditActivity extends LockCloseActivity {
 					return;
 				}
 				
-				PwEntryV3 newEntry = new PwEntryV3();
-				
-				newEntry.binaryDesc = mEntry.binaryDesc;
-				newEntry.groupId = mEntry.groupId;
+				PwEntry newEntry = populateNewEntry();
 
-				if (mSelectedIconID == -1) {
-					if (mIsNew) {
-						newEntry.icon = App.getDB().pm.iconFactory.getIcon(0);
-					} else {
-						// Keep previous icon, if no new one was selected
-						newEntry.icon = mEntry.icon;
-					}
-				}
-				else {
-					newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
-				}
-
-				newEntry.parent = mEntry.parent;
-				newEntry.tCreation = mEntry.tCreation;
-				newEntry.tExpire = mEntry.tExpire;
-				newEntry.setUUID(mEntry.getUUID());
-				
-				Date now = Calendar.getInstance().getTime(); 
-				newEntry.tLastAccess = new PwDate(now);
-				newEntry.tLastMod = new PwDate(now);
-				
-				byte[] binaryData = mEntry.getBinaryData();
-				if ( binaryData != null ) {
-					newEntry.setBinaryData(binaryData, 0, binaryData.length);
-				}
-
-				newEntry.title = Util.getEditText(act, R.id.entry_title);
-				newEntry.url = Util.getEditText(act, R.id.entry_url);
-				newEntry.username = Util.getEditText(act, R.id.entry_user_name);
-				newEntry.additional = Util.getEditText(act, R.id.entry_comment);
-				byte[] password;
-				try {
-					password = pass.getBytes("UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					assert false;
-					password = pass.getBytes();
-				}
-				newEntry.setPassword(password, 0, password.length);
-
-				if ( newEntry.title.equals(mEntry.title) ) {
+				if ( newEntry.getTitle().equals(mEntry.getTitle()) ) {
 					setResult(KeePass.EXIT_REFRESH);
 				} else {
 					setResult(KeePass.EXIT_REFRESH_TITLE);
@@ -260,6 +228,30 @@ public class EntryEditActivity extends LockCloseActivity {
 			conf.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 		}
 		
+	}
+	
+	protected PwEntry populateNewEntry() {
+		PwEntry newEntry = mEntry.clone(true);
+		
+		if (mSelectedIconID == -1 && mIsNew) {
+			newEntry.icon = App.getDB().pm.iconFactory.getIcon(0);
+		}
+		else {
+			newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
+		}
+
+		Date now = Calendar.getInstance().getTime(); 
+		newEntry.setLastAccessTime(now);
+		newEntry.setLastModificationTime(now);
+		
+		PwDatabase db = App.getDB().pm;
+		newEntry.setTitle(Util.getEditText(this, R.id.entry_title), db);
+		newEntry.setUrl(Util.getEditText(this, R.id.entry_url), db);
+		newEntry.setUsername(Util.getEditText(this, R.id.entry_user_name), db);
+		newEntry.setNotes(Util.getEditText(this, R.id.entry_comment), db);
+		newEntry.setPassword(Util.getEditText(this, R.id.entry_password), db);
+		
+		return newEntry;
 	}
 	
 	@Override
@@ -350,16 +342,16 @@ public class EntryEditActivity extends LockCloseActivity {
 		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 		
-		populateText(R.id.entry_title, mEntry.title);
+		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());
-		populateText(R.id.entry_url, mEntry.url);
+		populateText(R.id.entry_url, mEntry.getUrl());
 		
 		String password = new String(mEntry.getPassword());
 		populateText(R.id.entry_password, password);
 		populateText(R.id.entry_confpassword, password);
 		setPasswordStyle();
 
-		populateText(R.id.entry_comment, mEntry.additional);
+		populateText(R.id.entry_comment, mEntry.getNotes());
 	}
 
 	private void populateText(int viewId, String text) {

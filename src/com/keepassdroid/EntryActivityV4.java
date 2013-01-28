@@ -37,10 +37,12 @@ public class EntryActivityV4 extends EntryActivity {
 		setContentView(R.layout.entry_view_v4);
 	}
 
+	/*
 	@Override
 	protected void setupEditButtons() {
 		// No edit buttons yet
 	}
+	*/
 
 	@Override
 	protected void fillData() {

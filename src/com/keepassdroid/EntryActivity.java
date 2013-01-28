@@ -228,11 +228,11 @@ public class EntryActivity extends LockCloseActivity {
 		populateText(R.id.entry_password, mEntry.getPassword());
 		setPasswordStyle();
 		
-		populateText(R.id.entry_created, getDateTime(mEntry.getCreate()));
-		populateText(R.id.entry_modified, getDateTime(mEntry.getMod()));
-		populateText(R.id.entry_accessed, getDateTime(mEntry.getAccess()));
+		populateText(R.id.entry_created, getDateTime(mEntry.getCreationTime()));
+		populateText(R.id.entry_modified, getDateTime(mEntry.getLastModificationTime()));
+		populateText(R.id.entry_accessed, getDateTime(mEntry.getLastAccessTime()));
 		
-		Date expires = mEntry.getExpire();
+		Date expires = mEntry.getExpiryTime();
 		if ( mEntry.expires() ) {
 			populateText(R.id.entry_expires, getDateTime(expires));
 		} else {

@@ -44,10 +44,22 @@
 		  android:src="@drawable/ic99_blank"
 		  style="@style/WhiteOnBlack"/>
 	</LinearLayout> 
+	<Button android:id="@+id/entry_edit"
+	  android:text="@string/menu_edit"
+	  android:layout_width="100sp"
+	  android:layout_height="wrap_content"
+	  android:layout_alignParentLeft="true"
+	  android:layout_alignParentBottom="true"/>
+	<ImageView android:id="@+id/entry_divider2"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_above="@id/entry_edit"
+	  android:scaleType="fitXY"
+	  android:src="@android:drawable/divider_horizontal_dark"/>
 	<ScrollView android:id="@+id/entry_scroll" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="fill_parent"
-	  android:layout_alignParentBottom="true"
+	  android:layout_above="@id/entry_divider2"
 	  android:layout_below="@id/title_block"
 	  android:fillViewport="true"
 	  android:scrollbarStyle="insideOverlay"

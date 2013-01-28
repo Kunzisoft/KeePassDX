@@ -20,6 +20,7 @@
 package com.keepassdroid.database;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	
 	public PwGroupV4 parent;
 	public UUID uuid = PwDatabaseV4.UUID_ZERO;
-	public Map<String, ProtectedString> strings = new HashMap<String, ProtectedString>();
+	public HashMap<String, ProtectedString> strings = new HashMap<String, ProtectedString>();
 	public Map<String, ProtectedBinary> binaries = new HashMap<String, ProtectedBinary>();
 	public PwIconCustom customIcon = PwIconCustom.ZERO;
 	public String foregroundColor = "";
@@ -81,6 +82,39 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	
 	public PwEntryV4() {
 
+	}
+	
+	public PwEntryV4(PwGroupV4 p) {
+		this(p, true, true);
+	}
+	
+	public PwEntryV4(PwGroupV4 p, boolean initId, boolean initDates) {
+		parent = p;
+		
+		if (initId) {
+			uuid = UUID.randomUUID();
+		}
+		
+		if (initDates) {
+			Calendar cal = Calendar.getInstance();
+			Date now = cal.getTime();
+			creation = now;
+			lastAccess = now;
+			lastMod = now;
+			expires = false;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PwEntry clone(boolean deepStrings) {
+		PwEntryV4 entry = (PwEntryV4) super.clone(deepStrings);
+		
+		if (deepStrings) {
+			entry.strings = (HashMap<String, ProtectedString>) strings.clone();
+		}
+		
+		return entry;
 	}
 
 	@Override
@@ -147,23 +181,79 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 
 	@Override
-	public Date getAccess() {
+	public Date getLastAccessTime() {
 		return lastAccess;
 	}
 
 	@Override
-	public Date getCreate() {
+	public Date getCreationTime() {
 		return creation;
 	}
 
 	@Override
-	public Date getExpire() {
+	public Date getExpiryTime() {
 		return expireDate;
 	}
 
 	@Override
-	public Date getMod() {
+	public Date getLastModificationTime() {
 		return lastMod;
+	}
+
+	@Override
+	public void setTitle(String title, PwDatabase d) {
+		PwDatabaseV4 db = (PwDatabaseV4) d;
+		boolean protect = db.memoryProtection.protectTitle;
+		
+		setString(STR_TITLE, title, protect);
+	}
+
+	@Override
+	public void setUsername(String user, PwDatabase d) {
+		PwDatabaseV4 db = (PwDatabaseV4) d;
+		boolean protect = db.memoryProtection.protectUserName;
+		
+		setString(STR_USERNAME, user, protect);
+	}
+
+	@Override
+	public void setPassword(String pass, PwDatabase d) {
+		PwDatabaseV4 db = (PwDatabaseV4) d;
+		boolean protect = db.memoryProtection.protectPassword;
+		
+		setString(STR_PASSWORD, pass, protect);
+	}
+
+	@Override
+	public void setUrl(String url, PwDatabase d) {
+		PwDatabaseV4 db = (PwDatabaseV4) d;
+		boolean protect = db.memoryProtection.protectUrl;
+		
+		setString(STR_URL, url, protect);
+	}
+
+	@Override
+	public void setNotes(String notes, PwDatabase d) {
+		PwDatabaseV4 db = (PwDatabaseV4) d;
+		boolean protect = db.memoryProtection.protectNotes;
+		
+		setString(STR_NOTES, notes, protect);
+	}
+
+	public void setCreationTime(Date date) {
+		creation = date;
+	}
+
+	public void setExpiryTime(Date date) {
+		expireDate = date;
+	}
+
+	public void setLastAccessTime(Date date) {
+		lastAccess = date;
+	}
+
+	public void setLastModificationTime(Date date) {
+		lastMod = date;
 	}
 
 	@Override
@@ -190,20 +280,9 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		return value.toString();
 	}
 
-	public Date getCreationTime() {
-		return creation;
-	}
-
-	public Date getExpiryTime() {
-		return expireDate;
-	}
-
-	public Date getLastAccessTime() {
-		return lastAccess;
-	}
-
-	public Date getLastModificationTime() {
-		return lastMod;
+	public void setString(String key, String value, boolean protect) {
+		ProtectedString ps = new ProtectedString(protect, value);
+		strings.put(key, ps);
 	}
 
 	public Date getLocationChanged() {
@@ -212,23 +291,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	public long getUsageCount() {
 		return usageCount;
-	}
-
-	public void setCreationTime(Date date) {
-		creation = date;
-		
-	}
-
-	public void setExpiryTime(Date date) {
-		expireDate = date;
-	}
-
-	public void setLastAccessTime(Date date) {
-		lastAccess = date;
-	}
-
-	public void setLastModificationTime(Date date) {
-		lastMod = date;
 	}
 
 	public void setLocationChanged(Date date) {
