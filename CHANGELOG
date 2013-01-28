@@ -1,3 +1,6 @@
+KeePassdroid (1.98)
+* Add support for adding new entries and editing entries in .kdbx files
+  (closes: #144)
 * Update Catalan translations (closes: #445)
 * Trim whitespace from queries from josefwells (closes: #467)
 * Updated French transaltions from Nam
