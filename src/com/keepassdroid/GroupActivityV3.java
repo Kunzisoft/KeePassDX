@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,7 +21,6 @@ package com.keepassdroid;
 
 import android.content.Intent;
 
-import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwGroupIdV3;
 
 public class GroupActivityV3 extends GroupActivity {
@@ -39,7 +38,7 @@ public class GroupActivityV3 extends GroupActivity {
 
 	@Override
 	protected void setupButtons() {
-		if ( mGroup == App.getDB().root ) {
+		if ( isRoot ) {
 			addGroupEnabled = true;
 		} else {
 			addGroupEnabled = true;

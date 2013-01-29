@@ -21,13 +21,16 @@ package com.keepassdroid;
 
 import java.util.UUID;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 
 import com.android.keepass.R;
-import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupIdV4;
+import com.keepassdroid.dialog.BetaWarningDialog;
 
 public class GroupActivityV4 extends GroupActivity {
 
@@ -56,8 +59,17 @@ public class GroupActivityV4 extends GroupActivity {
 	@Override
 	protected void setupButtons() {
 		addGroupEnabled = false;
+		addEntryEnabled = !isRoot;
+	}
+
+	@Override
+	protected void showWarnings() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		addEntryEnabled = mGroup != App.getDB().root;
+		if (prefs.getBoolean(getString(R.string.show_beta_warning), true)) {
+			Dialog dialog = new BetaWarningDialog(this);
+			dialog.show();
+		}
 	}
 
 }

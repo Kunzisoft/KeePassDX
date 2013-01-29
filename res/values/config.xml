@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2011 Brian Pellin.
+ Copyright 2009-2013 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -38,6 +38,7 @@
     <string name="maskpass_key">maskpass</string>
     <string name="omitbackup_key">omitbackup</string>    
     <string name="list_size_key">list_size</string>
+    <string name="show_beta_warning">show_beta_warning</string>
     <string name="sort_key">sort_key</string>
     <string name="timeout_key">timeout_key</string>
     <bool name="maskpass_default">true</bool>

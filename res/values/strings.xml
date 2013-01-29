@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2012 Brian Pellin.
+ Copyright 2009-2013 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -33,6 +33,8 @@
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
     <string name="application_settings">Application settings</string>
+    <string name="beta_dontask">Don\'t show again</string>
+    <string name="beta_warning">Support for saving changes to kdbx files is EXPERIMENTAL. Make backups of your database before saving changes.</string>
     <string name="brackets">Brackets</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="building_search_idx">Building search index&#8230;</string>
