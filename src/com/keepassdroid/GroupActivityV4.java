@@ -57,12 +57,6 @@ public class GroupActivityV4 extends GroupActivity {
 	}
 
 	@Override
-	protected void setupButtons() {
-		addGroupEnabled = false;
-		addEntryEnabled = !isRoot;
-	}
-
-	@Override
 	protected void showWarnings() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		

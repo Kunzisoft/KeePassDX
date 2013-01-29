@@ -36,7 +36,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public Boolean enableAutoType = null;
 	public Boolean enableSearching = null;
 	public UUID lastTopVisibleEntry = PwDatabaseV4.UUID_ZERO;
-	private Date parentGroupLastMod;
+	private Date parentGroupLastMod = PwDatabaseV4.DEFAULT_NOW;
 	private Date creation = PwDatabaseV4.DEFAULT_NOW;
 	private Date lastMod = PwDatabaseV4.DEFAULT_NOW;
 	private Date lastAccess = PwDatabaseV4.DEFAULT_NOW;
@@ -216,6 +216,13 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		
 		return true;
 		
+	}
+
+	@Override
+	public void initNewGroup(String nm, PwGroupId newId) {
+		super.initNewGroup(nm, newId);
+		
+		lastAccess = lastMod = creation = parentGroupLastMod = new Date();
 	}
 
 }

@@ -35,15 +35,4 @@ public class GroupActivityV3 extends GroupActivity {
 		
 		return new PwGroupIdV3(id);
 	}
-
-	@Override
-	protected void setupButtons() {
-		if ( isRoot ) {
-			addGroupEnabled = true;
-		} else {
-			addGroupEnabled = true;
-			addEntryEnabled = true;
-		}
-	}
-
 }

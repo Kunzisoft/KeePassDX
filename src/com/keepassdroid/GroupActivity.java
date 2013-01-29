@@ -91,7 +91,10 @@ public abstract class GroupActivity extends GroupBaseActivity {
 	
 	protected abstract PwGroupId retrieveGroupId(Intent i);
 	
-	protected abstract void setupButtons();
+	protected void setupButtons() {
+		addGroupEnabled = true;
+		addEntryEnabled = !isRoot;
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +147,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			addGroup.setOnClickListener(new View.OnClickListener() {
 
 				public void onClick(View v) {
-					GroupEditActivity.Launch(GroupActivity.this, mGroup);
+					GroupEditActivity.Launch(GroupActivity.this);
 				}
 			});
 		}

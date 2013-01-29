@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -29,30 +29,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.keepass.R;
-import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.icons.Icons;
 
 public class GroupEditActivity extends Activity
 {
-	public static final String KEY_PARENT = "parent";
 	public static final String KEY_NAME = "name";
 	public static final String KEY_ICON_ID = "icon_id";
 	
 	private int mSelectedIconID;
 	
-	public static void Launch(Activity act, PwGroup pw)
-	{
-		if ( !(pw instanceof PwGroupV3) )
-		{
-			throw new RuntimeException("Not yet implemented.");
-		}
-
+	public static void Launch(Activity act) {
 		Intent i = new Intent(act, GroupEditActivity.class);
-
-		PwGroupV3 parent = (PwGroupV3) pw;
-		i.putExtra(KEY_PARENT, parent.groupId);
-		
 		act.startActivityForResult(i, 0);
 	}
 	

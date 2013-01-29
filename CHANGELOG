@@ -1,3 +1,5 @@
+* Add ability to create new groups in .kdbx files
+
 KeePassdroid (1.98.1)
 * Add support for adding new entries and editing entries in .kdbx files
   (closes: #144)
