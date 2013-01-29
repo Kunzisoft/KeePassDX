@@ -1,4 +1,5 @@
 * Add ability to create new groups in .kdbx files
+* Password generator improvements from Dirk Bergstrom
 
 KeePassdroid (1.98.1)
 * Add support for adding new entries and editing entries in .kdbx files
