@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,6 +21,7 @@ package com.keepassdroid.search;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -64,7 +65,8 @@ public class SearchDbHelper {
 		group.childEntries = new ArrayList<PwEntry>();
 		
 		// Search all entries
-		qStr = qStr.toLowerCase();
+		Locale loc = Locale.getDefault();
+		qStr = qStr.toLowerCase(loc);
 		boolean isOmitBackup = omitBackup();
 		for (PwEntry entry : db.pm.getEntries()) {
 			
@@ -74,7 +76,7 @@ public class SearchDbHelper {
 				while (iter.hasNext()) {
 					String str = iter.next();
 					if (str != null && str.length() != 0) {
-						String lower = str.toLowerCase();
+						String lower = str.toLowerCase(loc);
 						if (lower.contains(qStr)) {
 							group.childEntries.add(entry);
 							break;

@@ -19,9 +19,11 @@
  */
 package com.keepassdroid.database;
 
+import android.annotation.SuppressLint;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+@SuppressLint("SimpleDateFormat")
 public class PwDatabaseV4XML {
 
 	public static final SimpleDateFormat dateFormat;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,9 +19,11 @@
  */
 package com.keepassdroid;
 
+import android.annotation.SuppressLint;
 import com.android.keepass.KeePass;
 import com.keepassdroid.app.App;
 
+@SuppressLint("Registered")
 public class LockCloseActivity extends LockingActivity {
 
 	@Override

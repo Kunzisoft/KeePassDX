@@ -39,7 +39,7 @@
     <string name="browser_intall_text">Um diese Funktion zu nutzen, bitten wir Sie einen externen Dateimanager herunterzuladen, welchen Sie über GooglePlay oder direkt von der Entwickler-Webseite herunterladen können. Aufgrund einiger Beschränkungen kann der Dateimanager nicht vollkommen genutzt werden.</string>
     <string name="building_search_idx">Indexiere vor der Suche…</string>
     <string name="cancel">Abbr.</string>
-    <string name="ClearClipboard">Zwischenablage geleert...</string>
+    <string name="ClearClipboard">Zwischenablage geleert&#8230;</string>
     <string name="clipboard_timeout">Zwischenablagesperre</string>
     <string name="clipboard_timeout_summary">Zeiteinstellung der Zwischenablagesperre während sie inaktiv ist.</string>
     <string name="copy_username">Benutzername in die Zwischenablage kopieren</string>

@@ -29,8 +29,8 @@
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
     <string name="add_group_title">Adicionar Grupo</string>
-    <string name="algorithm">Algorítmo</string>
-    <string name="algorithm_colon">Algorítmo:</string>
+    <string name="algorithm">Algoritmo</string>
+    <string name="algorithm_colon">Algoritmo:</string>
     <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Tempo limite para o aplicativo</string>
     <string name="app_timeout_summary">Tempo até que o banco de dados seja travado quando o aplicativo estiver inativo.</string>
@@ -47,7 +47,7 @@
     <string name="copy_password">Copiar senha para o clipboard</string>
     <string name="creating_db_key">Criando a chave do banco de dados&#8230;</string>
     <string name="current_group">Grupo atual: </string>
-    <string name="current_group_root">Grupo atual: Raíz</string>
+    <string name="current_group_root">Grupo atual: Raiz</string>
     <string name="database">Banco de Dados</string>
     <string name="decrypting_db">Decifrando conteúdo do banco de dados&#8230;</string>
     <string name="decrypting_entry">Decifrando entrada</string>
@@ -150,7 +150,7 @@
     <string name="remember_keyfile_title">Salvar arquivo de chave</string>
     <string name="remove_from_filelist">Remover</string>
     <string name="rijndael">Rijndael (AES)</string>
-    <string name="root">Raíz</string>
+    <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
     <string name="rounds_explaination">Maior número de rodadas de criptografia adiciona mais proteção contra ataques de força bruta, porém pode tornar o processo de carregar e salvar mais lentos.</string>
     <string name="rounds_hint">rodadas</string>
