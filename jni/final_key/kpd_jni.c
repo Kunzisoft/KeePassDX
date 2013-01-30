@@ -24,8 +24,8 @@
 #include <jni.h>
 
 /* Tune as desired */
-#define KPD_PROFILE
-#define KPD_DEBUG
+#undef KPD_PROFILE
+#undef KPD_DEBUG
 
 #if defined(KPD_PROFILE)
 #include <time.h>
