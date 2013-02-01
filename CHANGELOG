@@ -1,4 +1,5 @@
 * Updated French transaltions from Nam
+* Add support for editing advanced strings in .kdbx files
 
 KeePassDroid (1.98.2)
 * Add ability to create new groups in .kdbx files

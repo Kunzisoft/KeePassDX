@@ -171,18 +171,7 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 			public void onClick(View v) {
 				EntryEditActivity act = EntryEditActivity.this;
 				
-				// Require title
-				String title = Util.getEditText(act, R.id.entry_title);
-				if ( title.length() == 0 ) {
-					Toast.makeText(act, R.string.error_title_required, Toast.LENGTH_LONG).show();
-					return;
-				}
-				
-				// Validate password
-				String pass = Util.getEditText(act, R.id.entry_password);
-				String conf = Util.getEditText(act, R.id.entry_confpassword);
-				if ( ! pass.equals(conf) ) {
-					Toast.makeText(act, R.string.error_pass_match, Toast.LENGTH_LONG).show();
+				if (!validateBeforeSaving()) {
 					return;
 				}
 				
@@ -228,6 +217,25 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 			conf.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 		}
 		
+	}
+	
+	protected boolean validateBeforeSaving() {
+		// Require title
+		String title = Util.getEditText(this, R.id.entry_title);
+		if ( title.length() == 0 ) {
+			Toast.makeText(this, R.string.error_title_required, Toast.LENGTH_LONG).show();
+			return false;
+		}
+		
+		// Validate password
+		String pass = Util.getEditText(this, R.id.entry_password);
+		String conf = Util.getEditText(this, R.id.entry_confpassword);
+		if ( ! pass.equals(conf) ) {
+			Toast.makeText(this, R.string.error_pass_match, Toast.LENGTH_LONG).show();
+			return false;
+		}
+		
+		return true;
 	}
 	
 	protected PwEntry populateNewEntry() {
@@ -338,7 +346,7 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 		}
 	}
 
-	private void fillData() {
+	protected void fillData() {
 		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 		

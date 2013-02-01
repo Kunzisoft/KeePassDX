@@ -141,7 +141,7 @@ public class EntryActivity extends LockCloseActivity {
 		// Update last access time.
 		mEntry.stampLastAccess();
 		
-		fillData();
+		fillData(false);
 
 		setupEditButtons();
 		
@@ -217,7 +217,7 @@ public class EntryActivity extends LockCloseActivity {
 		
 	}
 	
-	protected void fillData() {
+	protected void fillData(boolean trimList) {
 		ImageView iv = (ImageView) findViewById(R.id.entry_icon);
 		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mEntry.getIcon());
 
@@ -256,7 +256,7 @@ public class EntryActivity extends LockCloseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if ( resultCode == KeePass.EXIT_REFRESH || resultCode == KeePass.EXIT_REFRESH_TITLE ) {
-			fillData();
+			fillData(true);
 			if ( resultCode == KeePass.EXIT_REFRESH_TITLE ) {
 				Intent ret = new Intent();
 				ret.putExtra(KEY_REFRESH_POS, mPos);

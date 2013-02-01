@@ -45,10 +45,14 @@ public class EntryActivityV4 extends EntryActivity {
 	*/
 
 	@Override
-	protected void fillData() {
-		super.fillData();
+	protected void fillData(boolean trimList) {
+		super.fillData(trimList);
 		
 		ViewGroup group = (ViewGroup) findViewById(R.id.extra_strings);
+		
+		if (trimList) {
+			group.removeAllViews();
+		}
 		
 		PwEntryV4 entry = (PwEntryV4) mEntry;
 		

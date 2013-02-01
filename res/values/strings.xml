@@ -87,8 +87,11 @@
     <string name="error_pass_match">Passwords do not match.</string>
     <string name="error_rounds_not_number">Rounds must be a number.</string>
     <string name="error_rounds_too_large">Rounds too big.  Setting to 2147483648.</string>
+    <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">A title is required.</string>
     <string name="error_wrong_length">Enter a positive integer on length field</string>
+    <string name="field_name">Field Name</string>
+    <string name="field_value">Field value</string>
     <string name="FileNotFound">File not found.</string>
     <string name="file_browser">File Browser</string>
     <string name="generate_password">Generate Password</string>
@@ -148,6 +151,7 @@
     <string name="password_title">Enter database password</string>
     <string name="progress_create">Creating new database&#8230;</string>
     <string name="progress_title">Working&#8230;</string>
+    <string name="protection">Protection</string>
     <string name="remember_keyfile_summary">Remembers the location of keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2011 Brian Pellin.
+ Copyright 2009-2013 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -43,6 +43,9 @@
 	</style>
 	<style name="GroupLabel">
 		<item name="@android:textSize">20sp</item>
+	</style>
+	<style name="Small">
+		<item name="@android:textSize">12sp</item>
 	</style>
 	<style name="WhiteOnBlack">
 		<item name="@android:background">#666666</item>

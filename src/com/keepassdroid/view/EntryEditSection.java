@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2013 Brian Pellin.
+ * Copyright 2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -22,39 +22,57 @@ package com.keepassdroid.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
+import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.keepass.R;
+import com.keepassdroid.database.security.ProtectedString;
 
-public class EntrySection extends LinearLayout {
-
-	public EntrySection(Context context) {
-		this(context, null);
+public class EntryEditSection extends RelativeLayout {
+	
+	public EntryEditSection(Context context) {
+		super(context);
 	}
 	
-	public EntrySection(Context context, AttributeSet attrs) {
-		this(context, attrs, null, null);
+	public EntryEditSection(Context context, AttributeSet attrs) {
+		super(context, attrs);
 	}
 	
-	public EntrySection(Context context, AttributeSet attrs, String title, String value) {
+	public EntryEditSection(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
+	
+	/*
+	public EntryEditSection(Context context, AttributeSet attrs, String title, ProtectedString value) {
 		super(context, attrs);
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflate(inflater, context, title, value);
-	}
-
-	protected int getLayout() {
-		return R.layout.entry_section;
-	}
-
-	protected void inflate(LayoutInflater inflater, Context context, String title, String value) {
-		inflater.inflate(getLayout(), this);
 		
-		setText(R.id.title, title);
-		setText(R.id.value, value);
+		fillData(title, value);
 	}
+	*/
+
+	/*
+	private int getLayout() {
+		return R.layout.entry_edit_section;
+	}
+
+	protected void inflate(LayoutInflater inflater, Context context,
+			String title, ProtectedString value) {
+		
+		inflater.inflate(getLayout(), this);
+	*/
 	
+	public void setData(String title, ProtectedString value) {
+		setText(R.id.title, title);
+		setText(R.id.value, value.toString());
+		
+		CheckBox cb = (CheckBox) findViewById(R.id.protection);
+		cb.setChecked(value.isProtected());
+	}
+
 	private void setText(int resId, String str) {
 		if (str != null) {
 			TextView tvTitle = (TextView) findViewById(resId);
