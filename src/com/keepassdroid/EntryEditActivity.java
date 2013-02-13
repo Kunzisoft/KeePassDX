@@ -244,7 +244,7 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 	
 	protected PwEntry populateNewEntry(PwEntry entry) {
 		PwEntry newEntry;
-		if (entry != null) {
+		if (entry == null) {
 			newEntry = mEntry.clone(true);
 		} 
 		else {
