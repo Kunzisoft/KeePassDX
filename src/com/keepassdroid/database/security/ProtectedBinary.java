@@ -51,6 +51,9 @@ public class ProtectedBinary {
 		
 	}
 	
+	
+	// TODO: replace the byte[] with something like ByteBuffer to make the return
+	// value immutable, so we don't have to worry about making deep copies
 	public byte[] getData() {
 		return data;
 	}

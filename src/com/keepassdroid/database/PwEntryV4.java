@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
@@ -42,13 +40,13 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public PwGroupV4 parent;
 	public UUID uuid = PwDatabaseV4.UUID_ZERO;
 	public HashMap<String, ProtectedString> strings = new HashMap<String, ProtectedString>();
-	public Map<String, ProtectedBinary> binaries = new HashMap<String, ProtectedBinary>();
+	public HashMap<String, ProtectedBinary> binaries = new HashMap<String, ProtectedBinary>();
 	public PwIconCustom customIcon = PwIconCustom.ZERO;
 	public String foregroundColor = "";
 	public String backgroupColor = "";
 	public String overrideURL = "";
 	public AutoType autoType = new AutoType();
-	public List<PwEntryV4> history = new ArrayList<PwEntryV4>();
+	public ArrayList<PwEntryV4> history = new ArrayList<PwEntryV4>();
 	
 	private Date parentGroupLastMod = PwDatabaseV4.DEFAULT_NOW;
 	private Date creation = PwDatabaseV4.DEFAULT_NOW;
@@ -61,14 +59,31 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public String additional = "";
 	public String tags = "";
 
-	public class AutoType {
+	public class AutoType implements Cloneable {
 		private static final long OBF_OPT_NONE = 0;
 		
 		public boolean enabled = true;
 		public long obfuscationOptions = OBF_OPT_NONE;
 		public String defaultSequence = "";
 		
-		private Map<String, String> windowSeqPairs = new HashMap<String, String>();
+		private HashMap<String, String> windowSeqPairs = new HashMap<String, String>();
+		
+		@SuppressWarnings("unchecked")
+		public Object clone() {
+			AutoType auto;
+			try {
+				auto = (AutoType) super.clone();
+			} 
+			catch (CloneNotSupportedException e) {
+				assert(false);
+				throw new RuntimeException(e);
+			}
+			
+			auto.windowSeqPairs = (HashMap<String, String>) windowSeqPairs.clone();
+			
+			return auto;
+			
+		}
 		
 		public void put(String key, String value) {
 			windowSeqPairs.put(key, value);
@@ -114,6 +129,17 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			entry.strings = (HashMap<String, ProtectedString>) strings.clone();
 		}
 		
+		return entry;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public PwEntryV4 cloneDeep() {
+		PwEntryV4 entry = (PwEntryV4) clone(true);
+		
+		entry.binaries = (HashMap<String, ProtectedBinary>) binaries.clone();
+		entry.history = (ArrayList<PwEntryV4>) history.clone();
+		entry.autoType = (AutoType) autoType.clone();
+
 		return entry;
 	}
 
@@ -334,6 +360,94 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		return key.equals(STR_TITLE) || key.equals(STR_USERNAME) 
 		  || key.equals(STR_PASSWORD) || key.equals(STR_URL)
 		  || key.equals(STR_NOTES);
+	}
+	
+	public void createBackup(PwDatabaseV4 db) {
+		PwEntryV4 copy = cloneDeep();
+		copy.history = new ArrayList<PwEntryV4>();
+		history.add(copy);
+		
+		if (db != null) maintainBackups(db);
+	}
+	
+	private boolean maintainBackups(PwDatabaseV4 db) {
+		boolean deleted = false;
+		
+		int maxItems = db.historyMaxItems;
+		if (maxItems >= 0) {
+			while (history.size() > maxItems) {
+				removeOldestBackup();
+				deleted = true;
+			}
+		}
+		
+		long maxSize = db.historyMaxSize;
+		if (maxSize >= 0) {
+			while(true) {
+				long histSize = 0;
+				for (PwEntryV4 entry : history) {
+					histSize += entry.getSize();
+				}
+				
+				if (histSize > maxSize) {
+					removeOldestBackup();
+					deleted = true;
+				} else {
+					break;
+				}
+			}
+		}
+		
+		return deleted;
+	}
+	
+	private void removeOldestBackup() {
+		Date min = null;
+		int index = -1;
+		
+		for (int i = 0; i < history.size(); i++) {
+			PwEntry entry = history.get(i);
+			Date lastMod = entry.getLastModificationTime();
+			if ((min == null) || lastMod.before(min)) {
+				index = i;
+				min = lastMod;
+			}
+		}
+		
+		if (index != -1) {
+			history.remove(index);
+		}
+	}
+	
+	
+	private static final long FIXED_LENGTH_SIZE = 128; // Approximate fixed length size
+	public long getSize() {
+		long size = FIXED_LENGTH_SIZE;
+		
+		for (Entry<String, ProtectedString> pair : strings.entrySet()) {
+			size += pair.getKey().length();
+			size += pair.getValue().length();
+		}
+		
+		for (Entry<String, ProtectedBinary> pair : binaries.entrySet()) {
+			size += pair.getKey().length();
+			size += pair.getValue().length();
+		}
+		
+		size += autoType.defaultSequence.length();
+		for (Entry<String, String> pair : autoType.entrySet()) {
+			size += pair.getKey().length();
+			size += pair.getValue().length();
+		}
+		
+		for (PwEntryV4 entry : history) {
+			size += entry.getSize();
+		}
+		
+		size += overrideURL.length();
+		size += tags.length();
+		
+		return size;
 	}
 	
 }

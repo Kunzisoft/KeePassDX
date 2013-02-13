@@ -21,11 +21,27 @@ package com.keepassdroid;
 
 import android.content.Intent;
 
+import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupIdV3;
 import com.keepassdroid.database.PwGroupV3;
 
 public class EntryEditActivityV3 extends EntryEditActivity {
+
+	@Override
+	protected PwEntry populateNewEntry(PwEntry entry) {
+		PwEntry newEntry = super.populateNewEntry(entry);
+		
+		if (mSelectedIconID == -1 && mIsNew) {
+			newEntry.icon = App.getDB().pm.iconFactory.getIcon(0);
+		}
+		else {
+			newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
+		}
+		
+		return newEntry;
+	}
 
 	protected static void putParentId(Intent i, String parentKey, PwGroupV3 parent) {
 		i.putExtra(parentKey, parent.groupId);

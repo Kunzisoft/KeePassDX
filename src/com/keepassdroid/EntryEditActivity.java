@@ -70,8 +70,8 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 
 	protected PwEntry mEntry;
 	private boolean mShowPassword = false;
-	private boolean mIsNew;
-	private int mSelectedIconID = -1;
+	protected boolean mIsNew;
+	protected int mSelectedIconID = -1;
 	
 	public static void Launch(Activity act, PwEntry pw) {
 		Intent i;
@@ -239,15 +239,19 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 	}
 	
 	protected PwEntry populateNewEntry() {
-		PwEntry newEntry = mEntry.clone(true);
-		
-		if (mSelectedIconID == -1 && mIsNew) {
-			newEntry.icon = App.getDB().pm.iconFactory.getIcon(0);
-		}
+		return populateNewEntry(null);
+	}
+	
+	protected PwEntry populateNewEntry(PwEntry entry) {
+		PwEntry newEntry;
+		if (entry != null) {
+			newEntry = mEntry.clone(true);
+		} 
 		else {
-			newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);
+			newEntry = entry;
+			
 		}
-
+		
 		Date now = Calendar.getInstance().getTime(); 
 		newEntry.setLastAccessTime(now);
 		newEntry.setLastModificationTime(now);

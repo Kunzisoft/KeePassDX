@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -47,6 +47,7 @@ public class ProgressTask implements Runnable {
 		
 		// Show process dialog
 		mPd = new ProgressDialog(mCtx);
+		mPd.setCanceledOnTouchOutside(false);
 		mPd.setTitle(ctx.getText(R.string.progress_title));
 		mPd.setMessage(ctx.getText(messageId));
 

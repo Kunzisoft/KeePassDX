@@ -322,7 +322,7 @@ public class PwDbV4Output extends PwDbOutput {
 		writeObject(ElemUuid, entry.uuid);
 		writeObject(ElemIcon, entry.icon.iconId);
 		
-		if (entry.customIcon.equals(PwIconCustom.ZERO)) {
+		if (!entry.customIcon.equals(PwIconCustom.ZERO)) {
 			writeObject(ElemCustomIconID, entry.customIcon.uuid);
 		}
 		

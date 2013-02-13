@@ -19,6 +19,7 @@
  */
 package com.keepassdroid;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,11 +33,14 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroupId;
@@ -97,6 +101,17 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 				
 			}
 		});
+		
+		ImageButton iconPicker = (ImageButton) findViewById(R.id.icon_button);
+		iconPicker.setVisibility(View.GONE);
+		
+		View divider = (View) findViewById(R.id.divider_title);
+		RelativeLayout.LayoutParams lp_div = (RelativeLayout.LayoutParams) divider.getLayoutParams();
+		lp_div.addRule(RelativeLayout.BELOW, R.id.entry_title);
+		
+		View user_label = (View) findViewById(R.id.entry_user_name_label);
+		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) user_label.getLayoutParams();
+		lp.addRule(RelativeLayout.BELOW, R.id.divider_title);
 	}
 
 	@Override
@@ -122,9 +137,14 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected PwEntry populateNewEntry() {
-		PwEntryV4 newEntry = (PwEntryV4) super.populateNewEntry();
+		PwEntryV4 newEntry = (PwEntryV4) mEntry.clone(true);
+		newEntry.history = (ArrayList<PwEntryV4>) newEntry.history.clone();
+		newEntry.createBackup((PwDatabaseV4)App.getDB().pm);
+		
+		newEntry = (PwEntryV4) super.populateNewEntry(newEntry);
 		
 		Map<String, ProtectedString> strings = newEntry.strings;
 		
