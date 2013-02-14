@@ -1,12 +1,14 @@
+ * Fix crash on entries without icons set (closes: #484) 
+
 KeePassDroid (1.99.1)
-* Add support for editing advanced strings in .kdbx files
-* Add ability to create new groups in .kdbx files
-* Password generator improvements from Dirk Bergstrom
-* Add support for adding new entries and editing entries in .kdbx files
-  (closes: #144)
-* Update Catalan translations (closes: #445)
-* Trim whitespace from queries from josefwells (closes: #467)
-* Updated French transaltions from Nam
+ * Add support for editing advanced strings in .kdbx files
+ * Add ability to create new groups in .kdbx files
+ * Password generator improvements from Dirk Bergstrom
+ * Add support for adding new entries and editing entries in .kdbx files
+   (closes: #144)
+ * Update Catalan translations (closes: #445)
+ * Trim whitespace from queries from josefwells (closes: #467)
+ * Updated French transaltions from Nam
 
 KeePassDroid (1.9.18.3)
  * Restore the timeout service, we need it to keep the app in memory long

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,6 +21,8 @@ package com.keepassdroid.database;
 
 public class PwIconStandard extends PwIcon {
 	public final int iconId;
+	
+	public static PwIconStandard FIRST = new PwIconStandard(1);
 	
 	public PwIconStandard(int iconId) {
 		this.iconId = iconId;
