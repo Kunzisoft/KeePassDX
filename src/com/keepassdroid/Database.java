@@ -125,6 +125,8 @@ public class Database {
 	}
 	
 	public PwGroup Search(String str) {
+		if (searchHelper == null) { return null; }
+		
 		PwGroup group = searchHelper.search(this, str);
 		
 		return group;
