@@ -26,19 +26,24 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,6 +59,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
+import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
@@ -378,7 +384,12 @@ public class EntryActivity extends LockCloseActivity {
 	}
 	
 	private void timeoutCopyToClipboard(String text) {
-		Util.copyToClipboard(this, text);
+		try {
+			Util.copyToClipboard(this, text);
+		} catch (SamsungClipboardException e) {
+			showSamsungDialog();
+			return;
+		}
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String sClipClear = prefs.getString(getString(R.string.clipboard_timeout_key), getString(R.string.clipboard_timeout_default));
@@ -410,9 +421,35 @@ public class EntryActivity extends LockCloseActivity {
 			String currentClip = Util.getClipboard(mCtx);
 			
 			if ( currentClip.equals(mClearText) ) {
-				Util.copyToClipboard(mCtx, "");
-				uiThreadCallback.post(new UIToastTask(mCtx, R.string.ClearClipboard));
+				try {
+					Util.copyToClipboard(mCtx, "");
+					uiThreadCallback.post(new UIToastTask(mCtx, R.string.ClearClipboard));
+				} catch (SamsungClipboardException e) {
+					uiThreadCallback.post(new UIToastTask(mCtx, R.string.clipboard_error_clear));
+				}
 			}
 		}
+	}
+	
+	private void showSamsungDialog() {
+		String text = getString(R.string.clipboard_error).concat(System.getProperty("line.separator")).concat(getString(R.string.clipboard_error_url));
+		SpannableString s = new SpannableString(text);
+		TextView tv = new TextView(this);
+		tv.setText(s);
+		tv.setAutoLinkMask(RESULT_OK);
+		tv.setMovementMethod(LinkMovementMethod.getInstance());
+		Linkify.addLinks(s, Linkify.WEB_URLS);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.clipboard_error_title)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.setView(tv)
+			.show();
+		
 	}
 }

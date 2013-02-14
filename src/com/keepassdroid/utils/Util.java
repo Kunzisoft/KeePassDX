@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.keepassdroid.database.exception.SamsungClipboardException;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -37,9 +39,14 @@ public class Util {
 		return clipboard.getText().toString();
 	}
 	
-	public static void copyToClipboard(Context context, String text) {
+	public static void copyToClipboard(Context context, String text) throws SamsungClipboardException {
 		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-		clipboard.setText(text);
+		
+		try {
+			clipboard.setText(text);
+		} catch (NullPointerException e) {
+			throw new SamsungClipboardException(e);
+		}
 	}
 	
 	public static void gotoUrl(Context context, String url) throws ActivityNotFoundException {

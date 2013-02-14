@@ -1,4 +1,6 @@
  * Fix crash on entries without icons set (closes: #484) 
+ * Prevent crash and show warning for Samsung clipboard error
+   (closes: #436)
 
 KeePassDroid (1.99.1)
  * Add support for editing advanced strings in .kdbx files
