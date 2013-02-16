@@ -1,3 +1,5 @@
+ * Updated German translations from Meviox
+
 KeePassDroid (1.99.2)
  * Fix crash on entries without icons set (closes: #484) 
  * Prevent crash and show warning for Samsung clipboard error
