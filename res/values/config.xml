@@ -25,7 +25,7 @@
     <string name="homepage_short">www.keepassdroid.com</string>
     <string name="issues">bit.ly/kpd_issues</string>
     <string name="oi_filemanager_market">market://details?id=org.openintents.filemanager</string>
-    <string name="oi_filemanager_web">https://openintents.googlecode.com/files/FileManager-1.2.apk</string>
+    <string name="oi_filemanager_web">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
     <string name="twitter">twitter.com/bpellin</string>
     
     <!--  Password generator -->
