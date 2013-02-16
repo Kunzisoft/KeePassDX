@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2013 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="about_feedback">Palaute:</string>
+    <string name="about_homepage">Kotisivu:</string>
+    <string name="AboutText">KeePassDroid on KeePass-salasanahallintaohjelman Android-versio</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Hyväksy</string>
+    <string name="add_entry">Lisää uusi salasanatietue</string>
+    <string name="add_group">Lisää ryhmä</string>
+    <string name="add_group_title">Lisää ryhmä</string>
+    <string name="algorithm">Algoritmi</string>
+    <string name="algorithm_colon">Algoritmi:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Ohjelman aikakatkaisu</string>
+    <string name="app_timeout_summary">Aika, jonka jälkeen KeePass lukitaan jos se on ollut toimeton.</string>
+    <string name="application">Ohjelma</string>
+    <string name="application_settings">Ohjelman asetukset</string>
+    <string name="beta_dontask">Älä näyyä enää uudelleen</string>
+    <string name="beta_warning">Tuki kdbx-tiedostojen muuttamiselle on KOKEELLINEN. Ota varmuuskopioita ennen muutosten tallentamista!</string>
+    <string name="brackets">Hakaset</string>
+    <string name="browser_intall_text">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
+    <string name="building_search_idx">Rakennetaan hakuindeksiä&#8230;</string>
+    <string name="cancel">Peruuta</string>
+    <string name="ClearClipboard">Leikepöytä tyhjennetty.</string>
+    <string name="clipboard_error_title">Leikepöytävirhe</string>
+    <string name="clipboard_error">Joissakin Android-puhelimissa on virhe leikepöydän toteutuksessa, mikä aiheuttaa kopioinnin epäonnistumisen. Lisätietoa:</string>
+    <string name="clipboard_error_clear">Leikepöydän tyhjennys epäonnistui</string>
+    <string name="clipboard_timeout">Leikepöydän aikakatkaisu</string>
+    <string name="clipboard_timeout_summary">Aika, jonka jälkeen leikepöytä tyhjennetään käyttäjätunnuksen tai salasanan kopioinnin jälkeen</string>
+    <string name="copy_username">Valitse kopioidaksesi käyttäjänimi</string>
+    <string name="copy_password">Valitse kopioidaksesi salasana</string>
+    <string name="creating_db_key">Luodaan tietokanta-avainta&#8230;</string>
+    <string name="current_group">Nykyinen ryhmä: </string>
+    <string name="current_group_root">Nykyinen ryhmä: Juuri</string>
+    <string name="database">Tietokanta</string>
+    <string name="decrypting_db">Puretaan tietokannan salausta&#8230;</string>
+    <string name="decrypting_entry">Puretaan salasanatietuetta</string>
+    <string name="default_checkbox">Käytä tätä oletustietokantana</string>
+    <string name="digits">Numerot</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Anna tietokannan tiedostonimi:</string>
+    <string name="entry_accessed">Käytetty: </string>
+    <string name="entry_and_or">Syötä salasana ja/tai avaintiedosto avataksesi tietokantasi:</string>
+    <string name="entry_cancel">Peruuta</string>
+    <string name="entry_comment">Kommentit: </string>
+    <string name="entry_confpassword">Vahvista salasana:</string>
+    <string name="entry_created">Luotu: </string>
+    <string name="entry_expires">Vanhenee: </string>
+    <string name="entry_keyfile">Avaintiedosto (valinnainen)</string>
+    <string name="entry_modified">Muokattu: </string>
+    <string name="entry_password">Salasana:</string>
+    <string name="entry_save">Tallenna</string>
+    <string name="entry_title">Nimi: </string>
+    <string name="entry_url">URL-osoite: </string>
+    <string name="entry_user_name">Käyttäjänimi: </string>
+    <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid ei osaa käsitellä tätä osoitetta.</string>
+    <string name="error_could_not_create_group">Virhe ryhmän luonnissa.</string>
+    <string name="error_could_not_create_parent">Virhe aliryhmän luonnissa.</string>
+    <string name="error_database_exists">Tiedosto on jo olemassa.</string>
+    <string name="error_database_settings">Salasanatietokannan asetuksia ei tunnistettu.</string>
+    <string name="error_failed_to_launch_link">Linkin avaus epäonnistui.</string>
+    <string name="error_filename_required">Tiedostonimi on pakollinen.</string>
+    <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
+    <string name="error_invalid_db">Viallinen salasanatietokanta.</string>
+    <string name="error_invalid_path">Viallinen polku.</string>
+    <string name="error_no_name">Nimi puuttuu.</string>
+    <string name="error_nopass">Salasana tai avaintiedosto puuttuu.</string>
+    <string name="error_out_of_memory">Puhelimesta loppui muisti salasanatietokantaa avatessa. Tietokanta voi olla liian suuri tälle puhelinmallille.</string>
+    <string name="error_pass_gen_type">Vähintään yksi salasanangenerointitapa täytyy olla valittuna.</string>
+    <string name="error_pass_match">Salasanat eivät täsmää.</string>
+    <string name="error_rounds_not_number">Kierroksia täytyy olla numero..</string>
+    <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon 2147483648.</string>
+    <string name="error_string_key">Kentän nimi on pakollinen joka tekstille.</string>
+    <string name="error_title_required">Otsikko on pakollinen.</string>
+    <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään</string>
+    <string name="field_name">Kentän nimi</string>
+    <string name="field_value">Kentän arvo</string>
+    <string name="FileNotFound">Tiedostoa ei löydetty.</string>
+    <string name="file_browser">Tiedostoselain</string>
+    <string name="generate_password">Generoi salasana</string>
+    <string name="group">Ryhmä</string>
+    <string name="hint_comment">kommentti</string>
+    <string name="hint_conf_pass">vahvista salasana</string>
+    <string name="hint_generated_password">generoidut salasanat</string>
+    <string name="hint_group_name">Ryhmän nimi</string>
+    <string name="hint_keyfile">avaintiedosto</string>
+    <string name="hint_length">pituus</string>
+    <string name="hint_pass">salasana</string>
+    <string name="hint_login_pass">Salasana</string>
+    <string name="hint_title">nimi</string>
+    <string name="hint_url">url-osoite</string>
+    <string name="hint_username">käyttäjänimi</string>
+    <string name="install_from_market">Asenna Play Storesta</string>
+    <string name="install_from_website">Asenna Internetistä</string>
+    <string name="InvalidPassword">Väärä salasana tai avaintiedosto.</string>
+    <string name="invalid_algorithm">Epäkelpo algoritmi.</string>
+    <string name="invalid_db_sig">Salasanatietokannan tyyppiä ei tunnistettu.</string>
+    <string name="keyfile_does_not_exist">Avaintiedostoa ei ole olemassa.</string>
+    <string name="keyfile_is_empty">Avaintiedosto on tyhjä.</string>
+    <string name="length">Pituus</string>
+    <string name="list_size_title">Ryhmälistan pituus</string>
+    <string name="list_size_summary">Tekstin koko ryhmälistauksessa</string>
+    <string name="loading_database">Ladataan salasanatietokantaa&#8230;</string>
+    <string name="lowercase">pienet kirjaimet</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Piilota salasaan</string>
+    <string name="maskpass_summary">Piilota salasanat oletuksena</string>
+    <string name="menu_about">Tietoa</string>
+    <string name="menu_change_key">Vaihda pääsalasanaa</string>
+    <string name="menu_copy_pass">Kopioi salasana</string>
+    <string name="menu_copy_user">Kopioi käyttäjänimi</string>
+    <string name="menu_create">Luo</string>
+    <string name="menu_app_settings">Asetukset</string>
+    <string name="menu_db_settings">Salasanatietokannan asetukset</string>
+    <string name="menu_delete">Poista</string>
+    <string name="menu_donate">Lahjoita</string>
+    <string name="menu_edit">Muokkaa</string>
+    <string name="menu_hide_password">Piilota salasana</string>
+    <string name="menu_homepage">Mene kotisivulle</string>
+    <string name="menu_lock">Lukitse salasanatietokanta</string>
+    <string name="menu_open">Avaa</string>
+    <string name="menu_rename">Nimeä uudelleen</string>
+    <string name="menu_search">Etsi</string>
+    <string name="menu_url">Mene URL-osoitteeseen</string>
+    <string name="minus">Miinus</string>
+    <string name="never">Ei koskaan</string>
+    <string name="no_keys">Ei tietueita tietokannassa tai ryhmässä.</string>
+    <string name="no_results">Ei hakutuloksia</string>
+    <string name="no_url_handler">Tälle url:lle ei ole käsittelijää.</string>
+    <string name="open_recent">Avaa viimeisin salasanatietokanta (avaa klikkaamalla):</string>
+    <string name="omitbackup_title">Älä etsi varmuuskopioista eikä roskakorista</string>
+    <string name="omitbackup_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
+    <string name="pass_filename">KeePass salasanatietokannan tiedostonimi:</string>
+    <string name="password_title">Syötä salasanatietokannan salasana</string>
+    <string name="progress_create">Luodaan uutta tietokantaa&#8230;</string>
+    <string name="progress_title">Työskennellään&#8230;</string>
+    <string name="protection">Suojaus</string>
+    <string name="remember_keyfile_summary">Muista avaintiedostojen sijainti</string>
+    <string name="remember_keyfile_title">Tallenna avaintiedosto</string>
+    <string name="remove_from_filelist">Poista</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Juuri</string>
+    <string name="rounds">Salauskierroksia</string>
+    <string name="rounds_explaination">Suurempi kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
+    <string name="rounds_hint">kierroksia</string>
+    <string name="saving_database">Tallennetaan tietokantaa&#8230;</string>
+    <string name="space">Tila</string>
+    <string name="search_label">Etsi</string>
+    <string name="show_password">Näytä salasana</string>
+    <string name="sort_name">Lajittele nimen mukaan</string>
+    <string name="sort_db">Tietokannan lajittelujärjestys</string>
+    <string name="special">Erityistä</string>
+    <string name="search_hint">Tietueen otsikko/kuvaus</string>
+    <string name="search_results">Hakutulokset</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Alleviivattu</string>
+    <string name="unsupported_db_version">Ei-tuettu salasanatietokannan versio.</string>
+    <string name="uppercase">Isot kirjaimet</string>
+    <string name="warning_read_only">SD-korttisi on kirjoitussuojattu. Et ehkä voi tallentaa salasanatietokantaan tekemiäsi muutoksia.</string>
+    <string name="warning_unmounted">SD-korttia ei löydy. Et voi ladata tai tallentaa salasanatietokantaa.</string>
+    <string name="version_label">Versio:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 sekuntia</item>
+    	<item>1 minuutti</item>
+    	<item>5 minuttia</item>
+    	<item>Ei koskaan</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Pieni</item>
+    	<item>Keskikokoinen</item>
+    	<item>Suuri</item>
+    </string-array>
+</resources>
