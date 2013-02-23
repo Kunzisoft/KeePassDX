@@ -1,6 +1,7 @@
  * Updated German translations from Meviox
  * Add Finnish translations from Mika Takala
  * Add workaround for broken HTC Linkify
+ * Fix .kdbx max items field
 
 KeePassDroid (1.99.2)
  * Fix crash on entries without icons set (closes: #484) 

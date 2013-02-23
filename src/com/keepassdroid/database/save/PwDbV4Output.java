@@ -228,7 +228,7 @@ public class PwDbV4Output extends PwDbOutput {
 		writeObject(ElemEntryTemplatesGroup, mPM.entryTemplatesGroup);
 		writeObject(ElemEntryTemplatesGroupChanged, mPM.entryTemplatesGroupChanged);
 		writeObject(ElemHistoryMaxItems, mPM.historyMaxItems);
-		writeObject(ElemHistoryMaxItems, mPM.historyMaxSize);
+		writeObject(ElemHistoryMaxSize, mPM.historyMaxSize);
 		writeObject(ElemLastSelectedGroup, mPM.lastSelectedGroup);
 		writeObject(ElemLastTopVisibleGroup, mPM.lastTopVisibleGroup);
 		
