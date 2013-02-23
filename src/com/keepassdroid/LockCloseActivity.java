@@ -20,6 +20,9 @@
 package com.keepassdroid;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+
 import com.android.keepass.KeePass;
 import com.keepassdroid.app.App;
 
@@ -41,4 +44,19 @@ public class LockCloseActivity extends LockingActivity {
 		
 	}
 
+	/* (non-Javadoc) Workaround for HTC Linkify issues 
+	 * @see android.app.Activity#startActivity(android.content.Intent)
+	 */
+	@Override
+	public void startActivity(Intent intent) {
+		try {
+			if (intent.getComponent() != null && intent.getComponent().getShortClassName().equals(".HtcLinkifyDispatcherActivity")) {
+				intent.setComponent(null);
+			}
+			super.startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			/* Catch the bad HTC implementation case */
+			super.startActivity(Intent.createChooser(intent, null));
+		}
+	}
 }
