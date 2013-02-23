@@ -32,7 +32,6 @@ public class MemUtil {
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		Util.copyStream(gzis, baos);
-		gzis.close();
 		
 		return baos.toByteArray();
 	}
@@ -43,7 +42,7 @@ public class MemUtil {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		GZIPOutputStream gzos = new GZIPOutputStream(baos);
 		Util.copyStream(bais, gzos);
-		gzos.finish();
+		gzos.close();
 		
 		return baos.toByteArray();
 	}

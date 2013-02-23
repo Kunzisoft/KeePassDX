@@ -386,6 +386,7 @@ public class PwDbV4Output extends PwDbOutput {
 			
 		} else {
 			if (mPM.compressionAlgorithm == PwCompressionAlgorithm.Gzip) {
+				xml.attribute(null, AttrCompressed, ValTrue);
 				byte[] raw = value.getData();
 				byte[] compressed = MemUtil.compress(raw);
 				xml.text(String.valueOf(Base64Coder.encode(compressed)));
