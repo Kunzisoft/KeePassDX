@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2013 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Swedish translation by Niclas Burgren (burgren@gmail.com)
+-->
+<resources>
+    <string name="about_feedback">Feedback:</string>
+    <string name="about_homepage">Hemsida:</string>
+    <string name="AboutText">KeePassDroid är en Android-implementation av KeePass password manager.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">OK</string>
+    <string name="add_entry">Ny post</string>
+    <string name="add_group">Ny grupp</string>
+    <string name="add_group_title">Ny grupp</string>
+    <string name="algorithm">Algoritm</string>
+    <string name="algorithm_colon">Algoritm:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Tidsgräns för applikation</string>
+    <string name="app_timeout_summary">Tid innan låsning när applikationen är inaktiv.</string>
+    <string name="application">Applikation</string>
+    <string name="application_settings">Inställningar för applikation</string>
+    <string name="beta_dontask">Visa inte igen</string>
+    <string name="beta_warning">Stöd för att spara ändringar i kdbx-filer är EXPERIMENTELL. Ta backup på databasen innan ändringar sparas.</string>
+    <string name="brackets">Parenteser</string>
+    <string name="browser_intall_text">Filhantering kräver Open Intents File Manager, klicka nedan för att installera. Filhanteraren kanske inte fungerar korrekt vid första användningen.</string>
+    <string name="building_search_idx">Skapar sökindex&#8230;</string>
+    <string name="cancel">Avbryt</string>
+    <string name="ClearClipboard">Urklippet är rensat.</string>
+    <string name="clipboard_error_title">Urklippsfel</string>
+    <string name="clipboard_error">Vissa Samsung-telefoner har en bugg som gör att applikationer inte kan kopiera till urklipp. För mer detaljer, gå till:</string>
+    <string name="clipboard_error_clear">Urklippet kunde inte rensas</string>
+    <string name="clipboard_timeout">Tidsgräns för urklipp</string>
+    <string name="clipboard_timeout_summary">Tiden innan användarnamn och lösenord rensas från urklipp</string>
+    <string name="copy_username">Kopiera användarnamnet till urklipp</string>
+    <string name="copy_password">Kopiera lösenordet till urklipp</string>
+    <string name="creating_db_key">Skapar databasnyckel&#8230;</string>
+    <string name="current_group">Aktuell grupp: </string>
+    <string name="current_group_root">Aktuell grupp: Root</string>
+    <string name="database">Databas</string>
+    <string name="decrypting_db">Dekrypterar databasinnehåll&#8230;</string>
+    <string name="decrypting_entry">Dekrypterar post</string>
+    <string name="default_checkbox">Använda denna databasen som standard</string>
+    <string name="digits">Siffror</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 2 eller senare.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Ange databasnamn:</string>
+    <string name="entry_accessed">Senast använd: </string>
+    <string name="entry_and_or">Ange lösenord och/eller nyckelfil för att öppna databasen:</string>
+    <string name="entry_cancel">Avbryt</string>
+    <string name="entry_comment">Kommentarer: </string>
+    <string name="entry_confpassword">Bekräfta lösenord:</string>
+    <string name="entry_created">Skapad: </string>
+    <string name="entry_expires">Upphör att gälla: </string>
+    <string name="entry_keyfile">Nyckelfil (valfri)</string>
+    <string name="entry_modified">Senast ändrad: </string>
+    <string name="entry_password">Lösenord:</string>
+    <string name="entry_save">Spara</string>
+    <string name="entry_title">Namn: </string>
+    <string name="entry_url">URL: </string>
+    <string name="entry_user_name">Användarnamn: </string>
+    <string name="error_arc4">Strömchiffret ArcFour stöds inte.</string>
+    <string name="error_can_not_handle_uri">KeePassDroid kan inte hantera denna URI.</string>
+    <string name="error_could_not_create_group">Kunde inte skapa grupp.</string>
+    <string name="error_could_not_create_parent">Kunde inte skapa föräldermapp.</string>
+    <string name="error_database_exists">Filen existerar redan.</string>
+    <string name="error_database_settings">Det gick inte att fastställa databasinställningar.</string>
+    <string name="error_failed_to_launch_link">Kunde inte öppna länk.</string>
+    <string name="error_filename_required">Ett filnamn krävs.</string>
+    <string name="error_file_not_create">Kunde inte skapa filen:</string>
+    <string name="error_invalid_db">Ogiltig databas.</string>
+    <string name="error_invalid_path">Ogiltig sökväg.</string>
+    <string name="error_no_name">Ett namn krävs.</string>
+    <string name="error_nopass">Ett lösenord eller en nyckelfil är ett krav.</string>
+    <string name="error_out_of_memory">The phone ran out of memory while parsing your database. It may be too large for your phone.</string>
+    <string name="error_pass_gen_type">At least one password generation type must be selected</string>
+    <string name="error_pass_match">Lösenorden matchar inte.</string>
+    <string name="error_rounds_not_number">Antalet rundor måste vara en siffra.</string>
+    <string name="error_rounds_too_large">Antalet rundor är för stort. Sätter värdet till 2147483648.</string>
+    <string name="error_string_key">Ett fältnamn krävs för varje sträng.</string>
+    <string name="error_title_required">En titel krävs.</string>
+    <string name="error_wrong_length">Ange ett positivt heltal i fältet för längd</string>
+    <string name="field_name">Fältnamn</string>
+    <string name="field_value">Fältvärde</string>
+    <string name="FileNotFound">Filen hittades inte.</string>
+    <string name="file_browser">Filhanterare</string>
+    <string name="generate_password">Generera lösenord</string>
+    <string name="group">Grupp</string>
+    <string name="hint_comment">kommentar</string>
+    <string name="hint_conf_pass">bekräfta lösenord</string>
+    <string name="hint_generated_password">genererat lösenord</string>
+    <string name="hint_group_name">Gruppnamn</string>
+    <string name="hint_keyfile">nyckelfil</string>
+    <string name="hint_length">längd</string>
+    <string name="hint_pass">lösenord</string>
+    <string name="hint_login_pass">Lösenord</string>
+    <string name="hint_title">namn</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">användarnamn</string>
+    <string name="install_from_market">Installera från Play Store</string>
+    <string name="install_from_website">Installera från webbsida</string>
+    <string name="InvalidPassword">Ogiltigt lösenord eller nyckelfil.</string>
+    <string name="invalid_algorithm">Ogiltig algoritm.</string>
+    <string name="invalid_db_sig">Databasformatet är okänt.</string>
+    <string name="keyfile_does_not_exist">Nyckelfilen existerar inte.</string>
+    <string name="keyfile_is_empty">Nyckelfilen är tom.</string>
+    <string name="length">Längd</string>
+    <string name="list_size_title">Storlek på grupplista</string>
+    <string name="list_size_summary">Textstorlek i grupplistan</string>
+    <string name="loading_database">Laddar databas&#8230;</string>
+    <string name="lowercase">Gemener</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Maskera lösenord</string>
+    <string name="maskpass_summary">Döljer lösenord som standard</string>
+    <string name="menu_about">Om</string>
+    <string name="menu_change_key">Byt nyckelfil</string>
+    <string name="menu_copy_pass">Kopiera lösenordet</string>
+    <string name="menu_copy_user">Kopiera användarnamnet</string>
+    <string name="menu_create">Skapa ny</string>
+    <string name="menu_app_settings">Inställningar</string>
+    <string name="menu_db_settings">Databasinställningar</string>
+    <string name="menu_delete">Radera</string>
+    <string name="menu_donate">Donera</string>
+    <string name="menu_edit">Redigera</string>
+    <string name="menu_hide_password">Göm lösenord</string>
+    <string name="menu_homepage">Gå till webbsidan</string>
+    <string name="menu_lock">Lås databas</string>
+    <string name="menu_open">Öppna</string>
+    <string name="menu_rename">Döp om</string>
+    <string name="menu_search">Sök</string>
+    <string name="menu_url">Gå till URL</string>
+    <string name="minus">Bindestreck</string>
+    <string name="never">Aldrig</string>
+    <string name="no_keys">Inga poster i databasen eller gruppen.</string>
+    <string name="no_results">Inget sökresultat</string>
+    <string name="no_url_handler">Inget standardprogram för denna URL.</string>
+    <string name="open_recent">Senat öppnade databaser (klicka för att öppna):</string>
+    <string name="omitbackup_title">Sök inte efter poster i backup/papperskorg</string>
+    <string name="omitbackup_summary">Söker inte efter poster i \'Backup\' eller \'Recycle Bin\'</string>
+    <string name="pass_filename">KeePass databasfilnamn:</string>
+    <string name="password_title">Ange databasens lösenord</string>
+    <string name="progress_create">Skapar ny databas&#8230;</string>
+    <string name="progress_title">Arbetar&#8230;</string>
+    <string name="protection">Skydd</string>
+    <string name="remember_keyfile_summary">Sparar sökvägar till nyckelfiler</string>
+    <string name="remember_keyfile_title">Spara nyckelfil</string>
+    <string name="remove_from_filelist">Ta bort</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Root</string>
+    <string name="rounds">Krypteringsrundor</string>
+    <string name="rounds_explaination">Högre antal krypteringsrundor ger ytterligare skydd mot "brute force"-attacker, men kan göra att ladda och spara går betydligt långsammare.</string>
+    <string name="rounds_hint">rundor</string>
+    <string name="saving_database">Sparar databas&#8230;</string>
+    <string name="space">Mellanslag</string>
+    <string name="search_label">Sök</string>
+    <string name="show_password">Visa lösenord</string>
+    <string name="sort_name">Sortera efter namn</string>
+    <string name="sort_db">Sortera efter databasordning</string>
+    <string name="special">Specialtecken</string>
+    <string name="search_hint">Postens titel/beskrivning</string>
+    <string name="search_results">Sökresultat</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Understreck</string>
+    <string name="unsupported_db_version">Databasversionen stöds ej.</string>
+    <string name="uppercase">Versaler</string>
+    <string name="warning_read_only">SD-kortet är för närvarande skrivskyddat. Du kanske inte kan spara ändringar i databasen.</string>
+    <string name="warning_unmounted">SD-kortet är för närvarande inte monterat på enheten. Du kan inte skapa/ladda databasen.</string>
+    <string name="version_label">Version:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 sekunder</item>
+    	<item>1 minut</item>
+    	<item>5 minuter</item>
+    	<item>Aldrig</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Liten</item>
+    	<item>Medium</item>
+    	<item>Stor</item>
+    </string-array>
+</resources>
