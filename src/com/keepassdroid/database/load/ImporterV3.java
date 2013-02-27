@@ -390,7 +390,14 @@ public class ImporterV3 extends Importer {
 			ent.groupId = LEDataInputStream.readInt(buf, offset);
 			break;
 		case 0x0003 :
-			ent.icon = db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset));
+			int iconId = LEDataInputStream.readInt(buf, offset);
+			
+			// Clean up after bug that set icon ids to -1
+			if (iconId == -1) {
+				iconId = 0;
+			}
+			
+			ent.icon = db.iconFactory.getIcon(iconId);
 			break;
 		case 0x0004 :
 			ent.title = Types.readCString(buf, offset); 

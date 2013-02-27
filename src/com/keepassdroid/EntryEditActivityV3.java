@@ -33,8 +33,14 @@ public class EntryEditActivityV3 extends EntryEditActivity {
 	protected PwEntry populateNewEntry(PwEntry entry) {
 		PwEntry newEntry = super.populateNewEntry(entry);
 		
-		if (mSelectedIconID == -1 && mIsNew) {
-			newEntry.icon = App.getDB().pm.iconFactory.getIcon(0);
+		if (mSelectedIconID == -1) {
+			if (mIsNew) {
+				newEntry.icon = App.getDB().pm.iconFactory.getIcon(0);
+			}
+			else {
+				// Keep previous icon, if no new one was selected
+				newEntry.icon = mEntry.icon;
+			}
 		}
 		else {
 			newEntry.icon = App.getDB().pm.iconFactory.getIcon(mSelectedIconID);

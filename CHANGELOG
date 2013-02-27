@@ -1,5 +1,7 @@
  * New Swedish translation from Niclas Burgren
- * Allow adding entries to .kdbx root group
+ * Allow adding entries to .kdbx root group (closes: #490)
+ * Fix .kdb icon corruption bug (leads to KeePassX segfault)
+   (closes: #492)
 
 KeePassDrod (1.99.3)
  * Updated German translations from Meviox
