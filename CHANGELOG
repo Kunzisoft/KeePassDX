@@ -1,9 +1,10 @@
+KeePassDroid (1.99.4)
  * New Swedish translation from Niclas Burgren
  * Allow adding entries to .kdbx root group (closes: #490)
  * Fix .kdb icon corruption bug (leads to KeePassX segfault)
    (closes: #492)
 
-KeePassDrod (1.99.3)
+KeePassDroid (1.99.3)
  * Updated German translations from Meviox
  * Add Finnish translations from Mika Takala
  * Add workaround for broken HTC Linkify
