@@ -93,7 +93,6 @@ public abstract class GroupActivity extends GroupBaseActivity {
 	
 	protected void setupButtons() {
 		addGroupEnabled = true;
-		addEntryEnabled = !isRoot;
 	}
 	
 	@Override

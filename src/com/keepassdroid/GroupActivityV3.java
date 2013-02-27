@@ -35,4 +35,10 @@ public class GroupActivityV3 extends GroupActivity {
 		
 		return new PwGroupIdV3(id);
 	}
+	
+	@Override
+	protected void setupButtons() {
+		super.setupButtons();
+		addEntryEnabled = !isRoot;
+	}
 }

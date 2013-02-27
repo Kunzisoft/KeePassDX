@@ -55,6 +55,13 @@ public class GroupActivityV4 extends GroupActivity {
 		return true;
 
 	}
+	
+	@Override
+	protected void setupButtons() {
+		super.setupButtons();
+		addEntryEnabled = true;
+	}
+	
 
 	@Override
 	protected void showWarnings() {

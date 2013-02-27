@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -38,6 +38,7 @@ import android.content.Context;
 
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
@@ -116,6 +117,11 @@ public class Database {
 		pm = imp.openDatabase(bis, password, keyfile, status);
 		if ( pm != null ) {
 			root = pm.rootGroup;
+			
+			// TODO: Abstract out into subclass
+			if (pm instanceof PwDatabaseV4) {
+				groups.put(root.getId(), root);
+			}
 			populateGlobals(root);
 		}
 		
