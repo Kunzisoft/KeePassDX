@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -69,6 +69,7 @@ public class FileSelectActivity extends ListActivity {
 	private static final int CMENU_CLEAR = Menu.FIRST;
 	
 	public static final int FILE_BROWSE = 1;
+	public static final int GET_CONTENT = 2;
 	
 	private FileDbHelper mDbHelper;
 
@@ -181,21 +182,37 @@ public class FileSelectActivity extends ListActivity {
 		browseButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.FILE_BROWSE)) {
-					Intent i = new Intent(Intents.FILE_BROWSE);
+				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intent.ACTION_GET_CONTENT)) {
+					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+					i.setType("file/*");
+					
+					startActivityForResult(i, GET_CONTENT);
+				} else {
+					lookForOpenIntentsFilePicker();
+				}
+				
+				
+			}
+			
+			private void lookForOpenIntentsFilePicker() {
+				
+				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
+					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
 					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
 					try {
 						startActivityForResult(i, FILE_BROWSE);
 					} catch (ActivityNotFoundException e) {
-						BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
-						diag.show();
+						showBrowserDialog();
 					}
 					
 				} else {
-					BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
-					diag.show();
+					showBrowserDialog();
 				}
-				
+			}
+			
+			private void showBrowserDialog() {
+				BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
+				diag.show();
 			}
 		});
 
@@ -309,8 +326,9 @@ public class FileSelectActivity extends ListActivity {
 
 		fillData();
 		
+		String filename = null;
 		if (requestCode == FILE_BROWSE && resultCode == RESULT_OK) {
-			String filename = data.getDataString();
+			filename = data.getDataString();
 			if (filename != null) {
 				if (filename.startsWith("file://")) {
 					filename = filename.substring(7);
@@ -318,12 +336,20 @@ public class FileSelectActivity extends ListActivity {
 				
 				filename = URLDecoder.decode(filename);
 				
-				EditText fn = (EditText) findViewById(R.id.file_filename);
-				fn.setText(filename);
-				
+			
 			}
 			
 		}
+		else if (requestCode == GET_CONTENT && resultCode == RESULT_OK) {
+			filename = data.getData().getPath();
+		}
+		
+		
+		if (filename != null) {
+			EditText fn = (EditText) findViewById(R.id.file_filename);
+			fn.setText(filename);
+		}
+				
 	}
 
 	@Override

@@ -203,8 +203,8 @@ public class PasswordActivity extends LockingActivity {
 		browse.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.FILE_BROWSE)) {
-					Intent i = new Intent(Intents.FILE_BROWSE);
+				if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
+					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
 					
 					if (mFileName.length() > 0) {
 						File keyfile = new File(mFileName);
