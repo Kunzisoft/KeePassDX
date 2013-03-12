@@ -6,7 +6,7 @@
 
   KeePassDroid is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePassDroid is distributed in the hope that it will be useful,
@@ -33,15 +33,15 @@
     <string name="app_timeout_summary">Aika, jonka jälkeen KeePass lukitaan jos se on ollut toimeton.</string>
     <string name="application">Ohjelma</string>
     <string name="application_settings">Ohjelman asetukset</string>
-    <string name="beta_dontask">Älä näyyä enää uudelleen</string>
+    <string name="beta_dontask">Älä näytä enää uudelleen</string>
     <string name="beta_warning">Tuki kdbx-tiedostojen muuttamiselle on KOKEELLINEN. Ota varmuuskopioita ennen muutosten tallentamista!</string>
-    <string name="brackets">Hakaset</string>
+    <string name="brackets">Hakasulkeet</string>
     <string name="browser_intall_text">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
     <string name="building_search_idx">Rakennetaan hakuindeksiä&#8230;</string>
     <string name="cancel">Peruuta</string>
     <string name="ClearClipboard">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
-    <string name="clipboard_error">Joissakin Android-puhelimissa on virhe leikepöydän toteutuksessa, mikä aiheuttaa kopioinnin epäonnistumisen. Lisätietoa:</string>
+	<string name="clipboard_error">Joissakin Android-puhelimissa on virhe leikepöydän toteutuksessa, mikä aiheuttaa kopioinnin epäonnistumisen. Lisätietoa:</string>
     <string name="clipboard_error_clear">Leikepöydän tyhjennys epäonnistui</string>
     <string name="clipboard_timeout">Leikepöydän aikakatkaisu</string>
     <string name="clipboard_timeout_summary">Aika, jonka jälkeen leikepöytä tyhjennetään käyttäjätunnuksen tai salasanan kopioinnin jälkeen</string>
@@ -82,13 +82,13 @@
     <string name="error_filename_required">Tiedostonimi on pakollinen.</string>
     <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
     <string name="error_invalid_db">Viallinen salasanatietokanta.</string>
-    <string name="error_invalid_path">Viallinen polku.</string>
+    <string name="error_invalid_path">Viallinen hakemistopolku.</string>
     <string name="error_no_name">Nimi puuttuu.</string>
     <string name="error_nopass">Salasana tai avaintiedosto puuttuu.</string>
     <string name="error_out_of_memory">Puhelimesta loppui muisti salasanatietokantaa avatessa. Tietokanta voi olla liian suuri tälle puhelinmallille.</string>
-    <string name="error_pass_gen_type">Vähintään yksi salasanangenerointitapa täytyy olla valittuna.</string>
+    <string name="error_pass_gen_type">Vähintään yksi salasanagenerointitapa täytyy olla valittuna.</string>
     <string name="error_pass_match">Salasanat eivät täsmää.</string>
-    <string name="error_rounds_not_number">Kierroksia täytyy olla numero..</string>
+    <string name="error_rounds_not_number">Kierroksia täytyy olla numero.</string>
     <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon 2147483648.</string>
     <string name="error_string_key">Kentän nimi on pakollinen joka tekstille.</string>
     <string name="error_title_required">Otsikko on pakollinen.</string>
@@ -146,7 +146,7 @@
     <string name="never">Ei koskaan</string>
     <string name="no_keys">Ei tietueita tietokannassa tai ryhmässä.</string>
     <string name="no_results">Ei hakutuloksia</string>
-    <string name="no_url_handler">Tälle url:lle ei ole käsittelijää.</string>
+    <string name="no_url_handler">Tälle URL:lle ei ole käsittelijää.</string>
     <string name="open_recent">Avaa viimeisin salasanatietokanta (avaa klikkaamalla):</string>
     <string name="omitbackup_title">Älä etsi varmuuskopioista eikä roskakorista</string>
     <string name="omitbackup_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
