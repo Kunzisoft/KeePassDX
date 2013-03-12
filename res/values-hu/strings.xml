@@ -1,5 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="clipboard_error_url">http://code.google.com/p/android/issues/detail?id=35732</string>
+    <string name="default_file_path">/keepass/keepass.kdb</string>
+    <string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=8246230</string>
+    <string name="homepage">http://www.keepassdroid.com</string>
+    <string name="homepage_short">www.keepassdroid.com</string>
+    <string name="issues">bit.ly/kpd_issues</string>
+    <string name="oi_filemanager_market">market://details?id=org.openintents.filemanager</string>
+    <string name="oi_filemanager_web">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
+    <string name="twitter">twitter.com/bpellin</string>
+    <string name="generate_6">6</string>
+    <string name="generate_8">8</string>
+    <string name="generate_12">12</string>
+    <string name="generate_16">16</string>
+    <string name="algorithm_key">algorithm</string>
+    <string name="app_key">app</string>
+    <string name="app_timeout_key">app_timeout_key</string>
+    <string name="clipboard_timeout_key">clip_timeout_key</string>
+    <string name="db_key">db</string>
+    <string name="rounds_key">rounds</string>
+    <string name="keyfile_key">keyfile</string>
+    <string name="maskpass_key">maskpass</string>
+    <string name="omitbackup_key">omitbackup</string>
+    <string name="list_size_key">list_size</string>
+    <string name="show_beta_warning">show_beta_warning</string>
+    <string name="sort_key">sort_key</string>
+    <string name="timeout_key">timeout_key</string>
+    <string name="clipboard_timeout_default">300000</string>
+    <string name="list_size_default">28</string>
     <string name="about_feedback">Visszajelzés:</string>
     <string name="about_homepage">Weboldal:</string>
     <string name="AboutText">KeePassDroid a KeePass jelszókezelő android implementációja.</string>
@@ -12,14 +40,19 @@
     <string name="algorithm_colon">Algoritmus:</string>
     <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Alkalmazás időkorlátja</string>
-    <string name="app_timeout_summary">Beállíthatja, mennyi idő után kerüljön lezárásra az adatbázis.</string>
+    <string name="app_timeout_summary">Beállíthatja, mennyi idő után kerüljön lezárásra az adatbázis</string>
     <string name="application">Alkalmazás</string>
     <string name="application_settings">Alkalmazás beállítások</string>
+    <string name="beta_dontask">"Ne mutassa többet"</string>
+    <string name="beta_warning">A kdbx fájlok írása jelenleg tesztüzemben működik! A változtatások elmentése előtt mindig készítsen biztonsági mentést az adatbázisáról.</string>
     <string name="brackets">Zárójelek</string>
     <string name="browser_intall_text">A fájl kiválasztásához önnek egy nyílt forrású fájlkezelő programra lesz szüksége, kattintson a lenti telepítés linkre. Előfordulhat, hogy első használatakor nem fog megfelelően működni a fájlkezelő program.</string>
     <string name="building_search_idx">Keresési index létrehozása…</string>
     <string name="cancel">Mégsem</string>
     <string name="ClearClipboard">Vágólap törölve.</string>
+    <string name="clipboard_error_title">Vágólap hiba</string>
+    <string name="clipboard_error">Hiba történt a vágólap használata során. A további részletekért tekintse meg az alábbi oldalt:</string>
+    <string name="clipboard_error_clear">Hiba történt a vágólap törlésekor</string>
     <string name="clipboard_timeout">Vágólap időkorlátja</string>
     <string name="clipboard_timeout_summary">Beállíthatja, mennyi idő után kerüljön törlésre a vágólap</string>
     <string name="copy_username">Felhasználónév másolása a vágólapra</string>
@@ -32,7 +65,7 @@
     <string name="decrypting_entry">Bejegyzés dekódolása</string>
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009–2012 Brian Pellin. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.  Fordította:  intel</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009–2012 Brian Pellin. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: intel</string>
     <string name="ellipsis">…</string>
     <string name="enter_filename">Adja meg az adatbázis fájlnevét:</string>
     <string name="entry_accessed">Utolsó hozzáférés:</string>
@@ -65,10 +98,13 @@
     <string name="error_out_of_memory">A telefon memóriája megtelt az adatbázis feldolgozása közben. Lehet túl sok ez a telefonnak.</string>
     <string name="error_pass_gen_type">Legalább egy jelszógenerálási típust kell választania</string>
     <string name="error_pass_match">A jelszavak nem egyeznek meg.</string>
-    <string name="error_rounds_not_number">A menetek csak számokat tartalmazhatnak.</string>
+    <string name="error_rounds_not_number">A mező csak számokat tartalmazhat.</string>
     <string name="error_rounds_too_large">A menetek száma túl nagy. A maximális 2147483648.</string>
+    <string name="error_string_key">A megnevezés mező kitöltése kötelező.</string>
     <string name="error_title_required">Cím szükséges.</string>
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a hossz mezőbe</string>
+    <string name="field_name">Megnevezés</string>
+    <string name="field_value">Érték</string>
     <string name="FileNotFound">A fájl nem található.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó generálás</string>
@@ -79,15 +115,18 @@
     <string name="hint_group_name">Csoportnév</string>
     <string name="hint_keyfile">kulcsfájl</string>
     <string name="hint_length">hosszúság</string>
-    <string name="hint_login_pass">Jelszó</string>
     <string name="hint_pass">jelszó</string>
+    <string name="hint_login_pass">Jelszó</string>
     <string name="hint_title">név</string>
     <string name="hint_url">url</string>
     <string name="hint_username">felhasználónév</string>
     <string name="install_from_market">Letöltés a Google Play-ről</string>
     <string name="install_from_website">Letöltés az weboldalról</string>
     <string name="InvalidPassword">Érvénytelen jelszó vagy kulcsfájl.</string>
+    <string name="invalid_algorithm">Érvénytelen algoritmus.</string>
     <string name="invalid_db_sig">Az adabázis formátuma nem ismert.</string>
+    <string name="keyfile_does_not_exist">A kulcsfájl nem létezik.</string>
+    <string name="keyfile_is_empty">A kulcsfájl üres.</string>
     <string name="length">Hossz</string>
     <string name="list_size_title">Csoportok betűmérete</string>
     <string name="list_size_summary">Beállítja a csoportok betűméretét</string>
@@ -118,13 +157,14 @@
     <string name="no_keys">Nincs bejegyzés az adatbázisban vagy csoportban.</string>
     <string name="no_results">Nincs találat</string>
     <string name="no_url_handler">Nem található kezelő ehhez az url-hez.</string>
-    <string name="open_recent">Korábbi adatbázis megnyitása (kattintson rá a megnyitásra):</string>
+    <string name="open_recent">Korábbi adatbázis megnyitása (kattintson rá a megnyitáshoz):</string>
     <string name="omitbackup_title">Keresési kivételek</string>
     <string name="omitbackup_summary">A Backup és Lomtár csoportok kihagyása a keresésből</string>
     <string name="pass_filename">KeePass adatbázis fájlnév:</string>
     <string name="password_title">Adatbázis jelszó megadása</string>
     <string name="progress_create">Új adatbázis létrehozása…</string>
     <string name="progress_title">Feldolgozás…</string>
+    <string name="protection">Memórián belüli védelem</string>
     <string name="remember_keyfile_summary">Jegyezze meg a kulcsfájlok helyét</string>
     <string name="remember_keyfile_title">Kulcsfájl mentése</string>
     <string name="remove_from_filelist">Eltávolítás</string>
@@ -141,6 +181,7 @@
     <string name="sort_db">Rendezés dátum alapján</string>
     <string name="special">Speciális</string>
     <string name="search_hint">Bejegyzés cím/leírás</string>
+    <string name="search_results">Keresés eredménye</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis.</string>
@@ -148,7 +189,7 @@
     <string name="warning_read_only">A memóriakártya jelenleg csak olvasható. Lehet, hogy nem tudja menteni a módosításokat az adatbázisban.</string>
     <string name="warning_unmounted">A memóriakártya jelenleg el van távolítva. Nem fogja tudni az adatbázist betölteni vagy módosítani.</string>
     <string name="version_label">Verzió:</string>
-    
+
     <string-array name="clipboard_timeout_options">
         <item>30 másodperc</item>
         <item>1 perc</item>
