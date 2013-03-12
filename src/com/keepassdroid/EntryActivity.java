@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -138,7 +138,7 @@ public class EntryActivity extends LockCloseActivity {
 		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
 		assert(uuid != null);
 		
-		mEntry = db.entries.get(uuid);
+		mEntry = db.pm.entries.get(uuid);
 		
 		
 		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set

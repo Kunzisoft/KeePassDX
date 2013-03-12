@@ -54,7 +54,6 @@ public class CreateDB extends RunnableOnFinish {
 		pm.constructTree(null);
 		
 		// Set Database state
-		db.root = pm.rootGroup;
 		db.pm = pm;
 		db.mFilename = mFilename;
 		db.setLoaded();

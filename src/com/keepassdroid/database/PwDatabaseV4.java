@@ -267,4 +267,11 @@ public class PwDatabaseV4 extends PwDatabase {
 		
 		return false;
 	}
-}
+
+	@Override
+	public void populateGlobals(PwGroup currentGroup) {
+		groups.put(rootGroup.getId(), rootGroup);
+		
+		super.populateGlobals(currentGroup);
+	}
+}	

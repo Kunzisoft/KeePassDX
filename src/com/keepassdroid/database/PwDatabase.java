@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -28,7 +28,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
@@ -43,6 +46,8 @@ public abstract class PwDatabase {
 	public String name = "KeePass database";
 	public PwGroup rootGroup;
 	public PwIconFactory iconFactory = new PwIconFactory();
+	public Map<PwGroupId, PwGroup> groups = new HashMap<PwGroupId, PwGroup>();
+	public Map<UUID, PwEntry> entries = new HashMap<UUID, PwEntry>();
 	
 	
 	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
@@ -284,5 +289,23 @@ public abstract class PwDatabase {
 	public abstract PwGroup createGroup();
 	
 	public abstract boolean isBackup(PwGroup group);
+	
+	public void populateGlobals(PwGroup currentGroup) {
+
+		List<PwGroup> childGroups = currentGroup.childGroups;
+		List<PwEntry> childEntries = currentGroup.childEntries;
+		
+		for (int i = 0; i < childEntries.size(); i++ ) {
+			PwEntry cur = childEntries.get(i);
+			entries.put(cur.getUUID(), cur);
+		}
+		
+		for (int i = 0; i < childGroups.size(); i++ ) {
+			PwGroup cur = childGroups.get(i);
+			groups.put(cur.getId(), cur);
+			populateGlobals(cur);
+		}
+	}
+	
 	
 }

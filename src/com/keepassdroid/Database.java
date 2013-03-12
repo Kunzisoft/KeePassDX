@@ -27,21 +27,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SyncFailedException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import android.content.Context;
 
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDatabaseV4;
-import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.load.Importer;
@@ -54,10 +47,7 @@ import com.keepassdroid.search.SearchDbHelper;
  * @author bpellin
  */
 public class Database {
-	public Map<PwGroupId, PwGroup> groups = new HashMap<PwGroupId, PwGroup>();
-	public Map<UUID, PwEntry> entries = new HashMap<UUID, PwEntry>();
 	public Set<PwGroup> dirty = new HashSet<PwGroup>();
-	public PwGroup root;
 	public PwDatabase pm;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
@@ -116,13 +106,9 @@ public class Database {
 		
 		pm = imp.openDatabase(bis, password, keyfile, status);
 		if ( pm != null ) {
-			root = pm.rootGroup;
+			PwGroup root = pm.rootGroup;
 			
-			// TODO: Abstract out into subclass
-			if (pm instanceof PwDatabaseV4) {
-				groups.put(root.getId(), root);
-			}
-			populateGlobals(root);
+			pm.populateGlobals(root);
 		}
 		
 		searchHelper = new SearchDbHelper(ctx);
@@ -172,30 +158,10 @@ public class Database {
 		
 	}
 	
-	private void populateGlobals(PwGroup currentGroup) {
-
-		List<PwGroup> childGroups = currentGroup.childGroups;
-		List<PwEntry> childEntries = currentGroup.childEntries;
-		
-		for (int i = 0; i < childEntries.size(); i++ ) {
-			PwEntry cur = childEntries.get(i);
-			entries.put(cur.getUUID(), cur);
-		}
-		
-		for (int i = 0; i < childGroups.size(); i++ ) {
-			PwGroup cur = childGroups.get(i);
-			groups.put(cur.getId(), cur);
-			populateGlobals(cur);
-		}
-	}
-	
 	public void clear() {
-		groups.clear();
-		entries.clear();
 		dirty.clear();
 		drawFactory.clear();
 		
-		root = null;
 		pm = null;
 		mFilename = null;
 		loaded = false;
@@ -209,7 +175,7 @@ public class Database {
 		// TODO: This should probably be abstracted out
 		// The root group in v3 is not an 'official' group
 		if ( pm instanceof PwDatabaseV3 ) {
-			dirty.add(root);		
+			dirty.add(pm.rootGroup);		
 		}
 	}
 	

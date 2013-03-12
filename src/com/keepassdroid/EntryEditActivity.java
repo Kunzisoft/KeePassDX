@@ -128,10 +128,11 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 		Intent i = getIntent();
 		byte[] uuidBytes = i.getByteArrayExtra(KEY_ENTRY);
 
+		PwDatabase pm = db.pm;
 		if ( uuidBytes == null ) {
 
 			PwGroupId parentId = getParentGroupId(i, KEY_PARENT);
-			PwGroup parent = db.groups.get(parentId);
+			PwGroup parent = pm.groups.get(parentId);
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
 			
@@ -139,7 +140,7 @@ public abstract class EntryEditActivity extends LockCloseActivity {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			assert(uuid != null);
 
-			mEntry = db.entries.get(uuid);
+			mEntry = pm.entries.get(uuid);
 			mIsNew = false;
 			
 			fillData();

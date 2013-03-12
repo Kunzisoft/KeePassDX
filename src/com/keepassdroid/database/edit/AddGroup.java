@@ -74,15 +74,15 @@ public class AddGroup extends RunnableOnFinish {
 
 		@Override
 		public void run() {
-			
+			PwDatabase pm = mDb.pm;
 			if ( mSuccess ) {
 				// Mark parent group dirty
 				mDb.dirty.add(mParent);
 				
 				// Add group to global list
-				mDb.groups.put(mGroup.getId(), mGroup);
+				pm.groups.put(mGroup.getId(), mGroup);
 			} else {
-				mDb.pm.removeGroupFrom(mGroup, mParent);
+				pm.removeGroupFrom(mGroup, mParent);
 			}
 			
 			super.run();

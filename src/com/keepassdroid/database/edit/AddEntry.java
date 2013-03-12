@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,6 +20,7 @@
 package com.keepassdroid.database.edit;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 
@@ -57,6 +58,7 @@ public class AddEntry extends RunnableOnFinish {
 
 		@Override
 		public void run() {
+			PwDatabase pm = mDb.pm;
 			if ( mSuccess ) {
 				
 				PwGroup parent = mEntry.getParent();
@@ -65,10 +67,10 @@ public class AddEntry extends RunnableOnFinish {
 				mDb.dirty.add(parent);
 		
 				// Add entry to global
-				mDb.entries.put(mEntry.getUUID(), mEntry);
+				pm.entries.put(mEntry.getUUID(), mEntry);
 				
 			} else {
-				mDb.pm.removeEntryFrom(mEntry, mEntry.getParent());
+				pm.removeEntryFrom(mEntry, mEntry.getParent());
 			}
 			
 			super.run();

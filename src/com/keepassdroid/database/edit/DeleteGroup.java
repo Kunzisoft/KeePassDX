@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -103,7 +103,7 @@ public class DeleteGroup extends RunnableOnFinish {
 		public void run() {
 			if ( mSuccess ) {
 				// Remove from group global
-				mDb.groups.remove(mGroup.getId());
+				mDb.pm.groups.remove(mGroup.getId());
 				
 				// Remove group from the dirty global (if it is present), not a big deal if this fails
 				mDb.dirty.remove(mGroup);

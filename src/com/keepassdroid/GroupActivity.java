@@ -111,10 +111,11 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		PwGroupId id = retrieveGroupId(intent);
 		
 		Database db = App.getDB();
+		PwGroup root = db.pm.rootGroup;
 		if ( id == null ) {
-			mGroup = db.root;
+			mGroup = root;
 		} else {
-			mGroup = db.groups.get(id);
+			mGroup = db.pm.groups.get(id);
 		}
 		
 		Log.w(TAG, "Retrieved group");
@@ -123,7 +124,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			return;
 		}
 		
-		isRoot = mGroup == db.root;
+		isRoot = mGroup == root;
 		
 		setupButtons();
 
