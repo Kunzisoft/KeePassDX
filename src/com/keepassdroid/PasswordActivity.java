@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -67,6 +67,7 @@ public class PasswordActivity extends LockingActivity {
 	private static final String VIEW_INTENT = "android.intent.action.VIEW";
 	
 	private static final int FILE_BROWSE = 256;
+	public static final int GET_CONTENT = 257;
 
 	private String mFileName;
 	private String mKeyFile;
@@ -123,8 +124,15 @@ public class PasswordActivity extends LockingActivity {
 				}
 			}
 			break;
+		case GET_CONTENT:
+			if (resultCode == RESULT_OK) {
+				String filename = data.getData().getPath();
+					
+				EditText fn = (EditText) findViewById(R.id.pass_keyfile);
+				fn.setText(filename);
+			}
+			break;
 		}
-		
 	}
 
 	@Override
@@ -203,6 +211,17 @@ public class PasswordActivity extends LockingActivity {
 		browse.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
+				if (Interaction.isIntentAvailable(PasswordActivity.this, Intent.ACTION_GET_CONTENT)) {
+					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+					i.setType("file/*");
+					
+					startActivityForResult(i, GET_CONTENT);
+				} else {
+					lookForOpenIntentsFilePicker();
+				}
+			}
+			
+			private void lookForOpenIntentsFilePicker() {
 				if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
 					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
 					
@@ -217,14 +236,16 @@ public class PasswordActivity extends LockingActivity {
 					try {
 						startActivityForResult(i, FILE_BROWSE);
 					} catch (ActivityNotFoundException e) {
-						BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
-						diag.show();
+						showBrowserDialog();
 					}
 				} else {
-					BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
-					diag.show();
+					showBrowserDialog();
 				}
-					
+			}
+			
+			private void showBrowserDialog() {
+				BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
+				diag.show();
 			}
 		});
 		
