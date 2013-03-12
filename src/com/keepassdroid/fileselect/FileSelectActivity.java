@@ -190,8 +190,6 @@ public class FileSelectActivity extends ListActivity {
 				} else {
 					lookForOpenIntentsFilePicker();
 				}
-				
-				
 			}
 			
 			private void lookForOpenIntentsFilePicker() {
@@ -335,8 +333,6 @@ public class FileSelectActivity extends ListActivity {
 				}
 				
 				filename = URLDecoder.decode(filename);
-				
-			
 			}
 			
 		}
@@ -344,12 +340,10 @@ public class FileSelectActivity extends ListActivity {
 			filename = data.getData().getPath();
 		}
 		
-		
 		if (filename != null) {
 			EditText fn = (EditText) findViewById(R.id.file_filename);
 			fn.setText(filename);
 		}
-				
 	}
 
 	@Override
