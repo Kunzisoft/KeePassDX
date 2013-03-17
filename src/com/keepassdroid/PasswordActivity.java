@@ -215,7 +215,11 @@ public class PasswordActivity extends LockingActivity {
 					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
 					i.setType("file/*");
 					
-					startActivityForResult(i, GET_CONTENT);
+					try {
+						startActivityForResult(i, GET_CONTENT);
+					} catch (ActivityNotFoundException e) {
+						lookForOpenIntentsFilePicker();
+					}
 				} else {
 					lookForOpenIntentsFilePicker();
 				}
