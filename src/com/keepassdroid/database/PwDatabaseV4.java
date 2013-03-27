@@ -55,11 +55,11 @@ public class PwDatabaseV4 extends PwDatabase {
 	public UUID dataCipher;
 	public PwCompressionAlgorithm compressionAlgorithm;
     public long numKeyEncRounds;
-    public Date nameChanged;
+    public Date nameChanged = DEFAULT_NOW;
     public String description;
-    public Date descriptionChanged;
+    public Date descriptionChanged = DEFAULT_NOW;
     public String defaultUserName;
-    public Date defaultUserNameChanged;
+    public Date defaultUserNameChanged = DEFAULT_NOW;
     
     public Date keyLastChanged = DEFAULT_NOW;
     public long keyChangeRecDays = -1;
@@ -69,9 +69,9 @@ public class PwDatabaseV4 extends PwDatabase {
     public String color = "";
     public boolean recycleBinEnabled;
     public UUID recycleBinUUID = null;
-    public Date recycleBinChanged;
+    public Date recycleBinChanged = DEFAULT_NOW;
     public UUID entryTemplatesGroup;
-    public Date entryTemplatesGroupChanged;
+    public Date entryTemplatesGroupChanged = DEFAULT_NOW;
     public int historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS;
     public long historyMaxSize = DEFAULT_HISTORY_MAX_SIZE;
     public UUID lastSelectedGroup;

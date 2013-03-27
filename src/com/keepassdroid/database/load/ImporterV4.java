@@ -731,10 +731,14 @@ public class ImporterV4 extends Importer {
 	private Date ReadTime(XmlPullParser xpp) throws IOException, XmlPullParserException {
 		String sDate = ReadString(xpp);
 		
-		Date utcDate;
+		Date utcDate = null;
 		try {
 			utcDate = PwDatabaseV4XML.dateFormat.parse(sDate);
 		} catch (ParseException e) {
+			// Catch with null test below
+		}
+		
+		if (utcDate == null) {
 			utcDate = new Date(0L);
 		}
 		
