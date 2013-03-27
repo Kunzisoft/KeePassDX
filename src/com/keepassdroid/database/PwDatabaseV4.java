@@ -47,8 +47,10 @@ import com.keepassdroid.database.exception.InvalidKeyFileException;
 public class PwDatabaseV4 extends PwDatabase {
 
 	public static final Date DEFAULT_NOW = new Date();
+    public static final UUID UUID_ZERO = new UUID(0,0);
 	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
 	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
+	private static final String RECYCLEBIN_NAME = "RecycleBin";
 	
 	public UUID dataCipher;
 	public PwCompressionAlgorithm compressionAlgorithm;
@@ -66,7 +68,7 @@ public class PwDatabaseV4 extends PwDatabase {
     public long maintenanceHistoryDays = 365;
     public String color = "";
     public boolean recycleBinEnabled;
-    public UUID recycleBinUUID;
+    public UUID recycleBinUUID = null;
     public Date recycleBinChanged;
     public UUID entryTemplatesGroup;
     public Date entryTemplatesGroupChanged;
@@ -102,8 +104,6 @@ public class PwDatabaseV4 extends PwDatabase {
     		return false;
     	}
     }
-
-    public static final UUID UUID_ZERO = new UUID(0,0);
     
 	@Override
 	public byte[] getMasterKey(String key, String keyFileName)
@@ -254,18 +254,8 @@ public class PwDatabaseV4 extends PwDatabase {
 		if (!recycleBinEnabled) {
 			return false;
 		}
-		PwGroupV4 g = (PwGroupV4) group;
 		
-		// Need to loop upwards to see if any ancestor is the recycle bin
-		while (g != null) {
-			if (recycleBinUUID.equals(g.uuid) || g.name.equalsIgnoreCase("Backup")) {
-				return true;
-			}
-			
-			g = g.parent;
-		}
-		
-		return false;
+		return group.isContainedIn(getRecycleBin());
 	}
 
 	@Override
@@ -274,4 +264,102 @@ public class PwDatabaseV4 extends PwDatabase {
 		
 		super.populateGlobals(currentGroup);
 	}
-}	
+	
+	/** Ensure that the recycle bin group exists, if enabled and create it
+	 *  if it doesn't exist 
+	 *  
+	 */
+	private void ensureRecycleBin() {
+		if (getRecycleBin() == null) {
+			// Create recycle bin
+				
+			PwGroupV4 recycleBin = new PwGroupV4(true, true, RECYCLEBIN_NAME, iconFactory.getIcon(PwIconStandard.TRASH_BIN));
+			recycleBin.enableAutoType = false;
+			recycleBin.enableSearching = false;
+			recycleBin.isExpanded = false;
+			addGroupTo(recycleBin, rootGroup);
+			
+			recycleBinUUID = recycleBin.uuid;
+		}
+	}
+	
+	@Override
+	public boolean canRecycle(PwGroup group) {
+		if (!recycleBinEnabled) {
+			return false;
+		}
+		
+		PwGroup recycle = getRecycleBin();
+		
+		return (recycle == null) || (!group.isContainedIn(recycle));
+	}
+
+	@Override
+	public boolean canRecycle(PwEntry entry) {
+		if (!recycleBinEnabled) {
+			return false;
+		}
+		
+		PwGroup parent = entry.getParent();
+		return (parent != null) && canRecycle(parent);
+	}
+	
+	@Override
+	public void recycle(PwEntry entry) {
+		ensureRecycleBin();
+		
+		PwGroup parent = entry.getParent();
+		removeEntryFrom(entry, parent);
+		parent.touch(false, true);
+		
+		PwGroup recycleBin = getRecycleBin();
+		addEntryTo(entry, recycleBin);
+		
+		entry.touch(false, true);
+		entry.touchLocation();
+	}
+
+	@Override
+	public void undoRecycle(PwEntry entry, PwGroup origParent) {
+		
+		PwGroup recycleBin = getRecycleBin();
+		removeEntryFrom(entry, recycleBin);
+		
+		addEntryTo(entry, origParent);
+	}
+
+	@Override
+	public void deleteEntry(PwEntry entry) {
+		super.deleteEntry(entry);
+		
+		deletedObjects.add(new PwDeletedObject(entry.getUUID()));
+	}
+
+	@Override
+	public void undoDeleteEntry(PwEntry entry, PwGroup origParent) {
+		super.undoDeleteEntry(entry, origParent);
+		
+		deletedObjects.remove(entry);
+	}
+
+	@Override
+	public PwGroupV4 getRecycleBin() {
+		if (recycleBinUUID == null) {
+			return null;
+		}
+		
+		PwGroupId recycleId = new PwGroupIdV4(recycleBinUUID);
+		return (PwGroupV4) groups.get(recycleId);
+	}
+
+	@Override
+	public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
+		if (!super.isGroupSearchable(group, omitBackup)) {
+			return false;
+		}
+		
+		PwGroupV4 g = (PwGroupV4) group;
+		
+		return g.isSearchEnabled();
+	}
+}

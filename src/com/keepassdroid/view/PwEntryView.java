@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,20 +20,22 @@
 package com.keepassdroid.view;
 
 
+import android.os.Handler;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.keepass.R;
 import com.keepassdroid.EntryActivity;
 import com.keepassdroid.GroupBaseActivity;
+import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.edit.DeleteEntry;
 import com.keepassdroid.settings.PrefsUtil;
 
 public class PwEntryView extends ClickView {
@@ -44,13 +46,10 @@ public class PwEntryView extends ClickView {
 	private int mPos;
 	
 	protected static final int MENU_OPEN = Menu.FIRST;
+	private static final int MENU_DELETE = MENU_OPEN + 1;
 	
 	public static PwEntryView getInstance(GroupBaseActivity act, PwEntry pw, int pos) {
-		if ( pw instanceof PwEntryV3 ) {
-			return new PwEntryViewV3(act, (PwEntryV3) pw, pos);
-		} else {
-			return new PwEntryView(act, pw, pos);
-		}
+		return new PwEntryView(act, pw, pos);
 	}
 	
 	protected PwEntryView(GroupBaseActivity act, PwEntry pw, int pos) {
@@ -96,9 +95,18 @@ public class PwEntryView extends ClickView {
 		
 	}
 	
+	private void deleteEntry() {
+		Handler handler = new Handler();
+		DeleteEntry task = new DeleteEntry(App.getDB(), mPw, mAct.new RefreshTask(handler));
+		ProgressTask pt = new ProgressTask(mAct, task, R.string.saving_database);
+		pt.run();
+		
+	}
+	
 	@Override
 	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
 		menu.add(0, MENU_OPEN, 0, R.string.menu_open);
+		menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
 	}
 
 	@Override
@@ -107,6 +115,9 @@ public class PwEntryView extends ClickView {
 		
 		case MENU_OPEN:
 			launchEntry();
+			return true;
+		case MENU_DELETE:
+			deleteEntry();
 			return true;
 			
 		default:

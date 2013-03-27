@@ -145,7 +145,7 @@ public class EntryActivity extends LockCloseActivity {
 		ActivityCompat.invalidateOptionsMenu(this);
 		
 		// Update last access time.
-		mEntry.stampLastAccess();
+		mEntry.touch(false, false);
 		
 		fillData(false);
 

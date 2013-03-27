@@ -65,9 +65,6 @@ public class AddEntry extends RunnableOnFinish {
 
 				// Mark parent group dirty
 				mDb.dirty.add(parent);
-		
-				// Add entry to global
-				pm.entries.put(mEntry.getUUID(), mEntry);
 				
 			} else {
 				pm.removeEntryFrom(mEntry, mEntry.getParent());

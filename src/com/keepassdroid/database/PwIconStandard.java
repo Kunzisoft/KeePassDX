@@ -24,6 +24,8 @@ public class PwIconStandard extends PwIcon {
 	
 	public static PwIconStandard FIRST = new PwIconStandard(1);
 	
+	public static final int TRASH_BIN = 43;
+	
 	public PwIconStandard(int iconId) {
 		this.iconId = iconId;
 	}

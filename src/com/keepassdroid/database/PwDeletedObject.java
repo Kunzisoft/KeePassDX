@@ -30,6 +30,10 @@ public class PwDeletedObject {
 		
 	}
 	
+	public PwDeletedObject(UUID u) {
+		this(u, new Date());
+	}
+	
 	public PwDeletedObject(UUID u, Date d) {
 		uuid = u;
 		deletionTime = d;
@@ -45,5 +49,22 @@ public class PwDeletedObject {
 	
 	public void setDeletionTime(Date date) {
 		deletionTime = date;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		else if (o == null) {
+			return false;
+		}
+		else if (!(o instanceof PwDeletedObject)) {
+			return false;
+		}
+		
+		PwDeletedObject rhs = (PwDeletedObject) o;
+		
+		return uuid.equals(rhs.uuid);
 	}
 }

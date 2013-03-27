@@ -46,6 +46,8 @@ public class UpdateEntry extends RunnableOnFinish {
 	public void run() {
 		// Update entry with new values
 		mOldE.assign(mNewE);
+		mOldE.touch(true, true);
+		
 		
 		// Commit to disk
 		SaveDB save = new SaveDB(mDb, mFinish);

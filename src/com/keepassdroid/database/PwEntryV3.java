@@ -356,13 +356,6 @@ public class PwEntryV3 extends PwEntry {
 	}
 
 	@Override
-	public void stampLastAccess() {
-		Calendar cal = Calendar.getInstance();
-		tLastAccess = new PwDate(cal.getTime());
-		
-	}
-
-	@Override
 	public Date getLastAccessTime() {
 		return tLastAccess.getJDate();
 	}
@@ -528,5 +521,10 @@ public class PwEntryV3 extends PwEntry {
 		if (binaryData == null) {
 			binaryData = new byte[0];
 		}
+	}
+
+	@Override
+	public void setParent(PwGroup parent) {
+		this.parent = (PwGroupV3) parent;
 	}
 }

@@ -187,11 +187,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 
 	@Override
-	public void stampLastAccess() {
-		lastAccess = new Date(System.currentTimeMillis());
-	}
-
-	@Override
 	public String getUsername() {
 		return getString(STR_USERNAME);
 	}
@@ -449,5 +444,21 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		
 		return size;
 	}
+
+	@Override
+	public void touch(boolean modified, boolean touchParents) {
+		super.touch(modified, touchParents);
+		
+		++usageCount;
+	}
+
+	@Override
+	public void touchLocation() {
+		parentGroupLastMod = new Date();
+	}
 	
+	@Override
+	public void setParent(PwGroup parent) {
+		this.parent = (PwGroupV4) parent;
+	}
 }

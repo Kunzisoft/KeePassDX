@@ -1,4 +1,6 @@
  * Support more generic file picker intents
+ * Better search implementation (respects .kdbx group search setting)
+ * Allow deleting .kdbx entries
  * Update Finnish translations.
  * Update Hungarian translations
 

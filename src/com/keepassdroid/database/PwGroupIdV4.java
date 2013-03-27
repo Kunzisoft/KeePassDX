@@ -19,7 +19,7 @@ public class PwGroupIdV4 extends PwGroupId {
 		
 		return uuid.equals(v4.uuid);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return uuid.hashCode();

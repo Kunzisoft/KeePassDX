@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -57,6 +57,10 @@ public abstract class PwGroup {
 		
 	}
 	
+	public abstract void setLastAccessTime(Date date);
+
+	public abstract void setLastModificationTime(Date date);
+	
 	public void sortEntriesByName() {
 		Collections.sort(childEntries, new PwEntry.EntryNameComparator());
 	}
@@ -64,6 +68,34 @@ public abstract class PwGroup {
 	public void initNewGroup(String nm, PwGroupId newId) {
 		setId(newId);
 		name = nm;
+	}
+	
+	public boolean isContainedIn(PwGroup container) {
+		PwGroup cur = this;
+		while (cur != null) {
+			if (cur == container) {
+				return true;
+			}
+			
+			cur = cur.getParent();
+		}
+		
+		return false;
+	}
+	
+	public void touch(boolean modified, boolean touchParents) {
+		Date now = new Date();
+		
+		setLastAccessTime(now);
+		
+		if (modified) {
+			setLastModificationTime(now);
+		}
+		
+		PwGroup parent = getParent();
+		if (touchParents && parent != null) {
+			parent.touch(modified, true);
+		}
 	}
 
 }

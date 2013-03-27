@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,6 +20,7 @@
 package com.keepassdroid.database.edit;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 
@@ -53,16 +54,20 @@ public class DeleteEntry extends RunnableOnFinish {
 	
 	@Override
 	public void run() {
+		PwDatabase pm = mDb.pm;
+		PwGroup parent = mEntry.getParent();
 
 		// Remove Entry from parent
-		PwGroup parent = mEntry.getParent();
-		parent.childEntries.remove(mEntry);
-		
-		// Remove Entry from PwDatabase
-		mDb.pm.getEntries().remove(mEntry);
+		boolean recycle = pm.canRecycle(mEntry);
+		if (recycle) {
+			pm.recycle(mEntry);
+		}
+		else {
+			pm.deleteEntry(mEntry);
+		}
 		
 		// Save
-		mFinish = new AfterDelete(mFinish, parent, mEntry);
+		mFinish = new AfterDelete(mFinish, parent, mEntry, recycle);
 		
 		// Commit database
 		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
@@ -75,27 +80,36 @@ public class DeleteEntry extends RunnableOnFinish {
 
 		private PwGroup mParent;
 		private PwEntry mEntry;
+		private boolean recycled;
 		
-		public AfterDelete(OnFinish finish, PwGroup parent, PwEntry entry) {
+		public AfterDelete(OnFinish finish, PwGroup parent, PwEntry entry, boolean r) {
 			super(finish);
 			
 			mParent = parent;
 			mEntry = entry;
+			recycled = r;
 		}
 		
 		@Override
 		public void run() {
+			PwDatabase pm = mDb.pm;
 			if ( mSuccess ) {
 				// Mark parent dirty
 				if ( mParent != null ) {
 					mDb.dirty.add(mParent);
 				}
-			} else {
-				mDb.pm.getEntries().add(mEntry);
 				
-				PwGroup parent = mEntry.getParent();
-				if ( parent != null ) {
-					parent.childEntries.add(mEntry);
+				if (recycled) {
+					PwGroup recycleBin = pm.getRecycleBin();
+					mDb.dirty.add(recycleBin);
+					mDb.dirty.add(mDb.pm.rootGroup);
+				}
+			} else {
+				if (recycled) {
+					pm.undoRecycle(mEntry, mParent);
+				}
+				else {
+					pm.undoDeleteEntry(mEntry, mParent);
 				}
 			}
 

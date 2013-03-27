@@ -80,8 +80,6 @@ public abstract class PwEntry implements Cloneable {
 		icon = source.icon;
 	}
 	
-	public abstract void stampLastAccess();
-
 	public abstract UUID getUUID();
 	public abstract void setUUID(UUID u);
 	public abstract String getTitle();
@@ -132,5 +130,24 @@ public abstract class PwEntry implements Cloneable {
 	public EntrySearchStringIterator stringIterator() {
 		return EntrySearchStringIterator.getInstance(this);
 	}
+	
+	public void touch(boolean modified, boolean touchParents) {
+		Date now = new Date();
+		
+		setLastAccessTime(now);
+		
+		if (modified) {
+			setLastModificationTime(now);
+		}
+		
+		PwGroup parent = getParent();
+		if (touchParents && parent != null) {
+			parent.touch(modified, true);
+		}
+	}
+	
+	public void touchLocation() { }
+	
+	public abstract void setParent(PwGroup parent);
 
 }

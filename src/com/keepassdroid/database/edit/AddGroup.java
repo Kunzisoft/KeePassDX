@@ -78,9 +78,6 @@ public class AddGroup extends RunnableOnFinish {
 			if ( mSuccess ) {
 				// Mark parent group dirty
 				mDb.dirty.add(mParent);
-				
-				// Add group to global list
-				pm.groups.put(mGroup.getId(), mGroup);
 			} else {
 				pm.removeGroupFrom(mGroup, mParent);
 			}

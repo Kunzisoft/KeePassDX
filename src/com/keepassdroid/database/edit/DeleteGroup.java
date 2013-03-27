@@ -113,6 +113,7 @@ public class DeleteGroup extends RunnableOnFinish {
 				if ( parent != null ) {
 					mDb.dirty.add(parent);
 				}
+				mDb.dirty.add(mDb.pm.rootGroup);
 			} else {
 				// Let's not bother recovering from a failure to save a deleted group.  It is too much work.
 				App.setShutdown();

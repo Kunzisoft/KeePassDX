@@ -48,6 +48,19 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		
 	}
 	
+	public PwGroupV4(boolean createUUID, boolean setTimes, String name, PwIconStandard icon) {
+		if (createUUID) {
+			uuid = UUID.randomUUID();
+		}
+		
+		if (setTimes) {
+			creation = lastMod = lastAccess = new Date();
+		}
+		
+		this.name = name;
+		this.icon = icon;
+	}
+	
 	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership) {
 		AddGroup(subGroup, takeOwnership, false);
 	}
@@ -158,10 +171,12 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		expireDate = date;
 	}
 
+	@Override
 	public void setLastAccessTime(Date date) {
 		lastAccess = date;
 	}
 
+	@Override
 	public void setLastModificationTime(Date date) {
 		lastMod = date;
 	}
@@ -223,6 +238,10 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		super.initNewGroup(nm, newId);
 		
 		lastAccess = lastMod = creation = parentGroupLastMod = new Date();
+	}
+	
+	public boolean isSearchEnabled() {
+		return (enableSearching == null) || enableSearching;
 	}
 
 }

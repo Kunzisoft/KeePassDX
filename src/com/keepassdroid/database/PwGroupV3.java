@@ -30,6 +30,7 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package com.keepassdroid.database;
 
+import java.security.acl.LastOwnerException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -143,6 +144,16 @@ public class PwGroupV3 extends PwGroup {
 		if (tExpire == null) {
 			tExpire = PwEntryV3.DEFAULT_PWDATE;
 		}
+	}
+
+	@Override
+	public void setLastAccessTime(Date date) {
+		tLastAccess = new PwDate(date);
+	}
+
+	@Override
+	public void setLastModificationTime(Date date) {
+		tLastMod = new PwDate(date);
 	}
 
 }

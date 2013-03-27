@@ -323,4 +323,13 @@ public class PwDatabaseV3 extends PwDatabase {
 		
 		return false;
 	}
+
+	@Override
+	public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
+		if (!super.isGroupSearchable(group, omitBackup)) {
+			return false;
+		}
+		
+		return !(omitBackup && isBackup(group));
+	}
 }
