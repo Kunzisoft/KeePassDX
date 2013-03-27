@@ -139,7 +139,11 @@ public class EntryActivity extends LockCloseActivity {
 		assert(uuid != null);
 		
 		mEntry = db.pm.entries.get(uuid);
-		
+		if (mEntry == null) {
+			Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
+			finish();
+			return;
+		}
 		
 		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
 		ActivityCompat.invalidateOptionsMenu(this);
