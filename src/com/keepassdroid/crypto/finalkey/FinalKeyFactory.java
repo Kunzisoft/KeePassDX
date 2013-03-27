@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.crypto.finalkey;
 
+import com.keepassdroid.crypto.CipherFactory;
+
 public class FinalKeyFactory {
 	public static FinalKey createFinalKey() {
 		return createFinalKey(false);
@@ -26,7 +28,7 @@ public class FinalKeyFactory {
 	
 	public static FinalKey createFinalKey(boolean androidOverride) {
 		// Prefer the native final key implementation
-		if ( ! androidOverride && NativeFinalKey.availble() ) {
+		if ( !CipherFactory.deviceBlacklisted() && !androidOverride && NativeFinalKey.availble() ) {
 			return new NativeFinalKey();
 		} else {
 			// Fall back on the android crypto implementation

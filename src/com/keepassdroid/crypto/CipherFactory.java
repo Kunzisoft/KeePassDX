@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -29,10 +29,13 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import android.os.Build;
+
 import com.keepassdroid.utils.Types;
 
-
 public class CipherFactory {
+	private static boolean blacklistInit = false;
+	private static boolean blacklisted;
 	
 	public static Cipher getInstance(String transformation) throws NoSuchAlgorithmException, NoSuchPaddingException {
 		return getInstance(transformation, false);
@@ -40,7 +43,7 @@ public class CipherFactory {
 	
 	public static Cipher getInstance(String transformation, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException {
 		// Return the native AES if it is possible
-		if ( (! androidOverride) && hasNativeImplementation(transformation) && NativeLib.loaded() ) {
+		if ( (!deviceBlacklisted()) && (!androidOverride) && hasNativeImplementation(transformation) && NativeLib.loaded() ) {
 			return Cipher.getInstance(transformation, new AESProvider());
 		} else {
 		try {
@@ -52,6 +55,16 @@ public class CipherFactory {
 			}
 			return Cipher.getInstance(transformation);
 		}
+	}
+	
+	public static boolean deviceBlacklisted() {
+		if (!blacklistInit) {
+			blacklistInit = true;
+			
+			// The Acer Iconia A500 is special and seems to always crash in the native crypto libraries
+			blacklisted = Build.MODEL.equals("A500");
+		}
+		return blacklisted;
 	}
 	
 	private static boolean hasNativeImplementation(String transformation) {
