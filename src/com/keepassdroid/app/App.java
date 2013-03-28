@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -24,14 +24,13 @@ import java.util.Calendar;
 import android.app.Application;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.fileselect.FileDbHelper;
+import com.keepassdroid.fileselect.RecentFileHistory;
 
 public class App extends Application {
-	private static Database db;
+	private static Database db = null;
 	private static boolean shutdown = false;
-	private static Calendar calendar;
-	
-	public static FileDbHelper fileDbHelper;
+	private static Calendar calendar = null;
+	private static RecentFileHistory fileHistory = null;
 	
 	public static Database getDB() {
 		if ( db == null ) {
@@ -39,6 +38,10 @@ public class App extends Application {
 		}
 		
 		return db;
+	}
+	
+	public static RecentFileHistory getFileHistory() {
+		return fileHistory;
 	}
 	
 	public static void setDB(Database d) {
@@ -58,7 +61,6 @@ public class App extends Application {
 	}
 	
 	public static Calendar getCalendar() {
-		
 		if ( calendar == null ) {
 			calendar = Calendar.getInstance();
 		}
@@ -70,9 +72,7 @@ public class App extends Application {
 	public void onCreate() {
 		super.onCreate();
 		
-		fileDbHelper = new FileDbHelper(this);
-		fileDbHelper.open();
-		
+		fileHistory = new RecentFileHistory(this);
 	}
 
 	@Override
@@ -81,13 +81,6 @@ public class App extends Application {
 			db.clear();
 		}
 		
-		if ( fileDbHelper != null && fileDbHelper.isOpen() ) {
-			fileDbHelper.close();
-		}
-		
 		super.onTerminate();
-		
 	}
-	
-	
 }

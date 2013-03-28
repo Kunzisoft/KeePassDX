@@ -1,5 +1,8 @@
  * Fix off by one error on .kdb dates (closes: #518)
  * Updated Russian translations from I Nedoboy (closes: #517)
+ * Use Sharedpreference to store recent files instead of sqlite dbs.
+   I see too many hard to explain crashes coming from the recent file
+   history dbs.
 
 KeePassdDroid (1.99.5)
  * Support more generic file picker intents

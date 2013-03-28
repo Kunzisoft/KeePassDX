@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -37,7 +37,6 @@ import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.database.exception.KeyFileEmptyException;
-import com.keepassdroid.fileselect.FileDbHelper;
 
 public class LoadDB extends RunnableOnFinish {
 	private String mFileName;
@@ -106,13 +105,11 @@ public class LoadDB extends RunnableOnFinish {
 	}
 	
 	private void saveFileData(String fileName, String key) {
-		FileDbHelper db = App.fileDbHelper;
-		
 		if ( ! mRememberKeyfile ) {
 			key = "";
 		}
 		
-		db.createFile(fileName, key);
+		App.getFileHistory().createFile(fileName, key);
 	}
 	
 

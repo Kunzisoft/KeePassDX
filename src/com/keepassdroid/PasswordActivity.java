@@ -53,7 +53,6 @@ import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fileselect.BrowserDialog;
-import com.keepassdroid.fileselect.FileDbHelper;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
@@ -281,9 +280,8 @@ public class PasswordActivity extends LockingActivity {
 	
 	private String getKeyFile(String filename) {
 		if ( mRememberKeyfile ) {
-			FileDbHelper dbHelp = App.fileDbHelper;
 			
-			String keyfile = dbHelp.getFileByName(filename);
+			String keyfile = App.getFileHistory().getFileByName(filename);
 			
 			return keyfile;
 		} else {

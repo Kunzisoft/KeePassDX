@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -31,7 +31,6 @@ import com.keepassdroid.LockingClosePreferenceActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
-import com.keepassdroid.fileselect.FileDbHelper;
 
 public class AppSettingsActivity extends LockingClosePreferenceActivity {
 	public static boolean KEYFILE_DEFAULT = false;
@@ -57,9 +56,7 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 				Boolean value = (Boolean) newValue;
 				
 				if ( ! value.booleanValue() ) {
-					FileDbHelper helper = App.fileDbHelper;
-
-					helper.deleteAllKeys();
+					App.getFileHistory().deleteAllKeys();
 				}
 				
 				return true;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2013 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,7 +19,8 @@
  */
 package com.keepassdroid.fileselect;
 
-import com.keepassdroid.compat.EditorCompat;
+import java.io.File;
+import java.io.FileFilter;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,16 +30,18 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.keepassdroid.compat.EditorCompat;
+
 public class FileDbHelper {
 	
 	public static final String LAST_FILENAME = "lastFile";
 	public static final String LAST_KEYFILE = "lastKey";
 	
-	private static final String DATABASE_NAME = "keepassdroid";
+	public static final String DATABASE_NAME = "keepassdroid";
 	private static final String FILE_TABLE = "files";
 	private static final int DATABASE_VERSION = 1;
 	
-	private static final int MAX_FILES = 5;
+	public static final int MAX_FILES = 5;
 	
 	public static final String KEY_FILE_ID = "_id";
 	public static final String KEY_FILE_FILENAME = "fileName";
@@ -244,4 +247,39 @@ public class FileDbHelper {
 		
 		return hasRecent; 
 	}
+	
+    /**
+     * Deletes a database including its journal file and other auxiliary files
+     * that may have been created by the database engine.
+     *
+     * @param file The database file path.
+     * @return True if the database was successfully deleted.
+     */
+    public static boolean deleteDatabase(Context ctx) {
+    	File file = ctx.getDatabasePath(DATABASE_NAME);
+        if (file == null) {
+            throw new IllegalArgumentException("file must not be null");
+        }
+
+        boolean deleted = false;
+        deleted |= file.delete();
+        deleted |= new File(file.getPath() + "-journal").delete();
+        deleted |= new File(file.getPath() + "-shm").delete();
+        deleted |= new File(file.getPath() + "-wal").delete();
+
+        File dir = file.getParentFile();
+        if (dir != null) {
+            final String prefix = file.getName() + "-mj";
+            final FileFilter filter = new FileFilter() {
+                @Override
+                public boolean accept(File candidate) {
+                    return candidate.getName().startsWith(prefix);
+                }
+            };
+            for (File masterJournal : dir.listFiles(filter)) {
+                deleted |= masterJournal.delete();
+            }
+        }
+        return deleted;
+    }
 }

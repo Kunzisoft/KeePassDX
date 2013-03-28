@@ -23,12 +23,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.List;
 
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -40,12 +40,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +70,7 @@ public class FileSelectActivity extends ListActivity {
 	public static final int FILE_BROWSE = 1;
 	public static final int GET_CONTENT = 2;
 	
-	private FileDbHelper mDbHelper;
+	private RecentFileHistory fileHistory;
 
 	private boolean recentMode = false;
 
@@ -79,9 +78,9 @@ public class FileSelectActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mDbHelper = App.fileDbHelper;
+		fileHistory = App.getFileHistory();
 
-		if (mDbHelper.hasRecentFiles()) {
+		if (fileHistory.hasRecentFiles()) {
 			recentMode = true;
 			setContentView(R.layout.file_selection);
 		} else {
@@ -252,9 +251,7 @@ public class FileSelectActivity extends ListActivity {
 		public void run() {
 			if (mSuccess) {
 				// Add to recent files
-				FileDbHelper dbHelper = App.fileDbHelper;
-
-				dbHelper.createFile(mFilename, getFilename());
+				fileHistory.createFile(mFilename, getFilename());
 
 				GroupActivity.Launch(FileSelectActivity.this);
 
@@ -284,6 +281,10 @@ public class FileSelectActivity extends ListActivity {
 		EditText filename = (EditText) findViewById(R.id.file_filename);
 		filename.setText(Environment.getExternalStorageDirectory().getAbsolutePath() + getString(R.string.default_file_path));
 		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.file_row, R.id.file_filename, fileHistory.getDbList());
+		setListAdapter(adapter);
+		
+		/*
 		// Get all of the rows from the database and create the item list
 		Cursor filesCursor = mDbHelper.fetchAllFiles();
 		startManagingCursor(filesCursor);
@@ -300,19 +301,15 @@ public class FileSelectActivity extends ListActivity {
 		SimpleCursorAdapter notes = new SimpleCursorAdapter(this,
 				R.layout.file_row, filesCursor, from, to);
 		setListAdapter(notes);
+		*/
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		Cursor cursor = mDbHelper.fetchFile(id);
-		startManagingCursor(cursor);
-
-		String fileName = cursor.getString(cursor
-				.getColumnIndexOrThrow(FileDbHelper.KEY_FILE_FILENAME));
-		String keyFile = cursor.getString(cursor
-				.getColumnIndexOrThrow(FileDbHelper.KEY_FILE_KEYFILE));
+		String fileName = fileHistory.getDatabaseAt(position);
+		String keyFile = fileHistory.getKeyfileAt(position);
 
 		try {
 			PasswordActivity.Launch(this, fileName, keyFile);
@@ -355,7 +352,7 @@ public class FileSelectActivity extends ListActivity {
 		super.onResume();
 		
 		// Check to see if we need to change modes
-		if ( mDbHelper.hasRecentFiles() != recentMode ) {
+		if ( fileHistory.hasRecentFiles() != recentMode ) {
 			// Restart the activity
 			Intent intent = getIntent();
 			startActivity(intent);
@@ -419,7 +416,7 @@ public class FileSelectActivity extends ListActivity {
 			
 			TextView tv = (TextView) acmi.targetView;
 			String filename = tv.getText().toString();
-			mDbHelper.deleteFile(filename);
+			fileHistory.deleteFile(filename);
 			
 			refreshList();
 			
@@ -430,9 +427,15 @@ public class FileSelectActivity extends ListActivity {
 	}
 	
 	private void refreshList() {
-		CursorAdapter ca = (CursorAdapter) getListAdapter();
+		@SuppressWarnings("unchecked")
+		ArrayAdapter<String> adapter = (ArrayAdapter<String>) getListAdapter();
+		adapter.notifyDataSetChanged();
+		/*
+		CursorAdapter ca = (CursorAdapter)
+		 getListAdapter();
 		Cursor cursor = ca.getCursor();
 		cursor.requery();
+		*/
 	}
 
 }
