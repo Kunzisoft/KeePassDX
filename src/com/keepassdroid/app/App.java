@@ -77,8 +77,6 @@ public class App extends Application {
 
 	@Override
 	public void onTerminate() {
-		super.onTerminate();
-		
 		if ( db != null ) {
 			db.clear();
 		}
@@ -86,6 +84,9 @@ public class App extends Application {
 		if ( fileDbHelper != null && fileDbHelper.isOpen() ) {
 			fileDbHelper.close();
 		}
+		
+		super.onTerminate();
+		
 	}
 	
 	
