@@ -6,7 +6,7 @@
 
   KeePassDroid is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePassDroid is distributed in the hope that it will be useful,
@@ -28,33 +28,33 @@
     <string name="add_group_title">Новая группа</string>
     <string name="algorithm">Алгоритм</string>
     <string name="algorithm_colon">Алгоритм:</string>
-    <string name="app_name">KeePassDroid</string>
+    <string name="app_name">KeePass</string>
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
     <string name="application">Программа</string>
     <string name="application_settings">Настройки KeePassDroid</string>
     <string name="brackets">{[(Скобки)]}</string>
-    <string name="browser_intall_text">Для функции обзора необходим менеджер файлов &#8211; OI File Manager (альтернативы &#8211; Total Commander, NARF File Manager)</string>
+    <string name="browser_intall_text">Для функции обзора необходим менеджер файлов&#8201;&#8211;&#8201;OI File Manager (альтернативы&#8201;&#8211;&#8201;Total Commander, NARF File Manager)</string>
     <string name="building_search_idx">Индексирование&#8230;</string>
     <string name="cancel">Отмена</string>
     <string name="ClearClipboard">Буфер обмена очищен</string>
     <string name="clipboard_timeout">Очистка буфера</string>
     <string name="clipboard_timeout_summary">Задержка очистки после копирования в буфер</string>
-    <string name="copy_username">Логин &#8211; в буфер</string>
-    <string name="copy_password">Пароль &#8211; в буфер</string>
+    <string name="copy_username">Логин&#8201;&#8211;&#8201;в буфер</string>
+    <string name="copy_password">Пароль&#8201;&#8211;&#8201;в буфер</string>
     <string name="creating_db_key">Создание ключа&#8230;</string>
     <string name="current_group">Текущая группа: </string>
     <string name="current_group_root">Текущая группа: корневая</string>
     <string name="database">База</string>
     <string name="decrypting_db">Расшифровка базы&#8230;</string>
     <string name="decrypting_entry">Расшифровка записи&#8230;</string>
-    <string name="default_checkbox">Открыть при запуске</string>
+    <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0&#8230;9</string>
-    <string name="disclaimer_formal">KeePassDroid © 2009&#8211;2012\nРазработчик Brian Pellin\n\nПрограмма предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
+    <string name="disclaimer_formal">KeePassDroid © 2009&#8211;2013\nРазработчик Brian Pellin\n\nПрограмма предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Путь к базе KeePass:</string>
     <string name="entry_accessed">Доступ: </string>
-    <string name="entry_and_or">Введите пароль или выберите файл-ключ:</string>
+    <string name="entry_and_or">Введите пароль или путь к файлу-ключу:</string>
     <string name="entry_cancel">Отмена</string>
     <string name="entry_comment">Комментарий: </string>
     <string name="entry_confpassword">Подтверждение: </string>
@@ -105,7 +105,10 @@
     <string name="install_from_market">Google Play</string>
     <string name="install_from_website">OpenIntents</string>
     <string name="InvalidPassword">Неверный пароль или файл-ключ</string>
+    <string name="invalid_algorithm">Неверный криптоалгоритм</string>
     <string name="invalid_db_sig">Формат базы не определён</string>
+    <string name="keyfile_does_not_exist">Файл-ключ не найден</string>
+    <string name="keyfile_is_empty">Файл-ключ пуст</string>
     <string name="length">Длина пароля</string>
     <string name="list_size_title">Шрифт списка</string>
     <string name="list_size_summary">Размер шрифта в списке групп и записей</string>
@@ -143,13 +146,13 @@
     <string name="password_title">Изменение пароля базы</string>
     <string name="progress_create">Создание базы&#8230;</string>
     <string name="progress_title">Обработка</string>
-    <string name="remember_keyfile_summary">Запоминать пути к файлам-ключам</string>
-    <string name="remember_keyfile_title">Помнить про ключи</string>
+    <string name="remember_keyfile_summary">Хранить пути к файлам-ключам</string>
+    <string name="remember_keyfile_title">Предлагать ключи</string>
     <string name="remove_from_filelist">Убрать из списка</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Проходы шифрования</string>
-    <string name="rounds_explaination">Больше проходов &#8211; выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
+    <string name="rounds_explaination">Больше проходов&#8201;&#8211;&#8201;выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
     <string name="rounds_hint">проходы</string>
     <string name="saving_database">Сохранение базы&#8230;</string>
     <string name="space">П р о б е л</string>
@@ -158,7 +161,7 @@
     <string name="sort_name">А&#8211;Я</string>
     <string name="sort_db">Исходный</string>
     <string name="special">$пеци@льные</string>
-    <string name="search_hint">имя, комментарий</string>
+    <string name="search_hint">название, комментарий</string>
     <string name="search_results">Результаты поиска</string>
     <string name="twofish">Twofish</string>
     <string name="underline">_Подчёркивание_</string>
