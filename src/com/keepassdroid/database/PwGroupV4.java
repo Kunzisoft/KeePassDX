@@ -241,7 +241,18 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 	
 	public boolean isSearchEnabled() {
-		return (enableSearching == null) || enableSearching;
+		PwGroupV4 group = this;
+		while (group != null) {
+			Boolean search = group.enableSearching;
+			if (search != null) {
+				return search;
+			}
+			
+			group = group.parent;
+		}
+		
+		// If we get to the root group and its null, default to true
+		return true;
 	}
 
 }
