@@ -1,3 +1,5 @@
+ * Fix off by one error on .kdb dates (closes: #518)
+
 KeePassdDroid (1.99.5)
  * Support more generic file picker intents
  * Better search implementation (respects .kdbx group search setting)
