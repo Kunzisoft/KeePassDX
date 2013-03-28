@@ -1,3 +1,4 @@
+KeePassdDroid (1.99.5)
  * Support more generic file picker intents
  * Better search implementation (respects .kdbx group search setting)
  * Allow deleting .kdbx entries
