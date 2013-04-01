@@ -23,10 +23,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.android.keepass.R;
 import com.keepassdroid.compat.EditorCompat;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 
@@ -35,12 +37,29 @@ public class RecentFileHistory {
 	private static String DB_KEY = "recent_databases";
 	private static String KEYFILE_KEY = "recent_keyfiles";
 	
-	private List<String> databases = null;
-	private List<String> keyfiles = null;
+	private List<String> databases = new ArrayList<String>();
+	private List<String> keyfiles = new ArrayList<String>();
 	private Context ctx;
+	private SharedPreferences prefs;
+	private OnSharedPreferenceChangeListener listner;
+	private boolean enabled;
 	
 	public RecentFileHistory(Context c) {
 		ctx = c.getApplicationContext();
+		
+		prefs = PreferenceManager.getDefaultSharedPreferences(c);
+		enabled = prefs.getBoolean(ctx.getString(R.string.recentfile_key), ctx.getResources().getBoolean(R.bool.recentfile_default));
+		listner = new OnSharedPreferenceChangeListener() {
+			
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+					String key) {
+				if (key.equals(ctx.getString(R.string.recentfile_key))) {
+					enabled = sharedPreferences.getBoolean(ctx.getString(R.string.recentfile_key), ctx.getResources().getBoolean(R.bool.recentfile_default));
+				}
+			}
+		};
+		prefs.registerOnSharedPreferenceChangeListener(listner);
 	}
 	
 	private void init() {
@@ -59,8 +78,8 @@ public class RecentFileHistory {
 				return false;
 			}
 			
-			databases = new ArrayList<String>();
-			keyfiles = new ArrayList<String>();
+			databases.clear();
+			keyfiles.clear();
 			
 			FileDbHelper helper = new FileDbHelper(ctx);
 			helper.open();
@@ -103,6 +122,8 @@ public class RecentFileHistory {
 	}
 	
 	public void createFile(String fileName, String keyFile) {
+		if (!enabled) return;
+		
 		init();
 		
 		// Remove any existing instance of the same filename
@@ -116,6 +137,8 @@ public class RecentFileHistory {
 	}
 	
 	public boolean hasRecentFiles() {
+		if (!enabled) return false;
+		
 		init();
 		
 		return databases.size() > 0;
@@ -132,8 +155,8 @@ public class RecentFileHistory {
 	}
 	
 	private void loadPrefs() {
-		databases = loadList(DB_KEY);
-		keyfiles = loadList(KEYFILE_KEY);
+		loadList(databases, DB_KEY);
+		loadList(keyfiles, KEYFILE_KEY);
 	}
 	
 	private void savePrefs() {
@@ -141,16 +164,14 @@ public class RecentFileHistory {
 		saveList(KEYFILE_KEY, keyfiles);
 	}
 	
-	private List<String> loadList(String keyprefix) {
+	private void loadList(List<String> list, String keyprefix) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		int size = prefs.getInt(keyprefix, 0);
 		
-		List<String> list = new ArrayList<String>();
+		list.clear();
 		for (int i = 0; i < size; i++) {
 			list.add(prefs.getString(keyprefix + "_" + i, ""));
 		}
-		
-		return list;
 	}
 	
 	private void saveList(String keyprefix, List<String> list) {
@@ -190,6 +211,8 @@ public class RecentFileHistory {
 	}
 	
 	public String getFileByName(String database) {
+		if (!enabled) return "";
+		
 		init(); 
 		
 		int size = databases.size();
@@ -200,6 +223,15 @@ public class RecentFileHistory {
 		}
 		
 		return "";
+	}
+	
+	public void deleteAll() {
+		init();
+		
+		databases.clear();
+		keyfiles.clear();
+		
+		savePrefs();
 	}
 	
 	public void deleteAllKeys() {

@@ -3,6 +3,7 @@
  * Use Sharedpreference to store recent files instead of sqlite dbs.
    I see too many hard to explain crashes coming from the recent file
    history dbs.
+ * Add setting to control remembering recent files list (closes: #444)
 
 KeePassdDroid (1.99.5)
  * Support more generic file picker intents

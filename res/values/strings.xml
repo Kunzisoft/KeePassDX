@@ -156,6 +156,8 @@
     <string name="progress_create">Creating new database&#8230;</string>
     <string name="progress_title">Working&#8230;</string>
     <string name="protection">Protection</string>
+    <string name="recentfile_title">Recent file history</string>
+    <string name="recentfile_summary">Remember recently used file names</string>
     <string name="remember_keyfile_summary">Remembers the location of keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>

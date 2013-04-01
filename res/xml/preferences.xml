@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2009-2011 Brian Pellin.
+ Copyright 2009-2013 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -39,10 +39,16 @@
 	  android:key="@string/app_key"
 	  android:title="@string/application"
 	  android:summary="@string/application_settings">
+		<CheckBoxPreference 
+		  android:summary="@string/recentfile_summary" 
+		  android:defaultValue="@bool/recentfile_default" 
+		  android:title="@string/recentfile_title" 
+		  android:key="@string/recentfile_key"/>
 		<CheckBoxPreference
 			android:key="@string/keyfile_key"
 			android:title="@string/remember_keyfile_title"
 			android:summary="@string/remember_keyfile_summary"
+			android:dependency="@string/recentfile_key"
 			android:defaultValue="@bool/keyfile_default"/>
 		<ListPreference
 		  android:key="@string/clipboard_timeout_key"

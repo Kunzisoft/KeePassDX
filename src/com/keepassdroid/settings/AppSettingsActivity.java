@@ -21,9 +21,11 @@ package com.keepassdroid.settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
@@ -57,6 +59,24 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 				
 				if ( ! value.booleanValue() ) {
 					App.getFileHistory().deleteAllKeys();
+				}
+				
+				return true;
+			}
+		});
+		
+		Preference recentHistory = findPreference(getString(R.string.recentfile_key));
+		recentHistory.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				Boolean value = (Boolean) newValue;
+				
+				if (value == null) {
+					value = true;
+				}
+				
+				if (!value) {
+					App.getFileHistory().deleteAll();
 				}
 				
 				return true;
