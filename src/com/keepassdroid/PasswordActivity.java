@@ -63,6 +63,8 @@ public class PasswordActivity extends LockingActivity {
 	public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_KEYFILE = "keyFile";
+	private static final String KEY_PASSWORD = "password";
+	private static final String KEY_LAUNCH_IMMEDIATELY = "launchImmediately";
 	private static final String VIEW_INTENT = "android.intent.action.VIEW";
 	
 	private static final int FILE_BROWSE = 256;
@@ -140,6 +142,8 @@ public class PasswordActivity extends LockingActivity {
 	
 		Intent i = getIntent();
 		String action = i.getAction();
+		String password = "";
+		boolean launch_immediately = false;
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
@@ -175,6 +179,9 @@ public class PasswordActivity extends LockingActivity {
 		} else {
 			mFileName = i.getStringExtra(KEY_FILENAME);
 			mKeyFile = i.getStringExtra(KEY_KEYFILE);
+			password = i.getStringExtra(KEY_PASSWORD);
+			launch_immediately = i.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
+			
 			if ( mKeyFile == null || mKeyFile.length() == 0) {
 				mKeyFile = getKeyFile(mFileName);
 			}
@@ -202,6 +209,11 @@ public class PasswordActivity extends LockingActivity {
 			}
 			
 		});
+		
+		if (password != null) {
+			TextView tv_password = (TextView) findViewById(R.id.password);
+			tv_password.setText(password);
+		}
 		
 		CheckBox defaultCheck = (CheckBox) findViewById(R.id.default_database);
 		defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
@@ -253,6 +265,9 @@ public class PasswordActivity extends LockingActivity {
 		});
 		
 		retrieveSettings();
+		
+		if (launch_immediately)
+			loadDatabase(password, mKeyFile);
 	}
 	
 	@Override
@@ -337,26 +352,31 @@ public class PasswordActivity extends LockingActivity {
 		public void onClick(View view) {
 			String pass = getEditText(R.id.password);
 			String key = getEditText(R.id.pass_keyfile);
-			if ( pass.length() == 0 && key.length() == 0 ) {
-				errorMessage(R.string.error_nopass);
-				return;
-			}
-			
-			String fileName = getEditText(R.id.filename);
-			
-			
-			// Clear before we load
-			Database db = App.getDB();
-			db.clear();
-			
-			// Clear the shutdown flag
-			App.clearShutdown();
-			
-			Handler handler = new Handler();
-			LoadDB task = new LoadDB(db, PasswordActivity.this, fileName, pass, key, new AfterLoad(handler));
-			ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
-			pt.run();
+			loadDatabase(pass, key);
 		}			
+	}
+	
+	private void loadDatabase(String pass, String keyfile)
+	{
+		if ( pass.length() == 0 && keyfile.length() == 0 ) {
+			errorMessage(R.string.error_nopass);
+			return;
+		}
+		
+		String fileName = getEditText(R.id.filename);
+		
+		
+		// Clear before we load
+		Database db = App.getDB();
+		db.clear();
+		
+		// Clear the shutdown flag
+		App.clearShutdown();
+		
+		Handler handler = new Handler();
+		LoadDB task = new LoadDB(db, PasswordActivity.this, fileName, pass, keyfile, new AfterLoad(handler));
+		ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
+		pt.run();		
 	}
 	
 	private String getEditText(int resId) {
