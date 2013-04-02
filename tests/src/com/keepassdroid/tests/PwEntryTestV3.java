@@ -58,6 +58,6 @@ public class PwEntryTestV3 extends AndroidTestCase {
 		
 		assertEquals("Incorrect year.", cal.get(Calendar.YEAR), 2009);
 		assertEquals("Incorrect month.", cal.get(Calendar.MONTH), 3);
-		assertEquals("Incorrect day.", cal.get(Calendar.DAY_OF_MONTH), 24);
+		assertEquals("Incorrect day.", cal.get(Calendar.DAY_OF_MONTH), 23);
 	}
 }

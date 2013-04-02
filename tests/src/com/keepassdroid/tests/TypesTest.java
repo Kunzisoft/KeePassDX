@@ -175,7 +175,7 @@ public class TypesTest extends TestCase {
 		
 		assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR));
 		assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH));
-		assertEquals("Day mismatch: ", 2, actual.get(Calendar.DAY_OF_MONTH));
+		assertEquals("Day mismatch: ", 1, actual.get(Calendar.DAY_OF_MONTH));
 		assertEquals("Hour mismatch: ", 3, actual.get(Calendar.HOUR_OF_DAY));
 		assertEquals("Minute mismatch: ", 4, actual.get(Calendar.MINUTE));
 		assertEquals("Second mismatch: ", 5, actual.get(Calendar.SECOND));
