@@ -5,6 +5,7 @@
    history dbs.
  * Add setting to control remembering recent files list (closes: #444)
  * Add new intents to auto-launch database with password
+ * Enable password changes on .kdbx
 
 KeePassdDroid (1.99.5)
  * Support more generic file picker intents

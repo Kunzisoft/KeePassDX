@@ -25,7 +25,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.view.Menu;
 
 import com.android.keepass.R;
 import com.keepassdroid.database.PwGroupId;
@@ -45,17 +44,6 @@ public class GroupActivityV4 extends GroupActivity {
 		return new PwGroupIdV4(UUID.fromString(uuid));
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		
-		super.onCreateOptionsMenu(menu);
-		
-		menu.findItem(R.id.menu_change_master_key).setVisible(false);
-		
-		return true;
-
-	}
-	
 	@Override
 	protected void setupButtons() {
 		super.setupButtons();
