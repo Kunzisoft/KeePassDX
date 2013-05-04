@@ -37,8 +37,8 @@ public class RecentFileHistory {
 	private static String DB_KEY = "recent_databases";
 	private static String KEYFILE_KEY = "recent_keyfiles";
 	
-	private List<String> databases = new ArrayList<String>();
-	private List<String> keyfiles = new ArrayList<String>();
+	private List<String> databases = null;
+	private List<String> keyfiles = null;
 	private Context ctx;
 	private SharedPreferences prefs;
 	private OnSharedPreferenceChangeListener listner;
@@ -155,6 +155,13 @@ public class RecentFileHistory {
 	}
 	
 	private void loadPrefs() {
+		if (databases == null) {
+			databases = new ArrayList<String>();
+		}
+		if (keyfiles == null) {
+			keyfiles = new ArrayList<String>();
+		}
+		
 		loadList(databases, DB_KEY);
 		loadList(keyfiles, KEYFILE_KEY);
 	}

@@ -1,4 +1,5 @@
  * Don't require OI Filemanager before checking for another file manager
+ * Fix issues with file history
 
 KeePassDroid (1.99.6)
  * Fix off by one error on .kdb dates (closes: #518)
