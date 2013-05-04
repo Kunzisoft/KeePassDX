@@ -67,6 +67,7 @@
     <string name="entry_expires">Vanhenee: </string>
     <string name="entry_keyfile">Avaintiedosto (valinnainen)</string>
     <string name="entry_modified">Muokattu: </string>
+    <string name="entry_not_found">Tietueen tietoja ei löytynyt.</string>
     <string name="entry_password">Salasana:</string>
     <string name="entry_save">Tallenna</string>
     <string name="entry_title">Nimi: </string>
@@ -155,6 +156,8 @@
     <string name="progress_create">Luodaan uutta tietokantaa&#8230;</string>
     <string name="progress_title">Työskennellään&#8230;</string>
     <string name="protection">Suojaus</string>
+    <string name="recentfile_title">Viimeisten tiedostojen lista</string>
+    <string name="recentfile_summary">Muista viimeksi käytettyjen tiedostojen nimet</string>
     <string name="remember_keyfile_summary">Muista avaintiedostojen sijainti</string>
     <string name="remember_keyfile_title">Tallenna avaintiedosto</string>
     <string name="remove_from_filelist">Poista</string>
