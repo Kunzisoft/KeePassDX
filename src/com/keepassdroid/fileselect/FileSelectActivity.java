@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.util.List;
 
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
@@ -181,16 +180,12 @@ public class FileSelectActivity extends ListActivity {
 		browseButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intent.ACTION_GET_CONTENT)) {
-					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-					i.setType("file/*");
-					
-					try {
-						startActivityForResult(i, GET_CONTENT);
-					} catch (ActivityNotFoundException e) {
-						lookForOpenIntentsFilePicker();
-					}
-				} else {
+				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+				i.setType("file/*");
+				
+				try {
+					startActivityForResult(i, GET_CONTENT);
+				} catch (ActivityNotFoundException e) {
 					lookForOpenIntentsFilePicker();
 				}
 			}
@@ -283,25 +278,6 @@ public class FileSelectActivity extends ListActivity {
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.file_row, R.id.file_filename, fileHistory.getDbList());
 		setListAdapter(adapter);
-		
-		/*
-		// Get all of the rows from the database and create the item list
-		Cursor filesCursor = mDbHelper.fetchAllFiles();
-		startManagingCursor(filesCursor);
-
-		// Create an array to specify the fields we want to display in the list
-		// (only TITLE)
-		String[] from = new String[] { FileDbHelper.KEY_FILE_FILENAME };
-
-		// and an array of the fields we want to bind those fields to (in this
-		// case just text1)
-		int[] to = new int[] { R.id.file_filename };
-
-		// Now create a simple cursor adapter and set it to display
-		SimpleCursorAdapter notes = new SimpleCursorAdapter(this,
-				R.layout.file_row, filesCursor, from, to);
-		setListAdapter(notes);
-		*/
 	}
 
 	@Override
@@ -430,12 +406,6 @@ public class FileSelectActivity extends ListActivity {
 		@SuppressWarnings("unchecked")
 		ArrayAdapter<String> adapter = (ArrayAdapter<String>) getListAdapter();
 		adapter.notifyDataSetChanged();
-		/*
-		CursorAdapter ca = (CursorAdapter)
-		 getListAdapter();
-		Cursor cursor = ca.getCursor();
-		cursor.requery();
-		*/
 	}
 
 }

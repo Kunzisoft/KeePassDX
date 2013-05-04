@@ -222,16 +222,12 @@ public class PasswordActivity extends LockingActivity {
 		browse.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				if (Interaction.isIntentAvailable(PasswordActivity.this, Intent.ACTION_GET_CONTENT)) {
-					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-					i.setType("file/*");
-					
-					try {
-						startActivityForResult(i, GET_CONTENT);
-					} catch (ActivityNotFoundException e) {
-						lookForOpenIntentsFilePicker();
-					}
-				} else {
+				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+				i.setType("file/*");
+				
+				try {
+					startActivityForResult(i, GET_CONTENT);
+				} catch (ActivityNotFoundException e) {
 					lookForOpenIntentsFilePicker();
 				}
 			}
