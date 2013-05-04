@@ -34,39 +34,42 @@
     <string name="application">Программа</string>
     <string name="application_settings">Настройки KeePassDroid</string>
     <string name="brackets">{[(Скобки)]}</string>
-    <string name="browser_intall_text">Для функции обзора необходим менеджер файлов&#8201;&#8211;&#8201;OI File Manager (альтернативы&#8201;&#8211;&#8201;Total Commander, NARF File Manager)</string>
-    <string name="building_search_idx">Индексирование&#8230;</string>
+    <string name="browser_intall_text">Для функции обзора необходим менеджер файлов – OI File Manager (альтернативы – Total Commander, NARF File Manager)</string>
+    <string name="building_search_idx">Индексирование…</string>
     <string name="cancel">Отмена</string>
     <string name="ClearClipboard">Буфер обмена очищен</string>
     <string name="clipboard_timeout">Очистка буфера</string>
     <string name="clipboard_timeout_summary">Задержка очистки после копирования в буфер</string>
-    <string name="copy_username">Логин&#8201;&#8211;&#8201;в буфер</string>
-    <string name="copy_password">Пароль&#8201;&#8211;&#8201;в буфер</string>
-    <string name="creating_db_key">Создание ключа&#8230;</string>
-    <string name="current_group">Текущая группа: </string>
+    <string name="copy_username">Логин – в буфер</string>
+    <string name="copy_password">Пароль – в буфер</string>
+    <string name="creating_db_key">Создание ключа…</string>
+    <string name="current_group">Текущая группа:</string>
     <string name="current_group_root">Текущая группа: корневая</string>
     <string name="database">База</string>
-    <string name="decrypting_db">Расшифровка базы&#8230;</string>
-    <string name="decrypting_entry">Расшифровка записи&#8230;</string>
+    <string name="decrypting_db">Расшифровка базы…</string>
+    <string name="decrypting_entry">Расшифровка записи…</string>
     <string name="default_checkbox">По умолчанию</string>
-    <string name="digits">Цифры 0&#8230;9</string>
-    <string name="disclaimer_formal">KeePassDroid © 2009&#8211;2013\nРазработчик Brian Pellin\n\nПрограмма предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
-    <string name="ellipsis">\u2026</string>
+    <string name="digits">Цифры 0…9</string>
+    <string name="disclaimer_formal">"KeePassDroid © 2009–2013
+Разработчик Brian Pellin
+
+Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее"</string>
+    <string name="ellipsis">…</string>
     <string name="enter_filename">Путь к базе KeePass:</string>
-    <string name="entry_accessed">Доступ: </string>
+    <string name="entry_accessed">Доступ:</string>
     <string name="entry_and_or">Введите пароль или путь к файлу-ключу:</string>
     <string name="entry_cancel">Отмена</string>
-    <string name="entry_comment">Комментарий: </string>
-    <string name="entry_confpassword">Подтверждение: </string>
-    <string name="entry_created">Создано: </string>
-    <string name="entry_expires">Истекает: </string>
+    <string name="entry_comment">Комментарий:</string>
+    <string name="entry_confpassword">Подтверждение:</string>
+    <string name="entry_created">Создано:</string>
+    <string name="entry_expires">Истекает:</string>
     <string name="entry_keyfile">файл-ключ</string>
-    <string name="entry_modified">Изменено: </string>
+    <string name="entry_modified">Изменено:</string>
     <string name="entry_password">Пароль:</string>
     <string name="entry_save">Сохранить</string>
-    <string name="entry_title">Название: </string>
-    <string name="entry_url">Ссылка: </string>
-    <string name="entry_user_name">Логин: </string>
+    <string name="entry_title">Название:</string>
+    <string name="entry_url">Ссылка:</string>
+    <string name="entry_user_name">Логин:</string>
     <string name="error_arc4">Потоковый шифр ARC4 не поддерживается</string>
     <string name="error_can_not_handle_uri">Не удалось перейти по указанному адресу</string>
     <string name="error_could_not_create_group">Не удалось создать группу</string>
@@ -112,7 +115,7 @@
     <string name="length">Длина пароля</string>
     <string name="list_size_title">Шрифт списка</string>
     <string name="list_size_summary">Размер шрифта в списке групп и записей</string>
-    <string name="loading_database">Загрузка&#8230;</string>
+    <string name="loading_database">Загрузка…</string>
     <string name="lowercase">строчные</string>
     <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Скрыть пароли</string>
@@ -141,24 +144,26 @@
     <string name="no_url_handler">Не удалось открыть ссылку</string>
     <string name="open_recent">Недавно открытые:</string>
     <string name="omitbackup_title">Искать в актуальных</string>
-    <string name="omitbackup_summary">Не искать в Резервировании и Корзине</string>
+    <string name="omitbackup_summary">Не искать в Резервировании (.kdb)</string>
     <string name="pass_filename">База KeePass:</string>
     <string name="password_title">Изменение пароля базы</string>
-    <string name="progress_create">Создание базы&#8230;</string>
+    <string name="progress_create">Создание базы…</string>
     <string name="progress_title">Обработка</string>
+    <string name="recentfile_title">Недавно открытые</string>
+    <string name="recentfile_summary">Хранить имена открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам-ключам</string>
     <string name="remember_keyfile_title">Предлагать ключи</string>
     <string name="remove_from_filelist">Убрать из списка</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Проходы шифрования</string>
-    <string name="rounds_explaination">Больше проходов&#8201;&#8211;&#8201;выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
+    <string name="rounds_explaination">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
     <string name="rounds_hint">проходы</string>
-    <string name="saving_database">Сохранение базы&#8230;</string>
+    <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>
     <string name="search_label">Поиск</string>
     <string name="show_password">Показать</string>
-    <string name="sort_name">А&#8211;Я</string>
+    <string name="sort_name">А–Я</string>
     <string name="sort_db">Исходный</string>
     <string name="special">$пеци@льные</string>
     <string name="search_hint">название, комментарий</string>
@@ -170,16 +175,16 @@
     <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна</string>
     <string name="version_label">Версия:</string>
-    
+
     <string-array name="clipboard_timeout_options">
-    	<item>30 сек.</item>
-    	<item>1 мин.</item>
-    	<item>5 мин.</item>
-    	<item>Никогда</item>
+       <item>30 сек.</item>
+       <item>1 мин.</item>
+       <item>5 мин.</item>
+       <item>Никогда</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Мелкий</item>
-    	<item>Обычный</item>
-    	<item>Крупный</item>
+       <item>Мелкий</item>
+       <item>Обычный</item>
+       <item>Крупный</item>
     </string-array>
 </resources>
