@@ -1,3 +1,6 @@
+KeePassDroid (1.99.7.1)
+ * Fix Force Close when recent file history is disabled (closes: #539)
+
 KeePassDroid (1.99.7)
  * Don't require OI Filemanager before checking for another file manager
  * Fix issues with file history (closes: #526)

@@ -214,6 +214,10 @@ public class RecentFileHistory {
 	}
 	
 	public List<String> getDbList() {
+		if (!enabled) return new ArrayList<String>();
+		
+		init();
+		
 		return databases;
 	}
 	
