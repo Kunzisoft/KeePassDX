@@ -1,3 +1,5 @@
+ * Even better fix for recent file history
+ 
 KeePassDroid (1.99.7.1)
  * Fix Force Close when recent file history is disabled (closes: #539)
 

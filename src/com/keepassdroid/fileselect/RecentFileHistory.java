@@ -37,12 +37,13 @@ public class RecentFileHistory {
 	private static String DB_KEY = "recent_databases";
 	private static String KEYFILE_KEY = "recent_keyfiles";
 	
-	private List<String> databases = null;
-	private List<String> keyfiles = null;
+	private List<String> databases = new ArrayList<String>();
+	private List<String> keyfiles = new ArrayList<String>();
 	private Context ctx;
 	private SharedPreferences prefs;
 	private OnSharedPreferenceChangeListener listner;
 	private boolean enabled;
+	private boolean init = false;
 	
 	public RecentFileHistory(Context c) {
 		ctx = c.getApplicationContext();
@@ -63,10 +64,12 @@ public class RecentFileHistory {
 	}
 	
 	private void init() {
-		if (databases == null || keyfiles == null) {
+		if (!init) {
 			if (!upgradeFromSQL()) {
 				loadPrefs();
 			}
+			
+			init = true;
 		}
 	}
 	
@@ -155,13 +158,6 @@ public class RecentFileHistory {
 	}
 	
 	private void loadPrefs() {
-		if (databases == null) {
-			databases = new ArrayList<String>();
-		}
-		if (keyfiles == null) {
-			keyfiles = new ArrayList<String>();
-		}
-		
 		loadList(databases, DB_KEY);
 		loadList(keyfiles, KEYFILE_KEY);
 	}
@@ -214,8 +210,6 @@ public class RecentFileHistory {
 	}
 	
 	public List<String> getDbList() {
-		if (!enabled) return new ArrayList<String>();
-		
 		init();
 		
 		return databases;
