@@ -24,6 +24,7 @@ import java.util.Calendar;
 import android.app.Application;
 
 import com.keepassdroid.Database;
+import com.keepassdroid.compat.PRNGFixes;
 import com.keepassdroid.fileselect.RecentFileHistory;
 
 public class App extends Application {
@@ -73,6 +74,8 @@ public class App extends Application {
 		super.onCreate();
 		
 		fileHistory = new RecentFileHistory(this);
+		
+		PRNGFixes.apply();
 	}
 
 	@Override
