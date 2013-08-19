@@ -1,3 +1,4 @@
+KeePassDroid (1.99.8)
  * Fix crash in filename lookup
  * Implement SecureRandom workaround
 
