@@ -127,10 +127,17 @@ public class PasswordActivity extends LockingActivity {
 			break;
 		case GET_CONTENT:
 			if (resultCode == RESULT_OK) {
-				String filename = data.getData().getPath();
-					
-				EditText fn = (EditText) findViewById(R.id.pass_keyfile);
-				fn.setText(filename);
+				if (data != null) {
+					Uri uri = data.getData();
+					if (uri != null) {
+						String path = uri.getPath();
+						if (path != null) {
+							EditText fn = (EditText) findViewById(R.id.pass_keyfile);
+							fn.setText(path);
+							
+						}
+					}
+				}
 			}
 			break;
 		}

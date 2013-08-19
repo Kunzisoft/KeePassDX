@@ -314,7 +314,12 @@ public class FileSelectActivity extends ListActivity {
 			
 		}
 		else if (requestCode == GET_CONTENT && resultCode == RESULT_OK) {
-			filename = data.getData().getPath();
+			if (data != null) {
+				Uri uri = data.getData();
+				if (uri != null) {
+					filename = uri.getPath();
+				}
+			}
 		}
 		
 		if (filename != null) {
