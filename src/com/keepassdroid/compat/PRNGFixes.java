@@ -73,7 +73,22 @@ public final class PRNGFixes {
     private static boolean supportedOnThisDevice() {
     	File urandom = new File("/dev/urandom");
     	
-    	return urandom.canRead() && urandom.canWrite();
+    	// Test permissions
+    	if ( !(urandom.canRead() && urandom.canWrite()) ) {
+    		return false;
+    	}
+    	
+    	
+    	// Test actually writing to urandom
+    	try {
+	    	FileOutputStream fos = new FileOutputStream(urandom);
+	    	fos.write(0);
+    	} catch (Exception e) {
+    		return false;
+    	}
+    	
+    	return true;
+    	
     }
 
     /**
