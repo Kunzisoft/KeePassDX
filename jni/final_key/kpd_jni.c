@@ -151,7 +151,6 @@ JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nInit(JN
 }
 
 JNIEXPORT void JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nCleanup(JNIEnv *env, jclass this, jlong state) {
-  if( state <= 0 ) return;
   free((void *)state);
 }
 
@@ -177,7 +176,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nUpdate(J
   #endif
 
   // step 1: first, some housecleaning
-  if( !inputLen || !outputSize || outputOffset < 0 || state <= 0 || !input || !output ) {
+  if( !inputLen || !outputSize || outputOffset < 0 || !input || !output ) {
     (*env)->ThrowNew(env, bad_arg, "nUpdate: called with 1 or more invalid arguments");
     return -1;
   }
@@ -270,7 +269,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
   __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "entry: outputOffset=%d, outputSize=%d", outputOffset, outputSize);
   #endif
 
-  if( !output || outputOffset < 0 || state <= 0 ) {
+  if( !output || outputOffset < 0 ) {
     (*env)->ThrowNew(env, bad_arg, "Invalid argument(s) passed to nFinal");
     return -1;
   }
@@ -347,10 +346,6 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
 JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCacheSize(JNIEnv* env, jobject this, jlong state) {
   aes_state *c_state;
 
-  if( state <= 0 ) {
-    (*env)->ThrowNew(env, bad_arg, "Invalid state");
-    return -1;
-  }
   c_state = (aes_state *)state;
   if( c_state->direction == FINALIZED ) {
     (*env)->ThrowNew(env, bad_arg, "Invalid state");
