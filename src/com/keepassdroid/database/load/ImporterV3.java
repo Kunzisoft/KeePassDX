@@ -136,12 +136,13 @@ public class ImporterV3 extends Importer {
 
 
 		// Load entire file, most of it's encrypted.
-		byte[] filebuf = new byte[(int)inStream.available()];
-		inStream.read( filebuf, 0, (int)inStream.available());
+		int fileSize = inStream.available();
+		byte[] filebuf = new byte[fileSize + 16]; // Pad with a blocksize (Twofish uses 128 bits), since Android 4.3 tries to write more to the buffer
+		inStream.read(filebuf, 0, fileSize);
 		inStream.close();
 
 		// Parse header (unencrypted)
-		if( filebuf.length < PwDbHeaderV3.BUF_SIZE )
+		if( fileSize < PwDbHeaderV3.BUF_SIZE )
 			throw new IOException( "File too short for header" );
 		PwDbHeaderV3 hdr = new PwDbHeaderV3();
 		hdr.loadFromFile(filebuf, 0 );
@@ -206,7 +207,7 @@ public class ImporterV3 extends Importer {
 		// Decrypt! The first bytes aren't encrypted (that's the header)
 		int encryptedPartSize;
 		try {
-			encryptedPartSize = cipher.doFinal(filebuf, PwDbHeaderV3.BUF_SIZE, filebuf.length - PwDbHeaderV3.BUF_SIZE, filebuf, PwDbHeaderV3.BUF_SIZE );
+			encryptedPartSize = cipher.doFinal(filebuf, PwDbHeaderV3.BUF_SIZE, fileSize - PwDbHeaderV3.BUF_SIZE, filebuf, PwDbHeaderV3.BUF_SIZE );
 		} catch (ShortBufferException e1) {
 			throw new IOException("Buffer too short");
 		} catch (IllegalBlockSizeException e1) {
