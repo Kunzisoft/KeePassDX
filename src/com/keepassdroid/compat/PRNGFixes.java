@@ -10,9 +10,7 @@ package com.keepassdroid.compat;
  * freely, as long as the origin is not misrepresented.
  */
 
-import android.os.Build;
-import android.os.Process;
-
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +26,10 @@ import java.security.Provider;
 import java.security.SecureRandom;
 import java.security.SecureRandomSpi;
 import java.security.Security;
+import java.util.Locale;
+
+import android.os.Process;
+import android.os.Build;
 
 /**
  * Fixes for the output of the default PRNG having low entropy.
@@ -71,6 +74,14 @@ public final class PRNGFixes {
     }
     
     private static boolean supportedOnThisDevice() {
+        if (sdkVersion > VERSION_CODE_JELLY_BEAN_MR2) {
+            return false;
+        }
+        
+        if (onSELinuxEnforce()) {
+        	return false;
+        }
+
     	File urandom = new File("/dev/urandom");
     	
     	// Test permissions
@@ -89,6 +100,26 @@ public final class PRNGFixes {
     	
     	return true;
     	
+    }
+    
+    private static boolean onSELinuxEnforce() {
+    	try {
+	    	ProcessBuilder builder = new ProcessBuilder("getenforce");
+	    	builder.redirectErrorStream(true);
+	    	java.lang.Process process = builder.start();
+	    	BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	    	process.waitFor();
+	    	
+	    	String output = reader.readLine();
+	    	
+	    	if (output == null) {
+	    		return false;
+	    	}
+	    	
+	    	return output.toLowerCase(Locale.US).startsWith("enforcing");
+    	} catch (Exception e) {
+    		return false;
+    	}
     }
 
     /**
@@ -214,6 +245,7 @@ public final class PRNGFixes {
          */
 
         private static final File URANDOM_FILE = new File("/dev/urandom");
+        
 
         private static final Object sLock = new Object();
 
