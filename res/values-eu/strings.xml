@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2013 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  
+  Basque translation by David García-Abad, released under GPL V2.
+-->
+<resources>
+    <string name="about_feedback">Feedback:</string>
+    <string name="about_homepage">Hasiera orria:</string>
+    <string name="AboutText">KeePassDroid ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Onartu</string>
+    <string name="add_entry">Sarrera gehitu</string>
+    <string name="add_group">Taldea gehitu</string>
+    <string name="add_group_title">Taldea gehitu</string>
+    <string name="algorithm">Algoritmoa</string>
+    <string name="algorithm_colon">Algoritmoa:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Aplikazioa itzaltzeko denbora</string>
+    <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
+    <string name="application">Aplikazioa</string>
+    <string name="application_settings">Aplikazioaren ezarpenak</string>
+    <string name="beta_dontask">Ez erakutsi berriro</string>
+    <string name="beta_warning">kdbx fitxategietan aldatzeko euskarria ESPERIMENTALA da. Egin zure datubasearen segurtasun kopiak aldaketak gorde baino lehenago.</string>
+    <string name="brackets">Brackets</string>
+    <string name="browser_intall_text">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
+    <string name="building_search_idx">Bilatzeko aurkibidea sortzen&#8230;</string>
+    <string name="cancel">Utzi</string>
+    <string name="ClearClipboard">Arbela ezabatuta.</string>
+    <string name="clipboard_error_title">Arbelean errorea</string>
+    <string name="clipboard_error">Samsung Android telefono batzuek akats bat daukate arbelaren inplementazioan, eta honen ondorioz aplikazioetatik kopiatzeak huts egiten du. Xehetasun gehiagotarako ondokora joan:</string>
+    <string name="clipboard_error_clear">Arbela ezabatzen errorea</string>
+    <string name="clipboard_timeout">Arbela denbora pasatu da</string>
+    <string name="clipboard_timeout_summary">Erabiltzaile izena edo pasahitza kopiatu ondoren arbela ezabatzeko igaro beharreko denbora</string>
+    <string name="copy_username">Aukeratu erabiltzaile izena edo pasahitza kopiatzeko</string>
+    <string name="copy_password">Aukeratu pasahitza arbelera kopiatzeko</string>
+    <string name="creating_db_key">Datubasearen gakoa sortzen&#8230;</string>
+    <string name="current_group">Oraingo taldea: </string>
+    <string name="current_group_root">Oraingo taldea: Root</string>
+    <string name="database">Datubasea</string>
+    <string name="decrypting_db">Datubasearen datuak desenkriptatzen&#8230;</string>
+    <string name="decrypting_entry">Sarrera desenkriptatzen</string>
+    <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
+    <string name="digits">Zenbakiak</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Datubasearen fitxategiaren izena sartu:</string>
+    <string name="entry_accessed">Akzesoa: </string>
+    <string name="entry_and_or">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko:</string>
+    <string name="entry_cancel">Utzi</string>
+    <string name="entry_comment">Iruzkinak: </string>
+    <string name="entry_confpassword">Pasahitza berretsi:</string>
+    <string name="entry_created">Sortua: </string>
+    <string name="entry_expires">Iraungitzen da: </string>
+    <string name="entry_keyfile">Gako fitxategia (aukerazkoa)</string>
+    <string name="entry_modified">Aldatua: </string>
+    <string name="entry_not_found">Sarreraren datuak ez aurkituak.</string>
+    <string name="entry_password">Pasahitza:</string>
+    <string name="entry_save">Gorde</string>
+    <string name="entry_title">Izena: </string>
+    <string name="entry_url">URLa: </string>
+    <string name="entry_user_name">Erabiltzaile izena: </string>
+    <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
+    <string name="error_can_not_handle_uri">KeePassDroid-ek ezin dut uri hau kudeatu.</string>
+    <string name="error_could_not_create_group">Errorea taldea sortzerakoan.</string>
+    <string name="error_could_not_create_parent">Ezin izan da aita-direktorioa sortu.</string>
+    <string name="error_database_exists">Fitxategia esistitzen da.</string>
+    <string name="error_database_settings">Ezin izan dira zehaztu datubasearen ezarpenak.</string>
+    <string name="error_failed_to_launch_link">Ezin izan da esteka ireki.</string>
+    <string name="error_filename_required">Fitxategi izen bat beharrezkoa da.</string>
+    <string name="error_file_not_create">Ezin izan da fitxategia sortu:</string>
+    <string name="error_invalid_db">Datubase baliogabea.</string>
+    <string name="error_invalid_path">Fitxategirako bide baliogabea.</string>
+    <string name="error_no_name">Izen bat behar da.</string>
+    <string name="error_nopass">Pasahitz edo gako fitxategi bat beharrezkoak dira.</string>
+    <string name="error_out_of_memory">Telefonoa memoriarik gabe gelditu da zure datubasea arakatzean. Handiegia izan daiteke zure telefonorako.</string>
+    <string name="error_pass_gen_type">Pasahitza sortzeko mota bat gutxienez aukeratu behar da</string>
+    <string name="error_pass_match">Pasahitzak ez datoz bat.</string>
+    <string name="error_rounds_not_number">Rondak zenbaki bat izan behar dira.</string>
+    <string name="error_rounds_too_large">Rondak handiegiak.   2147483648 balorean jarrita.</string>
+    <string name="error_string_key">Eremu izen bat behar da testu kate bakoitzerako.</string>
+    <string name="error_title_required">Izenburu bat behar da.</string>
+    <string name="error_wrong_length">Eremuaren luzeran entero positibo bat sartu</string>
+    <string name="field_name">Eremuaren izena</string>
+    <string name="field_value">Eremuaren balorea</string>
+    <string name="FileNotFound">Fitxategi ez aurkitua.</string>
+    <string name="file_browser">Fitxategien nabigatzailea</string>
+    <string name="generate_password">Pasahitza sortu</string>
+    <string name="group">Taldea</string>
+    <string name="hint_comment">iruzkina</string>
+    <string name="hint_conf_pass">pasahitza berretsi</string>
+    <string name="hint_generated_password">sortutako pasahitza</string>
+    <string name="hint_group_name">Taldearen izena</string>
+    <string name="hint_keyfile">gako fitxategia</string>
+    <string name="hint_length">luzera</string>
+    <string name="hint_pass">pasahitza</string>
+    <string name="hint_login_pass">Pasahitza</string>
+    <string name="hint_title">izena</string>
+    <string name="hint_url">url</string>
+    <string name="hint_username">erabiltzaile izena</string>
+    <string name="install_from_market">Play store-etik Instalatu</string>
+    <string name="install_from_website">Web-etik Instalatu</string>
+    <string name="InvalidPassword">Pasahitz edo gako fitxategi baliogabea.</string>
+    <string name="invalid_algorithm">Algoritmo baliogabea.</string>
+    <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>
+    <string name="keyfile_does_not_exist">Gako fitxategia ez da esistitzen.</string>
+    <string name="keyfile_is_empty">Gako fitxategia hutsik dago.</string>
+    <string name="length">Luzera</string>
+    <string name="list_size_title">Talde listaren tamaina</string>
+    <string name="list_size_summary">Testuaren tamaina taldearen listan</string>
+    <string name="loading_database">Datubasea kargatzen&#8230;</string>
+    <string name="lowercase">minuskulak</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Pasahitza estali</string>
+    <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
+    <string name="menu_about">Honi buruz</string>
+    <string name="menu_change_key">Gako Maisua Aldatu</string>
+    <string name="menu_copy_pass">Pasahitza Kopiatu</string>
+    <string name="menu_copy_user">Erabiltzailea Kopiatu</string>
+    <string name="menu_create">Sortu</string>
+    <string name="menu_app_settings">Ezarpenak</string>
+    <string name="menu_db_settings">Datubasearen ezarpenak</string>
+    <string name="menu_delete">Ezabatu</string>
+    <string name="menu_donate">Dirua eman</string>
+    <string name="menu_edit">Editatu</string>
+    <string name="menu_hide_password">Pasahitza Ezkutatu</string>
+    <string name="menu_homepage">Hasierako orrira joan</string>
+    <string name="menu_lock">Datubasea Blokeatu</string>
+    <string name="menu_open">Ireki</string>
+    <string name="menu_rename">Izena aldatu</string>
+    <string name="menu_search">Bilatu</string>
+    <string name="menu_url">URLra joan</string>
+    <string name="minus">Minus</string>
+    <string name="never">Inoiz ez</string>
+    <string name="no_keys">Sarrerarik ez datubasean edo taldean.</string>
+    <string name="no_results">Emaitzarik gabeko bilaketa</string>
+    <string name="no_url_handler">URL kudatzeko euskarririk ez.</string>
+    <string name="open_recent">Duela gutxiko datubasea ireki (klik irekitzeko):</string>
+    <string name="omitbackup_title">Ez bilatu segurtasun kopiaren sarreretan</string>
+    <string name="omitbackup_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
+    <string name="pass_filename">Keepass datubasearen izena:</string>
+    <string name="password_title">Sartu datubasearen pasahitza</string>
+    <string name="progress_create">Datubase berria sortzen&#8230;</string>
+    <string name="progress_title">Lanean&#8230;</string>
+    <string name="protection">Babesa</string>
+    <string name="recentfile_title">Duela gutxiko fitxategien historia</string>
+    <string name="recentfile_summary">Gogoratu duela gutxi erabili diren fitxategien izenak</string>
+    <string name="remember_keyfile_summary">Gogoratu gako fitxategien kokapenak</string>
+    <string name="remember_keyfile_title">Gako fitxategia gorde</string>
+    <string name="remove_from_filelist">Ezabatu</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Root</string>
+    <string name="rounds">Enkriptatzeko Rondak</string>
+    <string name="rounds_explaination">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
+    <string name="rounds_hint">rondak</string>
+    <string name="saving_database">Datubasea gordetzen&#8230;</string>
+    <string name="space">Lekua</string>
+    <string name="search_label">Bilatu</string>
+    <string name="show_password">Pasahitza erakutsi</string>
+    <string name="sort_name">Izenaren arabera ordenatu</string>
+    <string name="sort_db">DB-a antolatzeko ordena</string>
+    <string name="special">Berezia</string>
+    <string name="search_hint">Sarreraren Izena / Deskribapena</string>
+    <string name="search_results">Bilaketaren emaitzak</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Azpimarratu</string>
+    <string name="unsupported_db_version">Euskarririk gabeko datubase bertsioa.</string>
+    <string name="uppercase">Maiuskulak</string>
+    <string name="warning_read_only">Zure sd txartela bakarrik irakurtzeko moduan dago. Izan daiteke datubasearen aldaketak ezin gordetzea.</string>
+    <string name="warning_unmounted">Une honetan zure sd txartela ez dago montatua zure dispositiboan. Ezingo duzu zure datubasea kargatu edo sortu.</string>
+    <string name="version_label">Bertsioa:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 segundu</item>
+    	<item>minutu 1</item>
+    	<item>5 minutu</item>
+    	<item>Inoiz ez</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Txikia</item>
+    	<item>Ertaina</item>
+    	<item>Handia</item>
+    </string-array>
+</resources>
