@@ -1,5 +1,6 @@
  * Remove bad asserts (closes: #606)
  * Add Latvian translations from Raimonds
+ * Polish transalation fix
 
 KeePassDroid (1.99.10)
  * Fix crashes on SELinux enabled devices
