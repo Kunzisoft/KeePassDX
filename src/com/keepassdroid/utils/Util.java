@@ -62,7 +62,6 @@ public class Util {
 
 	public static String getEditText(Activity act, int resId) {
 		TextView te =  (TextView) act.findViewById(resId);
-		assert(te == null);
 		
 		if (te != null) {
 			return te.getText().toString();
@@ -73,7 +72,6 @@ public class Util {
 	
 	public static void setEditText(Activity act, int resId, String str) {
 		TextView te =  (TextView) act.findViewById(resId);
-		assert(te == null);
 		
 		if (te != null) {
 			te.setText(str);
