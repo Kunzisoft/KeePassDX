@@ -156,7 +156,7 @@ public class PwDbV3Output extends PwDbOutput {
 		try {
 			pho.output();
 		} catch (IOException e) {
-			throw new PwDbOutputException("Failed to output the header.");
+			throw new PwDbOutputException(e);
 		}
 
 		return header;
