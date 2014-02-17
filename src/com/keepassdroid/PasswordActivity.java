@@ -28,6 +28,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -148,129 +149,11 @@ public class PasswordActivity extends LockingActivity {
 		super.onCreate(savedInstanceState);
 	
 		Intent i = getIntent();
-		String action = i.getAction();
-		String password = "";
-		boolean launch_immediately = false;
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
 		
-		if ( action != null && action.equals(VIEW_INTENT) ) {
-			mFileName = i.getDataString();
-			
-			if ( ! mFileName.substring(0, 7).equals("file://") ) {
-				Toast.makeText(this, R.string.error_can_not_handle_uri, Toast.LENGTH_LONG).show();
-				finish();
-				return;
-			}
-			
-			mFileName = URLDecoder.decode(mFileName.substring(7, mFileName.length()));
-						
-			if ( mFileName.length() == 0 ) {
-				// No file name
-				Toast.makeText(this, R.string.FileNotFound, Toast.LENGTH_LONG).show();
-				finish();
-				return;
-			}
-			
-			File dbFile = new File(mFileName);
-			if ( ! dbFile.exists() ) {
-				// File does not exist
-				Toast.makeText(this, R.string.FileNotFound, Toast.LENGTH_LONG).show();
-				finish();
-				return;
-			}
-			
-			mKeyFile = getKeyFile(mFileName);
-			
-		} else {
-			mFileName = i.getStringExtra(KEY_FILENAME);
-			mKeyFile = i.getStringExtra(KEY_KEYFILE);
-			password = i.getStringExtra(KEY_PASSWORD);
-			launch_immediately = i.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
-			
-			if ( mKeyFile == null || mKeyFile.length() == 0) {
-				mKeyFile = getKeyFile(mFileName);
-			}
-		}
-		
-		setContentView(R.layout.password);
-		populateView();
-
-		Button confirmButton = (Button) findViewById(R.id.pass_ok);
-		confirmButton.setOnClickListener(new OkClickHandler());
-		
-		CheckBox checkBox = (CheckBox) findViewById(R.id.show_password);
-		// Show or hide password
-		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				TextView password = (TextView) findViewById(R.id.password);
-
-				if ( isChecked ) {
-					password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-				} else {
-					password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-				}
-			}
-			
-		});
-		
-		if (password != null) {
-			TextView tv_password = (TextView) findViewById(R.id.password);
-			tv_password.setText(password);
-		}
-		
-		CheckBox defaultCheck = (CheckBox) findViewById(R.id.default_database);
-		defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
-		
-		ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
-		browse.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-				i.setType("file/*");
-				
-				try {
-					startActivityForResult(i, GET_CONTENT);
-				} catch (ActivityNotFoundException e) {
-					lookForOpenIntentsFilePicker();
-				}
-			}
-			
-			private void lookForOpenIntentsFilePicker() {
-				if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
-					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
-					
-					if (mFileName.length() > 0) {
-						File keyfile = new File(mFileName);
-						File parent = keyfile.getParentFile();
-						if (parent != null) {
-							i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
-						}
-					}
-					
-					try {
-						startActivityForResult(i, FILE_BROWSE);
-					} catch (ActivityNotFoundException e) {
-						showBrowserDialog();
-					}
-				} else {
-					showBrowserDialog();
-				}
-			}
-			
-			private void showBrowserDialog() {
-				BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
-				diag.show();
-			}
-		});
-		
-		retrieveSettings();
-		
-		if (launch_immediately)
-			loadDatabase(password, mKeyFile);
+		new InitTask().execute(i);
 	}
 	
 	@Override
@@ -437,4 +320,133 @@ public class PasswordActivity extends LockingActivity {
 		}
 	}
 	
+	private class InitTask extends AsyncTask<Intent, Void, Integer> {
+		String password = "";
+		boolean launch_immediately = false;
+		
+		@Override
+		protected Integer doInBackground(Intent... args) {
+			Intent i = args[0];
+			String action = i.getAction();;
+			if ( action != null && action.equals(VIEW_INTENT) ) {
+				mFileName = i.getDataString();
+				
+				if ( ! mFileName.substring(0, 7).equals("file://") ) {
+					return R.string.error_can_not_handle_uri;
+				}
+				
+				mFileName = URLDecoder.decode(mFileName.substring(7, mFileName.length()));
+							
+				if ( mFileName.length() == 0 ) {
+					// No file name
+					return R.string.FileNotFound;
+				}
+				
+				File dbFile = new File(mFileName);
+				if ( ! dbFile.exists() ) {
+					// File does not exist
+					return R.string.FileNotFound;
+				}
+				
+				mKeyFile = getKeyFile(mFileName);
+				
+			} else {
+				mFileName = i.getStringExtra(KEY_FILENAME);
+				mKeyFile = i.getStringExtra(KEY_KEYFILE);
+				password = i.getStringExtra(KEY_PASSWORD);
+				launch_immediately = i.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
+				
+				if ( mKeyFile == null || mKeyFile.length() == 0) {
+					mKeyFile = getKeyFile(mFileName);
+				}
+			}
+			return null;
+		}
+		
+		public void onPostExecute(Integer result) {
+			if(result != null) {
+				Toast.makeText(PasswordActivity.this, result, Toast.LENGTH_LONG).show();
+				finish();
+				return;
+			}
+			
+			setContentView(R.layout.password);
+			populateView();
+
+			Button confirmButton = (Button) findViewById(R.id.pass_ok);
+			confirmButton.setOnClickListener(new OkClickHandler());
+			
+			CheckBox checkBox = (CheckBox) findViewById(R.id.show_password);
+			// Show or hide password
+			checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					TextView password = (TextView) findViewById(R.id.password);
+
+					if ( isChecked ) {
+						password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+					} else {
+						password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					}
+				}
+				
+			});
+			
+			if (password != null) {
+				TextView tv_password = (TextView) findViewById(R.id.password);
+				tv_password.setText(password);
+			}
+			
+			CheckBox defaultCheck = (CheckBox) findViewById(R.id.default_database);
+			defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
+			
+			ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
+			browse.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View v) {
+					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+					i.setType("file/*");
+					
+					try {
+						startActivityForResult(i, GET_CONTENT);
+					} catch (ActivityNotFoundException e) {
+						lookForOpenIntentsFilePicker();
+					}
+				}
+				
+				private void lookForOpenIntentsFilePicker() {
+					if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
+						Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
+						
+						if (mFileName.length() > 0) {
+							File keyfile = new File(mFileName);
+							File parent = keyfile.getParentFile();
+							if (parent != null) {
+								i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
+							}
+						}
+						
+						try {
+							startActivityForResult(i, FILE_BROWSE);
+						} catch (ActivityNotFoundException e) {
+							showBrowserDialog();
+						}
+					} else {
+						showBrowserDialog();
+					}
+				}
+				
+				private void showBrowserDialog() {
+					BrowserDialog diag = new BrowserDialog(PasswordActivity.this);
+					diag.show();
+				}
+			});
+			
+			retrieveSettings();
+			
+			if (launch_immediately)
+				loadDatabase(password, mKeyFile);
+		}
+	}
 }
