@@ -56,8 +56,10 @@ import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDefsV4;
 import com.keepassdroid.database.PwDeletedObject;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwEntryV4.AutoType;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.exception.PwDbOutputException;
@@ -112,7 +114,7 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 	}
 	
-	private class GroupWriter extends GroupHandler {
+	private class GroupWriter extends GroupHandler<PwGroup> {
 		private Stack<PwGroupV4> groupStack;
 		
 		public GroupWriter(Stack<PwGroupV4> gs) {
@@ -120,7 +122,8 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 
 		@Override
-		public boolean operate(PwGroupV4 group) {
+		public boolean operate(PwGroup g) {
+			PwGroupV4 group = (PwGroupV4) g;
 			assert(group != null);
 			
 			while(true) {
@@ -143,16 +146,17 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 	}
 	
-	private class EntryWriter extends EntryHandler {
+	private class EntryWriter extends EntryHandler<PwEntry> {
 
 		@Override
-		public boolean operate(PwEntryV4 entry) {
+		public boolean operate(PwEntry e) {
+			PwEntryV4 entry = (PwEntryV4) e;
 			assert(entry != null);
 			
 			try {
 				writeEntry(entry, false);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+			} catch (IOException ex) {
+				throw new RuntimeException(ex);
 			}
 			
 			return true;

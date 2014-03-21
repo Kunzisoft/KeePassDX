@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,12 +19,32 @@
  */
 package com.keepassdroid.database;
 
+import java.util.Date;
+import java.util.List;
 
-/** "Delegate" class for operating on each group when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class GroupHandler<T> {
-	public abstract boolean operate(T entry);
+public class EntrySearchHandlerAll extends EntryHandler<PwEntry> {
+	private List<PwEntry> listStorage;
+	private SearchParameters sp;
+	private Date now;
+	
+	public EntrySearchHandlerAll(SearchParameters sp, List<PwEntry> listStorage) {
+		this.sp = sp;
+		this.listStorage = listStorage;
+		now = new Date();
+	}
+
+	@Override
+	public boolean operate(PwEntry entry) {
+		if (sp.respectEntrySearchingDisabled && !entry.isSearchingEnabled()) {
+			return true;
+		}
+		
+		if (sp.excludeExpired && entry.expires() && now.after(entry.getExpiryTime())) {
+			return true;
+		}
+		
+		listStorage.add(entry);
+		return true;
+	}
+
 }

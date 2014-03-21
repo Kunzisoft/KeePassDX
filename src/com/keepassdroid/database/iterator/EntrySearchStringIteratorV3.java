@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Brian Pellin.
+ * Copyright 2011-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -22,13 +22,21 @@ package com.keepassdroid.database.iterator;
 import java.util.NoSuchElementException;
 
 import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.SearchParameters;
 
 public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
 	
 	private PwEntryV3 entry; 
-
+	private SearchParameters sp;
+	
 	public EntrySearchStringIteratorV3(PwEntryV3 entry) {
 		this.entry = entry;
+		this.sp = SearchParameters.DEFAULT;
+	}
+
+	public EntrySearchStringIteratorV3(PwEntryV3 entry, SearchParameters sp) {
+		this.entry = entry;
+		this.sp = sp;
 	}
 
 	private static final int title = 0;
@@ -51,9 +59,39 @@ public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
 			throw new NoSuchElementException("Past final string");
 		}
 		
+        useSearchParameters();
+		
 		String str = getCurrentString();
 		current++;
 		return str;
+	}
+	
+	private void useSearchParameters() {
+		
+		if (sp == null) { return; }
+
+		boolean found = false;
+		
+		while (!found) {
+            switch (current) {
+            case title:
+                found = sp.searchInTitles;
+            
+            case url:
+            	found = sp.searchInUrls;
+                    
+            case username:
+                found = sp.searchInUserNames;    
+            	
+            case comment:
+            	found = sp.searchInNotes;
+                    
+            default:
+            	found = true;
+            }
+                
+            if (!found) { current++; }   
+		}
 	}
 	
 	private String getCurrentString() {

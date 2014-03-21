@@ -24,7 +24,7 @@ package com.keepassdroid.database;
  * @author bpellin
  *
  */
-public abstract class EntryHandler {
-	public abstract boolean operate(PwEntryV4 entry);
+public abstract class EntryHandler<T extends PwEntry> {
+	public abstract boolean operate(T entry);
 }
 	

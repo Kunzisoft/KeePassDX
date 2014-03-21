@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -17,14 +17,30 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database;
+package com.keepassdroid.utils;
 
+import java.util.HashMap;
+import java.util.Map;
 
-/** "Delegate" class for operating on each group when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class GroupHandler<T> {
-	public abstract boolean operate(T entry);
+import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwEntryV4;
+
+public class SprContextV4 implements Cloneable {
+	public PwDatabaseV4 db;
+	public PwEntryV4 entry;
+	public Map<String, String> refsCache = new HashMap<String, String>();
+	
+	public SprContextV4(PwDatabaseV4 db, PwEntryV4 entry) {
+		this.db = db;
+		this.entry = entry;
+	}
+
+	@Override
+	protected Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
+	}
 }

@@ -24,6 +24,8 @@ import java.util.Iterator;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwEntryV4;
+import com.keepassdroid.database.SearchParameters;
+import com.keepassdroid.database.SearchParametersV4;
 
 public abstract class EntrySearchStringIterator implements Iterator<String> {
 	
@@ -32,6 +34,16 @@ public abstract class EntrySearchStringIterator implements Iterator<String> {
 			return new EntrySearchStringIteratorV3((PwEntryV3) e);
 		} else if (e instanceof PwEntryV4) {
 			return new EntrySearchStringIteratorV4((PwEntryV4) e);
+		} else {
+			throw new RuntimeException("This should not be possible");
+		}
+	}
+	
+	public static EntrySearchStringIterator getInstance(PwEntry e, SearchParameters sp) {
+		if (e instanceof PwEntryV3) {
+			return new EntrySearchStringIteratorV3((PwEntryV3) e, sp);
+		} else if (e instanceof PwEntryV4) {
+			return new EntrySearchStringIteratorV4((PwEntryV4) e, (SearchParametersV4) sp);
 		} else {
 			throw new RuntimeException("This should not be possible");
 		}

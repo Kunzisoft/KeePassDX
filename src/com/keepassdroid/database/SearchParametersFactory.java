@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,12 +19,29 @@
  */
 package com.keepassdroid.database;
 
-
-/** "Delegate" class for operating on each group when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class GroupHandler<T> {
-	public abstract boolean operate(T entry);
+public class SearchParametersFactory {
+	public static SearchParameters getNone(PwDatabase db) {
+		SearchParameters sp = getInstance(db);
+		sp.setupNone();
+		
+		return sp;
+	}
+	
+	public static SearchParameters getInstance(PwDatabase db) {
+		if (db instanceof PwDatabase) {
+			return new SearchParametersV4();
+		}
+		else {
+			return new SearchParameters();
+		}
+	}
+	
+	public static SearchParameters getInstance(PwGroup group) {
+		if (group instanceof PwGroupV4) {
+			return new SearchParametersV4();
+		}
+		else {
+			return new SearchParameters();
+		}
+	}
 }

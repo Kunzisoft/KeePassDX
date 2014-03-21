@@ -357,4 +357,5 @@ public abstract class PwDatabase {
 	public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
 		return group != null;
 	}
+	
 }

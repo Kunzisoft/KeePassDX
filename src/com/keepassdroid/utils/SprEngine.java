@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -17,14 +17,25 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database;
+package com.keepassdroid.utils;
 
+import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwEntry;
 
-/** "Delegate" class for operating on each group when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class GroupHandler<T> {
-	public abstract boolean operate(T entry);
+public class SprEngine {
+	
+	public static SprEngine getInstance(PwDatabase db) {
+		if (db instanceof PwDatabaseV4) {
+			return new SprEngineV4();
+		} 
+		else {
+			return new SprEngine();
+		}
+	}
+	
+	public String compile(String text, PwEntry entry, PwDatabase database) {
+		return text;
+	}
+
 }

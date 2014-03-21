@@ -149,5 +149,9 @@ public abstract class PwEntry implements Cloneable {
 	public void touchLocation() { }
 	
 	public abstract void setParent(PwGroup parent);
+	
+	public boolean isSearchingEnabled() {
+		return false;
+	}
 
 }

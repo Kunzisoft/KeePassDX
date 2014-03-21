@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -31,11 +31,11 @@ import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
-	private static final String STR_TITLE = "Title";
-	private static final String STR_USERNAME = "UserName";
+	public static final String STR_TITLE = "Title";
+	public static final String STR_USERNAME = "UserName";
 	public static final String STR_PASSWORD = "Password";
-	private static final String STR_URL = "URL";
-	private static final String STR_NOTES = "Notes";
+	public static final String STR_URL = "URL";
+	public static final String STR_NOTES = "Notes";
 	
 	public PwGroupV4 parent;
 	public UUID uuid = PwDatabaseV4.UUID_ZERO;
@@ -460,5 +460,13 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void setParent(PwGroup parent) {
 		this.parent = (PwGroupV4) parent;
+	}
+	
+	public boolean isSearchingEnabled() {
+		if (parent != null) {
+			return parent.isSearchEnabled();
+		}
+		
+		return PwGroupV4.DEFAULT_SEARCHING_ENABLED;
 	}
 }

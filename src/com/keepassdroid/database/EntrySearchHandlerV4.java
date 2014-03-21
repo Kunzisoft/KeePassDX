@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,12 +19,29 @@
  */
 package com.keepassdroid.database;
 
+import java.util.List;
 
-/** "Delegate" class for operating on each group when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class GroupHandler<T> {
-	public abstract boolean operate(T entry);
+import com.keepassdroid.utils.StrUtil;
+import com.keepassdroid.utils.UuidUtil;
+
+public class EntrySearchHandlerV4 extends EntrySearchHandler {
+	private SearchParametersV4 sp;
+
+	protected EntrySearchHandlerV4(SearchParameters sp, List<PwEntry> listStorage) {
+		super(sp, listStorage);
+		this.sp = (SearchParametersV4) sp;
+	}
+
+	@Override
+	protected boolean searchID(PwEntry e) {
+		PwEntryV4 entry = (PwEntryV4) e;
+		if (sp.searchInUUIDs) {
+			String hex = UuidUtil.toHexString(entry.uuid);
+			return StrUtil.indexOfIgnoreCase(hex, sp.searchString) >= 0;
+		}
+		
+		return false;
+	}
+
+	
 }

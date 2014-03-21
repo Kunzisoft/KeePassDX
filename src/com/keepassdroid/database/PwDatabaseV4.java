@@ -360,4 +360,5 @@ public class PwDatabaseV4 extends PwDatabase {
 		
 		return g.isSearchEnabled();
 	}
+	
 }

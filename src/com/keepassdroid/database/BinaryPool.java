@@ -49,7 +49,7 @@ public class BinaryPool {
 		return pool.entrySet();
 	}
 	
-	private class AddBinaries extends EntryHandler {
+	private class AddBinaries extends EntryHandler<PwEntryV4> {
 
 		@Override
 		public boolean operate(PwEntryV4 entry) {

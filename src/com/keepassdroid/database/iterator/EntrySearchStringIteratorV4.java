@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2013 Brian Pellin.
+ * Copyright 2011-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -24,14 +24,24 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
 import com.keepassdroid.database.PwEntryV4;
+import com.keepassdroid.database.SearchParametersV4;
 import com.keepassdroid.database.security.ProtectedString;
 
 public class EntrySearchStringIteratorV4 extends EntrySearchStringIterator {
 	
 	private String current;
 	private Iterator<Entry<String, ProtectedString>> setIterator;
+	private SearchParametersV4 sp;
 
 	public EntrySearchStringIteratorV4(PwEntryV4 entry) {
+		this.sp = SearchParametersV4.DEFAULT;
+		setIterator = entry.strings.entrySet().iterator();
+		advance();
+		
+	}
+
+	public EntrySearchStringIteratorV4(PwEntryV4 entry, SearchParametersV4 sp) {
+		this.sp = sp;
 		setIterator = entry.strings.entrySet().iterator();
 		advance();
 	}
@@ -53,24 +63,35 @@ public class EntrySearchStringIteratorV4 extends EntrySearchStringIterator {
 	}
 	
 	private void advance() {
-		if (!setIterator.hasNext()) {
-			current = null;
-			return;
-		}
-		
-		Entry<String, ProtectedString> entry = setIterator.next();
-		
-		// Skip password entries
-		while (entry.getKey().equals(PwEntryV4.STR_PASSWORD)) {
-			if (!setIterator.hasNext()) {
-				current = null;
+		while (setIterator.hasNext()) {
+			Entry<String, ProtectedString> entry = setIterator.next();
+			
+			String key = entry.getKey();
+			
+			if (searchInField(key)) {
+				current = entry.getValue().toString();
 				return;
 			}
 			
-			entry = setIterator.next();
 		}
 		
-		current = entry.getValue().toString();
+		current = null;
+	}
+	
+	private boolean searchInField(String key) {
+		if (key.equals(PwEntryV4.STR_TITLE)) {
+			return sp.searchInTitles;
+		} else if (key.equals(PwEntryV4.STR_USERNAME)) {
+			return sp.searchInUserNames;
+		} else if (key.equals(PwEntryV4.STR_PASSWORD)) {
+			return sp.searchInPasswords;
+		} else if (key.equals(PwEntryV4.STR_URL)) {
+			return sp.searchInUrls;
+		} else if (key.equals(PwEntryV4.STR_NOTES)) {
+			return sp.searchInNotes;
+		} else {
+			return sp.searchInOther;
+		}
 	}
 
 }

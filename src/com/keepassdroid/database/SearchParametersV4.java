@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2013-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,12 +19,23 @@
  */
 package com.keepassdroid.database;
 
+public class SearchParametersV4 extends SearchParameters implements Cloneable {
+	public static SearchParametersV4 DEFAULT = new SearchParametersV4();
+	
+	public boolean searchInOther = true;
+	public boolean searchInUUIDs = false;
+	public boolean searchInTags = true;
 
-/** "Delegate" class for operating on each group when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class GroupHandler<T> {
-	public abstract boolean operate(T entry);
+	@Override
+	public Object clone() {
+		return super.clone();
+	}
+
+	@Override
+	public void setupNone() {
+		super.setupNone();
+		searchInOther = false;
+		searchInUUIDs = false;
+		searchInTags = false;
+	}
 }
