@@ -28,6 +28,8 @@ import java.security.SecureRandomSpi;
 import java.security.Security;
 import java.util.Locale;
 
+import com.keepassdroid.utils.StrUtil;
+
 import android.os.Process;
 import android.os.Build;
 
@@ -74,6 +76,11 @@ public final class PRNGFixes {
     }
     
     private static boolean supportedOnThisDevice() {
+    	// Blacklist on samsung devices
+    	if (StrUtil.indexOfIgnoreCase(BuildCompat.getManufacturer(), "samsung") >= 0) {
+    		return false;
+    	}
+    	
         if (sdkVersion > VERSION_CODE_JELLY_BEAN_MR2) {
             return false;
         }
