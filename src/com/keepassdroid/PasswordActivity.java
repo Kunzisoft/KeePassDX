@@ -152,6 +152,7 @@ public class PasswordActivity extends LockingActivity {
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
+		setContentView(R.layout.password);
 		
 		new InitTask().execute(i);
 	}
@@ -370,7 +371,6 @@ public class PasswordActivity extends LockingActivity {
 				return;
 			}
 			
-			setContentView(R.layout.password);
 			populateView();
 
 			Button confirmButton = (Button) findViewById(R.id.pass_ok);
