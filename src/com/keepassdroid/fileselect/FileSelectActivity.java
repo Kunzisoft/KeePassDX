@@ -29,6 +29,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -284,15 +285,25 @@ public class FileSelectActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		String fileName = fileHistory.getDatabaseAt(position);
-		String keyFile = fileHistory.getKeyfileAt(position);
-
-		try {
-			PasswordActivity.Launch(this, fileName, keyFile);
-		} catch (FileNotFoundException e) {
-			Toast.makeText(this, R.string.FileNotFound, Toast.LENGTH_LONG)
-					.show();
-		}
+		new AsyncTask<Integer, Void, Void>() {
+			String fileName;
+			String keyFile;
+			protected Void doInBackground(Integer... args) {
+				int position = args[0];
+				fileName = fileHistory.getDatabaseAt(position);
+				keyFile = fileHistory.getKeyfileAt(position);
+				return null;
+			}
+			
+			protected void onPostExecute(Void v) {
+				try {
+					PasswordActivity.Launch(FileSelectActivity.this, fileName, keyFile);
+				} catch (FileNotFoundException e) {
+					Toast.makeText(FileSelectActivity.this, R.string.FileNotFound, Toast.LENGTH_LONG)
+							.show();
+				}
+			}
+		}.execute(position);
 	}
 
 	@Override
@@ -397,10 +408,17 @@ public class FileSelectActivity extends ListActivity {
 			
 			TextView tv = (TextView) acmi.targetView;
 			String filename = tv.getText().toString();
-			fileHistory.deleteFile(filename);
-			
-			refreshList();
-			
+			new AsyncTask<String, Void, Void>() {
+				protected java.lang.Void doInBackground(String... args) {
+					String filename = args[0];
+					fileHistory.deleteFile(filename);
+					return null;
+				}
+
+				protected void onPostExecute(Void v) {
+					refreshList();
+				}
+			}.execute(filename);
 			return true;
 		}
 		

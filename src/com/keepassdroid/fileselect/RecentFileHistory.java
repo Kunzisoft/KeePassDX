@@ -63,7 +63,7 @@ public class RecentFileHistory {
 		prefs.registerOnSharedPreferenceChangeListener(listner);
 	}
 	
-	private void init() {
+	private synchronized void init() {
 		if (!init) {
 			if (!upgradeFromSQL()) {
 				loadPrefs();
