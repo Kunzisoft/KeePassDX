@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -187,6 +187,8 @@ public class FileSelectActivity extends ListActivity {
 				try {
 					startActivityForResult(i, GET_CONTENT);
 				} catch (ActivityNotFoundException e) {
+					lookForOpenIntentsFilePicker();
+				} catch (SecurityException e) {
 					lookForOpenIntentsFilePicker();
 				}
 			}
