@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -25,8 +25,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.keepass.R;
+import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.security.ProtectedString;
+import com.keepassdroid.utils.SprEngine;
+import com.keepassdroid.utils.SprEngineV4;
 import com.keepassdroid.view.EntrySection;
 
 
@@ -36,13 +40,6 @@ public class EntryActivityV4 extends EntryActivity {
 	protected void setEntryView() {
 		setContentView(R.layout.entry_view_v4);
 	}
-
-	/*
-	@Override
-	protected void setupEditButtons() {
-		// No edit buttons yet
-	}
-	*/
 
 	@Override
 	protected void fillData(boolean trimList) {
@@ -56,13 +53,17 @@ public class EntryActivityV4 extends EntryActivity {
 		
 		PwEntryV4 entry = (PwEntryV4) mEntry;
 		
+		PwDatabase pm = App.getDB().pm;
+		SprEngine spr = SprEngineV4.getInstance(pm);
+		
 		// Display custom strings
 		if (entry.strings.size() > 0) {
 			for (Map.Entry<String, ProtectedString> pair : entry.strings.entrySet()) {
 				String key = pair.getKey();
 				
 				if (!PwEntryV4.IsStandardString(key)) {
-					View view = new EntrySection(this, null, key, pair.getValue().toString());
+					String text = pair.getValue().toString();
+					View view = new EntrySection(this, null, key, spr.compile(text, entry, pm));
 					group.addView(view);
 				}
 			}

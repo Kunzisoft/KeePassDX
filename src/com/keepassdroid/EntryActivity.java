@@ -57,6 +57,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.exception.SamsungClipboardException;
@@ -229,13 +230,16 @@ public class EntryActivity extends LockCloseActivity {
 	
 	protected void fillData(boolean trimList) {
 		ImageView iv = (ImageView) findViewById(R.id.entry_icon);
-		App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mEntry.getIcon());
-
-		populateText(R.id.entry_title, mEntry.getTitle());
-		populateText(R.id.entry_user_name, mEntry.getUsername());
+		Database db = App.getDB();
+		db.drawFactory.assignDrawableTo(iv, getResources(), mEntry.getIcon());
 		
-		populateText(R.id.entry_url, mEntry.getUrl());
-		populateText(R.id.entry_password, mEntry.getPassword());
+		PwDatabase pm = db.pm;
+
+		populateText(R.id.entry_title, mEntry.getTitle(true, pm));
+		populateText(R.id.entry_user_name, mEntry.getUsername(true, pm));
+		
+		populateText(R.id.entry_url, mEntry.getUrl(true, pm));
+		populateText(R.id.entry_password, mEntry.getPassword(true, pm));
 		setPasswordStyle();
 		
 		populateText(R.id.entry_created, getDateTime(mEntry.getCreationTime()));
@@ -248,7 +252,7 @@ public class EntryActivity extends LockCloseActivity {
 		} else {
 			populateText(R.id.entry_expires, R.string.never);
 		}
-		populateText(R.id.entry_comment, mEntry.getNotes());
+		populateText(R.id.entry_comment, mEntry.getNotes(true, pm));
 
 	}
 	
@@ -370,11 +374,11 @@ public class EntryActivity extends LockCloseActivity {
 			return true;
 			
 		case R.id.menu_copy_user:
-			timeoutCopyToClipboard(mEntry.getUsername());
+			timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm));
 			return true;
 			
 		case R.id.menu_copy_pass:
-			timeoutCopyToClipboard(new String(mEntry.getPassword()));
+			timeoutCopyToClipboard(new String(mEntry.getPassword(true, App.getDB().pm)));
 			return true;
 			
 		case R.id.menu_lock:

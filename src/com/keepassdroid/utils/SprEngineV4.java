@@ -65,10 +65,12 @@ public class SprEngineV4 extends SprEngine {
 		
 		int offset = 0;
 		for (int i = 0; i < 20; ++i) {
+			text = fillRefsUsingCache(text, ctx);
+			
 			int start = StrUtil.indexOfIgnoreCase(text, STR_REF_START, offset);
 			if (start < 0) { break; }
 			int end = StrUtil.indexOfIgnoreCase(text, STR_REF_END, start + 1);
-			if (end < 0) { break; }
+			if (end <= start) { break; }
 			
 			String fullRef = text.substring(start, end - start + 1);
 			TargetResult result = findRefTarget(fullRef, ctx);
@@ -109,6 +111,9 @@ public class SprEngineV4 extends SprEngine {
                 	String innerContent = compileInternal(data, subCtx, recursionLevel + 1);
                 	addRefsToCache(fullRef, innerContent, ctx);
                 	text = fillRefsUsingCache(text, ctx);
+                } else {
+                	offset = start + 1;
+                	continue;
                 }
 			}
 			

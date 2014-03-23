@@ -1,3 +1,4 @@
+ * Add support for decoding field references (closes: #247)
  * Remove bad asserts (closes: #606)
  * Add Latvian translations from Raimonds
  * Add Basque translations from dgarciabad

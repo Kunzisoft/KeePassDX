@@ -29,6 +29,7 @@ import java.util.UUID;
 
 import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
+import com.keepassdroid.utils.SprEngine;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public static final String STR_TITLE = "Title";
@@ -185,20 +186,36 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		
 		return newEntry;
 	}
+	
+	private String decodeRefKey(boolean decodeRef, String key, PwDatabase db) {
+		String text = getString(key);
+		if (decodeRef) {
+			text = decodeRef(text, db);
+		}
+		
+		return text;
+	}
 
-	@Override
-	public String getUsername() {
-		return getString(STR_USERNAME);
+	private String decodeRef(String text, PwDatabase db) {
+		if (db == null) { return text; }
+		
+		SprEngine spr = SprEngine.getInstance(db);
+		return spr.compile(text, this, db);
 	}
 
 	@Override
-	public String getTitle() {
-		return getString(STR_TITLE);
+	public String getUsername(boolean decodeRef, PwDatabase db) {
+		return decodeRefKey(decodeRef, STR_USERNAME, db);
+	}
+
+	@Override
+	public String getTitle(boolean decodeRef, PwDatabase db) {
+		return decodeRefKey(decodeRef, STR_TITLE, db);
 	}
 	
 	@Override
-	public String getPassword() {
-		return getString(STR_PASSWORD);
+	public String getPassword(boolean decodeRef, PwDatabase db) {
+		return decodeRefKey(decodeRef, STR_PASSWORD, db);
 	}
 
 	@Override
@@ -332,13 +349,13 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 
 	@Override
-	public String getNotes() {
-		return getString(STR_NOTES);
+	public String getNotes(boolean decodeRef, PwDatabase db) {
+		return decodeRefKey(decodeRef, STR_NOTES, db);
 	}
 
 	@Override
-	public String getUrl() {
-		return getString(STR_URL);
+	public String getUrl(boolean decodeRef, PwDatabase db) {
+		return decodeRefKey(decodeRef, STR_URL, db);
 	}
 
 	@Override

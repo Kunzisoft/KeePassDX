@@ -25,12 +25,15 @@ import com.keepassdroid.database.PwEntry;
 
 public class SprEngine {
 	
+	private static SprEngineV4 sprV4 = new SprEngineV4();
+	private static SprEngine spr = new SprEngine();
+	
 	public static SprEngine getInstance(PwDatabase db) {
 		if (db instanceof PwDatabaseV4) {
-			return new SprEngineV4();
+            return sprV4;
 		} 
 		else {
-			return new SprEngine();
+            return spr;
 		}
 	}
 	
