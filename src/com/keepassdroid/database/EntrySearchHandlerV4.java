@@ -20,6 +20,7 @@
 package com.keepassdroid.database;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.keepassdroid.utils.StrUtil;
 import com.keepassdroid.utils.UuidUtil;
@@ -37,7 +38,7 @@ public class EntrySearchHandlerV4 extends EntrySearchHandler {
 		PwEntryV4 entry = (PwEntryV4) e;
 		if (sp.searchInUUIDs) {
 			String hex = UuidUtil.toHexString(entry.uuid);
-			return StrUtil.indexOfIgnoreCase(hex, sp.searchString) >= 0;
+			return StrUtil.indexOfIgnoreCase(hex, sp.searchString, Locale.ENGLISH) >= 0;
 		}
 		
 		return false;

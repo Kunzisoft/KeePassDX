@@ -21,6 +21,7 @@ package com.keepassdroid.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import com.keepassdroid.database.PwDatabase;
@@ -67,9 +68,9 @@ public class SprEngineV4 extends SprEngine {
 		for (int i = 0; i < 20; ++i) {
 			text = fillRefsUsingCache(text, ctx);
 			
-			int start = StrUtil.indexOfIgnoreCase(text, STR_REF_START, offset);
+			int start = StrUtil.indexOfIgnoreCase(text, STR_REF_START, offset, Locale.ENGLISH);
 			if (start < 0) { break; }
-			int end = StrUtil.indexOfIgnoreCase(text, STR_REF_END, start + 1);
+			int end = StrUtil.indexOfIgnoreCase(text, STR_REF_END, start + 1, Locale.ENGLISH);
 			if (end <= start) { break; }
 			
 			String fullRef = text.substring(start, end - start + 1);
@@ -125,7 +126,7 @@ public class SprEngineV4 extends SprEngine {
 	public TargetResult findRefTarget(String fullRef, SprContextV4 ctx) {
 		if (fullRef == null) { return null; }
 		
-		fullRef = fullRef.toUpperCase();
+		fullRef = fullRef.toUpperCase(Locale.ENGLISH);
 		if (!fullRef.startsWith(STR_REF_START) || !fullRef.endsWith(STR_REF_END)) { 
 			return null;
 		}
@@ -176,7 +177,7 @@ public class SprEngineV4 extends SprEngine {
 	
 	private String fillRefsUsingCache(String text, SprContextV4 ctx) {
 		for (Entry<String, String> entry : ctx.refsCache.entrySet()) {
-			text = StrUtil.replaceAllIgnoresCase(text, entry.getKey(), entry.getValue());
+			text = StrUtil.replaceAllIgnoresCase(text, entry.getKey(), entry.getValue(), Locale.ENGLISH);
 		}
 		
 		return text;

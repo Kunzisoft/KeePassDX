@@ -19,9 +19,9 @@
  */
 package com.keepassdroid.utils;
 
-import android.annotation.SuppressLint;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class StrUtil {
 	public static List<String> splitSearchTerms(String search) {
@@ -58,23 +58,22 @@ public class StrUtil {
 		return list;
 	}
 	
-	@SuppressLint("DefaultLocale")
-	public static int indexOfIgnoreCase(String text, String search, int start) {
+	public static int indexOfIgnoreCase(String text, String search, int start, Locale locale) {
 		if (text == null || search == null) return -1;
 		
-		return text.toLowerCase().indexOf(search.toLowerCase(), start);
+		return text.toLowerCase(locale).indexOf(search.toLowerCase(locale), start);
 	}
 	
-	public static int indexOfIgnoreCase(String text, String search) {
-		return indexOfIgnoreCase(text, search, 0);
+	public static int indexOfIgnoreCase(String text, String search, Locale locale) {
+		return indexOfIgnoreCase(text, search, 0, locale);
 	}
 	
-	public static String replaceAllIgnoresCase(String text, String find, String newText) {
+	public static String replaceAllIgnoresCase(String text, String find, String newText, Locale locale) {
 		if (text == null || find == null || newText == null) { return text; }
 		
 		int pos = 0;
 		while (pos < text.length()) {
-			pos = indexOfIgnoreCase(text, find, pos);
+			pos = indexOfIgnoreCase(text, find, pos, locale);
 			if (pos < 0) { break; }
 			
 			String before = text.substring(0, pos);

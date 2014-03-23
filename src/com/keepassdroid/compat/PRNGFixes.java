@@ -67,6 +67,7 @@ public final class PRNGFixes {
     
     private static boolean supportedOnThisDevice() {
     	// Blacklist on samsung devices
+    	if (StrUtil.indexOfIgnoreCase(BuildCompat.getManufacturer(), "samsung", Locale.ENGLISH) >= 0) {
     		return false;
     	}
     	
