@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,14 +21,19 @@ package com.keepassdroid.view;
 
 import android.content.Context;
 import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-public abstract class ClickView extends LinearLayout {
+import com.keepassdroid.app.App;
 
+public abstract class ClickView extends LinearLayout {
+	protected boolean readOnly = false;
+	
 	public ClickView(Context context) {
 		super(context);
+
+		readOnly = App.getDB().readOnly;
 	}
 	
 	abstract public void onClick();

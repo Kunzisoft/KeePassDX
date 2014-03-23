@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,16 +20,19 @@
 package com.keepassdroid;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.Button;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.Button;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
@@ -42,6 +45,7 @@ import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.edit.AddGroup;
+import com.keepassdroid.dialog.ReadOnlyDialog;
 import com.keepassdroid.view.ClickView;
 import com.keepassdroid.view.GroupAddEntryView;
 import com.keepassdroid.view.GroupRootView;
@@ -54,6 +58,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 	protected boolean addGroupEnabled = false;
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
+	protected boolean readOnly = false;
 	
 	private static final String TAG = "Group Activity:";
 	
@@ -92,7 +97,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 	protected abstract PwGroupId retrieveGroupId(Intent i);
 	
 	protected void setupButtons() {
-		addGroupEnabled = true;
+		addGroupEnabled = !readOnly;
 	}
 	
 	@Override
@@ -111,6 +116,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		PwGroupId id = retrieveGroupId(intent);
 		
 		Database db = App.getDB();
+		readOnly = db.readOnly;
 		PwGroup root = db.pm.rootGroup;
 		if ( id == null ) {
 			mGroup = root;
@@ -216,6 +222,13 @@ public abstract class GroupActivity extends GroupBaseActivity {
 	}
 	
 	protected void showWarnings() {
-		
+		if (App.getDB().readOnly) {
+		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		    
+		    if (prefs.getBoolean(getString(R.string.show_read_only_warning), true)) {
+			    Dialog dialog = new ReadOnlyDialog(this);
+			    dialog.show();
+		    }
+		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -43,7 +43,9 @@ public class PwGroupViewV3 extends PwGroupView {
 	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
 		super.onCreateMenu(menu, menuInfo);
 		
-		menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+		if (!readOnly) {
+		    menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+		}
 
 	}
 

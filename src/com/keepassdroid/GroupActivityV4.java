@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -47,12 +47,14 @@ public class GroupActivityV4 extends GroupActivity {
 	@Override
 	protected void setupButtons() {
 		super.setupButtons();
-		addEntryEnabled = true;
+		addEntryEnabled = !readOnly;
 	}
 	
 
 	@Override
 	protected void showWarnings() {
+		super.showWarnings();
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		if (prefs.getBoolean(getString(R.string.show_beta_warning), true)) {

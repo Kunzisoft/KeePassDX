@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -51,6 +51,7 @@ public class Database {
 	public PwDatabase pm;
 	public String mFilename;
 	public SearchDbHelper searchHelper;
+	public boolean readOnly = false;
 	
 	public DrawableFactory drawFactory = new DrawableFactory();
 	
@@ -77,11 +78,12 @@ public class Database {
 	}
 	
 	public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
-		FileInputStream fis;
-		fis = new FileInputStream(filename);
+		File file = new File(filename);
+		FileInputStream fis = new FileInputStream(file);
 		
 		LoadData(ctx, fis, password, keyfile, status, debug);
 	
+		readOnly = !file.canWrite();
 		mFilename = filename;
 	}
 

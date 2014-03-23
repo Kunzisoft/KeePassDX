@@ -42,23 +42,13 @@ import android.os.Build;
  */
 public final class PRNGFixes {
 
-    private static final int VERSION_CODE_JELLY_BEAN = 16;
-    private static final int VERSION_CODE_JELLY_BEAN_MR2 = 18;
     private static final byte[] BUILD_FINGERPRINT_AND_DEVICE_SERIAL =
         getBuildFingerprintAndDeviceSerial();
-    private static int sdkVersion;
+    private static int sdkVersion = BuildCompat.getSdkVersion();
 
     /** Hidden constructor to prevent instantiation. */
     private PRNGFixes() {}
     
-    static {
-    	try {
-	    	sdkVersion = Integer.parseInt(Build.VERSION.SDK);
-    	} catch (NumberFormatException e) {
-    		sdkVersion = -1;
-    	}
-    }
-
     /**
      * Applies all fixes.
      *
@@ -77,11 +67,10 @@ public final class PRNGFixes {
     
     private static boolean supportedOnThisDevice() {
     	// Blacklist on samsung devices
-    	if (StrUtil.indexOfIgnoreCase(BuildCompat.getManufacturer(), "samsung") >= 0) {
     		return false;
     	}
     	
-        if (sdkVersion > VERSION_CODE_JELLY_BEAN_MR2) {
+        if (sdkVersion > BuildCompat.VERSION_CODE_JELLY_BEAN_MR2) {
             return false;
         }
         
@@ -136,8 +125,8 @@ public final class PRNGFixes {
      * @throws SecurityException if the fix is needed but could not be applied.
      */
     private static void applyOpenSSLFix() throws SecurityException {
-        if ((sdkVersion < VERSION_CODE_JELLY_BEAN)
-                || (sdkVersion > VERSION_CODE_JELLY_BEAN_MR2)) {
+        if ((sdkVersion < BuildCompat.VERSION_CODE_JELLY_BEAN)
+                || (sdkVersion > BuildCompat.VERSION_CODE_JELLY_BEAN_MR2)) {
             // No need to apply the fix
             return;
         }
@@ -172,7 +161,7 @@ public final class PRNGFixes {
      */
     private static void installLinuxPRNGSecureRandom()
             throws SecurityException {
-        if (sdkVersion > VERSION_CODE_JELLY_BEAN_MR2) {
+        if (sdkVersion > BuildCompat.VERSION_CODE_JELLY_BEAN_MR2) {
             // No need to apply the fix
             return;
         }

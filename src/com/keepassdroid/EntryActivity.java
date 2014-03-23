@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -94,6 +94,7 @@ public class EntryActivity extends LockCloseActivity {
 	private int mPos;
 	private NotificationManager mNM;
 	private BroadcastReceiver mIntentReceiver;
+	protected boolean readOnly = false;
 	
 	private DateFormat dateFormat;
 	private DateFormat timeFormat;
@@ -111,6 +112,13 @@ public class EntryActivity extends LockCloseActivity {
 			}
 			
 		});
+		
+		if (readOnly) {
+			edit.setVisibility(View.GONE);
+			
+			View divider = findViewById(R.id.entry_divider2);
+			divider.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -131,6 +139,7 @@ public class EntryActivity extends LockCloseActivity {
 			finish();
 			return;
 		}
+		readOnly = db.readOnly;
 
 		setResult(KeePass.EXIT_NORMAL);
 

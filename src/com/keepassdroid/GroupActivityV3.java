@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -39,6 +39,6 @@ public class GroupActivityV3 extends GroupActivity {
 	@Override
 	protected void setupButtons() {
 		super.setupButtons();
-		addEntryEnabled = !isRoot;
+		addEntryEnabled = !isRoot && !readOnly;
 	}
 }

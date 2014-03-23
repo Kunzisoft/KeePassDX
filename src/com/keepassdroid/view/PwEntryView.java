@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -106,7 +106,9 @@ public class PwEntryView extends ClickView {
 	@Override
 	public void onCreateMenu(ContextMenu menu, ContextMenuInfo menuInfo) {
 		menu.add(0, MENU_OPEN, 0, R.string.menu_open);
-		menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+		if (!readOnly) {
+		    menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+		}
 	}
 
 	@Override
