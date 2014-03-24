@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.tests.utils;
 
+import java.util.Locale;
+
 import com.keepassdroid.utils.StrUtil;
 
 import junit.framework.TestCase;
@@ -29,15 +31,15 @@ public class StrUtilTest extends TestCase {
     private final String badSearch = "Ed";
 
 	public void testIndexOfIgnoreCase1() {
-		assertEquals(1, StrUtil.indexOfIgnoreCase(text, search));
+		assertEquals(1, StrUtil.indexOfIgnoreCase(text, search, Locale.ENGLISH));
 	}
 
 	public void testIndexOfIgnoreCase2() {
-		assertEquals(-1, StrUtil.indexOfIgnoreCase(text, search), 2);
+		assertEquals(-1, StrUtil.indexOfIgnoreCase(text, search, Locale.ENGLISH), 2);
 	}
 
 	public void testIndexOfIgnoreCase3() {
-		assertEquals(-1, StrUtil.indexOfIgnoreCase(text, badSearch));
+		assertEquals(-1, StrUtil.indexOfIgnoreCase(text, badSearch, Locale.ENGLISH));
 	}
 	
 	private final String repText = "AbCtestingaBc";
@@ -46,10 +48,10 @@ public class StrUtilTest extends TestCase {
 	private final String repNew = "12345";
 	private final String repResult = "12345testing12345";
 	public void testReplaceAllIgnoresCase1() {
-		assertEquals(repResult, StrUtil.replaceAllIgnoresCase(repText, repSearch, repNew));
+		assertEquals(repResult, StrUtil.replaceAllIgnoresCase(repText, repSearch, repNew, Locale.ENGLISH));
 	}
 
 	public void testReplaceAllIgnoresCase2() {
-		assertEquals(repText, StrUtil.replaceAllIgnoresCase(repText, repSearchBad, repNew));
+		assertEquals(repText, StrUtil.replaceAllIgnoresCase(repText, repSearchBad, repNew, Locale.ENGLISH));
 	}
 }
