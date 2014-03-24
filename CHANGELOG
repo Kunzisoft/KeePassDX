@@ -5,7 +5,7 @@
  * Polish transalation fix
  * Responsiveness improvements
  * Better support for read-only database files
-
+ * Output header hash for .kdb files
 
 KeePassDroid (1.99.10)
  * Fix crashes on SELinux enabled devices

@@ -1,5 +1,5 @@
 /*
-` * Copyright 2011 Brian Pellin.
+ * Copyright 2011-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -30,10 +30,16 @@ import com.keepassdroid.database.exception.PwDbOutputException;
 
 public class PwDbV3OutputDebug extends PwDbV3Output {
 	PwDatabaseV3Debug debugDb;
+	private boolean noHeaderHash;
 
 	public PwDbV3OutputDebug(PwDatabaseV3 pm, OutputStream os) {
+		this(pm, os, false);
+	}
+
+	public PwDbV3OutputDebug(PwDatabaseV3 pm, OutputStream os, boolean noHeaderHash) {
 		super(pm, os);
 		debugDb = (PwDatabaseV3Debug) pm;
+		this.noHeaderHash = noHeaderHash;
 	}
 
 	@Override
@@ -48,6 +54,11 @@ public class PwDbV3OutputDebug extends PwDbV3Output {
 		System.arraycopy(origHeader.transformSeed, 0, header.transformSeed, 0, origHeader.transformSeed.length);
 		
 		return null;
+	}
+
+	@Override
+	protected boolean useHeaderHash() {
+		return !noHeaderHash;
 	}
 
 }

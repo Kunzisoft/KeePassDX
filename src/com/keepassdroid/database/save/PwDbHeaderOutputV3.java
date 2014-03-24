@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2014 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -35,7 +35,7 @@ public class PwDbHeaderOutputV3 {
 		mOS = os;
 	}
 	
-	public void output() throws IOException {
+	public void outputStart() throws IOException {
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.signature1));
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.signature2));
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.flags));
@@ -44,10 +44,21 @@ public class PwDbHeaderOutputV3 {
 		mOS.write(mHeader.encryptionIV);
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numGroups));
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numEntries));
+	}
+	
+	public void outputContentHash() throws IOException {
 		mOS.write(mHeader.contentsHash);
+	}
+	
+	public void outputEnd() throws IOException {
 		mOS.write(mHeader.transformSeed);
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numKeyEncRounds));
-		
+	}
+	
+	public void output() throws IOException {
+		outputStart();
+		outputContentHash();
+		outputEnd();
 	}
 	
 	public void close() throws IOException {

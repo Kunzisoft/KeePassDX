@@ -1,5 +1,5 @@
 /*
-* Copyright 2009-2011 Brian Pellin.
+* Copyright 2009-2014 Brian Pellin.
 *
 * This file is part of KeePassDroid.
 *
@@ -55,7 +55,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
   public void testPlainContent() throws IOException, PwDbOutputException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
  
-    PwDbV3Output pos = new PwDbV3OutputDebug(mPM, bos);
+    PwDbV3Output pos = new PwDbV3OutputDebug(mPM, bos, true);
     pos.outputPlanGroupAndEntries(bos);
     
     assertTrue("No output", bos.toByteArray().length > 0);
@@ -70,7 +70,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
     
     DigestOutputStream dos = new DigestOutputStream(nos, md);
   
-    PwDbV3Output pos = new PwDbV3OutputDebug(mPM, dos);
+    PwDbV3Output pos = new PwDbV3OutputDebug(mPM, dos, true);
     pos.outputPlanGroupAndEntries(dos);
     dos.close();
     
@@ -95,7 +95,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
   
   public void testHeader() throws PwDbOutputException, IOException {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-    PwDbV3Output pActual = new PwDbV3OutputDebug(mPM, bActual);
+    PwDbV3Output pActual = new PwDbV3OutputDebug(mPM, bActual, true);
     PwDbHeaderV3 header = pActual.outputHeader(bActual);
     
     ByteArrayOutputStream bExpected = new ByteArrayOutputStream();
@@ -109,7 +109,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
   
   public void testFinalKey() throws PwDbOutputException {
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-    PwDbV3Output pActual = new PwDbV3OutputDebug(mPM, bActual);
+    PwDbV3Output pActual = new PwDbV3OutputDebug(mPM, bActual, true);
     PwDbHeader hActual = pActual.outputHeader(bActual);
     byte[] finalKey = pActual.getFinalKey(hActual);
     
@@ -132,7 +132,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	}
 	
 	ByteArrayOutputStream bActual = new ByteArrayOutputStream();
-	PwDbV3Output pActual = new PwDbV3OutputDebug(mPM, bActual);
+	PwDbV3Output pActual = new PwDbV3OutputDebug(mPM, bActual, true);
 	pActual.output();
 	//pActual.close();
 
