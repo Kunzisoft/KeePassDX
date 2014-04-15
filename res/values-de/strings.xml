@@ -18,10 +18,11 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
   
   Translations from BoDEAN
+  Translations from Matthias Dill
 -->
 <resources>
-    <string name="about_feedback">Issue-Tracking:</string>
-    <string name="about_homepage">Website:</string>
+    <string name="about_feedback">Feedback:</string>
+    <string name="about_homepage">Webseite:</string>
     <string name="AboutText">KeePassDroid ist die Implementierung des KeePass Password Managers für die Android-Plattform.</string>
     <string name="about_twitter">Twitter:</string>
     <string name="accept">Akzeptieren</string>
@@ -36,9 +37,9 @@
     <string name="application">Anwendung</string>
     <string name="application_settings">Einstellungen</string>
     <string name="beta_dontask">Nicht mehr anzeigen</string>
-    <string name="beta_warning">Das Speichern von Änderungen in KDBX-Dateien wird zur Zeit nur experimentell unterstützt. Erstellen Sie Backups Ihrer Datenbank vor etwaigen Änderungen!</string>
+    <string name="beta_warning">Das Speichern von Änderungen in kdbx Dateien wird zur Zeit nur experimentell unterstützt. Erstellen Sie Backups Ihrer Datenbank vor etwaigen Änderungen.</string>
     <string name="brackets">Klammern</string>
-    <string name="browser_intall_text">Um diese Funktion nutzen zu können, benötigen Sie den OI File Manager, den Sie über Google Play bzw. direkt von der Entwicklerwebsite herunterladen können. Aufgrund einiger Eigenheiten des Dateimanagers, kann es bei der ersten Benutzung zu Einschränkungen kommen.</string>
+    <string name="browser_intall_text">Um diese Funktion nutzen zu können, benötigen Sie den OI File Manager, den Sie über Google Play bzw. direkt von der Entwicklerwebseite herunterladen können. Aufgrund einiger Eigenheiten des Dateimanagers, kann es bei der ersten Benutzung zu Einschränkungen kommen.</string>
     <string name="building_search_idx">Erstelle den Suchindex\u2026</string>
     <string name="cancel">Abbr.</string>
     <string name="ClearClipboard">Zwischenablage geleert</string>
@@ -69,6 +70,7 @@
     <string name="entry_expires">Ablaufdatum:</string>
     <string name="entry_keyfile">Schlüsseldatei (optional)</string>
     <string name="entry_modified">Änderungsdatum:</string>
+    <string name="entry_not_found">Eintrag wurde nicht gefunden.</string>
     <string name="entry_password">Passwort:</string>
     <string name="entry_save">Speichern</string>
     <string name="entry_title">Titel:</string>
@@ -92,7 +94,7 @@
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
     <string name="error_rounds_not_number">Die Anzahl der Wiederholungen muss eine Zahl sein.</string>
     <string name="error_rounds_too_large">Die maximale Wiederholungsanzahl ist 2147483648.</string>
-    <string name="error_string_key">Für jeden String ist ein Feldname notwendig.</string>
+    <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
     <string name="error_title_required">Ein Titel wird benötigt.</string>
     <string name="error_wrong_length">Geben Sie die erforderliche Länge als positive Ganzzahl in das Feld ein.</string>
     <string name="field_name">Feldname</string>
@@ -113,7 +115,7 @@
     <string name="hint_url">URL-Adresse</string>
     <string name="hint_username">Benutzername</string>
     <string name="install_from_market">Google Play</string>
-    <string name="install_from_website">Website</string>
+    <string name="install_from_website">Webseite</string>
     <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
     <string name="invalid_algorithm">Ungültiger Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat wurde nicht erkannt.</string>
@@ -138,7 +140,7 @@
     <string name="menu_donate">Spenden</string>
     <string name="menu_edit">Ändern</string>
     <string name="menu_hide_password">Passwort verstecken</string>
-    <string name="menu_homepage">Website</string>
+    <string name="menu_homepage">Webseite</string>
     <string name="menu_lock">Datenbank sperren</string>
     <string name="menu_open">Öffnen</string>
     <string name="menu_rename">Umbenennen</string>
@@ -151,12 +153,14 @@
     <string name="no_url_handler">Kein Handler zum Öffnen der URL vorhanden.</string>
     <string name="open_recent">Zuletzt geöffnete Datenbank (Klicken zum Öffnen):</string>
     <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
-    <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt.</string>
+    <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei kdb Dateien).</string>
     <string name="pass_filename">KeePass Datenbankdatei:</string>
     <string name="password_title">Datenbank-Passwort eingeben</string>
     <string name="progress_create">Neue Datenbank anlegen\u2026</string>
     <string name="progress_title">Ausführen\u2026</string>
     <string name="protection">Sicherheit</string>
+    <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
+    <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken.</string>
     <string name="remember_keyfile_title">Schlüsselquelle merken</string>
     <string name="remove_from_filelist">Löschen</string>
