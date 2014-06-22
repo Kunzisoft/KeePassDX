@@ -1,4 +1,5 @@
  * Fix download URLs
+ * Add Hebrew translations from Arthur Zamarin
 
 KeePassDroid (1.99.11)
  * Add support for decoding field references (closes: #247)
