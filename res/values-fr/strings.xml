@@ -21,16 +21,16 @@
  
 -->
 <resources>
-    <string name="about_feedback">Signaler une anomalie :</string>
-    <string name="about_homepage">Site web :</string>
+    <string name="about_feedback">Signaler une anomalie\u00A0:</string>
+    <string name="about_homepage">Site web\u00A0:</string>
     <string name="AboutText">KeePassDroid est une implémentation sur Android du gestionnaire de mots de passe KeePass.</string>
-    <string name="about_twitter">Twitter :</string>
+    <string name="about_twitter">Twitter\u00A0:</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
     <string name="add_group_title">Ajouter un groupe</string>
     <string name="algorithm">Algorithme</string>
-    <string name="algorithm_colon">Algorithme :</string>
+    <string name="algorithm_colon">Algorithme\u00A0:</string>
     <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
@@ -44,15 +44,15 @@
     <string name="cancel">Annuler</string>
     <string name="ClearClipboard">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
-    <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez :</string>
+    <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez\u00A0:</string>
     <string name="clipboard_error_clear">Le vidage du presse-papier a échoué</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Temps avant le vidage du presse-papier après copie du nom d\'utilisateur ou du mot de passe</string>
     <string name="copy_username">Copier le nom d\'utilisateur dans le presse-papier</string>
     <string name="copy_password">Copier le mot de passe dans le presse-papier</string>
     <string name="creating_db_key">Création de la clé de base de données&#8230;</string>
-    <string name="current_group">Groupe actuel :</string>
-    <string name="current_group_root">Groupe actuel : Racine</string>
+    <string name="current_group">Groupe actuel\u00A0:</string>
+    <string name="current_group_root">Groupe actuel\u00A0: Racine</string>
     <string name="database">Base de données</string>
     <string name="decrypting_db">Déchiffrement du contenu de la base de données&#8230;</string>
     <string name="decrypting_entry">Déchiffrement de l\'entrée</string>
@@ -60,9 +60,9 @@
     <string name="digits">Nombres</string>
     <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
 
-    <string name="enter_filename">Sélectionnez la base de données :</string>
+    <string name="enter_filename">Sélectionnez la base de données\u00A0:</string>
     <string name="entry_accessed">Dernier accès</string>
-    <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données :</string>
+    <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données\u00A0:</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_comment">Commentaires</string>
     <string name="entry_confpassword">Confirmer mot de passe</string>
@@ -84,7 +84,7 @@
     <string name="error_database_settings">Impossible de déterminer les paramètres de la base de données.</string>
     <string name="error_failed_to_launch_link">Échec lors de l\'ouverture du lien.</string>
     <string name="error_filename_required">Le nom de fichier est obligatoire.</string>
-    <string name="error_file_not_create">Impossible de créer le fichier :</string>
+    <string name="error_file_not_create">Impossible de créer le fichier\u00A0:</string>
     <string name="error_invalid_db">Base de données invalide.</string>
     <string name="error_invalid_path">Chemin invalide.</string>
     <string name="error_no_name">Le nom est obligatoire.</string>
@@ -151,7 +151,7 @@
     <string name="no_keys">Aucun élément.</string>
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
-    <string name="open_recent">Bases de données utilisées récemment :</string>
+    <string name="open_recent">Bases de données utilisées récemment\u00A0:</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
     <string name="pass_filename">Fichier de base de données KeePass</string>
@@ -186,7 +186,7 @@
     <string name="uppercase">Majuscule</string>
     <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
-    <string name="version_label">Version :</string>
+    <string name="version_label">Version\u00A0:</string>
 
     <string-array name="clipboard_timeout_options">
         <item>30 secondes</item>
