@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+  Copyright 2009 Brian Pellin.
 
- This file is part of KeePassDroid.
+  This file is part of KeePassDroid.
  
   KeePassDroid is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
     <string name="add_group_title">Ajouter un groupe</string>
     <string name="algorithm">Algorithme</string>
     <string name="algorithm_colon">Algorithme :</string>
-    <string name="app_name">KeePassDroid</string>    
+    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
@@ -41,71 +41,71 @@
     <string name="brackets">Crochets</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="building_search_idx">Reconstruction de l\'index de recherche&#8230;</string>
-    <string name="cancel">Annuler</string>    
-    <string name="ClearClipboard">Presse-papier vidé</string>    
+    <string name="cancel">Annuler</string>
+    <string name="ClearClipboard">Presse-papier vidé</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Time before clearing clipboard after copying username or password</string>
     <string name="copy_username">Copier l\'utilisateur dans le presse-papier</string>
     <string name="copy_password">Copier le mot de passe dans le presse-papier</string>
     <string name="creating_db_key">Creating database key&#8230;</string>
-    <string name="current_group">Groupe actuel :</string>    
-    <string name="current_group_root">Groupe actuel : Racine</string>    
+    <string name="current_group">Groupe actuel :</string>
+    <string name="current_group_root">Groupe actuel : Racine</string>
     <string name="database">Base de données</string>
     <string name="decrypting_db">Decrypting database contents&#8230;</string>
     <string name="decrypting_entry">Decrypting entry</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>    
-    <string name="enter_filename">Sélectionnez la base de données :</string>    
-    <string name="entry_accessed">Dernier accès le</string>    
-    <string name="entry_and_or">Entrez un mot de passe et/ou un fichier clé pour ouvrir la base de données :</string>    
-    <string name="entry_cancel">Annuler</string>    
-    <string name="entry_comment">Commentaires</string>    
-    <string name="entry_confpassword">Confirmer mot de passe</string>    
-    <string name="entry_created">Créée le</string>    
-    <string name="entry_expires">Expire le</string>    
-    <string name="entry_keyfile">Clé (facultative)</string>    
-    <string name="entry_modified">Modifié le</string>    
-    <string name="entry_password">Mot de passe</string>    
-    <string name="entry_save">Enregistrer</string>    
-    <string name="entry_title">Nom</string>    
-    <string name="entry_url">URL</string>    
-    <string name="entry_user_name">Utilisateur</string>    
+    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel gratuit, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
+    <string name="enter_filename">Sélectionnez la base de données :</string>
+    <string name="entry_accessed">Dernier accès le</string>
+    <string name="entry_and_or">Entrez un mot de passe et/ou un fichier clé pour ouvrir la base de données :</string>
+    <string name="entry_cancel">Annuler</string>
+    <string name="entry_comment">Commentaires</string>
+    <string name="entry_confpassword">Confirmer mot de passe</string>
+    <string name="entry_created">Créée le</string>
+    <string name="entry_expires">Expire le</string>
+    <string name="entry_keyfile">Clé (facultative)</string>
+    <string name="entry_modified">Modifié le</string>
+    <string name="entry_password">Mot de passe</string>
+    <string name="entry_save">Enregistrer</string>
+    <string name="entry_title">Nom</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">Utilisateur</string>
     <string name="error_arc4">The ArcFour stream cipher is not supported.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid ne peut pas gérer cette URI.</string>    
-    <string name="error_could_not_create_group">Erreur de création de groupe.</string>    
+    <string name="error_can_not_handle_uri">KeePassDroid ne peut pas gérer cette URI.</string>
+    <string name="error_could_not_create_group">Erreur de création de groupe.</string>
     <string name="error_could_not_create_parent">Could not create parent directory.</string>
-    <string name="error_database_exists">Ce fichier existe déjà.</string>    
-    <string name="error_database_settings">Impossible de déterminer les paramètres de la base de données.</string>    
+    <string name="error_database_exists">Ce fichier existe déjà.</string>
+    <string name="error_database_settings">Impossible de déterminer les paramètres de la base de données.</string>
     <string name="error_failed_to_launch_link">Echec lors de l\'ouverture du lien.</string>
-    <string name="error_filename_required">Le nom de fichier est obligatoire.</string>    
-    <string name="error_file_not_create">Impossible de créer le fichier :</string>    
+    <string name="error_filename_required">Le nom de fichier est obligatoire.</string>
+    <string name="error_file_not_create">Impossible de créer le fichier :</string>
     <string name="error_invalid_db">Invalid database.</string>
     <string name="error_invalid_path">Invalid path.</string>
-    <string name="error_no_name">Le nom est obligatoire.</string>    
-    <string name="error_nopass">Un mot de passe ou clé de fichier est requis.</string>    
+    <string name="error_no_name">Le nom est obligatoire.</string>
+    <string name="error_nopass">Un mot de passe ou clé de fichier est requis.</string>
     <string name="error_out_of_memory">Votre appareil ne dispose pas de suffisamment de mémoire pour ouvrir votre base de données. Votre base de données est certainement trop grosse pour votre appareil.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected</string>
-    <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>    
-    <string name="error_rounds_not_number">La série doit être un nombre.</string>    
+    <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
+    <string name="error_rounds_not_number">La série doit être un nombre.</string>
     <string name="error_rounds_too_large">Rounds too big.  Setting to 2147483648.</string>
-    <string name="error_title_required">Le titre est obligatoire.</string>    
+    <string name="error_title_required">Le titre est obligatoire.</string>
     <string name="error_wrong_length">Enter a positive integer on length field</string>
-    <string name="FileNotFound">Fichier non trouvé.</string>    
+    <string name="FileNotFound">Fichier non trouvé.</string>
     <string name="file_browser">File Browser</string>
     <string name="generate_password">Generate Password</string>
-    <string name="group">Groupe</string>    
-    <string name="hint_comment">commentaire</string>    
-    <string name="hint_conf_pass">confirmez mot de passe</string>    
+    <string name="group">Groupe</string>
+    <string name="hint_comment">commentaire</string>
+    <string name="hint_conf_pass">confirmez mot de passe</string>
     <string name="hint_generated_password">generated password</string>
-    <string name="hint_group_name">Nom de groupe</string>    
-    <string name="hint_keyfile">clé de fichier</string>    
+    <string name="hint_group_name">Nom de groupe</string>
+    <string name="hint_keyfile">clé de fichier</string>
     <string name="hint_length">length</string>
     <string name="hint_pass">password</string>
-    <string name="hint_login_pass">Mot de passe</string>    
+    <string name="hint_login_pass">Mot de passe</string>
     <string name="hint_title">name</string>
-    <string name="hint_url">url</string>    
-    <string name="hint_username">Nom d\'utilisateur</string>    
+    <string name="hint_url">url</string>
+    <string name="hint_username">Nom d\'utilisateur</string>
     <string name="install_from_market">Installer depuis Google Play</string>
     <string name="install_from_website">Installer depuis le Web</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
@@ -121,45 +121,45 @@
 
     <string name="maskpass_title">Afficher le Mot de passe</string>
     <string name="maskpass_summary">Par défaut, masquer le mot de passe</string>
-    <string name="menu_about">A propos</string>    
-    <string name="menu_change_key">Modifier la Clé maître</string>    
-    <string name="menu_copy_pass">Copier le Mot de passe</string>    
-    <string name="menu_copy_user">Copier l\'Utilisateur</string>    
-    <string name="menu_create">Créer</string>    
+    <string name="menu_about">A propos</string>
+    <string name="menu_change_key">Modifier la Clé maître</string>
+    <string name="menu_copy_pass">Copier le Mot de passe</string>
+    <string name="menu_copy_user">Copier l\'Utilisateur</string>
+    <string name="menu_create">Créer</string>
     <string name="menu_app_settings">Préférences</string>
-    <string name="menu_db_settings">Préférences</string>    
-    <string name="menu_delete">Supprimer</string>    
-    <string name="menu_donate">Faire un Don</string>    
-    <string name="menu_edit">Modifier</string>    
-    <string name="menu_hide_password">Masquer le mot de passe</string>    
-    <string name="menu_homepage">Aller à la page d\'accueil</string>    
-    <string name="menu_lock">Fermer la base</string>    
-    <string name="menu_open">Ouvrir</string>    
-    <string name="menu_rename">Renommer</string>    
-    <string name="menu_search">Rechercher</string>    
-    <string name="menu_url">Ouvrir l\'URL</string>    
+    <string name="menu_db_settings">Préférences</string>
+    <string name="menu_delete">Supprimer</string>
+    <string name="menu_donate">Faire un Don</string>
+    <string name="menu_edit">Modifier</string>
+    <string name="menu_hide_password">Masquer le mot de passe</string>
+    <string name="menu_homepage">Aller à la page d\'accueil</string>
+    <string name="menu_lock">Fermer la base</string>
+    <string name="menu_open">Ouvrir</string>
+    <string name="menu_rename">Renommer</string>
+    <string name="menu_search">Rechercher</string>
+    <string name="menu_url">Ouvrir l\'URL</string>
     <string name="minus">Moins</string>
-    <string name="never">Jamais</string>    
-    <string name="no_keys">Aucun élément.</string>    
-    <string name="no_results">Aucun résultat pour cette recherche.</string>    
-    <string name="no_url_handler">Impossible d\'ouvrir cette url.</string>    
-    <string name="open_recent">Bases de données utilisées récemment :</string>    
+    <string name="never">Jamais</string>
+    <string name="no_keys">Aucun élément.</string>
+    <string name="no_results">Aucun résultat pour cette recherche.</string>
+    <string name="no_url_handler">Impossible d\'ouvrir cette url.</string>
+    <string name="open_recent">Bases de données utilisées récemment :</string>
     <string name="omitbackup_title">Ignorer la Corbeille et les Sauvegardes</string>
     <string name="omitbackup_summary">Ne pas chercher dans la Corbeille et le groupe de Sauvegarde</string>
-    <string name="pass_filename">Fichier de la base de données KeePass</string>    
-    <string name="password_title">Entrez le mot de passe de la base de données</string>    
-    <string name="progress_create">Création d\'une nouvelle base de données&#8230;</string>    
-    <string name="progress_title">Veuillez patienter&#8230;</string>    
+    <string name="pass_filename">Fichier de la base de données KeePass</string>
+    <string name="password_title">Entrez le mot de passe de la base de données</string>
+    <string name="progress_create">Création d\'une nouvelle base de données&#8230;</string>
+    <string name="progress_title">Veuillez patienter&#8230;</string>
     <string name="remember_keyfile_summary">Mémoriser le dossier de stockage des fichiers clé</string>
     <string name="remember_keyfile_title">Mémoriser le fichier clé</string>
     <string name="remove_from_filelist">Effacer</string>
-    <string name="root">Racine</string>    
-    <string name="rounds">Niveau du cryptage</string>    
-    <string name="rounds_explaination">Un niveau de cryptage supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>    
-    <string name="rounds_hint">niveaux</string>    
-    <string name="saving_database">Enregistrement de la base de données&#8230;</string>    
+    <string name="root">Racine</string>
+    <string name="rounds">Niveau du cryptage</string>
+    <string name="rounds_explaination">Un niveau de cryptage supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
+    <string name="rounds_hint">niveaux</string>
+    <string name="saving_database">Enregistrement de la base de données&#8230;</string>
     <string name="space">Space</string>
-    <string name="search_label">Rechercher</string>    
+    <string name="search_label">Rechercher</string>
     <string name="show_password">Afficher le mot de passe</string>
     <string name="sort_name">Trier par nom</string>
     <string name="sort_db">Tri par défaut</string>
@@ -174,14 +174,14 @@
     <string name="warning_unmounted">Your sd card is not currently mounted on your device. You will not be able to load or create your database.</string>
     <string name="version_label">Version :</string>
     <string-array name="clipboard_timeout_options">
-            <item>30 secondes</item>
-            <item>1 minute</item>
-            <item>5 minutes</item>
-            <item>Jamais</item>
-        </string-array>
+        <item>30 secondes</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>Jamais</item>
+    </string-array>
     <string-array name="list_size_options">
-            <item>Petit</item>
-            <item>Moyen</item>
-            <item>Grand</item>
-        </string-array>
+        <item>Petit</item>
+        <item>Moyen</item>
+        <item>Grand</item>
+    </string-array>
 </resources>
