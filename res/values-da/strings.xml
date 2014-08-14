@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2012 Brian Pellin.
+ Copyright 2009-2014 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -34,12 +34,17 @@
     <string name="app_timeout">Applikations timeout</string>
     <string name="app_timeout_summary">Tid før databasen låses, når applikationen er inaktiv.</string>
     <string name="application">Applikation</string>
-    <string name="application_settings">Applikationsindstillinger</string>
+    <string name="application_settings">Applikations-indstillinger</string>
+	<string name="beta_dontask">Vis ikke igen</string>
+    <string name="beta_warning">Understøttelse af at gemme ændringer til kdbx filer er EKSPERIMENTIEL. Lav en backup af din database før du gemmer ændringer.</string>
     <string name="brackets">Parenteser</string>
     <string name="browser_intall_text">Fil-browsing kræver applikationen "Open Intents File Manager", klik nedenfor for at installere den. Grundet nogle særheder i filmanageren er det ikke sikkert, at fil-browsing virker korrekt forste gang, at du anvender applikationen.</string>
-    <string name="building_search_idx">Bygger søgeindeks&#8230;</string>
+    <string name="building_search_idx">Danner søgeindeks&#8230;</string>
     <string name="cancel">Annuller</string>
     <string name="ClearClipboard">Udklipsholder ryddet.</string>
+    <string name="clipboard_error_title">Udklipsholder-fejl</string>
+    <string name="clipboard_error">Nogle Samsung Android enheder har en fejl i implementeringen af udklipsholderen, som får kopiering fra applikationer til at fejle. For yderligere oplysninger gå til:</string>
+    <string name="clipboard_error_clear">Rydningen af udklipsholderen fejlede</string>
     <string name="clipboard_timeout">Udklipsholder timeout</string>
     <string name="clipboard_timeout_summary">Tid før udklipsholderen bliver ryddet efter kopiering af brugernavn eller adgangskode</string>
     <string name="copy_username">Vælg for at kopiere brugernavn til udklipsholderen</string>
@@ -55,7 +60,7 @@
     <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Angiv navn på databasefil:</string>
-    <string name="entry_accessed">Seneste åbnede: </string>
+    <string name="entry_accessed">Senest åbnet: </string>
     <string name="entry_and_or">Angiv en adgangskode og/eller en nøglefil for at få adgang til din database:</string>
     <string name="entry_cancel">Annuller</string>
     <string name="entry_comment">Kommentarer: </string>
@@ -64,6 +69,7 @@
     <string name="entry_expires">Udløber: </string>
     <string name="entry_keyfile">Nøglefil (valgfri)</string>
     <string name="entry_modified">Ændret: </string>
+    <string name="entry_not_found">Data for posten blev ikke fundet.</string>
     <string name="entry_password">Adgangskode:</string>
     <string name="entry_save">Gem</string>
     <string name="entry_title">Navn: </string>
@@ -74,7 +80,7 @@
     <string name="error_could_not_create_group">Fejl ved oprettelse af gruppe.</string>
     <string name="error_could_not_create_parent">Kunne ikke oprette rodbiblioteket.</string>
     <string name="error_database_exists">Denne fil eksisterer allerede.</string>
-    <string name="error_database_settings">Kunne ikke afgøre databaseindstilinger.</string>
+    <string name="error_database_settings">Kunne ikke afgøre databaseindstillinger.</string>
     <string name="error_failed_to_launch_link">Det mislykkedes at åbne linket.</string>
     <string name="error_filename_required">Et filnavn er påkrævet.</string>
     <string name="error_file_not_create">Kunne ikke oprette fil:</string>
@@ -87,8 +93,11 @@
     <string name="error_pass_match">Adgangskoder matcher ikke.</string>
     <string name="error_rounds_not_number">Gentagelser skal være en talværdi.</string>
     <string name="error_rounds_too_large">For stor gentagelses-værdi.  Maksimal gentagelses-værdi er 2147483648.</string>
+    <string name="error_string_key">Et felt-navn er nødvendigt for hver streng.</string>
     <string name="error_title_required">En titel er påkrævet.</string>
     <string name="error_wrong_length">Angiv et positivt helt tal i feltet</string>
+    <string name="field_name">Felt-navn</string>
+    <string name="field_value">Felt-værdi</string>
     <string name="FileNotFound">Filen blev ikke fundet.</string>
     <string name="file_browser">Fil-browser</string>
     <string name="generate_password">Generer adgangskode</string>
@@ -104,10 +113,13 @@
     <string name="hint_title">navn</string>
     <string name="hint_url">url</string>
     <string name="hint_username">brugernavn</string>
-    <string name="install_from_market">Installer fra Play butik</string>
+    <string name="install_from_market">Installer fra Play Butik</string>
     <string name="install_from_website">Installer fra internettet</string>
     <string name="InvalidPassword">Ugyldig adgangskode eller nøglefil.</string>
+    <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Databaseformatet blev ikke genkendt.</string>
+    <string name="keyfile_does_not_exist">Nøglefil eksisterer ikke.</string>
+    <string name="keyfile_is_empty">Nøglefil er tom.</string>
     <string name="length">Længde</string>
     <string name="list_size_title">Gruppeliste størrelse</string>
     <string name="list_size_summary">Tekststørrelse i gruppelisten</string>
@@ -145,6 +157,11 @@
     <string name="password_title">Angiv database adgangskode</string>
     <string name="progress_create">Opretter ny database&#8230;</string>
     <string name="progress_title">Arbejder&#8230;</string>
+    <string name="protection">Beskyttelse</string>
+    <string name="read_only_warning">KeePassDroid har ikke rettigheder til at skrive til database-lokalisationen, så din database vil blive åbnet som skrivebeskyttet.</string>
+    <string name="read_only_kitkat_warning">Fra Android KitKat er det på nogle enheder ikke længere muligt for applikationer at skrive til hukommelseskortet.</string>
+    <string name="recentfile_title">Seneste filhistorik</string>
+    <string name="recentfile_summary">Husk seneste filnavne</string>
     <string name="remember_keyfile_summary">Husker placeringen af nøglefiler</string>
     <string name="remember_keyfile_title">Gem nøglefil</string>
     <string name="remove_from_filelist">Fjern</string>
@@ -166,8 +183,8 @@
     <string name="underline">Understreget</string>
     <string name="unsupported_db_version">Database-versionen er ikke understøttet.</string>
     <string name="uppercase">Store bogstaver</string>
-    <string name="warning_read_only">Dit sd-kort er skrivebeskyttet. Du er muligvis ikke i stand til at gemme ændringer til din database.</string>
-    <string name="warning_unmounted">Dit sd-kort er ikke monteret i din enhed. Du vil ikke være i stand til at indlæse eller oprette din database.</string>
+    <string name="warning_read_only">Dit hukommelseskort er skrivebeskyttet. Du er muligvis ikke i stand til at gemme ændringer til din database.</string>
+    <string name="warning_unmounted">Dit hukommelseskort er ikke monteret i din enhed. Du vil ikke være i stand til at indlæse eller oprette din database.</string>
     <string name="version_label">Version:</string>
     
     <string-array name="clipboard_timeout_options">
