@@ -185,7 +185,7 @@
     <string name="unsupported_db_version">Version de la base de données non supportée.</string>
     <string name="uppercase">Majuscule</string>
     <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
-    <string name="warning_unmounted">Votre carte SD n'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
+    <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
     <string name="version_label">Version\u00A0:</string>
 
     <string-array name="clipboard_timeout_options">
