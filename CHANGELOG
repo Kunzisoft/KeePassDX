@@ -1,6 +1,8 @@
  * Fix download URLs
  * Add Hebrew translations from Arthur Zamarin
- * Updated Germat transalations from MaDill
+ * Updated German translations from MaDill
+ * Updated French translations from Bruno Parmentier
+
 
 KeePassDroid (1.99.11)
  * Add support for decoding field references (closes: #247)
