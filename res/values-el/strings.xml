@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2014 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="about_feedback">Ανατροφοδότηση:</string>
+    <string name="about_homepage">Αρχική Σελίδα:</string>
+    <string name="AboutText">Το KeePassDroid είναι μία Android εφαρμογή του διαχειριστή συνθηματικών KeePass</string>
+    <string name="about_twitter">Twitter:</string>
+    <string name="accept">Αποδοχή</string>
+    <string name="add_entry">Προσθήκη εγγραφής</string>
+    <string name="add_group">Προσθήκη ομάδας</string>
+    <string name="add_group_title">Προσθήκη Ομάδας</string>
+    <string name="algorithm">Αλγόριθμος</string>
+    <string name="algorithm_colon">Αλγόριθμος:</string>
+    <string name="app_name">KeePassDroid</string>
+    <string name="app_timeout">Χρονικό όριο εφαρμογής</string>
+    <string name="app_timeout_summary">Ο χρόνος προτού κλειδωθεί η βάση δεδομένων όταν η εφαρμογή είναι ανενεργή.</string>
+    <string name="application">Εφαρμογή</string>
+    <string name="application_settings">Ρυθμίσεις εφαρμογής</string>
+    <string name="beta_dontask">Να μην ερωτηθώ ξανά</string>
+    <string name="beta_warning">Η υποστήριξη για αποθήκευση αλλαγών σε αρχεία kdbx είναι ΠΕΙΡΑΜΤΙΚΗ. Κρατήστε αντίγραφο ασφαλείας της βάσης δεδομένων σας προτού αποθηκεύσετε τις αλλαγές.</string>
+    <string name="brackets">Αγκύλες</string>
+    <string name="browser_intall_text">Η αναζήτηση αρχείων απαιτεί τον Διαχειριστή Αρχείων Open Intents, πατήστε παρακάτω για να τον εγκαταστήσετε. Λόγω μερικών ιδιορρυθμιών στον διαχειριστή αρχείων, η περιήγηση μπορεί να μην λειτουργεί σωστά την πρώτη φορά που θα περιηγηθείτε.</string>
+    <string name="building_search_idx">Δημιουργία ευρετηρίου αναζήτησης&#8230;</string>
+    <string name="cancel">Ακύρωση</string>
+    <string name="ClearClipboard">Το πρόχειρο καθαρίστηκε.</string>
+    <string name="clipboard_error_title">Σφάλμα προχείρου</string>
+    <string name="clipboard_error">Μερικά Android κινητά τηλέφωνα της Samsung έχουν ένα σφάλμα στην εφαρμογή του προχείρου που προκαλεί την αντιγραφή από εφαρμογές να αποτυγχάνει. Για περισσότερες πληροφορίες πηγαίνετε:</string>
+    <string name="clipboard_error_clear">Η εκκαθάριση του προχείρου απέτυχε</string>
+    <string name="clipboard_timeout">Λήξη χρονικού ορίου προχείρου</string>
+    <string name="clipboard_timeout_summary">Χρόνος προτού γίνει εκκαθάριση του προχείρου μετά από αντιγραφή ονόματος χρήστη ή κωδικού πρόσβασης</string>
+    <string name="copy_username">Επιλέξτε για αντιγραφή ονόματος χρήστη στο πρόχειρο</string>
+    <string name="copy_password">Επιλέξτε για αντιγραφή κωδικού πρόσβασης στο πρόχειρο</string>
+    <string name="creating_db_key">Δημιουργία κλειδιού βάσης δεδομένων&#8230;</string>
+    <string name="current_group">Τρέχουσα ομάδα: </string>
+    <string name="current_group_root">Τρέχουσα ομάδα: Ριζική</string>
+    <string name="database">Βάση Δεδομένων</string>
+    <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένων βάσης δεδομένων&#8230;</string>
+    <string name="decrypting_entry">Αποκρυπτογράφηση εγγραφής</string>
+    <string name="default_checkbox">Χρήση αυτής της βάσης ως προεπιλεγμένη</string>
+    <string name="digits">Ψηφία</string>
+    <string name="disclaimer_formal">KeePassDroid Πνευματική Ιδιοκτησία 2009&#8211;2012 Brian Pellin χωρίς ΚΑΜΙΑ ΑΠΟΛΥΤΩΣ ΕΓΓΥΗΣΗ. Το παρόν είναι δωρεάν λογισμικό και είστε ευπρόσδεκτοι να το διαμοιράσετε υπό τις συνθήκες της ΙΕΛ έκδοσης 2 ή μεταγενέστερης.</string>
+    <string name="ellipsis">\u2026</string>
+    <string name="enter_filename">Εισαγωγή ονόματος βάσης δεδομένων:</string>
+    <string name="entry_accessed">Προσπελάσθηκε: </string>
+    <string name="entry_and_or">Εισάγετε έναν κωδικό πρόσβασης και/ή αρχείο κλειδιού για να ξεκλειδώσετε τη βάση δεδομένων σας:</string>
+    <string name="entry_cancel">Ακύρωση</string>
+    <string name="entry_comment">Σχόλια: </string>
+    <string name="entry_confpassword">Επιβεβαίωση κωδικού πρόσβασης:</string>
+    <string name="entry_created">Δημιουργήθηκε: </string>
+    <string name="entry_expires">Λήγει: </string>
+    <string name="entry_keyfile">Αρχείο Κλειδιού (προαιρετικό)</string>
+    <string name="entry_modified">Τροποποιήθηκε: </string>
+    <string name="entry_not_found">Δεν βρέθηκαν δεδομένα εγγραφών.</string>
+    <string name="entry_password">Κωδικός Πρόσβασης:</string>
+    <string name="entry_save">Αποθήκευση</string>
+    <string name="entry_title">Όνομα: </string>
+    <string name="entry_url">Διεύθυνση URL: </string>
+    <string name="entry_user_name">Όνομα Χρήστη: </string>
+    <string name="error_arc4">Η ροή κρυπτογράφησης ArcFour δεν υποστηρίζεται.</string>
+    <string name="error_can_not_handle_uri">Το KeePassDroid δε μπορεί να χειριστεί αυτή τη διεύθυνση uri.</string>
+    <string name="error_could_not_create_group">Σφάλμα κατά τη δημιουργία της ομάδας.</string>
+    <string name="error_could_not_create_parent">Δεν ήταν δυνατή η δημιουργία του γονικού καταλόγου.</string>
+    <string name="error_database_exists">Το συγκεκριμένο αρχείο υπάρχει ήδη.</string>
+    <string name="error_database_settings">Δεν ήταν δυνατό να προσδιορισθούν οι ρυθμίσεις της βάσης δεδομένων.</string>
+    <string name="error_failed_to_launch_link">Απέτυχε η εκτέλεση του συνδέσμου.</string>
+    <string name="error_filename_required">Το όνομα αρχείου είναι υποχρεωτικό.</string>
+    <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία του αρχείου:</string>
+    <string name="error_invalid_db">Μη έγκυρη βάση δεδομένων.</string>
+    <string name="error_invalid_path">Μη έγκυρη διαδρομή.</string>
+    <string name="error_no_name">Απαιτείται ένα όνομα.</string>
+    <string name="error_nopass">Απαιτείται ο κωδικός πρόσβασης ή ένα αρχείο κλειδιού.</string>
+    <string name="error_out_of_memory">Το τηλέφωνο ξέμεινε από μνήμη κατά τη διάρκεια προσπέλασης της βάσης δεδομένων σας. Μπορεί να είναι πολύ μεγάλη για το τηλέφωνο σας.</string>
+    <string name="error_pass_gen_type">Πρέπει να επιλεγεί τουλάχιστον ένας τύπος δημιουργίας κωδικού πρόσβασης</string>
+    <string name="error_pass_match">Οι κωδικοί δεν ταιριάζουν.</string>
+    <string name="error_rounds_not_number">Οι κύκλοι πρέπει να είναι αριθμός.</string>
+    <string name="error_rounds_too_large">Οι κύκλοι είναι υπερβολικά πολλοί. Ορισμός σε 2147483648.</string>
+    <string name="error_string_key">Ένα όνομα πεδίου απαιτείται για κάθε σειρά.</string>
+    <string name="error_title_required">Απαιτείται ένας τίτλος.</string>
+    <string name="error_wrong_length">Εισάγετε έναν θετικό ακέραιο αριθμό στο πεδίο μήκους</string>
+    <string name="field_name">Όνομα Πεδίου</string>
+    <string name="field_value">Τιμή πεδίου</string>
+    <string name="FileNotFound">Το αρχείο δεν βρέθηκε.</string>
+    <string name="file_browser">Διαχείριση Αρχείων</string>
+    <string name="generate_password">Δημιουργία Κωδικού</string>
+    <string name="group">Ομάδα</string>
+    <string name="hint_comment">σχόλιο</string>
+    <string name="hint_conf_pass">επιβεβαίωση κωδικού</string>
+    <string name="hint_generated_password"> παραγόμενος κωδικός</string>
+    <string name="hint_group_name">Όνομα ομάδας</string>
+    <string name="hint_keyfile">αρχείο κλειδιού</string>
+    <string name="hint_length">μήκος</string>
+    <string name="hint_pass">κωδικός</string>
+    <string name="hint_login_pass">Κωδικός Πρόσβασης</string>
+    <string name="hint_title">όνομα</string>
+    <string name="hint_url">διεύθυνση url</string>
+    <string name="hint_username">όνομα χρήστη</string>
+    <string name="install_from_market">Εγκατάσταση από το Play Store</string>
+    <string name="install_from_website">Εγκατάσταση από το Διαδίκτυο</string>
+    <string name="InvalidPassword">Εσφαλμένος κωδικός ή αρχείο κλειδιού.</string>
+    <string name="invalid_algorithm">Εσφαλμένος αλγόριθμος.</string>
+    <string name="invalid_db_sig">Η μορφή της Βάσης Δεδομένων δεν αναγνωρίζεται.</string>
+    <string name="keyfile_does_not_exist">Δεν υπάρχει αρχείο κλειδιού.</string>
+    <string name="keyfile_is_empty">Το αρχείο κλειδιού είναι κενό.</string>
+    <string name="length">Μήκος</string>
+    <string name="list_size_title">Μέγεθος λίστας ομάδας</string>
+    <string name="list_size_summary">Μέγεθος κειμένου μέσα στη λίστα ομάδας</string>
+    <string name="loading_database">Φόρτωση βάσης δεδομένων&#8230;</string>
+    <string name="lowercase">Πεζά</string>
+    <string name="MaskedPassword">*****</string>
+    <string name="maskpass_title">Απόκρυψη κωδικού</string>
+    <string name="maskpass_summary">Απόκρυψη κωδικών από προεπιλογή</string>
+    <string name="menu_about">Σχετικά με</string>
+    <string name="menu_change_key">Αλλαγή Κύριου Κλειδιού</string>
+    <string name="menu_copy_pass">Αντιγραφή Κωδικού</string>
+    <string name="menu_copy_user">Αντιγραφή Χρήστη</string>
+    <string name="menu_create">Δημιουργία</string>
+    <string name="menu_app_settings">Ρυθμίσεις</string>
+    <string name="menu_db_settings">Ρυθμίσεις βάσης δεδομένων</string>
+    <string name="menu_delete">Διαγραφή</string>
+    <string name="menu_donate">Δωρεά</string>
+    <string name="menu_edit">Επεξεργασία</string>
+    <string name="menu_hide_password">Απόκρυψη Κωδικού</string>
+    <string name="menu_homepage">Πηγαίνετε στην Αρχική Σελίδα</string>
+    <string name="menu_lock">Κλείδωμα Βάσης Δεδομένων</string>
+    <string name="menu_open">Άνοιγμα</string>
+    <string name="menu_rename">Μετονομασία</string>
+    <string name="menu_search">Αναζήτηση</string>
+    <string name="menu_url">Πηγαίνετε στη διεύθυνση URL</string>
+    <string name="minus">Πλην</string>
+    <string name="never">Ποτέ</string>
+    <string name="no_keys">Δεν υπάρχουν εγγραφές στη βάση ή στην ομάδα.</string>
+    <string name="no_results">Δε βρέθηκαν αποτελέσματα αναζήτησης</string>
+    <string name="no_url_handler">Χωρίς χειριστή για τη διεύθυνση url.</string>
+    <string name="open_recent">Άνοιγμα πρόσφατης βάσης (πατήστε για άνοιγμα):</string>
+    <string name="omitbackup_title">Να μην γίνει αναζήτηση σε αντίγραφο ασφαλείας εγγραφών</string>
+    <string name="omitbackup_summary">Παράληψη ομάδας \'Αντίγραφο Ασφαλείας\' από τα αποτελέσματα αναζήτησης (εφαρμόζεται μόνο σε αρχεία .kdb)</string>
+    <string name="pass_filename">Όνομα βάσης δεδομένων KeePass:</string>
+    <string name="password_title">Εισάγετε τον κωδικό πρόσβασης της βάσης</string>
+    <string name="progress_create">Δημιουργία νέας βάσης δεδομένων&#8230;</string>
+    <string name="progress_title">Επεξεργασία&#8230;</string>
+    <string name="protection">Προστασία</string>
+    <string name="read_only_warning">Το KeePassDroid δεν έχει δικαίωμα εγγραφής στη τοποθεσία της βάσης, οπότε η βάση σας θ ανοίξει μόνο για ανάγνωση.</string>
+    <string name="read_only_kitkat_warning">Ξεκινώντας από το Android KitKat, μερικές συσκευές δεν επιτρέπουν πλέον στις εφαρμογές να γράψουν στην κάρτα SD.</string>
+    <string name="recentfile_title">Πρόσφατο ιστορικό αρχείων</string>
+    <string name="recentfile_summary">Να θυμάσαι πρόσφατα χρησιμοποιημένα ονόματα αρχείων</string>
+    <string name="remember_keyfile_summary">Να θυμάσαι την τοποθεσία των αρχείων κλειδιών</string>
+    <string name="remember_keyfile_title">Αποθήκευση αρχείου κλειδιού</string>
+    <string name="remove_from_filelist">Απομάκρυνση</string>
+    <string name="rijndael">Rijndael (AES)</string>
+    <string name="root">Ριζικός Κατάλογος</string>
+    <string name="rounds">Κύκλοι Κρυπτογράφησης</string>
+    <string name="rounds_explaination">Μεγαλύτεροι κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
+    <string name="rounds_hint">κύκλοι</string>
+    <string name="saving_database">Αποθήκευση βάσης&#8230;</string>
+    <string name="space">Κενό</string>
+    <string name="search_label">Αναζήτηση</string>
+    <string name="show_password">Εμφάνιση κωδικού</string>
+    <string name="sort_name">Ταξινόμηση κατά όνομα</string>
+    <string name="sort_db">Σειρά ταξινόμησης βάσης</string>
+    <string name="special">Ειδικοί</string>
+    <string name="search_hint">Τίτλος/περιγραφή εγγραφής</string>
+    <string name="search_results">Αποτελέσματα αναζήτησης</string>
+    <string name="twofish">Twofish</string>
+    <string name="underline">Υπογράμμιση</string>
+    <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
+    <string name="uppercase">Κεφαλαία</string>
+    <string name="warning_read_only">Η κάρτα SD είναι αυτή τη στιγμή μόνο για ανάγνωση. Είναι πιθανόν να μη μπορείτε ν αποθηκεύσετε τυχόν αλλαγές στη βάση δεδομένων σας.</string>
+    <string name="warning_unmounted">Η κάρτα SD δεν είναι προσαρμοσμένη αυτή τη στιγμή στη συσκευή σας. Δεν θα μπορείτε να φορτώσετε ή να δημιουργήσετε τη βάση δεδομένων σας.</string>
+    <string name="version_label">Έκδοση:</string>
+    
+    <string-array name="clipboard_timeout_options">
+    	<item>30 δευτερόλεπτα</item>
+    	<item>1 λεπτό</item>
+    	<item>5 λεπτά</item>
+    	<item>Ποτέ</item>
+    </string-array>
+    <string-array name="list_size_options">
+    	<item>Μικρά</item>
+    	<item>Μεσαία</item>
+    	<item>Μεγάλα</item>
+    </string-array>
+</resources>
