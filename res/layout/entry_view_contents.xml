@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2009-2011 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -54,11 +54,10 @@
 	  android:text="@string/entry_password"
 	  style="@style/WhiteOnDarkSmall"
 	/>
-	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_password" 
+	<com.keepassdroid.view.PasswordTextViewSelect android:id="@+id/entry_password" 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:password="true"
-	  android:typeface="monospace"
+	  android:inputType="textPassword"
 	  style="@style/EntryItem"
 	/>
 	<!-- Comment -->
