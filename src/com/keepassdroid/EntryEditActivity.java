@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -61,7 +61,7 @@ import com.keepassdroid.icons.Icons;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
-public abstract class EntryEditActivity extends LockCloseActivity {
+public abstract class EntryEditActivity extends LockCloseHideActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
