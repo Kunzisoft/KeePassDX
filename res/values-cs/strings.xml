@@ -16,6 +16,9 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+
+  Czech translation by Jan Vaněk
+
 -->
 <resources>
     <string name="about_feedback">Připomínky:</string>
@@ -33,11 +36,16 @@
     <string name="app_timeout_summary">Čas před zamknutím databáze, když je aplikace neaktivní.</string>
     <string name="application">Aplikace</string>
     <string name="application_settings">Nastavení aplikace</string>
+    <string name="beta_dontask">Znovu nezobrazovat</string>
+    <string name="beta_warning">Podpora pro ukládání změn do kdbx souborů je EXPERIMENTÁLNÍ. Vytvořte si zálohy databází před ukládáním změn.</string>
     <string name="brackets">Závorky</string>
     <string name="browser_intall_text">Procházení souborů vyžaduje Open Intents File Manager, klikněte níže pro jeho nainstalování. Kvůli zvláštnostem ve správci souborů, nemusí procházení správně fungovat při prvním spuštění.</string>
     <string name="building_search_idx">Vytvářím vyhledávací index&#8230;</string>
     <string name="cancel">Storno</string>
     <string name="ClearClipboard">Schránka vyčištěna.</string>
+    <string name="clipboard_error_title">Chyba schránkyr</string>
+    <string name="clipboard_error">Některé Samsung Android telefony mají chybu v implementaci schránky, která způsobuje chybu při kopírování z aplikací. Pro více detailů jdi na:</string>
+    <string name="clipboard_error_clear">Vyčištění schránky selhalo</string>
     <string name="clipboard_timeout">Časový limit schránky</string>
     <string name="clipboard_timeout_summary">Čas před vyčištěním schránky po zkopírování jména nebo hesla</string>
     <string name="copy_username">Kopírovat uživatelské jméno do schránky</string>
@@ -62,6 +70,7 @@
     <string name="entry_expires">Vyprší: </string>
     <string name="entry_keyfile">Klíčový soubor (nepovinné)</string>
     <string name="entry_modified">Změněno: </string>
+    <string name="entry_not_found">Vstupní data nenalezena.</string>
     <string name="entry_password">Heslo:</string>
     <string name="entry_save">Uložit</string>
     <string name="entry_title">Název: </string>
@@ -85,8 +94,11 @@
     <string name="error_pass_match">Hesla se neshodují.</string>
     <string name="error_rounds_not_number">Opakování musí být číslo.</string>
     <string name="error_rounds_too_large">Opakování příliš mnoho.  Nastavuji na 2147483648.</string>
+    <string name="error_string_key">Pro každou hodnotu je vyžadován název pole.</string>
     <string name="error_title_required">Název je povinný.</string>
     <string name="error_wrong_length">Zadejte celé kladné číslo do délky pole</string>
+    <string name="field_name">Název pole</string>
+    <string name="field_value">Hodnota pole</string>
     <string name="FileNotFound">Soubor nenalezen.</string>
     <string name="file_browser">Správce souborů</string>
     <string name="generate_password">Generovat heslo</string>
@@ -105,7 +117,10 @@
     <string name="install_from_market">Instalovat z Play</string>
     <string name="install_from_website">Instalovat z webu</string>
     <string name="InvalidPassword">Chybné heslo nebo klíčový soubor.</string>
+    <string name="invalid_algorithm">Chybný algoritmus.</string>
     <string name="invalid_db_sig">Databázový formát nelze rozpoznat.</string>
+    <string name="keyfile_does_not_exist">Klíčový soubor neexistuje.</string>
+    <string name="keyfile_is_empty">Klíčový soubor je prázdný.</string>
     <string name="length">Délka</string>
     <string name="list_size_title">Velikost seznamu skupin</string>
     <string name="list_size_summary">Velikost textu v seznamu skupin</string>
@@ -143,6 +158,11 @@
     <string name="password_title">Zadejte heslo do databáze</string>
     <string name="progress_create">Vytvářím novou databázi&#8230;</string>
     <string name="progress_title">Zpracovávám&#8230;</string>
+    <string name="protection">Protection</string>
+    <string name="read_only_warning">KeePassDroid nemá právo pro zápis do místa umístění databáze, proto bude databáze otevřena jen pro čtení.</string>
+    <string name="read_only_kitkat_warning">Od verze Android KitKat některá zařízení neumožňují aplikacím zápis na SD kartu.</string>
+    <string name="recentfile_title">Historie posledních souborů</string>
+    <string name="recentfile_summary">Pamatovat si naposledy použité soubory</string>
     <string name="remember_keyfile_summary">Pamatovat si umístění klíčového souboru</string>
     <string name="remember_keyfile_title">Uložit klíčový soubor</string>
     <string name="remove_from_filelist">Odstranit</string>
@@ -159,6 +179,7 @@
     <string name="sort_db">Seřadit podle DB</string>
     <string name="special">Speciální</string>
     <string name="search_hint">Zadejte název/popis</string>
+    <string name="search_results">Výsledky hledání</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Podtrženo</string>
     <string name="unsupported_db_version">Nepodporovaná verze databáze.</string>
