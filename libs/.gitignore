@@ -5,4 +5,7 @@ x86
 mips
 mips-r2
 mips-r2-sf
+arm64-v8a
+mips64
+x86_64
 ant-contrib-0.3.jar
