@@ -34,4 +34,5 @@
 	  android:autoLink="all"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 </LinearLayout> 

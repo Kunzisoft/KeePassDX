@@ -34,6 +34,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!--  URL -->
 	<TextView android:id="@+id/entry_url_label"
 	  android:layout_width="fill_parent"
@@ -47,6 +48,7 @@
 	  android:autoLink="all"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Password -->
 	<TextView android:id="@+id/entry_password_label"
 	  android:layout_width="fill_parent"
@@ -60,6 +62,7 @@
 	  android:inputType="textPassword"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Comment -->
 	<TextView android:id="@+id/entry_comment_label"
 	  android:layout_width="fill_parent"
@@ -73,6 +76,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<LinearLayout android:id="@+id/extra_strings"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -90,6 +94,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Modified -->
 	<TextView android:id="@+id/entry_modified_label"
 	  android:layout_width="fill_parent"
@@ -102,6 +107,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Accessed -->
 	<TextView android:id="@+id/entry_accessed_label"
 	  android:layout_width="fill_parent"
@@ -114,6 +120,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Expires -->
 	<TextView android:id="@+id/entry_expires_label"
 	  android:layout_width="fill_parent"

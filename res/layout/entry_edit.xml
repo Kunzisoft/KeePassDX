@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2013 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -31,12 +31,10 @@
 	  android:layout_alignParentBottom="true"
 	  android:layout_toRightOf="@id/entry_save"
 	  android:text="@string/entry_cancel"/>
-	<ImageView android:id="@+id/entry_divider"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
+	<View android:id="@+id/entry_divider"
 	  android:layout_above="@id/entry_save"
 	  android:scaleType="fitXY"
-	  android:src="@android:drawable/divider_horizontal_dark"/>
+	  style="@style/DividerEntry"/>
 	<com.keepassdroid.view.NoFocusScrollView android:id="@+id/entry_scroll"
 	  android:layout_width="fill_parent"
 	  android:layout_height="fill_parent"
@@ -62,13 +60,11 @@
 			  android:singleLine="true"
 			  android:layout_below="@id/entry_title_label"
 			  android:hint="@string/hint_title"/>
-			<ImageView android:id="@+id/divider_title"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
+			<View android:id="@+id/divider_title"
 			  android:layout_below="@id/icon_button"
 			  android:layout_marginTop="6dp"
 			  android:scaleType="fitXY"
-			  android:src="@android:drawable/divider_horizontal_dark"/>
+			  style="@style/DividerEntry"/>
 			<!-- Username -->
 			<TextView android:id="@+id/entry_user_name_label"
 			  android:layout_width="wrap_content"
@@ -82,13 +78,11 @@
 			  android:inputType="textEmailAddress"
 			  android:layout_below="@id/entry_user_name_label"
 			  android:hint="@string/hint_username"/>
-			<ImageView android:id="@+id/divider_username"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
+			<View android:id="@+id/divider_username"
 			  android:layout_below="@id/entry_user_name"
 			  android:layout_marginTop="6dp"
 			  android:scaleType="fitXY"
-			  android:src="@android:drawable/divider_horizontal_dark"/>
+			  style="@style/DividerEntry"/>
 			<!--  URL -->
 			<TextView android:id="@+id/entry_url_label"
 			  android:layout_width="wrap_content"
@@ -102,13 +96,11 @@
 			  android:inputType="textUri"
 			  android:layout_below="@id/entry_url_label"
 			  android:hint="@string/hint_url"/>
-			<ImageView android:id="@+id/divider_url"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
+			<View android:id="@+id/divider_url"
 			  android:layout_below="@id/entry_url"
 			  android:layout_marginTop="6dp"
 			  android:scaleType="fitXY"
-			  android:src="@android:drawable/divider_horizontal_dark"/>
+			  style="@style/DividerEntry"/>
 			<!-- Password -->
 			<TextView android:id="@+id/entry_password_label"
 			  android:layout_width="wrap_content"
@@ -130,13 +122,11 @@
 			  android:layout_toLeftOf="@id/generate_button"
 			  android:hint="@string/hint_pass"
 			  android:layout_alignTop="@id/generate_button"/>
-			<ImageView android:id="@+id/divider_password"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
+			<View android:id="@+id/divider_password"
 			  android:layout_below="@id/generate_button"
 			  android:layout_marginTop="6dp"
 			  android:scaleType="fitXY"
-			  android:src="@android:drawable/divider_horizontal_dark"/>
+			  style="@style/DividerEntry"/>
 			<!-- Confirm Password -->
 			<TextView android:id="@+id/entry_confpassword_label"
 			  android:layout_width="wrap_content" 
@@ -151,13 +141,11 @@
 			  android:singleLine="true"
 			  android:layout_below="@id/entry_confpassword_label"
 			  android:hint="@string/hint_conf_pass"/>
-			<ImageView android:id="@+id/divider_confpassword"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
+			<View android:id="@+id/divider_confpassword"
 			  android:layout_below="@id/entry_confpassword"
 			  android:layout_marginTop="6dp"
 			  android:scaleType="fitXY"
-			  android:src="@android:drawable/divider_horizontal_dark"/>
+			  style="@style/DividerEntry"/>
 			<!-- Comment -->
 			<TextView android:id="@+id/entry_comment_label"
 			  android:layout_width="wrap_content"
@@ -170,12 +158,10 @@
 		      android:layout_height="wrap_content"
 			  android:layout_below="@id/entry_comment_label"
 			  android:hint="@string/hint_comment"/>
-			<ImageView android:id="@+id/divider_comment"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
+			<View android:id="@+id/divider_comment"
 			  android:layout_below="@id/entry_comment"
 			  android:scaleType="fitXY"
-			  android:src="@android:drawable/divider_horizontal_dark"/>
+			  style="@style/DividerEntry"/>
 			<LinearLayout android:id="@+id/advanced_container"
 			  android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2009-2012 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -35,6 +35,7 @@
 	  android:textIsSelectable="true"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!--  URL -->
 	<TextView android:id="@+id/entry_url_label"
 	  android:layout_width="fill_parent"
@@ -49,6 +50,7 @@
 	  android:textIsSelectable="true"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Password -->
 	<TextView android:id="@+id/entry_password_label"
 	  android:layout_width="fill_parent"
@@ -63,6 +65,7 @@
 	  android:textIsSelectable="true"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Comment -->
 	<TextView android:id="@+id/entry_comment_label"
 	  android:layout_width="fill_parent"
@@ -76,6 +79,7 @@
 	  android:textIsSelectable="true"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<LinearLayout android:id="@+id/extra_strings"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -93,6 +97,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Modified -->
 	<TextView android:id="@+id/entry_modified_label"
 	  android:layout_width="fill_parent"
@@ -105,6 +110,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Accessed -->
 	<TextView android:id="@+id/entry_accessed_label"
 	  android:layout_width="fill_parent"
@@ -117,6 +123,7 @@
 	  android:layout_height="wrap_content"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 	<!-- Expires -->
 	<TextView android:id="@+id/entry_expires_label"
 	  android:layout_width="fill_parent"

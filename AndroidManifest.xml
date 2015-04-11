@@ -26,8 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    	<activity android:name="com.keepassdroid.fileselect.FileSelectActivity" android:configChanges="orientation|keyboardHidden"></activity>
-    	<activity android:name="com.keepassdroid.PasswordActivity" android:configChanges="orientation|keyboardHidden">
+    	<activity android:name="com.keepassdroid.fileselect.FileSelectActivity" android:configChanges="orientation|keyboardHidden"
+    	    android:theme="@style/NoTitleBar"
+    	/>
+    	<activity android:name="com.keepassdroid.PasswordActivity" android:configChanges="orientation|keyboardHidden"
+    	    android:theme="@style/NoTitleBar">
     		<intent-filter>
 			    <action android:name="android.intent.action.VIEW" />
 			    <category android:name="android.intent.category.DEFAULT" />

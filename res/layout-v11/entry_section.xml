@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2010-2011 Brian Pellin.
+ Copyright 2010-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -34,4 +34,5 @@
 	  android:typeface="monospace"
 	  style="@style/EntryItem"
 	/>
+	<View style="@style/Divider" />
 </LinearLayout> 
