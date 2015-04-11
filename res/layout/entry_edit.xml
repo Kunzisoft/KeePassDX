@@ -172,6 +172,7 @@
 			  android:layout_width="30sp"
 			  android:layout_height="30sp"
 			  android:layout_below="@id/advanced_container"
+			  android:contentDescription="@string/add_string"
 			  android:src="@android:drawable/ic_input_add"
 			  android:scaleType="centerCrop"
 			  android:visibility="gone"

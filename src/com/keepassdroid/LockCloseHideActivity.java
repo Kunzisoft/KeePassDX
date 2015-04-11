@@ -28,7 +28,7 @@ import android.view.WindowManager.LayoutParams;
  * @author Brian Pellin
  *
  */
-public class LockCloseHideActivity extends LockCloseActivity {
+public abstract class LockCloseHideActivity extends LockCloseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,15 +19,13 @@
  */
 package com.keepassdroid;
 
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 
 import com.android.keepass.KeePass;
 import com.keepassdroid.app.App;
 
-@SuppressLint("Registered")
-public class LockCloseActivity extends LockingActivity {
+public abstract class LockCloseActivity extends LockingActivity {
 
 	@Override
 	protected void onResume() {

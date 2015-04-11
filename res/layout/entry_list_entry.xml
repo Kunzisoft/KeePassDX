@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -30,7 +30,7 @@
           android:padding="5dp"
           android:scaleType="fitXY"
           android:src="@drawable/ic99_blank"/>
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        <TextView
           android:id="@+id/entry_text"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"

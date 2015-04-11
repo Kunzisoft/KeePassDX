@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2013-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -87,7 +87,7 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 			public void onClick(View v) {
 				LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
 				
-				EntryEditSection ees = (EntryEditSection) inflater.inflate(R.layout.entry_edit_section, null);
+				EntryEditSection ees = (EntryEditSection) inflater.inflate(R.layout.entry_edit_section, container, false);
 				ees.setData("", new ProtectedString(false, ""));
 				container.addView(ees);
 				
@@ -127,7 +127,7 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 				String key = pair.getKey();
 				
 				if (!PwEntryV4.IsStandardString(key)) {
-					EntryEditSection ees = (EntryEditSection) inflater.inflate(R.layout.entry_edit_section, null);
+					EntryEditSection ees = (EntryEditSection) inflater.inflate(R.layout.entry_edit_section, container, false);
 					ees.setData(key, pair.getValue());
 					container.addView(ees);
 				}

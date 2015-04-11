@@ -100,7 +100,7 @@ public class IconPickerActivity extends LockCloseActivity
    		if(convertView == null)
    		{
    			LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
-   			currView = li.inflate(R.layout.icon, null);
+   			currView = li.inflate(R.layout.icon, parent, false);
    		}
    		else
    		{

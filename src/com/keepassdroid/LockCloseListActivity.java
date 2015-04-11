@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Brian Pellin.
+ * Copyright 2012-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,7 +21,7 @@ package com.keepassdroid;
 
 import com.keepassdroid.timeout.TimeoutHelper;
 
-public class LockCloseListActivity extends LockingListActivity {
+public abstract class LockCloseListActivity extends LockingListActivity {
 
 	@Override
 	protected void onResume() {
