@@ -25,7 +25,7 @@
 
 /* Tune as desired */
 #undef KPD_PROFILE
-#undef KPD_DEBUG
+#define KPD_DEBUG
 
 #if defined(KPD_PROFILE)
 #include <time.h>
@@ -330,18 +330,22 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
     }
     padValue = final_output[paddedCacheLen-1];
 
-    int badPadding = 0;
-    for(i = paddedCacheLen-1; final_output[i] == padValue && i >= 0; i--) {
-        if (final_output[i] != padValue) {
-            badPadding = 1;
-            break;
+    int badPadding;
+    badPadding = padValue > AES_BLOCK_SIZE;
+
+    if (!badPadding) {
+        for(i = paddedCacheLen-1; final_output[i] == padValue && i >= 0; i--) {
+            if (final_output[i] != padValue) {
+                badPadding = 1;
+                break;
+            }
         }
     }
 
+    #if defined(KPD_DEBUG)
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "padValue=%d", padValue);
+    #endif
     if( badPadding ) {
-      #if defined(KPD_DEBUG)
-      __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "padValue=%d", padValue);
-      #endif
       (*env)->ThrowNew(env, bad_padding, "Failed to verify padding during decryption");
       return -1;
     }
