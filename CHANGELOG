@@ -6,6 +6,7 @@
  * Initial material design updates
  * Prevent screenshots/recent apps preview of password screens
      (closes: 680, 756)
+ * Fix native encryption libraries on 64-bit devices
 
 KeePassDroid (2.0)
  * Remove beta warning

@@ -261,7 +261,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nUpdate(J
 JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JNIEnv *env, jobject this,
 	jlong state, jboolean doPadding, jbyteArray output, jint outputOffset, jint outputSize) {
   int i;
-  uint32_t padValue, paddedCacheLen, j;
+  uint32_t padValue, paddedCacheLen;
   uint8_t final_output[CACHE_SIZE] __attribute__ ((aligned (16)));
   aes_state *c_state;
 
@@ -314,12 +314,13 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
     #endif
     return paddedCacheLen;
   } else { // DECRYPTION
+
     paddedCacheLen = c_state->cache_len;
     if( outputSize < (jint)paddedCacheLen ) {
       (*env)->ThrowNew(env, short_buf, "Insufficient space in output buffer");
       return -1;
     }
-    if( paddedCacheLen != 16 ) {
+    if( paddedCacheLen != AES_BLOCK_SIZE ) {
       (*env)->ThrowNew(env, bad_padding, "Incomplete final block in cache for decryption state");
       return -1;
     }
@@ -328,18 +329,31 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
       return -1;
     }
     padValue = final_output[paddedCacheLen-1];
-    for(i = (paddedCacheLen-1), j = 0; final_output[i] == padValue && i >= 0; i--, j++);
-    if( padValue != j ) {
+
+    int badPadding = 0;
+    for(i = paddedCacheLen-1; final_output[i] == padValue && i >= 0; i--) {
+        if (final_output[i] != padValue) {
+            badPadding = 1;
+            break;
+        }
+    }
+
+    if( badPadding ) {
+      #if defined(KPD_DEBUG)
+      __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "padValue=%d", padValue);
+      #endif
       (*env)->ThrowNew(env, bad_padding, "Failed to verify padding during decryption");
       return -1;
     }
-    j = 16 - j;
-    (*env)->SetByteArrayRegion(env, output, outputOffset, j, (jbyte *)final_output);
+
+    int outputSize = AES_BLOCK_SIZE - padValue;
+
+    (*env)->SetByteArrayRegion(env, output, outputOffset, outputSize, (jbyte *)final_output);
     c_state->direction = FINALIZED;
     #if defined(KPD_DEBUG)
-    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "decryption operation completed, returning %d bytes", j);
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nFinal", "decryption operation completed, returning %d bytes", outputSize);
     #endif
-    return j;
+    return outputSize;
   }
 }
 
