@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.view;
 
+import com.keepassdroid.assets.TypefaceFactory;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -38,9 +40,24 @@ public class PasswordTextViewSelect extends TextViewSelect {
 		super(context);
 	}
 
+	private Typeface getTypeface(Typeface tf) {
+		Typeface tfOverride = TypefaceFactory.getTypeface(getContext(), "fonts/DejaVuSansMono.ttf");
+		
+		if (tfOverride != null) {
+			return tfOverride;
+		}
+		
+		return tf;
+	}
+
 	@Override
 	public void setTypeface(Typeface tf, int style) {
-		super.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/DejaVuSansMono.ttf"));
+		super.setTypeface(getTypeface(tf), style);
+	}
+
+	@Override
+	public void setTypeface(Typeface tf) {
+		super.setTypeface(getTypeface(tf));
 	}
 
 }

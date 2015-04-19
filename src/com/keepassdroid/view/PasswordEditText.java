@@ -24,6 +24,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
+import com.keepassdroid.assets.TypefaceFactory;
+
 public class PasswordEditText extends EditText {
 
 	public PasswordEditText(Context context, AttributeSet attrs,
@@ -39,8 +41,24 @@ public class PasswordEditText extends EditText {
 		super(context);
 	}
 
+	private Typeface getTypeface(Typeface tf) {
+		Typeface tfOverride = TypefaceFactory.getTypeface(getContext(), "fonts/DejaVuSansMono.ttf");
+		
+		if (tfOverride != null) {
+			return tfOverride;
+		}
+		
+		return tf;
+	}
+
 	@Override
 	public void setTypeface(Typeface tf, int style) {
-		super.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/DejaVuSansMono.ttf"));
+		super.setTypeface(getTypeface(tf), style);
 	}
+
+	@Override
+	public void setTypeface(Typeface tf) {
+		super.setTypeface(getTypeface(tf));
+	}
+
 }

@@ -63,6 +63,7 @@
 	  android:layout_height="wrap_content"
 	  android:inputType="textPassword"
 	  android:textIsSelectable="true"
+	  android:typeface="monospace"
 	  style="@style/EntryItem"
 	/>
 	<View style="@style/Divider" />

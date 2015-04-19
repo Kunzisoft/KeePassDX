@@ -60,6 +60,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:inputType="textPassword"
+	  android:typeface="monospace"
 	  style="@style/EntryItem"
 	/>
 	<View style="@style/Divider" />
