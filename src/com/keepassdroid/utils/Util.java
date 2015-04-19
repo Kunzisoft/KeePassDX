@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -36,7 +36,12 @@ import android.widget.TextView;
 public class Util {
 	public static String getClipboard(Context context) {
 		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-		return clipboard.getText().toString();
+		CharSequence csText = clipboard.getText();
+		if (csText == null) {
+			return "";
+		}
+		
+		return csText.toString();
 	}
 	
 	public static void copyToClipboard(Context context, String text) throws SamsungClipboardException {
