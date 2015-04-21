@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Brian Pellin.
+ * Copyright 2014-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -27,7 +27,8 @@ public class BuildCompat {
 	private static Field manufacturer;
 	private static String manuText;
 	
-	
+	public static final int VERSION_CODE_GINGERBREAD = 9;
+	public static final int VERSION_CODE_ICE_CREAM_SANDWICH = 14;
 	public static final int VERSION_CODE_JELLY_BEAN = 16;
 	public static final int VERSION_CODE_JELLY_BEAN_MR2 = 18;
 	public static final int VERSION_KITKAT = 19;

@@ -19,6 +19,9 @@
  */
 package com.keepassdroid;
 
+import com.keepassdroid.compat.BuildCompat;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager.LayoutParams;
 
@@ -34,7 +37,11 @@ public abstract class LockCloseHideActivity extends LockCloseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);
+		// Several gingerbread devices have problems with FLAG_SECURE
+		int ver = BuildCompat.getSdkVersion();
+		if (ver >= BuildCompat.VERSION_CODE_ICE_CREAM_SANDWICH || ver < BuildCompat.VERSION_CODE_GINGERBREAD) {
+		    getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);
+		}
 	}
 
 }
