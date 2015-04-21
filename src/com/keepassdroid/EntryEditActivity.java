@@ -305,7 +305,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		if ( mShowPassword ) {
 			togglePassword.setTitle(R.string.menu_hide_password);
 		} else {
-			togglePassword.setTitle(R.string.show_password);
+			togglePassword.setTitle(R.string.menu_showpass);
 		}
 		
 		return true;
@@ -324,7 +324,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 			return true;
 		case R.id.menu_toggle_pass:
 			if ( mShowPassword ) {
-				item.setTitle(R.string.show_password);
+				item.setTitle(R.string.menu_showpass);
 				mShowPassword = false;
 			} else {
 				item.setTitle(R.string.menu_hide_password);

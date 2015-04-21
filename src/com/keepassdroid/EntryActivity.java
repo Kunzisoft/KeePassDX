@@ -299,7 +299,7 @@ public class EntryActivity extends LockCloseHideActivity {
 		if ( mShowPassword ) {
 			togglePassword.setTitle(R.string.menu_hide_password);
 		} else {
-			togglePassword.setTitle(R.string.show_password);
+			togglePassword.setTitle(R.string.menu_showpass);
 		}
 		
 		MenuItem gotoUrl = menu.findItem(R.id.menu_goto_url);
@@ -356,7 +356,7 @@ public class EntryActivity extends LockCloseHideActivity {
 			return true;
 		case R.id.menu_toggle_pass:
 			if ( mShowPassword ) {
-				item.setTitle(R.string.show_password);
+				item.setTitle(R.string.menu_showpass);
 				mShowPassword = false;
 			} else {
 				item.setTitle(R.string.menu_hide_password);

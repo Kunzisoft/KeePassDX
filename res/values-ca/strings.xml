@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2012 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -133,6 +133,7 @@
     <string name="menu_open">Obre</string>
     <string name="menu_rename">Reanomena</string>
     <string name="menu_search">Cerca</string>
+    <string name="menu_showpass">Mostra contrasenya</string>
     <string name="menu_url">Ves a la URL</string>
     <string name="minus">Menys</string>
     <string name="never">Mai</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2012 Brian Pellin.
+ Copyright 2012-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -24,7 +24,7 @@
         android:showAsAction="ifRoom"
     />
     <item android:id="@+id/menu_toggle_pass"
-        android:title="@string/show_password"
+        android:title="@string/menu_showpass"
         android:showAsAction="ifRoom"
     />
     <item android:id="@+id/menu_donate"

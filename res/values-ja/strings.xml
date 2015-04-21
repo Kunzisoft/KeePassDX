@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2011 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -130,6 +130,7 @@
     <string name="menu_open">開く</string>
     <string name="menu_rename">タイトルの変更</string>
     <string name="menu_search">検索</string>
+    <string name="menu_showpass">パスワードを表示</string>
     <string name="menu_url">WEBサイトへ</string>
     <string name="minus">マイナス (-)</string>
     <string name="never">期限なし</string>

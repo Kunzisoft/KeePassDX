@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2011 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -130,6 +130,7 @@
     <string name="menu_open">Otvoriť</string>
     <string name="menu_rename">Premenovať</string>
     <string name="menu_search">Hľadať</string>
+    <string name="menu_showpass">Zobraziť heslo</string>
     <string name="menu_url">Ísť na URL</string>
     <string name="minus">Mínus</string>
     <string name="never">Nikdy</string>

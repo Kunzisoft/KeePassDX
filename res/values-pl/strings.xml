@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2009 Brian Pellin.
+Copyright 2009-2015 Brian Pellin.
 This file is part of KeePassDroid.
 
 KeePassDroid is free software: you can redistribute it and/or modify
@@ -128,6 +128,7 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="menu_open">Otwórz</string>
     <string name="menu_rename">Zmień nazwę</string>
     <string name="menu_search">Szukaj</string>
+    <string name="menu_showpass">Pokaż hasło</string>
     <string name="menu_url">Przejdź do URL</string>
     <string name="minus">Minus</string>
     <string name="never">Nigdy</string>

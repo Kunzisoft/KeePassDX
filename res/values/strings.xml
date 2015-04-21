@@ -137,12 +137,13 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
-    <string name="menu_hide_password">Hide Password</string>
+    <string name="menu_hide_password">Hide Pass</string>
     <string name="menu_homepage">Go to Homepage</string>
     <string name="menu_lock">Lock Database</string>
     <string name="menu_open">Open</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_search">Search</string>
+    <string name="menu_showpass">Show pass</string>
     <string name="menu_url">Go to URL</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>

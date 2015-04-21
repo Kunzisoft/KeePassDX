@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2013 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -144,6 +144,7 @@
     <string name="menu_open">Ireki</string>
     <string name="menu_rename">Izena aldatu</string>
     <string name="menu_search">Bilatu</string>
+    <string name="menu_showpass">Pasahitza erakutsi</string>
     <string name="menu_url">URLra joan</string>
     <string name="minus">Minus</string>
     <string name="never">Inoiz ez</string>

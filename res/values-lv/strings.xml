@@ -123,6 +123,7 @@
     <string name="menu_open">Atvērt</string>
     <string name="menu_rename">Pārdēvēt</string>
     <string name="menu_search">Meklēšana</string>
+    <string name="menu_showpass">Rādīt paroli</string>
     <string name="menu_url">Saite</string>
     <string name="minus">Minus</string>
     <string name="never">Nekad</string>

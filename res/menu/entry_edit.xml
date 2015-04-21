@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2012 Brian Pellin.
+ Copyright 2012-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -20,7 +20,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_toggle_pass"
         android:icon="@android:drawable/ic_menu_view"
-        android:title="@string/show_password"
+        android:title="@string/menu_showpass"
     />
     <item android:id="@+id/menu_donate"
         android:icon="@android:drawable/ic_menu_share"

@@ -123,6 +123,7 @@
     <string name="menu_open">Megnyitás</string>
     <string name="menu_rename">Átnevezés</string>
     <string name="menu_search">Keresés</string>
+    <string name="menu_showpass">Jelszó megjelenítése</string>
     <string name="menu_url">Ugrás az URL-re</string>
     <string name="minus">Mínusz</string>
     <string name="never">Soha</string>

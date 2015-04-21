@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2013 Brian Pellin.
+ Copyright 2009-2015 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -143,6 +143,7 @@
     <string name="menu_open">Öppna</string>
     <string name="menu_rename">Döp om</string>
     <string name="menu_search">Sök</string>
+    <string name="menu_showpass">Visa lösenord</string>
     <string name="menu_url">Gå till URL</string>
     <string name="minus">Bindestreck</string>
     <string name="never">Aldrig</string>
