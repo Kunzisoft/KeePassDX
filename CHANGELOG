@@ -1,3 +1,4 @@
+KeePassDroid (2.0.3)
  * Improve password font handling. Handle failure to load font gracefully
  * Work around device bugs with FLAG_SECURE
  * Shorter English text for Show/hide password, so it fits on the action bar 
