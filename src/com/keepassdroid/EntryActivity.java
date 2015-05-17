@@ -1,4 +1,5 @@
 /*
+ * 
  * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
@@ -214,7 +215,12 @@ public class EntryActivity extends LockCloseHideActivity {
 		}
 		
 		if ( mNM != null ) {
-			mNM.cancelAll();
+			try {
+			    mNM.cancelAll();
+			} catch (SecurityException e) {
+				// Some android devices give a SecurityException when trying to cancel notifications without the WAKE_LOCK permission,
+				// we'll ignore these.
+			}
 		}
 		
 		super.onDestroy();
