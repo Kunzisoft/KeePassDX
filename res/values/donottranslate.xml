@@ -23,7 +23,7 @@
     <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
     <string name="homepage">http://www.keepassdroid.com</string>
     <string name="homepage_short">www.keepassdroid.com</string>
-    <string name="issues">bit.ly/kpd_issues</string>
+    <string name="issues">bit.ly/kpd_issues2</string>
     <string name="oi_filemanager_market">market://details?id=org.openintents.filemanager</string>
     <string name="oi_filemanager_web">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
     <string name="twitter">twitter.com/bpellin</string>
