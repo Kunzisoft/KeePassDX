@@ -1,3 +1,4 @@
+KeePassDroid (2.0.4beta1)
  * Fix notification icons (closes: #60)
  * Add warning about non-Latin1 characters (closes: #64)
 
