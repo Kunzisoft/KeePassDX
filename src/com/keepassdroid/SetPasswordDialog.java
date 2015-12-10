@@ -20,6 +20,7 @@
 package com.keepassdroid;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -93,8 +94,18 @@ public class SetPasswordDialog extends CancelDialog {
 				}
 				
 				SetPassword sp = new SetPassword(App.getDB(), pass, keyfile, new AfterSave(mFinish, new Handler()));
-				ProgressTask pt = new ProgressTask(getContext(), sp, R.string.saving_database);
-				pt.run();
+				final ProgressTask pt = new ProgressTask(getContext(), sp, R.string.saving_database);
+				boolean valid = sp.validatePassword(getContext(), new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						pt.run();
+					}
+				});
+				
+				if (valid) {
+				    pt.run();
+				}
 			}
 			
 		});

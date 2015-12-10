@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -232,8 +232,9 @@ public class PwDatabaseV3 extends PwDatabase {
 
 	}
 
-	public byte[] getPasswordKey(String key) throws IOException {
-		return getPasswordKey(key, "ISO-8859-1");
+	@Override
+	protected String getPasswordEncoding() {
+		return "ISO-8859-1";
 	}
 	
 	@Override

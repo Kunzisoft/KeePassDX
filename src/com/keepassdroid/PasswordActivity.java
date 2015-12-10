@@ -25,6 +25,8 @@ import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -53,6 +55,7 @@ import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
@@ -261,7 +264,7 @@ public class PasswordActivity extends LockingActivity {
 		App.clearShutdown();
 		
 		Handler handler = new Handler();
-		LoadDB task = new LoadDB(db, PasswordActivity.this, fileName, pass, keyfile, new AfterLoad(handler));
+		LoadDB task = new LoadDB(db, PasswordActivity.this, fileName, pass, keyfile, new AfterLoad(handler, db));
 		ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
 		pt.run();		
 	}
@@ -306,14 +309,27 @@ public class PasswordActivity extends LockingActivity {
 	}
 
 	private final class AfterLoad extends OnFinish {
+		private Database db;
 		
-		public AfterLoad(Handler handler) {
+		public AfterLoad(Handler handler, Database db) {
 			super(handler);
+			
+			this.db = db;
 		}
 
 		@Override
 		public void run() {
-			if ( mSuccess ) {
+			if ( db.passwordEncodingError) {
+				PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
+				dialog.show(PasswordActivity.this, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						GroupActivity.Launch(PasswordActivity.this);
+					}
+					
+				});
+			} else if ( mSuccess ) {
 				GroupActivity.Launch(PasswordActivity.this);
 			} else {
 				displayMessage(PasswordActivity.this);

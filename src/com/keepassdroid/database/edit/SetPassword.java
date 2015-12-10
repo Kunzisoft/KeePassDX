@@ -21,10 +21,13 @@ package com.keepassdroid.database.edit;
 
 import java.io.IOException;
 
+import android.content.Context;
+import android.content.DialogInterface;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 
 public class SetPassword extends RunnableOnFinish {
 	
@@ -50,7 +53,17 @@ public class SetPassword extends RunnableOnFinish {
 		mKeyfile = keyfile;
 		mDontSave = dontSave;
 	}
-
+	
+	public boolean validatePassword(Context ctx, DialogInterface.OnClickListener onclick) {
+		if (!mDb.pm.validatePasswordEncoding(mPassword)) {
+			PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
+			dialog.show(ctx, onclick, true);
+			return false;
+		}
+		
+		return true;
+	}
+	
 	@Override
 	public void run() {
 		PwDatabase pm = mDb.pm;

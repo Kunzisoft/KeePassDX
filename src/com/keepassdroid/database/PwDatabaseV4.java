@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -130,9 +130,9 @@ public class PwDatabaseV4 extends PwDatabase {
 		return md.digest(fKey);
 	}
 
-    @Override
-	public byte[] getPasswordKey(String key) throws IOException {
-		return getPasswordKey(key, "UTF-8");
+	@Override
+	protected String getPasswordEncoding() {
+		return "UTF-8";
 	}
     
 	private static final String RootElementName = "KeyFile";
@@ -359,6 +359,11 @@ public class PwDatabaseV4 extends PwDatabase {
 		PwGroupV4 g = (PwGroupV4) group;
 		
 		return g.isSearchEnabled();
+	}
+
+	@Override
+	public boolean validatePasswordEncoding(String key) {
+		return true;
 	}
 	
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -199,8 +199,31 @@ public abstract class PwDatabase {
 	    }
 	    return data;
 	}
+	
+	public boolean validatePasswordEncoding(String key) {
+		String encoding = getPasswordEncoding();
 
-	protected byte[] getPasswordKey(String key, String encoding) throws IOException {
+		byte[] bKey;
+		try {
+			bKey = key.getBytes(encoding);
+		} catch (UnsupportedEncodingException e) {
+			return false;
+		}
+		
+		String reencoded;
+		
+		try {
+		    reencoded = new String(bKey, encoding);
+		} catch (UnsupportedEncodingException e) {
+			return false;
+		}
+		
+		return key.equals(reencoded);
+	}
+	
+	protected abstract String getPasswordEncoding();
+
+	public byte[] getPasswordKey(String key) throws IOException {
 		assert(key!=null);
 		
 		if ( key.length() == 0 )
@@ -215,7 +238,7 @@ public abstract class PwDatabase {
 
 		byte[] bKey;
 		try {
-			bKey = key.getBytes(encoding);
+			bKey = key.getBytes(getPasswordEncoding());
 		} catch (UnsupportedEncodingException e) {
 			assert false;
 			bKey = key.getBytes();
@@ -225,8 +248,6 @@ public abstract class PwDatabase {
 		return md.digest();
 	}
 	
-	public abstract byte[] getPasswordKey(String key) throws IOException;
-
 	public abstract List<PwGroup> getGrpRoots();
 	
 	public abstract List<PwGroup> getGroups();

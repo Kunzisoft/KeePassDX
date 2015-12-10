@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 Brian Pellin.
+ * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -52,6 +52,7 @@ public class Database {
 	public String mFilename;
 	public SearchDbHelper searchHelper;
 	public boolean readOnly = false;
+	public boolean passwordEncodingError = false;
 	
 	public DrawableFactory drawFactory = new DrawableFactory();
 	
@@ -111,6 +112,8 @@ public class Database {
 			PwGroup root = pm.rootGroup;
 			
 			pm.populateGlobals(root);
+			
+		    passwordEncodingError = !pm.validatePasswordEncoding(password);
 		}
 		
 		searchHelper = new SearchDbHelper(ctx);
@@ -167,6 +170,7 @@ public class Database {
 		pm = null;
 		mFilename = null;
 		loaded = false;
+		passwordEncodingError = false;
 	}
 	
 	public void markAllGroupsAsDirty() {
@@ -180,6 +184,5 @@ public class Database {
 			dirty.add(pm.rootGroup);		
 		}
 	}
-	
 	
 }
