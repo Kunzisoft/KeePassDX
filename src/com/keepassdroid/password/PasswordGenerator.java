@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.password;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 import android.content.Context;
 
@@ -54,7 +54,7 @@ public class PasswordGenerator {
 		
 		StringBuffer buffer = new StringBuffer();
 
-		Random random = new Random();
+		SecureRandom random = new SecureRandom(); // use more secure variant of Random!
 		if (size > 0) {
 			
 			for (int i = 0; i < length; i++) {
