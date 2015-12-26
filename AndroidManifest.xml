@@ -72,7 +72,8 @@
             <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
             <!-- whenever the user invokes search while in this Activity. -->
             <meta-data android:name="android.app.default_searchable"
-                       android:value="com.keepassdroid.search.SearchResults" />
+                       android:value="com.keepassdroid.search.SearchResults"
+                       android:exported="false" />
     	</activity>
 		<activity android:name="com.keepassdroid.EntryActivity" android:configChanges="orientation|keyboardHidden"
 			android:theme="@style/NoTitleBar"></activity>
