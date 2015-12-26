@@ -1,6 +1,7 @@
 KeePassDroid (2.0.4beta1)
  * Fix notification icons (closes: #60)
  * Add warning about non-Latin1 characters (closes: #64)
+ * Add support for creating .kdbx databases, make this the default
 
 KeePassDroid (2.0.3)
  * Improve password font handling. Handle failure to load font gracefully

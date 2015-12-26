@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -25,6 +25,7 @@ public class PwIconStandard extends PwIcon {
 	public static PwIconStandard FIRST = new PwIconStandard(1);
 	
 	public static final int TRASH_BIN = 43;
+	public static final int FOLDER = 48;
 	
 	public PwIconStandard(int iconId) {
 		this.iconId = iconId;

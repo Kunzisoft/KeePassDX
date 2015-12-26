@@ -113,6 +113,14 @@ public class Database {
 			
 			pm.populateGlobals(root);
 			
+		    LoadData(ctx, pm, password, keyfile, status);
+		}
+
+		loaded = true;
+	}
+	
+	public void LoadData(Context ctx, PwDatabase pm, String password, String keyfile, UpdateStatus status) {
+		if ( pm != null ) {
 		    passwordEncodingError = !pm.validatePasswordEncoding(password);
 		}
 		

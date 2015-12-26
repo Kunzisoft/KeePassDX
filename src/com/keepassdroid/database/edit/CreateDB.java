@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2015 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -22,6 +22,7 @@ package com.keepassdroid.database.edit;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 
@@ -45,31 +46,18 @@ public class CreateDB extends RunnableOnFinish {
 		Database db = new Database();
 		App.setDB(db);
 		
-		// Create the PwDatabaseV3
-		PwDatabaseV3 pm = new PwDatabaseV3();
-		pm.algorithm = PwEncryptionAlgorithm.Rjindal;
-		pm.numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
-		pm.name = "KeePass Password Manager";
-		// Build the root group
-		pm.constructTree(null);
+		PwDatabase pm = PwDatabase.getNewDBInstance(mFilename);
+		pm.initNew(mFilename);
 		
 		// Set Database state
 		db.pm = pm;
 		db.mFilename = mFilename;
 		db.setLoaded();
 		
-		// Add a couple default groups
-		AddGroup internet = AddGroup.getInstance(db, "Internet", 1, pm.rootGroup, null, true);
-		internet.run();
-		AddGroup email = AddGroup.getInstance(db, "eMail", 19, pm.rootGroup, null, true);
-		email.run();
-		
 		// Commit changes
 		SaveDB save = new SaveDB(db, mFinish, mDontSave);
 		mFinish = null;
 		save.run();
-
-
 	}
 
 }

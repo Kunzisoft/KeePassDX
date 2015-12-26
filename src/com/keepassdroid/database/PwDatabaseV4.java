@@ -39,9 +39,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
+import android.webkit.URLUtil;
 import biz.source_code.base64Coder.Base64Coder;
 
+import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.utils.EmptyUtils;
 
 
 public class PwDatabaseV4 extends PwDatabase {
@@ -52,13 +55,13 @@ public class PwDatabaseV4 extends PwDatabase {
 	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
 	private static final String RECYCLEBIN_NAME = "RecycleBin";
 	
-	public UUID dataCipher;
-	public PwCompressionAlgorithm compressionAlgorithm;
-    public long numKeyEncRounds;
+	public UUID dataCipher = CipherFactory.AES_CIPHER;
+	public PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
+    public long numKeyEncRounds = 6000;
     public Date nameChanged = DEFAULT_NOW;
-    public String description;
+    public String description = "";
     public Date descriptionChanged = DEFAULT_NOW;
-    public String defaultUserName;
+    public String defaultUserName = "";
     public Date defaultUserNameChanged = DEFAULT_NOW;
     
     public Date keyLastChanged = DEFAULT_NOW;
@@ -67,15 +70,15 @@ public class PwDatabaseV4 extends PwDatabase {
     
     public long maintenanceHistoryDays = 365;
     public String color = "";
-    public boolean recycleBinEnabled;
-    public UUID recycleBinUUID = null;
+    public boolean recycleBinEnabled = true;
+    public UUID recycleBinUUID = UUID_ZERO;
     public Date recycleBinChanged = DEFAULT_NOW;
-    public UUID entryTemplatesGroup;
+    public UUID entryTemplatesGroup = UUID_ZERO;
     public Date entryTemplatesGroupChanged = DEFAULT_NOW;
     public int historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS;
     public long historyMaxSize = DEFAULT_HISTORY_MAX_SIZE;
-    public UUID lastSelectedGroup;
-    public UUID lastTopVisibleGroup;
+    public UUID lastSelectedGroup = UUID_ZERO;
+    public UUID lastTopVisibleGroup = UUID_ZERO;
     public MemoryProtectionConfig memoryProtection = new MemoryProtectionConfig();
     public List<PwDeletedObject> deletedObjects = new ArrayList<PwDeletedObject>();
     public List<PwIconCustom> customIcons = new ArrayList<PwIconCustom>();
@@ -364,6 +367,27 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public boolean validatePasswordEncoding(String key) {
 		return true;
+	}
+
+	@Override
+	public void initNew(String dbPath) {
+		String filename = URLUtil.guessFileName(dbPath, null, null);
+		
+		rootGroup = new PwGroupV4(true, true, dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
+	}
+	
+	private String dbNameFromPath(String dbPath) {
+		String filename = URLUtil.guessFileName(dbPath, null, null);
+		
+		if (EmptyUtils.isNullOrEmpty(filename)) {
+			return "KeePass Database";
+		}
+		int lastExtDot = filename.lastIndexOf(".");
+		if (lastExtDot == -1) {
+			return filename;
+		}
+		
+		return filename.substring(0, lastExtDot);
 	}
 	
 }

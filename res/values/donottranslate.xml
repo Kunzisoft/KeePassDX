@@ -19,7 +19,7 @@
 -->
 <resources>
     <string name="clipboard_error_url">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="default_file_path">/keepass/keepass.kdb</string>
+    <string name="default_file_path">/keepass/keepass.kdbx</string>
     <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8246230]]></string>
     <string name="homepage">http://www.keepassdroid.com</string>
     <string name="homepage_short">www.keepassdroid.com</string>

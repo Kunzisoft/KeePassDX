@@ -52,6 +52,23 @@ public abstract class PwDatabase {
 	public Map<UUID, PwEntry> entries = new HashMap<UUID, PwEntry>();
 	
 	
+	private static boolean isKDBExtension(String filename) {
+		if (filename == null) { return false; }
+		
+		int extIdx = filename.lastIndexOf(".");
+		if (extIdx == -1) return false;
+		
+		return filename.substring(extIdx, filename.length()).equalsIgnoreCase(".kdb"); 
+	}
+	
+	public static PwDatabase getNewDBInstance(String filename) {
+		if (isKDBExtension(filename)) {
+			return new PwDatabaseV3();
+		} else {
+			return new PwDatabaseV4();
+		}
+	}
+	
 	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
 
 		// Write checksum Checksum
@@ -378,5 +395,10 @@ public abstract class PwDatabase {
 	public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
 		return group != null;
 	}
+	
+	/**
+	 * Initialize a newly created database
+	 */
+	public abstract void initNew(String dbPath);
 	
 }

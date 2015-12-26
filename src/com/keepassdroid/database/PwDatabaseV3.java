@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 
@@ -61,6 +62,8 @@ import com.keepassdroid.database.exception.InvalidKeyFileException;
 public class PwDatabaseV3 extends PwDatabase {
 	// Constants
 	// private static final int PWM_SESSION_KEY_SIZE = 12;
+
+	private final int DEFAULT_ENCRYPTION_ROUNDS = 300;
 
 	// Special entry for settings
 	public PwEntry metaInfo;
@@ -332,5 +335,25 @@ public class PwDatabaseV3 extends PwDatabase {
 		}
 		
 		return !(omitBackup && isBackup(group));
+	}
+	
+	private void initAndAddGroup(String name, int iconId, PwGroup parent) {
+		PwGroup group = createGroup();
+		group.initNewGroup(name, newGroupId());
+		group.icon = iconFactory.getIcon(iconId);
+		addGroupTo(group, parent);
+	}
+
+	@Override
+	public void initNew(String dbPath) {
+		algorithm = PwEncryptionAlgorithm.Rjindal;
+		numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
+		name = "KeePass Password Manager";
+		// Build the root group
+		constructTree(null);
+		
+		// Add a couple default groups
+		initAndAddGroup("Internet", 1, rootGroup);
+		initAndAddGroup("eMail", 19, rootGroup);
 	}
 }
