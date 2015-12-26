@@ -40,7 +40,9 @@ import org.bouncycastle.crypto.modes.OFBBlockCipher;
 import org.bouncycastle.crypto.modes.OpenPGPCFBBlockCipher;
 import org.bouncycastle.crypto.modes.PGPCFBBlockCipher;
 import org.bouncycastle.crypto.modes.SICBlockCipher;
+*/
 import org.bouncycastle.crypto.paddings.BlockCipherPadding;
+/*
 import org.bouncycastle.crypto.paddings.ISO10126d2Padding;
 import org.bouncycastle.crypto.paddings.ISO7816d4Padding;
 */
@@ -48,8 +50,8 @@ import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 /*
 import org.bouncycastle.crypto.paddings.TBCPadding;
 import org.bouncycastle.crypto.paddings.X923Padding;
-import org.bouncycastle.crypto.paddings.ZeroBytePadding;
 */
+import org.bouncycastle.crypto.paddings.ZeroBytePadding;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
@@ -343,11 +345,11 @@ public class JCEBlockCipher extends WrapCipherSpi
             {
                 cipher = new BufferedGenericBlockCipher(cipher.getUnderlyingCipher());
             }
-            /*
             else if (paddingName.equals("ZEROBYTEPADDING"))
             {
                 cipher = new BufferedGenericBlockCipher(cipher.getUnderlyingCipher(), new ZeroBytePadding());
             }
+            /*
             else if (paddingName.equals("ISO10126PADDING") || paddingName.equals("ISO10126-2PADDING"))
             {
                 cipher = new BufferedGenericBlockCipher(cipher.getUnderlyingCipher(), new ISO10126d2Padding());
@@ -1290,12 +1292,10 @@ public class JCEBlockCipher extends WrapCipherSpi
             this.cipher = new PaddedBufferedBlockCipher(cipher);
         }
 
-        /*
         BufferedGenericBlockCipher(BlockCipher cipher, BlockCipherPadding padding)
         {
             this.cipher = new PaddedBufferedBlockCipher(cipher, padding);
         }
-        */
 
         public void init(boolean forEncryption, CipherParameters params)
             throws IllegalArgumentException

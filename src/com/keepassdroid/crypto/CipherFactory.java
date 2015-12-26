@@ -76,7 +76,10 @@ public class CipherFactory {
 			new byte[]{(byte)0x31, (byte)0xC1, (byte)0xF2, (byte)0xE6, (byte)0xBF, (byte)0x71, (byte)0x43, (byte)0x50,
 					   (byte)0xBE, (byte)0x58, (byte)0x05, (byte)0x21, (byte)0x6A, (byte)0xFC, 0x5A, (byte)0xFF 
 	});
-	
+	public static final UUID TWOFISH_CIPHER = Types.bytestoUUID(
+			new byte[]{(byte)0xAD, (byte)0x68, (byte)0xF2, (byte)0x9F, (byte)0x57, (byte)0x6F, (byte)0x4B, (byte)0xB9,
+					   (byte)0xA3, (byte)0x6A, (byte)0xD4, (byte)0x7A, (byte)0xF9, (byte)0x65, (byte)0x34, (byte)0x6C
+	});
 	
 	/** Generate appropriate cipher based on KeePass 2.x UUID's
 	 * @param uuid
@@ -96,6 +99,17 @@ public class CipherFactory {
 			
 			cipher.init(opmode, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
 			
+			return cipher;
+		} else if ( uuid.equals(TWOFISH_CIPHER) ) {
+			Cipher cipher;
+			if (opmode == Cipher.ENCRYPT_MODE) {
+				cipher = CipherFactory.getInstance("TWOFISH/CBC/ZeroBytePadding", androidOverride);
+			} else {
+				cipher = CipherFactory.getInstance("TWOFISH/CBC/NoPadding", androidOverride);
+			}
+
+			cipher.init(opmode, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
+
 			return cipher;
 		}
 		
