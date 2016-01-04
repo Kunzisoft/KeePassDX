@@ -1,0 +1,76 @@
+apply plugin: 'com.android.model.application'
+
+model {
+    android {
+        compileSdkVersion = 22
+        buildToolsVersion = "23.0.0"
+
+        defaultConfig.with {
+            applicationId = "com.android.keepass"
+            minSdkVersion.apiLevel = 3
+            targetSdkVersion.apiLevel = 12
+            versionCode = 138
+            versionName = "2.0.4"
+
+            testApplicationId = "com.keepassdroid.tests"
+            testInstrumentationRunner = "android.test.InstrumentationTestRunner"
+
+            buildConfigFields.with {
+                create() {
+                    type = "int"
+                    name = "VALUE"
+                    value = "1"
+                }
+            }
+        }
+    }
+
+    android.buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles.add(file('proguard-rules.txt'))
+        }
+    }
+
+    android.productFlavors {
+        create("flavor1") {
+            applicationId = "com.android.keepass"
+        }
+    }
+
+    android.sources {
+        main {
+            jni {
+                source {
+                    srcDirs = [
+                            "src/main/jni/aes",
+                            "src/main/jni/final_key",
+                            "src/main/jni/sha"
+                    ]
+                    exclude "**/aesxam.c"
+                    exclude "**/rfc3686.c"
+                    exclude "**/tablegen.c"
+                    exclude "**/pwd2key.c"
+                    exclude "**/sha1b.c"
+                    exclude "**/sha2b.c"
+                    exclude "**/shasum.c"
+                }
+            }
+        }
+    }
+
+    android.ndk {
+        moduleName = "libfinal-key"
+
+        ldLibs.add("log")
+        CFlags.add("-I${file("src/main/jni/aes")}".toString())
+        CFlags.add("-I${file("src/main/jni/sha")}".toString())
+        CFlags.add("-DUSE_SHA256")
+    }
+}
+
+dependencies {
+    androidTestCompile files('libs/junit4.jar')
+    // Set this dependency if you want to use Hamcrest matching
+    //androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+}

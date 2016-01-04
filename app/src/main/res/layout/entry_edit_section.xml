@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2013 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<com.keepassdroid.view.EntryEditSection xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content">
+	<EditText android:id="@+id/title"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:singleLine="true"
+	  android:inputType="text"
+	  android:hint="@string/field_name"
+	  style="@style/Small"
+	/>
+	<CheckBox android:id="@+id/protection"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_below="@id/title"
+	  android:text="@string/protection"
+	/>
+	<ImageButton android:id="@+id/delete"
+	  android:layout_width="30dp"
+	  android:layout_height="30dp"
+	  android:layout_alignParentRight="true"
+	  android:layout_below="@id/title"
+	  android:src="@android:drawable/ic_delete"
+	  android:scaleType="centerCrop"
+	  android:onClick="deleteAdvancedString"
+	 />
+	<EditText android:id="@+id/value"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_below="@id/delete"
+	  android:inputType="textMultiLine"
+	  android:hint="@string/field_value"
+	/>
+	<ImageView android:id="@+id/divider_comment"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_below="@id/value"
+	  android:scaleType="fitXY"
+	  android:src="@android:drawable/divider_horizontal_dark"/>
+</com.keepassdroid.view.EntryEditSection>

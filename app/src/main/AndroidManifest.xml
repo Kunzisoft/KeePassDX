@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.android.keepass"
+      android:installLocation="auto">
+	<supports-screens
+      android:smallScreens="true"
+      android:normalScreens="true"
+      android:largeScreens="true"
+      android:anyDensity="true"
+    />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <application 
+      android:label="@string/app_name"
+      android:icon="@drawable/launcher"
+      android:name="com.keepassdroid.app.App"
+      android:allowBackup="true"
+      android:backupAgent="com.keepassdroid.backup.SettingsBackupAgent">
+        <meta-data android:name="com.google.android.backup.api_key"
+          android:value="AEdPqrEAAAAIKwReNelmy5SvhZzK3bpK_JisjzUko6cL_8GR4w" />
+        <activity android:name=".KeePass"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    	<activity android:name="com.keepassdroid.fileselect.FileSelectActivity" android:configChanges="orientation|keyboardHidden"
+    	    android:theme="@style/NoTitleBar"
+    	/>
+    	<activity android:name="com.keepassdroid.PasswordActivity" android:configChanges="orientation|keyboardHidden"
+    	    android:theme="@style/NoTitleBar">
+    		<intent-filter>
+			    <action android:name="android.intent.action.VIEW" />
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <category android:name="android.intent.category.BROWSABLE" />
+			    <data android:scheme="file" />
+			    <data android:mimeType="*/*" />
+			    <data android:host="*" />
+			    <data android:pathPattern=".*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdb" />
+			    <data android:pathPattern=".*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+			    <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
+    		</intent-filter>
+    	</activity>
+    	<activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden"
+    		android:theme="@style/NoTitleBar">
+            <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
+            <!-- whenever the user invokes search while in this Activity. -->
+            <meta-data android:name="android.app.default_searchable"
+                       android:value="com.keepassdroid.search.SearchResults" />
+    	</activity>
+    	<activity android:name="com.keepassdroid.GroupActivityV4" android:configChanges="orientation|keyboardHidden"
+    		android:theme="@style/NoTitleBar">
+            <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
+            <!-- whenever the user invokes search while in this Activity. -->
+            <meta-data android:name="android.app.default_searchable"
+                       android:value="com.keepassdroid.search.SearchResults"
+                       android:exported="false" />
+    	</activity>
+		<activity android:name="com.keepassdroid.EntryActivity" android:configChanges="orientation|keyboardHidden"
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.EntryActivityV4"  android:configChanges="orientation|keyboardHidden" 
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.LockingActivity" 
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.EntryEditActivityV3" android:configChanges="orientation|keyboardHidden"
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.EntryEditActivityV4" android:configChanges="orientation|keyboardHidden"
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.GroupEditActivity" android:theme="@style/Dialog"></activity>
+		<activity android:name="com.keepassdroid.IconPickerActivity" android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.search.SearchResults" android:launchMode="standard"
+			android:theme="@style/NoTitleBar">
+		    <intent-filter>
+			    <action android:name="android.intent.action.SEARCH" />
+			    <category android:name="android.intent.category.DEFAULT" />
+		     </intent-filter>
+			<meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
+		</activity>
+		<activity android:name="com.keepassdroid.settings.AppSettingsActivity" 
+			android:theme="@style/NoTitleBar"></activity>
+		<activity android:name="com.keepassdroid.GeneratePasswordActivity" 
+			android:theme="@style/NoTitleBar"></activity>
+		<service android:name="com.keepassdroid.services.TimeoutService"></service>
+		<meta-data android:name="com.a0soft.gphone.aTrackDog.webURL" android:value="http://keepassdroid.com" />
+	</application>
+</manifest> 
