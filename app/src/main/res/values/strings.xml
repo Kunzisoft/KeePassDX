@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2015 Brian Pellin.
+ Copyright 2009-2016 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -17,7 +17,9 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
     <string name="AboutText">KeePassDroid is an Android implementation of the KeePass password manager.</string>
