@@ -1,5 +1,6 @@
  * Add .kdbx Twofish support from drizzt
  * Improve password generator randomness
+ * Handle new Google Drive style links (closes: #74)
 
 KeePassDroid (2.0.4)
  * Fix notification icons (closes: #60)

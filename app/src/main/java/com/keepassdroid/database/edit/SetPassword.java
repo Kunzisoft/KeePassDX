@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -35,23 +35,21 @@ public class SetPassword extends RunnableOnFinish {
 	private String mKeyfile;
 	private Database mDb;
 	private boolean mDontSave;
+	private Context ctx;
 	
-	public SetPassword(Database db, String password, String keyfile, OnFinish finish) {
-		super(finish);
+	public SetPassword(Context ctx, Database db, String password, String keyfile, OnFinish finish) {
+		this(ctx, db, password, keyfile, finish, false);
 		
-		mDb = db;
-		mPassword = password;
-		mKeyfile = keyfile;
-		mDontSave = false;
 	}
 
-	public SetPassword(Database db, String password, String keyfile, OnFinish finish, boolean dontSave) {
+	public SetPassword(Context ctx, Database db, String password, String keyfile, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
 		mPassword = password;
 		mKeyfile = keyfile;
 		mDontSave = dontSave;
+		this.ctx = ctx;
 	}
 	
 	public boolean validatePassword(Context ctx, DialogInterface.OnClickListener onclick) {
@@ -86,7 +84,7 @@ public class SetPassword extends RunnableOnFinish {
 		
 		// Save Database
 		mFinish = new AfterSave(backupKey, mFinish);
-		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
+		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	

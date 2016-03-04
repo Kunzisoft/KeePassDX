@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -23,6 +23,7 @@ import java.io.InputStream;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.net.Uri;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabaseV3Debug;
@@ -54,7 +55,9 @@ public class TestData {
 
 		Database Db = new Database();
 		Db.LoadData(ctx, is, password, keyfile, Importer.DEBUG);
-		Db.mFilename = filename;
+		Uri.Builder b = new Uri.Builder();
+
+		Db.mUri = b.scheme("file").path(filename).build();
 		
 		return Db;
 		

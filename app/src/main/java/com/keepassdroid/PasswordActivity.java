@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.Menu;
@@ -60,6 +61,7 @@ import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
+import com.keepassdroid.utils.StrUtil;
 import com.keepassdroid.utils.Util;
 
 public class PasswordActivity extends LockingActivity {
@@ -76,6 +78,7 @@ public class PasswordActivity extends LockingActivity {
 
     private String mFileName;
     private String mKeyFile;
+    private Uri mUri = null;
     private boolean mRememberKeyfile;
     SharedPreferences prefs;
 
@@ -84,10 +87,12 @@ public class PasswordActivity extends LockingActivity {
     }
 
     public static void Launch(Activity act, String fileName, String keyFile) throws FileNotFoundException {
+        /*
         File dbFile = new File(fileName);
         if ( ! dbFile.exists() ) {
             throw new FileNotFoundException();
         }
+        */
 
         Intent i = new Intent(act, PasswordActivity.class);
         i.putExtra(KEY_FILENAME, fileName);
@@ -263,8 +268,21 @@ public class PasswordActivity extends LockingActivity {
         // Clear the shutdown flag
         App.clearShutdown();
 
+        Uri uri;
+        if (mUri != null) {
+            uri = mUri;
+        } else {
+            uri = Uri.parse(fileName);
+
+            String scheme = uri.getScheme();
+            if (scheme == null || scheme.equals("")) {
+                Uri.Builder builder = new Uri.Builder();
+                builder.scheme("file").authority("").path(fileName);
+                uri = builder.build();
+            }
+        }
         Handler handler = new Handler();
-        LoadDB task = new LoadDB(db, PasswordActivity.this, fileName, pass, keyfile, new AfterLoad(handler, db));
+        LoadDB task = new LoadDB(db, PasswordActivity.this, uri, pass, keyfile, new AfterLoad(handler, db));
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
         pt.run();
     }
@@ -346,26 +364,31 @@ public class PasswordActivity extends LockingActivity {
             Intent i = args[0];
             String action = i.getAction();;
             if ( action != null && action.equals(VIEW_INTENT) ) {
-                mFileName = i.getDataString();
+                Uri incoming = i.getData();
+                if (incoming.getScheme().equals("file")) {
+                    mFileName = incoming.getPath();
 
-                if ( ! mFileName.substring(0, 7).equals("file://") ) {
+                    if (mFileName.length() == 0) {
+                        // No file name
+                        return R.string.FileNotFound;
+                    }
+
+                    File dbFile = new File(mFileName);
+                    if (!dbFile.exists()) {
+                        // File does not exist
+                        return R.string.FileNotFound;
+                    }
+
+                    mKeyFile = getKeyFile(mFileName);
+                }
+                else if (incoming.getScheme().equals("content")) {
+                    mUri = incoming;
+                    mFileName = mUri.toString();
+                    mKeyFile = getKeyFile(mFileName);
+                }
+                else {
                     return R.string.error_can_not_handle_uri;
                 }
-
-                mFileName = URLDecoder.decode(mFileName.substring(7, mFileName.length()));
-
-                if ( mFileName.length() == 0 ) {
-                    // No file name
-                    return R.string.FileNotFound;
-                }
-
-                File dbFile = new File(mFileName);
-                if ( ! dbFile.exists() ) {
-                    // File does not exist
-                    return R.string.FileNotFound;
-                }
-
-                mKeyFile = getKeyFile(mFileName);
 
             } else {
                 mFileName = i.getStringExtra(KEY_FILENAME);

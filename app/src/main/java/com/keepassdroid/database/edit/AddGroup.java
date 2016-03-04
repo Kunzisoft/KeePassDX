@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.database.edit;
 
+import android.content.Context;
+
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwGroup;
@@ -29,15 +31,16 @@ public class AddGroup extends RunnableOnFinish {
 	private int mIconID;
 	private PwGroup mGroup;
 	private PwGroup mParent;
+	private Context ctx;
 	protected boolean mDontSave;
 	
 	
-	public static AddGroup getInstance(Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
-		return new AddGroup(db, name, iconid, parent, finish, dontSave);
+	public static AddGroup getInstance(Context ctx, Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
+		return new AddGroup(ctx, db, name, iconid, parent, finish, dontSave);
 	}
 	
 	
-	private AddGroup(Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
+	private AddGroup(Context ctx, Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
@@ -45,6 +48,7 @@ public class AddGroup extends RunnableOnFinish {
 		mIconID = iconid;
 		mParent = parent;
 		mDontSave = dontSave;
+		this.ctx = ctx;
 		
 		mFinish = new AfterAdd(mFinish);
 	}
@@ -62,7 +66,7 @@ public class AddGroup extends RunnableOnFinish {
 		//mParent.sortGroupsByName();
 		
 		// Commit to disk
-		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
+		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.database.edit;
 
+import android.content.Context;
+
 import java.io.IOException;
 
 import com.keepassdroid.Database;
@@ -27,19 +29,22 @@ import com.keepassdroid.database.exception.PwDbOutputException;
 public class SaveDB extends RunnableOnFinish {
 	private Database mDb;
 	private boolean mDontSave;
+	private Context mCtx;
 
-	public SaveDB(Database db, OnFinish finish, boolean dontSave) {
+	public SaveDB(Context ctx, Database db, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
 		mDontSave = dontSave;
+		mCtx = ctx;
 	}
 
-	public SaveDB(Database db, OnFinish finish) {
+	public SaveDB(Context ctx, Database db, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
 		mDontSave = false;
+		mCtx = ctx;
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public class SaveDB extends RunnableOnFinish {
 
 		if ( ! mDontSave ) {
 			try {
-				mDb.SaveData();
+				mDb.SaveData(mCtx);
 			} catch (IOException e) {
 				finish(false, e.getMessage());
 				return;

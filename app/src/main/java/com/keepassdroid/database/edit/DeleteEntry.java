@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.database.edit;
 
+import android.content.Context;
+
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
@@ -33,22 +35,19 @@ public class DeleteEntry extends RunnableOnFinish {
 	private Database mDb;
 	private PwEntry mEntry;
 	private boolean mDontSave;
+	private Context ctx;
 	
-	public DeleteEntry(Database db, PwEntry entry, OnFinish finish) {
-		super(finish);
-		
-		mDb = db;
-		mEntry = entry;
-		mDontSave = false;
-		
+	public DeleteEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
+		this(ctx, db, entry, finish, false);
 	}
 	
-	public DeleteEntry(Database db, PwEntry entry, OnFinish finish, boolean dontSave) {
+	public DeleteEntry(Context ctx, Database db, PwEntry entry, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
 		mEntry = entry;
 		mDontSave = dontSave;
+		this.ctx = ctx;
 		
 	}
 	
@@ -70,7 +69,7 @@ public class DeleteEntry extends RunnableOnFinish {
 		mFinish = new AfterDelete(mFinish, parent, mEntry, recycle);
 		
 		// Commit database
-		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
+		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	
 		

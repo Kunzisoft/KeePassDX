@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -68,7 +68,7 @@ public class DeleteGroup extends RunnableOnFinish {
 		// Remove child entries
 		List<PwEntry> childEnt = new ArrayList<PwEntry>(mGroup.childEntries);
 		for ( int i = 0; i < childEnt.size(); i++ ) {
-			DeleteEntry task = new DeleteEntry(mDb, childEnt.get(i), null, true);
+			DeleteEntry task = new DeleteEntry(mAct, mDb, childEnt.get(i), null, true);
 			task.run();
 		}
 		
@@ -90,7 +90,7 @@ public class DeleteGroup extends RunnableOnFinish {
 		mDb.pm.getGroups().remove(mGroup);
 		
 		// Save
-		SaveDB save = new SaveDB(mDb, mFinish, mDontSave);
+		SaveDB save = new SaveDB(mAct, mDb, mFinish, mDontSave);
 		save.run();
 
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -93,7 +93,7 @@ public class SetPasswordDialog extends CancelDialog {
 					
 				}
 				
-				SetPassword sp = new SetPassword(App.getDB(), pass, keyfile, new AfterSave(mFinish, new Handler()));
+				SetPassword sp = new SetPassword(getContext(), App.getDB(), pass, keyfile, new AfterSave(mFinish, new Handler()));
 				final ProgressTask pt = new ProgressTask(getContext(), sp, R.string.saving_database);
 				boolean valid = sp.validatePassword(getContext(), new OnClickListener() {
 					

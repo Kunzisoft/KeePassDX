@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -188,9 +188,9 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 				OnFinish onFinish = act.new AfterSave(new Handler());
 				
 				if ( mIsNew ) {
-					task = AddEntry.getInstance(App.getDB(), newEntry, onFinish);
+					task = AddEntry.getInstance(EntryEditActivity.this, App.getDB(), newEntry, onFinish);
 				} else {
-					task = new UpdateEntry(App.getDB(), mEntry, newEntry, onFinish);
+					task = new UpdateEntry(EntryEditActivity.this, App.getDB(), mEntry, newEntry, onFinish);
 				}
 				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 				pt.run();

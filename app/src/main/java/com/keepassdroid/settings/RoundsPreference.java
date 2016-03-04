@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -91,7 +91,7 @@ public class RoundsPreference extends DialogPreference {
 			}
 			
 			Handler handler = new Handler();
-			SaveDB save = new SaveDB(App.getDB(), new AfterSave(getContext(), handler, oldRounds));
+			SaveDB save = new SaveDB(getContext(), App.getDB(), new AfterSave(getContext(), handler, oldRounds));
 			ProgressTask pt = new ProgressTask(getContext(), save, R.string.saving_database);
 			pt.run();
 			

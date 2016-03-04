@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.android.keepass.R;
@@ -39,19 +40,19 @@ import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.database.exception.KeyFileEmptyException;
 
 public class LoadDB extends RunnableOnFinish {
-    private String mFileName;
+    private Uri mUri;
     private String mPass;
     private String mKey;
     private Database mDb;
     private Context mCtx;
     private boolean mRememberKeyfile;
 
-    public LoadDB(Database db, Context ctx, String fileName, String pass, String key, OnFinish finish) {
+    public LoadDB(Database db, Context ctx, Uri uri, String pass, String key, OnFinish finish) {
         super(finish);
 
         mDb = db;
         mCtx = ctx;
-        mFileName = fileName;
+        mUri = uri;
         mPass = pass;
         mKey = key;
 
@@ -62,9 +63,9 @@ public class LoadDB extends RunnableOnFinish {
     @Override
     public void run() {
         try {
-            mDb.LoadData(mCtx, mFileName, mPass, mKey, mStatus);
+            mDb.LoadData(mCtx, mUri, mPass, mKey, mStatus);
 
-            saveFileData(mFileName, mKey);
+            saveFileData(mUri, mKey);
 
         } catch (ArcFourException e) {
             finish(false, mCtx.getString(R.string.error_arc4));
@@ -104,12 +105,12 @@ public class LoadDB extends RunnableOnFinish {
         finish(true);
     }
 
-    private void saveFileData(String fileName, String key) {
+    private void saveFileData(Uri uri, String key) {
         if ( ! mRememberKeyfile ) {
             key = "";
         }
 
-        App.getFileHistory().createFile(fileName, key);
+        App.getFileHistory().createFile(uri, key);
     }
 
 

@@ -26,11 +26,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.SyncFailedException;
 import java.util.HashSet;
 import java.util.Set;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
@@ -49,7 +51,7 @@ import com.keepassdroid.search.SearchDbHelper;
 public class Database {
     public Set<PwGroup> dirty = new HashSet<PwGroup>();
     public PwDatabase pm;
-    public String mFilename;
+    public Uri mUri;
     public SearchDbHelper searchHelper;
     public boolean readOnly = false;
     public boolean passwordEncodingError = false;
@@ -70,22 +72,25 @@ public class Database {
         LoadData(ctx, is, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, String filename, String password, String keyfile) throws IOException, FileNotFoundException, InvalidDBException {
-        LoadData(ctx, filename, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
+    public void LoadData(Context ctx, Uri uri, String password, String keyfile) throws IOException, FileNotFoundException, InvalidDBException {
+        LoadData(ctx, uri, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
-        LoadData(ctx, filename, password, keyfile, status, !Importer.DEBUG);
+    public void LoadData(Context ctx, Uri uri, String password, String keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
+        LoadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, String filename, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
-        File file = new File(filename);
-        FileInputStream fis = new FileInputStream(file);
+    public void LoadData(Context ctx, Uri uri, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
+        mUri = uri;
+        readOnly = false;
+        if (uri.getScheme().equals("file")) {
+            File file = new File(uri.getPath());
+            readOnly = !file.canWrite();
+        }
 
-        LoadData(ctx, fis, password, keyfile, status, debug);
+        InputStream is = ctx.getContentResolver().openInputStream(uri);
 
-        readOnly = !file.canWrite();
-        mFilename = filename;
+        LoadData(ctx, is, password, keyfile, status, debug);
     }
 
     public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws IOException, InvalidDBException {
@@ -138,36 +143,51 @@ public class Database {
 
     }
 
-    public void SaveData() throws IOException, PwDbOutputException {
-        SaveData(mFilename);
+    public void SaveData(Context ctx) throws IOException, PwDbOutputException {
+        SaveData(ctx, mUri);
     }
 
-    public void SaveData(String filename) throws IOException, PwDbOutputException {
-        File tempFile = new File(filename + ".tmp");
-        FileOutputStream fos = new FileOutputStream(tempFile);
-        //BufferedOutputStream bos = new BufferedOutputStream(fos);
+    public void SaveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
+        if (uri.getScheme().equals("data")) {
+            String filename = uri.getPath();
+            File tempFile = new File(filename + ".tmp");
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            //BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-        //PwDbV3Output pmo = new PwDbV3Output(pm, bos, App.getCalendar());
-        PwDbOutput pmo = PwDbOutput.getInstance(pm, fos);
-        pmo.output();
-        //bos.flush();
-        //bos.close();
-        fos.close();
+            //PwDbV3Output pmo = new PwDbV3Output(pm, bos, App.getCalendar());
+            PwDbOutput pmo = PwDbOutput.getInstance(pm, fos);
+            pmo.output();
+            //bos.flush();
+            //bos.close();
+            fos.close();
 
-        // Force data to disk before continuing
-        try {
-            fos.getFD().sync();
-        } catch (SyncFailedException e) {
-            // Ignore if fsync fails. We tried.
+            // Force data to disk before continuing
+            try {
+                fos.getFD().sync();
+            } catch (SyncFailedException e) {
+                // Ignore if fsync fails. We tried.
+            }
+
+            File orig = new File(filename);
+
+            if (!tempFile.renameTo(orig)) {
+                throw new IOException("Failed to store database.");
+            }
+        }
+        else {
+            OutputStream os;
+            try {
+                os = ctx.getContentResolver().openOutputStream(uri);
+            } catch (Exception e) {
+                throw new IOException("Failed to store database.");
+            }
+
+            PwDbOutput pmo = PwDbOutput.getInstance(pm, os);
+            pmo.output();
+            os.close();
         }
 
-        File orig = new File(filename);
-
-        if ( ! tempFile.renameTo(orig) ) {
-            throw new IOException("Failed to store database.");
-        }
-
-        mFilename = filename;
+        mUri = uri;
 
     }
 
@@ -176,7 +196,7 @@ public class Database {
         drawFactory.clear();
 
         pm = null;
-        mFilename = null;
+        mUri = null;
         loaded = false;
         passwordEncodingError = false;
     }

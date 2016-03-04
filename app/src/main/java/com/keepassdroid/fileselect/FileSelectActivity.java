@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -167,7 +167,7 @@ public class FileSelectActivity extends ListActivity {
 						new LaunchGroupActivity(filename));
 
 				// Create the new database
-				CreateDB create = new CreateDB(filename, password, true);
+				CreateDB create = new CreateDB(FileSelectActivity.this, filename, password, true);
 				ProgressTask createTask = new ProgressTask(
 						FileSelectActivity.this, create,
 						R.string.progress_create);
@@ -237,25 +237,22 @@ public class FileSelectActivity extends ListActivity {
 	}
 
 	private class LaunchGroupActivity extends FileOnFinish {
-		private String mFilename;
+		private Uri mUri;
 
 		public LaunchGroupActivity(String filename) {
 			super(null);
 
-			mFilename = filename;
+			Uri.Builder b = new Uri.Builder();
+			mUri = b.scheme("file").authority("").path(filename).build();
 		}
 
 		@Override
 		public void run() {
 			if (mSuccess) {
 				// Add to recent files
-				fileHistory.createFile(mFilename, getFilename());
+				fileHistory.createFile(mUri, getFilename());
 
 				GroupActivity.Launch(FileSelectActivity.this);
-
-			} else {
-				File file = new File(mFilename);
-				file.delete();
 			}
 		}
 	}
@@ -413,7 +410,7 @@ public class FileSelectActivity extends ListActivity {
 			new AsyncTask<String, Void, Void>() {
 				protected java.lang.Void doInBackground(String... args) {
 					String filename = args[0];
-					fileHistory.deleteFile(filename);
+					fileHistory.deleteFile(Uri.parse(args[0]));
 					return null;
 				}
 

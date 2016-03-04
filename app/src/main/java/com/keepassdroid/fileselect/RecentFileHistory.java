@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2013-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 public class RecentFileHistory {
@@ -124,15 +125,15 @@ public class RecentFileHistory {
         return db.exists();
     }
 
-    public void createFile(String fileName, String keyFile) {
+    public void createFile(Uri uri, String keyFile) {
         if (!enabled) return;
 
         init();
 
         // Remove any existing instance of the same filename
-        deleteFile(fileName, false);
+        deleteFile(uri, false);
 
-        databases.add(0, fileName);
+        databases.add(0, uri.toString());
         keyfiles.add(0, keyFile);
 
         trimLists();
@@ -189,15 +190,19 @@ public class RecentFileHistory {
         EditorCompat.apply(edit);
     }
 
-    public void deleteFile(String filename) {
-        deleteFile(filename, true);
+    public void deleteFile(Uri uri) {
+        deleteFile(uri, true);
     }
 
-    public void deleteFile(String filename, boolean save) {
+    public void deleteFile(Uri uri, boolean save) {
         init();
 
+        String uriName = uri.toString();
+        String fileName = uri.getPath();
+
         for (int i = 0; i < databases.size(); i++) {
-            if (filename.equals(databases.get(i))) {
+            String entry = databases.get(i);
+            if (uriName.equals(entry) || fileName.equals(entry)) {
                 databases.remove(i);
                 keyfiles.remove(i);
                 break;

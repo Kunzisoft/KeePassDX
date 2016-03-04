@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.database.edit;
 
+import android.content.Context;
+
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
@@ -27,13 +29,15 @@ public class UpdateEntry extends RunnableOnFinish {
 	private Database mDb;
 	private PwEntry mOldE;
 	private PwEntry mNewE;
+	private Context ctx;
 	
-	public UpdateEntry(Database db, PwEntry oldE, PwEntry newE, OnFinish finish) {
+	public UpdateEntry(Context ctx, Database db, PwEntry oldE, PwEntry newE, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
 		mOldE = oldE;
 		mNewE = newE;
+		this.ctx = ctx;
 		
 		// Keep backup of original values in case save fails
 		PwEntry backup;
@@ -50,7 +54,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		
 		
 		// Commit to disk
-		SaveDB save = new SaveDB(mDb, mFinish);
+		SaveDB save = new SaveDB(ctx, mDb, mFinish);
 		save.run();
 	}
 	
