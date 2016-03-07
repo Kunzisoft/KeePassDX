@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Brian Pellin.
+ * Copyright 2012-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.utils;
 
+import android.net.Uri;
+
 import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwEntryV3;
 
@@ -33,5 +35,9 @@ public class EmptyUtils {
 	
 	public static boolean isNullOrEmpty(PwDate date) {
 		return (date == null) || date.equals(PwEntryV3.DEFAULT_PWDATE);
+	}
+
+	public static boolean isNullOrEmpty(Uri uri) {
+		return (uri==null) || (uri.toString().length() == 0);
 	}
 }

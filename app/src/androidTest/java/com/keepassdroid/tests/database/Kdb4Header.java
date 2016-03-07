@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -38,7 +38,7 @@ public class Kdb4Header extends AndroidTestCase {
 		
 		ImporterV4 importer = new ImporterV4();
 
-		PwDatabaseV4 db = importer.openDatabase(is, "12345", "");
+		PwDatabaseV4 db = importer.openDatabase(is, "12345", null);
 		
 		assertEquals(6000, db.numKeyEncRounds);
 		

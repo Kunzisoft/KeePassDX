@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2015 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,10 +20,12 @@
 package com.keepassdroid.database;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
@@ -40,6 +42,7 @@ import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.KeyFileEmptyException;
 import com.keepassdroid.stream.NullOutputStream;
+import com.keepassdroid.utils.Util;
 
 public abstract class PwDatabase {
 
@@ -100,20 +103,20 @@ public abstract class PwDatabase {
 	}
 
 
-	public abstract byte[] getMasterKey(String key, String keyFileName) throws InvalidKeyFileException, IOException;
+	public abstract byte[] getMasterKey(String key, InputStream keyInputStream) throws InvalidKeyFileException, IOException;
 	
-	public void setMasterKey(String key, String keyFileName)
+	public void setMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
-				assert( key != null && keyFileName != null );
+				assert(key != null);
 			
-				masterKey = getMasterKey(key, keyFileName);
+				masterKey = getMasterKey(key, keyInputStream);
 			}
 
-	protected byte[] getCompositeKey(String key, String keyFileName)
+	protected byte[] getCompositeKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
-				assert(key != null && keyFileName != null);
+				assert(key != null && keyInputStream != null);
 				
-				byte[] fileKey = getFileKey(keyFileName);
+				byte[] fileKey = getFileKey(keyInputStream);
 				
 				byte[] passwordKey = getPasswordKey(key);
 				
@@ -129,53 +132,32 @@ public abstract class PwDatabase {
 				return md.digest(fileKey);
 	}
 
-	protected byte[] getFileKey(String fileName)
+	protected byte[] getFileKey(InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
-				assert(fileName != null);
-				
-				File keyfile = new File(fileName);
-				
-				if ( ! keyfile.exists() ) {
-					throw new InvalidKeyFileException();
-				}
-				
-				byte[] key = loadXmlKeyFile(fileName);
+				assert(keyInputStream != null);
+
+				byte[] key = loadXmlKeyFile(keyInputStream);
 				if ( key != null ) {
 					return key;
 				}
-								
-				FileInputStream fis;
-				try {
-					fis = new FileInputStream(keyfile);
-				} catch (FileNotFoundException e) {
-					throw new InvalidKeyFileException();
-				}
-				
-				BufferedInputStream bis = new BufferedInputStream(fis, 64);
-				
-				long fileSize = keyfile.length();
+
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                Util.copyStream(keyInputStream, bos);
+				byte[] keyData = bos.toByteArray();
+
+
+				long fileSize = keyData.length;
 				if ( fileSize == 0 ) {
 					throw new KeyFileEmptyException();
 				} else if ( fileSize == 32 ) {
-					byte[] outputKey = new byte[32];
-					if ( bis.read(outputKey, 0, 32) != 32 ) {
-						throw new IOException("Error reading key.");
-					}
-					
-					return outputKey;
+					return keyData;
 				} else if ( fileSize == 64 ) {
 					byte[] hex = new byte[64];
 					
-					bis.mark(64);
-					if ( bis.read(hex, 0, 64) != 64 ) {
-						throw new IOException("Error reading key.");
-					}
-			
 					try {
-						return hexStringToByteArray(new String(hex));
+						return hexStringToByteArray(new String(keyData));
 					} catch (IndexOutOfBoundsException e) {
 						// Key is not base 64, treat it as binary data
-						bis.reset();
 					}
 				}
 			
@@ -190,14 +172,7 @@ public abstract class PwDatabase {
 				int offset = 0;
 				
 				try {
-					while (true) {
-						int bytesRead = bis.read(buffer, 0, 2048);
-						if ( bytesRead == -1 ) break;  // End of file
-						
-						md.update(buffer, 0, bytesRead);
-						offset += bytesRead;
-						
-					}
+					md.update(keyData);
 				} catch (Exception e) {
 					System.out.println(e.toString());
 				}
@@ -205,7 +180,7 @@ public abstract class PwDatabase {
 				return md.digest();
 			}
 
-	protected abstract byte[] loadXmlKeyFile(String fileName);
+	protected abstract byte[] loadXmlKeyFile(InputStream keyInputStream);
 
 	public static byte[] hexStringToByteArray(String s) {
 	    int len = s.length();

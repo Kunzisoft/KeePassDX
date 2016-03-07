@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Brian Pellin.
+ * Copyright 2011-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -35,9 +35,9 @@ public class ImporterV3Debug extends ImporterV3 {
 	
 	@Override
 	public PwDatabaseV3Debug openDatabase(InputStream inStream, String password,
-			String keyfile, UpdateStatus status) throws IOException,
+			InputStream keyInputStream, UpdateStatus status) throws IOException,
 			InvalidDBException {
-		return (PwDatabaseV3Debug) super.openDatabase(inStream, password, keyfile, status);
+		return (PwDatabaseV3Debug) super.openDatabase(inStream, password, keyInputStream, status);
 	}
 
 

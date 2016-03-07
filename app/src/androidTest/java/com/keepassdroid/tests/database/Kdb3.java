@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -21,11 +21,13 @@ package com.keepassdroid.tests.database;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.database.load.ImporterV3;
 import com.keepassdroid.tests.TestUtil;
+import com.keepassdroid.utils.UriUtil;
 
 import java.io.InputStream;
 import java.io.File;
@@ -44,7 +46,7 @@ public class Kdb3 extends AndroidTestCase {
 		InputStream is = am.open(dbAsset, AssetManager.ACCESS_STREAMING);
 		
 		ImporterV3 importer = new ImporterV3();
-		importer.openDatabase(is, password, keyPath);
+		importer.openDatabase(is, password, TestUtil.getKeyFileInputStream(ctx, keyPath));
 		
 		is.close();
 	}

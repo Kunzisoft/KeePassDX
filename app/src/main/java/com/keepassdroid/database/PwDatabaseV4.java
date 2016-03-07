@@ -21,6 +21,7 @@ package com.keepassdroid.database;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -107,18 +108,18 @@ public class PwDatabaseV4 extends PwDatabase {
     }
     
 	@Override
-	public byte[] getMasterKey(String key, String keyFileName)
+	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
-		assert( key != null && keyFileName != null );
+		assert(key != null);
 		
 		byte[] fKey;
 		
-		if ( key.length() > 0 && keyFileName.length() > 0 ) {
-			return getCompositeKey(key, keyFileName);
+		if ( key.length() > 0 && keyInputStream != null) {
+			return getCompositeKey(key, keyInputStream);
 		} else if ( key.length() > 0 ) {
 			fKey =  getPasswordKey(key);
-		} else if ( keyFileName.length() > 0 ) {
-			fKey = getFileKey(keyFileName);
+		} else if ( keyInputStream != null) {
+			fKey = getFileKey(keyInputStream);
 		} else {
 			throw new IllegalArgumentException( "Key cannot be empty." );
 		}
@@ -145,12 +146,11 @@ public class PwDatabaseV4 extends PwDatabase {
 	private static final String KeyDataElementName = "Data";
 	
 	@Override
-	protected byte[] loadXmlKeyFile(String fileName) {
+	protected byte[] loadXmlKeyFile(InputStream keyInputStream) {
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			FileInputStream fis = new FileInputStream(fileName);
-			Document doc = db.parse(fis);
+			Document doc = db.parse(keyInputStream);
 			
 			Element el = doc.getDocumentElement();
 			if (el == null || ! el.getNodeName().equalsIgnoreCase(RootElementName)) {

@@ -42,12 +42,12 @@ import com.keepassdroid.database.exception.KeyFileEmptyException;
 public class LoadDB extends RunnableOnFinish {
     private Uri mUri;
     private String mPass;
-    private String mKey;
+    private Uri mKey;
     private Database mDb;
     private Context mCtx;
     private boolean mRememberKeyfile;
 
-    public LoadDB(Database db, Context ctx, Uri uri, String pass, String key, OnFinish finish) {
+    public LoadDB(Database db, Context ctx, Uri uri, String pass, Uri key, OnFinish finish) {
         super(finish);
 
         mDb = db;
@@ -105,9 +105,9 @@ public class LoadDB extends RunnableOnFinish {
         finish(true);
     }
 
-    private void saveFileData(Uri uri, String key) {
+    private void saveFileData(Uri uri, Uri key) {
         if ( ! mRememberKeyfile ) {
-            key = "";
+            key = null;
         }
 
         App.getFileHistory().createFile(uri, key);

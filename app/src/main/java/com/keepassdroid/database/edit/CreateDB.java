@@ -28,6 +28,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
+import com.keepassdroid.utils.UriUtil;
 
 public class CreateDB extends RunnableOnFinish {
 
@@ -57,7 +58,7 @@ public class CreateDB extends RunnableOnFinish {
 		// Set Database state
 		db.pm = pm;
 		Uri.Builder b = new Uri.Builder();
-		db.mUri = b.scheme("path").path(mFilename).build();
+		db.mUri = UriUtil.parseDefaultFile(mFilename);
 		db.setLoaded();
 		
 		// Commit changes

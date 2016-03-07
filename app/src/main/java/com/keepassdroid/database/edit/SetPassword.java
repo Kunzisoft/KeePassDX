@@ -20,29 +20,32 @@
 package com.keepassdroid.database.edit;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
+import com.keepassdroid.utils.UriUtil;
 
 public class SetPassword extends RunnableOnFinish {
 	
 	private String mPassword;
-	private String mKeyfile;
+	private Uri mKeyfile;
 	private Database mDb;
 	private boolean mDontSave;
 	private Context ctx;
 	
-	public SetPassword(Context ctx, Database db, String password, String keyfile, OnFinish finish) {
+	public SetPassword(Context ctx, Database db, String password, Uri keyfile, OnFinish finish) {
 		this(ctx, db, password, keyfile, finish, false);
 		
 	}
 
-	public SetPassword(Context ctx, Database db, String password, String keyfile, OnFinish finish, boolean dontSave) {
+	public SetPassword(Context ctx, Database db, String password, Uri keyfile, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
@@ -71,7 +74,8 @@ public class SetPassword extends RunnableOnFinish {
 
 		// Set key
 		try {
-			pm.setMasterKey(mPassword, mKeyfile);
+			InputStream is = UriUtil.getUriInputStream(ctx, mKeyfile);
+			pm.setMasterKey(mPassword, is);
 		} catch (InvalidKeyFileException e) {
 			erase(backupKey);
 			finish(false, e.getMessage());

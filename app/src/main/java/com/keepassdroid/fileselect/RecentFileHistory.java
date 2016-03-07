@@ -25,6 +25,7 @@ import java.util.List;
 
 import com.android.keepass.R;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.utils.UriUtil;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -125,8 +126,8 @@ public class RecentFileHistory {
         return db.exists();
     }
 
-    public void createFile(Uri uri, String keyFile) {
-        if (!enabled) return;
+    public void createFile(Uri uri, Uri keyUri) {
+        if (!enabled || uri == null || keyUri == null) return;
 
         init();
 
@@ -134,7 +135,7 @@ public class RecentFileHistory {
         deleteFile(uri, false);
 
         databases.add(0, uri.toString());
-        keyfiles.add(0, keyFile);
+        keyfiles.add(0, keyUri.toString());
 
         trimLists();
         savePrefs();
@@ -220,19 +221,19 @@ public class RecentFileHistory {
         return databases;
     }
 
-    public String getFileByName(String database) {
-        if (!enabled) return "";
+    public Uri getFileByName(Uri database) {
+        if (!enabled) return null;
 
         init();
 
         int size = databases.size();
         for (int i = 0; i < size; i++) {
-            if (database.equals(databases.get(i))) {
-                return keyfiles.get(i);
+            if (UriUtil.equalsDefaultfile(database,databases.get(i))) {
+                return UriUtil.parseDefaultFile(keyfiles.get(i));
             }
         }
 
-        return "";
+        return null;
     }
 
     public void deleteAll() {

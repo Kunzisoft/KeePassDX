@@ -47,6 +47,7 @@ package com.keepassdroid.database;
 
 // Java
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -219,16 +220,16 @@ public class PwDatabaseV3 extends PwDatabase {
 		return newId;
 	}
 
-	public byte[] getMasterKey(String key, String keyFileName)
+	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
-		assert (key != null && keyFileName != null);
+		assert (key != null);
 
-		if (key.length() > 0 && keyFileName.length() > 0) {
-			return getCompositeKey(key, keyFileName);
+		if (key.length() > 0 && keyInputStream != null) {
+			return getCompositeKey(key, keyInputStream);
 		} else if (key.length() > 0) {
 			return getPasswordKey(key);
-		} else if (keyFileName.length() > 0) {
-			return getFileKey(keyFileName);
+		} else if (keyInputStream != null) {
+			return getFileKey(keyInputStream);
 		} else {
 			throw new IllegalArgumentException("Key cannot be empty.");
 		}
@@ -241,7 +242,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 	
 	@Override
-	protected byte[] loadXmlKeyFile(String fileName) {
+	protected byte[] loadXmlKeyFile(InputStream keyInputStream) {
 		return null;
 	}
 

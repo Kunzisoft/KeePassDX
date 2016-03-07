@@ -21,6 +21,7 @@ package com.keepassdroid;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -33,11 +34,13 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.SetPassword;
+import com.keepassdroid.utils.EmptyUtils;
+import com.keepassdroid.utils.UriUtil;
 
 public class SetPasswordDialog extends CancelDialog {
 
 	private byte[] masterKey;
-	private String mKeyfile;
+	private Uri mKeyfile;
 	private FileOnFinish mFinish;
 		
 	public SetPasswordDialog(Context context) {
@@ -54,7 +57,7 @@ public class SetPasswordDialog extends CancelDialog {
 		return masterKey;
 	}
 	
-	public String keyfile() {
+	public Uri keyfile() {
 		return mKeyfile;
 	}
 
@@ -83,11 +86,11 @@ public class SetPasswordDialog extends CancelDialog {
 				}
 				
 				TextView keyfileView = (TextView) findViewById(R.id.pass_keyfile);
-				String keyfile = keyfileView.getText().toString();
+				Uri keyfile = UriUtil.parseDefaultFile(keyfileView.getText().toString());
 				mKeyfile = keyfile;
 				
 				// Verify that a password or keyfile is set
-				if ( pass.length() == 0 && keyfile.length() == 0 ) {
+				if ( pass.length() == 0 && EmptyUtils.isNullOrEmpty(keyfile)) {
 					Toast.makeText(getContext(), R.string.error_nopass, Toast.LENGTH_LONG).show();
 					return;
 					

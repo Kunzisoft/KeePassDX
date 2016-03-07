@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,11 +19,16 @@
  */
 package com.keepassdroid.tests;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.net.Uri;
+
+import com.keepassdroid.utils.EmptyUtils;
+import com.keepassdroid.utils.UriUtil;
 
 public class TestUtil {
 	
@@ -46,4 +51,13 @@ public class TestUtil {
 
 	}
 
+	public static InputStream getKeyFileInputStream(Context ctx, String keyfile) throws FileNotFoundException {
+		InputStream keyIs = null;
+		if (!EmptyUtils.isNullOrEmpty(keyfile)) {
+			Uri uri = UriUtil.parseDefaultFile(keyfile);
+			keyIs = UriUtil.getUriInputStream(ctx, uri);
+		}
+
+		return keyIs;
+	}
 }

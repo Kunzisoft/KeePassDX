@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Brian Pellin.
+ * Copyright 2014-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -47,7 +47,7 @@ public class SprEngineTest extends AndroidTestCase {
 		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
 		
 		ImporterV4 importer = new ImporterV4();
-		db = importer.openDatabase(is, "12345", "");
+		db = importer.openDatabase(is, "12345", null);
 		
 		is.close();
 		

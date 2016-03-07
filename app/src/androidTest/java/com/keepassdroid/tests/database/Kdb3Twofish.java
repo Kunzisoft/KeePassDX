@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -38,7 +38,7 @@ public class Kdb3Twofish extends AndroidTestCase {
 		
 		ImporterV3 importer = new ImporterV3();
 
-		PwDatabaseV3 db = importer.openDatabase(is, "12345", "");
+		PwDatabaseV3 db = importer.openDatabase(is, "12345", null);
 		
 		assertTrue(db.algorithm == PwEncryptionAlgorithm.Twofish);
 		

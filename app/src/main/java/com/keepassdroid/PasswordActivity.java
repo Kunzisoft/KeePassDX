@@ -21,6 +21,7 @@ package com.keepassdroid;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URLDecoder;
 
 import android.app.Activity;
@@ -33,7 +34,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.Menu;
@@ -61,7 +61,7 @@ import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
-import com.keepassdroid.utils.StrUtil;
+import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
 
 public class PasswordActivity extends LockingActivity {
@@ -76,9 +76,10 @@ public class PasswordActivity extends LockingActivity {
     private static final int FILE_BROWSE = 256;
     public static final int GET_CONTENT = 257;
 
-    private String mFileName;
-    private String mKeyFile;
-    private Uri mUri = null;
+    //private String mFileName;
+    //private String mKeyFile;
+    private Uri mDbUri = null;
+    private Uri mKeyUri = null;
     private boolean mRememberKeyfile;
     SharedPreferences prefs;
 
@@ -123,11 +124,13 @@ public class PasswordActivity extends LockingActivity {
             if (resultCode == RESULT_OK) {
                 String filename = data.getDataString();
                 if (filename != null) {
+                    /*
                     if (filename.startsWith("file://")) {
                         filename = filename.substring(7);
                     }
 
                     filename = URLDecoder.decode(filename);
+                    */
 
                     EditText fn = (EditText) findViewById(R.id.pass_keyfile);
                     fn.setText(filename);
@@ -182,27 +185,27 @@ public class PasswordActivity extends LockingActivity {
 
     private void retrieveSettings() {
         String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
-        if (mFileName.length() > 0 && mFileName.equals(defaultFilename)) {
+        if (mDbUri.getPath().length() > 0 && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
             CheckBox checkbox = (CheckBox) findViewById(R.id.default_database);
             checkbox.setChecked(true);
         }
     }
 
-    private String getKeyFile(String filename) {
+    private Uri getKeyFile(Uri dbUri) {
         if ( mRememberKeyfile ) {
 
-            String keyfile = App.getFileHistory().getFileByName(filename);
-
-            return keyfile;
+            return App.getFileHistory().getFileByName(dbUri);
         } else {
-            return "";
+            return null;
         }
     }
 
     private void populateView() {
-        setEditText(R.id.filename, mFileName);
+        String db = (mDbUri == null) ? "" : mDbUri.toString();
+        setEditText(R.id.filename, db);
 
-        setEditText(R.id.pass_keyfile, mKeyFile);
+        String key = (mKeyUri == null) ? "" : mKeyUri.toString();
+        setEditText(R.id.pass_keyfile, key);
     }
 
     /*
@@ -226,7 +229,7 @@ public class PasswordActivity extends LockingActivity {
             String newDefaultFileName;
 
             if (isChecked) {
-                newDefaultFileName = mFileName;
+                newDefaultFileName = mDbUri.toString();
             } else {
                 newDefaultFileName = "";
             }
@@ -251,9 +254,13 @@ public class PasswordActivity extends LockingActivity {
         }
     }
 
-    private void loadDatabase(String pass, String keyfile)
+    private void loadDatabase(String pass, String keyfile) {
+        loadDatabase(pass, UriUtil.parseDefaultFile(keyfile));
+    }
+
+    private void loadDatabase(String pass, Uri keyfile)
     {
-        if ( pass.length() == 0 && keyfile.length() == 0 ) {
+        if ( pass.length() == 0 && (keyfile == null || keyfile.toString().length() == 0)) {
             errorMessage(R.string.error_nopass);
             return;
         }
@@ -268,19 +275,8 @@ public class PasswordActivity extends LockingActivity {
         // Clear the shutdown flag
         App.clearShutdown();
 
-        Uri uri;
-        if (mUri != null) {
-            uri = mUri;
-        } else {
-            uri = Uri.parse(fileName);
+        Uri uri = UriUtil.parseDefaultFile(fileName);
 
-            String scheme = uri.getScheme();
-            if (scheme == null || scheme.equals("")) {
-                Uri.Builder builder = new Uri.Builder();
-                builder.scheme("file").authority("").path(fileName);
-                uri = builder.build();
-            }
-        }
         Handler handler = new Handler();
         LoadDB task = new LoadDB(db, PasswordActivity.this, uri, pass, keyfile, new AfterLoad(handler, db));
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
@@ -365,39 +361,38 @@ public class PasswordActivity extends LockingActivity {
             String action = i.getAction();;
             if ( action != null && action.equals(VIEW_INTENT) ) {
                 Uri incoming = i.getData();
+                mDbUri = incoming;
                 if (incoming.getScheme().equals("file")) {
-                    mFileName = incoming.getPath();
+                    String fileName = incoming.getPath();
 
-                    if (mFileName.length() == 0) {
+                    if (fileName.length() == 0) {
                         // No file name
                         return R.string.FileNotFound;
                     }
 
-                    File dbFile = new File(mFileName);
+                    File dbFile = new File(fileName);
                     if (!dbFile.exists()) {
                         // File does not exist
                         return R.string.FileNotFound;
                     }
 
-                    mKeyFile = getKeyFile(mFileName);
+                    mKeyUri = getKeyFile(mDbUri);
                 }
                 else if (incoming.getScheme().equals("content")) {
-                    mUri = incoming;
-                    mFileName = mUri.toString();
-                    mKeyFile = getKeyFile(mFileName);
+                    mKeyUri = getKeyFile(mDbUri);
                 }
                 else {
                     return R.string.error_can_not_handle_uri;
                 }
 
             } else {
-                mFileName = i.getStringExtra(KEY_FILENAME);
-                mKeyFile = i.getStringExtra(KEY_KEYFILE);
+                mDbUri = UriUtil.parseDefaultFile(i.getStringExtra(KEY_FILENAME));
+                mKeyUri = UriUtil.parseDefaultFile(i.getStringExtra(KEY_KEYFILE));
                 password = i.getStringExtra(KEY_PASSWORD);
                 launch_immediately = i.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
 
-                if ( mKeyFile == null || mKeyFile.length() == 0) {
-                    mKeyFile = getKeyFile(mFileName);
+                if ( mKeyUri == null || mKeyUri.toString().length() == 0) {
+                    mKeyUri = getKeyFile(mDbUri);
                 }
             }
             return null;
@@ -458,12 +453,19 @@ public class PasswordActivity extends LockingActivity {
                     if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
                         Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
 
-                        if (mFileName.length() > 0) {
-                            File keyfile = new File(mFileName);
-                            File parent = keyfile.getParentFile();
-                            if (parent != null) {
-                                i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
+                        // Get file path parent if possible
+                        try {
+                            if (mDbUri != null && mDbUri.toString().length() > 0) {
+                                if (mDbUri.getScheme().equals("file")) {
+                                    File keyfile = new File(mDbUri.getPath());
+                                    File parent = keyfile.getParentFile();
+                                    if (parent != null) {
+                                        i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
+                                    }
+                                }
                             }
+                        } catch (Exception e) {
+                            // Ignore
                         }
 
                         try {
@@ -485,7 +487,7 @@ public class PasswordActivity extends LockingActivity {
             retrieveSettings();
 
             if (launch_immediately)
-                loadDatabase(password, mKeyFile);
+                loadDatabase(password, mDbUri);
         }
     }
 }

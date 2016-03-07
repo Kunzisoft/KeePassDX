@@ -1,0 +1,74 @@
+/*
+ * Copyright 2016 Brian Pellin.
+ *
+ * This file is part of KeePassDroid.
+ *
+ *  KeePassDroid is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDroid is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+package com.keepassdroid.utils;
+
+import android.content.Context;
+import android.net.Uri;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+/**
+ * Created by bpellin on 3/5/16.
+ */
+public class UriUtil {
+    public static Uri parseDefaultFile(String text) {
+        if (EmptyUtils.isNullOrEmpty(text)) {
+            return null;
+        }
+
+        Uri uri = Uri.parse(text);
+        if (EmptyUtils.isNullOrEmpty(uri.getScheme())) {
+            uri = uri.buildUpon().scheme("file").authority("").build();
+        }
+
+        return uri;
+    }
+    public static Uri parseDefaultFile(Uri uri) {
+        if (EmptyUtils.isNullOrEmpty(uri.getScheme())) {
+            uri = uri.buildUpon().scheme("file").authority("").build();
+        }
+
+        return uri;
+    }
+
+    public static boolean equalsDefaultfile(Uri left, String right) {
+        left = parseDefaultFile(left);
+        Uri uriRight = parseDefaultFile(right);
+
+        return left.equals(uriRight);
+    }
+
+    public static InputStream getUriInputStream(Context ctx, Uri uri) throws FileNotFoundException {
+        if (uri == null) return null;
+
+        String scheme = uri.getScheme();
+        if (scheme.equals("file")) {
+            return new FileInputStream(uri.getPath());
+        }
+        else if (scheme.equals("content")) {
+            return ctx.getContentResolver().openInputStream(uri);
+        }
+        else {
+            return null;
+        }
+    }
+}

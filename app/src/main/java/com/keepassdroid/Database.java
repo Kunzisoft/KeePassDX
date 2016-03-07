@@ -31,6 +31,7 @@ import java.io.SyncFailedException;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 
@@ -44,6 +45,7 @@ import com.keepassdroid.database.load.ImporterFactory;
 import com.keepassdroid.database.save.PwDbOutput;
 import com.keepassdroid.icons.DrawableFactory;
 import com.keepassdroid.search.SearchDbHelper;
+import com.keepassdroid.utils.UriUtil;
 
 /**
  * @author bpellin
@@ -68,19 +70,19 @@ public class Database {
         loaded = true;
     }
 
-    public void LoadData(Context ctx, InputStream is, String password, String keyfile) throws IOException, InvalidDBException {
-        LoadData(ctx, is, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
+    public void LoadData(Context ctx, InputStream is, String password, InputStream keyInputStream) throws IOException, InvalidDBException {
+        LoadData(ctx, is, password, keyInputStream, new UpdateStatus(), !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, Uri uri, String password, String keyfile) throws IOException, FileNotFoundException, InvalidDBException {
+    public void LoadData(Context ctx, Uri uri, String password, Uri keyfile) throws IOException, FileNotFoundException, InvalidDBException {
         LoadData(ctx, uri, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, Uri uri, String password, String keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
+    public void LoadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
         LoadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, Uri uri, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
+    public void LoadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
         mUri = uri;
         readOnly = false;
         if (uri.getScheme().equals("file")) {
@@ -88,16 +90,17 @@ public class Database {
             readOnly = !file.canWrite();
         }
 
-        InputStream is = ctx.getContentResolver().openInputStream(uri);
+        InputStream is = UriUtil.getUriInputStream(ctx, uri);
+        InputStream kfIs = UriUtil.getUriInputStream(ctx, keyfile);
 
-        LoadData(ctx, is, password, keyfile, status, debug);
+        LoadData(ctx, is, password, kfIs, status, debug);
     }
 
-    public void LoadData(Context ctx, InputStream is, String password, String keyfile, boolean debug) throws IOException, InvalidDBException {
-        LoadData(ctx, is, password, keyfile, new UpdateStatus(), debug);
+    public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
+        LoadData(ctx, is, password, kfIs, new UpdateStatus(), debug);
     }
 
-    public void LoadData(Context ctx, InputStream is, String password, String keyfile, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
+    public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
 
         BufferedInputStream bis = new BufferedInputStream(is);
 
@@ -112,19 +115,19 @@ public class Database {
 
         bis.reset();  // Return to the start
 
-        pm = imp.openDatabase(bis, password, keyfile, status);
+        pm = imp.openDatabase(bis, password, kfIs, status);
         if ( pm != null ) {
             PwGroup root = pm.rootGroup;
 
             pm.populateGlobals(root);
 
-            LoadData(ctx, pm, password, keyfile, status);
+            LoadData(ctx, pm, password, kfIs, status);
         }
 
         loaded = true;
     }
 
-    public void LoadData(Context ctx, PwDatabase pm, String password, String keyfile, UpdateStatus status) {
+    public void LoadData(Context ctx, PwDatabase pm, String password, InputStream keyInputStream, UpdateStatus status) {
         if ( pm != null ) {
             passwordEncodingError = !pm.validatePasswordEncoding(password);
         }
@@ -148,7 +151,7 @@ public class Database {
     }
 
     public void SaveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
-        if (uri.getScheme().equals("data")) {
+        if (uri.getScheme().equals("file")) {
             String filename = uri.getPath();
             File tempFile = new File(filename + ".tmp");
             FileOutputStream fos = new FileOutputStream(tempFile);
