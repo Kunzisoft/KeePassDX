@@ -60,6 +60,7 @@ import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
+import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.FileNameView;
 
@@ -242,8 +243,7 @@ public class FileSelectActivity extends ListActivity {
 		public LaunchGroupActivity(String filename) {
 			super(null);
 
-			Uri.Builder b = new Uri.Builder();
-			mUri = b.scheme("file").authority("").path(filename).build();
+			mUri = UriUtil.parseDefaultFile(filename);
 		}
 
 		@Override

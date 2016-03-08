@@ -127,7 +127,7 @@ public class RecentFileHistory {
     }
 
     public void createFile(Uri uri, Uri keyUri) {
-        if (!enabled || uri == null || keyUri == null) return;
+        if (!enabled || uri == null) return;
 
         init();
 
@@ -135,7 +135,9 @@ public class RecentFileHistory {
         deleteFile(uri, false);
 
         databases.add(0, uri.toString());
-        keyfiles.add(0, keyUri.toString());
+
+        String key = (keyUri == null) ? "" : keyUri.toString();
+        keyfiles.add(0, key);
 
         trimLists();
         savePrefs();
