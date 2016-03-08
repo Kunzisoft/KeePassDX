@@ -37,7 +37,7 @@ public class CreateDB extends RunnableOnFinish {
 	private String mFilename;
 	private boolean mDontSave;
 	private Context ctx;
-	
+
 	public CreateDB(Context ctx, String filename, OnFinish finish, boolean dontSave) {
 		super(finish);
 
@@ -60,11 +60,11 @@ public class CreateDB extends RunnableOnFinish {
 		Uri.Builder b = new Uri.Builder();
 		db.mUri = UriUtil.parseDefaultFile(mFilename);
 		db.setLoaded();
-		
+		App.clearShutdown();
+
 		// Commit changes
 		SaveDB save = new SaveDB(ctx, db, mFinish, mDontSave);
 		mFinish = null;
 		save.run();
 	}
-
 }
