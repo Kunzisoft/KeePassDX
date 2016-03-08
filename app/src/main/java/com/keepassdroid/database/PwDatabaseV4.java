@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2015 Brian Pellin.
+ * Copyright 2010-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -374,6 +374,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		String filename = URLUtil.guessFileName(dbPath, null, null);
 		
 		rootGroup = new PwGroupV4(true, true, dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
+		groups.put(rootGroup.getId(), rootGroup);
 	}
 	
 	private String dbNameFromPath(String dbPath) {

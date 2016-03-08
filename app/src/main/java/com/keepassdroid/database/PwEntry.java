@@ -56,7 +56,7 @@ public abstract class PwEntry implements Cloneable {
 			return new PwEntryV4((PwGroupV4)parent);
 		}
 		else {
-			throw new RuntimeException("Unknow PwGroup instance.");
+			throw new RuntimeException("Unknown PwGroup instance.");
 		}
 	}
 	
