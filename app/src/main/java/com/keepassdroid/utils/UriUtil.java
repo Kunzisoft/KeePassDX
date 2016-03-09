@@ -61,7 +61,7 @@ public class UriUtil {
         if (uri == null) return null;
 
         String scheme = uri.getScheme();
-        if (scheme.equals("file")) {
+        if (EmptyUtils.isNullOrEmpty(scheme) || scheme.equals("file")) {
             return new FileInputStream(uri.getPath());
         }
         else if (scheme.equals("content")) {
