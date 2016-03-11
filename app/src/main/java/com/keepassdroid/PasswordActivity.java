@@ -265,9 +265,6 @@ public class PasswordActivity extends LockingActivity {
             return;
         }
 
-        String fileName = getEditText(R.id.filename);
-
-
         // Clear before we load
         Database db = App.getDB();
         db.clear();
@@ -275,10 +272,8 @@ public class PasswordActivity extends LockingActivity {
         // Clear the shutdown flag
         App.clearShutdown();
 
-        Uri uri = UriUtil.parseDefaultFile(fileName);
-
         Handler handler = new Handler();
-        LoadDB task = new LoadDB(db, PasswordActivity.this, uri, pass, keyfile, new AfterLoad(handler, db));
+        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, new AfterLoad(handler, db));
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
         pt.run();
     }

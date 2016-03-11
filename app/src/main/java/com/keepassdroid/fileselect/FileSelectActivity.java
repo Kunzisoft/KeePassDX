@@ -327,7 +327,7 @@ public class FileSelectActivity extends ListActivity {
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
-					filename = uri.getPath();
+					filename = uri.toString();
 				}
 			}
 		}
