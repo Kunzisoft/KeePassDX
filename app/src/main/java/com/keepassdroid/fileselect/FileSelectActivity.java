@@ -19,11 +19,6 @@
  */
 package com.keepassdroid.fileselect;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URLDecoder;
-
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -55,6 +50,7 @@ import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.app.App;
+import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.intents.Intents;
@@ -64,13 +60,19 @@ import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.FileNameView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URLDecoder;
+
 public class FileSelectActivity extends ListActivity {
 
 	private static final int CMENU_CLEAR = Menu.FIRST;
 	
 	public static final int FILE_BROWSE = 1;
 	public static final int GET_CONTENT = 2;
-	
+	public static final int OPEN_DOC = 3;
+
 	private RecentFileHistory fileHistory;
 
 	private boolean recentMode = false;
@@ -182,15 +184,23 @@ public class FileSelectActivity extends ListActivity {
 		browseButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-				i.setType("file/*");
-				
-				try {
-					startActivityForResult(i, GET_CONTENT);
-				} catch (ActivityNotFoundException e) {
-					lookForOpenIntentsFilePicker();
-				} catch (SecurityException e) {
-					lookForOpenIntentsFilePicker();
+				if (StorageAF.useStorageFramework(FileSelectActivity.this)) {
+					Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
+					i.addCategory(Intent.CATEGORY_OPENABLE);
+					i.setType("*/*");
+					startActivityForResult(i, OPEN_DOC);
+				}
+				else {
+					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+					i.setType("file/*");
+
+					try {
+						startActivityForResult(i, GET_CONTENT);
+					} catch (ActivityNotFoundException e) {
+						lookForOpenIntentsFilePicker();
+					} catch (SecurityException e) {
+						lookForOpenIntentsFilePicker();
+					}
 				}
 			}
 			
@@ -323,7 +333,7 @@ public class FileSelectActivity extends ListActivity {
 			}
 			
 		}
-		else if (requestCode == GET_CONTENT && resultCode == RESULT_OK) {
+		else if ((requestCode == GET_CONTENT || requestCode == OPEN_DOC) && resultCode == RESULT_OK) {
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
@@ -331,7 +341,7 @@ public class FileSelectActivity extends ListActivity {
 				}
 			}
 		}
-		
+
 		if (filename != null) {
 			EditText fn = (EditText) findViewById(R.id.file_filename);
 			fn.setText(filename);

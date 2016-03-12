@@ -19,11 +19,6 @@
  */
 package com.keepassdroid;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.URLDecoder;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -54,6 +49,7 @@ import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
@@ -63,6 +59,9 @@ import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class PasswordActivity extends LockingActivity {
 
@@ -75,9 +74,8 @@ public class PasswordActivity extends LockingActivity {
 
     private static final int FILE_BROWSE = 256;
     public static final int GET_CONTENT = 257;
+    private static final int OPEN_DOC = 258;
 
-    //private String mFileName;
-    //private String mKeyFile;
     private Uri mDbUri = null;
     private Uri mKeyUri = null;
     private boolean mRememberKeyfile;
@@ -138,6 +136,7 @@ public class PasswordActivity extends LockingActivity {
             }
             break;
         case GET_CONTENT:
+        case OPEN_DOC:
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     Uri uri = data.getData();
@@ -434,13 +433,21 @@ public class PasswordActivity extends LockingActivity {
             browse.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                    i.setType("file/*");
+                    if (StorageAF.useStorageFramework(PasswordActivity.this)) {
+                        Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
+                        i.addCategory(Intent.CATEGORY_OPENABLE);
+                        i.setType("*/*");
+                        startActivityForResult(i, OPEN_DOC);
+                    }
+                    else {
+                        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                        i.setType("file/*");
 
-                    try {
-                        startActivityForResult(i, GET_CONTENT);
-                    } catch (ActivityNotFoundException e) {
-                        lookForOpenIntentsFilePicker();
+                        try {
+                            startActivityForResult(i, GET_CONTENT);
+                        } catch (ActivityNotFoundException e) {
+                            lookForOpenIntentsFilePicker();
+                        }
                     }
                 }
 

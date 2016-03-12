@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Brian Pellin.
+ * Copyright 2014-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -65,4 +65,5 @@ public class BuildCompat {
 	public static int getSdkVersion() {
 		return versionInt;
 	}
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2013 Brian Pellin.
+ Copyright 2009-2016 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -84,5 +84,12 @@
 		  android:defaultValue="@bool/omitbackup_default" 
 		  android:title="@string/omitbackup_title" 
 		  android:key="@string/omitbackup_key"/>
+		<!--
+		<CheckBoxPreference
+			android:summary="@string/use_saf_summary"
+			android:defaultValue="@bool/saf_default"
+			android:title="@string/use_saf_title"
+			android:key="@string/saf_key"/>
+		-->
 	</PreferenceScreen>
 </PreferenceScreen>
