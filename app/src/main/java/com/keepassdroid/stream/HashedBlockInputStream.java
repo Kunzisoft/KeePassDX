@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -18,6 +18,8 @@
  *
  */
 package com.keepassdroid.stream;
+
+import com.keepassdroid.utils.Types;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -149,7 +151,7 @@ public class HashedBlockInputStream extends InputStream {
 			if ( ! ReadHashedBlock() ) return -1;
 		}
 		
-		int output = buffer[bufferPos];
+		int output = Types.readUByte(buffer, bufferPos);
 		bufferPos++;
 		
 		return output;
