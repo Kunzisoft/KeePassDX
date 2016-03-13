@@ -56,6 +56,7 @@ import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
@@ -86,12 +87,15 @@ public class PasswordActivity extends LockingActivity {
     }
 
     public static void Launch(Activity act, String fileName, String keyFile) throws FileNotFoundException {
-        /*
-        File dbFile = new File(fileName);
-        if ( ! dbFile.exists() ) {
-            throw new FileNotFoundException();
+        Uri uri = UriUtil.parseDefaultFile(fileName);
+        String scheme = uri.getScheme();
+
+        if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
+            File dbFile = new File(fileName);
+            if (!dbFile.exists()) {
+                throw new FileNotFoundException();
+            }
         }
-        */
 
         Intent i = new Intent(act, PasswordActivity.class);
         i.putExtra(KEY_FILENAME, fileName);
@@ -122,16 +126,9 @@ public class PasswordActivity extends LockingActivity {
             if (resultCode == RESULT_OK) {
                 String filename = data.getDataString();
                 if (filename != null) {
-                    /*
-                    if (filename.startsWith("file://")) {
-                        filename = filename.substring(7);
-                    }
-
-                    filename = URLDecoder.decode(filename);
-                    */
-
                     EditText fn = (EditText) findViewById(R.id.pass_keyfile);
                     fn.setText(filename);
+                    mKeyUri = UriUtil.parseDefaultFile(filename);
                 }
             }
             break;
@@ -141,12 +138,16 @@ public class PasswordActivity extends LockingActivity {
                 if (data != null) {
                     Uri uri = data.getData();
                     if (uri != null) {
-                        String path = uri.getPath();
+                        if (requestCode==GET_CONTENT) {
+                            uri = UriUtil.translate(this, uri);
+                        }
+                        String path = uri.toString();
                         if (path != null) {
                             EditText fn = (EditText) findViewById(R.id.pass_keyfile);
                             fn.setText(path);
 
                         }
+                        mKeyUri = uri;
                     }
                 }
             }
@@ -441,7 +442,7 @@ public class PasswordActivity extends LockingActivity {
                     }
                     else {
                         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                        i.setType("file/*");
+                        i.setType("*/*");
 
                         try {
                             startActivityForResult(i, GET_CONTENT);

@@ -192,7 +192,7 @@ public class FileSelectActivity extends ListActivity {
 				}
 				else {
 					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-					i.setType("file/*");
+					i.setType("*/*");
 
 					try {
 						startActivityForResult(i, GET_CONTENT);
@@ -337,6 +337,9 @@ public class FileSelectActivity extends ListActivity {
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
+					if (requestCode == GET_CONTENT) {
+						uri = UriUtil.translate(this, uri);
+					}
 					filename = uri.toString();
 				}
 			}

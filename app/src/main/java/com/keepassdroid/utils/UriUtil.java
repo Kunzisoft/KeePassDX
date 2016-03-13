@@ -20,8 +20,12 @@
 package com.keepassdroid.utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 
+import com.keepassdroid.compat.StorageAF;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -71,4 +75,74 @@ public class UriUtil {
             return null;
         }
     }
+
+    /**
+     * Many android apps respond with non-writeable content URIs that correspond to files.
+     * This will attempt to translate the content URIs to file URIs when possible/appropriate
+     * @param uri
+     * @return
+     */
+    public static Uri translate(Context ctx, Uri uri) {
+        // StorageAF provides nice URIs
+        if (StorageAF.useStorageFramework(ctx) || hasWritableContentUri(uri)) { return uri; }
+
+        String scheme = uri.getScheme();
+        if (EmptyUtils.isNullOrEmpty(scheme)) { return uri; }
+
+        String filepath = null;
+        // Use content resolver to try and find the file
+        if (scheme.equalsIgnoreCase("content")) {
+            Cursor cursor = ctx.getContentResolver().query(uri, new String[] {android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            cursor.moveToFirst();
+
+            filepath = cursor.getString(0);
+            cursor.close();
+
+            if (!isValidFilePath(filepath)) {
+                filepath = null;
+            }
+        }
+
+        // Try using the URI path as a straight file
+        if (EmptyUtils.isNullOrEmpty(filepath)) {
+            filepath = uri.getPath();
+            if (!isValidFilePath(filepath)) {
+                filepath = null;
+            }
+        }
+
+        // Update the file to a file URI
+        if (!EmptyUtils.isNullOrEmpty(filepath)) {
+            Uri.Builder b = new Uri.Builder();
+            uri = b.scheme("file").authority("").path(filepath).build();
+        }
+
+        return uri;
+    }
+
+    private static boolean isValidFilePath(String filepath) {
+        File file = new File(filepath);
+        return file.exists() && file.canRead();
+    }
+
+    /**
+     * Whitelist for known content providers that support writing
+     * @param uri
+     * @return
+     */
+    private static boolean hasWritableContentUri(Uri uri) {
+        String scheme = uri.getScheme();
+
+        if (EmptyUtils.isNullOrEmpty(scheme)) { return false; }
+
+        if (!scheme.equalsIgnoreCase("content")) { return false; }
+
+        switch (uri.getAuthority()) {
+            case "com.google.android.apps.docs.storage":
+                return true;
+        }
+
+        return false;
+    }
+
 }
