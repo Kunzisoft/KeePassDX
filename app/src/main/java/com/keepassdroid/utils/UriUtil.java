@@ -98,6 +98,8 @@ public class UriUtil {
             filepath = cursor.getString(0);
             cursor.close();
 
+
+
             if (!isValidFilePath(filepath)) {
                 filepath = null;
             }
@@ -105,7 +107,7 @@ public class UriUtil {
 
         // Try using the URI path as a straight file
         if (EmptyUtils.isNullOrEmpty(filepath)) {
-            filepath = uri.getPath();
+            filepath = uri.getEncodedPath();
             if (!isValidFilePath(filepath)) {
                 filepath = null;
             }
