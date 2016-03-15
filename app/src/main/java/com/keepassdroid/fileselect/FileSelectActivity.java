@@ -55,6 +55,7 @@ import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
@@ -233,15 +234,21 @@ public class FileSelectActivity extends ListActivity {
 		// Load default database
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "");
-		
+
 		if (fileName.length() > 0) {
-			File db = new File(fileName);
-			
-			if (db.exists()) {
-				try {
-					PasswordActivity.Launch(FileSelectActivity.this, fileName);
-				} catch (Exception e) {
-					// Ignore exception
+			Uri dbUri = UriUtil.parseDefaultFile(fileName);
+			String scheme = dbUri.getScheme();
+
+			if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
+				String path = dbUri.getPath();
+				File db = new File(path);
+
+				if (db.exists()) {
+					try {
+						PasswordActivity.Launch(FileSelectActivity.this, path);
+					} catch (Exception e) {
+						// Ignore exception
+					}
 				}
 			}
 		}
