@@ -199,6 +199,7 @@ public class FileSelectActivity extends ListActivity {
 				}
 				else {
 					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+					i.addCategory(Intent.CATEGORY_OPENABLE);
 					i.setType("*/*");
 
 					try {
