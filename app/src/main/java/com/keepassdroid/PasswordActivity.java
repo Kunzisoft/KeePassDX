@@ -91,7 +91,7 @@ public class PasswordActivity extends LockingActivity {
         String scheme = uri.getScheme();
 
         if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
-            File dbFile = new File(fileName);
+            File dbFile = new File(uri.getPath());
             if (!dbFile.exists()) {
                 throw new FileNotFoundException();
             }
