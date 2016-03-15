@@ -251,6 +251,13 @@ public class FileSelectActivity extends ListActivity {
 					}
 				}
 			}
+			else {
+				try {
+					PasswordActivity.Launch(FileSelectActivity.this, dbUri.toString());
+				} catch (Exception e) {
+					// Ignore exception
+				}
+			}
 		}
 	}
 

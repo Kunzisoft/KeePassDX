@@ -90,10 +90,16 @@ public class Database {
             readOnly = !file.canWrite();
         }
 
-        InputStream is = UriUtil.getUriInputStream(ctx, uri);
-        InputStream kfIs = UriUtil.getUriInputStream(ctx, keyfile);
+        InputStream is, kfIs;
+        try {
+            is = UriUtil.getUriInputStream(ctx, uri);
+            kfIs = UriUtil.getUriInputStream(ctx, keyfile);
+        } catch (Exception e) {
+            throw new FileNotFoundException();
+        }
 
         LoadData(ctx, is, password, kfIs, status, debug);
+
     }
 
     public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
