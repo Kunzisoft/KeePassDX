@@ -100,6 +100,7 @@
     <string name="field_name">Field Name</string>
     <string name="field_value">Field value</string>
     <string name="FileNotFound">File not found.</string>
+    <string name="file_not_found_content">File not found. Try reopening from your content provider.</string>
     <string name="file_browser">File Browser</string>
     <string name="generate_password">Generate Password</string>
     <string name="group">Group</string>

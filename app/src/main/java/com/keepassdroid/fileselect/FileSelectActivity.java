@@ -53,6 +53,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
+import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.EmptyUtils;
@@ -101,7 +102,12 @@ public class FileSelectActivity extends ListActivity {
 
 				try {
 					PasswordActivity.Launch(FileSelectActivity.this, fileName);
-				} catch (FileNotFoundException e) {
+				}
+				catch (ContentFileNotFoundException e) {
+					Toast.makeText(FileSelectActivity.this,
+							R.string.file_not_found_content, Toast.LENGTH_LONG).show();
+				}
+				catch (FileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
 							R.string.FileNotFound, Toast.LENGTH_LONG).show();
 				}
@@ -321,7 +327,12 @@ public class FileSelectActivity extends ListActivity {
 			protected void onPostExecute(Void v) {
 				try {
 					PasswordActivity.Launch(FileSelectActivity.this, fileName, keyFile);
-				} catch (FileNotFoundException e) {
+				}
+				catch (ContentFileNotFoundException e) {
+					Toast.makeText(FileSelectActivity.this, R.string.file_not_found_content, Toast.LENGTH_LONG)
+							.show();
+				}
+				catch (FileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this, R.string.FileNotFound, Toast.LENGTH_LONG)
 							.show();
 				}

@@ -38,6 +38,7 @@ import android.net.Uri;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.load.Importer;
@@ -93,11 +94,15 @@ public class Database {
         InputStream is, kfIs;
         try {
             is = UriUtil.getUriInputStream(ctx, uri);
-            kfIs = UriUtil.getUriInputStream(ctx, keyfile);
         } catch (Exception e) {
-            throw new FileNotFoundException();
+            throw ContentFileNotFoundException.getInstance(uri);
         }
 
+        try {
+            kfIs = UriUtil.getUriInputStream(ctx, keyfile);
+        } catch (Exception e) {
+            throw ContentFileNotFoundException.getInstance(keyfile);
+        }
         LoadData(ctx, is, password, kfIs, status, debug);
 
     }

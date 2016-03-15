@@ -31,6 +31,7 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.exception.ArcFourException;
+import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.database.exception.InvalidAlgorithmException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidDBSignatureException;
@@ -72,6 +73,9 @@ public class LoadDB extends RunnableOnFinish {
             return;
         } catch (InvalidPasswordException e) {
             finish(false, mCtx.getString(R.string.InvalidPassword));
+            return;
+        } catch (ContentFileNotFoundException e) {
+            finish(false, mCtx.getString(R.string.file_not_found_content));
             return;
         } catch (FileNotFoundException e) {
             finish(false, mCtx.getString(R.string.FileNotFound));
