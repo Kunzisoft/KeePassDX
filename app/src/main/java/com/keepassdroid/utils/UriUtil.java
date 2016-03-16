@@ -123,6 +123,8 @@ public class UriUtil {
     }
 
     private static boolean isValidFilePath(String filepath) {
+        if (EmptyUtils.isNullOrEmpty(filepath)) { return false; }
+
         File file = new File(filepath);
         return file.exists() && file.canRead();
     }
