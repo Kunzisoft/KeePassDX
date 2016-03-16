@@ -357,7 +357,10 @@ public class PasswordActivity extends LockingActivity {
             if ( action != null && action.equals(VIEW_INTENT) ) {
                 Uri incoming = i.getData();
                 mDbUri = incoming;
-                if (incoming.getScheme().equals("file")) {
+                if (incoming == null) {
+                    return R.string.error_can_not_handle_uri;
+                }
+                else if (incoming.getScheme().equals("file")) {
                     String fileName = incoming.getPath();
 
                     if (fileName.length() == 0) {
