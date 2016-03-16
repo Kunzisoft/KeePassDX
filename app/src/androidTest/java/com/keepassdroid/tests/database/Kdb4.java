@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -103,16 +103,30 @@ public class Kdb4 extends AndroidTestCase {
 		super.setUp();
 		
 		TestUtil.extractKey(getContext(), "keyfile.key", "/sdcard/key");
+		TestUtil.extractKey(getContext(), "binary.key", "/sdcard/key-binary");
 	}
 
 	public void testComposite() throws IOException, InvalidDBException {
 		Context ctx = getContext();
-		
+
 		AssetManager am = ctx.getAssets();
 		InputStream is = am.open("keyfile.kdbx", AssetManager.ACCESS_STREAMING);
-		
+
 		ImporterV4 importer = new ImporterV4();
 		importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key"));
+
+		is.close();
+
+	}
+
+	public void testCompositeBinary() throws IOException, InvalidDBException {
+		Context ctx = getContext();
+		
+		AssetManager am = ctx.getAssets();
+		InputStream is = am.open("keyfile-binary.kdbx", AssetManager.ACCESS_STREAMING);
+		
+		ImporterV4 importer = new ImporterV4();
+		importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key-binary"));
 		
 		is.close();
 		
