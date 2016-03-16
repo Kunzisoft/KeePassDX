@@ -20,6 +20,7 @@
 package com.keepassdroid.database;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -136,15 +137,15 @@ public abstract class PwDatabase {
 			throws InvalidKeyFileException, IOException {
 				assert(keyInputStream != null);
 
-				byte[] key = loadXmlKeyFile(keyInputStream);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                Util.copyStream(keyInputStream, bos);
+                byte[] keyData = bos.toByteArray();
+
+                ByteArrayInputStream bis = new ByteArrayInputStream(keyData);
+				byte[] key = loadXmlKeyFile(bis);
 				if ( key != null ) {
 					return key;
 				}
-
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                Util.copyStream(keyInputStream, bos);
-				byte[] keyData = bos.toByteArray();
-
 
 				long fileSize = keyData.length;
 				if ( fileSize == 0 ) {
