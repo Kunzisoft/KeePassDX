@@ -42,122 +42,122 @@ import com.keepassdroid.tests.TestUtil;
 
 public class Kdb4 extends AndroidTestCase {
 
-	public void testDetection() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		Importer importer = ImporterFactory.createImporter(is);
-		
-		assertTrue(importer instanceof ImporterV4);
-		is.close();
-		
-	}
-	
-	public void testParsing() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "12345", null);
-		
-		is.close();
-		
-		
-	}
-	
-	public void testSaving() throws IOException, InvalidDBException, PwDbOutputException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		ImporterV4 importer = new ImporterV4();
-		PwDatabaseV4 db = importer.openDatabase(is, "12345", null);
-		is.close();
-		
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		
-		PwDbV4Output output =  (PwDbV4Output) PwDbOutput.getInstance(db, bos);
-		output.output();
-		
-		byte[] data = bos.toByteArray();
-		
-		FileOutputStream fos = new FileOutputStream("/sdcard/test-out.kdbx", false);
-		
-		InputStream bis = new ByteArrayInputStream(data);
-		bis = new CopyInputStream(bis, fos);
-		importer = new ImporterV4();
-		db = importer.openDatabase(bis, "12345", null);
-		bis.close();
-		
-		fos.close();
-		
-	}
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		TestUtil.extractKey(getContext(), "keyfile.key", "/sdcard/key");
-		TestUtil.extractKey(getContext(), "binary.key", "/sdcard/key-binary");
-	}
+    public void testDetection() throws IOException, InvalidDBException {
+        Context ctx = getContext();
 
-	public void testComposite() throws IOException, InvalidDBException {
-		Context ctx = getContext();
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
 
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("keyfile.kdbx", AssetManager.ACCESS_STREAMING);
+        Importer importer = ImporterFactory.createImporter(is);
 
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key"));
+        assertTrue(importer instanceof ImporterV4);
+        is.close();
 
-		is.close();
+    }
 
-	}
+    public void testParsing() throws IOException, InvalidDBException {
+        Context ctx = getContext();
 
-	public void testCompositeBinary() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("keyfile-binary.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key-binary"));
-		
-		is.close();
-		
-	}
-	
-	public void testKeyfile() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("key-only.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "", TestUtil.getKeyFileInputStream(ctx, "/sdcard/key"));
-		
-		is.close();
-		
-		
-	}
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
 
-	public void testNoGzip() throws IOException, InvalidDBException {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("no-encrypt.kdbx", AssetManager.ACCESS_STREAMING);
-		
-		ImporterV4 importer = new ImporterV4();
-		importer.openDatabase(is, "12345", null);
-		
-		is.close();
-		
-		
-	}
-	
+        ImporterV4 importer = new ImporterV4();
+        importer.openDatabase(is, "12345", null);
+
+        is.close();
+
+
+    }
+
+    public void testSaving() throws IOException, InvalidDBException, PwDbOutputException {
+        Context ctx = getContext();
+
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
+
+        ImporterV4 importer = new ImporterV4();
+        PwDatabaseV4 db = importer.openDatabase(is, "12345", null);
+        is.close();
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        PwDbV4Output output =  (PwDbV4Output) PwDbOutput.getInstance(db, bos);
+        output.output();
+
+        byte[] data = bos.toByteArray();
+
+        FileOutputStream fos = new FileOutputStream("/sdcard/test-out.kdbx", false);
+
+        InputStream bis = new ByteArrayInputStream(data);
+        bis = new CopyInputStream(bis, fos);
+        importer = new ImporterV4();
+        db = importer.openDatabase(bis, "12345", null);
+        bis.close();
+
+        fos.close();
+
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        TestUtil.extractKey(getContext(), "keyfile.key", "/sdcard/key");
+        TestUtil.extractKey(getContext(), "binary.key", "/sdcard/key-binary");
+    }
+
+    public void testComposite() throws IOException, InvalidDBException {
+        Context ctx = getContext();
+
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("keyfile.kdbx", AssetManager.ACCESS_STREAMING);
+
+        ImporterV4 importer = new ImporterV4();
+        importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key"));
+
+        is.close();
+
+    }
+
+    public void testCompositeBinary() throws IOException, InvalidDBException {
+        Context ctx = getContext();
+
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("keyfile-binary.kdbx", AssetManager.ACCESS_STREAMING);
+
+        ImporterV4 importer = new ImporterV4();
+        importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key-binary"));
+
+        is.close();
+
+    }
+
+    public void testKeyfile() throws IOException, InvalidDBException {
+        Context ctx = getContext();
+
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("key-only.kdbx", AssetManager.ACCESS_STREAMING);
+
+        ImporterV4 importer = new ImporterV4();
+        importer.openDatabase(is, "", TestUtil.getKeyFileInputStream(ctx, "/sdcard/key"));
+
+        is.close();
+
+
+    }
+
+    public void testNoGzip() throws IOException, InvalidDBException {
+        Context ctx = getContext();
+
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("no-encrypt.kdbx", AssetManager.ACCESS_STREAMING);
+
+        ImporterV4 importer = new ImporterV4();
+        importer.openDatabase(is, "12345", null);
+
+        is.close();
+
+
+    }
+
 }
