@@ -9,8 +9,8 @@ model {
             applicationId = "com.android.keepass"
             minSdkVersion.apiLevel = 3
             targetSdkVersion.apiLevel = 12
-            versionCode = 149
-            versionName = "2.0.5beta6"
+            versionCode = 150
+            versionName = "2.0.6"
 
             testApplicationId = "com.keepassdroid.tests"
             testInstrumentationRunner = "android.test.InstrumentationTestRunner"
