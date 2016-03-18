@@ -1,3 +1,6 @@
+KeePassDroid (2.0.6.1)
+ * Fix crash in URI to file mapping
+
 KeePassDroid (2.0.6)
  * Improve file URI handling
  * Improve Android N compatibility
