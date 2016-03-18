@@ -90,27 +90,35 @@ public class UriUtil {
         if (EmptyUtils.isNullOrEmpty(scheme)) { return uri; }
 
         String filepath = null;
-        // Use content resolver to try and find the file
-        if (scheme.equalsIgnoreCase("content")) {
-            Cursor cursor = ctx.getContentResolver().query(uri, new String[] {android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
-            cursor.moveToFirst();
 
-            filepath = cursor.getString(0);
-            cursor.close();
+        try {
+            // Use content resolver to try and find the file
+            if (scheme.equalsIgnoreCase("content")) {
+                Cursor cursor = ctx.getContentResolver().query(uri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
+                cursor.moveToFirst();
+
+                if (cursor != null) {
+                    filepath = cursor.getString(0);
+                    cursor.close();
 
 
+                    if (!isValidFilePath(filepath)) {
+                        filepath = null;
+                    }
+                }
+            }
 
-            if (!isValidFilePath(filepath)) {
-                filepath = null;
+            // Try using the URI path as a straight file
+            if (EmptyUtils.isNullOrEmpty(filepath)) {
+                filepath = uri.getEncodedPath();
+                if (!isValidFilePath(filepath)) {
+                    filepath = null;
+                }
             }
         }
-
-        // Try using the URI path as a straight file
-        if (EmptyUtils.isNullOrEmpty(filepath)) {
-            filepath = uri.getEncodedPath();
-            if (!isValidFilePath(filepath)) {
-                filepath = null;
-            }
+        // Fall back to URI if this fails.
+        catch (Exception e) {
+            filepath = null;
         }
 
         // Update the file to a file URI
