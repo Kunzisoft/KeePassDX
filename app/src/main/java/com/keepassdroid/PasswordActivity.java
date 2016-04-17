@@ -494,7 +494,7 @@ public class PasswordActivity extends LockingActivity {
             retrieveSettings();
 
             if (launch_immediately)
-                loadDatabase(password, mDbUri);
+                loadDatabase(password, mKeyUri);
         }
     }
 }
