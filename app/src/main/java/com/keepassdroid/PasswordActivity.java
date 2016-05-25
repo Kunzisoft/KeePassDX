@@ -51,6 +51,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
+import com.keepassdroid.compat.ClipDataCompat;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.LoadDB;
@@ -353,31 +354,6 @@ public class PasswordActivity extends LockingActivity {
         String password = "";
         boolean launch_immediately = false;
 
-		@TargetApi(16)
-		private Uri getKeyFileFromIntent(Intent i) {
-			Uri uri = null;
-
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				// Retrieve the KeyFile URI from ClipData so that file permissions are restored.
-				ClipData clipData = i.getClipData();
-				if(clipData != null
-						&& clipData.getDescription().getLabel().equals(KEY_KEYFILE)
-						&& clipData.getItemCount() == 1) {
-
-					ClipData.Item clipItem = clipData.getItemAt(0);
-
-					uri = clipItem.getUri();
-				} 
-			} else {
-				// Can't retrieve it from ClipData, so just try retrieving it as an Extra.
-				// This won't give us permission to access the file, but on devices < JELLY_BEAN
-				// it will be accessible anyway.
-				uri = i.getParcelableExtra(KEY_KEYFILE);
-			}
-
-			return uri;
-		}
-
         @Override
         protected Integer doInBackground(Intent... args) {
             Intent i = args[0];
@@ -386,7 +362,7 @@ public class PasswordActivity extends LockingActivity {
                 Uri incoming = i.getData();
                 mDbUri = incoming;
 
-				mKeyUri = getKeyFileFromIntent(i);
+				mKeyUri = ClipDataCompat.getUriFromIntent(i, KEY_KEYFILE);
 
                 if (incoming == null) {
                     return R.string.error_can_not_handle_uri;
