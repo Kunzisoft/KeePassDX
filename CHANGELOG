@@ -1,3 +1,5 @@
+ * Fix launch immediately from nfd
+
 KeePassDroid (2.0.6.1)
  * Fix crash in URI to file mapping
 
