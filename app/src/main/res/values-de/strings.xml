@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2009-2015 Brian Pellin.
+  Copyright 2009-2016 Brian Pellin.
 
   This file is part of KeePassDroid.
 
@@ -20,7 +20,9 @@
   Translations from BoDEAN
   Translations from Matthias Dill
 -->
-<resources>
+<resources
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Webseite:</string>
     <string name="AboutText">KeePassDroid ist die Implementierung des KeePass Password Managers für die Android-Plattform.</string>
@@ -29,6 +31,7 @@
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
     <string name="add_group_title">Gruppe hinzufügen</string>
+    <string name="add_string">Text hinzufügen</string>
     <string name="algorithm">Algorithmus</string>
     <string name="algorithm_colon">Algorithmus:</string>
     <string name="app_name">KeePassDroid</string>
@@ -100,6 +103,7 @@
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
     <string name="FileNotFound">Datei nicht gefunden.</string>
+    <string name="file_not_found_content">Datei nicht gefunden. Versuche es von ihrem Dienstanbieter erneut zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
     <string name="group">Gruppe</string>
@@ -160,6 +164,7 @@
     <string name="progress_create">Neue Datenbank anlegen\u2026</string>
     <string name="progress_title">Ausführen\u2026</string>
     <string name="protection">Sicherheit</string>
+    <string name="read_only">Schreibschutz</string>
     <string name="read_only_warning">KeePassDroid hat keine Schreibrechte für die Datenbank. Die Datenbank wird schreibgeschützt geöffnet.</string>
     <string name="read_only_kitkat_warning">Ab Android KitKat haben einige Geräte keine Schreibrechte mehr für die SD-Karte.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
@@ -185,6 +190,10 @@
     <string name="underline">Unterstrichen</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
+    <string name="use_saf_summary">Storage Access Framework als Dateimanager verwenden (Android KitKat und später)</string>
+    <string name="use_saf_title">Storage Access Framework</string>
+    <string name="warning">Warnung</string>
+    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1 Zeichensatz. Ihr Passwort enthällt andere Zeichen. Diese Zeichen werden umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohen ihr Passwort zu ändern.</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
