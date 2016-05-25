@@ -382,6 +382,8 @@ public class PasswordActivity extends LockingActivity {
                 else {
                     return R.string.error_can_not_handle_uri;
                 }
+                password = i.getStringExtra(KEY_PASSWORD);
+                launch_immediately = i.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
 
             } else {
                 mDbUri = UriUtil.parseDefaultFile(i.getStringExtra(KEY_FILENAME));
@@ -494,7 +496,7 @@ public class PasswordActivity extends LockingActivity {
             retrieveSettings();
 
             if (launch_immediately)
-                loadDatabase(password, mDbUri);
+                loadDatabase(password, mKeyUri);
         }
     }
 }
