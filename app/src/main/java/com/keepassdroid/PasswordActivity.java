@@ -19,14 +19,17 @@
  */
 package com.keepassdroid;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -350,6 +353,31 @@ public class PasswordActivity extends LockingActivity {
         String password = "";
         boolean launch_immediately = false;
 
+		@TargetApi(16)
+		private Uri getKeyFileFromIntent(Intent i) {
+			Uri uri = null;
+
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				// Retrieve the KeyFile URI from ClipData so that file permissions are restored.
+				ClipData clipData = i.getClipData();
+				if(clipData != null
+						&& clipData.getDescription().getLabel().equals(KEY_KEYFILE)
+						&& clipData.getItemCount() == 1) {
+
+					ClipData.Item clipItem = clipData.getItemAt(0);
+
+					uri = clipItem.getUri();
+				} 
+			} else {
+				// Can't retrieve it from ClipData, so just try retrieving it as an Extra.
+				// This won't give us permission to access the file, but on devices < JELLY_BEAN
+				// it will be accessible anyway.
+				uri = i.getParcelableExtra(KEY_KEYFILE);
+			}
+
+			return uri;
+		}
+
         @Override
         protected Integer doInBackground(Intent... args) {
             Intent i = args[0];
@@ -357,6 +385,9 @@ public class PasswordActivity extends LockingActivity {
             if ( action != null && action.equals(VIEW_INTENT) ) {
                 Uri incoming = i.getData();
                 mDbUri = incoming;
+
+				mKeyUri = getKeyFileFromIntent(i);
+
                 if (incoming == null) {
                     return R.string.error_can_not_handle_uri;
                 }
@@ -374,10 +405,12 @@ public class PasswordActivity extends LockingActivity {
                         return R.string.FileNotFound;
                     }
 
-                    mKeyUri = getKeyFile(mDbUri);
+					if(mKeyUri == null)
+						mKeyUri = getKeyFile(mDbUri);
                 }
                 else if (incoming.getScheme().equals("content")) {
-                    mKeyUri = getKeyFile(mDbUri);
+					if(mKeyUri == null)
+						mKeyUri = getKeyFile(mDbUri);
                 }
                 else {
                     return R.string.error_can_not_handle_uri;
