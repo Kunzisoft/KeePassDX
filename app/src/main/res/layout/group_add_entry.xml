@@ -42,7 +42,7 @@
 	  android:scaleType="fitXY"
 	  android:tint="@color/blue_highlight"
 	  android:src="@android:drawable/divider_horizontal_dark"/>
-	<ListView android:id="@android:id/list"
+	<ListView android:id="@+id/group_list"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_above="@id/divider2"

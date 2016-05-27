@@ -19,11 +19,11 @@
  */
 package com.keepassdroid;
 
-import android.app.ListActivity;
+import android.app.Activity;
 
 import com.keepassdroid.timeout.TimeoutHelper;
 
-public abstract class LockingListActivity extends ListActivity {
+public abstract class LockingListActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
