@@ -21,7 +21,7 @@ package com.keepassdroid;
 
 import com.keepassdroid.timeout.TimeoutHelper;
 
-public abstract class LockCloseListActivity extends LockingListActivity {
+public abstract class LockCloseListActivity extends LockingActivity {
 
 	@Override
 	protected void onResume() {
