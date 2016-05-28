@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.fileselect;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,11 +34,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +70,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-public class FileSelectActivity extends ListActivity {
+public class FileSelectActivity extends Activity {
+
+	private ListView mList;
+	private ListAdapter mAdapter;
 
 	private static final int CMENU_CLEAR = Menu.FIRST;
 	
@@ -91,6 +97,17 @@ public class FileSelectActivity extends ListActivity {
 		} else {
 			setContentView(R.layout.file_selection_no_recent);
 		}
+
+		mList = (ListView)findViewById(R.id.file_list);
+
+		mList.setOnItemClickListener(
+				new AdapterView.OnItemClickListener() {
+					public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+					{
+						onListItemClick((ListView)parent, v, position, id);
+					}
+				}
+		);
 
 		// Open button
 		Button openButton = (Button) findViewById(R.id.open);
@@ -236,7 +253,7 @@ public class FileSelectActivity extends ListActivity {
 
 		fillData();
 		
-		registerForContextMenu(getListView());
+		registerForContextMenu(mList);
 		
 		// Load default database
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -307,13 +324,11 @@ public class FileSelectActivity extends ListActivity {
 		EditText filename = (EditText) findViewById(R.id.file_filename);
 		filename.setText(Environment.getExternalStorageDirectory().getAbsolutePath() + getString(R.string.default_file_path));
 		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.file_row, R.id.file_filename, fileHistory.getDbList());
-		setListAdapter(adapter);
+		mAdapter = new ArrayAdapter<String>(this, R.layout.file_row, R.id.file_filename, fileHistory.getDbList());
+		mList.setAdapter(mAdapter);
 	}
 
-	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
 
 		new AsyncTask<Integer, Void, Void>() {
 			String fileName;
@@ -464,9 +479,7 @@ public class FileSelectActivity extends ListActivity {
 	}
 	
 	private void refreshList() {
-		@SuppressWarnings("unchecked")
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>) getListAdapter();
-		adapter.notifyDataSetChanged();
+		((BaseAdapter) mAdapter).notifyDataSetChanged();
 	}
 
 }

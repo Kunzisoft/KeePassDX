@@ -65,7 +65,7 @@
 	  style="?android:attr/listSeparatorTextViewStyle"
 	  android:text="@string/enter_filename"/>
 	-->
-  	<ListView android:id="@android:id/list"
+  	<ListView android:id="@+id/file_list"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
       android:layout_below="@id/file_listtop"
