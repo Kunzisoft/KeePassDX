@@ -39,7 +39,7 @@
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="beta_warning">O suporte para guardar alterações para ficheiros kdbx é EXPERIMENTAL. Faça cópias de segurança da sua base de dados antes de guardar as alterações.</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">A exploração de ficheiros requer o Gestor de Ficheiros Open Itents, clique em baixo para instalar. Devido a alguns erros no gestor de ficheiros, a exploração pode não funcionar corretamente a primeira vez que explora os ficheiros.</string>
+    <string name="browser_intall_text">A exploração de ficheiros requer o gestor de ficheiros Open Itents, clique em baixo para instalar. Devido a algumas particularidades no gestor de ficheiros, a exploração pode não funcionar corretamente na primeira vez.</string>
     <string name="building_search_idx">A construír o indíce de pesquisa&#8230;</string>
     <string name="cancel">Cancelar</string>
     <string name="ClearClipboard">Área de transferência limpa.</string>
