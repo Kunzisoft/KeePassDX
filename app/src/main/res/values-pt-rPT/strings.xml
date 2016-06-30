@@ -39,12 +39,12 @@
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="beta_warning">O suporte para guardar alterações para ficheiros kdbx é EXPERIMENTAL. Faça cópias de segurança da sua base de dados antes de guardar as alterações.</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">A exploração de ficheiros requer o Gestor de Ficheiros Open Itents, clique em baixo para instalar. Devido a alguns bugs no gestor de ficheiros, a exploração pode não funcionar corretamente a primeira vez que explora os ficheiros.</string>
+    <string name="browser_intall_text">A exploração de ficheiros requer o Gestor de Ficheiros Open Itents, clique em baixo para instalar. Devido a alguns erros no gestor de ficheiros, a exploração pode não funcionar corretamente a primeira vez que explora os ficheiros.</string>
     <string name="building_search_idx">A construír o indíce de pesquisa&#8230;</string>
     <string name="cancel">Cancelar</string>
     <string name="ClearClipboard">Área de transferência limpa.</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
-    <string name="clipboard_error">Alguns dispositivos Samsung Android têm um bug na implementação da área de transferência que causa falhas na cópia através das aplicações. Para mais de detalhes vá a:</string>
+    <string name="clipboard_error">Alguns dispositivos Samsung Android têm um erro na implementação da área de transferência que causa falhas na cópia a partir de aplicações. Para mais de detalhes vá a:</string>
     <string name="clipboard_error_clear">A limpeza da área de transferência falhou</string>
     <string name="clipboard_timeout">Tempo de espera da área de transferência</string>
     <string name="clipboard_timeout_summary">Tempo antes da limpeza da área de transferência depois de copiado o nome de utilizador ou a palavra-passe.</string>
