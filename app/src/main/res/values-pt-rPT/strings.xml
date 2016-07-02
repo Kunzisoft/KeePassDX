@@ -100,7 +100,7 @@
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
     <string name="FileNotFound">Ficheiro não encontrado.</string>
-    <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir de outra aplicação.</string>
+    <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir do seu fornecedor de conteúdo.</string>
     <string name="file_browser">Explorador de ficheiros</string>
     <string name="generate_password">Gerar palavra-passe</string>
     <string name="group">Grupo</string>
