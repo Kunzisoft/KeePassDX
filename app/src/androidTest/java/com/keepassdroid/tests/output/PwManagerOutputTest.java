@@ -40,6 +40,7 @@ import com.keepassdroid.database.save.PwDbHeaderOutputV3;
 import com.keepassdroid.database.save.PwDbV3Output;
 import com.keepassdroid.database.save.PwDbV3OutputDebug;
 import com.keepassdroid.stream.NullOutputStream;
+import com.keepassdroid.tests.TestUtil;
 import com.keepassdroid.tests.database.TestData;
  
 public class PwManagerOutputTest extends AndroidTestCase {
@@ -136,7 +137,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
 	pActual.output();
 	//pActual.close();
 
-	FileOutputStream fos = new FileOutputStream("/sdcard/test1_out.kdb");
+	FileOutputStream fos = new FileOutputStream(TestUtil.getSdPath("test1_out.kdb"));
 	fos.write(bActual.toByteArray());
 	fos.close();
 	assertArrayEquals("Databases do not match.", bExpected.toByteArray(), bActual.toByteArray());

@@ -86,7 +86,7 @@ public class Kdb4 extends AndroidTestCase {
 
         byte[] data = bos.toByteArray();
 
-        FileOutputStream fos = new FileOutputStream("/sdcard/test-out.kdbx", false);
+        FileOutputStream fos = new FileOutputStream(TestUtil.getSdPath("test-out.kdbx"), false);
 
         InputStream bis = new ByteArrayInputStream(data);
         bis = new CopyInputStream(bis, fos);
@@ -102,8 +102,8 @@ public class Kdb4 extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        TestUtil.extractKey(getContext(), "keyfile.key", "/sdcard/key");
-        TestUtil.extractKey(getContext(), "binary.key", "/sdcard/key-binary");
+        TestUtil.extractKey(getContext(), "keyfile.key", TestUtil.getSdPath("key"));
+        TestUtil.extractKey(getContext(), "binary.key", TestUtil.getSdPath("key-binary"));
     }
 
     public void testComposite() throws IOException, InvalidDBException {
@@ -113,7 +113,7 @@ public class Kdb4 extends AndroidTestCase {
         InputStream is = am.open("keyfile.kdbx", AssetManager.ACCESS_STREAMING);
 
         ImporterV4 importer = new ImporterV4();
-        importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key"));
+        importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx, TestUtil.getSdPath("key")));
 
         is.close();
 
@@ -126,7 +126,7 @@ public class Kdb4 extends AndroidTestCase {
         InputStream is = am.open("keyfile-binary.kdbx", AssetManager.ACCESS_STREAMING);
 
         ImporterV4 importer = new ImporterV4();
-        importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,"/sdcard/key-binary"));
+        importer.openDatabase(is, "12345", TestUtil.getKeyFileInputStream(ctx,TestUtil.getSdPath("key-binary")));
 
         is.close();
 
@@ -139,7 +139,7 @@ public class Kdb4 extends AndroidTestCase {
         InputStream is = am.open("key-only.kdbx", AssetManager.ACCESS_STREAMING);
 
         ImporterV4 importer = new ImporterV4();
-        importer.openDatabase(is, "", TestUtil.getKeyFileInputStream(ctx, "/sdcard/key"));
+        importer.openDatabase(is, "", TestUtil.getKeyFileInputStream(ctx, TestUtil.getSdPath("key")));
 
         is.close();
 

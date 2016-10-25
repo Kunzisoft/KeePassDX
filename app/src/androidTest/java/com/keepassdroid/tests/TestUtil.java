@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.tests;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -26,12 +27,14 @@ import java.io.InputStream;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.os.Environment;
 
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.UriUtil;
 
 public class TestUtil {
-	
+	private static final File sdcard = Environment.getExternalStorageDirectory();
+
 	public static void extractKey(Context ctx, String asset, String target) throws Exception {
 		
 		InputStream key = ctx.getAssets().open(asset, AssetManager.ACCESS_STREAMING);
@@ -59,5 +62,10 @@ public class TestUtil {
 		}
 
 		return keyIs;
+	}
+
+	public static String getSdPath(String filename) {
+		File file = new File(sdcard, filename);
+		return file.getAbsolutePath();
 	}
 }
