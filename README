@@ -1,7 +1,0 @@
-Native library build instructions:
-1. Make sure you have the latest MIPS Android NDK installed: 
-   https://developer.android.com/tools/sdk/ndk/index.html
-
-2. From KeePassDroid/app/src/main/jni, call prep_build.sh to download and unpack the crypto sources.
-
-3. The standard gradle files build everything now.
