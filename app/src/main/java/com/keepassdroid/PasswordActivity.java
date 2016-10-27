@@ -19,14 +19,17 @@
  */
 package com.keepassdroid;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -48,6 +51,7 @@ import com.android.keepass.KeePass;
 import com.android.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
+import com.keepassdroid.compat.ClipDataCompat;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.LoadDB;
@@ -357,6 +361,9 @@ public class PasswordActivity extends LockingActivity {
             if ( action != null && action.equals(VIEW_INTENT) ) {
                 Uri incoming = i.getData();
                 mDbUri = incoming;
+
+				mKeyUri = ClipDataCompat.getUriFromIntent(i, KEY_KEYFILE);
+
                 if (incoming == null) {
                     return R.string.error_can_not_handle_uri;
                 }
@@ -374,10 +381,12 @@ public class PasswordActivity extends LockingActivity {
                         return R.string.FileNotFound;
                     }
 
-                    mKeyUri = getKeyFile(mDbUri);
+					if(mKeyUri == null)
+						mKeyUri = getKeyFile(mDbUri);
                 }
                 else if (incoming.getScheme().equals("content")) {
-                    mKeyUri = getKeyFile(mDbUri);
+					if(mKeyUri == null)
+						mKeyUri = getKeyFile(mDbUri);
                 }
                 else {
                     return R.string.error_can_not_handle_uri;
