@@ -16,7 +16,6 @@
     <string name="add_string">Pridėti eilutę</string>
     <string name="algorithm">Algortimas</string>
     <string name="algorithm_colon">Algortimas:</string>
-    <string name="algorithm_key"></string>
     <string name="app_timeout_summary">Laikas, per kurį yra užrakinama duomenų bazė po neveiklumo programėlėje.</string>
     <string name="application">Programėlė</string>
     <string name="application_settings">Programėlės nustatymai</string>
