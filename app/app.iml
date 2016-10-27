@@ -74,13 +74,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/flavor1/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/flavor1/renderscript" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/flavor1/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavor1/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavor1/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavor1/assets" type="java-test-resource" />
@@ -88,6 +81,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavor1/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavor1/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavor1/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFlavor1/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />
