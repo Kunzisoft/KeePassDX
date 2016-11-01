@@ -91,6 +91,10 @@ public class PasswordActivity extends LockingActivity {
     }
 
     public static void Launch(Activity act, String fileName, String keyFile) throws FileNotFoundException {
+        if (EmptyUtils.isNullOrEmpty(fileName)) {
+            throw new FileNotFoundException();
+        }
+
         Uri uri = UriUtil.parseDefaultFile(fileName);
         String scheme = uri.getScheme();
 
