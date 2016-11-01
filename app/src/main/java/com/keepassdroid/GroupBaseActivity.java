@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012 Brian Pellin.
+ * Copyright 2009-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -96,7 +96,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-
+		ActivityCompat.invalidateOptionsMenu(this);
 
 		setContentView(new GroupViewOnlyView(this));
 		setResult(KeePass.EXIT_NORMAL);
@@ -148,7 +148,12 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	}
 
 	private void setSortMenuText(Menu menu) {
-		boolean sortByName = prefs.getBoolean(getString(R.string.sort_key), getResources().getBoolean(R.bool.sort_default));
+		boolean sortByName = false;
+
+		// Will be null if onPrepareOptionsMenu is called before onCreate
+		if (prefs != null) {
+			sortByName = prefs.getBoolean(getString(R.string.sort_key), getResources().getBoolean(R.bool.sort_default));
+		}
 		
 		int resId;
 		if ( sortByName ) {
