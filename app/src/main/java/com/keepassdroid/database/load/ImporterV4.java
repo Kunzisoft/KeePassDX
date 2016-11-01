@@ -723,8 +723,12 @@ public class ImporterV4 extends Importer {
 			return KdbContext.RootDeletedObjects;
 		} else {
 			assert(false);
-			
-			throw new RuntimeException("Invalid end element");
+
+			String contextName = "";
+			if (ctx != null) {
+				contextName = ctx.name();
+			}
+			throw new RuntimeException("Invalid end element: Context " +  contextName + "End element: " + name);
 		}
 	}
 	
