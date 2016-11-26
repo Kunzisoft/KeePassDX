@@ -26,14 +26,15 @@ import android.content.Context;
 import com.android.keepass.R;
 
 public class PasswordGenerator {
-	private static final String upperCaseChars	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final String lowerCaseChars 	= "abcdefghijklmnopqrstuvwxyz";
-	private static final String digitChars 		= "0123456789";
-	private static final String minusChars 		= "-";
-	private static final String underlineChars 	= "_";
-	private static final String spaceChars 		= " ";
-	private static final String specialChars 	= "!\"#$%&'*+,./:;=?@\\^`";
-	private static final String bracketChars 	= "[]{}()<>";
+	private static final String UPPERCASE_CHARS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String LOWERCASE_CHARS 	= "abcdefghijklmnopqrstuvwxyz";
+	private static final String DIGIT_CHARS 	= "0123456789";
+	private static final String MINUS_CHAR	 	= "-";
+	private static final String UNDERLINE_CHAR 	= "_";
+	private static final String SPACE_CHAR 		= " ";
+	private static final String SPECIAL_CHARS 	= "!\"#$%&'*+,./:;=?@\\^`";
+	private static final String BRACKET_CHARS 	= "[]{}()<>";
+
 	
 	private Context cxt;
 	
@@ -42,11 +43,15 @@ public class PasswordGenerator {
 	}
 	
 	public String generatePassword(int length, boolean upperCase, boolean lowerCase, boolean digits, boolean minus, boolean underline, boolean space, boolean specials, boolean brackets) throws IllegalArgumentException{
-		if (length <= 0)
+		// Desired password length is 0 or less
+		if (length <= 0) {
 			throw new IllegalArgumentException(cxt.getString(R.string.error_wrong_length));
+		}
 		
-		if (!upperCase && !lowerCase && !digits && !minus && !underline && !space && !specials && !brackets)
+		// No option has been checked
+		if (!upperCase && !lowerCase && !digits && !minus && !underline && !space && !specials && !brackets) {
 			throw new IllegalArgumentException(cxt.getString(R.string.error_pass_gen_type));
+		}
 		
 		String characterSet = getCharacterSet(upperCase, lowerCase, digits, minus, underline, space, specials, brackets);
 		
@@ -56,43 +61,48 @@ public class PasswordGenerator {
 
 		SecureRandom random = new SecureRandom(); // use more secure variant of Random!
 		if (size > 0) {
-			
 			for (int i = 0; i < length; i++) {
 				char c = characterSet.charAt((char) random.nextInt(size));
-				
 				buffer.append(c);
 			}
 		}
-		
 		return buffer.toString();
 	}
 	
 	public String getCharacterSet(boolean upperCase, boolean lowerCase, boolean digits, boolean minus, boolean underline, boolean space, boolean specials, boolean brackets) {
 		StringBuffer charSet = new StringBuffer();
 		
-		if (upperCase)
-			charSet.append(upperCaseChars);
+		if (upperCase) {
+			charSet.append(UPPERCASE_CHARS);
+		}
 		
-		if (lowerCase)
-			charSet.append(lowerCaseChars);
+		if (lowerCase) {
+			charSet.append(LOWERCASE_CHARS);
+		}
 		
-		if (digits)
-			charSet.append(digitChars);
+		if (digits) {
+			charSet.append(DIGIT_CHARS);
+		}
 		
-		if (minus)
-			charSet.append(minusChars);
+		if (minus) {
+			charSet.append(MINUS_CHAR);
+		}
 		
-		if (underline)
-			charSet.append(underlineChars);
+		if (underline) {
+			charSet.append(UNDERLINE_CHAR);
+		}
 		
-		if (space)
-			charSet.append(spaceChars);
+		if (space) {
+			charSet.append(SPACE_CHAR);
+		}
 		
-		if (specials)
-			charSet.append(specialChars);
+		if (specials) {
+			charSet.append(SPECIAL_CHARS);
+		}
 		
-		if (brackets)
-			charSet.append(bracketChars);
+		if (brackets) {
+			charSet.append(BRACKET_CHARS);
+		}
 		
 		return charSet.toString();
 	}
