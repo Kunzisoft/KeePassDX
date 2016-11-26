@@ -49,7 +49,6 @@ public class SetPasswordDialog extends CancelDialog {
 	
 	public SetPasswordDialog(Context context, FileOnFinish finish) {
 		super(context);
-		
 		mFinish = finish;
 	}
 	
@@ -144,10 +143,7 @@ public class SetPasswordDialog extends CancelDialog {
 			} else {
 				displayMessage(getContext());
 			}
-			
 			super.run();
 		}
-
 	}
-
 }
