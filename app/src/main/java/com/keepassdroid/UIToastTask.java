@@ -39,9 +39,5 @@ public class UIToastTask implements Runnable {
 
 	public void run() {
 		Toast.makeText(mCtx, mText, Toast.LENGTH_LONG).show();
-		
 	}
-	
-	
-
 }
