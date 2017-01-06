@@ -53,7 +53,7 @@ public class GroupViewOnlyView extends RelativeLayout {
 		View divider2 = findViewById(R.id.divider2);
 		divider2.setVisibility(INVISIBLE);
 		
-		View list = findViewById(android.R.id.list);
+		View list = findViewById(R.id.group_list);
 		LayoutParams lp = (RelativeLayout.LayoutParams) list.getLayoutParams();
 		lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);
 		

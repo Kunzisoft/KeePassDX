@@ -59,7 +59,7 @@
   	  android:width="100sp"/>
   	-->
   	<!-- Small hack because I need to include a list since this is a list activity -->
-  	<ListView android:id="@android:id/list"
+  	<ListView android:id="@+id/file_list"
       android:layout_width="0sp"
       android:layout_height="0sp"/>
 </RelativeLayout>
