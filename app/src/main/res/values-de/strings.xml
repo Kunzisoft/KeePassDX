@@ -63,7 +63,7 @@
     <string name="digits">Zahlen</string>
     <string name="disclaimer_formal">KeePassDroid \u00A9 2009&#8211;2013 Brian Pellin. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist kostenlos und wird unter den Bedingungen der GNU GPL Version 2 (oder später) verbreitet und lizenziert.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Dateiname der Datenbank eingeben:</string>
+    <string name="enter_filename">Dateinamen der Datenbank eingeben:</string>
     <string name="entry_accessed">Letzter Zugriff:</string>
     <string name="entry_and_or">Passwort und/oder Schlüsseldatei zum Entschlüsseln Ihrer Datenbank eingeben:</string>
     <string name="entry_cancel">Abbrechen</string>
