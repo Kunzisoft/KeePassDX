@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2013-2016 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -249,7 +249,7 @@ public class PwDbV4Output extends PwDbOutput {
 			mPM.makeFinalKey(header.masterSeed, header.transformSeed, (int)mPM.numKeyEncRounds);
 			cipher = CipherFactory.getInstance(mPM.dataCipher, Cipher.ENCRYPT_MODE, mPM.finalKey, header.encryptionIV);
 		} catch (Exception e) {
-			throw new PwDbOutputException("Invalid algorithm.");
+			throw new PwDbOutputException("Invalid algorithm.", e);
 		}
 		
 		CipherOutputStream cos = new CipherOutputStream(os, cipher);
@@ -286,7 +286,7 @@ public class PwDbV4Output extends PwDbOutput {
 		try {
 			pho.output();
 		} catch (IOException e) {
-			throw new PwDbOutputException("Failed to output the header.");
+			throw new PwDbOutputException("Failed to output the header.", e);
 		}
 		
 		hashOfHeader = pho.getHashOfHeader();
