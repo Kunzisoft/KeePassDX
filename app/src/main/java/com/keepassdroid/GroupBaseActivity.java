@@ -184,7 +184,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		}
 			
 		menu.findItem(R.id.menu_sort).setTitle(resId);
-
 	}
 	
 	@Override
@@ -261,7 +260,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 
 	private void setPassword() {
 		SetPasswordDialog dialog = new SetPasswordDialog(this);
-		
 		dialog.show();
 	}
 	
@@ -295,7 +293,5 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 				finish();
 			}
 		}
-
 	}
-	
 }

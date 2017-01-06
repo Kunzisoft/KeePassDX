@@ -61,11 +61,9 @@ public class ProgressTask implements Runnable {
 		// Show process dialog
 		mPd.show();
 		
-			
 		// Start Thread to Run task
 		Thread t = new Thread(mTask);
 		t.start();
-		
 	}
 	
 	private class AfterTask extends OnFinish {
@@ -77,10 +75,8 @@ public class ProgressTask implements Runnable {
 		@Override
 		public void run() {
 			super.run();
-			
 			// Remove the progress dialog
 			mHandler.post(new CloseProcessDialog());
-			
 		}
 		
 	}

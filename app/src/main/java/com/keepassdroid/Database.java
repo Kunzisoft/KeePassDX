@@ -107,7 +107,6 @@ public class Database {
             throw ContentFileNotFoundException.getInstance(keyfile);
         }
         LoadData(ctx, is, password, kfIs, status, debug);
-
     }
 
     public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
@@ -115,7 +114,6 @@ public class Database {
     }
 
     public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
-
         BufferedInputStream bis = new BufferedInputStream(is);
 
         if ( ! bis.markSupported() ) {
@@ -132,12 +130,9 @@ public class Database {
         pm = imp.openDatabase(bis, password, kfIs, status);
         if ( pm != null ) {
             PwGroup root = pm.rootGroup;
-
             pm.populateGlobals(root);
-
             LoadData(ctx, pm, password, kfIs, status);
         }
-
         loaded = true;
     }
 
@@ -145,19 +140,13 @@ public class Database {
         if ( pm != null ) {
             passwordEncodingError = !pm.validatePasswordEncoding(password);
         }
-
         searchHelper = new SearchDbHelper(ctx);
-
         loaded = true;
     }
 
     public PwGroup Search(String str) {
         if (searchHelper == null) { return null; }
-
-        PwGroup group = searchHelper.search(this, str);
-
-        return group;
-
+        return searchHelper.search(this, str);
     }
 
     public void SaveData(Context ctx) throws IOException, PwDbOutputException {
@@ -203,9 +192,7 @@ public class Database {
             pmo.output();
             os.close();
         }
-
         mUri = uri;
-
     }
 
     public void clear() {
@@ -229,5 +216,4 @@ public class Database {
             dirty.add(pm.rootGroup);
         }
     }
-
 }
