@@ -19,9 +19,9 @@
  */
 package com.keepassdroid.fileselect;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -54,6 +54,7 @@ import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.app.App;
+import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
@@ -358,7 +359,6 @@ public class FileSelectActivity extends Activity {
 		}.execute(position);
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -384,8 +384,9 @@ public class FileSelectActivity extends Activity {
 					if (StorageAF.useStorageFramework(this)) {
 						try {
 							// try to persist read and write permissions
-							getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-							getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+							ContentResolver resolver = getContentResolver();
+							ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+							ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 						} catch (Exception e) {
 							// nop
 						}
