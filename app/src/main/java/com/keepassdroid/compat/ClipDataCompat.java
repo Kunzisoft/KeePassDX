@@ -51,11 +51,10 @@ public class ClipDataCompat {
 
             getClipDataFromIntent = Intent.class.getMethod("getClipData", (Class[])null);
 
+            initSucceded = true;
         } catch (Exception e) {
             initSucceded = false;
         }
-
-        initSucceded = true;
     }
 
     public static Uri getUriFromIntent(Intent i, String key) {
