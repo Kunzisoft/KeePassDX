@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.fileselect;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -212,6 +213,7 @@ public class FileSelectActivity extends Activity {
 					Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
 					i.addCategory(Intent.CATEGORY_OPENABLE);
 					i.setType("*/*");
+					i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 					startActivityForResult(i, OPEN_DOC);
 				}
 				else {
@@ -356,6 +358,7 @@ public class FileSelectActivity extends Activity {
 		}.execute(position);
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -378,6 +381,15 @@ public class FileSelectActivity extends Activity {
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
+					if (StorageAF.useStorageFramework(this)) {
+						try {
+							// try to persist read and write permissions
+							getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+							getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+						} catch (Exception e) {
+							// nop
+						}
+					}
 					if (requestCode == GET_CONTENT) {
 						uri = UriUtil.translate(this, uri);
 					}
