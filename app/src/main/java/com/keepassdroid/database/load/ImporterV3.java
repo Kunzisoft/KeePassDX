@@ -184,7 +184,7 @@ public class ImporterV3 extends Importer {
 			if ( newManager.algorithm == PwEncryptionAlgorithm.Rjindal ) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 			} else if ( newManager.algorithm == PwEncryptionAlgorithm.Twofish ) {
-				cipher = CipherFactory.getInstance("TWOFISH/CBC/PKCS7PADDING");
+				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
 			} else {
 				throw new IOException( "Encryption algorithm is not supported" );
 			}

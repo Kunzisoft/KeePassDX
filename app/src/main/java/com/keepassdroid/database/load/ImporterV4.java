@@ -37,7 +37,7 @@ import java.util.zip.GZIPInputStream;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
-import org.bouncycastle.crypto.StreamCipher;
+import org.spongycastle.crypto.StreamCipher;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;

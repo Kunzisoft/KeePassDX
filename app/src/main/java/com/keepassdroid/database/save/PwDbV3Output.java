@@ -82,7 +82,7 @@ public class PwDbV3Output extends PwDbOutput {
 			if (mPM.algorithm == PwEncryptionAlgorithm.Rjindal) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 			} else if (mPM.algorithm == PwEncryptionAlgorithm.Twofish){
-				cipher = CipherFactory.getInstance("TWOFISH/CBC/PKCS7PADDING");
+				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
 			} else {
 				throw new Exception();
 			}

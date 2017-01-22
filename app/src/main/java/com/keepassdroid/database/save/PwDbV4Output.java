@@ -35,7 +35,7 @@ import java.util.zip.GZIPOutputStream;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 
-import org.bouncycastle.crypto.StreamCipher;
+import org.spongycastle.crypto.StreamCipher;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Xml;

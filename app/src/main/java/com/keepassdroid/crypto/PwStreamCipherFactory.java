@@ -22,10 +22,10 @@ package com.keepassdroid.crypto;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.bouncycastle.crypto.StreamCipher;
-import org.bouncycastle.crypto.engines.Salsa20Engine;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithIV;
+import org.spongycastle.crypto.StreamCipher;
+import org.spongycastle.crypto.engines.Salsa20Engine;
+import org.spongycastle.crypto.params.KeyParameter;
+import org.spongycastle.crypto.params.ParametersWithIV;
 
 import com.keepassdroid.database.CrsAlgorithm;
 

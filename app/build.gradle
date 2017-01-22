@@ -73,4 +73,7 @@ dependencies {
     androidTestCompile files('libs/junit4.jar')
     // Set this dependency if you want to use Hamcrest matching
     //androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+
+    compile 'com.madgag.spongycastle:core:1.54.0.0'
+    compile 'com.madgag.spongycastle:prov:1.54.0.0'
 }

@@ -22,6 +22,7 @@ package com.keepassdroid.crypto;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.util.UUID;
 
 import javax.crypto.Cipher;
@@ -33,9 +34,15 @@ import android.os.Build;
 
 import com.keepassdroid.utils.Types;
 
+import org.spongycastle.jce.provider.BouncyCastleProvider;
+
 public class CipherFactory {
 	private static boolean blacklistInit = false;
 	private static boolean blacklisted;
+
+	static {
+		Security.addProvider(new BouncyCastleProvider());
+	}
 	
 	public static Cipher getInstance(String transformation) throws NoSuchAlgorithmException, NoSuchPaddingException {
 		return getInstance(transformation, false);
@@ -46,14 +53,7 @@ public class CipherFactory {
 		if ( (!deviceBlacklisted()) && (!androidOverride) && hasNativeImplementation(transformation) && NativeLib.loaded() ) {
 			return Cipher.getInstance(transformation, new AESProvider());
 		} else {
-		try {
-				return Cipher.getInstance(transformation, new BouncyCastleProvider());
-			} catch (NoSuchAlgorithmException e) {
-				// Do nothing, fall through
-			} catch (NoSuchPaddingException e) {
-				// Do nothing, fall through
-			}
-			return Cipher.getInstance(transformation);
+            return Cipher.getInstance(transformation);
 		}
 	}
 	
@@ -103,9 +103,9 @@ public class CipherFactory {
 		} else if ( uuid.equals(TWOFISH_CIPHER) ) {
 			Cipher cipher;
 			if (opmode == Cipher.ENCRYPT_MODE) {
-				cipher = CipherFactory.getInstance("TWOFISH/CBC/ZeroBytePadding", androidOverride);
+				cipher = CipherFactory.getInstance("Twofish/CBC/ZeroBytePadding", androidOverride);
 			} else {
-				cipher = CipherFactory.getInstance("TWOFISH/CBC/NoPadding", androidOverride);
+				cipher = CipherFactory.getInstance("Twofish/CBC/NoPadding", androidOverride);
 			}
 
 			cipher.init(opmode, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
