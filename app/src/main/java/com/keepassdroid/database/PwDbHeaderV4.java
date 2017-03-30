@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 Brian Pellin.
+ * Copyright 2010-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,23 +19,32 @@
  */
 package com.keepassdroid.database;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.keepassdroid.database.exception.InvalidAlgorithmException;
+import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
+import com.keepassdroid.stream.CopyInputStream;
+import com.keepassdroid.stream.HmacBlockStream;
 import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.Types;
+
+import javax.crypto.Mac;
 
 public class PwDbHeaderV4 extends PwDbHeader {
 	public static final int DBSIG_PRE2            = 0xB54BFB66;
     public static final int DBSIG_2               = 0xB54BFB67;
     
     private static final int FILE_VERSION_CRITICAL_MASK = 0xFFFF0000;
-    public static final int FILE_VERSION_32 =             0x00030001;
-    
+    public static final int FILE_VERSION_32_3 =           0x00030001;
+	public static final int FILE_VERSION_32_4 =           0x00040001;
+	public static final int FILE_VERSION_32 =             FILE_VERSION_32_4;
+
     public class PwDbHeaderV4Fields {
         public static final byte EndOfHeader = 0;
 		public static final byte Comment = 1;
@@ -50,11 +59,22 @@ public class PwDbHeaderV4 extends PwDbHeader {
         public static final byte InnerRandomStreamID = 10;
 
     }
+
+	public class HeaderAndHash {
+		public byte[] header;
+		public byte[] hash;
+
+		public HeaderAndHash (byte[] header, byte[] hash) {
+			this.header = header;
+			this.hash = hash;
+		}
+	}
     
     private PwDatabaseV4 db;
     public byte[] protectedStreamKey = new byte[32];
     public byte[] streamStartBytes = new byte[32];
     public CrsAlgorithm innerRandomStream;
+	public long version;
 
     public PwDbHeaderV4(PwDatabaseV4 d) {
     	db = d;
@@ -67,7 +87,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	 * @throws IOException 
 	 * @throws InvalidDBVersionException 
 	 */
-	public byte[] loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
+	public HeaderAndHash loadFromFile(InputStream is) throws IOException, InvalidDBVersionException {
 		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance("SHA-256");
@@ -75,7 +95,9 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("No SHA-256 implementation");
 		}
 		
-		DigestInputStream dis = new DigestInputStream(is, md);
+		ByteArrayOutputStream headerBOS = new ByteArrayOutputStream();
+		CopyInputStream cis = new CopyInputStream(is, headerBOS);
+		DigestInputStream dis = new DigestInputStream(cis, md);
 		LEDataInputStream lis = new LEDataInputStream(dis);
 
 		int sig1 = lis.readInt();
@@ -85,7 +107,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new InvalidDBVersionException();
 		}
 		
-		long version = lis.readUInt();
+		version = lis.readUInt();
 		if ( ! validVersion(version) ) {
 			throw new InvalidDBVersionException();
 		}
@@ -94,8 +116,9 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		while ( ! done ) {
 			done = readHeaderField(lis);
 		}
-		
-		return md.digest();
+
+		byte[] hash = md.digest();
+		return new HeaderAndHash(headerBOS.toByteArray(), hash);
 	}
 	
 	private boolean readHeaderField(LEDataInputStream dis) throws IOException {
@@ -221,12 +244,26 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	 */
 	private boolean validVersion(long version) {
 		
-		return ! ((version & FILE_VERSION_CRITICAL_MASK) > (FILE_VERSION_32 & FILE_VERSION_CRITICAL_MASK));
+		return ! ((version & FILE_VERSION_CRITICAL_MASK) > (FILE_VERSION_32_3 & FILE_VERSION_CRITICAL_MASK));
 		
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {
 		return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_2) || (sig2 == DBSIG_2) );
+	}
+
+	public static byte[] computeHeaderHmac(byte[] header, byte[] key) throws IOException{
+		byte[] headerHmac;
+		byte[] blockKey = HmacBlockStream.GetHmacKey64(key, Types.ULONG_MAX_VALUE);
+
+		Mac hmac;
+		try {
+			hmac = Mac.getInstance("HmacSHA256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("No HmacAlogirthm");
+		}
+
+		return hmac.doFinal(header);
 	}
     
 }

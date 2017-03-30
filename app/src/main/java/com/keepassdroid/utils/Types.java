@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2011 Brian Pellin.
+ * Copyright 2009-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -56,7 +56,9 @@ import com.keepassdroid.stream.LEDataOutputStream;
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
 public class Types {
-	
+
+  public static long ULONG_MAX_VALUE = -1;
+
 	/** Read an unsigned byte */
   public static int readUByte( byte[] buf, int offset ) {
     return ((int)buf[offset] & 0xFF);

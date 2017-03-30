@@ -21,6 +21,7 @@ package com.keepassdroid.tests;
 
 import static org.junit.Assert.assertArrayEquals;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.UUID;
@@ -190,5 +191,21 @@ public class TypesTest extends TestCase {
 		byte[] eUUID = Types.UUIDtoBytes(uuid);
 		
 		assertArrayEquals("UUID match failed", bUUID, eUUID);
+	}
+
+	public void testULongMax() throws Exception {
+		byte[] ulongBytes = new byte[8];
+		for (int i = 0; i < ulongBytes.length; i++) {
+			ulongBytes[i] = -1;
+		}
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		LEDataOutputStream leos = new LEDataOutputStream(bos);
+		leos.writeLong(Types.ULONG_MAX_VALUE);
+		leos.close();
+
+		byte[] uLongMax = bos.toByteArray();
+
+		assertArrayEquals(ulongBytes, uLongMax);
 	}
 }

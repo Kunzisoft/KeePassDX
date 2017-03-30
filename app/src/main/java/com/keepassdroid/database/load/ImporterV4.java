@@ -47,6 +47,7 @@ import biz.source_code.base64Coder.Base64Coder;
 import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
+import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.database.BinaryPool;
 import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
@@ -64,6 +65,7 @@ import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.HashedBlockInputStream;
+import com.keepassdroid.stream.HmacBlockInputStream;
 import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MemUtil;
@@ -75,7 +77,8 @@ public class ImporterV4 extends Importer {
 	private PwDatabaseV4 db;
 	private BinaryPool binPool = new BinaryPool();
 
-		private byte[] hashOfHeader = null;
+    private byte[] hashOfHeader = null;
+	private byte[] pbHeader = null;
 	
 	protected PwDatabaseV4 createDB() {
 		return new PwDatabaseV4();
@@ -97,49 +100,82 @@ public class ImporterV4 extends Importer {
 		db = createDB();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
-		
-		hashOfHeader = header.loadFromFile(inStream);
+
+		PwDbHeaderV4.HeaderAndHash hh = header.loadFromFile(inStream);
+
+		hashOfHeader = hh.hash;
+		pbHeader = hh.header;
 			
 		db.setMasterKey(password, keyInputStream);
 		db.makeFinalKey(header.masterSeed, header.transformSeed, (int)db.numKeyEncRounds);
-		
-		// Attach decryptor
-		Cipher cipher;
-		try {
-			cipher = CipherFactory.getInstance(db.dataCipher, Cipher.DECRYPT_MODE, db.finalKey, header.encryptionIV);
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("Invalid algorithm.");
-		} catch (NoSuchPaddingException e) {
-			throw new IOException("Invalid algorithm.");
-		} catch (InvalidKeyException e) {
-			throw new IOException("Invalid algorithm.");
-		} catch (InvalidAlgorithmParameterException e) {
-			throw new IOException("Invalid algorithm.");
-		}
-		
-		InputStream decrypted = new BetterCipherInputStream(inStream, cipher, 50 * 1024);
-		LEDataInputStream dataDecrypted = new LEDataInputStream(decrypted);
-		byte[] storedStartBytes = null;
-		try {
-			storedStartBytes = dataDecrypted.readBytes(32);
-			if ( storedStartBytes == null || storedStartBytes.length != 32 ) {
+
+		InputStream isPlain;
+		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+
+			// Attach decryptor
+			CipherEngine engine;
+			Cipher cipher;
+			try {
+				engine = CipherFactory.getInstance(db.dataCipher);
+				db.dataEngine = engine;
+				cipher = engine.getCipher(Cipher.DECRYPT_MODE, db.finalKey, header.encryptionIV);
+			} catch (NoSuchAlgorithmException e) {
+				throw new IOException("Invalid algorithm.");
+			} catch (NoSuchPaddingException e) {
+				throw new IOException("Invalid algorithm.");
+			} catch (InvalidKeyException e) {
+				throw new IOException("Invalid algorithm.");
+			} catch (InvalidAlgorithmParameterException e) {
+				throw new IOException("Invalid algorithm.");
+			}
+
+			InputStream decrypted = new BetterCipherInputStream(inStream, cipher, 50 * 1024);
+			LEDataInputStream dataDecrypted = new LEDataInputStream(decrypted);
+			byte[] storedStartBytes = null;
+			try {
+				storedStartBytes = dataDecrypted.readBytes(32);
+				if (storedStartBytes == null || storedStartBytes.length != 32) {
+					throw new InvalidPasswordException();
+				}
+			} catch (IOException e) {
 				throw new InvalidPasswordException();
 			}
-		} catch (IOException e) {
-			throw new InvalidPasswordException();
+
+			if (!Arrays.equals(storedStartBytes, header.streamStartBytes)) {
+				throw new InvalidPasswordException();
+			}
+
+			isPlain = new HashedBlockInputStream(dataDecrypted);
 		}
-		
-		if ( ! Arrays.equals(storedStartBytes, header.streamStartBytes) ) {
-			throw new InvalidPasswordException();
+		else { // KDBX 4
+			LEDataInputStream isData = new LEDataInputStream(inStream);
+			byte[] storedHash = isData.readBytes(32);
+			if (!Arrays.equals(storedHash,hashOfHeader)) {
+				throw new InvalidDBException();
+			}
+
+			byte[] hmacKey = db.hmacKey;
+			byte[] headerHmac = PwDbHeaderV4.computeHeaderHmac(pbHeader, hmacKey);
+			byte[] storedHmac = isData.readBytes(32);
+			if (storedHmac == null || storedHmac.length != 32) {
+				throw new InvalidDBException();
+			}
+			// Mac doesn't match
+			if (! Arrays.equals(headerHmac, storedHmac)) {
+				throw new InvalidDBException();
+			}
+
+			HmacBlockInputStream hmIs = new HmacBlockInputStream(isData, true, hmacKey);
+
+			isPlain = null;
+
 		}
 
-		HashedBlockInputStream hashed = new HashedBlockInputStream(dataDecrypted); 
-		
-		InputStream decompressed;
+		InputStream isXml;
 		if ( db.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {
-			decompressed = new GZIPInputStream(hashed); 
+			isXml = new GZIPInputStream(isPlain);
 		} else {
-			decompressed = hashed;
+			isXml = isPlain;
 		}
 		
 		if ( header.protectedStreamKey == null ) {
@@ -153,7 +189,7 @@ public class ImporterV4 extends Importer {
 			throw new ArcFourException();
 		}
 		
-		ReadXmlStreamed(decompressed);
+		ReadXmlStreamed(isXml);
 
 		return db;
 		

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2016 Brian Pellin.
+ * Copyright 2010-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -26,6 +26,7 @@ import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
 import com.keepassdroid.crypto.CipherFactory;
+import com.keepassdroid.crypto.engine.AesEngine;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.load.ImporterV4;
 
@@ -42,7 +43,7 @@ public class Kdb4Header extends AndroidTestCase {
 		
 		assertEquals(6000, db.numKeyEncRounds);
 		
-		assertTrue(db.dataCipher.equals(CipherFactory.AES_CIPHER));
+		assertTrue(db.dataCipher.equals(AesEngine.CIPHER_UUID));
 		
 		is.close();
 

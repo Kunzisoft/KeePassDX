@@ -43,6 +43,7 @@ import biz.source_code.base64Coder.Base64Coder;
 
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
+import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.database.BinaryPool;
 import com.keepassdroid.database.CrsAlgorithm;
 import com.keepassdroid.database.EntryHandler;
@@ -245,9 +246,12 @@ public class PwDbV4Output extends PwDbOutput {
 	
 	private CipherOutputStream attachStreamEncryptor(PwDbHeaderV4 header, OutputStream os) throws PwDbOutputException {
 		Cipher cipher;
+		CipherEngine engine;
 		try {
 			mPM.makeFinalKey(header.masterSeed, header.transformSeed, (int)mPM.numKeyEncRounds);
-			cipher = CipherFactory.getInstance(mPM.dataCipher, Cipher.ENCRYPT_MODE, mPM.finalKey, header.encryptionIV);
+
+			engine = CipherFactory.getInstance(mPM.dataCipher);
+			cipher = engine.getCipher(Cipher.ENCRYPT_MODE, mPM.finalKey, header.encryptionIV);
 		} catch (Exception e) {
 			throw new PwDbOutputException("Invalid algorithm.", e);
 		}

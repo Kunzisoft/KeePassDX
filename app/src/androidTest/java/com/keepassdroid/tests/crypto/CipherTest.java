@@ -1,5 +1,5 @@
 /*
-* Copyright 2013 Brian Pellin.
+* Copyright 2013-2017 Brian Pellin.
 *
 * This file is part of KeePassDroid.
 *
@@ -38,6 +38,8 @@ import javax.crypto.NoSuchPaddingException;
 import junit.framework.TestCase;
 
 import com.keepassdroid.crypto.CipherFactory;
+import com.keepassdroid.crypto.engine.AesEngine;
+import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.stream.BetterCipherInputStream;
 import com.keepassdroid.stream.LEDataInputStream;
 
@@ -54,9 +56,10 @@ public class CipherTest extends TestCase {
 		rand.nextBytes(iv);
 		rand.nextBytes(plaintext);
 		
-		Cipher encrypt = CipherFactory.getInstance(CipherFactory.AES_CIPHER, Cipher.ENCRYPT_MODE, key, iv);
-		Cipher decrypt = CipherFactory.getInstance(CipherFactory.AES_CIPHER, Cipher.DECRYPT_MODE, key, iv);
-		
+		CipherEngine aes = CipherFactory.getInstance(AesEngine.CIPHER_UUID);
+		Cipher encrypt = aes.getCipher(Cipher.ENCRYPT_MODE, key, iv);
+		Cipher decrypt = aes.getCipher(Cipher.DECRYPT_MODE, key, iv);
+
 		byte[] secrettext = encrypt.doFinal(plaintext);
 		byte[] decrypttext = decrypt.doFinal(secrettext);
 		
@@ -74,10 +77,11 @@ public class CipherTest extends TestCase {
 		rand.nextBytes(key);
 		rand.nextBytes(iv);
 		rand.nextBytes(plaintext);
-		
-		Cipher encrypt = CipherFactory.getInstance(CipherFactory.AES_CIPHER, Cipher.ENCRYPT_MODE, key, iv);
-		Cipher decrypt = CipherFactory.getInstance(CipherFactory.AES_CIPHER, Cipher.DECRYPT_MODE, key, iv);
-		
+
+		CipherEngine aes = CipherFactory.getInstance(AesEngine.CIPHER_UUID);
+		Cipher encrypt = aes.getCipher(Cipher.ENCRYPT_MODE, key, iv);
+		Cipher decrypt = aes.getCipher(Cipher.DECRYPT_MODE, key, iv);
+
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		CipherOutputStream cos = new CipherOutputStream(bos, encrypt);
 		cos.write(plaintext);

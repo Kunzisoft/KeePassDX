@@ -25,20 +25,19 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
-public abstract class CipherEngine {
-    public int keyLength() {
-        return 32;
-    }
-
+public class ChaCha20Engine extends CipherEngine {
+    @Override
     public int ivLength() {
-        return 16;
+        return 12;
     }
 
-    public abstract Cipher getCipher(int opmode, byte[] key, byte[] IV, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException;
-
-    public Cipher getCipher(int opmode, byte[] key, byte[] IV) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
-        return getCipher(opmode, key, IV, false);
+    @Override
+    public Cipher getCipher(int opmode, byte[] key, byte[] IV, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+        Cipher cipher = Cipher.getInstance("Chacha");
+        cipher.init(opmode, new SecretKeySpec(key, "ChaCha"), new IvParameterSpec(IV));
+        return cipher;
     }
-
 }

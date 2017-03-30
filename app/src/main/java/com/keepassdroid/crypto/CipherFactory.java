@@ -32,6 +32,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.os.Build;
 
+import com.keepassdroid.crypto.engine.AesEngine;
+import com.keepassdroid.crypto.engine.CipherEngine;
+import com.keepassdroid.crypto.engine.TwofishEngine;
 import com.keepassdroid.utils.Types;
 
 import org.spongycastle.jce.provider.BouncyCastleProvider;
@@ -70,17 +73,8 @@ public class CipherFactory {
 	private static boolean hasNativeImplementation(String transformation) {
 		return transformation.equals("AES/CBC/PKCS5Padding");
 	}
-	
-	
-	public static final UUID AES_CIPHER = Types.bytestoUUID(
-			new byte[]{(byte)0x31, (byte)0xC1, (byte)0xF2, (byte)0xE6, (byte)0xBF, (byte)0x71, (byte)0x43, (byte)0x50,
-					   (byte)0xBE, (byte)0x58, (byte)0x05, (byte)0x21, (byte)0x6A, (byte)0xFC, 0x5A, (byte)0xFF 
-	});
-	public static final UUID TWOFISH_CIPHER = Types.bytestoUUID(
-			new byte[]{(byte)0xAD, (byte)0x68, (byte)0xF2, (byte)0x9F, (byte)0x57, (byte)0x6F, (byte)0x4B, (byte)0xB9,
-					   (byte)0xA3, (byte)0x6A, (byte)0xD4, (byte)0x7A, (byte)0xF9, (byte)0x65, (byte)0x34, (byte)0x6C
-	});
-	
+
+
 	/** Generate appropriate cipher based on KeePass 2.x UUID's
 	 * @param uuid
 	 * @return
@@ -89,28 +83,11 @@ public class CipherFactory {
 	 * @throws InvalidAlgorithmParameterException 
 	 * @throws InvalidKeyException 
 	 */
-	public static Cipher getInstance(UUID uuid, int opmode, byte[] key, byte[] IV) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
-		return getInstance(uuid, opmode, key, IV, false);
-	}
-	
-	public static Cipher getInstance(UUID uuid, int opmode, byte[] key, byte[] IV, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
-		if ( uuid.equals(AES_CIPHER) ) {
-			Cipher cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding", androidOverride); 
-			
-			cipher.init(opmode, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
-			
-			return cipher;
-		} else if ( uuid.equals(TWOFISH_CIPHER) ) {
-			Cipher cipher;
-			if (opmode == Cipher.ENCRYPT_MODE) {
-				cipher = CipherFactory.getInstance("Twofish/CBC/ZeroBytePadding", androidOverride);
-			} else {
-				cipher = CipherFactory.getInstance("Twofish/CBC/NoPadding", androidOverride);
-			}
-
-			cipher.init(opmode, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
-
-			return cipher;
+	public static CipherEngine getInstance(UUID uuid) throws NoSuchAlgorithmException {
+		if ( uuid.equals(AesEngine.CIPHER_UUID) ) {
+			return new AesEngine();
+		} else if ( uuid.equals(TwofishEngine.CIPHER_UUID) ) {
+			return new TwofishEngine();
 		}
 		
 		throw new NoSuchAlgorithmException("UUID unrecognized.");

@@ -92,11 +92,12 @@ public abstract class PwDatabase {
         finalKey = md.digest();
     }
 
+
     /**
      * Encrypt the master key a few times to make brute-force key-search harder
      * @throws IOException
      */
-    private static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
+    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
     {
         FinalKey key = FinalKeyFactory.createFinalKey();
 
