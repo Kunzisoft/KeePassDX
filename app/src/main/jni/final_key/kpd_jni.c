@@ -25,7 +25,7 @@
 
 /* Tune as desired */
 #undef KPD_PROFILE
-#define KPD_DEBUG
+//#define KPD_DEBUG
 
 #if defined(KPD_PROFILE)
 #include <time.h>
