@@ -22,5 +22,5 @@ package com.keepassdroid.crypto.finalkey;
 import java.io.IOException;
 
 public abstract class FinalKey {
-	public abstract byte[] transformMasterKey(byte[] seed, byte[] key, int rounds) throws IOException;
+	public abstract byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException;
 }

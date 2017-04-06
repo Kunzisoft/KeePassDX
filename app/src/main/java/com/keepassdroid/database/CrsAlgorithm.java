@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Brian Pellin.
+ * Copyright 2010-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -23,9 +23,10 @@ public enum CrsAlgorithm {
 	
 	Null(0),
 	ArcFourVariant(1),
-	Salsa20(2);
-	
-	public static final int count = 3;
+	Salsa20(2),
+	ChaCha20(3);
+
+	public static final int count = 4;
 	public final int id;
 	
 	private CrsAlgorithm(int num) {

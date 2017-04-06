@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -20,7 +20,9 @@
 package com.keepassdroid.database;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class PwGroupV4 extends PwGroup implements ITimeLogger {
@@ -44,6 +46,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	private Date expireDate = PwDatabaseV4.DEFAULT_NOW;
 	private boolean expires = false;
 	private long usageCount = 0;
+	public Map<String, String> customData = new HashMap<String, String>();
 
 	public PwGroupV4() {
 		

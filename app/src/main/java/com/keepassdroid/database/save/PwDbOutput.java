@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Brian Pellin.
+ * Copyright 2010-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -56,8 +56,7 @@ public abstract class PwDbOutput {
 		}
 		random.nextBytes(header.encryptionIV);
 		random.nextBytes(header.masterSeed);
-		random.nextBytes(header.transformSeed);
-		
+
 		return random;
 	}
 	

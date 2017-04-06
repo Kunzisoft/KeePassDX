@@ -31,14 +31,14 @@ public class NativeFinalKey extends FinalKey {
 	}
 
 	@Override
-	public byte[] transformMasterKey(byte[] seed, byte[] key, int rounds) throws IOException {
+	public byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException {
 		NativeLib.init();
 		
 		return nTransformMasterKey(seed, key, rounds);
 
 	}
 	
-	private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, int rounds);
+	private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
 
 	// For testing
 	/*

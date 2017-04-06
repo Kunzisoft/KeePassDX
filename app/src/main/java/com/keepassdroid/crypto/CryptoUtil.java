@@ -82,6 +82,10 @@ public class CryptoUtil {
         return hashGen("SHA-256", data, offset, count);
     }
 
+    public static byte[] hashSha512(byte[] data) {
+        return hashSha512(data, 0, data.length);
+    }
+
     public static byte[] hashSha512(byte[] data, int offset, int count) {
         return hashGen("SHA-512", data, offset, count);
     }

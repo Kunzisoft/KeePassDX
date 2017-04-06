@@ -41,6 +41,7 @@ public class PwDatabaseV4XML {
 
     public static final String ElemGenerator = "Generator";
     public static final String ElemHeaderHash = "HeaderHash";
+    public static final String ElemSettingsChanged = "SettingsChanged";
     public static final String ElemDbName = "DatabaseName";
     public static final String ElemDbNameChanged = "DatabaseNameChanged";
     public static final String ElemDbDesc = "DatabaseDescription";
@@ -52,6 +53,7 @@ public class PwDatabaseV4XML {
     public static final String ElemDbKeyChanged = "MasterKeyChanged";
     public static final String ElemDbKeyChangeRec = "MasterKeyChangeRec";
     public static final String ElemDbKeyChangeForce = "MasterKeyChangeForce";
+    public static final String ElemDbKeyChangeForceOnce = "MasterKeyChangeForceOnce";
     public static final String ElemRecycleBinEnabled = "RecycleBinEnabled";
     public static final String ElemRecycleBinUuid = "RecycleBinUUID";
     public static final String ElemRecycleBinChanged = "RecycleBinChanged";

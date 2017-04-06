@@ -23,11 +23,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DigestInputStream;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.keepassdroid.database.exception.InvalidAlgorithmException;
-import com.keepassdroid.database.exception.InvalidDBException;
+import com.keepassdroid.crypto.keyDerivation.AesKdf;
+import com.keepassdroid.crypto.keyDerivation.KdfParameters;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.stream.CopyInputStream;
 import com.keepassdroid.stream.HmacBlockStream;
@@ -35,6 +36,7 @@ import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.Types;
 
 import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 public class PwDbHeaderV4 extends PwDbHeader {
 	public static final int DBSIG_PRE2            = 0xB54BFB66;
@@ -42,7 +44,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
     
     private static final int FILE_VERSION_CRITICAL_MASK = 0xFFFF0000;
     public static final int FILE_VERSION_32_3 =           0x00030001;
-	public static final int FILE_VERSION_32_4 =           0x00040001;
+	public static final int FILE_VERSION_32_4 =           0x00040000;
 	public static final int FILE_VERSION_32 =             FILE_VERSION_32_4;
 
     public class PwDbHeaderV4Fields {
@@ -54,11 +56,25 @@ public class PwDbHeaderV4 extends PwDbHeader {
         public static final byte TransformSeed = 5;
         public static final byte TransformRounds = 6;
         public static final byte EncryptionIV = 7;
-        public static final byte ProtectedStreamKey = 8;
+        public static final byte InnerRandomstreamKey = 8;
         public static final byte StreamStartBytes = 9;
         public static final byte InnerRandomStreamID = 10;
+		public static final byte KdfParameters = 11;
+		public static final byte PublicCustomData = 12;
 
     }
+
+	public class PwDbInnerHeaderV4Fields {
+		public static final byte EndOfHeader = 0;
+		public static final byte InnerRandomStreamID = 1;
+		public static final byte InnerRandomstreamKey = 2;
+		public static final byte Binary = 3;
+	}
+
+	public class KdbxBinaryFlags {
+		public static final byte None = 0;
+		public static final byte Protected = 1;
+	}
 
 	public class HeaderAndHash {
 		public byte[] header;
@@ -124,7 +140,12 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	private boolean readHeaderField(LEDataInputStream dis) throws IOException {
 		byte fieldID = (byte) dis.read();
 		
-		int fieldSize = dis.readUShort();
+		int fieldSize;
+		if (version < FILE_VERSION_32_4) {
+			fieldSize = dis.readUShort();
+		} else {
+			fieldSize = dis.readInt();
+		}
 		
 		byte[] fieldData = null;
 		if ( fieldSize > 0 ) {
@@ -153,18 +174,30 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.TransformSeed:
-				transformSeed = fieldData;
+				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
+				AesKdf kdfS = new AesKdf();
+				if (!db.kdfParameters.kdfUUID.equals(kdfS.uuid)) {
+					db.kdfParameters = kdfS.getDefaultParameters();
+				}
+
+				db.kdfParameters.setByteArray(AesKdf.ParamSeed, fieldData);
 				break;
 				
 			case PwDbHeaderV4Fields.TransformRounds:
-				setTransformRounds(fieldData);
+				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
+				AesKdf kdfR = new AesKdf();
+				if (!db.kdfParameters.kdfUUID.equals(kdfR.uuid)) {
+					db.kdfParameters = kdfR.getDefaultParameters();
+				}
+				db.kdfParameters.setUInt64(AesKdf.ParamRounds, LEDataInputStream.readLong(fieldData, 0));
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:
 				encryptionIV = fieldData;
 				break;
 				
-			case PwDbHeaderV4Fields.ProtectedStreamKey:
+			case PwDbHeaderV4Fields.InnerRandomstreamKey:
+			    assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
 				protectedStreamKey = fieldData;
 				break;
 				
@@ -173,11 +206,18 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 			
 			case PwDbHeaderV4Fields.InnerRandomStreamID:
+				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
 				setRandomStreamID(fieldData);
 				break;
-				
+
+			case PwDbHeaderV4Fields.KdfParameters:
+				db.kdfParameters = KdfParameters.deserialize(fieldData);
+				break;
+
+			case PwDbHeaderV4Fields.PublicCustomData:
+				db.publicCustomData =  KdfParameters.deserialize(fieldData);
 			default:
-				throw new IOException("Invalid header type.");
+				throw new IOException("Invalid header type: " + fieldID);
 			
 		}
 		
@@ -222,7 +262,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		
 	}
 	
-	private void setRandomStreamID(byte[] streamID) throws IOException {
+	public void setRandomStreamID(byte[] streamID) throws IOException {
 		if ( streamID == null || streamID.length != 4 ) {
 			throw new IOException("Invalid stream id.");
 		}
@@ -244,7 +284,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	 */
 	private boolean validVersion(long version) {
 		
-		return ! ((version & FILE_VERSION_CRITICAL_MASK) > (FILE_VERSION_32_3 & FILE_VERSION_CRITICAL_MASK));
+		return ! ((version & FILE_VERSION_CRITICAL_MASK) > (FILE_VERSION_32 & FILE_VERSION_CRITICAL_MASK));
 		
 	}
 
@@ -259,11 +299,24 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		Mac hmac;
 		try {
 			hmac = Mac.getInstance("HmacSHA256");
+			SecretKeySpec signingKey = new SecretKeySpec(blockKey, "HmacSHA256");
+			hmac.init(signingKey);
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException("No HmacAlogirthm");
+		} catch (InvalidKeyException e) {
+			throw new IOException("Invalid Hmac Key");
 		}
 
 		return hmac.doFinal(header);
 	}
-    
+
+	public void setMinimumVersion() {
+
+	}
+
+	public byte[] getTransformSeed() {
+		assert(version < FILE_VERSION_32_4);
+
+		return db.kdfParameters.getByteArray(AesKdf.ParamSeed);
+	}
 }

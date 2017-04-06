@@ -65,7 +65,8 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	/** Size of byte buffer needed to hold this struct. */
 	public static final int BUF_SIZE        = 124;
 
-
+	/** Used for the dwKeyEncRounds AES transformations */
+	public byte transformSeed[] = new byte[32];
 
 	public int              signature1;                  // = PWM_DBSIG_1
 	public int              signature2;                  // = DBSIG_2

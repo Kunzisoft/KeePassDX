@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2014 Brian Pellin.
+ * Copyright 2010-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
@@ -59,6 +60,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public String url = "";
 	public String additional = "";
 	public String tags = "";
+	public Map<String, String> customData = new HashMap<String, String>();
 
 	public class AutoType implements Cloneable {
 		private static final long OBF_OPT_NONE = 0;

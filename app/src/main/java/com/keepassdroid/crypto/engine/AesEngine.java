@@ -36,7 +36,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class AesEngine extends CipherEngine {
     public static final UUID CIPHER_UUID = Types.bytestoUUID(
             new byte[]{(byte) 0x31, (byte) 0xC1, (byte) 0xF2, (byte) 0xE6, (byte) 0xBF, (byte) 0x71, (byte) 0x43, (byte) 0x50,
-            (byte) 0xBE, (byte) 0x58, (byte) 0x05, (byte) 0x21, (byte) 0x6A, (byte) 0xFC, 0x5A, (byte) 0xFF
+            (byte) 0xBE, (byte) 0x58, (byte) 0x05, (byte) 0x21, (byte) 0x6A, (byte) 0xFC, (byte)0x5A, (byte) 0xFF
     });
 
     @Override

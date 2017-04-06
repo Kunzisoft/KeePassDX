@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Brian Pellin.
+ * Copyright 2013-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -27,7 +27,7 @@ import java.util.Set;
 import com.keepassdroid.database.security.ProtectedBinary;
 
 public class BinaryPool {
-	private HashMap<String, ProtectedBinary> pool = new HashMap<String, ProtectedBinary>();
+	private HashMap<Integer, ProtectedBinary> pool = new HashMap<Integer, ProtectedBinary>();
 	
 	public BinaryPool() {
 		
@@ -37,15 +37,16 @@ public class BinaryPool {
 		build(rootGroup);
 	}
 
-	public ProtectedBinary get(String key) {
+	public ProtectedBinary get(int key) {
 		return pool.get(key);
 	}
 	
-	public ProtectedBinary put(String key, ProtectedBinary value) {
+	public ProtectedBinary put(int key, ProtectedBinary value) {
 		return pool.put(key, value);
 	}
-	
-	public Set<Entry<String, ProtectedBinary>> entrySet() {
+
+
+	public Set<Entry<Integer, ProtectedBinary>> entrySet() {
 		return pool.entrySet();
 	}
 	
@@ -74,17 +75,17 @@ public class BinaryPool {
 	private void poolAdd(ProtectedBinary pb) {
 		assert(pb != null);
 		
-		if (poolFind(pb) != null) return;
+		if (poolFind(pb) != -1) return;
 		
-		pool.put(String.valueOf(pool.size()), pb);
+		pool.put(pool.size(), pb);
 	}
 	
-	public String poolFind(ProtectedBinary pb) {
-		for (Entry<String, ProtectedBinary> pair : pool.entrySet()) {
+	public int poolFind(ProtectedBinary pb) {
+		for (Entry<Integer, ProtectedBinary> pair : pool.entrySet()) {
 			if (pair.getValue().equals(pb)) return pair.getKey();
 		}
 		
-		return null;
+		return -1;
 	}
 	
 	private void build(PwGroupV4 rootGroup) {

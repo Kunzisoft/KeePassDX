@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2011 Brian Pellin.
+ * Copyright 2010-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,8 +19,11 @@
  */
 package com.keepassdroid.stream;
 
+import com.keepassdroid.utils.Types;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 
 /** Little endian version of the DataInputStream
@@ -179,6 +182,12 @@ public class LEDataInputStream extends InputStream {
 	  public static int readInt( byte buf[], int offset ) {
 	    return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8) + ((buf[offset + 2] & 0xFF) << 16)
 	           + ((buf[offset + 3] & 0xFF) << 24);
+	  }
+
+	  public UUID readUUID() throws IOException {
+		  byte[] buf = readBytes(16);
+
+		  return Types.bytestoUUID(buf);
 	  }
 
 }

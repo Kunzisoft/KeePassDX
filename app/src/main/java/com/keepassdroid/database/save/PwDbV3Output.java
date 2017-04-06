@@ -1,5 +1,5 @@
 /*
-` * Copyright 2009-2014 Brian Pellin.
+` * Copyright 2009-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -62,7 +62,8 @@ public class PwDbV3Output extends PwDbOutput {
 
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
-			mPM.makeFinalKey(header.masterSeed, header.transformSeed, mPM.numKeyEncRounds);
+			PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
+			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.numKeyEncRounds);
 			return mPM.finalKey;
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
@@ -110,6 +111,16 @@ public class PwDbV3Output extends PwDbOutput {
 	private void prepForOutput() {
 		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the group hierarchy
 		sortGroupsForOutput();
+	}
+
+	@Override
+	protected SecureRandom setIVs(PwDbHeader header) throws PwDbOutputException {
+		SecureRandom random = super.setIVs(header);
+
+		PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
+		random.nextBytes(h3.transformSeed);
+
+		return random;
 	}
 
 	public PwDbHeaderV3 outputHeader(OutputStream os) throws PwDbOutputException {

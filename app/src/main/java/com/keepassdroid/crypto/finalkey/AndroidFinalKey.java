@@ -32,7 +32,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class AndroidFinalKey extends FinalKey {
 
 	@Override
-	public byte[] transformMasterKey(byte[] pKeySeed, byte[] pKey, int rounds) throws IOException {
+	public byte[] transformMasterKey(byte[] pKeySeed, byte[] pKey, long rounds) throws IOException {
 		Cipher cipher;
 		try {
 			cipher = Cipher.getInstance("AES/ECB/NoPadding");

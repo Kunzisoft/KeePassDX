@@ -375,7 +375,8 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCache
 #define MASTER_KEY_SIZE 32
 
 typedef struct _master_key {
-  uint32_t rounds, done[2];
+  uint64_t rounds;
+  uint32_t done[2];
   pthread_mutex_t lock1, lock2; // these lock the two halves of the key material
   uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
   uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
@@ -437,7 +438,7 @@ void *generate_key_material(void *arg) {
   return (void *)flip;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jint rounds) {
+JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jlong rounds) {
   master_key mk;
   uint32_t flip;
   pthread_t t1, t2;
@@ -459,7 +460,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKe
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: illegal number of encryption rounds");
     return NULL;
   }
-  mk.rounds = (uint32_t)rounds;
+  mk.rounds = (uint64_t)rounds;
   mk.done[0] = mk.done[1] = 0;
   if( pthread_mutex_init(&mk.lock1, NULL) != 0 ) {
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to initialize the mutex for thread 1"); // FIXME: get a better exception class for this...

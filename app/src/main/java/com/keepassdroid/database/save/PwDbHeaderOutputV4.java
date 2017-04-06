@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2013 Brian Pellin.
+ * Copyright 2012-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -59,15 +59,16 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 	public void output() throws IOException {
 		los.writeUInt(PwDbHeader.PWM_DBSIG_1);
 		los.writeUInt(PwDbHeaderV4.DBSIG_2);
-		los.writeUInt(PwDbHeaderV4.FILE_VERSION_32_3);
-		
+        los.writeUInt(header.version);
+
+
 		writeHeaderField(PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.dataCipher));
 		writeHeaderField(PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.compressionAlgorithm.id));
 		writeHeaderField(PwDbHeaderV4Fields.MasterSeed, header.masterSeed);
-		writeHeaderField(PwDbHeaderV4Fields.TransformSeed, header.transformSeed);
+		writeHeaderField(PwDbHeaderV4Fields.TransformSeed, header.getTransformSeed());
 		writeHeaderField(PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.numKeyEncRounds));
 		writeHeaderField(PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV);
-		writeHeaderField(PwDbHeaderV4Fields.ProtectedStreamKey, header.protectedStreamKey);
+		writeHeaderField(PwDbHeaderV4Fields.InnerRandomstreamKey, header.protectedStreamKey);
 		writeHeaderField(PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes);
 		writeHeaderField(PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream.id));
 		writeHeaderField(PwDbHeaderV4Fields.EndOfHeader, EndHeaderValue);

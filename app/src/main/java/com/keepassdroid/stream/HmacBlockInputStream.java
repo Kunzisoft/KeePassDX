@@ -23,10 +23,12 @@ import com.keepassdroid.utils.Types;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 public class HmacBlockInputStream extends InputStream {
     private LEDataInputStream baseStream;
@@ -43,7 +45,7 @@ public class HmacBlockInputStream extends InputStream {
         this.baseStream = new LEDataInputStream(baseStream);
         this.verify = verify;
         this.key = key;
-        buffer = null;
+        buffer = new byte[0];
     }
 
     @Override
@@ -66,7 +68,12 @@ public class HmacBlockInputStream extends InputStream {
         while (remaining > 0) {
             if (bufferPos == buffer.length) {
                 if (!readSafeBlock()) {
-                    return byteCount - remaining;
+                    int read = byteCount - remaining;
+                    if (read <= 0) {
+                        return -1;
+                    } else {
+                        return byteCount - remaining;
+                    }
                 }
             }
 
@@ -108,11 +115,15 @@ public class HmacBlockInputStream extends InputStream {
 
         if (verify) {
             byte[] cmpHmac;
-            byte[] pbBlockKey = HmacBlockStream.GetHmacKey64(key, blockIndex);
+            byte[] blockKey = HmacBlockStream.GetHmacKey64(key, blockIndex);
             Mac hmac;
             try {
                 hmac = Mac.getInstance("HmacSHA256");
+                SecretKeySpec signingKey = new SecretKeySpec(blockKey, "HmacSHA256");
+                hmac.init(signingKey);
             } catch (NoSuchAlgorithmException e) {
+                throw new IOException("Invalid Hmac");
+            } catch (InvalidKeyException e) {
                 throw new IOException("Invalid Hmac");
             }
 
@@ -124,7 +135,7 @@ public class HmacBlockInputStream extends InputStream {
             }
 
             cmpHmac = hmac.doFinal();
-            Arrays.fill(pbBlockKey, (byte)0);
+            Arrays.fill(blockKey, (byte)0);
 
             if (!Arrays.equals(cmpHmac, storedHmac)) {
                 throw new IOException("Invalid Hmac");
