@@ -185,6 +185,10 @@
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
+    <string name="use_saf_summary">Storage Access Framework для обзора файлов (KK+)</string>
+    <string name="use_saf_title">Обзор через SAF</string>
+    <string name="warning">Внимание</string>
+    <string name="warning_password_encoding">Формат .kdb поддерживает только кодировку Latin1. Пароль может содержать символы вне этой кодировки. Все не-Latin1 символы будут преобразованы в одинаковый символ, что снизит надёжность пароля. Рекомендуется изменить пароль.</string>
     <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна</string>
     <string name="version_label">Версия:</string>
