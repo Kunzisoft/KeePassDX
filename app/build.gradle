@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion = 22
+    compileSdkVersion = 23
     buildToolsVersion = "25.0.0"
 
     defaultConfig {
         applicationId = "com.android.keepass"
         minSdkVersion = 3
-        targetSdkVersion = 12
+        targetSdkVersion 23
         versionCode = 154
         versionName = "2.0.6.4"
 
