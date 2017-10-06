@@ -96,6 +96,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private View fingerprintView;
     private TextView confirmationView;
     private EditText passwordView;
+    private Button confirmButton;
 
     public static void Launch(
             Activity act,
@@ -191,6 +192,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
         setContentView(R.layout.password);
+        confirmButton = (Button) findViewById(R.id.pass_ok);
 
         new InitTask().execute(i);
 
@@ -415,7 +417,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
             // on decrypt enter it for the purchase/login action
             passwordView.setText(value);
-            // TODO also open DB right away
+            confirmButton.performClick();
         }
     }
 
@@ -635,7 +637,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
             populateView();
 
-            Button confirmButton = (Button) findViewById(R.id.pass_ok);
             confirmButton.setOnClickListener(new OkClickHandler());
 
             CheckBox checkBox = (CheckBox) findViewById(R.id.show_password);
