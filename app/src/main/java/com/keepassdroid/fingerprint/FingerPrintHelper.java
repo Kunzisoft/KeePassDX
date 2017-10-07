@@ -24,8 +24,6 @@ import javax.crypto.spec.IvParameterSpec;
 
 public class FingerPrintHelper {
 
-    private int MINIMAL_REQUIRED_SDK_VERSION = Build.VERSION_CODES.M;
-
     private static final String ALIAS_KEY = "example-key";
     private static final String IV_FILE = "iv-file";
 
@@ -310,7 +308,7 @@ public class FingerPrintHelper {
     }
 
     public boolean isFingerprintSupported() {
-        return Build.VERSION.SDK_INT >= MINIMAL_REQUIRED_SDK_VERSION;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
 }

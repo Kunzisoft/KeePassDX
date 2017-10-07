@@ -19,6 +19,7 @@
  */
 package com.keepassdroid;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -192,7 +193,11 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
         setContentView(R.layout.password);
+
         confirmButton = (Button) findViewById(R.id.pass_ok);
+        fingerprintView = findViewById(R.id.fingerprint);
+        confirmationView = (TextView) findViewById(R.id.fingerprint_label);
+        passwordView = (EditText) findViewById(R.id.password);
 
         new InitTask().execute(i);
 
@@ -256,13 +261,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     // fingerprint related code here
 
     private void initForFingerprint() {
-        // TODO implement runtime permissions needed here?
-        // TODO double check on lower API levels
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (fingerPrintHelper.isFingerprintSupported()) {
             fingerPrintHelper = new FingerPrintHelper(this, this);
-            fingerprintView = findViewById(R.id.fingerprint);
-            confirmationView = (TextView) findViewById(R.id.fingerprint_label);
-            passwordView = (EditText) findViewById(R.id.password);
 
             // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
             passwordView.addTextChangedListener(new TextWatcher() {
@@ -323,6 +323,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
                     if (mode == Cipher.ENCRYPT_MODE) {
 
+                        // newly store the entered password in encrypted way
                         final String password = passwordView.getText().toString();
                         fingerPrintHelper.encryptData(password);
 
@@ -345,8 +346,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     }
 
     private String getPreferenceKey() {
-        // TODO improve unique key per database generation, using complete path should be unique and seems to work
-        return PREF_KEY_PREFIX + mDbUri != null ? mDbUri.getPath() : "";//mDbUri.getLastPathSegment();
+        // makes it possible to store passwords uniqly per database
+        return PREF_KEY_PREFIX + mDbUri != null ? mDbUri.getPath() : "";
     }
 
     private int toggleMode(final int newMode) {
@@ -397,10 +398,18 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 fingerprintView.setAlpha(1f);
             }
+            // fingerprint available but no stored password found yet for this DB so show info don't listen
+            if (prefs.getString(getPreferenceKey(), null) == null) {
+
+                confirmationView.setText(R.string.no_password_stored);
+            }
             // all is set here so we can confirm to user and start listening for fingerprints
-            confirmationView.setText(R.string.scanning_fingerprint);
-            // listen for decryption by default
-            toggleMode(Cipher.DECRYPT_MODE);
+            else {
+
+                confirmationView.setText(R.string.scanning_fingerprint);
+                // listen for decryption by default
+                toggleMode(Cipher.DECRYPT_MODE);
+            }
         }
     }
 

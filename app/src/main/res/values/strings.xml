@@ -200,6 +200,7 @@
     <string name="fingerprint_invalid_key">Invalid Key problem</string>
     <string name="fingerprint_error">Fingerprint problem</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
+    <string name="no_password_stored">No password stored yet for this database</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>
