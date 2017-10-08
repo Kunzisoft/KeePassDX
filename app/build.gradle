@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId = "com.android.keepass"
-        minSdkVersion = 3
+        minSdkVersion 4
         targetSdkVersion 23
         versionCode = 154
         versionName = "2.0.6.4"
@@ -54,4 +54,6 @@ dependencies {
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile 'joda-time:joda-time:2.9.4'
+    compile 'com.android.support:support-v4:23.0.0'
+
 }
