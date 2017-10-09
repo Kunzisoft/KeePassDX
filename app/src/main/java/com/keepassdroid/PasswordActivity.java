@@ -19,7 +19,6 @@
  */
 package com.keepassdroid;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -93,7 +92,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private FingerPrintHelper fingerPrintHelper;
     private int mode;
-    private static final String PREF_KEY_PREFIX = "keyFor_"; // key is a combination of db file name and this prefix
+    private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
+    private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
     private View fingerprintView;
     private TextView confirmationView;
     private EditText passwordView;
@@ -330,7 +330,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     } else if (mode == Cipher.DECRYPT_MODE) {
 
                         // retrieve the encrypted value from preferences
-                        final String encryptedValue = prefs.getString(getPreferenceKey(), null);
+                        final String encryptedValue = prefs.getString(getPreferenceKeyValue(), null);
                         if (encryptedValue != null) {
                             fingerPrintHelper.decryptData(encryptedValue);
                         }
@@ -345,16 +345,28 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         }
     }
 
-    private String getPreferenceKey() {
+    private String getPreferenceKeyValue() {
         // makes it possible to store passwords uniqly per database
-        return PREF_KEY_PREFIX + mDbUri != null ? mDbUri.getPath() : "";
+        return PREF_KEY_VALUE_PREFIX + (mDbUri != null ? mDbUri.getPath() : "");
+    }
+
+    private String getPreferenceKeyIvSpec() {
+        return PREF_KEY_IV_PREFIX + (mDbUri != null ? mDbUri.getPath() : "");
     }
 
     private int toggleMode(final int newMode) {
         // check if mode is different so we can update fingerprint helper
         if (mode != newMode) {
             mode = newMode;
-            fingerPrintHelper.initForMode(mode);
+            switch (mode) {
+                case Cipher.ENCRYPT_MODE:
+                    fingerPrintHelper.initEncryptData();
+                    break;
+                case Cipher.DECRYPT_MODE:
+                    final String ivSpecValue = prefs.getString(getPreferenceKeyIvSpec(), null);
+                    fingerPrintHelper.initDecryptData(ivSpecValue);
+                    break;
+            }
             return newMode;
         }
         // remains in current mode
@@ -399,7 +411,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 fingerprintView.setAlpha(1f);
             }
             // fingerprint available but no stored password found yet for this DB so show info don't listen
-            if (prefs.getString(getPreferenceKey(), null) == null) {
+            if (prefs.getString(getPreferenceKeyValue(), null) == null) {
 
                 confirmationView.setText(R.string.no_password_stored);
             }
@@ -414,20 +426,24 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     }
 
     @Override
-    public void handleResult(final String value) {
-        if (mode == Cipher.ENCRYPT_MODE) {
+    public void handleEncryptedResult(
+            final String value,
+            final String ivSpec) {
 
-            prefs.edit().putString(getPreferenceKey(), value).commit();
-            // and remove visual input to reset UI
-            passwordView.setText("");
-            confirmationView.setText(R.string.encrypted_value_stored);
+        prefs.edit()
+                .putString(getPreferenceKeyValue(), value)
+                .putString(getPreferenceKeyIvSpec(), ivSpec)
+                .commit();
+        // and remove visual input to reset UI
+        passwordView.setText("");
+        confirmationView.setText(R.string.encrypted_value_stored);
+    }
 
-        } else if (mode == Cipher.DECRYPT_MODE) {
-
-            // on decrypt enter it for the purchase/login action
-            passwordView.setText(value);
-            confirmButton.performClick();
-        }
+    @Override
+    public void handleDecryptedResult(final String value) {
+        // on decrypt enter it for the purchase/login action
+        passwordView.setText(value);
+        confirmButton.performClick();
     }
 
     @Override

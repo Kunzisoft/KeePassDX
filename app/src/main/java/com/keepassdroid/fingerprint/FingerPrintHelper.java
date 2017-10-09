@@ -12,9 +12,6 @@ import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.security.KeyStore;
 
 import javax.crypto.Cipher;
@@ -25,10 +22,8 @@ import javax.crypto.spec.IvParameterSpec;
 public class FingerPrintHelper {
 
     private static final String ALIAS_KEY = "example-key";
-    private static final String IV_FILE = "iv-file";
 
     private FingerprintManager fingerprintManager;
-    private Context context;
     private KeyStore keyStore = null;
     private KeyGenerator keyGenerator = null;
     private Cipher cipher = null;
@@ -36,7 +31,6 @@ public class FingerPrintHelper {
     private FingerprintManager.CryptoObject cryptoObject = null;
 
     private boolean initOk = false;
-    private IvParameterSpec spec;
     private FingerPrintCallback fingerPrintCallback;
     private CancellationSignal cancellationSignal;
     private FingerprintManager.AuthenticationCallback authenticationCallback;
@@ -75,22 +69,11 @@ public class FingerPrintHelper {
         }
     }
 
-    public void initForMode(final int mode) {
-        switch (mode) {
-            case Cipher.ENCRYPT_MODE: {
-                initEncryptData();
-                break;
-            }
-            case Cipher.DECRYPT_MODE: {
-                initDecryptData();
-                break;
-            }
-        }
-    }
-
     public interface FingerPrintCallback {
 
-        void handleResult(String value);
+        void handleEncryptedResult(String value, String ivSpec);
+
+        void handleDecryptedResult(String value);
 
         void onInvalidKeyException();
 
@@ -108,7 +91,6 @@ public class FingerPrintHelper {
             setInitOk(false);
             return;
         }
-        this.context = context;
         this.fingerprintManager = context.getSystemService(FingerprintManager.class);
         this.keyguardManager = context.getSystemService(KeyguardManager.class);
         this.fingerPrintCallback = fingerPrintCallback;
@@ -175,14 +157,10 @@ public class FingerPrintHelper {
             byte[] encrypted = cipher.doFinal(value.getBytes());
             final String encryptedValue = Base64.encodeToString(encrypted, 0 /* flags */);
 
-            // create & store spec here since we need it to decrypt again later on (only done at this point to prevent failures on next attempts if
-            // we never encrypted anything new)
-            spec = cipher.getParameters().getParameterSpec(IvParameterSpec.class);
-            final FileOutputStream fileOutputStream = context.openFileOutput(IV_FILE, Context.MODE_PRIVATE);
-            fileOutputStream.write(spec.getIV());
-            fileOutputStream.close();
-
-            fingerPrintCallback.handleResult(encryptedValue);
+            // passes updated iv spec on to callback so this can be stored for decryption
+            final IvParameterSpec spec = cipher.getParameters().getParameterSpec(IvParameterSpec.class);
+            final String ivSpecValue = Base64.encodeToString(spec.getIV(), Base64.DEFAULT);
+            fingerPrintCallback.handleEncryptedResult(encryptedValue, ivSpecValue);
 
         } catch (final Exception e) {
             fingerPrintCallback.onException();
@@ -191,7 +169,7 @@ public class FingerPrintHelper {
     }
 
     @SuppressWarnings("NewApi")
-    public void initDecryptData() {
+    public void initDecryptData(final String ivSpecValue) {
 
         if (!isFingerprintInitialized()) {
             if (fingerPrintCallback != null) {
@@ -199,22 +177,14 @@ public class FingerPrintHelper {
             }
             return;
         }
-
         try {
             createNewKeyIfNeeded(false);
             keyStore.load(null);
             final SecretKey key = (SecretKey) keyStore.getKey(ALIAS_KEY, null);
 
-            // restore spec
-            final File file = new File(context.getFilesDir() + "/" + IV_FILE);
-            final int fileSize = (int) file.length();
-            final byte[] iv = new byte[fileSize];
-
-            final FileInputStream fileInputStream = context.openFileInput(IV_FILE);
-            fileInputStream.read(iv, 0, fileSize);
-            fileInputStream.close();
-
-            spec = new IvParameterSpec(iv);
+            // important to restore spec here that was used for decryption
+            final byte[] iv = Base64.decode(ivSpecValue, Base64.DEFAULT);
+            final IvParameterSpec spec = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
             stopListening();
@@ -236,14 +206,14 @@ public class FingerPrintHelper {
             }
             return;
         }
-
         try {
             // actual decryption here
             final byte[] encrypted = Base64.decode(encryptedValue, 0);
             byte[] decrypted = cipher.doFinal(encrypted);
             final String decryptedString = new String(decrypted);
+
             //final String encryptedString = Base64.encodeToString(encrypted, 0 /* flags */);
-            fingerPrintCallback.handleResult(decryptedString);
+            fingerPrintCallback.handleDecryptedResult(decryptedString);
 
         } catch (final Exception e) {
             fingerPrintCallback.onException();
