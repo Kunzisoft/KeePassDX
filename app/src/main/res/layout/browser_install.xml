@@ -17,15 +17,11 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<!--
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
-    -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:orientation="vertical">
+	android:layout_margin="@dimen/activity_default_margin"
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:orientation="vertical">
 	<TextView android:id="@+id/text"
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
@@ -37,19 +33,19 @@
 	  android:gravity="center_horizontal"
 	  android:orientation="vertical">
 		<Button android:id="@+id/install_market"
-		  android:layout_width="200sp"
-		  android:layout_height="wrap_content"
-		  android:text="@string/install_from_market"
-		/>
+			android:layout_margin="@dimen/button_margin"
+			android:layout_width="200sp"
+			android:layout_height="wrap_content"
+			android:text="@string/install_from_market" />
 		<Button android:id="@+id/install_web"
-		  android:layout_width="200sp"
-		  android:layout_height="wrap_content"
-		  android:text="@string/install_from_website"
-		/>
+			android:layout_margin="@dimen/button_margin"
+			android:layout_width="200sp"
+			android:layout_height="wrap_content"
+			android:text="@string/install_from_website" />
 		<Button android:id="@+id/cancel"
-		  android:layout_width="200sp"
-		  android:layout_height="wrap_content"
-		  android:text="@string/cancel"
-		/>
+			android:layout_margin="@dimen/button_margin"
+			android:layout_width="200sp"
+			android:layout_height="wrap_content"
+			android:text="@string/cancel" />
 	</LinearLayout>
 </LinearLayout>

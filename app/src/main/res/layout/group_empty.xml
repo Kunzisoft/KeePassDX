@@ -18,8 +18,9 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+	android:layout_margin="@dimen/activity_default_margin"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
 	<com.keepassdroid.view.GroupHeaderView
 	  android:id="@+id/group_header"
 	  android:layout_width="wrap_content"

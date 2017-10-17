@@ -17,29 +17,42 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_donate"
-        android:icon="@android:drawable/ic_menu_share"
-        android:title="@string/menu_donate"
-    />
-    <item android:id="@+id/menu_lock"
-        android:icon="@android:drawable/ic_lock_lock"
-        android:title="@string/menu_lock"
-    />
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/menu_search"
-    />
-    <item android:id="@+id/menu_app_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/menu_app_settings"
-    />
+        android:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute"
+        />
+    <item android:id="@+id/menu_lock"
+        android:icon="@drawable/ic_lock_white_24dp"
+        android:title="@string/menu_lock"
+        android:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute"
+        />
     <item android:id="@+id/menu_change_master_key"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@drawable/ic_key_white_24dp"
         android:title="@string/menu_change_key"
-    />
+        android:showAsAction="never"
+        tools:ignore="UnusedAttribute"
+        />
     <item android:id="@+id/menu_sort"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@drawable/ic_sort_white_24dp"
         android:title="@string/sort_name"
-    />
+        android:showAsAction="never"
+        tools:ignore="UnusedAttribute"
+        />
+    <item android:id="@+id/menu_app_settings"
+        android:icon="@drawable/ic_settings_white_24dp"
+        android:title="@string/menu_app_settings"
+        android:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute"
+        />
+    <item android:id="@+id/menu_donate"
+        android:icon="@drawable/ic_share_white_24dp"
+        android:title="@string/menu_donate"
+        android:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute"
+        />
 </menu>

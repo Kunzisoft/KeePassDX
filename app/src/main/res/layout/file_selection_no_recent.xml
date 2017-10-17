@@ -18,48 +18,13 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-	
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
 	<com.keepassdroid.view.FileNameView android:id="@+id/file_select"
-	  android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"/>
-	<!-- 
-	<TextView android:id="@+id/label_open_by_filename" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="?android:attr/listSeparatorTextViewStyle"
-	  android:text="@string/enter_filename"/>
-	<ImageButton android:id="@+id/browse_button"
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:src="@drawable/ic_launcher_folder_small"	
-	  android:layout_alignParentRight="true"
-	  android:layout_alignTop="@id/file_filename"
-	/>
-  	<EditText android:id="@+id/file_filename"
-  	  android:layout_width="fill_parent"
-  	  android:layout_height="wrap_content"
-  	  android:singleLine="true"
-  	  android:layout_below="@id/label_open_by_filename"
-  	  android:layout_toLeftOf="@id/browse_button"
-  	/>
-  	<Button android:id="@+id/open"
-  	  android:text="@string/menu_open"
-  	  android:layout_height="wrap_content"
-  	  android:layout_width="wrap_content"
-  	  android:layout_below="@id/file_filename"
-  	  android:width="100sp"/>
-  	<Button android:id="@+id/create"
-  	  android:text="@string/menu_create"
-  	  android:layout_height="wrap_content"
-  	  android:layout_width="wrap_content"
-  	  android:layout_below="@id/file_filename"
-  	  android:layout_toRightOf="@id/open"
-  	  android:width="100sp"/>
-  	-->
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
   	<!-- Small hack because I need to include a list since this is a list activity -->
   	<ListView android:id="@+id/file_list"
-      android:layout_width="0sp"
-      android:layout_height="0sp"/>
+		android:layout_width="0sp"
+		android:layout_height="0sp" />
 </RelativeLayout>

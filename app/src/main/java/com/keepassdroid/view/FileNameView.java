@@ -40,8 +40,6 @@ public class FileNameView extends RelativeLayout {
 		inflate(context);
 	}
 	
-
-	
 	private void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.file_selection_filename, this);
@@ -58,7 +56,7 @@ public class FileNameView extends RelativeLayout {
 		
 		TextView tv = (TextView) findViewById(R.id.label_warning);
 		TextView label = (TextView) findViewById(R.id.label_open_by_filename);
-		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		
 		if (warning != -1) {
 			tv.setText(warning);
