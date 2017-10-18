@@ -18,7 +18,7 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_margin="@dimen/activity_default_margin"
+	android:layout_margin="@dimen/default_margin"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content">
 	<Button android:id="@+id/entry_save"
@@ -171,7 +171,7 @@
 				android:layout_below="@id/divider_comment"
 				android:orientation="vertical">
 			</LinearLayout>
-			<ImageButton android:id="@+id/add_advanced"
+			<ImageView android:id="@+id/add_advanced"
 				android:layout_width="30sp"
 				android:layout_height="30sp"
 				android:layout_below="@id/advanced_container"

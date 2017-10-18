@@ -21,13 +21,8 @@ package com.keepassdroid.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.RelativeLayout;
 
-import com.android.keepass.R;
-
-public class GroupViewOnlyView extends RelativeLayout {
+public class GroupViewOnlyView extends GroupAddEntryView {
 
 	public GroupViewOnlyView(Context context) {
 		this(context, null);
@@ -38,27 +33,13 @@ public class GroupViewOnlyView extends RelativeLayout {
 		
 		inflate(context);
 	}
-	
-	private void inflate(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.group_add_entry, this);
+
+	@Override
+	protected void inflate(Context context) {
+		super.inflate(context);
 
 		// Hide the buttons
-		View addGroup = findViewById(R.id.add_group);
-		addGroup.setVisibility(INVISIBLE);
-		
-		View addEntry = findViewById(R.id.add_entry);
-		addEntry.setVisibility(INVISIBLE);
-		
-		View divider2 = findViewById(R.id.divider2);
-		divider2.setVisibility(INVISIBLE);
-		
-		View list = findViewById(R.id.group_list);
-		LayoutParams lp = (RelativeLayout.LayoutParams) list.getLayoutParams();
-		lp.addRule(ALIGN_PARENT_BOTTOM, TRUE);
-		
-		
+		addButton.setVisibility(GONE);
 	}
-
 
 }

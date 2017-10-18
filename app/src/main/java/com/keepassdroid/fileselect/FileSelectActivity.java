@@ -90,6 +90,8 @@ public class FileSelectActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Util.colorStatusBar(this);
 		
 		fileHistory = App.getFileHistory();
 

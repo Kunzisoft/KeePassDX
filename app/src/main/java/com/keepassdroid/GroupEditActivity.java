@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.android.keepass.R;
 import com.keepassdroid.icons.Icons;
+import com.keepassdroid.utils.Util;
 
 public class GroupEditActivity extends Activity
 {
@@ -48,6 +49,8 @@ public class GroupEditActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.group_edit);
 		setTitle(R.string.add_group_title);
+
+		Util.colorStatusBar(this);
 		
 		ImageButton iconButton = (ImageButton) findViewById(R.id.icon_button);
 		iconButton.setOnClickListener(new View.OnClickListener()

@@ -79,7 +79,7 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 		
 		scroll = (ScrollView) findViewById(R.id.entry_scroll);
 		
-		ImageButton add = (ImageButton) findViewById(R.id.add_advanced);
+		View add = findViewById(R.id.add_advanced);
 		add.setVisibility(View.VISIBLE);
 		add.setOnClickListener(new View.OnClickListener() {
 			
@@ -102,14 +102,14 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 			}
 		});
 		
-		ImageButton iconPicker = (ImageButton) findViewById(R.id.icon_button);
+		View iconPicker = findViewById(R.id.icon_button);
 		iconPicker.setVisibility(View.GONE);
 		
-		View divider = (View) findViewById(R.id.divider_title);
+		View divider = findViewById(R.id.divider_title);
 		RelativeLayout.LayoutParams lp_div = (RelativeLayout.LayoutParams) divider.getLayoutParams();
 		lp_div.addRule(RelativeLayout.BELOW, R.id.entry_title);
 		
-		View user_label = (View) findViewById(R.id.entry_user_name_label);
+		View user_label = findViewById(R.id.entry_user_name_label);
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) user_label.getLayoutParams();
 		lp.addRule(RelativeLayout.BELOW, R.id.divider_title);
 	}

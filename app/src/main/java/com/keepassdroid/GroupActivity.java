@@ -140,7 +140,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			setContentView(new GroupRootView(this));
 		} else if ( addEntryEnabled ) {
 			setContentView(new GroupAddEntryView(this));
-			Button addGroup = (Button) findViewById(R.id.add_group);
+			View addGroup = findViewById(R.id.add_group);
 			addGroup.setVisibility(View.GONE);
 		} else {
 			setContentView(new GroupViewOnlyView(this));
@@ -149,7 +149,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 
 		if ( addGroupEnabled ) {
 			// Add Group button
-			Button addGroup = (Button) findViewById(R.id.add_group);
+			View addGroup = findViewById(R.id.add_group);
 			addGroup.setOnClickListener(new View.OnClickListener() {
 
 				public void onClick(View v) {
@@ -160,7 +160,7 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		
 		if ( addEntryEnabled ) {
 			// Add Entry button
-			Button addEntry = (Button) findViewById(R.id.add_entry);
+			View addEntry = findViewById(R.id.add_entry);
 			addEntry.setOnClickListener(new View.OnClickListener() {
 	
 				public void onClick(View v) {

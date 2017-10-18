@@ -20,12 +20,6 @@
  */
 package com.keepassdroid;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -38,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -45,6 +40,7 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -66,6 +62,14 @@ import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
 public class EntryActivity extends LockCloseHideActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -227,15 +231,32 @@ public class EntryActivity extends LockCloseHideActivity {
 	}
 
 	private Notification getNotification(String intentText, int descResId) {
-		String desc = getString(descResId);
-		Notification notify = new Notification(R.drawable.notify, desc, System.currentTimeMillis());
-		
+		String description = getString(descResId);
+
 		Intent intent = new Intent(intentText);
 		PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		
-		notify.setLatestEventInfo(this, getString(R.string.app_name), desc, pending);
-		
-		return notify;
+
+        Notification notification;
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            notification = new Notification(R.drawable.notify, description, System.currentTimeMillis());
+            try {
+                Method deprecatedMethod = notification.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+                deprecatedMethod.invoke(notification, this, getString(R.string.app_name), description, pending);
+            } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException e) {
+                Log.w("EntryActivity", "Method not found", e);
+            }
+        } else {
+            // Use new API
+            Notification.Builder builder = new Notification.Builder(this)
+                    .setContentIntent(pending)
+                    .setSmallIcon(R.drawable.notify)
+                    .setContentTitle(getString(R.string.app_name));
+            notification = builder.getNotification();
+        }
+
+		return notification;
 	}
 	
 	private String getDateTime(Date dt) {

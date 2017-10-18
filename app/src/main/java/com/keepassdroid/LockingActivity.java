@@ -22,6 +22,7 @@ package com.keepassdroid;
 import android.app.Activity;
 
 import com.keepassdroid.timeout.TimeoutHelper;
+import com.keepassdroid.utils.Util;
 
 public abstract class LockingActivity extends Activity {
 
@@ -35,6 +36,8 @@ public abstract class LockingActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+        Util.colorStatusBar(this);
 
 		TimeoutHelper.resume(this);
 	}

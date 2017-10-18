@@ -18,37 +18,35 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
-  android:orientation="vertical">
+    android:layout_margin="@dimen/list_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <TextView android:id="@+id/read_only" 
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/read_only"
-      android:visibility="gone"
-      style="@style/DarkOnBlackSmall"
-    />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/read_only"
+        android:visibility="gone"
+        style="@style/WarningTextStyle" />
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="2sp"
-        style="@style/WhiteOnBlack">
+        style="@style/DefaultTextStyle">
             <TextView android:id="@+id/group_name" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_weight="1"
                 android:text="@string/root"
-                style="@style/WhiteOnBlack"
-            />
+                style="@style/DefaultTextStyle" />
             <ImageView android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic99_blank"
-                style="@style/WhiteOnBlack"
-            />
+                style="@style/DefaultTextStyle" />
     </LinearLayout>
 </LinearLayout>

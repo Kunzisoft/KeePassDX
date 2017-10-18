@@ -15,6 +15,8 @@
  limitations under the License.
 -->
 <resources>
-	<dimen name="activity_default_margin">12dp</dimen>
+	<dimen name="list_margin">5dp</dimen>
+	<dimen name="default_margin">12dp</dimen>
 	<dimen name="button_margin">5dp</dimen>
+	<dimen name="fab_margin">24dp</dimen>
 </resources>

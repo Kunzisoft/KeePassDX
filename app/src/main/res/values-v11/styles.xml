@@ -29,20 +29,4 @@
     <style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/green</item>
     </style>
-	<style name="GroupTextSmall" parent="android:Theme.Holo">
-		<item name="@android:textColor">@color/white</item>
-		<item name="@android:textSize">15sp</item>
-	</style>
-	<style name="GroupText" parent="android:Theme.Holo">
-		<item name="@android:textColor">@color/white</item>
-		<item name="@android:textSize">20sp</item>
-	</style>
-	<style name="GroupTextLarge" parent="android:Theme.Holo">
-		<item name="@android:textColor">@color/white</item>
-		<item name="@android:textSize">28sp</item>
-	</style>
-    <style name="DividerEntry">
-	    <item name="android:layout_width">match_parent</item>
-	    <item name="android:layout_height">1dp</item>
-    </style>
 </resources>

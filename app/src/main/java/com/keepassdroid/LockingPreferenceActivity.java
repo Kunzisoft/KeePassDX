@@ -22,6 +22,7 @@ package com.keepassdroid;
 import android.preference.PreferenceActivity;
 
 import com.keepassdroid.timeout.TimeoutHelper;
+import com.keepassdroid.utils.Util;
 
 public abstract class LockingPreferenceActivity extends PreferenceActivity {
 
@@ -35,6 +36,8 @@ public abstract class LockingPreferenceActivity extends PreferenceActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		Util.colorStatusBar(this);
 
 		TimeoutHelper.resume(this);
 	}

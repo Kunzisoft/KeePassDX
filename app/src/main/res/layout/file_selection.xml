@@ -17,21 +17,23 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-  	<TextView android:id="@+id/file_listtop" 
-        android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+  	<TextView android:id="@+id/file_listtop"
+		android:layout_marginTop="@dimen/default_margin"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="?android:attr/listSeparatorTextViewStyle"
         android:text="@string/open_recent" />
-  	<com.keepassdroid.view.FileNameView android:id="@+id/file_select"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
   	<ListView android:id="@+id/file_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/file_listtop"
-        android:layout_above="@id/file_select" />
-</RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

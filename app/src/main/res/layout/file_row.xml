@@ -18,7 +18,10 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <TextView android:id="@+id/file_filename" xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4sp"
-    style="@style/GroupText"/>
+    android:paddingTop="4dp"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    android:paddingBottom="4dp"
+    style="@style/DefaultTextStyle"/>

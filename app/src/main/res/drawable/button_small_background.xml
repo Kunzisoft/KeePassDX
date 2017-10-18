@@ -11,12 +11,12 @@
             <gradient android:angle="270"
                 android:endColor="#E2E2E2" android:startColor="#BABABA" />
             <corners
-                android:radius="2dp" />
+                android:radius="8dp" />
             <padding
                 android:left="14dp"
                 android:right="14dp"
-                android:top="8dp"
-                android:bottom="12dp"/>
+                android:top="4dp"
+                android:bottom="8dp"/>
             <solid android:color="@color/green"/>
         </shape>
     </item>

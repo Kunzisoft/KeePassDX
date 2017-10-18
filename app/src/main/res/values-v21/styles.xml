@@ -18,8 +18,9 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="KeepassoidStyle" parent="@android:style/Theme.Material">
+    <style name="KeepassoidStyle" parent="android:Theme.Material">
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:statusBarColor">@color/green_dark</item>
 
         <item name="android:windowBackground">@color/background</item>
 
@@ -29,20 +30,9 @@
         <item name="android:colorPrimary">@color/green</item>
         <item name="android:colorPrimaryDark">@color/green_dark</item>
         <item name="android:colorAccent">@color/green</item>
+        <item name="android:navigationBarColor">@color/green_dark</item>
     </style>
     <style name="ActionBarStyle" parent="@android:style/Widget.Material.ActionBar">
         <item name="android:background">@color/green</item>
     </style>
-	<style name="GroupTextSmall" parent="android:Theme.Material">
-		<item name="@android:textColor">@color/white</item>
-		<item name="@android:textSize">15sp</item>
-	</style>
-	<style name="GroupText" parent="android:Theme.Material">
-		<item name="@android:textColor">@color/white</item>
-		<item name="@android:textSize">20sp</item>
-	</style>
-	<style name="GroupTextLarge" parent="android:Theme.Material">
-		<item name="@android:textColor">@color/white</item>
-		<item name="@android:textSize">28sp</item>
-	</style>
 </resources>

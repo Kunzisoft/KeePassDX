@@ -18,7 +18,7 @@
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_margin="@dimen/activity_default_margin"
+	android:layout_margin="@dimen/default_margin"
   android:id="@+id/entry_table"
   android:layout_height="wrap_content"
   android:layout_width="fill_parent"
@@ -28,7 +28,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:text="@string/entry_user_name"
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_user_name" 
 	  android:layout_width="fill_parent"
@@ -41,7 +41,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:text="@string/entry_url" 
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_url" 
 	  android:layout_width="fill_parent"
@@ -55,7 +55,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content" 
 	  android:text="@string/entry_password"
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<com.keepassdroid.view.PasswordTextViewSelect android:id="@+id/entry_password" 
 	  android:layout_width="fill_parent"
@@ -71,7 +71,7 @@
 	  android:layout_height="wrap_content" 
 	  android:text="@string/entry_comment"
 	  android:autoLink="all"
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_comment" 
       android:layout_width="fill_parent"
@@ -89,7 +89,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content" 
 	  android:text="@string/entry_created"
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<TextView android:id="@+id/entry_created" 
 	  android:layout_width="fill_parent"
@@ -102,7 +102,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content" 
 	  android:text="@string/entry_modified"
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<TextView android:id="@+id/entry_modified" 
 	  android:layout_width="fill_parent"
@@ -115,7 +115,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content" 
 	  android:text="@string/entry_accessed"
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<TextView android:id="@+id/entry_accessed" 
 	  android:layout_width="fill_parent"
@@ -128,7 +128,7 @@
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content" 
 	  android:text="@string/entry_expires"
-	  style="@style/WhiteOnDarkSmall"
+	  style="@style/LabelTextStyle"
 	/>
 	<TextView android:id="@+id/entry_expires" 
 	  android:layout_width="fill_parent"

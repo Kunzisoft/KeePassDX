@@ -21,32 +21,26 @@ package com.keepassdroid.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.view.View;
 
 import com.android.keepass.R;
 
-public class GroupRootView extends RelativeLayout {
+public class GroupRootView extends GroupAddEntryView {
 
 	public GroupRootView(Context context) {
 		this(context, null);
 	}
-	
+
 	public GroupRootView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
+
 		inflate(context);
 	}
-	
-	private void inflate(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.group_add_entry, this);
-		
-		Button addEntry = (Button) findViewById(R.id.add_entry);
-		addEntry.setVisibility(INVISIBLE);
-		
+
+	@Override
+	protected void inflate(Context context) {
+        super.inflate(context);
+
+		addEntryActivated = false;
 	}
-
-
 }

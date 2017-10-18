@@ -1,29 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion = 22
-    buildToolsVersion = "25.0.0"
+    compileSdkVersion = 25
+    buildToolsVersion = "25.0.3"
 
     defaultConfig {
         applicationId = "com.android.keepass"
-        minSdkVersion = 3
-        targetSdkVersion = 12
+        minSdkVersion 3
+        targetSdkVersion 12
         versionCode = 154
-        versionName = "2.0.6.4"
+        versionName = "2.5.0.0"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
-
-        /*
-        buildConfigFields.with {
-            create() {
-                type = "int"
-                name = "VALUE"
-                value = "1"
-            }
-        }
-        */
     }
 
     externalNativeBuild {
@@ -44,13 +34,10 @@ android {
             applicationId = "com.android.keepass"
         }
     }
-
-
 }
 
 dependencies {
     androidTestCompile files('libs/junit4.jar')
-
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile 'joda-time:joda-time:2.9.4'

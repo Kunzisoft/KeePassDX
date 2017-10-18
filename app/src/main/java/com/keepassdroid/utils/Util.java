@@ -22,7 +22,9 @@ package com.keepassdroid.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 
+import com.android.keepass.R;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 
 import android.app.Activity;
@@ -30,7 +32,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.text.ClipboardManager;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class Util {
@@ -91,6 +96,13 @@ public class Util {
 		}
 	}
 
-	
+	public static void colorStatusBar(Activity activity) {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			Window window = activity.getWindow();
+			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+			window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			window.setStatusBarColor(activity.getResources().getColor(R.color.green_dark));
+		}
+	}
 	
 }

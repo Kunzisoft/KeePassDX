@@ -23,9 +23,7 @@
 	<color name="green">#43a047</color>
 	<color name="green_dark">#388e3c</color>
 	<color name="blue_highlight">#0000dd</color>
-	<color name="group">#ffffff</color>
 	<color name="background">#303030</color>
 	<color name="icon_background">#555555</color>
 	<color name="icon_text">#000000</color>
-	<color name="group_header_background">#888888</color>
 </resources>    

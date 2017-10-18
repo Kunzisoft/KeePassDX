@@ -55,7 +55,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected ListAdapter mAdapter;
 
 	public static final String KEY_ENTRY = "entry";
-	public static final String KEY_MODE = "mode";
 	
 	private SharedPreferences prefs;
 	
