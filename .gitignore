@@ -54,3 +54,6 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+# Iml Files
+app/app.iml
