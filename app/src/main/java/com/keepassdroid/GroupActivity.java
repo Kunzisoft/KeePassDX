@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2014 Brian Pellin.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDroid.
  *
@@ -32,7 +32,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.Button;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;

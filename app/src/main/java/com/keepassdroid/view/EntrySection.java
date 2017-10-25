@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2013 Brian Pellin.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDroid.
  *

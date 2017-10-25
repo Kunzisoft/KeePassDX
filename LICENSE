@@ -1,6 +1,6 @@
 ---
 
-The KeePass icon was created by Francis Jacquerye and is licensed under the terms of the GPLv2 or GPLv3.
+The KeePass icon was created by Jeremy JAMET and is licensed under the terms of GPLv3.
 
 
 ---
@@ -50,7 +50,7 @@ Files under src/org/phoneid/*:
 
 Files under src/com/android/keepass/* :
 
-Copyright 2009 Brian Pellin <bpellin@gmail.com>.
+Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft <contact@kunzisoft.com>.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

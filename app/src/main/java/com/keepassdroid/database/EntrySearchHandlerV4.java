@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Brian Pellin.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,11 +19,11 @@
  */
 package com.keepassdroid.database;
 
-import java.util.List;
-import java.util.Locale;
-
 import com.keepassdroid.utils.StrUtil;
 import com.keepassdroid.utils.UuidUtil;
+
+import java.util.List;
+import java.util.Locale;
 
 public class EntrySearchHandlerV4 extends EntrySearchHandler {
 	private SearchParametersV4 sp;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2015 Brian Pellin.
+ Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDroid.
 
@@ -53,7 +53,7 @@
     <string name="decrypting_entry">Decifrando entrada</string>
     <string name="default_checkbox">Usar este banco de dados como padrão</string>
     <string name="digits">Digitos</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 2 ou posterior.</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 2 ou posterior.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Digite o nome do arquivo de banco de dados:</string>
     <string name="entry_accessed">Acessado: </string>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Brian Pellin.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 
 This file was derived from
 
@@ -30,7 +30,6 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package com.keepassdroid.database;
 
-import java.security.acl.LastOwnerException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;

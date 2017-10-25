@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 Brian Pellin.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,9 +19,6 @@
  */
 package com.keepassdroid.database.edit;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -39,6 +36,9 @@ import com.keepassdroid.database.exception.InvalidDBVersionException;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.InvalidPasswordException;
 import com.keepassdroid.database.exception.KeyFileEmptyException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class LoadDB extends RunnableOnFinish {
     private Uri mUri;

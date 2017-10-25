@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2015 Brian Pellin.
+ Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDroid.
 
@@ -58,7 +58,7 @@
     <string name="decrypting_entry">Dešifruji záznam</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Čísla</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Zadejte názvev souboru databáze:</string>
     <string name="entry_accessed">Poslední přístup: </string>

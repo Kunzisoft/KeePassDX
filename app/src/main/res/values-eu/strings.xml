@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2015 Brian Pellin.
+ Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDroid.
 
@@ -57,7 +57,7 @@
     <string name="decrypting_entry">Sarrera desenkriptatzen</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009&#8211;2012 Brian Pellin ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Datubasearen fitxategiaren izena sartu:</string>
     <string name="entry_accessed">Akzesoa: </string>

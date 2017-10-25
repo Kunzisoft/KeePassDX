@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2016 Brian Pellin.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDroid.
  *
@@ -19,12 +19,12 @@
  */
 package com.keepassdroid.database.load;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.keepassdroid.UpdateStatus;
 import com.keepassdroid.database.PwDatabaseV4Debug;
 import com.keepassdroid.database.exception.InvalidDBException;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ImporterV4Debug extends ImporterV4 {
 

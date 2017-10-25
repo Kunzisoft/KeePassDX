@@ -37,7 +37,7 @@
     <string name="decrypting_entry">Bejegyzés dekódolása</string>
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2009–2012 Brian Pellin. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: intel</string>
+    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: intel</string>
     <string name="ellipsis">…</string>
     <string name="enter_filename">Adja meg az adatbázis fájlnevét:</string>
     <string name="entry_accessed">Utolsó hozzáférés:</string>
