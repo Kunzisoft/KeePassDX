@@ -65,10 +65,10 @@
     	<item>300000</item>
     	<item>-1</item>
     </string-array>
-    <string name="list_size_default">28</string>
+    <string name="list_size_default">18</string>
     <string-array name="list_size_values">
-    	<item>15</item>
-    	<item>20</item>
-    	<item>28</item>
+    	<item>14</item>
+    	<item>18</item>
+    	<item>26</item>
     </string-array>
 </resources>

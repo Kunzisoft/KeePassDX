@@ -56,7 +56,7 @@ public class PwEntryView extends ClickView {
 		super(act);
 		mAct = act;
 		
-		View ev = View.inflate(mAct, R.layout.entry_list_entry, null);
+		View ev = View.inflate(mAct, R.layout.list_entries_entry, null);
 		mTv = (TextView) ev.findViewById(R.id.entry_text);
 		mTv.setTextSize(PrefsUtil.getListTextSize(act));
 		

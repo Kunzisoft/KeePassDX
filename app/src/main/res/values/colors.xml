@@ -22,6 +22,7 @@
 	<color name="white">#ffffff</color>
 	<color name="green">#43a047</color>
 	<color name="green_dark">#388e3c</color>
+	<color name="green_transparent">#50388e3c</color>
 	<color name="blue_highlight">#0000dd</color>
 	<color name="background">#303030</color>
 	<color name="icon_background">#555555</color>

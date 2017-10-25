@@ -57,7 +57,7 @@ public class PwGroupView extends ClickView {
 		super(act);
 		mAct = act;
 		
-		View gv = View.inflate(act, R.layout.group_list_entry, null);
+		View gv = View.inflate(act, R.layout.list_entries_group, null);
 		
 		mTv = (TextView) gv.findViewById(R.id.group_text);
 		float size = PrefsUtil.getListTextSize(act); 
