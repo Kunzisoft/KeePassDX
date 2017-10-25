@@ -53,6 +53,10 @@
         <item name="@android:textColor">@color/white</item>
         <item name="@android:textSize">16sp</item>
     </style>
+    <style name="TitleTextStyle" parent="android:TextAppearance">
+        <item name="@android:textColor">@color/green</item>
+        <item name="@android:textSize">16sp</item>
+    </style>
     <style name="SecondaryText">
         <item name="@android:textSize">14sp</item>
     </style>

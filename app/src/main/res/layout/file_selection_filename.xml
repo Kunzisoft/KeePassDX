@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ CopyEnd 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDroid.
 
@@ -21,43 +21,50 @@
 		android:layout_margin="@dimen/default_margin"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
+
 	<TextView android:id="@+id/label_warning"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textSize="20sp"
 		android:visibility="invisible" />
+
 	<TextView android:id="@+id/label_open_by_filename" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		style="?android:attr/listSeparatorTextViewStyle"
+		style="@style/TitleTextStyle"
 		android:text="@string/enter_filename"/>
+
 	<ImageButton android:id="@+id/browse_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:src="@drawable/ic_folder_white_24dp"
-		android:layout_alignParentRight="true"
-		android:layout_below="@id/label_open_by_filename"
-	/>
-  	<EditText android:id="@+id/file_filename"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:maxLines="1"
-		android:layout_below="@id/label_open_by_filename"
-		android:layout_toLeftOf="@id/browse_button"
-  	/>
+		android:layout_alignParentEnd="true"
+		android:layout_below="@id/label_open_by_filename" />
+
+    <EditText
+        android:id="@+id/file_filename"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_open_by_filename"
+        android:inputType="textUri"
+        android:layout_toStartOf="@+id/browse_button"
+        android:maxLines="1" />
+
   	<Button android:id="@+id/open"
 		android:layout_margin="@dimen/button_margin"
 		android:text="@string/menu_open"
+        android:layout_below="@id/file_filename"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_below="@id/file_filename"
+        android:layout_toStartOf="@+id/create"
 		android:width="100sp"/>
+
   	<Button android:id="@+id/create"
 		android:layout_margin="@dimen/button_margin"
 		android:text="@string/menu_create"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_below="@id/file_filename"
-		android:layout_toRightOf="@id/open"
+        android:layout_below="@id/file_filename"
+        android:layout_alignParentEnd="true"
 		android:width="100sp"/>
 </RelativeLayout>

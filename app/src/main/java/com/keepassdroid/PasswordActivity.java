@@ -38,7 +38,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -82,6 +81,8 @@ public class PasswordActivity extends LockingActivity {
     private Uri mKeyUri = null;
     private boolean mRememberKeyfile;
     SharedPreferences prefs;
+
+    private boolean isShowPasswordChecked = false;
 
     public static void Launch(Activity act, String fileName) throws FileNotFoundException {
         Launch(act,fileName,"");
@@ -420,21 +421,21 @@ public class PasswordActivity extends LockingActivity {
             Button confirmButton = (Button) findViewById(R.id.pass_ok);
             confirmButton.setOnClickListener(new OkClickHandler());
 
-            CheckBox checkBox = (CheckBox) findViewById(R.id.show_password);
+            View showPasswordView = findViewById(R.id.show_password);
             // Show or hide password
-            checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-                public void onCheckedChanged(CompoundButton buttonView,
-                        boolean isChecked) {
-                    TextView password = (TextView) findViewById(R.id.password);
-
-                    if ( isChecked ) {
-                        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    } else {
-                        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    }
+            showPasswordView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                EditText password = (EditText) findViewById(R.id.password);
+                if ( isShowPasswordChecked ) {
+                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    isShowPasswordChecked = false;
+                } else {
+                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    isShowPasswordChecked = true;
                 }
-
+                password.setSelection(password.getText().length());
+                }
             });
 
             if (password != null) {

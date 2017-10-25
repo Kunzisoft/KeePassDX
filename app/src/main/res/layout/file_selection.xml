@@ -31,7 +31,7 @@
 		android:layout_marginRight="@dimen/default_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?android:attr/listSeparatorTextViewStyle"
+		style="@style/TitleTextStyle"
         android:text="@string/open_recent" />
   	<ListView android:id="@+id/file_list"
         android:layout_width="match_parent"
