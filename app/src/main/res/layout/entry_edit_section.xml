@@ -40,7 +40,7 @@
 		  android:layout_height="30dp"
 		  android:layout_alignParentRight="true"
 		  android:layout_below="@id/title"
-		  android:src="@android:drawable/ic_delete"
+		  android:src="@drawable/ic_close_white_24dp"
 		  android:scaleType="centerCrop"
 		  android:onClick="deleteAdvancedString"
 	 />
