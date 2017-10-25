@@ -41,7 +41,7 @@
   	<EditText android:id="@+id/file_filename"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:singleLine="true"
+		android:maxLines="1"
 		android:layout_below="@id/label_open_by_filename"
 		android:layout_toLeftOf="@id/browse_button"
   	/>

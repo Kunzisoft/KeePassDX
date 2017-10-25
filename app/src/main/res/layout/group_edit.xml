@@ -32,7 +32,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="4dp"
 		android:layout_toLeftOf="@+id/icon_button"
-		android:singleLine="true"
+		android:maxLines="1"
 		android:hint="@string/hint_group_name"/>
 	<Button android:id="@+id/ok"
 		android:layout_margin="@dimen/button_margin"

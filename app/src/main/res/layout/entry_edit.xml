@@ -60,7 +60,7 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_toLeftOf="@+id/icon_button"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_below="@id/entry_title_label"
 				android:hint="@string/hint_title"/>
 			<View android:id="@+id/divider_title"
@@ -77,7 +77,7 @@
 			<EditText android:id="@+id/entry_user_name" 
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:inputType="textEmailAddress"
 				android:layout_below="@id/entry_user_name_label"
 				android:hint="@string/hint_username"/>
@@ -95,7 +95,7 @@
 			<EditText android:id="@+id/entry_url" 
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:inputType="textUri"
 				android:layout_below="@id/entry_url_label"
 				android:hint="@string/hint_url"/>
@@ -116,12 +116,11 @@
 				android:text="@string/ellipsis"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"/>
-			<com.keepassdroid.view.PasswordEditText android:id="@+id/entry_password" 
+			<EditText android:id="@+id/entry_password"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:inputType="textPassword"
-				android:typeface="monospace"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_toLeftOf="@id/generate_button"
 				android:hint="@string/hint_pass"
 				android:layout_alignTop="@id/generate_button"/>
@@ -136,12 +135,11 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@id/divider_password"
 				android:text="@string/entry_confpassword" />
-			<com.keepassdroid.view.PasswordEditText android:id="@+id/entry_confpassword" 
+			<EditText android:id="@+id/entry_confpassword"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:inputType="textPassword"
-				android:typeface="monospace"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:layout_below="@id/entry_confpassword_label"
 				android:hint="@string/hint_conf_pass"/>
 			<View android:id="@+id/divider_confpassword"
