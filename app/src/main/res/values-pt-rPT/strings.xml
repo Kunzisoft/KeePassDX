@@ -2,28 +2,27 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="MissingTranslation">
     <string name="about_feedback">Comentários:</string>
     <string name="about_homepage">Página Web:</string>
-    <string name="AboutText">KeePassDroid é uma implementação para o Android do gerenciador de palavras-passe KeePass.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX é uma implementação para o Android do gerenciador de palavras-passe KeePass.</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
@@ -31,7 +30,6 @@
     <string name="add_string">Adicionar linha</string>
     <string name="algorithm">Algoritmo</string>
     <string name="algorithm_colon">Algoritmo:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Tempo de espera da aplicação</string>
     <string name="app_timeout_summary">Tempo antes do bloqueio da base de dados quando a aplicação está inativa.</string>
     <string name="application">Aplicação</string>
@@ -58,7 +56,7 @@
     <string name="decrypting_entry">A desencriptar entrada</string>
     <string name="default_checkbox">Utilizar esta base de dados como predefinida</string>
     <string name="digits">Dígitos</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 2 ou superior.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 2 ou superior.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Introduza o nome do ficheiro da base de dados:</string>
     <string name="entry_accessed">Acedido: </string>
@@ -77,7 +75,7 @@
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">Nome de utilizador: </string>
     <string name="error_arc4">A cifra de fluxo ArcFour não é suportada.</string>
-    <string name="error_can_not_handle_uri">O KeePassDroid não suporta esta URI.</string>
+    <string name="error_can_not_handle_uri">O KeePass DX não suporta esta URI.</string>
     <string name="error_could_not_create_group">Erro ao criar grupo.</string>
     <string name="error_could_not_create_parent">Não foi possível criar diretório pai.</string>
     <string name="error_database_exists">Este ficheiro já existe.</string>
@@ -162,7 +160,7 @@
     <string name="progress_title">Em funcionamento&#8230;</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
-    <string name="read_only_warning">O KeePassDroid não tem permissão para escrever na localização da base de dados, a sua base de dados será aberta apenas para leitura.</string>
+    <string name="read_only_warning">O KeePass DX não tem permissão para escrever na localização da base de dados, a sua base de dados será aberta apenas para leitura.</string>
     <string name="read_only_kitkat_warning">Começando pelo Android KitKat, alguns dispositivos não permitem mais que as aplicações escrevam no cartão SD.</string>
     <string name="recentfile_title">Histórico de ficheiros recentes</string>
     <string name="recentfile_summary">Relembrar o nome dos ficheiros usados recentemente</string>

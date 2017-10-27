@@ -2,28 +2,29 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="MissingTranslation">
+    <string name="app_name" translatable="false">KeePass DX</string>
+
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
-    <string name="AboutText">KeePassDroid is an Android implementation of the KeePass password manager.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX is an Android implementation of the KeePass password manager.</string>
     <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
     <string name="add_group">Add group</string>
@@ -31,7 +32,6 @@
     <string name="add_string">Add string</string>
     <string name="algorithm">Algorithm</string>
     <string name="algorithm_colon">Algorithm:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
@@ -58,7 +58,7 @@
     <string name="decrypting_entry">Decrypting entry</string>
     <string name="default_checkbox">Use this as my default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Enter database filename:</string>
     <string name="entry_accessed">Accessed: </string>
@@ -77,7 +77,7 @@
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">User Name: </string>
     <string name="error_arc4">The ArcFour stream cipher is not supported.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid cannot handle this uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX cannot handle this uri.</string>
     <string name="error_could_not_create_group">Error creating group.</string>
     <string name="error_could_not_create_parent">Could not create parent directory.</string>
     <string name="error_database_exists">This file already exists.</string>
@@ -162,7 +162,7 @@
     <string name="progress_title">Working&#8230;</string>
     <string name="protection">Protection</string>
     <string name="read_only">Read-only</string>
-    <string name="read_only_warning">KeePassDroid does not have permission to write to the database location, so your database will be opened read-only.</string>
+    <string name="read_only_warning">KeePass DX does not have permission to write to the database location, so your database will be opened read-only.</string>
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow applications to write to the sdcard.</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recently used file names</string>

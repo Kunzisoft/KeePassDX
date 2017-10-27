@@ -2,33 +2,31 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">フィードバック:</string>
     <string name="about_homepage">WEBサイト:</string>
-    <string name="AboutText">\"KeePassDroid\"はパスワードマネージャソフト\"KeePass\"をAndroid上で利用する為のアプリです。</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">\"KeePass DX\"はパスワードマネージャソフト\"KeePass\"をAndroid上で利用する為のアプリです。</string>
     <string name="accept">決定</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="add_group">グループを追加</string>
     <string name="add_group_title">新しいグループ名を入力</string>
     <string name="algorithm">アルゴリズム</string>
     <string name="algorithm_colon">アルゴリズム:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">アプリケーション タイムアウト</string>
     <string name="app_timeout_summary">KeePassがこの時間非アクティブだった場合、データベースをロックします。</string>
     <string name="application">アプリケーション</string>
@@ -50,7 +48,7 @@
     <string name="decrypting_entry">暗号解除エントリー</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン2以上の条件下でこれを再頒布することができます。</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン2以上の条件下でこれを再頒布することができます。</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">データベースファイル:</string>
     <string name="entry_accessed">最終アクセス日: </string>
@@ -68,7 +66,7 @@
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">ユーザー名: </string>
     <string name="error_arc4">ArcFour stream cipherには対応していません。</string>
-    <string name="error_can_not_handle_uri">KeePassDroidはこのuriを処理できません。</string>
+    <string name="error_can_not_handle_uri">KeePass DXはこのuriを処理できません。</string>
     <string name="error_could_not_create_group">グループ追加エラー</string>
     <string name="error_could_not_create_parent">親ディレクトリを作成できませんでした。</string>
     <string name="error_database_exists">ファイルが既に存在します。</string>

@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-This file is part of KeePassDroid.
+This file is part of KeePass DX.
 
-KeePassDroid is free software: you can redistribute it and/or modify
+KeePass DX is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 (at your option) any later version.
 
-KeePassDroid is distributed in the hope that it will be useful,
+KeePass DX is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
+along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Strona domowa:</string>
-    <string name="AboutText">KeePassDroid to Androidowa implementacja menadżera haseł KeePass.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX to Androidowa implementacja menadżera haseł KeePass.</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
     <string name="add_group_title">Dodaj grupę</string>
     <string name="algorithm">Algorytm</string>
     <string name="algorithm_colon">Algorytm:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Czas wygaśnięcia aplikacji</string>
     <string name="app_timeout_summary">Czas do zablokowania bazy danych przy bezczynności aplikacji.</string>
     <string name="application">Aplikacja</string>
@@ -66,7 +64,7 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">Nazwa użytkownika: </string>
     <string name="error_arc4">Strumieniowe szyfrowanie ArcFour nie jest wspierane.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid nie potrafi obsłużyć tego uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX nie potrafi obsłużyć tego uri.</string>
     <string name="error_could_not_create_group">Błąd podczas tworzenia grupy.</string>
     <string name="error_could_not_create_parent">Nie można utworzyć folderu nadrzędnego.</string>
     <string name="error_database_exists">Plik o podanej nazwie już istnieje.</string>

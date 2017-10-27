@@ -2,33 +2,31 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Spätná Väzba:</string>
     <string name="about_homepage">Domovská Stránka:</string>
-    <string name="AboutText">KeePassDroid je Android verzia KeePass password manažéra.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX je Android verzia KeePass password manažéra.</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
     <string name="add_group">Pridať Skupinu</string>
     <string name="add_group_title">Pridať Skupinu</string>
     <string name="algorithm">Algoritmus</string>
     <string name="algorithm_colon">Algoritmus:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Časový limit aplikácie.</string>
     <string name="app_timeout_summary">Čas pred uzamknutím databázy, ak je aplikácia neaktívna.</string>
     <string name="application">Applikácia</string>
@@ -50,7 +48,7 @@
     <string name="decrypting_entry">Dešifrujem záznam</string>
     <string name="default_checkbox">Použiť toto ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 2 alebo vyššie.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 2 alebo vyššie.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Vložte názov Databázy:</string>
     <string name="entry_accessed">Pristupované: </string>
@@ -68,7 +66,7 @@
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">Užívateľské meno: </string>
     <string name="error_arc4">ArcFour stream šifra nieje podporovaná.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid nevie použiť túto uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX nevie použiť túto uri.</string>
     <string name="error_could_not_create_group">Chyba vytvárania Skupiny.</string>
     <string name="error_could_not_create_parent">Neviem vytvoriť nadradený adresár.</string>
     <string name="error_database_exists">Tento súbor už existuje.</string>

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">KeePassDroid</string>
-    <string name="AboutText">KeePassDroid yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
+    <string name="AboutText">KeePass DX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="ClearClipboard">Iškarpinė išvalyta.</string>
     <string name="FileNotFound">Failas nerastas.</string>
     <string name="InvalidPassword">Neteisingas slaptažodis arba rakto failas.</string>
     <string name="MaskedPassword">*****</string>
     <string name="about_feedback">Atsiliepimai:</string>
     <string name="about_homepage">Pagrindinis puslapis:</string>
-    <string name="about_twitter">Twitter:</string>
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
@@ -97,7 +95,7 @@
     <string name="list_size_summary">Teksto dydis grupės sąraše</string>
     <string name="omitbackup_title">Neiškoti atkūrimo įrašuose</string>
     <string name="pass_filename">KeePass duomenų bazės failas:</string>
-    <string name="error_can_not_handle_uri">KeePassDroid negali apdoroti šio uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX negali apdoroti šio uri.</string>
     <string name="error_failed_to_launch_link"></string>
     <string name="entry_and_or">Įveskite slaptažodį rba raktą, tam kad atidarytumėte duomenų bazę:</string>
     <string name="password_title">Įveskite duomenų bazės slaptažodį</string>

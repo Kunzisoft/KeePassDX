@@ -2,33 +2,31 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Palaute:</string>
     <string name="about_homepage">Kotisivu:</string>
-    <string name="AboutText">KeePassDroid on KeePass-salasanahallintaohjelman Android-versio</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX on KeePass-salasanahallintaohjelman Android-versio</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
     <string name="add_group_title">Lisää ryhmä</string>
     <string name="algorithm">Algoritmi</string>
     <string name="algorithm_colon">Algoritmi:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Ohjelman aikakatkaisu</string>
     <string name="app_timeout_summary">Aika, jonka jälkeen KeePass lukitaan jos se on ollut toimeton.</string>
     <string name="application">Ohjelma</string>
@@ -55,7 +53,7 @@
     <string name="decrypting_entry">Puretaan salasanatietuetta</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Anna tietokannan tiedostonimi:</string>
     <string name="entry_accessed">Käytetty: </string>
@@ -74,7 +72,7 @@
     <string name="entry_url">URL-osoite: </string>
     <string name="entry_user_name">Käyttäjänimi: </string>
     <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid ei osaa käsitellä tätä osoitetta.</string>
+    <string name="error_can_not_handle_uri">KeePass DX ei osaa käsitellä tätä osoitetta.</string>
     <string name="error_could_not_create_group">Virhe ryhmän luonnissa.</string>
     <string name="error_could_not_create_parent">Virhe aliryhmän luonnissa.</string>
     <string name="error_database_exists">Tiedosto on jo olemassa.</string>

@@ -2,20 +2,20 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:autoLink="web"
         android:layout_gravity="end"
+        android:gravity="end"
         android:text="@string/homepage_short" />
     <TextView android:id="@+id/feedback"
 		android:layout_width="wrap_content"
@@ -66,17 +67,10 @@
 		android:layout_height="wrap_content"
 		android:text="@string/issues"
         android:layout_gravity="end"
-		android:autoLink="web"/>
-	<TextView android:id="@+id/Twitter" 
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/about_twitter"/>
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/twitter"
-        android:layout_gravity="end"
+        android:gravity="end"
 		android:autoLink="web"/>
 	<ImageView android:id="@+id/divider3"
+		android:layout_marginTop="20dp"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:scaleType="fitXY"

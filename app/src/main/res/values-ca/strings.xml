@@ -2,20 +2,20 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   Catalan translation by Oriol Garrote
   
@@ -23,15 +23,13 @@
 <resources>
     <string name="about_feedback">Comentaris:</string>
     <string name="about_homepage">Pàgina inici:</string>
-    <string name="AboutText">KeePassDroid és una implementació per Android de KeePass password manager.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX és una implementació per Android de KeePass password manager.</string>
     <string name="accept">Accepta</string>
     <string name="add_entry">Afegeix entrada</string>
     <string name="add_group">Afegeix grup</string>
     <string name="add_group_title">Afegeix grup</string>
     <string name="algorithm">Algoritme</string>
     <string name="algorithm_colon">Algoritme:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Temps d\'espera de l\'aplicació</string>
     <string name="app_timeout_summary">Temps abans de bloquejar la base de dades quan l\'applicació està inactiva.</string>
     <string name="application">Aplicació</string>
@@ -53,7 +51,7 @@
     <string name="decrypting_entry">Desencriptant entrada</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft ve SENSE CAP MENA DE GARANTIA; Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 2 o posterior.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft ve SENSE CAP MENA DE GARANTIA; Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 2 o posterior.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Introdueix el nom de la base de dades:</string>
     <string name="entry_accessed">Accedida: </string>
@@ -71,7 +69,7 @@
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">Usuari: </string>
     <string name="error_arc4">L\'encriptació ArcFour no està suportada.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid no pot manejar aquesta uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX no pot manejar aquesta uri.</string>
     <string name="error_could_not_create_group">Error creant grup.</string>
     <string name="error_could_not_create_parent">No s\'ha pogut crear el directori pare.</string>
     <string name="error_database_exists">Aquest arxiu ja existeix.</string>

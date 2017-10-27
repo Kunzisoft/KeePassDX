@@ -2,33 +2,31 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">回饋：</string>
     <string name="about_homepage">主頁：</string>
-    <string name="AboutText">KeePassDroid是KeePass密碼管理軟體的Android版本。</string>
-    <string name="about_twitter">Twitter：</string>
+    <string name="AboutText">KeePass DX是KeePass密碼管理軟體的Android版本。</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加條目</string>
     <string name="add_group">添加群組</string>
     <string name="add_group_title">添加群</string>
     <string name="algorithm">演算法</string>
     <string name="algorithm_colon">演算法：</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">應用程式超時</string>
     <string name="app_timeout_summary">應用程式處於非活動時鎖定資料庫。</string>
     <string name="application">應用程式</string>
@@ -50,7 +48,7 @@
     <string name="decrypting_entry">解密條目中</string>
     <string name="default_checkbox">使用這做為我的默認資料庫</string>
     <string name="digits">數字</string>
-    <string name="disclaimer_formal">KeePassDroid版權歸Brian Pellin；軟體不帶有絕對擔保；是自由軟體，您可在遵循GPL 2或者更高版本的情況下重新發佈。中文簡繁體翻譯：wangkf@gmail.com</string>
+    <string name="disclaimer_formal">KeePass DX版權歸Brian Pellin；軟體不帶有絕對擔保；是自由軟體，您可在遵循GPL 2或者更高版本的情況下重新發佈。中文簡繁體翻譯：wangkf@gmail.com</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">輸入資料庫名：</string>
     <string name="entry_accessed">訪問時間：</string>
@@ -68,7 +66,7 @@
     <string name="entry_url">網址：</string>
     <string name="entry_user_name">用戶名：</string>
     <string name="error_arc4">ArcFour流密碼不被支援。</string>
-    <string name="error_can_not_handle_uri">KeePassDroid無法處理此URI。</string>
+    <string name="error_can_not_handle_uri">KeePass DX無法處理此URI。</string>
     <string name="error_could_not_create_group">創建群組錯誤。</string>
     <string name="error_could_not_create_parent">無法創建上級目錄。</string>
     <string name="error_database_exists">文件已存在。</string>

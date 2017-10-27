@@ -2,15 +2,13 @@
 <resources>
     <string name="about_feedback">Visszajelzés:</string>
     <string name="about_homepage">Weboldal:</string>
-    <string name="AboutText">KeePassDroid a KeePass jelszókezelő android implementációja.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX a KeePass jelszókezelő android implementációja.</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
     <string name="add_group">Csoport hozzáadása</string>
     <string name="add_group_title">Csoport hozzáadása</string>
     <string name="algorithm">Algoritmus</string>
     <string name="algorithm_colon">Algoritmus:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Alkalmazás időkorlátja</string>
     <string name="app_timeout_summary">Beállíthatja, mennyi idő után kerüljön lezárásra az adatbázis</string>
     <string name="application">Alkalmazás</string>
@@ -37,7 +35,7 @@
     <string name="decrypting_entry">Bejegyzés dekódolása</string>
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: intel</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: intel</string>
     <string name="ellipsis">…</string>
     <string name="enter_filename">Adja meg az adatbázis fájlnevét:</string>
     <string name="entry_accessed">Utolsó hozzáférés:</string>

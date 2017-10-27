@@ -2,37 +2,35 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Отзывы:</string>
     <string name="about_homepage">Сайт:</string>
-    <string name="AboutText">KeePassDroid является Android-версией программы KeePass Password Safe</string>
-    <string name="about_twitter">Твиттер:</string>
+    <string name="AboutText">KeePass DX является Android-версией программы KeePass Password Safe</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
     <string name="add_group_title">Новая группа</string>
     <string name="algorithm">Алгоритм</string>
     <string name="algorithm_colon">Алгоритм:</string>
-    <string name="app_name">KeePass</string>
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
     <string name="application">Программа</string>
-    <string name="application_settings">Настройки KeePassDroid</string>
+    <string name="application_settings">Настройки KeePass DX</string>
     <string name="beta_dontask">Не показывать снова</string>
     <string name="beta_warning">Поддержка сохранения баз kdbx ЭКСПЕРИМЕНТАЛЬНАЯ. Сделайте резервную копию базы перед сохранением.</string>
     <string name="brackets">{[(Скобки)]}</string>
@@ -55,7 +53,7 @@
     <string name="decrypting_entry">Расшифровка записи…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
-    <string name="disclaimer_formal">"KeePassDroid © 2009–2013
+    <string name="disclaimer_formal">"KeePass DX © 2009–2013
 Разработчик Brian Pellin
 
 Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее"</string>
@@ -160,7 +158,7 @@
     <string name="progress_create">Создание базы…</string>
     <string name="progress_title">Обработка</string>
     <string name="protection">Защита</string>
-    <string name="read_only_warning">KeePassDroid не имеет прав на запись в базу данных по указанному пути, так что база данных открыта только для чтения.</string>
+    <string name="read_only_warning">KeePass DX не имеет прав на запись в базу данных по указанному пути, так что база данных открыта только для чтения.</string>
     <string name="read_only_kitkat_warning">Начиная с Android версии KitKat, на некоторых устройствах нет разрешения записи на SD-карту для приложений</string>
     <string name="recentfile_title">Недавно открытые</string>
     <string name="recentfile_summary">Хранить имена открытых файлов</string>

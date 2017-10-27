@@ -2,35 +2,33 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   Danish translation by Frederik Svarre (fsvarre@gmail.com)
 -->
 <resources>
     <string name="about_feedback">Tilbagemelding:</string>
     <string name="about_homepage">Hjemmeside:</string>
-    <string name="AboutText">KeePassDroid er en Android implementering af KeePass password manager.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX er en Android implementering af KeePass password manager.</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Tilføj post</string>
     <string name="add_group">Tilføj gruppe</string>
     <string name="add_group_title">Tilføj gruppe</string>
     <string name="algorithm">Algoritme</string>
     <string name="algorithm_colon">Algoritme:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Applikations timeout</string>
     <string name="app_timeout_summary">Tid før databasen låses, når applikationen er inaktiv.</string>
     <string name="application">Applikation</string>
@@ -57,7 +55,7 @@
     <string name="decrypting_entry">Dekrypterer post</string>
     <string name="default_checkbox">Brug denne database som standard</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Angiv navn på databasefil:</string>
     <string name="entry_accessed">Senest åbnet: </string>
@@ -76,7 +74,7 @@
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">Brugernavn: </string>
     <string name="error_arc4">"ArcFour stream cipher" er ikke understøttet.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid kan ikke håndtere denne uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX kan ikke håndtere denne uri.</string>
     <string name="error_could_not_create_group">Fejl ved oprettelse af gruppe.</string>
     <string name="error_could_not_create_parent">Kunne ikke oprette rodbiblioteket.</string>
     <string name="error_database_exists">Denne fil eksisterer allerede.</string>
@@ -159,7 +157,7 @@
     <string name="progress_create">Opretter ny database&#8230;</string>
     <string name="progress_title">Arbejder&#8230;</string>
     <string name="protection">Beskyttelse</string>
-    <string name="read_only_warning">KeePassDroid har ikke rettigheder til at skrive til database-lokalisationen, så din database vil blive åbnet som skrivebeskyttet.</string>
+    <string name="read_only_warning">KeePass DX har ikke rettigheder til at skrive til database-lokalisationen, så din database vil blive åbnet som skrivebeskyttet.</string>
     <string name="read_only_kitkat_warning">Fra Android KitKat er det på nogle enheder ikke længere muligt for applikationer at skrive til hukommelseskortet.</string>
     <string name="recentfile_title">Seneste filhistorik</string>
     <string name="recentfile_summary">Husk seneste filnavne</string>

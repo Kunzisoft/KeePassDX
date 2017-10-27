@@ -2,20 +2,20 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
   Czech translation by Jan Vaněk
 
@@ -23,15 +23,13 @@
 <resources>
     <string name="about_feedback">Připomínky:</string>
     <string name="about_homepage">Domovská stránka:</string>
-    <string name="AboutText">KeePassDroid je Android implementace správce hesel KeePass.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX je Android implementace správce hesel KeePass.</string>
     <string name="accept">Přijat</string>
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>
     <string name="add_group_title">Přidat skupinu</string>
     <string name="algorithm">Algoritmus</string>
     <string name="algorithm_colon">Algoritmus:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Časový limit aplikace</string>
     <string name="app_timeout_summary">Čas před zamknutím databáze, když je aplikace neaktivní.</string>
     <string name="application">Aplikace</string>
@@ -58,7 +56,7 @@
     <string name="decrypting_entry">Dešifruji záznam</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Čísla</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Zadejte názvev souboru databáze:</string>
     <string name="entry_accessed">Poslední přístup: </string>
@@ -77,7 +75,7 @@
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">Uživatelské jméno: </string>
     <string name="error_arc4">ArcFour stream šifra není podporována.</string>
-    <string name="error_can_not_handle_uri">KeePassDroid nemůže zpracovat tuto uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX nemůže zpracovat tuto uri.</string>
     <string name="error_could_not_create_group">Chyba při vytváření skupiny.</string>
     <string name="error_could_not_create_parent">Nelze vyvořit nadřazený adresář.</string>
     <string name="error_database_exists">Tento soubor již existuje.</string>
@@ -160,7 +158,7 @@
     <string name="progress_create">Vytvářím novou databázi&#8230;</string>
     <string name="progress_title">Zpracovávám&#8230;</string>
     <string name="protection">Protection</string>
-    <string name="read_only_warning">KeePassDroid nemá právo pro zápis do místa umístění databáze, proto bude databáze otevřena jen pro čtení.</string>
+    <string name="read_only_warning">KeePass DX nemá právo pro zápis do místa umístění databáze, proto bude databáze otevřena jen pro čtení.</string>
     <string name="read_only_kitkat_warning">Od verze Android KitKat některá zařízení neumožňují aplikacím zápis na SD kartu.</string>
     <string name="recentfile_title">Historie posledních souborů</string>
     <string name="recentfile_summary">Pamatovat si naposledy použité soubory</string>

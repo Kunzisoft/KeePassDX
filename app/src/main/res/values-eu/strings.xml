@@ -2,35 +2,33 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePassDroid.
+ This file is part of KeePass DX.
 
-  KeePassDroid is free software: you can redistribute it and/or modify
+  KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePassDroid is distributed in the hope that it will be useful,
+  KeePass DX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   Basque translation by David García-Abad, released under GPL V2.
 -->
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Hasiera orria:</string>
-    <string name="AboutText">KeePassDroid ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
-    <string name="about_twitter">Twitter:</string>
+    <string name="AboutText">KeePass DX ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>
     <string name="add_group_title">Taldea gehitu</string>
     <string name="algorithm">Algoritmoa</string>
     <string name="algorithm_colon">Algoritmoa:</string>
-    <string name="app_name">KeePassDroid</string>
     <string name="app_timeout">Aplikazioa itzaltzeko denbora</string>
     <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
     <string name="application">Aplikazioa</string>
@@ -57,7 +55,7 @@
     <string name="decrypting_entry">Sarrera desenkriptatzen</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePassDroid Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Datubasearen fitxategiaren izena sartu:</string>
     <string name="entry_accessed">Akzesoa: </string>
@@ -76,7 +74,7 @@
     <string name="entry_url">URLa: </string>
     <string name="entry_user_name">Erabiltzaile izena: </string>
     <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
-    <string name="error_can_not_handle_uri">KeePassDroid-ek ezin dut uri hau kudeatu.</string>
+    <string name="error_can_not_handle_uri">KeePass DX-ek ezin dut uri hau kudeatu.</string>
     <string name="error_could_not_create_group">Errorea taldea sortzerakoan.</string>
     <string name="error_could_not_create_parent">Ezin izan da aita-direktorioa sortu.</string>
     <string name="error_database_exists">Fitxategia esistitzen da.</string>
