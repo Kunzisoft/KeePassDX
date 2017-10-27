@@ -17,17 +17,11 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <!-- TODO bug selection -->
-    <TextView android:id="@+id/file_filename"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="18dp"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingBottom="18dp"
-        android:singleLine="true"
-        android:scrollHorizontally="true" />
-</HorizontalScrollView>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/file_filename"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    android:paddingBottom="8dp" />
