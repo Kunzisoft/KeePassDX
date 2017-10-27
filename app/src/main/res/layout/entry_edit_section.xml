@@ -27,34 +27,31 @@
 		android:maxLines="1"
 		android:inputType="text"
 		android:hint="@string/field_name"
-		style="@style/TinyTextStyle"
-	/>
+		style="@style/TinyTextStyle" />
 	<CheckBox android:id="@+id/protection"
 		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
 		  android:layout_below="@id/title"
-		  android:text="@string/protection"
-	/>
+		  android:text="@string/protection" />
 	<ImageView android:id="@+id/delete"
 		  android:layout_width="30dp"
 		  android:layout_height="30dp"
 		  android:layout_alignParentRight="true"
+		  android:layout_alignParentEnd="true"
 		  android:layout_below="@id/title"
 		  android:src="@drawable/ic_close_white_24dp"
 		  android:scaleType="centerCrop"
-		  android:onClick="deleteAdvancedString"
-	 />
+		  android:onClick="deleteAdvancedString" />
 	<EditText android:id="@+id/value"
 		  android:layout_width="fill_parent"
 		  android:layout_height="wrap_content"
 		  android:layout_below="@id/delete"
 		  android:inputType="textMultiLine"
-		  android:hint="@string/field_value"
-	/>
+		  android:hint="@string/field_value" />
 	<ImageView android:id="@+id/divider_comment"
 		  android:layout_width="fill_parent"
 		  android:layout_height="wrap_content"
 		  android:layout_below="@id/value"
 		  android:scaleType="fitXY"
-		  android:src="@android:drawable/divider_horizontal_dark"/>
+		  android:src="@android:drawable/divider_horizontal_dark" />
 </com.keepassdroid.view.EntryEditSection>

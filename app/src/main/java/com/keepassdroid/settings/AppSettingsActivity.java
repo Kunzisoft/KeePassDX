@@ -21,23 +21,36 @@ package com.keepassdroid.settings;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.android.keepass.R;
-import com.keepassdroid.Database;
-import com.keepassdroid.LockingClosePreferenceActivity;
-import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
-import com.keepassdroid.database.PwEncryptionAlgorithm;
+import com.keepassdroid.timeout.TimeoutHelper;
 
-public class AppSettingsActivity extends LockingClosePreferenceActivity {
+public class AppSettingsActivity extends AppCompatActivity {
 	public static boolean KEYFILE_DEFAULT = false;
 	
 	private BackupManagerCompat backupManager;
+
+    private Toolbar toolbar;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TimeoutHelper.pause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TimeoutHelper.resume(this);
+        TimeoutHelper.checkShutdown(this);
+    }
 	
 	public static void Launch(Context ctx) {
 		Intent i = new Intent(ctx, AppSettingsActivity.class);
@@ -48,65 +61,32 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		addPreferencesFromResource(R.xml.preferences);
-		
-		Preference keyFile = findPreference(getString(R.string.keyfile_key));
-		keyFile.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				Boolean value = (Boolean) newValue;
-				
-				if ( ! value.booleanValue() ) {
-					App.getFileHistory().deleteAllKeys();
-				}
-				
-				return true;
-			}
-		});
-		
-		Preference recentHistory = findPreference(getString(R.string.recentfile_key));
-		recentHistory.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				Boolean value = (Boolean) newValue;
-				
-				if (value == null) {
-					value = true;
-				}
-				
-				if (!value) {
-					App.getFileHistory().deleteAll();
-				}
-				
-				return true;
-			}
-		});
-		
-		Database db = App.getDB();
-		if ( db.Loaded() && db.pm.appSettingsEnabled() ) {
-			Preference rounds = findPreference(getString(R.string.rounds_key));
-			rounds.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-				
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					setRounds(App.getDB(), preference);
-					return true;
-				}
-			});
-			
-			setRounds(db, rounds);
-			
-			Preference algorithm = findPreference(getString(R.string.algorithm_key));
-			setAlgorithm(db, algorithm);
-			
-		} else {
-			Preference dbSettings = findPreference(getString(R.string.db_key));
-			dbSettings.setEnabled(false);
-		}
-		
+
+		setContentView(R.layout.activity_toolbar);
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setTitle(R.string.application_settings);
+		setSupportActionBar(toolbar);
+		assert getSupportActionBar() != null;
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new AppSettingsFragment()).commit();
+
 		backupManager = new BackupManagerCompat(this);
-		
+
+		// TODO NESTED Preference
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch ( item.getItemId() ) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 	
 	@Override
 	protected void onStop() {
@@ -114,22 +94,5 @@ public class AppSettingsActivity extends LockingClosePreferenceActivity {
 		
 		super.onStop();
 	}
-
-	private void setRounds(Database db, Preference rounds) {
-		rounds.setSummary(Long.toString(db.pm.getNumRounds()));
-	}
-	
-	private void setAlgorithm(Database db, Preference algorithm) {
-		int resId;
-		if ( db.pm.getEncAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
-			resId = R.string.rijndael;
-		} else  {
-			resId = R.string.twofish;
-		}
-		
-		algorithm.setSummary(resId);
-	}
-	
-	
 
 }

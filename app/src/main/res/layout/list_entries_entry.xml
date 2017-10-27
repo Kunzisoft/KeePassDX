@@ -28,7 +28,8 @@
         android:scaleType="fitXY"
         android:src="@drawable/ic99_blank"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <TextView
         android:id="@+id/entry_text"
         android:layout_height="wrap_content"
@@ -36,5 +37,7 @@
         style="@style/DefaultTextStyle"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/entry_icon" />
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/entry_icon"
+        android:layout_toEndOf="@+id/entry_icon" />
 </RelativeLayout>

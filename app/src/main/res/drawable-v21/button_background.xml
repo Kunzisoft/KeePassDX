@@ -22,7 +22,7 @@
                         android:right="14dp"
                         android:top="8dp"
                         android:bottom="12dp"/>
-                    <solid android:color="@color/green"/>
+                    <solid android:color="@color/colorPrimary"/>
                 </shape>
             </item>
         </layer-list>

@@ -34,12 +34,17 @@
 		style="@style/TitleTextStyle"
 		android:text="@string/enter_filename"/>
 
-	<ImageButton android:id="@+id/browse_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:src="@drawable/ic_folder_white_24dp"
-		android:layout_alignParentEnd="true"
-		android:layout_below="@id/label_open_by_filename" />
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/browse_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/file_filename"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/label_open_by_filename"
+        android:padding="6dp"
+        android:src="@drawable/ic_folder_white_24dp"
+        android:tint="?attr/colorAccentCompat" />
 
     <EditText
         android:id="@+id/file_filename"
@@ -47,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/label_open_by_filename"
         android:inputType="textUri"
+        android:layout_toLeftOf="@+id/browse_button"
         android:layout_toStartOf="@+id/browse_button"
         android:maxLines="1" />
 
@@ -56,6 +62,7 @@
         android:layout_below="@id/file_filename"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
+        android:layout_toLeftOf="@+id/create"
         android:layout_toStartOf="@+id/create"
 		android:width="100sp"/>
 
@@ -65,6 +72,7 @@
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
         android:layout_below="@id/file_filename"
+        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
 		android:width="100sp"/>
 </RelativeLayout>

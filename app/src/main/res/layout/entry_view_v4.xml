@@ -31,16 +31,16 @@
 		android:padding="2dp"
 	  	style="@style/DefaultTextStyle">
 		<TextView android:id="@+id/entry_title"
-			android:layout_width="wrap_content"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_gravity="left|center_vertical"
+			android:layout_gravity="start|center_vertical"
 			android:layout_weight="1"
 			android:minHeight="32dp"
 			style="@style/DefaultTextStyle"/>
 		<ImageView android:id="@+id/entry_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="end|center_vertical"
             android:scaleType="fitXY"
             android:src="@drawable/ic99_blank"
             style="@style/DefaultTextStyle"/>
@@ -50,6 +50,7 @@
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"/>
 	<ImageView android:id="@+id/entry_divider2"
         android:layout_width="fill_parent"

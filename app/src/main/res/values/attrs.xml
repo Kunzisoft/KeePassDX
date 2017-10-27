@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="toolbarDark" format="reference" />
+    <attr name="colorAccentCompat" format="reference" />
+    <attr name="colorBackgroundTransparent" format="reference" />
+</resources>

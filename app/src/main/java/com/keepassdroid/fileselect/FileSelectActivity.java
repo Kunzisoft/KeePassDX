@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.fileselect;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -29,6 +28,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -72,7 +73,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-public class FileSelectActivity extends Activity {
+public class FileSelectActivity extends AppCompatActivity {
 
 	private ListView mList;
 	private ListAdapter mAdapter;
@@ -90,8 +91,6 @@ public class FileSelectActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		Util.colorStatusBar(this);
 		
 		fileHistory = App.getFileHistory();
 
@@ -101,6 +100,10 @@ public class FileSelectActivity extends Activity {
 		} else {
 			setContentView(R.layout.file_selection_no_recent);
 		}
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setTitle(getString(R.string.app_name));
+		setSupportActionBar(toolbar);
 
 		mList = (ListView)findViewById(R.id.file_list);
 
@@ -208,7 +211,7 @@ public class FileSelectActivity extends Activity {
 
 		});
 		
-		ImageButton browseButton = (ImageButton) findViewById(R.id.browse_button);
+		View browseButton = findViewById(R.id.browse_button);
 		browseButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {

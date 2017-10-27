@@ -21,14 +21,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+	<include
+		android:id="@+id/toolbar"
+		layout="@layout/toolbar_default" />
     <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
         android:layout_marginBottom="@dimen/default_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
   	<TextView android:id="@+id/file_listtop"
 		android:layout_marginTop="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
 		android:layout_marginStart="@dimen/default_margin"
 		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 		style="@style/TitleTextStyle"

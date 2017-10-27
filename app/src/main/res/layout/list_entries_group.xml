@@ -28,7 +28,8 @@
         android:scaleType="fitXY"
         android:src="@drawable/ic99_blank"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <TextView android:id="@+id/group_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +39,9 @@
         style="@style/DefaultTextStyle"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/group_label"
-        android:layout_toRightOf="@+id/group_icon" />
+        android:layout_toStartOf="@+id/group_label"
+        android:layout_toRightOf="@+id/group_icon"
+        android:layout_toEndOf="@+id/group_icon" />
     <TextView android:id="@+id/group_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,5 +50,6 @@
         android:layout_margin="@dimen/default_margin"
         style="@style/SecondaryText"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

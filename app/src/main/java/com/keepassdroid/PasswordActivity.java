@@ -30,6 +30,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -171,6 +172,13 @@ public class PasswordActivity extends LockingActivity {
         mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
         setContentView(R.layout.password);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         new InitTask().execute(i);
     }
 
@@ -310,14 +318,18 @@ public class PasswordActivity extends LockingActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch ( item.getItemId() ) {
-        case R.id.menu_about:
-            AboutDialog dialog = new AboutDialog(this);
-            dialog.show();
-            return true;
+            case R.id.menu_about:
+                AboutDialog dialog = new AboutDialog(this);
+                dialog.show();
+                return true;
 
-        case R.id.menu_app_settings:
-            AppSettingsActivity.Launch(this);
-            return true;
+            case R.id.menu_app_settings:
+                AppSettingsActivity.Launch(this);
+                return true;
+
+            case android.R.id.home:
+                finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -446,7 +458,7 @@ public class PasswordActivity extends LockingActivity {
             CheckBox defaultCheck = (CheckBox) findViewById(R.id.default_database);
             defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
 
-            ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
+            View browse = findViewById(R.id.browse_button);
             browse.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {

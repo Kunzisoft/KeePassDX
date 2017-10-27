@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId = "com.android.keepass"
-        minSdkVersion 3
-        targetSdkVersion 12
+        minSdkVersion 11
+        targetSdkVersion 25
         versionCode = 154
         versionName = "2.5.0.0"
 
@@ -30,9 +30,15 @@ android {
     }
 }
 
+def supportVersion = "25.4.0"
+def spongycastleVersion = "1.54.0.0"
+
 dependencies {
     androidTestCompile files('libs/junit4.jar')
-    compile 'com.madgag.spongycastle:core:1.54.0.0'
-    compile 'com.madgag.spongycastle:prov:1.54.0.0'
-    compile 'joda-time:joda-time:2.9.4'
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
+    compile "com.android.support:preference-v7:$supportVersion"
+    compile "com.madgag.spongycastle:core:$spongycastleVersion"
+    compile "com.madgag.spongycastle:prov:$spongycastleVersion"
+    compile "joda-time:joda-time:2.9.9"
 }

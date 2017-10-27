@@ -20,7 +20,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/green_transparent"
+    android:background="?attr/colorBackgroundTransparent"
     android:orientation="vertical">
     <TextView android:id="@+id/read_only" 
         android:layout_width="fill_parent"
@@ -39,14 +39,14 @@
         <TextView android:id="@+id/group_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="start|center_vertical"
             android:layout_weight="1"
             android:text="@string/root"
             style="@style/DefaultTextStyle" />
         <ImageView android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="end|center_vertical"
             android:scaleType="fitXY"
             android:src="@drawable/ic99_blank"
             style="@style/DefaultTextStyle" />

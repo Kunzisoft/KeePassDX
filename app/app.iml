@@ -106,7 +106,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
@@ -121,9 +120,23 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" scope="TEST" name="__local_jars__:/home/joker/Projects/keepassdroid/app/libs/junit4.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.madgag.spongycastle:core:1.54.0.0@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:design-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:transition-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-core-ui-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-compat-25.4.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="__local_jars__:/home/joker/Projects/keepassdroid/app/libs/junit4.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:preference-v7-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="joda-time:joda-time:2.9.9@jar" level="project" />
     <orderEntry type="library" exported="" name="com.madgag.spongycastle:prov:1.54.0.0@jar" level="project" />
-    <orderEntry type="library" exported="" name="joda-time:joda-time:2.9.4@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-annotations:25.4.0@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-core-utils-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-v4-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-vector-drawable-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-media-compat-25.4.0" level="project" />
   </component>
 </module>
