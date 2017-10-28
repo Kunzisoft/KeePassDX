@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -144,6 +145,14 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		} else {
 			setContentView(new GroupViewOnlyView(this));
 		}
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 		Log.w(TAG, "Set view");
 
 		if ( addGroupEnabled ) {
@@ -230,4 +239,6 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		    }
 		}
 	}
+
+
 }

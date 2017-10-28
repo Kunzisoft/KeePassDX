@@ -79,6 +79,7 @@
 		<item name="@android:textSize">12sp</item>
 	</style>
     <style name="SmallTextStyle" parent="android:TextAppearance">
+        <item name="android:textColor">@color/white</item>
         <item name="@android:textColor">@color/colorText</item>
         <item name="@android:textSize">15sp</item>
     </style>

@@ -36,6 +36,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -109,7 +110,7 @@ public class EntryActivity extends LockCloseHideActivity {
 	}
 	
 	protected void setupEditButtons() {
-		Button edit = (Button) findViewById(R.id.entry_edit);
+		View edit = findViewById(R.id.entry_edit);
 		edit.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -120,9 +121,6 @@ public class EntryActivity extends LockCloseHideActivity {
 		
 		if (readOnly) {
 			edit.setVisibility(View.GONE);
-			
-			View divider = findViewById(R.id.entry_divider2);
-			divider.setVisibility(View.GONE);
 		}
 	}
 
@@ -133,6 +131,12 @@ public class EntryActivity extends LockCloseHideActivity {
 		
 		super.onCreate(savedInstanceState);
 		setEntryView();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 		
 		Context appCtx = getApplicationContext();
 		dateFormat = android.text.format.DateFormat.getDateFormat(appCtx);
@@ -372,58 +376,60 @@ public class EntryActivity extends LockCloseHideActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case R.id.menu_donate:
-			try {
-				Util.gotoUrl(this, R.string.donate_url);
-			} catch (ActivityNotFoundException e) {
-				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-				return false;
-			}
-			
-			return true;
-		case R.id.menu_toggle_pass:
-			if ( mShowPassword ) {
-				item.setTitle(R.string.menu_showpass);
-				mShowPassword = false;
-			} else {
-				item.setTitle(R.string.menu_hide_password);
-				mShowPassword = true;
-			}
-			setPasswordStyle();
+            case R.id.menu_donate:
+                try {
+                    Util.gotoUrl(this, R.string.donate_url);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                return true;
 
-			return true;
+            case R.id.menu_toggle_pass:
+                if ( mShowPassword ) {
+                    item.setTitle(R.string.menu_showpass);
+                    mShowPassword = false;
+                } else {
+                    item.setTitle(R.string.menu_hide_password);
+                    mShowPassword = true;
+                }
+                setPasswordStyle();
+                return true;
 			
-		case R.id.menu_goto_url:
-			String url;
-			url = mEntry.getUrl();
+            case R.id.menu_goto_url:
+                String url;
+                url = mEntry.getUrl();
+
+                // Default http:// if no protocol specified
+                if ( ! url.contains("://") ) {
+                    url = "http://" + url;
+                }
+
+                try {
+                    Util.gotoUrl(this, url);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show();
+                }
+                return true;
 			
-			// Default http:// if no protocol specified
-			if ( ! url.contains("://") ) {
-				url = "http://" + url;
-			}
+            case R.id.menu_copy_user:
+                timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm));
+                return true;
 			
-			try {
-				Util.gotoUrl(this, url);
-			} catch (ActivityNotFoundException e) {
-				Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show();
-			}
-			return true;
+            case R.id.menu_copy_pass:
+                timeoutCopyToClipboard(new String(mEntry.getPassword(true, App.getDB().pm)));
+                return true;
 			
-		case R.id.menu_copy_user:
-			timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm));
-			return true;
-			
-		case R.id.menu_copy_pass:
-			timeoutCopyToClipboard(new String(mEntry.getPassword(true, App.getDB().pm)));
-			return true;
-			
-		case R.id.menu_lock:
-			App.setShutdown();
-			setResult(KeePass.EXIT_LOCK);
-			finish();
-			return true;
-		}
-		
+            case R.id.menu_lock:
+                App.setShutdown();
+                setResult(KeePass.EXIT_LOCK);
+                finish();
+                return true;
+
+            case android.R.id.home :
+                finish(); // close this activity and return to preview activity (if there is any)
+        }
+
 		return super.onOptionsItemSelected(item);
 	}
 	

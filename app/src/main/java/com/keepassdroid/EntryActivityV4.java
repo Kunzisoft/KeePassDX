@@ -38,7 +38,7 @@ public class EntryActivityV4 extends EntryActivity {
 
 	@Override
 	protected void setEntryView() {
-		setContentView(R.layout.entry_view_v4);
+		setContentView(R.layout.entry_view);
 	}
 
 	@Override

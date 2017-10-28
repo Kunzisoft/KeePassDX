@@ -18,53 +18,65 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_margin="@dimen/default_margin"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<!--  Title -->	
-	<LinearLayout android:id="@+id/title_block"
-	  android:layout_alignParentTop="true"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:padding="2dp"
-	  style="@style/DefaultTextStyle">
-		<TextView android:id="@+id/entry_title"
-		  android:layout_width="0dp"
-		  android:layout_height="wrap_content"
-		  android:layout_gravity="start|center_vertical"
-		  android:layout_weight="1"
-		  android:minHeight="32dp"
-		  style="@style/DefaultTextStyle"/>
-		<ImageView android:id="@+id/entry_icon"
-		  android:layout_width="wrap_content"
-		  android:layout_height="wrap_content"
-		  android:layout_gravity="end|center_vertical"
-		  android:scaleType="fitXY"
-		  android:src="@drawable/ic99_blank"
-		  style="@style/DefaultTextStyle"/>
-	</LinearLayout>
-	<Button android:id="@+id/entry_edit"
-	  android:text="@string/menu_edit"
-	  android:layout_width="100sp"
-	  android:layout_height="wrap_content"
-	  android:layout_alignParentLeft="true"
-	  android:layout_alignParentStart="true"
-	  android:layout_alignParentBottom="true"/>
-	<ImageView android:id="@+id/entry_divider2"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:layout_above="@id/entry_edit"
-	  android:scaleType="fitXY"
-	  android:src="@android:drawable/divider_horizontal_dark"/>
-	<ScrollView android:id="@+id/entry_scroll" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"
-	  android:layout_above="@id/entry_divider2"
-	  android:layout_below="@id/title_block"
-	  android:fillViewport="true"
-	  android:scrollbarStyle="insideOverlay">
-		<com.keepassdroid.view.EntryContentsView android:id="@+id/entry_contents"
-		  android:layout_height="wrap_content"
-		  android:layout_width="fill_parent" />	
-	</ScrollView>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar"
+        android:title="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:theme="?attr/toolbarDark"
+        android:elevation="4dp"
+        tools:targetApi="lollipop" >
+        <LinearLayout android:id="@+id/title_block"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:translationZ="10dp"
+            style="@style/DefaultTextStyle">
+            <android.support.v7.widget.AppCompatImageView android:id="@+id/entry_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic99_blank"/>
+            <TextView android:id="@+id/entry_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="start|center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="start|center_vertical"
+                style="@style/KeepassoidStyle.TextAppearance.Inverse" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView android:id="@+id/entry_scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/toolbar"
+        android:fillViewport="true"
+        android:scrollbarStyle="insideOverlay">
+
+        <com.keepassdroid.view.EntryContentsView android:id="@+id/entry_contents"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent" />
+
+    </ScrollView>
+
+	<android.support.v7.widget.AppCompatImageButton android:id="@+id/entry_edit"
+        android:text="@string/menu_edit"
+        android:layout_margin="24dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_mode_edit_white_24dp"
+        android:background="@drawable/fab_background"
+        android:elevation="4dp" />
+
 </RelativeLayout>

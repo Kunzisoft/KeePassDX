@@ -20,7 +20,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorBackgroundTransparent"
     android:orientation="vertical">
     <TextView android:id="@+id/read_only" 
         android:layout_width="fill_parent"
@@ -28,27 +27,26 @@
         android:text="@string/read_only"
         android:visibility="gone"
         style="@style/WarningTextStyle" />
-    <LinearLayout 
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_marginStart="@dimen/list_margin"
         android:layout_marginEnd="@dimen/list_margin"
-        android:padding="2sp"
         style="@style/DefaultTextStyle">
-        <TextView android:id="@+id/group_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_weight="1"
-            android:text="@string/root"
-            style="@style/DefaultTextStyle" />
         <ImageView android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:scaleType="fitXY"
             android:src="@drawable/ic99_blank"
+            style="@style/DefaultTextStyle" />
+        <TextView android:id="@+id/group_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_weight="1"
+            android:text="@string/root"
             style="@style/DefaultTextStyle" />
     </LinearLayout>
 </LinearLayout>

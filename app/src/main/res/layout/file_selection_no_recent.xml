@@ -20,9 +20,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<com.keepassdroid.view.FileNameView android:id="@+id/file_select"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent" />
+	<include
+		android:id="@+id/toolbar"
+		layout="@layout/toolbar_default" />
+
+    <com.keepassdroid.view.FileNameView
+        android:id="@+id/file_select"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/toolbar" />
+
   	<!-- Small hack because I need to include a list since this is a list activity -->
   	<ListView android:id="@+id/file_list"
 		android:layout_width="0sp"

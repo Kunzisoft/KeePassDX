@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -117,6 +118,13 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_edit);
 		setResult(KeePass.EXIT_NORMAL);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 		
 		// Likely the app has been killed exit the activity
 		Database db = App.getDB();
@@ -157,7 +165,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		});
 
 		// Generate password button
-		Button generatePassword = (Button) findViewById(R.id.generate_button);
+		View generatePassword = findViewById(R.id.generate_button);
 		generatePassword.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -166,7 +174,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		});
 		
 		// Save button
-		Button save = (Button) findViewById(R.id.entry_save);
+		View save = findViewById(R.id.entry_save);
 		save.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -198,17 +206,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 			
 		});
 		
-		// Cancel button
-		Button cancel = (Button) findViewById(R.id.entry_cancel);
-		cancel.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				finish();
-				
-			}
-			
-		});
-		
 		// Respect mask password setting
 		if (mShowPassword) {
 			EditText pass = (EditText) findViewById(R.id.entry_password);
@@ -219,6 +216,8 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		}
 		
 	}
+
+
 	
 	protected boolean validateBeforeSaving() {
 		// Require title
@@ -313,25 +312,28 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case R.id.menu_donate:
-			try {
-				Util.gotoUrl(this, R.string.donate_url);
-			} catch (ActivityNotFoundException e) {
-				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-				return false;
-			}
-			
-			return true;
-		case R.id.menu_toggle_pass:
-			if ( mShowPassword ) {
-				item.setTitle(R.string.menu_showpass);
-				mShowPassword = false;
-			} else {
-				item.setTitle(R.string.menu_hide_password);
-				mShowPassword = true;
-			}
-			setPasswordStyle();
-			return true;
+			case R.id.menu_donate:
+				try {
+					Util.gotoUrl(this, R.string.donate_url);
+				} catch (ActivityNotFoundException e) {
+					Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+					return false;
+				}
+				return true;
+
+			case R.id.menu_toggle_pass:
+				if ( mShowPassword ) {
+					item.setTitle(R.string.menu_showpass);
+					mShowPassword = false;
+				} else {
+					item.setTitle(R.string.menu_hide_password);
+					mShowPassword = true;
+				}
+				setPasswordStyle();
+				return true;
+
+			case android.R.id.home:
+				finish();
 		}
 		
 		return super.onOptionsItemSelected(item);

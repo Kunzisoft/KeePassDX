@@ -126,7 +126,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			}
 		}
 	}
-	
+
 	protected void setGroupIcon() {
 		if (mGroup != null) {
 			ImageView iv = (ImageView) findViewById(R.id.icon);
