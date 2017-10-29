@@ -19,119 +19,108 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_margin="@dimen/default_margin"
-  android:id="@+id/entry_table"
-  android:layout_height="wrap_content"
-  android:layout_width="fill_parent"
-  android:orientation="vertical">	
+	android:id="@+id/entry_table"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:orientation="vertical">
 	<!-- Username -->
-	<TextView android:id="@+id/entry_user_name_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:text="@string/entry_user_name"
-	  style="@style/LabelTextStyle"
-	/>
-	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_user_name" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="@style/EntryItem"
-	/>
-	<View style="@style/Divider" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_user_name_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_user_name"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_user_name"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textIsSelectable="true"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+
 	<!--  URL -->
-	<TextView android:id="@+id/entry_url_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:text="@string/entry_url" 
-	  style="@style/LabelTextStyle"
-	/>
-	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_url" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:autoLink="all"
-	  style="@style/EntryItem"
-	/>
-	<View style="@style/Divider" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_url_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_url"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_url"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:autoLink="all"
+		android:textIsSelectable="true"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+
 	<!-- Password -->
-	<TextView android:id="@+id/entry_password_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content" 
-	  android:text="@string/entry_password"
-	  style="@style/LabelTextStyle"
-	/>
-	<EditText android:id="@+id/entry_password"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:inputType="textPassword"
-	  style="@style/EntryItem"
-	/>
-	<View style="@style/Divider" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_password_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_password"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView android:id="@+id/entry_password"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:inputType="textPassword"
+        android:textIsSelectable="true"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+
 	<!-- Comment -->
-	<TextView android:id="@+id/entry_comment_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content" 
-	  android:text="@string/entry_comment"
-	  android:autoLink="all"
-	  style="@style/LabelTextStyle"
-	/>
-	<com.keepassdroid.view.TextViewSelect android:id="@+id/entry_comment" 
-      android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="@style/EntryItem"
-	/>
-	<View style="@style/Divider" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_comment_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_comment"
+		android:autoLink="all"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_comment"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textIsSelectable="true"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+
 	<LinearLayout android:id="@+id/extra_strings"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:orientation="vertical">
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 	</LinearLayout>
+
 	<!-- Created -->
-	<TextView android:id="@+id/entry_created_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content" 
-	  android:text="@string/entry_created"
-	  style="@style/LabelTextStyle"
-	/>
-	<TextView android:id="@+id/entry_created" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="@style/EntryItem"
-	/>
-	<View style="@style/Divider" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_created_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_created"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_created" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+
 	<!-- Modified -->
-	<TextView android:id="@+id/entry_modified_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content" 
-	  android:text="@string/entry_modified"
-	  style="@style/LabelTextStyle"
-	/>
-	<TextView android:id="@+id/entry_modified" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="@style/EntryItem"
-	/>
-	<View style="@style/Divider" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_modified"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+
 	<!-- Accessed -->
-	<TextView android:id="@+id/entry_accessed_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content" 
-	  android:text="@string/entry_accessed"
-	  style="@style/LabelTextStyle"
-	/>
-	<TextView android:id="@+id/entry_accessed" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="@style/EntryItem"
-	/>
-	<View style="@style/Divider" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_accessed"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+
 	<!-- Expires -->
-	<TextView android:id="@+id/entry_expires_label"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content" 
-	  android:text="@string/entry_expires"
-	  style="@style/LabelTextStyle"
-	/>
-	<TextView android:id="@+id/entry_expires" 
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  style="@style/EntryItem"
-	/>
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/entry_expires"
+		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
 </LinearLayout>

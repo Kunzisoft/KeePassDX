@@ -24,14 +24,12 @@
 	<TextView android:id="@+id/title"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  style="@style/LabelTextStyle"
-	/>
-	<com.keepassdroid.view.TextViewSelect 
-	  android:id="@+id/value"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:autoLink="all"
-	  style="@style/EntryItem"
-	/>
+	  style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle"	/>
+	<TextView
+		android:id="@+id/value"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textIsSelectable="true"
+		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
 	<View style="@style/Divider" />
 </LinearLayout> 

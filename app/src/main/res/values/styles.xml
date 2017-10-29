@@ -101,14 +101,16 @@
 	<style name="WarningTextStyle" parent="android:TextAppearance">
 		<item name="@android:textColor">@color/colorAccent</item>
 	</style>
-	<style name="LabelTextStyle" parent="android:TextAppearance">
+
+    <!-- Form -->
+	<style name="KeepassoidStyle.TextAppearance.LabelTextStyle" parent="android:TextAppearance">
 		<item name="@android:textSize">12sp</item>
 	</style>
-
-
-	<style name="EntryItem">
+	<style name="KeepassoidStyle.TextAppearance.TextEntryItem">
 		<item name="@android:padding">5sp</item>
+        <item name="@android:textSize">16sp</item>
 	</style>
+
 	<style name="Divider">
 	    <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">1dp</item>

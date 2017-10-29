@@ -21,15 +21,14 @@ package com.keepassdroid.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.CheckBox;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.keepass.R;
 import com.keepassdroid.database.security.ProtectedString;
 
-public class EntryEditSection extends RelativeLayout {
+public class EntryEditSection extends LinearLayout {
 	
 	public EntryEditSection(Context context) {
 		super(context);
@@ -42,28 +41,6 @@ public class EntryEditSection extends RelativeLayout {
 	public EntryEditSection(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
-	
-	/*
-	public EntryEditSection(Context context, AttributeSet attrs, String title, ProtectedString value) {
-		super(context, attrs);
-		
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflate(inflater, context, title, value);
-		
-		fillData(title, value);
-	}
-	*/
-
-	/*
-	private int getLayout() {
-		return R.layout.entry_edit_section;
-	}
-
-	protected void inflate(LayoutInflater inflater, Context context,
-			String title, ProtectedString value) {
-		
-		inflater.inflate(getLayout(), this);
-	*/
 	
 	public void setData(String title, ProtectedString value) {
 		setText(R.id.title, title);

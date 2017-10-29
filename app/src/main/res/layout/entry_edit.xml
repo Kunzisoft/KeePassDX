@@ -30,150 +30,148 @@
 		android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:fillViewport="true">
-		<RelativeLayout
+		<LinearLayout
             android:padding="@dimen/default_margin"
+            android:orientation="vertical"
             android:layout_width="match_parent"
 			android:layout_height="wrap_content">
+
 			<!--  Title -->
-			<TextView android:id="@+id/entry_title_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/entry_title" />
-			<ImageButton android:id="@+id/icon_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/ic00"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentEnd="true"
-				android:layout_below="@id/entry_title_label"/>
-			<EditText android:id="@+id/entry_title"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_toLeftOf="@+id/icon_button"
-				android:layout_toStartOf="@+id/icon_button"
-				android:maxLines="1"
-				android:layout_below="@id/entry_title_label"
-				android:hint="@string/hint_title"/>
-			<View android:id="@+id/divider_title"
-				android:layout_below="@id/icon_button"
-				android:layout_marginTop="6dp"
-				android:scaleType="fitXY"
-				style="@style/DividerEntry"/>
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_toLeftOf="@+id/icon_button"
+                    android:layout_toStartOf="@+id/icon_button">
+
+                    <EditText
+                        android:id="@+id/entry_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:hint="@string/entry_title" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.AppCompatImageButton android:id="@+id/icon_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic00"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
 			<!-- Username -->
-			<TextView android:id="@+id/entry_user_name_label"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/divider_title"
-				android:text="@string/entry_user_name" />
-			<EditText android:id="@+id/entry_user_name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:maxLines="1"
-				android:inputType="textEmailAddress"
-				android:layout_below="@id/entry_user_name_label"
-				android:hint="@string/hint_username"/>
-			<View android:id="@+id/divider_username"
-				android:layout_below="@id/entry_user_name"
-				android:layout_marginTop="6dp"
-				android:scaleType="fitXY"
-				style="@style/DividerEntry"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/entry_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:hint="@string/entry_user_name" />
+            </android.support.design.widget.TextInputLayout>
+
 			<!--  URL -->
-			<TextView android:id="@+id/entry_url_label"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/divider_username"
-				android:text="@string/entry_url" />
-			<EditText android:id="@+id/entry_url"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:maxLines="1"
-				android:inputType="textUri"
-				android:layout_below="@id/entry_url_label"
-				android:hint="@string/hint_url"/>
-			<View android:id="@+id/divider_url"
-				android:layout_below="@id/entry_url"
-				android:layout_marginTop="6dp"
-				android:scaleType="fitXY"
-				style="@style/DividerEntry"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/entry_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:inputType="textUri"
+                    android:hint="@string/entry_url" />
+            </android.support.design.widget.TextInputLayout>
+
 			<!-- Password -->
-			<TextView android:id="@+id/entry_password_label"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/divider_url"
-				android:text="@string/entry_password" />
-			<android.support.v7.widget.AppCompatImageView android:id="@+id/generate_button"
-				android:layout_below="@id/entry_password_label"
-				android:layout_width="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                android:tint="@color/colorAccent"
-                android:layout_margin="8dp"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentEnd="true"/>
-			<EditText android:id="@+id/entry_password"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textPassword"
-				android:maxLines="1"
-				android:layout_toLeftOf="@id/generate_button"
-				android:layout_toStartOf="@id/generate_button"
-				android:hint="@string/hint_pass"
-				android:layout_alignTop="@id/generate_button"/>
-			<View android:id="@+id/divider_password"
-				android:layout_below="@id/generate_button"
-				android:layout_marginTop="6dp"
-				android:scaleType="fitXY"
-				style="@style/DividerEntry"/>
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_toLeftOf="@+id/generate_button"
+                    android:layout_toStartOf="@+id/generate_button">
+
+                    <EditText
+                        android:id="@+id/entry_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:hint="@string/entry_password" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.AppCompatImageView android:id="@+id/generate_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_mode_edit_white_24dp"
+                    android:tint="@color/colorAccent"
+                    android:layout_margin="8dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+
 			<!-- Confirm Password -->
-			<TextView android:id="@+id/entry_confpassword_label"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/divider_password"
-				android:text="@string/entry_confpassword" />
-			<EditText android:id="@+id/entry_confpassword"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textPassword"
-				android:maxLines="1"
-				android:layout_below="@id/entry_confpassword_label"
-				android:hint="@string/hint_conf_pass"/>
-			<View android:id="@+id/divider_confpassword"
-				android:layout_below="@id/entry_confpassword"
-				android:layout_marginTop="6dp"
-				android:scaleType="fitXY"
-				style="@style/DividerEntry"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/entry_confpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:inputType="textPassword"
+                    android:hint="@string/entry_confpassword" />
+            </android.support.design.widget.TextInputLayout>
+
 			<!-- Comment -->
-			<TextView android:id="@+id/entry_comment_label"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/divider_confpassword"
-				android:text="@string/entry_comment" />
-			<EditText android:id="@+id/entry_comment"
-				android:inputType="textMultiLine"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/entry_comment_label"
-				android:hint="@string/hint_comment"/>
-			<View android:id="@+id/divider_comment"
-				android:layout_below="@id/entry_comment"
-				android:scaleType="fitXY"
-				style="@style/DividerEntry"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/entry_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:inputType="textMultiLine"
+                    android:hint="@string/entry_comment" />
+            </android.support.design.widget.TextInputLayout>
+
+
 			<LinearLayout android:id="@+id/advanced_container"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@id/divider_comment"
 				android:orientation="vertical">
 			</LinearLayout>
+
 			<ImageView android:id="@+id/add_advanced"
 				android:layout_width="30sp"
 				android:layout_height="30sp"
-				android:layout_below="@id/advanced_container"
 				android:contentDescription="@string/add_string"
 				android:src="@drawable/ic_add_white_24dp"
                 android:tint="@color/colorAccent"
 				android:scaleType="centerCrop"
 				android:visibility="gone" />
-		</RelativeLayout>
+		</LinearLayout>
 	</com.keepassdroid.view.NoFocusScrollView >
 
     <android.support.v7.widget.AppCompatImageButton
