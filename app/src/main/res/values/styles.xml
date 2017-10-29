@@ -36,7 +36,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorAccentCompat">@color/colorAccent</item>
 
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlNormal">@color/white</item>
 
         <item name="android:textAppearance">@style/KeepassoidStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassoidStyle.TextAppearance</item>
@@ -72,6 +72,10 @@
     <style name="KeepassoidStyle.TextAppearance.Inverse" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorTextInverse</item>
     </style>
+    <style name="KeepassoidStyle.TextAppearance.DefaultTextOnPrimary" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="ElementTextTitle" parent="android:TextAppearance">
         <item name="@android:textColor">@color/colorText</item>
     </style>

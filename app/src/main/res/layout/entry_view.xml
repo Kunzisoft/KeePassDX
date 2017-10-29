@@ -50,7 +50,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_gravity="start|center_vertical"
-                style="@style/KeepassoidStyle.TextAppearance.Inverse" />
+                style="@style/KeepassoidStyle.TextAppearance.DefaultTextOnPrimary" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
