@@ -9,8 +9,8 @@ android {
         minSdkVersion 3
         targetSdkVersion 12
 
-        versionCode = 154
-        versionName = "2.0.6.4"
+        versionCode = 155
+        versionName = "2.1.0.0"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
