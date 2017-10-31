@@ -2,28 +2,19 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion = 22
-    buildToolsVersion = "25.0.0"
+    buildToolsVersion = '26.0.2'
 
     defaultConfig {
         applicationId = "com.android.keepass"
-        minSdkVersion = 3
-        targetSdkVersion = 12
+        minSdkVersion 3
+        targetSdkVersion 12
+
         versionCode = 154
         versionName = "2.0.6.4"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
-
-        /*
-        buildConfigFields.with {
-            create() {
-                type = "int"
-                name = "VALUE"
-                value = "1"
-            }
-        }
-        */
     }
 
     externalNativeBuild {
@@ -39,8 +30,11 @@ android {
         }
     }
 
+    flavorDimensions "all"
+
     productFlavors {
         flavor1 {
+            dimension = "all"
             applicationId = "com.android.keepass"
         }
     }
