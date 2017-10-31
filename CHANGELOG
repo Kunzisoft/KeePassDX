@@ -1,7 +1,7 @@
  * Add support for KDBXv4 (used in mainline KeePass >= 2.35)
  * Updated Lithuanian translations
- * Updated Russian translations from bboa
- 
+ * Updated Russian translations
+ * Updated French translations
 
 KeePassDroid (2.0.6.4)
  * Expose Storage Access Framework option
