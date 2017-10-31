@@ -33,6 +33,7 @@ import javax.crypto.spec.SecretKeySpec;
 import android.os.Build;
 
 import com.keepassdroid.crypto.engine.AesEngine;
+import com.keepassdroid.crypto.engine.ChaCha20Engine;
 import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.crypto.engine.TwofishEngine;
 import com.keepassdroid.utils.Types;
@@ -88,6 +89,8 @@ public class CipherFactory {
 			return new AesEngine();
 		} else if ( uuid.equals(TwofishEngine.CIPHER_UUID) ) {
 			return new TwofishEngine();
+		} else if ( uuid.equals(ChaCha20Engine.CIPHER_UUID)) {
+			return new ChaCha20Engine();
 		}
 		
 		throw new NoSuchAlgorithmException("UUID unrecognized.");
