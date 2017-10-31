@@ -69,14 +69,22 @@ public class Kdb4 extends AndroidTestCase {
 
     }
 
-    public void testSaving() throws IOException, InvalidDBException, PwDbOutputException {
+    public void testSavingKDBXV3() throws IOException, InvalidDBException, PwDbOutputException {
+       testSaving("test.kdbx", "12345", "test-out.kdbx");
+    }
+
+    public void testSavingKDBXV4() throws IOException, InvalidDBException, PwDbOutputException {
+        testSaving("test-kdbxv4.kdbx", "1", "test-kdbxv4-out.kdbx");
+    }
+
+    private void testSaving(String inputFile, String password, String outputFile) throws IOException, InvalidDBException, PwDbOutputException {
         Context ctx = getContext();
 
         AssetManager am = ctx.getAssets();
-        InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
+        InputStream is = am.open(inputFile, AssetManager.ACCESS_STREAMING);
 
         ImporterV4 importer = new ImporterV4();
-        PwDatabaseV4 db = importer.openDatabase(is, "12345", null);
+        PwDatabaseV4 db = importer.openDatabase(is, password, null);
         is.close();
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -86,12 +94,12 @@ public class Kdb4 extends AndroidTestCase {
 
         byte[] data = bos.toByteArray();
 
-        FileOutputStream fos = new FileOutputStream(TestUtil.getSdPath("test-out.kdbx"), false);
+        FileOutputStream fos = new FileOutputStream(TestUtil.getSdPath(outputFile), false);
 
         InputStream bis = new ByteArrayInputStream(data);
         bis = new CopyInputStream(bis, fos);
         importer = new ImporterV4();
-        db = importer.openDatabase(bis, "12345", null);
+        db = importer.openDatabase(bis, password, null);
         bis.close();
 
         fos.close();

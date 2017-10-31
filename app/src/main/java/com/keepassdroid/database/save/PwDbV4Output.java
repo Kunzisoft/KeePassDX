@@ -23,6 +23,7 @@ import static com.keepassdroid.database.PwDatabaseV4XML.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,7 @@ import java.util.zip.GZIPOutputStream;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 
+import org.joda.time.DateTime;
 import org.spongycastle.crypto.StreamCipher;
 import org.xmlpull.v1.XmlSerializer;
 
@@ -69,6 +71,9 @@ import com.keepassdroid.database.exception.PwDbOutputException;
 import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.stream.HashedBlockOutputStream;
+import com.keepassdroid.stream.HmacBlockOutputStream;
+import com.keepassdroid.stream.LEDataOutputStream;
+import com.keepassdroid.utils.DateUtil;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MemUtil;
 import com.keepassdroid.utils.Types;
@@ -81,7 +86,9 @@ public class PwDbV4Output extends PwDbOutput {
 	private XmlSerializer xml;
 	private PwDbHeaderV4 header;
 	private byte[] hashOfHeader;
-	
+	private byte[] headerHmac;
+    private CipherEngine engine = null;
+
 	protected PwDbV4Output(PwDatabaseV4 pm, OutputStream os) {
 		super(os);
 		
@@ -91,30 +98,53 @@ public class PwDbV4Output extends PwDbOutput {
 	@Override
 	public void output() throws PwDbOutputException {
 
-
-		header = (PwDbHeaderV4) outputHeader(mOS);
-		
-		CipherOutputStream cos = attachStreamEncryptor(header, mOS);
-		
-		OutputStream compressed;
-		try {
-			cos.write(header.streamStartBytes);
-			
-			HashedBlockOutputStream hashed = new HashedBlockOutputStream(cos);
-			
-			if ( mPM.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {
-				compressed = new GZIPOutputStream(hashed); 
-			} else {
-				compressed = hashed;
+        try {
+			try {
+				engine = CipherFactory.getInstance(mPM.dataCipher);
+			} catch (NoSuchAlgorithmException e) {
+				throw new PwDbOutputException("No such cipher", e);
 			}
 
-	
-			outputDatabase(compressed);
-			compressed.close();
-		} catch (IllegalArgumentException e) {
-			throw new PwDbOutputException(e);
-		} catch (IllegalStateException e) {
-			throw new PwDbOutputException(e);
+			header = (PwDbHeaderV4) outputHeader(mOS);
+
+			OutputStream osPlain;
+			if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+				CipherOutputStream cos = attachStreamEncryptor(header, mOS);
+				cos.write(header.streamStartBytes);
+
+				HashedBlockOutputStream hashed = new HashedBlockOutputStream(cos);
+				osPlain = hashed;
+			} else {
+				mOS.write(hashOfHeader);
+				mOS.write(headerHmac);
+
+				HmacBlockOutputStream hbos = new HmacBlockOutputStream(mOS, mPM.hmacKey);
+				osPlain = attachStreamEncryptor(header, hbos);
+			}
+
+			OutputStream osXml;
+			try {
+
+
+				if (mPM.compressionAlgorithm == PwCompressionAlgorithm.Gzip) {
+					osXml = new GZIPOutputStream(osPlain);
+				} else {
+					osXml = osPlain;
+				}
+
+				if (header.version >= PwDbHeaderV4.FILE_VERSION_32_4) {
+					PwDbInnerHeaderOutputV4 ihOut =  new PwDbInnerHeaderOutputV4((PwDatabaseV4)mPM, header, osXml);
+                    ihOut.output();
+				}
+
+
+				outputDatabase(osXml);
+				osXml.close();
+			} catch (IllegalArgumentException e) {
+				throw new PwDbOutputException(e);
+			} catch (IllegalStateException e) {
+				throw new PwDbOutputException(e);
+			}
 		} catch (IOException e) {
 			throw new PwDbOutputException(e);
 		}
@@ -241,8 +271,10 @@ public class PwDbV4Output extends PwDbOutput {
 		writeObject(ElemHistoryMaxSize, mPM.historyMaxSize);
 		writeObject(ElemLastSelectedGroup, mPM.lastSelectedGroup);
 		writeObject(ElemLastTopVisibleGroup, mPM.lastTopVisibleGroup);
-		
-		writeBinPool();
+
+		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+			writeBinPool();
+		}
 		writeList(ElemCustomData, mPM.customData);
 		
 		xml.endTag(null, ElemMeta);
@@ -251,11 +283,9 @@ public class PwDbV4Output extends PwDbOutput {
 	
 	private CipherOutputStream attachStreamEncryptor(PwDbHeaderV4 header, OutputStream os) throws PwDbOutputException {
 		Cipher cipher;
-		CipherEngine engine;
 		try {
-			mPM.makeFinalKey(header.masterSeed, header.getTransformSeed(), (int)mPM.numKeyEncRounds);
+			//mPM.makeFinalKey(header.masterSeed, mPM.kdfParameters);
 
-			engine = CipherFactory.getInstance(mPM.dataCipher);
 			cipher = engine.getCipher(Cipher.ENCRYPT_MODE, mPM.finalKey, header.encryptionIV);
 		} catch (Exception e) {
 			throw new PwDbOutputException("Invalid algorithm.", e);
@@ -272,19 +302,34 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		PwDbHeaderV4 h = (PwDbHeaderV4) header;
 		random.nextBytes(h.masterSeed);
+
+		int ivLength = engine.ivLength();
+		if (ivLength != h.encryptionIV.length) {
+			h.encryptionIV = new byte[ivLength];
+		}
 		random.nextBytes(h.encryptionIV);
 
 		UUID kdfUUID = mPM.kdfParameters.kdfUUID;
 		KdfEngine kdf = KdfFactory.get(kdfUUID);
 		kdf.randomize(mPM.kdfParameters);
 
-		random.nextBytes(h.protectedStreamKey);
-		h.innerRandomStream = CrsAlgorithm.Salsa20;
-		randomStream = PwStreamCipherFactory.getInstance(h.innerRandomStream, h.protectedStreamKey);
+		if (h.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+			h.innerRandomStream = CrsAlgorithm.Salsa20;
+            h.innerRandomStreamKey = new byte[32];
+		} else {
+			h.innerRandomStream = CrsAlgorithm.ChaCha20;
+			h.innerRandomStreamKey = new byte[64];
+		}
+		random.nextBytes(h.innerRandomStreamKey);
+
+		randomStream = PwStreamCipherFactory.getInstance(h.innerRandomStream, h.innerRandomStreamKey);
 		if (randomStream == null) {
 			throw new PwDbOutputException("Invalid random cipher");
 		}
-		random.nextBytes(h.streamStartBytes);
+
+		if ( h.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+			random.nextBytes(h.streamStartBytes);
+		}
 		
 		return random;
 	}
@@ -293,7 +338,7 @@ public class PwDbV4Output extends PwDbOutput {
 	public PwDbHeader outputHeader(OutputStream os) throws PwDbOutputException {
 		PwDbHeaderV4 header = new PwDbHeaderV4(mPM);
 		setIVs(header);
-		
+
 		PwDbHeaderOutputV4 pho = new PwDbHeaderOutputV4(mPM, header, os);
 		try {
 			pho.output();
@@ -302,6 +347,7 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 		
 		hashOfHeader = pho.getHashOfHeader();
+		headerHmac = pho.headerHmac;
 		
 		return header;
 	}
@@ -433,7 +479,16 @@ public class PwDbV4Output extends PwDbOutput {
 	}
 	
 	private void writeObject(String name, Date value) throws IllegalArgumentException, IllegalStateException, IOException {
-		writeObject(name, PwDatabaseV4XML.dateFormat.format(value));
+		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+			writeObject(name, PwDatabaseV4XML.dateFormat.format(value));
+		} else {
+			DateTime dt = new DateTime(value);
+			long seconds = DateUtil.convertDateToKDBX4Time(dt);
+			byte[] buf = LEDataOutputStream.writeLongBuf(seconds);
+			String b64 = new String(Base64Coder.encode(buf));
+			writeObject(name, b64);
+		}
+
 	}
 	
 	private void writeObject(String name, long value) throws IllegalArgumentException, IllegalStateException, IOException {

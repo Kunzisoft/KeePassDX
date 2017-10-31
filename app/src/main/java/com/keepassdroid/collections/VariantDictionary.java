@@ -20,8 +20,10 @@
 package com.keepassdroid.collections;
 
 import com.keepassdroid.stream.LEDataInputStream;
+import com.keepassdroid.stream.LEDataOutputStream;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,64 +33,60 @@ public class VariantDictionary {
     private static final int VdmCritical = 0xFF00;
     private static final int VdmInfo = 0x00FF;
 
-    private Map<String, Object> dict = new HashMap<String, Object>();
+    private Map<String, VdType> dict = new HashMap<String, VdType>();
 
-    private enum VdType {
-        None(0x00),
-        UInt32(0x04),
-        UInt64(0x05),
-        Bool(0x08),
-        Int32(0x0C),
-        Int64(0x0D),
-        String(0x18),
-        ByteArray(0x42);
+    private class VdType {
+        public static final byte None = 0x00;
+        public static final byte UInt32 = 0x04;
+        public static final byte UInt64 =0x05;
+        public static final byte Bool =0x08;
+        public static final byte Int32 =0x0C;
+        public static final byte Int64 =0x0D;
+        public static final byte String =0x18;
+        public static final byte ByteArray =0x42;
 
+        public final byte type;
+        public final Object value;
 
-        private final byte value;
-
-        VdType(int value) {
-            this.value = (byte) value;
+        VdType(byte type, Object value) {
+            this.type = type;
+            this.value = value;
         }
 
-        boolean equals(byte type) {
-            return type == value;
+    }
+
+    private Object getValue(String name) {
+        VdType val = dict.get(name);
+        if (val == null) {
+            return null;
         }
 
-        byte getValue() {
-            return value;
-        }
+        return val.value;
+    }
+    private void putType(byte type, String name, Object value) {
+        dict.put(name, new VdType(type, value));
     }
 
-    public void setUInt32(String name, long value) {
-        dict.put(name, value);
-    }
-    public long getUInt32(String name) { return (long)dict.get(name); }
+    public void setUInt32(String name, long value) { putType(VdType.UInt32, name, value); }
+    public long getUInt32(String name) { return (long)dict.get(name).value; }
 
-    public void setUInt64(String name, long value) {
-        dict.put(name, value);
-    }
-    public long getUInt64(String name) { return (long)dict.get(name); }
+    public void setUInt64(String name, long value) { putType(VdType.UInt64, name, value); }
+    public long getUInt64(String name) { return (long)dict.get(name).value; }
 
-    public void setBool(String name, boolean value) {
-        dict.put(name, value);
-    }
+    public void setBool(String name, boolean value) { putType(VdType.Bool, name, value); }
+    public boolean getBool(String name) { return (boolean)dict.get(name).value; }
 
-    public void setInt32(String name, int value) {
-        dict.put(name, value);
-    }
+    public void setInt32(String name, int value) { putType(VdType.Int32 ,name, value); }
+    public int getInt32(String name) { return (int)dict.get(name).value; }
 
-    public void setInt64(String name, long value) {
-        dict.put(name, value);
-    }
+    public void setInt64(String name, long value) { putType(VdType.Int64 ,name, value); }
+    public long getInt64(String name) { return (long)dict.get(name).value; }
 
-    public void setString(String name, String value) {
-        dict.put(name, value);
-    }
+    public void setString(String name, String value) { putType(VdType.String ,name, value); }
+    public String getString(String name) { return (String)getValue(name); }
 
-    public void setByteArray(String name, byte[] value) {
-        dict.put(name, value);
-    }
-    public byte[] getByteArray(String name) { return (byte[])dict.get(name); }
+    public void setByteArray(String name, byte[] value) { putType(VdType.ByteArray, name, value); }
+    public byte[] getByteArray(String name) { return (byte[])getValue(name); }
 
     public static VariantDictionary deserialize(LEDataInputStream lis) throws IOException {
         VariantDictionary d = new VariantDictionary();
@@ -105,7 +103,7 @@ public class VariantDictionary {
             }
 
             byte bType = (byte)type;
-            if (VdType.None.equals(bType)) {
+            if (bType == VdType.None) {
                 break;
             }
 
@@ -122,51 +120,125 @@ public class VariantDictionary {
                 throw new IOException("Invalid format");
             }
 
-            if (VdType.UInt32.equals(bType)) {
-                if (valueLen == 4) {
-                    d.setUInt32(name, LEDataInputStream.readUInt(valueBuf, 0));
-                }
-            }
-            else if (VdType.UInt64.equals(bType)) {
-                if (valueLen == 8) {
-                    d.setUInt64(name, LEDataInputStream.readLong(valueBuf, 0));
-                }
-            }
-            else if (VdType.Bool.equals(bType)) {
-                if (valueLen == 1) {
-                    d.setBool(name, valueBuf[0] != 0);
-                }
-            }
-            else if (VdType.Int32.equals(bType)) {
-                if (valueLen == 4) {
-                    d.setInt32(name, LEDataInputStream.readInt(valueBuf, 0));
-                }
-            }
-            else if (VdType.Int64.equals(bType)) {
-                if (valueLen == 8) {
-                    d.setInt64(name, LEDataInputStream.readLong(valueBuf, 0));
-                }
-            }
-            else if (VdType.String.equals(bType)) {
-                d.setString(name, new String(valueBuf, "UTF-8"));
-            }
-            else if (VdType.ByteArray.equals(bType)) {
-                d.setByteArray(name, valueBuf);
-            }
-            else {
-                assert(false);
+            switch (bType) {
+                case VdType.UInt32:
+                    if (valueLen == 4) {
+                        d.setUInt32(name, LEDataInputStream.readUInt(valueBuf, 0));
+                    }
+                    break;
+                case VdType.UInt64:
+                    if (valueLen == 8) {
+                        d.setUInt64(name, LEDataInputStream.readLong(valueBuf, 0));
+                    }
+                    break;
+                case VdType.Bool:
+                    if (valueLen == 1) {
+                        d.setBool(name, valueBuf[0] != 0);
+                    }
+                    break;
+                case VdType.Int32:
+                    if (valueLen == 4) {
+                        d.setInt32(name, LEDataInputStream.readInt(valueBuf, 0));
+                    }
+                    break;
+                case VdType.Int64:
+                    if (valueLen == 8) {
+                        d.setInt64(name, LEDataInputStream.readLong(valueBuf, 0));
+                    }
+                    break;
+                case VdType.String:
+                    d.setString(name, new String(valueBuf, "UTF-8"));
+                    break;
+                case VdType.ByteArray:
+                    d.setByteArray(name, valueBuf);
+                    break;
+                default:
+                    assert (false);
+                    break;
             }
         }
 
         return d;
     }
 
+    public static void serialize(VariantDictionary d, LEDataOutputStream los) throws IOException{
+        if (los == null) {
+            assert(false);
+            return;
+        }
+
+        los.writeUShort(VdVersion);
+
+        for (Map.Entry<String, VdType> entry: d.dict.entrySet()) {
+            String name = entry.getKey();
+            byte[] nameBuf = null;
+            try {
+                nameBuf = name.getBytes("UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                assert(false);
+                throw new IOException("Couldn't encode parameter name.");
+            }
+
+            VdType vd = entry.getValue();
+
+            los.write(vd.type);
+            los.writeInt(nameBuf.length);
+            los.write(nameBuf);
+
+            byte[] buf;
+            switch (vd.type) {
+                case VdType.UInt32:
+                    los.writeInt(4);
+                    los.writeUInt((long)vd.value);
+                    break;
+                case VdType.UInt64:
+                    los.writeInt(8);
+                    los.writeLong((long)vd.value);
+                    break;
+                case VdType.Bool:
+                    los.writeInt(1);
+                    byte bool = (boolean)vd.value ? (byte)1 : (byte)0;
+                    los.write(bool);
+                    break;
+                case VdType.Int32:
+                    los.writeInt(4);
+                    los.writeInt((int)vd.value);
+                    break;
+                case VdType.Int64:
+                    los.writeInt(8);
+                    los.writeLong((long)vd.value);
+                    break;
+                case VdType.String:
+                    String value = (String)vd.value;
+                    buf = value.getBytes("UTF-8");
+                    los.writeInt(buf.length);
+                    los.write(buf);
+                    break;
+                case VdType.ByteArray:
+                    buf = (byte[])vd.value;
+                    los.writeInt(buf.length);
+                    los.write(buf);
+                    break;
+                default:
+                    assert(false);
+                    break;
+            }
+        }
+
+        los.write(VdType.None);
+
+    }
+
     public void copyTo(VariantDictionary d) {
-       for (Map.Entry<String, Object> entry : d.dict.entrySet()) {
+       for (Map.Entry<String, VdType> entry : d.dict.entrySet()) {
            String key = entry.getKey();
-           Object value = entry.getValue();
+           VdType value = entry.getValue();
 
            dict.put(key, value);
        }
+    }
+;
+    public int size() {
+        return dict.size();
     }
 }

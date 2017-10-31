@@ -22,14 +22,18 @@ package com.keepassdroid.database;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.DigestInputStream;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.keepassdroid.crypto.keyDerivation.AesKdf;
 import com.keepassdroid.crypto.keyDerivation.KdfParameters;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
+import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.stream.CopyInputStream;
 import com.keepassdroid.stream.HmacBlockStream;
 import com.keepassdroid.stream.LEDataInputStream;
@@ -87,14 +91,15 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	}
     
     private PwDatabaseV4 db;
-    public byte[] protectedStreamKey = new byte[32];
+    public byte[] innerRandomStreamKey = new byte[32];
     public byte[] streamStartBytes = new byte[32];
     public CrsAlgorithm innerRandomStream;
 	public long version;
+	public List<ProtectedBinary> binaries = new ArrayList<ProtectedBinary>();
 
     public PwDbHeaderV4(PwDatabaseV4 d) {
     	db = d;
-    	
+		version = d.getMinKdbxVersion();
     	masterSeed = new byte[32];
     }
 
@@ -198,7 +203,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				
 			case PwDbHeaderV4Fields.InnerRandomstreamKey:
 			    assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
-				protectedStreamKey = fieldData;
+				innerRandomStreamKey = fieldData;
 				break;
 				
 			case PwDbHeaderV4Fields.StreamStartBytes:
@@ -308,10 +313,6 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 
 		return hmac.doFinal(header);
-	}
-
-	public void setMinimumVersion() {
-
 	}
 
 	public byte[] getTransformSeed() {

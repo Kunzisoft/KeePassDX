@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -101,7 +102,7 @@ public class PwDatabaseV4 extends PwDatabase {
     public List<PwIconCustom> customIcons = new ArrayList<PwIconCustom>();
     public Map<String, String> customData = new HashMap<String, String>();
 	public KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
-	public VariantDictionary publicCustomData;
+	public VariantDictionary publicCustomData = new VariantDictionary();
     
     public String localizedAppName = "KeePassDroid";
     
@@ -459,4 +460,67 @@ public class PwDatabaseV4 extends PwDatabase {
 		
 		return filename.substring(0, lastExtDot);
 	}
+
+	private class GroupHasCustomData extends GroupHandler<PwGroup> {
+
+		public boolean hasCustomData = false;
+
+		@Override
+		public boolean operate(PwGroup group) {
+            if (group == null) {
+				return true;
+			}
+			PwGroupV4 g4 = (PwGroupV4) group;
+			if (g4.customData.size() > 0) {
+				hasCustomData = true;
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+	private class EntryHasCustomData extends EntryHandler<PwEntry> {
+
+        public boolean hasCustomData = false;
+
+		@Override
+		public boolean operate(PwEntry entry) {
+            if (entry == null) {
+				return true;
+			}
+
+			PwEntryV4 e4 = (PwEntryV4)entry;
+			if (e4.customData.size() > 0) {
+				hasCustomData = true;
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+	public int getMinKdbxVersion() {
+		if (!AesKdf.CIPHER_UUID.equals(kdfParameters.kdfUUID)) {
+			return PwDbHeaderV4.FILE_VERSION_32;
+		}
+
+		if (publicCustomData.size() > 0) {
+			return PwDbHeaderV4.FILE_VERSION_32;
+		}
+
+		EntryHasCustomData entryHandler = new EntryHasCustomData();
+		GroupHasCustomData groupHandler = new GroupHasCustomData();
+
+		if (rootGroup == null ) {
+			return PwDbHeaderV4.FILE_VERSION_32_3;
+		}
+        rootGroup.preOrderTraverseTree(groupHandler, entryHandler);
+        if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
+			return PwDbHeaderV4.FILE_VERSION_32;
+		}
+
+		return PwDbHeaderV4.FILE_VERSION_32_3;
+	}
+
 }

@@ -30,4 +30,8 @@ public class DateUtil {
     public static Date convertKDBX4Time(long seconds) {
         return dotNetEpoch.plus(seconds).toDate();
     }
+
+    public static long convertDateToKDBX4Time(DateTime dt) {
+        return (dt.getMillis() / 1000) - (dotNetEpoch.getMillis() / 1000);
+    }
 }
