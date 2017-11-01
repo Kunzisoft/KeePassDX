@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion = 22
+    compileSdkVersion = 23
     buildToolsVersion = '26.0.2'
 
     defaultConfig {
         applicationId = "com.android.keepass"
-        minSdkVersion 3
+        minSdkVersion 4
         targetSdkVersion 12
 
         versionCode = 155
@@ -48,4 +48,6 @@ dependencies {
     compile 'com.madgag.spongycastle:core:1.58.0.0'
     compile 'com.madgag.spongycastle:prov:1.58.0.0'
     compile 'joda-time:joda-time:2.9.4'
+    compile 'com.android.support:support-v4:23.0.0'
+
 }
