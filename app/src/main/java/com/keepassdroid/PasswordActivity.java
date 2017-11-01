@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -295,7 +296,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             });
 
             // callback for fingerprint findings
-            fingerPrintHelper.setAuthenticationCallback(new FingerprintManager.AuthenticationCallback() {
+            fingerPrintHelper.setAuthenticationCallback(new FingerprintManagerCompat.AuthenticationCallback() {
                 @Override
                 public void onAuthenticationError(
                         final int errorCode,
@@ -319,7 +320,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 }
 
                 @Override
-                public void onAuthenticationSucceeded(final FingerprintManager.AuthenticationResult result) {
+                public void onAuthenticationSucceeded(final FingerprintManagerCompat.AuthenticationResult result) {
 
                     if (mode == Cipher.ENCRYPT_MODE) {
 

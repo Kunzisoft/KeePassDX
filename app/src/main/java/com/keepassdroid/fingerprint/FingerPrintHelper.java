@@ -4,13 +4,15 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
-import android.os.CancellationSignal;
+import android.support.v4.os.CancellationSignal;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.util.Base64;
+
+import com.keepassdroid.compat.BuildCompat;
 
 import java.security.KeyStore;
 
@@ -23,19 +25,19 @@ public class FingerPrintHelper {
 
     private static final String ALIAS_KEY = "example-key";
 
-    private FingerprintManager fingerprintManager;
+    private FingerprintManagerCompat fingerprintManager;
     private KeyStore keyStore = null;
     private KeyGenerator keyGenerator = null;
     private Cipher cipher = null;
     private KeyguardManager keyguardManager = null;
-    private FingerprintManager.CryptoObject cryptoObject = null;
+    private FingerprintManagerCompat.CryptoObject cryptoObject = null;
 
     private boolean initOk = false;
     private FingerPrintCallback fingerPrintCallback;
     private CancellationSignal cancellationSignal;
-    private FingerprintManager.AuthenticationCallback authenticationCallback;
+    private FingerprintManagerCompat.AuthenticationCallback authenticationCallback;
 
-    public void setAuthenticationCallback(final FingerprintManager.AuthenticationCallback authenticationCallback) {
+    public void setAuthenticationCallback(final FingerprintManagerCompat.AuthenticationCallback authenticationCallback) {
         this.authenticationCallback = authenticationCallback;
     }
 
@@ -52,8 +54,8 @@ public class FingerPrintHelper {
         cancellationSignal = new CancellationSignal();
         fingerprintManager.authenticate(
                 cryptoObject,
-                cancellationSignal,
                 0 /* flags */,
+                cancellationSignal,
                 authenticationCallback,
                 null);
     }
@@ -81,7 +83,7 @@ public class FingerPrintHelper {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+    @TargetApi(BuildCompat.VERSION_CODE_M)
     public FingerPrintHelper(
             final Context context,
             final FingerPrintCallback fingerPrintCallback) {
@@ -91,8 +93,8 @@ public class FingerPrintHelper {
             setInitOk(false);
             return;
         }
-        this.fingerprintManager = context.getSystemService(FingerprintManager.class);
-        this.keyguardManager = context.getSystemService(KeyguardManager.class);
+        this.fingerprintManager = FingerprintManagerCompat.from(context);
+        this.keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE);
         this.fingerPrintCallback = fingerPrintCallback;
 
         if (hasEnrolledFingerprints()) {
@@ -105,7 +107,7 @@ public class FingerPrintHelper {
                         KeyProperties.KEY_ALGORITHM_AES + "/"
                                 + KeyProperties.BLOCK_MODE_CBC + "/"
                                 + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-                this.cryptoObject = new FingerprintManager.CryptoObject(cipher);
+                this.cryptoObject = new FingerprintManagerCompat.CryptoObject(cipher);
                 setInitOk(true);
             } catch (final Exception e) {
                 setInitOk(false);
@@ -278,7 +280,7 @@ public class FingerPrintHelper {
     }
 
     public boolean isFingerprintSupported() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+        return Build.VERSION.SDK_INT >= BuildCompat.VERSION_CODE_M;
     }
 
 }
