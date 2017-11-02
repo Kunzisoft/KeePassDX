@@ -18,28 +18,26 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/icon"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:orientation="vertical"
-  android:gravity="center_horizontal" 
-  android:background="@color/icon_background"
-  android:minWidth="60dp" 
-  android:minHeight="60dp"
-  android:padding="5dp">
-  <ImageView
-    android:id="@+id/icon_image"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/ic99_blank">
-  </ImageView>
-  <TextView
-    android:id="@+id/icon_text"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:textColor="@color/icon_text"
-    android:text="00">
-  </TextView>
+    android:minWidth="60dp"
+    android:minHeight="60dp"
+    android:padding="5dp">
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/icon_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic99_blank">
+    </android.support.v7.widget.AppCompatImageView>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/icon_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        style="@style/KeepassoidStyle.TextAppearance">
+    </android.support.v7.widget.AppCompatTextView>
 </LinearLayout>

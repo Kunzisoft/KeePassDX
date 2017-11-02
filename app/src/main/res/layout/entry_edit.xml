@@ -25,7 +25,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar_default" />
 
-	<com.keepassdroid.view.NoFocusScrollView android:id="@+id/entry_scroll"
+	<ScrollView android:id="@+id/entry_scroll"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
@@ -43,17 +43,18 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_toLeftOf="@+id/icon_button"
                     android:layout_toStartOf="@+id/icon_button">
 
-                    <EditText
+                    <android.support.v7.widget.AppCompatEditText
                         android:id="@+id/entry_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
                         android:maxLines="1"
                         android:hint="@string/entry_title" />
 
@@ -61,8 +62,9 @@
 
                 <android.support.v7.widget.AppCompatImageButton android:id="@+id/icon_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ic00"
+                    android:layout_margin="8dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"/>
             </RelativeLayout>
@@ -72,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/entry_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/entry_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,7 +110,7 @@
                     android:layout_toLeftOf="@+id/generate_button"
                     android:layout_toStartOf="@+id/generate_button">
 
-                    <EditText
+                    <android.support.v7.widget.AppCompatEditText
                         android:id="@+id/entry_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -133,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/entry_confpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,15 +149,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/entry_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
+                    android:gravity="start"
+                    android:lines="4"
+                    android:maxLines="10"
                     android:inputType="textMultiLine"
                     android:hint="@string/entry_comment" />
             </android.support.design.widget.TextInputLayout>
-
 
 			<LinearLayout android:id="@+id/advanced_container"
 				android:layout_width="match_parent"
@@ -172,7 +175,7 @@
 				android:scaleType="centerCrop"
 				android:visibility="gone" />
 		</LinearLayout>
-	</com.keepassdroid.view.NoFocusScrollView >
+	</ScrollView >
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/entry_save"

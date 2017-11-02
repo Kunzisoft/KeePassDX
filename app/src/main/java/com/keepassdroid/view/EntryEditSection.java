@@ -23,12 +23,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.keepass.R;
 import com.keepassdroid.database.security.ProtectedString;
 
-public class EntryEditSection extends LinearLayout {
+public class EntryEditSection extends RelativeLayout {
 	
 	public EntryEditSection(Context context) {
 		super(context);

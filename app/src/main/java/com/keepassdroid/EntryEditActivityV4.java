@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -101,9 +102,6 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 				
 			}
 		});
-		
-		View iconPicker = findViewById(R.id.icon_button);
-		iconPicker.setVisibility(View.GONE);
 
 	}
 
@@ -170,11 +168,11 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 	}
 	
 	public void deleteAdvancedString(View view) {
-		EntryEditSection section = (EntryEditSection) view.getParent();
+		ViewGroup section = (ViewGroup) view.getParent();
 		LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
 		
 		for (int i = 0; i < container.getChildCount(); i++) {
-			EntryEditSection ees = (EntryEditSection) container.getChildAt(i);
+			ViewGroup ees = (ViewGroup) container.getChildAt(i);
 			if (ees == section) {
 				container.removeViewAt(i);
 				container.invalidate();

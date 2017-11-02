@@ -19,43 +19,36 @@
 -->
 <com.keepassdroid.view.EntryEditSection xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/colorPrimaryInverse"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:id="@+id/relativeLayout">
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/delete"
+        android:layout_margin="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick="deleteAdvancedString"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_close_white_24dp"
+        android:tint="@color/colorAccent" />
 
-        <CheckBox
-            android:id="@+id/protection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/protection"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/delete"
-            android:layout_toStartOf="@+id/delete"/>
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/delete"
-            android:layout_margin="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:onClick="deleteAdvancedString"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_close_white_24dp"
-            android:tint="@color/colorAccent" />
-    </RelativeLayout>
+    <CheckBox
+        android:id="@+id/protection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/protection"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/delete"
+        android:layout_toStartOf="@+id/delete"/>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/title_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/protection">
 
         <EditText android:id="@+id/title"
             android:layout_width="match_parent"
@@ -67,7 +60,8 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_container">
 
         <EditText android:id="@+id/value"
             android:layout_width="match_parent"

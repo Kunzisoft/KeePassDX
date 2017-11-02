@@ -157,7 +157,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		View scrollView = findViewById(R.id.entry_scroll);
 		scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 
-		ImageButton iconButton = (ImageButton) findViewById(R.id.icon_button);
+		View iconButton = findViewById(R.id.icon_button);
 		iconButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				IconPickerActivity.Launch(EntryEditActivity.this);
