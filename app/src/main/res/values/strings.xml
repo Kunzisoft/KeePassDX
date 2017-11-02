@@ -194,7 +194,14 @@
     <string name="warning_read_only">Your sd card is currently read-only. You may not be able to save changes to your database.</string>
     <string name="warning_unmounted">Your sd card is not currently mounted on your device. You will not be able to load or create your database.</string>
     <string name="version_label">Version:</string>
-    
+    <string name="configure_fingerprint">Fingerprint supported but not configured for device</string>
+    <string name="scanning_fingerprint">Listening for fingerprints</string>
+    <string name="encrypted_value_stored">Encrypted password stored</string>
+    <string name="fingerprint_invalid_key">Invalid Key problem</string>
+    <string name="fingerprint_error">Fingerprint problem</string>
+    <string name="store_with_fingerprint">Use fingerprint to store this password</string>
+    <string name="no_password_stored">No password stored yet for this database</string>
+
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>
     	<item>1 minute</item>

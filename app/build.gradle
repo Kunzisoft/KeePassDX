@@ -2,36 +2,37 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion = 25
-    buildToolsVersion = "25.0.3"
-
+    buildToolsVersion = "26.0.2"
     defaultConfig {
         applicationId = "com.android.keepass"
         minSdkVersion 11
         targetSdkVersion 25
-        versionCode = 154
+        versionCode = 1
         versionName = "2.5.0.0"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
     }
-
     externalNativeBuild {
         cmake {
             path "src/main/jni/CMakeLists.txt"
         }
     }
-
     buildTypes {
         release {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+    dexOptions {
+    }
 }
 
 def supportVersion = "25.4.0"
-def spongycastleVersion = "1.54.0.0"
+def spongycastleVersion = "1.58.0.0"
 
 dependencies {
     androidTestCompile files('libs/junit4.jar')
@@ -40,5 +41,5 @@ dependencies {
     compile "com.android.support:preference-v7:$supportVersion"
     compile "com.madgag.spongycastle:core:$spongycastleVersion"
     compile "com.madgag.spongycastle:prov:$spongycastleVersion"
-    compile "joda-time:joda-time:2.9.9"
+    compile 'joda-time:joda-time:2.9.9'
 }

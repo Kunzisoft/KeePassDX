@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v4.app.NotificationCompat;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -236,32 +237,20 @@ public class EntryActivity extends LockCloseHideActivity {
 	}
 
 	private Notification getNotification(String intentText, int descResId) {
-		String description = getString(descResId);
+
+		String desc = getString(descResId);
 
 		Intent intent = new Intent(intentText);
 		PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        Notification notification;
+		// no longer supported for api level >22
+		// notify.setLatestEventInfo(this, getString(R.string.app_name), desc, pending);
+		// so instead using compat builder and create new notification
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+		Notification notify = builder.setContentIntent(pending).setContentText(desc).setContentTitle(getString(R.string.app_name))
+				.setSmallIcon(R.drawable.notify).setTicker(desc).setWhen(System.currentTimeMillis()).build();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            notification = new Notification(R.drawable.notify, description, System.currentTimeMillis());
-            try {
-                Method deprecatedMethod = notification.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
-                deprecatedMethod.invoke(notification, this, getString(R.string.app_name), description, pending);
-            } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
-                Log.w("EntryActivity", "Method not found", e);
-            }
-        } else {
-            // Use new API
-            Notification.Builder builder = new Notification.Builder(this)
-                    .setContentIntent(pending)
-                    .setSmallIcon(R.drawable.notify)
-                    .setContentTitle(getString(R.string.app_name));
-            notification = builder.getNotification();
-        }
-
-		return notification;
+		return notify;
 	}
 	
 	private String getDateTime(Date dt) {

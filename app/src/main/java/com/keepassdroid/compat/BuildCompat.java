@@ -32,6 +32,7 @@ public class BuildCompat {
 	public static final int VERSION_CODE_JELLY_BEAN = 16;
 	public static final int VERSION_CODE_JELLY_BEAN_MR2 = 18;
 	public static final int VERSION_KITKAT = 19;
+	public static final int VERSION_CODE_M = 23;
 
 	private static Field versionSDK;
 	private static int versionInt;

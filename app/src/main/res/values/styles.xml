@@ -36,7 +36,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorAccentCompat">@color/colorAccent</item>
 
-        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlNormal">@color/colorTextInverse</item>
 
         <item name="android:textAppearance">@style/KeepassoidStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassoidStyle.TextAppearance</item>
@@ -52,63 +52,62 @@
     </style>
 
     <!-- Button Style -->
-    <style name="ButtonStyle" parent="@android:style/Widget.Button">
-        <item name="android:textColor">@color/white</item>
+    <style name="ButtonStyle" parent="android:style/Widget.Button">
+        <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:background">@drawable/button_background</item>
     </style>
-    <style name="ImageButtonStyle" parent="@android:style/Widget.ImageButton">
-        <item name="android:textColor">@color/white</item>
+    <style name="ImageButtonStyle" parent="android:style/Widget.ImageButton">
+        <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:background">@drawable/button_background</item>
     </style>
-    <style name="ButtonText" parent="@android:style/Widget.Button">
-        <item name="android:textColor">@color/white</item>
+    <style name="ButtonText" parent="android:style/Widget.Button">
+        <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:background">@drawable/button_background</item>
     </style>
 
     <!-- Text Style -->
-    <style name="KeepassoidStyle.TextAppearance" parent="@android:style/TextAppearance">
+    <style name="KeepassoidStyle.TextAppearance" parent="android:style/TextAppearance">
         <item name="android:textColor">@color/colorText</item>
     </style>
-    <style name="KeepassoidStyle.TextAppearance.Inverse" parent="@android:style/TextAppearance">
+    <style name="KeepassoidStyle.TextAppearance.Inverse" parent="android:style/TextAppearance">
         <item name="android:textColor">@color/colorTextInverse</item>
     </style>
-    <style name="KeepassoidStyle.TextAppearance.DefaultTextOnPrimary" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/white</item>
+    <style name="KeepassoidStyle.TextAppearance.DefaultTextOnPrimary" parent="android:style/TextAppearance">
+        <item name="android:textColor">@color/colorTextInverse</item>
     </style>
 
     <style name="ElementTextTitle" parent="android:TextAppearance">
-        <item name="@android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/colorText</item>
     </style>
 	<style name="TinyTextStyle">
-		<item name="@android:textSize">12sp</item>
+		<item name="android:textSize">12sp</item>
 	</style>
     <style name="SmallTextStyle" parent="android:TextAppearance">
-        <item name="android:textColor">@color/white</item>
-        <item name="@android:textColor">@color/colorText</item>
-        <item name="@android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">15sp</item>
     </style>
     <style name="DefaultTextStyle" parent="android:TextAppearance">
-        <item name="@android:textColor">@color/colorText</item>
-        <item name="@android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="TitleTextStyle" parent="android:TextAppearance">
-        <item name="@android:textColor">@color/colorTextPrimary</item>
-        <item name="@android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="SecondaryText">
-        <item name="@android:textSize">14sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 	<style name="WarningTextStyle" parent="android:TextAppearance">
-		<item name="@android:textColor">@color/colorAccent</item>
+		<item name="android:textColor">@color/colorAccent</item>
 	</style>
 
     <!-- Form -->
 	<style name="KeepassoidStyle.TextAppearance.LabelTextStyle" parent="android:TextAppearance">
-		<item name="@android:textSize">12sp</item>
+		<item name="android:textSize">12sp</item>
 	</style>
 	<style name="KeepassoidStyle.TextAppearance.TextEntryItem">
-		<item name="@android:padding">5sp</item>
-        <item name="@android:textSize">16sp</item>
+		<item name="android:padding">5sp</item>
+        <item name="android:textSize">16sp</item>
 	</style>
 
 	<style name="Divider">
@@ -120,13 +119,13 @@
 
     <!-- Toolbar Style -->
     <style name="KeepassoidStyle.Toolbar.Dark" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlNormal">@color/colorTextInverse</item>
 
         <item name="colorPrimary">@color/colorPrimary</item>
 
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
+        <item name="android:textColorSecondary">@color/colorTextInverse</item>
 
-        <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:colorBackground">@color/colorTextInverse</item>
     </style>
 </resources>

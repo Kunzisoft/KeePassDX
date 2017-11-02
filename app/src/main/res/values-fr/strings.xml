@@ -13,23 +13,23 @@
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
- 
-  French translation by Laurent, Norman
- 
 -->
-<resources>
-    <string name="about_feedback">Signaler une anomalie\u00A0:</string>
-    <string name="about_homepage">Site web\u00A0:</string>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="about_feedback">Signaler une anomalie\\u00A0:</string>
+    <string name="about_homepage">Site web\\u00A0:</string>
     <string name="AboutText">KeePass DX est une implémentation sur Android du gestionnaire de mots de passe KeePass.</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
     <string name="add_group_title">Ajouter un groupe</string>
+    <string name="add_string">Ajouter une chaîne</string>
     <string name="algorithm">Algorithme</string>
-    <string name="algorithm_colon">Algorithme\u00A0:</string>
+    <string name="algorithm_colon">Algorithme\\u00A0:</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
@@ -38,29 +38,29 @@
     <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
-    <string name="building_search_idx">Reconstruction de l\'index de recherche&#8230;</string>
+    <string name="building_search_idx">Reconstruction de l\'index de recherche…</string>
     <string name="cancel">Annuler</string>
     <string name="ClearClipboard">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
-    <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez\u00A0:</string>
+    <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez\\u00A0:</string>
     <string name="clipboard_error_clear">Le vidage du presse-papier a échoué</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Temps avant le vidage du presse-papier après copie du nom d\'utilisateur ou du mot de passe</string>
     <string name="copy_username">Copier le nom d\'utilisateur dans le presse-papier</string>
     <string name="copy_password">Copier le mot de passe dans le presse-papier</string>
-    <string name="creating_db_key">Création de la clé de base de données&#8230;</string>
-    <string name="current_group">Groupe actuel\u00A0:</string>
-    <string name="current_group_root">Groupe actuel\u00A0: Racine</string>
+    <string name="creating_db_key">Création de la clé de base de données…</string>
+    <string name="current_group">Groupe actuel\\u00A0:</string>
+    <string name="current_group_root">Groupe actuel\\u00A0: Racine</string>
     <string name="database">Base de données</string>
-    <string name="decrypting_db">Déchiffrement du contenu de la base de données&#8230;</string>
+    <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="decrypting_entry">Déchiffrement de l\'entrée</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Nombres</string>
     <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
-
-    <string name="enter_filename">Sélectionnez la base de données\u00A0:</string>
+    <string name="ellipsis">\\u2026</string>
+    <string name="enter_filename">Sélectionnez la base de données\\u00A0:</string>
     <string name="entry_accessed">Dernier accès</string>
-    <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données\u00A0:</string>
+    <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données\\u00A0:</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_comment">Commentaires</string>
     <string name="entry_confpassword">Confirmer mot de passe</string>
@@ -82,7 +82,7 @@
     <string name="error_database_settings">Impossible de déterminer les paramètres de la base de données.</string>
     <string name="error_failed_to_launch_link">Échec lors de l\'ouverture du lien.</string>
     <string name="error_filename_required">Le nom de fichier est obligatoire.</string>
-    <string name="error_file_not_create">Impossible de créer le fichier\u00A0:</string>
+    <string name="error_file_not_create">Impossible de créer le fichier\\u00A0:</string>
     <string name="error_invalid_db">Base de données invalide.</string>
     <string name="error_invalid_path">Chemin invalide.</string>
     <string name="error_no_name">Le nom est obligatoire.</string>
@@ -98,6 +98,7 @@
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur</string>
     <string name="FileNotFound">Fichier non trouvé.</string>
+    <string name="file_not_found_content">Fichier non trouvé. Essayer de l\'ouvrir à nouveau à partir de votre fournisseur de contenu.</string>
     <string name="file_browser">Navigateur de fichiers</string>
     <string name="generate_password">Générer mot de passe</string>
     <string name="group">Groupe</string>
@@ -122,9 +123,9 @@
     <string name="length">Longueur</string>
     <string name="list_size_title">Taille de la liste des groupes</string>
     <string name="list_size_summary">Taille de la police de caractères utilisée pour la liste des groupes</string>
-    <string name="loading_database">Ouverture de la base de données&#8230;</string>
+    <string name="loading_database">Ouverture de la base de données…</string>
     <string name="lowercase">Minuscule</string>
-
+    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Afficher le mot de passe</string>
     <string name="maskpass_summary">Par défaut, masquer le mot de passe</string>
     <string name="menu_about">À propos</string>
@@ -150,15 +151,16 @@
     <string name="no_keys">Aucun élément.</string>
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
-    <string name="open_recent">Bases de données utilisées récemment\u00A0:</string>
+    <string name="open_recent">Bases de données utilisées récemment\\u00A0:</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
     <string name="pass_filename">Fichier de base de données KeePass</string>
     <string name="password_title">Entrez le mot de passe de la base de données</string>
-    <string name="progress_create">Création d\'une nouvelle base de données&#8230;</string>
-    <string name="progress_title">Veuillez patienter&#8230;</string>
+    <string name="progress_create">Création d\'une nouvelle base de données…</string>
+    <string name="progress_title">Veuillez patienter…</string>
     <string name="protection">Protection</string>
-    <string name="read_only_warning">KeePass DX n\'a pas la permission d\'écrire dans le répertoire de la base de données. Celle-ci sera ouverte en lecture seule.</string>
+    <string name="read_only">Lecture seule</string>
+    <string name="read_only_warning">KeePassDroid n\'a pas la permission d\'écrire dans le répertoire de la base de données. Celle-ci sera ouverte en lecture seule.</string>
     <string name="read_only_kitkat_warning">À partir d\'Android KitKat, certains appareils n\'autorisent plus les applications à écrire sur la carte SD.</string>
     <string name="recentfile_title">Historique de fichiers récents</string>
     <string name="recentfile_summary">Mémoriser les fichiers récemment utilisés</string>
@@ -170,7 +172,7 @@
     <string name="rounds">Niveau du chiffrement</string>
     <string name="rounds_explaination">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
     <string name="rounds_hint">niveaux</string>
-    <string name="saving_database">Enregistrement de la base de données&#8230;</string>
+    <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
     <string name="search_label">Rechercher</string>
     <string name="show_password">Afficher le mot de passe</string>
@@ -183,19 +185,23 @@
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non supportée.</string>
     <string name="uppercase">Majuscule</string>
+    <string name="use_saf_summary">Utilisez l\'Environnement d\'Accès au Stockage d\'Android pour naviguer dans les fichiers (KitKat ou plus récent)</string>
+    <string name="use_saf_title">Environnement d\'Accès au Stockage</string>
+    <string name="warning">Alerte</string>
+    <string name="warning_password_encoding">Le format .kdb ne supporte que le jeu de caractère Latin1. Votre mot de passe doit contenir des caractères en dehors de ce jeu. Tous les caractères non-Latin1 sont convertis en un même caractère, ce qui diminue la sécurité de votre mot de passe. Le changement de votre mot de passe est recommandé.</string>
     <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
-    <string name="version_label">Version\u00A0:</string>
-
+    <string name="version_label">Version\\u00A0:</string>
+    
     <string-array name="clipboard_timeout_options">
-        <item>30 secondes</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-        <item>Jamais</item>
+    	<item>30 secondes</item>
+    	<item>1 minute</item>
+    	<item>5 minutes</item>
+    	<item>Jamais</item>
     </string-array>
     <string-array name="list_size_options">
-        <item>Petit</item>
-        <item>Moyen</item>
-        <item>Grand</item>
+    	<item>Petit</item>
+    	<item>Moyen</item>
+    	<item>Grand</item>
     </string-array>
 </resources>

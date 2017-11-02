@@ -29,7 +29,7 @@
     <color name="colorTextPrimary">#388e3c</color>
     <color name="colorTextPrimaryInverse">#cccccc</color>
     <color name="colorText">#424242</color>
-    <color name="colorTextInverse">#bdbdbd</color>
+    <color name="colorTextInverse">#eeeeee</color>
 	<color name="colorPrimary">#43a047</color>
 	<color name="colorPrimaryInverse">#bdbdbd</color>
     <color name="colorPrimaryDark">#388e3c</color>

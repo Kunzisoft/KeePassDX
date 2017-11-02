@@ -21,9 +21,11 @@ package com.keepassdroid.crypto.keyDerivation;
 
 import com.keepassdroid.collections.VariantDictionary;
 import com.keepassdroid.stream.LEDataInputStream;
+import com.keepassdroid.stream.LEDataOutputStream;
 import com.keepassdroid.utils.Types;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -57,6 +59,15 @@ public class KdfParameters extends VariantDictionary {
         kdfP.copyTo(d);
         return kdfP;
 
+    }
+
+    public static byte[] serialize(KdfParameters kdf) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        LEDataOutputStream los = new LEDataOutputStream(bos);
+
+        KdfParameters.serialize(kdf, los);
+
+        return bos.toByteArray();
     }
 
 }

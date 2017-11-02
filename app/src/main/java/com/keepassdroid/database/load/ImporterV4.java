@@ -40,7 +40,6 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 import org.spongycastle.crypto.StreamCipher;
-import org.spongycastle.util.encoders.Base64Encoder;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -52,7 +51,6 @@ import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.database.BinaryPool;
-import com.keepassdroid.database.CrsAlgorithm;
 import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
@@ -111,6 +109,7 @@ public class ImporterV4 extends Importer {
 		db = createDB();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
+        header.binaries.clear();
 
 		PwDbHeaderV4.HeaderAndHash hh = header.loadFromFile(inStream);
         version = header.version;
@@ -192,12 +191,12 @@ public class ImporterV4 extends Importer {
 			LoadInnerHeader(isXml, header);
 		}
 		
-		if ( header.protectedStreamKey == null ) {
+		if ( header.innerRandomStreamKey == null ) {
 			assert(false);
 			throw new IOException("Invalid stream key.");
 		}
 		
-		randomStream = PwStreamCipherFactory.getInstance(header.innerRandomStream, header.protectedStreamKey);
+		randomStream = PwStreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey);
 		
 		if ( randomStream == null ) {
 			throw new ArcFourException();
@@ -243,7 +242,7 @@ public class ImporterV4 extends Importer {
 			    header.setRandomStreamID(data);
 				break;
 			case PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey:
-			    header.protectedStreamKey = data;
+			    header.innerRandomStreamKey = data;
 				break;
 			case PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary:
 			    if (data.length < 1) throw new IOException("Invalid binary format");

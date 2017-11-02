@@ -20,7 +20,7 @@
 package com.keepassdroid.crypto;
 
 import org.spongycastle.crypto.StreamCipher;
-import org.spongycastle.crypto.engines.ChaChaEngine;
+import org.spongycastle.crypto.engines.ChaCha7539Engine;
 import org.spongycastle.crypto.engines.Salsa20Engine;
 import org.spongycastle.crypto.params.KeyParameter;
 import org.spongycastle.crypto.params.ParametersWithIV;
@@ -65,9 +65,9 @@ public class PwStreamCipherFactory {
         System.arraycopy(hash, 32, iv, 0, 12);
 
 		KeyParameter keyParam = new KeyParameter(key32);
-		ParametersWithIV ivParam = new ParametersWithIV(keyParam, SALSA_IV);
+		ParametersWithIV ivParam = new ParametersWithIV(keyParam, iv);
 
-        StreamCipher cipher = new ChaChaEngine();
+        StreamCipher cipher = new ChaCha7539Engine();
 		cipher.init(true, ivParam);
 		
 		return cipher;

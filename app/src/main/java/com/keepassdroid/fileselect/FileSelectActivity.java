@@ -19,17 +19,24 @@
  */
 package com.keepassdroid.fileselect;
 
+
+import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -75,6 +82,7 @@ import java.net.URLDecoder;
 
 public class FileSelectActivity extends AppCompatActivity {
 
+	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
 	private ListView mList;
 	private ListAdapter mAdapter;
 
@@ -223,7 +231,12 @@ public class FileSelectActivity extends AppCompatActivity {
 					startActivityForResult(i, OPEN_DOC);
 				}
 				else {
-					Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+					Intent i;
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+						i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+					} else {
+						i = new Intent(Intent.ACTION_GET_CONTENT);
+					}
 					i.addCategory(Intent.CATEGORY_OPENABLE);
 					i.setType("*/*");
 
@@ -413,6 +426,9 @@ public class FileSelectActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// check for storage permission
+		checkStoragePermission();
 		
 		// Check to see if we need to change modes
 		if ( fileHistory.hasRecentFiles() != recentMode ) {
@@ -424,6 +440,60 @@ public class FileSelectActivity extends AppCompatActivity {
 		
 		FileNameView fnv = (FileNameView) findViewById(R.id.file_select);
 		fnv.updateExternalStorageWarning();
+	}
+
+	private void checkStoragePermission() {
+		// Here, thisActivity is the current activity
+		if (ContextCompat.checkSelfPermission(FileSelectActivity.this,
+											  Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				!= PackageManager.PERMISSION_GRANTED) {
+
+			// Should we show an explanation?
+			//if (ActivityCompat.shouldShowRequestPermissionRationale(FileSelectActivity.this,
+			//														Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+				// Show an explanation to the user *asynchronously* -- don't block
+				// this thread waiting for the user's response! After the user
+				// sees the explanation, try again to request the permission.
+
+			//} else {
+
+				// No explanation needed, we can request the permission.
+
+				ActivityCompat.requestPermissions(FileSelectActivity.this,
+												  new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+												  MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE);
+
+				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+				// app-defined int constant. The callback method gets the
+				// result of the request.
+			//}
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+										   String permissions[], int[] grantResults) {
+		switch (requestCode) {
+			case MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0
+						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+					// permission was granted, yay! Do the
+					// contacts-related task you need to do.
+
+				} else {
+
+					// permission denied, boo! Disable the
+					// functionality that depends on this permission.
+				}
+				return;
+			}
+
+			// other 'case' lines to check for other
+			// permissions this app might request
+		}
 	}
 
 	@Override
