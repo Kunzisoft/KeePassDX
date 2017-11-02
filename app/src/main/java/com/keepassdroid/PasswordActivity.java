@@ -436,7 +436,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
                 .commit();
         // and remove visual input to reset UI
-        passwordView.setText("");
+        confirmButton.performClick();
         confirmationView.setText(R.string.encrypted_value_stored);
     }
 
