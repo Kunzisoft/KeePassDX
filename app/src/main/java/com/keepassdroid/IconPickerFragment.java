@@ -82,7 +82,6 @@ public class IconPickerFragment extends DialogFragment {
 				Bundle bundle = new Bundle();
                 bundle.putInt(KEY_ICON_ID, position);
                 iconPickerListener.iconPicked(bundle);
-				// TODO setResult(EntryEditActivity.RESULT_OK_ICON_PICKER, intent);
 
 				dismiss();
 			}

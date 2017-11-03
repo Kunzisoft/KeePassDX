@@ -86,6 +86,9 @@
     <style name="KeepassDXStyle.TextAppearance.Default" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.FolderTitle" parent="KeepassDXStyle.TextAppearance.Default">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
     <style name="KeepassDXStyle.TextAppearance.Title" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textSize">16sp</item>

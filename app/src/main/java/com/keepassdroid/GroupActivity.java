@@ -51,10 +51,11 @@ import com.keepassdroid.view.GroupAddEntryView;
 import com.keepassdroid.view.GroupRootView;
 import com.keepassdroid.view.GroupViewOnlyView;
 
-public abstract class GroupActivity extends GroupBaseActivity {
-	
-	public static final int UNINIT = -1;
-	
+public abstract class GroupActivity extends GroupBaseActivity
+        implements GroupEditFragment.CreateGroupListener, IconPickerFragment.IconPickerListener {
+
+    private static final String TAG_CREATE_GROUP = "TAG_CREATE_GROUP";
+
 	protected boolean addGroupEnabled = false;
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
@@ -158,7 +159,8 @@ public abstract class GroupActivity extends GroupBaseActivity {
 			addGroup.setOnClickListener(new View.OnClickListener() {
 
 				public void onClick(View v) {
-					GroupEditActivity.Launch(GroupActivity.this);
+					GroupEditFragment groupEditFragment = new GroupEditFragment();
+					groupEditFragment.show(getSupportFragmentManager(), TAG_CREATE_GROUP);
 				}
 			});
 		}
@@ -195,8 +197,6 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		cv.onCreateMenu(menu, menuInfo);
 	}
 	
-	
-	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item.getMenuInfo();
@@ -204,27 +204,31 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		
 		return cv.onContextItemSelected(item);
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		switch (resultCode)
-		{
-			case Activity.RESULT_OK:
-				String GroupName = data.getExtras().getString(GroupEditActivity.KEY_NAME);
-				int GroupIconID = data.getExtras().getInt(GroupEditActivity.KEY_ICON_ID);
-				GroupActivity act = GroupActivity.this;
-				Handler handler = new Handler();
-				AddGroup task = AddGroup.getInstance(this, App.getDB(), GroupName, GroupIconID, mGroup, act.new RefreshTask(handler), false);
-				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
-				pt.run();
-				break;
 
-			case Activity.RESULT_CANCELED:
-			default:
-				break;
-		}
-	}
+    @Override
+    public void approveCreateGroup(Bundle bundle) {
+        String GroupName = bundle.getString(GroupEditFragment.KEY_NAME);
+        int GroupIconID = bundle.getInt(GroupEditFragment.KEY_ICON_ID);
+        GroupActivity act = GroupActivity.this;
+        Handler handler = new Handler();
+        AddGroup task = AddGroup.getInstance(this, App.getDB(), GroupName, GroupIconID, mGroup, act.new RefreshTask(handler), false);
+        ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
+        pt.run();
+    }
+
+    @Override
+    public void cancelCreateGroup(Bundle bundle) {
+        // Do nothing here
+    }
+
+    @Override
+    // For icon in create group dialog
+    public void iconPicked(Bundle bundle) {
+        GroupEditFragment groupEditFragment = (GroupEditFragment) getSupportFragmentManager().findFragmentByTag(TAG_CREATE_GROUP);
+        if (groupEditFragment != null) {
+            groupEditFragment.iconPicked(bundle);
+        }
+    }
 	
 	protected void showWarnings() {
 		if (App.getDB().readOnly) {
@@ -236,6 +240,4 @@ public abstract class GroupActivity extends GroupBaseActivity {
 		    }
 		}
 	}
-
-
 }

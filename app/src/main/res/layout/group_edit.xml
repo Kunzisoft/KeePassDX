@@ -18,7 +18,7 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_margin="@dimen/default_margin"
+	android:padding="@dimen/default_margin"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 	<android.support.v7.widget.AppCompatImageButton android:id="@+id/icon_button"
@@ -37,20 +37,4 @@
 		android:layout_toStartOf="@+id/icon_button"
 		android:maxLines="1"
 		android:hint="@string/hint_group_name"/>
-	<Button android:id="@+id/ok"
-		android:layout_margin="@dimen/button_margin"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:minWidth="100dp"
-		android:layout_below="@id/group_name"
-		android:text="@android:string/ok"/>
-	<Button android:id="@+id/cancel"
-		android:layout_margin="@dimen/button_margin"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:minWidth="100dp"
-		android:layout_below="@id/group_name"
-		android:layout_toRightOf="@id/ok"
-		android:layout_toEndOf="@id/ok"
-		android:text="@string/cancel"/>
 </RelativeLayout>
