@@ -34,7 +34,7 @@
     <string name="application">Программа</string>
     <string name="application_settings">Настройки KeePassDroid</string>
     <string name="beta_dontask">Не показывать снова</string>
-    <string name="beta_warning">Поддержка сохранения баз kdbx ЭКСПЕРИМЕНТАЛЬНАЯ. Сделайте резервную копию базы перед сохранением.</string>
+    <string name="beta_warning">Поддержка сохранения баз kdbx ЭКСПЕРИМЕНТАЛЬНАЯ. Сделайте резервную копию базы перед сохранением</string>
     <string name="brackets">{[(Скобки)]}</string>
     <string name="browser_intall_text">Для функции обзора необходим менеджер файлов – например, OI File Manager</string>
     <string name="building_search_idx">Индексирование…</string>
