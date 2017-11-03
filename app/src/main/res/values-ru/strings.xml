@@ -188,7 +188,7 @@
     <string name="use_saf_summary">Storage Access Framework для обзора файлов (KK+)</string>
     <string name="use_saf_title">Обзор через SAF</string>
     <string name="warning">Внимание</string>
-    <string name="warning_password_encoding">Пароль содержит символы вне кодировки Latin1, поддерживаемой форматом .kdb! ВСЕ не-Latin1 символы будут преобразованы в одинаковый символ. Рекомендуется изменить пароль!</string>
+    <string name="warning_password_encoding">Пароль содержит символы вне кодировки Latin1, поддерживаемой форматом .kdb! ВСЕ не-Latin1 символы будут преобразованы в одинаковый символ. Рекомендуется изменить пароль</string>
     <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна</string>
     <string name="version_label">Версия:</string>
