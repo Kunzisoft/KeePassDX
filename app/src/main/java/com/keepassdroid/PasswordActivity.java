@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 Brian Pellin.
+ * Copyright 2009-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -455,8 +455,16 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     @Override
     public void onException() {
-        Toast.makeText(this, R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+        onException(true);
+    }
+
+    @Override
+    public void onException(boolean showMessage) {
+        if (showMessage) {
+            Toast.makeText(this, R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+        }
         checkAvailability(); // restarts listening
+
     }
 
     private class DefaultCheckChange implements CompoundButton.OnCheckedChangeListener {
