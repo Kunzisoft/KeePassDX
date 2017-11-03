@@ -78,6 +78,7 @@
                     android:id="@+id/entry_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:hint="@string/entry_user_name" />
             </android.support.design.widget.TextInputLayout>
@@ -91,8 +92,8 @@
                     android:id="@+id/entry_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:inputType="textUri"
+                    android:maxLines="1"
                     android:hint="@string/entry_url" />
             </android.support.design.widget.TextInputLayout>
 
@@ -139,8 +140,8 @@
                     android:id="@+id/entry_confpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:inputType="textPassword"
+                    android:maxLines="1"
                     android:hint="@string/entry_confpassword" />
             </android.support.design.widget.TextInputLayout>
 

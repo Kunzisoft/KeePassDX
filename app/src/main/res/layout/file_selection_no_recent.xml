@@ -18,16 +18,16 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
 	<include
 		android:id="@+id/toolbar"
 		layout="@layout/toolbar_default" />
 
-    <com.keepassdroid.view.FileNameView
-        android:id="@+id/file_select"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar" />
 
   	<!-- Small hack because I need to include a list since this is a list activity -->
