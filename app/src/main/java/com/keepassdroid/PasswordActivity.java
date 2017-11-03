@@ -34,7 +34,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,6 +58,7 @@ import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
+import com.keepassdroid.fingerprint.FingerPrintUtils;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.AppSettingsActivity;
 import com.keepassdroid.utils.EmptyUtils;
@@ -267,8 +267,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     // fingerprint related code here
 
     private void initForFingerprint() {
-        fingerPrintHelper = new FingerPrintHelper(this, this);
-        if (fingerPrintHelper.isFingerprintSupported()) {
+        if (FingerPrintUtils.isFingerprintSupported()) {
+            fingerPrintHelper = new FingerPrintHelper(this, this);
 
             // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
             passwordView.addTextChangedListener(new TextWatcher() {
@@ -390,7 +390,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private void checkAvailability() {
         // fingerprint not supported (by API level or hardware) so keep option hidden
-        if (!fingerPrintHelper.isFingerprintSupported()) {
+        if (!FingerPrintUtils.isFingerprintSupported()) {
 
             fingerprintView.setVisibility(View.GONE);
             // since this is a fingerprint example inform user, don't do this in your app
@@ -439,7 +439,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         prefs.edit()
                 .putString(getPreferenceKeyValue(), value)
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
-                .commit();
+                .apply();
         // and remove visual input to reset UI
         passwordView.setText("");
         confirmationView.setText(R.string.encrypted_value_stored);
