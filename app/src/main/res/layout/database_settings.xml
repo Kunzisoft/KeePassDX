@@ -19,12 +19,12 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_margin="@dimen/default_margin"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 	<EditText android:id="@+id/rounds" 
 	  android:hint="@string/rounds_hint"
 	  android:layout_height="wrap_content"
-	  android:layout_width="fill_parent"
+	  android:layout_width="match_parent"
 	  android:inputType="number"/> 
 	<TextView android:id="@+id/rounds_explaination" 
 	  android:text="@string/rounds_explaination"

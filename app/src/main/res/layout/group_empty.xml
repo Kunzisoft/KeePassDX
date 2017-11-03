@@ -18,18 +18,18 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 	<com.keepassdroid.view.GroupHeaderView
 	  android:id="@+id/group_header"
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"/>
 	<ListView android:id="@android:id/list"
-      android:layout_width="fill_parent"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/group_header"/>
 	<TextView
-      android:layout_width="fill_parent"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@android:id/list"
       android:text="@string/no_results"/>

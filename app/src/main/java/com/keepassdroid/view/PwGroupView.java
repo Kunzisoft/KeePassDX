@@ -68,7 +68,7 @@ public class PwGroupView extends ClickView {
 		
 		populateView(gv, pw);
 		
-		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		
 		addView(gv, lp);
 	}

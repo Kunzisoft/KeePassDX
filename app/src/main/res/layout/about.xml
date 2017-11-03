@@ -28,7 +28,7 @@
 		android:layout_height="wrap_content"
 		android:text="@string/AboutText"/>
 	<ImageView android:id="@+id/divider1"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:scaleType="fitXY"
 		tools:ignore="ContentDescription"
@@ -42,7 +42,7 @@
 		android:layout_height="wrap_content"
         android:layout_gravity="end"/>
 	<ImageView android:id="@+id/divider2"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:scaleType="fitXY"
 		tools:ignore="ContentDescription"
@@ -71,13 +71,13 @@
 		android:autoLink="web"/>
 	<ImageView android:id="@+id/divider3"
 		android:layout_marginTop="20dp"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:scaleType="fitXY"
 		tools:ignore="ContentDescription"
 		android:src="@android:drawable/divider_horizontal_dark"/>
 	<TextView android:id="@+id/disclaimer" 
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/disclaimer_formal"/>
 	<Button android:id="@+id/about_button"

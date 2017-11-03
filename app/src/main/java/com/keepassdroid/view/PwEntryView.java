@@ -62,7 +62,7 @@ public class PwEntryView extends ClickView {
 		
 		populateView(ev, pw, pos);
 		
-		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		
 		addView(ev, lp);
 

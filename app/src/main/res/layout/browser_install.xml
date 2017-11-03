@@ -28,8 +28,8 @@
 	  android:text="@string/browser_intall_text"
 	/>
 	<LinearLayout 
-	  android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"
+	  android:layout_width="match_parent"
+	  android:layout_height="match_parent"
 	  android:gravity="center_horizontal"
 	  android:orientation="vertical">
 		<Button android:id="@+id/install_market"

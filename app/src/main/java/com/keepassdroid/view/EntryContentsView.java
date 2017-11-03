@@ -45,7 +45,7 @@ public class EntryContentsView extends LinearLayout {
 
 	@Override
 	protected LayoutParams generateDefaultLayoutParams() {
-		return new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 	}
 
 }

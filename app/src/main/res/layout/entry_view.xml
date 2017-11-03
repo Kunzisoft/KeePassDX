@@ -33,7 +33,7 @@
         android:elevation="4dp"
         tools:targetApi="lollipop" >
         <LinearLayout android:id="@+id/title_block"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:translationZ="10dp"
             style="@style/KeepassDXStyle.TextAppearance.Default">
@@ -55,15 +55,15 @@
     </android.support.v7.widget.Toolbar>
 
     <ScrollView android:id="@+id/entry_scroll"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:fillViewport="true"
         android:scrollbarStyle="insideOverlay">
 
         <com.keepassdroid.view.EntryContentsView android:id="@+id/entry_contents"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent" />
+            android:layout_width="match_parent" />
 
     </ScrollView>
 
