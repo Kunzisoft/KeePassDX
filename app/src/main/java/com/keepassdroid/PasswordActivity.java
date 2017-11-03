@@ -89,7 +89,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private boolean mRememberKeyfile;
     SharedPreferences prefs;
 
-    private boolean isShowPasswordChecked = false;
     private FingerPrintHelper fingerPrintHelper;
     private int mode;
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
@@ -675,23 +674,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
             Button confirmButton = (Button) findViewById(R.id.pass_ok);
             confirmButton.setOnClickListener(new OkClickHandler());
-
-            View showPasswordView = findViewById(R.id.show_password);
-            // Show or hide password
-            showPasswordView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                EditText password = (EditText) findViewById(R.id.password);
-                if ( isShowPasswordChecked ) {
-                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    isShowPasswordChecked = false;
-                } else {
-                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    isShowPasswordChecked = true;
-                }
-                password.setSelection(password.getText().length());
-                }
-            });
 
             if (password != null) {
                 TextView tv_password = (TextView) findViewById(R.id.password);
