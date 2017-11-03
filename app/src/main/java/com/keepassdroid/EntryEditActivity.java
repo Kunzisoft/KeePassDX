@@ -19,10 +19,6 @@
  */
 package com.keepassdroid;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -37,7 +33,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -62,7 +57,12 @@ import com.keepassdroid.icons.Icons;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
-public abstract class EntryEditActivity extends LockCloseHideActivity {
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
+
+public abstract class EntryEditActivity extends LockCloseHideActivity
+		implements IconPickerFragment.IconPickerListener {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
@@ -160,7 +160,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		View iconButton = findViewById(R.id.icon_button);
 		iconButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				IconPickerActivity.Launch(EntryEditActivity.this);
+				IconPickerFragment.Launch(EntryEditActivity.this);
 			}
 		});
 
@@ -271,12 +271,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 	{
 		switch (resultCode)
 		{
-			case RESULT_OK_ICON_PICKER:
-				mSelectedIconID = data.getExtras().getInt(IconPickerActivity.KEY_ICON_ID);
-				ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
-				currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
-				break;
-				
 			case RESULT_OK_PASSWORD_GENERATOR:
 				String generatedPassword = data.getStringExtra("com.keepassdroid.password.generated_password");
 				EditText password = (EditText) findViewById(R.id.entry_password);
@@ -373,7 +367,14 @@ public abstract class EntryEditActivity extends LockCloseHideActivity {
 		TextView tv = (TextView) findViewById(viewId);
 		tv.setText(text);
 	}
-	
+
+    @Override
+    public void iconPicked(Bundle bundle) {
+        mSelectedIconID = bundle.getInt(IconPickerFragment.KEY_ICON_ID);
+        ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
+        currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
+    }
+
 	private final class AfterSave extends OnFinish {
 
 		public AfterSave(Handler handler) {

@@ -48,6 +48,10 @@
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
         <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
 
+        <!-- Dialog -->
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+
         <!-- Toolbar -->
         <item name="toolbarDark">@style/KeepassDXStyle.Toolbar.Dark</item>
     </style>
@@ -114,6 +118,15 @@
 		<item name="android:padding">5sp</item>
         <item name="android:textSize">16sp</item>
 	</style>
+
+    <!-- Dialog -->
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
     <!-- Toolbar Style -->
     <style name="KeepassDXStyle.Toolbar.Dark" parent="Theme.AppCompat.Light.DarkActionBar">
