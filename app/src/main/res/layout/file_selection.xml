@@ -36,7 +36,7 @@
 		android:layout_marginEnd="@dimen/default_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-		style="@style/TitleTextStyle"
+		style="@style/KeepassDXStyle.TextAppearance.Title"
         android:text="@string/open_recent" />
   	<ListView android:id="@+id/file_list"
         android:layout_width="match_parent"

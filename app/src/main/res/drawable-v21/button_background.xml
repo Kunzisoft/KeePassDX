@@ -5,24 +5,16 @@
     tools:targetApi="lollipop">
     <item>
         <layer-list>
-            <item android:right="1dp" android:top="5dp">
-                <shape>
-                    <corners android:radius="3dp" />
-                    <solid android:color="#14000000" />
-                </shape>
-            </item>
             <item android:bottom="2dp" android:left="2dp">
                 <shape>
-                    <gradient android:angle="270"
-                        android:endColor="#E2E2E2" android:startColor="#BABABA" />
                     <corners
                         android:radius="2dp" />
                     <padding
                         android:left="14dp"
                         android:right="14dp"
-                        android:top="8dp"
-                        android:bottom="12dp"/>
-                    <solid android:color="@color/colorPrimary"/>
+                        android:top="4dp"
+                        android:bottom="6dp"/>
+                    <solid android:color="?attr/colorPrimary"/>
                 </shape>
             </item>
         </layer-list>

@@ -31,7 +31,7 @@
 	<TextView android:id="@+id/label_open_by_filename" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		style="@style/TitleTextStyle"
+		style="@style/KeepassDXStyle.TextAppearance.Title"
 		android:text="@string/enter_filename"/>
 
     <android.support.v7.widget.AppCompatImageView
@@ -46,7 +46,7 @@
         android:src="@drawable/ic_folder_white_24dp"
         android:tint="?attr/colorAccentCompat" />
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/file_filename"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

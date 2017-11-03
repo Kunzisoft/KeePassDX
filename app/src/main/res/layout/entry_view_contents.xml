@@ -28,38 +28,38 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/entry_user_name"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_user_name"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:textIsSelectable="true"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 	<!--  URL -->
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_url_label"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/entry_url"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_url"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:autoLink="all"
 		android:textIsSelectable="true"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 	<!-- Password -->
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_password_label"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/entry_password"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView android:id="@+id/entry_password"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:inputType="textPassword"
         android:textIsSelectable="true"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 	<!-- Comment -->
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_comment_label"
@@ -67,12 +67,12 @@
 		android:layout_height="wrap_content"
 		android:text="@string/entry_comment"
 		android:autoLink="all"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_comment"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:textIsSelectable="true"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 	<LinearLayout android:id="@+id/extra_strings"
 		android:layout_width="fill_parent"
@@ -85,42 +85,42 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/entry_created"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_created" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 	<!-- Modified -->
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified_label"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/entry_modified"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 	<!-- Accessed -->
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed_label"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/entry_accessed"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 	<!-- Expires -->
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires_label"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/entry_expires"
-		style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle" />
+		style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 	<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 </LinearLayout>

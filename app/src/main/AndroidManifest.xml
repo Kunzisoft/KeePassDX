@@ -19,7 +19,7 @@
         android:name="com.keepassdroid.app.App"
         android:allowBackup="true"
         android:backupAgent="com.keepassdroid.backup.SettingsBackupAgent"
-        android:theme="@style/KeepassoidStyle">
+        android:theme="@style/KeepassDXStyle">
             <meta-data android:name="com.google.android.backup.api_key"
           android:value="AEdPqrEAAAAIKwReNelmy5SvhZzK3bpK_JisjzUko6cL_8GR4w" />
         <activity android:name=".KeePass"
@@ -29,7 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.keepassdroid.fileselect.FileSelectActivity" android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.keepassdroid.fileselect.FileSelectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.keepassdroid.PasswordActivity" android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

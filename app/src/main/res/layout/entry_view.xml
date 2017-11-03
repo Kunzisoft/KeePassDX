@@ -36,7 +36,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:translationZ="10dp"
-            style="@style/DefaultTextStyle">
+            style="@style/KeepassDXStyle.TextAppearance.Default">
             <android.support.v7.widget.AppCompatImageView android:id="@+id/entry_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_gravity="start|center_vertical"
-                style="@style/KeepassoidStyle.TextAppearance.DefaultTextOnPrimary" />
+                style="@style/KeepassDXStyle.TextAppearance.DefaultTextOnPrimary" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -68,15 +68,12 @@
     </ScrollView>
 
 	<android.support.v7.widget.AppCompatImageButton android:id="@+id/entry_edit"
-        android:text="@string/menu_edit"
-        android:layout_margin="24dp"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_mode_edit_white_24dp"
-        android:background="@drawable/fab_background"
-        android:elevation="4dp" />
+        style="@style/KeepassDXStyle.Fab" />
 
 </RelativeLayout>

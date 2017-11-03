@@ -179,14 +179,11 @@
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/entry_save"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="24dp"
-        android:background="@drawable/fab_background"
-        android:elevation="4dp"
         android:src="@drawable/ic_save_white_24dp"
-        android:text="@string/menu_edit" />
+        style="@style/KeepassDXStyle.Fab"/>
 </RelativeLayout>

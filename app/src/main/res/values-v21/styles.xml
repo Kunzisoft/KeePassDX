@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="KeepassoidStyle" parent="AbstractKeepassoidStyle">
+    <style name="KeepassDXStyle" parent="AbstractKeepassDXStyle">
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <!-- Button Style -->
+    <style name="KeepassDXStyle.Button" parent="Base.Widget.AppCompat.Button">
+        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+    <style name="KeepassDXStyle.ImageButton" parent="Base.Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/image_button_background</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+    <style name="KeepassDXStyle.ButtonText" parent="Base.Widget.AppCompat.Button">
+        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <!-- FAB -->
+    <style name="KeepassDXStyle.Fab">
+        <item name="android:background">@drawable/fab_background</item>
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_margin">24dp</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <!-- Menu FAB -->
+    <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary">
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/button_small_background</item>
+        <item name="android:elevation">4dp</item>
     </style>
 </resources>

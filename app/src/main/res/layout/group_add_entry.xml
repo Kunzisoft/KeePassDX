@@ -49,16 +49,13 @@
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/add_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_add_white_24dp"
-        android:layout_margin="24dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/fab_background"
-		android:elevation="4dp"
-		tools:ignore="UnusedAttribute" />
+		style="@style/KeepassDXStyle.Fab" />
 
     <TextView android:id="@+id/add_entry"
         android:layout_marginRight="12dp"
@@ -69,9 +66,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_entry"
-        android:visibility="invisible"
-        android:background="@drawable/button_small_background"
-        style="@style/SmallTextStyle"
+		android:visibility="invisible"
+        style="@style/KeepassDXStyle.FabMenu"
         tools:ignore="UnusedAttribute" />
 
 	<TextView android:id="@+id/add_group"
@@ -85,7 +81,6 @@
 		android:layout_height="wrap_content"
 		android:text="@string/add_group"
         android:visibility="invisible"
-        android:background="@drawable/button_small_background"
-        style="@style/SmallTextStyle"
+		style="@style/KeepassDXStyle.FabMenu"
         tools:ignore="UnusedAttribute" />
 </RelativeLayout>

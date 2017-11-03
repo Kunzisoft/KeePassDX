@@ -24,12 +24,11 @@
 	<TextView android:id="@+id/title"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  style="@style/KeepassoidStyle.TextAppearance.LabelTextStyle"	/>
+	  style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"	/>
 	<TextView
 		android:id="@+id/value"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:textIsSelectable="true"
-		style="@style/KeepassoidStyle.TextAppearance.TextEntryItem" />
-	<View style="@style/Divider" />
+		style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 </LinearLayout> 

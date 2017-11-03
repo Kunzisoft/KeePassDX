@@ -8,13 +8,13 @@
             <item android:bottom="2dp" android:left="2dp">
                 <shape>
                     <corners
-                        android:radius="8dp" />
+                        android:radius="2dp" />
                     <padding
                         android:left="14dp"
                         android:right="14dp"
                         android:top="4dp"
-                        android:bottom="8dp"/>
-                    <solid android:color="?attr/colorPrimary"/>
+                        android:bottom="6dp"/>
+                    <solid android:color="?attr/colorAccent"/>
                 </shape>
             </item>
         </layer-list>

@@ -21,7 +21,7 @@
 	android:layout_margin="@dimen/default_margin"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<ImageButton android:id="@+id/icon_button"
+	<android.support.v7.widget.AppCompatImageButton android:id="@+id/icon_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:src="@drawable/ic00"

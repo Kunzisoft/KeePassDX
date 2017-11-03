@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:right="1dp" android:top="5dp">
-        <shape>
-            <corners android:radius="8dp" />
-            <solid android:color="#14000000" />
-        </shape>
-    </item>
     <item android:bottom="2dp" android:left="2dp">
         <shape>
-            <gradient android:angle="270"
-                android:endColor="#E2E2E2" android:startColor="#BABABA" />
             <corners
                 android:radius="8dp" />
             <padding
@@ -17,7 +9,7 @@
                 android:right="14dp"
                 android:top="4dp"
                 android:bottom="8dp"/>
-            <solid android:color="@color/colorPrimary"/>
+            <solid android:color="?attr/colorPrimary"/>
         </shape>
     </item>
 </layer-list>

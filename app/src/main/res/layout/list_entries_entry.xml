@@ -39,7 +39,7 @@
         android:id="@+id/entry_text"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        style="@style/DefaultTextStyle"
+        style="@style/KeepassDXStyle.TextAppearance.Default"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
