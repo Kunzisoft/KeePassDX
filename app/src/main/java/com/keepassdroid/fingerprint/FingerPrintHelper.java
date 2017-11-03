@@ -4,12 +4,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.content.Context;
-import android.os.Build;
-import android.support.v4.os.CancellationSignal;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v4.os.CancellationSignal;
 import android.util.Base64;
 
 import com.keepassdroid.compat.BuildCompat;
@@ -88,7 +87,7 @@ public class FingerPrintHelper {
             final Context context,
             final FingerPrintCallback fingerPrintCallback) {
 
-        if (!isFingerprintSupported()) {
+        if (!FingerPrintUtils.isFingerprintSupported()) {
             // really not much to do when no fingerprint support found
             setInitOk(false);
             return;
@@ -259,7 +258,7 @@ public class FingerPrintHelper {
 
     @SuppressLint("NewApi")
     public boolean isHardwareDetected() {
-        return isFingerprintSupported()
+        return FingerPrintUtils.isFingerprintSupported()
                 && fingerprintManager != null
                 && fingerprintManager.isHardwareDetected();
     }
@@ -277,10 +276,6 @@ public class FingerPrintHelper {
 
     void setInitOk(final boolean initOk) {
         this.initOk = initOk;
-    }
-
-    public boolean isFingerprintSupported() {
-        return Build.VERSION.SDK_INT >= BuildCompat.VERSION_CODE_M;
     }
 
 }
