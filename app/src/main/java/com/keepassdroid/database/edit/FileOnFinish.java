@@ -21,7 +21,9 @@ package com.keepassdroid.database.edit;
 
 import android.net.Uri;
 
-public class FileOnFinish extends OnFinish {
+import java.io.Serializable;
+
+public class FileOnFinish extends OnFinish implements Serializable {
 	private Uri mFilename = null;
 	protected FileOnFinish mOnFinish;
 	

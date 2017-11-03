@@ -21,7 +21,6 @@ package com.keepassdroid.fileselect;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -33,10 +32,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -49,7 +48,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -334,8 +332,8 @@ public class FileSelectActivity extends AppCompatActivity {
 
 		@Override
 		public void run() {
-			SetPasswordDialog password = new SetPasswordDialog(FileSelectActivity.this, mOnFinish);
-			password.show();
+			SetPasswordDialog dialog = SetPasswordDialog.newInstance(mOnFinish);
+			dialog.show(getSupportFragmentManager(), "passwordDialog");
 		}
 
 	}

@@ -258,8 +258,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	}
 
 	private void setPassword() {
-		SetPasswordDialog dialog = new SetPasswordDialog(this);
-		dialog.show();
+		SetPasswordDialog dialog = new SetPasswordDialog();
+		dialog.show(getSupportFragmentManager(), "passwordDialog");
 	}
 	
 	public class RefreshTask extends OnFinish {
