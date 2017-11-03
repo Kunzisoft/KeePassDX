@@ -21,6 +21,7 @@ package com.keepassdroid;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -90,6 +91,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private Uri mKeyUri = null;
     private boolean mRememberKeyfile;
     SharedPreferences prefs;
+    SharedPreferences prefsNoBackup;
 
     private FingerPrintHelper fingerPrintHelper;
     private int mode;
@@ -192,6 +194,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         Intent i = getIntent();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefsNoBackup = getSharedPreferences("nobackup", Context.MODE_PRIVATE);
+        prefsNoBackup.edit()
+                .putString("test", "test")
+                .commit();
+
+
         mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
         setContentView(R.layout.password);
 
@@ -331,7 +339,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     } else if (mode == Cipher.DECRYPT_MODE) {
 
                         // retrieve the encrypted value from preferences
-                        final String encryptedValue = prefs.getString(getPreferenceKeyValue(), null);
+                        final String encryptedValue = prefsNoBackup.getString(getPreferenceKeyValue(), null);
                         if (encryptedValue != null) {
                             fingerPrintHelper.decryptData(encryptedValue);
                         }
@@ -364,7 +372,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     fingerPrintHelper.initEncryptData();
                     break;
                 case Cipher.DECRYPT_MODE:
-                    final String ivSpecValue = prefs.getString(getPreferenceKeyIvSpec(), null);
+                    final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
                     fingerPrintHelper.initDecryptData(ivSpecValue);
                     break;
             }
@@ -412,7 +420,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 fingerprintView.setAlpha(1f);
             }
             // fingerprint available but no stored password found yet for this DB so show info don't listen
-            if (prefs.getString(getPreferenceKeyValue(), null) == null) {
+            if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
 
                 confirmationView.setText(R.string.no_password_stored);
             }
@@ -431,7 +439,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             final String value,
             final String ivSpec) {
 
-        prefs.edit()
+        prefsNoBackup.edit()
                 .putString(getPreferenceKeyValue(), value)
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
                 .commit();

@@ -15,6 +15,7 @@
       android:label="@string/app_name"
       android:icon="@drawable/launcher"
       android:name="com.keepassdroid.app.App"
+      android:fullBackupContent="@xml/backup"
       android:allowBackup="true"
       android:backupAgent="com.keepassdroid.backup.SettingsBackupAgent">
         <meta-data android:name="com.google.android.backup.api_key"
