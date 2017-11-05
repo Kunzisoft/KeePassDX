@@ -26,7 +26,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -47,6 +46,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -391,20 +391,33 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         }
     }
 
+    private void setFingerPrintVisibilty(int vis) {
+        ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
+        EditText fn = (EditText) findViewById(R.id.pass_keyfile);
+
+        RelativeLayout.LayoutParams browseParams = (RelativeLayout.LayoutParams) browse.getLayoutParams();
+        RelativeLayout.LayoutParams fnParams = (RelativeLayout.LayoutParams) fn.getLayoutParams();
+        int layoutBelow;
+        if (vis == View.GONE) {
+            layoutBelow = R.id.password;
+        } else {
+            layoutBelow = R.id.fingerprint_label;
+        }
+        browseParams.addRule(RelativeLayout.BELOW, layoutBelow);
+        fnParams.addRule(RelativeLayout.BELOW, layoutBelow);
+        fingerprintView.setVisibility(vis);
+        confirmationView.setVisibility(vis);
+    }
+
     private void checkAvailability() {
         // fingerprint not supported (by API level or hardware) so keep option hidden
         if (!fingerPrintHelper.isFingerprintSupported()) {
-
-            fingerprintView.setVisibility(View.GONE);
-            // since this is a fingerprint example inform user, don't do this in your app
-            //confirmationView.setText(R.string.fingerprint_not_supported);
-            confirmationView.setVisibility(View.GONE);
+            setFingerPrintVisibilty(View.GONE);
         }
         // fingerprint is available but not configured show icon but in disabled state with some information
         else if (!fingerPrintHelper.hasEnrolledFingerprints()) {
 
-            fingerprintView.setVisibility(View.VISIBLE);
-            confirmationView.setVisibility(View.VISIBLE);
+            setFingerPrintVisibilty(View.VISIBLE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 fingerprintView.setAlpha(0.3f);
             }
@@ -414,8 +427,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         // finally fingerprint available and configured so we can use it
         else {
 
-            fingerprintView.setVisibility(View.VISIBLE);
-            confirmationView.setVisibility(View.VISIBLE);
+            setFingerPrintVisibilty(View.VISIBLE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 fingerprintView.setAlpha(1f);
             }
