@@ -60,7 +60,6 @@ public class FingerPrintHelper {
         this.authenticationCallback = authenticationCallback;
     }
 
-    @SuppressLint("NewApi")
     public void startListening() {
         // no need to start listening when not initialised
         if (!isFingerprintInitialized()) {
@@ -79,7 +78,6 @@ public class FingerPrintHelper {
                 null);
     }
 
-    @SuppressLint("NewApi")
     public void stopListening() {
         if (!isFingerprintInitialized()) {
             return;
@@ -141,7 +139,6 @@ public class FingerPrintHelper {
         return hasEnrolledFingerprints() && initOk;
     }
 
-    @SuppressWarnings("NewApi")
     public void initEncryptData() {
 
         if (!isFingerprintInitialized()) {
@@ -166,7 +163,6 @@ public class FingerPrintHelper {
         }
     }
 
-    @SuppressWarnings("NewApi")
     public void encryptData(final String value) {
 
         if (!isFingerprintInitialized()) {
@@ -191,7 +187,6 @@ public class FingerPrintHelper {
 
     }
 
-    @SuppressWarnings("NewApi")
     public void initDecryptData(final String ivSpecValue) {
 
         if (!isFingerprintInitialized()) {
@@ -220,7 +215,6 @@ public class FingerPrintHelper {
         }
     }
 
-    @SuppressWarnings("NewApi")
     public void decryptData(final String encryptedValue) {
 
         if (!isFingerprintInitialized()) {
@@ -278,7 +272,6 @@ public class FingerPrintHelper {
         }
     }
 
-    @SuppressLint("NewApi")
     public boolean isHardwareDetected() {
         return isFingerprintSupported()
                 && fingerprintManager != null
