@@ -34,14 +34,14 @@
     <string name="application">Программа</string>
     <string name="application_settings">Настройки KeePassDroid</string>
     <string name="beta_dontask">Не показывать снова</string>
-    <string name="beta_warning">Поддержка сохранения баз kdbx ЭКСПЕРИМЕНТАЛЬНАЯ. Сделайте резервную копию базы перед сохранением.</string>
+    <string name="beta_warning">Поддержка сохранения баз kdbx ЭКСПЕРИМЕНТАЛЬНАЯ. Сделайте резервную копию базы перед сохранением</string>
     <string name="brackets">{[(Скобки)]}</string>
-    <string name="browser_intall_text">Для функции обзора необходим менеджер файлов – OI File Manager (альтернативы – Total Commander, NARF File Manager)</string>
+    <string name="browser_intall_text">Для функции обзора необходим менеджер файлов – например, OI File Manager</string>
     <string name="building_search_idx">Индексирование…</string>
     <string name="cancel">Отмена</string>
     <string name="ClearClipboard">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
-    <string name="clipboard_error">У некоторых Android-смартфонов Samsung есть ошибка в реализации буфера обмена, из-за которой нельзя скопировать из некоторых приложений. Для подробностей пройдите:</string>
+    <string name="clipboard_error">На ряде устройств Samsung буфер обмена содержит ошибку, блокирующую копирование данных из приложений. Подробнее:</string>
     <string name="clipboard_error_clear">Очистка буфера обмена не удалась</string>
     <string name="clipboard_timeout">Очистка буфера</string>
     <string name="clipboard_timeout_summary">Задержка очистки после копирования в буфер</string>
@@ -94,7 +94,7 @@
     <string name="error_pass_match">Пароли не совпадают</string>
     <string name="error_rounds_not_number">Введите число от 1 до 2147483648</string>
     <string name="error_rounds_too_large">Предельное значение 2147483648</string>
-    <string name="error_string_key">Имя поля обязательно должно быть указано для каждой строки.</string>
+    <string name="error_string_key">Имя поля требуется для каждой строки</string>
     <string name="error_title_required">Введите название</string>
     <string name="error_wrong_length">Укажите длину больше нуля</string>
     <string name="field_name">Имя поля</string>
@@ -160,8 +160,8 @@
     <string name="progress_create">Создание базы…</string>
     <string name="progress_title">Обработка</string>
     <string name="protection">Защита</string>
-    <string name="read_only_warning">KeePassDroid не имеет прав на запись в базу данных по указанному пути, так что база данных открыта только для чтения.</string>
-    <string name="read_only_kitkat_warning">Начиная с Android версии KitKat, на некоторых устройствах нет разрешения записи на SD-карту для приложений</string>
+    <string name="read_only_warning">KeePassDroid не имеет разрешений на запись по указанному пути. База будет открыта только для чтения</string>
+    <string name="read_only_kitkat_warning">Начиная с Android KitKat, на некоторых устройствах приложениям запрещена запись на SD-карту</string>
     <string name="recentfile_title">Недавно открытые</string>
     <string name="recentfile_summary">Хранить имена открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам-ключам</string>
@@ -188,7 +188,7 @@
     <string name="use_saf_summary">Storage Access Framework для обзора файлов (KK+)</string>
     <string name="use_saf_title">Обзор через SAF</string>
     <string name="warning">Внимание</string>
-    <string name="warning_password_encoding">Формат .kdb поддерживает только кодировку Latin1. Пароль может содержать символы вне этой кодировки. Все не-Latin1 символы будут преобразованы в одинаковый символ, что снизит надёжность пароля. Рекомендуется изменить пароль.</string>
+    <string name="warning_password_encoding">Пароль содержит символы вне кодировки Latin1, поддерживаемой форматом .kdb! ВСЕ не-Latin1 символы будут преобразованы в одинаковый символ. Рекомендуется изменить пароль</string>
     <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна</string>
     <string name="version_label">Версия:</string>
