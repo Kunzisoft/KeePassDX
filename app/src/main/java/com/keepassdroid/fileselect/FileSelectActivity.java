@@ -66,7 +66,7 @@ import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.intents.Intents;
-import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
@@ -523,7 +523,7 @@ public class FileSelectActivity extends AppCompatActivity {
 			return true;
 			
 		case R.id.menu_app_settings:
-			AppSettingsActivity.Launch(this);
+			SettingsActivity.Launch(this);
 			return true;
 		}
 

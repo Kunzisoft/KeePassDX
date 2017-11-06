@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+     
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:key="@string/app_key"
+	android:title="@string/application"
+	android:summary="@string/application_settings">
+	<CheckBoxPreference
+		android:summary="@string/recentfile_summary"
+		android:defaultValue="@bool/recentfile_default"
+		android:title="@string/recentfile_title"
+		android:key="@string/recentfile_key"/>
+	<CheckBoxPreference
+		android:key="@string/keyfile_key"
+		android:title="@string/remember_keyfile_title"
+		android:summary="@string/remember_keyfile_summary"
+		android:dependency="@string/recentfile_key"
+		android:defaultValue="@bool/keyfile_default"/>
+	<ListPreference
+		android:key="@string/clipboard_timeout_key"
+		android:title="@string/clipboard_timeout"
+		android:summary="@string/clipboard_timeout_summary"
+		android:entries="@array/clipboard_timeout_options"
+		android:entryValues="@array/clipboard_timeout_values"
+		android:dialogTitle="@string/clipboard_timeout"
+		android:defaultValue="@string/clipboard_timeout_default"/>
+	<ListPreference
+		android:key="@string/app_timeout_key"
+		android:title="@string/app_timeout"
+		android:summary="@string/app_timeout_summary"
+		android:entries="@array/clipboard_timeout_options"
+		android:entryValues="@array/clipboard_timeout_values"
+		android:dialogTitle="@string/app_timeout"
+		android:defaultValue="@string/clipboard_timeout_default"/>
+	<CheckBoxPreference
+		android:key="@string/maskpass_key"
+		android:title="@string/maskpass_title"
+		android:summary="@string/maskpass_summary"
+		android:defaultValue="@bool/maskpass_default"/>
+	<ListPreference
+		android:key="@string/list_size_key"
+		android:title="@string/list_size_title"
+		android:summary="@string/list_size_summary"
+		android:entries="@array/list_size_options"
+		android:entryValues="@array/list_size_values"
+		android:dialogTitle="@string/list_size_summary"
+		android:defaultValue="@string/list_size_default"/>
+	<CheckBoxPreference
+		android:summary="@string/omitbackup_summary"
+		android:defaultValue="@bool/omitbackup_default"
+		android:title="@string/omitbackup_title"
+		android:key="@string/omitbackup_key"/>
+	<CheckBoxPreference
+		android:summary="@string/use_saf_summary"
+		android:defaultValue="@bool/saf_default"
+		android:title="@string/use_saf_title"
+		android:key="@string/saf_key"/>
+</PreferenceScreen>

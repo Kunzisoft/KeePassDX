@@ -30,9 +30,10 @@ import com.android.keepass.R;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.timeout.TimeoutHelper;
 
-public class AppSettingsActivity extends AppCompatActivity {
-	public static boolean KEYFILE_DEFAULT = false;
-	
+public class SettingsActivity extends AppCompatActivity implements MainPreferenceFragment.Callback {
+
+    private static final String TAG_NESTED = "TAG_NESTED";
+
 	private BackupManagerCompat backupManager;
 
     private Toolbar toolbar;
@@ -53,8 +54,7 @@ public class AppSettingsActivity extends AppCompatActivity {
     }
 	
 	public static void Launch(Context ctx) {
-		Intent i = new Intent(ctx, AppSettingsActivity.class);
-		
+		Intent i = new Intent(ctx, SettingsActivity.class);
 		ctx.startActivity(i);
 	}
 	
@@ -64,24 +64,25 @@ public class AppSettingsActivity extends AppCompatActivity {
 
 		setContentView(R.layout.activity_toolbar);
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setTitle(R.string.application_settings);
+		toolbar.setTitle(R.string.menu_app_settings);
 		setSupportActionBar(toolbar);
 		assert getSupportActionBar() != null;
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new AppSettingsFragment()).commit();
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new MainPreferenceFragment())
+                    .commit();
+        }
 
 		backupManager = new BackupManagerCompat(this);
-
-		// TODO NESTED Preference
 	}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch ( item.getItemId() ) {
             case android.R.id.home:
-                finish();
+                onBackPressed();
                 break;
         }
 
@@ -95,4 +96,21 @@ public class AppSettingsActivity extends AppCompatActivity {
 		super.onStop();
 	}
 
+    @Override
+    public void onBackPressed() {
+        // this if statement is necessary to navigate through nested and main fragments
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }
+
+	@Override
+	public void onNestedPreferenceSelected(int key) {
+		getFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
+                .addToBackStack(TAG_NESTED)
+                .commit();
+	}
 }

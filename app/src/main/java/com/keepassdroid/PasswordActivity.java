@@ -60,7 +60,7 @@ import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
 import com.keepassdroid.fingerprint.FingerPrintUtils;
 import com.keepassdroid.intents.Intents;
-import com.keepassdroid.settings.AppSettingsActivity;
+import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
@@ -561,7 +561,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 return true;
 
             case R.id.menu_app_settings:
-                AppSettingsActivity.Launch(this);
+                SettingsActivity.Launch(this);
                 return true;
 
             case android.R.id.home:

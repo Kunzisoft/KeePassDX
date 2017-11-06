@@ -18,17 +18,19 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
-
-		<Preference
-            android:key="@string/app_key"
-            android:title="@string/application"
-            android:summary="@string/application_settings"
-            android:persistent="false" />
-
-		<Preference
-            android:key="@string/db_key"
-            android:title="@string/database"
-            android:summary="@string/menu_db_settings"
-            android:persistent="false" />
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:key="@string/db_key"
+	android:title="@string/database"
+	android:summary="@string/menu_db_settings">
+	<Preference
+		android:key="@string/algorithm_key"
+		android:title="@string/algorithm"
+		android:enabled="false"/>
+	<com.keepassdroid.settings.RoundsPreference
+		android:key="@string/rounds_key"
+		android:persistent="false"
+		android:title="@string/rounds"
+		android:dialogLayout="@layout/database_settings"
+		android:positiveButtonText="@string/entry_save"
+		android:negativeButtonText="@string/entry_cancel"/>
 </PreferenceScreen>
