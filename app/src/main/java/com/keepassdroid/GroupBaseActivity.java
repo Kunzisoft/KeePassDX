@@ -162,6 +162,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
+		// TODO Donation
+        inflater.inflate(R.menu.donation, menu);
 		inflater.inflate(R.menu.group, menu);
 		
 		return true;

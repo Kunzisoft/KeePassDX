@@ -54,7 +54,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.keepass.R;
-import com.keepassdroid.AboutDialog;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
@@ -66,9 +65,9 @@ import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.intents.Intents;
-import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
+import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.FileNameView;
@@ -497,37 +496,14 @@ public class FileSelectActivity extends AppCompatActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.fileselect, menu);
-
+		MenuUtil.defaultMenuInflater(getMenuInflater(), menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_donate:
-			try {
-				Util.gotoUrl(this, R.string.donate_url);
-			} catch (ActivityNotFoundException e) {
-				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-				return false;
-			}
-			
-			return true;
-			
-		case R.id.menu_about:
-			AboutDialog dialog = new AboutDialog(this);
-			dialog.show();
-			return true;
-			
-		case R.id.menu_app_settings:
-			SettingsActivity.Launch(this);
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
+		return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
+				&& super.onOptionsItemSelected(item);
 	}
 
 	@Override

@@ -314,6 +314,8 @@ public class EntryActivity extends LockCloseHideActivity {
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
+		// TODO Donation
+		inflater.inflate(R.menu.donation, menu);
 		inflater.inflate(R.menu.entry, menu);
 		
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);

@@ -37,7 +37,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -64,6 +63,7 @@ import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
+import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
 
@@ -559,10 +559,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
-        MenuInflater inflate = getMenuInflater();
-        inflate.inflate(R.menu.password, menu);
-
+        MenuUtil.defaultMenuInflater(getMenuInflater(), menu);
         return true;
     }
 
@@ -570,18 +567,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.menu_about:
-                AboutDialog dialog = new AboutDialog(this);
-                dialog.show();
-                return true;
-
-            case R.id.menu_app_settings:
-                SettingsActivity.Launch(this);
-                return true;
-
             case android.R.id.home:
                 finish();
                 break;
+
+            default:
+                return MenuUtil.onDefaultMenuOptionsItemSelected(this, item);
         }
 
         return super.onOptionsItemSelected(item);
