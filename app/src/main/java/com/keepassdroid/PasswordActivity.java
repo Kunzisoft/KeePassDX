@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+=======
+ * Copyright 2009-2017 Brian Pellin.
+>>>>>>> master
  *     
  * This file is part of KeePass DX.
  *
@@ -21,6 +25,7 @@ package com.keepassdroid;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -43,6 +48,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,6 +95,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private Uri mKeyUri = null;
     private boolean mRememberKeyfile;
     SharedPreferences prefs;
+    SharedPreferences prefsNoBackup;
 
     private FingerPrintHelper fingerPrintHelper;
     private int mode;
@@ -190,6 +198,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         Intent i = getIntent();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefsNoBackup = getSharedPreferences("nobackup", Context.MODE_PRIVATE);
+        prefsNoBackup.edit()
+                .putString("test", "test")
+                .commit();
+
+
         mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
         setContentView(R.layout.password);
 
@@ -336,7 +350,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     } else if (mode == Cipher.DECRYPT_MODE) {
 
                         // retrieve the encrypted value from preferences
-                        final String encryptedValue = prefs.getString(getPreferenceKeyValue(), null);
+                        final String encryptedValue = prefsNoBackup.getString(getPreferenceKeyValue(), null);
                         if (encryptedValue != null) {
                             fingerPrintHelper.decryptData(encryptedValue);
                         }
@@ -369,7 +383,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     fingerPrintHelper.initEncryptData();
                     break;
                 case Cipher.DECRYPT_MODE:
-                    final String ivSpecValue = prefs.getString(getPreferenceKeyIvSpec(), null);
+                    final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
                     fingerPrintHelper.initDecryptData(ivSpecValue);
                     break;
             }
@@ -388,20 +402,33 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         }
     }
 
+    private void setFingerPrintVisibilty(int vis) {
+        ImageButton browse = (ImageButton) findViewById(R.id.browse_button);
+        EditText fn = (EditText) findViewById(R.id.pass_keyfile);
+
+        RelativeLayout.LayoutParams browseParams = (RelativeLayout.LayoutParams) browse.getLayoutParams();
+        RelativeLayout.LayoutParams fnParams = (RelativeLayout.LayoutParams) fn.getLayoutParams();
+        int layoutBelow;
+        if (vis == View.GONE) {
+            layoutBelow = R.id.password;
+        } else {
+            layoutBelow = R.id.fingerprint_label;
+        }
+        browseParams.addRule(RelativeLayout.BELOW, layoutBelow);
+        fnParams.addRule(RelativeLayout.BELOW, layoutBelow);
+        fingerprintView.setVisibility(vis);
+        confirmationView.setVisibility(vis);
+    }
+
     private void checkAvailability() {
         // fingerprint not supported (by API level or hardware) so keep option hidden
         if (!FingerPrintUtils.isFingerprintSupported()) {
-
-            fingerprintView.setVisibility(View.GONE);
-            // since this is a fingerprint example inform user, don't do this in your app
-            //confirmationView.setText(R.string.fingerprint_not_supported);
-            confirmationView.setVisibility(View.GONE);
+            setFingerPrintVisibilty(View.GONE);
         }
         // fingerprint is available but not configured show icon but in disabled state with some information
         else if (!fingerPrintHelper.hasEnrolledFingerprints()) {
 
-            fingerprintView.setVisibility(View.VISIBLE);
-            confirmationView.setVisibility(View.VISIBLE);
+            setFingerPrintVisibilty(View.VISIBLE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 fingerprintView.setAlpha(0.3f);
             }
@@ -411,13 +438,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         // finally fingerprint available and configured so we can use it
         else {
 
-            fingerprintView.setVisibility(View.VISIBLE);
-            confirmationView.setVisibility(View.VISIBLE);
+            setFingerPrintVisibilty(View.VISIBLE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 fingerprintView.setAlpha(1f);
             }
             // fingerprint available but no stored password found yet for this DB so show info don't listen
-            if (prefs.getString(getPreferenceKeyValue(), null) == null) {
+            if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
 
                 confirmationView.setText(R.string.no_password_stored);
             }
@@ -436,12 +462,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             final String value,
             final String ivSpec) {
 
-        prefs.edit()
+        prefsNoBackup.edit()
                 .putString(getPreferenceKeyValue(), value)
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
                 .apply();
         // and remove visual input to reset UI
-        passwordView.setText("");
+        confirmButton.performClick();
         confirmationView.setText(R.string.encrypted_value_stored);
     }
 
@@ -460,8 +486,16 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     @Override
     public void onException() {
-        Toast.makeText(this, R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+        onException(true);
+    }
+
+    @Override
+    public void onException(boolean showMessage) {
+        if (showMessage) {
+            Toast.makeText(this, R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+        }
         checkAvailability(); // restarts listening
+
     }
 
     private class DefaultCheckChange implements CompoundButton.OnCheckedChangeListener {
