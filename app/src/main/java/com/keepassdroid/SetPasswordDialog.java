@@ -73,7 +73,9 @@ public class SetPasswordDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        mFinish = (FileOnFinish) getArguments().getSerializable(FINISH_TAG);
+        if(getArguments() != null && getArguments().containsKey(FINISH_TAG)) {
+            mFinish = (FileOnFinish) getArguments().getSerializable(FINISH_TAG);
+        }
 
         rootView = inflater.inflate(R.layout.set_password, null);
         builder.setView(rootView)
