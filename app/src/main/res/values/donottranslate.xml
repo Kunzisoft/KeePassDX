@@ -28,10 +28,7 @@
     <string name="oi_filemanager_web">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
     
     <!--  Password generator -->
-    <string name="generate_6">6</string>
-    <string name="generate_8">8</string>
-    <string name="generate_12">12</string>
-    <string name="generate_16">16</string>
+    <integer name="default_password_length">8</integer>
     
     <!--  Preference settings -->
     <string name="algorithm_key">algorithm</string>

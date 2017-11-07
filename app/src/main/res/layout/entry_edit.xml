@@ -104,6 +104,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/container_entry_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -120,30 +121,36 @@
                         android:hint="@string/entry_password" />
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.v7.widget.AppCompatImageView android:id="@+id/generate_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_mode_edit_white_24dp"
-                    android:tint="@color/colorAccent"
-                    android:layout_margin="8dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"/>
-            </RelativeLayout>
-
-
-			<!-- Confirm Password -->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/entry_confpassword"
+                <!-- Confirm Password -->
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:hint="@string/entry_confpassword" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_toLeftOf="@+id/generate_button"
+                    android:layout_toStartOf="@+id/generate_button"
+                    android:layout_below="@+id/container_entry_password">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/entry_confpassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:hint="@string/entry_confpassword" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/generate_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_key_white_24dp"
+                    android:tint="@color/colorAccent" />
+            </RelativeLayout>
 
 			<!-- Comment -->
             <android.support.design.widget.TextInputLayout

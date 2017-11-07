@@ -19,12 +19,6 @@
  */
 package com.keepassdroid;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,9 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +42,12 @@ import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.view.EntryEditSection;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public class EntryEditActivityV4 extends EntryEditActivity {
 	

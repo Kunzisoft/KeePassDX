@@ -63,7 +63,8 @@ import java.util.Date;
 import java.util.UUID;
 
 public abstract class EntryEditActivity extends LockCloseHideActivity
-		implements IconPickerFragment.IconPickerListener {
+		implements IconPickerFragment.IconPickerListener,
+        GeneratePasswordFragment.GeneratePasswordListener {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
@@ -170,7 +171,8 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		generatePassword.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				GeneratePasswordActivity.Launch(EntryEditActivity.this);
+				GeneratePasswordFragment generatePasswordFragment = new GeneratePasswordFragment();
+				generatePasswordFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
 			}
 		});
 		
@@ -268,26 +270,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		
 		return newEntry;
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		switch (resultCode)
-		{
-			case RESULT_OK_PASSWORD_GENERATOR:
-				String generatedPassword = data.getStringExtra("com.keepassdroid.password.generated_password");
-				EditText password = (EditText) findViewById(R.id.entry_password);
-				EditText confPassword = (EditText) findViewById(R.id.entry_confpassword);
-				
-				password.setText(generatedPassword);
-				confPassword.setText(generatedPassword);
-
-				break;
-			case Activity.RESULT_CANCELED:
-			default:
-				break;
-		}
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -313,6 +295,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		switch ( item.getItemId() ) {
 			case R.id.menu_donate:
 				try {
+				    // TODO Encapsulate
 					Util.gotoUrl(this, R.string.donate_url);
 				} catch (ActivityNotFoundException e) {
 					Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
@@ -360,7 +343,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.getUrl());
 		
-		String password = new String(mEntry.getPassword());
+		String password = mEntry.getPassword();
 		populateText(R.id.entry_password, password);
 		populateText(R.id.entry_confpassword, password);
 		setPasswordStyle();
@@ -380,7 +363,22 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
         currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
     }
 
-	private final class AfterSave extends OnFinish {
+    @Override
+    public void acceptPassword(Bundle bundle) {
+        String generatedPassword = bundle.getString(GeneratePasswordFragment.KEY_PASSWORD_ID);
+        EditText password = (EditText) findViewById(R.id.entry_password);
+        EditText confPassword = (EditText) findViewById(R.id.entry_confpassword);
+
+        password.setText(generatedPassword);
+        confPassword.setText(generatedPassword);
+    }
+
+    @Override
+    public void cancelPassword(Bundle bundle) {
+        // Do nothing here
+    }
+
+    private final class AfterSave extends OnFinish {
 
 		public AfterSave(Handler handler) {
 			super(handler);
