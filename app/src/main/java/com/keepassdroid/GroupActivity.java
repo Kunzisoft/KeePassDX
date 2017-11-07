@@ -151,6 +151,9 @@ public abstract class GroupActivity extends GroupBaseActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+        if ( mGroup.getParent() != null )
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
+
 		Log.w(TAG, "Set view");
 
 		if ( addGroupEnabled ) {
@@ -188,7 +191,17 @@ public abstract class GroupActivity extends GroupBaseActivity
 		}
 	}
 
-	@Override
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		

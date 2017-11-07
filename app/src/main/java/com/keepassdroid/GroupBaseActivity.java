@@ -114,13 +114,12 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	protected void setGroupTitle() {
 		if ( mGroup != null ) {
 			String name = mGroup.getName();
+            TextView tv = (TextView) findViewById(R.id.group_name);
 			if ( name != null && name.length() > 0 ) {
-				TextView tv = (TextView) findViewById(R.id.group_name);
 				if ( tv != null ) {
 					tv.setText(name);
 				}
 			} else {
-				TextView tv = (TextView) findViewById(R.id.group_name);
 				if ( tv != null ) {
 					tv.setText(getText(R.string.root));
 				}
