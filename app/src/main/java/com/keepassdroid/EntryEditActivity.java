@@ -49,6 +49,7 @@ import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.PwGroupV4;
+import com.keepassdroid.database.PwIconStandard;
 import com.keepassdroid.database.edit.AddEntry;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
@@ -258,6 +259,8 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		
 		PwDatabase db = App.getDB().pm;
 		newEntry.setTitle(Util.getEditText(this, R.id.entry_title), db);
+		if(mSelectedIconID != -1)
+		    newEntry.setIcon(new PwIconStandard(mSelectedIconID));
 		newEntry.setUrl(Util.getEditText(this, R.id.entry_url), db);
 		newEntry.setUsername(Util.getEditText(this, R.id.entry_user_name), db);
 		newEntry.setNotes(Util.getEditText(this, R.id.entry_comment), db);
@@ -352,7 +355,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	protected void fillData() {
 		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
-		
+
 		populateText(R.id.entry_title, mEntry.getTitle());
 		populateText(R.id.entry_user_name, mEntry.getUsername());
 		populateText(R.id.entry_url, mEntry.getUrl());

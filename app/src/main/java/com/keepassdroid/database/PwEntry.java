@@ -126,11 +126,14 @@ public abstract class PwEntry implements Cloneable {
 	public abstract void setLastAccessTime(Date access);
 	public abstract void setExpires(boolean exp);
 	public abstract void setExpiryTime(Date expires);
-	
-	
+
 	public PwIcon getIcon() {
 		return icon;
 	}
+
+    public void setIcon(PwIconStandard icon) {
+        this.icon = icon;
+    }
 	
 	public boolean isTan() {
 		return getTitle().equals(PMS_TAN_ENTRY) && (getUsername().length() > 0);
