@@ -23,10 +23,6 @@
         android:icon="@drawable/ic_visibility_white_24dp"
         android:title="@string/menu_showpass"
         app:showAsAction="always" />
-    <item android:id="@+id/menu_lock"
-        android:icon="@drawable/ic_key_white_24dp"
-        android:title="@string/menu_lock"
-        app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_goto_url"
         android:icon="@drawable/ic_file_upload_white_24dp"
         android:title="@string/menu_url"
@@ -37,4 +33,5 @@
     <item android:id="@+id/menu_copy_pass"
         android:title="@string/menu_copy_pass"
         app:showAsAction="ifRoom" />
+    <!-- TODO Add database -->
 </menu>

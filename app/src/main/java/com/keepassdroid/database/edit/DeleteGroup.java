@@ -102,10 +102,10 @@ public class DeleteGroup extends RunnableOnFinish {
 
 		public void run() {
 			if ( mSuccess ) {
-				// Remove from group global
+				// Remove from tree global
 				mDb.pm.groups.remove(mGroup.getId());
 				
-				// Remove group from the dirty global (if it is present), not a big deal if this fails
+				// Remove tree from the dirty global (if it is present), not a big deal if this fails
 				mDb.dirty.remove(mGroup);
 				
 				// Mark parent dirty
@@ -115,7 +115,7 @@ public class DeleteGroup extends RunnableOnFinish {
 				}
 				mDb.dirty.add(mDb.pm.rootGroup);
 			} else {
-				// Let's not bother recovering from a failure to save a deleted group.  It is too much work.
+				// Let's not bother recovering from a failure to save a deleted tree.  It is too much work.
 				App.setShutdown();
 			}
 			

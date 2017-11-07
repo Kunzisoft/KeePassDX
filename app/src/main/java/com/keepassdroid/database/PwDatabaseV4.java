@@ -336,7 +336,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		super.populateGlobals(currentGroup);
 	}
 	
-	/** Ensure that the recycle bin group exists, if enabled and create it
+	/** Ensure that the recycle bin tree exists, if enabled and create it
 	 *  if it doesn't exist 
 	 *  
 	 */

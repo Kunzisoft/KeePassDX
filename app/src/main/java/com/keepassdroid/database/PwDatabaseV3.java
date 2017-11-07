@@ -194,16 +194,16 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	/*
-	public void removeGroup(PwGroupV3 group) {
-		group.parent.childGroups.remove(group);
-		groups.remove(group);
+	public void removeGroup(PwGroupV3 tree) {
+		tree.parent.childGroups.remove(tree);
+		groups.remove(tree);
 	}
 	*/
 
 	/**
-	 * Generates an unused random group id
+	 * Generates an unused random tree id
 	 * 
-	 * @return new group id
+	 * @return new tree id
 	 */
 	@Override
 	public PwGroupIdV3 newGroupId() {
@@ -280,7 +280,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	public void addGroupTo(PwGroup newGroup, PwGroup parent) {
 		super.addGroupTo(newGroup, parent);
 		
-		// Add group to root groups
+		// Add tree to root groups
 		groups.add(newGroup);
 		
 	}
@@ -297,7 +297,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	public void removeGroupFrom(PwGroup remove, PwGroup parent) {
 		super.removeGroupFrom(remove, parent);
 		
-		// Remove group from root entry
+		// Remove tree from root entry
 		groups.remove(remove);
 	}
 
@@ -350,7 +350,7 @@ public class PwDatabaseV3 extends PwDatabase {
 		algorithm = PwEncryptionAlgorithm.Rjindal;
 		numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
 		name = "KeePass Password Manager";
-		// Build the root group
+		// Build the root tree
 		constructTree(null);
 		
 		// Add a couple default groups

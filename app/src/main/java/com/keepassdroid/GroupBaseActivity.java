@@ -20,12 +20,15 @@
 package com.keepassdroid;
 
 
-import android.content.ActivityNotFoundException;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,7 +39,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.keepass.KeePass;
 import com.android.keepass.R;
@@ -45,8 +47,8 @@ import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.edit.OnFinish;
-import com.keepassdroid.settings.SettingsActivity;
-import com.keepassdroid.utils.Util;
+import com.keepassdroid.search.SearchResultsActivity;
+import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.view.ClickView;
 import com.keepassdroid.view.GroupViewOnlyView;
 
@@ -163,9 +165,26 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		
 		MenuInflater inflater = getMenuInflater();
 		// TODO Donation
+		inflater.inflate(R.menu.search, menu);
         inflater.inflate(R.menu.donation, menu);
-		inflater.inflate(R.menu.group, menu);
-		
+		inflater.inflate(R.menu.tree, menu);
+		inflater.inflate(R.menu.database, menu);
+		inflater.inflate(R.menu.default_menu, menu);
+
+		// Get the SearchView and set the searchable configuration
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		assert searchManager != null;
+
+		MenuItem searchItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
+            searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        }
+
 		return true;
 	}
 
@@ -201,40 +220,29 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-		case R.id.menu_donate:
-			try {
-				Util.gotoUrl(this, R.string.donate_url);
-			} catch (ActivityNotFoundException e) {
-				Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-				return false;
-			}
-			
-			return true;
-		case R.id.menu_lock:
-			App.setShutdown();
-			setResult(KeePass.EXIT_LOCK);
-			finish();
-			return true;
-		
-		case R.id.menu_search:
-			onSearchRequested();
-			return true;
-			
-		case R.id.menu_app_settings:
-			SettingsActivity.Launch(this);
-			return true;
 
-		case R.id.menu_change_master_key:
-			setPassword();
-			return true;
-			
-		case R.id.menu_sort:
-			toggleSort();
-			return true;
+            case R.id.menu_search:
+                onSearchRequested();
+                return true;
 
+            case R.id.menu_sort:
+                toggleSort();
+                return true;
+
+            case R.id.menu_lock:
+                App.setShutdown();
+                setResult(KeePass.EXIT_LOCK);
+                finish();
+                return true;
+
+            case R.id.menu_change_master_key:
+                setPassword();
+                return true;
+
+            default:
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item);
+                return super.onOptionsItemSelected(item);
 		}
-		
-		return super.onOptionsItemSelected(item);
 	}
 	
 	private void toggleSort() {
@@ -251,7 +259,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		// Mark all groups as dirty now to refresh them on load
 		Database db = App.getDB();
 		db.markAllGroupsAsDirty();
-		// We'll manually refresh this group so we can remove it
+		// We'll manually refresh this tree so we can remove it
 		db.dirty.remove(mGroup);
 		
 		// Tell the adapter to refresh it's list

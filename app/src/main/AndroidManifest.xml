@@ -98,7 +98,7 @@
             android:name="com.keepassdroid.EntryEditActivityV4"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.keepassdroid.search.SearchResults" android:launchMode="standard">
+        <activity android:name="com.keepassdroid.search.SearchResultsActivity" android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />

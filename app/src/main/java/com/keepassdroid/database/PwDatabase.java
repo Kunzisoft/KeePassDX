@@ -257,7 +257,7 @@ public abstract class PwDatabase {
     public abstract PwEncryptionAlgorithm getEncAlgorithm();
 
     public void addGroupTo(PwGroup newGroup, PwGroup parent) {
-        // Add group to parent group
+        // Add tree to parent tree
         if ( parent == null ) {
             parent = rootGroup;
         }
@@ -270,7 +270,7 @@ public abstract class PwDatabase {
     }
 
     public void removeGroupFrom(PwGroup remove, PwGroup parent) {
-        // Remove group from parent group
+        // Remove tree from parent tree
         parent.childGroups.remove(remove);
 
         groups.remove(remove.getId());

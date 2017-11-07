@@ -234,7 +234,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 			group = group.parent;
 		}
 		
-		// If we get to the root group and its null, default to true
+		// If we get to the root tree and its null, default to true
 		return true;
 	}
 

@@ -211,7 +211,7 @@ public class Database {
         }
 
         // TODO: This should probably be abstracted out
-        // The root group in v3 is not an 'official' group
+        // The root tree in v3 is not an 'official' tree
         if ( pm instanceof PwDatabaseV3 ) {
             dirty.add(pm.rootGroup);
         }

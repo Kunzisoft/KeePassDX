@@ -109,7 +109,7 @@ public class PwDbV3Output extends PwDbOutput {
 	}
 	
 	private void prepForOutput() {
-		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the group hierarchy
+		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the tree hierarchy
 		sortGroupsForOutput();
 	}
 
@@ -227,7 +227,7 @@ public class PwDbV3Output extends PwDbOutput {
 			try {
 				pgo.output();
 			} catch (IOException e) {
-				throw new PwDbOutputException("Failed to output a group: " + e.getMessage());
+				throw new PwDbOutputException("Failed to output a tree: " + e.getMessage());
 			}
 		}
 		
@@ -256,7 +256,7 @@ public class PwDbV3Output extends PwDbOutput {
 	}
 	
 	private void sortGroup(PwGroupV3 group, List<PwGroup> groupList) {
-		// Add current group
+		// Add current tree
 		groupList.add(group);
 		
 		// Recurse over children

@@ -22,20 +22,26 @@ package com.keepassdroid.search;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.android.keepass.KeePass;
+import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.PwGroupListAdapter;
 import com.keepassdroid.app.App;
-import com.keepassdroid.view.GroupEmptyView;
-import com.keepassdroid.view.GroupViewOnlyView;
 
-public class SearchResults extends GroupBaseActivity {
+public class SearchResultsActivity extends GroupBaseActivity {
 	
 	private Database mDb;
-	//private String mQuery;
-	
+
+	private View listView;
+	private View imageNotFoundView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,39 +59,58 @@ public class SearchResults extends GroupBaseActivity {
 			finish();
 		}
 
+        setContentView(getLayoutInflater().inflate(R.layout.search_results, null));
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.search_label));
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        listView = findViewById(R.id.group_list);
+        imageNotFoundView = findViewById(R.id.img_not_found);
+
 		performSearch(getSearchStr(getIntent()));
 		
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        // TODO Donation
+        inflater.inflate(R.menu.donation, menu);
+        inflater.inflate(R.menu.tree, menu);
+        inflater.inflate(R.menu.default_menu, menu);
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch ( item.getItemId() ) {
+            case android.R.id.home:
+                finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 	
 	private void performSearch(String query) {
-		query(query.trim());
-	}
-	
-	private void query(String query) {
-		mGroup = mDb.Search(query);
+		mGroup = mDb.Search(query.trim());
 
 		if ( mGroup == null || mGroup.childEntries.size() < 1 ) {
-			setContentView(new GroupEmptyView(this));
+            listView.setVisibility(View.GONE);
+            imageNotFoundView.setVisibility(View.VISIBLE);
 		} else {
-			setContentView(new GroupViewOnlyView(this));
-		}
-		
+            listView.setVisibility(View.VISIBLE);
+            imageNotFoundView.setVisibility(View.GONE);
+        }
+
 		setGroupTitle();
 		
 		setListAdapter(new PwGroupListAdapter(this, mGroup));
 	}
-	
-	/*
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		
-		mQuery = getSearchStr(intent);
-		performSearch();
-		//mGroup = processSearchIntent(intent);
-		//assert(mGroup != null);
-	}
-	*/
 
 	private String getSearchStr(Intent queryIntent) {
         // get and process search query here
@@ -93,9 +118,7 @@ public class SearchResults extends GroupBaseActivity {
         if ( Intent.ACTION_SEARCH.equals(queryAction) ) {
         	return queryIntent.getStringExtra(SearchManager.QUERY);
         }
-        
         return "";
-		
 	}
 	
 }

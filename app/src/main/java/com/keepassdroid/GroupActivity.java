@@ -70,7 +70,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 	public static void Launch(Activity act, PwGroup group) {
 		Intent i;
 		
-		// Need to use PwDatabase since group may be null
+		// Need to use PwDatabase since tree may be null
 		PwDatabase db = App.getDB().pm;
 		if ( db instanceof PwDatabaseV3 ) {
 			i = new Intent(act, GroupActivityV3.class);
@@ -111,7 +111,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 		
 		setResult(KeePass.EXIT_NORMAL);
 		
-		Log.w(TAG, "Creating group view");
+		Log.w(TAG, "Creating tree view");
 		Intent intent = getIntent();
 		
 		PwGroupId id = retrieveGroupId(intent);
@@ -125,7 +125,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 			mGroup = db.pm.groups.get(id);
 		}
 		
-		Log.w(TAG, "Retrieved group");
+		Log.w(TAG, "Retrieved tree");
 		if ( mGroup == null ) {
 			Log.w(TAG, "Group was null");
 			return;
@@ -181,7 +181,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 
 		setListAdapter(new PwGroupListAdapter(this, mGroup));
 		registerForContextMenu(getListView());
-		Log.w(TAG, "Finished creating group");
+		Log.w(TAG, "Finished creating tree");
 		
 		if (isRoot) {
 			showWarnings();
@@ -222,7 +222,7 @@ public abstract class GroupActivity extends GroupBaseActivity
     }
 
     @Override
-    // For icon in create group dialog
+    // For icon in create tree dialog
     public void iconPicked(Bundle bundle) {
         GroupEditFragment groupEditFragment = (GroupEditFragment) getSupportFragmentManager().findFragmentByTag(TAG_CREATE_GROUP);
         if (groupEditFragment != null) {

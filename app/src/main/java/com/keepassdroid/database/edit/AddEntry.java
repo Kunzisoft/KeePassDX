@@ -67,7 +67,7 @@ public class AddEntry extends RunnableOnFinish {
 				
 				PwGroup parent = mEntry.getParent();
 
-				// Mark parent group dirty
+				// Mark parent tree dirty
 				mDb.dirty.add(parent);
 				
 			} else {
