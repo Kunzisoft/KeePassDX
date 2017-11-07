@@ -45,7 +45,9 @@
     <ListView android:id="@+id/group_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_below="@+id/toolbar"
+		android:divider="@null"
+		android:dividerHeight="0dp"/>
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/add_button"

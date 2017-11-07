@@ -28,7 +28,7 @@
 		android:layout_alignParentRight="true"
 		android:layout_alignParentEnd="true"
 		android:layout_alignParentTop="true"/>
-	<EditText android:id="@+id/group_name" 
+	<android.support.v7.widget.AppCompatEditText android:id="@+id/group_name"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="4dp"
@@ -36,5 +36,6 @@
 		android:layout_toLeftOf="@+id/icon_button"
 		android:layout_toStartOf="@+id/icon_button"
 		android:maxLines="1"
+		android:singleLine="true"
 		android:hint="@string/hint_group_name"/>
 </RelativeLayout>
