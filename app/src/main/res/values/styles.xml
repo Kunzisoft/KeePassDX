@@ -96,6 +96,9 @@
     <style name="KeepassDXStyle.TextAppearance.SecondaryText" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">14sp</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.TinyText" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textSize">12sp</item>
+    </style>
 	<style name="KeepassDXStyle.TextAppearance.WarningTextStyle" parent="KeepassDXStyle.TextAppearance">
 		<item name="android:textColor">@color/colorAccent</item>
 	</style>

@@ -19,13 +19,14 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_margin="@dimen/default_margin"
+	android:padding="@dimen/default_margin"
     android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 	<TextView android:id="@+id/about_title" 
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
 		android:text="@string/AboutText"/>
 	<ImageView android:id="@+id/divider1"
 		android:layout_width="match_parent"
@@ -36,7 +37,8 @@
 	<TextView android:id="@+id/version_title" 
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/version_label"/>
+		android:text="@string/version_label"
+        style="@style/KeepassDXStyle.TextAppearance.Title"/>
 	<TextView android:id="@+id/version"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -50,7 +52,8 @@
 	<TextView android:id="@+id/homepage" 
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/about_homepage"/>
+		android:text="@string/about_homepage"
+        style="@style/KeepassDXStyle.TextAppearance.Title"/>
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -62,7 +65,8 @@
     <TextView android:id="@+id/feedback"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/about_feedback"/>
+		android:text="@string/about_feedback"
+        style="@style/KeepassDXStyle.TextAppearance.Title"/>
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/issues"
@@ -79,12 +83,6 @@
 	<TextView android:id="@+id/disclaimer" 
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/disclaimer_formal"/>
-	<Button android:id="@+id/about_button"
-		android:layout_margin="@dimen/button_margin"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
-		android:text="@android:string/ok"
-		android:width="100sp"/>
+		android:text="@string/disclaimer_formal"
+		style="@style/KeepassDXStyle.TextAppearance.TinyText"/>
 </LinearLayout>

@@ -1,7 +1,7 @@
 package com.keepassdroid.utils;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +19,7 @@ public class MenuUtil {
         inflater.inflate(R.menu.default_menu, menu);
     }
 
-    public static boolean onDefaultMenuOptionsItemSelected(Activity activity, MenuItem item) {
+    public static boolean onDefaultMenuOptionsItemSelected(AppCompatActivity activity, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_donate:
                 try {
@@ -28,15 +28,15 @@ public class MenuUtil {
                     Toast.makeText(activity, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
                     return false;
                 }
-
-                return true;
-            case R.id.menu_about:
-                AboutDialog dialog = new AboutDialog(activity);
-                dialog.show();
                 return true;
 
             case R.id.menu_app_settings:
                 SettingsActivity.Launch(activity);
+                return true;
+
+            case R.id.menu_about:
+                AboutDialog dialog = new AboutDialog();
+                dialog.show(activity.getSupportFragmentManager(), "aboutDialog");
                 return true;
 
             default:
