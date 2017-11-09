@@ -17,72 +17,64 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:padding="@dimen/default_margin"
-    android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
-	<TextView android:id="@+id/about_title" 
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-		android:text="@string/AboutText"/>
-	<ImageView android:id="@+id/divider1"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:scaleType="fitXY"
-		tools:ignore="ContentDescription"
-		android:src="@android:drawable/divider_horizontal_dark"/>
-	<TextView android:id="@+id/version_title" 
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/version_label"
-        style="@style/KeepassDXStyle.TextAppearance.Title"/>
-	<TextView android:id="@+id/version"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-        android:layout_gravity="end"/>
-	<ImageView android:id="@+id/divider2"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:scaleType="fitXY"
-		tools:ignore="ContentDescription"
-		android:src="@android:drawable/divider_horizontal_dark"/>
-	<TextView android:id="@+id/homepage" 
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/about_homepage"
-        style="@style/KeepassDXStyle.TextAppearance.Title"/>
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:layout_gravity="end"
-        android:gravity="end"
-        android:text="@string/homepage_short" />
-    <TextView android:id="@+id/feedback"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/about_feedback"
-        style="@style/KeepassDXStyle.TextAppearance.Title"/>
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/issues"
-        android:layout_gravity="end"
-        android:gravity="end"
-		android:autoLink="web"/>
-	<ImageView android:id="@+id/divider3"
-		android:layout_marginTop="20dp"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:scaleType="fitXY"
-		tools:ignore="ContentDescription"
-		android:src="@android:drawable/divider_horizontal_dark"/>
-	<TextView android:id="@+id/disclaimer" 
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/disclaimer_formal"
-		style="@style/KeepassDXStyle.TextAppearance.TinyText"/>
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/about_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="@string/AboutText"/>
+
+        <TextView android:id="@+id/version_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version_label"
+            style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+        <TextView android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"/>
+
+        <TextView android:id="@+id/homepage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_homepage"
+            style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:text="@string/homepage_short" />
+        <TextView android:id="@+id/feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_feedback"
+            style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/issues"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:autoLink="web"/>
+
+        <TextView android:id="@+id/disclaimer"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/disclaimer_formal"
+            style="@style/KeepassDXStyle.TextAppearance.TinyText"/>
+    </LinearLayout>
+</ScrollView>

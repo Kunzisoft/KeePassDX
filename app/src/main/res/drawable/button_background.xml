@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:bottom="2dp" android:left="2dp">
+    <item>
         <shape>
             <corners
                 android:radius="2dp" />
             <padding
-                android:left="14dp"
-                android:right="14dp"
-                android:top="4dp"
-                android:bottom="6dp"/>
+                android:left="0dp"
+                android:right="0dp"
+                android:top="8dp"
+                android:bottom="8dp"/>
             <solid android:color="@color/colorPrimary"/>
         </shape>
     </item>

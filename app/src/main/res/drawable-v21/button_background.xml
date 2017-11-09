@@ -4,19 +4,15 @@
     android:color="@color/white"
     tools:targetApi="lollipop">
     <item>
-        <layer-list>
-            <item android:bottom="2dp" android:left="2dp">
-                <shape>
-                    <corners
-                        android:radius="2dp" />
-                    <padding
-                        android:left="14dp"
-                        android:right="14dp"
-                        android:top="4dp"
-                        android:bottom="6dp"/>
-                    <solid android:color="@color/colorPrimary"/>
-                </shape>
-            </item>
-        </layer-list>
+        <shape>
+            <corners
+                android:radius="2dp" />
+            <padding
+                android:left="0dp"
+                android:right="0dp"
+                android:top="8dp"
+                android:bottom="8dp"/>
+            <solid android:color="@color/colorPrimary"/>
+        </shape>
     </item>
 </ripple>
