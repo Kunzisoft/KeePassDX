@@ -18,53 +18,61 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="clipboard_error_url">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="default_file_path">/keepass/keepass.kdbx</string>
-    <string name="donate_url"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
-    <string name="homepage">http://www.kunzisoft.com/keepassdx.html</string>
-    <string name="homepage_short">www.kunzisoft.com</string>
-    <string name="issues">https://github.com/Kunzisoft/KeePassDX/issues</string>
-    <string name="oi_filemanager_market">market://details?id=org.openintents.filemanager</string>
-    <string name="oi_filemanager_web">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
+    <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
+    <string name="default_file_path" translatable="false">/keepass/keepass.kdbx</string>
+    <string name="donate_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
+    <string name="homepage" translatable="false">http://www.kunzisoft.com/keepassdx.html</string>
+    <string name="homepage_short" translatable="false">www.kunzisoft.com</string>
+    <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
+    <string name="oi_filemanager_market" translatable="false">market://details?id=org.openintents.filemanager</string>
+    <string name="oi_filemanager_web" translatable="false">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
     
     <!--  Password generator -->
-    <integer name="default_password_length">8</integer>
+    <integer name="default_password_length" translatable="false">8</integer>
     
     <!--  Preference settings -->
-    <string name="algorithm_key">algorithm</string>
-    <string name="app_key">app</string>
-    <string name="app_timeout_key">app_timeout_key</string>
-    <string name="clipboard_timeout_key">clip_timeout_key</string>
-    <string name="db_key">db</string>
-    <string name="rounds_key">rounds</string>
-    <string name="keyfile_key">keyfile</string>
-    <string name="maskpass_key">maskpass</string>
-    <string name="omitbackup_key">omitbackup</string>    
-    <string name="recentfile_key">recentfile</string>    
-    <string name="list_size_key">list_size</string>
-    <string name="show_beta_warning">show_beta_warning</string>
-    <string name="show_read_only_warning">show_read_only_warning</string>
-    <string name="sort_key">sort_key</string>
-    <string name="timeout_key">timeout_key</string>
-    <string name="saf_key">storage_access_framework_key</string>
-    <bool name="maskpass_default">true</bool>
-    <bool name="keyfile_default">true</bool>
-    <bool name="sort_default">true</bool>
-    <bool name="omitbackup_default">true</bool>
-    <bool name="recentfile_default">true</bool>
-    <bool name="saf_default">false</bool>
+    <string name="algorithm_key" translatable="false">algorithm</string>
+    <string name="app_key" translatable="false">app</string>
+    <string name="app_timeout_key" translatable="false">app_timeout_key</string>
+    <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
+    <string name="db_key" translatable="false">db</string>
+    <string name="rounds_key" translatable="false">rounds</string>
+    <string name="keyfile_key" translatable="false">keyfile</string>
+    <string name="maskpass_key" translatable="false">maskpass</string>
+    <string name="omitbackup_key" translatable="false">omitbackup</string>
+    <string name="recentfile_key" translatable="false">recentfile</string>
+    <string name="list_size_key" translatable="false">list_size</string>
+    <string name="show_beta_warning" translatable="false">show_beta_warning</string>
+    <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
+    <string name="sort_key" translatable="false">sort_key</string>
+    <string name="timeout_key" translatable="false">timeout_key</string>
+    <string name="saf_key" translatable="false">storage_access_framework_key</string>
+    <string name="setting_style_key" translatable="false">setting_style_key</string>
+
+    <bool name="maskpass_default" translatable="false">true</bool>
+    <bool name="keyfile_default" translatable="false">true</bool>
+    <bool name="sort_default" translatable="false">true</bool>
+    <bool name="omitbackup_default" translatable="false">true</bool>
+    <bool name="recentfile_default" translatable="false">true</bool>
+    <bool name="saf_default" translatable="false">false</bool>
     
-    <string name="clipboard_timeout_default">300000</string>
+    <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">
-    	<item>30000</item>
-    	<item>60000</item>
-    	<item>300000</item>
-    	<item>-1</item>
+    	<item translatable="false">30000</item>
+    	<item translatable="false">60000</item>
+    	<item translatable="false">300000</item>
+    	<item translatable="false">-1</item>
     </string-array>
-    <string name="list_size_default">18</string>
+    <string name="list_size_default" translatable="false">18</string>
     <string-array name="list_size_values">
-    	<item>14</item>
-    	<item>18</item>
-    	<item>26</item>
+    	<item translatable="false">14</item>
+    	<item translatable="false">18</item>
+    	<item translatable="false">26</item>
+    </string-array>
+    <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
+    <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
+    <string-array name="list_style_values">
+        <item translatable="false">@string/list_style_name_light</item>
+        <item translatable="false">@string/list_style_name_night</item>
     </string-array>
 </resources>

@@ -59,12 +59,12 @@
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.v21" >
         <item name="android:windowBackground">@color/background_light</item>
 
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/text_color_light</item>
         <item name="android:editTextColor">@color/colorText</item>
         <item name="textColorInverse">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
         <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
     </style>
@@ -77,12 +77,12 @@
     <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.v21" >
         <item name="android:windowBackground">@color/background_night</item>
 
-        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:textColor">@color/text_color_night</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="textColorInverse">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
         <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
 
@@ -108,8 +108,7 @@
 
     <!-- Dialog -->
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="colorAccent">#FFCC00</item>
-        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:background">@color/background_night</item>
     </style>
     <style name="KeepassDXStyle.Dialog.NegativeButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">

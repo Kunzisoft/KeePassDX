@@ -28,6 +28,7 @@ import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
+import com.keepassdroid.stylish.Stylish;
 
 public class NestedSettingsFragment extends PreferenceFragment {
 
@@ -90,6 +91,18 @@ public class NestedSettingsFragment extends PreferenceFragment {
                         return true;
                     }
                 });
+
+                Preference stylePreference = findPreference(getString(R.string.setting_style_key));
+                stylePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        String styleString = (String) newValue;
+                        Stylish.assignStyle(getActivity(), styleString);
+                        getActivity().recreate();
+                        return true;
+                    }
+                });
+
                 break;
 
             case NESTED_SCREEN_DB_KEY:

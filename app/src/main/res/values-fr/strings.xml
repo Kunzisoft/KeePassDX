@@ -204,4 +204,11 @@
     	<item>Moyen</item>
     	<item>Grand</item>
     </string-array>
+
+    <string name="style_choose_title">Choisir un thème</string>
+    <string name="style_choose_summary">Change le thème de l\'application en modifiant les couleurs</string>
+    <string-array name="list_style_names">
+        <item>Light Theme</item>
+        <item>Night Theme</item>
+    </string-array>
 </resources>

@@ -1,7 +1,6 @@
 package com.keepassdroid.utils;
 
 import android.content.ActivityNotFoundException;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,6 +9,8 @@ import android.widget.Toast;
 import com.android.keepass.R;
 import com.keepassdroid.AboutDialog;
 import com.keepassdroid.settings.SettingsActivity;
+import com.keepassdroid.stylish.StylishActivity;
+
 
 public class MenuUtil {
 
@@ -19,7 +20,7 @@ public class MenuUtil {
         inflater.inflate(R.menu.default_menu, menu);
     }
 
-    public static boolean onDefaultMenuOptionsItemSelected(AppCompatActivity activity, MenuItem item) {
+    public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_donate:
                 try {

@@ -33,9 +33,13 @@
     <color name="colorTextPrimary">#388e3c</color>
     <color name="colorTextPrimaryInverse">#cccccc</color>
     <color name="colorText">#616161</color>
+    <color name="colorTextDisable">#c7c7c7</color>
     <color name="colorTextInverse">#eeeeee</color>
-    <color name="colorTextSecondary">#8f8f8f</color>
-    <color name="colorTextSecondaryInverse">#616161</color>
+    <color name="colorTextInverseDisable">#565656</color>
+    <color name="colorTextSecondary">#7c7c7c</color>
+    <color name="colorTextSecondaryDisable">#c7c7c7</color>
+    <color name="colorTextSecondaryInverse">#999999</color>
+    <color name="colorTextSecondaryInverseDisable">#565656</color>
 
     <color name="colorPrimary">#43a047</color>
     <color name="colorPrimaryInverse">#bdbdbd</color>

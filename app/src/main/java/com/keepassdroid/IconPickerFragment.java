@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +38,14 @@ import android.widget.TextView;
 
 import com.android.keepass.R;
 import com.keepassdroid.icons.Icons;
+import com.keepassdroid.stylish.StylishActivity;
+
 
 public class IconPickerFragment extends DialogFragment {
 	public static final String KEY_ICON_ID = "icon_id";
 	private IconPickerListener iconPickerListener;
 
-	public static void Launch(AppCompatActivity activity)	{
+	public static void Launch(StylishActivity activity)	{
         // Create an instance of the dialog fragment and show it
         IconPickerFragment dialog = new IconPickerFragment();
         dialog.show(activity.getSupportFragmentManager(), "NoticeDialogFragment");

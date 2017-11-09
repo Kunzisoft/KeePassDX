@@ -19,12 +19,12 @@
  */
 package com.keepassdroid;
 
-import android.support.v7.app.AppCompatActivity;
 
+import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.timeout.TimeoutHelper;
-import com.keepassdroid.utils.Util;
 
-public abstract class LockingActivity extends AppCompatActivity {
+
+public abstract class LockingActivity extends StylishActivity {
 
 	@Override
 	protected void onPause() {

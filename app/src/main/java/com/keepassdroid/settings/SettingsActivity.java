@@ -22,15 +22,16 @@ package com.keepassdroid.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.android.keepass.R;
 import com.keepassdroid.compat.BackupManagerCompat;
+import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.timeout.TimeoutHelper;
 
-public class SettingsActivity extends AppCompatActivity implements MainPreferenceFragment.Callback {
+
+public class SettingsActivity extends StylishActivity implements MainPreferenceFragment.Callback {
 
     private static final String TAG_NESTED = "TAG_NESTED";
 

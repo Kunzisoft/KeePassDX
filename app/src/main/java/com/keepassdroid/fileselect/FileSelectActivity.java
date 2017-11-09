@@ -34,12 +34,10 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -65,6 +63,7 @@ import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
@@ -77,7 +76,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-public class FileSelectActivity extends AppCompatActivity {
+public class FileSelectActivity extends StylishActivity {
 
 	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
 	private ListView mList;

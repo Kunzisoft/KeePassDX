@@ -19,13 +19,14 @@
  */
 package com.keepassdroid.app;
 
-import java.util.Calendar;
-
 import android.app.Application;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.compat.PRNGFixes;
 import com.keepassdroid.fileselect.RecentFileHistory;
+import com.keepassdroid.stylish.Stylish;
+
+import java.util.Calendar;
 
 public class App extends Application {
 	private static Database db = null;
@@ -72,7 +73,9 @@ public class App extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
+		Stylish.init(this);
+
 		fileHistory = new RecentFileHistory(this);
 		
 		PRNGFixes.apply();

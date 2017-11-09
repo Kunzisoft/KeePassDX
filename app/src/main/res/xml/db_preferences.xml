@@ -22,15 +22,21 @@
 	android:key="@string/db_key"
 	android:title="@string/database"
 	android:summary="@string/menu_db_settings">
-	<Preference
-		android:key="@string/algorithm_key"
-		android:title="@string/algorithm"
-		android:enabled="false"/>
-	<com.keepassdroid.settings.RoundsPreference
-		android:key="@string/rounds_key"
-		android:persistent="false"
-		android:title="@string/rounds"
-		android:dialogLayout="@layout/database_settings"
-		android:positiveButtonText="@string/entry_save"
-		android:negativeButtonText="@string/entry_cancel"/>
+
+	<PreferenceCategory
+		android:title="@string/menu_db_settings">
+
+		<Preference
+			android:key="@string/algorithm_key"
+			android:title="@string/algorithm"
+			android:enabled="false"/>
+		<com.keepassdroid.settings.RoundsPreference
+			android:key="@string/rounds_key"
+			android:persistent="false"
+			android:title="@string/rounds"
+			android:dialogLayout="@layout/database_settings"
+			android:positiveButtonText="@string/entry_save"
+			android:negativeButtonText="@string/entry_cancel"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>
