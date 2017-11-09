@@ -20,11 +20,15 @@
 <resources>
 	<color name="transparent">#00ffffff</color>
 	<color name="white">#ffffff</color>
+	<color name="black">#000000</color>
 
-	<color name="background">#303030</color>
-	<color name="backgroundTransparent">#50388e3c</color>
-	<color name="icon_background">#555555</color>
-	<color name="icon_text">#000000</color>
+    <color name="background_light">#FAFAFA</color>
+	<color name="background_night">#303030</color>
+    <color name="background_dark">#000000</color>
+    <color name="backgroundTransparent">#50388e3c</color>
+
+    <color name="icon_background">#555555</color>
+    <color name="icon_text">#000000</color>
 
     <color name="colorTextPrimary">#388e3c</color>
     <color name="colorTextPrimaryInverse">#cccccc</color>
@@ -32,9 +36,11 @@
     <color name="colorTextInverse">#eeeeee</color>
     <color name="colorTextSecondary">#8f8f8f</color>
     <color name="colorTextSecondaryInverse">#616161</color>
-	<color name="colorPrimary">#43a047</color>
-	<color name="colorPrimaryInverse">#bdbdbd</color>
+
+    <color name="colorPrimary">#43a047</color>
+    <color name="colorPrimaryInverse">#bdbdbd</color>
     <color name="colorPrimaryDark">#388e3c</color>
     <color name="colorPrimaryDarkInverse">#9e9e9e</color>
+
     <color name="colorAccent">#fb8c00</color>
 </resources>    

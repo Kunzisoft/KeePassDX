@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="KeepassDXStyle" parent="AbstractKeepassDXStyle">
+    <!-- For elevation encapsulation -->
+    <style name="KeepassDXStyle.v21" parent="KeepassDXStyle" >
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
     <!-- Button Style -->
     <style name="KeepassDXStyle.Button" parent="Base.Widget.AppCompat.Button">
-        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:textColor">?attr/textColorInverse</item>
         <item name="android:background">@drawable/button_background</item>
         <item name="android:elevation">4dp</item>
     </style>
@@ -15,13 +16,13 @@
         <item name="android:elevation">4dp</item>
     </style>
     <style name="KeepassDXStyle.ButtonText" parent="Base.Widget.AppCompat.Button">
-        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:textColor">?attr/textColorInverse</item>
         <item name="android:background">@drawable/button_background</item>
         <item name="android:elevation">4dp</item>
     </style>
 
     <!-- FAB -->
-    <style name="KeepassDXStyle.Fab">
+    <style name="KeepassDXStyle.Fab" parent="Theme.AppCompat">
         <item name="android:background">@drawable/fab_background</item>
         <item name="android:layout_width">56dp</item>
         <item name="android:layout_margin">24dp</item>

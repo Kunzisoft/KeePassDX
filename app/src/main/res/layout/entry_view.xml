@@ -29,7 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:theme="?attr/toolbarDark"
+        app:theme="?attr/toolbarAppearance"
+        app:popupTheme="?attr/toolbarPopupAppearance"
         android:elevation="4dp"
         tools:targetApi="lollipop" >
         <LinearLayout android:id="@+id/title_block"

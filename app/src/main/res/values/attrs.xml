@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="toolbarDark" format="reference" />
-    <attr name="colorAccentCompat" format="reference" />
-    <attr name="colorBackgroundTransparent" format="reference" />
+    <attr name="toolbarAppearance" format="reference" />
+    <attr name="toolbarPopupAppearance" format="reference" />
+
+    <attr name="colorAccentCompat" format="reference|color" />
+
+    <attr name="textColorInverse" format="reference|color" />
 </resources>

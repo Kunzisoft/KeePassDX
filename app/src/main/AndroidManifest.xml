@@ -20,7 +20,7 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup"
         android:backupAgent="com.keepassdroid.backup.SettingsBackupAgent"
-        android:theme="@style/KeepassDXStyle">
+        android:theme="@style/KeepassDXStyle.Night">
         <meta-data android:name="com.google.android.backup.api_key"
           android:value="AEdPqrEAAAAIKwReNelmy5SvhZzK3bpK_JisjzUko6cL_8GR4w" />
         <activity android:name=".KeePass"
