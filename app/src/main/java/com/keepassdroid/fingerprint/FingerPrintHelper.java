@@ -23,9 +23,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
+import android.support.annotation.RequiresApi;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
 import android.util.Base64;
@@ -60,13 +62,7 @@ public class FingerPrintHelper {
     }
 
     public void startListening() {
-        // no need to start listening when not initialised
-        if (!isFingerprintInitialized()) {
-            if (fingerPrintCallback != null) {
-                fingerPrintCallback.onException();
-            }
-            return;
-        }
+
         // starts listening for fingerprints with the initialised crypto object
         cancellationSignal = new CancellationSignal();
         fingerprintManager.authenticate(
@@ -88,17 +84,10 @@ public class FingerPrintHelper {
     }
 
     public interface FingerPrintCallback {
-
         void handleEncryptedResult(String value, String ivSpec);
-
         void handleDecryptedResult(String value);
-
         void onInvalidKeyException();
-
-        void onException();
-
-        void onException(boolean showWarningMessage);
-
+        void onFingerprintException(Exception e);
     }
 
     @TargetApi(BuildCompat.VERSION_CODE_M)
@@ -106,12 +95,12 @@ public class FingerPrintHelper {
             final Context context,
             final FingerPrintCallback fingerPrintCallback) {
 
-        if (!FingerPrintUtils.isFingerprintSupported()) {
+        this.fingerprintManager = FingerprintManagerCompat.from(context);
+        if (!isFingerprintSupported(fingerprintManager)) {
             // really not much to do when no fingerprint support found
             setInitOk(false);
             return;
         }
-        this.fingerprintManager = FingerprintManagerCompat.from(context);
         this.keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE);
         this.fingerPrintCallback = fingerPrintCallback;
 
@@ -129,21 +118,27 @@ public class FingerPrintHelper {
                 setInitOk(true);
             } catch (final Exception e) {
                 setInitOk(false);
-                fingerPrintCallback.onException();
+                fingerPrintCallback.onFingerprintException(e);
             }
         }
     }
 
-    public boolean isFingerprintInitialized() {
-        return hasEnrolledFingerprints() && initOk;
+    public boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
+        return Build.VERSION.SDK_INT >= BuildCompat.VERSION_CODE_M
+                && fingerprintManager.isHardwareDetected();
     }
 
-    public void initEncryptData() {
+    public boolean isFingerprintInitialized() {
+        boolean isFingerprintInit = hasEnrolledFingerprints() && initOk;
+        if (!isFingerprintInit && fingerPrintCallback != null) {
+            fingerPrintCallback.onFingerprintException(new Exception("FingerPrint not initialized"));
+        }
+        return isFingerprintInit;
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void initEncryptData() {
         if (!isFingerprintInitialized()) {
-            if (fingerPrintCallback != null) {
-                fingerPrintCallback.onException();
-            }
             return;
         }
         try {
@@ -158,16 +153,12 @@ public class FingerPrintHelper {
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException();
         } catch (final Exception e) {
-            fingerPrintCallback.onException();
+            fingerPrintCallback.onFingerprintException(e);
         }
     }
 
     public void encryptData(final String value) {
-
         if (!isFingerprintInitialized()) {
-            if (fingerPrintCallback != null) {
-                fingerPrintCallback.onException();
-            }
             return;
         }
         try {
@@ -181,17 +172,13 @@ public class FingerPrintHelper {
             fingerPrintCallback.handleEncryptedResult(encryptedValue, ivSpecValue);
 
         } catch (final Exception e) {
-            fingerPrintCallback.onException();
+            fingerPrintCallback.onFingerprintException(e);
         }
-
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void initDecryptData(final String ivSpecValue) {
-
         if (!isFingerprintInitialized()) {
-            if (fingerPrintCallback != null) {
-                fingerPrintCallback.onException(false);
-            }
             return;
         }
         try {
@@ -210,16 +197,12 @@ public class FingerPrintHelper {
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException();
         } catch (final Exception e) {
-            fingerPrintCallback.onException();
+            fingerPrintCallback.onFingerprintException(e);
         }
     }
 
     public void decryptData(final String encryptedValue) {
-
         if (!isFingerprintInitialized()) {
-            if (fingerPrintCallback != null) {
-                fingerPrintCallback.onException();
-            }
             return;
         }
         try {
@@ -230,9 +213,8 @@ public class FingerPrintHelper {
 
             //final String encryptedString = Base64.encodeToString(encrypted, 0 /* flags */);
             fingerPrintCallback.handleDecryptedResult(decryptedString);
-
         } catch (final Exception e) {
-            fingerPrintCallback.onException();
+            fingerPrintCallback.onFingerprintException(e);
         }
     }
 
@@ -267,28 +249,23 @@ public class FingerPrintHelper {
                 keyGenerator.generateKey();
             }
         } catch (final Exception e) {
-            fingerPrintCallback.onException();
+            fingerPrintCallback.onFingerprintException(e);
         }
-    }
-
-    public boolean isHardwareDetected() {
-        return FingerPrintUtils.isFingerprintSupported()
-                && fingerprintManager != null
-                && fingerprintManager.isHardwareDetected();
     }
 
     @SuppressLint("NewApi")
     public boolean hasEnrolledFingerprints() {
         // fingerprint hardware supported and api level OK
-        return isHardwareDetected()
-                // fingerprints enrolled
+        return isFingerprintSupported(fingerprintManager)
                 && fingerprintManager != null
+                && fingerprintManager.isHardwareDetected()
+                // fingerprints enrolled
                 && fingerprintManager.hasEnrolledFingerprints()
                 // and lockscreen configured
                 && keyguardManager.isKeyguardSecure();
     }
 
-    void setInitOk(final boolean initOk) {
+    private void setInitOk(final boolean initOk) {
         this.initOk = initOk;
     }
 
