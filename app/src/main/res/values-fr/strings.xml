@@ -33,7 +33,7 @@
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
-    <string name="application_settings">Préférences</string>
+    <string name="application_settings">Préférences de l\'application</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>
@@ -133,7 +133,7 @@
     <string name="menu_copy_pass">Copier le mot de passe</string>
     <string name="menu_copy_user">Copier le nom d\'utilisateur</string>
     <string name="menu_create">Créer</string>
-    <string name="menu_app_settings">Préférences de l\'application</string>
+    <string name="menu_app_settings">Préférences</string>
     <string name="menu_db_settings">Préférences de la base de données</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_donate">Faire un don</string>
@@ -192,7 +192,14 @@
     <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
     <string name="version_label">Version\u00A0:</string>
-    
+    <string name="configure_fingerprint">Reconnaissance d\'empreinte digitale non configuré pour cet appareil</string>
+    <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
+    <string name="encrypted_value_stored">Mot de passe encrypté stocké</string>
+    <string name="fingerprint_invalid_key">Problème de clé invalide</string>
+    <string name="fingerprint_error">Problème d\'empreinte digitale</string>
+    <string name="store_with_fingerprint">Utiliser l\'empreinte digitale pour stocker le mot de passe</string>
+    <string name="no_password_stored">Pas de mot de passe encore stocké pour cette base de données</string>
+
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>
     	<item>1 minute</item>

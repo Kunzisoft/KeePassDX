@@ -18,6 +18,8 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="app_name" translatable="false">KeePass DX</string>
+
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
     <string name="default_file_path" translatable="false">/keepass/keepass.kdbx</string>
     <string name="donate_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
