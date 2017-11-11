@@ -449,10 +449,9 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onFingerprintException(Exception e) {
-        Toast.makeText(this, R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
         checkAvailability();
         e.printStackTrace();
-        Log.e(this.getClass().getName(), e.getMessage());
     }
 
     private class DefaultCheckChange implements CompoundButton.OnCheckedChangeListener {

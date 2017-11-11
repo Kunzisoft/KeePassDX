@@ -41,12 +41,14 @@
             android:layout_marginEnd="8dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic99_blank" />
-        <TextView android:id="@+id/group_name"
+        <android.support.v7.widget.AppCompatTextView android:id="@+id/group_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_weight="1"
             android:text="@string/root"
+            android:maxLines="1"
+            android:singleLine="true"
             style="@style/KeepassDXStyle.TextAppearance.DefaultTextOnPrimary" />
     </LinearLayout>
 </LinearLayout>

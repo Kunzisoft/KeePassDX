@@ -21,20 +21,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ic_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_right_white_24dp"
+        android:tint="?android:attr/textColorPrimary"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <android.support.v7.widget.AppCompatImageView android:id="@+id/group_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
         android:layout_marginRight="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
         android:scaleType="fitXY"
         android:src="@drawable/ic99_blank"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toRightOf="@+id/ic_arrow"
+        android:layout_toEndOf="@+id/ic_arrow" />
+
     <TextView android:id="@+id/group_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,6 +61,7 @@
         android:layout_toStartOf="@+id/group_label"
         android:layout_toRightOf="@+id/group_icon"
         android:layout_toEndOf="@+id/group_icon" />
+
     <TextView android:id="@+id/group_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
