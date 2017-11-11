@@ -2,14 +2,14 @@ package com.keepassdroid.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.android.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
 
-public class MainPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+public class MainPreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
     private Callback mCallback;
 
@@ -25,10 +25,8 @@ public class MainPreferenceFragment extends PreferenceFragment implements Prefer
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.preferences, rootKey);
 
         // add listeners for non-default actions
         Preference preference = findPreference(getString(R.string.app_key));

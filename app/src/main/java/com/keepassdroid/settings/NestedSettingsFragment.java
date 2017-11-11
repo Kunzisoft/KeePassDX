@@ -20,8 +20,8 @@
 package com.keepassdroid.settings;
 
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
 import com.android.keepass.R;
@@ -30,7 +30,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.stylish.Stylish;
 
-public class NestedSettingsFragment extends PreferenceFragment {
+public class NestedSettingsFragment extends PreferenceFragmentCompat {
 
     public static final int NESTED_SCREEN_APP_KEY = 1;
     public static final int NESTED_SCREEN_DB_KEY = 2;
@@ -47,18 +47,12 @@ public class NestedSettingsFragment extends PreferenceFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        checkPreferenceResource();
-    }
-
-    private void checkPreferenceResource() {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         int key = getArguments().getInt(TAG_KEY);
         // Load the preferences from an XML resource
         switch (key) {
             case NESTED_SCREEN_APP_KEY:
-                addPreferencesFromResource(R.xml.app_preferences);
+                setPreferencesFromResource(R.xml.app_preferences, rootKey);
 
                 Preference keyFile = findPreference(getString(R.string.keyfile_key));
                 keyFile.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -106,7 +100,7 @@ public class NestedSettingsFragment extends PreferenceFragment {
                 break;
 
             case NESTED_SCREEN_DB_KEY:
-                addPreferencesFromResource(R.xml.db_preferences);
+                setPreferencesFromResource(R.xml.db_preferences, rootKey);
 
                 Database db = App.getDB();
                 if (db.Loaded() && db.pm.appSettingsEnabled()) {

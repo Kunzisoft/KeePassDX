@@ -71,7 +71,7 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new MainPreferenceFragment())
                     .commit();
         }
@@ -109,7 +109,7 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
 
 	@Override
 	public void onNestedPreferenceSelected(int key) {
-		getFragmentManager().beginTransaction()
+		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)
                 .commit();
