@@ -22,6 +22,13 @@
 	<color name="white">#ffffff</color>
 	<color name="black">#000000</color>
 
+    <color name="orange_light">#ffa726</color>
+    <color name="orange">#fb8c00</color>
+
+    <color name="green_light">#4caf50</color>
+    <color name="green">#43a047</color>
+    <color name="green_dark">#388e3c</color>
+
     <color name="background_light">#FAFAFA</color>
 	<color name="background_night">#303030</color>
     <color name="background_dark">#000000</color>
@@ -41,10 +48,6 @@
     <color name="colorTextSecondaryInverse">#999999</color>
     <color name="colorTextSecondaryInverseDisable">#565656</color>
 
-    <color name="colorPrimary">#43a047</color>
     <color name="colorPrimaryInverse">#bdbdbd</color>
-    <color name="colorPrimaryDark">#388e3c</color>
     <color name="colorPrimaryDarkInverse">#9e9e9e</color>
-
-    <color name="colorAccent">#fb8c00</color>
 </resources>    

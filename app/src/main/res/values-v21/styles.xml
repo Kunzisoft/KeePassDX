@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- For elevation encapsulation -->
-    <style name="KeepassDXStyle.v21" parent="KeepassDXStyle" >
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" >
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+    </style>
+    <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v21" >
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
     </style>
 
     <!-- Button Style -->

@@ -32,7 +32,7 @@
         android:onClick="deleteAdvancedString"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_close_white_24dp"
-        android:tint="@color/colorAccent" />
+        android:tint="?attr/colorAccent" />
 
     <CheckBox
         android:id="@+id/protection"

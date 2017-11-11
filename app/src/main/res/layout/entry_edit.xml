@@ -149,7 +149,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="8dp"
                     android:src="@drawable/ic_key_white_24dp"
-                    android:tint="@color/colorAccent" />
+                    android:tint="?attr/colorAccent" />
             </RelativeLayout>
 
 			<!-- Comment -->
@@ -179,7 +179,7 @@
 				android:layout_height="30sp"
 				android:contentDescription="@string/add_string"
 				android:src="@drawable/ic_add_white_24dp"
-                android:tint="@color/colorAccent"
+                android:tint="?attr/colorAccent"
 				android:scaleType="centerCrop"
 				android:visibility="gone" />
 		</LinearLayout>

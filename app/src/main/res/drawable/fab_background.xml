@@ -5,5 +5,5 @@
         android:right="14dp"
         android:top="14dp"
         android:bottom="14dp"/>
-    <solid android:color="@color/colorPrimary"/>
+    <solid android:color="@color/green"/>
 </shape>
