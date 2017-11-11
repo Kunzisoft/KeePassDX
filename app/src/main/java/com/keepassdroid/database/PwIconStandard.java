@@ -21,8 +21,9 @@ package com.keepassdroid.database;
 
 public class PwIconStandard extends PwIcon {
 	public final int iconId;
-	
-	public static PwIconStandard FIRST = new PwIconStandard(1);
+
+	// The first is number 0
+	public static PwIconStandard FIRST = new PwIconStandard(0);
 	
 	public static final int TRASH_BIN = 43;
 	public static final int FOLDER = 48;
