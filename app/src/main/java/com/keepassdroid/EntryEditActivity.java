@@ -251,8 +251,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-		// TODO Donation
-		inflater.inflate(R.menu.donation, menu);
+		MenuUtil.donationMenuInflater(inflater, menu);
 		
 		return true;
 	}

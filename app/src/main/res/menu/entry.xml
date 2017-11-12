@@ -29,8 +29,8 @@
         app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_copy_user"
         android:title="@string/menu_copy_user"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item android:id="@+id/menu_copy_pass"
         android:title="@string/menu_copy_pass"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>

@@ -3,8 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion = 25
     buildToolsVersion = "26.0.2"
+
     defaultConfig {
-        applicationId = "com.android.keepass"
+        applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode = 1
@@ -12,22 +13,44 @@ android {
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
-
     }
+
     externalNativeBuild {
         cmake {
             path "src/main/jni/CMakeLists.txt"
         }
     }
+
     buildTypes {
         release {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+
     dexOptions {
+    }
+
+    flavorDimensions "tier"
+    productFlavors {
+        libre {
+            applicationId = ".libre"
+            versionNameSuffix "-libre"
+            buildConfigField "boolean", "FULL_VERSION", "true"
+            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "false"
+        }
+        pro_google {
+            applicationIdSuffix = ".pro"
+            versionNameSuffix "-pro"
+            buildConfigField "boolean", "FULL_VERSION", "true"
+            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
+        }
+        free_google {
+            applicationIdSuffix = ".free"
+            versionNameSuffix "-free"
+            buildConfigField "boolean", "FULL_VERSION", "false"
+            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
+        }
     }
 }
 

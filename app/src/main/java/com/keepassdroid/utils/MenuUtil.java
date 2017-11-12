@@ -6,6 +6,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.keepass.BuildConfig;
 import com.android.keepass.R;
 import com.keepassdroid.AboutDialog;
 import com.keepassdroid.settings.SettingsActivity;
@@ -14,9 +15,13 @@ import com.keepassdroid.stylish.StylishActivity;
 
 public class MenuUtil {
 
+    public static void donationMenuInflater(MenuInflater inflater, Menu menu) {
+        if(!(BuildConfig.FULL_VERSION && BuildConfig.GOOGLE_PLAY_VERSION))
+            inflater.inflate(R.menu.donation, menu);
+    }
+
     public static void defaultMenuInflater(MenuInflater inflater, Menu menu) {
-        // TODO Flavor buy
-        inflater.inflate(R.menu.donation, menu);
+        donationMenuInflater(inflater, menu);
         inflater.inflate(R.menu.default_menu, menu);
     }
 

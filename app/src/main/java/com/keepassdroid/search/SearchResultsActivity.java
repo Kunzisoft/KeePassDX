@@ -34,6 +34,7 @@ import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.PwGroupListAdapter;
 import com.keepassdroid.app.App;
+import com.keepassdroid.utils.MenuUtil;
 
 public class SearchResultsActivity extends GroupBaseActivity {
 	
@@ -79,8 +80,7 @@ public class SearchResultsActivity extends GroupBaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        // TODO Donation
-        inflater.inflate(R.menu.donation, menu);
+        MenuUtil.donationMenuInflater(inflater, menu);
         inflater.inflate(R.menu.tree, menu);
         inflater.inflate(R.menu.default_menu, menu);
 

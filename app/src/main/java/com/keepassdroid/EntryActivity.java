@@ -315,8 +315,7 @@ public class EntryActivity extends LockCloseHideActivity {
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-		// TODO Donation
-		inflater.inflate(R.menu.donation, menu);
+        MenuUtil.donationMenuInflater(inflater, menu);
 		inflater.inflate(R.menu.entry, menu);
 		inflater.inflate(R.menu.lock_database, menu);
 
