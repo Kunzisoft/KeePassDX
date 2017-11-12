@@ -22,12 +22,9 @@ package com.keepassdroid;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,6 +52,7 @@ import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
 import com.keepassdroid.database.edit.UpdateEntry;
 import com.keepassdroid.icons.Icons;
+import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
@@ -68,11 +66,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
 
-	public static final int RESULT_OK_ICON_PICKER = 1000;
-	public static final int RESULT_OK_PASSWORD_GENERATOR = RESULT_OK_ICON_PICKER + 1;
-
 	protected PwEntry mEntry;
-	private boolean mShowPassword = false;
 	protected boolean mIsNew;
 	protected int mSelectedIconID = -1;
 	
@@ -114,9 +108,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_edit);
 		setResult(KeePass.EXIT_NORMAL);
@@ -148,11 +139,8 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 			
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
-			assert(uuid != null);
-
 			mEntry = pm.entries.get(uuid);
 			mIsNew = false;
-			
 			fillData();
 		} 
 	
@@ -208,19 +196,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 			}
 			
 		});
-		
-		// Respect mask password setting
-		if (mShowPassword) {
-			EditText pass = (EditText) findViewById(R.id.entry_password);
-			EditText conf = (EditText) findViewById(R.id.entry_confpassword);
-			
-			pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-			conf.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-		}
-		
 	}
-
-
 	
 	protected boolean validateBeforeSaving() {
 		// Require title
@@ -252,7 +228,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		} 
 		else {
 			newEntry = entry;
-			
 		}
 		
 		Date now = Calendar.getInstance().getTime(); 
@@ -278,15 +253,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		MenuInflater inflater = getMenuInflater();
 		// TODO Donation
 		inflater.inflate(R.menu.donation, menu);
-		inflater.inflate(R.menu.entry_edit, menu);
-		
-		
-		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
-		if ( mShowPassword ) {
-			togglePassword.setTitle(R.string.menu_hide_password);
-		} else {
-			togglePassword.setTitle(R.string.menu_showpass);
-		}
 		
 		return true;
 	}
@@ -294,45 +260,13 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
 			case R.id.menu_donate:
-				try {
-				    // TODO Encapsulate
-					Util.gotoUrl(this, R.string.donate_url);
-				} catch (ActivityNotFoundException e) {
-					Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-					return false;
-				}
-				return true;
-
-			case R.id.menu_toggle_pass:
-				if ( mShowPassword ) {
-					item.setTitle(R.string.menu_showpass);
-					mShowPassword = false;
-				} else {
-					item.setTitle(R.string.menu_hide_password);
-					mShowPassword = true;
-				}
-				setPasswordStyle();
-				return true;
+				return MenuUtil.onDonationItemSelected(this);
 
 			case android.R.id.home:
 				finish();
 		}
 		
 		return super.onOptionsItemSelected(item);
-	}
-	
-	private void setPasswordStyle() {
-		TextView password = (TextView) findViewById(R.id.entry_password);
-		TextView confpassword = (TextView) findViewById(R.id.entry_confpassword);
-
-		if ( mShowPassword ) {
-			password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-			confpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-
-		} else {
-			password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-			confpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-		}
 	}
 
 	protected void fillData() {
@@ -346,7 +280,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		String password = mEntry.getPassword();
 		populateText(R.id.entry_password, password);
 		populateText(R.id.entry_confpassword, password);
-		setPasswordStyle();
 
 		populateText(R.id.entry_comment, mEntry.getNotes());
 	}
@@ -380,7 +313,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 
     private final class AfterSave extends OnFinish {
 
-		public AfterSave(Handler handler) {
+		AfterSave(Handler handler) {
 			super(handler);
 		}
 
@@ -392,7 +325,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 				displayMessage(EntryEditActivity.this);
 			}
 		}
-		
 	}
 
 }

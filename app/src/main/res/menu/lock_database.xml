@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-     
+ Copyright 2017 Jeremy Jamet / Kunzisoft.
+
  This file is part of KeePass DX.
 
   KeePass DX is free software: you can redistribute it and/or modify
@@ -19,9 +19,8 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_toggle_pass"
-        android:icon="@drawable/ic_visibility_white_24dp"
-        android:title="@string/menu_showpass"
-        app:showAsAction="always" />
+    <item android:id="@+id/menu_lock"
+        android:icon="@drawable/ic_lock_white_24dp"
+        android:title="@string/menu_lock"
+        app:showAsAction="ifRoom" />
 </menu>
-

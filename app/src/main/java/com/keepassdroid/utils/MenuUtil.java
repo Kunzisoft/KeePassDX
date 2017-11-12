@@ -20,16 +20,20 @@ public class MenuUtil {
         inflater.inflate(R.menu.default_menu, menu);
     }
 
+    public static boolean onDonationItemSelected(StylishActivity activity) {
+        try {
+            Util.gotoUrl(activity, R.string.donate_url);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(activity, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
     public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_donate:
-                try {
-                    Util.gotoUrl(activity, R.string.donate_url);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(activity, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                return true;
+                return onDonationItemSelected(activity);
 
             case R.id.menu_app_settings:
                 SettingsActivity.Launch(activity);

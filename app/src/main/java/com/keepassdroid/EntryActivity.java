@@ -62,6 +62,7 @@ import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.EmptyUtils;
+import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 
@@ -317,12 +318,15 @@ public class EntryActivity extends LockCloseHideActivity {
 		// TODO Donation
 		inflater.inflate(R.menu.donation, menu);
 		inflater.inflate(R.menu.entry, menu);
-		
+		inflater.inflate(R.menu.lock_database, menu);
+
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
 		if ( mShowPassword ) {
 			togglePassword.setTitle(R.string.menu_hide_password);
+			togglePassword.setIcon(R.drawable.ic_visibility_off_white_24dp);
 		} else {
 			togglePassword.setTitle(R.string.menu_showpass);
+            togglePassword.setIcon(R.drawable.ic_visibility_white_24dp);
 		}
 		
 		MenuItem gotoUrl = menu.findItem(R.id.menu_goto_url);
@@ -369,20 +373,16 @@ public class EntryActivity extends LockCloseHideActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
             case R.id.menu_donate:
-                try {
-                    Util.gotoUrl(this, R.string.donate_url);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(this, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                return true;
+                return MenuUtil.onDonationItemSelected(this);
 
             case R.id.menu_toggle_pass:
                 if ( mShowPassword ) {
                     item.setTitle(R.string.menu_showpass);
+                    item.setIcon(R.drawable.ic_visibility_white_24dp);
                     mShowPassword = false;
                 } else {
                     item.setTitle(R.string.menu_hide_password);
+                    item.setIcon(R.drawable.ic_visibility_off_white_24dp);
                     mShowPassword = true;
                 }
                 setPasswordStyle();
@@ -409,7 +409,7 @@ public class EntryActivity extends LockCloseHideActivity {
                 return true;
 			
             case R.id.menu_copy_pass:
-                timeoutCopyToClipboard(new String(mEntry.getPassword(true, App.getDB().pm)));
+                timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm));
                 return true;
 			
             case R.id.menu_lock:
