@@ -30,7 +30,7 @@
     <string name="app_timeout">Programtidsavbrot</string>
     <string name="app_timeout_summary">Tid før databasen blir låst når programmet ikkje er i bruk.</string>
     <string name="application">Program</string>
-    <string name="application_settings">Programinnstillingar</string>
+    <string name="menu_app_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>
     <string name="browser_intall_text">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
     <string name="building_search_idx">Byggjer søkjeindeksen …</string>
@@ -117,7 +117,7 @@
     <string name="menu_copy_pass">Kopier passordet</string>
     <string name="menu_copy_user">Kopier brukaren</string>
     <string name="menu_create">Lag</string>
-    <string name="menu_app_settings">Innstillingar</string>
+    <string name="settings">Innstillingar</string>
     <string name="menu_db_settings">Databaseinnstillingar</string>
     <string name="menu_delete">Slett</string>
     <string name="menu_donate">Doner</string>

@@ -32,7 +32,7 @@
     <string name="app_timeout">Aplikazioa itzaltzeko denbora</string>
     <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
     <string name="application">Aplikazioa</string>
-    <string name="application_settings">Aplikazioaren ezarpenak</string>
+    <string name="menu_app_settings">Aplikazioaren ezarpenak</string>
     <string name="beta_dontask">Ez erakutsi berriro</string>
     <string name="beta_warning">kdbx fitxategietan aldatzeko euskarria ESPERIMENTALA da. Egin zure datubasearen segurtasun kopiak aldaketak gorde baino lehenago.</string>
     <string name="brackets">Brackets</string>
@@ -131,7 +131,7 @@
     <string name="menu_copy_pass">Pasahitza Kopiatu</string>
     <string name="menu_copy_user">Erabiltzailea Kopiatu</string>
     <string name="menu_create">Sortu</string>
-    <string name="menu_app_settings">Ezarpenak</string>
+    <string name="settings">Ezarpenak</string>
     <string name="menu_db_settings">Datubasearen ezarpenak</string>
     <string name="menu_delete">Ezabatu</string>
     <string name="menu_donate">Dirua eman</string>

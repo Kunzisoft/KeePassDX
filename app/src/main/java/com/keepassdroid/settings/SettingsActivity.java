@@ -65,7 +65,7 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
 
 		setContentView(R.layout.activity_toolbar);
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setTitle(R.string.menu_app_settings);
+		toolbar.setTitle(R.string.settings);
 		setSupportActionBar(toolbar);
 		assert getSupportActionBar() != null;
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,6 +104,7 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
             super.onBackPressed();
         } else {
             getFragmentManager().popBackStack();
+            toolbar.setTitle(R.string.settings);
         }
     }
 
@@ -113,5 +114,7 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
 				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)
                 .commit();
+
+        toolbar.setTitle(NestedSettingsFragment.retrieveTitle(getResources(), key));
 	}
 }

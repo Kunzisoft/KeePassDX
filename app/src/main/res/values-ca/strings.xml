@@ -33,7 +33,7 @@
     <string name="app_timeout">Temps d\'espera de l\'aplicació</string>
     <string name="app_timeout_summary">Temps abans de bloquejar la base de dades quan l\'applicació està inactiva.</string>
     <string name="application">Aplicació</string>
-    <string name="application_settings">Paràmetres de l\'aplicació</string>
+    <string name="menu_app_settings">Paràmetres de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
     <string name="browser_intall_text">L\'exploració d\'arxius necessita l\'aplicació Open Intents File Manager, clica a sota per instal·lar-la. Degut a peculiaritats de l\'explorador d\'arxius pot ser que no funcioni correctament la primera execució.</string>
     <string name="building_search_idx">Construint índex de cerca&#8230;</string>
@@ -120,7 +120,7 @@
     <string name="menu_copy_pass">Copia contrasenya</string>
     <string name="menu_copy_user">Copia usuari</string>
     <string name="menu_create">Crear</string>
-    <string name="menu_app_settings">Paràmetres</string>
+    <string name="settings">Paràmetres</string>
     <string name="menu_db_settings">Paràmetres de la base de dades</string>
     <string name="menu_delete">Esborra</string>
     <string name="menu_donate">Donar</string>

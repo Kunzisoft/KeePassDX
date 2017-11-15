@@ -29,7 +29,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="app_timeout">Czas wygaśnięcia aplikacji</string>
     <string name="app_timeout_summary">Czas do zablokowania bazy danych przy bezczynności aplikacji.</string>
     <string name="application">Aplikacja</string>
-    <string name="application_settings">Ustawienia aplikacji</string>
+    <string name="menu_app_settings">Ustawienia aplikacji</string>
     <string name="brackets">Nawiasy</string>
     <string name="browser_intall_text">Przeglądanie plików wymaga programu Open Intents File Manager, kliknij poniżej by go zainstalować. Ze względu na pewne, dziwne zachowania menadżera plików przeglądanie może nie działać poprawnie przy pierwszym użyciu.</string>
     <string name="building_search_idx">Tworzenie indeksu wyszukiwania&#8230;</string>
@@ -115,7 +115,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="menu_copy_pass">Kopiuj hasło</string>
     <string name="menu_copy_user">Kopiuj nazwę użytkownika</string>
     <string name="menu_create">Utwórz</string>
-    <string name="menu_app_settings">Ustawienia</string>
+    <string name="settings">Ustawienia</string>
     <string name="menu_db_settings">Ustawienia bazy danych</string>
     <string name="menu_delete">Usuń</string>
     <string name="menu_donate">Dotuj</string>

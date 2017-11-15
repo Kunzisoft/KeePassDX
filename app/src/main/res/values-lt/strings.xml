@@ -16,7 +16,7 @@
     <string name="algorithm_colon">Algortimas:</string>
     <string name="app_timeout_summary">Laikas, per kurį yra užrakinama duomenų bazė po neveiklumo programėlėje.</string>
     <string name="application">Programėlė</string>
-    <string name="application_settings">Programėlės nustatymai</string>
+    <string name="menu_app_settings">Programėlės nustatymai</string>
     <string name="beta_dontask">Daugiau neberodyti</string>
     <string name="brackets">Skliaustai</string>
     <string name="cancel">Atšaukti</string>
@@ -52,7 +52,7 @@
     <string name="length">Ilgis</string>
     <string name="list_size_title">Grupės sąrašo dydis</string>
     <string name="menu_about">Apie</string>
-    <string name="menu_app_settings">Nustatymai</string>
+    <string name="settings">Nustatymai</string>
     <string name="menu_create">Sukurti</string>
     <string name="menu_db_settings">Duomenų bazės nustatymai</string>
     <string name="menu_delete">Išrinti</string>

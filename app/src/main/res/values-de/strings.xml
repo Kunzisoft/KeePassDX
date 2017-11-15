@@ -36,7 +36,7 @@
     <string name="app_timeout">Anwendungssperre</string>
     <string name="app_timeout_summary">Bei inaktiver Anwendung wird die Datenbank nach Ablauf der eingestellten Zeit automatisch gesperrt.</string>
     <string name="application">Anwendung</string>
-    <string name="application_settings">Einstellungen</string>
+    <string name="menu_app_settings">Einstellungen</string>
     <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="beta_warning">Das Speichern von Änderungen in kdbx Dateien wird zur Zeit nur experimentell unterstützt. Erstellen Sie Backups Ihrer Datenbank vor etwaigen Änderungen.</string>
     <string name="brackets">Klammern</string>
@@ -136,7 +136,7 @@
     <string name="menu_copy_pass">Passwort kopieren</string>
     <string name="menu_copy_user">Benutzername kopieren</string>
     <string name="menu_create">Erstellen</string>
-    <string name="menu_app_settings">Einstellungen</string>
+    <string name="settings">Einstellungen</string>
     <string name="menu_db_settings">Datenbank-Einstellungen</string>
     <string name="menu_delete">Löschen</string>
     <string name="menu_donate">Spenden</string>

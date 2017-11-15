@@ -30,7 +30,7 @@
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
     <string name="application">Программа</string>
-    <string name="application_settings">Настройки KeePass DX</string>
+    <string name="menu_app_settings">Настройки KeePass DX</string>
     <string name="beta_dontask">Не показывать снова</string>
     <string name="beta_warning">Поддержка сохранения баз kdbx ЭКСПЕРИМЕНТАЛЬНАЯ. Сделайте резервную копию базы перед сохранением</string>
     <string name="brackets">{[(Скобки)]}</string>
@@ -132,7 +132,7 @@
     <string name="menu_copy_pass">Пароль в буфер</string>
     <string name="menu_copy_user">Логин в буфер</string>
     <string name="menu_create">Создать</string>
-    <string name="menu_app_settings">Настройки</string>
+    <string name="settings">Настройки</string>
     <string name="menu_db_settings">Настройки базы KeePass</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_donate">Помочь</string>

@@ -30,7 +30,7 @@
     <string name="app_timeout">應用程式超時</string>
     <string name="app_timeout_summary">應用程式處於非活動時鎖定資料庫。</string>
     <string name="application">應用程式</string>
-    <string name="application_settings">應用程式設置</string>
+    <string name="menu_app_settings">應用程式設置</string>
     <string name="brackets">括弧</string>
     <string name="browser_intall_text">	流覽檔需要安裝Open Intents File Manager軟體，點下面安裝。由於一些檔管理軟體的差異，在你第一次流覽時可能無法正常工作。</string>
     <string name="building_search_idx">建立搜索索引&#8230;</string>
@@ -117,7 +117,7 @@
     <string name="menu_copy_pass">複製密碼</string>
     <string name="menu_copy_user">複製用戶</string>
     <string name="menu_create">創建</string>
-    <string name="menu_app_settings">設置</string>
+    <string name="settings">設置</string>
     <string name="menu_db_settings">資料庫設置</string>
     <string name="menu_delete">刪除</string>
     <string name="menu_donate">捐贈</string>

@@ -33,7 +33,7 @@
     <string name="app_timeout">Časový limit aplikace</string>
     <string name="app_timeout_summary">Čas před zamknutím databáze, když je aplikace neaktivní.</string>
     <string name="application">Aplikace</string>
-    <string name="application_settings">Nastavení aplikace</string>
+    <string name="menu_app_settings">Nastavení aplikace</string>
     <string name="beta_dontask">Znovu nezobrazovat</string>
     <string name="beta_warning">Podpora pro ukládání změn do kdbx souborů je EXPERIMENTÁLNÍ. Vytvořte si zálohy databází před ukládáním změn.</string>
     <string name="brackets">Závorky</string>
@@ -132,7 +132,7 @@
     <string name="menu_copy_pass">Kopírovat heslo</string>
     <string name="menu_copy_user">Kopírovat uživatelské jméno</string>
     <string name="menu_create">Vytvořit</string>
-    <string name="menu_app_settings">Nastavení</string>
+    <string name="settings">Nastavení</string>
     <string name="menu_db_settings">Nastavení databáze</string>
     <string name="menu_delete">Smazat</string>
     <string name="menu_donate">Přispět</string>

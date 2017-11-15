@@ -32,7 +32,7 @@
     <string name="app_timeout">Tidsgräns för applikation</string>
     <string name="app_timeout_summary">Tid innan låsning när applikationen är inaktiv.</string>
     <string name="application">Applikation</string>
-    <string name="application_settings">Inställningar för applikation</string>
+    <string name="menu_app_settings">Inställningar för applikation</string>
     <string name="beta_dontask">Visa inte igen</string>
     <string name="beta_warning">Stöd för att spara ändringar i kdbx-filer är EXPERIMENTELL. Ta backup på databasen innan ändringar sparas.</string>
     <string name="brackets">Parenteser</string>
@@ -130,7 +130,7 @@
     <string name="menu_copy_pass">Kopiera lösenordet</string>
     <string name="menu_copy_user">Kopiera användarnamnet</string>
     <string name="menu_create">Skapa ny</string>
-    <string name="menu_app_settings">Inställningar</string>
+    <string name="settings">Inställningar</string>
     <string name="menu_db_settings">Databasinställningar</string>
     <string name="menu_delete">Radera</string>
     <string name="menu_donate">Donera</string>

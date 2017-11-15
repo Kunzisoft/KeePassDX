@@ -58,6 +58,8 @@
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
 
+        <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
+
         <!-- Dialog -->
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
@@ -101,6 +103,8 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
+
+        <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>

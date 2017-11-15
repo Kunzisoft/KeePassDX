@@ -12,7 +12,7 @@
     <string name="app_timeout">Alkalmazás időkorlátja</string>
     <string name="app_timeout_summary">Beállíthatja, mennyi idő után kerüljön lezárásra az adatbázis</string>
     <string name="application">Alkalmazás</string>
-    <string name="application_settings">Alkalmazás beállítások</string>
+    <string name="menu_app_settings">Alkalmazás beállítások</string>
     <string name="beta_dontask">"Ne mutassa többet"</string>
     <string name="beta_warning">A kdbx fájlok írása jelenleg tesztüzemben működik! A változtatások elmentése előtt mindig készítsen biztonsági mentést az adatbázisáról.</string>
     <string name="brackets">Zárójelek</string>
@@ -110,7 +110,7 @@
     <string name="menu_copy_pass">Jelszó másolása</string>
     <string name="menu_copy_user">Felhasználónév másolása</string>
     <string name="menu_create">Létrehozás</string>
-    <string name="menu_app_settings">Beállítások</string>
+    <string name="settings">Beállítások</string>
     <string name="menu_db_settings">Adatbázis beállítások</string>
     <string name="menu_delete">Törlés</string>
     <string name="menu_donate">Támogatás</string>

@@ -30,7 +30,7 @@
     <string name="app_timeout">Ohjelman aikakatkaisu</string>
     <string name="app_timeout_summary">Aika, jonka jälkeen KeePass lukitaan jos se on ollut toimeton.</string>
     <string name="application">Ohjelma</string>
-    <string name="application_settings">Ohjelman asetukset</string>
+    <string name="menu_app_settings">Ohjelman asetukset</string>
     <string name="beta_dontask">Älä näytä enää uudelleen</string>
     <string name="beta_warning">Tuki kdbx-tiedostojen muuttamiselle on KOKEELLINEN. Ota varmuuskopioita ennen muutosten tallentamista!</string>
     <string name="brackets">Hakasulkeet</string>
@@ -129,7 +129,7 @@
     <string name="menu_copy_pass">Kopioi salasana</string>
     <string name="menu_copy_user">Kopioi käyttäjänimi</string>
     <string name="menu_create">Luo</string>
-    <string name="menu_app_settings">Asetukset</string>
+    <string name="settings">Asetukset</string>
     <string name="menu_db_settings">Salasanatietokannan asetukset</string>
     <string name="menu_delete">Poista</string>
     <string name="menu_donate">Lahjoita</string>

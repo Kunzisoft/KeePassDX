@@ -18,25 +18,11 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:key="@string/app_key"
-	android:title="@string/application"
-	android:summary="@string/application_settings">
+	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory
-		android:title="@string/application_settings">
+		android:title="@string/general">
 
-        <CheckBoxPreference
-            android:summary="@string/recentfile_summary"
-            android:defaultValue="@bool/recentfile_default"
-            android:title="@string/recentfile_title"
-            android:key="@string/recentfile_key"/>
-        <CheckBoxPreference
-            android:key="@string/keyfile_key"
-            android:title="@string/remember_keyfile_title"
-            android:summary="@string/remember_keyfile_summary"
-            android:dependency="@string/recentfile_key"
-            android:defaultValue="@bool/keyfile_default"/>
         <ListPreference
             android:key="@string/clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
@@ -58,14 +44,6 @@
             android:title="@string/maskpass_title"
             android:summary="@string/maskpass_summary"
             android:defaultValue="@bool/maskpass_default"/>
-        <ListPreference
-            android:key="@string/list_size_key"
-            android:title="@string/list_size_title"
-            android:summary="@string/list_size_summary"
-            android:entries="@array/list_size_options"
-            android:entryValues="@array/list_size_values"
-            android:dialogTitle="@string/list_size_summary"
-            android:defaultValue="@string/list_size_default"/>
         <CheckBoxPreference
             android:summary="@string/omitbackup_summary"
             android:defaultValue="@bool/omitbackup_default"
@@ -77,6 +55,28 @@
             android:title="@string/use_saf_title"
             android:key="@string/saf_key"/>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/history">
+
+        <CheckBoxPreference
+            android:summary="@string/recentfile_summary"
+            android:defaultValue="@bool/recentfile_default"
+            android:title="@string/recentfile_title"
+            android:key="@string/recentfile_key"/>
+        <CheckBoxPreference
+            android:key="@string/keyfile_key"
+            android:title="@string/remember_keyfile_title"
+            android:summary="@string/remember_keyfile_summary"
+            android:dependency="@string/recentfile_key"
+            android:defaultValue="@bool/keyfile_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/appearance">
+
         <ListPreference
             android:title="@string/style_choose_title"
             android:summary="@string/style_choose_summary"
@@ -84,6 +84,14 @@
             android:defaultValue="@string/list_style_name_light"
             android:entries="@array/list_style_names"
             android:entryValues="@array/list_style_values" />
+        <ListPreference
+            android:key="@string/list_size_key"
+            android:title="@string/list_size_title"
+            android:summary="@string/list_size_summary"
+            android:entries="@array/list_size_options"
+            android:entryValues="@array/list_size_values"
+            android:dialogTitle="@string/list_size_summary"
+            android:defaultValue="@string/list_size_default"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

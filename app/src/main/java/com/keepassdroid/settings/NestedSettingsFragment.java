@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.settings;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -143,5 +144,16 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
         }
 
         algorithm.setSummary(resId);
+    }
+
+    public static String retrieveTitle(Resources resources, int key) {
+        switch (key) {
+            case NESTED_SCREEN_APP_KEY:
+                return resources.getString(R.string.menu_app_settings);
+            case NESTED_SCREEN_DB_KEY:
+                return resources.getString(R.string.menu_db_settings);
+            default:
+                return resources.getString(R.string.settings);
+        }
     }
 }

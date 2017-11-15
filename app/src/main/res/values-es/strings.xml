@@ -32,7 +32,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="app_timeout">Tiempo de espera de aplicación</string>
     <string name="app_timeout_summary">Tiempo hasta bloquear la base de datos cuando la aplicación está inacttiva.</string>
     <string name="application">Aplicación</string>
-    <string name="application_settings">Configuración de la aplicación</string>
+    <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
     <string name="browser_intall_text">La exploración de archivos necesita Open Intents File Manager, haz clic a continuación para instalarlo. Debido a algunas peculiaridades en el gestor de archivos, puede que la exploración no funcione correctamente la primera vez que la realices.</string>
     <string name="building_search_idx">Construcción de índice de búsqueda&#8230;</string>
@@ -119,7 +119,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="menu_copy_pass">Copiar Contraseña</string>
     <string name="menu_copy_user">Copiar Usuario</string>
     <string name="menu_create">Crear</string>
-    <string name="menu_app_settings">Configuración</string>
+    <string name="settings">Configuración</string>
     <string name="menu_db_settings">Configuración de Base de datos</string>
     <string name="menu_delete">Eliminar</string>
     <string name="menu_donate">Donar</string>

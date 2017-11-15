@@ -32,7 +32,7 @@
     <string name="app_timeout">Applikations timeout</string>
     <string name="app_timeout_summary">Tid før databasen låses, når applikationen er inaktiv.</string>
     <string name="application">Applikation</string>
-    <string name="application_settings">Applikations-indstillinger</string>
+    <string name="menu_app_settings">Applikations-indstillinger</string>
 	<string name="beta_dontask">Vis ikke igen</string>
     <string name="beta_warning">Understøttelse af at gemme ændringer til kdbx filer er EKSPERIMENTIEL. Lav en backup af din database før du gemmer ændringer.</string>
     <string name="brackets">Parenteser</string>
@@ -131,7 +131,7 @@
     <string name="menu_copy_pass">Kopier adgangskode</string>
     <string name="menu_copy_user">Kopier brugernavn</string>
     <string name="menu_create">Opret</string>
-    <string name="menu_app_settings">Indstillinger</string>
+    <string name="settings">Indstillinger</string>
     <string name="menu_db_settings">Database indstillinger</string>
     <string name="menu_delete">Slet</string>
     <string name="menu_donate">Donér</string>

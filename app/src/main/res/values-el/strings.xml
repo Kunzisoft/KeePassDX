@@ -30,7 +30,7 @@
     <string name="app_timeout">Χρονικό όριο εφαρμογής</string>
     <string name="app_timeout_summary">Ο χρόνος προτού κλειδωθεί η βάση δεδομένων όταν η εφαρμογή είναι ανενεργή.</string>
     <string name="application">Εφαρμογή</string>
-    <string name="application_settings">Ρυθμίσεις εφαρμογής</string>
+    <string name="menu_app_settings">Ρυθμίσεις εφαρμογής</string>
     <string name="beta_dontask">Να μην ερωτηθώ ξανά</string>
     <string name="beta_warning">Η υποστήριξη για αποθήκευση αλλαγών σε αρχεία kdbx είναι ΠΕΙΡΑΜΤΙΚΗ. Κρατήστε αντίγραφο ασφαλείας της βάσης δεδομένων σας προτού αποθηκεύσετε τις αλλαγές.</string>
     <string name="brackets">Αγκύλες</string>
@@ -129,7 +129,7 @@
     <string name="menu_copy_pass">Αντιγραφή Κωδικού</string>
     <string name="menu_copy_user">Αντιγραφή Χρήστη</string>
     <string name="menu_create">Δημιουργία</string>
-    <string name="menu_app_settings">Ρυθμίσεις</string>
+    <string name="settings">Ρυθμίσεις</string>
     <string name="menu_db_settings">Ρυθμίσεις βάσης δεδομένων</string>
     <string name="menu_delete">Διαγραφή</string>
     <string name="menu_donate">Δωρεά</string>

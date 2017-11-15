@@ -33,7 +33,6 @@
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
-    <string name="application_settings">Application settings</string>
     <string name="beta_dontask">Don\'t show again</string>
     <string name="beta_warning">Support for saving changes to kdbx files is EXPERIMENTAL. Make backups of your database before saving changes.</string>
     <string name="brackets">Brackets</string>
@@ -133,7 +132,8 @@
     <string name="menu_copy_pass">Copy Password</string>
     <string name="menu_copy_user">Copy User</string>
     <string name="menu_create">Create</string>
-    <string name="menu_app_settings">Settings</string>
+    <string name="settings">Settings</string>
+    <string name="menu_app_settings">Application settings</string>
     <string name="menu_db_settings">Database settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
@@ -199,7 +199,9 @@
     <string name="fingerprint_error">Fingerprint problem</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
     <string name="no_password_stored">No password stored yet for this database</string>
-
+    <string name="history">History</string>
+    <string name="appearance">Appearance</string>
+    <string name="general">General</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

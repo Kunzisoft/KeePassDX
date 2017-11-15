@@ -30,7 +30,7 @@
     <string name="app_timeout">应用程序超时</string>
     <string name="app_timeout_summary">应用程序处于非活动时锁定数据库。</string>
     <string name="application">应用程序</string>
-    <string name="application_settings">应用程序设置</string>
+    <string name="menu_app_settings">应用程序设置</string>
     <string name="brackets">括号</string>
     <string name="browser_intall_text">	浏览文件需要安装Open Intents File Manager软件，点下面安装。由于一些文件管理软件的差异，在你第一次浏览时可能无法正常工作。</string>
     <string name="building_search_idx">建立搜索索引&#8230;</string>
@@ -117,7 +117,7 @@
     <string name="menu_copy_pass">复制密码</string>
     <string name="menu_copy_user">复制用户</string>
     <string name="menu_create">创建</string>
-    <string name="menu_app_settings">设置</string>
+    <string name="settings">设置</string>
     <string name="menu_db_settings">数据库设置</string>
     <string name="menu_delete">删除</string>
     <string name="menu_donate">捐赠</string>

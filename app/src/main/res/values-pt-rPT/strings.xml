@@ -33,7 +33,7 @@
     <string name="app_timeout">Tempo de espera da aplicação</string>
     <string name="app_timeout_summary">Tempo antes do bloqueio da base de dados quando a aplicação está inativa.</string>
     <string name="application">Aplicação</string>
-    <string name="application_settings">Definições da aplicação</string>
+    <string name="menu_app_settings">Definições da aplicação</string>
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="beta_warning">O suporte para guardar alterações para ficheiros kdbx é EXPERIMENTAL. Faça cópias de segurança da sua base de dados antes de guardar as alterações.</string>
     <string name="brackets">Parênteses</string>
@@ -133,7 +133,7 @@
     <string name="menu_copy_pass">Copiar palavra-passe</string>
     <string name="menu_copy_user">Copiar nome de utilizador</string>
     <string name="menu_create">Criar</string>
-    <string name="menu_app_settings">Definições</string>
+    <string name="settings">Definições</string>
     <string name="menu_db_settings">Definições da base de dados</string>
     <string name="menu_delete">Eliminar</string>
     <string name="menu_donate">Fazer donativo</string>

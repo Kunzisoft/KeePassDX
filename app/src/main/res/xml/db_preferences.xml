@@ -18,13 +18,10 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:key="@string/db_key"
-	android:title="@string/database"
-	android:summary="@string/menu_db_settings">
+	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory
-		android:title="@string/menu_db_settings">
+		android:title="@string/general">
 
 		<Preference
 			android:key="@string/algorithm_key"

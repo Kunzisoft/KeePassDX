@@ -30,7 +30,7 @@
     <string name="app_timeout">Časový limit aplikácie.</string>
     <string name="app_timeout_summary">Čas pred uzamknutím databázy, ak je aplikácia neaktívna.</string>
     <string name="application">Applikácia</string>
-    <string name="application_settings">Nastavenia aplikácie</string>
+    <string name="menu_app_settings">Nastavenia aplikácie</string>
     <string name="brackets">Konzoly</string>
     <string name="browser_intall_text">Prezeranie súborov vyžaduje otvorenie Správcu súborov, kliknite nižšie pre inštalovanie. Kôli chybám v správcovi súborov, prehľadávanie nemusí pracovať správne, ak prehľadávate prvý krát.</string>
     <string name="building_search_idx">Spracúvam index hľadania&#8230;</string>
@@ -117,7 +117,7 @@
     <string name="menu_copy_pass">Kopíruj Heslo</string>
     <string name="menu_copy_user">Kopíruj Užívateľa</string>
     <string name="menu_create">Vytvoriť</string>
-    <string name="menu_app_settings">Nastavenia</string>
+    <string name="settings">Nastavenia</string>
     <string name="menu_db_settings">Nastavenia Databázy</string>
     <string name="menu_delete">Zmazať</string>
     <string name="menu_donate">Darovať</string>

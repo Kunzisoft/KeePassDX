@@ -33,7 +33,7 @@
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
-    <string name="application_settings">Préférences de l\'application</string>
+    <string name="menu_app_settings">Préférences de l\'application</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>
@@ -133,7 +133,7 @@
     <string name="menu_copy_pass">Copier le mot de passe</string>
     <string name="menu_copy_user">Copier le nom d\'utilisateur</string>
     <string name="menu_create">Créer</string>
-    <string name="menu_app_settings">Préférences</string>
+    <string name="settings">Préférences</string>
     <string name="menu_db_settings">Préférences de la base de données</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_donate">Faire un don</string>
@@ -218,4 +218,7 @@
         <item>Light Theme</item>
         <item>Night Theme</item>
     </string-array>
+    <string name="history">Historique</string>
+    <string name="appearance">Apparence</string>
+    <string name="general">Générale</string>
 </resources>

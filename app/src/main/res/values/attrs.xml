@@ -5,5 +5,7 @@
 
     <attr name="colorAccentCompat" format="reference|color" />
 
+    <attr name="iconPreferenceColor" format="reference|color" />
+
     <attr name="textColorInverse" format="reference|color" />
 </resources>

@@ -31,7 +31,7 @@
   <string name="app_timeout">פסק זמן ליישום</string>
   <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל.</string>
   <string name="application">יישום</string>
-  <string name="application_settings">הגדרות יישום</string>
+  <string name="menu_app_settings">הגדרות יישום</string>
   <string name="beta_dontask">אל תציג שוב</string>
   <string name="beta_warning">התמיכה לשמירת שינויים לקבצי kdbx היא נסיונית. תגבה את מסד הנתונים לפני שמירת השינויים.</string>
   <string name="brackets">סוגריים</string>
@@ -125,7 +125,7 @@
   <string name="menu_copy_pass">העתק סיסמה</string>
   <string name="menu_copy_user">העתק שם משתמש</string>
   <string name="menu_create">צור</string>
-  <string name="menu_app_settings">העדפות</string>
+  <string name="settings">העדפות</string>
   <string name="menu_db_settings">הגדרות מסד נתונים</string>
   <string name="menu_delete">מחק</string>
   <string name="menu_donate">תרום</string>

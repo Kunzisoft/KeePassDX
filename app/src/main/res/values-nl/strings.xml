@@ -32,7 +32,7 @@
     <string name="app_timeout">Applicatietimeout</string>
     <string name="app_timeout_summary">Tijd tot het vergrendelen van de database bij inactiviteit.</string>
     <string name="application">Applicatie</string>
-    <string name="application_settings">Applicatieinstellingen</string>
+    <string name="menu_app_settings">Applicatieinstellingen</string>
     <string name="brackets">Haakjes</string>
     <string name="browser_intall_text">Een bestand opzoeken kan alleen met de Open Intents File Manager, klik hieronder om die te installeren. Door gebreken in deze file manager kan het opzoeken van een bestand echter de eerste keer mislukken.</string>
     <string name="building_search_idx">Zoekindex wordt opgebouwd&#8230;</string>
@@ -119,7 +119,7 @@
     <string name="menu_copy_pass">Kopieer wachtwoord</string>
     <string name="menu_copy_user">Kopieer gebruikersnaam</string>
     <string name="menu_create">Aanmaken</string>
-    <string name="menu_app_settings">Instellingen</string>
+    <string name="settings">Instellingen</string>
     <string name="menu_db_settings">Database-instellingen</string>
     <string name="menu_delete">Wissen</string>
     <string name="menu_donate">Doneren</string>

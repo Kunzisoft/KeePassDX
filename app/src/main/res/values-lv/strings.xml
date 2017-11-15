@@ -12,7 +12,7 @@
     <string name="app_timeout">Pielikuma taimauts</string>
     <string name="app_timeout_summary">Bloķēšanas taimauts, kad programma nav aktīva.</string>
     <string name="application">Programma</string>
-    <string name="application_settings">Programmas iestatījumi</string>
+    <string name="menu_app_settings">Programmas iestatījumi</string>
     <string name="beta_dontask">Turpmāk nerādīt</string>
     <string name="beta_warning">Atbalsts kdbx failiem ir eksperimentāls. Dublējiet datu bāzi pirms izmaiņu saglabāšanas.</string>
     <string name="brackets">Iekavās</string>
@@ -110,7 +110,7 @@
     <string name="menu_copy_pass">Kopēt paroli</string>
     <string name="menu_copy_user">Kopēt lietotājvārdu</string>
     <string name="menu_create">Izveidot</string>
-    <string name="menu_app_settings">Iestatījumi</string>
+    <string name="settings">Iestatījumi</string>
     <string name="menu_db_settings">Datu bāzes iestatījumi</string>
     <string name="menu_delete">Dzēst</string>
     <string name="menu_donate">Ziedot</string>

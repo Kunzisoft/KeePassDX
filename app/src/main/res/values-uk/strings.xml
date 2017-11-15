@@ -30,7 +30,7 @@
     <string name="app_timeout">Тайм-аут програми</string>
     <string name="app_timeout_summary">Час перед закриттям бази даних, коли програма є неактивною.</string>
     <string name="application">Програма</string>
-    <string name="application_settings">Налаштування програми</string>
+    <string name="menu_app_settings">Налаштування програми</string>
     <string name="brackets">Дужки</string>
     <string name="browser_intall_text">Для перегляду файла необхідно Open Intents File Manager, натисніть нижче для його інсталяції. У зв’язку з деякими недоробками у менеджері файлів перегляд може працювати некоректно при запуску перший раз.</string>
     <string name="building_search_idx">Будується пошуковий індекс&#8230;</string>
@@ -117,7 +117,7 @@
     <string name="menu_copy_pass">Копіювати пароль</string>
     <string name="menu_copy_user">Копіювати користувача</string>
     <string name="menu_create">Створити</string>
-    <string name="menu_app_settings">Налаштування</string>
+    <string name="settings">Налаштування</string>
     <string name="menu_db_settings">Налаштування бази даних</string>
     <string name="menu_delete">Вилучити</string>
     <string name="menu_donate">Пожертвувати</string>

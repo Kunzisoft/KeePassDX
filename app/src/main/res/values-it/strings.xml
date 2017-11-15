@@ -33,7 +33,7 @@
     <string name="app_timeout">Scadenza applicazione</string>
     <string name="app_timeout_summary">Tempo prima che venga bloccato il database quando l\'applicazione è inattiva.</string>
     <string name="application">Applicazione</string>
-    <string name="application_settings">Impostazioni Applicazione</string>
+    <string name="menu_app_settings">Impostazioni Applicazione</string>
     <string name="brackets">Parentesi</string>
     <string name="browser_intall_text">Sfogliare i file richiede l\'applicazione Gestore File di Open Intents, clicca sotto per installarlo. A causa di alcune stranezze nel gestore file, la prima volta la navigazione potrebbe non funzionare correttamente.</string>
     <string name="building_search_idx">Creazione indice di ricerca&#8230;</string>
@@ -120,7 +120,7 @@
     <string name="menu_copy_pass">Copia Password</string>
     <string name="menu_copy_user">Copia Utente</string>
     <string name="menu_create">Crea</string>
-    <string name="menu_app_settings">Impostazioni</string>
+    <string name="settings">Impostazioni</string>
     <string name="menu_db_settings">Impostazioni Database</string>
     <string name="menu_delete">Elimina</string>
     <string name="menu_donate">Dona</string>

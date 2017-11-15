@@ -30,7 +30,7 @@
     <string name="app_timeout">アプリケーション タイムアウト</string>
     <string name="app_timeout_summary">KeePassがこの時間非アクティブだった場合、データベースをロックします。</string>
     <string name="application">アプリケーション</string>
-    <string name="application_settings">アプリケーション設定</string>
+    <string name="menu_app_settings">アプリケーション設定</string>
     <string name="brackets">カッコ</string>
     <string name="browser_intall_text">ファイルを検索するには OI File Manager が必要です。</string>
     <string name="building_search_idx">検索中&#8230;</string>
@@ -117,7 +117,7 @@
     <string name="menu_copy_pass">パスワードをコピー</string>
     <string name="menu_copy_user">ユーザー名をコピー</string>
     <string name="menu_create">作成</string>
-    <string name="menu_app_settings">設定</string>
+    <string name="settings">設定</string>
     <string name="menu_db_settings">データベース設定</string>
     <string name="menu_delete">削除</string>
     <string name="menu_donate">寄付</string>
