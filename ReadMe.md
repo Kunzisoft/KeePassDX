@@ -10,9 +10,7 @@
 - Device integration and AutoFill (In progress)
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen0.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen1.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen2.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen3.jpg" width="220">
 
 ## What is KeePass?
 Today you need to remember many passwords. You need a password for the Windows network logon, your e-mail account, your website's FTP password, online passwords (like website member account), etc. etc. etc. The list is endless. Also, you should use different passwords for each account. Because if you use only one password everywhere and someone gets this password you have a problem... A serious problem. The thief would have access to your e-mail account, website, etc. Unimaginable.
@@ -35,8 +33,6 @@ Even if the application is free, to maintain the application, you can make donat
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen4.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen5.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen6.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen7.jpg" width="220">
 
 ### JNI
 Native library build instructions:
