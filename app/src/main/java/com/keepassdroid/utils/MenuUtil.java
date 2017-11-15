@@ -1,6 +1,7 @@
 package com.keepassdroid.utils;
 
 import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -8,7 +9,7 @@ import android.widget.Toast;
 
 import com.android.keepass.BuildConfig;
 import com.android.keepass.R;
-import com.keepassdroid.AboutDialog;
+import com.keepassdroid.AboutActivity;
 import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.stylish.StylishActivity;
 
@@ -41,12 +42,13 @@ public class MenuUtil {
                 return onDonationItemSelected(activity);
 
             case R.id.menu_app_settings:
-                SettingsActivity.Launch(activity);
+                Intent i = new Intent(activity, SettingsActivity.class);
+                activity.startActivity(i);
                 return true;
 
             case R.id.menu_about:
-                AboutDialog dialog = new AboutDialog();
-                dialog.show(activity.getSupportFragmentManager(), "aboutDialog");
+                Intent intent = new Intent(activity, AboutActivity.class);
+                activity.startActivity(intent);
                 return true;
 
             default:

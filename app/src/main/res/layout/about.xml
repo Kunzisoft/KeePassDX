@@ -98,7 +98,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_marginStart="18dp"
                 android:autoLink="web"
-                android:text="@string/homepage_short" />
+                android:text="@string/homepage" />
 
             <TextView android:id="@+id/feedback"
                 android:layout_width="wrap_content"

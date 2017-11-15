@@ -19,8 +19,6 @@
  */
 package com.keepassdroid.settings;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -53,11 +51,6 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
         TimeoutHelper.resume(this);
         TimeoutHelper.checkShutdown(this);
     }
-	
-	public static void Launch(Context ctx) {
-		Intent i = new Intent(ctx, SettingsActivity.class);
-		ctx.startActivity(i);
-	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

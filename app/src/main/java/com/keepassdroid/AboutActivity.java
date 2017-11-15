@@ -22,15 +22,15 @@ package com.keepassdroid;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.android.keepass.R;
+import com.keepassdroid.stylish.StylishActivity;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends StylishActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

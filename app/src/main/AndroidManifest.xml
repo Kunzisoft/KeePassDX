@@ -32,6 +32,8 @@
         <activity android:name="com.keepassdroid.fileselect.FileSelectActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name="com.keepassdroid.AboutActivity"
+            android:label="@string/menu_about" />
         <activity android:name="com.keepassdroid.PasswordActivity" android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

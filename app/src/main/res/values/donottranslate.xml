@@ -23,8 +23,7 @@
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
     <string name="default_file_path" translatable="false">/keepass/keepass.kdbx</string>
     <string name="donate_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
-    <string name="homepage" translatable="false">http://www.kunzisoft.com/keepassdx.html</string>
-    <string name="homepage_short" translatable="false">www.kunzisoft.com</string>
+    <string name="homepage" translatable="false">http://www.kunzisoft.com/KeepassDX</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="oi_filemanager_market" translatable="false">market://details?id=org.openintents.filemanager</string>
     <string name="oi_filemanager_web" translatable="false">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
