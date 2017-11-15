@@ -213,8 +213,6 @@
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
-        <item name="android:background">@drawable/fab_background</item>
-        <item name="android:layout_width">56dp</item>
         <item name="android:layout_margin">24dp</item>
     </style>
 

@@ -188,7 +188,7 @@
 		</LinearLayout>
 	</ScrollView >
 
-    <android.support.v7.widget.AppCompatImageButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/entry_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
