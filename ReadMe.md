@@ -3,6 +3,7 @@
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/logo.png"> Keepass DX is a material design Keepass Client for manage keys and passwords in crypt database for your android device.
 
 ### Features
+
 - Create database file / entries and groups
 - Open database, copy username / password, open URI / URL
 - Fingerprint for fast unlocking
@@ -13,11 +14,13 @@
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen2.jpg" width="220">
 
 ## What is KeePass?
+
 Today you need to remember many passwords. You need a password for the Windows network logon, your e-mail account, your website's FTP password, online passwords (like website member account), etc. etc. etc. The list is endless. Also, you should use different passwords for each account. Because if you use only one password everywhere and someone gets this password you have a problem... A serious problem. The thief would have access to your e-mail account, website, etc. Unimaginable.
 
 KeePass is a free open source password manager, which helps you to manage your passwords in a secure way. You can put all your passwords in one database, which is locked with one master key or a key file. So you only have to remember one single master password or select the key file to unlock the whole database. The databases are encrypted using the best and most secure encryption algorithms currently known (AES and Twofish). For more information, see the features page. 
 
 ## Is it really free?
+
 Yes, KeePass is really free, and more than that: it is open source (OSI certified). You can have a look at its full source and check whether the encryption algorithms are implemented correctly.
 
 ## Donation
@@ -28,13 +31,11 @@ Even if the application is free, to maintain the application, you can make donat
 
 [![Donation Liberapay](https://liberapay.com/assets/widgets/donate.svg "")](https://liberapay.com/Kunzisoft/donate "Kunzisoft Liberapay Donation")
 
-## Installation
-
-
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen4.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen5.jpg" width="220">
 
 ### JNI
+
 Native library build instructions:
 1. Make sure you have the latest MIPS Android NDK installed: 
    https://developer.android.com/tools/sdk/ndk/index.html
