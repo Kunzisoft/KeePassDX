@@ -34,8 +34,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.android.keepass.KeePass;
-import com.android.keepass.R;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;

@@ -7,8 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.android.keepass.BuildConfig;
-import com.android.keepass.R;
+import com.kunzisoft.keepass.BuildConfig;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.AboutActivity;
 import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.stylish.StylishActivity;

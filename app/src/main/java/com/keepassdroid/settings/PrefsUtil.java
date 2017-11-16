@@ -23,7 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 
 public class PrefsUtil {
 	public static float getListTextSize(Context ctx) {

@@ -23,7 +23,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
 

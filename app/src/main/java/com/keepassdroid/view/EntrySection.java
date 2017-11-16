@@ -25,7 +25,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 
 public class EntrySection extends LinearLayout {
 

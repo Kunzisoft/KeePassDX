@@ -22,9 +22,7 @@ package com.keepassdroid.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.ref.WeakReference;
 
-import com.android.keepass.R;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 
 import android.app.Activity;
@@ -32,10 +30,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.text.ClipboardManager;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 public class Util {

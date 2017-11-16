@@ -26,7 +26,7 @@ import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 
 public class FileNameView extends RelativeLayout {
 

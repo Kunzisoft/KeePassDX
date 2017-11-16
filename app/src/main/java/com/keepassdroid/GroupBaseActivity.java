@@ -40,8 +40,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.keepass.KeePass;
-import com.android.keepass.R;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;

@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.utils.UriUtil;
 

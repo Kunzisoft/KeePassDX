@@ -22,7 +22,7 @@ package com.keepassdroid;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 
-import com.android.keepass.KeePass;
+import com.kunzisoft.keepass.KeePass;
 import com.keepassdroid.app.App;
 
 public abstract class LockCloseActivity extends LockingActivity {

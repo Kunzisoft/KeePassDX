@@ -19,11 +19,11 @@
  */
 package com.keepassdroid.icons;
 
-import java.lang.reflect.Field;
-
 import android.util.SparseIntArray;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
+
+import java.lang.reflect.Field;
 
 
 public class Icons {
@@ -33,7 +33,7 @@ public class Icons {
 		if (icons == null) {
 			icons = new SparseIntArray();
 			
-			Class<com.android.keepass.R.drawable> c = com.android.keepass.R.drawable.class;
+			Class<com.kunzisoft.keepass.R.drawable> c = com.kunzisoft.keepass.R.drawable.class;
 			
 			Field[] fields = c.getFields();
 			

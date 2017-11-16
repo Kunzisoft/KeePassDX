@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.exception.ArcFourException;

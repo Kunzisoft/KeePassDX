@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.android.keepass;
+package com.kunzisoft.keepass;
 
 import android.app.Activity;
 import android.content.Intent;

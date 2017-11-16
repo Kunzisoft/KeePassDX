@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 
 public class EntryContentsView extends LinearLayout {
 	

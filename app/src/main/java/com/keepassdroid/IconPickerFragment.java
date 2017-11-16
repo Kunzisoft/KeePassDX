@@ -36,7 +36,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.icons.Icons;
 import com.keepassdroid.stylish.StylishActivity;
 

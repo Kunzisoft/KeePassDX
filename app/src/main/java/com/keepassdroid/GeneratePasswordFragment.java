@@ -35,7 +35,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.password.PasswordGenerator;
 
 public class GeneratePasswordFragment extends DialogFragment {

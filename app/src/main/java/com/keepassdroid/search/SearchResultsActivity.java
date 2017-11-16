@@ -28,8 +28,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.keepass.KeePass;
-import com.android.keepass.R;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.PwGroupListAdapter;

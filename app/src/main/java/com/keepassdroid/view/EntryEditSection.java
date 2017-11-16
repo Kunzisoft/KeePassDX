@@ -22,11 +22,10 @@ package com.keepassdroid.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.database.security.ProtectedString;
 
 public class EntryEditSection extends RelativeLayout {

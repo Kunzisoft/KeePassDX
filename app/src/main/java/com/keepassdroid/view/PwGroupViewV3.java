@@ -24,7 +24,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.ContextMenu.ContextMenuInfo;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;

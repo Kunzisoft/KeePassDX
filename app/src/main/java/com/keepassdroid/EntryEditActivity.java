@@ -20,7 +20,6 @@
 package com.keepassdroid;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,8 +34,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.keepass.KeePass;
-import com.android.keepass.R;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;

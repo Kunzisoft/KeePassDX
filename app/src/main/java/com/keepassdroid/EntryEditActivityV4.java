@@ -31,7 +31,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;

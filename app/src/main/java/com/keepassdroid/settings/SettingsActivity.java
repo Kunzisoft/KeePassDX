@@ -23,7 +23,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.timeout.TimeoutHelper;

@@ -28,7 +28,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.GroupBaseActivity;
 import com.keepassdroid.app.App;

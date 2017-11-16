@@ -29,7 +29,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 
 public class GroupAddEntryView extends RelativeLayout {
 

@@ -25,7 +25,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.tests.database.TestData;

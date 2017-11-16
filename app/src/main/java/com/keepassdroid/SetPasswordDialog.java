@@ -32,7 +32,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.edit.OnFinish;

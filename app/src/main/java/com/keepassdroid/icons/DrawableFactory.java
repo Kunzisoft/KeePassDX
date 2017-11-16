@@ -28,7 +28,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 import com.keepassdroid.compat.BitmapDrawableCompat;
 import com.keepassdroid.database.PwIcon;
 import com.keepassdroid.database.PwIconCustom;
