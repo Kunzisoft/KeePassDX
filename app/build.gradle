@@ -34,7 +34,7 @@ android {
     flavorDimensions "tier"
     productFlavors {
         libre {
-            applicationId = ".libre"
+            applicationIdSuffix = ".libre"
             versionNameSuffix "-libre"
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "false"
