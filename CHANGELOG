@@ -1,3 +1,7 @@
+KeePassDroid (2.2.0.3)
+ * Search crash fix
+ * Improve fingerprint handling
+
 KeePassDroid (2.2.0.2)
  * Fix non fingerprint password layout
 
