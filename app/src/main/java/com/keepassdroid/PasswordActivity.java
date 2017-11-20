@@ -271,7 +271,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private void initForFingerprint() {
         fingerPrintHelper = new FingerPrintHelper(this, this);
-        if (fingerPrintHelper.isFingerprintSupported()) {
+        if (fingerPrintHelper.isFingerprintInitialized()) {
 
             // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
             passwordView.addTextChangedListener(new TextWatcher() {
