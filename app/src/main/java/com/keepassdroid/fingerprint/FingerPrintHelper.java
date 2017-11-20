@@ -19,26 +19,27 @@
  */
 package com.keepassdroid.fingerprint;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.os.CancellationSignal;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
-import android.util.Base64;
 
 import com.keepassdroid.compat.BuildCompat;
+import com.keepassdroid.compat.KeyGenParameterSpecCompat;
+import com.keepassdroid.compat.KeyguardManagerCompat;
 
+import java.security.InvalidKeyException;
 import java.security.KeyStore;
+import java.security.spec.AlgorithmParameterSpec;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+
+import biz.source_code.base64Coder.Base64Coder;
 
 public class FingerPrintHelper {
 
@@ -102,7 +103,6 @@ public class FingerPrintHelper {
 
     }
 
-    @TargetApi(BuildCompat.VERSION_CODE_M)
     public FingerPrintHelper(
             final Context context,
             final FingerPrintCallback fingerPrintCallback) {
@@ -156,7 +156,7 @@ public class FingerPrintHelper {
             stopListening();
             startListening();
 
-        } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
+        } catch (final InvalidKeyException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException();
         } catch (final Exception e) {
             fingerPrintCallback.onException();
@@ -174,11 +174,11 @@ public class FingerPrintHelper {
         try {
             // actual do encryption here
             byte[] encrypted = cipher.doFinal(value.getBytes());
-            final String encryptedValue = Base64.encodeToString(encrypted, 0 /* flags */);
+            final String encryptedValue = new String(Base64Coder.encode(encrypted));
 
             // passes updated iv spec on to callback so this can be stored for decryption
             final IvParameterSpec spec = cipher.getParameters().getParameterSpec(IvParameterSpec.class);
-            final String ivSpecValue = Base64.encodeToString(spec.getIV(), Base64.DEFAULT);
+            final String ivSpecValue = new String(Base64Coder.encode(spec.getIV()));
             fingerPrintCallback.handleEncryptedResult(encryptedValue, ivSpecValue);
 
         } catch (final Exception e) {
@@ -201,14 +201,14 @@ public class FingerPrintHelper {
             final SecretKey key = (SecretKey) keyStore.getKey(ALIAS_KEY, null);
 
             // important to restore spec here that was used for decryption
-            final byte[] iv = Base64.decode(ivSpecValue, Base64.DEFAULT);
+            final byte[] iv = Base64Coder.decode(ivSpecValue);
             final IvParameterSpec spec = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
             stopListening();
             startListening();
 
-        } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
+        } catch (final InvalidKeyException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException();
         } catch (final Exception e) {
             fingerPrintCallback.onException();
@@ -225,7 +225,7 @@ public class FingerPrintHelper {
         }
         try {
             // actual decryption here
-            final byte[] encrypted = Base64.decode(encryptedValue, 0);
+            final byte[] encrypted = Base64Coder.decode(encryptedValue);
             byte[] decrypted = cipher.doFinal(encrypted);
             final String decryptedString = new String(decrypted);
 
@@ -237,7 +237,6 @@ public class FingerPrintHelper {
         }
     }
 
-    @SuppressLint("NewApi")
     private void createNewKeyIfNeeded(final boolean allowDeleteExisting) {
         if (!isFingerprintInitialized()) {
             return;
@@ -254,17 +253,13 @@ public class FingerPrintHelper {
             if (!keyStore.containsAlias(ALIAS_KEY)) {
                 // Set the alias of the entry in Android KeyStore where the key will appear
                 // and the constrains (purposes) in the constructor of the Builder
-                keyGenerator.init(
-                        new KeyGenParameterSpec.Builder(
-                                ALIAS_KEY,
-                                KeyProperties.PURPOSE_ENCRYPT |
-                                        KeyProperties.PURPOSE_DECRYPT)
-                                .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                                // Require the user to authenticate with a fingerprint to authorize every use
-                                // of the key
-                                .setUserAuthenticationRequired(true)
-                                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                                .build());
+                AlgorithmParameterSpec algSpec = KeyGenParameterSpecCompat.build(ALIAS_KEY,
+                        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT,
+                        KeyProperties.BLOCK_MODE_CBC, true,
+                        KeyProperties.ENCRYPTION_PADDING_PKCS7);
+
+
+                keyGenerator.init(algSpec);
                 keyGenerator.generateKey();
             }
         } catch (final Exception e) {
@@ -278,7 +273,6 @@ public class FingerPrintHelper {
                 && fingerprintManager.isHardwareDetected();
     }
 
-    @SuppressLint("NewApi")
     public boolean hasEnrolledFingerprints() {
         // fingerprint hardware supported and api level OK
         return isHardwareDetected()
@@ -286,7 +280,7 @@ public class FingerPrintHelper {
                 && fingerprintManager != null
                 && fingerprintManager.hasEnrolledFingerprints()
                 // and lockscreen configured
-                && keyguardManager.isKeyguardSecure();
+                && KeyguardManagerCompat.isKeyguardSecure(keyguardManager);
     }
 
     void setInitOk(final boolean initOk) {
