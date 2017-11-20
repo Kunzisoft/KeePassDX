@@ -36,7 +36,7 @@ public class KeyGenParameterSpecCompat {
 
     static {
         try {
-            builder = Class.forName("android.security.keystore.KeyGenParameterSpec.Builder");
+            builder = Class.forName("android.security.keystore.KeyGenParameterSpec$Builder");
             buildConst = builder.getConstructor(String.class, int.class);
             builderBuild = builder.getMethod("build", (Class [])null);
             setBlockModes = builder.getMethod("setBlockModes", String[].class);
@@ -59,9 +59,9 @@ public class KeyGenParameterSpecCompat {
 
         try {
             Object inst = buildConst.newInstance(keystoreAlias, purpose);
-            inst = setBlockModes.invoke(inst, new Object[] {blockMode});
+            inst = setBlockModes.invoke(inst, new Object[] {new String[] {blockMode}});
             inst = setUserAuthReq.invoke(inst, userAuthReq);
-            inst = setEncPad.invoke(inst, new Object[] {encPadding});
+            inst = setEncPad.invoke(inst, new Object[] {new String[] {encPadding}});
 
             return (AlgorithmParameterSpec) builderBuild.invoke(inst, null);
 

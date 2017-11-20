@@ -142,7 +142,7 @@ public class FingerPrintHelper {
     public void initEncryptData() {
 
         if (!isFingerprintInitialized()) {
-            if (fingerPrintCallback != null) {
+            if (fingerPrintCallback != null && hasEnrolledFingerprints()) {
                 fingerPrintCallback.onException();
             }
             return;
@@ -166,7 +166,7 @@ public class FingerPrintHelper {
     public void encryptData(final String value) {
 
         if (!isFingerprintInitialized()) {
-            if (fingerPrintCallback != null) {
+            if (fingerPrintCallback != null && hasEnrolledFingerprints()) {
                 fingerPrintCallback.onException();
             }
             return;
@@ -193,6 +193,8 @@ public class FingerPrintHelper {
             if (fingerPrintCallback != null) {
                 fingerPrintCallback.onException(false);
             }
+            return;
+        } else if (!hasEnrolledFingerprints()) {
             return;
         }
         try {
