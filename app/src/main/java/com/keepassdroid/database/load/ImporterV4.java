@@ -932,7 +932,7 @@ public class ImporterV4 extends Importer {
 		} else {
 
 			try {
-				utcDate = PwDatabaseV4XML.dateFormat.parse(sDate);
+				utcDate = PwDatabaseV4XML.dateFormatter.get().parse(sDate);
 			} catch (ParseException e) {
 				// Catch with null test below
 			}

@@ -480,7 +480,7 @@ public class PwDbV4Output extends PwDbOutput {
 	
 	private void writeObject(String name, Date value) throws IllegalArgumentException, IllegalStateException, IOException {
 		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
-			writeObject(name, PwDatabaseV4XML.dateFormat.format(value));
+			writeObject(name, PwDatabaseV4XML.dateFormatter.get().format(value));
 		} else {
 			DateTime dt = new DateTime(value);
 			long seconds = DateUtil.convertDateToKDBX4Time(dt);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2013 Brian Pellin.
+ * Copyright 2009-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -23,16 +23,8 @@ import android.annotation.SuppressLint;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-@SuppressLint("SimpleDateFormat")
 public class PwDatabaseV4XML {
 
-	public static final SimpleDateFormat dateFormat;
-	
-	static {
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-	}
-	
     public static final String ElemDocNode = "KeePassFile";
     public static final String ElemMeta = "Meta";
     public static final String ElemRoot = "Root";
@@ -134,4 +126,15 @@ public class PwDatabaseV4XML {
 
     public static final String ElemCustomData = "CustomData";
     public static final String ElemStringDictExItem = "Item";
+
+    public static final ThreadLocal<SimpleDateFormat> dateFormatter =
+            new ThreadLocal<SimpleDateFormat>() {
+                @Override
+                protected SimpleDateFormat initialValue() {
+                    SimpleDateFormat dateFormat;
+                    dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    return dateFormat;
+                }
+            };
 }
