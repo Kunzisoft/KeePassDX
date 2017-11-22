@@ -412,7 +412,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private void checkAvailability() {
         // fingerprint not supported (by API level or hardware) so keep option hidden
-        if (!fingerPrintHelper.isFingerprintSupported()) {
+        if (!fingerPrintHelper.isHardwareDetected()) {
             setFingerPrintVisibilty(View.GONE);
         }
         // fingerprint is available but not configured show icon but in disabled state with some information
