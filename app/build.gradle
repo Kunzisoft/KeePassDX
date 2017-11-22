@@ -9,12 +9,16 @@ android {
         minSdkVersion 4
         targetSdkVersion 12
 
-        versionCode = 161
-        versionName = "2.2.0.5"
+        versionCode = 162
+        versionName = "2.2.0.6"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a',
+                    'arm64-v8a', 'mips', 'mips64'
+        }
     }
 
     externalNativeBuild {
@@ -22,6 +26,7 @@ android {
             path "src/main/jni/CMakeLists.txt"
         }
     }
+
 
     buildTypes {
         release {
