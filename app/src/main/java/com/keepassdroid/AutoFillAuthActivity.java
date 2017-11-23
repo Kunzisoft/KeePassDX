@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ * Copyright 2017 Jeremy Jamet / Kunzisoft.
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,18 +17,18 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.settings;
+package com.keepassdroid;
 
+import android.app.PendingIntent;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.Intent;
+import android.content.IntentSender;
 
-import com.kunzisoft.keepass.R;
+public class AutoFillAuthActivity extends PasswordActivity {
 
-public class PrefsUtil {
-	public static float getListTextSize(Context ctx) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		return Float.parseFloat(prefs.getString(ctx.getString(R.string.list_size_key), ctx.getString(R.string.list_size_default)));
-
-	}
+    public static IntentSender getAuthIntentSenderForResponse(Context context) {
+        final Intent intent = new Intent(context, PasswordActivity.class);
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+                .getIntentSender();
+    }
 }

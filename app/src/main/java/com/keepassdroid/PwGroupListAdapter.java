@@ -79,7 +79,7 @@ public class PwGroupListAdapter extends BaseAdapter {
 			}
 		}
 		
-		boolean sortLists = prefs.getBoolean(mAct.getString(R.string.sort_key),	mAct.getResources().getBoolean(R.bool.sort_default)); 
+		boolean sortLists = prefs.getBoolean(mAct.getString(R.string.settings_sort_key),	mAct.getResources().getBoolean(R.bool.settings_sort_default));
 		if ( sortLists ) {
 			groupsForViewing = new ArrayList<PwGroup>(mGroup.childGroups);
 			

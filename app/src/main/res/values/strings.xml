@@ -135,6 +135,7 @@
     <string name="settings">Settings</string>
     <string name="menu_app_settings">Application settings</string>
     <string name="menu_db_settings">Database settings</string>
+    <string name="menu_autofill_settings">Autofill settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
@@ -202,6 +203,11 @@
     <string name="history">History</string>
     <string name="appearance">Appearance</string>
     <string name="general">General</string>
+    <string name="autofill">Autofill</string>
+    <string name="autofill_service_name">KeepassDX Autofill Service</string>
+    <string name="autofill_sign_in_prompt">Tap to sign in.</string>
+    <string name="set_autofill_service">Set default Autofill service</string>
+    <string name="invalid_link_association">Could not associate web domain %1$s with app %2$s</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

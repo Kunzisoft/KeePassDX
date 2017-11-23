@@ -57,7 +57,7 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_toolbar);
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar = findViewById(R.id.toolbar);
 		toolbar.setTitle(R.string.settings);
 		setSupportActionBar(toolbar);
 		assert getSupportActionBar() != null;

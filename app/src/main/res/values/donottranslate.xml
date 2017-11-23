@@ -32,31 +32,34 @@
     <integer name="default_password_length" translatable="false">8</integer>
     
     <!--  Preference settings -->
-    <string name="algorithm_key" translatable="false">algorithm</string>
-    <string name="app_key" translatable="false">app</string>
-    <string name="app_timeout_key" translatable="false">app_timeout_key</string>
-    <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
-    <string name="db_key" translatable="false">db</string>
-    <string name="rounds_key" translatable="false">rounds</string>
-    <string name="keyfile_key" translatable="false">keyfile</string>
-    <string name="maskpass_key" translatable="false">maskpass</string>
-    <string name="omitbackup_key" translatable="false">omitbackup</string>
-    <string name="recentfile_key" translatable="false">recentfile</string>
-    <string name="list_size_key" translatable="false">list_size</string>
-    <string name="show_beta_warning" translatable="false">show_beta_warning</string>
-    <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
-    <string name="sort_key" translatable="false">sort_key</string>
-    <string name="timeout_key" translatable="false">timeout_key</string>
-    <string name="saf_key" translatable="false">storage_access_framework_key</string>
-    <string name="setting_style_key" translatable="false">setting_style_key</string>
+    <string name="settings_app_key" translatable="false">settings_app_key</string>
+    <string name="settings_db_key" translatable="false">settings_db_key</string>
+    <string name="settings_autofill_key" translatable="false">settings_autofill_key</string>
+    <string name="settings_algorithm_key" translatable="false">algorithm</string>
+    <string name="settings_app_timeout_key" translatable="false">app_timeout_key</string>
+    <string name="settings_clipboard_timeout_key" translatable="false">clip_timeout_key</string>
+    <string name="settings_rounds_key" translatable="false">rounds</string>
+    <string name="settings_keyfile_key" translatable="false">keyfile</string>
+    <string name="settings_maskpass_key" translatable="false">maskpass</string>
+    <string name="settings_omitbackup_key" translatable="false">omitbackup</string>
+    <string name="settings_recentfile_key" translatable="false">recentfile</string>
+    <string name="settings_list_size_key" translatable="false">list_size</string>
+    <string name="settings_show_beta_warning" translatable="false">show_beta_warning</string>
+    <string name="settings_show_read_only_warning" translatable="false">show_read_only_warning</string>
+    <string name="settings_sort_key" translatable="false">sort_key</string>
+    <string name="settings_timeout_key" translatable="false">timeout_key</string>
+    <string name="settings_saf_key" translatable="false">storage_access_framework_key</string>
+    <string name="settings_style_key" translatable="false">settings_style_key</string>
+    <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
 
-    <bool name="maskpass_default" translatable="false">true</bool>
-    <bool name="keyfile_default" translatable="false">true</bool>
-    <bool name="sort_default" translatable="false">true</bool>
-    <bool name="omitbackup_default" translatable="false">true</bool>
-    <bool name="recentfile_default" translatable="false">true</bool>
-    <bool name="saf_default" translatable="false">false</bool>
-    
+    <bool name="settings_maskpass_default" translatable="false">true</bool>
+    <bool name="settings_keyfile_default" translatable="false">true</bool>
+    <bool name="settings_sort_default" translatable="false">true</bool>
+    <bool name="settings_omitbackup_default" translatable="false">true</bool>
+    <bool name="settings_recentfile_default" translatable="false">true</bool>
+    <bool name="settings_saf_default" translatable="false">false</bool>
+    <bool name="settings_autofill_enable_default" translatable="false">false</bool>
+
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">
     	<item translatable="false">30000</item>

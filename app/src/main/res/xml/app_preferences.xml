@@ -24,7 +24,7 @@
 		android:title="@string/general">
 
         <ListPreference
-            android:key="@string/clipboard_timeout_key"
+            android:key="@string/settings_clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
             android:summary="@string/clipboard_timeout_summary"
             android:entries="@array/clipboard_timeout_options"
@@ -32,7 +32,7 @@
             android:dialogTitle="@string/clipboard_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
         <ListPreference
-            android:key="@string/app_timeout_key"
+            android:key="@string/settings_app_timeout_key"
             android:title="@string/app_timeout"
             android:summary="@string/app_timeout_summary"
             android:entries="@array/clipboard_timeout_options"
@@ -40,20 +40,20 @@
             android:dialogTitle="@string/app_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
         <CheckBoxPreference
-            android:key="@string/maskpass_key"
+            android:key="@string/settings_maskpass_key"
             android:title="@string/maskpass_title"
             android:summary="@string/maskpass_summary"
-            android:defaultValue="@bool/maskpass_default"/>
+            android:defaultValue="@bool/settings_maskpass_default"/>
         <CheckBoxPreference
             android:summary="@string/omitbackup_summary"
-            android:defaultValue="@bool/omitbackup_default"
+            android:defaultValue="@bool/settings_omitbackup_default"
             android:title="@string/omitbackup_title"
-            android:key="@string/omitbackup_key"/>
+            android:key="@string/settings_omitbackup_key"/>
         <CheckBoxPreference
             android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/saf_default"
+            android:defaultValue="@bool/settings_saf_default"
             android:title="@string/use_saf_title"
-            android:key="@string/saf_key"/>
+            android:key="@string/settings_saf_key"/>
 
     </PreferenceCategory>
 
@@ -62,15 +62,15 @@
 
         <CheckBoxPreference
             android:summary="@string/recentfile_summary"
-            android:defaultValue="@bool/recentfile_default"
+            android:defaultValue="@bool/settings_recentfile_default"
             android:title="@string/recentfile_title"
-            android:key="@string/recentfile_key"/>
+            android:key="@string/settings_recentfile_key"/>
         <CheckBoxPreference
-            android:key="@string/keyfile_key"
+            android:key="@string/settings_keyfile_key"
             android:title="@string/remember_keyfile_title"
             android:summary="@string/remember_keyfile_summary"
-            android:dependency="@string/recentfile_key"
-            android:defaultValue="@bool/keyfile_default"/>
+            android:dependency="@string/settings_recentfile_key"
+            android:defaultValue="@bool/settings_keyfile_default"/>
 
     </PreferenceCategory>
 
@@ -80,12 +80,12 @@
         <ListPreference
             android:title="@string/style_choose_title"
             android:summary="@string/style_choose_summary"
-            android:key="@string/setting_style_key"
+            android:key="@string/settings_style_key"
             android:defaultValue="@string/list_style_name_light"
             android:entries="@array/list_style_names"
             android:entryValues="@array/list_style_values" />
         <ListPreference
-            android:key="@string/list_size_key"
+            android:key="@string/settings_list_size_key"
             android:title="@string/list_size_title"
             android:summary="@string/list_size_summary"
             android:entries="@array/list_size_options"

@@ -23,18 +23,27 @@
 	<PreferenceCategory
 		android:title="@string/application">
 		<Preference
-            android:key="@string/app_key"
+            android:key="@string/settings_app_key"
             android:title="@string/menu_app_settings"
-			android:icon="@drawable/ic_phone_android_white_24dp"
+			android:icon="@drawable/ic_phone_android_prefs_24dp"
             android:persistent="false" />
 	</PreferenceCategory>
 
 	<PreferenceCategory
 		android:title="@string/database">
 		<Preference
-            android:key="@string/db_key"
+            android:key="@string/settings_db_key"
             android:title="@string/menu_db_settings"
-            android:icon="@drawable/ic_data_usage_white_24dp"
+            android:icon="@drawable/ic_data_usage_prefs_24dp"
             android:persistent="false" />
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		android:title="@string/autofill">
+		<Preference
+			android:key="@string/settings_autofill_key"
+			android:title="@string/menu_autofill_settings"
+			android:icon="@drawable/ic_content_paste_prefs_24dp"
+			android:persistent="false" />
 	</PreferenceCategory>
 </PreferenceScreen>

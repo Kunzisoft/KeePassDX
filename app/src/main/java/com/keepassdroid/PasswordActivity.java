@@ -194,7 +194,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefsNoBackup = getSharedPreferences("nobackup", Context.MODE_PRIVATE);
 
-        mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
+        mRememberKeyfile = prefs.getBoolean(getString(R.string.settings_keyfile_key), getResources().getBoolean(R.bool.settings_keyfile_default));
         setContentView(R.layout.password);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

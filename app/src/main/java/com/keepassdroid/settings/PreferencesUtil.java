@@ -17,22 +17,18 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.dialog;
+package com.keepassdroid.settings;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.compat.BuildCompat;
 
-public class ReadOnlyDialog extends WarningDialog {
-	
-	public ReadOnlyDialog(Context context) {
-		super(context, R.string.settings_show_read_only_warning);
-		
-		warning = context.getString(R.string.read_only_warning);
-		
-		if (BuildCompat.getSdkVersion() >= BuildCompat.VERSION_KITKAT) {
-			warning = warning.concat("\n\n").concat(context.getString(R.string.read_only_kitkat_warning));
-		}
+public class PreferencesUtil {
+
+	public static float getListTextSize(Context ctx) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		return Float.parseFloat(prefs.getString(ctx.getString(R.string.settings_list_size_key), ctx.getString(R.string.list_size_default)));
 	}
 }

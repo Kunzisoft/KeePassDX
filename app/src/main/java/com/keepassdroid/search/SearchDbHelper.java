@@ -50,7 +50,7 @@ public class SearchDbHelper {
 	
 	private boolean omitBackup() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mCtx);
-		return prefs.getBoolean(mCtx.getString(R.string.omitbackup_key), mCtx.getResources().getBoolean(R.bool.omitbackup_default));
+		return prefs.getBoolean(mCtx.getString(R.string.settings_omitbackup_key), mCtx.getResources().getBoolean(R.bool.settings_omitbackup_default));
 		
 	}
 	

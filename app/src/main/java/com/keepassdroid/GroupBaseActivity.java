@@ -191,7 +191,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 
 		// Will be null if onPrepareOptionsMenu is called before onCreate
 		if (prefs != null) {
-			sortByName = prefs.getBoolean(getString(R.string.sort_key), getResources().getBoolean(R.bool.sort_default));
+			sortByName = prefs.getBoolean(getString(R.string.settings_sort_key), getResources().getBoolean(R.bool.settings_sort_default));
 		}
 		
 		int resId;
@@ -245,8 +245,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 	
 	private void toggleSort() {
 		// Toggle setting
-		String sortKey = getString(R.string.sort_key);
-		boolean sortByName = prefs.getBoolean(sortKey, getResources().getBoolean(R.bool.sort_default));
+		String sortKey = getString(R.string.settings_sort_key);
+		boolean sortByName = prefs.getBoolean(sortKey, getResources().getBoolean(R.bool.settings_sort_default));
 		Editor editor = prefs.edit();
 		editor.putBoolean(sortKey, ! sortByName);
 		EditorCompat.apply(editor);

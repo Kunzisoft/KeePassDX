@@ -14,7 +14,7 @@ public class Stylish {
     private static String themeString;
 
     public static void init(Context context) {
-        stylishPrefKey = context.getString(R.string.setting_style_key);
+        stylishPrefKey = context.getString(R.string.settings_style_key);
         Log.d(Stylish.class.getName(), "Attatching to " + context.getPackageName());
         themeString = PreferenceManager.getDefaultSharedPreferences(context).getString(stylishPrefKey, context.getString(R.string.list_style_name_light));
     }

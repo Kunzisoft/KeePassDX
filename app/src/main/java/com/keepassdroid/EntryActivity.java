@@ -124,7 +124,7 @@ public class EntryActivity extends LockCloseHideActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
+		mShowPassword = ! prefs.getBoolean(getString(R.string.settings_maskpass_key), getResources().getBoolean(R.bool.settings_maskpass_default));
 		
 		super.onCreate(savedInstanceState);
 		setEntryView();
@@ -428,7 +428,7 @@ public class EntryActivity extends LockCloseHideActivity {
 		}
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String sClipClear = prefs.getString(getString(R.string.clipboard_timeout_key), getString(R.string.clipboard_timeout_default));
+		String sClipClear = prefs.getString(getString(R.string.settings_clipboard_timeout_key), getString(R.string.clipboard_timeout_default));
 		
 		long clipClearTime = Long.parseLong(sClipClear);
 		

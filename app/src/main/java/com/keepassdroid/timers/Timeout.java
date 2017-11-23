@@ -28,7 +28,7 @@ public class Timeout {
 
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		String sTimeout = prefs.getString(ctx.getString(R.string.app_timeout_key), ctx.getString(R.string.clipboard_timeout_default));
+		String sTimeout = prefs.getString(ctx.getString(R.string.settings_app_timeout_key), ctx.getString(R.string.clipboard_timeout_default));
 		
 		long timeout;
 		try {

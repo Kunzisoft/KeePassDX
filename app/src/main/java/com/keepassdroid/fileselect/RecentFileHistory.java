@@ -51,14 +51,14 @@ public class RecentFileHistory {
         ctx = c.getApplicationContext();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        enabled = prefs.getBoolean(ctx.getString(R.string.recentfile_key), ctx.getResources().getBoolean(R.bool.recentfile_default));
+        enabled = prefs.getBoolean(ctx.getString(R.string.settings_recentfile_key), ctx.getResources().getBoolean(R.bool.settings_recentfile_default));
         listner = new OnSharedPreferenceChangeListener() {
 
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                     String key) {
-                if (key.equals(ctx.getString(R.string.recentfile_key))) {
-                    enabled = sharedPreferences.getBoolean(ctx.getString(R.string.recentfile_key), ctx.getResources().getBoolean(R.bool.recentfile_default));
+                if (key.equals(ctx.getString(R.string.settings_recentfile_key))) {
+                    enabled = sharedPreferences.getBoolean(ctx.getString(R.string.settings_recentfile_key), ctx.getResources().getBoolean(R.bool.settings_recentfile_default));
                 }
             }
         };

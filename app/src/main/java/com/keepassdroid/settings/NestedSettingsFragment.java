@@ -55,47 +55,38 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
             case NESTED_SCREEN_APP_KEY:
                 setPreferencesFromResource(R.xml.app_preferences, rootKey);
 
-                Preference keyFile = findPreference(getString(R.string.keyfile_key));
-                keyFile.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                Preference keyFile = findPreference(getString(R.string.settings_keyfile_key));
+                keyFile.setOnPreferenceChangeListener((preference, newValue) -> {
+                    Boolean value = (Boolean) newValue;
 
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        Boolean value = (Boolean) newValue;
-
-                        if (!value) {
-                            App.getFileHistory().deleteAllKeys();
-                        }
-
-                        return true;
+                    if (!value) {
+                        App.getFileHistory().deleteAllKeys();
                     }
+
+                    return true;
                 });
 
-                Preference recentHistory = findPreference(getString(R.string.recentfile_key));
-                recentHistory.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                Preference recentHistory = findPreference(getString(R.string.settings_recentfile_key));
+                recentHistory.setOnPreferenceChangeListener((preference, newValue) -> {
+                    Boolean value = (Boolean) newValue;
 
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        Boolean value = (Boolean) newValue;
-
-                        if (value == null) {
-                            value = true;
-                        }
-
-                        if (!value) {
-                            App.getFileHistory().deleteAll();
-                        }
-
-                        return true;
+                    if (value == null) {
+                        value = true;
                     }
+
+                    if (!value) {
+                        App.getFileHistory().deleteAll();
+                    }
+
+                    return true;
                 });
 
-                Preference stylePreference = findPreference(getString(R.string.setting_style_key));
-                stylePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                    @Override
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        String styleString = (String) newValue;
-                        Stylish.assignStyle(getActivity(), styleString);
-                        getActivity().recreate();
-                        return true;
-                    }
+                Preference stylePreference = findPreference(getString(R.string.settings_style_key));
+                stylePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String styleString = (String) newValue;
+                    Stylish.assignStyle(getActivity(), styleString);
+                    getActivity().recreate();
+                    return true;
                 });
 
                 break;
@@ -106,18 +97,15 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                 Database db = App.getDB();
                 if (db.Loaded() && db.pm.appSettingsEnabled()) {
 
-                    Preference rounds = findPreference(getString(R.string.rounds_key));
-                    rounds.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            setRounds(App.getDB(), preference);
-                            return true;
-                        }
+                    Preference rounds = findPreference(getString(R.string.settings_rounds_key));
+                    rounds.setOnPreferenceChangeListener((preference, newValue) -> {
+                        setRounds(App.getDB(), preference);
+                        return true;
                     });
 
                     setRounds(db, rounds);
 
-                    Preference algorithm = findPreference(getString(R.string.algorithm_key));
+                    Preference algorithm = findPreference(getString(R.string.settings_algorithm_key));
                     setAlgorithm(db, algorithm);
 
                 } else {

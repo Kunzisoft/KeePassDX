@@ -24,11 +24,11 @@
 		android:title="@string/general">
 
 		<Preference
-			android:key="@string/algorithm_key"
+			android:key="@string/settings_algorithm_key"
 			android:title="@string/algorithm"
 			android:enabled="false"/>
 		<com.keepassdroid.settings.RoundsPreference
-			android:key="@string/rounds_key"
+			android:key="@string/settings_rounds_key"
 			android:persistent="false"
 			android:title="@string/rounds"
 			android:dialogLayout="@layout/database_settings"

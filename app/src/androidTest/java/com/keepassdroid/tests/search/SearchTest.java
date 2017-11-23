@@ -66,7 +66,7 @@ public class SearchTest extends AndroidTestCase {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		SharedPreferences.Editor editor = prefs.edit();
 		
-		editor.putBoolean(ctx.getString(R.string.omitbackup_key), setting);
+		editor.putBoolean(ctx.getString(R.string.settings_omitbackup_key), setting);
 		editor.commit();
 		
 	}

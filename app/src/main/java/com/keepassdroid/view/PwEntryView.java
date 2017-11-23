@@ -36,7 +36,7 @@ import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.edit.DeleteEntry;
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 
 public class PwEntryView extends ClickView {
 
@@ -58,7 +58,7 @@ public class PwEntryView extends ClickView {
 		
 		View ev = View.inflate(mAct, R.layout.list_entries_entry, null);
 		mTv = (TextView) ev.findViewById(R.id.entry_text);
-		mTv.setTextSize(PrefsUtil.getListTextSize(act));
+		mTv.setTextSize(PreferencesUtil.getListTextSize(act));
 		
 		populateView(ev, pw, pos);
 		
