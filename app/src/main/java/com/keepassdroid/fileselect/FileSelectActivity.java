@@ -91,11 +91,17 @@ public class FileSelectActivity extends StylishActivity {
 	private RecentFileHistory fileHistory;
 
 	private boolean recentMode = false;
+	private boolean autofillResponse = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
+		if(getIntent().getExtras() != null) {
+            autofillResponse = getIntent().getExtras().
+                    getBoolean(PasswordActivity.KEY_AUTOFILL_RESPONSE, autofillResponse);
+        }
+
 		fileHistory = App.getFileHistory();
 
 		if (fileHistory.hasRecentFiles()) {
@@ -129,7 +135,7 @@ public class FileSelectActivity extends StylishActivity {
 						R.id.file_filename);
 
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this, fileName);
+					PasswordActivity.Launch(FileSelectActivity.this, fileName, autofillResponse);
 				}
 				catch (ContentFileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
@@ -286,7 +292,7 @@ public class FileSelectActivity extends StylishActivity {
 
 				if (db.exists()) {
 					try {
-						PasswordActivity.Launch(FileSelectActivity.this, path);
+						PasswordActivity.Launch(FileSelectActivity.this, path, autofillResponse);
 					} catch (Exception e) {
 						// Ignore exception
 					}
@@ -294,7 +300,7 @@ public class FileSelectActivity extends StylishActivity {
 			}
 			else {
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this, dbUri.toString());
+					PasswordActivity.Launch(FileSelectActivity.this, dbUri.toString(), autofillResponse);
 				} catch (Exception e) {
 					// Ignore exception
 				}
@@ -359,7 +365,7 @@ public class FileSelectActivity extends StylishActivity {
 			
 			protected void onPostExecute(Void v) {
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this, fileName, keyFile);
+					PasswordActivity.Launch(FileSelectActivity.this, fileName, keyFile, autofillResponse);
 				}
 				catch (ContentFileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this, R.string.file_not_found_content, Toast.LENGTH_LONG)

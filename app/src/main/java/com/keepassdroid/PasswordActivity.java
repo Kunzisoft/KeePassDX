@@ -20,11 +20,13 @@
 package com.keepassdroid;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -37,6 +39,7 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,8 +50,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.ClipDataCompat;
@@ -65,6 +66,8 @@ import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,6 +80,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private static final String KEY_FILENAME = "fileName";
     private static final String KEY_KEYFILE = "keyFile";
     private static final String KEY_PASSWORD = "password";
+    public static final String KEY_AUTOFILL_RESPONSE = "KEY_AUTOFILL_RESPONSE";
     private static final String KEY_LAUNCH_IMMEDIATELY = "launchImmediately";
     private static final String VIEW_INTENT = "android.intent.action.VIEW";
 
@@ -101,16 +105,20 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private EditText passwordView;
     private Button confirmButton;
 
+    private Intent mReplyIntent;
+
     public static void Launch(
             Activity act,
-            String fileName) throws FileNotFoundException {
-        Launch(act, fileName, "");
+            String fileName,
+            boolean autoFillResponse) throws FileNotFoundException {
+        Launch(act, fileName, "", autoFillResponse);
     }
 
     public static void Launch(
             Activity act,
             String fileName,
-            String keyFile) throws FileNotFoundException {
+            String keyFile,
+            boolean autoFillResponse) throws FileNotFoundException {
         if (EmptyUtils.isNullOrEmpty(fileName)) {
             throw new FileNotFoundException();
         }
@@ -128,8 +136,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         Intent i = new Intent(act, PasswordActivity.class);
         i.putExtra(KEY_FILENAME, fileName);
         i.putExtra(KEY_KEYFILE, keyFile);
+        i.putExtra(KEY_AUTOFILL_RESPONSE, autoFillResponse);
 
         act.startActivityForResult(i, 0);
+
+        if(autoFillResponse)
+            act.finish();
 
     }
 
@@ -391,9 +403,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         else if (!fingerPrintHelper.hasEnrolledFingerprints()) {
 
             setFingerPrintVisibility(View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                fingerprintView.setAlpha(0.3f);
-            }
+            fingerprintView.setAlpha(0.3f);
             // This happens when no fingerprints are registered. Listening won't start
             confirmationView.setText(R.string.configure_fingerprint);
         }
@@ -401,9 +411,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         else {
             fingerprintMustBeConfigured = false;
             setFingerPrintVisibility(View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                fingerprintView.setAlpha(1f);
-            }
+            fingerprintView.setAlpha(1f);
             // fingerprint available but no stored password found yet for this DB so show info don't listen
             if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
                 confirmationView.setText(R.string.no_password_stored);
@@ -510,7 +518,17 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         App.clearShutdown();
 
         Handler handler = new Handler();
-        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, new AfterLoad(handler, db));
+        AfterLoad afterLoad;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                && getIntent().getExtras() != null
+                && getIntent().getExtras().containsKey(KEY_AUTOFILL_RESPONSE)
+                && getIntent().getBooleanExtra(KEY_AUTOFILL_RESPONSE, false)) {
+            afterLoad = new AfterLoadAutofill(handler, db);
+        } else {
+            afterLoad = new AfterLoad(handler, db);
+        }
+
+        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, afterLoad);
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
         pt.run();
     }
@@ -550,9 +568,9 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         return super.onOptionsItemSelected(item);
     }
 
-    private final class AfterLoad extends OnFinish {
+    private class AfterLoad extends OnFinish {
 
-        private Database db;
+        protected Database db;
 
         public AfterLoad(
                 Handler handler,
@@ -581,6 +599,24 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             } else {
                 displayMessage(PasswordActivity.this);
             }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private class AfterLoadAutofill extends AfterLoad {
+
+        public AfterLoadAutofill(Handler handler, Database db) {
+            super(handler, db);
+        }
+
+        @Override
+        public void run() {
+            if (mSuccess) {
+                onAutofillResponseSuccess();
+            } else {
+                onAutofillResponseFailure();
+            }
+            finish();
         }
     }
 
@@ -724,5 +760,52 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 loadDatabase(password, mKeyUri);
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static IntentSender getAuthIntentSenderForResponse(Context context) {
+        final Intent intent = new Intent(context, AutoFillAuthActivity.class);
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+                .getIntentSender();
+    }
+
+
+    @Override
+    public void finish() {
+        if (mReplyIntent != null) {
+            setResult(RESULT_OK, mReplyIntent);
+        } else {
+            setResult(RESULT_CANCELED);
+        }
+        super.finish();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void onAutofillResponseFailure() {
+        Log.w(getClass().getName(), "Failed Autofill auth.");
+        mReplyIntent = null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void onAutofillResponseSuccess() {
+        /*
+        Intent intent = getIntent();
+        Bundle clientState = intent.getBundleExtra(AutofillManager.EXTRA_CLIENT_STATE);
+        AssistStructure structure = intent.getParcelableExtra(EXTRA_ASSIST_STRUCTURE);
+        StructureParser parser = new StructureParser(getApplicationContext(), structure);
+        parser.parseForFill();
+        AutofillFieldMetadataCollection autofillFields = parser.getAutofillFields();
+        */
+        mReplyIntent = new Intent();
+        /*
+        HashMap<String, FilledAutofillFieldCollection> clientFormDataMap =
+                SharedPrefsAutofillRepository.getInstance().getFilledAutofillFieldCollection
+                        (this, autofillFields.getFocusedHints(), autofillFields.getAllHints());
+
+        // TODO Add success results
+        mReplyIntent.putExtra(EXTRA_AUTHENTICATION_RESULT, AutofillHelper.newResponse
+                (this, clientState, false, autofillFields, clientFormDataMap));
+        */
+        mReplyIntent.putExtra(android.view.autofill.AutofillManager.EXTRA_AUTHENTICATION_RESULT, "");
     }
 }

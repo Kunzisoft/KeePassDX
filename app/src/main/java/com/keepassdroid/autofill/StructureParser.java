@@ -33,14 +33,14 @@ import com.kunzisoft.keepass.R;
  * parses the hierarchy and collects autofill metadata from {@link ViewNode}s along the way.
  */
 @RequiresApi(api = Build.VERSION_CODES.O)
-final class StructureParser {
+final public class StructureParser {
     private final AutofillFieldMetadataCollection mAutofillFields =
             new AutofillFieldMetadataCollection();
     private final Context mContext;
     private final AssistStructure mStructure;
     private FilledAutofillFieldCollection mFilledAutofillFieldCollection;
 
-    StructureParser(Context context, AssistStructure structure) {
+    public StructureParser(Context context, AssistStructure structure) {
         mContext = context;
         mStructure = structure;
     }

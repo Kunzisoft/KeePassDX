@@ -15,6 +15,8 @@
  */
 package com.keepassdroid.autofill;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.autofill.AutofillId;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.List;
  * Data structure that stores a collection of {@code AutofillFieldMetadata}s. Contains all of the
  * client's {@code View} hierarchy autofill-relevant metadata.
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public final class AutofillFieldMetadataCollection {
 
     private final List<AutofillId> mAutofillIds = new ArrayList<>();

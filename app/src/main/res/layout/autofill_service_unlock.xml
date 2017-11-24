@@ -24,7 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:text="@string/autofill_sign_in_prompt"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:layout_gravity="center"
         android:paddingRight="12dp"
         android:paddingEnd="12dp"
         android:paddingLeft="12dp"
@@ -33,11 +35,10 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="center"
         android:layout_marginRight="12dp"
         android:layout_marginEnd="12dp"
-        android:src="@drawable/ic_lock_white_24dp"
-        android:tint="?attr/colorPrimary"/>
+        android:src="@mipmap/ic_launcher"/>
 </LinearLayout>

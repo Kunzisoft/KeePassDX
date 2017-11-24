@@ -22,7 +22,6 @@ package com.keepassdroid.autofill;
 import android.app.assist.AssistStructure;
 import android.content.IntentSender;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.service.autofill.AutofillService;
 import android.service.autofill.FillCallback;
@@ -51,8 +50,6 @@ public class KeeAutofillService extends AutofillService {
         AssistStructure structure = request.getFillContexts()
                 .get(request.getFillContexts().size() - 1).getStructure();
 
-        final Bundle clientState = request.getClientState();
-
         cancellationSignal.setOnCancelListener(() ->
                 Log.e(TAG, "Cancel autofill not implemented in this sample.")
         );
@@ -77,11 +74,8 @@ public class KeeAutofillService extends AutofillService {
             // If the entire Autofill Response is authenticated, AuthActivity is used
             // to generate Response.
             IntentSender sender = AutoFillAuthActivity.getAuthIntentSenderForResponse(this);
-
             RemoteViews presentation =
                     new RemoteViews(getPackageName(), R.layout.autofill_service_unlock);
-            presentation.setTextViewText(R.id.text, getString(R.string.autofill_sign_in_prompt));
-
             responseBuilder
                     .setAuthentication(autofillIds, sender, presentation);
             callback.onSuccess(responseBuilder.build());

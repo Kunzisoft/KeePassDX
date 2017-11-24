@@ -23,12 +23,26 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
-public class AutoFillAuthActivity extends PasswordActivity {
+import com.keepassdroid.fileselect.FileSelectActivity;
+import com.kunzisoft.keepass.KeePass;
+
+import static com.keepassdroid.PasswordActivity.KEY_AUTOFILL_RESPONSE;
+
+@RequiresApi(api = Build.VERSION_CODES.O)
+public class AutoFillAuthActivity extends KeePass {
 
     public static IntentSender getAuthIntentSenderForResponse(Context context) {
-        final Intent intent = new Intent(context, PasswordActivity.class);
+        final Intent intent = new Intent(context, AutoFillAuthActivity.class);
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
                 .getIntentSender();
+    }
+
+    protected void startFileSelectActivity() {
+        Intent intent = new Intent(this, FileSelectActivity.class);
+        intent.putExtra(KEY_AUTOFILL_RESPONSE, true);
+        startActivityForResult(intent, 0);
     }
 }
