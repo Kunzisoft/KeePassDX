@@ -82,7 +82,6 @@ public class PwDbV4Output extends PwDbOutput {
 
 	PwDatabaseV4 mPM;
 	private StreamCipher randomStream;
-	private BinaryPool binPool;
 	private XmlSerializer xml;
 	private PwDbHeaderV4 header;
 	private byte[] hashOfHeader;
@@ -201,8 +200,7 @@ public class PwDbV4Output extends PwDbOutput {
 	}
 	
 	private void outputDatabase(OutputStream os) throws IllegalArgumentException, IllegalStateException, IOException {
-		binPool = new BinaryPool((PwGroupV4)mPM.rootGroup);
-		
+
 		xml = Xml.newSerializer();
 		
 		xml.setOutput(os, "UTF-8");
@@ -420,7 +418,7 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.startTag(null, ElemValue);
 		String strRef = null;
 		if (allowRef) {
-			int ref = binPool.poolFind(value);
+			int ref = mPM.binPool.poolFind(value);
 			strRef = Integer.toString(ref);
 		}
 		
@@ -720,7 +718,7 @@ public class PwDbV4Output extends PwDbOutput {
 	private void writeBinPool() throws IllegalArgumentException, IllegalStateException, IOException {
 		xml.startTag(null, ElemBinaries);
 		
-		for (Entry<Integer, ProtectedBinary> pair : binPool.entrySet()) {
+		for (Entry<Integer, ProtectedBinary> pair : mPM.binPool.entrySet()) {
 			xml.startTag(null, ElemBinary);
 			xml.attribute(null, AttrId, Integer.toString(pair.getKey()));
 			

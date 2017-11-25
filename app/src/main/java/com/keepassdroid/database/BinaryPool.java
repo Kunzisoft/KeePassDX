@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.database;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -49,6 +50,14 @@ public class BinaryPool {
 	public Set<Entry<Integer, ProtectedBinary>> entrySet() {
 		return pool.entrySet();
 	}
+
+	public void clear() {
+		pool.clear();
+	}
+
+	public Collection<ProtectedBinary> binaries() {
+		return pool.values();
+	}
 	
 	private class AddBinaries extends EntryHandler<PwEntryV4> {
 
@@ -72,7 +81,7 @@ public class BinaryPool {
 		
 	}
 	
-	private void poolAdd(ProtectedBinary pb) {
+	public void poolAdd(ProtectedBinary pb) {
 		assert(pb != null);
 		
 		if (poolFind(pb) != -1) return;

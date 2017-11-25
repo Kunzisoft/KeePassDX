@@ -104,7 +104,8 @@ public class PwDatabaseV4 extends PwDatabase {
     public Map<String, String> customData = new HashMap<String, String>();
 	public KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
 	public VariantDictionary publicCustomData = new VariantDictionary();
-    
+	public BinaryPool binPool = new BinaryPool();
+
     public String localizedAppName = "KeePassDroid";
     
     public class MemoryProtectionConfig {

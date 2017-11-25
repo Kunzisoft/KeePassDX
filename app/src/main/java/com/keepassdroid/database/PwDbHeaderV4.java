@@ -95,7 +95,6 @@ public class PwDbHeaderV4 extends PwDbHeader {
     public byte[] streamStartBytes = new byte[32];
     public CrsAlgorithm innerRandomStream;
 	public long version;
-	public List<ProtectedBinary> binaries = new ArrayList<ProtectedBinary>();
 
     public PwDbHeaderV4(PwDatabaseV4 d) {
     	db = d;
