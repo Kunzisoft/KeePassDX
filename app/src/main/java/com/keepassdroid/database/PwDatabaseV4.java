@@ -73,6 +73,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	public UUID dataCipher = AesEngine.CIPHER_UUID;
 	public CipherEngine dataEngine = new AesEngine();
 	public PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
+	// TODO: Refactor me away to get directly from kdfParameters
     public long numKeyEncRounds = 6000;
     public Date nameChanged = DEFAULT_NOW;
     public Date settingsChanged = DEFAULT_NOW;

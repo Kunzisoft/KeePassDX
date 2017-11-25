@@ -194,7 +194,9 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				if (!db.kdfParameters.kdfUUID.equals(kdfR.uuid)) {
 					db.kdfParameters = kdfR.getDefaultParameters();
 				}
-				db.kdfParameters.setUInt64(AesKdf.ParamRounds, LEDataInputStream.readLong(fieldData, 0));
+				long rounds = LEDataInputStream.readLong(fieldData, 0);
+				db.kdfParameters.setUInt64(AesKdf.ParamRounds, rounds);
+				db.numKeyEncRounds = rounds;
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:
