@@ -34,7 +34,8 @@ Even if the application is free, to maintain the application, you can make donat
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen4.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen5.jpg" width="220">
 
-## Download
+## Download
+
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/)
