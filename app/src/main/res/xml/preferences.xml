@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2016 Brian Pellin.
+ Copyright 2009-2017 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -89,5 +89,10 @@
 			android:defaultValue="@bool/saf_default"
 			android:title="@string/use_saf_title"
 			android:key="@string/saf_key"/>
+		<com.keepassdroid.settings.LongEditTextPreference
+			android:key="@string/roundsFix_key"
+			android:summary="@string/rounds_fix_explaination"
+			android:numeric="integer"
+			android:title="@string/rounds_fix"/>
 	</PreferenceScreen>
 </PreferenceScreen>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2016 Brian Pellin.
+ Copyright 2009-2017 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -41,6 +41,7 @@
     <string name="clipboard_timeout_key">clip_timeout_key</string>
     <string name="db_key">db</string>
     <string name="rounds_key">rounds</string>
+    <string name="roundsFix_key">roundsFix</string>
     <string name="keyfile_key">keyfile</string>
     <string name="maskpass_key">maskpass</string>
     <string name="omitbackup_key">omitbackup</string>    
@@ -51,6 +52,7 @@
     <string name="sort_key">sort_key</string>
     <string name="timeout_key">timeout_key</string>
     <string name="saf_key">storage_access_framework_key</string>
+    <integer name="roundsFix_default">100000</integer>
     <bool name="maskpass_default">true</bool>
     <bool name="keyfile_default">true</bool>
     <bool name="sort_default">true</bool>

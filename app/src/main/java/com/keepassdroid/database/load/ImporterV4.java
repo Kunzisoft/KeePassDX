@@ -98,14 +98,13 @@ public class ImporterV4 extends Importer {
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
 			InputStream keyInputStream) throws IOException, InvalidDBException {
 
-		return openDatabase(inStream, password, keyInputStream, new UpdateStatus());
+		return openDatabase(inStream, password, keyInputStream, new UpdateStatus(), 0);
 	}
 	
 	@Override
-	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-			InputStream keyInputStream, UpdateStatus status) throws IOException,
-			InvalidDBException {
-
+    public PwDatabaseV4 openDatabase(InputStream inStream, String password,
+            InputStream keyInputStream, UpdateStatus status, long roundsFix) throws IOException,
+            InvalidDBException {
 		db = createDB();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
@@ -118,7 +117,7 @@ public class ImporterV4 extends Importer {
 		pbHeader = hh.header;
 			
 		db.setMasterKey(password, keyInputStream);
-		db.makeFinalKey(header.masterSeed, db.kdfParameters);
+		db.makeFinalKey(header.masterSeed, db.kdfParameters, roundsFix);
 
 		CipherEngine engine;
 		Cipher cipher;

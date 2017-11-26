@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2016 Brian Pellin.
+ * Copyright 2009-2017 Brian Pellin.
  *     
  * This file is part of KeePassDroid.
  *
@@ -33,7 +33,7 @@ public abstract class Importer {
 	public abstract PwDatabase openDatabase( InputStream inStream, String password, InputStream keyInputStream)
 		throws IOException, InvalidDBException;
 
-	public abstract PwDatabase openDatabase( InputStream inStream, String password, InputStream keyInputStream, UpdateStatus status )
+	public abstract PwDatabase openDatabase( InputStream inStream, String password, InputStream keyInputStream, UpdateStatus status, long roundsFix)
 		throws IOException, InvalidDBException;
 
 

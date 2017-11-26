@@ -177,13 +177,24 @@ public class PwDatabaseV4 extends PwDatabase {
 			Arrays.fill(cmpKey, (byte)0);
 		}
 	}
-
 	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP) throws IOException {
+    	makeFinalKey(masterSeed, kdfP, 0);
+	}
+
+	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP, long roundsFix)
+			throws IOException {
 
 		KdfEngine kdfEngine = KdfFactory.get(kdfP.kdfUUID);
 		if (kdfEngine == null) {
 			throw new IOException("Unknown key derivation function");
 		}
+
+		// Set to 6000 rounds to open corrupted database
+		if (roundsFix > 0 && kdfP.kdfUUID.equals(AesKdf.CIPHER_UUID)) {
+			kdfP.setUInt32(AesKdf.ParamRounds, roundsFix);
+			numKeyEncRounds = roundsFix;
+		}
+
 		byte[] transformedMasterKey = kdfEngine.transform(masterKey, kdfP);
 		if (transformedMasterKey.length != 32) {
 			transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey);
