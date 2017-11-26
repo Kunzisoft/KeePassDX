@@ -27,12 +27,21 @@ Yes, KeePass is really free, and more than that: it is open source (OSI certifie
 
 Even if the application is free, to maintain the application, you can make donations.
 
-[![Donation Paypal](https://4.bp.blogspot.com/-ncaIbUGaHOk/WfhaThYUPGI/AAAAAAAAAVQ/_HidNgdB1q4DaC24ujaKNzH64KUUJiQewCLcBGAs/s1600/pay-with-paypal.png "")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU "Kunzisoft Paypal Donation")
+[![Donation Paypal](https://4.bp.blogspot.com/-ncaIbUGaHOk/WfhaThYUPGI/AAAAAAAAAVQ/_HidNgdB1q4DaC24ujaKNzH64KUUJiQewCLcBGAs/s1600/pay-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU "Kunzisoft Paypal Donation")
 
-[![Donation Liberapay](https://liberapay.com/assets/widgets/donate.svg "")](https://liberapay.com/Kunzisoft/donate "Kunzisoft Liberapay Donation")
+[![Donation Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Kunzisoft/donate "Kunzisoft Liberapay Donation")
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen4.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen5.jpg" width="220">
+
+## Download
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/)
+
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+      alt="Get it on Google Play"
+	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
 
 ### JNI
 
