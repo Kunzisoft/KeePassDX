@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2015 Brian Pellin.
+ Copyright 2009-2017 Brian Pellin.
      
  This file is part of KeePassDroid.
 
@@ -55,7 +55,7 @@
     <string name="decrypting_entry">Расшифровка записи…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
-    <string name="disclaimer_formal">"KeePassDroid © 2009–2013
+    <string name="disclaimer_formal">"KeePassDroid © 2009–2017
 Разработчик Brian Pellin
 
 Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее"</string>
@@ -171,6 +171,8 @@
     <string name="root">База</string>
     <string name="rounds">Проходы шифрования</string>
     <string name="rounds_explaination">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
+    <string name="rounds_fix">Проходы до поломки базы</string>
+    <string name="rounds_fix_explaination">Если база была повреждена в KeePassDroid 2.2.0.0–2.2.0.6, введите ранее используемое количество проходов шифрования, чтобы открыть её</string>
     <string name="rounds_hint">проходы</string>
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>
