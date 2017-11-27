@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2009-2015 Brian Pellin.
+Copyright 2009-2017 Brian Pellin.
 This file is part of KeePassDroid.
 
 KeePassDroid is free software: you can redistribute it and/or modify
@@ -136,10 +136,14 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Brak obsługi dla tego urla.</string>
     <string name="open_recent">Otwórz ostatnio używaną bazę danych (kliknij by otworzyć):</string>
+    <string name="omitbackup_title">Nie wyszukuj zapasowych wpisów</string>
+    <string name="omitbackup_summary">Pomiń kopię zapasową grupy z wyników wyszukiwania (dotyczy tylko .kdb)</string>
     <string name="pass_filename">Nazwa pliku bazy danych KeePass:</string>
     <string name="password_title">Wprowadź hasło bazy danych</string>
     <string name="progress_create">Tworzenie nowej bazy danych&#8230;</string>
     <string name="progress_title">Pracuję&#8230;</string>
+    <string name="recentfile_title">Najnowsza historia plików</string>
+    <string name="recentfile_summary">Zapamiętaj ostatnio uzywane nazwy plików</string>
     <string name="remember_keyfile_summary">Zapamiętaj lokację plików kluczy</string>
     <string name="remember_keyfile_title">Zapisz plik klucza</string>
     <string name="remove_from_filelist">Usuń</string>
@@ -147,6 +151,8 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="root">Root</string>
     <string name="rounds">Złożoność szyfrowania</string>
     <string name="rounds_explaination">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
+    <string name="rounds_fix">Kluczowe rundy szyfrowania przed zniszczeniem</string>
+    <string name="rounds_fix_explaination">Jeśli twoja baza danych została uszkodzona przez KeePassDroid w wersji 2.2.0.0 do 2.2.0.6, wprowadź liczbę rund użytych poprzednio, a to pozwoli ci otworzyć twoją bazę danych.</string>
     <string name="rounds_hint">złożoność</string>
     <string name="saving_database">Zapisywanie bazy danych&#8230;</string>
     <string name="space">Spacja</string>
@@ -160,6 +166,8 @@ along with KeePassDroid. If not, see <http://www.gnu.org/licenses/>.
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
+    <string name="use_saf_summary">Użyj przeglądarki Android Storage Access Framework do przeglądania plików (KitKat i nowsze)</string>
+    <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning_read_only">Karta SD jest obecnie w trybie tylko do odczytu. Możesz nie być w stanie zapisać zmian w bazie danych.</string>
     <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
     
