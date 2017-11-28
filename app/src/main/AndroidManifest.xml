@@ -41,7 +41,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="file" />
-                <data android:mimeType="*/*" />
+                <data android:scheme="content" />
+                <data android:mimeType="application/octet-stream" />
                 <data android:host="*" />
                 <data android:pathPattern=".*\\.kdb" />
                 <data android:pathPattern=".*\\..*\\.kdb" />
@@ -66,14 +67,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden">
-            <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
-            <!-- whenever the user invokes search while in this Activity. -->
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults" />
         </activity>
         <activity android:name="com.keepassdroid.GroupActivityV4" android:configChanges="orientation|keyboardHidden">
-            <!-- This metadata entry causes .app.SearchQueryResults to be the default context -->
-            <!-- whenever the user invokes search while in this Activity. -->
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults"
                        android:exported="false" />
