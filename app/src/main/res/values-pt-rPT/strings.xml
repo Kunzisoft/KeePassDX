@@ -109,7 +109,7 @@
     <string name="hint_keyfile">ficheiro chave</string>
     <string name="hint_length">comprimento</string>
     <string name="hint_pass">palavra-passe</string>
-    <string name="hint_login_pass">Palavra-passe</string>
+    <string name="password">Palavra-passe</string>
     <string name="hint_title">nome</string>
     <string name="hint_url">url</string>
     <string name="hint_username">nome de utilizador</string>

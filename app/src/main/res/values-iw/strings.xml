@@ -103,7 +103,7 @@
   <string name="hint_keyfile">קובץ המפתח</string>
   <string name="hint_length">אורך</string>
   <string name="hint_pass">סיסמה</string>
-  <string name="hint_login_pass">סיסמה</string>
+  <string name="password">סיסמה</string>
   <string name="hint_title">שם</string>
   <string name="hint_username">שם משתמש</string>
   <string name="install_from_market">התקן מחנות Play</string>

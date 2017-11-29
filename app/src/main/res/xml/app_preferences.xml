@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<PreferenceCategory
 		android:title="@string/general">
@@ -40,11 +40,6 @@
             android:dialogTitle="@string/app_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
         <CheckBoxPreference
-            android:key="@string/maskpass_key"
-            android:title="@string/maskpass_title"
-            android:summary="@string/maskpass_summary"
-            android:defaultValue="@bool/maskpass_default"/>
-        <CheckBoxPreference
             android:summary="@string/omitbackup_summary"
             android:defaultValue="@bool/omitbackup_default"
             android:title="@string/omitbackup_title"
@@ -54,6 +49,25 @@
             android:defaultValue="@bool/saf_default"
             android:title="@string/use_saf_title"
             android:key="@string/saf_key"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/password">
+
+        <SeekBarPreference
+            android:key="@string/password_length_key"
+            android:title="@string/password_size_title"
+            android:summary="@string/password_size_summary"
+            android:defaultValue="@string/default_password_length"
+            app:min="@string/min_password_length"
+            android:max="@string/max_password_length" />
+
+        <CheckBoxPreference
+            android:key="@string/maskpass_key"
+            android:title="@string/maskpass_title"
+            android:summary="@string/maskpass_summary"
+            android:defaultValue="@bool/maskpass_default"/>
 
     </PreferenceCategory>
 

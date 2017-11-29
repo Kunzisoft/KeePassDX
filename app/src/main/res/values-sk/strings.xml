@@ -95,7 +95,7 @@
     <string name="hint_group_name">Názov Skupiny</string>
     <string name="hint_keyfile">súbor keyfile</string>
     <string name="hint_length">dĺžka</string>
-    <string name="hint_login_pass">Heslo</string>
+    <string name="password">Heslo</string>
     <string name="hint_pass">heslo</string>
     <string name="hint_title">meno</string>
     <string name="hint_url">url</string>

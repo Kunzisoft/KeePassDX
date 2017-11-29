@@ -98,7 +98,7 @@
     <string name="hint_group_name">Nome gruppo</string>
     <string name="hint_keyfile">file chiave</string>
     <string name="hint_length">lunghezza</string>
-    <string name="hint_login_pass">Password</string>
+    <string name="password">Password</string>
     <string name="hint_pass">password</string>
     <string name="hint_title">nome</string>
     <string name="hint_url">url</string>

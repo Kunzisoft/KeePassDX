@@ -105,7 +105,7 @@
     <string name="hint_keyfile">αρχείο κλειδιού</string>
     <string name="hint_length">μήκος</string>
     <string name="hint_pass">κωδικός</string>
-    <string name="hint_login_pass">Κωδικός Πρόσβασης</string>
+    <string name="password">Κωδικός Πρόσβασης</string>
     <string name="hint_title">όνομα</string>
     <string name="hint_url">διεύθυνση url</string>
     <string name="hint_username">όνομα χρήστη</string>

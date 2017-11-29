@@ -99,7 +99,7 @@
     <string name="hint_keyfile">arxiu clau</string>
     <string name="hint_length">longitud</string>
     <string name="hint_pass">contrasenya</string>
-    <string name="hint_login_pass">Contrasenya</string>
+    <string name="password">Contrasenya</string>
     <string name="hint_title">nom</string>
     <string name="hint_url">url</string>
     <string name="hint_username">usuari</string>

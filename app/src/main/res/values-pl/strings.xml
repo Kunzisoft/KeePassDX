@@ -93,7 +93,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="hint_group_name">Nazwa grupy</string>
     <string name="hint_keyfile">plik klucza</string>
     <string name="hint_length">długość</string>
-    <string name="hint_login_pass">Hasło</string>
+    <string name="password">Hasło</string>
     <string name="hint_pass">hasło</string>
     <string name="hint_title">nazwa</string>
     <string name="hint_url">url</string>

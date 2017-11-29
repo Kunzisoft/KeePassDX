@@ -107,7 +107,7 @@
     <string name="hint_keyfile">gako fitxategia</string>
     <string name="hint_length">luzera</string>
     <string name="hint_pass">pasahitza</string>
-    <string name="hint_login_pass">Pasahitza</string>
+    <string name="password">Pasahitza</string>
     <string name="hint_title">izena</string>
     <string name="hint_url">url</string>
     <string name="hint_username">erabiltzaile izena</string>

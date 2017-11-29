@@ -44,7 +44,7 @@
     <string name="hint_group_name">Grupės pavadinimas</string>
     <string name="hint_keyfile">rakto failas</string>
     <string name="hint_length">ilgis</string>
-    <string name="hint_login_pass">Slaptažodis</string>
+    <string name="password">Slaptažodis</string>
     <string name="hint_pass">slaptažodis</string>
     <string name="hint_title">pavadinimas</string>
     <string name="hint_url">url</string>

@@ -108,7 +108,7 @@
     <string name="hint_keyfile">файл-ключ</string>
     <string name="hint_length">длина</string>
     <string name="hint_pass">пароль</string>
-    <string name="hint_login_pass">пароль</string>
+    <string name="password">пароль</string>
     <string name="hint_title">название</string>
     <string name="hint_url">ссылка</string>
     <string name="hint_username">логин</string>

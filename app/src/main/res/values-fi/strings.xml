@@ -105,7 +105,7 @@
     <string name="hint_keyfile">avaintiedosto</string>
     <string name="hint_length">pituus</string>
     <string name="hint_pass">salasana</string>
-    <string name="hint_login_pass">Salasana</string>
+    <string name="password">Salasana</string>
     <string name="hint_title">nimi</string>
     <string name="hint_url">url-osoite</string>
     <string name="hint_username">käyttäjänimi</string>

@@ -107,7 +107,7 @@
     <string name="hint_keyfile">nøglefil</string>
     <string name="hint_length">længde</string>
     <string name="hint_pass">adgangskode</string>
-    <string name="hint_login_pass">Adgangskode</string>
+    <string name="password">Adgangskode</string>
     <string name="hint_title">navn</string>
     <string name="hint_url">url</string>
     <string name="hint_username">brugernavn</string>

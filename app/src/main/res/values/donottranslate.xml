@@ -29,8 +29,11 @@
     <string name="oi_filemanager_web" translatable="false">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
     
     <!--  Password generator -->
-    <integer name="default_password_length" translatable="false">8</integer>
-    
+    <string name="password_length_key" translatable="false">password_length_key</string>
+    <string name="min_password_length" translatable="false">1</string>
+    <string name="default_password_length" translatable="false">14</string>
+    <string name="max_password_length" translatable="false">64</string>
+
     <!--  Preference settings -->
     <string name="algorithm_key" translatable="false">algorithm</string>
     <string name="app_key" translatable="false">app</string>

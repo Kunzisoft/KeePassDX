@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.keepassdroid.settings.PrefsUtil;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.password.PasswordGenerator;
 
@@ -79,6 +80,7 @@ public class GeneratePasswordFragment extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+        seekBar.setProgress(PrefsUtil.getDefaultPasswordLength(getContext().getApplicationContext()));
 
         Button genPassButton = (Button) root.findViewById(R.id.generate_password_button);
         genPassButton.setOnClickListener(new OnClickListener() {

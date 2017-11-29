@@ -109,7 +109,7 @@
     <string name="hint_keyfile">clé de fichier</string>
     <string name="hint_length">longueur</string>
     <string name="hint_pass">mot de passe</string>
-    <string name="hint_login_pass">Mot de passe</string>
+    <string name="password">Mot de passe</string>
     <string name="hint_title">nom</string>
     <string name="hint_url">URL</string>
     <string name="hint_username">nom d\'utilisateur</string>
@@ -199,6 +199,11 @@
     <string name="fingerprint_error">Problème d\'empreinte digitale</string>
     <string name="store_with_fingerprint">Utiliser l\'empreinte digitale pour stocker le mot de passe</string>
     <string name="no_password_stored">Pas de mot de passe encore stocké pour cette base de données</string>
+    <string name="history">Historique</string>
+    <string name="appearance">Apparence</string>
+    <string name="general">Générale</string>
+    <string name="password_size_title">Taille des mots de passe</string>
+    <string name="password_size_summary">Déterminer la taille par défaut des mots de passe lors de leurs générations</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>
@@ -218,7 +223,5 @@
         <item>Light Theme</item>
         <item>Night Theme</item>
     </string-array>
-    <string name="history">Historique</string>
-    <string name="appearance">Apparence</string>
-    <string name="general">Générale</string>
+
 </resources>

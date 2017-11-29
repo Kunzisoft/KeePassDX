@@ -95,7 +95,7 @@
     <string name="hint_group_name">Ім’я групи</string>
     <string name="hint_keyfile">файл-ключ</string>
     <string name="hint_length">довжина</string>
-    <string name="hint_login_pass">Пароль</string>
+    <string name="password">Пароль</string>
     <string name="hint_pass">пароль</string>
     <string name="hint_title">ім’я</string>
     <string name="hint_url">url</string>
