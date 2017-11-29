@@ -28,7 +28,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -51,7 +50,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
@@ -70,6 +68,7 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.FileNameView;
+import com.kunzisoft.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

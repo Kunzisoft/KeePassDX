@@ -21,11 +21,11 @@ package com.keepassdroid.settings;
 
 
 import android.content.Context;
-import android.preference.EditTextPreference;
+import android.support.v7.preference.EditTextPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import com.android.keepass.R;
+import com.kunzisoft.keepass.R;
 
 public class LongEditTextPreference extends EditTextPreference {
 

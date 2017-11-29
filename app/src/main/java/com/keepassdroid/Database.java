@@ -19,26 +19,12 @@
  */
 package com.keepassdroid;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.SyncFailedException;
-import java.util.HashSet;
-import java.util.Set;
-
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.android.keepass.R;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwGroup;
@@ -52,6 +38,18 @@ import com.keepassdroid.database.save.PwDbOutput;
 import com.keepassdroid.icons.DrawableFactory;
 import com.keepassdroid.search.SearchDbHelper;
 import com.keepassdroid.utils.UriUtil;
+import com.kunzisoft.keepass.R;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.SyncFailedException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author bpellin
