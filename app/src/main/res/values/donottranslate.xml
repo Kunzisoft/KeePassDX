@@ -38,6 +38,7 @@
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
     <string name="db_key" translatable="false">db</string>
     <string name="rounds_key" translatable="false">rounds</string>
+    <string name="roundsFix_key" translatable="false">roundsFix</string>
     <string name="keyfile_key" translatable="false">keyfile</string>
     <string name="maskpass_key" translatable="false">maskpass</string>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
@@ -48,6 +49,7 @@
     <string name="sort_key" translatable="false">sort_key</string>
     <string name="timeout_key" translatable="false">timeout_key</string>
     <string name="saf_key" translatable="false">storage_access_framework_key</string>
+    <integer name="roundsFix_default" translatable="false">100000</integer>
     <string name="setting_style_key" translatable="false">setting_style_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>

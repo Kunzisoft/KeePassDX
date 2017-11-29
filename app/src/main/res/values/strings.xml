@@ -171,6 +171,8 @@
     <string name="root">Root</string>
     <string name="rounds">Encryption Rounds</string>
     <string name="rounds_explaination">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
+    <string name="rounds_fix">Key encryption rounds before corruption</string>
+    <string name="rounds_fix_explaination">If your database was corrupted by KeePassDroid version 2.2.0.0 to 2.2.0.6, enter the number of rounds used previously and this will allow you to open your database.</string>
     <string name="rounds_hint">rounds</string>
     <string name="saving_database">Saving database&#8230;</string>
     <string name="space">Space</string>

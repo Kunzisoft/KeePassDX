@@ -52,7 +52,7 @@ public class PwDbInnerHeaderOutputV4 {
         los.writeInt(streamKeySize);
         los.write(header.innerRandomStreamKey);
 
-        for (ProtectedBinary bin : header.binaries) {
+        for (ProtectedBinary bin : db.binPool.binaries()) {
             byte flag = KdbxBinaryFlags.None;
             if (bin.isProtected()) {
                 flag |= KdbxBinaryFlags.Protected;

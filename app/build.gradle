@@ -8,11 +8,16 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode = 2
-        versionName = "2.5.0.0beta2"
+        versionCode = 3
+        versionName = "2.5.0.0beta3"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
+
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a',
+                    'arm64-v8a', 'mips', 'mips64'
+        }
     }
 
     externalNativeBuild {
@@ -20,6 +25,7 @@ android {
             path "src/main/jni/CMakeLists.txt"
         }
     }
+
 
     buildTypes {
         release {

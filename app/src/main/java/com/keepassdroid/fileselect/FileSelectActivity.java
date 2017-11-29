@@ -228,11 +228,7 @@ public class FileSelectActivity extends StylishActivity {
 				}
 				else {
 					Intent i;
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-						i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-					} else {
-						i = new Intent(Intent.ACTION_GET_CONTENT);
-					}
+                    i = new Intent(Intent.ACTION_GET_CONTENT);
 					i.addCategory(Intent.CATEGORY_OPENABLE);
 					i.setType("*/*");
 

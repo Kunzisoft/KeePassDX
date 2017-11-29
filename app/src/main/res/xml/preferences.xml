@@ -37,4 +37,5 @@
             android:icon="@drawable/ic_data_usage_white_24dp"
             android:persistent="false" />
 	</PreferenceCategory>
+
 </PreferenceScreen>

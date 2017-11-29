@@ -95,7 +95,6 @@ public class PwDbHeaderV4 extends PwDbHeader {
     public byte[] streamStartBytes = new byte[32];
     public CrsAlgorithm innerRandomStream;
 	public long version;
-	public List<ProtectedBinary> binaries = new ArrayList<ProtectedBinary>();
 
     public PwDbHeaderV4(PwDatabaseV4 d) {
     	db = d;
@@ -194,7 +193,9 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				if (!db.kdfParameters.kdfUUID.equals(kdfR.uuid)) {
 					db.kdfParameters = kdfR.getDefaultParameters();
 				}
-				db.kdfParameters.setUInt64(AesKdf.ParamRounds, LEDataInputStream.readLong(fieldData, 0));
+				long rounds = LEDataInputStream.readLong(fieldData, 0);
+				db.kdfParameters.setUInt64(AesKdf.ParamRounds, rounds);
+				db.numKeyEncRounds = rounds;
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:

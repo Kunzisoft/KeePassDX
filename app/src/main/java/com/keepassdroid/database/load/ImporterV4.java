@@ -78,11 +78,11 @@ public class ImporterV4 extends Importer {
 	
 	private StreamCipher randomStream;
 	private PwDatabaseV4 db;
-	private BinaryPool binPool = new BinaryPool();
 
     private byte[] hashOfHeader = null;
 	private byte[] pbHeader = null;
 	private long version;
+	private int binNum = 0;
 	Calendar utcCal;
 
 	public ImporterV4() {
@@ -98,18 +98,17 @@ public class ImporterV4 extends Importer {
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
 			InputStream keyInputStream) throws IOException, InvalidDBException {
 
-		return openDatabase(inStream, password, keyInputStream, new UpdateStatus());
+		return openDatabase(inStream, password, keyInputStream, new UpdateStatus(), 0);
 	}
 	
 	@Override
-	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-			InputStream keyInputStream, UpdateStatus status) throws IOException,
-			InvalidDBException {
-
+    public PwDatabaseV4 openDatabase(InputStream inStream, String password,
+            InputStream keyInputStream, UpdateStatus status, long roundsFix) throws IOException,
+            InvalidDBException {
 		db = createDB();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
-        header.binaries.clear();
+        db.binPool.clear();
 
 		PwDbHeaderV4.HeaderAndHash hh = header.loadFromFile(inStream);
         version = header.version;
@@ -118,7 +117,7 @@ public class ImporterV4 extends Importer {
 		pbHeader = hh.header;
 			
 		db.setMasterKey(password, keyInputStream);
-		db.makeFinalKey(header.masterSeed, db.kdfParameters);
+		db.makeFinalKey(header.masterSeed, db.kdfParameters, roundsFix);
 
 		CipherEngine engine;
 		Cipher cipher;
@@ -253,6 +252,7 @@ public class ImporterV4 extends Importer {
 				byte[] bin = new byte[data.length - 1];
 				System.arraycopy(data, 1, bin, 0, data.length-1);
 				ProtectedBinary pb = new ProtectedBinary(prot, bin);
+				db.binPool.poolAdd(pb);
 
 				if (prot) {
 					Arrays.fill(data, (byte)0);
@@ -511,7 +511,7 @@ public class ImporterV4 extends Importer {
 				if ( key != null ) {
 					ProtectedBinary pbData = ReadProtectedBinary(xpp);
 					int id = Integer.parseInt(key);
-					binPool.put(id, pbData);
+					db.binPool.put(id, pbData);
 				} else {
 					ReadUnknown(xpp);
 				}
@@ -932,7 +932,7 @@ public class ImporterV4 extends Importer {
 		} else {
 
 			try {
-				utcDate = PwDatabaseV4XML.dateFormat.parse(sDate);
+				utcDate = PwDatabaseV4XML.dateFormatter.get().parse(sDate);
 			} catch (ParseException e) {
 				// Catch with null test below
 			}
@@ -1061,7 +1061,7 @@ public class ImporterV4 extends Importer {
 			xpp.next(); // Consume end tag
 
 			int id = Integer.parseInt(ref);
-			return binPool.get(id);
+			return db.binPool.get(id);
 		} 
 		
 		boolean compressed = false;
