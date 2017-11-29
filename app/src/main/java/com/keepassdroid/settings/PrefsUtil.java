@@ -25,6 +25,10 @@ import android.preference.PreferenceManager;
 
 import com.kunzisoft.keepass.R;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class PrefsUtil {
 
 	public static float getListTextSize(Context ctx) {
@@ -36,5 +40,13 @@ public class PrefsUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getInt(ctx.getString(R.string.password_length_key),
                         Integer.parseInt(ctx.getString(R.string.default_password_length)));
+    }
+
+    public static Set<String> getDefaultPasswordCharacters(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getStringSet(ctx.getString(R.string.list_password_generator_options_key),
+                new HashSet<>(Arrays.asList(
+                        ctx.getResources()
+                                .getStringArray(R.array.list_password_generator_options_default_values))));
     }
 }

@@ -202,8 +202,10 @@
     <string name="history">History</string>
     <string name="appearance">Appearance</string>
     <string name="general">General</string>
-    <string name="password_size_title">Passwords size</string>
-    <string name="password_size_summary">Set the default size of passwords during their generations</string>
+    <string name="password_size_title">Password size</string>
+    <string name="password_size_summary">Set the default size of the generated password</string>
+    <string name="list_password_generator_options_title">Password characters</string>
+    <string name="list_password_generator_options_summary">Set the default password generator characters</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

@@ -67,16 +67,53 @@
     	<item translatable="false">300000</item>
     	<item translatable="false">-1</item>
     </string-array>
+
     <string name="list_size_default" translatable="false">18</string>
     <string-array name="list_size_values">
     	<item translatable="false">14</item>
     	<item translatable="false">18</item>
     	<item translatable="false">26</item>
     </string-array>
+
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
+    </string-array>
+
+    <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
+    <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>
+    <string name="value_password_lowercase" translatable="false">value_password_lowercase</string>
+    <string name="value_password_digits" translatable="false">value_password_digits</string>
+    <string name="value_password_minus" translatable="false">value_password_minus</string>
+    <string name="value_password_underline" translatable="false">value_password_underline</string>
+    <string name="value_password_space" translatable="false">value_password_space</string>
+    <string name="value_password_special" translatable="false">value_password_special</string>
+    <string name="value_password_brackets" translatable="false">value_password_brackets</string>
+    <string-array name="list_password_generator_options_default_values">
+        <item translatable="false">@string/value_password_uppercase</item>
+        <item translatable="false">@string/value_password_lowercase</item>
+        <item translatable="false">@string/value_password_digits</item>
+    </string-array>
+    <string-array name="list_password_generator_options_values">
+        <item translatable="false">@string/value_password_uppercase</item>
+        <item translatable="false">@string/value_password_lowercase</item>
+        <item translatable="false">@string/value_password_digits</item>
+        <item translatable="false">@string/value_password_minus</item>
+        <item translatable="false">@string/value_password_underline</item>
+        <item translatable="false">@string/value_password_space</item>
+        <item translatable="false">@string/value_password_special</item>
+        <item translatable="false">@string/value_password_brackets</item>
+    </string-array>
+    <string-array name="list_password_generator_options_entries">
+        <item translatable="false">@string/uppercase</item>
+        <item translatable="false">@string/lowercase</item>
+        <item translatable="false">@string/digits</item>
+        <item translatable="false">@string/minus</item>
+        <item translatable="false">@string/underline</item>
+        <item translatable="false">@string/space</item>
+        <item translatable="false">@string/special</item>
+        <item translatable="false">@string/brackets</item>
     </string-array>
 </resources>
