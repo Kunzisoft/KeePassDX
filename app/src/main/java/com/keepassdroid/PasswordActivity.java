@@ -41,14 +41,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.ClipDataCompat;
@@ -65,6 +62,8 @@ import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -236,7 +235,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private void retrieveSettings() {
         String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
         if (!EmptyUtils.isNullOrEmpty(mDbUri.getPath()) && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
-            CheckBox checkbox = (CheckBox) findViewById(R.id.default_database);
+            CompoundButton checkbox = (CompoundButton) findViewById(R.id.default_database);
             checkbox.setChecked(true);
         }
     }
@@ -497,10 +496,14 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private void loadDatabase(
             String pass,
             Uri keyfile) {
+
+        /*
+            TODO Remove
         if (pass.length() == 0 && (keyfile == null || keyfile.toString().length() == 0)) {
             errorMessage(R.string.error_nopass);
             return;
         }
+        */
 
         // Clear before we load
         Database db = App.getDB();
@@ -658,7 +661,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 tv_password.setText(password);
             }
 
-            CheckBox defaultCheck = (CheckBox) findViewById(R.id.default_database);
+            CompoundButton defaultCheck = (CompoundButton) findViewById(R.id.default_database);
             defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
 
             View browse = findViewById(R.id.browse_button);

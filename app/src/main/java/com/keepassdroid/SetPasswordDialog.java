@@ -29,16 +29,17 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.SetPassword;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.UriUtil;
+import com.kunzisoft.keepass.R;
 
 public class SetPasswordDialog extends DialogFragment {
 
@@ -48,6 +49,8 @@ public class SetPasswordDialog extends DialogFragment {
 	private Uri mKeyfile;
 	private FileOnFinish mFinish;
 	private View rootView;
+
+	private boolean warningEmptyPasswordOk;
 	
 	public byte[] getKey() {
 		return masterKey;
@@ -77,34 +80,49 @@ public class SetPasswordDialog extends DialogFragment {
             mFinish = (FileOnFinish) getArguments().getSerializable(FINISH_TAG);
         }
 
+        warningEmptyPasswordOk = false;
+
         rootView = inflater.inflate(R.layout.set_password, null);
         builder.setView(rootView)
                 // Add action buttons
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        TextView passView = (TextView) rootView.findViewById(R.id.pass_password);
-                        String pass = passView.getText().toString();
-                        TextView passConfView = (TextView) rootView.findViewById(R.id.pass_conf_password);
-                        String confpass = passConfView.getText().toString();
 
-                        // Verify that passwords match
-                        if ( ! pass.equals(confpass) ) {
-                            // Passwords do not match
-                            Toast.makeText(getContext(), R.string.error_pass_match, Toast.LENGTH_LONG).show();
-                            return;
+                        CompoundButton passwordCheckBox = (CompoundButton) rootView.findViewById(R.id.password_checkBox);
+                        CompoundButton keyfileCheckBox = (CompoundButton) rootView.findViewById(R.id.keyfile_checkox);
+
+                        // Assign password
+                        String pass = "";
+                        if (passwordCheckBox.isChecked()) {
+
+                            TextView passView = (TextView) rootView.findViewById(R.id.pass_password);
+                            pass = passView.getText().toString();
+                            TextView passConfView = (TextView) rootView.findViewById(R.id.pass_conf_password);
+                            String confpass = passConfView.getText().toString();
+
+                            // Verify that passwords match
+                            if (!pass.equals(confpass)) {
+                                // Passwords do not match
+                                Toast.makeText(getContext(), R.string.error_pass_match, Toast.LENGTH_LONG).show();
+                                return;
+                            }
                         }
 
-                        TextView keyfileView = (TextView) rootView.findViewById(R.id.pass_keyfile);
-                        Uri keyfile = UriUtil.parseDefaultFile(keyfileView.getText().toString());
-                        mKeyfile = keyfile;
+                        // Assign keyfile
+                        Uri keyfile = null;
+                        if (keyfileCheckBox.isChecked()) {
+                            TextView keyfileView = (TextView) rootView.findViewById(R.id.pass_keyfile);
+                            keyfile = UriUtil.parseDefaultFile(keyfileView.getText().toString());
+                            mKeyfile = keyfile;
 
-                        // Verify that a password or keyfile is set
-                        if ( pass.length() == 0 && EmptyUtils.isNullOrEmpty(keyfile)) {
-                            Toast.makeText(getContext(), R.string.error_nopass, Toast.LENGTH_LONG).show();
-                            return;
-
+                            // Verify that a keyfile is set
+                            if (EmptyUtils.isNullOrEmpty(keyfile)) {
+                                Toast.makeText(getContext(), R.string.error_nokeyfile, Toast.LENGTH_LONG).show();
+                                return;
+                            }
                         }
+
 
                         SetPassword sp = new SetPassword(getContext(), App.getDB(), pass, keyfile, new AfterSave(mFinish, new Handler()));
                         final ProgressTask pt = new ProgressTask(getContext(), sp, R.string.saving_database);
@@ -153,4 +171,26 @@ public class SetPasswordDialog extends DialogFragment {
 			super.run();
 		}
 	}
+
+	/*
+    public class ConfirmationEmptyPasswordDialogFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.warning_empty_password)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            warningEmptyPasswordOk = true;
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) { }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    }
+    */
 }

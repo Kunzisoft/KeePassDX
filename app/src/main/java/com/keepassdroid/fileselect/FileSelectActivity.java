@@ -44,14 +44,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
@@ -70,6 +68,7 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.FileNameView;
+import com.kunzisoft.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -98,12 +97,12 @@ public class FileSelectActivity extends StylishActivity {
 		
 		fileHistory = App.getFileHistory();
 
+		setContentView(R.layout.file_selection);
 		if (fileHistory.hasRecentFiles()) {
 			recentMode = true;
-			setContentView(R.layout.file_selection);
 		} else {
-			setContentView(R.layout.file_selection_no_recent);
-		}
+		    findViewById(R.id.file_listtop).setVisibility(View.INVISIBLE);
+        }
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
@@ -121,7 +120,7 @@ public class FileSelectActivity extends StylishActivity {
 		);
 
 		// Open button
-		Button openButton = (Button) findViewById(R.id.open);
+		View openButton = findViewById(R.id.open_database);
 		openButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -144,17 +143,17 @@ public class FileSelectActivity extends StylishActivity {
 		});
 
 		// Create button
-		Button createButton = (Button) findViewById(R.id.create);
+		View createButton = findViewById(R.id.create_database);
 		createButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
+
 				String filename = Util.getEditText(FileSelectActivity.this,
 						R.id.file_filename);
 
 				// Make sure file name exists
 				if (filename.length() == 0) {
-					Toast
-							.makeText(FileSelectActivity.this,
+					Toast.makeText(FileSelectActivity.this,
 									R.string.error_filename_required,
 									Toast.LENGTH_LONG).show();
 					return;
@@ -179,7 +178,7 @@ public class FileSelectActivity extends StylishActivity {
 					}
 					
 					if ( ! parent.exists() ) {
-						// Create parent dircetory
+						// Create parent directory
 						if ( ! parent.mkdirs() ) {
 							Toast.makeText(FileSelectActivity.this,
 									R.string.error_could_not_create_parent,

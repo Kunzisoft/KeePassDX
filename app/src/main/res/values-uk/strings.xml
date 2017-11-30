@@ -58,7 +58,7 @@
     <string name="entry_confpassword">Підтвердження паролю:</string>
     <string name="entry_created">Створено: </string>
     <string name="entry_expires">Закінчується: </string>
-    <string name="entry_keyfile">Файл ключа (необов’язково)</string>
+    <string name="entry_keyfile">Файл ключа</string>
     <string name="entry_modified">Змінено: </string>
     <string name="entry_password">Пароль:</string>
     <string name="entry_save">Зберегти</string>
@@ -77,7 +77,7 @@
     <string name="error_invalid_db">Невірна база даних.</string>
     <string name="error_invalid_path">Невірний шлях.</string>
     <string name="error_no_name">Потрібне ім’я.</string>
-    <string name="error_nopass">Необхідно пароль або файл ключа.</string>
+    <string name="error_nokeyfile">Необхідно пароль або файл ключа.</string>
     <string name="error_out_of_memory">Телефону не вистачило пам’яті при аналізі вашої бази даних. Можливо база надто велика для вашог телефона.</string>
     <string name="error_pass_gen_type">Принаймні один тип генерації пароля необхідно вибрати.</string>
     <string name="error_pass_match">Паролі не співпадають.</string>

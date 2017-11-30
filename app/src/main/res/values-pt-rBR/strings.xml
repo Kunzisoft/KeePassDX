@@ -61,7 +61,7 @@
     <string name="entry_confpassword">Confirmar senha:</string>
     <string name="entry_created">Criado: </string>
     <string name="entry_expires">Expira: </string>
-    <string name="entry_keyfile">Arquivo de chave (opcional)</string>
+    <string name="entry_keyfile">Arquivo de chave</string>
     <string name="entry_modified">Modificado: </string>
     <string name="entry_password">Senha:</string>
     <string name="entry_save">Salvar</string>
@@ -80,7 +80,7 @@
     <string name="error_invalid_db">Banco de dados inválido.</string>
     <string name="error_invalid_path">Caminho inválido.</string>
     <string name="error_no_name">É necessário um nome.</string>
-    <string name="error_nopass">São necessários uma senha ou um arquivo de chaves.</string>
+    <string name="error_nokeyfile">São necessários uma senha ou um arquivo de chaves.</string>
     <string name="error_out_of_memory">Foi atingida a capacidade máxima de memória do seu dispositivo ao carregar o banco de dados. O banco de dados pode ser muito grande para este dispositivo.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado</string>
     <string name="error_pass_match">As senhas não combinam.</string>

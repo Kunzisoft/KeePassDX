@@ -18,61 +18,89 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_margin="@dimen/default_margin"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="12dp">
 
-	<TextView android:id="@+id/label_warning"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textSize="20sp"
-		android:visibility="invisible" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/filename_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-	<TextView android:id="@+id/label_open_by_filename" 
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		style="@style/KeepassDXStyle.TextAppearance.Title"
-		android:text="@string/enter_filename"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="28dp">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/browse_button"
+            <TextView android:id="@+id/label_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:visibility="invisible" />
+
+            <TextView android:id="@+id/label_open_by_filename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.Title"
+                android:text="@string/enter_filename"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/browse_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/file_filename"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/label_open_by_filename"
+                android:padding="6dp"
+                android:src="@drawable/ic_folder_white_24dp"
+                android:tint="?attr/colorAccentCompat" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/file_filename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_open_by_filename"
+                android:inputType="textUri"
+                android:layout_toLeftOf="@+id/browse_button"
+                android:layout_toStartOf="@+id/browse_button"
+                android:maxLines="1" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/open_database"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/file_filename"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/label_open_by_filename"
-        android:padding="6dp"
-        android:src="@drawable/ic_folder_white_24dp"
-        android:tint="?attr/colorAccentCompat" />
+        android:layout_below="@+id/filename_container"
+        android:layout_toLeftOf="@+id/create_database"
+        android:layout_toStartOf="@+id/create_database"
+        android:layout_marginTop="-22dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        app:fabSize="mini"
+        android:src="@drawable/ic_open_folder_white_24dp" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/file_filename"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/create_database"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/label_open_by_filename"
-        android:inputType="textUri"
-        android:layout_toLeftOf="@+id/browse_button"
-        android:layout_toStartOf="@+id/browse_button"
-        android:maxLines="1" />
-
-  	<android.support.v7.widget.AppCompatButton android:id="@+id/open"
-		android:layout_margin="@dimen/button_margin"
-		android:text="@string/menu_open"
-        android:layout_below="@id/file_filename"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-        android:layout_toLeftOf="@+id/create"
-        android:layout_toStartOf="@+id/create"
-		android:width="100sp"/>
-
-  	<android.support.v7.widget.AppCompatButton android:id="@+id/create"
-		android:layout_margin="@dimen/button_margin"
-		android:text="@string/menu_create"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-        android:layout_below="@id/file_filename"
-        android:layout_alignParentRight="true"
+        android:layout_below="@+id/filename_container"
         android:layout_alignParentEnd="true"
-		android:width="100sp"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="-22dp"
+        android:layout_marginBottom="5dp"
+        app:fabSize="mini"
+        android:src="@drawable/ic_database_plus_white_24dp" />
+
 </RelativeLayout>

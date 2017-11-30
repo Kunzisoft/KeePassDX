@@ -65,7 +65,7 @@
     <string name="entry_confpassword">Confirm password:</string>
     <string name="entry_created">Created: </string>
     <string name="entry_expires">Expires: </string>
-    <string name="entry_keyfile">Key file (optional)</string>
+    <string name="entry_keyfile">Key file</string>
     <string name="entry_modified">Modified: </string>
     <string name="entry_not_found">Entry data not found.</string>
     <string name="entry_password">Password:</string>
@@ -85,7 +85,7 @@
     <string name="error_invalid_db">Invalid database.</string>
     <string name="error_invalid_path">Invalid path.</string>
     <string name="error_no_name">A name is required.</string>
-    <string name="error_nopass">A password or a keyfile is required.</string>
+    <string name="error_nokeyfile">A keyfile is required.</string>
     <string name="error_out_of_memory">The phone ran out of memory while parsing your database. It may be too large for your phone.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected</string>
     <string name="error_pass_match">Passwords do not match.</string>
@@ -191,6 +191,7 @@
     <string name="warning_password_encoding">The .kdb format only supports the Latin1 character set. Your password may contain characters outside of this character set. All non-Latin1 charaters are converted to the same character, which reduces the security of your password. Changing your password is recommended.</string>
     <string name="warning_read_only">Your sd card is currently read-only. You may not be able to save changes to your database.</string>
     <string name="warning_unmounted">Your sd card is not currently mounted on your device. You will not be able to load or create your database.</string>
+    <string name="warning_empty_password">Do you really want to use an empty string as password ?</string>
     <string name="version_label">Version:</string>
     <string name="configure_fingerprint">Fingerprint supported but not configured for device</string>
     <string name="scanning_fingerprint">Listening for fingerprints</string>

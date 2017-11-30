@@ -58,7 +58,7 @@
     <string name="entry_confpassword">Stadfest passordet:</string>
     <string name="entry_created">Laga: </string>
     <string name="entry_expires">Går ut: </string>
-    <string name="entry_keyfile">Nøkkelfil (valfri)</string>
+    <string name="entry_keyfile">Nøkkelfil</string>
     <string name="entry_modified">Endra: </string>
     <string name="entry_password">Passord:</string>
     <string name="entry_save">Lagra</string>
@@ -77,7 +77,7 @@
     <string name="error_invalid_db">Ugyldig database.</string>
     <string name="error_invalid_path">Ugyldig stig.</string>
     <string name="error_no_name">Treng eit namn.</string>
-    <string name="error_nopass">Treng eit passord eller ei nøkkelfil.</string>
+    <string name="error_nokeyfile">Treng eit passord eller ei nøkkelfil.</string>
     <string name="error_out_of_memory">Telefonen gjekk tom for minne ved lesinga av databasen din. Databasen er kanskje for stor.</string>
     <string name="error_pass_gen_type">Du må velja minst éin passordlagingstype</string>
     <string name="error_pass_match">Passorda samsvarer ikkje.</string>

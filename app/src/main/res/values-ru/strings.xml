@@ -86,7 +86,7 @@
     <string name="error_invalid_db">Неверный формат базы</string>
     <string name="error_invalid_path">Путь указан неверно</string>
     <string name="error_no_name">Необходимо ввести имя файла</string>
-    <string name="error_nopass">Необходим пароль или файл-ключ</string>
+    <string name="error_nokeyfile">Необходим пароль или файл-ключ</string>
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов</string>
     <string name="error_pass_match">Пароли не совпадают</string>

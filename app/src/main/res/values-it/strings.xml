@@ -61,7 +61,7 @@
     <string name="entry_confpassword">Conferma password:</string>
     <string name="entry_created">Creato: </string>
     <string name="entry_expires">Scade: </string>
-    <string name="entry_keyfile">File chiave (opzionale)</string>
+    <string name="entry_keyfile">File chiave</string>
     <string name="entry_modified">Modificato: </string>
     <string name="entry_password">Password</string>
     <string name="entry_save">Salva</string>
@@ -80,7 +80,7 @@
     <string name="error_invalid_db">Database non valido.</string>
     <string name="error_invalid_path">Percorso non valido.</string>
     <string name="error_no_name">E\' necessario un nome.</string>
-    <string name="error_nopass">E\' necessaria una password o un file chiave.</string>
+    <string name="error_nokeyfile">E\' necessaria una password o un file chiave.</string>
     <string name="error_out_of_memory">Il telefono ha esaurito la memoria durante l\'elaborazione del database. Potrebbe essere troppo grande per il tuo telefono.</string>
     <string name="error_pass_gen_type">Almeno un tipo di generazione password deve essere selezionato</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
