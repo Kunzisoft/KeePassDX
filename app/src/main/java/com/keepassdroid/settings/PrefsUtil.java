@@ -49,4 +49,10 @@ public class PrefsUtil {
                         ctx.getResources()
                                 .getStringArray(R.array.list_password_generator_options_default_values))));
     }
+
+    public static boolean isClipboardNotificationsEnable(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.clipboard_notifications_key),
+                ctx.getResources().getBoolean(R.bool.clipboard_notifications_default));
+    }
 }
