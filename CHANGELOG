@@ -1,3 +1,8 @@
+KeePassDroid (2.2.0.9)
+ * Update build tools version to workaround CM/Lineage bug (closes: #249)
+ * Update Russian translations
+ * Update Polish translations
+
 KeePassDroid (2.2.0.8)
  * Add corruption fix mode
  * Update Hungarian translations
