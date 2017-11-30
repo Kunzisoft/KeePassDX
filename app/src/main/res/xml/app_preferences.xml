@@ -39,12 +39,12 @@
             android:entryValues="@array/clipboard_timeout_values"
             android:dialogTitle="@string/app_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
-        <CheckBoxPreference
+        <SwitchPreference
             android:summary="@string/omitbackup_summary"
             android:defaultValue="@bool/omitbackup_default"
             android:title="@string/omitbackup_title"
             android:key="@string/omitbackup_key"/>
-        <CheckBoxPreference
+        <SwitchPreference
             android:summary="@string/use_saf_summary"
             android:defaultValue="@bool/saf_default"
             android:title="@string/use_saf_title"
@@ -76,7 +76,7 @@
             android:entryValues="@array/list_password_generator_options_values"
             android:defaultValue="@array/list_password_generator_options_default_values"/>
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="@string/maskpass_key"
             android:title="@string/maskpass_title"
             android:summary="@string/maskpass_summary"
@@ -87,12 +87,12 @@
     <PreferenceCategory
         android:title="@string/history">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:summary="@string/recentfile_summary"
             android:defaultValue="@bool/recentfile_default"
             android:title="@string/recentfile_title"
             android:key="@string/recentfile_key"/>
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="@string/keyfile_key"
             android:title="@string/remember_keyfile_title"
             android:summary="@string/remember_keyfile_summary"
