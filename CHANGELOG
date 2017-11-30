@@ -1,5 +1,5 @@
 KeepassDX (2.5.0.0beta3)
- * Merge KeePassDroid 2.2.0.8
+ * Merge KeePassDroid 2.2.0.9
 
 KeepassDX (2.5.0.0beta2)
  * Remove libs for F-Droid
@@ -12,6 +12,11 @@ KeepassDX (2.5.0.0beta1)
  * Solve bug for fingerprint
  * Update French translation
  * Change donation (see KeepassDroid to contribute on both projects)
+
+KeePassDroid (2.2.0.9)
+ * Update build tools version to workaround CM/Lineage bug (closes: #249)
+ * Update Russian translations
+ * Update Polish translations
 
 KeePassDroid (2.2.0.8)
  * Add corruption fix mode
