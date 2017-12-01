@@ -20,7 +20,6 @@
 package com.keepassdroid;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -50,18 +49,15 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.ClipDataCompat;
 import com.keepassdroid.compat.EditorCompat;
-import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
-import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
-import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.EmptyUtils;
-import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
+import com.keepassdroid.view.KeyFileHelper;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
@@ -79,10 +75,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private static final String KEY_LAUNCH_IMMEDIATELY = "launchImmediately";
     private static final String VIEW_INTENT = "android.intent.action.VIEW";
 
-    private static final int FILE_BROWSE = 256;
-    public static final int GET_CONTENT = 257;
-    private static final int OPEN_DOC = 258;
-
     private Uri mDbUri = null;
     private Uri mKeyUri = null;
     private boolean mRememberKeyfile;
@@ -99,6 +91,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private TextView confirmationView;
     private EditText passwordView;
     private Button confirmButton;
+
+    private KeyFileHelper keyFileHelper;
 
     public static void Launch(
             Activity act,
@@ -139,6 +133,17 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
+                new KeyFileHelper.KeyFileCallback() {
+                    @Override
+                    public void onResultCallback(Uri uri) {
+                        if(uri != null) {
+                            EditText fn = (EditText) findViewById(R.id.pass_keyfile);
+                            fn.setText(uri.toString());
+                        }
+                    }
+                });
+
         switch (requestCode) {
             case KeePass.EXIT_NORMAL:
                 setEditText(R.id.password, "");
@@ -151,37 +156,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 finish();
                 App.getDB().clear();
                 break;
-            case FILE_BROWSE:
-                if (resultCode == RESULT_OK) {
-                    String filename = data.getDataString();
-                    if (filename != null) {
-                        EditText fn = (EditText) findViewById(R.id.pass_keyfile);
-                        fn.setText(filename);
-                        mKeyUri = UriUtil.parseDefaultFile(filename);
-                    }
-                }
-                break;
-            case GET_CONTENT:
-            case OPEN_DOC:
-                if (resultCode == RESULT_OK) {
-                    if (data != null) {
-                        Uri uri = data.getData();
-                        if (uri != null) {
-                            if (requestCode == GET_CONTENT) {
-                                uri = UriUtil.translate(this, uri);
-                            }
-                            String path = uri.toString();
-                            if (path != null) {
-                                EditText fn = (EditText) findViewById(R.id.pass_keyfile);
-                                fn.setText(path);
-
-                            }
-                            mKeyUri = uri;
-                        }
-                    }
-                }
-                break;
         }
+
     }
 
     @Override
@@ -497,14 +473,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             String pass,
             Uri keyfile) {
 
-        /*
-            TODO Remove
-        if (pass.length() == 0 && (keyfile == null || keyfile.toString().length() == 0)) {
-            errorMessage(R.string.error_nopass);
-            return;
-        }
-        */
-
         // Clear before we load
         Database db = App.getDB();
         db.clear();
@@ -664,62 +632,9 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             CompoundButton defaultCheck = (CompoundButton) findViewById(R.id.default_database);
             defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
 
-            View browse = findViewById(R.id.browse_button);
-            browse.setOnClickListener(new View.OnClickListener() {
-
-                public void onClick(View v) {
-                    if (StorageAF.useStorageFramework(PasswordActivity.this)) {
-                        Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
-                        i.addCategory(Intent.CATEGORY_OPENABLE);
-                        i.setType("*/*");
-                        startActivityForResult(i, OPEN_DOC);
-                    } else {
-                        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                        i.addCategory(Intent.CATEGORY_OPENABLE);
-                        i.setType("*/*");
-
-                        try {
-                            startActivityForResult(i, GET_CONTENT);
-                        } catch (ActivityNotFoundException e) {
-                            lookForOpenIntentsFilePicker();
-                        }
-                    }
-                }
-
-                private void lookForOpenIntentsFilePicker() {
-                    if (Interaction.isIntentAvailable(PasswordActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
-                        Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
-
-                        // Get file path parent if possible
-                        try {
-                            if (mDbUri != null && mDbUri.toString().length() > 0) {
-                                if (mDbUri.getScheme().equals("file")) {
-                                    File keyfile = new File(mDbUri.getPath());
-                                    File parent = keyfile.getParentFile();
-                                    if (parent != null) {
-                                        i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            // Ignore
-                        }
-
-                        try {
-                            startActivityForResult(i, FILE_BROWSE);
-                        } catch (ActivityNotFoundException e) {
-                            showBrowserDialog();
-                        }
-                    } else {
-                        showBrowserDialog();
-                    }
-                }
-
-                private void showBrowserDialog() {
-                    BrowserDialog browserDialog = new BrowserDialog(PasswordActivity.this);
-                    browserDialog.show();
-                }
-            });
+            View browseView = findViewById(R.id.browse_button);
+            keyFileHelper = new KeyFileHelper(PasswordActivity.this);
+            browseView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener());
 
             retrieveSettings();
 

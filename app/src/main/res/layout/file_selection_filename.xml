@@ -75,22 +75,8 @@
 
     </android.support.v7.widget.CardView>
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/open_database"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/filename_container"
-        android:layout_toLeftOf="@+id/create_database"
-        android:layout_toStartOf="@+id/create_database"
-        android:layout_marginTop="-22dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        app:fabSize="mini"
-        android:src="@drawable/ic_open_folder_white_24dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/create_database"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/filename_container"
@@ -101,6 +87,6 @@
         android:layout_marginTop="-22dp"
         android:layout_marginBottom="5dp"
         app:fabSize="mini"
-        android:src="@drawable/ic_database_plus_white_24dp" />
+        android:src="@drawable/ic_open_folder_white_24dp" />
 
 </RelativeLayout>

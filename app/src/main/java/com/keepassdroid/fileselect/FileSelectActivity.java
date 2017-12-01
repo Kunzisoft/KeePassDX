@@ -299,7 +299,7 @@ public class FileSelectActivity extends StylishActivity implements
 	}
 
 	@Override
-	public void onDialogPositiveClick(String masterPassword, Uri keyFile) {
+	public void onAssignKeyDialogPositiveClick(String masterPassword, Uri keyFile) {
 
         String filename = Util.getEditText(FileSelectActivity.this,
                 R.id.file_filename);
@@ -328,7 +328,7 @@ public class FileSelectActivity extends StylishActivity implements
 	}
 
 	@Override
-	public void onDialogNegativeClick(String masterPassword, Uri keyFile) {
+	public void onAssignKeyDialogNegativeClick(String masterPassword, Uri keyFile) {
 
 	}
 

@@ -269,7 +269,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	}
 
     @Override
-    public void onDialogPositiveClick(String masterPassword, Uri keyFile) {
+    public void onAssignKeyDialogPositiveClick(String masterPassword, Uri keyFile) {
 
         AssignPasswordHelper assignPasswordHelper =
                 new AssignPasswordHelper(this,
@@ -278,7 +278,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
     }
 
     @Override
-    public void onDialogNegativeClick(String masterPassword, Uri keyFile) {
+    public void onAssignKeyDialogNegativeClick(String masterPassword, Uri keyFile) {
 
     }
 

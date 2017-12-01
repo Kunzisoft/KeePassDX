@@ -22,6 +22,7 @@ package com.keepassdroid;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,26 +32,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.UriUtil;
+import com.keepassdroid.view.KeyFileHelper;
 import com.kunzisoft.keepass.R;
 
 public class AssignPasswordDialog extends DialogFragment {
 
-
     private String masterPassword;
 	private Uri mKeyfile;
+
 	private View rootView;
+    private CompoundButton passwordCheckBox;
+    private CompoundButton keyfileCheckBox;
 
     private AssignPasswordDialogListener mListener;
 
+    private KeyFileHelper keyFileHelper;
 
     public interface AssignPasswordDialogListener {
-        void onDialogPositiveClick(String masterPassword, Uri keyFile);
-        void onDialogNegativeClick(String masterPassword, Uri keyFile);
+        void onAssignKeyDialogPositiveClick(String masterPassword, Uri keyFile);
+        void onAssignKeyDialogNegativeClick(String masterPassword, Uri keyFile);
     }
 
     @Override
@@ -85,6 +91,20 @@ public class AssignPasswordDialog extends DialogFragment {
 
                     }
                 });
+
+        passwordCheckBox = (CompoundButton) rootView.findViewById(R.id.password_checkBox);
+        keyfileCheckBox = (CompoundButton) rootView.findViewById(R.id.keyfile_checkox);
+
+        keyFileHelper = new KeyFileHelper(this);
+        rootView.findViewById(R.id.browse_button)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        keyfileCheckBox.setChecked(true);
+                        keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
+                    }
+                });
+
         AlertDialog dialog = builder.create();
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -94,8 +114,7 @@ public class AssignPasswordDialog extends DialogFragment {
                 positiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        CompoundButton passwordCheckBox = (CompoundButton) rootView.findViewById(R.id.password_checkBox);
-                        CompoundButton keyfileCheckBox = (CompoundButton) rootView.findViewById(R.id.keyfile_checkox);
+
                         masterPassword = "";
                         mKeyfile = null;
 
@@ -130,10 +149,11 @@ public class AssignPasswordDialog extends DialogFragment {
                         }
 
                         if (!error) {
-                            if (masterPassword == null || masterPassword.isEmpty()) {
+                            if (!keyfileCheckBox.isChecked() &&
+                                    (masterPassword == null || masterPassword.isEmpty())) {
                                 showEmptyPasswordConfirmationDialog();
                             } else {
-                                mListener.onDialogPositiveClick(masterPassword, mKeyfile);
+                                mListener.onAssignKeyDialogPositiveClick(masterPassword, mKeyfile);
                                 dismiss();
                             }
                         }
@@ -143,7 +163,7 @@ public class AssignPasswordDialog extends DialogFragment {
                 negativeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        mListener.onDialogNegativeClick(masterPassword, mKeyfile);
+                        mListener.onAssignKeyDialogNegativeClick(masterPassword, mKeyfile);
                         dismiss();
                     }
                 });
@@ -159,16 +179,31 @@ public class AssignPasswordDialog extends DialogFragment {
         builder.setMessage(R.string.warning_empty_password)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogPositiveClick(masterPassword, mKeyfile);
+                        mListener.onAssignKeyDialogPositiveClick(masterPassword, mKeyfile);
                         AssignPasswordDialog.this.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogNegativeClick(masterPassword, mKeyfile);
+                        mListener.onAssignKeyDialogNegativeClick(masterPassword, mKeyfile);
                     }
                 });
         builder.create().show();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
+                new KeyFileHelper.KeyFileCallback() {
+                    @Override
+                    public void onResultCallback(Uri uri) {
+                        if(uri != null) {
+                            EditText keyFileView = (EditText) rootView.findViewById(R.id.pass_keyfile);
+                            keyFileView.setText(uri.toString());
+                        }
+                    }
+                });
+    }
 }
