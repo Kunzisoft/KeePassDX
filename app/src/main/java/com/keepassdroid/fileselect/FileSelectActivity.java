@@ -50,10 +50,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.keepassdroid.AssignPasswordDialog;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
-import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
@@ -67,6 +67,7 @@ import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
+import com.keepassdroid.view.AssignPasswordHelper;
 import com.keepassdroid.view.FileNameView;
 import com.kunzisoft.keepass.R;
 
@@ -75,7 +76,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-public class FileSelectActivity extends StylishActivity {
+public class FileSelectActivity extends StylishActivity implements
+		AssignPasswordDialog.AssignPasswordDialogListener {
 
 	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
 	private ListView mList;
@@ -90,6 +92,9 @@ public class FileSelectActivity extends StylishActivity {
 	private RecentFileHistory fileHistory;
 
 	private boolean recentMode = false;
+
+	private AssignPasswordHelper assignPasswordHelper;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -147,69 +152,8 @@ public class FileSelectActivity extends StylishActivity {
 		createButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-
-				String filename = Util.getEditText(FileSelectActivity.this,
-						R.id.file_filename);
-
-				// Make sure file name exists
-				if (filename.length() == 0) {
-					Toast.makeText(FileSelectActivity.this,
-									R.string.error_filename_required,
-									Toast.LENGTH_LONG).show();
-					return;
-				}
-
-				// Try to create the file
-				File file = new File(filename);
-				try {
-					if (file.exists()) {
-						Toast.makeText(FileSelectActivity.this,
-								R.string.error_database_exists,
-								Toast.LENGTH_LONG).show();
-						return;
-					}
-					File parent = file.getParentFile();
-					
-					if ( parent == null || (parent.exists() && ! parent.isDirectory()) ) {
-						Toast.makeText(FileSelectActivity.this,
-								R.string.error_invalid_path,
-								Toast.LENGTH_LONG).show();
-						return;
-					}
-					
-					if ( ! parent.exists() ) {
-						// Create parent directory
-						if ( ! parent.mkdirs() ) {
-							Toast.makeText(FileSelectActivity.this,
-									R.string.error_could_not_create_parent,
-									Toast.LENGTH_LONG).show();
-							return;
-							
-						}
-					}
-					
-					file.createNewFile();
-				} catch (IOException e) {
-					Toast.makeText(
-							FileSelectActivity.this,
-							getText(R.string.error_file_not_create) + " "
-									+ e.getLocalizedMessage(),
-							Toast.LENGTH_LONG).show();
-					return;
-				}
-
-				// Prep an object to collect a password once the database has
-				// been created
-				CollectPassword password = new CollectPassword(
-						new LaunchGroupActivity(filename));
-
-				// Create the new database
-				CreateDB create = new CreateDB(FileSelectActivity.this, filename, password, true);
-				ProgressTask createTask = new ProgressTask(
-						FileSelectActivity.this, create,
-						R.string.progress_create);
-				createTask.run();
-
+                AssignPasswordDialog assignPasswordDialog = new AssignPasswordDialog();
+                assignPasswordDialog.show(getSupportFragmentManager(), "passwordDialog");
 			}
 
 		});
@@ -301,6 +245,107 @@ public class FileSelectActivity extends StylishActivity {
 		}
 	}
 
+    /**
+     * Create file for database
+     * @return If not created, return false
+     */
+	private boolean createDatabaseFile(String filename) {
+
+		// Make sure file name exists
+		if (filename.length() == 0) {
+			Toast.makeText(FileSelectActivity.this,
+					R.string.error_filename_required,
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+
+		// Try to create the file
+		File file = new File(filename);
+		try {
+			if (file.exists()) {
+				Toast.makeText(FileSelectActivity.this,
+						R.string.error_database_exists,
+						Toast.LENGTH_LONG).show();
+				return false;
+			}
+			File parent = file.getParentFile();
+
+			if ( parent == null || (parent.exists() && ! parent.isDirectory()) ) {
+				Toast.makeText(FileSelectActivity.this,
+						R.string.error_invalid_path,
+						Toast.LENGTH_LONG).show();
+				return false;
+			}
+
+			if ( ! parent.exists() ) {
+				// Create parent directory
+				if ( ! parent.mkdirs() ) {
+					Toast.makeText(FileSelectActivity.this,
+							R.string.error_could_not_create_parent,
+							Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+
+			return file.createNewFile();
+		} catch (IOException e) {
+			Toast.makeText(
+					FileSelectActivity.this,
+					getText(R.string.error_file_not_create) + " "
+							+ e.getLocalizedMessage(),
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+
+	@Override
+	public void onDialogPositiveClick(String masterPassword, Uri keyFile) {
+
+        String filename = Util.getEditText(FileSelectActivity.this,
+                R.id.file_filename);
+        if(createDatabaseFile(filename)) {
+
+            // Prep an object to collect a password once the database has
+            // been created
+            FileOnFinish launchActivityOnFinish = new FileOnFinish(
+                    new LaunchGroupActivity(filename));
+
+            AssignPasswordOnFinish assignPasswordOnFinish =
+                    new AssignPasswordOnFinish(launchActivityOnFinish);
+
+
+            // Create the new database
+            CreateDB create = new CreateDB(FileSelectActivity.this, filename, assignPasswordOnFinish, true);
+            ProgressTask createTask = new ProgressTask(
+                    FileSelectActivity.this, create,
+                    R.string.progress_create);
+            createTask.run();
+
+            assignPasswordHelper =
+                    new AssignPasswordHelper(this,
+                            masterPassword, keyFile);
+        }
+	}
+
+	@Override
+	public void onDialogNegativeClick(String masterPassword, Uri keyFile) {
+
+	}
+
+    private class AssignPasswordOnFinish extends FileOnFinish {
+
+        public AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
+            super(fileOnFinish);
+        }
+
+        @Override
+        public void run() {
+            if (mSuccess) {
+                assignPasswordHelper.assignPasswordInDatabase(mOnFinish);
+            }
+        }
+    }
+
 	private class LaunchGroupActivity extends FileOnFinish {
 		private Uri mUri;
 
@@ -319,20 +364,6 @@ public class FileSelectActivity extends StylishActivity {
 				GroupActivity.Launch(FileSelectActivity.this);
 			}
 		}
-	}
-
-	private class CollectPassword extends FileOnFinish {
-
-		public CollectPassword(FileOnFinish finish) {
-			super(finish);
-		}
-
-		@Override
-		public void run() {
-			SetPasswordDialog dialog = SetPasswordDialog.newInstance(mOnFinish);
-			dialog.show(getSupportFragmentManager(), "passwordDialog");
-		}
-
 	}
 
 	private void fillData() {

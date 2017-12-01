@@ -25,6 +25,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -40,8 +41,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
@@ -49,10 +48,14 @@ import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.utils.MenuUtil;
+import com.keepassdroid.view.AssignPasswordHelper;
 import com.keepassdroid.view.ClickView;
 import com.keepassdroid.view.GroupViewOnlyView;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 
-public abstract class GroupBaseActivity extends LockCloseListActivity {
+public abstract class GroupBaseActivity extends LockCloseListActivity
+		implements AssignPasswordDialog.AssignPasswordDialogListener {
 	protected ListView mList;
 	protected ListAdapter mAdapter;
 
@@ -265,8 +268,22 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		
 	}
 
+    @Override
+    public void onDialogPositiveClick(String masterPassword, Uri keyFile) {
+
+        AssignPasswordHelper assignPasswordHelper =
+                new AssignPasswordHelper(this,
+                        masterPassword, keyFile);
+        assignPasswordHelper.assignPasswordInDatabase(null);
+    }
+
+    @Override
+    public void onDialogNegativeClick(String masterPassword, Uri keyFile) {
+
+    }
+
 	private void setPassword() {
-		SetPasswordDialog dialog = new SetPasswordDialog();
+		AssignPasswordDialog dialog = new AssignPasswordDialog();
 		dialog.show(getSupportFragmentManager(), "passwordDialog");
 	}
 	
