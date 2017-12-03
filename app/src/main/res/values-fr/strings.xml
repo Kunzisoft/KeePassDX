@@ -209,6 +209,10 @@
     <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
     <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier le nom d\'utilisateur et le mot de passe</string>
+    <string name="file_name">Nom de fichier</string>
+    <string name="path">Chemin</string>
+    <string name="assign_master_key">Assigner une clé maître</string>
+    <string name="create_keepass_file">Créer un fichier keepass</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>

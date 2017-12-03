@@ -78,6 +78,7 @@ public class AssignPasswordDialog extends DialogFragment {
 
         rootView = inflater.inflate(R.layout.set_password, null);
         builder.setView(rootView)
+                .setTitle(R.string.assign_master_key)
                 // Add action buttons
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override

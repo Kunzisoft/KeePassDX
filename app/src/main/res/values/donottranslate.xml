@@ -126,4 +126,9 @@
         <item translatable="false">@string/special</item>
         <item translatable="false">@string/brackets</item>
     </string-array>
+
+    <string name="database_file_name_default" translatable="false">New database</string>
+    <string-array name="file_types">
+        <item translatable="false">.kdbx</item>
+    </string-array>
 </resources>

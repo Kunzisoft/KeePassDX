@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.AssignPasswordDialog;
+import com.keepassdroid.CreateFileDialog;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
@@ -77,6 +78,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 
 public class FileSelectActivity extends StylishActivity implements
+		CreateFileDialog.DefinePathDialogListener ,
 		AssignPasswordDialog.AssignPasswordDialogListener {
 
 	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
@@ -152,8 +154,8 @@ public class FileSelectActivity extends StylishActivity implements
 		createButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-                AssignPasswordDialog assignPasswordDialog = new AssignPasswordDialog();
-                assignPasswordDialog.show(getSupportFragmentManager(), "passwordDialog");
+                CreateFileDialog createFileDialog = new CreateFileDialog();
+                createFileDialog.show(getSupportFragmentManager(), "createFileDialog");
 			}
 
 		});
@@ -299,6 +301,18 @@ public class FileSelectActivity extends StylishActivity implements
 	}
 
 	@Override
+	public void onDefinePathDialogPositiveClick(Uri pathFile) {
+	    // TODO stock path
+        AssignPasswordDialog assignPasswordDialog = new AssignPasswordDialog();
+        assignPasswordDialog.show(getSupportFragmentManager(), "passwordDialog");
+	}
+
+	@Override
+	public void onDefinePathDialogNegativeClick(Uri pathFile) {
+
+	}
+
+	@Override
 	public void onAssignKeyDialogPositiveClick(String masterPassword, Uri keyFile) {
 
         String filename = Util.getEditText(FileSelectActivity.this,
@@ -332,7 +346,7 @@ public class FileSelectActivity extends StylishActivity implements
 
 	}
 
-    private class AssignPasswordOnFinish extends FileOnFinish {
+	private class AssignPasswordOnFinish extends FileOnFinish {
 
         public AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
             super(fileOnFinish);
