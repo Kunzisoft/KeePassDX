@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -90,7 +91,10 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private View fingerprintView;
     private TextView confirmationView;
     private EditText passwordView;
+    private EditText keyFileView;
     private Button confirmButton;
+    private CheckBox checkboxPassword;
+    private CheckBox checkboxKeyfile;
 
     private KeyFileHelper keyFileHelper;
 
@@ -109,6 +113,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         }
 
         Uri uri = UriUtil.parseDefaultFile(fileName);
+        assert uri != null;
         String scheme = uri.getScheme();
 
         if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
@@ -146,13 +151,13 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
         switch (requestCode) {
             case KeePass.EXIT_NORMAL:
-                setEditText(R.id.password, "");
+                setEmptyViews();
                 App.getDB().clear();
                 break;
 
             case KeePass.EXIT_LOCK:
                 setResult(KeePass.EXIT_LOCK);
-                setEditText(R.id.password, "");
+                setEmptyViews();
                 finish();
                 App.getDB().clear();
                 break;
@@ -183,6 +188,10 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         fingerprintView = findViewById(R.id.fingerprint);
         confirmationView = (TextView) findViewById(R.id.fingerprint_label);
         passwordView = (EditText) findViewById(R.id.password);
+        keyFileView = (EditText) findViewById(R.id.pass_keyfile);
+
+        checkboxPassword = (CheckBox) findViewById(R.id.password_checkbox);
+        checkboxKeyfile = (CheckBox) findViewById(R.id.keyfile_checkox);
 
         new InitTask().execute(i);
     }
@@ -194,8 +203,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         // If the application was shutdown make sure to clear the password field, if it
         // was saved in the instance state
         if (App.isShutdown()) {
-            TextView password = (TextView) findViewById(R.id.password);
-            password.setText("");
+            setEmptyViews();
         }
 
         // Clear the shutdown flag
@@ -206,6 +214,11 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             initForFingerprint();
             checkAvailability();
         }
+    }
+
+    private void setEmptyViews() {
+        passwordView.setText("");
+        keyFileView.setText("");
     }
 
     private void retrieveSettings() {
@@ -230,10 +243,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
         String key = (mKeyUri == null) ? "" : mKeyUri.toString();
         setEditText(R.id.pass_keyfile, key);
-    }
-
-    private void errorMessage(int resId) {
-        Toast.makeText(this, resId, Toast.LENGTH_LONG).show();
     }
 
     // fingerprint related code here
@@ -366,9 +375,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         else if (!fingerPrintHelper.hasEnrolledFingerprints()) {
 
             setFingerPrintVisibility(View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                fingerprintView.setAlpha(0.3f);
-            }
+            fingerprintView.setAlpha(0.3f);
             // This happens when no fingerprints are registered. Listening won't start
             confirmationView.setText(R.string.configure_fingerprint);
         }
@@ -376,9 +383,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         else {
             fingerprintMustBeConfigured = false;
             setFingerPrintVisibility(View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                fingerprintView.setAlpha(1f);
-            }
+            fingerprintView.setAlpha(1f);
             // fingerprint available but no stored password found yet for this DB so show info don't listen
             if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
                 confirmationView.setText(R.string.no_password_stored);
@@ -480,6 +485,13 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         // Clear the shutdown flag
         App.clearShutdown();
 
+        if (!checkboxPassword.isChecked()) {
+            pass = "";
+        }
+        if (!checkboxKeyfile.isChecked()) {
+            keyfile = null;
+        }
+
         Handler handler = new Handler();
         LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, new AfterLoad(handler, db));
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
@@ -525,7 +537,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
         private Database db;
 
-        public AfterLoad(
+        AfterLoad(
                 Handler handler,
                 Database db) {
             super(handler);
@@ -625,8 +637,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             confirmButton.setOnClickListener(new OkClickHandler());
 
             if (password != null) {
-                TextView tv_password = (TextView) findViewById(R.id.password);
-                tv_password.setText(password);
+                passwordView.setText(password);
             }
 
             CompoundButton defaultCheck = (CompoundButton) findViewById(R.id.default_database);

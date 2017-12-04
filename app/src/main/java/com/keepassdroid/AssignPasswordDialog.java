@@ -83,17 +83,14 @@ public class AssignPasswordDialog extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
-
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
                     }
                 });
 
-        passwordCheckBox = (CompoundButton) rootView.findViewById(R.id.password_checkBox);
+        passwordCheckBox = (CompoundButton) rootView.findViewById(R.id.password_checkbox);
         keyfileCheckBox = (CompoundButton) rootView.findViewById(R.id.keyfile_checkox);
 
         keyFileHelper = new KeyFileHelper(this);
@@ -198,13 +195,15 @@ public class AssignPasswordDialog extends DialogFragment {
 
         keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
                 new KeyFileHelper.KeyFileCallback() {
-                    @Override
-                    public void onResultCallback(Uri uri) {
-                        if(uri != null) {
-                            EditText keyFileView = (EditText) rootView.findViewById(R.id.pass_keyfile);
-                            keyFileView.setText(uri.toString());
-                        }
-                    }
-                });
+            @Override
+            public void onResultCallback(Uri uri) {
+                if(uri != null) {
+                    EditText keyFileView = (EditText) rootView.findViewById(R.id.pass_keyfile);
+                    Uri pathString = UriUtil.parseDefaultFile(uri.toString());
+                    if (pathString != null)
+                        keyFileView.setText(pathString.toString());
+                }
+            }
+        });
     }
 }

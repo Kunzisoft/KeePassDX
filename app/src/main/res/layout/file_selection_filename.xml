@@ -17,7 +17,7 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -25,7 +25,8 @@
     <android.support.v7.widget.CardView
         android:id="@+id/filename_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -35,7 +36,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginBottom="28dp">
+            android:layout_marginBottom="12dp">
 
             <TextView android:id="@+id/label_warning"
                 android:layout_width="wrap_content"
@@ -79,13 +80,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/filename_container"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginTop="-22dp"
-        android:layout_marginBottom="5dp"
         app:fabSize="mini"
+        app:layout_anchor="@id/filename_container"
+        app:layout_anchorGravity="bottom|start"
         android:src="@drawable/ic_open_folder_white_24dp" />
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
