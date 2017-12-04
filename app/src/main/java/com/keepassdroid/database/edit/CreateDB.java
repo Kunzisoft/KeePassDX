@@ -19,20 +19,14 @@
  */
 package com.keepassdroid.database.edit;
 
-
 import android.content.Context;
-import android.net.Uri;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.utils.UriUtil;
 
 public class CreateDB extends RunnableOnFinish {
-
-	private final int DEFAULT_ENCRYPTION_ROUNDS = 300;
 	
 	private String mFilename;
 	private boolean mDontSave;
@@ -57,7 +51,6 @@ public class CreateDB extends RunnableOnFinish {
 		
 		// Set Database state
 		db.pm = pm;
-		Uri.Builder b = new Uri.Builder();
 		db.mUri = UriUtil.parseDefaultFile(mFilename);
 		db.setLoaded();
 		App.clearShutdown();

@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.fileselect;
 
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -83,6 +82,8 @@ public class FileSelectActivity extends StylishActivity implements
 		CreateFileDialog.DefinePathDialogListener ,
 		AssignPasswordDialog.AssignPasswordDialogListener {
 
+    private static final String TAG = "FileSelectActivity";
+
 	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
 	private ListView mList;
 	private BaseAdapter mAdapter;
@@ -122,12 +123,11 @@ public class FileSelectActivity extends StylishActivity implements
 		mList = (ListView)findViewById(R.id.file_list);
 
 		mList.setOnItemClickListener(
-				new AdapterView.OnItemClickListener() {
-					public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-					{
-						onListItemClick((ListView)parent, v, position, id);
-					}
-				}
+            new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    onListItemClick((ListView)parent, v, position, id);
+                }
+            }
 		);
 
 		// Open button
@@ -137,7 +137,6 @@ public class FileSelectActivity extends StylishActivity implements
 			public void onClick(View v) {
 				String fileName = Util.getEditText(FileSelectActivity.this,
 						R.id.file_filename);
-
 				try {
 					PasswordActivity.Launch(FileSelectActivity.this, fileName);
 				}
@@ -149,19 +148,16 @@ public class FileSelectActivity extends StylishActivity implements
 					Toast.makeText(FileSelectActivity.this,
 							R.string.FileNotFound, Toast.LENGTH_LONG).show();
 				}
-
 			}
 		});
 
 		// Create button
 		View createButton = findViewById(R.id.create_database);
 		createButton.setOnClickListener(new View.OnClickListener() {
-
 			public void onClick(View v) {
                 CreateFileDialog createFileDialog = new CreateFileDialog();
                 createFileDialog.show(getSupportFragmentManager(), "createFileDialog");
 			}
-
 		});
 		
 		View browseButton = findViewById(R.id.browse_button);
@@ -172,7 +168,9 @@ public class FileSelectActivity extends StylishActivity implements
 					Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
 					i.addCategory(Intent.CATEGORY_OPENABLE);
 					i.setType("*/*");
-					i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+					i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
+							Intent.FLAG_GRANT_WRITE_URI_PERMISSION|
+							Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 					startActivityForResult(i, OPEN_DOC);
 				}
 				else {
@@ -196,7 +194,6 @@ public class FileSelectActivity extends StylishActivity implements
 			}
 			
 			private void lookForOpenIntentsFilePicker() {
-				
 				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
 					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
 					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
@@ -205,7 +202,6 @@ public class FileSelectActivity extends StylishActivity implements
 					} catch (ActivityNotFoundException e) {
 						showBrowserDialog();
 					}
-					
 				} else {
 					showBrowserDialog();
 				}
@@ -219,7 +215,11 @@ public class FileSelectActivity extends StylishActivity implements
 
         // Set the initial value of the filename
         openFileNameView = (EditText) findViewById(R.id.file_filename);
-        openFileNameView.setText(Environment.getExternalStorageDirectory().getAbsolutePath() + getString(R.string.default_file_path));
+        String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+                + getString(R.string.database_file_path_default)
+                + getString(R.string.database_file_name_default)
+                + getString(R.string.database_file_extension_default);
+        openFileNameView.setText(defaultPath);
 
 		fillData();
 		
@@ -231,7 +231,9 @@ public class FileSelectActivity extends StylishActivity implements
 
 		if (fileName.length() > 0) {
 			Uri dbUri = UriUtil.parseDefaultFile(fileName);
-			String scheme = dbUri.getScheme();
+            String scheme = null;
+			if (dbUri!=null)
+			    scheme = dbUri.getScheme();
 
 			if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
 				String path = dbUri.getPath();
@@ -259,10 +261,12 @@ public class FileSelectActivity extends StylishActivity implements
      * Create file for database
      * @return If not created, return false
      */
-	private boolean createDatabaseFile(String filename) {
+	private boolean createDatabaseFile(Uri path) {
 
+	    String pathString = URLDecoder.decode(path.getPath());
 		// Make sure file name exists
-		if (filename.length() == 0) {
+		if (pathString.length() == 0) {
+		    Log.e(TAG, getString(R.string.error_filename_required));
 			Toast.makeText(FileSelectActivity.this,
 					R.string.error_filename_required,
 					Toast.LENGTH_LONG).show();
@@ -270,9 +274,10 @@ public class FileSelectActivity extends StylishActivity implements
 		}
 
 		// Try to create the file
-		File file = new File(filename);
+		File file = new File(pathString);
 		try {
 			if (file.exists()) {
+                Log.e(TAG, getString(R.string.error_database_exists) + " " + file);
 				Toast.makeText(FileSelectActivity.this,
 						R.string.error_database_exists,
 						Toast.LENGTH_LONG).show();
@@ -281,6 +286,7 @@ public class FileSelectActivity extends StylishActivity implements
 			File parent = file.getParentFile();
 
 			if ( parent == null || (parent.exists() && ! parent.isDirectory()) ) {
+                Log.e(TAG, getString(R.string.error_invalid_path) + " " + file);
 				Toast.makeText(FileSelectActivity.this,
 						R.string.error_invalid_path,
 						Toast.LENGTH_LONG).show();
@@ -290,6 +296,7 @@ public class FileSelectActivity extends StylishActivity implements
 			if ( ! parent.exists() ) {
 				// Create parent directory
 				if ( ! parent.mkdirs() ) {
+                    Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + parent);
 					Toast.makeText(FileSelectActivity.this,
 							R.string.error_could_not_create_parent,
 							Toast.LENGTH_LONG).show();
@@ -299,6 +306,8 @@ public class FileSelectActivity extends StylishActivity implements
 
 			return file.createNewFile();
 		} catch (IOException e) {
+            Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + e.getLocalizedMessage());
+            e.printStackTrace();
 			Toast.makeText(
 					FileSelectActivity.this,
 					getText(R.string.error_file_not_create) + " "
@@ -310,11 +319,8 @@ public class FileSelectActivity extends StylishActivity implements
 
 	@Override
 	public void onDefinePathDialogPositiveClick(Uri pathFile) {
-	    // TODO Verify if not content
         databaseUri = pathFile;
-        Log.e("OK", UriUtil.parseDefaultFile(pathFile).toString());
-        if(createDatabaseFile(UriUtil.parseDefaultFile(pathFile).toString())) {
-            // TODO stock path
+        if(createDatabaseFile(pathFile)) {
             AssignPasswordDialog assignPasswordDialog = new AssignPasswordDialog();
             assignPasswordDialog.show(getSupportFragmentManager(), "passwordDialog");
         }
@@ -339,6 +345,7 @@ public class FileSelectActivity extends StylishActivity implements
         // Create the new database
         CreateDB create = new CreateDB(FileSelectActivity.this,
                 databaseFilename, assignPasswordOnFinish, true);
+
         ProgressTask createTask = new ProgressTask(
                 FileSelectActivity.this, create,
                 R.string.progress_create);

@@ -17,19 +17,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.keepassdroid.utils.UriUtil;
 import com.kunzisoft.keepass.R;
 import com.nononsenseapps.filepicker.FilePickerActivity;
+import com.nononsenseapps.filepicker.Utils;
+
+import java.io.File;
 
 public class CreateFileDialog extends DialogFragment implements AdapterView.OnItemSelectedListener{
 
     private final int FILE_CODE = 3853;
 
-    private View rootView;
     private EditText folderPathView;
+    private EditText fileNameView;
     private DefinePathDialogListener mListener;
+    private String extension;
+
+    private Uri uriPath;
 
     public interface DefinePathDialogListener {
         void onDefinePathDialogPositiveClick(Uri pathFile);
@@ -53,7 +58,7 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        rootView = inflater.inflate(R.layout.file_creation, null);
+        View rootView = inflater.inflate(R.layout.file_creation, null);
         builder.setView(rootView)
                 .setTitle(R.string.create_keepass_file)
                 // Add action buttons
@@ -72,7 +77,10 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
         // Folder selection
         View browseView = rootView.findViewById(R.id.browse_button);
         folderPathView = (EditText) rootView.findViewById(R.id.folder_path);
-        folderPathView.setText(Environment.getExternalStorageDirectory().getPath());
+        fileNameView = (EditText) rootView.findViewById(R.id.filename);
+        String defaultPath = Environment.getExternalStorageDirectory().getPath()
+                + getString(R.string.database_file_path_default);
+        folderPathView.setText(defaultPath);
         browseView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,13 +90,15 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
                 i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
                 i.putExtra(FilePickerActivity.EXTRA_START_PATH,
                         Environment.getExternalStorageDirectory().getPath());
-
                 startActivityForResult(i, FILE_CODE);
             }
         });
 
+        // Init path
+        uriPath = null;
 
         // Extension
+        extension = getString(R.string.database_file_extension_default);
         Spinner spinner = (Spinner) rootView.findViewById(R.id.file_types);
         spinner.setOnItemSelectedListener(this);
 
@@ -104,29 +114,27 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FILE_CODE && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            if (uri != null)
-                folderPathView.setText(uri.toString());
+            uriPath = data.getData();
+            if (uriPath != null) {
+                File file = Utils.getFileForUri(uriPath);
+                folderPathView.setText(file.getPath());
+            }
         }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        String item = adapterView.getItemAtPosition(position).toString();
+        extension = adapterView.getItemAtPosition(position).toString();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
+        // Do nothing
     }
 
     private Uri buildPath() {
-        // TODO Correct path
-        TextView folderPath = (TextView) rootView.findViewById(R.id.folder_path);
-        TextView filename = (TextView) rootView.findViewById(R.id.filename);
-
-        Uri path = new Uri.Builder().path(folderPath.getText().toString())
-                .appendPath(filename.getText().toString()+".kdbx")
+        Uri path = new Uri.Builder().path(folderPathView.getText().toString())
+                .appendPath(fileNameView.getText().toString() + extension)
                 .build();
         path = UriUtil.translate(getContext(), path);
         return path;
