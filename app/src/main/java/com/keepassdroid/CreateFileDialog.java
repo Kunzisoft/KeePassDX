@@ -1,10 +1,13 @@
 package com.keepassdroid;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -12,14 +15,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.keepassdroid.utils.UriUtil;
 import com.kunzisoft.keepass.R;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 
 public class CreateFileDialog extends DialogFragment implements AdapterView.OnItemSelectedListener{
 
+    private final int FILE_CODE = 3853;
+
     private View rootView;
+    private EditText folderPathView;
     private DefinePathDialogListener mListener;
 
     public interface DefinePathDialogListener {
@@ -60,8 +69,24 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
                     }
                 });
 
-        // TODO Add default path
-        // TODO Add intent for path selection
+        // Folder selection
+        View browseView = rootView.findViewById(R.id.browse_button);
+        folderPathView = (EditText) rootView.findViewById(R.id.folder_path);
+        folderPathView.setText(Environment.getExternalStorageDirectory().getPath());
+        browseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), FilePickerActivity.class);
+                i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+                i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
+                i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+                i.putExtra(FilePickerActivity.EXTRA_START_PATH,
+                        Environment.getExternalStorageDirectory().getPath());
+
+                startActivityForResult(i, FILE_CODE);
+            }
+        });
+
 
         // Extension
         Spinner spinner = (Spinner) rootView.findViewById(R.id.file_types);
@@ -74,6 +99,15 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
         spinner.setAdapter(dataAdapter);
 
         return builder.create();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FILE_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            if (uri != null)
+                folderPathView.setText(uri.toString());
+        }
     }
 
     @Override
@@ -91,10 +125,10 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
         TextView folderPath = (TextView) rootView.findViewById(R.id.folder_path);
         TextView filename = (TextView) rootView.findViewById(R.id.filename);
 
-
         Uri path = new Uri.Builder().path(folderPath.getText().toString())
-                .appendPath(filename.getText().toString()).build();
+                .appendPath(filename.getText().toString()+".kdbx")
+                .build();
+        path = UriUtil.translate(getContext(), path);
         return path;
     }
-
 }

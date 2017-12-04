@@ -237,4 +237,18 @@
         <item name="android:textSize">16sp</item>
 	</style>
 
+    <!-- File Picker Theme -->
+    <style name="KeepassDXStyle.FilePickerStyle" parent="NNF_BaseTheme">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/orange</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.FilePickerStyle.AlertDialog</item>
+    </style>
+
+    <style name="KeepassDXStyle.FilePickerStyle.AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/orange</item>
+    </style>
+
 </resources>
