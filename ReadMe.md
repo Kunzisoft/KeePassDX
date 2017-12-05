@@ -4,13 +4,14 @@
 
 ### Features
 
-- Create database file / entries and groups
+- Simplified creation of the database file
+- Create entries and groups
 - Open database, copy username / password, open URI / URL
 - Fingerprint for fast unlocking
 - Material design with themes
 - Device integration and AutoFill (In progress)
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen0.jpg" width="220">
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen1.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen2.jpg" width="220">
 
 ## What is KeePass?
