@@ -50,7 +50,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keepassdroid.AssignPasswordDialog;
+import com.keepassdroid.AssignMasterKeyDialog;
 import com.keepassdroid.CreateFileDialog;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
@@ -80,7 +80,7 @@ import java.net.URLDecoder;
 
 public class FileSelectActivity extends StylishActivity implements
 		CreateFileDialog.DefinePathDialogListener ,
-		AssignPasswordDialog.AssignPasswordDialogListener {
+		AssignMasterKeyDialog.AssignPasswordDialogListener {
 
     private static final String TAG = "FileSelectActivity";
 
@@ -318,21 +318,26 @@ public class FileSelectActivity extends StylishActivity implements
 	}
 
 	@Override
-	public void onDefinePathDialogPositiveClick(Uri pathFile) {
+	public boolean onDefinePathDialogPositiveClick(Uri pathFile) {
         databaseUri = pathFile;
         if(createDatabaseFile(pathFile)) {
-            AssignPasswordDialog assignPasswordDialog = new AssignPasswordDialog();
-            assignPasswordDialog.show(getSupportFragmentManager(), "passwordDialog");
-        }
+            AssignMasterKeyDialog assignMasterKeyDialog = new AssignMasterKeyDialog();
+            assignMasterKeyDialog.show(getSupportFragmentManager(), "passwordDialog");
+            return true;
+        } else
+            return false;
 	}
 
 	@Override
-	public void onDefinePathDialogNegativeClick(Uri pathFile) {
-
+	public boolean onDefinePathDialogNegativeClick(Uri pathFile) {
+        return true;
 	}
 
 	@Override
-	public void onAssignKeyDialogPositiveClick(String masterPassword, Uri keyFile) {
+	public void onAssignKeyDialogPositiveClick(
+			boolean masterPasswordChecked, String masterPassword,
+			boolean keyFileChecked, Uri keyFile) {
+
 	    String databaseFilename = databaseUri.getPath();
 
         // Prep an object to collect a password once the database has
@@ -356,7 +361,9 @@ public class FileSelectActivity extends StylishActivity implements
 	}
 
 	@Override
-	public void onAssignKeyDialogNegativeClick(String masterPassword, Uri keyFile) {
+	public void onAssignKeyDialogNegativeClick(
+			boolean masterPasswordChecked, String masterPassword,
+			boolean keyFileChecked, Uri keyFile) {
 
 	}
 

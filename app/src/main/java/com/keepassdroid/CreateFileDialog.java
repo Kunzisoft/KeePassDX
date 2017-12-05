@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -56,8 +57,8 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
     private Uri uriPath;
 
     public interface DefinePathDialogListener {
-        void onDefinePathDialogPositiveClick(Uri pathFile);
-        void onDefinePathDialogNegativeClick(Uri pathFile);
+        boolean onDefinePathDialogPositiveClick(Uri pathFile);
+        boolean onDefinePathDialogNegativeClick(Uri pathFile);
     }
 
     @Override
@@ -83,14 +84,10 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
                 // Add action buttons
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDefinePathDialogPositiveClick(buildPath());
-                    }
+                    public void onClick(DialogInterface dialog, int id) {}
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDefinePathDialogNegativeClick(buildPath());
-                    }
+                    public void onClick(DialogInterface dialog, int id) {}
                 });
 
         // Folder selection
@@ -127,7 +124,31 @@ public class CreateFileDialog extends DialogFragment implements AdapterView.OnIt
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
 
-        return builder.create();
+        AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        if(mListener.onDefinePathDialogPositiveClick(buildPath()))
+                            CreateFileDialog.this.dismiss();
+                    }
+                });
+                Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
+                negativeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        if(mListener.onDefinePathDialogNegativeClick(buildPath()))
+                            CreateFileDialog.this.dismiss();
+                    }
+                });
+            }
+        });
+
+        return dialog;
     }
 
     @Override

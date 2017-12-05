@@ -192,6 +192,7 @@
     <string name="warning_read_only">Your sd card is currently read-only. You may not be able to save changes to your database.</string>
     <string name="warning_unmounted">Your sd card is not currently mounted on your device. You will not be able to load or create your database.</string>
     <string name="warning_empty_password">Do you really want to use an empty string as password ?</string>
+    <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key ?</string>
     <string name="version_label">Version:</string>
     <string name="configure_fingerprint">Fingerprint supported but not configured for device</string>
     <string name="scanning_fingerprint">Listening for fingerprints</string>

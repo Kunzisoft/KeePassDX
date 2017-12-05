@@ -150,7 +150,7 @@ public class KeyFileHelper {
                         keyUri = UriUtil.parseDefaultFile(filename);
                     }
                     if (keyFileCallback != null)
-                        keyFileCallback.onResultCallback(keyUri);
+                        keyFileCallback.onKeyFileResultCallback(keyUri);
                 }
                 break;
             case GET_CONTENT:
@@ -163,7 +163,7 @@ public class KeyFileHelper {
                                 uri = UriUtil.translate(activity, uri);
                             }
                             if (keyFileCallback != null)
-                                keyFileCallback.onResultCallback(uri);
+                                keyFileCallback.onKeyFileResultCallback(uri);
                         }
                     }
                 }
@@ -172,7 +172,7 @@ public class KeyFileHelper {
     }
 
     public interface KeyFileCallback {
-        void onResultCallback(Uri uri);
+        void onKeyFileResultCallback(Uri uri);
     }
 
 }

@@ -55,7 +55,7 @@ import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
 public abstract class GroupBaseActivity extends LockCloseListActivity
-		implements AssignPasswordDialog.AssignPasswordDialogListener {
+		implements AssignMasterKeyDialog.AssignPasswordDialogListener {
 	protected ListView mList;
 	protected ListAdapter mAdapter;
 
@@ -269,7 +269,9 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	}
 
     @Override
-    public void onAssignKeyDialogPositiveClick(String masterPassword, Uri keyFile) {
+    public void onAssignKeyDialogPositiveClick(
+    		boolean masterPasswordChecked, String masterPassword,
+			boolean keyFileChecked, Uri keyFile) {
 
         AssignPasswordHelper assignPasswordHelper =
                 new AssignPasswordHelper(this,
@@ -278,12 +280,14 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
     }
 
     @Override
-    public void onAssignKeyDialogNegativeClick(String masterPassword, Uri keyFile) {
+    public void onAssignKeyDialogNegativeClick(
+			boolean masterPasswordChecked, String masterPassword,
+			boolean keyFileChecked, Uri keyFile) {
 
     }
 
 	private void setPassword() {
-		AssignPasswordDialog dialog = new AssignPasswordDialog();
+		AssignMasterKeyDialog dialog = new AssignMasterKeyDialog();
 		dialog.show(getSupportFragmentManager(), "passwordDialog");
 	}
 	

@@ -20,7 +20,9 @@ public class AssignPasswordHelper {
     private String masterPassword;
     private Uri keyfile;
 
-    public AssignPasswordHelper(Context context, String masterPassword, Uri keyfile) {
+    public AssignPasswordHelper(Context context,
+                                String masterPassword,
+                                Uri keyfile) {
         this.context = context;
         this.masterPassword = masterPassword;
         this.keyfile = keyfile;

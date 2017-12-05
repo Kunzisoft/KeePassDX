@@ -88,13 +88,15 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private int mode;
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
     private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
+
+    private TextView filenameView;
     private View fingerprintView;
     private TextView confirmationView;
     private EditText passwordView;
     private EditText keyFileView;
-    private Button confirmButton;
-    private CheckBox checkboxPassword;
-    private CheckBox checkboxKeyfile;
+    private Button confirmButtonView;
+    private CheckBox checkboxPasswordView;
+    private CheckBox checkboxKeyfileView;
 
     private KeyFileHelper keyFileHelper;
 
@@ -141,10 +143,9 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
                 new KeyFileHelper.KeyFileCallback() {
                     @Override
-                    public void onResultCallback(Uri uri) {
+                    public void onKeyFileResultCallback(Uri uri) {
                         if(uri != null) {
-                            EditText fn = (EditText) findViewById(R.id.pass_keyfile);
-                            fn.setText(uri.toString());
+                            keyFileView.setText(uri.toString());
                         }
                     }
                 });
@@ -184,14 +185,39 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        confirmButton = (Button) findViewById(R.id.pass_ok);
+        filenameView = (TextView) findViewById(R.id.filename);
+        confirmButtonView = (Button) findViewById(R.id.pass_ok);
         fingerprintView = findViewById(R.id.fingerprint);
         confirmationView = (TextView) findViewById(R.id.fingerprint_label);
         passwordView = (EditText) findViewById(R.id.password);
         keyFileView = (EditText) findViewById(R.id.pass_keyfile);
+        checkboxPasswordView = (CheckBox) findViewById(R.id.password_checkbox);
+        checkboxKeyfileView = (CheckBox) findViewById(R.id.keyfile_checkox);
 
-        checkboxPassword = (CheckBox) findViewById(R.id.password_checkbox);
-        checkboxKeyfile = (CheckBox) findViewById(R.id.keyfile_checkox);
+        passwordView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkboxPasswordView.setChecked(true);
+            }
+        });
+        keyFileView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkboxKeyfileView.setChecked(true);
+            }
+        });
 
         new InitTask().execute(i);
     }
@@ -219,6 +245,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private void setEmptyViews() {
         passwordView.setText("");
         keyFileView.setText("");
+        checkboxPasswordView.setChecked(false);
+        checkboxKeyfileView.setChecked(false);
     }
 
     private void retrieveSettings() {
@@ -239,10 +267,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private void populateView() {
         String db = (mDbUri == null) ? "" : mDbUri.toString();
-        setEditText(R.id.filename, db);
+        if (!db.isEmpty())
+            filenameView.setText(db);
 
         String key = (mKeyUri == null) ? "" : mKeyUri.toString();
-        setEditText(R.id.pass_keyfile, key);
+        if (!key.isEmpty())
+            keyFileView.setText(key);
     }
 
     // fingerprint related code here
@@ -407,7 +437,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
                 .apply();
         // and remove visual input to reset UI
-        confirmButton.performClick();
+        confirmButtonView.performClick();
         confirmationView.setText(R.string.encrypted_value_stored);
     }
 
@@ -415,7 +445,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     public void handleDecryptedResult(final String value) {
         // on decrypt enter it for the purchase/login action
         passwordView.setText(value);
-        confirmButton.performClick();
+        confirmButtonView.performClick();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -462,8 +492,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private class OkClickHandler implements View.OnClickListener {
 
         public void onClick(View view) {
-            String pass = getEditText(R.id.password);
-            String key = getEditText(R.id.pass_keyfile);
+            String pass = passwordView.getText().toString();
+            String key = keyFileView.getText().toString();
             loadDatabase(pass, key);
         }
     }
@@ -485,10 +515,10 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         // Clear the shutdown flag
         App.clearShutdown();
 
-        if (!checkboxPassword.isChecked()) {
+        if (!checkboxPasswordView.isChecked()) {
             pass = "";
         }
-        if (!checkboxKeyfile.isChecked()) {
+        if (!checkboxKeyfileView.isChecked()) {
             keyfile = null;
         }
 
@@ -500,15 +530,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private String getEditText(int resId) {
         return Util.getEditText(this, resId);
-    }
-
-    private void setEditText(
-            int resId,
-            String str) {
-        TextView te = (TextView) findViewById(resId);
-        if (te != null) {
-            te.setText(str);
-        }
     }
 
     @Override

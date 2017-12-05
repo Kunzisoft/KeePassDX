@@ -19,12 +19,6 @@
  */
 package com.keepassdroid.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import com.keepassdroid.database.exception.SamsungClipboardException;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -32,6 +26,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.ClipboardManager;
 import android.widget.TextView;
+
+import com.keepassdroid.database.exception.SamsungClipboardException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class Util {
 	public static String getClipboard(Context context) {
@@ -72,14 +72,6 @@ public class Util {
 			return te.getText().toString();
 		} else {
 			return "";
-		}
-	}
-	
-	public static void setEditText(Activity act, int resId, String str) {
-		TextView te =  (TextView) act.findViewById(resId);
-		
-		if (te != null) {
-			te.setText(str);
 		}
 	}
 	
