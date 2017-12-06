@@ -66,4 +66,5 @@ dependencies {
     compile "com.madgag.spongycastle:core:$spongycastleVersion"
     compile "com.madgag.spongycastle:prov:$spongycastleVersion"
     compile "joda-time:joda-time:2.9.9"
+    compile "org.sufficientlysecure:html-textview:3.5"
 }

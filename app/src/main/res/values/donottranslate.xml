@@ -126,4 +126,10 @@
         <item translatable="false">@string/special</item>
         <item translatable="false">@string/brackets</item>
     </string-array>
+
+    <string name="chapter_1">I</string>
+    <string name="chapter_2">II</string>
+    <string name="chapter_3">III</string>
+    <string name="chapter_4">IV</string>
+    <string name="chapter_5">V</string>
 </resources>

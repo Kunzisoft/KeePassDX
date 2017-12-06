@@ -208,6 +208,13 @@
     <string name="list_password_generator_options_summary">Set the default password generator characters</string>
     <string name="clipboard_notifications_title">Clipboard Notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy username and password</string>
+    <string name="fingerprint_quick_unlock_title">How to configure fingerprint for quick unlocking ?</string>
+    <string name="fingerprint_setting_text">Set your personnal fingerprint for your device in </string>
+    <string name="fingerprint_setting_way_text">Settings -> Security -> Fingerprint</string>
+    <string name="fingerprint_type_password_text">Type your password in Keepass DX</string>
+    <string name="fingerprint_scan_to_store">Scan your fingerprint to store your master password securely</string>
+    <string name="fingerprint_scan_to_open">Just scan your fingerprint in Keepass DX when the password field is empty to open the database</string>
+    <string name="usage">Usage</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

@@ -208,6 +208,13 @@
     <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
     <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier le nom d\'utilisateur et le mot de passe</string>
+    <string name="fingerprint_quick_unlock_title">Comment configurer l\'empreinte digitale pour un déverrouillage rapide?</string>
+    <string name="fingerprint_setting_text">Définissez votre empreinte digitale personnelle pour votre appareil dans </string>
+    <string name="fingerprint_setting_way_text">Paramètres -> Sécurité -> Empreinte digitale</string>
+    <string name="fingerprint_type_password_text">Tapez votre mot de passe dans Keepass DX</string>
+    <string name="fingerprint_scan_to_store">Scannez votre empreinte digitale pour stocker votre mot de passe maître en toute sécurité</string>
+    <string name="fingerprint_scan_to_open">Il suffit de scanner votre empreinte digitale dans Keepass DX lorsque le champ mot de passe est vide pour ouvrir la base de données</string>
+    <string name="usage">Usage</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>
