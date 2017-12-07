@@ -215,6 +215,9 @@
     <string name="fingerprint_scan_to_store">Scannez votre empreinte digitale pour stocker votre mot de passe maître en toute sécurité</string>
     <string name="fingerprint_scan_to_open">Il suffit de scanner votre empreinte digitale dans Keepass DX lorsque le champ mot de passe est vide pour ouvrir la base de données</string>
     <string name="usage">Usage</string>
+    <string name="fingerprint">Empreinte digitale</string>
+    <string name="fingerprint_enable_title">Écoute d\'empreintes digitales</string>
+    <string name="fingerprint_enable_summary">Activer l\'ouverture de la base de données par empreinte digitale</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>

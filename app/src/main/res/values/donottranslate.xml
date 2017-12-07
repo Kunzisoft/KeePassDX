@@ -53,6 +53,7 @@
     <string name="saf_key" translatable="false">storage_access_framework_key</string>
     <string name="setting_style_key" translatable="false">setting_style_key</string>
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
+    <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -61,6 +62,7 @@
     <bool name="recentfile_default" translatable="false">true</bool>
     <bool name="saf_default" translatable="false">false</bool>
     <bool name="clipboard_notifications_default" translatable="false">true</bool>
+    <bool name="fingerprint_enable_default" translatable="true">true</bool>
     
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">

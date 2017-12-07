@@ -55,4 +55,10 @@ public class PrefsUtil {
         return prefs.getBoolean(ctx.getString(R.string.clipboard_notifications_key),
                 ctx.getResources().getBoolean(R.bool.clipboard_notifications_default));
     }
+
+    public static boolean isFingerprintEnable(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.fingerprint_enable_key),
+                ctx.getResources().getBoolean(R.bool.fingerprint_enable_default));
+    }
 }

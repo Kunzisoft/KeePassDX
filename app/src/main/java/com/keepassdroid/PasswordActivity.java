@@ -60,6 +60,7 @@ import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.fingerprint.FingerPrintAnimatedVector;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
@@ -227,11 +228,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     protected void onResume() {
         super.onResume();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && fingerPrintAnimatedVector != null) {
-            fingerPrintAnimatedVector.startScan();
-        }
-
         // If the application was shutdown make sure to clear the password field, if it
         // was saved in the instance state
         if (App.isShutdown()) {
@@ -246,6 +242,9 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             initForFingerprint();
             checkAvailability();
+            if (fingerPrintAnimatedVector != null) {
+                fingerPrintAnimatedVector.startScan();
+            }
         }
     }
 
@@ -406,7 +405,9 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private void checkAvailability() {
 
         // fingerprint not supported (by API level or hardware) so keep option hidden
-        if (!fingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
+        // or manually disable
+        if (!PrefsUtil.isFingerprintEnable(getApplicationContext())
+                || !fingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
             setFingerPrintVisibility(View.GONE);
         }
         // fingerprint is available but not configured show icon but in disabled state with some information

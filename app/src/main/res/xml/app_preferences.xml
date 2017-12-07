@@ -102,6 +102,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/fingerprint">
+
+        <SwitchPreference
+            android:key="@string/fingerprint_enable_key"
+            android:title="@string/fingerprint_enable_title"
+            android:summary="@string/fingerprint_enable_summary"
+            android:defaultValue="@bool/fingerprint_enable_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/appearance">
 
         <ListPreference

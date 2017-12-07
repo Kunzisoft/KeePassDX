@@ -215,6 +215,9 @@
     <string name="fingerprint_scan_to_store">Scan your fingerprint to store your master password securely</string>
     <string name="fingerprint_scan_to_open">Just scan your fingerprint in Keepass DX when the password field is empty to open the database</string>
     <string name="usage">Usage</string>
+    <string name="fingerprint">Fingerprint</string>
+    <string name="fingerprint_enable_title">Fingerprint listening</string>
+    <string name="fingerprint_enable_summary">Enable database opening by fingerprint</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>
