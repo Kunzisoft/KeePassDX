@@ -17,13 +17,13 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<PreferenceScreen
+<android.support.v7.preference.PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory
+	<android.support.v7.preference.PreferenceCategory
 		android:title="@string/general">
 
-		<Preference
+		<android.support.v7.preference.Preference
 			android:key="@string/algorithm_key"
 			android:title="@string/algorithm"
 			android:enabled="false"/>
@@ -35,5 +35,5 @@
 			android:positiveButtonText="@string/entry_save"
 			android:negativeButtonText="@string/entry_cancel"/>
 
-    </PreferenceCategory>
-</PreferenceScreen>
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>
