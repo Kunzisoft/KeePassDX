@@ -57,8 +57,14 @@ public class PrefsUtil {
     }
 
     public static boolean isLockDatabaseWhenScreenShutOffEnable(Context ctx) {
-	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-	    return prefs.getBoolean(ctx.getString(R.string.lock_database_screen_off_key),
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.lock_database_screen_off_key),
                 ctx.getResources().getBoolean(R.bool.lock_database_screen_off_default));
+    }
+
+    public static boolean isFingerprintEnable(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.fingerprint_enable_key),
+                ctx.getResources().getBoolean(R.bool.fingerprint_enable_default));
     }
 }

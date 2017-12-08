@@ -211,6 +211,17 @@
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
+    <string name="fingerprint_quick_unlock_title">How to configure fingerprint for quick unlocking ?</string>
+    <string name="fingerprint_setting_text">Set your personnal fingerprint for your device in </string>
+    <string name="fingerprint_setting_way_text">Settings -> Security -> Fingerprint</string>
+    <string name="fingerprint_type_password_text">Type your password in Keepass DX</string>
+    <string name="fingerprint_scan_to_store">Scan your fingerprint to store your master password securely</string>
+    <string name="fingerprint_scan_to_open">Just scan your fingerprint in Keepass DX when the password field is empty to open the database</string>
+    <string name="usage">Usage</string>
+    <string name="fingerprint">Fingerprint</string>
+    <string name="fingerprint_enable_title">Fingerprint listening</string>
+    <string name="fingerprint_enable_summary">Enable database opening by fingerprint</string>
+    <string name="unavailable_feature_text">Can not start this feature\nYour Android version %1$d is not the minimum version %2$d required</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

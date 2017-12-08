@@ -20,11 +20,14 @@
 package com.keepassdroid.settings;
 
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
+import com.keepassdroid.UnavailableFeatureDialog;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
@@ -97,6 +100,21 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                         return true;
                     }
                 });
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    // False if under Marshmallow
+                    SwitchPreference preference = (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
+                    preference.setDefaultValue(false);
+                    preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            ((SwitchPreference) preference).setChecked(false);
+                            UnavailableFeatureDialog.getInstance(Build.VERSION_CODES.M)
+                                    .show(getFragmentManager(), "unavailableFeatureDialog");
+                            return false;
+                        }
+                    });
+                }
 
                 break;
 

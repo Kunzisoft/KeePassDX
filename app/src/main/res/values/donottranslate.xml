@@ -54,6 +54,7 @@
     <string name="setting_style_key" translatable="false">setting_style_key</string>
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
+    <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -63,6 +64,7 @@
     <bool name="saf_default" translatable="false">false</bool>
     <bool name="clipboard_notifications_default" translatable="false">true</bool>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
+    <bool name="fingerprint_enable_default" translatable="true">false</bool>
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">
@@ -128,4 +130,10 @@
         <item translatable="false">@string/special</item>
         <item translatable="false">@string/brackets</item>
     </string-array>
+
+    <string name="chapter_1">I</string>
+    <string name="chapter_2">II</string>
+    <string name="chapter_3">III</string>
+    <string name="chapter_4">IV</string>
+    <string name="chapter_5">V</string>
 </resources>
