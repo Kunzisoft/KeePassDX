@@ -20,11 +20,8 @@
 <resources>
 
     <!-- Base application theme. -->
-
-    <!-- For elevation encapsulation in V21-->
+    <!-- For setting encapsulation -->
     <style name="KeepassDXStyle.Light.v21" parent="Theme.AppCompat.Light">
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
