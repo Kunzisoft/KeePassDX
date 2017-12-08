@@ -2,12 +2,14 @@ package com.keepassdroid.settings;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
+import com.kunzisoft.keepass.R;
 
 public class MainPreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
@@ -40,6 +42,21 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         } else {
             preference.setOnPreferenceClickListener(this);
         }
+
+        EditTextPreference fixDatabaseRoundPref = (EditTextPreference)
+                getPreferenceScreen().findPreference(getString(R.string.roundsFix_key));
+        fixDatabaseRoundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                try {
+                    Long.valueOf(newValue.toString());
+                    return true;
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+        });
     }
 
     @Override

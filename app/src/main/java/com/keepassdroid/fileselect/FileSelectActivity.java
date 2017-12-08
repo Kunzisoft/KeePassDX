@@ -28,7 +28,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -175,11 +174,7 @@ public class FileSelectActivity extends StylishActivity implements
 				}
 				else {
 					Intent i;
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-						i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-					} else {
-						i = new Intent(Intent.ACTION_GET_CONTENT);
-					}
+                    i = new Intent(Intent.ACTION_GET_CONTENT);
 					i.addCategory(Intent.CATEGORY_OPENABLE);
 					i.setType("*/*");
 

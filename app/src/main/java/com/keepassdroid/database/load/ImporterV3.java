@@ -125,10 +125,10 @@ public class ImporterV3 extends Importer {
 	public PwDatabaseV3 openDatabase( InputStream inStream, String password, InputStream kfIs)
 	throws IOException, InvalidDBException
 	{
-		return openDatabase(inStream, password, kfIs, new UpdateStatus());
+		return openDatabase(inStream, password, kfIs, new UpdateStatus(), 0);
 	}
 
-	public PwDatabaseV3 openDatabase( InputStream inStream, String password, InputStream kfIs, UpdateStatus status )
+	public PwDatabaseV3 openDatabase( InputStream inStream, String password, InputStream kfIs, UpdateStatus status, long roundsFix)
 	throws IOException, InvalidDBException
 	{
 		PwDatabaseV3        newManager;

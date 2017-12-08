@@ -19,9 +19,29 @@
  */
 package com.keepassdroid;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.exception.ContentFileNotFoundException;
+import com.keepassdroid.database.exception.InvalidDBException;
+import com.keepassdroid.database.exception.InvalidPasswordException;
+import com.keepassdroid.database.exception.PwDbOutputException;
+import com.keepassdroid.database.load.Importer;
+import com.keepassdroid.database.load.ImporterFactory;
+import com.keepassdroid.database.save.PwDbOutput;
+import com.keepassdroid.icons.DrawableFactory;
+import com.keepassdroid.search.SearchDbHelper;
+import com.keepassdroid.utils.UriUtil;
+import com.kunzisoft.keepass.R;
+
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,24 +50,6 @@ import java.io.OutputStream;
 import java.io.SyncFailedException;
 import java.util.HashSet;
 import java.util.Set;
-
-import android.content.ContentResolver;
-import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
-
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.database.exception.ContentFileNotFoundException;
-import com.keepassdroid.database.exception.InvalidDBException;
-import com.keepassdroid.database.exception.PwDbOutputException;
-import com.keepassdroid.database.load.Importer;
-import com.keepassdroid.database.load.ImporterFactory;
-import com.keepassdroid.database.save.PwDbOutput;
-import com.keepassdroid.icons.DrawableFactory;
-import com.keepassdroid.search.SearchDbHelper;
-import com.keepassdroid.utils.UriUtil;
 
 /**
  * @author bpellin
@@ -92,6 +94,26 @@ public class Database {
             readOnly = !file.canWrite();
         }
 
+        try {
+            passUrisAsInputStreams(ctx, uri, password, keyfile, status, debug, 0);
+        } catch (InvalidPasswordException e) {
+            // Retry with rounds fix
+            try {
+                passUrisAsInputStreams(ctx, uri, password, keyfile, status, debug, getFixRounds(ctx));
+            } catch (Exception e2) {
+                // Rethrow original exception
+                throw e;
+            }
+        }
+    }
+
+    private long getFixRounds(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getLong(ctx.getString(R.string.roundsFix_key), ctx.getResources().getInteger(R.integer.roundsFix_default));
+    }
+
+
+    private void passUrisAsInputStreams(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status, boolean debug, long roundsFix) throws IOException, FileNotFoundException, InvalidDBException {
         InputStream is, kfIs;
         try {
             is = UriUtil.getUriInputStream(ctx, uri);
@@ -106,7 +128,7 @@ public class Database {
             Log.e("KPD", "Database::LoadData", e);
             throw ContentFileNotFoundException.getInstance(keyfile);
         }
-        LoadData(ctx, is, password, kfIs, status, debug);
+        LoadData(ctx, is, password, kfIs, status, debug, roundsFix);
     }
 
     public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
@@ -114,6 +136,10 @@ public class Database {
     }
 
     public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
+        LoadData(ctx, is, password, kfIs, status, debug, 0);
+    }
+
+    public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug, long roundsFix) throws IOException, InvalidDBException {
         BufferedInputStream bis = new BufferedInputStream(is);
 
         if ( ! bis.markSupported() ) {
@@ -127,7 +153,7 @@ public class Database {
 
         bis.reset();  // Return to the start
 
-        pm = imp.openDatabase(bis, password, kfIs, status);
+        pm = imp.openDatabase(bis, password, kfIs, status, roundsFix);
         if ( pm != null ) {
             PwGroup root = pm.rootGroup;
             pm.populateGlobals(root);

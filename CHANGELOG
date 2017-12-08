@@ -1,3 +1,9 @@
+KeepassDX (2.5.0.0beta3)
+ * Merge KeePassDroid 2.2.0.9
+
+KeepassDX (2.5.0.0beta2)
+ * Remove libs for F-Droid
+
 KeepassDX (2.5.0.0beta1)
  * Fork KeepassDroid
  * Add Material Design
@@ -6,6 +12,33 @@ KeepassDX (2.5.0.0beta1)
  * Solve bug for fingerprint
  * Update French translation
  * Change donation (see KeepassDroid to contribute on both projects)
+
+KeePassDroid (2.2.0.9)
+ * Update build tools version to workaround CM/Lineage bug (closes: #249)
+ * Update Russian translations
+ * Update Polish translations
+
+KeePassDroid (2.2.0.8)
+ * Add corruption fix mode
+ * Update Hungarian translations
+
+KeePassDroid (2.2.0.7)
+ * Fix KDBX3 encryption rounds corruption
+ * Fix KDBX4 attachement crashes
+
+KeePassDroid (2.2.0.6)
+ * Add additional ndk ABIs
+
+KeePassDroid (2.2.0.5)
+ * Don't show fingerprint prompt on devices without fingerprint hardware
+ * Fix dateformat crashes
+
+KeePassDroid (2.2.0.4)
+ * Fingerprint fixes
+
+KeePassDroid (2.2.0.3)
+ * Search crash fix
+ * Improve fingerprint handling
 
 KeePassDroid (2.2.0.2)
  * Fix non fingerprint password layout
