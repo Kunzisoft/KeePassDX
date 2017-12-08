@@ -63,7 +63,7 @@
     <string name="entry_confpassword">Επιβεβαίωση κωδικού πρόσβασης:</string>
     <string name="entry_created">Δημιουργήθηκε: </string>
     <string name="entry_expires">Λήγει: </string>
-    <string name="entry_keyfile">Αρχείο Κλειδιού (προαιρετικό)</string>
+    <string name="entry_keyfile">Αρχείο Κλειδιού</string>
     <string name="entry_modified">Τροποποιήθηκε: </string>
     <string name="entry_not_found">Δεν βρέθηκαν δεδομένα εγγραφών.</string>
     <string name="entry_password">Κωδικός Πρόσβασης:</string>
@@ -83,7 +83,7 @@
     <string name="error_invalid_db">Μη έγκυρη βάση δεδομένων.</string>
     <string name="error_invalid_path">Μη έγκυρη διαδρομή.</string>
     <string name="error_no_name">Απαιτείται ένα όνομα.</string>
-    <string name="error_nopass">Απαιτείται ο κωδικός πρόσβασης ή ένα αρχείο κλειδιού.</string>
+    <string name="error_nokeyfile">Απαιτείται ο κωδικός πρόσβασης ή ένα αρχείο κλειδιού.</string>
     <string name="error_out_of_memory">Το τηλέφωνο ξέμεινε από μνήμη κατά τη διάρκεια προσπέλασης της βάσης δεδομένων σας. Μπορεί να είναι πολύ μεγάλη για το τηλέφωνο σας.</string>
     <string name="error_pass_gen_type">Πρέπει να επιλεγεί τουλάχιστον ένας τύπος δημιουργίας κωδικού πρόσβασης</string>
     <string name="error_pass_match">Οι κωδικοί δεν ταιριάζουν.</string>

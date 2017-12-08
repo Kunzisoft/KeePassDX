@@ -63,8 +63,10 @@ dependencies {
     compile "com.android.support:design:$supportVersion"
     compile "com.android.support:preference-v7:$supportVersion"
     compile "com.android.support:preference-v14:$supportVersion"
+    compile "com.android.support:cardview-v7:$supportVersion"
     compile "com.madgag.spongycastle:core:$spongycastleVersion"
     compile "com.madgag.spongycastle:prov:$spongycastleVersion"
     compile "joda-time:joda-time:2.9.9"
     compile "org.sufficientlysecure:html-textview:3.5"
+    compile "com.nononsenseapps:filepicker:4.1.0"
 }

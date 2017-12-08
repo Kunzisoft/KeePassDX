@@ -56,7 +56,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_confpassword">Potwierdź hasło:</string>
     <string name="entry_created">Utworzono: </string>
     <string name="entry_expires">Wygasa: </string>
-    <string name="entry_keyfile">Plik klucza (opcjonalnie)</string>
+    <string name="entry_keyfile">Plik klucza</string>
     <string name="entry_modified">Zmodyfikowano: </string>
     <string name="entry_password">Hasło</string>
     <string name="entry_save">Zapisz</string>
@@ -75,7 +75,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_invalid_db">Nieprawidłowa baza danych.</string>
     <string name="error_invalid_path">Nieprawidłowa ścieżka dostępu.</string>
     <string name="error_no_name">Wymagana nazwa.</string>
-    <string name="error_nopass">Wymagane hasło lub plik klucza.</string>
+    <string name="error_nokeyfile">Wymagane hasło lub plik klucza.</string>
     <string name="error_out_of_memory">Podczas parsowania bazy danych zabrakło pamięci. Być może ta baza danych jest za duża dla Twojego urządzenia.</string>
     <string name="error_pass_gen_type">Przynajmniej jeden sposób generowania hasła musi być wybrany</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>

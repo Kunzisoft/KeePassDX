@@ -45,7 +45,7 @@
     <string name="entry_confpassword">Jelszó megerősítése:</string>
     <string name="entry_created">Létrehozva:</string>
     <string name="entry_expires">Lejárat:</string>
-    <string name="entry_keyfile">Kulcsfájl (opcionális)</string>
+    <string name="entry_keyfile">Kulcsfájl</string>
     <string name="entry_modified">Módosítva:</string>
     <string name="entry_password">Jelszó:</string>
     <string name="entry_save">Mentés</string>
@@ -64,7 +64,7 @@
     <string name="error_invalid_db">Érvénytelen adatbázis.</string>
     <string name="error_invalid_path">Érvénytelen útvonal.</string>
     <string name="error_no_name">Egy névre van szükség.</string>
-    <string name="error_nopass">Jelszóra vagy kulcsfájlra van szükség.</string>
+    <string name="error_nokeyfile">Jelszóra vagy kulcsfájlra van szükség.</string>
     <string name="error_out_of_memory">A telefon memóriája megtelt az adatbázis feldolgozása közben. Lehet túl sok ez a telefonnak.</string>
     <string name="error_pass_gen_type">Legalább egy jelszógenerálási típust kell választania</string>
     <string name="error_pass_match">A jelszavak nem egyeznek meg.</string>

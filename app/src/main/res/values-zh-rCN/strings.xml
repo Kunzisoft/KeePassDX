@@ -58,7 +58,7 @@
     <string name="entry_confpassword">确认密码：</string>
     <string name="entry_created">创建：</string>
     <string name="entry_expires">失效时间：</string>
-    <string name="entry_keyfile">密钥文件（可选）</string>
+    <string name="entry_keyfile">密钥文件</string>
     <string name="entry_modified">修改时间：: </string>
     <string name="entry_password">密码：</string>
     <string name="entry_save">保存</string>
@@ -77,7 +77,7 @@
     <string name="error_invalid_db">非法数据库。</string>
     <string name="error_invalid_path">非法路径。</string>
     <string name="error_no_name">用户名是必须的。</string>
-    <string name="error_nopass">密码或者密钥文件是必须的。</string>
+    <string name="error_nokeyfile">密码或者密钥文件是必须的。</string>
     <string name="error_out_of_memory">这款手机运行内存不足而不能解析数据库。这可能是数据库太大的缘故。</string>
     <string name="error_pass_gen_type">至少必须选择一个密码生成类型</string>
     <string name="error_pass_match">密码不匹配。</string>

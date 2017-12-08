@@ -65,7 +65,7 @@
     <string name="entry_confpassword">Bekräfta lösenord:</string>
     <string name="entry_created">Skapad: </string>
     <string name="entry_expires">Upphör att gälla: </string>
-    <string name="entry_keyfile">Nyckelfil (valfri)</string>
+    <string name="entry_keyfile">Nyckelfil</string>
     <string name="entry_modified">Senast ändrad: </string>
     <string name="entry_password">Lösenord:</string>
     <string name="entry_save">Spara</string>
@@ -84,7 +84,7 @@
     <string name="error_invalid_db">Ogiltig databas.</string>
     <string name="error_invalid_path">Ogiltig sökväg.</string>
     <string name="error_no_name">Ett namn krävs.</string>
-    <string name="error_nopass">Ett lösenord eller en nyckelfil är ett krav.</string>
+    <string name="error_nokeyfile">Ett lösenord eller en nyckelfil är ett krav.</string>
     <string name="error_out_of_memory">The phone ran out of memory while parsing your database. It may be too large for your phone.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected</string>
     <string name="error_pass_match">Lösenorden matchar inte.</string>

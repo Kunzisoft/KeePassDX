@@ -66,7 +66,7 @@
     <string name="entry_confpassword">Confirmer mot de passe</string>
     <string name="entry_created">Créé</string>
     <string name="entry_expires">Expire</string>
-    <string name="entry_keyfile">Clé (facultative)</string>
+    <string name="entry_keyfile">Fichier clé</string>
     <string name="entry_modified">Modifié</string>
     <string name="entry_not_found">Entry data not found.</string>
     <string name="entry_password">Mot de passe</string>
@@ -86,7 +86,7 @@
     <string name="error_invalid_db">Base de données invalide.</string>
     <string name="error_invalid_path">Chemin invalide.</string>
     <string name="error_no_name">Le nom est obligatoire.</string>
-    <string name="error_nopass">Un mot de passe ou clé de fichier est requis.</string>
+    <string name="error_nokeyfile">Un fichier clé est requis.</string>
     <string name="error_out_of_memory">Votre appareil ne dispose pas de suffisamment de mémoire pour ouvrir votre base de données. Elle est probablement trop grosse pour votre appareil.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
@@ -191,6 +191,8 @@
     <string name="warning_password_encoding">Le format .kdb ne supporte que le jeu de caractère Latin1. Votre mot de passe doit contenir des caractères en dehors de ce jeu. Tous les caractères non-Latin1 sont convertis en un même caractère, ce qui diminue la sécurité de votre mot de passe. Le changement de votre mot de passe est recommandé.</string>
     <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
+    <string name="warning_empty_password">Voulez-vous vraiment utiliser une chaine de caractères vide comme mot de passe ?</string>
+    <string name="warning_no_encryption_key">Etes-vous sûr de ne vouloir utiliser aucune clé de chiffrement.</string>
     <string name="version_label">Version\u00A0:</string>
     <string name="configure_fingerprint">Reconnaissance d\'empreinte digitale non configuré pour cet appareil</string>
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
@@ -221,6 +223,10 @@
     <string name="fingerprint_enable_title">Écoute d\'empreintes digitales</string>
     <string name="fingerprint_enable_summary">Activer l\'ouverture de la base de données par empreinte digitale</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité\nVotre version Android %1$d n\'est pas la version minimale %2$d requise</string>
+    <string name="file_name">Nom de fichier</string>
+    <string name="path">Chemin</string>
+    <string name="assign_master_key">Assigner une clé maître</string>
+    <string name="create_keepass_file">Créer un fichier keepass</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>

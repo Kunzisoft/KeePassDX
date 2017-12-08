@@ -21,7 +21,6 @@
     <string name="app_name" translatable="false">KeePass DX</string>
 
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="default_file_path" translatable="false">/keepass/keepass.kdbx</string>
     <string name="donate_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
     <string name="homepage" translatable="false">http://www.kunzisoft.com/KeepassDX</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
@@ -136,4 +135,12 @@
     <string name="chapter_3">III</string>
     <string name="chapter_4">IV</string>
     <string name="chapter_5">V</string>
+
+    <string name="database_file_path_default" translatable="false">/keepass/</string>
+    <string name="database_file_name_default" translatable="false">keepass</string>
+    <string name="database_file_extension_default" translatable="false">.kdbx</string>
+    <string-array name="file_types">
+        <item translatable="false">@string/database_file_extension_default</item>
+    </string-array>
+
 </resources>

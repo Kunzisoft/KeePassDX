@@ -19,12 +19,29 @@
  */
 package com.keepassdroid.database;
 
-import java.io.FileInputStream;
+import android.webkit.URLUtil;
+
+import com.keepassdroid.collections.VariantDictionary;
+import com.keepassdroid.crypto.CryptoUtil;
+import com.keepassdroid.crypto.engine.AesEngine;
+import com.keepassdroid.crypto.engine.CipherEngine;
+import com.keepassdroid.crypto.keyDerivation.AesKdf;
+import com.keepassdroid.crypto.keyDerivation.KdfEngine;
+import com.keepassdroid.crypto.keyDerivation.KdfFactory;
+import com.keepassdroid.crypto.keyDerivation.KdfParameters;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.utils.EmptyUtils;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,28 +53,7 @@ import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.spongycastle.crypto.engines.AESEngine;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-
-import android.webkit.URLUtil;
 import biz.source_code.base64Coder.Base64Coder;
-
-import com.keepassdroid.collections.VariantDictionary;
-import com.keepassdroid.crypto.CipherFactory;
-import com.keepassdroid.crypto.CryptoUtil;
-import com.keepassdroid.crypto.PwStreamCipherFactory;
-import com.keepassdroid.crypto.engine.AesEngine;
-import com.keepassdroid.crypto.engine.CipherEngine;
-import com.keepassdroid.crypto.keyDerivation.AesKdf;
-import com.keepassdroid.crypto.keyDerivation.KdfEngine;
-import com.keepassdroid.crypto.keyDerivation.KdfFactory;
-import com.keepassdroid.crypto.keyDerivation.KdfParameters;
-import com.keepassdroid.database.exception.InvalidKeyFileException;
-import com.keepassdroid.utils.EmptyUtils;
 
 
 public class PwDatabaseV4 extends PwDatabase {
@@ -131,7 +127,7 @@ public class PwDatabaseV4 extends PwDatabase {
 			throws InvalidKeyFileException, IOException {
 		assert(key != null);
 		
-		byte[] fKey;
+		byte[] fKey = new byte[]{};
 		
 		if ( key.length() > 0 && keyInputStream != null) {
 			return getCompositeKey(key, keyInputStream);
@@ -139,8 +135,6 @@ public class PwDatabaseV4 extends PwDatabase {
 			fKey =  getPasswordKey(key);
 		} else if ( keyInputStream != null) {
 			fKey = getFileKey(keyInputStream);
-		} else {
-			throw new IllegalArgumentException( "Key cannot be empty." );
 		}
 		
 		MessageDigest md;

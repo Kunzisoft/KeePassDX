@@ -65,7 +65,7 @@
     <string name="entry_confpassword">Bekræft adgangskode:</string>
     <string name="entry_created">Oprettet: </string>
     <string name="entry_expires">Udløber: </string>
-    <string name="entry_keyfile">Nøglefil (valgfri)</string>
+    <string name="entry_keyfile">Nøglefil</string>
     <string name="entry_modified">Ændret: </string>
     <string name="entry_not_found">Data for posten blev ikke fundet.</string>
     <string name="entry_password">Adgangskode:</string>
@@ -85,7 +85,7 @@
     <string name="error_invalid_db">Ugyldig database.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
     <string name="error_no_name">Et navn er påkrævet.</string>
-    <string name="error_nopass">En adgangskode eller nøglefil er påkrævet.</string>
+    <string name="error_nokeyfile">En adgangskode eller nøglefil er påkrævet.</string>
     <string name="error_out_of_memory">Telefonen løb tør for hukommelse under analysen af din database. Den kan være for stor til, at din telefon kan håndtere den.</string>
     <string name="error_pass_gen_type">Mindst én adgangskode-genererings-type skal vælges</string>
     <string name="error_pass_match">Adgangskoder matcher ikke.</string>

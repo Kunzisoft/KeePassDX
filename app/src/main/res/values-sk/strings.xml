@@ -58,7 +58,7 @@
     <string name="entry_confpassword">Potvrdiť heslo:</string>
     <string name="entry_created">Vytvorené: </string>
     <string name="entry_expires">Expirácia: </string>
-    <string name="entry_keyfile">Súbor Keyfile (voliteľné)</string>
+    <string name="entry_keyfile">Súbor Keyfile</string>
     <string name="entry_modified">Upravené: </string>
     <string name="entry_password">Heslo:</string>
     <string name="entry_save">Uložiť</string>
@@ -77,7 +77,7 @@
     <string name="error_invalid_db">Chybná databáza.</string>
     <string name="error_invalid_path">Chybná cesta.</string>
     <string name="error_no_name">Vyžaduje sa meno.</string>
-    <string name="error_nopass">Vyžaduje sa heslo, alebo súbor keyfile.</string>
+    <string name="error_nokeyfile">Vyžaduje sa heslo, alebo súbor keyfile.</string>
     <string name="error_out_of_memory">Telefón vyčerpal pamäť pri analýze databázy. Možno je to príliš na Váš telefón.</string>
     <string name="error_pass_gen_type">Musí byť vybraý najmenej jeden typ generovania hesla</string>
     <string name="error_pass_match">Heslá sa nezhodujú.</string>

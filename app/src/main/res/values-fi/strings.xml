@@ -63,7 +63,7 @@
     <string name="entry_confpassword">Vahvista salasana:</string>
     <string name="entry_created">Luotu: </string>
     <string name="entry_expires">Vanhenee: </string>
-    <string name="entry_keyfile">Avaintiedosto (valinnainen)</string>
+    <string name="entry_keyfile">Avaintiedosto</string>
     <string name="entry_modified">Muokattu: </string>
     <string name="entry_not_found">Tietueen tietoja ei löytynyt.</string>
     <string name="entry_password">Salasana:</string>
@@ -83,7 +83,7 @@
     <string name="error_invalid_db">Viallinen salasanatietokanta.</string>
     <string name="error_invalid_path">Viallinen hakemistopolku.</string>
     <string name="error_no_name">Nimi puuttuu.</string>
-    <string name="error_nopass">Salasana tai avaintiedosto puuttuu.</string>
+    <string name="error_nokeyfile">Salasana tai avaintiedosto puuttuu.</string>
     <string name="error_out_of_memory">Puhelimesta loppui muisti salasanatietokantaa avatessa. Tietokanta voi olla liian suuri tälle puhelinmallille.</string>
     <string name="error_pass_gen_type">Vähintään yksi salasanagenerointitapa täytyy olla valittuna.</string>
     <string name="error_pass_match">Salasanat eivät täsmää.</string>

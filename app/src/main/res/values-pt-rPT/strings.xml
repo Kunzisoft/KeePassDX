@@ -66,7 +66,7 @@
     <string name="entry_confpassword">Confirmar palavra-passe:</string>
     <string name="entry_created">Criado: </string>
     <string name="entry_expires">Expira: </string>
-    <string name="entry_keyfile">Ficheiro chave (opcional)</string>
+    <string name="entry_keyfile">Ficheiro chave</string>
     <string name="entry_modified">Modificado: </string>
     <string name="entry_not_found">Dados da entrada não encontrados.</string>
     <string name="entry_password">Palavra-passe:</string>
@@ -86,7 +86,7 @@
     <string name="error_invalid_db">Base de dados inválida.</string>
     <string name="error_invalid_path">Caminho inválido.</string>
     <string name="error_no_name">É obrigatório introduzir um nome.</string>
-    <string name="error_nopass">É obrigatório introduzir uma palavra-passe ou um ficheiro chave.</string>
+    <string name="error_nokeyfile">É obrigatório introduzir uma palavra-passe ou um ficheiro chave.</string>
     <string name="error_out_of_memory">O dispositivo ficou sem memória ao analisar a base de dados. Poderá ser muito grande para o seu dispositivo.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-passe deve ser selecionado</string>
     <string name="error_pass_match">As palavra-passe não coincidem.</string>
