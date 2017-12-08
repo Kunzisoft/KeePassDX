@@ -23,6 +23,26 @@
 	<PreferenceCategory
 		android:title="@string/general">
 
+        <SwitchPreference
+            android:summary="@string/omitbackup_summary"
+            android:defaultValue="@bool/omitbackup_default"
+            android:title="@string/omitbackup_title"
+            android:key="@string/omitbackup_key"/>
+        <SwitchPreference
+            android:summary="@string/use_saf_summary"
+            android:defaultValue="@bool/saf_default"
+            android:title="@string/use_saf_title"
+            android:key="@string/saf_key"/>
+        <SwitchPreference
+            android:key="@string/clipboard_notifications_key"
+            android:title="@string/clipboard_notifications_title"
+            android:defaultValue="@bool/clipboard_notifications_default"
+            android:summary="@string/clipboard_notifications_summary" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/lock">
         <ListPreference
             android:key="@string/clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
@@ -40,21 +60,10 @@
             android:dialogTitle="@string/app_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
         <SwitchPreference
-            android:summary="@string/omitbackup_summary"
-            android:defaultValue="@bool/omitbackup_default"
-            android:title="@string/omitbackup_title"
-            android:key="@string/omitbackup_key"/>
-        <SwitchPreference
-            android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/saf_default"
-            android:title="@string/use_saf_title"
-            android:key="@string/saf_key"/>
-        <SwitchPreference
-            android:key="@string/clipboard_notifications_key"
-            android:title="@string/clipboard_notifications_title"
-            android:defaultValue="@bool/clipboard_notifications_default"
-            android:summary="@string/clipboard_notifications_summary" />
-
+            android:key="@string/lock_database_screen_off_key"
+            android:title="@string/lock_database_screen_off_title"
+            android:summary="@string/lock_database_screen_off_summary"
+            android:defaultValue="@bool/lock_database_screen_off_default"/>
     </PreferenceCategory>
 
     <PreferenceCategory

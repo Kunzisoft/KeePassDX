@@ -55,4 +55,10 @@ public class PrefsUtil {
         return prefs.getBoolean(ctx.getString(R.string.clipboard_notifications_key),
                 ctx.getResources().getBoolean(R.bool.clipboard_notifications_default));
     }
+
+    public static boolean isLockDatabaseWhenScreenShutOffEnable(Context ctx) {
+	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+	    return prefs.getBoolean(ctx.getString(R.string.lock_database_screen_off_key),
+                ctx.getResources().getBoolean(R.bool.lock_database_screen_off_default));
+    }
 }
