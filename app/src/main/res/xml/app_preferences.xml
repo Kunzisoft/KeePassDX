@@ -54,13 +54,6 @@
             android:defaultValue="@bool/saf_default"
             android:title="@string/use_saf_title"
             android:key="@string/saf_key"/>
-        <!-- TODO Remove
-        <com.keepassdroid.settings.LongEditTextPreference
-            android:key="@string/roundsFix_key"
-            android:summary="@string/rounds_fix_explaination"
-            android:numeric="integer"
-            android:title="@string/rounds_fix"/>
-            -->
 
     </PreferenceCategory>
 
