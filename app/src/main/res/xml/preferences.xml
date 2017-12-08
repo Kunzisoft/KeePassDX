@@ -36,11 +36,11 @@
             android:title="@string/menu_db_settings"
             android:icon="@drawable/ic_data_usage_white_24dp"
             android:persistent="false" />
-        <!-- TODO change dialog android:summary="@string/rounds_fix_explaination" -->
+        <!-- TODO change dialog android:summary="@string/rounds_fix" -->
 		<EditTextPreference
 			android:key="@string/roundsFix_key"
-            android:title="@string/rounds_fix_title"
-			android:summary="@string/rounds_fix"
+            android:title="@string/rounds_fix"
+			android:summary="@string/rounds_fix_explanation"
 			android:defaultValue="@integer/roundsFix_default"
             android:icon="@drawable/ic_filter_tilt_shift_pref_24dp"
 			android:numeric="integer"

@@ -167,7 +167,7 @@
     <string name="rounds">Проходы шифрования</string>
     <string name="rounds_explaination">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
     <string name="rounds_fix">Проходы до поломки базы</string>
-    <string name="rounds_fix_explaination">Если база была повреждена в KeePassDroid 2.2.0.0–2.2.0.6, введите ранее используемое количество проходов шифрования, чтобы открыть её</string>
+    <string name="rounds_fix_explanation">Если база была повреждена в KeePassDroid 2.2.0.0–2.2.0.6, введите ранее используемое количество проходов шифрования, чтобы открыть её</string>
     <string name="rounds_hint">проходы</string>
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>

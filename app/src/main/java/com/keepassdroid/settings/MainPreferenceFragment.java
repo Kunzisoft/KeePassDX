@@ -49,8 +49,9 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 try {
-                    Long.valueOf(newValue.toString());
-                    return true;
+                    Long rounds = Long.valueOf(newValue.toString());
+                    if (rounds > 0)
+                        return true;
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show();
                 }
