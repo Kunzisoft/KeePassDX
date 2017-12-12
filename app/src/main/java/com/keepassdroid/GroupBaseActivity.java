@@ -289,7 +289,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 		 */
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			int flags = intent.getFlags();
-			// We have to clear this bit (which search automatically sets) otherwise startActivityForResult will never work
 			flags &= ~Intent.FLAG_ACTIVITY_NEW_TASK;
 			intent.setFlags(flags);
 		}
