@@ -31,7 +31,6 @@
 			android:key="@string/rounds_key"
 			android:persistent="false"
 			android:title="@string/rounds"
-			android:dialogLayout="@layout/database_settings"
 			android:positiveButtonText="@string/entry_save"
 			android:negativeButtonText="@string/entry_cancel"/>
 

@@ -19,113 +19,91 @@
  */
 package com.keepassdroid.settings;
 
-
 import android.content.Context;
-import android.os.Handler;
-import android.preference.DialogPreference;
+import android.content.res.TypedArray;
+import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.Database;
-import com.keepassdroid.ProgressTask;
-import com.keepassdroid.app.App;
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.edit.OnFinish;
-import com.keepassdroid.database.edit.SaveDB;
 
-// TODO Change to Compat
 public class RoundsPreference extends DialogPreference {
-	
-	private PwDatabase mPM;
-	private TextView mRoundsView;
 
-	@Override
-	protected View onCreateDialogView() {
-		View view =  super.onCreateDialogView();
-		
-		mRoundsView = (TextView) view.findViewById(R.id.rounds);
-		
-		Database db = App.getDB();
-		mPM = db.pm;
-		long numRounds = mPM.getNumRounds();
-		mRoundsView.setText(Long.toString(numRounds));
-		
-		return view;
-	}
+    private long mRounds;
+    private String explanations;
 
-	public RoundsPreference(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public RoundsPreference(Context context) {
+        this(context, null);
+    }
+    public RoundsPreference(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.dialogPreferenceStyle);
+    }
+    public RoundsPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, defStyleAttr);
+    }
+    public RoundsPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.RoundsDialog,
+                0, 0);
+        try {
+            explanations = a.getString(R.styleable.RoundsDialog_description);
+        } finally {
+            a.recycle();
+        }
+    }
 
-	public RoundsPreference(Context context, AttributeSet attrs, int defStyle) {
-	   super(context, attrs, defStyle);
-   }
+    @Override
+    public int getDialogLayoutResource() {
+        return R.layout.pref_dialog_rounds;
+    }
 
-	@Override
-	protected void onDialogClosed(boolean positiveResult) {
-		super.onDialogClosed(positiveResult);
+    public String getExplanations() {
+        return explanations;
+    }
 
-		if ( positiveResult ) {
-			int rounds;
-			
-			try {
-				String strRounds = mRoundsView.getText().toString(); 
-				rounds = Integer.parseInt(strRounds);
-			} catch (NumberFormatException e) {
-				Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show();
-				return;
-			}
-			
-			if ( rounds < 1 ) {
-				rounds = 1;
-			}
-			
-			long oldRounds = mPM.getNumRounds();
-			try {
-				mPM.setNumRounds(rounds);
-			} catch (NumberFormatException e) {
-				Toast.makeText(getContext(), R.string.error_rounds_too_large, Toast.LENGTH_LONG).show();
-				mPM.setNumRounds(Integer.MAX_VALUE);
-			}
-			
-			Handler handler = new Handler();
-			SaveDB save = new SaveDB(getContext(), App.getDB(), new AfterSave(getContext(), handler, oldRounds));
-			ProgressTask pt = new ProgressTask(getContext(), save, R.string.saving_database);
-			pt.run();
-			
-		}
+    public void setExplanations(String explanations) {
+        this.explanations = explanations;
+    }
 
-	}
-	
-	private class AfterSave extends OnFinish {
-		private long mOldRounds;
-		private Context mCtx;
-		
-		public AfterSave(Context ctx, Handler handler, long oldRounds) {
-			super(handler);
-			
-			mCtx = ctx;
-			mOldRounds = oldRounds;
-		}
+    public long getRounds() {
+        return mRounds;
+    }
 
-		@Override
-		public void run() {
-			if ( mSuccess ) {
-				OnPreferenceChangeListener listner = getOnPreferenceChangeListener();
-				if ( listner != null ) {
-					listner.onPreferenceChange(RoundsPreference.this, null);
-				}
-			} else {
-				displayMessage(mCtx);
-				mPM.setNumRounds(mOldRounds);
-			}
-			
-			super.run();
-		}
-		
-	}
+    public void setRounds(long rounds) {
+        this.mRounds = rounds;
+        // Save to Shared Preferences
+        persistLong(rounds);
+    }
+
+    @Override
+    protected Object onGetDefaultValue(TypedArray a, int index) {
+        // Default value from attribute. Fallback value is set to 0.
+        return a.getInt(index, 0);
+    }
+    @Override
+    protected void onSetInitialValue(boolean restorePersistedValue,
+                                     Object defaultValue) {
+        // Read the value. Use the default value if it is not possible.
+        long rounds;
+        if (!restorePersistedValue) {
+            rounds = 100000;
+            if (defaultValue instanceof String) {
+                rounds = Long.parseLong((String) defaultValue);
+            }
+            if (defaultValue instanceof Integer) {
+                rounds = (Integer) defaultValue;
+            }
+            try {
+                rounds = (long) defaultValue;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            rounds = getPersistedLong(mRounds);
+        }
+
+        setRounds(rounds);
+    }
 
 }

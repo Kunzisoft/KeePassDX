@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<android.support.v7.preference.PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
 
 	<android.support.v7.preference.PreferenceCategory
 		android:title="@string/application">
@@ -36,16 +36,13 @@
             android:title="@string/menu_db_settings"
             android:icon="@drawable/ic_data_usage_white_24dp"
             android:persistent="false" />
-        <!-- TODO change dialog android:summary="@string/rounds_fix" -->
-		<android.support.v7.preference.EditTextPreference
+		<com.keepassdroid.settings.RoundsPreference
 			android:key="@string/roundsFix_key"
-            android:title="@string/rounds_fix"
-			android:summary="@string/rounds_fix_explanation"
+            android:title="@string/rounds_fix_title"
+			android:summary="@string/rounds_fix"
+            custom:description="@string/rounds_fix_explanation"
 			android:defaultValue="@integer/roundsFix_default"
-            android:icon="@drawable/ic_filter_tilt_shift_pref_24dp"
-			android:numeric="integer"
-            android:inputType="numberDecimal"
-            android:digits="0123456789"/>
+            android:icon="@drawable/ic_filter_tilt_shift_pref_24dp" />
 	</android.support.v7.preference.PreferenceCategory>
 
 </android.support.v7.preference.PreferenceScreen>

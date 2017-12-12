@@ -23,9 +23,11 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.keepassdroid.UnavailableFeatureDialog;
 import com.kunzisoft.keepass.R;
@@ -122,22 +124,23 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                 setPreferencesFromResource(R.xml.db_preferences, rootKey);
 
                 Database db = App.getDB();
+                Preference algorithmPref = findPreference(getString(R.string.algorithm_key));
+                Preference roundPref = findPreference(getString(R.string.rounds_key));
+
+                if (!(db.Loaded() && db.pm.appSettingsEnabled())) {
+                    algorithmPref.setEnabled(false);
+                    roundPref.setEnabled(false);
+                }
+
                 if (db.Loaded() && db.pm.appSettingsEnabled()) {
-
-                    Preference rounds = findPreference(getString(R.string.rounds_key));
-                    rounds.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
+                    roundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                         public boolean onPreferenceChange(Preference preference, Object newValue) {
                             setRounds(App.getDB(), preference);
                             return true;
                         }
                     });
-
-                    setRounds(db, rounds);
-
-                    Preference algorithm = findPreference(getString(R.string.algorithm_key));
-                    setAlgorithm(db, algorithm);
-
+                    setRounds(db, roundPref);
+                    setAlgorithm(db, algorithmPref);
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
                 }
@@ -146,6 +149,20 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
 
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        // Try if the preference is one of our custom Preferences
+        if (preference instanceof RoundsPreference) {
+            DialogFragment dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment.setTargetFragment(this, 0);
+            dialogFragment.show(getFragmentManager(), null);
+        }
+        // Could not be handled here. Try with the super method.
+        else {
+            super.onDisplayPreferenceDialog(preference);
         }
     }
 
