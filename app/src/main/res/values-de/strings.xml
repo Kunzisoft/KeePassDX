@@ -176,6 +176,8 @@
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explaination">Je höher die Anzahl der Schlüsseltransformationen, desto besser ist der Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
+    <string name="rounds_fix">Schlüsseltransformationen vor der Datenkorruption</string>
+    <string name="rounds_fix_explaination">Wenn ihre Datenbank durch KeePassDroid Version 2.2.0.0 bis 2.2.0.6 beschädigt wurde, können sie die Anzahl der vorher verwendeten Schlüsseltransformationen eingeben und damit ihre Datenbank wieder öffnen.</string>
     <string name="rounds_hint">Schlüsseltransformationen</string>
     <string name="saving_database">Speichere Datenbank\u2026</string>
     <string name="space">Leerzeichen</string>
