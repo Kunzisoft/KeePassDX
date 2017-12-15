@@ -65,7 +65,7 @@
     <string name="entry_confpassword">Pasahitza berretsi:</string>
     <string name="entry_created">Sortua: </string>
     <string name="entry_expires">Iraungitzen da: </string>
-    <string name="entry_keyfile">Gako fitxategia (aukerazkoa)</string>
+    <string name="entry_keyfile">Gako fitxategia</string>
     <string name="entry_modified">Aldatua: </string>
     <string name="entry_not_found">Sarreraren datuak ez aurkituak.</string>
     <string name="entry_password">Pasahitza:</string>
@@ -85,7 +85,7 @@
     <string name="error_invalid_db">Datubase baliogabea.</string>
     <string name="error_invalid_path">Fitxategirako bide baliogabea.</string>
     <string name="error_no_name">Izen bat behar da.</string>
-    <string name="error_nopass">Pasahitz edo gako fitxategi bat beharrezkoak dira.</string>
+    <string name="error_nokeyfile">Pasahitz edo gako fitxategi bat beharrezkoak dira.</string>
     <string name="error_out_of_memory">Telefonoa memoriarik gabe gelditu da zure datubasea arakatzean. Handiegia izan daiteke zure telefonorako.</string>
     <string name="error_pass_gen_type">Pasahitza sortzeko mota bat gutxienez aukeratu behar da</string>
     <string name="error_pass_match">Pasahitzak ez datoz bat.</string>
@@ -107,7 +107,7 @@
     <string name="hint_keyfile">gako fitxategia</string>
     <string name="hint_length">luzera</string>
     <string name="hint_pass">pasahitza</string>
-    <string name="hint_login_pass">Pasahitza</string>
+    <string name="password">Pasahitza</string>
     <string name="hint_title">izena</string>
     <string name="hint_url">url</string>
     <string name="hint_username">erabiltzaile izena</string>

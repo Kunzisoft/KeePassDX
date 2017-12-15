@@ -19,12 +19,29 @@
  */
 package com.keepassdroid.database;
 
-import java.io.FileInputStream;
+import android.webkit.URLUtil;
+
+import com.keepassdroid.collections.VariantDictionary;
+import com.keepassdroid.crypto.CryptoUtil;
+import com.keepassdroid.crypto.engine.AesEngine;
+import com.keepassdroid.crypto.engine.CipherEngine;
+import com.keepassdroid.crypto.keyDerivation.AesKdf;
+import com.keepassdroid.crypto.keyDerivation.KdfEngine;
+import com.keepassdroid.crypto.keyDerivation.KdfFactory;
+import com.keepassdroid.crypto.keyDerivation.KdfParameters;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.utils.EmptyUtils;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,28 +53,7 @@ import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.spongycastle.crypto.engines.AESEngine;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-
-import android.webkit.URLUtil;
 import biz.source_code.base64Coder.Base64Coder;
-
-import com.keepassdroid.collections.VariantDictionary;
-import com.keepassdroid.crypto.CipherFactory;
-import com.keepassdroid.crypto.CryptoUtil;
-import com.keepassdroid.crypto.PwStreamCipherFactory;
-import com.keepassdroid.crypto.engine.AesEngine;
-import com.keepassdroid.crypto.engine.CipherEngine;
-import com.keepassdroid.crypto.keyDerivation.AesKdf;
-import com.keepassdroid.crypto.keyDerivation.KdfEngine;
-import com.keepassdroid.crypto.keyDerivation.KdfFactory;
-import com.keepassdroid.crypto.keyDerivation.KdfParameters;
-import com.keepassdroid.database.exception.InvalidKeyFileException;
-import com.keepassdroid.utils.EmptyUtils;
 
 
 public class PwDatabaseV4 extends PwDatabase {
@@ -73,6 +69,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	public UUID dataCipher = AesEngine.CIPHER_UUID;
 	public CipherEngine dataEngine = new AesEngine();
 	public PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
+	// TODO: Refactor me away to get directly from kdfParameters
     public long numKeyEncRounds = 6000;
     public Date nameChanged = DEFAULT_NOW;
     public Date settingsChanged = DEFAULT_NOW;
@@ -103,7 +100,8 @@ public class PwDatabaseV4 extends PwDatabase {
     public Map<String, String> customData = new HashMap<String, String>();
 	public KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
 	public VariantDictionary publicCustomData = new VariantDictionary();
-    
+	public BinaryPool binPool = new BinaryPool();
+
     public String localizedAppName = "KeePassDroid";
     
     public class MemoryProtectionConfig {
@@ -131,7 +129,7 @@ public class PwDatabaseV4 extends PwDatabase {
 			throws InvalidKeyFileException, IOException {
 		assert(key != null);
 		
-		byte[] fKey;
+		byte[] fKey = new byte[]{};
 		
 		if ( key.length() > 0 && keyInputStream != null) {
 			return getCompositeKey(key, keyInputStream);
@@ -139,8 +137,6 @@ public class PwDatabaseV4 extends PwDatabase {
 			fKey =  getPasswordKey(key);
 		} else if ( keyInputStream != null) {
 			fKey = getFileKey(keyInputStream);
-		} else {
-			throw new IllegalArgumentException( "Key cannot be empty." );
 		}
 		
 		MessageDigest md;
@@ -175,13 +171,24 @@ public class PwDatabaseV4 extends PwDatabase {
 			Arrays.fill(cmpKey, (byte)0);
 		}
 	}
-
 	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP) throws IOException {
+    	makeFinalKey(masterSeed, kdfP, 0);
+	}
+
+	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP, long roundsFix)
+			throws IOException {
 
 		KdfEngine kdfEngine = KdfFactory.get(kdfP.kdfUUID);
 		if (kdfEngine == null) {
 			throw new IOException("Unknown key derivation function");
 		}
+
+		// Set to 6000 rounds to open corrupted database
+		if (roundsFix > 0 && kdfP.kdfUUID.equals(AesKdf.CIPHER_UUID)) {
+			kdfP.setUInt32(AesKdf.ParamRounds, roundsFix);
+			numKeyEncRounds = roundsFix;
+		}
+
 		byte[] transformedMasterKey = kdfEngine.transform(masterKey, kdfP);
 		if (transformedMasterKey.length != 32) {
 			transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey);

@@ -62,7 +62,7 @@
   <string name="entry_confpassword">אשר סיסמה:</string>
   <string name="entry_created">תאריך יצירה: </string>
   <string name="entry_expires">פג תוקף: </string>
-  <string name="entry_keyfile">קובץ מפתח (רשות)</string>
+  <string name="entry_keyfile">קובץ מפתח</string>
   <string name="entry_modified">נערך לאחרונה: </string>
   <string name="entry_not_found">נתוני ערך לא נמצאו.</string>
   <string name="entry_password">סיסמה:</string>
@@ -81,7 +81,7 @@
   <string name="error_invalid_db">מסד נתונים לא חוקי.</string>
   <string name="error_invalid_path">נתיב לא חוקי.</string>
   <string name="error_no_name">שם נדרש.</string>
-  <string name="error_nopass">סיסמה או קובץ מפתח נדרשים.</string>
+  <string name="error_nokeyfile">סיסמה או קובץ מפתח נדרשים.</string>
   <string name="error_out_of_memory">זיכרון המכשיר אזל בזמן ניתוח מסד הנתונים. יתכן והוא גדול מדי למכשירך.</string>
   <string name="error_pass_gen_type">לפחות סוג אחד ליצירת סיסמה צריך להיבחר</string>
   <string name="error_pass_match">הסיסמאות לא תואמות.</string>
@@ -103,7 +103,7 @@
   <string name="hint_keyfile">קובץ המפתח</string>
   <string name="hint_length">אורך</string>
   <string name="hint_pass">סיסמה</string>
-  <string name="hint_login_pass">סיסמה</string>
+  <string name="password">סיסמה</string>
   <string name="hint_title">שם</string>
   <string name="hint_username">שם משתמש</string>
   <string name="install_from_market">התקן מחנות Play</string>

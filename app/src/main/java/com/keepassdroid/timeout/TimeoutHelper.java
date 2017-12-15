@@ -39,7 +39,7 @@ public class TimeoutHelper {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
 		SharedPreferences.Editor edit = prefs.edit();
-		edit.putLong(act.getString(R.string.settings_timeout_key), time);
+		edit.putLong(act.getString(R.string.timeout_key), time);
 		
 		EditorCompat.apply(edit);
 		
@@ -59,14 +59,14 @@ public class TimeoutHelper {
 		long cur_time = System.currentTimeMillis();
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
-		long timeout_start = prefs.getLong(act.getString(R.string.settings_timeout_key), -1);
+		long timeout_start = prefs.getLong(act.getString(R.string.timeout_key), -1);
 		// The timeout never started
 		if (timeout_start == -1) {
 			return;
 		}
 		
 		
-		String sTimeout = prefs.getString(act.getString(R.string.settings_app_timeout_key), act.getString(R.string.clipboard_timeout_default));
+		String sTimeout = prefs.getString(act.getString(R.string.app_timeout_key), act.getString(R.string.clipboard_timeout_default));
 		long timeout;
 		try {
 			timeout = Long.parseLong(sTimeout);

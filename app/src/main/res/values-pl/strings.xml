@@ -56,7 +56,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_confpassword">Potwierdź hasło:</string>
     <string name="entry_created">Utworzono: </string>
     <string name="entry_expires">Wygasa: </string>
-    <string name="entry_keyfile">Plik klucza (opcjonalnie)</string>
+    <string name="entry_keyfile">Plik klucza</string>
     <string name="entry_modified">Zmodyfikowano: </string>
     <string name="entry_password">Hasło</string>
     <string name="entry_save">Zapisz</string>
@@ -75,7 +75,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_invalid_db">Nieprawidłowa baza danych.</string>
     <string name="error_invalid_path">Nieprawidłowa ścieżka dostępu.</string>
     <string name="error_no_name">Wymagana nazwa.</string>
-    <string name="error_nopass">Wymagane hasło lub plik klucza.</string>
+    <string name="error_nokeyfile">Wymagane hasło lub plik klucza.</string>
     <string name="error_out_of_memory">Podczas parsowania bazy danych zabrakło pamięci. Być może ta baza danych jest za duża dla Twojego urządzenia.</string>
     <string name="error_pass_gen_type">Przynajmniej jeden sposób generowania hasła musi być wybrany</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
@@ -93,7 +93,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="hint_group_name">Nazwa grupy</string>
     <string name="hint_keyfile">plik klucza</string>
     <string name="hint_length">długość</string>
-    <string name="hint_login_pass">Hasło</string>
+    <string name="password">Hasło</string>
     <string name="hint_pass">hasło</string>
     <string name="hint_title">nazwa</string>
     <string name="hint_url">url</string>
@@ -134,10 +134,14 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Brak obsługi dla tego urla.</string>
     <string name="open_recent">Otwórz ostatnio używaną bazę danych (kliknij by otworzyć):</string>
+    <string name="omitbackup_title">Nie wyszukuj zapasowych wpisów</string>
+    <string name="omitbackup_summary">Pomiń kopię zapasową grupy z wyników wyszukiwania (dotyczy tylko .kdb)</string>
     <string name="pass_filename">Nazwa pliku bazy danych KeePass:</string>
     <string name="password_title">Wprowadź hasło bazy danych</string>
     <string name="progress_create">Tworzenie nowej bazy danych&#8230;</string>
     <string name="progress_title">Pracuję&#8230;</string>
+    <string name="recentfile_title">Najnowsza historia plików</string>
+    <string name="recentfile_summary">Zapamiętaj ostatnio uzywane nazwy plików</string>
     <string name="remember_keyfile_summary">Zapamiętaj lokację plików kluczy</string>
     <string name="remember_keyfile_title">Zapisz plik klucza</string>
     <string name="remove_from_filelist">Usuń</string>
@@ -145,6 +149,8 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="root">Root</string>
     <string name="rounds">Złożoność szyfrowania</string>
     <string name="rounds_explaination">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
+    <string name="rounds_fix">Kluczowe rundy szyfrowania przed zniszczeniem</string>
+    <string name="rounds_fix_explanation">Jeśli twoja baza danych została uszkodzona przez KeePassDroid w wersji 2.2.0.0 do 2.2.0.6, wprowadź liczbę rund użytych poprzednio, a to pozwoli ci otworzyć twoją bazę danych.</string>
     <string name="rounds_hint">złożoność</string>
     <string name="saving_database">Zapisywanie bazy danych&#8230;</string>
     <string name="space">Spacja</string>
@@ -158,6 +164,8 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
+    <string name="use_saf_summary">Użyj przeglądarki Android Storage Access Framework do przeglądania plików (KitKat i nowsze)</string>
+    <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning_read_only">Karta SD jest obecnie w trybie tylko do odczytu. Możesz nie być w stanie zapisać zmian w bazie danych.</string>
     <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
     

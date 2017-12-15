@@ -60,7 +60,7 @@
     <string name="entry_confpassword">Bevestig wachtwoord:</string>
     <string name="entry_created">Aangemaakt op: </string>
     <string name="entry_expires">Verloopt op: </string>
-    <string name="entry_keyfile">Sleutelbestand (optioneel)</string>
+    <string name="entry_keyfile">Sleutelbestand</string>
     <string name="entry_modified">Gewijzigd op: </string>
     <string name="entry_password">Wachtwoord:</string>
     <string name="entry_save">Opslaan</string>
@@ -79,7 +79,7 @@
     <string name="error_invalid_db">Ongeldige database.</string>
     <string name="error_invalid_path">Ongeldige padnaam.</string>
     <string name="error_no_name">Een naam ontbreekt.</string>
-    <string name="error_nopass">Een wachtwoord of sleutenbestand ontbreekt.</string>
+    <string name="error_nokeyfile">Een wachtwoord of sleutenbestand ontbreekt.</string>
     <string name="error_out_of_memory">Onvoldoende vrij geheugen om de database te lezen. Misschien is de database te groot voor deze telefoon.</string>
     <string name="error_pass_gen_type">U moet minstens één type van wachtwoordgeneratie kiezen.</string>
     <string name="error_pass_match">Wachtwoorden zijn niet gelijk.</string>
@@ -97,7 +97,7 @@
     <string name="hint_group_name">Groepnaam</string>
     <string name="hint_keyfile">sleutelbestand</string>
     <string name="hint_length">lengte</string>
-    <string name="hint_login_pass">Wachtwoord</string>
+    <string name="password">Wachtwoord</string>
     <string name="hint_pass">wachtwoord</string>
     <string name="hint_title">naam</string>
     <string name="hint_url">url</string>

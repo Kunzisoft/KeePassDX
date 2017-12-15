@@ -22,25 +22,7 @@ package com.keepassdroid;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 
-import com.kunzisoft.keepass.KeePass;
-import com.keepassdroid.app.App;
-
 public abstract class LockCloseActivity extends LockingActivity {
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		checkShutdown();
-	}
-	
-	private void checkShutdown() {
-		if ( App.isShutdown() && App.getDB().Loaded() ) {
-			setResult(KeePass.EXIT_LOCK);
-			finish();
-		}
-		
-	}
 
 	/* (non-Javadoc) Workaround for HTC Linkify issues 
 	 * @see android.app.Activity#startActivity(android.content.Intent)

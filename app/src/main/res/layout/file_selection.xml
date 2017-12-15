@@ -17,32 +17,47 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-	<include
-		android:id="@+id/toolbar"
-		layout="@layout/toolbar_default" />
-
-    <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
-        android:layout_marginBottom="@dimen/default_margin"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-  	<TextView android:id="@+id/file_listtop"
-		android:layout_marginTop="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-        android:layout_width="match_parent"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_default" />
+
+        <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView android:id="@+id/file_listtop"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/KeepassDXStyle.TextAppearance.Title"
+            android:text="@string/open_recent" />
+
+        <ListView android:id="@+id/file_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/create_database"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		style="@style/KeepassDXStyle.TextAppearance.Title"
-        android:text="@string/open_recent" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_database_plus_white_24dp"
+        style="@style/KeepassDXStyle.Fab"/>
 
-  	<ListView android:id="@+id/file_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+</RelativeLayout>

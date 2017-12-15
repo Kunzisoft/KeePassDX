@@ -66,7 +66,7 @@
     <string name="entry_confpassword">Potvrďte heslo:</string>
     <string name="entry_created">Vytvořeno: </string>
     <string name="entry_expires">Vyprší: </string>
-    <string name="entry_keyfile">Klíčový soubor (nepovinné)</string>
+    <string name="entry_keyfile">Klíčový soubor</string>
     <string name="entry_modified">Změněno: </string>
     <string name="entry_not_found">Vstupní data nenalezena.</string>
     <string name="entry_password">Heslo:</string>
@@ -86,7 +86,7 @@
     <string name="error_invalid_db">Chybná databáze.</string>
     <string name="error_invalid_path">Chybná cesta.</string>
     <string name="error_no_name">Jméno je povinné.</string>
-    <string name="error_nopass">Heslo nebo klíčový soubor jsou povinné.</string>
+    <string name="error_nokeyfile">Heslo nebo klíčový soubor jsou povinné.</string>
     <string name="error_out_of_memory">Přístroj má málo paměti pro zpracování databáze. Možná je příliš velká pro Váš přístroj.</string>
     <string name="error_pass_gen_type">Minimálně jeden typ generování hesla musí být zvolen</string>
     <string name="error_pass_match">Hesla se neshodují.</string>
@@ -108,7 +108,7 @@
     <string name="hint_keyfile">klíčový soubor</string>
     <string name="hint_length">délka</string>
     <string name="hint_pass">heslo</string>
-    <string name="hint_login_pass">Heslo</string>
+    <string name="password">Heslo</string>
     <string name="hint_title">název</string>
     <string name="hint_url">url</string>
     <string name="hint_username">uživatelské jméno</string>

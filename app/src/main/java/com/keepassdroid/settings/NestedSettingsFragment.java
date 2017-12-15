@@ -19,19 +19,25 @@
  */
 package com.keepassdroid.settings;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v14.preference.SwitchPreference;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
+import com.keepassdroid.UnavailableFeatureDialog;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.stylish.Stylish;
 
-public class NestedSettingsFragment extends PreferenceFragmentCompat {
+public class NestedSettingsFragment extends PreferenceFragmentCompat
+        implements Preference.OnPreferenceClickListener {
 
     public static final int NESTED_SCREEN_APP_KEY = 1;
     public static final int NESTED_SCREEN_DB_KEY = 2;
@@ -55,7 +61,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
             case NESTED_SCREEN_APP_KEY:
                 setPreferencesFromResource(R.xml.app_preferences, rootKey);
 
-                Preference keyFile = findPreference(getString(R.string.settings_keyfile_key));
+                Preference keyFile = findPreference(getString(R.string.keyfile_key));
                 keyFile.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
 
@@ -66,7 +72,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                     return true;
                 });
 
-                Preference recentHistory = findPreference(getString(R.string.settings_recentfile_key));
+                Preference recentHistory = findPreference(getString(R.string.recentfile_key));
                 recentHistory.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
 
@@ -81,7 +87,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                     return true;
                 });
 
-                Preference stylePreference = findPreference(getString(R.string.settings_style_key));
+                Preference stylePreference = findPreference(getString(R.string.setting_style_key));
                 stylePreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String styleString = (String) newValue;
                     Stylish.assignStyle(getActivity(), styleString);
@@ -89,25 +95,51 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                     return true;
                 });
 
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    // False if under Marshmallow
+                    SwitchPreference preference = (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
+                    preference.setDefaultValue(false);
+                    preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            ((SwitchPreference) preference).setChecked(false);
+                            UnavailableFeatureDialog.getInstance(Build.VERSION_CODES.M)
+                                    .show(getFragmentManager(), "unavailableFeatureDialog");
+                            return false;
+                        }
+                    });
+                }
+
+                Preference preferenceAutofill = findPreference(getString(R.string.settings_autofill_key));
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    preferenceAutofill.setEnabled(false);
+                } else {
+                    preferenceAutofill.setOnPreferenceClickListener(this);
+                }
+
                 break;
 
             case NESTED_SCREEN_DB_KEY:
                 setPreferencesFromResource(R.xml.db_preferences, rootKey);
 
                 Database db = App.getDB();
+                Preference algorithmPref = findPreference(getString(R.string.algorithm_key));
+                Preference roundPref = findPreference(getString(R.string.rounds_key));
+
+                if (!(db.Loaded() && db.pm.appSettingsEnabled())) {
+                    algorithmPref.setEnabled(false);
+                    roundPref.setEnabled(false);
+                }
+
                 if (db.Loaded() && db.pm.appSettingsEnabled()) {
-
-                    Preference rounds = findPreference(getString(R.string.settings_rounds_key));
-                    rounds.setOnPreferenceChangeListener((preference, newValue) -> {
-                        setRounds(App.getDB(), preference);
-                        return true;
+                    roundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            setRounds(App.getDB(), preference);
+                            return true;
+                        }
                     });
-
-                    setRounds(db, rounds);
-
-                    Preference algorithm = findPreference(getString(R.string.settings_algorithm_key));
-                    setAlgorithm(db, algorithm);
-
+                    setRounds(db, roundPref);
+                    setAlgorithm(db, algorithmPref);
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
                 }
@@ -116,6 +148,20 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
 
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        // Try if the preference is one of our custom Preferences
+        if (preference instanceof RoundsPreference) {
+            DialogFragment dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment.setTargetFragment(this, 0);
+            dialogFragment.show(getFragmentManager(), null);
+        }
+        // Could not be handled here. Try with the super method.
+        else {
+            super.onDisplayPreferenceDialog(preference);
         }
     }
 
@@ -143,5 +189,15 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
             default:
                 return resources.getString(R.string.settings);
         }
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        if (preference.getKey().equals(getString(R.string.settings_autofill_key))) {
+            Intent intent = new Intent(getContext(), SettingsAutofillActivity.class);
+            getActivity().startActivity(intent);
+        }
+
+        return false;
     }
 }

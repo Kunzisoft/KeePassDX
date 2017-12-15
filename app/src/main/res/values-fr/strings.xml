@@ -66,7 +66,7 @@
     <string name="entry_confpassword">Confirmer mot de passe</string>
     <string name="entry_created">Créé</string>
     <string name="entry_expires">Expire</string>
-    <string name="entry_keyfile">Clé (facultative)</string>
+    <string name="entry_keyfile">Fichier clé</string>
     <string name="entry_modified">Modifié</string>
     <string name="entry_not_found">Entry data not found.</string>
     <string name="entry_password">Mot de passe</string>
@@ -86,12 +86,12 @@
     <string name="error_invalid_db">Base de données invalide.</string>
     <string name="error_invalid_path">Chemin invalide.</string>
     <string name="error_no_name">Le nom est obligatoire.</string>
-    <string name="error_nopass">Un mot de passe ou clé de fichier est requis.</string>
+    <string name="error_nokeyfile">Un fichier clé est requis.</string>
     <string name="error_out_of_memory">Votre appareil ne dispose pas de suffisamment de mémoire pour ouvrir votre base de données. Elle est probablement trop grosse pour votre appareil.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
     <string name="error_rounds_not_number">La série doit être un nombre.</string>
-    <string name="error_rounds_too_large">Rounds too big.  Setting to 2147483648.</string>
+    <string name="error_rounds_too_large">Niveau trop gros. Paramètres à 2147483648.</string>
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">Le titre est obligatoire.</string>
     <string name="error_wrong_length">Entrez un entier positif pour la longueur du champ</string>
@@ -109,7 +109,7 @@
     <string name="hint_keyfile">clé de fichier</string>
     <string name="hint_length">longueur</string>
     <string name="hint_pass">mot de passe</string>
-    <string name="hint_login_pass">Mot de passe</string>
+    <string name="password">Mot de passe</string>
     <string name="hint_title">nom</string>
     <string name="hint_url">URL</string>
     <string name="hint_username">nom d\'utilisateur</string>
@@ -172,6 +172,9 @@
     <string name="rounds">Niveau du chiffrement</string>
     <string name="rounds_explaination">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
     <string name="rounds_hint">niveaux</string>
+    <string name="rounds_fix_title">Résolution de la base de données</string>
+    <string name="rounds_fix">Clé de niveau de chiffrement avant corruption</string>
+    <string name="rounds_fix_explanation">Si votre base de données a été corrompue par KeePassDroid version 2.2.0.0 à 2.2.0.6, entrez le niveau de chiffrement utilisé précédemment et cela vous permettra d\'ouvrir votre base.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
     <string name="search_label">Rechercher</string>
@@ -191,6 +194,8 @@
     <string name="warning_password_encoding">Le format .kdb ne supporte que le jeu de caractère Latin1. Votre mot de passe doit contenir des caractères en dehors de ce jeu. Tous les caractères non-Latin1 sont convertis en un même caractère, ce qui diminue la sécurité de votre mot de passe. Le changement de votre mot de passe est recommandé.</string>
     <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
+    <string name="warning_empty_password">Voulez-vous vraiment utiliser une chaine de caractères vide comme mot de passe ?</string>
+    <string name="warning_no_encryption_key">Etes-vous sûr de ne vouloir utiliser aucune clé de chiffrement.</string>
     <string name="version_label">Version\u00A0:</string>
     <string name="configure_fingerprint">Reconnaissance d\'empreinte digitale non configuré pour cet appareil</string>
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
@@ -199,6 +204,32 @@
     <string name="fingerprint_error">Problème d\'empreinte digitale</string>
     <string name="store_with_fingerprint">Utiliser l\'empreinte digitale pour stocker le mot de passe</string>
     <string name="no_password_stored">Pas de mot de passe encore stocké pour cette base de données</string>
+    <string name="history">Historique</string>
+    <string name="appearance">Apparence</string>
+    <string name="general">Générale</string>
+    <string name="password_size_title">Taille de mot de passe</string>
+    <string name="password_size_summary">Définir la taille par défaut du mot de passe généré</string>
+    <string name="list_password_generator_options_title">Caractères de mot de passe</string>
+    <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
+    <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
+    <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier le nom d\'utilisateur et le mot de passe</string>
+    <string name="lock_database_screen_off_title">Verrouillage d\'écran</string>
+    <string name="lock_database_screen_off_summary">Verrouiller la base de données quand l\'écran est éteint</string>
+    <string name="fingerprint_quick_unlock_title">Comment configurer l\'empreinte digitale pour un déverrouillage rapide?</string>
+    <string name="fingerprint_setting_text">Définissez votre empreinte digitale personnelle pour votre appareil dans </string>
+    <string name="fingerprint_setting_way_text">Paramètres -> Sécurité -> Empreinte digitale</string>
+    <string name="fingerprint_type_password_text">Tapez votre mot de passe dans Keepass DX</string>
+    <string name="fingerprint_scan_to_store">Scannez votre empreinte digitale pour stocker votre mot de passe maître en toute sécurité</string>
+    <string name="fingerprint_scan_to_open">Il suffit de scanner votre empreinte digitale dans Keepass DX lorsque le champ mot de passe est vide pour ouvrir la base de données</string>
+    <string name="usage">Usage</string>
+    <string name="fingerprint">Empreinte digitale</string>
+    <string name="fingerprint_enable_title">Écoute d\'empreintes digitales</string>
+    <string name="fingerprint_enable_summary">Activer l\'ouverture de la base de données par empreinte digitale</string>
+    <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité\nVotre version Android %1$d n\'est pas la version minimale %2$d requise</string>
+    <string name="file_name">Nom de fichier</string>
+    <string name="path">Chemin</string>
+    <string name="assign_master_key">Assigner une clé maître</string>
+    <string name="create_keepass_file">Créer un fichier keepass</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>
@@ -218,7 +249,5 @@
         <item>Light Theme</item>
         <item>Night Theme</item>
     </string-array>
-    <string name="history">Historique</string>
-    <string name="appearance">Apparence</string>
-    <string name="general">Générale</string>
+
 </resources>

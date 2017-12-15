@@ -247,7 +247,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 		if (App.getDB().readOnly) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		    
-		    if (prefs.getBoolean(getString(R.string.settings_show_read_only_warning), true)) {
+		    if (prefs.getBoolean(getString(R.string.show_read_only_warning), true)) {
 			    Dialog dialog = new ReadOnlyDialog(this);
 			    dialog.show();
 		    }

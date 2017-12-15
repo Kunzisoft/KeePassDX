@@ -58,7 +58,7 @@ public class LoadDB extends RunnableOnFinish {
         mKey = key;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        mRememberKeyfile = prefs.getBoolean(ctx.getString(R.string.settings_keyfile_key), ctx.getResources().getBoolean(R.bool.settings_keyfile_default));
+        mRememberKeyfile = prefs.getBoolean(ctx.getString(R.string.keyfile_key), ctx.getResources().getBoolean(R.bool.keyfile_default));
     }
 
     @Override

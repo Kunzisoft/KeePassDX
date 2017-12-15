@@ -19,20 +19,20 @@
  */
 package com.keepassdroid.fileselect;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.kunzisoft.keepass.R;
-import com.keepassdroid.compat.EditorCompat;
-import com.keepassdroid.utils.UriUtil;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+
+import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.utils.UriUtil;
+import com.kunzisoft.keepass.R;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecentFileHistory {
 
@@ -51,14 +51,14 @@ public class RecentFileHistory {
         ctx = c.getApplicationContext();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        enabled = prefs.getBoolean(ctx.getString(R.string.settings_recentfile_key), ctx.getResources().getBoolean(R.bool.settings_recentfile_default));
+        enabled = prefs.getBoolean(ctx.getString(R.string.recentfile_key), ctx.getResources().getBoolean(R.bool.recentfile_default));
         listner = new OnSharedPreferenceChangeListener() {
 
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                     String key) {
-                if (key.equals(ctx.getString(R.string.settings_recentfile_key))) {
-                    enabled = sharedPreferences.getBoolean(ctx.getString(R.string.settings_recentfile_key), ctx.getResources().getBoolean(R.bool.settings_recentfile_default));
+                if (key.equals(ctx.getString(R.string.recentfile_key))) {
+                    enabled = sharedPreferences.getBoolean(ctx.getString(R.string.recentfile_key), ctx.getResources().getBoolean(R.bool.recentfile_default));
                 }
             }
         };

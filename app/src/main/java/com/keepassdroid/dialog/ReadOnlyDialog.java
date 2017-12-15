@@ -27,7 +27,7 @@ import com.keepassdroid.compat.BuildCompat;
 public class ReadOnlyDialog extends WarningDialog {
 	
 	public ReadOnlyDialog(Context context) {
-		super(context, R.string.settings_show_read_only_warning);
+		super(context, R.string.show_read_only_warning);
 		
 		warning = context.getString(R.string.read_only_warning);
 		

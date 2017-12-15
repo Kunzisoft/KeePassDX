@@ -58,7 +58,7 @@
     <string name="entry_confpassword">パスワードの確認:</string>
     <string name="entry_created">作成日: </string>
     <string name="entry_expires">有効期限: </string>
-    <string name="entry_keyfile">キーファイル(オプション)</string>
+    <string name="entry_keyfile">キーファイル</string>
     <string name="entry_modified">更新日: </string>
     <string name="entry_password">パスワード:</string>
     <string name="entry_save">保存</string>
@@ -77,7 +77,7 @@
     <string name="error_invalid_db">無効なデータベースです。</string>
     <string name="error_invalid_path">パスが無効です。</string>
     <string name="error_no_name">タイトルは必須入力です。</string>
-    <string name="error_nopass">パスワードかキーファイルが必要です。</string>
+    <string name="error_nokeyfile">パスワードかキーファイルが必要です。</string>
     <string name="error_out_of_memory">データベース解析中にメモリ不足になりました。</string>
     <string name="error_pass_gen_type">少なくとも1つ以上のパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません</string>
@@ -95,7 +95,7 @@
     <string name="hint_group_name">グループ名</string>
     <string name="hint_keyfile">キーファイル</string>
     <string name="hint_length">長さ</string>
-    <string name="hint_login_pass">パスワード</string>
+    <string name="password">パスワード</string>
     <string name="hint_pass">パスワード</string>
     <string name="hint_title">タイトル</string>
     <string name="hint_url">url</string>

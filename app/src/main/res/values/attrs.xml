@@ -26,4 +26,8 @@
     <attr name="iconPreferenceColor" format="reference|color" />
 
     <attr name="textColorInverse" format="reference|color" />
+
+    <declare-styleable name="RoundsDialog">
+        <attr name="description" format="string" />
+    </declare-styleable>
 </resources>

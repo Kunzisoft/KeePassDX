@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2009-2016 Brian Pellin.
+     
+ This file is part of KeePassDroid.
+  KeePassDroid is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 2 of the License, or
+  (at your option) any later version.
+  KeePassDroid is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License
+  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
     <string name="about_feedback">Visszajelzés:</string>
     <string name="about_homepage">Weboldal:</string>
@@ -35,7 +50,7 @@
     <string name="decrypting_entry">Bejegyzés dekódolása</string>
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: intel</string>
+    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: Eversmann</string>
     <string name="ellipsis">…</string>
     <string name="enter_filename">Adja meg az adatbázis fájlnevét:</string>
     <string name="entry_accessed">Utolsó hozzáférés:</string>
@@ -45,7 +60,7 @@
     <string name="entry_confpassword">Jelszó megerősítése:</string>
     <string name="entry_created">Létrehozva:</string>
     <string name="entry_expires">Lejárat:</string>
-    <string name="entry_keyfile">Kulcsfájl (opcionális)</string>
+    <string name="entry_keyfile">Kulcsfájl</string>
     <string name="entry_modified">Módosítva:</string>
     <string name="entry_password">Jelszó:</string>
     <string name="entry_save">Mentés</string>
@@ -63,19 +78,20 @@
     <string name="error_file_not_create">Nem sikerült létrehozni a fájlt:</string>
     <string name="error_invalid_db">Érvénytelen adatbázis.</string>
     <string name="error_invalid_path">Érvénytelen útvonal.</string>
-    <string name="error_no_name">Egy névre van szükség.</string>
-    <string name="error_nopass">Jelszóra vagy kulcsfájlra van szükség.</string>
+    <string name="error_no_name">Név szükséges.</string>
+    <string name="error_nokeyfile">Jelszóra vagy kulcsfájlra van szükség.</string>
     <string name="error_out_of_memory">A telefon memóriája megtelt az adatbázis feldolgozása közben. Lehet túl sok ez a telefonnak.</string>
     <string name="error_pass_gen_type">Legalább egy jelszógenerálási típust kell választania</string>
     <string name="error_pass_match">A jelszavak nem egyeznek meg.</string>
     <string name="error_rounds_not_number">A mező csak számokat tartalmazhat.</string>
     <string name="error_rounds_too_large">A menetek száma túl nagy. A maximális 2147483648.</string>
-    <string name="error_string_key">A megnevezés mező kitöltése kötelező.</string>
-    <string name="error_title_required">Cím szükséges.</string>
+    <string name="error_string_key">Az érték mező kitöltése kötelező.</string>
+    <string name="error_title_required">Név szükséges.</string>
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a hossz mezőbe</string>
     <string name="field_name">Megnevezés</string>
     <string name="field_value">Érték</string>
-    <string name="FileNotFound">A fájl nem található.</string>
+    <string name="FileNotFound">A fájl nem található</string>
+    <string name="file_not_found_content">A fájl nem található. Próbálja meg újra megnyitni.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó generálás</string>
     <string name="group">Csoport</string>
@@ -86,7 +102,7 @@
     <string name="hint_keyfile">kulcsfájl</string>
     <string name="hint_length">hosszúság</string>
     <string name="hint_pass">jelszó</string>
-    <string name="hint_login_pass">Jelszó</string>
+    <string name="password">Jelszó</string>
     <string name="hint_title">név</string>
     <string name="hint_url">url</string>
     <string name="hint_username">felhasználónév</string>
@@ -114,7 +130,7 @@
     <string name="menu_db_settings">Adatbázis beállítások</string>
     <string name="menu_delete">Törlés</string>
     <string name="menu_donate">Támogatás</string>
-    <string name="menu_edit">Szerkeszt</string>
+    <string name="menu_edit">Szerkesztés</string>
     <string name="menu_hide_password">Jelszó elrejtése</string>
     <string name="menu_homepage">Weboldal megtekintése</string>
     <string name="menu_lock">Adatbázis lezárása</string>
@@ -132,10 +148,15 @@
     <string name="omitbackup_title">Keresési kivételek</string>
     <string name="omitbackup_summary">A Backup és Lomtár csoportok kihagyása a keresésből</string>
     <string name="pass_filename">KeePass adatbázis fájlnév:</string>
-    <string name="password_title">Adatbázis jelszó megadása</string>
+    <string name="password_title">Adatbázis jelszó</string>
     <string name="progress_create">Új adatbázis létrehozása…</string>
     <string name="progress_title">Feldolgozás…</string>
     <string name="protection">Memórián belüli védelem</string>
+    <string name="read_only">Csak olvasható</string>
+    <string name="read_only_warning">A programnak nincs engedélye az adatbázis írásához a jelenlegi helyén, ezért a megnyitása után csak olvasható lesz.</string>
+    <string name="read_only_kitkat_warning">A KitKat-es android verziótól kezdődően a futó alkalmazásoknak nincs jogosultságuk írni a külső SD kártyára.</string>
+    <string name="recentfile_title">Adatbázis mentése</string>
+    <string name="recentfile_summary">Jegyezze meg az adatbázisok helyét</string>
     <string name="remember_keyfile_summary">Jegyezze meg a kulcsfájlok helyét</string>
     <string name="remember_keyfile_title">Kulcsfájl mentése</string>
     <string name="remove_from_filelist">Eltávolítás</string>
@@ -151,15 +172,26 @@
     <string name="sort_name">Rendezés név alapján</string>
     <string name="sort_db">Rendezés dátum alapján</string>
     <string name="special">Speciális</string>
-    <string name="search_hint">Bejegyzés cím/leírás</string>
+    <string name="search_hint">Bejegyzés név/leírás</string>
     <string name="search_results">Keresés eredménye</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis.</string>
     <string name="uppercase">Nagybetűk</string>
+    <string name="use_saf_summary">Használja az Android Storage Access Framework-öt a fájlok böngészéséhez (KitKat vagy későbbi)</string>
+    <string name="use_saf_title">Storage Access Framework</string>
+    <string name="warning">Figyelmeztetés</string>
+    <string name="warning_password_encoding">A .kdb formátum csak a Latin1 karakterkészletet támogatja. A jelenlegi jelszó olyan karaktereket is tartalmazhat, amik ezen kívül esnek. Az összes ilyen karakter át lesz lesz konvertálva, viszont ez nagyban csökkenteni fogja a jelszó erősségét. Mielőbbi megváltoztatása ajánlott.</string>
     <string name="warning_read_only">A memóriakártya jelenleg csak olvasható. Lehet, hogy nem tudja menteni a módosításokat az adatbázisban.</string>
     <string name="warning_unmounted">A memóriakártya jelenleg el van távolítva. Nem fogja tudni az adatbázist betölteni vagy módosítani.</string>
     <string name="version_label">Verzió:</string>
+    <string name="configure_fingerprint">Az ujjlenyomat használat nincs még beállítva az eszközön</string>
+    <string name="scanning_fingerprint">Várakozás az ujjelnyomat megadására</string>
+    <string name="encrypted_value_stored">Titkosított jelszó elmentve</string>
+    <string name="fingerprint_invalid_key">Érvénytelen kulcs</string>
+    <string name="fingerprint_error">Érvénytelen ujjlenyomat</string>
+    <string name="store_with_fingerprint">Használjon ujjlenyomatot a jelszó elmentéséhez</string>
+    <string name="no_password_stored">Nincs még jelszó beállítva ehhez az adatbázishoz</string>
 
     <string-array name="clipboard_timeout_options">
         <item>30 másodperc</item>

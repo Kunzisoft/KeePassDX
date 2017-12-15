@@ -2,17 +2,22 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion = 26
-    buildToolsVersion = "26.0.2"
+    buildToolsVersion = "27.0.1"
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode = 1
-        versionName = "2.5.0.0beta1"
+        versionCode = 3
+        versionName = "2.5.0.0beta3"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
+
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a',
+                    'arm64-v8a', 'mips', 'mips64'
+        }
     }
 
     externalNativeBuild {
@@ -20,6 +25,7 @@ android {
             path "src/main/jni/CMakeLists.txt"
         }
     }
+
 
     buildTypes {
         release {
@@ -67,9 +73,12 @@ dependencies {
     implementation "com.android.support:design:$supportVersion"
     implementation "com.android.support:preference-v7:$supportVersion"
     implementation "com.android.support:preference-v14:$supportVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
     implementation "com.madgag.spongycastle:core:$spongycastleVersion"
     implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
     implementation "joda-time:joda-time:2.9.9"
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
     implementation group: 'com.google.guava', name: 'guava', version: '22.0-android'
+    implementation "org.sufficientlysecure:html-textview:3.5"
+    implementation "com.nononsenseapps:filepicker:4.1.0"
 }

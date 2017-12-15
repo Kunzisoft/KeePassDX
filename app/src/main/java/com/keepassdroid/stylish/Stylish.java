@@ -9,12 +9,12 @@ import com.kunzisoft.keepass.R;
 
 public class Stylish {
 
-    private static String stylishPrefKey;
+    protected static String stylishPrefKey;
 
-    private static String themeString;
+    protected static String themeString;
 
     public static void init(Context context) {
-        stylishPrefKey = context.getString(R.string.settings_style_key);
+        stylishPrefKey = context.getString(R.string.setting_style_key);
         Log.d(Stylish.class.getName(), "Attatching to " + context.getPackageName());
         themeString = PreferenceManager.getDefaultSharedPreferences(context).getString(stylishPrefKey, context.getString(R.string.list_style_name_light));
     }
@@ -23,7 +23,7 @@ public class Stylish {
         themeString = styleString;
     }
 
-    static @StyleRes int getThemeId(Context context) {
+    public static @StyleRes int getThemeId(Context context) {
 
         if (themeString.equals(context.getString(R.string.list_style_name_night)))
             return R.style.KeepassDXStyle_Night;
