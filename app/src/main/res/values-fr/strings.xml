@@ -201,6 +201,7 @@
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
     <string name="encrypted_value_stored">Mot de passe encrypté stocké</string>
     <string name="fingerprint_invalid_key">Problème de clé invalide</string>
+    <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
     <string name="fingerprint_error">Problème d\'empreinte digitale</string>
     <string name="store_with_fingerprint">Utiliser l\'empreinte digitale pour stocker le mot de passe</string>
     <string name="no_password_stored">Pas de mot de passe encore stocké pour cette base de données</string>

@@ -316,8 +316,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 if ( !fingerprintMustBeConfigured ) {
                     final boolean validInput = s.length() > 0;
                     // encrypt or decrypt mode based on how much input or not
-                    fingerprintTextView.setText(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
-                    mode = validInput ? toggleMode(Cipher.ENCRYPT_MODE) : toggleMode(Cipher.DECRYPT_MODE);
+                    setFingerPrintTextView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
+                    new Thread(new Runnable() {
+                        public void run() {
+                            mode = validInput ? toggleMode(Cipher.ENCRYPT_MODE) : toggleMode(Cipher.DECRYPT_MODE);
+                        }
+                    }).start();
                 }
             }
         });
@@ -342,7 +346,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     final int helpCode,
                     final CharSequence helpString) {
 
-                onFingerprintException(new Exception("onAuthenticationHelp"));
+                showError(helpString);
+                checkAvailability();
                 fingerprintTextView.setText(helpString);
             }
 
@@ -367,7 +372,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
             @Override
             public void onAuthenticationFailed() {
-                onFingerprintException(new Exception("onAuthenticationFailed"));
+                showError(R.string.fingerprint_not_recognized);
+                checkAvailability();
             }
         });
     }
@@ -411,8 +417,31 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         }
     }
 
-    private void setFingerPrintVisibility(int vis) {
-        fingerprintContainerView.setVisibility(vis);
+    private void setFingerPrintVisibility(final int vis) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fingerprintContainerView.setVisibility(vis);
+            }
+        });
+    }
+
+    private void setFingerPrintTextView(final int textId) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fingerprintTextView.setText(textId);
+            }
+        });
+    }
+
+    private void setFingerPrintAlphaImageView(final float alpha) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fingerprintImageView.setAlpha(alpha);
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -437,22 +466,22 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             setFingerPrintVisibility(View.VISIBLE);
 
             if (!fingerPrintHelper.hasEnrolledFingerprints()) {
-                fingerprintImageView.setAlpha(0.3f);
+                setFingerPrintAlphaImageView(0.3f);
                 // This happens when no fingerprints are registered. Listening won't start
-                fingerprintTextView.setText(R.string.configure_fingerprint);
+                setFingerPrintTextView(R.string.configure_fingerprint);
             }
             // finally fingerprint available and configured so we can use it
             else {
                 fingerprintMustBeConfigured = false;
-                fingerprintImageView.setAlpha(1f);
+                setFingerPrintAlphaImageView(1f);
 
                 // fingerprint available but no stored password found yet for this DB so show info don't listen
                 if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
-                    fingerprintTextView.setText(R.string.no_password_stored);
+                    setFingerPrintTextView(R.string.no_password_stored);
                 }
                 // all is set here so we can confirm to user and start listening for fingerprints
                 else {
-                    fingerprintTextView.setText(R.string.scanning_fingerprint);
+                    setFingerPrintTextView(R.string.scanning_fingerprint);
                     // listen for decryption by default
                     toggleMode(Cipher.DECRYPT_MODE);
                 }
@@ -471,7 +500,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 .apply();
         // and remove visual input to reset UI
         confirmButtonView.performClick();
-        fingerprintTextView.setText(R.string.encrypted_value_stored);
+        setFingerPrintTextView(R.string.encrypted_value_stored);
     }
 
     @Override
@@ -484,16 +513,34 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onInvalidKeyException() {
-        Toast.makeText(this, R.string.fingerprint_invalid_key, Toast.LENGTH_SHORT).show();
+        showError(R.string.fingerprint_invalid_key);
         checkAvailability(); // restarts listening
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onFingerprintException(Exception e) {
-        //Toast.makeText(this, R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+    public void onFingerPrintException(Exception e) {
+        showError(R.string.fingerprint_error);
         checkAvailability();
         e.printStackTrace();
+    }
+
+    private void showError(final int messageId) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showError(final CharSequence message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private class DefaultCheckChange implements CompoundButton.OnCheckedChangeListener {
@@ -559,10 +606,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, new AfterLoad(handler, db));
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
         pt.run();
-    }
-
-    private String getEditText(int resId) {
-        return Util.getEditText(this, resId);
     }
 
     @Override

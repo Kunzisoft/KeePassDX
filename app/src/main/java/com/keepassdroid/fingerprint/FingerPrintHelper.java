@@ -35,6 +35,8 @@ import android.util.Base64;
 import com.keepassdroid.compat.BuildCompat;
 
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.UnrecoverableKeyException;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -87,7 +89,7 @@ public class FingerPrintHelper {
         void handleEncryptedResult(String value, String ivSpec);
         void handleDecryptedResult(String value);
         void onInvalidKeyException();
-        void onFingerprintException(Exception e);
+        void onFingerPrintException(Exception e);
     }
 
     @TargetApi(BuildCompat.VERSION_CODE_M)
@@ -118,7 +120,7 @@ public class FingerPrintHelper {
                 setInitOk(true);
             } catch (final Exception e) {
                 setInitOk(false);
-                fingerPrintCallback.onFingerprintException(e);
+                fingerPrintCallback.onFingerPrintException(e);
             }
         }
     }
@@ -131,7 +133,7 @@ public class FingerPrintHelper {
     public boolean isFingerprintInitialized() {
         boolean isFingerprintInit = hasEnrolledFingerprints() && initOk;
         if (!isFingerprintInit && fingerPrintCallback != null) {
-            fingerPrintCallback.onFingerprintException(new Exception("FingerPrint not initialized"));
+            fingerPrintCallback.onFingerPrintException(new Exception("FingerPrint not initialized"));
         }
         return isFingerprintInit;
     }
@@ -149,11 +151,12 @@ public class FingerPrintHelper {
 
             stopListening();
             startListening();
-
+        } catch (final UnrecoverableKeyException unrecoverableKeyException) {
+            deleteEntryKey();
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException();
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -172,7 +175,7 @@ public class FingerPrintHelper {
             fingerPrintCallback.handleEncryptedResult(encryptedValue, ivSpecValue);
 
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -196,8 +199,10 @@ public class FingerPrintHelper {
 
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException();
+        } catch (final UnrecoverableKeyException unrecoverableKeyException) {
+            deleteEntryKey();
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -214,7 +219,7 @@ public class FingerPrintHelper {
             //final String encryptedString = Base64.encodeToString(encrypted, 0 /* flags */);
             fingerPrintCallback.handleDecryptedResult(decryptedString);
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -249,7 +254,15 @@ public class FingerPrintHelper {
                 keyGenerator.generateKey();
             }
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
+        }
+    }
+
+    private void deleteEntryKey() {
+        try {
+            keyStore.deleteEntry(ALIAS_KEY);
+        } catch (KeyStoreException e) {
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
