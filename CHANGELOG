@@ -1,3 +1,7 @@
+KeePassDroid (2.2.1)
+ * Fix kdbx4 date corruption
+ * Updated German translations
+
 KeePassDroid (2.2.0.9)
  * Update build tools version to workaround CM/Lineage bug (closes: #249)
  * Update Russian translations
