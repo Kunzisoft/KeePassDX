@@ -922,7 +922,7 @@ public class ImporterV4 extends Importer {
 			byte[] buf = Base64Coder.decode(sDate);
 			if (buf.length != 8) {
 				byte[] buf8 = new byte[8];
-				System.arraycopy(buf, 0, buf8, 0, buf.length);
+				System.arraycopy(buf, 0, buf8, 0, Math.min(buf.length, 8));
 				buf = buf8;
 			}
 
