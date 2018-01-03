@@ -21,17 +21,37 @@ package com.keepassdroid.utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Seconds;
 
 import java.util.Date;
 
 public class DateUtil {
     private static final DateTime dotNetEpoch = new DateTime(1, 1, 1, 0, 0, 0, DateTimeZone.UTC);
+    private static final DateTime javaEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeZone.UTC);
+
+    private static final long epochOffset;
+
+    static {
+        Date dotNet = dotNetEpoch.toDate();
+        Date java = javaEpoch.toDate();
+
+        epochOffset = (javaEpoch.getMillis() - dotNetEpoch.getMillis()) / 1000L;
+    }
 
     public static Date convertKDBX4Time(long seconds) {
-        return dotNetEpoch.plus(seconds).toDate();
+
+        DateTime dt = dotNetEpoch.plus(seconds * 1000L);
+
+        // Switch corrupted dates to a more recent date that won't cause issues on the client
+        if (dt.isBefore(javaEpoch)) {
+            return javaEpoch.toDate();
+        }
+
+        return dt.toDate();
     }
 
     public static long convertDateToKDBX4Time(DateTime dt) {
-        return (dt.getMillis() / 1000) - (dotNetEpoch.getMillis() / 1000);
+        Seconds secs = Seconds.secondsBetween(javaEpoch, dt);
+        return secs.getSeconds() + epochOffset;
     }
 }

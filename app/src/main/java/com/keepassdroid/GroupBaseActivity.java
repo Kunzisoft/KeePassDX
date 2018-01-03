@@ -19,12 +19,13 @@
  */
 package com.keepassdroid;
 
-
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -283,6 +284,24 @@ public abstract class GroupBaseActivity extends LockCloseListActivity {
 			} else {
 				displayMessage(GroupBaseActivity.this);
 			}
+		}
+	}
+
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+		/*
+		 * ACTION_SEARCH automatically forces a new task. This occurs when you open a kdb file in
+		 * another app such as Files or GoogleDrive and then Search for an entry. Here we remove the
+		 * FLAG_ACTIVITY_NEW_TASK flag bit allowing search to open it's activity in the current task.
+		 */
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			int flags = intent.getFlags();
+			flags &= ~Intent.FLAG_ACTIVITY_NEW_TASK;
+			intent.setFlags(flags);
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			super.startActivityForResult(intent, requestCode, options);
 		}
 	}
 	
