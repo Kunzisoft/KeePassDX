@@ -2,7 +2,15 @@ KeepassDX (2.5.0.0beta4)
  * Merge KeePassDroid 2.2.1
 
 KeepassDX (2.5.0.0beta3)
+ * New database workflow with new screens and folder selection
+ * Settings for default password generation
+ * Fingerprint dialog for explanations
+ * Setting to disable fingerprint
+ * Directly opening kdbx file
+ * Setting to disable notifications
+ * Setting to lock database when screen is shut off
  * Merge KeePassDroid 2.2.0.9
+ * Add corruption fix mode
 
 KeepassDX (2.5.0.0beta2)
  * Remove libs for F-Droid

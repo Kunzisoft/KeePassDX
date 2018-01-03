@@ -30,13 +30,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.password.PasswordGenerator;
+import com.keepassdroid.settings.PrefsUtil;
+import com.kunzisoft.keepass.R;
+
+import java.util.Set;
 
 public class GeneratePasswordFragment extends DialogFragment {
 
@@ -45,6 +48,15 @@ public class GeneratePasswordFragment extends DialogFragment {
 	private GeneratePasswordListener mListener;
 	private View root;
 	private EditText lengthTextView;
+
+	private CompoundButton uppercaseBox;
+	private CompoundButton lowercaseBox;
+	private CompoundButton digitsBox;
+	private CompoundButton minusBox;
+	private CompoundButton underlineBox;
+	private CompoundButton spaceBox;
+	private CompoundButton specialsBox;
+	private CompoundButton bracketsBox;
 
     @Override
     public void onAttach(Context context) {
@@ -66,6 +78,17 @@ public class GeneratePasswordFragment extends DialogFragment {
 
         lengthTextView = (EditText) root.findViewById(R.id.length);
 
+        uppercaseBox = (CompoundButton) root.findViewById(R.id.cb_uppercase);
+        lowercaseBox = (CompoundButton) root.findViewById(R.id.cb_lowercase);
+        digitsBox = (CompoundButton) root.findViewById(R.id.cb_digits);
+        minusBox = (CompoundButton) root.findViewById(R.id.cb_minus);
+        underlineBox = (CompoundButton) root.findViewById(R.id.cb_underline);
+        spaceBox = (CompoundButton) root.findViewById(R.id.cb_space);
+        specialsBox = (CompoundButton) root.findViewById(R.id.cb_specials);
+        bracketsBox = (CompoundButton) root.findViewById(R.id.cb_brackets);
+
+        assignDefaultCharacters();
+
         SeekBar seekBar = (SeekBar) root.findViewById(R.id.seekbar_length);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -79,6 +102,7 @@ public class GeneratePasswordFragment extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+        seekBar.setProgress(PrefsUtil.getDefaultPasswordLength(getContext().getApplicationContext()));
 
         Button genPassButton = (Button) root.findViewById(R.id.generate_password_button);
         genPassButton.setOnClickListener(new OnClickListener() {
@@ -113,6 +137,46 @@ public class GeneratePasswordFragment extends DialogFragment {
 
 		return builder.create();
 	}
+
+	private void assignDefaultCharacters() {
+        uppercaseBox.setChecked(false);
+        lowercaseBox.setChecked(false);
+        digitsBox.setChecked(false);
+        minusBox.setChecked(false);
+        underlineBox.setChecked(false);
+        spaceBox.setChecked(false);
+        specialsBox.setChecked(false);
+        bracketsBox.setChecked(false);
+
+        Set<String> defaultPasswordChars =
+                PrefsUtil.getDefaultPasswordCharacters(getContext().getApplicationContext());
+        for(String passwordChar : defaultPasswordChars) {
+            if (passwordChar.equals(getString(R.string.value_password_uppercase))) {
+                uppercaseBox.setChecked(true);
+            }
+            else if (passwordChar.equals(getString(R.string.value_password_lowercase))) {
+                lowercaseBox.setChecked(true);
+            }
+            else if (passwordChar.equals(getString(R.string.value_password_digits))) {
+                digitsBox.setChecked(true);
+            }
+            else if (passwordChar.equals(getString(R.string.value_password_minus))) {
+                minusBox.setChecked(true);
+            }
+            else if (passwordChar.equals(getString(R.string.value_password_underline))) {
+                underlineBox.setChecked(true);
+            }
+            else if (passwordChar.equals(getString(R.string.value_password_space))) {
+                spaceBox.setChecked(true);
+            }
+            else if (passwordChar.equals(getString(R.string.value_password_special))) {
+                specialsBox.setChecked(true);
+            }
+            else if (passwordChar.equals(getString(R.string.value_password_brackets))) {
+                bracketsBox.setChecked(true);
+            }
+        }
+    }
 	
 	private void fillPassword() {
 		EditText txtPassword = (EditText) root.findViewById(R.id.password);
@@ -121,23 +185,19 @@ public class GeneratePasswordFragment extends DialogFragment {
 	
     public String generatePassword() {
     	String password = "";
-    	
     	try {
     		int length = Integer.valueOf(((EditText) root.findViewById(R.id.length)).getText().toString());
-    		
-    		((CheckBox) root.findViewById(R.id.cb_uppercase)).isChecked();
         	
         	PasswordGenerator generator = new PasswordGenerator(getActivity());
-       	
 	    	password = generator.generatePassword(length,
-	    			((CheckBox) root.findViewById(R.id.cb_uppercase)).isChecked(),
-	    			((CheckBox) root.findViewById(R.id.cb_lowercase)).isChecked(),
-	    			((CheckBox) root.findViewById(R.id.cb_digits)).isChecked(),
-	    			((CheckBox) root.findViewById(R.id.cb_minus)).isChecked(),
-	    			((CheckBox) root.findViewById(R.id.cb_underline)).isChecked(),
-	    			((CheckBox) root.findViewById(R.id.cb_space)).isChecked(),
-	    			((CheckBox) root.findViewById(R.id.cb_specials)).isChecked(),
-	    			((CheckBox) root.findViewById(R.id.cb_brackets)).isChecked());
+                    uppercaseBox.isChecked(),
+                    lowercaseBox.isChecked(),
+                    digitsBox.isChecked(),
+                    minusBox.isChecked(),
+                    underlineBox.isChecked(),
+                    spaceBox.isChecked(),
+                    specialsBox.isChecked(),
+                    bracketsBox.isChecked());
     	} catch (NumberFormatException e) {
     		Toast.makeText(getContext(), R.string.error_wrong_length, Toast.LENGTH_LONG).show();
 		} catch (IllegalArgumentException e) {

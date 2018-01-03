@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2015 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+
+    <integer name="fingerprint_viewport_width">160</integer>
+    <integer name="fingerprint_viewport_height">160</integer>
+    <integer name="fingerprint_viewport_center">80</integer>
+    <integer name="fingerprint_stroke_width">5</integer>
+    <integer name="tick_cross_stroke_width">7</integer>
+    <dimen name="fingerprint_width">80dp</dimen>
+    <dimen name="fingerprint_height">80dp</dimen>
+
+    <!-- a pretty rough & ready re-draw of the fingerprint glyph from
+         https://github.com/googlesamples/android-FingerprintDialog -->
+    <string name="path_ridge_1">M56.2199243,45.3815903 C56.2199243,45.3815903 65.1913567,38.8543184 80.3604294,38.8543184 C95.5295022,38.8543184 103.720044,45.2851323 103.720044,45.2851323</string>
+    <string name="path_ridge_2">M45.5181172,67.9181841 C49.9761548,62.7019025 59.122049,49.7790452 80.2279027,49.7790452 C101.333756,49.7790452 110.740506,62.0384399 114.937688,67.9181841</string>
+    <string name="path_ridge_3">M51.7375623,107.718438 C51.7375623,107.718438 48.7129745,99.6302234 48.7129745,91.6334356 C48.7129745,81.3266864 55.9028711,60.2476586 80.4057228,60.2478671 C100.798248,60.2480407 112.457463,79.7942647 112.457463,88.386575 C112.457462,99.2963939 105.619846,103.039218 100.781849,102.18762 C95.9438519,101.336021 90.4490979,97.2187731 91.0639139,92.3178681 C91.67873,87.4169631 85.2177374,81.3265129 80.7504553,81.3266871 C73.0900115,81.3269859 69.8146331,85.3921834 69.8146329,92.2700585 C69.8146324,107.718437 83.7557525,121.02713 91.6787289,121.027128</string>
+    <string name="path_ridge_4">M70.7357889,121.024995 C70.7357889,121.024995 57.4650216,106.018711 58.8888756,91.5596242 C60.5513085,74.6777941 73.9858126,70.313752 80.3788823,70.3807995 C86.771952,70.4478469 101.550994,76.8218704 101.550997,92.2895418</string>
+    <string name="path_ridge_5">M80.1599645,91.1813411 C80.1599645,91.1813411 81.1144795,102.68333 86.7971146,107.529716 C93.2390527,113.023667 105.911091,112.342743 105.911091,112.342743</string>
+
+    <string name="path_tick">M52.2735573,79.0771904 C52.2735573,79.0771904 69.2403688,96.0440006 69.2403683,96.0440014 C69.2403679,96.0440021 109.820188,55.4641819 109.820188,55.4641819</string>
+
+    <string name="path_cross_1">M62,62 C62,62 80.5647617,80.5647617 80.564762,80.564762 C80.5647622,80.5647622 94.2921789,94.223714 98.5644262,98.5644262</string>
+    <string name="path_cross_2">M98.5644262,62 C98.5644251,62 81.1979242,79.366503 81.1979229,79.3665033 C81.1979216,79.3665035 62,98.5644262 62,98.5644262</string>
+
+    <!-- a 'window' which is ¼ of the height of the viewport that we use as a clip during the 'scan'
+         operation by animating it from the top to the bottom and back. -->
+    <string name="clip_path_scan_top">M0 0 L160 0 L160 40 L0 40 Z</string>
+    <string name="clip_path_scan_bottom">M0 120 L160 120 L160 160 L0 160 Z</string>
+
+    <color name="fingerprint_ridge">#deffffff</color>
+    <color name="fingerprint_ridge_scan">#ffffffff</color>
+
+    <color name="circle_default">#ff607d8b</color>
+
+</resources>

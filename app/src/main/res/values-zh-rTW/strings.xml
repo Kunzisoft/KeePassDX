@@ -58,7 +58,7 @@
     <string name="entry_confpassword">確認密碼：</string>
     <string name="entry_created">創建：</string>
     <string name="entry_expires">失效時間：</string>
-    <string name="entry_keyfile">密鑰文件（可選）</string>
+    <string name="entry_keyfile">密鑰文件</string>
     <string name="entry_modified">修改時間：: </string>
     <string name="entry_password">密碼：</string>
     <string name="entry_save">保存</string>
@@ -77,7 +77,7 @@
     <string name="error_invalid_db">非法資料庫。</string>
     <string name="error_invalid_path">非法路徑。</string>
     <string name="error_no_name">用戶名是必須的。</string>
-    <string name="error_nopass">密碼或者密鑰檔是必須的。</string>
+    <string name="error_nokeyfile">密碼或者密鑰檔是必須的。</string>
     <string name="error_out_of_memory">這款手機運行記憶體不足而不能解析資料庫。這可能是資料庫太大的緣故。</string>
     <string name="error_pass_gen_type">至少必須選擇一個密碼生成類型</string>
     <string name="error_pass_match">密碼不匹配。</string>
@@ -95,7 +95,7 @@
     <string name="hint_group_name">群組名</string>
     <string name="hint_keyfile">密鑰文件</string>
     <string name="hint_length">長度</string>
-    <string name="hint_login_pass">密碼</string>
+    <string name="password">密碼</string>
     <string name="hint_pass">密碼</string>
     <string name="hint_title">名稱</string>
     <string name="hint_url">網址</string>

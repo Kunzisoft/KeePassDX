@@ -61,7 +61,7 @@
     <string name="entry_confpassword">Confirma contrasenya:</string>
     <string name="entry_created">Creada: </string>
     <string name="entry_expires">Expira: </string>
-    <string name="entry_keyfile">Arxiu clau (opcional)</string>
+    <string name="entry_keyfile">Arxiu clau</string>
     <string name="entry_modified">Modificada: </string>
     <string name="entry_password">Contrasenya:</string>
     <string name="entry_save">Guarda</string>
@@ -80,7 +80,7 @@
     <string name="error_invalid_db">Base de dades invàlida.</string>
     <string name="error_invalid_path">Camí invàlid.</string>
     <string name="error_no_name">És necessari un nom.</string>
-    <string name="error_nopass">És necessaria una contrasenya o un arxiu clau.</string>
+    <string name="error_nokeyfile">És necessaria una contrasenya o un arxiu clau.</string>
     <string name="error_out_of_memory">El telèfon sha quedat sense memòria processant la teva base de dades. Potser és massa gran pel teu telèfon.</string>
     <string name="error_pass_gen_type">Has de seleccionar almenys un tipus de generador de contrasenyes</string>
     <string name="error_pass_match">Les contrasenyes no coincideixen.</string>
@@ -99,7 +99,7 @@
     <string name="hint_keyfile">arxiu clau</string>
     <string name="hint_length">longitud</string>
     <string name="hint_pass">contrasenya</string>
-    <string name="hint_login_pass">Contrasenya</string>
+    <string name="password">Contrasenya</string>
     <string name="hint_title">nom</string>
     <string name="hint_url">url</string>
     <string name="hint_username">usuari</string>

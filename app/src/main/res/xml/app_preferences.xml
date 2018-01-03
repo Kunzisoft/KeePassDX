@@ -17,13 +17,33 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<PreferenceCategory
+	<android.support.v7.preference.PreferenceCategory
 		android:title="@string/general">
 
-        <ListPreference
+        <android.support.v14.preference.SwitchPreference
+            android:summary="@string/omitbackup_summary"
+            android:defaultValue="@bool/omitbackup_default"
+            android:title="@string/omitbackup_title"
+            android:key="@string/omitbackup_key"/>
+        <android.support.v14.preference.SwitchPreference
+            android:summary="@string/use_saf_summary"
+            android:defaultValue="@bool/saf_default"
+            android:title="@string/use_saf_title"
+            android:key="@string/saf_key"/>
+        <android.support.v14.preference.SwitchPreference
+            android:key="@string/clipboard_notifications_key"
+            android:title="@string/clipboard_notifications_title"
+            android:defaultValue="@bool/clipboard_notifications_default"
+            android:summary="@string/clipboard_notifications_summary" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/lock">
+        <android.support.v7.preference.ListPreference
             android:key="@string/clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
             android:summary="@string/clipboard_timeout_summary"
@@ -31,7 +51,7 @@
             android:entryValues="@array/clipboard_timeout_values"
             android:dialogTitle="@string/clipboard_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
-        <ListPreference
+        <android.support.v7.preference.ListPreference
             android:key="@string/app_timeout_key"
             android:title="@string/app_timeout"
             android:summary="@string/app_timeout_summary"
@@ -39,52 +59,79 @@
             android:entryValues="@array/clipboard_timeout_values"
             android:dialogTitle="@string/app_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
-        <CheckBoxPreference
+        <android.support.v14.preference.SwitchPreference
+            android:key="@string/lock_database_screen_off_key"
+            android:title="@string/lock_database_screen_off_title"
+            android:summary="@string/lock_database_screen_off_summary"
+            android:defaultValue="@bool/lock_database_screen_off_default"/>
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/password">
+
+        <android.support.v7.preference.SeekBarPreference
+            android:key="@string/password_length_key"
+            android:title="@string/password_size_title"
+            android:summary="@string/password_size_summary"
+            android:defaultValue="@string/default_password_length"
+            app:min="@string/min_password_length"
+            android:max="@string/max_password_length" />
+
+        <android.support.v14.preference.MultiSelectListPreference
+            android:key="@string/list_password_generator_options_key"
+            android:title="@string/list_password_generator_options_title"
+            android:summary="@string/list_password_generator_options_summary"
+            android:entries="@array/list_password_generator_options_entries"
+            android:entryValues="@array/list_password_generator_options_values"
+            android:defaultValue="@array/list_password_generator_options_default_values"/>
+
+        <android.support.v14.preference.SwitchPreference
             android:key="@string/maskpass_key"
             android:title="@string/maskpass_title"
             android:summary="@string/maskpass_summary"
             android:defaultValue="@bool/maskpass_default"/>
-        <CheckBoxPreference
-            android:summary="@string/omitbackup_summary"
-            android:defaultValue="@bool/omitbackup_default"
-            android:title="@string/omitbackup_title"
-            android:key="@string/omitbackup_key"/>
-        <CheckBoxPreference
-            android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/saf_default"
-            android:title="@string/use_saf_title"
-            android:key="@string/saf_key"/>
 
-    </PreferenceCategory>
+    </android.support.v7.preference.PreferenceCategory>
 
-    <PreferenceCategory
+    <android.support.v7.preference.PreferenceCategory
         android:title="@string/history">
 
-        <CheckBoxPreference
+        <android.support.v14.preference.SwitchPreference
             android:summary="@string/recentfile_summary"
             android:defaultValue="@bool/recentfile_default"
             android:title="@string/recentfile_title"
             android:key="@string/recentfile_key"/>
-        <CheckBoxPreference
+        <android.support.v14.preference.SwitchPreference
             android:key="@string/keyfile_key"
             android:title="@string/remember_keyfile_title"
             android:summary="@string/remember_keyfile_summary"
             android:dependency="@string/recentfile_key"
             android:defaultValue="@bool/keyfile_default"/>
 
-    </PreferenceCategory>
+    </android.support.v7.preference.PreferenceCategory>
 
-    <PreferenceCategory
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/fingerprint">
+
+        <android.support.v14.preference.SwitchPreference
+            android:key="@string/fingerprint_enable_key"
+            android:title="@string/fingerprint_enable_title"
+            android:summary="@string/fingerprint_enable_summary"
+            android:defaultValue="@bool/fingerprint_enable_default"/>
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
         android:title="@string/appearance">
 
-        <ListPreference
+        <android.support.v7.preference.ListPreference
             android:title="@string/style_choose_title"
             android:summary="@string/style_choose_summary"
             android:key="@string/setting_style_key"
             android:defaultValue="@string/list_style_name_light"
             android:entries="@array/list_style_names"
             android:entryValues="@array/list_style_values" />
-        <ListPreference
+        <android.support.v7.preference.ListPreference
             android:key="@string/list_size_key"
             android:title="@string/list_size_title"
             android:summary="@string/list_size_summary"
@@ -93,5 +140,5 @@
             android:dialogTitle="@string/list_size_summary"
             android:defaultValue="@string/list_size_default"/>
 
-    </PreferenceCategory>
-</PreferenceScreen>
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>

@@ -56,7 +56,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_confpassword">Potwierdź hasło:</string>
     <string name="entry_created">Utworzono: </string>
     <string name="entry_expires">Wygasa: </string>
-    <string name="entry_keyfile">Plik klucza (opcjonalnie)</string>
+    <string name="entry_keyfile">Plik klucza</string>
     <string name="entry_modified">Zmodyfikowano: </string>
     <string name="entry_password">Hasło</string>
     <string name="entry_save">Zapisz</string>
@@ -75,7 +75,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_invalid_db">Nieprawidłowa baza danych.</string>
     <string name="error_invalid_path">Nieprawidłowa ścieżka dostępu.</string>
     <string name="error_no_name">Wymagana nazwa.</string>
-    <string name="error_nopass">Wymagane hasło lub plik klucza.</string>
+    <string name="error_nokeyfile">Wymagane hasło lub plik klucza.</string>
     <string name="error_out_of_memory">Podczas parsowania bazy danych zabrakło pamięci. Być może ta baza danych jest za duża dla Twojego urządzenia.</string>
     <string name="error_pass_gen_type">Przynajmniej jeden sposób generowania hasła musi być wybrany</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
@@ -93,7 +93,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="hint_group_name">Nazwa grupy</string>
     <string name="hint_keyfile">plik klucza</string>
     <string name="hint_length">długość</string>
-    <string name="hint_login_pass">Hasło</string>
+    <string name="password">Hasło</string>
     <string name="hint_pass">hasło</string>
     <string name="hint_title">nazwa</string>
     <string name="hint_url">url</string>
@@ -150,7 +150,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="rounds">Złożoność szyfrowania</string>
     <string name="rounds_explaination">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
     <string name="rounds_fix">Kluczowe rundy szyfrowania przed zniszczeniem</string>
-    <string name="rounds_fix_explaination">Jeśli twoja baza danych została uszkodzona przez KeePassDroid w wersji 2.2.0.0 do 2.2.0.6, wprowadź liczbę rund użytych poprzednio, a to pozwoli ci otworzyć twoją bazę danych.</string>
+    <string name="rounds_fix_explanation">Jeśli twoja baza danych została uszkodzona przez KeePassDroid w wersji 2.2.0.0 do 2.2.0.6, wprowadź liczbę rund użytych poprzednio, a to pozwoli ci otworzyć twoją bazę danych.</string>
     <string name="rounds_hint">złożoność</string>
     <string name="saving_database">Zapisywanie bazy danych&#8230;</string>
     <string name="space">Spacja</string>

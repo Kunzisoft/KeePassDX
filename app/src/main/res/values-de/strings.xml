@@ -69,7 +69,7 @@
     <string name="entry_confpassword">Passwort wiederholen:</string>
     <string name="entry_created">Erstelldatum:</string>
     <string name="entry_expires">Ablaufdatum:</string>
-    <string name="entry_keyfile">Schlüsseldatei (optional)</string>
+    <string name="entry_keyfile">Schlüsseldatei</string>
     <string name="entry_modified">Änderungsdatum:</string>
     <string name="entry_not_found">Eintrag wurde nicht gefunden.</string>
     <string name="entry_password">Passwort:</string>
@@ -89,7 +89,7 @@
     <string name="error_invalid_db">Ungültige Datenbank.</string>
     <string name="error_invalid_path">Ungültiger Pfad.</string>
     <string name="error_no_name">Ein Name wird benötigt.</string>
-    <string name="error_nopass">Ein Passwort oder eine Schlüsseldatei wird benötigt.</string>
+    <string name="error_nokeyfile">Ein Passwort oder eine Schlüsseldatei wird benötigt.</string>
     <string name="error_out_of_memory">Der Speicher Ihres Smartphones reicht nicht aus, um die Datenbank zu analysieren. Sie ist wahrscheinlich zu groß.</string>
     <string name="error_pass_gen_type">Mindestens ein Passwort-Generierungstyp muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
@@ -112,7 +112,7 @@
     <string name="hint_keyfile">Schlüsseldatei</string>
     <string name="hint_length">Länge</string>
     <string name="hint_pass">Passwort</string>
-    <string name="hint_login_pass">Passwort</string>
+    <string name="password">Passwort</string>
     <string name="hint_title">Name</string>
     <string name="hint_url">URL-Adresse</string>
     <string name="hint_username">Benutzername</string>

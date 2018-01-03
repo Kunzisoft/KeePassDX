@@ -97,8 +97,8 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
             super.onBackPressed();
         } else {
             getFragmentManager().popBackStack();
-            toolbar.setTitle(R.string.settings);
         }
+        toolbar.setTitle(R.string.settings);
     }
 
 	@Override

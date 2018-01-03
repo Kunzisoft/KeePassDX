@@ -83,7 +83,7 @@
     <string name="error_invalid_db">Неверный формат базы</string>
     <string name="error_invalid_path">Путь указан неверно</string>
     <string name="error_no_name">Необходимо ввести имя файла</string>
-    <string name="error_nopass">Необходим пароль или файл-ключ</string>
+    <string name="error_nokeyfile">Необходим пароль или файл-ключ</string>
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов</string>
     <string name="error_pass_match">Пароли не совпадают</string>
@@ -105,7 +105,7 @@
     <string name="hint_keyfile">файл-ключ</string>
     <string name="hint_length">длина</string>
     <string name="hint_pass">пароль</string>
-    <string name="hint_login_pass">пароль</string>
+    <string name="password">пароль</string>
     <string name="hint_title">название</string>
     <string name="hint_url">ссылка</string>
     <string name="hint_username">логин</string>
@@ -167,7 +167,7 @@
     <string name="rounds">Проходы шифрования</string>
     <string name="rounds_explaination">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
     <string name="rounds_fix">Проходы до поломки базы</string>
-    <string name="rounds_fix_explaination">Если база была повреждена в KeePassDroid 2.2.0.0–2.2.0.6, введите ранее используемое количество проходов шифрования, чтобы открыть её</string>
+    <string name="rounds_fix_explanation">Если база была повреждена в KeePassDroid 2.2.0.0–2.2.0.6, введите ранее используемое количество проходов шифрования, чтобы открыть её</string>
     <string name="rounds_hint">проходы</string>
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>

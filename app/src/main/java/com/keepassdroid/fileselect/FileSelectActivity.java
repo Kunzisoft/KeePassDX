@@ -19,8 +19,8 @@
  */
 package com.keepassdroid.fileselect;
 
-
 import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -43,17 +44,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.keepassdroid.AssignMasterKeyDialog;
+import com.keepassdroid.CreateFileDialog;
 import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
-import com.keepassdroid.SetPasswordDialog;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
@@ -67,19 +67,25 @@ import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.utils.Util;
+import com.keepassdroid.view.AssignPasswordHelper;
 import com.keepassdroid.view.FileNameView;
 import com.kunzisoft.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URLDecoder;
 
-public class FileSelectActivity extends StylishActivity {
+public class FileSelectActivity extends StylishActivity implements
+		CreateFileDialog.DefinePathDialogListener ,
+		AssignMasterKeyDialog.AssignPasswordDialogListener {
+
+    private static final String TAG = "FileSelectActivity";
 
 	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
 	private ListView mList;
-	private ListAdapter mAdapter;
+	private BaseAdapter mAdapter;
 
 	private static final int CMENU_CLEAR = Menu.FIRST;
 	
@@ -91,18 +97,23 @@ public class FileSelectActivity extends StylishActivity {
 
 	private boolean recentMode = false;
 
+	private EditText openFileNameView;
+
+	private AssignPasswordHelper assignPasswordHelper;
+	private Uri databaseUri;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		fileHistory = App.getFileHistory();
 
+		setContentView(R.layout.file_selection);
 		if (fileHistory.hasRecentFiles()) {
 			recentMode = true;
-			setContentView(R.layout.file_selection);
 		} else {
-			setContentView(R.layout.file_selection_no_recent);
-		}
+		    findViewById(R.id.file_listtop).setVisibility(View.INVISIBLE);
+        }
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
@@ -111,22 +122,20 @@ public class FileSelectActivity extends StylishActivity {
 		mList = (ListView)findViewById(R.id.file_list);
 
 		mList.setOnItemClickListener(
-				new AdapterView.OnItemClickListener() {
-					public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-					{
-						onListItemClick((ListView)parent, v, position, id);
-					}
-				}
+            new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    onListItemClick((ListView)parent, v, position, id);
+                }
+            }
 		);
 
 		// Open button
-		Button openButton = (Button) findViewById(R.id.open);
+		View openButton = findViewById(R.id.open_database);
 		openButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				String fileName = Util.getEditText(FileSelectActivity.this,
 						R.id.file_filename);
-
 				try {
 					PasswordActivity.Launch(FileSelectActivity.this, fileName);
 				}
@@ -138,80 +147,16 @@ public class FileSelectActivity extends StylishActivity {
 					Toast.makeText(FileSelectActivity.this,
 							R.string.FileNotFound, Toast.LENGTH_LONG).show();
 				}
-
 			}
 		});
 
 		// Create button
-		Button createButton = (Button) findViewById(R.id.create);
+		View createButton = findViewById(R.id.create_database);
 		createButton.setOnClickListener(new View.OnClickListener() {
-
 			public void onClick(View v) {
-				String filename = Util.getEditText(FileSelectActivity.this,
-						R.id.file_filename);
-
-				// Make sure file name exists
-				if (filename.length() == 0) {
-					Toast
-							.makeText(FileSelectActivity.this,
-									R.string.error_filename_required,
-									Toast.LENGTH_LONG).show();
-					return;
-				}
-
-				// Try to create the file
-				File file = new File(filename);
-				try {
-					if (file.exists()) {
-						Toast.makeText(FileSelectActivity.this,
-								R.string.error_database_exists,
-								Toast.LENGTH_LONG).show();
-						return;
-					}
-					File parent = file.getParentFile();
-					
-					if ( parent == null || (parent.exists() && ! parent.isDirectory()) ) {
-						Toast.makeText(FileSelectActivity.this,
-								R.string.error_invalid_path,
-								Toast.LENGTH_LONG).show();
-						return;
-					}
-					
-					if ( ! parent.exists() ) {
-						// Create parent dircetory
-						if ( ! parent.mkdirs() ) {
-							Toast.makeText(FileSelectActivity.this,
-									R.string.error_could_not_create_parent,
-									Toast.LENGTH_LONG).show();
-							return;
-							
-						}
-					}
-					
-					file.createNewFile();
-				} catch (IOException e) {
-					Toast.makeText(
-							FileSelectActivity.this,
-							getText(R.string.error_file_not_create) + " "
-									+ e.getLocalizedMessage(),
-							Toast.LENGTH_LONG).show();
-					return;
-				}
-
-				// Prep an object to collect a password once the database has
-				// been created
-				CollectPassword password = new CollectPassword(
-						new LaunchGroupActivity(filename));
-
-				// Create the new database
-				CreateDB create = new CreateDB(FileSelectActivity.this, filename, password, true);
-				ProgressTask createTask = new ProgressTask(
-						FileSelectActivity.this, create,
-						R.string.progress_create);
-				createTask.run();
-
+                CreateFileDialog createFileDialog = new CreateFileDialog();
+                createFileDialog.show(getSupportFragmentManager(), "createFileDialog");
 			}
-
 		});
 		
 		View browseButton = findViewById(R.id.browse_button);
@@ -222,7 +167,9 @@ public class FileSelectActivity extends StylishActivity {
 					Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
 					i.addCategory(Intent.CATEGORY_OPENABLE);
 					i.setType("*/*");
-					i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+					i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
+							Intent.FLAG_GRANT_WRITE_URI_PERMISSION|
+							Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 					startActivityForResult(i, OPEN_DOC);
 				}
 				else {
@@ -242,7 +189,6 @@ public class FileSelectActivity extends StylishActivity {
 			}
 			
 			private void lookForOpenIntentsFilePicker() {
-				
 				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
 					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
 					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
@@ -251,7 +197,6 @@ public class FileSelectActivity extends StylishActivity {
 					} catch (ActivityNotFoundException e) {
 						showBrowserDialog();
 					}
-					
 				} else {
 					showBrowserDialog();
 				}
@@ -263,6 +208,14 @@ public class FileSelectActivity extends StylishActivity {
 			}
 		});
 
+        // Set the initial value of the filename
+        openFileNameView = (EditText) findViewById(R.id.file_filename);
+        String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+                + getString(R.string.database_file_path_default)
+                + getString(R.string.database_file_name_default)
+                + getString(R.string.database_file_extension_default);
+        openFileNameView.setText(defaultPath);
+
 		fillData();
 		
 		registerForContextMenu(mList);
@@ -273,7 +226,9 @@ public class FileSelectActivity extends StylishActivity {
 
 		if (fileName.length() > 0) {
 			Uri dbUri = UriUtil.parseDefaultFile(fileName);
-			String scheme = dbUri.getScheme();
+            String scheme = null;
+			if (dbUri!=null)
+			    scheme = dbUri.getScheme();
 
 			if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
 				String path = dbUri.getPath();
@@ -297,12 +252,135 @@ public class FileSelectActivity extends StylishActivity {
 		}
 	}
 
+    /**
+     * Create file for database
+     * @return If not created, return false
+     */
+	private boolean createDatabaseFile(Uri path) {
+
+	    String pathString = URLDecoder.decode(path.getPath());
+		// Make sure file name exists
+		if (pathString.length() == 0) {
+		    Log.e(TAG, getString(R.string.error_filename_required));
+			Toast.makeText(FileSelectActivity.this,
+					R.string.error_filename_required,
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+
+		// Try to create the file
+		File file = new File(pathString);
+		try {
+			if (file.exists()) {
+                Log.e(TAG, getString(R.string.error_database_exists) + " " + file);
+				Toast.makeText(FileSelectActivity.this,
+						R.string.error_database_exists,
+						Toast.LENGTH_LONG).show();
+				return false;
+			}
+			File parent = file.getParentFile();
+
+			if ( parent == null || (parent.exists() && ! parent.isDirectory()) ) {
+                Log.e(TAG, getString(R.string.error_invalid_path) + " " + file);
+				Toast.makeText(FileSelectActivity.this,
+						R.string.error_invalid_path,
+						Toast.LENGTH_LONG).show();
+				return false;
+			}
+
+			if ( ! parent.exists() ) {
+				// Create parent directory
+				if ( ! parent.mkdirs() ) {
+                    Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + parent);
+					Toast.makeText(FileSelectActivity.this,
+							R.string.error_could_not_create_parent,
+							Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+
+			return file.createNewFile();
+		} catch (IOException e) {
+            Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + e.getLocalizedMessage());
+            e.printStackTrace();
+			Toast.makeText(
+					FileSelectActivity.this,
+					getText(R.string.error_file_not_create) + " "
+							+ e.getLocalizedMessage(),
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean onDefinePathDialogPositiveClick(Uri pathFile) {
+        databaseUri = pathFile;
+        if(createDatabaseFile(pathFile)) {
+            AssignMasterKeyDialog assignMasterKeyDialog = new AssignMasterKeyDialog();
+            assignMasterKeyDialog.show(getSupportFragmentManager(), "passwordDialog");
+            return true;
+        } else
+            return false;
+	}
+
+	@Override
+	public boolean onDefinePathDialogNegativeClick(Uri pathFile) {
+        return true;
+	}
+
+	@Override
+	public void onAssignKeyDialogPositiveClick(
+			boolean masterPasswordChecked, String masterPassword,
+			boolean keyFileChecked, Uri keyFile) {
+
+	    String databaseFilename = databaseUri.getPath();
+
+        // Prep an object to collect a password once the database has
+        // been created
+        FileOnFinish launchActivityOnFinish = new FileOnFinish(
+                new LaunchGroupActivity(databaseFilename));
+        AssignPasswordOnFinish assignPasswordOnFinish =
+                new AssignPasswordOnFinish(launchActivityOnFinish);
+
+        // Create the new database
+        CreateDB create = new CreateDB(FileSelectActivity.this,
+                databaseFilename, assignPasswordOnFinish, true);
+
+        ProgressTask createTask = new ProgressTask(
+                FileSelectActivity.this, create,
+                R.string.progress_create);
+        createTask.run();
+        assignPasswordHelper =
+                new AssignPasswordHelper(this,
+                        masterPassword, keyFile);
+	}
+
+	@Override
+	public void onAssignKeyDialogNegativeClick(
+			boolean masterPasswordChecked, String masterPassword,
+			boolean keyFileChecked, Uri keyFile) {
+
+	}
+
+	private class AssignPasswordOnFinish extends FileOnFinish {
+
+        AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
+            super(fileOnFinish);
+        }
+
+        @Override
+        public void run() {
+            if (mSuccess) {
+                assignPasswordHelper.assignPasswordInDatabase(mOnFinish);
+            }
+        }
+    }
+
 	private class LaunchGroupActivity extends FileOnFinish {
 		private Uri mUri;
 
-		public LaunchGroupActivity(String filename) {
+		LaunchGroupActivity(String filename) {
 			super(null);
-
 			mUri = UriUtil.parseDefaultFile(filename);
 		}
 
@@ -311,61 +389,19 @@ public class FileSelectActivity extends StylishActivity {
 			if (mSuccess) {
 				// Add to recent files
 				fileHistory.createFile(mUri, getFilename());
-
+                mAdapter.notifyDataSetChanged();
 				GroupActivity.Launch(FileSelectActivity.this);
 			}
 		}
 	}
 
-	private class CollectPassword extends FileOnFinish {
-
-		public CollectPassword(FileOnFinish finish) {
-			super(finish);
-		}
-
-		@Override
-		public void run() {
-			SetPasswordDialog dialog = SetPasswordDialog.newInstance(mOnFinish);
-			dialog.show(getSupportFragmentManager(), "passwordDialog");
-		}
-
-	}
-
 	private void fillData() {
-		// Set the initial value of the filename
-		EditText filename = (EditText) findViewById(R.id.file_filename);
-		filename.setText(Environment.getExternalStorageDirectory().getAbsolutePath() + getString(R.string.default_file_path));
-		
-		mAdapter = new ArrayAdapter<String>(this, R.layout.file_row, R.id.file_filename, fileHistory.getDbList());
-		mList.setAdapter(mAdapter);
+        mAdapter = new ArrayAdapter<>(FileSelectActivity.this, R.layout.file_row, R.id.file_filename, fileHistory.getDbList());
+        mList.setAdapter(mAdapter);
 	}
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-
-		new AsyncTask<Integer, Void, Void>() {
-			String fileName;
-			String keyFile;
-			protected Void doInBackground(Integer... args) {
-				int position = args[0];
-				fileName = fileHistory.getDatabaseAt(position);
-				keyFile = fileHistory.getKeyfileAt(position);
-				return null;
-			}
-			
-			protected void onPostExecute(Void v) {
-				try {
-					PasswordActivity.Launch(FileSelectActivity.this, fileName, keyFile);
-				}
-				catch (ContentFileNotFoundException e) {
-					Toast.makeText(FileSelectActivity.this, R.string.file_not_found_content, Toast.LENGTH_LONG)
-							.show();
-				}
-				catch (FileNotFoundException e) {
-					Toast.makeText(FileSelectActivity.this, R.string.FileNotFound, Toast.LENGTH_LONG)
-							.show();
-				}
-			}
-		}.execute(position);
+		new OpenFileHistoryAsyncTask(this, fileHistory).execute(position);
 	}
 
 	@Override
@@ -409,8 +445,7 @@ public class FileSelectActivity extends StylishActivity {
 		}
 
 		if (filename != null) {
-			EditText fn = (EditText) findViewById(R.id.file_filename);
-			fn.setText(filename);
+			openFileNameView.setText(filename);
 		}
 	}
 
@@ -517,25 +552,65 @@ public class FileSelectActivity extends StylishActivity {
 			
 			TextView tv = (TextView) acmi.targetView;
 			String filename = tv.getText().toString();
-			new AsyncTask<String, Void, Void>() {
-				protected java.lang.Void doInBackground(String... args) {
-					String filename = args[0];
-					fileHistory.deleteFile(Uri.parse(args[0]));
-					return null;
-				}
-
-				protected void onPostExecute(Void v) {
-					refreshList();
-				}
-			}.execute(filename);
+            new DeleteFileHistoryAsyncTask(fileHistory, mAdapter).execute(filename);
 			return true;
 		}
 		
 		return false;
 	}
-	
-	private void refreshList() {
-		((BaseAdapter) mAdapter).notifyDataSetChanged();
-	}
+
+	private static class OpenFileHistoryAsyncTask extends  AsyncTask<Integer, Void, Void> {
+
+	    private WeakReference<Activity> weakActivity;
+        private RecentFileHistory fileHistory;
+	    private String fileName;
+        private String keyFile;
+
+        OpenFileHistoryAsyncTask(Activity activity, RecentFileHistory fileHistory) {
+            this.weakActivity = new WeakReference<>(activity);
+            this.fileHistory = fileHistory;
+        }
+
+        protected Void doInBackground(Integer... args) {
+            int position = args[0];
+            fileName = fileHistory.getDatabaseAt(position);
+            keyFile = fileHistory.getKeyfileAt(position);
+            return null;
+        }
+
+        protected void onPostExecute(Void v) {
+            try {
+                PasswordActivity.Launch(weakActivity.get(), fileName, keyFile);
+            }
+            catch (ContentFileNotFoundException e) {
+                Toast.makeText(weakActivity.get(), R.string.file_not_found_content, Toast.LENGTH_LONG)
+                        .show();
+            }
+            catch (FileNotFoundException e) {
+                Toast.makeText(weakActivity.get(), R.string.FileNotFound, Toast.LENGTH_LONG)
+                        .show();
+            }
+        }
+    }
+
+	private static class DeleteFileHistoryAsyncTask extends AsyncTask<String, Void, Void> {
+
+	    private RecentFileHistory fileHistory;
+	    private BaseAdapter adapter;
+
+	    DeleteFileHistoryAsyncTask(RecentFileHistory fileHistory, BaseAdapter adapter) {
+	        this.fileHistory = fileHistory;
+	        this.adapter = adapter;
+        }
+
+        protected java.lang.Void doInBackground(String... args) {
+            fileHistory.deleteFile(Uri.parse(args[0]));
+            return null;
+        }
+
+        protected void onPostExecute(Void v) {
+            adapter.notifyDataSetChanged();
+        }
+    }
 
 }

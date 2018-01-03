@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2017 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -17,21 +17,6 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-
-	<include
-		android:id="@+id/toolbar"
-		layout="@layout/toolbar_default" />
-
-    <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar" />
-
-  	<!-- Small hack because I need to include a list since this is a list activity -->
-  	<ListView android:id="@+id/file_list"
-		android:layout_width="0sp"
-		android:layout_height="0sp" />
-</RelativeLayout>
+<resources>
+    <bool name="fingerprint_enable_default" translatable="true">true</bool>
+</resources>

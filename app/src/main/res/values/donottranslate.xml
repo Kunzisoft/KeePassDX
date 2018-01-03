@@ -21,7 +21,6 @@
     <string name="app_name" translatable="false">KeePass DX</string>
 
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="default_file_path" translatable="false">/keepass/keepass.kdbx</string>
     <string name="donate_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
     <string name="homepage" translatable="false">http://www.kunzisoft.com/KeepassDX</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
@@ -29,8 +28,11 @@
     <string name="oi_filemanager_web" translatable="false">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
     
     <!--  Password generator -->
-    <integer name="default_password_length" translatable="false">8</integer>
-    
+    <string name="password_length_key" translatable="false">password_length_key</string>
+    <string name="min_password_length" translatable="false">1</string>
+    <string name="default_password_length" translatable="false">14</string>
+    <string name="max_password_length" translatable="false">64</string>
+
     <!--  Preference settings -->
     <string name="algorithm_key" translatable="false">algorithm</string>
     <string name="app_key" translatable="false">app</string>
@@ -51,6 +53,9 @@
     <string name="saf_key" translatable="false">storage_access_framework_key</string>
     <integer name="roundsFix_default" translatable="false">100000</integer>
     <string name="setting_style_key" translatable="false">setting_style_key</string>
+    <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
+    <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
+    <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -58,7 +63,10 @@
     <bool name="omitbackup_default" translatable="false">true</bool>
     <bool name="recentfile_default" translatable="false">true</bool>
     <bool name="saf_default" translatable="false">false</bool>
-    
+    <bool name="clipboard_notifications_default" translatable="false">true</bool>
+    <bool name="lock_database_screen_off_default" translatable="false">true</bool>
+    <bool name="fingerprint_enable_default" translatable="true">false</bool>
+
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">
     	<item translatable="false">30000</item>
@@ -66,16 +74,75 @@
     	<item translatable="false">300000</item>
     	<item translatable="false">-1</item>
     </string-array>
+
     <string name="list_size_default" translatable="false">18</string>
     <string-array name="list_size_values">
     	<item translatable="false">14</item>
     	<item translatable="false">18</item>
     	<item translatable="false">26</item>
     </string-array>
+
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
     </string-array>
+
+    <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
+    <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>
+    <string name="value_password_lowercase" translatable="false">value_password_lowercase</string>
+    <string name="value_password_digits" translatable="false">value_password_digits</string>
+    <string name="value_password_minus" translatable="false">value_password_minus</string>
+    <string name="value_password_underline" translatable="false">value_password_underline</string>
+    <string name="value_password_space" translatable="false">value_password_space</string>
+    <string name="value_password_special" translatable="false">value_password_special</string>
+    <string name="value_password_brackets" translatable="false">value_password_brackets</string>
+    <string name="visual_uppercase" translatable="false">A-Z</string>
+    <string name="visual_lowercase" translatable="false">a-z</string>
+    <string name="visual_digits" translatable="false">0-9</string>
+    <string name="visual_minus" translatable="false">-</string>
+    <string name="visual_underline" translatable="false">_</string>
+    <string name="visual_space" translatable="false"> </string>
+    <string name="visual_special" translatable="false">&amp;\/,^@.#&quot;:%\\='$!*`;+</string>
+    <string name="visual_brackets" translatable="false">[](){}&lt;&gt;</string>
+    <string-array name="list_password_generator_options_default_values">
+        <item translatable="false">@string/value_password_uppercase</item>
+        <item translatable="false">@string/value_password_lowercase</item>
+        <item translatable="false">@string/value_password_digits</item>
+    </string-array>
+    <string-array name="list_password_generator_options_values">
+        <item translatable="false">@string/value_password_uppercase</item>
+        <item translatable="false">@string/value_password_lowercase</item>
+        <item translatable="false">@string/value_password_digits</item>
+        <item translatable="false">@string/value_password_minus</item>
+        <item translatable="false">@string/value_password_underline</item>
+        <item translatable="false">@string/value_password_space</item>
+        <item translatable="false">@string/value_password_special</item>
+        <item translatable="false">@string/value_password_brackets</item>
+    </string-array>
+    <string-array name="list_password_generator_options_entries">
+        <item translatable="false">@string/uppercase</item>
+        <item translatable="false">@string/lowercase</item>
+        <item translatable="false">@string/digits</item>
+        <item translatable="false">@string/minus</item>
+        <item translatable="false">@string/underline</item>
+        <item translatable="false">@string/space</item>
+        <item translatable="false">@string/special</item>
+        <item translatable="false">@string/brackets</item>
+    </string-array>
+
+    <string name="chapter_1">I</string>
+    <string name="chapter_2">II</string>
+    <string name="chapter_3">III</string>
+    <string name="chapter_4">IV</string>
+    <string name="chapter_5">V</string>
+
+    <string name="database_file_path_default" translatable="false">/keepass/</string>
+    <string name="database_file_name_default" translatable="false">keepass</string>
+    <string name="database_file_extension_default" translatable="false">.kdbx</string>
+    <string-array name="file_types">
+        <item translatable="false">@string/database_file_extension_default</item>
+    </string-array>
+
 </resources>

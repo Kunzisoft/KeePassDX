@@ -20,11 +20,8 @@
 <resources>
 
     <!-- Base application theme. -->
-
-    <!-- For elevation encapsulation in V21-->
+    <!-- For setting encapsulation -->
     <style name="KeepassDXStyle.Light.v21" parent="Theme.AppCompat.Light">
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -236,5 +233,35 @@
 		<item name="android:padding">5sp</item>
         <item name="android:textSize">16sp</item>
 	</style>
+
+    <!-- File Picker Theme -->
+    <style name="KeepassDXStyle.FilePickerStyle.Night" parent="Theme.AppCompat.DialogWhenLarge">
+        <!-- You can override this in your sub theme -->
+        <item name="nnf_toolbarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="nnf_separator_color">@color/nnf_dark_separator_color</item>
+        <item name="nnf_save_icon_color">?attr/colorAccent</item>
+        <item name="nnf_dir_icon_color">?attr/colorAccent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/orange</item>
+    </style>
+
+    <style name="KeepassDXStyle.FilePickerStyle.Light" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="nnf_toolbarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="nnf_separator_color">@color/nnf_light_separator_color</item>
+        <item name="nnf_save_icon_color">?attr/colorAccent</item>
+        <item name="nnf_dir_icon_color">?attr/colorAccent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/orange</item>
+    </style>
 
 </resources>

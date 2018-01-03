@@ -129,7 +129,7 @@ public class PwDatabaseV4 extends PwDatabase {
 			throws InvalidKeyFileException, IOException {
 		assert(key != null);
 		
-		byte[] fKey;
+		byte[] fKey = new byte[]{};
 		
 		if ( key.length() > 0 && keyInputStream != null) {
 			return getCompositeKey(key, keyInputStream);
@@ -137,8 +137,6 @@ public class PwDatabaseV4 extends PwDatabase {
 			fKey =  getPasswordKey(key);
 		} else if ( keyInputStream != null) {
 			fKey = getFileKey(keyInputStream);
-		} else {
-			throw new IllegalArgumentException( "Key cannot be empty." );
 		}
 		
 		MessageDigest md;

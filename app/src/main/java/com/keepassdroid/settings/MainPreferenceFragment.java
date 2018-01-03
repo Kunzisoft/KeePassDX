@@ -2,7 +2,7 @@ package com.keepassdroid.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.preference.EditTextPreference;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
@@ -35,28 +35,26 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         preference.setOnPreferenceClickListener(this);
 
         preference = findPreference(getString(R.string.db_key));
-        Database db = App.getDB();
-        if (!(db.Loaded() && db.pm.appSettingsEnabled())) {
-            Preference dbSettings = findPreference(getString(R.string.db_key));
-            dbSettings.setEnabled(false);
-        } else {
-            preference.setOnPreferenceClickListener(this);
-        }
+        preference.setOnPreferenceClickListener(this);
 
-        EditTextPreference fixDatabaseRoundPref = (EditTextPreference)
-                getPreferenceScreen().findPreference(getString(R.string.roundsFix_key));
-        fixDatabaseRoundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                try {
-                    Long.valueOf(newValue.toString());
-                    return true;
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show();
-                }
-                return false;
-            }
-        });
+        Database db = App.getDB();
+        if (!(db.Loaded())) {
+            preference.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        // Try if the preference is one of our custom Preferences
+        if (preference instanceof RoundsPreference) {
+            DialogFragment dialogFragment = RoundsFixPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment.setTargetFragment(this, 0);
+            dialogFragment.show(getFragmentManager(), null);
+        }
+        // Could not be handled here. Try with the super method.
+        else {
+            super.onDisplayPreferenceDialog(preference);
+        }
     }
 
     @Override

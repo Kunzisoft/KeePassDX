@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/default_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/KeepassDXStyle.TextAppearance.Title"
+            android:text="@string/fingerprint_quick_unlock_title"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"
+                android:text="@string/chapter_1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/fingerprint_setting_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                    android:text="@string/fingerprint_setting_text"/>
+                <TextView
+                    android:id="@+id/fingerprint_setting_way_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                    android:textColor="?attr/colorAccent"
+                    android:text="@string/fingerprint_setting_way_text"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"
+                android:text="@string/chapter_2"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                    android:padding="5dp"
+                    android:text="@string/fingerprint_type_password_text"/>
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:src="@drawable/type_assword"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"
+                    android:text="@string/chapter_3" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                    android:padding="5dp"
+                    android:text="@string/fingerprint_scan_to_store"/>
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/fingerprint_image"
+                android:layout_gravity="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp"
+                android:src="@drawable/fingerprint"
+                android:background="@drawable/circle"
+                android:backgroundTint="?attr/colorAccent"
+                tools:targetApi="lollipop" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/KeepassDXStyle.TextAppearance.Title"
+            android:text="@string/usage" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/KeepassDXStyle.TextAppearance.TinyText"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="@string/fingerprint_scan_to_open"/>
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:elevation="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:src="@drawable/lock_open"
+            android:background="@drawable/circle"
+            android:backgroundTint="?attr/colorPrimary"
+            tools:targetApi="lollipop" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

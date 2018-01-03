@@ -69,6 +69,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import static com.keepassdroid.settings.PrefsUtil.isClipboardNotificationsEnable;
+
 public class EntryActivity extends LockCloseHideActivity {
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_REFRESH_POS = "refresh_pos";
@@ -153,7 +155,6 @@ public class EntryActivity extends LockCloseHideActivity {
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
 		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
-		assert(uuid != null);
 		
 		mEntry = db.pm.entries.get(uuid);
 		if (mEntry == null) {
@@ -171,37 +172,41 @@ public class EntryActivity extends LockCloseHideActivity {
 		fillData(false);
 
 		setupEditButtons();
-		
-		// Notification Manager
-		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		
-		if ( mEntry.getPassword().length() > 0 ) {
-			// only show notification if password is available
-			Notification password = getNotification(Intents.COPY_PASSWORD, R.string.copy_password);
-			mNM.notify(NOTIFY_PASSWORD, password);
-		}
-		
-		if ( mEntry.getUsername().length() > 0 ) {
-			// only show notification if username is available
-			Notification username = getNotification(Intents.COPY_USERNAME, R.string.copy_username);
-			mNM.notify(NOTIFY_USERNAME, username);
-		}
+
+		// If notifications enabled in settings
+		if (isClipboardNotificationsEnable(getApplicationContext())) {
+            // Notification Manager
+            mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+            if (mEntry.getPassword().length() > 0) {
+                // only show notification if password is available
+                Notification password = getNotification(Intents.COPY_PASSWORD, R.string.copy_password);
+                mNM.notify(NOTIFY_PASSWORD, password);
+            }
+
+            if (mEntry.getUsername().length() > 0) {
+                // only show notification if username is available
+                Notification username = getNotification(Intents.COPY_USERNAME, R.string.copy_username);
+                mNM.notify(NOTIFY_USERNAME, username);
+            }
+        }
 			
 		mIntentReceiver = new BroadcastReceiver() {
 			
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String action = intent.getAction();
-
-				if ( action.equals(Intents.COPY_USERNAME) ) {
-					String username = mEntry.getUsername();
-					if ( username.length() > 0 ) {
-						timeoutCopyToClipboard(username);
-					}
-				} else if ( action.equals(Intents.COPY_PASSWORD) ) {
-					String password = new String(mEntry.getPassword());
-					if ( password.length() > 0 ) {
-						timeoutCopyToClipboard(new String(mEntry.getPassword()));
+				if ( action != null) {
+					if (action.equals(Intents.COPY_USERNAME)) {
+						String username = mEntry.getUsername();
+						if (username.length() > 0) {
+							timeoutCopyToClipboard(username);
+						}
+					} else if (action.equals(Intents.COPY_PASSWORD)) {
+						String password = mEntry.getPassword();
+						if (password.length() > 0) {
+							timeoutCopyToClipboard(password);
+						}
 					}
 				}
 			}
