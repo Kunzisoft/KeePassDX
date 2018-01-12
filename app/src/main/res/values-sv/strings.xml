@@ -148,7 +148,7 @@
     <string name="no_keys">Inga poster i databasen eller gruppen.</string>
     <string name="no_results">Inget sökresultat</string>
     <string name="no_url_handler">Inget standardprogram för denna URL.</string>
-    <string name="open_recent">Senat öppnade databaser (klicka för att öppna):</string>
+    <string name="open_recent">Senat öppnade databaser :</string>
     <string name="omitbackup_title">Sök inte efter poster i backup/papperskorg</string>
     <string name="omitbackup_summary">Söker inte efter poster i \'Backup\' eller \'Recycle Bin\'</string>
     <string name="pass_filename">KeePass databasfilnamn:</string>

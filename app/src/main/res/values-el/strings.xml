@@ -147,7 +147,7 @@
     <string name="no_keys">Δεν υπάρχουν εγγραφές στη βάση ή στην ομάδα.</string>
     <string name="no_results">Δε βρέθηκαν αποτελέσματα αναζήτησης</string>
     <string name="no_url_handler">Χωρίς χειριστή για τη διεύθυνση url.</string>
-    <string name="open_recent">Άνοιγμα πρόσφατης βάσης (πατήστε για άνοιγμα):</string>
+    <string name="open_recent">Άνοιγμα πρόσφατης βάσης :</string>
     <string name="omitbackup_title">Να μην γίνει αναζήτηση σε αντίγραφο ασφαλείας εγγραφών</string>
     <string name="omitbackup_summary">Παράληψη ομάδας \'Αντίγραφο Ασφαλείας\' από τα αποτελέσματα αναζήτησης (εφαρμόζεται μόνο σε αρχεία .kdb)</string>
     <string name="pass_filename">Όνομα βάσης δεδομένων KeePass:</string>

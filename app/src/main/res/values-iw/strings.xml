@@ -143,7 +143,7 @@
   <string name="no_keys">אין ערכים במסד נתונים או בקבוצה.</string>
   <string name="no_results">אין תוצאות חיפוש</string>
   <string name="no_url_handler">אין מטפל לכתובת url זו.</string>
-  <string name="open_recent">פתח מסד נתונים אחרון (לחץ לפתיחה):</string>
+  <string name="open_recent">פתח מסד נתונים אחרון :</string>
   <string name="omitbackup_title">אל תחפש ערכי גיבוי</string>
   <string name="omitbackup_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
   <string name="pass_filename">שם קובץ למסד נתוני KeePass:</string>

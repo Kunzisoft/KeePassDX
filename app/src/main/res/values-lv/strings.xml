@@ -128,7 +128,7 @@
     <string name="no_keys">Nav ierakstu datu bāzē vai grupā.</string>
     <string name="no_results">Nav meklēšanas rezultātu</string>
     <string name="no_url_handler">Neizdevās atvērt saiti.</string>
-    <string name="open_recent">Atvērt pēdējo datu bāzi (noklikšķiniet, lai atvērtu):</string>
+    <string name="open_recent">Atvērt pēdējo datu bāzi :</string>
     <string name="omitbackup_title">Nemeklēt kopijās un atkritnē</string>
     <string name="omitbackup_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
     <string name="pass_filename">KeePass datu bāzes faila nosaukums:</string>

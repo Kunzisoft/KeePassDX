@@ -149,7 +149,7 @@
     <string name="no_keys">Sarrerarik ez datubasean edo taldean.</string>
     <string name="no_results">Emaitzarik gabeko bilaketa</string>
     <string name="no_url_handler">URL kudatzeko euskarririk ez.</string>
-    <string name="open_recent">Duela gutxiko datubasea ireki (klik irekitzeko):</string>
+    <string name="open_recent">Duela gutxiko datubasea ireki :</string>
     <string name="omitbackup_title">Ez bilatu segurtasun kopiaren sarreretan</string>
     <string name="omitbackup_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
     <string name="pass_filename">Keepass datubasearen izena:</string>

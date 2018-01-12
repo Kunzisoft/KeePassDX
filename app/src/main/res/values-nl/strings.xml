@@ -137,7 +137,7 @@
     <string name="no_keys">Geen records in de database of groep.</string>
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Geen afhandeling voor deze url mogelijk.</string>
-    <string name="open_recent">Recente database openen (klik om te openen):</string>
+    <string name="open_recent">Recente database openen :</string>
     <string name="omitbackup_title">Niet in backup en prullenbak zoeken</string>
     <string name="omitbackup_summary">Laat \'Backup\' en Prullenbak-groep weg uit zoekresultaten</string>
     <string name="pass_filename">KeePass databasebestandsnaam:</string>

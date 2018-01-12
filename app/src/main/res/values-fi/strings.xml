@@ -147,7 +147,7 @@
     <string name="no_keys">Ei tietueita tietokannassa tai ryhmässä.</string>
     <string name="no_results">Ei hakutuloksia</string>
     <string name="no_url_handler">Tälle URL:lle ei ole käsittelijää.</string>
-    <string name="open_recent">Avaa viimeisin salasanatietokanta (avaa klikkaamalla):</string>
+    <string name="open_recent">Avaa viimeisin salasanatietokanta :</string>
     <string name="omitbackup_title">Älä etsi varmuuskopioista eikä roskakorista</string>
     <string name="omitbackup_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
     <string name="pass_filename">KeePass salasanatietokannan tiedostonimi:</string>

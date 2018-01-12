@@ -133,7 +133,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="no_keys">Brak wpisów w bazie danych lub grupie.</string>
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Brak obsługi dla tego urla.</string>
-    <string name="open_recent">Otwórz ostatnio używaną bazę danych (kliknij by otworzyć):</string>
+    <string name="open_recent">Otwórz ostatnio używaną bazę danych :</string>
     <string name="omitbackup_title">Nie wyszukuj zapasowych wpisów</string>
     <string name="omitbackup_summary">Pomiń kopię zapasową grupy z wyników wyszukiwania (dotyczy tylko .kdb)</string>
     <string name="pass_filename">Nazwa pliku bazy danych KeePass:</string>

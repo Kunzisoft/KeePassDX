@@ -138,7 +138,7 @@
     <string name="no_keys">Nessuna voce nel database o nel gruppo.</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Nessun gestore per questo URL.</string>
-    <string name="open_recent">Apri un database recente (clicca per aprire):</string>
+    <string name="open_recent">Apri un database recente :</string>
     <string name="omitbackup_title">Non cercare voci di backup e nel Cestino</string>
     <string name="omitbackup_summary">Ometti i gruppi \'Backup\' e Cestino dai risultati di ricerca</string>
     <string name="pass_filename">Nome file del database di KeePass:</string>

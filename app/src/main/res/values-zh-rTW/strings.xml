@@ -134,7 +134,7 @@
     <string name="no_keys">資料庫或群組中無條目。</string>
     <string name="no_results">沒有搜索結果</string>
     <string name="no_url_handler">沒有這個鏈結的處理程式。</string>
-    <string name="open_recent">打開最近資料庫（點擊打開）：</string>
+    <string name="open_recent">打開最近資料庫：</string>
     <string name="pass_filename">KeePass資料庫檔案名：</string>
     <string name="password_title">輸入資料庫密碼</string>
     <string name="progress_create">創建新資料庫中&#8230;</string>

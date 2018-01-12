@@ -154,7 +154,7 @@
     <string name="no_keys">Keine Einträge in dieser Datenbank oder Gruppe.</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Kein Handler zum Öffnen der URL vorhanden.</string>
-    <string name="open_recent">Zuletzt geöffnete Datenbank (Klicken zum Öffnen):</string>
+    <string name="open_recent">Zuletzt geöffnete Datenbank :</string>
     <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
     <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei kdb Dateien).</string>
     <string name="pass_filename">KeePass Datenbankdatei:</string>

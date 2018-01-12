@@ -138,7 +138,7 @@
     <string name="no_keys">Nenhuma entrada no grupo.</string>
     <string name="no_results">Sem resultados na busca.</string>
     <string name="no_url_handler">Erro ao tratar url.</string>
-    <string name="open_recent">Abrir banco de dados recente (clique para abrir):</string>
+    <string name="open_recent">Abrir banco de dados recente :</string>
     <string name="omitbackup_title">Não procurar entradas no backup ou na lixeira.</string>
     <string name="omitbackup_summary">Omitir os grupos \'Backup\' e \'Lixeira\' dos resultados da busca</string>
     <string name="pass_filename">Arquivo de banco de dados do KeePass:</string>

@@ -135,7 +135,7 @@
     <string name="no_keys">データベース・グループがありません。</string>
     <string name="no_results">検索結果に該当するものはありません。</string>
     <string name="no_url_handler">このuriを処理できません。</string>
-    <string name="open_recent">以前使用したデータベースを開く(クリック):</string>
+    <string name="open_recent">以前使用したデータベースを開く:</string>
     <string name="omitbackup_title">検索対象から除外</string>
     <string name="omitbackup_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
     <string name="pass_filename">KeePassデータベースファイル:</string>

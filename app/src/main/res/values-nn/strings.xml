@@ -135,7 +135,7 @@
     <string name="no_keys">Ingen oppføringar i databasen eller gruppa.</string>
     <string name="no_results">Ingen søkjeresultat</string>
     <string name="no_url_handler">Ingen behandlar for denne adressa.</string>
-    <string name="open_recent">Opna nyleg brukt database (klikk for å opna):</string>
+    <string name="open_recent">Opna nyleg brukt database :</string>
     <string name="omitbackup_title">Søk ikkje i kopipostane eller søppelbøtta</string>
     <string name="omitbackup_summary">Søkjeresultatet inneheld ikkje oppføringar frå \'Backup\' eller søppelbøtta</string>
     <string name="pass_filename">Filnamnet til KeePass-databasen:</string>

@@ -135,7 +135,7 @@
     <string name="no_keys">Žiadne záznamy v Databáze.</string>
     <string name="no_results">Žiadne výsledky hľadania</string>
     <string name="no_url_handler">Žiaden manažér pre url.</string>
-    <string name="open_recent">Otvoriť poslednú databázu (kliknutím otvoriť):</string>
+    <string name="open_recent">Otvoriť poslednú databázu :</string>
     <string name="omitbackup_title">Neprehľadávať položky</string>
     <string name="omitbackup_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
     <string name="pass_filename">KeePass databázový súbor:</string>

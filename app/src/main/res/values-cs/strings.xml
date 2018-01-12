@@ -150,7 +150,7 @@
     <string name="no_keys">Žádný záznam v databázi nebo ve skupině.</string>
     <string name="no_results">žádný výsledek hledání</string>
     <string name="no_url_handler">Žádný handler pro toto url.</string>
-    <string name="open_recent">Otevřít poslední databázi (kliknout pro otevření):</string>
+    <string name="open_recent">Otevřít poslední databázi :</string>
     <string name="omitbackup_title">Neprohledávat zálohy a koš</string>
     <string name="omitbackup_summary">Vynechat skupiny Záloha a Koš ve výsledcích hledání</string>
     <string name="pass_filename">Název souboru KeePass databáze:</string>

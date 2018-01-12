@@ -139,7 +139,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="no_url_handler">Sin manejador para esta url.</string>
     <string name="recentfile_title">Historial de archivos recientes</string>
 	<string name="recentfile_summary">Recordar nombres de archivos usados recientemente</string>
-    <string name="open_recent">Abrir base de datos reciente (clic para abrir):</string>
+    <string name="open_recent">Abrir base de datos reciente :</string>
     <string name="omitbackup_title">No buscar en las entradas de copia de seguridad o papelera de reciclaje</string>
     <string name="omitbackup_summary">Omitir \'Backup\' y grupo de Papelera de Reciclaje en los resultados de búsqueda</string>
     <string name="pass_filename">Nombre de archivo de base de datos de KeePass:</string>

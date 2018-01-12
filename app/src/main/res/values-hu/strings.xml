@@ -144,7 +144,7 @@
     <string name="no_keys">Nincs bejegyzés az adatbázisban vagy csoportban.</string>
     <string name="no_results">Nincs találat</string>
     <string name="no_url_handler">Nem található kezelő ehhez az url-hez.</string>
-    <string name="open_recent">Korábbi adatbázis megnyitása (kattintson rá a megnyitáshoz):</string>
+    <string name="open_recent">Korábbi adatbázis megnyitása :</string>
     <string name="omitbackup_title">Keresési kivételek</string>
     <string name="omitbackup_summary">A Backup és Lomtár csoportok kihagyása a keresésből</string>
     <string name="pass_filename">KeePass adatbázis fájlnév:</string>

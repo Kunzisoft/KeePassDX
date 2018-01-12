@@ -149,7 +149,7 @@
     <string name="no_keys">Ingen poster i databasen eller gruppen.</string>
     <string name="no_results">Ingen søgeresultater</string>
     <string name="no_url_handler">Kan ikke håndtere denne url.</string>
-    <string name="open_recent">Åbn seneste database (klik for at åbne):</string>
+    <string name="open_recent">Åbn seneste database :</string>
     <string name="omitbackup_title">Søg ikke efter backup poster og poster i papirkurven</string>
     <string name="omitbackup_summary">Udelad \'Backup\' og papirkurvs-gruppen i søgeresultater</string>
     <string name="pass_filename">KeePass database filnavn:</string>
