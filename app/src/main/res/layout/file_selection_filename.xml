@@ -68,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/label_open_by_filename"
                 android:inputType="textUri"
+                android:textColor="?attr/textColorInverse"
                 android:layout_toLeftOf="@+id/browse_button"
                 android:layout_toStartOf="@+id/browse_button"
                 android:maxLines="1" />
