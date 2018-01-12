@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 app:titleEnabled="false"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
                     android:layout_width="match_parent"
@@ -66,35 +66,42 @@
             android:layout_marginLeft="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
+            android:layout_marginBottom="48dp"
             android:paddingTop="-20dp"
             app:fabSize="mini"
-            app:layout_anchor="@id/filename_container"
+            app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
             android:src="@drawable/ic_open_folder_white_24dp" />
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView android:id="@+id/file_listtop"
-                android:layout_marginTop="@dimen/default_margin"
-                android:layout_marginLeft="@dimen/default_margin"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginRight="@dimen/default_margin"
-                android:layout_marginEnd="@dimen/default_margin"
+            android:layout_gravity="fill_vertical"
+            android:fillViewport="true">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.TextAppearance.Title"
-                android:text="@string/open_recent" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/file_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <TextView android:id="@+id/file_listtop"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.Title"
+                    android:text="@string/open_recent" />
 
-        </LinearLayout>
+                <ListView
+                    android:id="@+id/file_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.FloatingActionButton
