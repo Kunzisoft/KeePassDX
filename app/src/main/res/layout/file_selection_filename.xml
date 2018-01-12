@@ -36,7 +36,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="22dp">
 
             <TextView android:id="@+id/label_warning"
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
             <TextView android:id="@+id/label_open_by_filename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.TextAppearance.Title"
+                style="@style/KeepassDXStyle.TextAppearance.Inverse"
                 android:text="@string/enter_filename"/>
 
             <android.support.v7.widget.AppCompatImageView
