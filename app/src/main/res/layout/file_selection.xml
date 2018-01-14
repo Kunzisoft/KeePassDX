@@ -84,7 +84,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView android:id="@+id/file_listtop"
+                <TextView android:id="@+id/file_list_title"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginLeft="@dimen/default_margin"
                     android:layout_marginStart="@dimen/default_margin"

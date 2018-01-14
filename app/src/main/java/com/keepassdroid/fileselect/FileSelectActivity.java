@@ -20,14 +20,12 @@
 package com.keepassdroid.fileselect;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -68,7 +66,6 @@ import com.kunzisoft.keepass.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.net.URLDecoder;
 
 public class FileSelectActivity extends StylishActivity implements
@@ -81,6 +78,7 @@ public class FileSelectActivity extends StylishActivity implements
 	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
 	private RecyclerView mListFiles;
 	private FileSelectAdapter mAdapter;
+	private View fileListTitle;
 	
 	public static final int FILE_BROWSE = 1;
 	public static final int GET_CONTENT = 2;
@@ -102,11 +100,10 @@ public class FileSelectActivity extends StylishActivity implements
 		fileHistory = App.getFileHistory();
 
 		setContentView(R.layout.file_selection);
+        fileListTitle = findViewById(R.id.file_list_title);
 		if (fileHistory.hasRecentFiles()) {
 			recentMode = true;
-		} else {
-		    findViewById(R.id.file_listtop).setVisibility(View.INVISIBLE);
-        }
+		}
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
@@ -235,6 +232,13 @@ public class FileSelectActivity extends StylishActivity implements
 			}
 		}
 	}
+
+	private void updateTitleFileListView() {
+	    if(mAdapter.getItemCount() == 0)
+            fileListTitle.setVisibility(View.INVISIBLE);
+	    else
+            fileListTitle.setVisibility(View.VISIBLE);
+    }
 
     /**
      * Create file for database
@@ -374,6 +378,7 @@ public class FileSelectActivity extends StylishActivity implements
 				// Add to recent files
 				fileHistory.createFile(mUri, getFilename());
                 mAdapter.notifyDataSetChanged();
+                updateTitleFileListView();
 				GroupActivity.Launch(FileSelectActivity.this);
 			}
 		}
@@ -385,7 +390,24 @@ public class FileSelectActivity extends StylishActivity implements
             new View.OnClickListener() {
                 public void onClick(View view) {
                     int itemPosition = mListFiles.getChildLayoutPosition(view);
-                    new OpenFileHistoryAsyncTask(FileSelectActivity.this, fileHistory).execute(itemPosition);
+                    new OpenFileHistoryAsyncTask(new OpenFileHistoryAsyncTask.AfterOpenFileHistoryListener() {
+                        @Override
+                        public void afterOpenFile(String fileName, String keyFile) {
+                            try {
+                                PasswordActivity.Launch(FileSelectActivity.this,
+                                        fileName, keyFile);
+                            } catch (ContentFileNotFoundException e) {
+                                Toast.makeText(FileSelectActivity.this,
+                                        R.string.file_not_found_content, Toast.LENGTH_LONG)
+                                        .show();
+                            } catch (FileNotFoundException e) {
+                                Toast.makeText(FileSelectActivity.this,
+                                        R.string.FileNotFound, Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                            updateTitleFileListView();
+                        }
+                    }, fileHistory).execute(itemPosition);
                 }
             }
         );
@@ -395,7 +417,12 @@ public class FileSelectActivity extends StylishActivity implements
 
     @Override
     public boolean onFileSelectClearListener(String fileName) {
-        new DeleteFileHistoryAsyncTask(fileHistory, mAdapter).execute(fileName);
+        new DeleteFileHistoryAsyncTask(new DeleteFileHistoryAsyncTask.AfterDeleteFileHistoryListener() {
+            @Override
+            public void afterDeleteFile() {
+                updateTitleFileListView();
+            }
+        }, fileHistory, mAdapter).execute(fileName);
         return true;
     }
 
@@ -529,59 +556,5 @@ public class FileSelectActivity extends StylishActivity implements
 		return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
 				&& super.onOptionsItemSelected(item);
 	}
-
-	private static class OpenFileHistoryAsyncTask extends  AsyncTask<Integer, Void, Void> {
-
-	    private WeakReference<Activity> weakActivity;
-        private RecentFileHistory fileHistory;
-	    private String fileName;
-        private String keyFile;
-
-        OpenFileHistoryAsyncTask(Activity activity, RecentFileHistory fileHistory) {
-            this.weakActivity = new WeakReference<>(activity);
-            this.fileHistory = fileHistory;
-        }
-
-        protected Void doInBackground(Integer... args) {
-            int position = args[0];
-            fileName = fileHistory.getDatabaseAt(position);
-            keyFile = fileHistory.getKeyfileAt(position);
-            return null;
-        }
-
-        protected void onPostExecute(Void v) {
-            try {
-                PasswordActivity.Launch(weakActivity.get(), fileName, keyFile);
-            }
-            catch (ContentFileNotFoundException e) {
-                Toast.makeText(weakActivity.get(), R.string.file_not_found_content, Toast.LENGTH_LONG)
-                        .show();
-            }
-            catch (FileNotFoundException e) {
-                Toast.makeText(weakActivity.get(), R.string.FileNotFound, Toast.LENGTH_LONG)
-                        .show();
-            }
-        }
-    }
-
-	private static class DeleteFileHistoryAsyncTask extends AsyncTask<String, Void, Void> {
-
-	    private RecentFileHistory fileHistory;
-	    private FileSelectAdapter adapter;
-
-	    DeleteFileHistoryAsyncTask(RecentFileHistory fileHistory, FileSelectAdapter adapter) {
-	        this.fileHistory = fileHistory;
-	        this.adapter = adapter;
-        }
-
-        protected java.lang.Void doInBackground(String... args) {
-            fileHistory.deleteFile(Uri.parse(args[0]));
-            return null;
-        }
-
-        protected void onPostExecute(Void v) {
-            adapter.notifyDataSetChanged();
-        }
-    }
 
 }
