@@ -643,13 +643,13 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
                     if (fileName.length() == 0) {
                         // No file name
-                        return R.string.FileNotFound;
+                        return R.string.file_not_found;
                     }
 
                     File dbFile = new File(fileName);
                     if (!dbFile.exists()) {
                         // File does not exist
-                        return R.string.FileNotFound;
+                        return R.string.file_not_found;
                     }
 
                     if (mKeyUri == null) {

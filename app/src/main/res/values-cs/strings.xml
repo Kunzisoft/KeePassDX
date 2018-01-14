@@ -97,7 +97,7 @@
     <string name="error_wrong_length">Zadejte celé kladné číslo do délky pole</string>
     <string name="field_name">Název pole</string>
     <string name="field_value">Hodnota pole</string>
-    <string name="FileNotFound">Soubor nenalezen.</string>
+    <string name="file_not_found">Soubor nenalezen.</string>
     <string name="file_browser">Správce souborů</string>
     <string name="generate_password">Generovat heslo</string>
     <string name="group">Skupina</string>

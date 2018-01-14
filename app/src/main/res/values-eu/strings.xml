@@ -96,7 +96,7 @@
     <string name="error_wrong_length">Eremuaren luzeran entero positibo bat sartu</string>
     <string name="field_name">Eremuaren izena</string>
     <string name="field_value">Eremuaren balorea</string>
-    <string name="FileNotFound">Fitxategi ez aurkitua.</string>
+    <string name="file_not_found">Fitxategi ez aurkitua.</string>
     <string name="file_browser">Fitxategien nabigatzailea</string>
     <string name="generate_password">Pasahitza sortu</string>
     <string name="group">Taldea</string>

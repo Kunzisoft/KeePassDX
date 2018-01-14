@@ -71,7 +71,8 @@ import java.net.URLDecoder;
 public class FileSelectActivity extends StylishActivity implements
 		CreateFileDialog.DefinePathDialogListener ,
 		AssignMasterKeyDialog.AssignPasswordDialogListener,
-        FileSelectViewHolder.FileSelectClearListener {
+        FileSelectViewHolder.FileSelectClearListener,
+        FileSelectAdapter.FileInformationShowListener {
 
     private static final String TAG = "FileSelectActivity";
 
@@ -128,7 +129,7 @@ public class FileSelectActivity extends StylishActivity implements
 				}
 				catch (FileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
-							R.string.FileNotFound, Toast.LENGTH_LONG).show();
+							R.string.file_not_found, Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -350,6 +351,13 @@ public class FileSelectActivity extends StylishActivity implements
 
 	}
 
+    @Override
+    public void onClickFileInformation(FileSelectBeen fileSelectBeen) {
+        FileInformationDialogFragment fileInformationDialogFragment =
+                FileInformationDialogFragment.newInstance(fileSelectBeen);
+        fileInformationDialogFragment.show(getSupportFragmentManager(), "fileInformation");
+    }
+
     private class AssignPasswordOnFinish extends FileOnFinish {
 
         AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
@@ -402,7 +410,7 @@ public class FileSelectActivity extends StylishActivity implements
                                         .show();
                             } catch (FileNotFoundException e) {
                                 Toast.makeText(FileSelectActivity.this,
-                                        R.string.FileNotFound, Toast.LENGTH_LONG)
+                                        R.string.file_not_found, Toast.LENGTH_LONG)
                                         .show();
                             }
                             updateTitleFileListView();
@@ -412,6 +420,7 @@ public class FileSelectActivity extends StylishActivity implements
             }
         );
         mAdapter.setFileSelectClearListener(this);
+        mAdapter.setFileInformationShowListener(this);
         mListFiles.setAdapter(mAdapter);
 	}
 

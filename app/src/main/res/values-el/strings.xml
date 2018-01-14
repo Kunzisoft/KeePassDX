@@ -94,7 +94,7 @@
     <string name="error_wrong_length">Εισάγετε έναν θετικό ακέραιο αριθμό στο πεδίο μήκους</string>
     <string name="field_name">Όνομα Πεδίου</string>
     <string name="field_value">Τιμή πεδίου</string>
-    <string name="FileNotFound">Το αρχείο δεν βρέθηκε.</string>
+    <string name="file_not_found">Το αρχείο δεν βρέθηκε.</string>
     <string name="file_browser">Διαχείριση Αρχείων</string>
     <string name="generate_password">Δημιουργία Κωδικού</string>
     <string name="group">Ομάδα</string>

@@ -90,7 +90,7 @@
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a hossz mezőbe</string>
     <string name="field_name">Megnevezés</string>
     <string name="field_value">Érték</string>
-    <string name="FileNotFound">A fájl nem található</string>
+    <string name="file_not_found">A fájl nem található</string>
     <string name="file_not_found_content">A fájl nem található. Próbálja meg újra megnyitni.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó generálás</string>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/default_margin">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/file_filename"
+        android:layout_margin="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/KeepassDXStyle.TextAppearance.LargeTitle"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/file_path"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textStyle="italic"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end">
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/file_modification_label"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/entry_modified"
+            style="@style/KeepassDXStyle.TextAppearance.Title"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/file_modification"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/file_size"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/file_size_unit"
+            android:layout_toStartOf="@+id/file_size_unit"
+            android:gravity="end" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/file_size_unit"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bytes"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</LinearLayout>

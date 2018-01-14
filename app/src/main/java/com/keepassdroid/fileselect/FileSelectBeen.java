@@ -21,10 +21,24 @@ package com.keepassdroid.fileselect;
 
 import android.net.Uri;
 
-public class FileSelectBeen {
+import java.io.File;
+import java.io.Serializable;
+import java.util.Date;
+
+public class FileSelectBeen implements Serializable {
 
     private String fileName;
     private Uri fileUri;
+    private Date lastModification;
+    private long size;
+
+    public FileSelectBeen(String pathFile) {
+        fileUri = Uri.parse(pathFile);
+        File file= new File(fileUri.getPath());
+        fileName = file.getName();
+        lastModification = new Date(file.lastModified());
+        size = file.getTotalSpace();
+    }
 
     public String getFileName() {
         return fileName;
@@ -40,5 +54,21 @@ public class FileSelectBeen {
 
     public void setFileUri(Uri fileUri) {
         this.fileUri = fileUri;
+    }
+
+    public Date getLastModification() {
+        return lastModification;
+    }
+
+    public void setLastModification(Date lastModification) {
+        this.lastModification = lastModification;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
     }
 }

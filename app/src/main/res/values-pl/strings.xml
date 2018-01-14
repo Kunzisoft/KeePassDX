@@ -83,7 +83,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_rounds_too_large">Wartość za duża. Ustaw 2147483648.</string>
     <string name="error_title_required">Wymagany tytuł.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą.</string>
-    <string name="FileNotFound">Plik nie istnieje.</string>
+    <string name="file_not_found">Plik nie istnieje.</string>
     <string name="file_browser">Przeglądarka plików</string>
     <string name="generate_password">Generuj hasło</string>
     <string name="group">Grupa</string>

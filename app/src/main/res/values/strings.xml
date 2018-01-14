@@ -96,7 +96,7 @@
     <string name="error_wrong_length">Enter a positive integer on length field</string>
     <string name="field_name">Field Name</string>
     <string name="field_value">Field value</string>
-    <string name="FileNotFound">File not found.</string>
+    <string name="file_not_found">File not found.</string>
     <string name="file_not_found_content">File not found. Try reopening from your content provider.</string>
     <string name="file_browser">File Browser</string>
     <string name="generate_password">Generate Password</string>
@@ -231,6 +231,7 @@
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
     <string name="create_keepass_file">Create a keepass file</string>
+    <string name="bytes">Bytes</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

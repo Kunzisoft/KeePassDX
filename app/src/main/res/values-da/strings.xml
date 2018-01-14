@@ -96,7 +96,7 @@
     <string name="error_wrong_length">Angiv et positivt helt tal i feltet</string>
     <string name="field_name">Felt-navn</string>
     <string name="field_value">Felt-værdi</string>
-    <string name="FileNotFound">Filen blev ikke fundet.</string>
+    <string name="file_not_found">Filen blev ikke fundet.</string>
     <string name="file_browser">Fil-browser</string>
     <string name="generate_password">Generer adgangskode</string>
     <string name="group">Gruppe</string>

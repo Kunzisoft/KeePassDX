@@ -94,7 +94,7 @@
     <string name="error_wrong_length">Укажите длину больше нуля</string>
     <string name="field_name">Имя поля</string>
     <string name="field_value">Значение поля</string>
-    <string name="FileNotFound">Файл не найден</string>
+    <string name="file_not_found">Файл не найден</string>
     <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Создать пароль</string>
     <string name="group">Группа</string>

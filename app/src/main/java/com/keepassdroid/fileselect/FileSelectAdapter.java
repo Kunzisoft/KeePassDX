@@ -35,8 +35,9 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     private List<String> listFiles;
     private View.OnClickListener mOnClickListener;
     private FileSelectViewHolder.FileSelectClearListener fileSelectClearListener;
+    private FileInformationShowListener fileInformationShowListener;
 
-    public FileSelectAdapter(Context context, List<String> listFiles) {
+    FileSelectAdapter(Context context, List<String> listFiles) {
         inflater = LayoutInflater.from(context);
         this.listFiles=listFiles;
     }
@@ -50,8 +51,12 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
     @Override
     public void onBindViewHolder(FileSelectViewHolder holder, int position) {
-        holder.fileName.setText(listFiles.get(position));
-        holder.setFileSelectClearListener(fileSelectClearListener);
+        FileSelectBeen fileSelectBeen = new FileSelectBeen(listFiles.get(position));
+        holder.fileName.setText(fileSelectBeen.getFileName());
+        if(fileSelectClearListener != null)
+            holder.setFileSelectClearListener(fileSelectClearListener);
+        if(fileInformationShowListener != null)
+            holder.fileInformation.setOnClickListener(new FileInformationClickListener(fileSelectBeen));
     }
 
     @Override
@@ -59,12 +64,34 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         return listFiles.size();
     }
 
-    public void setOnItemClickListener(View.OnClickListener onItemClickListener) {
+    void setOnItemClickListener(View.OnClickListener onItemClickListener) {
         this.mOnClickListener = onItemClickListener;
     }
 
-    public void setFileSelectClearListener(FileSelectViewHolder.FileSelectClearListener fileSelectClearListener) {
+    void setFileSelectClearListener(FileSelectViewHolder.FileSelectClearListener fileSelectClearListener) {
         this.fileSelectClearListener = fileSelectClearListener;
+    }
+
+    void setFileInformationShowListener(FileInformationShowListener fileInformationShowListener) {
+        this.fileInformationShowListener = fileInformationShowListener;
+    }
+
+    private class FileInformationClickListener implements View.OnClickListener {
+
+        private FileSelectBeen fileSelectBeen;
+
+        FileInformationClickListener(FileSelectBeen fileSelectBeen) {
+            this.fileSelectBeen = fileSelectBeen;
+        }
+
+        @Override
+        public void onClick(View view) {
+            fileInformationShowListener.onClickFileInformation(fileSelectBeen);
+        }
+    }
+
+    public interface FileInformationShowListener {
+        void onClickFileInformation(FileSelectBeen fileSelectBeen);
     }
 
 }

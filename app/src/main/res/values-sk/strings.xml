@@ -85,7 +85,7 @@
     <string name="error_rounds_too_large">Príliš veľa opakovaní.  Nastavujem na 2147483648.</string>
     <string name="error_title_required">Vyžaduje sa názov.</string>
     <string name="error_wrong_length">Zadajte celé kladné číslo na dĺžku poľa</string>
-    <string name="FileNotFound">Súbor nenájdený.</string>
+    <string name="file_not_found">Súbor nenájdený.</string>
     <string name="file_browser">Správca Súborov</string>
     <string name="generate_password">Generovať Heslo</string>
     <string name="group">Skupina</string>

@@ -97,7 +97,7 @@
     <string name="error_wrong_length">Introduza um número inteiro positivo no campo do comprimento</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="FileNotFound">Ficheiro não encontrado.</string>
+    <string name="file_not_found">Ficheiro não encontrado.</string>
     <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir do seu fornecedor de conteúdo.</string>
     <string name="file_browser">Explorador de ficheiros</string>
     <string name="generate_password">Gerar palavra-passe</string>

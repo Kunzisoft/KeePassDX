@@ -88,7 +88,7 @@
     <string name="error_rounds_too_large">Livello troppo grande.  Impostato a 2147483648.</string>
     <string name="error_title_required">E\' necessario un titolo.</string>
     <string name="error_wrong_length">Inserisci un valore positivo nella lunghezza campo</string>
-    <string name="FileNotFound">File non trovato.</string>
+    <string name="file_not_found">File non trovato.</string>
     <string name="file_browser">Sfoglia file</string>
     <string name="generate_password">Genera password</string>
     <string name="group">Gruppo</string>

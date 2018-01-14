@@ -24,21 +24,23 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 
 class FileSelectViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
     private static final int MENU_CLEAR = 1;
-    View fileContainer;
     TextView fileName;
+    ImageView fileInformation;
     private FileSelectClearListener fileSelectClearListener;
 
     FileSelectViewHolder(View itemView) {
         super(itemView);
-        fileContainer = itemView.findViewById(R.id.file_container);
+        View fileContainer = itemView.findViewById(R.id.file_container);
         fileContainer.setOnCreateContextMenuListener(this);
         fileName = (TextView) itemView.findViewById(R.id.file_filename);
+        fileInformation = (ImageView) itemView.findViewById(R.id.file_information);
     }
 
     @Override

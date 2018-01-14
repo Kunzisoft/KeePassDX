@@ -87,7 +87,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="error_rounds_too_large">Pasadas demasiado grande. Establecido a 2147483648.</string>
     <string name="error_title_required">Se necesita un título.</string>
     <string name="error_wrong_length">Introduzca un entero positivo en el campo longitud</string>
-    <string name="FileNotFound">Archivo no encontrado.</string>
+    <string name="file_not_found">Archivo no encontrado.</string>
     <string name="file_browser">Explorador de Archivos</string>
     <string name="generate_password">Generar Contraseña</string>
     <string name="group">Grupo</string>

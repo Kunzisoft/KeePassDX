@@ -100,7 +100,7 @@
     <string name="error_wrong_length">Geben Sie die erforderliche Länge als positive Ganzzahl in das Feld ein.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
-    <string name="FileNotFound">Datei nicht gefunden.</string>
+    <string name="file_not_found">Datei nicht gefunden.</string>
     <string name="file_not_found_content">Datei nicht gefunden. Versuche es von ihrem Dienstanbieter erneut zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>

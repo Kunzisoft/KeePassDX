@@ -85,7 +85,7 @@
     <string name="error_rounds_too_large">For mange omgangar. Bruker 2147483648.</string>
     <string name="error_title_required">Treng ein tittel.</string>
     <string name="error_wrong_length">Bruk eit positivt heiltal i lengdfeltet</string>
-    <string name="FileNotFound">Fann ikkje fila.</string>
+    <string name="file_not_found">Fann ikkje fila.</string>
     <string name="file_browser">Filbehandlar</string>
     <string name="generate_password">Lag passord</string>
     <string name="group">Gruppe</string>
@@ -151,7 +151,7 @@
     <string name="rounds_explaination">Fleire krypteringsomgangar gjev tilleggsvern mot rå makt-åtak, men kan òg gjera lasting og lagring mykje tregare.</string>
     <string name="rounds_hint">omgangar</string>
     <string name="saving_database">Lagrar databasen …</string>
-    <string name="space">Mellomrom</string>    
+    <string name="space">Mellomrom</string>
     <string name="search_label">Søk</string>
     <string name="show_password">Syn passordet</string>
     <string name="sort_name">Sorter etter namn</string>
