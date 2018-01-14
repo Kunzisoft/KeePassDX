@@ -21,7 +21,7 @@
     <string name="app_name" translatable="false">KeePass DX</string>
 
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="donate_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
+    <string name="donate_url" translatable="false">http://www.kunzisoft.com/donation.html</string>
     <string name="homepage" translatable="false">http://www.kunzisoft.com/KeepassDX</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="oi_filemanager_market" translatable="false">market://details?id=org.openintents.filemanager</string>
