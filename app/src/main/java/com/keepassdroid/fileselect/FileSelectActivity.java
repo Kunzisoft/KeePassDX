@@ -20,33 +20,25 @@
 package com.keepassdroid.fileselect;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.AssignMasterKeyDialog;
@@ -74,20 +66,20 @@ import com.kunzisoft.keepass.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.net.URLDecoder;
 
 public class FileSelectActivity extends StylishActivity implements
 		CreateFileDialog.DefinePathDialogListener ,
-		AssignMasterKeyDialog.AssignPasswordDialogListener {
+		AssignMasterKeyDialog.AssignPasswordDialogListener,
+        FileSelectAdapter.FileSelectClearListener,
+        FileSelectAdapter.FileInformationShowListener {
 
     private static final String TAG = "FileSelectActivity";
 
 	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
-	private ListView mList;
-	private BaseAdapter mAdapter;
-
-	private static final int CMENU_CLEAR = Menu.FIRST;
+	private RecyclerView mListFiles;
+	private FileSelectAdapter mAdapter;
+	private View fileListTitle;
 	
 	public static final int FILE_BROWSE = 1;
 	public static final int GET_CONTENT = 2;
@@ -109,25 +101,17 @@ public class FileSelectActivity extends StylishActivity implements
 		fileHistory = App.getFileHistory();
 
 		setContentView(R.layout.file_selection);
+        fileListTitle = findViewById(R.id.file_list_title);
 		if (fileHistory.hasRecentFiles()) {
 			recentMode = true;
-		} else {
-		    findViewById(R.id.file_listtop).setVisibility(View.INVISIBLE);
-        }
+		}
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
 		setSupportActionBar(toolbar);
 
-		mList = (ListView)findViewById(R.id.file_list);
-
-		mList.setOnItemClickListener(
-            new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    onListItemClick((ListView)parent, v, position, id);
-                }
-            }
-		);
+		mListFiles = (RecyclerView) findViewById(R.id.file_list);
+		mListFiles.setLayoutManager(new LinearLayoutManager(this));
 
 		// Open button
 		View openButton = findViewById(R.id.open_database);
@@ -145,7 +129,7 @@ public class FileSelectActivity extends StylishActivity implements
 				}
 				catch (FileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
-							R.string.FileNotFound, Toast.LENGTH_LONG).show();
+							R.string.file_not_found, Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -217,9 +201,7 @@ public class FileSelectActivity extends StylishActivity implements
         openFileNameView.setText(defaultPath);
 
 		fillData();
-		
-		registerForContextMenu(mList);
-		
+
 		// Load default database
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "");
@@ -251,6 +233,13 @@ public class FileSelectActivity extends StylishActivity implements
 			}
 		}
 	}
+
+	private void updateTitleFileListView() {
+	    if(mAdapter.getItemCount() == 0)
+            fileListTitle.setVisibility(View.INVISIBLE);
+	    else
+            fileListTitle.setVisibility(View.VISIBLE);
+    }
 
     /**
      * Create file for database
@@ -362,7 +351,7 @@ public class FileSelectActivity extends StylishActivity implements
 
 	}
 
-	private class AssignPasswordOnFinish extends FileOnFinish {
+    private class AssignPasswordOnFinish extends FileOnFinish {
 
         AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
             super(fileOnFinish);
@@ -390,19 +379,65 @@ public class FileSelectActivity extends StylishActivity implements
 				// Add to recent files
 				fileHistory.createFile(mUri, getFilename());
                 mAdapter.notifyDataSetChanged();
+                updateTitleFileListView();
 				GroupActivity.Launch(FileSelectActivity.this);
 			}
 		}
 	}
 
 	private void fillData() {
-        mAdapter = new ArrayAdapter<>(FileSelectActivity.this, R.layout.file_row, R.id.file_filename, fileHistory.getDbList());
-        mList.setAdapter(mAdapter);
+        mAdapter = new FileSelectAdapter(FileSelectActivity.this, fileHistory.getDbList());
+        mAdapter.setOnItemClickListener(
+            new View.OnClickListener() {
+                public void onClick(View view) {
+                    int itemPosition = mListFiles.getChildLayoutPosition(view);
+                    new OpenFileHistoryAsyncTask(new OpenFileHistoryAsyncTask.AfterOpenFileHistoryListener() {
+                        @Override
+                        public void afterOpenFile(String fileName, String keyFile) {
+                            try {
+                                PasswordActivity.Launch(FileSelectActivity.this,
+                                        fileName, keyFile);
+                            } catch (ContentFileNotFoundException e) {
+                                Toast.makeText(FileSelectActivity.this,
+                                        R.string.file_not_found_content, Toast.LENGTH_LONG)
+                                        .show();
+                            } catch (FileNotFoundException e) {
+                                Toast.makeText(FileSelectActivity.this,
+                                        R.string.file_not_found, Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                            updateTitleFileListView();
+                        }
+                    }, fileHistory).execute(itemPosition);
+                }
+            }
+        );
+        mAdapter.setFileSelectClearListener(this);
+        mAdapter.setFileInformationShowListener(this);
+        mListFiles.setAdapter(mAdapter);
 	}
 
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		new OpenFileHistoryAsyncTask(this, fileHistory).execute(position);
-	}
+    @Override
+    public void onClickFileInformation(FileSelectBean fileSelectBean) {
+	    if (fileSelectBean != null) {
+            FileInformationDialogFragment fileInformationDialogFragment =
+                    FileInformationDialogFragment.newInstance(fileSelectBean);
+            fileInformationDialogFragment.show(getSupportFragmentManager(), "fileInformation");
+        }
+    }
+
+    @Override
+    public boolean onFileSelectClearListener(final FileSelectBean fileSelectBean) {
+        new DeleteFileHistoryAsyncTask(new DeleteFileHistoryAsyncTask.AfterDeleteFileHistoryListener() {
+            @Override
+            public void afterDeleteFile() {
+                fileHistory.deleteFile(fileSelectBean.getFileUri());
+                mAdapter.notifyDataSetChanged();
+                updateTitleFileListView();
+            }
+        }, fileHistory, mAdapter).execute(fileSelectBean);
+        return true;
+    }
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -466,6 +501,8 @@ public class FileSelectActivity extends StylishActivity implements
 		
 		FileNameView fnv = (FileNameView) findViewById(R.id.file_select);
 		fnv.updateExternalStorageWarning();
+
+		updateTitleFileListView();
 	}
 
 	private void checkStoragePermission() {
@@ -534,83 +571,5 @@ public class FileSelectActivity extends StylishActivity implements
 		return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
 				&& super.onOptionsItemSelected(item);
 	}
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		
-		menu.add(0, CMENU_CLEAR, 0, R.string.remove_from_filelist);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		super.onContextItemSelected(item);
-		
-		if ( item.getItemId() == CMENU_CLEAR ) {
-			AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item.getMenuInfo();
-			
-			TextView tv = (TextView) acmi.targetView;
-			String filename = tv.getText().toString();
-            new DeleteFileHistoryAsyncTask(fileHistory, mAdapter).execute(filename);
-			return true;
-		}
-		
-		return false;
-	}
-
-	private static class OpenFileHistoryAsyncTask extends  AsyncTask<Integer, Void, Void> {
-
-	    private WeakReference<Activity> weakActivity;
-        private RecentFileHistory fileHistory;
-	    private String fileName;
-        private String keyFile;
-
-        OpenFileHistoryAsyncTask(Activity activity, RecentFileHistory fileHistory) {
-            this.weakActivity = new WeakReference<>(activity);
-            this.fileHistory = fileHistory;
-        }
-
-        protected Void doInBackground(Integer... args) {
-            int position = args[0];
-            fileName = fileHistory.getDatabaseAt(position);
-            keyFile = fileHistory.getKeyfileAt(position);
-            return null;
-        }
-
-        protected void onPostExecute(Void v) {
-            try {
-                PasswordActivity.Launch(weakActivity.get(), fileName, keyFile);
-            }
-            catch (ContentFileNotFoundException e) {
-                Toast.makeText(weakActivity.get(), R.string.file_not_found_content, Toast.LENGTH_LONG)
-                        .show();
-            }
-            catch (FileNotFoundException e) {
-                Toast.makeText(weakActivity.get(), R.string.FileNotFound, Toast.LENGTH_LONG)
-                        .show();
-            }
-        }
-    }
-
-	private static class DeleteFileHistoryAsyncTask extends AsyncTask<String, Void, Void> {
-
-	    private RecentFileHistory fileHistory;
-	    private BaseAdapter adapter;
-
-	    DeleteFileHistoryAsyncTask(RecentFileHistory fileHistory, BaseAdapter adapter) {
-	        this.fileHistory = fileHistory;
-	        this.adapter = adapter;
-        }
-
-        protected java.lang.Void doInBackground(String... args) {
-            fileHistory.deleteFile(Uri.parse(args[0]));
-            return null;
-        }
-
-        protected void onPostExecute(Void v) {
-            adapter.notifyDataSetChanged();
-        }
-    }
 
 }

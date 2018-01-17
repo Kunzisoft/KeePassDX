@@ -97,7 +97,7 @@
     <string name="error_wrong_length">Zadejte celé kladné číslo do délky pole</string>
     <string name="field_name">Název pole</string>
     <string name="field_value">Hodnota pole</string>
-    <string name="FileNotFound">Soubor nenalezen.</string>
+    <string name="file_not_found">Soubor nenalezen.</string>
     <string name="file_browser">Správce souborů</string>
     <string name="generate_password">Generovat heslo</string>
     <string name="group">Skupina</string>
@@ -150,7 +150,7 @@
     <string name="no_keys">Žádný záznam v databázi nebo ve skupině.</string>
     <string name="no_results">žádný výsledek hledání</string>
     <string name="no_url_handler">Žádný handler pro toto url.</string>
-    <string name="open_recent">Otevřít poslední databázi (kliknout pro otevření):</string>
+    <string name="open_recent">Otevřít poslední databázi :</string>
     <string name="omitbackup_title">Neprohledávat zálohy a koš</string>
     <string name="omitbackup_summary">Vynechat skupiny Záloha a Koš ve výsledcích hledání</string>
     <string name="pass_filename">Název souboru KeePass databáze:</string>

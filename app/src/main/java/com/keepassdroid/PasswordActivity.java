@@ -282,8 +282,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private void populateView() {
         String db = (mDbUri == null) ? "" : mDbUri.toString();
-        if (!db.isEmpty())
-            filenameView.setText(db);
+        if (!db.isEmpty()) {
+            if (PrefsUtil.isFullFilePathEnable(this))
+                filenameView.setText(db);
+            else
+                filenameView.setText(new File(mDbUri.getPath()).getName()); // TODO Encapsulate
+        }
 
         String key = (mKeyUri == null) ? "" : mKeyUri.toString();
         if (!key.isEmpty())
@@ -643,13 +647,13 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
                     if (fileName.length() == 0) {
                         // No file name
-                        return R.string.FileNotFound;
+                        return R.string.file_not_found;
                     }
 
                     File dbFile = new File(fileName);
                     if (!dbFile.exists()) {
                         // File does not exist
-                        return R.string.FileNotFound;
+                        return R.string.file_not_found;
                     }
 
                     if (mKeyUri == null) {

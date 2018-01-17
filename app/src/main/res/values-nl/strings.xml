@@ -87,7 +87,7 @@
     <string name="error_rounds_too_large">Cycli-waarde te groot. Ik gebruik 2147483648.</string>
     <string name="error_title_required">Een titel ontbreekt.</string>
     <string name="error_wrong_length">Geef een positief geheel getal voor het lengteveld</string>
-    <string name="FileNotFound">Bestand niet gevonden.</string>
+    <string name="file_not_found">Bestand niet gevonden.</string>
     <string name="file_browser">Verkenner</string>
     <string name="generate_password">Genereer wachtwoord</string>
     <string name="group">Groep</string>
@@ -137,7 +137,7 @@
     <string name="no_keys">Geen records in de database of groep.</string>
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Geen afhandeling voor deze url mogelijk.</string>
-    <string name="open_recent">Recente database openen (klik om te openen):</string>
+    <string name="open_recent">Recente database openen :</string>
     <string name="omitbackup_title">Niet in backup en prullenbak zoeken</string>
     <string name="omitbackup_summary">Laat \'Backup\' en Prullenbak-groep weg uit zoekresultaten</string>
     <string name="pass_filename">KeePass databasebestandsnaam:</string>

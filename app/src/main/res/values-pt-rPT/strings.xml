@@ -97,7 +97,7 @@
     <string name="error_wrong_length">Introduza um número inteiro positivo no campo do comprimento</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="FileNotFound">Ficheiro não encontrado.</string>
+    <string name="file_not_found">Ficheiro não encontrado.</string>
     <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir do seu fornecedor de conteúdo.</string>
     <string name="file_browser">Explorador de ficheiros</string>
     <string name="generate_password">Gerar palavra-passe</string>
@@ -151,7 +151,7 @@
     <string name="no_keys">Sem entradas na base de dados ou grupo.</string>
     <string name="no_results">A pesquisa não obteve resultados</string>
     <string name="no_url_handler">Sem suporte para este URL.</string>
-    <string name="open_recent">Abrir base de dados recente (clique para abrir):</string>
+    <string name="open_recent">Abrir base de dados recente :</string>
     <string name="omitbackup_title">Não pesquisar entradas nas cópias de segurança</string>
     <string name="omitbackup_summary">Omitir o grupo \"Backup\" dos resultados da pesquisa (aplica-se apenas a ficheiros .kdb)</string>
     <string name="pass_filename">Nome do ficheiro da base de dados KeePass:</string>

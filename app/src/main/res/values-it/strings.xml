@@ -88,7 +88,7 @@
     <string name="error_rounds_too_large">Livello troppo grande.  Impostato a 2147483648.</string>
     <string name="error_title_required">E\' necessario un titolo.</string>
     <string name="error_wrong_length">Inserisci un valore positivo nella lunghezza campo</string>
-    <string name="FileNotFound">File non trovato.</string>
+    <string name="file_not_found">File non trovato.</string>
     <string name="file_browser">Sfoglia file</string>
     <string name="generate_password">Genera password</string>
     <string name="group">Gruppo</string>
@@ -138,7 +138,7 @@
     <string name="no_keys">Nessuna voce nel database o nel gruppo.</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Nessun gestore per questo URL.</string>
-    <string name="open_recent">Apri un database recente (clicca per aprire):</string>
+    <string name="open_recent">Apri un database recente :</string>
     <string name="omitbackup_title">Non cercare voci di backup e nel Cestino</string>
     <string name="omitbackup_summary">Ometti i gruppi \'Backup\' e Cestino dai risultati di ricerca</string>
     <string name="pass_filename">Nome file del database di KeePass:</string>

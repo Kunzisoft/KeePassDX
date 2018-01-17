@@ -85,7 +85,7 @@
     <string name="error_rounds_too_large">値が大きすぎます。 2147483648にセットしました。</string>
     <string name="error_title_required">タイトルは必須入力です。</string>
     <string name="error_wrong_length">\"長さ\"欄には正の整数を入力してください。</string>
-    <string name="FileNotFound">ファイルが見つかりません。</string>
+    <string name="file_not_found">ファイルが見つかりません。</string>
     <string name="file_browser">ファイルブラウザ</string>
     <string name="generate_password">パスワードを生成する</string>
     <string name="group">グループ</string>
@@ -135,7 +135,7 @@
     <string name="no_keys">データベース・グループがありません。</string>
     <string name="no_results">検索結果に該当するものはありません。</string>
     <string name="no_url_handler">このuriを処理できません。</string>
-    <string name="open_recent">以前使用したデータベースを開く(クリック):</string>
+    <string name="open_recent">以前使用したデータベースを開く:</string>
     <string name="omitbackup_title">検索対象から除外</string>
     <string name="omitbackup_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
     <string name="pass_filename">KeePassデータベースファイル:</string>

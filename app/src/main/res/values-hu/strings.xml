@@ -90,7 +90,7 @@
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a hossz mezőbe</string>
     <string name="field_name">Megnevezés</string>
     <string name="field_value">Érték</string>
-    <string name="FileNotFound">A fájl nem található</string>
+    <string name="file_not_found">A fájl nem található</string>
     <string name="file_not_found_content">A fájl nem található. Próbálja meg újra megnyitni.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó generálás</string>
@@ -144,7 +144,7 @@
     <string name="no_keys">Nincs bejegyzés az adatbázisban vagy csoportban.</string>
     <string name="no_results">Nincs találat</string>
     <string name="no_url_handler">Nem található kezelő ehhez az url-hez.</string>
-    <string name="open_recent">Korábbi adatbázis megnyitása (kattintson rá a megnyitáshoz):</string>
+    <string name="open_recent">Korábbi adatbázis megnyitása :</string>
     <string name="omitbackup_title">Keresési kivételek</string>
     <string name="omitbackup_summary">A Backup és Lomtár csoportok kihagyása a keresésből</string>
     <string name="pass_filename">KeePass adatbázis fájlnév:</string>

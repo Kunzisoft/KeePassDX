@@ -85,7 +85,7 @@
     <string name="error_rounds_too_large">次数太大。最大设置到2147483648。</string>
     <string name="error_title_required">标题是必填项。</string>
     <string name="error_wrong_length">长度字段输入一个正整数</string>
-    <string name="FileNotFound">文件未找到。</string>
+    <string name="file_not_found">文件未找到。</string>
     <string name="file_browser">文件浏览</string>
     <string name="generate_password">生成密码</string>
     <string name="group">群组</string>
@@ -134,7 +134,7 @@
     <string name="no_keys">数据库或群组中无条目。</string>
     <string name="no_results">没有搜索结果</string>
     <string name="no_url_handler">没有这个链接的处理程序。</string>
-    <string name="open_recent">打开最近数据库（点击打开）：</string>
+    <string name="open_recent">打开最近数据库：</string>
     <string name="pass_filename">KeePass数据库文件名：</string>
     <string name="password_title">输入数据库密码</string>
     <string name="progress_create">创建新数据库中&#8230;</string>
