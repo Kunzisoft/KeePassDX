@@ -67,4 +67,10 @@ public class PrefsUtil {
         return prefs.getBoolean(ctx.getString(R.string.fingerprint_enable_key),
                 ctx.getResources().getBoolean(R.bool.fingerprint_enable_default));
     }
+
+    public static boolean isFullFilePathEnable(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.full_file_path_enable_key),
+                ctx.getResources().getBoolean(R.bool.full_file_path_enable_default));
+    }
 }

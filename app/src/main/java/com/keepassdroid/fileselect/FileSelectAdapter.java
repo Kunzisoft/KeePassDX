@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.keepassdroid.settings.PrefsUtil;
 import com.kunzisoft.keepass.R;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
     private static final int MENU_CLEAR = 1;
 
+    private Context context;
     private LayoutInflater inflater;
     private List<String> listFiles;
     private View.OnClickListener mOnClickListener;
@@ -50,6 +52,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
     FileSelectAdapter(Context context, List<String> listFiles) {
         inflater = LayoutInflater.from(context);
+        this.context = context;
         this.listFiles=listFiles;
 
         TypedValue typedValue = new TypedValue();
@@ -69,13 +72,20 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     public void onBindViewHolder(FileSelectViewHolder holder, int position) {
         FileSelectBean fileSelectBean = new FileSelectBean(listFiles.get(position));
         holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
-        holder.fileName.setText(fileSelectBean.getFileName());
+
+        if (PrefsUtil.isFullFilePathEnable(context))
+            holder.fileName.setText(fileSelectBean.getFileUri().toString());
+        else
+            holder.fileName.setText(fileSelectBean.getFileName());
+        holder.fileName.setTextSize(PrefsUtil.getListTextSize(context));
+
+
         if(fileSelectBean.notFound()) {
             holder.fileInformation.setColorFilter(
                     warningColor,
                     android.graphics.PorterDuff.Mode.MULTIPLY);
         }
-        if(fileInformationShowListener != null)
+        if (fileInformationShowListener != null)
             holder.fileInformation.setOnClickListener(new FileInformationClickListener(fileSelectBean));
     }
 

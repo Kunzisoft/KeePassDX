@@ -282,8 +282,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
 
     private void populateView() {
         String db = (mDbUri == null) ? "" : mDbUri.toString();
-        if (!db.isEmpty())
-            filenameView.setText(db);
+        if (!db.isEmpty()) {
+            if (PrefsUtil.isFullFilePathEnable(this))
+                filenameView.setText(db);
+            else
+                filenameView.setText(new File(mDbUri.getPath()).getName()); // TODO Encapsulate
+        }
 
         String key = (mKeyUri == null) ? "" : mKeyUri.toString();
         if (!key.isEmpty())

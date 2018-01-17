@@ -121,8 +121,8 @@
     <string name="keyfile_does_not_exist">Le fichier de clé n\'existe pas.</string>
     <string name="keyfile_is_empty">Le fichier de clé est vide.</string>
     <string name="length">Longueur</string>
-    <string name="list_size_title">Taille de la liste des groupes</string>
-    <string name="list_size_summary">Taille de la police de caractères utilisée pour la liste des groupes</string>
+    <string name="list_size_title">Taille des éléments de liste</string>
+    <string name="list_size_summary">Taille de la police de caractères utilisée pour les éléments de liste</string>
     <string name="loading_database">Ouverture de la base de données…</string>
     <string name="lowercase">Minuscule</string>
     <string name="MaskedPassword">*****</string>
@@ -231,6 +231,8 @@
     <string name="assign_master_key">Assigner une clé maître</string>
     <string name="create_keepass_file">Créer un fichier keepass</string>
     <string name="bytes">Octets</string>
+    <string name="full_file_path_enable_title">Chemin de fichier</string>
+    <string name="full_file_path_enable_summary">Afficher le chemin complet des fichiers</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>

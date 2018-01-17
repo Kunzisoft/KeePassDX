@@ -120,8 +120,8 @@
     <string name="keyfile_does_not_exist">Key file does not exist.</string>
     <string name="keyfile_is_empty">Key file is empty.</string>
     <string name="length">Length</string>
-    <string name="list_size_title">Group list size</string>
-    <string name="list_size_summary">Text size in the group list</string>
+    <string name="list_size_title">Size of list items</string>
+    <string name="list_size_summary">Text size in the element list</string>
     <string name="loading_database">Loading database&#8230;</string>
     <string name="lowercase">Lower-case</string>
     <string name="MaskedPassword">*****</string>
@@ -232,6 +232,8 @@
     <string name="assign_master_key">Assign a master key</string>
     <string name="create_keepass_file">Create a keepass file</string>
     <string name="bytes">Bytes</string>
+    <string name="full_file_path_enable_title">File Path</string>
+    <string name="full_file_path_enable_summary">View the full file path</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>
