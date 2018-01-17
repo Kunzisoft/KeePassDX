@@ -29,8 +29,7 @@
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/entry_modified"
-            style="@style/KeepassDXStyle.TextAppearance.Title"/>
+            android:text="@string/entry_modified"/>
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/file_modification"
             android:layout_margin="8dp"
@@ -62,4 +61,12 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/file_warning"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"/>
 </LinearLayout>

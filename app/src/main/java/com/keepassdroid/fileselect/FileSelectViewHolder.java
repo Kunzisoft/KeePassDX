@@ -20,51 +20,22 @@
 package com.keepassdroid.fileselect;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 
-class FileSelectViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
-    private static final int MENU_CLEAR = 1;
+class FileSelectViewHolder extends RecyclerView.ViewHolder {
+
+    View fileContainer;
     TextView fileName;
     ImageView fileInformation;
-    private FileSelectClearListener fileSelectClearListener;
 
     FileSelectViewHolder(View itemView) {
         super(itemView);
-        View fileContainer = itemView.findViewById(R.id.file_container);
-        fileContainer.setOnCreateContextMenuListener(this);
+        fileContainer = itemView.findViewById(R.id.file_container);
         fileName = (TextView) itemView.findViewById(R.id.file_filename);
         fileInformation = (ImageView) itemView.findViewById(R.id.file_information);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-        MenuItem clearMenu = contextMenu.add(Menu.NONE, MENU_CLEAR, Menu.NONE, R.string.remove_from_filelist);
-        clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
-    }
-
-    private final MenuItem.OnMenuItemClickListener mOnMyActionClickListener = new MenuItem.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            if (item.getItemId() == MENU_CLEAR) {
-                String filename = fileName.getText().toString();
-                return fileSelectClearListener.onFileSelectClearListener(filename);
-            }
-            return false;
-        }
-    };
-
-    public void setFileSelectClearListener(FileSelectClearListener fileSelectClearListener) {
-        this.fileSelectClearListener = fileSelectClearListener;
-    }
-
-    public interface FileSelectClearListener {
-        boolean onFileSelectClearListener(String fileName);
     }
 }

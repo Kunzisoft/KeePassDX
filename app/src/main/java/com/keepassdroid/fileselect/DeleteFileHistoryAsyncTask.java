@@ -19,10 +19,9 @@
  */
 package com.keepassdroid.fileselect;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 
-class DeleteFileHistoryAsyncTask extends AsyncTask<String, Void, Void> {
+class DeleteFileHistoryAsyncTask extends AsyncTask<FileSelectBean, Void, Void> {
 
     private AfterDeleteFileHistoryListener afterDeleteFileHistoryListener;
     private RecentFileHistory fileHistory;
@@ -34,8 +33,8 @@ class DeleteFileHistoryAsyncTask extends AsyncTask<String, Void, Void> {
         this.adapter = adapter;
     }
 
-    protected Void doInBackground(String... args) {
-        fileHistory.deleteFile(Uri.parse(args[0]));
+    protected Void doInBackground(FileSelectBean... args) {
+        fileHistory.deleteFile(args[0].getFileUri());
         return null;
     }
 

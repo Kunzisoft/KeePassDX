@@ -20,8 +20,14 @@
 package com.keepassdroid.fileselect;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,15 +37,25 @@ import java.util.List;
 
 public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder> {
 
+    private static final int MENU_CLEAR = 1;
+
     private LayoutInflater inflater;
     private List<String> listFiles;
     private View.OnClickListener mOnClickListener;
-    private FileSelectViewHolder.FileSelectClearListener fileSelectClearListener;
+    private FileSelectClearListener fileSelectClearListener;
     private FileInformationShowListener fileInformationShowListener;
+
+    private @ColorInt
+    int warningColor;
 
     FileSelectAdapter(Context context, List<String> listFiles) {
         inflater = LayoutInflater.from(context);
         this.listFiles=listFiles;
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.colorAccentCompat, typedValue, true);
+        warningColor = typedValue.data;
     }
 
     @Override
@@ -51,12 +67,16 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
     @Override
     public void onBindViewHolder(FileSelectViewHolder holder, int position) {
-        FileSelectBeen fileSelectBeen = new FileSelectBeen(listFiles.get(position));
-        holder.fileName.setText(fileSelectBeen.getFileName());
-        if(fileSelectClearListener != null)
-            holder.setFileSelectClearListener(fileSelectClearListener);
+        FileSelectBean fileSelectBean = new FileSelectBean(listFiles.get(position));
+        holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
+        holder.fileName.setText(fileSelectBean.getFileName());
+        if(fileSelectBean.notFound()) {
+            holder.fileInformation.setColorFilter(
+                    warningColor,
+                    android.graphics.PorterDuff.Mode.MULTIPLY);
+        }
         if(fileInformationShowListener != null)
-            holder.fileInformation.setOnClickListener(new FileInformationClickListener(fileSelectBeen));
+            holder.fileInformation.setOnClickListener(new FileInformationClickListener(fileSelectBean));
     }
 
     @Override
@@ -68,7 +88,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         this.mOnClickListener = onItemClickListener;
     }
 
-    void setFileSelectClearListener(FileSelectViewHolder.FileSelectClearListener fileSelectClearListener) {
+    void setFileSelectClearListener(FileSelectClearListener fileSelectClearListener) {
         this.fileSelectClearListener = fileSelectClearListener;
     }
 
@@ -76,22 +96,54 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         this.fileInformationShowListener = fileInformationShowListener;
     }
 
+    public interface FileInformationShowListener {
+        void onClickFileInformation(FileSelectBean fileSelectBean);
+    }
+
+    public interface FileSelectClearListener {
+        boolean onFileSelectClearListener(FileSelectBean fileSelectBean);
+    }
+
     private class FileInformationClickListener implements View.OnClickListener {
 
-        private FileSelectBeen fileSelectBeen;
+        private FileSelectBean fileSelectBean;
 
-        FileInformationClickListener(FileSelectBeen fileSelectBeen) {
-            this.fileSelectBeen = fileSelectBeen;
+        FileInformationClickListener(FileSelectBean fileSelectBean) {
+            this.fileSelectBean = fileSelectBean;
         }
 
         @Override
         public void onClick(View view) {
-            fileInformationShowListener.onClickFileInformation(fileSelectBeen);
+            fileInformationShowListener.onClickFileInformation(fileSelectBean);
         }
     }
 
-    public interface FileInformationShowListener {
-        void onClickFileInformation(FileSelectBeen fileSelectBeen);
+    private class ContextMenuBuilder implements View.OnCreateContextMenuListener {
+
+        private FileSelectBean fileSelectBean;
+
+        public ContextMenuBuilder(FileSelectBean fileSelectBean) {
+            this.fileSelectBean = fileSelectBean;
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            MenuItem clearMenu = contextMenu.add(Menu.NONE, MENU_CLEAR, Menu.NONE, R.string.remove_from_filelist);
+            clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+        }
+
+        private MenuItem.OnMenuItemClickListener mOnMyActionClickListener = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == MENU_CLEAR) {
+                    return fileSelectClearListener.onFileSelectClearListener(fileSelectBean);
+                }
+                return false;
+            }
+        };
     }
+
+
+
 
 }

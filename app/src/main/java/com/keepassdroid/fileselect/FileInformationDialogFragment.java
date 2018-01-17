@@ -30,15 +30,17 @@ import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 
+import java.text.DateFormat;
+
 public class FileInformationDialogFragment extends DialogFragment {
 
     private static final String FILE_SELECT_BEEN_ARG = "FILE_SELECT_BEEN_ARG";
 
-    public static FileInformationDialogFragment newInstance(FileSelectBeen fileSelectBeen) {
+    public static FileInformationDialogFragment newInstance(FileSelectBean fileSelectBean) {
         FileInformationDialogFragment fileInformationDialogFragment =
                 new FileInformationDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(FILE_SELECT_BEEN_ARG, fileSelectBeen);
+        args.putSerializable(FILE_SELECT_BEEN_ARG, fileSelectBean);
         fileInformationDialogFragment.setArguments(args);
         return fileInformationDialogFragment;
     }
@@ -50,17 +52,23 @@ public class FileInformationDialogFragment extends DialogFragment {
         View root = inflater.inflate(R.layout.file_selection_information, null);
 
         if (getArguments() != null && getArguments().containsKey(FILE_SELECT_BEEN_ARG)) {
-            FileSelectBeen fileSelectBeen = (FileSelectBeen) getArguments().getSerializable(FILE_SELECT_BEEN_ARG);
-            if(fileSelectBeen != null) {
+            FileSelectBean fileSelectBean = (FileSelectBean) getArguments().getSerializable(FILE_SELECT_BEEN_ARG);
+            TextView fileWarningView = (TextView) root.findViewById(R.id.file_warning);
+            if(fileSelectBean != null) {
                 TextView fileNameView = (TextView) root.findViewById(R.id.file_filename);
                 TextView filePathView = (TextView) root.findViewById(R.id.file_path);
                 TextView fileSizeView = (TextView) root.findViewById(R.id.file_size);
                 TextView fileModificationView = (TextView) root.findViewById(R.id.file_modification);
-                fileNameView.setText(fileSelectBeen.getFileName());
-                filePathView.setText(fileSelectBeen.getFileUri().toString());
-                fileSizeView.setText(String.valueOf(fileSelectBeen.getSize()));
-                fileModificationView.setText(fileSelectBeen.getLastModification().toString());
-            }
+                fileWarningView.setVisibility(View.GONE);
+                fileNameView.setText(fileSelectBean.getFileName());
+                filePathView.setText(fileSelectBean.getFileUri().toString());
+                fileSizeView.setText(String.valueOf(fileSelectBean.getSize()));
+                fileModificationView.setText(DateFormat.getDateTimeInstance()
+                        .format(fileSelectBean.getLastModification()));
+                if(fileSelectBean.notFound())
+                    showFileNotFound(fileWarningView);
+            } else
+                showFileNotFound(fileWarningView);
         }
 
         builder.setView(root);
@@ -70,5 +78,10 @@ public class FileInformationDialogFragment extends DialogFragment {
             }
         });
         return builder.create();
+    }
+
+    private void showFileNotFound(TextView fileWarningView) {
+        fileWarningView.setVisibility(View.VISIBLE);
+        fileWarningView.setText(R.string.file_not_found);
     }
 }

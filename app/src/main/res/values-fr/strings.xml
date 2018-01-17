@@ -230,6 +230,7 @@
     <string name="path">Chemin</string>
     <string name="assign_master_key">Assigner une clé maître</string>
     <string name="create_keepass_file">Créer un fichier keepass</string>
+    <string name="bytes">Octets</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>

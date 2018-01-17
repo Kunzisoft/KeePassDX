@@ -71,7 +71,7 @@ import java.net.URLDecoder;
 public class FileSelectActivity extends StylishActivity implements
 		CreateFileDialog.DefinePathDialogListener ,
 		AssignMasterKeyDialog.AssignPasswordDialogListener,
-        FileSelectViewHolder.FileSelectClearListener,
+        FileSelectAdapter.FileSelectClearListener,
         FileSelectAdapter.FileInformationShowListener {
 
     private static final String TAG = "FileSelectActivity";
@@ -351,13 +351,6 @@ public class FileSelectActivity extends StylishActivity implements
 
 	}
 
-    @Override
-    public void onClickFileInformation(FileSelectBeen fileSelectBeen) {
-        FileInformationDialogFragment fileInformationDialogFragment =
-                FileInformationDialogFragment.newInstance(fileSelectBeen);
-        fileInformationDialogFragment.show(getSupportFragmentManager(), "fileInformation");
-    }
-
     private class AssignPasswordOnFinish extends FileOnFinish {
 
         AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
@@ -425,13 +418,24 @@ public class FileSelectActivity extends StylishActivity implements
 	}
 
     @Override
-    public boolean onFileSelectClearListener(String fileName) {
+    public void onClickFileInformation(FileSelectBean fileSelectBean) {
+	    if (fileSelectBean != null) {
+            FileInformationDialogFragment fileInformationDialogFragment =
+                    FileInformationDialogFragment.newInstance(fileSelectBean);
+            fileInformationDialogFragment.show(getSupportFragmentManager(), "fileInformation");
+        }
+    }
+
+    @Override
+    public boolean onFileSelectClearListener(final FileSelectBean fileSelectBean) {
         new DeleteFileHistoryAsyncTask(new DeleteFileHistoryAsyncTask.AfterDeleteFileHistoryListener() {
             @Override
             public void afterDeleteFile() {
+                fileHistory.deleteFile(fileSelectBean.getFileUri());
+                mAdapter.notifyDataSetChanged();
                 updateTitleFileListView();
             }
-        }, fileHistory, mAdapter).execute(fileName);
+        }, fileHistory, mAdapter).execute(fileSelectBean);
         return true;
     }
 
@@ -497,6 +501,8 @@ public class FileSelectActivity extends StylishActivity implements
 		
 		FileNameView fnv = (FileNameView) findViewById(R.id.file_select);
 		fnv.updateExternalStorageWarning();
+
+		updateTitleFileListView();
 	}
 
 	private void checkStoragePermission() {

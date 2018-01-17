@@ -25,19 +25,23 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
-public class FileSelectBeen implements Serializable {
+public class FileSelectBean implements Serializable {
 
     private String fileName;
     private Uri fileUri;
     private Date lastModification;
     private long size;
 
-    public FileSelectBeen(String pathFile) {
+    public FileSelectBean(String pathFile) {
         fileUri = Uri.parse(pathFile);
         File file= new File(fileUri.getPath());
         fileName = file.getName();
         lastModification = new Date(file.lastModified());
         size = file.getTotalSpace();
+    }
+
+    public boolean notFound() {
+        return getSize() == 0;
     }
 
     public String getFileName() {
