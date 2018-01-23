@@ -53,7 +53,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     FileSelectAdapter(Context context, List<String> listFiles) {
         inflater = LayoutInflater.from(context);
         this.context = context;
-        this.listFiles=listFiles;
+        this.listFiles = listFiles;
 
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
@@ -70,7 +70,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
     @Override
     public void onBindViewHolder(FileSelectViewHolder holder, int position) {
-        FileSelectBean fileSelectBean = new FileSelectBean(listFiles.get(position));
+        FileSelectBean fileSelectBean = new FileSelectBean(context, listFiles.get(position));
         holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
 
         if (PrefsUtil.isFullFilePathEnable(context))

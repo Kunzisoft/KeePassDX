@@ -19,7 +19,9 @@
  */
 package com.keepassdroid.fileselect;
 
+import android.content.Context;
 import android.net.Uri;
+import android.support.v4.provider.DocumentFile;
 
 import java.io.File;
 import java.io.Serializable;
@@ -27,17 +29,26 @@ import java.util.Date;
 
 public class FileSelectBean implements Serializable {
 
-    private String fileName;
-    private Uri fileUri;
-    private Date lastModification;
-    private long size;
+    private static final String EXTERNAL_STORAGE_AUTHORITY = "com.android.externalstorage.documents";
 
-    public FileSelectBean(String pathFile) {
+    private String fileName = "";
+    private Uri fileUri;
+    private Date lastModification = new Date();
+    private long size = 0;
+
+    public FileSelectBean(Context context, String pathFile) {
         fileUri = Uri.parse(pathFile);
-        File file= new File(fileUri.getPath());
-        fileName = file.getName();
-        lastModification = new Date(file.lastModified());
-        size = file.getTotalSpace();
+        if (EXTERNAL_STORAGE_AUTHORITY.equals(fileUri.getAuthority())) {
+            DocumentFile file = DocumentFile.fromSingleUri(context, fileUri);
+            size = file.length();
+            fileName = file.getName();
+            lastModification = new Date(file.lastModified());
+        } else {
+            File file = new File(fileUri.getPath());
+            size = file.length();
+            fileName = file.getName();
+            lastModification = new Date(file.lastModified());
+        }
     }
 
     public boolean notFound() {
