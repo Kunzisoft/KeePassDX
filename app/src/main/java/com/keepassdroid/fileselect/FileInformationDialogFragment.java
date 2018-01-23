@@ -21,6 +21,7 @@ package com.keepassdroid.fileselect;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -61,7 +62,7 @@ public class FileInformationDialogFragment extends DialogFragment {
                 TextView fileModificationView = (TextView) root.findViewById(R.id.file_modification);
                 fileWarningView.setVisibility(View.GONE);
                 fileNameView.setText(fileSelectBean.getFileName());
-                filePathView.setText(fileSelectBean.getFileUri().toString());
+                filePathView.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
                 fileSizeView.setText(String.valueOf(fileSelectBean.getSize()));
                 fileModificationView.setText(DateFormat.getDateTimeInstance()
                         .format(fileSelectBean.getLastModification()));

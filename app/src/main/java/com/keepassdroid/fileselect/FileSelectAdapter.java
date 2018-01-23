@@ -21,6 +21,7 @@ package com.keepassdroid.fileselect;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -74,7 +75,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
 
         if (PrefsUtil.isFullFilePathEnable(context))
-            holder.fileName.setText(fileSelectBean.getFileUri().toString());
+            holder.fileName.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
         else
             holder.fileName.setText(fileSelectBean.getFileName());
         holder.fileName.setTextSize(PrefsUtil.getListTextSize(context));
