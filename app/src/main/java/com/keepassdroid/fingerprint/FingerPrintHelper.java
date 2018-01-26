@@ -76,7 +76,7 @@ public class FingerPrintHelper {
     }
 
     public void stopListening() {
-        if (!isFingerprintInitialized()) {
+        if (!isFingerprintInitialized(false)) {
             return;
         }
         if (cancellationSignal != null) {
@@ -125,15 +125,20 @@ public class FingerPrintHelper {
         }
     }
 
-    public boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
+    public static boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
         return Build.VERSION.SDK_INT >= BuildCompat.VERSION_CODE_M
                 && fingerprintManager.isHardwareDetected();
     }
 
     public boolean isFingerprintInitialized() {
+        return isFingerprintInitialized(true);
+    }
+
+    public boolean isFingerprintInitialized(boolean throwException) {
         boolean isFingerprintInit = hasEnrolledFingerprints() && initOk;
         if (!isFingerprintInit && fingerPrintCallback != null) {
-            fingerPrintCallback.onFingerPrintException(new Exception("FingerPrint not initialized"));
+            if(throwException)
+                fingerPrintCallback.onFingerPrintException(new Exception("FingerPrint not initialized"));
         }
         return isFingerprintInit;
     }
@@ -167,7 +172,7 @@ public class FingerPrintHelper {
         try {
             // actual do encryption here
             byte[] encrypted = cipher.doFinal(value.getBytes());
-            final String encryptedValue = Base64.encodeToString(encrypted, 0 /* flags */);
+            final String encryptedValue = Base64.encodeToString(encrypted, Base64.DEFAULT);
 
             // passes updated iv spec on to callback so this can be stored for decryption
             final IvParameterSpec spec = cipher.getParameters().getParameterSpec(IvParameterSpec.class);
@@ -212,7 +217,7 @@ public class FingerPrintHelper {
         }
         try {
             // actual decryption here
-            final byte[] encrypted = Base64.decode(encryptedValue, 0);
+            final byte[] encrypted = Base64.decode(encryptedValue, Base64.DEFAULT);
             byte[] decrypted = cipher.doFinal(encrypted);
             final String decryptedString = new String(decrypted);
 

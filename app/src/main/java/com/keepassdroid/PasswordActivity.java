@@ -70,18 +70,15 @@ import java.io.FileNotFoundException;
 
 import javax.crypto.Cipher;
 
-public class PasswordActivity extends LockingActivity implements FingerPrintHelper.FingerPrintCallback {
+public class PasswordActivity extends LockingActivity
+        implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
 
     public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
-    private static final String KEY_FILENAME = "fileName";
-    private static final String KEY_KEYFILE = "keyFile";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_LAUNCH_IMMEDIATELY = "launchImmediately";
-    private static final String VIEW_INTENT = "android.intent.action.VIEW";
 
     private Uri mDbUri = null;
     private Uri mKeyUri = null;
-    private boolean mRememberKeyfile;
     SharedPreferences prefs;
     SharedPreferences prefsNoBackup;
 
@@ -91,7 +88,6 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private int mode;
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
     private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
-    private String prefFingerprintKey;
 
     private View fingerprintContainerView;
     private View fingerprintImageView;
@@ -132,8 +128,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         }
 
         Intent i = new Intent(act, PasswordActivity.class);
-        i.putExtra(KEY_FILENAME, fileName);
-        i.putExtra(KEY_KEYFILE, keyFile);
+        i.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+        i.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
 
         act.startActivityForResult(i, 0);
 
@@ -181,7 +177,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefsNoBackup = getSharedPreferences("nobackup", Context.MODE_PRIVATE);
 
-        mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key), getResources().getBoolean(R.bool.keyfile_default));
+        boolean mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key),
+                getResources().getBoolean(R.bool.keyfile_default));
         setContentView(R.layout.password);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -231,54 +228,59 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                             (ImageView) fingerprintImageView);
         }
 
-        new InitTask().execute(i);
+        new UriIntentInitTask(this, mRememberKeyfile).execute(i);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onPostInitTask(Uri dbUri, Uri keyFileUri, Integer errorStringId) {
 
-        prefFingerprintKey = getPreferenceKeyValue();
+        mDbUri = dbUri;
+        mKeyUri = keyFileUri;
 
-        // If the application was shutdown make sure to clear the password field, if it
-        // was saved in the instance state
-        if (App.isShutdown()) {
-            setEmptyViews();
+        Intent intent = getIntent();
+        String password = intent.getStringExtra(KEY_PASSWORD);
+        boolean launch_immediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
+
+        if (errorStringId != null) {
+            Toast.makeText(PasswordActivity.this, errorStringId, Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
-        // Clear the shutdown flag
-        App.clearShutdown();
+        populateView();
 
-        // checks if fingerprint is available, will also start listening for fingerprints when available
+        Button confirmButton = (Button) findViewById(R.id.pass_ok);
+        confirmButton.setOnClickListener(new OkClickHandler());
+
+        if (password != null) {
+            passwordView.setText(password);
+        }
+
+        CompoundButton defaultCheck = (CompoundButton) findViewById(R.id.default_database);
+        defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
+
+        View browseView = findViewById(R.id.browse_button);
+        keyFileHelper = new KeyFileHelper(PasswordActivity.this);
+        browseView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener());
+
+        retrieveSettings();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            initForFingerprint();
-            checkAvailability();
-            if (fingerPrintAnimatedVector != null) {
-                fingerPrintAnimatedVector.startScan();
-            }
+            checkFingerprintAvailability();
         }
-    }
 
-    private void setEmptyViews() {
-        passwordView.setText("");
-        keyFileView.setText("");
-        checkboxPasswordView.setChecked(false);
-        checkboxKeyfileView.setChecked(false);
+        if (launch_immediately) {
+            loadDatabase(password, mKeyUri);
+        }
     }
 
     private void retrieveSettings() {
         String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
-        if (!EmptyUtils.isNullOrEmpty(mDbUri.getPath()) && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
+        if (mDbUri!=null
+                && !EmptyUtils.isNullOrEmpty(mDbUri.getPath())
+                && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
             CompoundButton checkbox = (CompoundButton) findViewById(R.id.default_database);
             checkbox.setChecked(true);
-        }
-    }
-
-    private Uri getKeyFile(Uri dbUri) {
-        if (mRememberKeyfile) {
-            return App.getFileHistory().getFileByName(dbUri);
-        } else {
-            return null;
         }
     }
 
@@ -292,9 +294,40 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             keyFileView.setText(key);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // If the application was shutdown make sure to clear the password field, if it
+        // was saved in the instance state
+        if (App.isShutdown()) {
+            setEmptyViews();
+        }
+
+        // Clear the shutdown flag
+        App.clearShutdown();
+
+        // checks if fingerprint is available, will also start listening for fingerprints when available
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            initForFingerprint();
+            checkFingerprintAvailability();
+            if (fingerPrintAnimatedVector != null) {
+                fingerPrintAnimatedVector.startScan();
+            }
+        }
+    }
+
+    private void setEmptyViews() {
+        passwordView.setText("");
+        keyFileView.setText("");
+        checkboxPasswordView.setChecked(false);
+        checkboxKeyfileView.setChecked(false);
+    }
+
     // fingerprint related code here
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initForFingerprint() {
+        mode = -1;
         fingerPrintHelper = new FingerPrintHelper(this, this);
 
         // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
@@ -319,7 +352,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     final boolean validInput = s.length() > 0;
                     // encrypt or decrypt mode based on how much input or not
                     setFingerPrintTextView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
-                    mode = validInput ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
+                    mode = validInput ? toggleMode(Cipher.ENCRYPT_MODE) : toggleMode(Cipher.DECRYPT_MODE);
                 }
             }
         });
@@ -345,7 +378,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     final CharSequence helpString) {
 
                 showError(helpString);
-                checkAvailability();
+                checkFingerprintAvailability();
                 fingerprintTextView.setText(helpString);
             }
 
@@ -361,7 +394,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 } else if (mode == Cipher.DECRYPT_MODE) {
 
                     // retrieve the encrypted value from preferences
-                    final String encryptedValue = prefsNoBackup.getString(prefFingerprintKey, null);
+                    final String encryptedValue = prefsNoBackup.getString(getPreferenceKeyValue(), null);
                     if (encryptedValue != null) {
                         fingerPrintHelper.decryptData(encryptedValue);
                     }
@@ -371,7 +404,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
             @Override
             public void onAuthenticationFailed() {
                 showError(R.string.fingerprint_not_recognized);
-                checkAvailability();
+                checkFingerprintAvailability();
             }
         });
     }
@@ -386,16 +419,18 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private int toggleMode(final int newMode) {
-        mode = newMode;
-        switch (mode) {
-            case Cipher.ENCRYPT_MODE:
-                fingerPrintHelper.initEncryptData();
-                break;
-            case Cipher.DECRYPT_MODE:
-                final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
-                fingerPrintHelper.initDecryptData(ivSpecValue);
-                break;
+    private synchronized int toggleMode(final int newMode) {
+        if(newMode != mode) {
+            mode = newMode;
+            switch (mode) {
+                case Cipher.ENCRYPT_MODE:
+                    fingerPrintHelper.initEncryptData();
+                    break;
+                case Cipher.DECRYPT_MODE:
+                    final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
+                    fingerPrintHelper.initDecryptData(ivSpecValue);
+                    break;
+            }
         }
         return newMode;
     }
@@ -443,12 +478,12 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void checkAvailability() {
+    private synchronized void checkFingerprintAvailability() {
 
         // fingerprint not supported (by API level or hardware) so keep option hidden
         // or manually disable
         if (!PrefsUtil.isFingerprintEnable(getApplicationContext())
-                || !fingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
+                || !FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
             setFingerPrintVisibility(View.GONE);
         }
         // fingerprint is available but not configured show icon but in disabled state with some information
@@ -474,13 +509,15 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 setFingerPrintAlphaImageView(1f);
 
                 // fingerprint available but no stored password found yet for this DB so show info don't listen
-                if (prefsNoBackup.getString(prefFingerprintKey, null) == null) {
+                if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
                     setFingerPrintTextView(R.string.no_password_stored);
+                    // listen for encryption
+                    toggleMode(Cipher.ENCRYPT_MODE);
                 }
                 // all is set here so we can confirm to user and start listening for fingerprints
                 else {
                     setFingerPrintTextView(R.string.scanning_fingerprint);
-                    // listen for decryption by default
+                    // listen for decryption
                     toggleMode(Cipher.DECRYPT_MODE);
                 }
             }
@@ -512,14 +549,14 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     @Override
     public void onInvalidKeyException() {
         showError(R.string.fingerprint_invalid_key);
-        checkAvailability(); // restarts listening
+        checkFingerprintAvailability(); // restarts listening
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onFingerPrintException(Exception e) {
         showError(R.string.fingerprint_error);
-        checkAvailability();
+        checkFingerprintAvailability();
         e.printStackTrace();
     }
 
@@ -662,20 +699,30 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
         }
     }
 
-    private class InitTask extends AsyncTask<Intent, Void, Integer> {
+    private static class UriIntentInitTask extends AsyncTask<Intent, Void, Integer> {
 
-        String password = "";
-        boolean launch_immediately = false;
+        static final String KEY_FILENAME = "fileName";
+        static final String KEY_KEYFILE = "keyFile";
+        private static final String VIEW_INTENT = "android.intent.action.VIEW";
+
+        private UriIntentInitTaskCallback uriIntentInitTaskCallback;
+        private boolean isKeyFileNeeded;
+        private Uri databaseUri;
+        private Uri keyFileUri;
+
+        UriIntentInitTask(UriIntentInitTaskCallback uriIntentInitTaskCallback, boolean isKeyFileNeeded) {
+            this.uriIntentInitTaskCallback = uriIntentInitTaskCallback;
+            this.isKeyFileNeeded = isKeyFileNeeded;
+        }
 
         @Override
         protected Integer doInBackground(Intent... args) {
-            Intent i = args[0];
-            String action = i.getAction();
+            Intent intent = args[0];
+            String action = intent.getAction();
             if (action != null && action.equals(VIEW_INTENT)) {
-                Uri incoming = i.getData();
-                mDbUri = incoming;
-
-                mKeyUri = ClipDataCompat.getUriFromIntent(i, KEY_KEYFILE);
+                Uri incoming = intent.getData();
+                databaseUri = incoming;
+                keyFileUri = ClipDataCompat.getUriFromIntent(intent, KEY_KEYFILE);
 
                 if (incoming == null) {
                     return R.string.error_can_not_handle_uri;
@@ -693,59 +740,38 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                         return R.string.FileNotFound;
                     }
 
-                    if (mKeyUri == null) {
-                        mKeyUri = getKeyFile(mDbUri);
+                    if (keyFileUri == null) {
+                        keyFileUri = getKeyFile(databaseUri);
                     }
                 } else if (incoming.getScheme().equals("content")) {
-                    if (mKeyUri == null) {
-                        mKeyUri = getKeyFile(mDbUri);
+                    if (keyFileUri == null) {
+                        keyFileUri = getKeyFile(databaseUri);
                     }
                 } else {
                     return R.string.error_can_not_handle_uri;
                 }
-                password = i.getStringExtra(KEY_PASSWORD);
-                launch_immediately = i.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
+
 
             } else {
-                mDbUri = UriUtil.parseDefaultFile(i.getStringExtra(KEY_FILENAME));
-                mKeyUri = UriUtil.parseDefaultFile(i.getStringExtra(KEY_KEYFILE));
-                password = i.getStringExtra(KEY_PASSWORD);
-                launch_immediately = i.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
+                databaseUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_FILENAME));
+                keyFileUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_KEYFILE));
 
-                if (mKeyUri == null || mKeyUri.toString().length() == 0) {
-                    mKeyUri = getKeyFile(mDbUri);
+                if (keyFileUri == null || keyFileUri.toString().length() == 0) {
+                    keyFileUri = getKeyFile(databaseUri);
                 }
             }
             return null;
         }
 
         public void onPostExecute(Integer result) {
-            if (result != null) {
-                Toast.makeText(PasswordActivity.this, result, Toast.LENGTH_LONG).show();
-                finish();
-                return;
-            }
+            uriIntentInitTaskCallback.onPostInitTask(databaseUri, keyFileUri, result);
+        }
 
-            populateView();
-
-            Button confirmButton = (Button) findViewById(R.id.pass_ok);
-            confirmButton.setOnClickListener(new OkClickHandler());
-
-            if (password != null) {
-                passwordView.setText(password);
-            }
-
-            CompoundButton defaultCheck = (CompoundButton) findViewById(R.id.default_database);
-            defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
-
-            View browseView = findViewById(R.id.browse_button);
-            keyFileHelper = new KeyFileHelper(PasswordActivity.this);
-            browseView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener());
-
-            retrieveSettings();
-
-            if (launch_immediately) {
-                loadDatabase(password, mKeyUri);
+        private Uri getKeyFile(Uri dbUri) {
+            if (isKeyFileNeeded) {
+                return App.getFileHistory().getFileByName(dbUri);
+            } else {
+                return null;
             }
         }
     }
