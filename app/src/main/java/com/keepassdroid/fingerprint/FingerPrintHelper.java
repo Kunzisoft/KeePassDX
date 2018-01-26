@@ -45,7 +45,7 @@ import javax.crypto.spec.IvParameterSpec;
 
 public class FingerPrintHelper {
 
-    private static final String ALIAS_KEY = "example-key";
+    private static final String FINGERPRINT_KEYSTORE_KEY = "example-key";
 
     private FingerprintManagerCompat fingerprintManager;
     private KeyStore keyStore = null;
@@ -146,7 +146,7 @@ public class FingerPrintHelper {
         try {
             createNewKeyIfNeeded(false); // no need to keep deleting existing keys
             keyStore.load(null);
-            final SecretKey key = (SecretKey) keyStore.getKey(ALIAS_KEY, null);
+            final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
             cipher.init(Cipher.ENCRYPT_MODE, key);
 
             stopListening();
@@ -187,7 +187,7 @@ public class FingerPrintHelper {
         try {
             createNewKeyIfNeeded(false);
             keyStore.load(null);
-            final SecretKey key = (SecretKey) keyStore.getKey(ALIAS_KEY, null);
+            final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
 
             // important to restore spec here that was used for decryption
             final byte[] iv = Base64.decode(ivSpecValue, Base64.DEFAULT);
@@ -231,18 +231,18 @@ public class FingerPrintHelper {
         try {
             keyStore.load(null);
             if (allowDeleteExisting
-                    && keyStore.containsAlias(ALIAS_KEY)) {
+                    && keyStore.containsAlias(FINGERPRINT_KEYSTORE_KEY)) {
 
-                keyStore.deleteEntry(ALIAS_KEY);
+                keyStore.deleteEntry(FINGERPRINT_KEYSTORE_KEY);
             }
 
             // Create new key if needed
-            if (!keyStore.containsAlias(ALIAS_KEY)) {
+            if (!keyStore.containsAlias(FINGERPRINT_KEYSTORE_KEY)) {
                 // Set the alias of the entry in Android KeyStore where the key will appear
                 // and the constrains (purposes) in the constructor of the Builder
                 keyGenerator.init(
                         new KeyGenParameterSpec.Builder(
-                                ALIAS_KEY,
+                                FINGERPRINT_KEYSTORE_KEY,
                                 KeyProperties.PURPOSE_ENCRYPT |
                                         KeyProperties.PURPOSE_DECRYPT)
                                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
@@ -260,7 +260,7 @@ public class FingerPrintHelper {
 
     private void deleteEntryKey() {
         try {
-            keyStore.deleteEntry(ALIAS_KEY);
+            keyStore.deleteEntry(FINGERPRINT_KEYSTORE_KEY);
         } catch (KeyStoreException e) {
             fingerPrintCallback.onFingerPrintException(e);
         }

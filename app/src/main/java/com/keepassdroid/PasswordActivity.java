@@ -60,7 +60,6 @@ import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
-import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.FingerPrintDialog;
 import com.keepassdroid.view.KeyFileHelper;
 import com.kunzisoft.keepass.KeePass;
@@ -92,6 +91,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     private int mode;
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
     private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
+    private String prefFingerprintKey;
 
     private View fingerprintContainerView;
     private View fingerprintImageView;
@@ -238,6 +238,8 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
     protected void onResume() {
         super.onResume();
 
+        prefFingerprintKey = getPreferenceKeyValue();
+
         // If the application was shutdown make sure to clear the password field, if it
         // was saved in the instance state
         if (App.isShutdown()) {
@@ -317,11 +319,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                     final boolean validInput = s.length() > 0;
                     // encrypt or decrypt mode based on how much input or not
                     setFingerPrintTextView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
-                    new Thread(new Runnable() {
-                        public void run() {
-                            mode = validInput ? toggleMode(Cipher.ENCRYPT_MODE) : toggleMode(Cipher.DECRYPT_MODE);
-                        }
-                    }).start();
+                    mode = validInput ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
                 }
             }
         });
@@ -363,7 +361,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 } else if (mode == Cipher.DECRYPT_MODE) {
 
                     // retrieve the encrypted value from preferences
-                    final String encryptedValue = prefsNoBackup.getString(getPreferenceKeyValue(), null);
+                    final String encryptedValue = prefsNoBackup.getString(prefFingerprintKey, null);
                     if (encryptedValue != null) {
                         fingerPrintHelper.decryptData(encryptedValue);
                     }
@@ -476,7 +474,7 @@ public class PasswordActivity extends LockingActivity implements FingerPrintHelp
                 setFingerPrintAlphaImageView(1f);
 
                 // fingerprint available but no stored password found yet for this DB so show info don't listen
-                if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
+                if (prefsNoBackup.getString(prefFingerprintKey, null) == null) {
                     setFingerPrintTextView(R.string.no_password_stored);
                 }
                 // all is set here so we can confirm to user and start listening for fingerprints
