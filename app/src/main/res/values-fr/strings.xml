@@ -226,7 +226,9 @@
     <string name="fingerprint">Empreinte digitale</string>
     <string name="fingerprint_enable_title">Écoute d\'empreintes digitales</string>
     <string name="fingerprint_enable_summary">Activer l\'ouverture de la base de données par empreinte digitale</string>
-    <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité\nVotre version Android %1$d n\'est pas la version minimale %2$d requise</string>
+    <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
+    <string name="unavailable_feature_version">Votre version Android %1$d n\'est pas la version minimale %2$d requise.</string>
+    <string name="unavailable_feature_hardware">Le matériel n\'est pas détecté.</string>
     <string name="file_name">Nom de fichier</string>
     <string name="path">Chemin</string>
     <string name="assign_master_key">Assigner une clé maître</string>

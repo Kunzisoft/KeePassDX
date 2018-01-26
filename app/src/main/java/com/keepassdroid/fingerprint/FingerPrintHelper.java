@@ -127,6 +127,7 @@ public class FingerPrintHelper {
 
     public static boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
         return Build.VERSION.SDK_INT >= BuildCompat.VERSION_CODE_M
+                && fingerprintManager != null
                 && fingerprintManager.isHardwareDetected();
     }
 
@@ -263,7 +264,7 @@ public class FingerPrintHelper {
         }
     }
 
-    private void deleteEntryKey() {
+    public void deleteEntryKey() {
         try {
             keyStore.deleteEntry(FINGERPRINT_KEYSTORE_KEY);
         } catch (KeyStoreException e) {
@@ -275,8 +276,6 @@ public class FingerPrintHelper {
     public boolean hasEnrolledFingerprints() {
         // fingerprint hardware supported and api level OK
         return isFingerprintSupported(fingerprintManager)
-                && fingerprintManager != null
-                && fingerprintManager.isHardwareDetected()
                 // fingerprints enrolled
                 && fingerprintManager.hasEnrolledFingerprints()
                 // and lockscreen configured

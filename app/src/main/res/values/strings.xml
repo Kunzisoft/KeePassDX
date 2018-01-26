@@ -227,7 +227,9 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_enable_title">Fingerprint listening</string>
     <string name="fingerprint_enable_summary">Enable database opening by fingerprint</string>
-    <string name="unavailable_feature_text">Can not start this feature\nYour Android version %1$d is not the minimum version %2$d required</string>
+    <string name="unavailable_feature_text">Can not start this feature.</string>
+    <string name="unavailable_feature_version">Your Android version %1$d is not the minimum version %2$d required.</string>
+    <string name="unavailable_feature_hardware">The hardware is not detected.</string>
     <string name="file_name">File name</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
