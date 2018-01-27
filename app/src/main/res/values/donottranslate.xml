@@ -56,6 +56,7 @@
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
+    <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>

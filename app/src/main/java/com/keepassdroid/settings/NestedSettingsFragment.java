@@ -19,12 +19,14 @@
  */
 package com.keepassdroid.settings;
 
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
@@ -118,35 +120,36 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                             return false;
                         }
                     });
-                } else {
-                    fingerprintEnablePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            Boolean value = (Boolean) newValue;
-                            if (!value) {
-                                FingerPrintHelper fingerPrintHelper = new FingerPrintHelper(
-                                        getContext(), new FingerPrintHelper.FingerPrintCallback() {
-                                    @Override
-                                    public void handleEncryptedResult(String value, String ivSpec) {}
-
-                                    @Override
-                                    public void handleDecryptedResult(String value) {}
-
-                                    @Override
-                                    public void onInvalidKeyException() {}
-
-                                    @Override
-                                    public void onFingerPrintException(Exception e) {
-                                        Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                fingerPrintHelper.deleteEntryKey();
-                                PrefsUtil.deleteAllValuesFromNoBackupPreferences(getContext());
-                            }
-                            return true;
-                        }
-                    });
                 }
+
+                Preference deleteKeysFingerprints = findPreference(getString(R.string.fingerprint_delete_all_key));
+                deleteKeysFingerprints.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        new AlertDialog.Builder(getContext())
+                                .setMessage(getResources().getString(R.string.fingerprint_delete_all_warning))
+                                .setIcon(getResources().getDrawable(
+                                                android.R.drawable.ic_dialog_alert))
+                                .setPositiveButton(
+                                        getResources().getString(android.R.string.yes),
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                deleteAllKeysForFingerprints();
+                                            }
+                                        })
+                                .setNegativeButton(
+                                        getResources().getString(android.R.string.no),
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                            }
+                                        }).show();
+                        return false;
+                    }
+                });
 
                 break;
 
@@ -180,6 +183,30 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
             default:
                 break;
         }
+    }
+
+    /**
+     * Delete all entries of NoBackup preference and remove entry key in keystore
+     */
+    private void deleteAllKeysForFingerprints() {
+        FingerPrintHelper fingerPrintHelper = new FingerPrintHelper(
+                getContext(), new FingerPrintHelper.FingerPrintCallback() {
+            @Override
+            public void handleEncryptedResult(String value, String ivSpec) {}
+
+            @Override
+            public void handleDecryptedResult(String value) {}
+
+            @Override
+            public void onInvalidKeyException() {}
+
+            @Override
+            public void onFingerPrintException(Exception e) {
+                Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        fingerPrintHelper.deleteEntryKey();
+        PrefsUtil.deleteAllValuesFromNoBackupPreferences(getContext());
     }
 
     @Override

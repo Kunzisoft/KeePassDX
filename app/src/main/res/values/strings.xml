@@ -227,6 +227,9 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_enable_title">Fingerprint listening</string>
     <string name="fingerprint_enable_summary">Enable database opening by fingerprint</string>
+    <string name="fingerprint_delete_all_title">Delete encryption keys</string>
+    <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
+    <string name="fingerprint_delete_all_warning">Are you sure you want to delete all the keys related to fingerprints?</string>
     <string name="unavailable_feature_text">Can not start this feature.</string>
     <string name="unavailable_feature_version">Your Android version %1$d is not the minimum version %2$d required.</string>
     <string name="unavailable_feature_hardware">The hardware is not detected.</string>
