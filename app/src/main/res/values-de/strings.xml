@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 
@@ -233,7 +233,7 @@
     <string name="list_password_generator_options_title">Passwortzeichen</string>
     <string name="rounds_fix_title">Datenbank reparieren</string>
     <string name="rounds_fix">Schlüsseltransformationen vor Datenbankkorruption</string>
-    <string name="rounds_fix_explanation">Falls ihre Datenbank von KeepassDroid version 2.2.0.0 bis 2.2.0.6 beschädigt wurde können Sie die Anzahl der Schlüsseltransformationen welche verwendet wurden eingeben um ihre Datenbank wieder zu öffnen.</string>
+    <string name="rounds_fix_explanation">Falls ihre Datenbank von KeepassDroid version 2.2.0.0 bis 2.2.0.6 beschädigt wurde, können Sie die Anzahl der Schlüsseltransformationen welche verwendet wurden eingeben um ihre Datenbank wieder zu öffnen.</string>
     <string name="configure_fingerprint">Fingerabruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
