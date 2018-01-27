@@ -20,7 +20,6 @@
 package com.keepassdroid;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -175,7 +174,7 @@ public class PasswordActivity extends LockingActivity
         Intent i = getIntent();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefsNoBackup = getSharedPreferences("nobackup", Context.MODE_PRIVATE);
+        prefsNoBackup = PrefsUtil.getNoBackupSharedPreferences(getApplicationContext());
 
         boolean mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key),
                 getResources().getBoolean(R.bool.keyfile_default));
@@ -428,7 +427,8 @@ public class PasswordActivity extends LockingActivity
                     break;
                 case Cipher.DECRYPT_MODE:
                     final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
-                    fingerPrintHelper.initDecryptData(ivSpecValue);
+                    if (ivSpecValue != null)
+                        fingerPrintHelper.initDecryptData(ivSpecValue);
                     break;
             }
         }
@@ -509,7 +509,7 @@ public class PasswordActivity extends LockingActivity
                 setFingerPrintAlphaImageView(1f);
 
                 // fingerprint available but no stored password found yet for this DB so show info don't listen
-                if (prefsNoBackup.getString(getPreferenceKeyValue(), null) == null) {
+                if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
                     setFingerPrintTextView(R.string.no_password_stored);
                     // listen for encryption
                     toggleMode(Cipher.ENCRYPT_MODE);

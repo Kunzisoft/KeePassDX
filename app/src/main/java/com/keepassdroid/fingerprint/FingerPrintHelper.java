@@ -34,9 +34,12 @@ import android.util.Base64;
 
 import com.keepassdroid.compat.BuildCompat;
 
+import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -238,7 +241,6 @@ public class FingerPrintHelper {
             keyStore.load(null);
             if (allowDeleteExisting
                     && keyStore.containsAlias(FINGERPRINT_KEYSTORE_KEY)) {
-
                 keyStore.deleteEntry(FINGERPRINT_KEYSTORE_KEY);
             }
 
@@ -266,8 +268,13 @@ public class FingerPrintHelper {
 
     public void deleteEntryKey() {
         try {
+            keyStore.load(null);
             keyStore.deleteEntry(FINGERPRINT_KEYSTORE_KEY);
-        } catch (KeyStoreException e) {
+        } catch (KeyStoreException
+                    | CertificateException
+                    | NoSuchAlgorithmException
+                    | IOException e) {
+            e.printStackTrace();
             fingerPrintCallback.onFingerPrintException(e);
         }
     }

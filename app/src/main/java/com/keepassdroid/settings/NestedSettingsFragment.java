@@ -28,6 +28,7 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.UnavailableFeatureDialog;
@@ -104,17 +105,45 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                     }
                 });
 
+                SwitchPreference fingerprintEnablePreference = (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
                 if (!FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(getContext()))) {
                     // False if under Marshmallow
-                    SwitchPreference preference = (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
-                    preference.setDefaultValue(false);
-                    preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    fingerprintEnablePreference.setDefaultValue(false);
+                    fingerprintEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
                             ((SwitchPreference) preference).setChecked(false);
                             UnavailableFeatureDialog.getInstance(Build.VERSION_CODES.M)
                                     .show(getFragmentManager(), "unavailableFeatureDialog");
                             return false;
+                        }
+                    });
+                } else {
+                    fingerprintEnablePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            Boolean value = (Boolean) newValue;
+                            if (!value) {
+                                FingerPrintHelper fingerPrintHelper = new FingerPrintHelper(
+                                        getContext(), new FingerPrintHelper.FingerPrintCallback() {
+                                    @Override
+                                    public void handleEncryptedResult(String value, String ivSpec) {}
+
+                                    @Override
+                                    public void handleDecryptedResult(String value) {}
+
+                                    @Override
+                                    public void onInvalidKeyException() {}
+
+                                    @Override
+                                    public void onFingerPrintException(Exception e) {
+                                        Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                fingerPrintHelper.deleteEntryKey();
+                                PrefsUtil.deleteAllValuesFromNoBackupPreferences(getContext());
+                            }
+                            return true;
                         }
                     });
                 }
