@@ -39,7 +39,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -96,8 +95,9 @@ public class PasswordActivity extends LockingActivity
     private EditText passwordView;
     private EditText keyFileView;
     private Button confirmButtonView;
-    private CheckBox checkboxPasswordView;
-    private CheckBox checkboxKeyfileView;
+    private CompoundButton checkboxPasswordView;
+    private CompoundButton checkboxKeyfileView;
+    private CompoundButton checkboxDefaultDatabaseView;
 
     private KeyFileHelper keyFileHelper;
 
@@ -171,13 +171,9 @@ public class PasswordActivity extends LockingActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent i = getIntent();
-
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefsNoBackup = PrefsUtil.getNoBackupSharedPreferences(getApplicationContext());
 
-        boolean mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key),
-                getResources().getBoolean(R.bool.keyfile_default));
         setContentView(R.layout.password);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -194,8 +190,9 @@ public class PasswordActivity extends LockingActivity
         filenameView = (TextView) findViewById(R.id.filename);
         passwordView = (EditText) findViewById(R.id.password);
         keyFileView = (EditText) findViewById(R.id.pass_keyfile);
-        checkboxPasswordView = (CheckBox) findViewById(R.id.password_checkbox);
-        checkboxKeyfileView = (CheckBox) findViewById(R.id.keyfile_checkox);
+        checkboxPasswordView = (CompoundButton) findViewById(R.id.password_checkbox);
+        checkboxKeyfileView = (CompoundButton) findViewById(R.id.keyfile_checkox);
+        checkboxDefaultDatabaseView = (CompoundButton) findViewById(R.id.default_database);
 
         passwordView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -222,12 +219,15 @@ public class PasswordActivity extends LockingActivity
             }
         });
 
+        new UriIntentInitTask(this,
+                prefs.getBoolean(getString(R.string.keyfile_key),
+                        getResources().getBoolean(R.bool.keyfile_default)))
+                .execute(getIntent());
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                             (ImageView) fingerprintImageView);
         }
-
-        new UriIntentInitTask(this, mRememberKeyfile).execute(i);
     }
 
     @Override
@@ -248,15 +248,13 @@ public class PasswordActivity extends LockingActivity
 
         populateView();
 
-        Button confirmButton = (Button) findViewById(R.id.pass_ok);
-        confirmButton.setOnClickListener(new OkClickHandler());
+        confirmButtonView.setOnClickListener(new OkClickHandler());
 
         if (password != null) {
             passwordView.setText(password);
         }
 
-        CompoundButton defaultCheck = (CompoundButton) findViewById(R.id.default_database);
-        defaultCheck.setOnCheckedChangeListener(new DefaultCheckChange());
+        checkboxDefaultDatabaseView.setOnCheckedChangeListener(new DefaultCheckChange());
 
         View browseView = findViewById(R.id.browse_button);
         keyFileHelper = new KeyFileHelper(PasswordActivity.this);
@@ -278,8 +276,7 @@ public class PasswordActivity extends LockingActivity
         if (mDbUri!=null
                 && !EmptyUtils.isNullOrEmpty(mDbUri.getPath())
                 && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
-            CompoundButton checkbox = (CompoundButton) findViewById(R.id.default_database);
-            checkbox.setChecked(true);
+            checkboxDefaultDatabaseView.setChecked(true);
         }
     }
 
@@ -327,6 +324,7 @@ public class PasswordActivity extends LockingActivity
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initForFingerprint() {
         mode = -1;
+
         fingerPrintHelper = new FingerPrintHelper(this, this);
 
         // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
@@ -528,7 +526,6 @@ public class PasswordActivity extends LockingActivity
     public void handleEncryptedResult(
             final String value,
             final String ivSpec) {
-
         prefsNoBackup.edit()
                 .putString(getPreferenceKeyValue(), value)
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
@@ -547,8 +544,13 @@ public class PasswordActivity extends LockingActivity
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onInvalidKeyException() {
+    public void onInvalidKeyException(Exception e) {
         showError(R.string.fingerprint_invalid_key);
+        prefsNoBackup.edit()
+            .remove(getPreferenceKeyValue())
+            .remove(getPreferenceKeyIvSpec())
+            .apply();
+        e.printStackTrace();
         checkFingerprintAvailability(); // restarts listening
     }
 
@@ -556,8 +558,8 @@ public class PasswordActivity extends LockingActivity
     @Override
     public void onFingerPrintException(Exception e) {
         showError(R.string.fingerprint_error);
-        checkFingerprintAvailability();
         e.printStackTrace();
+        checkFingerprintAvailability();
     }
 
     private void showError(final int messageId) {

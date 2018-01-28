@@ -136,7 +136,18 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                                             @Override
                                             public void onClick(DialogInterface dialog,
                                                                 int which) {
-                                                deleteAllKeysForFingerprints();
+                                                FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
+                                                        getContext(),
+                                                        new FingerPrintHelper.FingerPrintErrorCallback() {
+                                                            @Override
+                                                            public void onInvalidKeyException(Exception e) {}
+
+                                                            @Override
+                                                            public void onFingerPrintException(Exception e) {
+                                                                Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                PrefsUtil.deleteAllValuesFromNoBackupPreferences(getContext());
                                             }
                                         })
                                 .setNegativeButton(
@@ -183,30 +194,6 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
             default:
                 break;
         }
-    }
-
-    /**
-     * Delete all entries of NoBackup preference and remove entry key in keystore
-     */
-    private void deleteAllKeysForFingerprints() {
-        FingerPrintHelper fingerPrintHelper = new FingerPrintHelper(
-                getContext(), new FingerPrintHelper.FingerPrintCallback() {
-            @Override
-            public void handleEncryptedResult(String value, String ivSpec) {}
-
-            @Override
-            public void handleDecryptedResult(String value) {}
-
-            @Override
-            public void onInvalidKeyException() {}
-
-            @Override
-            public void onFingerPrintException(Exception e) {
-                Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
-            }
-        });
-        fingerPrintHelper.deleteEntryKey();
-        PrefsUtil.deleteAllValuesFromNoBackupPreferences(getContext());
     }
 
     @Override

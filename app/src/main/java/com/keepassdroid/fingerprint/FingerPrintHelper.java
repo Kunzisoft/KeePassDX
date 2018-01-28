@@ -41,6 +41,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -86,13 +87,6 @@ public class FingerPrintHelper {
             cancellationSignal.cancel();
             cancellationSignal = null;
         }
-    }
-
-    public interface FingerPrintCallback {
-        void handleEncryptedResult(String value, String ivSpec);
-        void handleDecryptedResult(String value);
-        void onInvalidKeyException();
-        void onFingerPrintException(Exception e);
     }
 
     @TargetApi(BuildCompat.VERSION_CODE_M)
@@ -163,7 +157,7 @@ public class FingerPrintHelper {
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
             deleteEntryKey();
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
-            fingerPrintCallback.onInvalidKeyException();
+            fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final Exception e) {
             fingerPrintCallback.onFingerPrintException(e);
         }
@@ -207,7 +201,7 @@ public class FingerPrintHelper {
             startListening();
 
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
-            fingerPrintCallback.onInvalidKeyException();
+            fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
             deleteEntryKey();
         } catch (final Exception e) {
@@ -227,6 +221,8 @@ public class FingerPrintHelper {
 
             //final String encryptedString = Base64.encodeToString(encrypted, 0 /* flags */);
             fingerPrintCallback.handleDecryptedResult(decryptedString);
+        } catch (final BadPaddingException badPaddingException) {
+            fingerPrintCallback.onInvalidKeyException(badPaddingException);
         } catch (final Exception e) {
             fingerPrintCallback.onFingerPrintException(e);
         }
@@ -274,7 +270,6 @@ public class FingerPrintHelper {
                     | CertificateException
                     | NoSuchAlgorithmException
                     | IOException e) {
-            e.printStackTrace();
             fingerPrintCallback.onFingerPrintException(e);
         }
     }
@@ -291,6 +286,42 @@ public class FingerPrintHelper {
 
     private void setInitOk(final boolean initOk) {
         this.initOk = initOk;
+    }
+
+    /**
+     * Remove entry key in keystore
+     */
+    public static void deleteEntryKeyInKeystoreForFingerprints(final Context context,
+                                                               final FingerPrintErrorCallback fingerPrintCallback) {
+        FingerPrintHelper fingerPrintHelper = new FingerPrintHelper(
+                context, new FingerPrintCallback() {
+            @Override
+            public void handleEncryptedResult(String value, String ivSpec) {}
+
+            @Override
+            public void handleDecryptedResult(String value) {}
+
+            @Override
+            public void onInvalidKeyException(Exception e) {
+                fingerPrintCallback.onInvalidKeyException(e);
+            }
+
+            @Override
+            public void onFingerPrintException(Exception e) {
+                fingerPrintCallback.onFingerPrintException(e);
+            }
+        });
+        fingerPrintHelper.deleteEntryKey();
+    }
+
+    public interface FingerPrintErrorCallback {
+        void onInvalidKeyException(Exception e);
+        void onFingerPrintException(Exception e);
+    }
+
+    public interface FingerPrintCallback extends FingerPrintErrorCallback {
+        void handleEncryptedResult(String value, String ivSpec);
+        void handleDecryptedResult(String value);
     }
 
 }
