@@ -42,7 +42,7 @@
     <string name="brackets">Klammern</string>
     <string name="browser_intall_text">Um diese Funktion nutzen zu können, benötigen Sie den OI File Manager, den Sie über Google Play bzw. direkt von der Entwicklerwebseite herunterladen können. Aufgrund einiger Eigenheiten des Dateimanagers, kann es bei der ersten Benutzung zu Einschränkungen kommen.</string>
     <string name="building_search_idx">Erstelle den Suchindex\u2026</string>
-    <string name="cancel">Abbr.</string>
+    <string name="cancel">Abbrechen</string>
     <string name="ClearClipboard">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
     <string name="clipboard_error">Die Implementierung der Zwischenablagefunktion in einigen Samsung Android-Smartphones ist offenbar fehlerhaft, wodurch das Kopieren von Daten aus der Anwendung heraus fehlschlägt. Weitere Informationen dazu finden Sie unter:</string>
@@ -209,4 +209,43 @@
       <item>Mittel</item>
       <item>Groß</item>
     </string-array>
+    <string name="warning_empty_password">Sind Sie sicher, dass sie ein leeres Passwort verwenden wollen ?</string>
+    <string name="warning_no_encryption_key">Sind Sie sicher, dass sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
+    <string name="appearance">Aussehen</string>
+    <string name="password_size_title">Passwortgröße</string>
+    <string name="password_size_summary">Standartlänge des generierten Passworts ändern</string>
+    <string name="clipboard_notifications_title">Zwischenablagenbenachrichtigungen</string>
+    <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen zum kopieren von Benutzername und Passwort einschalten</string>
+    <string name="lock_database_screen_off_title">Bildschirmsperre</string>
+    <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
+    <string name="create_keepass_file">Keepass Datei erstellen</string>
+    <string name="style_choose_title">Thema auswählen</string>
+    <string name="assign_master_key">Hauptschlüssel zuweisen</string>
+    <string name="path">Pfad</string>
+    <string name="file_name">Dateiname</string>
+    <string name="unavailable_feature_text">Dieses Feature wird nicht von ihrer Android version unterstützt</string>
+    <string name="fingerprint_enable_summary">Datenbanköffnung mit Fingerabdruck einschalten</string>
+    <string name="fingerprint">Fingerabdruck</string>
+    <string name="fingerprint_enable_title">Fingerabruckscanner</string>
+    <string name="fingerprint_scan_to_open">Fingerabruck scannen während Passwortfeld leer ist, um Datenbank zu öffnen</string>
+    <string name="fingerprint_scan_to_store">Fingerabruck scannen, um Masterpasswort zu speichern</string>
+    <string name="fingerprint_type_password_text">Geben Sie ihr Passwort in Keepass DX ein</string>
+    <string name="lock">Sperre</string>
+    <string name="list_password_generator_options_summary">Standartzeichen für Passwortgenerator setzen</string>
+    <string name="list_password_generator_options_title">Passwortzeichen</string>
+    <string name="rounds_fix_title">Datenbank reparieren</string>
+    <string name="rounds_fix">Schlüsseltransformationen vor Datenbankkorruption</string>
+    <string name="rounds_fix_explanation">Falls ihre Datenbank von KeepassDroid version 2.2.0.0 bis 2.2.0.6 beschädigt wurde, können Sie die Anzahl der Schlüsseltransformationen welche verwendet wurden eingeben um ihre Datenbank wieder zu öffnen.</string>
+    <string name="configure_fingerprint">Fingerabruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
+    <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
+    <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
+    <string name="history">Verlauf</string>
+    <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner ein ?</string>
+    <string name="fingerprint_setting_text">Speichern sie ihren persönlichen Fingerabruck in</string>
+    <string name="fingerprint_setting_way_text">Einstellungen -> Fingerabdruck</string>
+    <string name="usage">Verwendung</string>
+    <string name="general">Allgemein</string>
+    <string name="store_with_fingerprint">Fingerabruck verwenden um dieses Passwort zu speichern</string>
+    <string name="no_password_stored">Noch kein Passwort für diese Datenbank gespeichert</string>
+    <string name="style_choose_summary">Thema durch verändern der Farben ändern</string>
 </resources>
