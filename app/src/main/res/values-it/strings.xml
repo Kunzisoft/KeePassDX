@@ -51,7 +51,7 @@
     <string name="decrypting_entry">Decodifica valore</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Inserisci il nome file del database:</string>
     <string name="entry_accessed">Ultimo accesso: </string>

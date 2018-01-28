@@ -59,7 +59,7 @@
     <string name="decrypting_entry">Eintrag entschlüsselt</string>
     <string name="default_checkbox">Als Standard-Datenbank benutzen</string>
     <string name="digits">Zahlen</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 2009&#8211;2013 Brian Pellin. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist kostenlos und wird unter den Bedingungen der GNU GPL Version 2 (oder später) verbreitet und lizenziert.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist kostenlos und wird unter den Bedingungen der GNU GPL Version 2 (oder später) verbreitet und lizenziert.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Dateinamen der Datenbank eingeben:</string>
     <string name="entry_accessed">Letzter Zugriff:</string>
@@ -174,9 +174,10 @@
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explaination">Je höher die Anzahl der Schlüsseltransformationen, desto besser ist der Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="rounds_fix">Schlüsseltransformationen vor der Datenkorruption</string>
-    <string name="rounds_fix_explaination">Wenn ihre Datenbank durch KeePassDroid Version 2.2.0.0 bis 2.2.0.6 beschädigt wurde, können sie die Anzahl der vorher verwendeten Schlüsseltransformationen eingeben und damit ihre Datenbank wieder öffnen.</string>
     <string name="rounds_hint">Schlüsseltransformationen</string>
+    <string name="rounds_fix_title">Datenbank reparieren</string>
+    <string name="rounds_fix">Schlüsseltransformationen vor Datenbankkorruption</string>
+    <string name="rounds_fix_explanation">Falls ihre Datenbank von KeepassDroid version 2.2.0.0 bis 2.2.0.6 beschädigt wurde, können Sie die Anzahl der Schlüsseltransformationen welche verwendet wurden eingeben um ihre Datenbank wieder zu öffnen.</string>
     <string name="saving_database">Speichere Datenbank\u2026</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
@@ -209,6 +210,7 @@
       <item>Mittel</item>
       <item>Groß</item>
     </string-array>
+
     <string name="warning_empty_password">Sind Sie sicher, dass sie ein leeres Passwort verwenden wollen ?</string>
     <string name="warning_no_encryption_key">Sind Sie sicher, dass sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
     <string name="appearance">Aussehen</string>
@@ -233,9 +235,6 @@
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Standartzeichen für Passwortgenerator setzen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="rounds_fix_title">Datenbank reparieren</string>
-    <string name="rounds_fix">Schlüsseltransformationen vor Datenbankkorruption</string>
-    <string name="rounds_fix_explanation">Falls ihre Datenbank von KeepassDroid version 2.2.0.0 bis 2.2.0.6 beschädigt wurde, können Sie die Anzahl der Schlüsseltransformationen welche verwendet wurden eingeben um ihre Datenbank wieder zu öffnen.</string>
     <string name="configure_fingerprint">Fingerabruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>

@@ -27,8 +27,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.stylish.StylishActivity;
+import com.kunzisoft.keepass.R;
+
+import org.joda.time.DateTime;
 
 public class AboutActivity extends StylishActivity {
 
@@ -56,6 +58,9 @@ public class AboutActivity extends StylishActivity {
         version = getString(R.string.version_label) + " " + version;
         TextView versionText = (TextView) findViewById(R.id.activity_about_version);
         versionText.setText(version);
+
+        TextView disclaimerText = (TextView) findViewById(R.id.disclaimer);
+        disclaimerText.setText(getString(R.string.disclaimer_formal, new DateTime().getYear()));
     }
 
     @Override
