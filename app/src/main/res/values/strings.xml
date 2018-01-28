@@ -201,6 +201,7 @@
     <string name="scanning_fingerprint">Listening for fingerprints</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="fingerprint_invalid_key">Invalid Key problem</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
     <string name="fingerprint_error">Fingerprint problem</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
     <string name="no_password_stored">No password stored yet for this database</string>
@@ -226,7 +227,12 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_enable_title">Fingerprint listening</string>
     <string name="fingerprint_enable_summary">Enable database opening by fingerprint</string>
-    <string name="unavailable_feature_text">Can not start this feature\nYour Android version %1$d is not the minimum version %2$d required</string>
+    <string name="fingerprint_delete_all_title">Delete encryption keys</string>
+    <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
+    <string name="fingerprint_delete_all_warning">Are you sure you want to delete all the keys related to fingerprints?</string>
+    <string name="unavailable_feature_text">Can not start this feature.</string>
+    <string name="unavailable_feature_version">Your Android version %1$d is not the minimum version %2$d required.</string>
+    <string name="unavailable_feature_hardware">The hardware is not detected.</string>
     <string name="file_name">File name</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>

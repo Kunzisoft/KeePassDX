@@ -31,6 +31,21 @@ import java.util.Set;
 
 public class PrefsUtil {
 
+    private static final String NO_BACKUP_PREFERENCE_FILE_NAME = "nobackup";
+
+    public static SharedPreferences getNoBackupSharedPreferences(Context ctx) {
+        return ctx.getSharedPreferences(
+                PrefsUtil.NO_BACKUP_PREFERENCE_FILE_NAME,
+                Context.MODE_PRIVATE);
+    }
+
+    public static void deleteAllValuesFromNoBackupPreferences(Context ctx) {
+        SharedPreferences prefsNoBackup = getNoBackupSharedPreferences(ctx);
+        SharedPreferences.Editor sharedPreferencesEditor = prefsNoBackup.edit();
+        sharedPreferencesEditor.clear();
+        sharedPreferencesEditor.apply();
+    }
+
 	public static float getListTextSize(Context ctx) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		return Float.parseFloat(prefs.getString(ctx.getString(R.string.list_size_key), ctx.getString(R.string.list_size_default)));
