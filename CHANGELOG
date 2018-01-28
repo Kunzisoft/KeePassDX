@@ -2,6 +2,9 @@ KeepassDX (2.5.0.0beta4)
  * Show only file name
  * Setting for full path
  * Add information for each database file
+ * Setting to delete fingerprints
+ * Solve bugs when change fingerprint
+ * Delete view assignment for fingerprint opening
 
 KeepassDX (2.5.0.0beta3)
  * New database workflow with new screens and folder selection
