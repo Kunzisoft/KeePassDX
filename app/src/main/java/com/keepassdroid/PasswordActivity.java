@@ -142,15 +142,17 @@ public class PasswordActivity extends LockingActivity
             Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
-            new KeyFileHelper.KeyFileCallback() {
-                @Override
-                public void onKeyFileResultCallback(Uri uri) {
-                    if(uri != null) {
-                        keyFileView.setText(uri.toString());
-                    }
-                }
-            });
+        if (keyFileHelper != null) {
+            keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
+                    new KeyFileHelper.KeyFileCallback() {
+                        @Override
+                        public void onKeyFileResultCallback(Uri uri) {
+                            if (uri != null) {
+                                keyFileView.setText(uri.toString());
+                            }
+                        }
+                    });
+        }
 
         switch (requestCode) {
             case KeePass.EXIT_NORMAL:
@@ -196,6 +198,10 @@ public class PasswordActivity extends LockingActivity
         checkboxPasswordView = (CompoundButton) findViewById(R.id.password_checkbox);
         checkboxKeyfileView = (CompoundButton) findViewById(R.id.keyfile_checkox);
         checkboxDefaultDatabaseView = (CompoundButton) findViewById(R.id.default_database);
+
+        View browseView = findViewById(R.id.browse_button);
+        keyFileHelper = new KeyFileHelper(PasswordActivity.this);
+        browseView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener());
 
         passwordView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -256,10 +262,6 @@ public class PasswordActivity extends LockingActivity
         }
 
         checkboxDefaultDatabaseView.setOnCheckedChangeListener(new DefaultCheckChange());
-
-        View browseView = findViewById(R.id.browse_button);
-        keyFileHelper = new KeyFileHelper(PasswordActivity.this);
-        browseView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener());
 
         retrieveSettings();
 
