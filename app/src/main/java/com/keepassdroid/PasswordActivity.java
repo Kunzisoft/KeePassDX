@@ -267,7 +267,7 @@ public class PasswordActivity extends LockingActivity
         }
 
         if (launch_immediately) {
-            loadDatabase(password, mKeyUri);
+            verifyCheckboxesAndLoadDatabase(password, mKeyUri);
         }
     }
 
@@ -536,10 +536,10 @@ public class PasswordActivity extends LockingActivity
     }
 
     @Override
-    public void handleDecryptedResult(final String value) {
-        // on decrypt enter it for the purchase/login action
-        passwordView.setText(value);
-        confirmButtonView.performClick();
+    public void handleDecryptedResult(final String passwordValue) {
+        // Load database directly
+        String key = keyFileView.getText().toString();
+        loadDatabase(passwordValue, key);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -611,8 +611,26 @@ public class PasswordActivity extends LockingActivity
         public void onClick(View view) {
             String pass = passwordView.getText().toString();
             String key = keyFileView.getText().toString();
-            loadDatabase(pass, key);
+            verifyCheckboxesAndLoadDatabase(pass, key);
         }
+    }
+
+    private void verifyCheckboxesAndLoadDatabase(
+            String pass,
+            String keyfile) {
+        verifyCheckboxesAndLoadDatabase(pass, UriUtil.parseDefaultFile(keyfile));
+    }
+
+    private void verifyCheckboxesAndLoadDatabase(
+            String pass,
+            Uri keyfile) {
+        if (!checkboxPasswordView.isChecked()) {
+            pass = "";
+        }
+        if (!checkboxKeyfileView.isChecked()) {
+            keyfile = null;
+        }
+        loadDatabase(pass, keyfile);
     }
 
     private void loadDatabase(
@@ -631,13 +649,6 @@ public class PasswordActivity extends LockingActivity
 
         // Clear the shutdown flag
         App.clearShutdown();
-
-        if (!checkboxPasswordView.isChecked()) {
-            pass = "";
-        }
-        if (!checkboxKeyfileView.isChecked()) {
-            keyfile = null;
-        }
 
         Handler handler = new Handler();
         LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, new AfterLoad(handler, db));
