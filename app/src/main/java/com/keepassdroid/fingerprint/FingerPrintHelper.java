@@ -34,8 +34,14 @@ import android.util.Base64;
 
 import com.keepassdroid.compat.BuildCompat;
 
+import java.io.IOException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -43,7 +49,7 @@ import javax.crypto.spec.IvParameterSpec;
 
 public class FingerPrintHelper {
 
-    private static final String ALIAS_KEY = "example-key";
+    private static final String FINGERPRINT_KEYSTORE_KEY = "example-key";
 
     private FingerprintManagerCompat fingerprintManager;
     private KeyStore keyStore = null;
@@ -74,20 +80,13 @@ public class FingerPrintHelper {
     }
 
     public void stopListening() {
-        if (!isFingerprintInitialized()) {
+        if (!isFingerprintInitialized(false)) {
             return;
         }
         if (cancellationSignal != null) {
             cancellationSignal.cancel();
             cancellationSignal = null;
         }
-    }
-
-    public interface FingerPrintCallback {
-        void handleEncryptedResult(String value, String ivSpec);
-        void handleDecryptedResult(String value);
-        void onInvalidKeyException();
-        void onFingerprintException(Exception e);
     }
 
     @TargetApi(BuildCompat.VERSION_CODE_M)
@@ -118,20 +117,26 @@ public class FingerPrintHelper {
                 setInitOk(true);
             } catch (final Exception e) {
                 setInitOk(false);
-                fingerPrintCallback.onFingerprintException(e);
+                fingerPrintCallback.onFingerPrintException(e);
             }
         }
     }
 
-    public boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
+    public static boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
         return Build.VERSION.SDK_INT >= BuildCompat.VERSION_CODE_M
+                && fingerprintManager != null
                 && fingerprintManager.isHardwareDetected();
     }
 
     public boolean isFingerprintInitialized() {
+        return isFingerprintInitialized(true);
+    }
+
+    public boolean isFingerprintInitialized(boolean throwException) {
         boolean isFingerprintInit = hasEnrolledFingerprints() && initOk;
         if (!isFingerprintInit && fingerPrintCallback != null) {
-            fingerPrintCallback.onFingerprintException(new Exception("FingerPrint not initialized"));
+            if(throwException)
+                fingerPrintCallback.onFingerPrintException(new Exception("FingerPrint not initialized"));
         }
         return isFingerprintInit;
     }
@@ -144,16 +149,17 @@ public class FingerPrintHelper {
         try {
             createNewKeyIfNeeded(false); // no need to keep deleting existing keys
             keyStore.load(null);
-            final SecretKey key = (SecretKey) keyStore.getKey(ALIAS_KEY, null);
+            final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
             cipher.init(Cipher.ENCRYPT_MODE, key);
 
             stopListening();
             startListening();
-
+        } catch (final UnrecoverableKeyException unrecoverableKeyException) {
+            deleteEntryKey();
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
-            fingerPrintCallback.onInvalidKeyException();
+            fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -164,7 +170,7 @@ public class FingerPrintHelper {
         try {
             // actual do encryption here
             byte[] encrypted = cipher.doFinal(value.getBytes());
-            final String encryptedValue = Base64.encodeToString(encrypted, 0 /* flags */);
+            final String encryptedValue = Base64.encodeToString(encrypted, Base64.DEFAULT);
 
             // passes updated iv spec on to callback so this can be stored for decryption
             final IvParameterSpec spec = cipher.getParameters().getParameterSpec(IvParameterSpec.class);
@@ -172,7 +178,7 @@ public class FingerPrintHelper {
             fingerPrintCallback.handleEncryptedResult(encryptedValue, ivSpecValue);
 
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -184,7 +190,7 @@ public class FingerPrintHelper {
         try {
             createNewKeyIfNeeded(false);
             keyStore.load(null);
-            final SecretKey key = (SecretKey) keyStore.getKey(ALIAS_KEY, null);
+            final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
 
             // important to restore spec here that was used for decryption
             final byte[] iv = Base64.decode(ivSpecValue, Base64.DEFAULT);
@@ -195,9 +201,11 @@ public class FingerPrintHelper {
             startListening();
 
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
-            fingerPrintCallback.onInvalidKeyException();
+            fingerPrintCallback.onInvalidKeyException(invalidKeyException);
+        } catch (final UnrecoverableKeyException unrecoverableKeyException) {
+            deleteEntryKey();
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -207,14 +215,16 @@ public class FingerPrintHelper {
         }
         try {
             // actual decryption here
-            final byte[] encrypted = Base64.decode(encryptedValue, 0);
+            final byte[] encrypted = Base64.decode(encryptedValue, Base64.DEFAULT);
             byte[] decrypted = cipher.doFinal(encrypted);
             final String decryptedString = new String(decrypted);
 
             //final String encryptedString = Base64.encodeToString(encrypted, 0 /* flags */);
             fingerPrintCallback.handleDecryptedResult(decryptedString);
+        } catch (final BadPaddingException badPaddingException) {
+            fingerPrintCallback.onInvalidKeyException(badPaddingException);
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -226,18 +236,17 @@ public class FingerPrintHelper {
         try {
             keyStore.load(null);
             if (allowDeleteExisting
-                    && keyStore.containsAlias(ALIAS_KEY)) {
-
-                keyStore.deleteEntry(ALIAS_KEY);
+                    && keyStore.containsAlias(FINGERPRINT_KEYSTORE_KEY)) {
+                keyStore.deleteEntry(FINGERPRINT_KEYSTORE_KEY);
             }
 
             // Create new key if needed
-            if (!keyStore.containsAlias(ALIAS_KEY)) {
+            if (!keyStore.containsAlias(FINGERPRINT_KEYSTORE_KEY)) {
                 // Set the alias of the entry in Android KeyStore where the key will appear
                 // and the constrains (purposes) in the constructor of the Builder
                 keyGenerator.init(
                         new KeyGenParameterSpec.Builder(
-                                ALIAS_KEY,
+                                FINGERPRINT_KEYSTORE_KEY,
                                 KeyProperties.PURPOSE_ENCRYPT |
                                         KeyProperties.PURPOSE_DECRYPT)
                                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
@@ -249,7 +258,19 @@ public class FingerPrintHelper {
                 keyGenerator.generateKey();
             }
         } catch (final Exception e) {
-            fingerPrintCallback.onFingerprintException(e);
+            fingerPrintCallback.onFingerPrintException(e);
+        }
+    }
+
+    public void deleteEntryKey() {
+        try {
+            keyStore.load(null);
+            keyStore.deleteEntry(FINGERPRINT_KEYSTORE_KEY);
+        } catch (KeyStoreException
+                    | CertificateException
+                    | NoSuchAlgorithmException
+                    | IOException e) {
+            fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -257,8 +278,6 @@ public class FingerPrintHelper {
     public boolean hasEnrolledFingerprints() {
         // fingerprint hardware supported and api level OK
         return isFingerprintSupported(fingerprintManager)
-                && fingerprintManager != null
-                && fingerprintManager.isHardwareDetected()
                 // fingerprints enrolled
                 && fingerprintManager.hasEnrolledFingerprints()
                 // and lockscreen configured
@@ -267,6 +286,42 @@ public class FingerPrintHelper {
 
     private void setInitOk(final boolean initOk) {
         this.initOk = initOk;
+    }
+
+    /**
+     * Remove entry key in keystore
+     */
+    public static void deleteEntryKeyInKeystoreForFingerprints(final Context context,
+                                                               final FingerPrintErrorCallback fingerPrintCallback) {
+        FingerPrintHelper fingerPrintHelper = new FingerPrintHelper(
+                context, new FingerPrintCallback() {
+            @Override
+            public void handleEncryptedResult(String value, String ivSpec) {}
+
+            @Override
+            public void handleDecryptedResult(String value) {}
+
+            @Override
+            public void onInvalidKeyException(Exception e) {
+                fingerPrintCallback.onInvalidKeyException(e);
+            }
+
+            @Override
+            public void onFingerPrintException(Exception e) {
+                fingerPrintCallback.onFingerPrintException(e);
+            }
+        });
+        fingerPrintHelper.deleteEntryKey();
+    }
+
+    public interface FingerPrintErrorCallback {
+        void onInvalidKeyException(Exception e);
+        void onFingerPrintException(Exception e);
+    }
+
+    public interface FingerPrintCallback extends FingerPrintErrorCallback {
+        void handleEncryptedResult(String value, String ivSpec);
+        void handleDecryptedResult(String value);
     }
 
 }

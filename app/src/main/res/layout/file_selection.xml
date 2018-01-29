@@ -18,37 +18,91 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_default" />
-
-        <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView android:id="@+id/file_listtop"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/KeepassDXStyle.TextAppearance.Title"
-            android:text="@string/open_recent" />
+            android:elevation="4dp"
+            android:fitsSystemWindows="true">
 
-        <ListView android:id="@+id/file_list"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:titleEnabled="false"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="?attr/actionBarSize"/>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:theme="?attr/toolbarAppearance"
+                    app:popupTheme="?attr/toolbarPopupAppearance"
+                    app:layout_collapseMode="pin"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/open_database"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="48dp"
+            android:paddingTop="-20dp"
+            app:fabSize="mini"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end"
+            android:src="@drawable/ic_open_folder_white_24dp" />
+
+        <android.support.v4.widget.NestedScrollView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="fill_vertical"
+            android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <TextView android:id="@+id/file_list_title"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.Title"
+                    android:text="@string/open_recent" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/file_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/create_database"
@@ -59,5 +113,4 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_database_plus_white_24dp"
         style="@style/KeepassDXStyle.Fab"/>
-
 </RelativeLayout>

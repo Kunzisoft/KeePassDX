@@ -21,7 +21,7 @@
     <string name="app_name" translatable="false">KeePass DX</string>
 
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="donate_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU]]></string>
+    <string name="donate_url" translatable="false">http://www.kunzisoft.com/donation.html</string>
     <string name="homepage" translatable="false">http://www.kunzisoft.com/KeepassDX</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="oi_filemanager_market" translatable="false">market://details?id=org.openintents.filemanager</string>
@@ -58,6 +58,8 @@
     <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
     <string name="settings_autofill_key" translatable="false">settings_autofill_key</string>
     <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
+    <string name="full_file_path_enable_key" translatable="true">full_file_path_enable_key</string>
+    <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -69,6 +71,7 @@
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
     <bool name="fingerprint_enable_default" translatable="true">false</bool>
     <bool name="settings_autofill_enable_default" translatable="false">false</bool>
+    <bool name="full_file_path_enable_default" translatable="true">false</bool>
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">

@@ -78,7 +78,7 @@ public class LoadDB extends RunnableOnFinish {
             finish(false, mCtx.getString(R.string.file_not_found_content));
             return;
         } catch (FileNotFoundException e) {
-            finish(false, mCtx.getString(R.string.FileNotFound));
+            finish(false, mCtx.getString(R.string.file_not_found));
             return;
         } catch (IOException e) {
             finish(false, e.getMessage());

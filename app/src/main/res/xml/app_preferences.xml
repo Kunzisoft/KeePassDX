@@ -118,6 +118,10 @@
             android:title="@string/fingerprint_enable_title"
             android:summary="@string/fingerprint_enable_summary"
             android:defaultValue="@bool/fingerprint_enable_default"/>
+        <android.support.v7.preference.Preference
+            android:key="@string/fingerprint_delete_all_key"
+            android:title="@string/fingerprint_delete_all_title"
+            android:summary="@string/fingerprint_delete_all_summary" />
 
     </android.support.v7.preference.PreferenceCategory>
 
@@ -148,6 +152,11 @@
             android:entryValues="@array/list_size_values"
             android:dialogTitle="@string/list_size_summary"
             android:defaultValue="@string/list_size_default"/>
+        <android.support.v14.preference.SwitchPreference
+            android:key="@string/full_file_path_enable_key"
+            android:title="@string/full_file_path_enable_title"
+            android:summary="@string/full_file_path_enable_summary"
+            android:defaultValue="@bool/full_file_path_enable_default"/>
 
     </android.support.v7.preference.PreferenceCategory>
 </android.support.v7.preference.PreferenceScreen>

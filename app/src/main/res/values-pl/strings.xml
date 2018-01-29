@@ -83,7 +83,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_rounds_too_large">Wartość za duża. Ustaw 2147483648.</string>
     <string name="error_title_required">Wymagany tytuł.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą.</string>
-    <string name="FileNotFound">Plik nie istnieje.</string>
+    <string name="file_not_found">Plik nie istnieje.</string>
     <string name="file_browser">Przeglądarka plików</string>
     <string name="generate_password">Generuj hasło</string>
     <string name="group">Grupa</string>
@@ -133,7 +133,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="no_keys">Brak wpisów w bazie danych lub grupie.</string>
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Brak obsługi dla tego urla.</string>
-    <string name="open_recent">Otwórz ostatnio używaną bazę danych (kliknij by otworzyć):</string>
+    <string name="open_recent">Otwórz ostatnio używaną bazę danych :</string>
     <string name="omitbackup_title">Nie wyszukuj zapasowych wpisów</string>
     <string name="omitbackup_summary">Pomiń kopię zapasową grupy z wyników wyszukiwania (dotyczy tylko .kdb)</string>
     <string name="pass_filename">Nazwa pliku bazy danych KeePass:</string>

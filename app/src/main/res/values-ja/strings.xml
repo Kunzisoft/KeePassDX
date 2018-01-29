@@ -48,7 +48,7 @@
     <string name="decrypting_entry">暗号解除エントリー</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン2以上の条件下でこれを再頒布することができます。</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin によって作られたフリーソフトウェアであり、無保証です。GPLバージョン2以上の条件下でこれを再頒布することができます。</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">データベースファイル:</string>
     <string name="entry_accessed">最終アクセス日: </string>
@@ -85,7 +85,7 @@
     <string name="error_rounds_too_large">値が大きすぎます。 2147483648にセットしました。</string>
     <string name="error_title_required">タイトルは必須入力です。</string>
     <string name="error_wrong_length">\"長さ\"欄には正の整数を入力してください。</string>
-    <string name="FileNotFound">ファイルが見つかりません。</string>
+    <string name="file_not_found">ファイルが見つかりません。</string>
     <string name="file_browser">ファイルブラウザ</string>
     <string name="generate_password">パスワードを生成する</string>
     <string name="group">グループ</string>
@@ -135,7 +135,7 @@
     <string name="no_keys">データベース・グループがありません。</string>
     <string name="no_results">検索結果に該当するものはありません。</string>
     <string name="no_url_handler">このuriを処理できません。</string>
-    <string name="open_recent">以前使用したデータベースを開く(クリック):</string>
+    <string name="open_recent">以前使用したデータベースを開く:</string>
     <string name="omitbackup_title">検索対象から除外</string>
     <string name="omitbackup_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
     <string name="pass_filename">KeePassデータベースファイル:</string>
