@@ -32,7 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.kunzisoft.keepass.R;
 
 import java.util.List;
@@ -74,11 +74,11 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         FileSelectBean fileSelectBean = new FileSelectBean(context, listFiles.get(position));
         holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
 
-        if (PrefsUtil.isFullFilePathEnable(context))
+        if (PreferencesUtil.isFullFilePathEnable(context))
             holder.fileName.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
         else
             holder.fileName.setText(fileSelectBean.getFileName());
-        holder.fileName.setTextSize(PrefsUtil.getListTextSize(context));
+        holder.fileName.setTextSize(PreferencesUtil.getListTextSize(context));
 
 
         if(fileSelectBean.notFound()) {
@@ -153,8 +153,4 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
             }
         };
     }
-
-
-
-
 }
