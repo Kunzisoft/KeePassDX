@@ -68,7 +68,6 @@ def supportVersion = "26.1.0"
 def spongycastleVersion = "1.58.0.0"
 
 dependencies {
-    androidTestImplementation files('libs/junit4.jar')
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation "com.android.support:preference-v7:$supportVersion"

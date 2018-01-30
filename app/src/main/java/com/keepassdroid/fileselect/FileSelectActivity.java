@@ -20,12 +20,14 @@
 package com.keepassdroid.fileselect;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -47,6 +49,7 @@ import com.keepassdroid.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;
+import com.keepassdroid.autofill.AutofillHelper;
 import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.CreateDB;
@@ -88,25 +91,34 @@ public class FileSelectActivity extends StylishActivity implements
 	private RecentFileHistory fileHistory;
 
 	private boolean recentMode = false;
-	private boolean autofillResponse = false;
+	private boolean consultationMode = false;
 
 	private EditText openFileNameView;
 
 	private AssignPasswordHelper assignPasswordHelper;
 	private Uri databaseUri;
 
+    public static void launch(Activity act) {
+        launch(act, null);
+    }
+
+    public static void launch(Activity act, Bundle extra) {
+        Intent intent = new Intent(act, FileSelectActivity.class);
+        if (extra != null)
+            intent.putExtras(extra);
+        act.startActivityForResult(intent, 0);
+    }
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if(getIntent().getExtras() != null) {
-            autofillResponse = getIntent().getExtras().
-                    getBoolean(PasswordActivity.KEY_AUTOFILL_RESPONSE, autofillResponse);
-        }
+        if (AutofillHelper.isIntentContainsAutofillAuthKey(getIntent()))
+            consultationMode = true;
 
-		fileHistory = App.getFileHistory();
+        fileHistory = App.getFileHistory();
 
-		setContentView(R.layout.file_selection);
+        setContentView(R.layout.file_selection);
         fileListTitle = findViewById(R.id.file_list_title);
 		if (fileHistory.hasRecentFiles()) {
 			recentMode = true;
@@ -127,7 +139,9 @@ public class FileSelectActivity extends StylishActivity implements
 				String fileName = Util.getEditText(FileSelectActivity.this,
 						R.id.file_filename);
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this, fileName, autofillResponse);
+					PasswordActivity.Launch(FileSelectActivity.this,
+                            fileName,
+                            getIntent().getExtras());
 				}
 				catch (ContentFileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
@@ -141,13 +155,17 @@ public class FileSelectActivity extends StylishActivity implements
 		});
 
 		// Create button
-		View createButton = findViewById(R.id.create_database);
-		createButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-                CreateFileDialog createFileDialog = new CreateFileDialog();
-                createFileDialog.show(getSupportFragmentManager(), "createFileDialog");
-			}
-		});
+        View createButton = findViewById(R.id.create_database);
+        if (!consultationMode) {
+            createButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    CreateFileDialog createFileDialog = new CreateFileDialog();
+                    createFileDialog.show(getSupportFragmentManager(), "createFileDialog");
+                }
+            });
+        } else {
+            createButton.setVisibility(View.GONE);
+        }
 		
 		View browseButton = findViewById(R.id.browse_button);
 		browseButton.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +242,9 @@ public class FileSelectActivity extends StylishActivity implements
 
 				if (db.exists()) {
 					try {
-						PasswordActivity.Launch(FileSelectActivity.this, path, autofillResponse);
+						PasswordActivity.Launch(FileSelectActivity.this,
+                            path,
+                            getIntent().getExtras());
 					} catch (Exception e) {
 						// Ignore exception
 					}
@@ -232,7 +252,9 @@ public class FileSelectActivity extends StylishActivity implements
 			}
 			else {
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this, dbUri.toString(), autofillResponse);
+					PasswordActivity.Launch(FileSelectActivity.this,
+							dbUri.toString(),
+							getIntent().getExtras());
 				} catch (Exception e) {
 					// Ignore exception
 				}
@@ -402,7 +424,7 @@ public class FileSelectActivity extends StylishActivity implements
                         public void afterOpenFile(String fileName, String keyFile) {
                             try {
                                 PasswordActivity.Launch(FileSelectActivity.this,
-                                        fileName, keyFile, autofillResponse);
+                                        fileName, keyFile, getIntent().getExtras());
                             } catch (ContentFileNotFoundException e) {
                                 Toast.makeText(FileSelectActivity.this,
                                         R.string.file_not_found_content, Toast.LENGTH_LONG)

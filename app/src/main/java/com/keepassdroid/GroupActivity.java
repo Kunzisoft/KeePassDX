@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -34,9 +35,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.autofill.AutofillHelper;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDatabaseV4;
@@ -50,6 +50,8 @@ import com.keepassdroid.view.ClickView;
 import com.keepassdroid.view.GroupAddEntryView;
 import com.keepassdroid.view.GroupRootView;
 import com.keepassdroid.view.GroupViewOnlyView;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 
 public abstract class GroupActivity extends GroupBaseActivity
         implements GroupEditFragment.CreateGroupListener, IconPickerFragment.IconPickerListener {
@@ -62,37 +64,46 @@ public abstract class GroupActivity extends GroupBaseActivity
 	protected boolean readOnly = false;
 	
 	private static final String TAG = "Group Activity:";
-	
+
 	public static void Launch(Activity act) {
-		Launch(act, null);
+		Launch(act, null, null);
+	}
+
+	public static void Launch(Activity act, Bundle extras) {
+		Launch(act, null, extras);
+	}
+
+	public static void Launch(Activity act, PwGroup group) {
+		Launch(act, group, null);
 	}
 	
-	public static void Launch(Activity act, PwGroup group) {
-		Intent i;
+	public static void Launch(Activity act, PwGroup group, Bundle extras) {
+		Intent intent;
 		
 		// Need to use PwDatabase since tree may be null
 		PwDatabase db = App.getDB().pm;
 		if ( db instanceof PwDatabaseV3 ) {
-			i = new Intent(act, GroupActivityV3.class);
+			intent = new Intent(act, GroupActivityV3.class);
 		
 			if ( group != null ) {
 				PwGroupV3 g = (PwGroupV3) group;
-				i.putExtra(KEY_ENTRY, g.groupId);
+				intent.putExtra(KEY_ENTRY, g.groupId);
 			}
 		} else if ( db instanceof PwDatabaseV4 ) {
-			i = new Intent(act, GroupActivityV4.class);
+			intent = new Intent(act, GroupActivityV4.class);
 			
 			if ( group != null ) {
 				PwGroupV4 g = (PwGroupV4) group;
-				i.putExtra(KEY_ENTRY, g.uuid.toString());
+				intent.putExtra(KEY_ENTRY, g.uuid.toString());
 			}
 		} else {
 			// Reached if db is null
 			Log.d(TAG, "Tried to launch with null db");
 			return;
 		}
-		
-		act.startActivityForResult(i,0);
+		if (extras != null)
+			intent.putExtras(extras);
+		act.startActivityForResult(intent,0);
 	}
 	
 	protected abstract PwGroupId retrieveGroupId(Intent i);
@@ -103,93 +114,98 @@ public abstract class GroupActivity extends GroupBaseActivity
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		if ( isFinishing() ) {
-			return;
-		}
-		
-		setResult(KeePass.EXIT_NORMAL);
-		
-		Log.w(TAG, "Creating tree view");
-		Intent intent = getIntent();
-		
-		PwGroupId id = retrieveGroupId(intent);
-		
-		Database db = App.getDB();
-		readOnly = db.readOnly;
-		PwGroup root = db.pm.rootGroup;
-		if ( id == null ) {
-			mGroup = root;
-		} else {
-			mGroup = db.pm.groups.get(id);
-		}
-		
-		Log.w(TAG, "Retrieved tree");
-		if ( mGroup == null ) {
-			Log.w(TAG, "Group was null");
-			return;
-		}
-		
-		isRoot = mGroup == root;
-		
-		setupButtons();
+        super.onCreate(savedInstanceState);
 
-		if ( addGroupEnabled && addEntryEnabled ) {
-			setContentView(new GroupAddEntryView(this));
-		} else if ( addGroupEnabled ) {
-			setContentView(new GroupRootView(this));
-		} else if ( addEntryEnabled ) {
-			setContentView(new GroupAddEntryView(this));
-			View addGroup = findViewById(R.id.add_group);
-			addGroup.setVisibility(View.GONE);
-		} else {
-			setContentView(new GroupViewOnlyView(this));
-		}
+        if (isFinishing()) {
+            return;
+        }
+
+        setResult(KeePass.EXIT_NORMAL);
+
+        Log.w(TAG, "Creating tree view");
+        Intent intent = getIntent();
+
+        PwGroupId id = retrieveGroupId(intent);
+
+        Database db = App.getDB();
+
+        // Force readonly if it's autofill
+        readOnly = AutofillHelper.isIntentContainsAutofillAuthKey(getIntent()) || db.readOnly;
+
+        PwGroup root = db.pm.rootGroup;
+        if (id == null) {
+            mGroup = root;
+        } else {
+            mGroup = db.pm.groups.get(id);
+        }
+
+        Log.w(TAG, "Retrieved tree");
+        if (mGroup == null) {
+            Log.w(TAG, "Group was null");
+            return;
+        }
+
+        isRoot = mGroup == root;
+
+        setupButtons();
+
+        if (addGroupEnabled && addEntryEnabled) {
+            setContentView(new GroupAddEntryView(this));
+        } else if (addGroupEnabled) {
+            setContentView(new GroupRootView(this));
+            View addEntry = findViewById(R.id.add_entry);
+            addEntry.setVisibility(View.GONE);
+        } else if (addEntryEnabled) {
+            setContentView(new GroupAddEntryView(this));
+            View addGroup = findViewById(R.id.add_group);
+            addGroup.setVisibility(View.GONE);
+        } else {
+            setContentView(new GroupViewOnlyView(this));
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        if ( mGroup.getParent() != null )
+        if (mGroup.getParent() != null)
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
-		Log.w(TAG, "Set view");
+        Log.w(TAG, "Set view");
 
-		if ( addGroupEnabled ) {
-			// Add Group button
-			View addGroup = findViewById(R.id.add_group);
-			addGroup.setOnClickListener(new View.OnClickListener() {
+        if (addGroupEnabled) {
+            // Add Group button
+            View addGroup = findViewById(R.id.add_group);
+            addGroup.setOnClickListener(new View.OnClickListener() {
 
-				public void onClick(View v) {
-					GroupEditFragment groupEditFragment = new GroupEditFragment();
-					groupEditFragment.show(getSupportFragmentManager(), TAG_CREATE_GROUP);
-				}
-			});
-		}
-		
-		if ( addEntryEnabled ) {
-			// Add Entry button
-			View addEntry = findViewById(R.id.add_entry);
-			addEntry.setOnClickListener(new View.OnClickListener() {
-	
-				public void onClick(View v) {
-					EntryEditActivity.Launch(GroupActivity.this, mGroup);
-				}
-			});
-		}
-		
-		setGroupTitle();
-		setGroupIcon();
+                public void onClick(View v) {
+                    GroupEditFragment groupEditFragment = new GroupEditFragment();
+                    groupEditFragment.show(getSupportFragmentManager(), TAG_CREATE_GROUP);
+                }
+            });
+        }
 
-		setListAdapter(new PwGroupListAdapter(this, mGroup));
-		registerForContextMenu(getListView());
-		Log.w(TAG, "Finished creating tree");
-		
-		if (isRoot) {
-			showWarnings();
-		}
-	}
+        if (addEntryEnabled) {
+            // Add Entry button
+            View addEntry = findViewById(R.id.add_entry);
+            addEntry.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View v) {
+                    EntryEditActivity.Launch(GroupActivity.this, mGroup);
+                }
+            });
+        }
+
+        setGroupTitle();
+        setGroupIcon();
+
+        setListAdapter(new PwGroupListAdapter(this, mGroup));
+        registerForContextMenu(getListView());
+        Log.w(TAG, "Finished creating tree");
+
+        if (isRoot) {
+            showWarnings();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

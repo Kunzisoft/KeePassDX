@@ -44,8 +44,7 @@ public class KeePass extends Activity {
 	}
 
 	protected void startFileSelectActivity() {
-		Intent intent = new Intent(this, FileSelectActivity.class);
-		startActivityForResult(intent, 0);
+		FileSelectActivity.launch(this);
 	}
 
 	@Override

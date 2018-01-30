@@ -24,12 +24,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 
 import com.keepassdroid.fileselect.FileSelectActivity;
 import com.kunzisoft.keepass.KeePass;
-
-import static com.keepassdroid.PasswordActivity.KEY_AUTOFILL_RESPONSE;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AutoFillAuthActivity extends KeePass {
@@ -41,8 +40,10 @@ public class AutoFillAuthActivity extends KeePass {
     }
 
     protected void startFileSelectActivity() {
-        Intent intent = new Intent(this, FileSelectActivity.class);
-        intent.putExtra(KEY_AUTOFILL_RESPONSE, true);
-        startActivityForResult(intent, 0);
+        // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
+        Bundle extras = null;
+        if (getIntent() != null && getIntent().getExtras() != null)
+            extras = getIntent().getExtras();
+        FileSelectActivity.launch(this, extras);
     }
 }
