@@ -1,0 +1,36 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :tests do
+    gradle(task: "test")
+  end
+
+  desc "Build a new Beta version"
+  lane :build_beta_google_free do
+    gradle(
+        task: "assemble",
+        flavor: "free_google",
+        build_type: "Release"
+    )
+  end
+
+  
+  desc "Deploy a new Beta version to the Google Play"
+   lane :deploy_beta_google_free do
+    upload_to_play_store(
+        track: "beta"
+    )
+  end
+end
