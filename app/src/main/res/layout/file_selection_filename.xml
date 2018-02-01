@@ -24,9 +24,9 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/filename_container"
+        app:cardBackgroundColor="?attr/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="22dp">
 
             <TextView android:id="@+id/label_warning"
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
             <TextView android:id="@+id/label_open_by_filename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.TextAppearance.Title"
+                style="@style/KeepassDXStyle.TextAppearance.Inverse"
                 android:text="@string/enter_filename"/>
 
             <android.support.v7.widget.AppCompatImageView
@@ -68,25 +68,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/label_open_by_filename"
                 android:inputType="textUri"
+                android:textColor="?attr/textColorInverse"
                 android:layout_toLeftOf="@+id/browse_button"
                 android:layout_toStartOf="@+id/browse_button"
                 android:maxLines="1" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/open_database"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/filename_container"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        app:fabSize="mini"
-        app:layout_anchor="@id/filename_container"
-        app:layout_anchorGravity="bottom|start"
-        android:src="@drawable/ic_open_folder_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

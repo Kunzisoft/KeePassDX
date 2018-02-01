@@ -1,3 +1,12 @@
+KeepassDX (2.5.0.0beta4)
+ * Show only file name
+ * Setting for full path
+ * Add information for each database file
+ * Setting to delete fingerprints
+ * Solve bugs when change fingerprint
+ * Delete view assignment for fingerprint opening
+ * Merge KeePassDroid 2.2.1
+
 KeepassDX (2.5.0.0beta3)
  * New database workflow with new screens and folder selection
  * Settings for default password generation
@@ -20,6 +29,10 @@ KeepassDX (2.5.0.0beta1)
  * Solve bug for fingerprint
  * Update French translation
  * Change donation (see KeepassDroid to contribute on both projects)
+
+KeePassDroid (2.2.1)
+ * Fix kdbx4 date corruption
+ * Updated German translations
 
 KeePassDroid (2.2.0.9)
  * Update build tools version to workaround CM/Lineage bug (closes: #249)

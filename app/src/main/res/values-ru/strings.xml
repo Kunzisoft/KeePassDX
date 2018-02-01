@@ -53,7 +53,7 @@
     <string name="decrypting_entry">Расшифровка записи…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
-    <string name="disclaimer_formal">"KeePass DX © 2009–2017 Разработчик Brian Pellin, Jeremy JAMET / Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее"</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
     <string name="ellipsis">…</string>
     <string name="enter_filename">Путь к базе KeePass:</string>
     <string name="entry_accessed">Доступ:</string>
@@ -94,7 +94,7 @@
     <string name="error_wrong_length">Укажите длину больше нуля</string>
     <string name="field_name">Имя поля</string>
     <string name="field_value">Значение поля</string>
-    <string name="FileNotFound">Файл не найден</string>
+    <string name="file_not_found">Файл не найден</string>
     <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Создать пароль</string>
     <string name="group">Группа</string>

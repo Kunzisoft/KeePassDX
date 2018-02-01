@@ -53,11 +53,14 @@
             </intent-filter>
         </activity>
         <activity android:name="com.keepassdroid.fileselect.FileSelectActivity"
+            android:launchMode="singleInstance"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.keepassdroid.AboutActivity"
+            android:launchMode="singleInstance"
             android:label="@string/menu_about" />
-        <activity android:name="com.keepassdroid.PasswordActivity" android:configChanges="orientation|keyboardHidden">
+        <activity android:name="com.keepassdroid.PasswordActivity"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -48,7 +48,7 @@
     <string name="decrypting_entry">解密条目中</string>
     <string name="default_checkbox">使用这做为我的默认数据库</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX版权归Brian Pellin；软件不带有绝对担保；是自由软件，您可在遵循GPL 2或者更高版本的情况下重新发布。中文简繁体翻译：wangkf@gmail.com</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin；软件不带有绝对担保；是自由软件，您可在遵循GPL 2或者更高版本的情况下重新发布。中文简繁体翻译：wangkf@gmail.com</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">输入数据库名：</string>
     <string name="entry_accessed">访问时间：</string>
@@ -85,7 +85,7 @@
     <string name="error_rounds_too_large">次数太大。最大设置到2147483648。</string>
     <string name="error_title_required">标题是必填项。</string>
     <string name="error_wrong_length">长度字段输入一个正整数</string>
-    <string name="FileNotFound">文件未找到。</string>
+    <string name="file_not_found">文件未找到。</string>
     <string name="file_browser">文件浏览</string>
     <string name="generate_password">生成密码</string>
     <string name="group">群组</string>
@@ -134,7 +134,7 @@
     <string name="no_keys">数据库或群组中无条目。</string>
     <string name="no_results">没有搜索结果</string>
     <string name="no_url_handler">没有这个链接的处理程序。</string>
-    <string name="open_recent">打开最近数据库（点击打开）：</string>
+    <string name="open_recent">打开最近数据库：</string>
     <string name="pass_filename">KeePass数据库文件名：</string>
     <string name="password_title">输入数据库密码</string>
     <string name="progress_create">创建新数据库中&#8230;</string>

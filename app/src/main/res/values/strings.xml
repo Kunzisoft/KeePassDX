@@ -55,7 +55,7 @@
     <string name="decrypting_entry">Decrypting entry</string>
     <string name="default_checkbox">Use this as my default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Enter database filename:</string>
     <string name="entry_accessed">Accessed: </string>
@@ -96,7 +96,7 @@
     <string name="error_wrong_length">Enter a positive integer on length field</string>
     <string name="field_name">Field Name</string>
     <string name="field_value">Field value</string>
-    <string name="FileNotFound">File not found.</string>
+    <string name="file_not_found">File not found.</string>
     <string name="file_not_found_content">File not found. Try reopening from your content provider.</string>
     <string name="file_browser">File Browser</string>
     <string name="generate_password">Generate Password</string>
@@ -120,8 +120,8 @@
     <string name="keyfile_does_not_exist">Key file does not exist.</string>
     <string name="keyfile_is_empty">Key file is empty.</string>
     <string name="length">Length</string>
-    <string name="list_size_title">Group list size</string>
-    <string name="list_size_summary">Text size in the group list</string>
+    <string name="list_size_title">Size of list items</string>
+    <string name="list_size_summary">Text size in the element list</string>
     <string name="loading_database">Loading database&#8230;</string>
     <string name="lowercase">Lower-case</string>
     <string name="MaskedPassword">*****</string>
@@ -151,7 +151,7 @@
     <string name="no_keys">No entries in the database or group.</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
-    <string name="open_recent">Open recent database (click to open):</string>
+    <string name="open_recent">Open recent database :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
     <string name="pass_filename">KeePass database filename:</string>
@@ -201,6 +201,7 @@
     <string name="scanning_fingerprint">Listening for fingerprints</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="fingerprint_invalid_key">Invalid Key problem</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
     <string name="fingerprint_error">Fingerprint problem</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
     <string name="no_password_stored">No password stored yet for this database</string>
@@ -226,11 +227,19 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_enable_title">Fingerprint listening</string>
     <string name="fingerprint_enable_summary">Enable database opening by fingerprint</string>
-    <string name="unavailable_feature_text">Can not start this feature\nYour Android version %1$d is not the minimum version %2$d required</string>
+    <string name="fingerprint_delete_all_title">Delete encryption keys</string>
+    <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
+    <string name="fingerprint_delete_all_warning">Are you sure you want to delete all the keys related to fingerprints?</string>
+    <string name="unavailable_feature_text">Can not start this feature.</string>
+    <string name="unavailable_feature_version">Your Android version %1$d is not the minimum version %2$d required.</string>
+    <string name="unavailable_feature_hardware">The hardware is not detected.</string>
     <string name="file_name">File name</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
     <string name="create_keepass_file">Create a keepass file</string>
+    <string name="bytes">Bytes</string>
+    <string name="full_file_path_enable_title">File Path</string>
+    <string name="full_file_path_enable_summary">View the full file path</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

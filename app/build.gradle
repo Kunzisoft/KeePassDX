@@ -8,8 +8,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode = 3
-        versionName = "2.5.0.0beta3"
+        versionCode = 4
+        versionName = "2.5.0.0beta4"
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"

@@ -53,7 +53,7 @@
     <string name="decrypting_entry">Puretaan salasanatietuetta</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Anna tietokannan tiedostonimi:</string>
     <string name="entry_accessed">Käytetty: </string>
@@ -94,7 +94,7 @@
     <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään</string>
     <string name="field_name">Kentän nimi</string>
     <string name="field_value">Kentän arvo</string>
-    <string name="FileNotFound">Tiedostoa ei löydetty.</string>
+    <string name="file_not_found">Tiedostoa ei löydetty.</string>
     <string name="file_browser">Tiedostoselain</string>
     <string name="generate_password">Generoi salasana</string>
     <string name="group">Ryhmä</string>
@@ -147,7 +147,7 @@
     <string name="no_keys">Ei tietueita tietokannassa tai ryhmässä.</string>
     <string name="no_results">Ei hakutuloksia</string>
     <string name="no_url_handler">Tälle URL:lle ei ole käsittelijää.</string>
-    <string name="open_recent">Avaa viimeisin salasanatietokanta (avaa klikkaamalla):</string>
+    <string name="open_recent">Avaa viimeisin salasanatietokanta :</string>
     <string name="omitbackup_title">Älä etsi varmuuskopioista eikä roskakorista</string>
     <string name="omitbackup_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
     <string name="pass_filename">KeePass salasanatietokannan tiedostonimi:</string>

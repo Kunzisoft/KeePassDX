@@ -2,7 +2,7 @@
 <resources>
     <string name="AboutText">KeePass DX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="ClearClipboard">Iškarpinė išvalyta.</string>
-    <string name="FileNotFound">Failas nerastas.</string>
+    <string name="file_not_found">Failas nerastas.</string>
     <string name="InvalidPassword">Neteisingas slaptažodis arba rakto failas.</string>
     <string name="MaskedPassword">*****</string>
     <string name="about_feedback">Atsiliepimai:</string>
@@ -113,7 +113,7 @@
     <string name="lowercase">Mažosios raidės</string>
     <string name="minus">Minusas</string>
     <string name="underline">Pabraukimas</string>
-    <string name="open_recent">Atidaryti naujausią duomenų bazę (spausti)</string>
+    <string name="open_recent">Atidaryti naujausią duomenų bazę </string>
     <string name="default_checkbox">Naudoti šią duomenų bazę kaip numatytąją</string>
     <string name="maskpass_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="menu_homepage">Eiti į pagrindinį puslapį</string>

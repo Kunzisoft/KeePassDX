@@ -30,7 +30,16 @@ public class UnavailableFeatureDialog extends DialogFragment {
             minVersionRequired = getArguments().getInt(MIN_REQUIRED_VERSION_ARG);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(getString(R.string.unavailable_feature_text, Build.VERSION.SDK_INT, minVersionRequired))
+
+        String message = getString(R.string.unavailable_feature_text).concat("\n");
+        if(Build.VERSION.SDK_INT <= minVersionRequired)
+            message = message.concat(getString(R.string.unavailable_feature_version,
+                    Build.VERSION.SDK_INT,
+                    minVersionRequired));
+        else
+            message = message.concat(getString(R.string.unavailable_feature_hardware));
+
+        builder.setMessage(message)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) { }
                 });

@@ -31,6 +31,21 @@ import java.util.Set;
 
 public class PrefsUtil {
 
+    private static final String NO_BACKUP_PREFERENCE_FILE_NAME = "nobackup";
+
+    public static SharedPreferences getNoBackupSharedPreferences(Context ctx) {
+        return ctx.getSharedPreferences(
+                PrefsUtil.NO_BACKUP_PREFERENCE_FILE_NAME,
+                Context.MODE_PRIVATE);
+    }
+
+    public static void deleteAllValuesFromNoBackupPreferences(Context ctx) {
+        SharedPreferences prefsNoBackup = getNoBackupSharedPreferences(ctx);
+        SharedPreferences.Editor sharedPreferencesEditor = prefsNoBackup.edit();
+        sharedPreferencesEditor.clear();
+        sharedPreferencesEditor.apply();
+    }
+
 	public static float getListTextSize(Context ctx) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		return Float.parseFloat(prefs.getString(ctx.getString(R.string.list_size_key), ctx.getString(R.string.list_size_default)));
@@ -66,5 +81,11 @@ public class PrefsUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.fingerprint_enable_key),
                 ctx.getResources().getBoolean(R.bool.fingerprint_enable_default));
+    }
+
+    public static boolean isFullFilePathEnable(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.full_file_path_enable_key),
+                ctx.getResources().getBoolean(R.bool.full_file_path_enable_default));
     }
 }

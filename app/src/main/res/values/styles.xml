@@ -177,6 +177,9 @@
     <style name="KeepassDXStyle.TextAppearance.Default" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.Large" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textSize">18sp</item>
+    </style>
     <style name="KeepassDXStyle.TextAppearance.FolderTitle" parent="KeepassDXStyle.TextAppearance.Default">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
@@ -187,6 +190,10 @@
     <style name="KeepassDXStyle.TextAppearance.SmallTitle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">14sp</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.LargeTitle" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.SecondaryText" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">14sp</item>

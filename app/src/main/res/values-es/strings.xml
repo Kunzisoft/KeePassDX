@@ -50,7 +50,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="decrypting_entry">Descrifrando la entrada</string>
     <string name="default_checkbox">Utilice esto como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft NO TIENE TOTAL GARANTÍA; Este es software libre, y puedes redristribuirlo bajo las condiciones de la licencia GPL version 2 o posterior.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin NO TIENE TOTAL GARANTÍA; Este es software libre, y puedes redristribuirlo bajo las condiciones de la licencia GPL version 2 o posterior.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Introduzca el nombre del archivo de base de datos:</string>
     <string name="entry_accessed">Acceso: </string>
@@ -87,7 +87,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="error_rounds_too_large">Pasadas demasiado grande. Establecido a 2147483648.</string>
     <string name="error_title_required">Se necesita un título.</string>
     <string name="error_wrong_length">Introduzca un entero positivo en el campo longitud</string>
-    <string name="FileNotFound">Archivo no encontrado.</string>
+    <string name="file_not_found">Archivo no encontrado.</string>
     <string name="file_browser">Explorador de Archivos</string>
     <string name="generate_password">Generar Contraseña</string>
     <string name="group">Grupo</string>
@@ -139,7 +139,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="no_url_handler">Sin manejador para esta url.</string>
     <string name="recentfile_title">Historial de archivos recientes</string>
 	<string name="recentfile_summary">Recordar nombres de archivos usados recientemente</string>
-    <string name="open_recent">Abrir base de datos reciente (clic para abrir):</string>
+    <string name="open_recent">Abrir base de datos reciente :</string>
     <string name="omitbackup_title">No buscar en las entradas de copia de seguridad o papelera de reciclaje</string>
     <string name="omitbackup_summary">Omitir \'Backup\' y grupo de Papelera de Reciclaje en los resultados de búsqueda</string>
     <string name="pass_filename">Nombre de archivo de base de datos de KeePass:</string>

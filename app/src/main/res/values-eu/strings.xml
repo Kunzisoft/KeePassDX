@@ -55,7 +55,7 @@
     <string name="decrypting_entry">Sarrera desenkriptatzen</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Datubasearen fitxategiaren izena sartu:</string>
     <string name="entry_accessed">Akzesoa: </string>
@@ -96,7 +96,7 @@
     <string name="error_wrong_length">Eremuaren luzeran entero positibo bat sartu</string>
     <string name="field_name">Eremuaren izena</string>
     <string name="field_value">Eremuaren balorea</string>
-    <string name="FileNotFound">Fitxategi ez aurkitua.</string>
+    <string name="file_not_found">Fitxategi ez aurkitua.</string>
     <string name="file_browser">Fitxategien nabigatzailea</string>
     <string name="generate_password">Pasahitza sortu</string>
     <string name="group">Taldea</string>
@@ -149,7 +149,7 @@
     <string name="no_keys">Sarrerarik ez datubasean edo taldean.</string>
     <string name="no_results">Emaitzarik gabeko bilaketa</string>
     <string name="no_url_handler">URL kudatzeko euskarririk ez.</string>
-    <string name="open_recent">Duela gutxiko datubasea ireki (klik irekitzeko):</string>
+    <string name="open_recent">Duela gutxiko datubasea ireki :</string>
     <string name="omitbackup_title">Ez bilatu segurtasun kopiaren sarreretan</string>
     <string name="omitbackup_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
     <string name="pass_filename">Keepass datubasearen izena:</string>

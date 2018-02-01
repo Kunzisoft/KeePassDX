@@ -51,7 +51,7 @@
     <string name="decrypting_entry">Decifrando entrada</string>
     <string name="default_checkbox">Usar este banco de dados como padrão</string>
     <string name="digits">Digitos</string>
-    <string name="disclaimer_formal">KeePass DX Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 2 ou posterior.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 2 ou posterior.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Digite o nome do arquivo de banco de dados:</string>
     <string name="entry_accessed">Acessado: </string>
@@ -88,7 +88,7 @@
     <string name="error_rounds_too_large">Número de rodadas é muito grande. Modificado para 2147483648.</string>
     <string name="error_title_required">É necessário um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo de tamanho</string>
-    <string name="FileNotFound">Arquivo não encontrado.</string>
+    <string name="file_not_found">Arquivo não encontrado.</string>
     <string name="file_browser">Localizador de Arquivos</string>
     <string name="generate_password">Gerar Senha</string>
     <string name="group">Grupo</string>
@@ -138,7 +138,7 @@
     <string name="no_keys">Nenhuma entrada no grupo.</string>
     <string name="no_results">Sem resultados na busca.</string>
     <string name="no_url_handler">Erro ao tratar url.</string>
-    <string name="open_recent">Abrir banco de dados recente (clique para abrir):</string>
+    <string name="open_recent">Abrir banco de dados recente :</string>
     <string name="omitbackup_title">Não procurar entradas no backup ou na lixeira.</string>
     <string name="omitbackup_summary">Omitir os grupos \'Backup\' e \'Lixeira\' dos resultados da busca</string>
     <string name="pass_filename">Arquivo de banco de dados do KeePass:</string>
