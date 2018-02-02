@@ -19,22 +19,22 @@
  */
 package com.keepassdroid;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.view.PwEntryView;
 import com.keepassdroid.view.PwGroupView;
+import com.kunzisoft.keepass.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class PwGroupListAdapter extends BaseAdapter {
 
@@ -71,22 +71,24 @@ public class PwGroupListAdapter extends BaseAdapter {
 
 	private void filterAndSort() {
 		entriesForViewing = new ArrayList<PwEntry>();
-		
-		for (int i = 0; i < mGroup.childEntries.size(); i++) {
-			PwEntry entry = mGroup.childEntries.get(i);
-			if ( ! entry.isMetaStream() ) {
-				entriesForViewing.add(entry);
+
+		if (mGroup != null) {
+			for (int i = 0; i < mGroup.childEntries.size(); i++) {
+				PwEntry entry = mGroup.childEntries.get(i);
+				if (!entry.isMetaStream()) {
+					entriesForViewing.add(entry);
+				}
 			}
-		}
-		
-		boolean sortLists = prefs.getBoolean(mAct.getString(R.string.sort_key),	mAct.getResources().getBoolean(R.bool.sort_default)); 
-		if ( sortLists ) {
-			groupsForViewing = new ArrayList<PwGroup>(mGroup.childGroups);
-			
-			Collections.sort(entriesForViewing, entryComp);
-			Collections.sort(groupsForViewing, groupComp);
-		} else {
-			groupsForViewing = mGroup.childGroups;
+
+			boolean sortLists = prefs.getBoolean(mAct.getString(R.string.sort_key), mAct.getResources().getBoolean(R.bool.sort_default));
+			if (sortLists) {
+				groupsForViewing = new ArrayList<PwGroup>(mGroup.childGroups);
+
+				Collections.sort(entriesForViewing, entryComp);
+				Collections.sort(groupsForViewing, groupComp);
+			} else {
+				groupsForViewing = mGroup.childGroups;
+			}
 		}
 	}
 	
