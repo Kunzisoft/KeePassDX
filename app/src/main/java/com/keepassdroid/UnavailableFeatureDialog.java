@@ -32,7 +32,7 @@ public class UnavailableFeatureDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         String message = getString(R.string.unavailable_feature_text).concat("\n");
-        if(Build.VERSION.SDK_INT <= minVersionRequired)
+        if(Build.VERSION.SDK_INT < minVersionRequired)
             message = message.concat(getString(R.string.unavailable_feature_version,
                     Build.VERSION.SDK_INT,
                     minVersionRequired));
