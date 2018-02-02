@@ -269,8 +269,10 @@ public class FingerPrintHelper {
         } catch (KeyStoreException
                     | CertificateException
                     | NoSuchAlgorithmException
-                    | IOException e) {
-            fingerPrintCallback.onFingerPrintException(e);
+                    | IOException
+                    | NullPointerException e) {
+            if (fingerPrintCallback != null)
+                fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
