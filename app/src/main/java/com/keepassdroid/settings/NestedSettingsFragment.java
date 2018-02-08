@@ -110,7 +110,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                 SwitchPreference fingerprintEnablePreference = (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
                 if (!FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(getContext()))) {
                     // False if under Marshmallow
-                    fingerprintEnablePreference.setDefaultValue(false);
+                    fingerprintEnablePreference.setChecked(false);
                     fingerprintEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {

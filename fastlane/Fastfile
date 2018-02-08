@@ -40,7 +40,11 @@ platform :android do
       skip_upload_metadata: "false",
       skip_upload_images: "true",
       skip_upload_screenshots: "false",
-      validate_only: "true",
+      apk: "./app/build/outputs/apk/free_google/release/app-free_google-release.apk",
+      validate_only: "false",
+    )
+    gradle(
+      task: 'clean'
     )
   end
 end
