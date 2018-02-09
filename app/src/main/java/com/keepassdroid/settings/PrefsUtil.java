@@ -88,4 +88,10 @@ public class PrefsUtil {
         return prefs.getBoolean(ctx.getString(R.string.full_file_path_enable_key),
                 ctx.getResources().getBoolean(R.bool.full_file_path_enable_default));
     }
+
+    public static boolean isListSort(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.sort_key),
+                ctx.getResources().getBoolean(R.bool.sort_default));
+    }
 }

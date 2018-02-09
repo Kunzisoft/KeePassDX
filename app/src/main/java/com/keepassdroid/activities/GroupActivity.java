@@ -192,21 +192,26 @@ public abstract class GroupActivity extends GroupBaseActivity
 		nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
 			@Override
 			public boolean onOpenMenuClick(PwNode node, int position) {
-                // TODO CHANGE by Pattern Strategy
-			    if (node instanceof PwEntry) {
-                    EntryActivity.Launch(GroupActivity.this, (PwEntry) node, position);
-                } else if (node instanceof  PwGroup)
-                    GroupActivity.Launch(GroupActivity.this, (PwGroup) node);
+                switch (node.getType()) {
+                    case GROUP:
+                        GroupActivity.Launch(GroupActivity.this, (PwGroup) node);
+                        break;
+                    case ENTRY:
+                        EntryActivity.Launch(GroupActivity.this, (PwEntry) node, position);
+                        break;
+                }
 				return true;
 			}
 
 			@Override
 			public boolean onDeleteMenuClick(PwNode node, int position) {
-			    // TODO CHANGE
-			    if(node instanceof PwEntry)
-			        deleteEntry((PwEntry) node);
-			    else if (node instanceof PwGroup) {
-                    deleteGroup((PwGroup) node);
+                switch (node.getType()) {
+                    case GROUP:
+                        deleteGroup((PwGroup) node);
+                        break;
+                    case ENTRY:
+                        deleteEntry((PwEntry) node);
+                        break;
                 }
 				return true;
 			}

@@ -1,8 +1,6 @@
 package com.keepassdroid.adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -25,10 +23,6 @@ import java.util.List;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
-    private enum ViewTypes {
-        ENTRY, GROUP
-    }
-
     private static final int MENU_OPEN = Menu.FIRST;
     private static final int MENU_DELETE = MENU_OPEN + 1;
 
@@ -44,13 +38,13 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private List<PwEntry> entriesForViewing;
     private Comparator<PwEntry> entryComp = new PwEntry.EntryNameComparator();
     private Comparator<PwGroup> groupComp = new PwGroup.GroupNameComparator();
-    private SharedPreferences prefs;
+    private boolean isListSort;
 
     public NodeAdapter(Context context, PwGroup pwGroup) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.pwGroup = pwGroup;
-        this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.isListSort = PrefsUtil.isListSort(context);
         this.textSize = PrefsUtil.getListTextSize(context);
 
         filterAndSort();
@@ -64,9 +58,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     @Override
     public int getItemViewType(int position) {
         if ( position < groupsForViewing.size() ) {
-            return ViewTypes.GROUP.ordinal();
+            return PwNode.Type.GROUP.ordinal();
         } else {
-            return ViewTypes.ENTRY.ordinal();
+            return PwNode.Type.ENTRY.ordinal();
         }
     }
 
@@ -74,7 +68,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public BasicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BasicViewHolder basicViewHolder;
         View view;
-        if (viewType == ViewTypes.GROUP.ordinal()) {
+        if (viewType == PwNode.Type.GROUP.ordinal()) {
             view = inflater.inflate(R.layout.list_entries_group, parent, false);
             basicViewHolder = new GroupViewHolder(view);
         } else {
@@ -96,12 +90,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 }
             }
 
-            // TODO Move in prefs
-            boolean sortLists = prefs.getBoolean(
-                    context.getString(R.string.sort_key),
-                    context.getResources().getBoolean(R.bool.sort_default));
-
-            if (sortLists) {
+            if (isListSort) {
                 groupsForViewing = new ArrayList<>(pwGroup.childGroups);
 
                 Collections.sort(entriesForViewing, entryComp);
@@ -124,7 +113,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             holder.text.setText(group.getName());
             // Assign click
             holder.container.setOnClickListener(
-                    new OnGroupClickListener(group));
+                    new OnNodeClickListener(group, position));
             holder.container.setOnCreateContextMenuListener(
                     new ContextMenuBuilder(group, position, nodeMenuListener));
         } else {
@@ -136,7 +125,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             holder.text.setText(entry.getDisplayTitle());
             // Assign click
             holder.container.setOnClickListener(
-                    new OnEntryClickListener(entry, position));
+                    new OnNodeClickListener(entry, position));
             holder.container.setOnCreateContextMenuListener(
                     new ContextMenuBuilder(entry, entryPosition, nodeMenuListener));
         }
@@ -158,37 +147,22 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     }
 
     public interface OnNodeClickCallback {
-        void onGroupClicked(PwGroup group);
-        void onEntryClicked(PwEntry entry, int position);
+        void onNodeClick(PwNode node, int position);
     }
 
-    private class OnGroupClickListener implements View.OnClickListener {
-        private PwGroup group;
-
-        OnGroupClickListener(PwGroup group) {
-            this.group = group;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (onNodeClickCallback != null)
-                onNodeClickCallback.onGroupClicked(group);
-        }
-    }
-
-    public class OnEntryClickListener implements View.OnClickListener {
-        private PwEntry entry;
+    public class OnNodeClickListener implements View.OnClickListener {
+        private PwNode node;
         private int position;
 
-        OnEntryClickListener(PwEntry entry, int position) {
-            this.entry = entry;
+        OnNodeClickListener(PwNode node, int position) {
+            this.node = node;
             this.position = position;
         }
 
         @Override
         public void onClick(View v) {
             if (onNodeClickCallback != null)
-                onNodeClickCallback.onEntryClicked(entry, position);
+                onNodeClickCallback.onNodeClick(node, position);
         }
     }
 

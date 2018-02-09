@@ -33,6 +33,11 @@ public abstract class PwGroup extends PwNode {
 	public String name = "";
 	public PwIconStandard icon;
 
+	@Override
+	public Type getType() {
+		return Type.GROUP;
+	}
+
 	public abstract PwGroup getParent();
 	public abstract void setParent(PwGroup parent);
 	

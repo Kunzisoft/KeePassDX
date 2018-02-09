@@ -76,7 +76,12 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	public PwEntry clone(boolean deepStrings) {
 		return (PwEntry) clone();
 	}
-	
+
+	@Override
+	public Type getType() {
+		return Type.ENTRY;
+	}
+
 	public void assign(PwEntry source) {
 		icon = source.icon;
 	}

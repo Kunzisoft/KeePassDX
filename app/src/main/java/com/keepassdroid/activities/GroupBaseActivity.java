@@ -40,6 +40,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.keepassdroid.database.PwNode;
 import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.app.App;
@@ -147,13 +148,15 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	}
 
     @Override
-    public void onGroupClicked(PwGroup group) {
-        GroupActivity.Launch(this, group);
-    }
-
-    @Override
-    public void onEntryClicked(PwEntry entry, int position) {
-        EntryActivity.Launch(this, entry, position);
+    public void onNodeClick(PwNode node, int position) {
+        switch (node.getType()) {
+            case GROUP:
+                GroupActivity.Launch(this, (PwGroup) node);
+                break;
+            case ENTRY:
+                EntryActivity.Launch(this, (PwEntry) node, position);
+                break;
+        }
     }
 
     @Override

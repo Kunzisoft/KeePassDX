@@ -1,4 +1,9 @@
 package com.keepassdroid.database;
 
-public class PwNode {
+public abstract class PwNode {
+    public abstract Type getType();
+
+    public enum Type {
+        GROUP, ENTRY
+    }
 }
