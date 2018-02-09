@@ -25,7 +25,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.exception.ArcFourException;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;

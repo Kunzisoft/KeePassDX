@@ -17,28 +17,26 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.load;
+package com.keepassdroid.activities;
 
-import com.keepassdroid.tasks.UpdateStatus;
-import com.keepassdroid.database.PwDatabaseV4Debug;
-import com.keepassdroid.database.exception.InvalidDBException;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 
-import java.io.IOException;
-import java.io.InputStream;
+public abstract class LockCloseActivity extends LockingActivity {
 
-public class ImporterV4Debug extends ImporterV4 {
-
+	/* (non-Javadoc) Workaround for HTC Linkify issues 
+	 * @see android.app.Activity#startActivity(android.content.Intent)
+	 */
 	@Override
-	protected PwDatabaseV4Debug createDB() {
-		return new PwDatabaseV4Debug();
+	public void startActivity(Intent intent) {
+		try {
+			if (intent.getComponent() != null && intent.getComponent().getShortClassName().equals(".HtcLinkifyDispatcherActivity")) {
+				intent.setComponent(null);
+			}
+			super.startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			/* Catch the bad HTC implementation case */
+			super.startActivity(Intent.createChooser(intent, null));
+		}
 	}
-
-	@Override
-	public PwDatabaseV4Debug openDatabase(InputStream inStream, String password,
-			InputStream keyInputFile, UpdateStatus status, long roundsFix) throws IOException,
-			InvalidDBException {
-		return (PwDatabaseV4Debug) super.openDatabase(inStream, password, keyInputFile, status,
-				roundsFix);
-	}
-
 }

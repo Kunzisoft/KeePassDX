@@ -21,7 +21,7 @@ package com.keepassdroid.app;
 
 import android.app.Application;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.compat.PRNGFixes;
 import com.keepassdroid.fileselect.RecentFileHistory;
 import com.keepassdroid.stylish.Stylish;

@@ -17,28 +17,43 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.load;
+package com.keepassdroid.tasks;
 
-import com.keepassdroid.tasks.UpdateStatus;
-import com.keepassdroid.database.PwDatabaseV4Debug;
-import com.keepassdroid.database.exception.InvalidDBException;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.Handler;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-public class ImporterV4Debug extends ImporterV4 {
-
-	@Override
-	protected PwDatabaseV4Debug createDB() {
-		return new PwDatabaseV4Debug();
+public class UpdateStatus {
+	private ProgressDialog mPD;
+	private Context mCtx;
+	private Handler mHandler;
+	
+	public UpdateStatus() {
+		
 	}
-
-	@Override
-	public PwDatabaseV4Debug openDatabase(InputStream inStream, String password,
-			InputStream keyInputFile, UpdateStatus status, long roundsFix) throws IOException,
-			InvalidDBException {
-		return (PwDatabaseV4Debug) super.openDatabase(inStream, password, keyInputFile, status,
-				roundsFix);
+	
+	public UpdateStatus(Context ctx, Handler handler, ProgressDialog pd) {
+		mCtx = ctx;
+		mPD = pd;
+		mHandler = handler;
 	}
-
+	
+	public void updateMessage(int resId) {
+		if ( mCtx != null && mPD != null && mHandler != null ) {
+			mHandler.post(new UpdateMessage(resId));
+		}
+	}
+	
+	private class UpdateMessage implements Runnable {
+		private int mResId;
+		
+		public UpdateMessage(int resId) {
+			mResId = resId;
+		}
+		
+		public void run() {
+			mPD.setMessage(mCtx.getString(mResId));
+		}
+		
+	}
 }

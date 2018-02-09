@@ -17,28 +17,30 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.load;
+package com.keepassdroid.activities;
 
-import com.keepassdroid.tasks.UpdateStatus;
-import com.keepassdroid.database.PwDatabaseV4Debug;
-import com.keepassdroid.database.exception.InvalidDBException;
+import com.keepassdroid.compat.BuildCompat;
 
-import java.io.IOException;
-import java.io.InputStream;
+import android.os.Bundle;
+import android.view.WindowManager.LayoutParams;
 
-public class ImporterV4Debug extends ImporterV4 {
+/** 
+ * Locking Close Activity that sets FLAG_SECURE to prevent screenshots, and from
+ * appearing in the recent app preview
+ * @author Brian Pellin
+ *
+ */
+public abstract class LockCloseHideActivity extends LockCloseActivity {
 
 	@Override
-	protected PwDatabaseV4Debug createDB() {
-		return new PwDatabaseV4Debug();
-	}
-
-	@Override
-	public PwDatabaseV4Debug openDatabase(InputStream inStream, String password,
-			InputStream keyInputFile, UpdateStatus status, long roundsFix) throws IOException,
-			InvalidDBException {
-		return (PwDatabaseV4Debug) super.openDatabase(inStream, password, keyInputFile, status,
-				roundsFix);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		// Several gingerbread devices have problems with FLAG_SECURE
+		int ver = BuildCompat.getSdkVersion();
+		if (ver >= BuildCompat.VERSION_CODE_ICE_CREAM_SANDWICH || ver < BuildCompat.VERSION_CODE_GINGERBREAD) {
+		    getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);
+		}
 	}
 
 }

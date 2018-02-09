@@ -26,7 +26,7 @@ import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.tests.database.TestData;
 

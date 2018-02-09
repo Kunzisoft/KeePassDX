@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.database.edit;
 
-import com.keepassdroid.UpdateStatus;
+import com.keepassdroid.tasks.UpdateStatus;
 
 
 public abstract class RunnableOnFinish implements Runnable {

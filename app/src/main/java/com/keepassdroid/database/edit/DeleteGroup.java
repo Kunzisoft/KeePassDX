@@ -22,8 +22,8 @@ package com.keepassdroid.database.edit;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.keepassdroid.Database;
-import com.keepassdroid.activity.GroupBaseActivity;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.activities.GroupBaseActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;

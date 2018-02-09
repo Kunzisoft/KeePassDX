@@ -21,7 +21,7 @@ package com.keepassdroid.database.edit;
 
 import android.content.Context;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 

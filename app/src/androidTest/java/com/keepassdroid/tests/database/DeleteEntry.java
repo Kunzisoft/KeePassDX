@@ -24,7 +24,7 @@ import java.util.List;
 import android.content.Context;
 import android.test.AndroidTestCase;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwEntry;

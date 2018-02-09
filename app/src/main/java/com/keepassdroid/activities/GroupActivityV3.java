@@ -17,28 +17,28 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.load;
+package com.keepassdroid.activities;
 
-import com.keepassdroid.tasks.UpdateStatus;
-import com.keepassdroid.database.PwDatabaseV4Debug;
-import com.keepassdroid.database.exception.InvalidDBException;
+import android.content.Intent;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.keepassdroid.database.PwGroupIdV3;
 
-public class ImporterV4Debug extends ImporterV4 {
+public class GroupActivityV3 extends GroupActivity {
 
 	@Override
-	protected PwDatabaseV4Debug createDB() {
-		return new PwDatabaseV4Debug();
+	protected PwGroupIdV3 retrieveGroupId(Intent i) {
+		int id = i.getIntExtra(KEY_ENTRY, -1);
+		
+		if ( id == -1 ) {
+			return null;
+		}
+		
+		return new PwGroupIdV3(id);
 	}
-
+	
 	@Override
-	public PwDatabaseV4Debug openDatabase(InputStream inStream, String password,
-			InputStream keyInputFile, UpdateStatus status, long roundsFix) throws IOException,
-			InvalidDBException {
-		return (PwDatabaseV4Debug) super.openDatabase(inStream, password, keyInputFile, status,
-				roundsFix);
+	protected void setupButtons() {
+		super.setupButtons();
+		addEntryEnabled = !isRoot && !readOnly;
 	}
-
 }

@@ -17,28 +17,27 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.database.load;
+package com.keepassdroid.tasks;
 
-import com.keepassdroid.tasks.UpdateStatus;
-import com.keepassdroid.database.PwDatabaseV4Debug;
-import com.keepassdroid.database.exception.InvalidDBException;
+import android.content.Context;
+import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
+public class UIToastTask implements Runnable {
 
-public class ImporterV4Debug extends ImporterV4 {
-
-	@Override
-	protected PwDatabaseV4Debug createDB() {
-		return new PwDatabaseV4Debug();
+	private String mText;
+	private Context mCtx;
+	
+	public UIToastTask(Context ctx, int resId) {
+		mCtx = ctx;
+		mText = ctx.getString(resId);
 	}
 
-	@Override
-	public PwDatabaseV4Debug openDatabase(InputStream inStream, String password,
-			InputStream keyInputFile, UpdateStatus status, long roundsFix) throws IOException,
-			InvalidDBException {
-		return (PwDatabaseV4Debug) super.openDatabase(inStream, password, keyInputFile, status,
-				roundsFix);
+	public UIToastTask(Context ctx, String text) {
+		mCtx = ctx;
+		mText = text;
 	}
 
+	public void run() {
+		Toast.makeText(mCtx, mText, Toast.LENGTH_LONG).show();
+	}
 }

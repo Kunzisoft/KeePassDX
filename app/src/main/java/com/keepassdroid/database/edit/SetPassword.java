@@ -23,7 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;

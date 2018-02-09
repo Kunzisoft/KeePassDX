@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.keepassdroid.ProgressTask;
+import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.edit.OnFinish;

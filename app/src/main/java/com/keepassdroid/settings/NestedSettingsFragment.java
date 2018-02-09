@@ -32,8 +32,8 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.keepassdroid.Database;
-import com.keepassdroid.UnavailableFeatureDialog;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.fragments.UnavailableFeatureDialogFragment;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
@@ -115,7 +115,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
                             ((SwitchPreference) preference).setChecked(false);
-                            UnavailableFeatureDialog.getInstance(Build.VERSION_CODES.M)
+                            UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                     .show(getFragmentManager(), "unavailableFeatureDialog");
                             return false;
                         }

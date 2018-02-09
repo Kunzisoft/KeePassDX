@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.AboutActivity;
+import com.keepassdroid.activities.AboutActivity;
 import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.stylish.StylishActivity;
 

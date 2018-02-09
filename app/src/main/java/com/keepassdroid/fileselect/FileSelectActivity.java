@@ -41,11 +41,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.keepassdroid.AssignMasterKeyDialog;
-import com.keepassdroid.CreateFileDialog;
-import com.keepassdroid.activity.GroupActivity;
-import com.keepassdroid.PasswordActivity;
-import com.keepassdroid.ProgressTask;
+import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
+import com.keepassdroid.fragments.CreateFileDialogFragment;
+import com.keepassdroid.activities.GroupActivity;
+import com.keepassdroid.password.PasswordActivity;
+import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
@@ -69,8 +69,8 @@ import java.io.IOException;
 import java.net.URLDecoder;
 
 public class FileSelectActivity extends StylishActivity implements
-		CreateFileDialog.DefinePathDialogListener ,
-		AssignMasterKeyDialog.AssignPasswordDialogListener,
+		CreateFileDialogFragment.DefinePathDialogListener ,
+		AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
         FileSelectAdapter.FileSelectClearListener,
         FileSelectAdapter.FileInformationShowListener {
 
@@ -138,8 +138,8 @@ public class FileSelectActivity extends StylishActivity implements
 		View createButton = findViewById(R.id.create_database);
 		createButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-                CreateFileDialog createFileDialog = new CreateFileDialog();
-                createFileDialog.show(getSupportFragmentManager(), "createFileDialog");
+                CreateFileDialogFragment createFileDialogFragment = new CreateFileDialogFragment();
+                createFileDialogFragment.show(getSupportFragmentManager(), "createFileDialogFragment");
 			}
 		});
 		
@@ -305,8 +305,8 @@ public class FileSelectActivity extends StylishActivity implements
 	public boolean onDefinePathDialogPositiveClick(Uri pathFile) {
         databaseUri = pathFile;
         if(createDatabaseFile(pathFile)) {
-            AssignMasterKeyDialog assignMasterKeyDialog = new AssignMasterKeyDialog();
-            assignMasterKeyDialog.show(getSupportFragmentManager(), "passwordDialog");
+            AssignMasterKeyDialogFragment assignMasterKeyDialogFragment = new AssignMasterKeyDialogFragment();
+            assignMasterKeyDialogFragment.show(getSupportFragmentManager(), "passwordDialog");
             return true;
         } else
             return false;

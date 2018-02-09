@@ -28,11 +28,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.keepassdroid.groupentity.NodeAdapter;
+import com.keepassdroid.adapters.NodeAdapter;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.Database;
-import com.keepassdroid.activity.GroupBaseActivity;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.activities.GroupBaseActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.utils.MenuUtil;
 
