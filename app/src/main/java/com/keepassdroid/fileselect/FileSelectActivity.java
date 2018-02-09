@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 import com.keepassdroid.AssignMasterKeyDialog;
 import com.keepassdroid.CreateFileDialog;
-import com.keepassdroid.GroupActivity;
+import com.keepassdroid.activity.GroupActivity;
 import com.keepassdroid.PasswordActivity;
 import com.keepassdroid.ProgressTask;
 import com.keepassdroid.app.App;

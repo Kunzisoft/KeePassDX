@@ -28,11 +28,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.keepassdroid.groupentity.NodeAdapter;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.Database;
-import com.keepassdroid.GroupBaseActivity;
-import com.keepassdroid.PwGroupListAdapter;
+import com.keepassdroid.activity.GroupBaseActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.utils.MenuUtil;
 
@@ -41,7 +41,7 @@ public class SearchResultsActivity extends GroupBaseActivity {
 	private Database mDb;
 
 	private View listView;
-	private View imageNotFoundView;
+	private View notFoundView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class SearchResultsActivity extends GroupBaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         listView = findViewById(R.id.group_list);
-        imageNotFoundView = findViewById(R.id.img_not_found);
+        notFoundView = findViewById(R.id.not_found_container);
 
 		performSearch(getSearchStr(getIntent()));
 		
@@ -101,15 +101,15 @@ public class SearchResultsActivity extends GroupBaseActivity {
 
 		if ( mGroup == null || mGroup.childEntries.size() < 1 ) {
             listView.setVisibility(View.GONE);
-            imageNotFoundView.setVisibility(View.VISIBLE);
+            notFoundView.setVisibility(View.VISIBLE);
 		} else {
             listView.setVisibility(View.VISIBLE);
-            imageNotFoundView.setVisibility(View.GONE);
+            notFoundView.setVisibility(View.GONE);
         }
 
 		setGroupTitle();
 		
-		setListAdapter(new PwGroupListAdapter(this, mGroup));
+		setNodeAdapter(new NodeAdapter(this, mGroup));
 	}
 
 	private String getSearchStr(Intent queryIntent) {

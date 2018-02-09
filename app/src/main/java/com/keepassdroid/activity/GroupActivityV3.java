@@ -17,31 +17,28 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
-
-import java.util.UUID;
+package com.keepassdroid.activity;
 
 import android.content.Intent;
 
-import com.keepassdroid.database.PwGroupId;
-import com.keepassdroid.database.PwGroupIdV4;
+import com.keepassdroid.database.PwGroupIdV3;
 
-public class GroupActivityV4 extends GroupActivity {
+public class GroupActivityV3 extends GroupActivity {
 
 	@Override
-	protected PwGroupId retrieveGroupId(Intent i) {
-		String uuid = i.getStringExtra(KEY_ENTRY);
+	protected PwGroupIdV3 retrieveGroupId(Intent i) {
+		int id = i.getIntExtra(KEY_ENTRY, -1);
 		
-		if ( uuid == null || uuid.length() == 0 ) {
+		if ( id == -1 ) {
 			return null;
 		}
 		
-		return new PwGroupIdV4(UUID.fromString(uuid));
+		return new PwGroupIdV3(id);
 	}
-
+	
 	@Override
 	protected void setupButtons() {
 		super.setupButtons();
-		addEntryEnabled = !readOnly;
+		addEntryEnabled = !isRoot && !readOnly;
 	}
 }

@@ -52,7 +52,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     int warningColor;
 
     FileSelectAdapter(Context context, List<String> listFiles) {
-        inflater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.listFiles = listFiles;
 
@@ -65,7 +65,8 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     @Override
     public FileSelectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.file_row, parent, false);
-        view.setOnClickListener(mOnClickListener);
+        if (mOnClickListener != null)
+            view.setOnClickListener(mOnClickListener);
         return new FileSelectViewHolder(view);
     }
 
@@ -146,15 +147,15 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         private MenuItem.OnMenuItemClickListener mOnMyActionClickListener = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == MENU_CLEAR) {
-                    return fileSelectClearListener.onFileSelectClearListener(fileSelectBean);
+                if (fileSelectClearListener == null)
+                    return false;
+                switch ( item.getItemId() ) {
+                    case MENU_CLEAR:
+                        return fileSelectClearListener.onFileSelectClearListener(fileSelectBean);
+                    default:
+                        return false;
                 }
-                return false;
             }
         };
     }
-
-
-
-
 }

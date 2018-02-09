@@ -27,7 +27,7 @@ import java.util.List;
 
 import com.keepassdroid.utils.StrUtil;
 
-public abstract class PwGroup {
+public abstract class PwGroup extends PwNode {
 	public List<PwGroup> childGroups = new ArrayList<PwGroup>();
 	public List<PwEntry> childEntries = new ArrayList<PwEntry>();
 	public String name = "";

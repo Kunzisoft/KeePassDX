@@ -54,6 +54,7 @@ import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 import com.keepassdroid.fingerprint.FingerPrintAnimatedVector;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
+import com.keepassdroid.activity.GroupActivity;
 import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;

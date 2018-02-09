@@ -53,7 +53,8 @@ public class DrawableFactory {
 	
 	public void assignDrawableTo(ImageView iv, Resources res, PwIcon icon) {
 		Drawable draw = getIconDrawable(res, icon);
-		iv.setImageDrawable(draw);
+		if (iv != null && draw != null)
+			iv.setImageDrawable(draw);
 	}
 	
 	private Drawable getIconDrawable(Resources res, PwIcon icon) {

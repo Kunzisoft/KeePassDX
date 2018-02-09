@@ -26,7 +26,7 @@ import java.util.UUID;
 import com.keepassdroid.database.iterator.EntrySearchStringIterator;
 import com.keepassdroid.utils.SprEngine;
 
-public abstract class PwEntry implements Cloneable {
+public abstract class PwEntry extends PwNode implements Cloneable {
 
 	protected static final String PMS_TAN_ENTRY = "<TAN>";
 	

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.keepassdroid.Database;
-import com.keepassdroid.GroupBaseActivity;
+import com.keepassdroid.activity.GroupBaseActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;

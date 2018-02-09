@@ -91,11 +91,11 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
             </intent-filter>
         </activity>
-        <activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden">
+        <activity android:name="com.keepassdroid.activity.GroupActivityV3" android:configChanges="orientation|keyboardHidden">
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults" />
         </activity>
-        <activity android:name="com.keepassdroid.GroupActivityV4" android:configChanges="orientation|keyboardHidden">
+        <activity android:name="com.keepassdroid.activity.GroupActivityV4" android:configChanges="orientation|keyboardHidden">
             <meta-data android:name="android.app.default_searchable"
                        android:value="com.keepassdroid.search.SearchResults"
                        android:exported="false" />

@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
+package com.keepassdroid.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -28,12 +28,20 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
+import com.keepassdroid.Database;
+import com.keepassdroid.EntryActivity;
+import com.keepassdroid.EntryEditActivity;
+import com.keepassdroid.GroupEditFragment;
+import com.keepassdroid.IconPickerFragment;
+import com.keepassdroid.ProgressTask;
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwNode;
+import com.keepassdroid.database.edit.DeleteEntry;
+import com.keepassdroid.database.edit.DeleteGroup;
+import com.keepassdroid.groupentity.NodeAdapter;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
@@ -46,7 +54,6 @@ import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.edit.AddGroup;
 import com.keepassdroid.dialog.ReadOnlyDialog;
-import com.keepassdroid.view.ClickView;
 import com.keepassdroid.view.GroupAddEntryView;
 import com.keepassdroid.view.GroupRootView;
 import com.keepassdroid.view.GroupViewOnlyView;
@@ -182,14 +189,51 @@ public abstract class GroupActivity extends GroupBaseActivity
 		setGroupTitle();
 		setGroupIcon();
 
-		setListAdapter(new PwGroupListAdapter(this, mGroup));
-		registerForContextMenu(getListView());
+		NodeAdapter nodeAdapter = new NodeAdapter(this, mGroup);
+		nodeAdapter.setOnNodeClickListener(this);
+		nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
+			@Override
+			public boolean onOpenMenuClick(PwNode node, int position) {
+                // TODO CHANGE by Pattern Strategy
+			    if (node instanceof PwEntry) {
+                    EntryActivity.Launch(GroupActivity.this, (PwEntry) node, position);
+                } else if (node instanceof  PwGroup)
+                    GroupActivity.Launch(GroupActivity.this, (PwGroup) node);
+				return true;
+			}
+
+			@Override
+			public boolean onDeleteMenuClick(PwNode node, int position) {
+			    // TODO CHANGE
+			    if(node instanceof PwEntry)
+			        deleteEntry((PwEntry) node);
+			    else if (node instanceof PwGroup) {
+                    deleteGroup((PwGroup) node);
+                }
+				return true;
+			}
+		});
+		setNodeAdapter(nodeAdapter);
 		Log.w(TAG, "Finished creating tree");
 		
 		if (isRoot) {
 			showWarnings();
 		}
 	}
+
+    private void deleteEntry(PwEntry entry) {
+        Handler handler = new Handler();
+        DeleteEntry task = new DeleteEntry(this, App.getDB(), entry, new RefreshTask(handler));
+        ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
+        pt.run();
+    }
+
+    private void deleteGroup(PwGroup group) {
+        Handler handler = new Handler();
+        DeleteGroup task = new DeleteGroup(App.getDB(), group, GroupActivity.this, new AfterDeleteGroup(handler));
+        ProgressTask pt = new ProgressTask(GroupActivity.this, task, R.string.saving_database);
+        pt.run();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -200,23 +244,6 @@ public abstract class GroupActivity extends GroupBaseActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		
-		AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) menuInfo;
-		ClickView cv = (ClickView) acmi.targetView;
-		cv.onCreateMenu(menu, menuInfo);
-	}
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item.getMenuInfo();
-		ClickView cv = (ClickView) acmi.targetView;
-		
-		return cv.onContextItemSelected(item);
-	}
 
     @Override
     public void approveCreateGroup(Bundle bundle) {

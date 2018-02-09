@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
+package com.keepassdroid.activity;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -25,40 +25,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Build;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.keepassdroid.AssignMasterKeyDialog;
+import com.keepassdroid.Database;
+import com.keepassdroid.EntryActivity;
+import com.keepassdroid.LockCloseListActivity;
+import com.keepassdroid.UIToastTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.edit.OnFinish;
+import com.keepassdroid.groupentity.NodeAdapter;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.view.AssignPasswordHelper;
-import com.keepassdroid.view.ClickView;
 import com.keepassdroid.view.GroupViewOnlyView;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
 public abstract class GroupBaseActivity extends LockCloseListActivity
-		implements AssignMasterKeyDialog.AssignPasswordDialogListener {
-	protected ListView mList;
-	protected ListAdapter mAdapter;
+		implements AssignMasterKeyDialog.AssignPasswordDialogListener,
+		NodeAdapter.OnNodeClickCallback {
+	protected RecyclerView mList;
+	protected NodeAdapter mAdapter;
 
 	public static final String KEY_ENTRY = "entry";
 	
@@ -77,14 +82,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		Database db = App.getDB();
 		if ( db.dirty.contains(mGroup) ) {
 			db.dirty.remove(mGroup);
-			((BaseAdapter) mAdapter).notifyDataSetChanged();
+			mAdapter.notifyDataSetChangedAndSort();
 		}
-	}
-
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		ClickView cv = (ClickView) mAdapter.getView(position, null, null);
-		cv.onClick();
-		
 	}
 
 	@Override
@@ -111,8 +110,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	protected void styleScrollBars() {
 		ensureCorrectListView();
 		mList.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-		mList.setTextFilterEnabled(true);
-		
+		// TODO mList.setTextFilterEnabled(true);
 	}
 	
 	protected void setGroupTitle() {
@@ -139,31 +137,28 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		}
 	}
 
-	protected void setListAdapter(ListAdapter adapter) {
+	protected void setNodeAdapter(NodeAdapter adapter) {
 		ensureCorrectListView();
 		mAdapter = adapter;
 		mList.setAdapter(adapter);
 	}
 
-	protected ListView getListView() {
-		ensureCorrectListView();
-		return mList;
+	private void ensureCorrectListView(){
+		mList = (RecyclerView) findViewById(R.id.group_list);
+        mList.setLayoutManager(new LinearLayoutManager(this));
 	}
 
-	private void ensureCorrectListView(){
-		mList = (ListView)findViewById(R.id.group_list);
-		if (mList != null) {
-			mList.setOnItemClickListener(
-					new AdapterView.OnItemClickListener() {
-						public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-							onListItemClick((ListView) parent, v, position, id);
-						}
-					}
-			);
-		}
-	}
-	
-	@Override
+    @Override
+    public void onGroupClicked(PwGroup group) {
+        GroupActivity.Launch(this, group);
+    }
+
+    @Override
+    public void onEntryClicked(PwEntry entry, int position) {
+        EntryActivity.Launch(this, entry, position);
+    }
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
@@ -266,8 +261,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		db.dirty.remove(mGroup);
 		
 		// Tell the adapter to refresh it's list
-		((BaseAdapter) mAdapter).notifyDataSetChanged();
-		
+		mAdapter.notifyDataSetChangedAndSort();
 	}
 
     @Override

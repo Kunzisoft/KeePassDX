@@ -18,12 +18,14 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/group_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center_vertical">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="?android:attr/selectableItemBackground" >
 
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/ic_arrow"
+        android:id="@+id/group_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_right_white_24dp"
@@ -46,8 +48,8 @@
         android:scaleType="fitXY"
         android:src="@drawable/ic99_blank"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/ic_arrow"
-        android:layout_toEndOf="@+id/ic_arrow" />
+        android:layout_toRightOf="@+id/group_arrow"
+        android:layout_toEndOf="@+id/group_arrow" />
 
     <TextView android:id="@+id/group_text"
         android:layout_width="wrap_content"
@@ -57,20 +59,6 @@
         android:paddingBottom="2dp"
         style="@style/KeepassDXStyle.TextAppearance.FolderTitle"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/group_label"
-        android:layout_toStartOf="@+id/group_label"
         android:layout_toRightOf="@+id/group_icon"
         android:layout_toEndOf="@+id/group_icon" />
-
-    <TextView android:id="@+id/group_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="@string/group"
-        android:layout_margin="@dimen/default_margin"
-        style="@style/KeepassDXStyle.TextAppearance.SecondaryText"
-        android:visibility="gone"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 </RelativeLayout>
