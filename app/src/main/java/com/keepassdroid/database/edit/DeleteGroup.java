@@ -35,23 +35,22 @@ public class DeleteGroup extends RunnableOnFinish {
 	private GroupBaseActivity mAct;
 	private boolean mDontSave;
 	
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish) {
+	public DeleteGroup(GroupBaseActivity act, Database db, PwGroup group, OnFinish finish) {
 		super(finish);
-		setMembers(db, group, act, false);
+		setMembers(act, db, group, false);
 	}
 	
-	public DeleteGroup(Database db, PwGroup group, GroupBaseActivity act, OnFinish finish, boolean dontSave) {
+	public DeleteGroup(GroupBaseActivity act, Database db, PwGroup group, OnFinish finish, boolean dontSave) {
 		super(finish);
-		setMembers(db, group, act, dontSave);
+		setMembers(act, db, group, dontSave);
 	}
-
 	
 	public DeleteGroup(Database db, PwGroup group, OnFinish finish, boolean dontSave) {
 		super(finish);
-		setMembers(db, group, null, dontSave);
+		setMembers(null, db, group, dontSave);
 	}
 
-	private void setMembers(Database db, PwGroup group, GroupBaseActivity act, boolean dontSave) {
+	private void setMembers(GroupBaseActivity act, Database db, PwGroup group, boolean dontSave) {
 		mDb = db;
 		mGroup = group;
 		mAct = act;
@@ -60,22 +59,20 @@ public class DeleteGroup extends RunnableOnFinish {
 		mFinish = new AfterDelete(mFinish);
 	}
 	
-	
-	
 	@Override
 	public void run() {
 		
 		// Remove child entries
-		List<PwEntry> childEnt = new ArrayList<PwEntry>(mGroup.childEntries);
+		List<PwEntry> childEnt = new ArrayList<>(mGroup.childEntries);
 		for ( int i = 0; i < childEnt.size(); i++ ) {
 			DeleteEntry task = new DeleteEntry(mAct, mDb, childEnt.get(i), null, true);
 			task.run();
 		}
 		
 		// Remove child groups
-		List<PwGroup> childGrp = new ArrayList<PwGroup>(mGroup.childGroups);
+		List<PwGroup> childGrp = new ArrayList<>(mGroup.childGroups);
 		for ( int i = 0; i < childGrp.size(); i++ ) {
-			DeleteGroup task = new DeleteGroup(mDb, childGrp.get(i), mAct, null, true);
+			DeleteGroup task = new DeleteGroup(mAct, mDb, childGrp.get(i), null, true);
 			task.run();
 		}
 		
@@ -120,8 +117,6 @@ public class DeleteGroup extends RunnableOnFinish {
 			}
 			
 			super.run();
-
 		}
-
 	}
 }

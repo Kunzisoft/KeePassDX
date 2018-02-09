@@ -40,16 +40,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.keepassdroid.database.PwNode;
-import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
-import com.keepassdroid.database.Database;
+import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
+import com.keepassdroid.database.PwNode;
+import com.keepassdroid.database.edit.AfterAddNodeOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
-import com.keepassdroid.adapters.NodeAdapter;
+import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
@@ -81,7 +82,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		Database db = App.getDB();
 		if ( db.dirty.contains(mGroup) ) {
 			db.dirty.remove(mGroup);
-			mAdapter.notifyDataSetChangedAndSort();
 		}
 	}
 
@@ -148,13 +148,13 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	}
 
     @Override
-    public void onNodeClick(PwNode node, int position) {
+    public void onNodeClick(PwNode node) {
         switch (node.getType()) {
             case GROUP:
                 GroupActivity.Launch(this, (PwGroup) node);
                 break;
             case ENTRY:
-                EntryActivity.Launch(this, (PwEntry) node, position);
+                EntryActivity.Launch(this, (PwEntry) node);
                 break;
         }
     }
@@ -249,7 +249,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		String sortKey = getString(R.string.sort_key);
 		boolean sortByName = prefs.getBoolean(sortKey, getResources().getBoolean(R.bool.sort_default));
 		Editor editor = prefs.edit();
-		editor.putBoolean(sortKey, ! sortByName);
+		editor.putBoolean(sortKey, !sortByName);
 		EditorCompat.apply(editor);
 		
 		// Refresh menu titles
@@ -262,7 +262,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		db.dirty.remove(mGroup);
 		
 		// Tell the adapter to refresh it's list
-		mAdapter.notifyDataSetChangedAndSort();
+		// TODO mAdapter.sort();
+        mAdapter.notifyDataSetChanged();
 	}
 
     @Override
@@ -287,18 +288,40 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		AssignMasterKeyDialogFragment dialog = new AssignMasterKeyDialogFragment();
 		dialog.show(getSupportFragmentManager(), "passwordDialog");
 	}
-	
-	public class RefreshTask extends OnFinish {
-		public RefreshTask(Handler handler) {
+
+	public class AfterAddNode extends AfterAddNodeOnFinish {
+		public AfterAddNode(Handler handler) {
 			super(handler);
+		}
+
+		public void run(PwNode pwNode) {
+		    super.run();
+			if (mSuccess) {
+				refreshIfDirty();
+                mAdapter.addNode(pwNode);
+			} else {
+				displayMessage(GroupBaseActivity.this);
+			}
+		}
+	}
+
+	public class AfterDeleteNode extends OnFinish {
+        private PwNode pwNode;
+
+		public AfterDeleteNode(Handler handler, PwNode pwNode) {
+			super(handler);
+			this.pwNode = pwNode;
 		}
 
 		@Override
 		public void run() {
 			if ( mSuccess) {
 				refreshIfDirty();
+				mAdapter.removeNode(pwNode);
 			} else {
-				displayMessage(GroupBaseActivity.this);
+				mHandler.post(new UIToastTask(GroupBaseActivity.this, "Unrecoverable error: " + mMessage));
+				App.setShutdown();
+				finish();
 			}
 		}
 	}
@@ -318,23 +341,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			super.startActivityForResult(intent, requestCode, options);
-		}
-	}
-	
-	public class AfterDeleteGroup extends OnFinish {
-		public AfterDeleteGroup(Handler handler) {
-			super(handler);
-		}
-
-		@Override
-		public void run() {
-			if ( mSuccess) {
-				refreshIfDirty();
-			} else {
-				mHandler.post(new UIToastTask(GroupBaseActivity.this, "Unrecoverable error: " + mMessage));
-				App.setShutdown();
-				finish();
-			}
 		}
 	}
 }

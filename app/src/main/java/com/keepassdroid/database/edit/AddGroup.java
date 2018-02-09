@@ -32,24 +32,20 @@ public class AddGroup extends RunnableOnFinish {
 	private PwGroup mGroup;
 	private PwGroup mParent;
 	private Context ctx;
-	protected boolean mDontSave;
+	private boolean mDontSave;
 	
-	
-	public static AddGroup getInstance(Context ctx, Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
-		return new AddGroup(ctx, db, name, iconid, parent, finish, dontSave);
-	}
-	
-	
-	private AddGroup(Context ctx, Database db, String name, int iconid, PwGroup parent, OnFinish finish, boolean dontSave) {
-		super(finish);
-		
+	public AddGroup(Context ctx, Database db, String name, int iconid,
+                    PwGroup parent, AfterAddNodeOnFinish afterAddNode,
+                    boolean dontSave) {
+		super(afterAddNode);
+
 		mDb = db;
 		mName = name;
 		mIconID = iconid;
 		mParent = parent;
 		mDontSave = dontSave;
 		this.ctx = ctx;
-		
+
 		mFinish = new AfterAdd(mFinish);
 	}
 	
@@ -62,9 +58,7 @@ public class AddGroup extends RunnableOnFinish {
 		mGroup.initNewGroup(mName, pm.newGroupId());
 		mGroup.icon = mDb.pm.iconFactory.getIcon(mIconID);
 		pm.addGroupTo(mGroup, mParent);
-		
-		//mParent.sortGroupsByName();
-		
+
 		// Commit to disk
 		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
 		save.run();
@@ -72,7 +66,7 @@ public class AddGroup extends RunnableOnFinish {
 	
 	private class AfterAdd extends OnFinish {
 
-		public AfterAdd(OnFinish finish) {
+		AfterAdd(OnFinish finish) {
 			super(finish);
 		}
 
@@ -85,11 +79,12 @@ public class AddGroup extends RunnableOnFinish {
 			} else {
 				pm.removeGroupFrom(mGroup, mParent);
 			}
-			
-			super.run();
+
+            AfterAddNodeOnFinish afterAddNode =
+                    (AfterAddNodeOnFinish) super.mOnFinish;
+            afterAddNode.mSuccess = mSuccess;
+            afterAddNode.mMessage = mMessage;
+            afterAddNode.run(mGroup);
 		}
-
 	}
-	
-
 }

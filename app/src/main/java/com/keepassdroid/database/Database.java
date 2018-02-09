@@ -25,9 +25,6 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.database.exception.InvalidDBException;
 import com.keepassdroid.database.exception.InvalidPasswordException;

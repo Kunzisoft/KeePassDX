@@ -191,20 +191,20 @@ public abstract class GroupActivity extends GroupBaseActivity
 		nodeAdapter.setOnNodeClickListener(this);
 		nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
 			@Override
-			public boolean onOpenMenuClick(PwNode node, int position) {
+			public boolean onOpenMenuClick(PwNode node) {
                 switch (node.getType()) {
                     case GROUP:
                         GroupActivity.Launch(GroupActivity.this, (PwGroup) node);
                         break;
                     case ENTRY:
-                        EntryActivity.Launch(GroupActivity.this, (PwEntry) node, position);
+                        EntryActivity.Launch(GroupActivity.this, (PwEntry) node);
                         break;
                 }
 				return true;
 			}
 
 			@Override
-			public boolean onDeleteMenuClick(PwNode node, int position) {
+			public boolean onDeleteMenuClick(PwNode node) {
                 switch (node.getType()) {
                     case GROUP:
                         deleteGroup((PwGroup) node);
@@ -226,15 +226,17 @@ public abstract class GroupActivity extends GroupBaseActivity
 
     private void deleteEntry(PwEntry entry) {
         Handler handler = new Handler();
-        DeleteEntry task = new DeleteEntry(this, App.getDB(), entry, new RefreshTask(handler));
+        DeleteEntry task = new DeleteEntry(this, App.getDB(), entry,
+                new AfterDeleteNode(handler, entry));
         ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
         pt.run();
     }
 
     private void deleteGroup(PwGroup group) {
         Handler handler = new Handler();
-        DeleteGroup task = new DeleteGroup(App.getDB(), group, GroupActivity.this, new AfterDeleteGroup(handler));
-        ProgressTask pt = new ProgressTask(GroupActivity.this, task, R.string.saving_database);
+        DeleteGroup task = new DeleteGroup(this, App.getDB(), group,
+				new AfterDeleteNode(handler, group));
+        ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
         pt.run();
     }
 
@@ -252,10 +254,12 @@ public abstract class GroupActivity extends GroupBaseActivity
     public void approveCreateGroup(Bundle bundle) {
         String GroupName = bundle.getString(GroupEditDialogFragment.KEY_NAME);
         int GroupIconID = bundle.getInt(GroupEditDialogFragment.KEY_ICON_ID);
-        GroupActivity act = GroupActivity.this;
         Handler handler = new Handler();
-        AddGroup task = AddGroup.getInstance(this, App.getDB(), GroupName, GroupIconID, mGroup, act.new RefreshTask(handler), false);
-        ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
+        // TODO Bug icon
+        // TODO AfterAddNode for Entry
+        AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mGroup,
+                new AfterAddNode(handler), false);
+        ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
         pt.run();
     }
 

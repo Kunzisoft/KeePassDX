@@ -51,7 +51,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 
@@ -164,7 +163,7 @@ public class PwDatabaseV3 extends PwDatabase {
 
 			List<PwGroup> rootChildGroups = getGrpRoots();
 			root.setGroups(rootChildGroups);
-			root.childEntries = new ArrayList<PwEntry>();
+			root.childEntries = new ArrayList<>();
 			root.level = -1;
 			for (int i = 0; i < rootChildGroups.size(); i++) {
 				PwGroupV3 grp = (PwGroupV3) rootChildGroups.get(i);

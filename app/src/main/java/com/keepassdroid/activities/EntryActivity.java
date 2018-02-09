@@ -75,12 +75,11 @@ import static com.keepassdroid.settings.PrefsUtil.isClipboardNotificationsEnable
 
 public class EntryActivity extends LockCloseHideActivity {
 	public static final String KEY_ENTRY = "entry";
-	public static final String KEY_REFRESH_POS = "refresh_pos";
 
 	public static final int NOTIFY_USERNAME = 1;
 	public static final int NOTIFY_PASSWORD = 2;
 	
-	public static void Launch(Activity act, PwEntry pw, int pos) {
+	public static void Launch(Activity act, PwEntry pw) {
 		Intent i;
 		
 		if ( pw instanceof PwEntryV4 ) {
@@ -90,7 +89,6 @@ public class EntryActivity extends LockCloseHideActivity {
 		}
 		
 		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-		i.putExtra(KEY_REFRESH_POS, pos);
 		
 		act.startActivityForResult(i,0);
 	}
@@ -98,7 +96,6 @@ public class EntryActivity extends LockCloseHideActivity {
 	protected PwEntry mEntry;
 	private Timer mTimer = new Timer();
 	private boolean mShowPassword;
-	private int mPos;
 	private NotificationManager mNM;
 	private BroadcastReceiver mIntentReceiver;
 	protected boolean readOnly = false;
@@ -156,7 +153,6 @@ public class EntryActivity extends LockCloseHideActivity {
 
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
-		mPos = i.getIntExtra(KEY_REFRESH_POS, -1);
 		
 		mEntry = db.pm.entries.get(uuid);
 		if (mEntry == null) {
@@ -306,7 +302,6 @@ public class EntryActivity extends LockCloseHideActivity {
 			fillData(true);
 			if ( resultCode == KeePass.EXIT_REFRESH_TITLE ) {
 				Intent ret = new Intent();
-				ret.putExtra(KEY_REFRESH_POS, mPos);
 				setResult(KeePass.EXIT_REFRESH, ret);
 			}
 		}

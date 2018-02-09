@@ -28,12 +28,25 @@ import java.util.List;
 import com.keepassdroid.utils.StrUtil;
 
 public abstract class PwGroup extends PwNode {
-	public List<PwGroup> childGroups = new ArrayList<PwGroup>();
-	public List<PwEntry> childEntries = new ArrayList<PwEntry>();
+	public List<PwGroup> childGroups = new ArrayList<>();
+	public List<PwEntry> childEntries = new ArrayList<>();
 	public String name = "";
 	public PwIconStandard icon;
 
-	@Override
+    @Override
+    public List<PwNode> getDirectChildren() {
+        List<PwNode> children = new ArrayList<>();
+        children.addAll(childGroups);
+        children.addAll(childEntries);
+        return children;
+    }
+
+    @Override
+    public int numberOfDirectChildren() {
+        return childGroups.size() + childEntries.size();
+    }
+
+    @Override
 	public Type getType() {
 		return Type.GROUP;
 	}
@@ -44,16 +57,17 @@ public abstract class PwGroup extends PwNode {
 	public abstract PwGroupId getId();
 	public abstract void setId(PwGroupId id);
 
-	public abstract String getName();
+    @Override
+    public String getDisplayTitle() {
+        return getName();
+    }
+
+    public abstract String getName();
 	
 	public abstract Date getLastMod();
 	
 	public PwIcon getIcon() {
 		return icon;
-	}
-
-	public void sortGroupsByName() {
-		Collections.sort(childGroups, new GroupNameComparator());
 	}
 
 	public static class GroupNameComparator implements Comparator<PwGroup> {

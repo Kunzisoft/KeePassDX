@@ -19,18 +19,17 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.database.iterator.EntrySearchStringIterator;
+
 import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
-import com.keepassdroid.database.iterator.EntrySearchStringIterator;
-import com.keepassdroid.utils.SprEngine;
-
 public abstract class PwEntry extends PwNode implements Cloneable {
 
 	protected static final String PMS_TAN_ENTRY = "<TAN>";
-	
-	public static class EntryNameComparator implements Comparator<PwEntry> {
+
+    public static class EntryNameComparator implements Comparator<PwEntry> {
 
 		public int compare(PwEntry object1, PwEntry object2) {
 			return object1.getTitle().compareToIgnoreCase(object2.getTitle());
@@ -82,7 +81,7 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		return Type.ENTRY;
 	}
 
-	public void assign(PwEntry source) {
+    public void assign(PwEntry source) {
 		icon = source.icon;
 	}
 	
