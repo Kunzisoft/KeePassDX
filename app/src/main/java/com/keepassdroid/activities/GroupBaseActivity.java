@@ -74,7 +74,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		refreshIfDirty();
 	}
 	

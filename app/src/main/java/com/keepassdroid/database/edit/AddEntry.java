@@ -31,11 +31,7 @@ public class AddEntry extends RunnableOnFinish {
 	private PwEntry mEntry;
 	private Context ctx;
 	
-	public static AddEntry getInstance(Context ctx, Database db, PwEntry entry, OnFinish finish) {
-		return new AddEntry(ctx, db, entry, finish);
-	}
-	
-	protected AddEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
+	public AddEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
@@ -56,7 +52,7 @@ public class AddEntry extends RunnableOnFinish {
 	
 	private class AfterAdd extends OnFinish {
 
-		public AfterAdd(OnFinish finish) {
+		AfterAdd(OnFinish finish) {
 			super(finish);
 		}
 

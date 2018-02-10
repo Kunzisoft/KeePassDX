@@ -66,8 +66,16 @@ import java.util.UUID;
 public abstract class EntryEditActivity extends LockCloseHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener {
+
+    // Keys for current Activity
 	public static final String KEY_ENTRY = "entry";
 	public static final String KEY_PARENT = "parent";
+
+	// Keys for callback
+	public static final int ADD_ENTRY_RESULT_CODE = 31;
+	public static final int UPDATE_ENTRY_RESULT_CODE = 32;
+	public static final int ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129;
+	public static final String ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY";
 
 	protected PwEntry mEntry;
 	protected boolean mIsNew;
@@ -87,7 +95,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		
 		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
 		
-		act.startActivityForResult(i, 0);
+		act.startActivityForResult(i, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
 	}
 	
 	public static void Launch(Activity act, PwGroup pw) {
@@ -104,7 +112,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 			throw new RuntimeException("Not yet implemented.");
 		}
 
-		act.startActivityForResult(i, 0);
+		act.startActivityForResult(i, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
 	}
 	
 	protected abstract PwGroupId getParentGroupId(Intent i, String key);
@@ -179,20 +187,19 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 				}
 				
 				PwEntry newEntry = populateNewEntry();
-
-				if ( newEntry.getTitle().equals(mEntry.getTitle()) ) {
-					setResult(KeePass.EXIT_REFRESH);
-				} else {
-					setResult(KeePass.EXIT_REFRESH_TITLE);
-				}
 				
 				RunnableOnFinish task;
 				OnFinish onFinish = act.new AfterSave(new Handler());
-				
+
+                Intent intentEntry = new Intent();
 				if ( mIsNew ) {
-					task = AddEntry.getInstance(EntryEditActivity.this, App.getDB(), newEntry, onFinish);
+					task = new AddEntry(act, App.getDB(), newEntry, onFinish);
+                    intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, newEntry);
+                    setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
 				} else {
-					task = new UpdateEntry(EntryEditActivity.this, App.getDB(), mEntry, newEntry, onFinish);
+					task = new UpdateEntry(act, App.getDB(), mEntry, newEntry, onFinish);
+                    intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mEntry);
+                    setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
 				}
 				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 				pt.run();

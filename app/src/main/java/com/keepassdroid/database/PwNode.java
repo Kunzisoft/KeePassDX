@@ -22,13 +22,14 @@ package com.keepassdroid.database;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode implements Comparable<PwNode> {
+public abstract class PwNode implements Comparable<PwNode>, Serializable {
 
     /**
      * Get the type of Node

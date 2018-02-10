@@ -71,6 +71,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		public void run() {
 			if ( mSuccess ) {
 				// Mark group dirty if title or icon changes
+				// TODO CHange if not equal... Why only title and Icon ?
 				if ( ! mBackup.getTitle().equals(mNewE.getTitle()) || ! mBackup.getIcon().equals(mNewE.getIcon()) ) {
 					PwGroup parent = mBackup.getParent();
 					if ( parent != null ) {

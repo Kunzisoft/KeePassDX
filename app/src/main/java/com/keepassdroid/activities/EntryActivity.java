@@ -35,8 +35,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -49,21 +49,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keepassdroid.database.Database;
-import com.keepassdroid.tasks.UIToastTask;
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -90,7 +90,7 @@ public class EntryActivity extends LockCloseHideActivity {
 		
 		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
 		
-		act.startActivityForResult(i,0);
+		act.startActivityForResult(i, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
 	}
 	
 	protected PwEntry mEntry;
@@ -124,6 +124,7 @@ public class EntryActivity extends LockCloseHideActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		//TODO in Prefs
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
 		
@@ -298,13 +299,14 @@ public class EntryActivity extends LockCloseHideActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if ( resultCode == KeePass.EXIT_REFRESH || resultCode == KeePass.EXIT_REFRESH_TITLE ) {
-			fillData(true);
-			if ( resultCode == KeePass.EXIT_REFRESH_TITLE ) {
-				Intent ret = new Intent();
-				setResult(KeePass.EXIT_REFRESH, ret);
-			}
-		}
+        switch (requestCode) {
+            case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
+                // TODO CHANGE Fill function to include data
+                fillData(true);
+                // Transit data in previous Activity
+                setResult(resultCode, data);
+                break;
+        }
 	}
 
 	@Override

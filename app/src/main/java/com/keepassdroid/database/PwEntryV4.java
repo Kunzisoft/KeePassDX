@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.database;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public String tags = "";
 	public Map<String, String> customData = new HashMap<String, String>();
 
-	public class AutoType implements Cloneable {
+	public class AutoType implements Cloneable, Serializable {
 		private static final long OBF_OPT_NONE = 0;
 		
 		public boolean enabled = true;

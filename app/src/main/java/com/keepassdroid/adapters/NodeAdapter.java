@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,6 +57,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
     public void addNode(PwNode node) {
         nodeSortedList.add(node);
+    }
+
+    public void updateNode(PwNode node) {
+        try {
+            nodeSortedList.updateItemAt(nodeSortedList.indexOf(node), node);
+        } catch (IndexOutOfBoundsException e) {
+            Log.e(NodeAdapter.class.getName(), e.getMessage());
+        }
     }
 
     public void removeNode(PwNode node) {

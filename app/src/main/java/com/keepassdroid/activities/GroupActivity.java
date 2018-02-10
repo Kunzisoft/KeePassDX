@@ -240,7 +240,24 @@ public abstract class GroupActivity extends GroupBaseActivity
         pt.run();
     }
 
-    @Override
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
+                if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
+                        resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
+                    PwNode newNode = (PwNode) data.getSerializableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
+                    if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
+                        mAdapter.addNode(newNode);
+                    if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
+                        mAdapter.updateNode(newNode);
+                }
+                break;
+        }
+	}
+
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
