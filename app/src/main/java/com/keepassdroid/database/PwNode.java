@@ -20,71 +20,133 @@
  */
 package com.keepassdroid.database;
 
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Date;
 
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode implements Comparable<PwNode>, Serializable {
+public abstract class PwNode implements Serializable {
 
     /**
-     * Get the type of Node
+     * Type of available Nodes
+     */
+    public enum Type {
+        GROUP, ENTRY
+    }
+
+    /**
+     * @return Type of Node
      */
     public abstract Type getType();
 
     /**
-     * @return title to display as view
+     * @return Title to display as view
      */
     public abstract String getDisplayTitle();
 
+    /**
+     * @return Visual icon
+     */
     public abstract PwIcon getIcon();
 
     /**
-     * @return List of direct children (one level below) as PwNode
+     * @return Creation date and time of the node
      */
-    public List<PwNode> getDirectChildren() {
-        return new ArrayList<>();
-    }
+    public abstract Date getCreationTime();
 
-    public PwNode getDirectChildAt(int position) {
-        return getDirectChildren().get(position);
+    /**
+     * If the content (type, title, icon) is visually the same
+     * @param o Node to compare
+     * @return True if visually as o
+     */
+    public boolean isContentVisuallyTheSame(PwNode o) {
+        return getType().equals(o.getType())
+                && getDisplayTitle().equals(o.getDisplayTitle())
+                && getIcon().equals(o.getIcon());
     }
 
     /**
-     * Number of direct elements in Node (one level below)
-     * @return Size of child elements, default is 0
+     * Define if it's the same type of another node
+     * @param otherNode The other node to test
+     * @return true if both have the same type
      */
-    public int numberOfDirectChildren() {
-        return getDirectChildren().size();
+    boolean isSameType(PwNode otherNode) {
+        return getType() != null ? getType().equals(otherNode.getType()) : otherNode.getType() == null;
     }
 
-    @Override
-    public int compareTo(@NonNull PwNode o) {
-        if (this instanceof PwGroup) {
-            if (o instanceof PwGroup) {
-                return new PwGroup.GroupNameComparator().compare((PwGroup) this, (PwGroup) o);
-            } else if (o instanceof PwEntry) {
-                return -1;
-            } else {
-                return -1;
+    /**
+     * Comparator of Node by Name, Groups first, Entries second
+     */
+    public static class NodeNameComparator implements Comparator<PwNode> {
+        public int compare(PwNode object1, PwNode object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            if (object1 instanceof PwGroup) {
+                if (object2 instanceof PwGroup) {
+                    return new PwGroup.GroupNameComparator()
+                            .compare((PwGroup) object1, (PwGroup) object2);
+                } else if (object2 instanceof PwEntry) {
+                    return -1;
+                } else {
+                    return -1;
+                }
+            } else if (object1 instanceof PwEntry) {
+                if(object2 instanceof PwEntry) {
+                    return new PwEntry.EntryNameComparator()
+                            .compare((PwEntry) object1, (PwEntry) object2);
+                } else if (object2 instanceof PwGroup) {
+                    return 1;
+                } else {
+                    return -1;
+                }
             }
-        } else if (this instanceof PwEntry) {
-            if(o instanceof PwEntry) {
-                return new PwEntry.EntryNameComparator().compare((PwEntry) this, (PwEntry) o);
-            } else if (o instanceof PwGroup) {
-                return 1;
-            } else {
-                return 1;
-            }
+            int nodeNameComp = object1.getDisplayTitle()
+                    .compareToIgnoreCase(object2.getDisplayTitle());
+            // If same name, can be different
+            if (nodeNameComp == 0)
+                return object1.hashCode() - object2.hashCode();
+            return nodeNameComp;
         }
-        return this.getDisplayTitle().compareToIgnoreCase(o.getDisplayTitle());
     }
 
-    public enum Type {
-        GROUP, ENTRY
+    /**
+     * Comparator of node by creation, Groups first, Entries second
+     */
+    public static class NodeCreationComparator implements Comparator<PwNode> {
+        @Override
+        public int compare(PwNode object1, PwNode object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            if (object1 instanceof PwGroup) {
+                if (object2 instanceof PwGroup) {
+                    return new PwGroup.GroupCreationComparator()
+                            .compare((PwGroup) object1, (PwGroup) object2);
+                } else if (object2 instanceof PwEntry) {
+                    return -1;
+                } else {
+                    return -1;
+                }
+            } else if (object1 instanceof PwEntry) {
+                if(object2 instanceof PwEntry) {
+                    return new PwEntry.EntryCreationComparator()
+                            .compare((PwEntry) object1, (PwEntry) object2);
+                } else if (object2 instanceof PwGroup) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+            int nodeCreationComp = object1.getCreationTime()
+                    .compareTo(object2.getCreationTime());
+            // If same creation, can be different
+            if (nodeCreationComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            return nodeCreationComp;
+        }
     }
 }

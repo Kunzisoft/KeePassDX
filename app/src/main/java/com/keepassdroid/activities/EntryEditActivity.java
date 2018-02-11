@@ -34,13 +34,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keepassdroid.database.Database;
-import com.keepassdroid.fragments.GeneratePasswordDialogFragment;
-import com.keepassdroid.fragments.IconPickerDialogFragment;
-import com.keepassdroid.tasks.ProgressTask;
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV3;
@@ -54,10 +49,15 @@ import com.keepassdroid.database.edit.AddEntry;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
 import com.keepassdroid.database.edit.UpdateEntry;
+import com.keepassdroid.fragments.GeneratePasswordDialogFragment;
+import com.keepassdroid.fragments.IconPickerDialogFragment;
 import com.keepassdroid.icons.Icons;
+import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -187,9 +187,9 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 				}
 				
 				PwEntry newEntry = populateNewEntry();
-				
+
 				RunnableOnFinish task;
-				OnFinish onFinish = act.new AfterSave(new Handler());
+				OnFinish onFinish = new AfterSave();
 
                 Intent intentEntry = new Intent();
 				if ( mIsNew ) {
@@ -198,7 +198,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
                     setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
 				} else {
 					task = new UpdateEntry(act, App.getDB(), mEntry, newEntry, onFinish);
-                    intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mEntry);
+                    intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, newEntry);
                     setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
 				}
 				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
@@ -322,8 +322,8 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 
     private final class AfterSave extends OnFinish {
 
-		AfterSave(Handler handler) {
-			super(handler);
+		AfterSave() {
+			super(new Handler());
 		}
 
 		@Override

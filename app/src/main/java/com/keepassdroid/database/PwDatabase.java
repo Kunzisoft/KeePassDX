@@ -256,7 +256,7 @@ public abstract class PwDatabase {
             parent = rootGroup;
         }
 
-        parent.childGroups.add(newGroup);
+        parent.addChildGroup(newGroup);
         newGroup.setParent(parent);
         groups.put(newGroup.getId(), newGroup);
 
@@ -265,7 +265,7 @@ public abstract class PwDatabase {
 
     public void removeGroupFrom(PwGroup remove, PwGroup parent) {
         // Remove tree from parent tree
-        parent.childGroups.remove(remove);
+        parent.removeChildGroup(remove);
 
         groups.remove(remove.getId());
     }
@@ -273,7 +273,7 @@ public abstract class PwDatabase {
     public void addEntryTo(PwEntry newEntry, PwGroup parent) {
         // Add entry to parent
         if (parent != null) {
-            parent.childEntries.add(newEntry);
+            parent.addChildEntry(newEntry);
         }
         newEntry.setParent(parent);
 
@@ -283,7 +283,7 @@ public abstract class PwDatabase {
     public void removeEntryFrom(PwEntry remove, PwGroup parent) {
         // Remove entry for parent
         if (parent != null) {
-            parent.childEntries.remove(remove);
+            parent.removeChildEntry(remove);
         }
         entries.remove(remove.getUUID());
     }

@@ -99,7 +99,7 @@ public class SearchResultsActivity extends GroupBaseActivity {
 	private void performSearch(String query) {
 		mGroup = mDb.Search(query.trim());
 
-		if ( mGroup == null || mGroup.childEntries.size() < 1 ) {
+		if ( mGroup == null || mGroup.numbersOfChildEntries() < 1 ) {
             listView.setVisibility(View.GONE);
             notFoundView.setVisibility(View.VISIBLE);
 		} else {

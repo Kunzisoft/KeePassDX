@@ -179,12 +179,12 @@ public class PwDatabaseV3 extends PwDatabase {
 		currentGroup.childEntries = getEntries(currentGroup);
 
 		// set parent in child entries
-		for (int i = 0; i < currentGroup.childEntries.size(); i++) {
+		for (int i = 0; i < currentGroup.numbersOfChildEntries(); i++) {
 			PwEntryV3 entry = (PwEntryV3) currentGroup.childEntries.get(i);
 			entry.parent = currentGroup;
 		}
 		// recursively construct child groups
-		for (int i = 0; i < currentGroup.childGroups.size(); i++) {
+		for (int i = 0; i < currentGroup.numbersOfChildGroups(); i++) {
 			PwGroupV3 grp = (PwGroupV3) currentGroup.childGroups.get(i);
 			grp.parent = currentGroup;
 			constructTree((PwGroupV3) currentGroup.childGroups.get(i));

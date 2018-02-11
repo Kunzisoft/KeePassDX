@@ -34,8 +34,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
-
 /**
  * @author Brian Pellin <bpellin@gmail.com>
  * @author Naomaru Itoi <nao@phoneid.org>
@@ -43,8 +41,6 @@ import java.util.List;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
 public class PwGroupV3 extends PwGroup {
-  public PwGroupV3() {
-  }
 
 	public String toString() {
 		return name;
@@ -155,4 +151,11 @@ public class PwGroupV3 extends PwGroup {
 		tLastMod = new PwDate(date);
 	}
 
+	@Override
+	public Date getCreationTime() {
+	    if(tCreation != null)
+		    return tCreation.getJDate();
+	    else
+	        return new Date();
+	}
 }

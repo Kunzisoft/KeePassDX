@@ -261,8 +261,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		db.dirty.remove(mGroup);
 		
 		// Tell the adapter to refresh it's list
-		// TODO mAdapter.sort();
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyChangeSort();
+        mAdapter.rebuildList(mGroup);
 	}
 
     @Override

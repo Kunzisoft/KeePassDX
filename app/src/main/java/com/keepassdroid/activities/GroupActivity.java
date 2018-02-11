@@ -251,7 +251,7 @@ public abstract class GroupActivity extends GroupBaseActivity
                     if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
                         mAdapter.addNode(newNode);
                     if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
-                        mAdapter.updateNode(newNode);
+                        mAdapter.updateLastNodeClicked();
                 }
                 break;
         }

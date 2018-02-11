@@ -74,8 +74,8 @@ public class DeleteEntry extends AndroidTestCase {
 		PwGroup results1 = dbHelp.search(db, ENTRY1_NAME);
 		PwGroup results2 = dbHelp.search(db, ENTRY2_NAME);
 		
-		assertEquals("Entry1 was not removed from the search results", 0, results1.childEntries.size());
-		assertEquals("Entry2 was not removed from the search results", 0, results2.childEntries.size());
+		assertEquals("Entry1 was not removed from the search results", 0, results1.numbersOfChildEntries());
+		assertEquals("Entry2 was not removed from the search results", 0, results2.numbersOfChildEntries());
 		
 		// Verify the group was deleted
 		group1 = getGroup(pm, GROUP1_NAME);

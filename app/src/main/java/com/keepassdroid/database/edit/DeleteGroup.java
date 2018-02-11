@@ -80,7 +80,7 @@ public class DeleteGroup extends RunnableOnFinish {
 		// Remove from parent
 		PwGroup parent = mGroup.getParent();
 		if ( parent != null ) {
-			parent.childGroups.remove(mGroup);
+			parent.removeChildGroup(mGroup);
 		}
 		
 		// Remove from PwDatabaseV3

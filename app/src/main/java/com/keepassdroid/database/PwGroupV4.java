@@ -48,9 +48,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	private long usageCount = 0;
 	public Map<String, String> customData = new HashMap<String, String>();
 
-	public PwGroupV4() {
-		
-	}
+	public PwGroupV4() {}
 	
 	public PwGroupV4(boolean createUUID, boolean setTimes, String name, PwIconStandard icon) {
 		if (createUUID) {
@@ -86,8 +84,8 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	
 	public void AddEntry(PwEntryV4 pe, boolean takeOwnership, boolean updateLocationChanged) {
 		assert(pe != null);
-		
-		childEntries.add(pe);
+
+		addChildEntry(pe);
 		
 		if ( takeOwnership ) pe.parent = this;
 		
@@ -102,7 +100,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public void buildChildGroupsRecursive(List<PwGroup> list) {
 		list.add(this);
 		
-		for ( int i = 0; i < childGroups.size(); i++) {
+		for ( int i = 0; i < numbersOfChildGroups(); i++) {
 			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
 			child.buildChildGroupsRecursive(list);
 			
@@ -110,11 +108,11 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 
 	public void buildChildEntriesRecursive(List<PwEntry> list) {
-		for ( int i = 0; i < childEntries.size(); i++ ) {
+		for ( int i = 0; i < numbersOfChildEntries(); i++ ) {
 			list.add(childEntries.get(i));
 		}
 		
-		for ( int i = 0; i < childGroups.size(); i++ ) {
+		for ( int i = 0; i < numbersOfChildGroups(); i++ ) {
 			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
 			child.buildChildEntriesRecursive(list);
 		}

@@ -28,20 +28,8 @@ import java.util.UUID;
 public abstract class PwEntry extends PwNode implements Cloneable {
 
 	protected static final String PMS_TAN_ENTRY = "<TAN>";
-
-    public static class EntryNameComparator implements Comparator<PwEntry> {
-
-		public int compare(PwEntry object1, PwEntry object2) {
-			return object1.getTitle().compareToIgnoreCase(object2.getTitle());
-		}
-		
-	}
 	
 	public PwIconStandard icon = PwIconStandard.FIRST;
-
-	public PwEntry() {
-		
-	}
 	
 	public static PwEntry getInstance(PwGroup parent) {
 		return PwEntry.getInstance(parent, true, true);
@@ -182,5 +170,54 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	public boolean isSearchingEnabled() {
 		return false;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PwEntry pwEntry = (PwEntry) o;
+        return isSameType(pwEntry)
+                && (getUUID() != null ? getUUID().equals(pwEntry.getUUID()) : pwEntry.getUUID() == null);
+    }
+
+    @Override
+    public int hashCode() {
+        return getUUID() != null ? getUUID().hashCode() : 0;
+    }
+
+    /**
+     * Comparator of Entry by Name
+     */
+    public static class EntryNameComparator implements Comparator<PwEntry> {
+        public int compare(PwEntry object1, PwEntry object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int entryTitleComp = object1.getTitle().compareToIgnoreCase(object2.getTitle());
+            // If same title, can be different
+            if (entryTitleComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            return entryTitleComp;
+        }
+    }
+
+    /**
+     * Comparator of Entry by Creation
+     */
+    public static class EntryCreationComparator implements Comparator<PwEntry> {
+        public int compare(PwEntry object1, PwEntry object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int entryCreationComp = object1.getCreationTime().compareTo(object2.getCreationTime());
+            // If same creation, can be different
+            if (entryCreationComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            return entryCreationComp;
+        }
+    }
 
 }

@@ -71,16 +71,11 @@ public class UpdateEntry extends RunnableOnFinish {
 		public void run() {
 			if ( mSuccess ) {
 				// Mark group dirty if title or icon changes
-				// TODO CHange if not equal... Why only title and Icon ?
-				if ( ! mBackup.getTitle().equals(mNewE.getTitle()) || ! mBackup.getIcon().equals(mNewE.getIcon()) ) {
+				if ( ! mBackup.isContentVisuallyTheSame(mNewE) ) {
 					PwGroup parent = mBackup.getParent();
 					if ( parent != null ) {
-						// Resort entries
-						parent.sortEntriesByName();
-
 						// Mark parent group dirty
 						mDb.dirty.add(parent);
-						
 					}
 				}
 			} else {

@@ -19,31 +19,51 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.utils.StrUtil;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.keepassdroid.utils.StrUtil;
-
 public abstract class PwGroup extends PwNode {
+
+    // TODO Change dependency and make private
 	public List<PwGroup> childGroups = new ArrayList<>();
 	public List<PwEntry> childEntries = new ArrayList<>();
 	public String name = "";
 	public PwIconStandard icon;
 
-    @Override
-    public List<PwNode> getDirectChildren() {
-        List<PwNode> children = new ArrayList<>();
-        children.addAll(childGroups);
-        children.addAll(childEntries);
-        return children;
+	private List<PwNode> children = new ArrayList<>();
+
+    public void initNewGroup(String nm, PwGroupId newId) {
+        setId(newId);
+        name = nm;
     }
 
-    @Override
-    public int numberOfDirectChildren() {
-        return childGroups.size() + childEntries.size();
+    public void addChildGroup(PwGroup group) {
+        this.childGroups.add(group);
+    }
+
+    public void addChildEntry(PwEntry entry) {
+        this.childEntries.add(entry);
+    }
+
+    public void removeChildGroup(PwGroup group) {
+        this.childGroups.remove(group);
+    }
+
+    public void removeChildEntry(PwEntry entry) {
+        this.childEntries.remove(entry);
+    }
+
+    public int numbersOfChildGroups() {
+        return childGroups.size();
+    }
+
+    public int numbersOfChildEntries() {
+        return childEntries.size();
     }
 
     @Override
@@ -51,8 +71,37 @@ public abstract class PwGroup extends PwNode {
 		return Type.GROUP;
 	}
 
+    /**
+     * @return List of direct children (one level below) as PwNode
+     */
+    public List<PwNode> getDirectChildren() {
+        children.clear();
+        children.addAll(childGroups);
+        children.addAll(childEntries);
+        return children;
+    }
+
+    /**
+     * Number of direct elements in Node (one level below)
+     * @return Size of child elements, default is 0
+     */
+    public int numberOfDirectChildren() {
+        return childGroups.size() + childEntries.size();
+    }
+
 	public abstract PwGroup getParent();
 	public abstract void setParent(PwGroup parent);
+
+    public boolean isContainedIn(PwGroup container) {
+        PwGroup cur = this;
+        while (cur != null) {
+            if (cur == container) {
+                return true;
+            }
+            cur = cur.getParent();
+        }
+        return false;
+    }
 	
 	public abstract PwGroupId getId();
 	public abstract void setId(PwGroupId id);
@@ -69,44 +118,13 @@ public abstract class PwGroup extends PwNode {
 	public PwIcon getIcon() {
 		return icon;
 	}
-
-	public static class GroupNameComparator implements Comparator<PwGroup> {
-
-		public int compare(PwGroup object1, PwGroup object2) {
-			return object1.getName().compareToIgnoreCase(object2.getName());
-		}
-		
-	}
 	
 	public abstract void setLastAccessTime(Date date);
 
 	public abstract void setLastModificationTime(Date date);
 	
-	public void sortEntriesByName() {
-		Collections.sort(childEntries, new PwEntry.EntryNameComparator());
-	}
-	
-	public void initNewGroup(String nm, PwGroupId newId) {
-		setId(newId);
-		name = nm;
-	}
-	
-	public boolean isContainedIn(PwGroup container) {
-		PwGroup cur = this;
-		while (cur != null) {
-			if (cur == container) {
-				return true;
-			}
-			
-			cur = cur.getParent();
-		}
-		
-		return false;
-	}
-	
 	public void touch(boolean modified, boolean touchParents) {
 		Date now = new Date();
-		
 		setLastAccessTime(now);
 		
 		if (modified) {
@@ -118,7 +136,6 @@ public abstract class PwGroup extends PwNode {
 			parent.touch(modified, true);
 		}
 	}
-	
 	
 	public void searchEntries(SearchParameters sp, List<PwEntry> listStorage) {
 		if (sp == null)  { return; }
@@ -166,7 +183,6 @@ public abstract class PwGroup extends PwNode {
 						complement.add(entry);
 					}
 				}
-				
 				pg = complement;
 			}
 			else {
@@ -200,19 +216,64 @@ public abstract class PwGroup extends PwNode {
 		if (entryHandler != null) {
 			for (PwEntry entry : childEntries) {
 				if (!entryHandler.operate(entry)) return false;
-				
 			}
 		}
 	
 		for (PwGroup group : childGroups) {
-			
 			if ((groupHandler != null) && !groupHandler.operate(group)) return false;
-			
 			group.preOrderTraverseTree(groupHandler, entryHandler);
 		}
 		
-		
 		return true;
-		
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PwGroup pwGroup = (PwGroup) o;
+        return isSameType(pwGroup)
+                && (getId() != null ? getId().equals(pwGroup.getId()) : pwGroup.getId() == null);
+    }
+
+    @Override
+    public int hashCode() {
+        PwGroupId groupId = getId();
+        return groupId != null ? groupId.hashCode() : 0;
+    }
+
+    /**
+     * Group comparator by name
+     */
+    public static class GroupNameComparator implements Comparator<PwGroup> {
+        public int compare(PwGroup object1, PwGroup object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int groupNameComp = object1.getName().compareToIgnoreCase(object2.getName());
+            // If same name, can be different
+            if (groupNameComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            return groupNameComp;
+        }
+    }
+
+    /**
+     * Group comparator by name
+     */
+    public static class GroupCreationComparator implements Comparator<PwGroup> {
+        public int compare(PwGroup object1, PwGroup object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int groupCreationComp = object1.getCreationTime().compareTo(object2.getCreationTime());
+            // If same creation, can be different
+            if (groupCreationComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            return groupCreationComp;
+        }
+    }
 }
