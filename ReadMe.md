@@ -4,12 +4,13 @@
 
 ### Features
 
-- Simplified creation of the database file
-- Create entries and groups
-- Open database, copy username / password, open URI / URL
-- Fingerprint for fast unlocking
-- Material design with themes
-- Device integration and AutoFill (In progress)
+* Create database files / entries and groups
+* Support for .kdb and .kdbx files (version 1 to 4)
+* Open database, copy username / password, open URI / URL
+* Fingerprint for fast unlocking
+* Material design with themes
+* AutoFill and Integration (Development in progress)
+* Precise management of settings
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen1.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen2.jpg" width="220">
@@ -45,16 +46,6 @@ Even if the application is free, to maintain the application, you can make donat
       alt="Get it on Google Play"
 	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
 
-### JNI
-
-Native library build instructions:
-1. Make sure you have the latest MIPS Android NDK installed: 
-   https://developer.android.com/tools/sdk/ndk/index.html
-2. From KeePassDroid/app/src/main/jni, call prep_build.sh to download and unpack the crypto sources.
-3. The standard gradle files build everything now.
-
-This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid) by bpellin.
-
 ## License
 
  Copyright (c) 2017 Jeremy Jamet / Kunzisoft.
@@ -73,3 +64,5 @@ This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  
+  This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid) by bpellin.
