@@ -94,4 +94,10 @@ public class PrefsUtil {
         return prefs.getBoolean(ctx.getString(R.string.sort_key),
                 ctx.getResources().getBoolean(R.bool.sort_default));
     }
+
+    public static boolean isPasswordMask(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.maskpass_key),
+                ctx.getResources().getBoolean(R.bool.maskpass_default));
+    }
 }

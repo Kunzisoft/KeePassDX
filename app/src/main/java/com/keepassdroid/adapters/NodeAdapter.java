@@ -121,7 +121,6 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Notify a change sort of the list
      */
-    // TODO as interface
     public void notifyChangeSort() {
         this.sortByName = PrefsUtil.isListSortByName(context);
     }

@@ -272,8 +272,6 @@ public abstract class GroupActivity extends GroupBaseActivity
         String GroupName = bundle.getString(GroupEditDialogFragment.KEY_NAME);
         int GroupIconID = bundle.getInt(GroupEditDialogFragment.KEY_ICON_ID);
         Handler handler = new Handler();
-        // TODO Bug icon
-        // TODO AfterAddNode for Entry
         AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mGroup,
                 new AfterAddNode(handler), false);
         ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);

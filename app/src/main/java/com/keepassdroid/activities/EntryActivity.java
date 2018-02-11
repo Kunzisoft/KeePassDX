@@ -57,6 +57,7 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
@@ -124,9 +125,7 @@ public class EntryActivity extends LockCloseHideActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		//TODO in Prefs
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mShowPassword = ! prefs.getBoolean(getString(R.string.maskpass_key), getResources().getBoolean(R.bool.maskpass_default));
+		mShowPassword = !PrefsUtil.isPasswordMask(this);
 		
 		super.onCreate(savedInstanceState);
 		setEntryView();
