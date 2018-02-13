@@ -59,7 +59,7 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		
 		return newEntry;
 	}
-	
+
 	public PwEntry clone(boolean deepStrings) {
 		return (PwEntry) clone();
 	}
@@ -101,12 +101,10 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	public abstract String getPassword(boolean decodeRef, PwDatabase db);
 	public abstract String getUrl(boolean decodeRef, PwDatabase db);
 	public abstract String getNotes(boolean decodeRef, PwDatabase db);
-	public abstract Date getCreationTime();
 	public abstract Date getLastModificationTime();
 	public abstract Date getLastAccessTime();
 	public abstract Date getExpiryTime();
 	public abstract boolean expires();
-	public abstract PwGroup getParent();
 	
 	public abstract void setTitle(String title, PwDatabase db);
 	public abstract void setUsername(String user, PwDatabase db);
@@ -164,8 +162,6 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	}
 	
 	public void touchLocation() { }
-	
-	public abstract void setParent(PwGroup parent);
 	
 	public boolean isSearchingEnabled() {
 		return false;

@@ -97,9 +97,9 @@ public class SearchResultsActivity extends GroupBaseActivity {
     }
 	
 	private void performSearch(String query) {
-		mGroup = mDb.Search(query.trim());
+		mCurrentGroup = mDb.Search(query.trim());
 
-		if ( mGroup == null || mGroup.numbersOfChildEntries() < 1 ) {
+		if ( mCurrentGroup == null || mCurrentGroup.numbersOfChildEntries() < 1 ) {
             listView.setVisibility(View.GONE);
             notFoundView.setVisibility(View.VISIBLE);
 		} else {
@@ -109,7 +109,7 @@ public class SearchResultsActivity extends GroupBaseActivity {
 
 		setGroupTitle();
 		
-		setNodeAdapter(new NodeAdapter(this, mGroup));
+		setNodeAdapter(new NodeAdapter(this, mCurrentGroup));
 	}
 
 	private String getSearchStr(Intent queryIntent) {

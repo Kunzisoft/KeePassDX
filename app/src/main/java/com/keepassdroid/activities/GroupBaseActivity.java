@@ -69,7 +69,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	
 	private SharedPreferences prefs;
 	
-	protected PwGroup mGroup;
+	protected PwGroup mCurrentGroup;
 
 	@Override
 	protected void onResume() {
@@ -79,8 +79,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	
 	public void refreshIfDirty() {
 		Database db = App.getDB();
-		if ( db.dirty.contains(mGroup) ) {
-			db.dirty.remove(mGroup);
+		if ( db.dirty.contains(mCurrentGroup) ) {
+			db.dirty.remove(mCurrentGroup);
 		}
 	}
 
@@ -112,8 +112,8 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	}
 	
 	protected void setGroupTitle() {
-		if ( mGroup != null ) {
-			String name = mGroup.getName();
+		if ( mCurrentGroup != null ) {
+			String name = mCurrentGroup.getName();
             TextView tv = (TextView) findViewById(R.id.group_name);
 			if ( name != null && name.length() > 0 ) {
 				if ( tv != null ) {
@@ -129,9 +129,9 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	}
 
 	protected void setGroupIcon() {
-		if (mGroup != null) {
+		if (mCurrentGroup != null) {
 			ImageView iv = (ImageView) findViewById(R.id.icon);
-			App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mGroup.getIcon());
+			App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
 		}
 	}
 
@@ -258,11 +258,11 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		Database db = App.getDB();
 		db.markAllGroupsAsDirty();
 		// We'll manually refresh this tree so we can remove it
-		db.dirty.remove(mGroup);
+		db.dirty.remove(mCurrentGroup);
 		
 		// Tell the adapter to refresh it's list
         mAdapter.notifyChangeSort();
-        mAdapter.rebuildList(mGroup);
+        mAdapter.rebuildList(mCurrentGroup);
 	}
 
     @Override
@@ -317,6 +317,11 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 			if ( mSuccess) {
 				refreshIfDirty();
 				mAdapter.removeNode(pwNode);
+                PwGroup parent = pwNode.getParent();
+                PwGroup recycleBin = App.getDB().pm.getRecycleBin();
+                if (parent.equals(recycleBin) && !mCurrentGroup.equals(recycleBin)) {
+                    mAdapter.addNode(parent);
+                }
 			} else {
 				mHandler.post(new UIToastTask(GroupBaseActivity.this, "Unrecoverable error: " + mMessage));
 				App.setShutdown();

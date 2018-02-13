@@ -335,6 +335,11 @@ public abstract class PwDatabase {
         return false;
     }
 
+    /**
+     * Define if an Entry must be delete or recycle
+     * @param entry Entry to remove
+     * @return true if entry can be recycle, false elsewhere
+     */
     public boolean canRecycle(PwEntry entry) {
         return false;
     }

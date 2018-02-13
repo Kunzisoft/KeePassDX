@@ -125,18 +125,18 @@ public abstract class GroupActivity extends GroupBaseActivity
 		readOnly = db.readOnly;
 		PwGroup root = db.pm.rootGroup;
 		if ( id == null ) {
-			mGroup = root;
+			mCurrentGroup = root;
 		} else {
-			mGroup = db.pm.groups.get(id);
+			mCurrentGroup = db.pm.groups.get(id);
 		}
 		
 		Log.w(TAG, "Retrieved tree");
-		if ( mGroup == null ) {
+		if ( mCurrentGroup == null ) {
 			Log.w(TAG, "Group was null");
 			return;
 		}
 		
-		isRoot = mGroup == root;
+		isRoot = mCurrentGroup == root;
 		
 		setupButtons();
 
@@ -156,7 +156,7 @@ public abstract class GroupActivity extends GroupBaseActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        if ( mGroup.getParent() != null )
+        if ( mCurrentGroup.getParent() != null )
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
 		Log.w(TAG, "Set view");
@@ -179,7 +179,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 			addEntry.setOnClickListener(new View.OnClickListener() {
 	
 				public void onClick(View v) {
-					EntryEditActivity.Launch(GroupActivity.this, mGroup);
+					EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup);
 				}
 			});
 		}
@@ -187,7 +187,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 		setGroupTitle();
 		setGroupIcon();
 
-		NodeAdapter nodeAdapter = new NodeAdapter(this, mGroup);
+		NodeAdapter nodeAdapter = new NodeAdapter(this, mCurrentGroup);
 		nodeAdapter.setOnNodeClickListener(this);
 		nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
 			@Override
@@ -233,6 +233,7 @@ public abstract class GroupActivity extends GroupBaseActivity
     }
 
     private void deleteGroup(PwGroup group) {
+		//TODO Verify trash recycle bin
         Handler handler = new Handler();
         DeleteGroup task = new DeleteGroup(this, App.getDB(), group,
 				new AfterDeleteNode(handler, group));
@@ -272,7 +273,7 @@ public abstract class GroupActivity extends GroupBaseActivity
         String GroupName = bundle.getString(GroupEditDialogFragment.KEY_NAME);
         int GroupIconID = bundle.getInt(GroupEditDialogFragment.KEY_ICON_ID);
         Handler handler = new Handler();
-        AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mGroup,
+        AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mCurrentGroup,
                 new AfterAddNode(handler), false);
         ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
         pt.run();

@@ -78,9 +78,15 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	public static final String ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY";
 
 	protected PwEntry mEntry;
+	protected PwEntry mCallbackNewEntry;
 	protected boolean mIsNew;
 	protected int mSelectedIconID = -1;
-	
+
+	/**
+	 * Launch EntryEditActivity to update an existing entry
+	 * @param act from activity
+	 * @param pw Entry to update
+	 */
 	public static void Launch(Activity act, PwEntry pw) {
 		Intent i;
 		if (pw instanceof PwEntryV3) {
@@ -97,7 +103,12 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		
 		act.startActivityForResult(i, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
 	}
-	
+
+	/**
+	 * Launch EntryEditActivity to add a new entry
+	 * @param act from activity
+	 * @param pw Group who will contains new entry
+	 */
 	public static void Launch(Activity act, PwGroup pw) {
 		Intent i;
 		if (pw instanceof PwGroupV3) {
@@ -180,26 +191,19 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		save.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				EntryEditActivity act = EntryEditActivity.this;
-				
 				if (!validateBeforeSaving()) {
 					return;
 				}
-				
-				PwEntry newEntry = populateNewEntry();
 
-				RunnableOnFinish task;
+                mCallbackNewEntry = populateNewEntry();
+
 				OnFinish onFinish = new AfterSave();
-
-                Intent intentEntry = new Intent();
+                EntryEditActivity act = EntryEditActivity.this;
+                RunnableOnFinish task;
 				if ( mIsNew ) {
-					task = new AddEntry(act, App.getDB(), newEntry, onFinish);
-                    intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, newEntry);
-                    setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
+					task = new AddEntry(act, App.getDB(), mCallbackNewEntry, onFinish);
 				} else {
-					task = new UpdateEntry(act, App.getDB(), mEntry, newEntry, onFinish);
-                    intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, newEntry);
-                    setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
+					task = new UpdateEntry(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
 				}
 				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
 				pt.run();
@@ -320,7 +324,22 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
         // Do nothing here
     }
 
-    private final class AfterSave extends OnFinish {
+	@Override
+	public void finish() {
+	    // Assign entry callback as a result in all case
+		Intent intentEntry = new Intent();
+		if ( mIsNew ) {
+			intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+			setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
+		} else {
+			intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+			setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
+		}
+
+		super.finish();
+	}
+
+	private final class AfterSave extends OnFinish {
 
 		AfterSave() {
 			super(new Handler());

@@ -62,7 +62,14 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		this.name = name;
 		this.icon = icon;
 	}
-	
+
+    @Override
+    public void initNewGroup(String nm, PwGroupId newId) {
+        super.initNewGroup(nm, newId);
+
+        lastAccess = lastMod = creation = parentGroupLastMod = new Date();
+    }
+
 	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership) {
 		AddGroup(subGroup, takeOwnership, false);
 	}
@@ -166,7 +173,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 	public void setCreationTime(Date date) {
 		creation = date;
-		
 	}
 
 	public void setExpiryTime(Date date) {
@@ -212,13 +218,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		} else {
 			return customIcon;
 		}
-	}
-	
-	@Override
-	public void initNewGroup(String nm, PwGroupId newId) {
-		super.initNewGroup(nm, newId);
-		
-		lastAccess = lastMod = creation = parentGroupLastMod = new Date();
 	}
 	
 	public boolean isSearchEnabled() {

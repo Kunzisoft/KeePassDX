@@ -89,9 +89,6 @@ public abstract class PwGroup extends PwNode {
         return childGroups.size() + childEntries.size();
     }
 
-	public abstract PwGroup getParent();
-	public abstract void setParent(PwGroup parent);
-
     public boolean isContainedIn(PwGroup container) {
         PwGroup cur = this;
         while (cur != null) {
@@ -102,7 +99,7 @@ public abstract class PwGroup extends PwNode {
         }
         return false;
     }
-	
+
 	public abstract PwGroupId getId();
 	public abstract void setId(PwGroupId id);
 

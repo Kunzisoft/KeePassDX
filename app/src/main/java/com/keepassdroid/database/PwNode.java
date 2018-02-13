@@ -57,6 +57,17 @@ public abstract class PwNode implements Serializable {
     public abstract Date getCreationTime();
 
     /**
+     * Retrieve the parent node
+     * @return PwGroup parent as group
+     */
+    public abstract PwGroup getParent();
+
+    /**
+     * Assign a parent to this node
+     */
+    public abstract void setParent(PwGroup parent);
+
+    /**
      * If the content (type, title, icon) is visually the same
      * @param o Node to compare
      * @return True if visually as o

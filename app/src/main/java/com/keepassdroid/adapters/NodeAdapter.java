@@ -230,7 +230,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             MenuItem clearMenu = contextMenu.add(Menu.NONE, MENU_OPEN, Menu.NONE, R.string.menu_open);
             clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
-            if (!App.getDB().readOnly) {
+            if (!App.getDB().readOnly && !node.equals(App.getDB().pm.getRecycleBin())) {
                 clearMenu = contextMenu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.menu_delete);
                 clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
             }
