@@ -71,6 +71,7 @@ import java.net.URLDecoder;
 public class FileSelectActivity extends StylishActivity implements
 		CreateFileDialogFragment.DefinePathDialogListener ,
 		AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
+		FileSelectAdapter.FileItemOpenListener,
         FileSelectAdapter.FileSelectClearListener,
         FileSelectAdapter.FileInformationShowListener {
 
@@ -200,7 +201,12 @@ public class FileSelectActivity extends StylishActivity implements
                 + getString(R.string.database_file_extension_default);
         openFileNameView.setText(defaultPath);
 
-		fillData();
+		// Construct adapter with listeners
+		mAdapter = new FileSelectAdapter(FileSelectActivity.this, fileHistory.getDbList());
+		mAdapter.setOnItemClickListener(this);
+		mAdapter.setFileSelectClearListener(this);
+		mAdapter.setFileInformationShowListener(this);
+		mListFiles.setAdapter(mAdapter);
 
 		// Load default database
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -351,7 +357,7 @@ public class FileSelectActivity extends StylishActivity implements
 
 	}
 
-    private class AssignPasswordOnFinish extends FileOnFinish {
+	private class AssignPasswordOnFinish extends FileOnFinish {
 
         AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
             super(fileOnFinish);
@@ -385,36 +391,26 @@ public class FileSelectActivity extends StylishActivity implements
 		}
 	}
 
-	private void fillData() {
-        mAdapter = new FileSelectAdapter(FileSelectActivity.this, fileHistory.getDbList());
-        mAdapter.setOnItemClickListener(
-            new View.OnClickListener() {
-                public void onClick(View view) {
-                    int itemPosition = mListFiles.getChildLayoutPosition(view);
-                    new OpenFileHistoryAsyncTask(new OpenFileHistoryAsyncTask.AfterOpenFileHistoryListener() {
-                        @Override
-                        public void afterOpenFile(String fileName, String keyFile) {
-                            try {
-                                PasswordActivity.Launch(FileSelectActivity.this,
-                                        fileName, keyFile);
-                            } catch (ContentFileNotFoundException e) {
-                                Toast.makeText(FileSelectActivity.this,
-                                        R.string.file_not_found_content, Toast.LENGTH_LONG)
-                                        .show();
-                            } catch (FileNotFoundException e) {
-                                Toast.makeText(FileSelectActivity.this,
-                                        R.string.file_not_found, Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                            updateTitleFileListView();
-                        }
-                    }, fileHistory).execute(itemPosition);
-                }
-            }
-        );
-        mAdapter.setFileSelectClearListener(this);
-        mAdapter.setFileInformationShowListener(this);
-        mListFiles.setAdapter(mAdapter);
+	@Override
+	public void onFileItemOpenListener(int itemPosition) {
+		new OpenFileHistoryAsyncTask(new OpenFileHistoryAsyncTask.AfterOpenFileHistoryListener() {
+			@Override
+			public void afterOpenFile(String fileName, String keyFile) {
+				try {
+					PasswordActivity.Launch(FileSelectActivity.this,
+							fileName, keyFile);
+				} catch (ContentFileNotFoundException e) {
+					Toast.makeText(FileSelectActivity.this,
+							R.string.file_not_found_content, Toast.LENGTH_LONG)
+							.show();
+				} catch (FileNotFoundException e) {
+					Toast.makeText(FileSelectActivity.this,
+							R.string.file_not_found, Toast.LENGTH_LONG)
+							.show();
+				}
+				updateTitleFileListView();
+			}
+		}, fileHistory).execute(itemPosition);
 	}
 
     @Override
@@ -442,8 +438,6 @@ public class FileSelectActivity extends StylishActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		fillData();
 		
 		String filename = null;
 		if (requestCode == FILE_BROWSE && resultCode == RESULT_OK) {

@@ -304,8 +304,6 @@ public class PasswordActivity extends LockingActivity
 
     @Override
     protected void onResume() {
-        super.onResume();
-
         // If the application was shutdown make sure to clear the password field, if it
         // was saved in the instance state
         if (App.isShutdown()) {
@@ -314,6 +312,9 @@ public class PasswordActivity extends LockingActivity
 
         // Clear the shutdown flag
         App.clearShutdown();
+
+        // For check shutdown
+        super.onResume();
 
         // checks if fingerprint is available, will also start listening for fingerprints when available
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -332,14 +333,6 @@ public class PasswordActivity extends LockingActivity
         if (!mRememberKeyfile) {
             keyFileView.setText("");
             checkboxKeyfileView.setChecked(false);
-        }
-    }
-
-    private Uri getKeyFile(Uri dbUri) {
-        if (mRememberKeyfile) {
-            return App.getFileHistory().getFileByName(dbUri);
-        } else {
-            return null;
         }
     }
 
