@@ -83,7 +83,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	protected int mSelectedIconID = -1;
 
 	/**
-	 * Launch EntryEditActivity to update an existing entry
+	 * launch EntryEditActivity to update an existing entry
 	 * @param act from activity
 	 * @param pw Entry to update
 	 */
@@ -105,7 +105,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	}
 
 	/**
-	 * Launch EntryEditActivity to add a new entry
+	 * launch EntryEditActivity to add a new entry
 	 * @param act from activity
 	 * @param pw Group who will contains new entry
 	 */
@@ -172,7 +172,7 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		View iconButton = findViewById(R.id.icon_button);
 		iconButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				IconPickerDialogFragment.Launch(EntryEditActivity.this);
+				IconPickerDialogFragment.launch(EntryEditActivity.this);
 			}
 		});
 

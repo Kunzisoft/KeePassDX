@@ -32,19 +32,34 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
+import com.keepassdroid.database.PwNode;
 import com.keepassdroid.icons.Icons;
+import com.kunzisoft.keepass.R;
 
 public class GroupEditDialogFragment extends DialogFragment
         implements IconPickerDialogFragment.IconPickerListener {
 
+    public static final String TAG_CREATE_GROUP = "TAG_CREATE_GROUP";
+
 	public static final String KEY_NAME = "name";
 	public static final String KEY_ICON_ID = "icon_id";
 
-	private CreateGroupListener createGroupListener;
+	private EditGroupListener editGroupListener;
 
+	private TextView nameField;
+    private ImageButton iconButton;
 	private int mSelectedIconID;
     private View root;
+
+    public static GroupEditDialogFragment build(PwNode group) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_NAME, group.getDisplayTitle());
+        // TODO Change
+        bundle.putInt(KEY_ICON_ID, group.getIcon().hashCode());
+        GroupEditDialogFragment fragment = new GroupEditDialogFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -52,8 +67,7 @@ public class GroupEditDialogFragment extends DialogFragment
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            createGroupListener = (CreateGroupListener) context;
-            createGroupListener = (CreateGroupListener) context;
+            editGroupListener = (EditGroupListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()
@@ -64,22 +78,30 @@ public class GroupEditDialogFragment extends DialogFragment
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         root = inflater.inflate(R.layout.group_edit, null);
+        nameField = (TextView) root.findViewById(R.id.group_name);
+        iconButton = (ImageButton) root.findViewById(R.id.icon_button);
+
+        if (getArguments() != null
+                && getArguments().containsKey(KEY_NAME)
+                && getArguments().containsKey(KEY_ICON_ID)) {
+            nameField.setText(getArguments().getString(KEY_NAME));
+            populateIcon(getArguments().getInt(KEY_ICON_ID));
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(root)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        TextView nameField = (TextView) root.findViewById(R.id.group_name);
                         String name = nameField.getText().toString();
-
                         if ( name.length() > 0 ) {
                             Bundle bundle = new Bundle();
                             bundle.putString(KEY_NAME, name);
                             bundle.putInt(KEY_ICON_ID, mSelectedIconID);
-                            createGroupListener.approveCreateGroup(bundle);
+                            editGroupListener.approveEditGroup(bundle);
 
                             GroupEditDialogFragment.this.getDialog().cancel();
                         }
@@ -91,7 +113,7 @@ public class GroupEditDialogFragment extends DialogFragment
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Bundle bundle = new Bundle();
-                        createGroupListener.cancelCreateGroup(bundle);
+                        editGroupListener.cancelEditGroup(bundle);
 
                         GroupEditDialogFragment.this.getDialog().cancel();
                     }
@@ -108,15 +130,18 @@ public class GroupEditDialogFragment extends DialogFragment
         return builder.create();
     }
 
+    private void populateIcon(int iconId) {
+        iconButton.setImageResource(Icons.iconToResId(iconId));
+    }
+
     @Override
     public void iconPicked(Bundle bundle) {
         mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
-        ImageButton currIconButton = (ImageButton) root.findViewById(R.id.icon_button);
-        currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
+        populateIcon(mSelectedIconID);
     }
 
-    public interface CreateGroupListener {
-        void approveCreateGroup(Bundle bundle);
-        void cancelCreateGroup(Bundle bundle);
+    public interface EditGroupListener {
+        void approveEditGroup(Bundle bundle);
+        void cancelEditGroup(Bundle bundle);
     }
 }

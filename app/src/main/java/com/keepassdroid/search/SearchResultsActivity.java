@@ -28,13 +28,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.keepassdroid.activities.GroupBaseActivity;
 import com.keepassdroid.adapters.NodeAdapter;
+import com.keepassdroid.app.App;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.utils.MenuUtil;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.database.Database;
-import com.keepassdroid.activities.GroupBaseActivity;
-import com.keepassdroid.app.App;
-import com.keepassdroid.utils.MenuUtil;
 
 public class SearchResultsActivity extends GroupBaseActivity {
 	
@@ -108,8 +108,10 @@ public class SearchResultsActivity extends GroupBaseActivity {
         }
 
 		setGroupTitle();
-		
-		setNodeAdapter(new NodeAdapter(this, mCurrentGroup));
+
+        NodeAdapter nodeAdapter = new NodeAdapter(this, mCurrentGroup);
+        nodeAdapter.setOnNodeClickListener(this);
+		setNodeAdapter(nodeAdapter);
 	}
 
 	private String getSearchStr(Intent queryIntent) {

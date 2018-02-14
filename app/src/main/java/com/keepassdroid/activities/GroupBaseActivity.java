@@ -102,7 +102,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		setResult(KeePass.EXIT_NORMAL);
 
 		styleScrollBars();
-		
 	}
 	
 	protected void styleScrollBars() {
@@ -123,7 +122,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 				if ( tv != null ) {
 					tv.setText(getText(R.string.root));
 				}
-				
 			}
 		}
 	}
@@ -148,6 +146,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 
     @Override
     public void onNodeClick(PwNode node) {
+		mAdapter.registerANodeToUpdate(node);
         switch (node.getType()) {
             case GROUP:
                 GroupActivity.Launch(this, (PwGroup) node);
@@ -209,9 +208,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		if ( ! super.onPrepareOptionsMenu(menu) ) {
 			return false;
 		}
-		
 		setSortMenuText(menu);
-		
 		return true;
 	}
 
@@ -329,6 +326,23 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 			}
 		}
 	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
+                if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
+                        resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
+                    PwNode newNode = (PwNode) data.getSerializableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
+                    if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
+                        mAdapter.addNode(newNode);
+                    if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
+                        mAdapter.updateLastNodeRegister();
+                }
+                break;
+        }
+    }
 
 	@Override
 	public void startActivityForResult(Intent intent, int requestCode, Bundle options) {

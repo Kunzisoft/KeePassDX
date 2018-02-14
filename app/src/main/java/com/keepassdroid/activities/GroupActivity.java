@@ -31,41 +31,44 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.keepassdroid.database.Database;
-import com.keepassdroid.fragments.GroupEditDialogFragment;
-import com.keepassdroid.fragments.IconPickerDialogFragment;
-import com.keepassdroid.tasks.ProgressTask;
-import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwNode;
-import com.keepassdroid.database.edit.DeleteEntry;
-import com.keepassdroid.database.edit.DeleteGroup;
 import com.keepassdroid.adapters.NodeAdapter;
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.PwGroupV4;
+import com.keepassdroid.database.PwNode;
 import com.keepassdroid.database.edit.AddGroup;
+import com.keepassdroid.database.edit.DeleteEntry;
+import com.keepassdroid.database.edit.DeleteGroup;
 import com.keepassdroid.dialog.ReadOnlyDialog;
+import com.keepassdroid.fragments.GroupEditDialogFragment;
+import com.keepassdroid.fragments.IconPickerDialogFragment;
+import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.view.GroupAddEntryView;
 import com.keepassdroid.view.GroupRootView;
 import com.keepassdroid.view.GroupViewOnlyView;
+import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.R;
 
 public abstract class GroupActivity extends GroupBaseActivity
-        implements GroupEditDialogFragment.CreateGroupListener, IconPickerDialogFragment.IconPickerListener {
-
-    private static final String TAG_CREATE_GROUP = "TAG_CREATE_GROUP";
+        implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
 
 	protected boolean addGroupEnabled = false;
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
 	protected boolean readOnly = false;
-	
+	protected EditGroupDialogAction editGroupDialogAction = EditGroupDialogAction.NONE;
+
+    private enum EditGroupDialogAction {
+	    CREATION, UPDATE, NONE
+    }
+
 	private static final String TAG = "Group Activity:";
 	
 	public static void Launch(Activity act) {
@@ -167,8 +170,10 @@ public abstract class GroupActivity extends GroupBaseActivity
 			addGroup.setOnClickListener(new View.OnClickListener() {
 
 				public void onClick(View v) {
+                    editGroupDialogAction = EditGroupDialogAction.CREATION;
 					GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
-					groupEditDialogFragment.show(getSupportFragmentManager(), TAG_CREATE_GROUP);
+					groupEditDialogFragment.show(getSupportFragmentManager(),
+                            GroupEditDialogFragment.TAG_CREATE_GROUP);
 				}
 			});
 		}
@@ -187,7 +192,7 @@ public abstract class GroupActivity extends GroupBaseActivity
 		setGroupTitle();
 		setGroupIcon();
 
-		NodeAdapter nodeAdapter = new NodeAdapter(this, mCurrentGroup);
+		NodeAdapter nodeAdapter = new NodeAdapter(this, mCurrentGroup, true);
 		nodeAdapter.setOnNodeClickListener(this);
 		nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
 			@Override
@@ -200,6 +205,24 @@ public abstract class GroupActivity extends GroupBaseActivity
                         EntryActivity.Launch(GroupActivity.this, (PwEntry) node);
                         break;
                 }
+				return true;
+			}
+
+			@Override
+			public boolean onEditMenuClick(PwNode node) {
+			    mAdapter.registerANodeToUpdate(node);
+				switch (node.getType()) {
+					case GROUP:
+                        editGroupDialogAction = EditGroupDialogAction.UPDATE;
+						GroupEditDialogFragment groupEditDialogFragment =
+                                GroupEditDialogFragment.build(node);
+						groupEditDialogFragment.show(getSupportFragmentManager(),
+                                GroupEditDialogFragment.TAG_CREATE_GROUP);
+						break;
+					case ENTRY:
+						EntryEditActivity.Launch(GroupActivity.this, (PwEntry) node);
+						break;
+				}
 				return true;
 			}
 
@@ -242,23 +265,6 @@ public abstract class GroupActivity extends GroupBaseActivity
     }
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
-                if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
-                        resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    PwNode newNode = (PwNode) data.getSerializableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
-                    if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
-                        mAdapter.addNode(newNode);
-                    if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
-                        mAdapter.updateLastNodeClicked();
-                }
-                break;
-        }
-	}
-
-	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -269,25 +275,37 @@ public abstract class GroupActivity extends GroupBaseActivity
     }
 
     @Override
-    public void approveCreateGroup(Bundle bundle) {
+    public void approveEditGroup(Bundle bundle) {
         String GroupName = bundle.getString(GroupEditDialogFragment.KEY_NAME);
         int GroupIconID = bundle.getInt(GroupEditDialogFragment.KEY_ICON_ID);
-        Handler handler = new Handler();
-        AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mCurrentGroup,
-                new AfterAddNode(handler), false);
-        ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
-        pt.run();
+        switch (editGroupDialogAction) {
+            case CREATION:
+                // If edit group creation
+                Handler handler = new Handler();
+                AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mCurrentGroup,
+                        new AfterAddNode(handler), false);
+                ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
+                pt.run();
+                break;
+            case UPDATE:
+                // If edit group update
+                // TODO UpdateGroup
+                break;
+        }
+        editGroupDialogAction = EditGroupDialogAction.NONE;
     }
 
     @Override
-    public void cancelCreateGroup(Bundle bundle) {
+    public void cancelEditGroup(Bundle bundle) {
         // Do nothing here
     }
 
     @Override
     // For icon in create tree dialog
     public void iconPicked(Bundle bundle) {
-        GroupEditDialogFragment groupEditDialogFragment = (GroupEditDialogFragment) getSupportFragmentManager().findFragmentByTag(TAG_CREATE_GROUP);
+        GroupEditDialogFragment groupEditDialogFragment =
+                (GroupEditDialogFragment) getSupportFragmentManager()
+                        .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP);
         if (groupEditDialogFragment != null) {
             groupEditDialogFragment.iconPicked(bundle);
         }

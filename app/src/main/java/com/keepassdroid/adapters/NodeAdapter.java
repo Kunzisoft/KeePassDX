@@ -40,9 +40,6 @@ import com.kunzisoft.keepass.R;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
-    private static final int MENU_OPEN = Menu.FIRST;
-    private static final int MENU_DELETE = MENU_OPEN + 1;
-
     private SortedList<PwNode> nodeSortedList;
 
     private Context context;
@@ -53,12 +50,29 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private OnNodeClickCallback onNodeClickCallback;
     private int nodePositionToUpdate;
     private NodeMenuListener nodeMenuListener;
+    private boolean activateContextMenu;
 
+    /**
+     * Create node list adapter without contextMenu
+     * @param context Context to use
+     * @param mainNode Main node as group to build children
+     */
     public NodeAdapter(final Context context, PwGroup mainNode) {
+        this(context, mainNode, false);
+    }
+
+    /**
+     * Create node list adapter with contextMenu or not
+     * @param context Context to use
+     * @param mainNode Main node as group to build children
+     * @param mainNode true if contextMenu need to be shown
+     */
+    public NodeAdapter(final Context context, PwGroup mainNode, boolean activateContextMenu) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.textSize = PrefsUtil.getListTextSize(context);
         this.sortByName = PrefsUtil.isListSortByName(context);
+        this.activateContextMenu = activateContextMenu;
         this.nodePositionToUpdate = -1;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
@@ -98,9 +112,19 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     }
 
     /**
-     * Update the last Node clicked in the list
+     * Register a node to update before an action
+     * Call updateLastNodeRegister() after the action to update the node
+     * @param node Node to register
      */
-    public void updateLastNodeClicked() {
+    public void registerANodeToUpdate(PwNode node) {
+        nodePositionToUpdate = nodeSortedList.indexOf(node);
+    }
+
+    /**
+     * Update the last Node register in the list
+     * Work if only registerANodeToUpdate(PwNode node) is called before
+     */
+    public void updateLastNodeRegister() {
         // Don't really update here, sorted list knows each original ref, so we just notify a change
         try {
             notifyItemChanged(nodePositionToUpdate);
@@ -155,8 +179,11 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         // Assign click
         holder.container.setOnClickListener(
                 new OnNodeClickListener(subNode));
-        holder.container.setOnCreateContextMenuListener(
-                new ContextMenuBuilder(subNode, nodeMenuListener));
+        // Context menu
+        if (activateContextMenu) {
+            holder.container.setOnCreateContextMenuListener(
+                    new ContextMenuBuilder(subNode, nodeMenuListener));
+        }
         // Assign text size
         holder.text.setTextSize(textSize);
     }
@@ -192,6 +219,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      */
     public interface NodeMenuListener {
         boolean onOpenMenuClick(PwNode node);
+        boolean onEditMenuClick(PwNode node);
         boolean onDeleteMenuClick(PwNode node);
     }
 
@@ -207,7 +235,6 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
         @Override
         public void onClick(View v) {
-            nodePositionToUpdate = nodeSortedList.indexOf(node);
             if (onNodeClickCallback != null)
                 onNodeClickCallback.onNodeClick(node);
         }
@@ -217,6 +244,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Utility class for menu listener
      */
     private class ContextMenuBuilder implements View.OnCreateContextMenuListener {
+
+        private static final int MENU_OPEN = Menu.FIRST;
+        private static final int MENU_EDIT = MENU_OPEN + 1;
+        private static final int MENU_DELETE = MENU_EDIT + 1;
 
         private PwNode node;
         private NodeMenuListener menuListener;
@@ -231,6 +262,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             MenuItem clearMenu = contextMenu.add(Menu.NONE, MENU_OPEN, Menu.NONE, R.string.menu_open);
             clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
             if (!App.getDB().readOnly && !node.equals(App.getDB().pm.getRecycleBin())) {
+                // TODO make edit for group
+                // clearMenu = contextMenu.add(Menu.NONE, MENU_EDIT, Menu.NONE, R.string.menu_edit);
+                // clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
                 clearMenu = contextMenu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.menu_delete);
                 clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
             }
@@ -244,6 +278,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 switch ( item.getItemId() ) {
                     case MENU_OPEN:
                         return menuListener.onOpenMenuClick(node);
+                    case MENU_EDIT:
+                        return menuListener.onEditMenuClick(node);
                     case MENU_DELETE:
                         return menuListener.onDeleteMenuClick(node);
                     default:

@@ -45,7 +45,7 @@ public class IconPickerDialogFragment extends DialogFragment {
 	public static final String KEY_ICON_ID = "icon_id";
 	private IconPickerListener iconPickerListener;
 
-	public static void Launch(StylishActivity activity)	{
+	public static void launch(StylishActivity activity)	{
         // Create an instance of the dialog fragment and show it
         IconPickerDialogFragment dialog = new IconPickerDialogFragment();
         dialog.show(activity.getSupportFragmentManager(), "NoticeDialogFragment");
