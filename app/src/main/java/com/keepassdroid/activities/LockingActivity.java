@@ -31,7 +31,6 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.timeout.TimeoutHelper;
-import com.kunzisoft.keepass.KeePass;
 
 
 public abstract class LockingActivity extends StylishActivity {
@@ -52,16 +51,9 @@ public abstract class LockingActivity extends StylishActivity {
 	protected void onResume() {
 		super.onResume();
 
-        checkShutdown();
+        TimeoutHelper.checkShutdown(this);
 		TimeoutHelper.resume(this);
 	}
-
-    private void checkShutdown() {
-        if ( App.isShutdown() && App.getDB().Loaded() ) {
-            setResult(KeePass.EXIT_LOCK);
-            finish();
-        }
-    }
 
     @Override
     protected void onPause() {
@@ -86,7 +78,7 @@ public abstract class LockingActivity extends StylishActivity {
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                     if (PrefsUtil.isLockDatabaseWhenScreenShutOffEnable(LockingActivity.this)) {
                         App.setShutdown();
-                        checkShutdown();
+                        TimeoutHelper.checkShutdown(LockingActivity.this);
                     }
                 }
             }
