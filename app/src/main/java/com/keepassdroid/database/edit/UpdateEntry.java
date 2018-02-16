@@ -23,7 +23,6 @@ import android.content.Context;
 
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwGroup;
 
 public class UpdateEntry extends RunnableOnFinish {
 	private Database mDb;
@@ -61,32 +60,19 @@ public class UpdateEntry extends RunnableOnFinish {
 	private class AfterUpdate extends OnFinish {
 		private PwEntry mBackup;
 		
-		public AfterUpdate(PwEntry backup, OnFinish finish) {
+		AfterUpdate(PwEntry backup, OnFinish finish) {
 			super(finish);
-			
 			mBackup = backup;
 		}
 		
 		@Override
 		public void run() {
-			if ( mSuccess ) {
-				// Mark group dirty if title or icon changes
-				if ( ! mBackup.isContentVisuallyTheSame(mNewE) ) {
-					PwGroup parent = mBackup.getParent();
-					if ( parent != null ) {
-						// Mark parent group dirty
-						mDb.dirty.add(parent);
-					}
-				}
-			} else {
+			if ( !mSuccess ) {
 				// If we fail to save, back out changes to global structure
 				mOldE.assign(mBackup);
 			}
-			
+			// TODO Callback for update entry
 			super.run();
 		}
-		
 	}
-
-
 }

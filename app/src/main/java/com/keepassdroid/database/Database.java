@@ -46,14 +46,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.SyncFailedException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author bpellin
  */
 public class Database {
-    public Set<PwGroup> dirty = new HashSet<PwGroup>();
     public PwDatabase pm;
     public Uri mUri;
     public SearchDbHelper searchHelper;
@@ -220,24 +217,11 @@ public class Database {
     }
 
     public void clear() {
-        dirty.clear();
         drawFactory.clear();
 
         pm = null;
         mUri = null;
         loaded = false;
         passwordEncodingError = false;
-    }
-
-    public void markAllGroupsAsDirty() {
-        for ( PwGroup group : pm.getGroups() ) {
-            dirty.add(group);
-        }
-
-        // TODO: This should probably be abstracted out
-        // The root tree in v3 is not an 'official' tree
-        if ( pm instanceof PwDatabaseV3 ) {
-            dirty.add(pm.rootGroup);
-        }
     }
 }

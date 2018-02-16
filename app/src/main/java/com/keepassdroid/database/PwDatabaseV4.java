@@ -366,9 +366,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		if (!recycleBinEnabled) {
 			return false;
 		}
-		
 		PwGroup recycle = getRecycleBin();
-		
 		return (recycle == null) || (!group.isContainedIn(recycle));
 	}
 
@@ -377,11 +375,25 @@ public class PwDatabaseV4 extends PwDatabase {
 		if (!recycleBinEnabled) {
 			return false;
 		}
-		
 		PwGroup parent = entry.getParent();
 		return (parent != null) && canRecycle(parent);
 	}
-	
+
+	@Override
+	public void recycle(PwGroup group) {
+		ensureRecycleBin();
+
+		PwGroup parent = group.getParent();
+		removeGroupFrom(group, parent);
+		parent.touch(false, true);
+
+		PwGroup recycleBin = getRecycleBin();
+		addGroupTo(group, recycleBin);
+
+        group.touch(false, true);
+        // TODO ? group.touchLocation();
+	}
+
 	@Override
 	public void recycle(PwEntry entry) {
 		ensureRecycleBin();
@@ -397,6 +409,15 @@ public class PwDatabaseV4 extends PwDatabase {
 		entry.touchLocation();
 	}
 
+    @Override
+    public void undoRecycle(PwGroup group, PwGroup origParent) {
+
+        PwGroup recycleBin = getRecycleBin();
+        removeGroupFrom(group, recycleBin);
+
+        addGroupTo(group, origParent);
+    }
+
 	@Override
 	public void undoRecycle(PwEntry entry, PwGroup origParent) {
 		
@@ -409,15 +430,14 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public void deleteEntry(PwEntry entry) {
 		super.deleteEntry(entry);
-		
 		deletedObjects.add(new PwDeletedObject(entry.getUUID()));
 	}
 
 	@Override
 	public void undoDeleteEntry(PwEntry entry, PwGroup origParent) {
 		super.undoDeleteEntry(entry, origParent);
-		
-		deletedObjects.remove(entry);
+		// TODO undo delete entry
+        deletedObjects.remove(entry);
 	}
 
 	@Override

@@ -265,8 +265,9 @@ public abstract class PwDatabase {
 
     public void removeGroupFrom(PwGroup remove, PwGroup parent) {
         // Remove tree from parent tree
-        parent.removeChildGroup(remove);
-
+        if (parent != null) {
+            parent.removeChildGroup(remove);
+        }
         groups.remove(remove.getId());
     }
 
@@ -331,6 +332,11 @@ public abstract class PwDatabase {
         }
     }
 
+    /**
+     * Define if a Group must be delete or recycle
+     * @param group Group to remove
+     * @return true if group can be recycle, false elsewhere
+     */
     public boolean canRecycle(PwGroup group) {
         return false;
     }
@@ -344,8 +350,17 @@ public abstract class PwDatabase {
         return false;
     }
 
+    public void recycle(PwGroup group) {
+        // Assume calls to this are protected by calling inRecyleBin
+        throw new RuntimeException("Call not valid for .kdb databases.");
+    }
+
     public void recycle(PwEntry entry) {
         // Assume calls to this are protected by calling inRecyleBin
+        throw new RuntimeException("Call not valid for .kdb databases.");
+    }
+
+    public void undoRecycle(PwGroup group, PwGroup origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
@@ -353,11 +368,21 @@ public abstract class PwDatabase {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
+    public void deleteGroup(PwGroup group) {
+        PwGroup parent = group.getParent();
+        removeGroupFrom(group, parent);
+        parent.touch(false, true);
+    }
+
     public void deleteEntry(PwEntry entry) {
         PwGroup parent = entry.getParent();
         removeEntryFrom(entry, parent);
         parent.touch(false, true);
+    }
 
+    // TODO Delete group
+    public void undoDeleteGroup(PwGroup group, PwGroup origParent) {
+        addGroupTo(group, origParent);
     }
 
     public void undoDeleteEntry(PwEntry entry, PwGroup origParent) {

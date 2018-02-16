@@ -45,7 +45,6 @@ import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
-import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
@@ -71,19 +70,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 	private SharedPreferences prefs;
 	
 	protected PwGroup mCurrentGroup;
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		refreshIfDirty();
-	}
-	
-	public void refreshIfDirty() {
-		Database db = App.getDB();
-		if ( db.dirty.contains(mCurrentGroup) ) {
-			db.dirty.remove(mCurrentGroup);
-		}
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -252,12 +238,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		// Refresh menu titles
 		ActivityCompat.invalidateOptionsMenu(this);
 		
-		// Mark all groups as dirty now to refresh them on load
-		Database db = App.getDB();
-		db.markAllGroupsAsDirty();
-		// We'll manually refresh this tree so we can remove it
-		db.dirty.remove(mCurrentGroup);
-		
 		// Tell the adapter to refresh it's list
         mAdapter.notifyChangeSort();
         mAdapter.rebuildList(mCurrentGroup);
@@ -294,7 +274,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		public void run(PwNode pwNode) {
 		    super.run();
 			if (mSuccess) {
-				refreshIfDirty();
                 mAdapter.addNode(pwNode);
 			} else {
 				displayMessage(GroupBaseActivity.this);
@@ -313,11 +292,13 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		@Override
 		public void run() {
 			if ( mSuccess) {
-				refreshIfDirty();
 				mAdapter.removeNode(pwNode);
                 PwGroup parent = pwNode.getParent();
                 PwGroup recycleBin = App.getDB().pm.getRecycleBin();
-                if (parent.equals(recycleBin) && !mCurrentGroup.equals(recycleBin)) {
+                // Add trash if it doesn't exists
+                if (parent.equals(recycleBin)
+                        && mCurrentGroup.getParent() == null
+                        && !mCurrentGroup.equals(recycleBin)) {
                     mAdapter.addNode(parent);
                 }
 			} else {

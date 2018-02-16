@@ -73,13 +73,11 @@ public class AddGroup extends RunnableOnFinish {
 		@Override
 		public void run() {
 			PwDatabase pm = mDb.pm;
-			if ( mSuccess ) {
-				// Mark parent group dirty
-				mDb.dirty.add(mParent);
-			} else {
-				pm.removeGroupFrom(mGroup, mParent);
+			if ( !mSuccess ) {
+                pm.removeGroupFrom(mGroup, mParent);
 			}
 
+            // TODO Better callback
             AfterAddNodeOnFinish afterAddNode =
                     (AfterAddNodeOnFinish) super.mOnFinish;
             afterAddNode.mSuccess = mSuccess;

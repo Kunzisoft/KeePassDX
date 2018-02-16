@@ -19,30 +19,32 @@
  */
 package com.keepassdroid.database.edit;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
 
-import com.keepassdroid.database.Database;
-import com.keepassdroid.activities.GroupBaseActivity;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeleteGroup extends RunnableOnFinish {
-	
+
+    private Context mContext;
 	private Database mDb;
 	private PwGroup mGroup;
-	private GroupBaseActivity mAct;
 	private boolean mDontSave;
 	
-	public DeleteGroup(GroupBaseActivity act, Database db, PwGroup group, OnFinish finish) {
+	public DeleteGroup(Context ctx, Database db, PwGroup group, OnFinish finish) {
 		super(finish);
-		setMembers(act, db, group, false);
+		setMembers(ctx, db, group, false);
 	}
-	
-	public DeleteGroup(GroupBaseActivity act, Database db, PwGroup group, OnFinish finish, boolean dontSave) {
+
+	public DeleteGroup(Context ctx, Database db, PwGroup group, OnFinish finish, boolean dontSave) {
 		super(finish);
-		setMembers(act, db, group, dontSave);
+		setMembers(ctx, db, group, dontSave);
 	}
 	
 	public DeleteGroup(Database db, PwGroup group, OnFinish finish, boolean dontSave) {
@@ -50,72 +52,81 @@ public class DeleteGroup extends RunnableOnFinish {
 		setMembers(null, db, group, dontSave);
 	}
 
-	private void setMembers(GroupBaseActivity act, Database db, PwGroup group, boolean dontSave) {
+	private void setMembers(Context ctx, Database db, PwGroup group, boolean dontSave) {
 		mDb = db;
 		mGroup = group;
-		mAct = act;
+        mContext = ctx;
 		mDontSave = dontSave;
-
-		mFinish = new AfterDelete(mFinish);
 	}
 	
 	@Override
 	public void run() {
-		
-		// Remove child entries
-		List<PwEntry> childEnt = new ArrayList<>(mGroup.childEntries);
-		for ( int i = 0; i < childEnt.size(); i++ ) {
-			DeleteEntry task = new DeleteEntry(mAct, mDb, childEnt.get(i), null, true);
-			task.run();
-		}
-		
-		// Remove child groups
-		List<PwGroup> childGrp = new ArrayList<>(mGroup.childGroups);
-		for ( int i = 0; i < childGrp.size(); i++ ) {
-			DeleteGroup task = new DeleteGroup(mAct, mDb, childGrp.get(i), null, true);
-			task.run();
-		}
-		
-		
-		// Remove from parent
-		PwGroup parent = mGroup.getParent();
-		if ( parent != null ) {
-			parent.removeChildGroup(mGroup);
-		}
-		
-		// Remove from PwDatabaseV3
-		mDb.pm.getGroups().remove(mGroup);
-		
-		// Save
-		SaveDB save = new SaveDB(mAct, mDb, mFinish, mDontSave);
-		save.run();
+        PwDatabase pm = mDb.pm;
+        PwGroup parent = mGroup.getParent();
 
+        // Remove Group from parent
+        boolean recycle = pm.canRecycle(mGroup);
+        if (recycle) {
+            pm.recycle(mGroup);
+        }
+        else {
+            // TODO tests
+            // Remove child entries
+            List<PwEntry> childEnt = new ArrayList<>(mGroup.childEntries);
+            for ( int i = 0; i < childEnt.size(); i++ ) {
+                DeleteEntry task = new DeleteEntry(mContext, mDb, childEnt.get(i), null, true);
+                task.run();
+            }
+
+            // Remove child groups
+            List<PwGroup> childGrp = new ArrayList<>(mGroup.childGroups);
+            for ( int i = 0; i < childGrp.size(); i++ ) {
+                DeleteGroup task = new DeleteGroup(mContext, mDb, childGrp.get(i), null, true);
+                task.run();
+            }
+            pm.deleteGroup(mGroup);
+
+            // Remove from PwDatabaseV3
+            // TODO ENcapsulate
+            mDb.pm.getGroups().remove(mGroup);
+        }
+
+        // Save
+        mFinish = new AfterDelete(mFinish, parent, mGroup, recycle);
+		
+		// Commit Database
+		SaveDB save = new SaveDB(mContext, mDb, mFinish, mDontSave);
+		save.run();
 	}
 	
 	private class AfterDelete extends OnFinish {
-		public AfterDelete(OnFinish finish) {
+
+        private PwGroup mParent;
+        private PwGroup mGroup;
+        private boolean recycled;
+
+		AfterDelete(OnFinish finish, PwGroup parent, PwGroup mGroup, boolean recycle) {
 			super(finish);
+
+            this.mParent = parent;
+            this.mGroup = mGroup;
+            this.recycled = recycle;
 		}
 
 		public void run() {
-			if ( mSuccess ) {
-				// Remove from tree global
-				mDb.pm.groups.remove(mGroup.getId());
-				
-				// Remove tree from the dirty global (if it is present), not a big deal if this fails
-				mDb.dirty.remove(mGroup);
-				
-				// Mark parent dirty
-				PwGroup parent = mGroup.getParent();
-				if ( parent != null ) {
-					mDb.dirty.add(parent);
-				}
-				mDb.dirty.add(mDb.pm.rootGroup);
-			} else {
-				// Let's not bother recovering from a failure to save a deleted tree.  It is too much work.
-				App.setShutdown();
-			}
-			
+            PwDatabase pm = mDb.pm;
+            if ( !mSuccess ) {
+                if (recycled) {
+                    pm.undoRecycle(mGroup, mParent);
+                }
+                else {
+                    // Let's not bother recovering from a failure to save a deleted tree.  It is too much work.
+                    App.setShutdown();
+                    // TODO TEST pm.undoDeleteGroup(mGroup, mParent);
+                }
+            }
+            // TODO Callback after delete group
+
 			super.run();
 		}
 	}
