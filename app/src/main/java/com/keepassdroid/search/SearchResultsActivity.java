@@ -28,7 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.keepassdroid.activities.GroupBaseActivity;
+import com.keepassdroid.activities.ListNodesActivity;
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
@@ -36,7 +36,7 @@ import com.keepassdroid.utils.MenuUtil;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
-public class SearchResultsActivity extends GroupBaseActivity {
+public class SearchResultsActivity extends ListNodesActivity {
 	
 	private Database mDb;
 
@@ -69,7 +69,7 @@ public class SearchResultsActivity extends GroupBaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        listView = findViewById(R.id.group_list);
+        listView = findViewById(R.id.nodes_list);
         notFoundView = findViewById(R.id.not_found_container);
 
 		performSearch(getSearchStr(getIntent()));

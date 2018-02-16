@@ -38,7 +38,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keepassdroid.adapters.NodeAdapter;
@@ -55,11 +54,10 @@ import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.view.AssignPasswordHelper;
-import com.keepassdroid.view.GroupViewOnlyView;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
-public abstract class GroupBaseActivity extends LockCloseListActivity
+public abstract class ListNodesActivity extends LockCloseListActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
 		NodeAdapter.OnNodeClickCallback {
 	protected RecyclerView mList;
@@ -85,7 +83,7 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 
 		ActivityCompat.invalidateOptionsMenu(this);
 
-		setContentView(new GroupViewOnlyView(this));
+		setContentView(R.layout.list_nodes);
 		setResult(KeePass.EXIT_NORMAL);
 
 		styleScrollBars();
@@ -113,22 +111,15 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		}
 	}
 
-	protected void setGroupIcon() {
-		if (mCurrentGroup != null) {
-			ImageView iv = (ImageView) findViewById(R.id.icon);
-			App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
-		}
+	private void ensureCorrectListView(){
+		mList = (RecyclerView) findViewById(R.id.nodes_list);
+		mList.setLayoutManager(new LinearLayoutManager(this));
 	}
 
 	protected void setNodeAdapter(NodeAdapter adapter) {
 		ensureCorrectListView();
 		mAdapter = adapter;
 		mList.setAdapter(adapter);
-	}
-
-	private void ensureCorrectListView(){
-		mList = (RecyclerView) findViewById(R.id.group_list);
-        mList.setLayoutManager(new LinearLayoutManager(this));
 	}
 
     @Override
@@ -266,49 +257,6 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 		dialog.show(getSupportFragmentManager(), "passwordDialog");
 	}
 
-	public class AfterAddNode extends AfterAddNodeOnFinish {
-		public AfterAddNode(Handler handler) {
-			super(handler);
-		}
-
-		public void run(PwNode pwNode) {
-		    super.run();
-			if (mSuccess) {
-                mAdapter.addNode(pwNode);
-			} else {
-				displayMessage(GroupBaseActivity.this);
-			}
-		}
-	}
-
-	public class AfterDeleteNode extends OnFinish {
-        private PwNode pwNode;
-
-		public AfterDeleteNode(Handler handler, PwNode pwNode) {
-			super(handler);
-			this.pwNode = pwNode;
-		}
-
-		@Override
-		public void run() {
-			if ( mSuccess) {
-				mAdapter.removeNode(pwNode);
-                PwGroup parent = pwNode.getParent();
-                PwGroup recycleBin = App.getDB().pm.getRecycleBin();
-                // Add trash if it doesn't exists
-                if (parent.equals(recycleBin)
-                        && mCurrentGroup.getParent() == null
-                        && !mCurrentGroup.equals(recycleBin)) {
-                    mAdapter.addNode(parent);
-                }
-			} else {
-				mHandler.post(new UIToastTask(GroupBaseActivity.this, "Unrecoverable error: " + mMessage));
-				App.setShutdown();
-				finish();
-			}
-		}
-	}
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -347,4 +295,47 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
 			super.startActivityForResult(intent, requestCode, options);
 		}
 	}
+
+    class AfterAddNode extends AfterAddNodeOnFinish {
+        AfterAddNode(Handler handler) {
+            super(handler);
+        }
+
+        public void run(PwNode pwNode) {
+            super.run();
+            if (mSuccess) {
+                mAdapter.addNode(pwNode);
+            } else {
+                displayMessage(ListNodesActivity.this);
+            }
+        }
+    }
+
+    class AfterDeleteNode extends OnFinish {
+        private PwNode pwNode;
+
+        AfterDeleteNode(Handler handler, PwNode pwNode) {
+            super(handler);
+            this.pwNode = pwNode;
+        }
+
+        @Override
+        public void run() {
+            if ( mSuccess) {
+                mAdapter.removeNode(pwNode);
+                PwGroup parent = pwNode.getParent();
+                PwGroup recycleBin = App.getDB().pm.getRecycleBin();
+                // Add trash if it doesn't exists
+                if (parent.equals(recycleBin)
+                        && mCurrentGroup.getParent() == null
+                        && !mCurrentGroup.equals(recycleBin)) {
+                    mAdapter.addNode(parent);
+                }
+            } else {
+                mHandler.post(new UIToastTask(ListNodesActivity.this, "Unrecoverable error: " + mMessage));
+                App.setShutdown();
+                finish();
+            }
+        }
+    }
 }

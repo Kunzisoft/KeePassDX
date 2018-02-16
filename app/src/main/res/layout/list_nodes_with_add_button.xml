@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-     
+
  This file is part of KeePass DX.
 
   KeePass DX is free software: you can redistribute it and/or modify
@@ -18,9 +18,9 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -43,7 +43,7 @@
             android:layout_below="@+id/toolbar" />
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView android:id="@+id/group_list"
+    <android.support.v7.widget.RecyclerView android:id="@+id/nodes_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar" />
@@ -56,7 +56,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-		style="@style/KeepassDXStyle.Fab" />
+        style="@style/KeepassDXStyle.Fab" />
 
     <TextView android:id="@+id/add_entry"
         android:layout_marginRight="12dp"
@@ -67,21 +67,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_entry"
-		android:visibility="invisible"
+        android:visibility="invisible"
         style="@style/KeepassDXStyle.FabMenu"
         tools:ignore="UnusedAttribute" />
 
-	<TextView android:id="@+id/add_group"
-		android:layout_marginBottom="24dp"
+    <TextView android:id="@+id/add_group"
+        android:layout_marginBottom="24dp"
         android:layout_marginRight="12dp"
         android:layout_marginEnd="12dp"
         android:layout_above="@+id/add_entry"
         android:layout_alignRight="@+id/add_button"
         android:layout_alignEnd="@+id/add_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/add_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_group"
         android:visibility="invisible"
-		style="@style/KeepassDXStyle.FabMenu"
+        style="@style/KeepassDXStyle.FabMenu"
         tools:ignore="UnusedAttribute" />
 </RelativeLayout>

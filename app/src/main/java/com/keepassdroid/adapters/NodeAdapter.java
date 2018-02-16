@@ -159,10 +159,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         BasicViewHolder basicViewHolder;
         View view;
         if (viewType == PwNode.Type.GROUP.ordinal()) {
-            view = inflater.inflate(R.layout.list_entries_group, parent, false);
+            view = inflater.inflate(R.layout.list_nodes_group, parent, false);
             basicViewHolder = new GroupViewHolder(view);
         } else {
-            view = inflater.inflate(R.layout.list_entries_entry, parent, false);
+            view = inflater.inflate(R.layout.list_nodes_entry, parent, false);
             basicViewHolder = new EntryViewHolder(view);
         }
         return basicViewHolder;

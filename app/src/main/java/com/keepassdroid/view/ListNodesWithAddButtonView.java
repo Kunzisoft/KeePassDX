@@ -33,39 +33,39 @@ import android.widget.RelativeLayout;
 
 import com.kunzisoft.keepass.R;
 
-public class GroupAddEntryView extends RelativeLayout {
+public class ListNodesWithAddButtonView extends RelativeLayout {
 
-    protected View addButton;
+    private View addEntry;
+    private boolean addEntryActivated;
+    private View addGroup;
+    private boolean addGroupActivated;
 
-    protected View addEntry;
-    protected boolean addEntryActivated;
-    protected View addGroup;
-    protected boolean addGroupActivated;
-
+    private boolean entryEnable;
+    private boolean groupEnable;
 
     private boolean animInProgress;
     private AddButtonAnimation viewButtonMenuAnimation;
     private ViewMenuAnimation viewMenuAnimationAddEntry;
     private ViewMenuAnimation viewMenuAnimationAddGroup;
 
-	public GroupAddEntryView(Context context) {
+	public ListNodesWithAddButtonView(Context context) {
 		this(context, null);
 	}
 	
-	public GroupAddEntryView(Context context, AttributeSet attrs) {
+	public ListNodesWithAddButtonView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
 		inflate(context);
 	}
 	
 	protected void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.group_add_entry, this);
+		assert inflater != null;
+        inflater.inflate(R.layout.list_nodes_with_add_button, this);
 
-        addEntryActivated = true;
         addGroupActivated = true;
+        addEntryActivated = true;
 
-        addButton = findViewById(R.id.add_button);
+        View addButton = findViewById(R.id.add_button);
         addEntry = findViewById(R.id.add_entry);
         addGroup = findViewById(R.id.add_group);
 
@@ -76,7 +76,9 @@ public class GroupAddEntryView extends RelativeLayout {
         addButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!animInProgress) {
+                if (!animInProgress
+                        && (addEntry.getVisibility() != VISIBLE
+                        || addGroup.getVisibility() != VISIBLE)) {
                     startGlobalAnimation();
                 }
             }
@@ -97,12 +99,30 @@ public class GroupAddEntryView extends RelativeLayout {
         return super.dispatchTouchEvent(ev);
     }
 
+    /**
+     * Enable or not the possibility to add an entry by pressing a button
+     * @param enable true to enable
+     */
+    public void enableAddEntry(boolean enable) {
+        this.entryEnable = enable;
+        this.addEntry.setVisibility(GONE);
+    }
+
+    /**
+     * Enable or not the possibility to add a group by pressing a button
+     * @param enable true to enable
+     */
+    public void enableAddGroup(boolean enable) {
+	    this.groupEnable = enable;
+        this.addGroup.setVisibility(GONE);
+    }
+
     private void startGlobalAnimation() {
         viewButtonMenuAnimation.startAnimation();
-        if (addEntryActivated) {
+        if (entryEnable && addEntryActivated) {
             viewMenuAnimationAddEntry.startAnimation();
         }
-        if (addGroupActivated) {
+        if (groupEnable && addGroupActivated) {
             viewMenuAnimationAddGroup.startAnimation();
         }
     }
@@ -182,7 +202,7 @@ public class GroupAddEntryView extends RelativeLayout {
         @Override
         public void onAnimationEnd(Animation animation) {
             if(view.getVisibility() == VISIBLE)
-                view.setVisibility(GONE);
+                view.setVisibility(INVISIBLE);
             else
                 view.setVisibility(VISIBLE);
         }

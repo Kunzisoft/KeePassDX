@@ -30,6 +30,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
@@ -50,13 +51,11 @@ import com.keepassdroid.dialog.ReadOnlyDialog;
 import com.keepassdroid.fragments.GroupEditDialogFragment;
 import com.keepassdroid.fragments.IconPickerDialogFragment;
 import com.keepassdroid.tasks.ProgressTask;
-import com.keepassdroid.view.GroupAddEntryView;
-import com.keepassdroid.view.GroupRootView;
-import com.keepassdroid.view.GroupViewOnlyView;
+import com.keepassdroid.view.ListNodesWithAddButtonView;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
-public abstract class GroupActivity extends GroupBaseActivity
+public abstract class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
 
 	protected boolean addGroupEnabled = false;
@@ -143,17 +142,11 @@ public abstract class GroupActivity extends GroupBaseActivity
 		
 		setupButtons();
 
-		if ( addGroupEnabled && addEntryEnabled ) {
-			setContentView(new GroupAddEntryView(this));
-		} else if ( addGroupEnabled ) {
-			setContentView(new GroupRootView(this));
-		} else if ( addEntryEnabled ) {
-			setContentView(new GroupAddEntryView(this));
-			View addGroup = findViewById(R.id.add_group);
-			addGroup.setVisibility(View.GONE);
-		} else {
-			setContentView(new GroupViewOnlyView(this));
-		}
+		// Construct main view
+        ListNodesWithAddButtonView rootView = new ListNodesWithAddButtonView(this);
+        rootView.enableAddGroup(addGroupEnabled);
+        rootView.enableAddEntry(addEntryEnabled);
+		setContentView(rootView);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -161,8 +154,6 @@ public abstract class GroupActivity extends GroupBaseActivity
 
         if ( mCurrentGroup.getParent() != null )
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
-
-		Log.w(TAG, "Set view");
 
 		if ( addGroupEnabled ) {
 			// Add Group button
@@ -244,6 +235,13 @@ public abstract class GroupActivity extends GroupBaseActivity
 		
 		if (isRoot) {
 			showWarnings();
+		}
+	}
+
+	protected void setGroupIcon() {
+		if (mCurrentGroup != null) {
+			ImageView iv = (ImageView) findViewById(R.id.icon);
+			App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
 		}
 	}
 
