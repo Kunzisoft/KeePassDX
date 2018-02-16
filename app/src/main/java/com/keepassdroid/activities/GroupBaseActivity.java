@@ -33,6 +33,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -335,10 +336,14 @@ public abstract class GroupBaseActivity extends LockCloseListActivity
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
                         resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
                     PwNode newNode = (PwNode) data.getSerializableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
-                    if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
-                        mAdapter.addNode(newNode);
-                    if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
-                        mAdapter.updateLastNodeRegister();
+                    if (newNode != null) {
+						if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
+							mAdapter.addNode(newNode);
+						if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
+							mAdapter.updateLastNodeRegister();
+					} else {
+                        Log.e(this.getClass().getName(), "New node can be retrieve in Activity Result");
+                    }
                 }
                 break;
         }

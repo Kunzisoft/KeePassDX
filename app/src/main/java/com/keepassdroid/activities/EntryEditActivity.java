@@ -327,15 +327,16 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	@Override
 	public void finish() {
 	    // Assign entry callback as a result in all case
-		Intent intentEntry = new Intent();
-		if ( mIsNew ) {
-			intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
-			setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
-		} else {
-			intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
-			setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
+		if (mCallbackNewEntry != null) {
+			Intent intentEntry = new Intent();
+			if (mIsNew) {
+				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+				setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
+			} else {
+				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+				setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
+			}
 		}
-
 		super.finish();
 	}
 
