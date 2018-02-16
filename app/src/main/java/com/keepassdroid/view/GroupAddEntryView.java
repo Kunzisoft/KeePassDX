@@ -20,8 +20,10 @@
 package com.keepassdroid.view;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -75,17 +77,35 @@ public class GroupAddEntryView extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 if(!animInProgress) {
-                    viewButtonMenuAnimation.startAnimation();
-                    if (addEntryActivated) {
-                        viewMenuAnimationAddEntry.startAnimation();
-                    }
-                    if (addGroupActivated) {
-                        viewMenuAnimationAddGroup.startAnimation();
-                    }
+                    startGlobalAnimation();
                 }
             }
         });
 	}
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Rect viewRectG = new Rect();
+        getGlobalVisibleRect(viewRectG);
+        if (viewRectG.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+            if(!animInProgress
+                    && (addEntry.getVisibility() == VISIBLE
+                    || addGroup.getVisibility() == VISIBLE)) {
+                startGlobalAnimation();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private void startGlobalAnimation() {
+        viewButtonMenuAnimation.startAnimation();
+        if (addEntryActivated) {
+            viewMenuAnimationAddEntry.startAnimation();
+        }
+        if (addGroupActivated) {
+            viewMenuAnimationAddGroup.startAnimation();
+        }
+    }
 
 	private class AddButtonAnimation implements Animation.AnimationListener {
 
