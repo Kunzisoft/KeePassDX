@@ -4,6 +4,7 @@
     android:id="@+id/fingerprint_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/default_margin"
     tools:visibility="gone">
     <!-- added these 2 fingerprint related views -->
     <android.support.v7.widget.AppCompatImageView
@@ -23,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/fingerprint_image"
+        style="@style/KeepassDXStyle.TextAppearance.DefaultTextOnPrimary"
         android:gravity="center_vertical|end"
-        android:text="@string/entry_and_or"
-        android:textColor="?attr/colorAccent" />
+        android:text="@string/entry_and_or" />
 </RelativeLayout>

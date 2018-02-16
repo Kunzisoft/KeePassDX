@@ -21,6 +21,8 @@ package com.keepassdroid.view;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,15 +37,21 @@ import com.kunzisoft.keepass.R;
 
 public class ListNodesWithAddButtonView extends RelativeLayout {
 
+    private enum State {
+        OPEN, CLOSE
+    }
+
+    private FloatingActionButton addButton;
     private View addEntry;
-    private boolean addEntryActivated;
     private View addGroup;
-    private boolean addGroupActivated;
 
-    private boolean entryEnable;
-    private boolean groupEnable;
+    private boolean addEntryEnable;
+    private boolean addGroupEnable;
 
-    private boolean animInProgress;
+    private State state;
+    private boolean allowAction;
+    private OnClickListener onAddButtonClickListener;
+    private FloatingActionButton.OnVisibilityChangedListener onAddButtonVisibilityChangedListener;
     private AddButtonAnimation viewButtonMenuAnimation;
     private ViewMenuAnimation viewMenuAnimationAddEntry;
     private ViewMenuAnimation viewMenuAnimationAddGroup;
@@ -62,10 +70,10 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 		assert inflater != null;
         inflater.inflate(R.layout.list_nodes_with_add_button, this);
 
-        addGroupActivated = true;
-        addEntryActivated = true;
+        addEntryEnable = true;
+        addGroupEnable = true;
 
-        View addButton = findViewById(R.id.add_button);
+        addButton = (FloatingActionButton) findViewById(R.id.add_button);
         addEntry = findViewById(R.id.add_entry);
         addGroup = findViewById(R.id.add_group);
 
@@ -73,13 +81,42 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         viewMenuAnimationAddEntry = new ViewMenuAnimation(addEntry);
         viewMenuAnimationAddGroup = new ViewMenuAnimation(addGroup);
 
-        addButton.setOnClickListener(new OnClickListener() {
+        allowAction = true;
+        state = State.CLOSE;
+
+        onAddButtonClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!animInProgress
-                        && (addEntry.getVisibility() != VISIBLE
-                        || addGroup.getVisibility() != VISIBLE)) {
+                if (allowAction && state.equals(State.CLOSE)) {
                     startGlobalAnimation();
+                }
+            }
+        };
+        addButton.setOnClickListener(onAddButtonClickListener);
+
+        onAddButtonVisibilityChangedListener = new FloatingActionButton.OnVisibilityChangedListener() {
+            @Override
+            public void onHidden(FloatingActionButton fab) {
+                super.onHidden(fab);
+                addButton.setOnClickListener(null);
+                addButton.setClickable(false);
+            }
+            @Override
+            public void onShown(FloatingActionButton fab) {
+                super.onShown(fab);
+                addButton.setOnClickListener(onAddButtonClickListener);
+            }
+        };
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.nodes_list);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && addButton.getVisibility() == View.VISIBLE) {
+                    addButton.hide(onAddButtonVisibilityChangedListener);
+                } else if (dy < 0 && addButton.getVisibility() != View.VISIBLE) {
+                    addButton.show(onAddButtonVisibilityChangedListener);
                 }
             }
         });
@@ -90,9 +127,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         Rect viewRectG = new Rect();
         getGlobalVisibleRect(viewRectG);
         if (viewRectG.contains((int) ev.getRawX(), (int) ev.getRawY())) {
-            if(!animInProgress
-                    && (addEntry.getVisibility() == VISIBLE
-                    || addGroup.getVisibility() == VISIBLE)) {
+            if(allowAction && state.equals(State.OPEN)) {
                 startGlobalAnimation();
             }
         }
@@ -104,8 +139,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
      * @param enable true to enable
      */
     public void enableAddEntry(boolean enable) {
-        this.entryEnable = enable;
-        this.addEntry.setVisibility(GONE);
+        this.addEntryEnable = enable;
     }
 
     /**
@@ -113,16 +147,15 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
      * @param enable true to enable
      */
     public void enableAddGroup(boolean enable) {
-	    this.groupEnable = enable;
-        this.addGroup.setVisibility(GONE);
+	    this.addGroupEnable = enable;
     }
 
     private void startGlobalAnimation() {
         viewButtonMenuAnimation.startAnimation();
-        if (entryEnable && addEntryActivated) {
+        if (addEntryEnable) {
             viewMenuAnimationAddEntry.startAnimation();
         }
-        if (groupEnable && addGroupActivated) {
+        if (addGroupEnable) {
             viewMenuAnimationAddGroup.startAnimation();
         }
     }
@@ -156,12 +189,12 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 
         @Override
         public void onAnimationStart(Animation animation) {
-            animInProgress = true;
+            allowAction = false;
         }
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            animInProgress = false;
+            allowAction = true;
             isRotate = !isRotate;
         }
 
@@ -201,10 +234,13 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            if(view.getVisibility() == VISIBLE)
+            if(view.getVisibility() == VISIBLE) {
                 view.setVisibility(INVISIBLE);
-            else
+                state = State.CLOSE;
+            } else {
                 view.setVisibility(VISIBLE);
+                state = State.OPEN;
+            }
         }
 
         @Override
