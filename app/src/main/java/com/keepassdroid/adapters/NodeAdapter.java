@@ -129,6 +129,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         try {
             notifyItemChanged(nodePositionToUpdate);
             nodeSortedList.recalculatePositionOfItemAt(nodePositionToUpdate);
+            nodePositionToUpdate = -1;
         } catch (IndexOutOfBoundsException e) {
             Log.e(NodeAdapter.class.getName(), e.getMessage());
         }

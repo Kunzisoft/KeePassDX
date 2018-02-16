@@ -188,6 +188,7 @@ public abstract class GroupActivity extends ListNodesActivity
 		nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
 			@Override
 			public boolean onOpenMenuClick(PwNode node) {
+                mAdapter.registerANodeToUpdate(node);
                 switch (node.getType()) {
                     case GROUP:
                         GroupActivity.Launch(GroupActivity.this, (PwGroup) node);
