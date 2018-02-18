@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -39,7 +40,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,18 +56,22 @@ import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.exception.SamsungClipboardException;
+import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
+import com.keepassdroid.utils.SprEngine;
+import com.keepassdroid.utils.SprEngineV4;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
+import com.keepassdroid.view.EntryContentsView;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
-import java.text.DateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -79,20 +83,10 @@ public class EntryActivity extends LockCloseHideActivity {
 
 	public static final int NOTIFY_USERNAME = 1;
 	public static final int NOTIFY_PASSWORD = 2;
-	
-	public static void Launch(Activity act, PwEntry pw) {
-		Intent i;
-		
-		if ( pw instanceof PwEntryV4 ) {
-			i = new Intent(act, EntryActivityV4.class);
-		} else {
-			i = new Intent(act, EntryActivity.class);
-		}
-		
-		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-		
-		act.startActivityForResult(i, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
-	}
+
+	private ImageView titleIconView;
+    private TextView titleView;
+	private EntryContentsView entryContentsView;
 	
 	protected PwEntry mEntry;
 	private Timer mTimer = new Timer();
@@ -100,35 +94,18 @@ public class EntryActivity extends LockCloseHideActivity {
 	private NotificationManager mNM;
 	private BroadcastReceiver mIntentReceiver;
 	protected boolean readOnly = false;
-	
-	private DateFormat dateFormat;
-	private DateFormat timeFormat;
-	
-	protected void setEntryView() {
-		setContentView(R.layout.entry_view);
-	}
-	
-	protected void setupEditButtons() {
-		View edit = findViewById(R.id.entry_edit);
-		edit.setOnClickListener(new View.OnClickListener() {
 
-			public void onClick(View v) {
-				EntryEditActivity.Launch(EntryActivity.this, mEntry);
-			}
-			
-		});
-		
-		if (readOnly) {
-			edit.setVisibility(View.GONE);
-		}
-	}
+    public static void Launch(Activity act, PwEntry pw) {
+        Intent intent = new Intent(act, EntryActivity.class);
+        intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+        act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		mShowPassword = !PrefsUtil.isPasswordMask(this);
-		
 		super.onCreate(savedInstanceState);
-		setEntryView();
+
+        setContentView(R.layout.entry_view);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -136,10 +113,6 @@ public class EntryActivity extends LockCloseHideActivity {
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-		
-		Context appCtx = getApplicationContext();
-		dateFormat = android.text.format.DateFormat.getDateFormat(appCtx);
-		timeFormat = android.text.format.DateFormat.getTimeFormat(appCtx);
 
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
@@ -149,11 +122,13 @@ public class EntryActivity extends LockCloseHideActivity {
 		}
 		readOnly = db.readOnly;
 
+        mShowPassword = !PrefsUtil.isPasswordMask(this);
+
 		setResult(KeePass.EXIT_NORMAL);
 
+		// Get Entry from UUID
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
-		
 		mEntry = db.pm.entries.get(uuid);
 		if (mEntry == null) {
 			Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
@@ -166,10 +141,26 @@ public class EntryActivity extends LockCloseHideActivity {
 		
 		// Update last access time.
 		mEntry.touch(false, false);
-		
-		fillData(false);
 
-		setupEditButtons();
+        // Get views
+        titleIconView = (ImageView) findViewById(R.id.entry_icon);
+        titleView = (TextView) findViewById(R.id.entry_title);
+        entryContentsView = (EntryContentsView) findViewById(R.id.entry_contents);
+
+		fillData();
+
+		// Setup Edit Buttons
+        View edit = findViewById(R.id.entry_edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                EntryEditActivity.Launch(EntryActivity.this, mEntry);
+            }
+
+        });
+        if (readOnly) {
+            edit.setVisibility(View.GONE);
+        }
 
 		// If notifications enabled in settings
 		if (isClipboardNotificationsEnable(getApplicationContext())) {
@@ -251,48 +242,55 @@ public class EntryActivity extends LockCloseHideActivity {
 
 		return notify;
 	}
-	
-	private String getDateTime(Date dt) {
-		return dateFormat.format(dt) + " " + timeFormat.format(dt);
-		
-	}
-	
-	protected void fillData(boolean trimList) {
-		ImageView iv = (ImageView) findViewById(R.id.entry_icon);
+
+    private void populateTitle(Drawable drawIcon, String text) {
+        titleIconView.setImageDrawable(drawIcon);
+        titleView.setText(text);
+    }
+
+	protected void fillData() {
 		Database db = App.getDB();
-		db.drawFactory.assignDrawableTo(iv, getResources(), mEntry.getIcon());
-		
 		PwDatabase pm = db.pm;
 
-		populateText(R.id.entry_title, mEntry.getTitle(true, pm));
-		populateText(R.id.entry_user_name, mEntry.getUsername(true, pm));
-		
-		populateText(R.id.entry_url, mEntry.getUrl(true, pm));
-		populateText(R.id.entry_password, mEntry.getPassword(true, pm));
-		setPasswordStyle();
-		
-		populateText(R.id.entry_created, getDateTime(mEntry.getCreationTime()));
-		populateText(R.id.entry_modified, getDateTime(mEntry.getLastModificationTime()));
-		populateText(R.id.entry_accessed, getDateTime(mEntry.getLastAccessTime()));
-		
+		// Assign title
+        populateTitle(db.drawFactory.getIconDrawable(getResources(), mEntry.getIcon()),
+                mEntry.getTitle(true, pm));
+
+        // Assign basic fields
+        entryContentsView.assignUserName(mEntry.getUsername(true, pm));
+        entryContentsView.assignURL(mEntry.getUrl(true, pm));
+        entryContentsView.assignPassword(mEntry.getPassword(true, pm));
+        entryContentsView.setHiddenPasswordStyle(!mShowPassword);
+        entryContentsView.assignComment(mEntry.getNotes(true, pm));
+
+        // Assign custom fields
+        entryContentsView.clearExtraFields();
+        if (mEntry.getVersion() == 4) {
+            PwEntryV4 entry = (PwEntryV4) mEntry;
+            SprEngine spr = SprEngineV4.getInstance(pm);
+            // Display custom strings
+            if (entry.strings.size() > 0) {
+                for (Map.Entry<String, ProtectedString> pair : entry.strings.entrySet()) {
+                    String key = pair.getKey();
+
+                    if (!PwEntryV4.IsStandardString(key)) {
+                        String text = pair.getValue().toString();
+                        entryContentsView.addExtraField(key, spr.compile(text, entry, pm));
+                    }
+                }
+            }
+        }
+
+        // Assign dates
+        entryContentsView.assignCreationDate(mEntry.getCreationTime());
+        entryContentsView.assignModificationDate(mEntry.getLastModificationTime());
+        entryContentsView.assignLastAccessDate(mEntry.getLastAccessTime());
 		Date expires = mEntry.getExpiryTime();
 		if ( mEntry.expires() ) {
-			populateText(R.id.entry_expires, getDateTime(expires));
+			entryContentsView.assignExpiresDate(expires);
 		} else {
-			populateText(R.id.entry_expires, R.string.never);
+            entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
-		populateText(R.id.entry_comment, mEntry.getNotes(true, pm));
-
-	}
-	
-	private void populateText(int viewId, int resId) {
-		TextView tv = (TextView) findViewById(viewId);
-		tv.setText(resId);
-	}
-
-	private void populateText(int viewId, String text) {
-		TextView tv = (TextView) findViewById(viewId);
-		tv.setText(text);
 	}
 
 	@Override
@@ -300,8 +298,7 @@ public class EntryActivity extends LockCloseHideActivity {
 		super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
-                // TODO CHANGE Fill function to include data
-                fillData(true);
+                fillData();
                 // Transit data in previous Activity
                 setResult(resultCode, data);
                 break;
@@ -355,16 +352,6 @@ public class EntryActivity extends LockCloseHideActivity {
 		
 		return true;
 	}
-	
-	private void setPasswordStyle() {
-		TextView password = (TextView) findViewById(R.id.entry_password);
-
-		if ( mShowPassword ) {
-			password.setTransformationMethod(null);
-		} else {
-			password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-		}
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -382,7 +369,7 @@ public class EntryActivity extends LockCloseHideActivity {
                     item.setIcon(R.drawable.ic_visibility_off_white_24dp);
                     mShowPassword = true;
                 }
-                setPasswordStyle();
+                entryContentsView.setHiddenPasswordStyle(!mShowPassword);
                 return true;
 			
             case R.id.menu_goto_url:

@@ -57,7 +57,7 @@ public class DrawableFactory {
 			iv.setImageDrawable(draw);
 	}
 	
-	private Drawable getIconDrawable(Resources res, PwIcon icon) {
+	public Drawable getIconDrawable(Resources res, PwIcon icon) {
 		if (icon instanceof PwIconStandard) {
 			return getIconDrawable(res, (PwIconStandard) icon);
 		} else {

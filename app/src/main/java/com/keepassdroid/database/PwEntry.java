@@ -69,6 +69,11 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		return Type.ENTRY;
 	}
 
+	/**
+	 * Get the version of entry, (ie: 4 if kdbx database version is 4)
+	 */
+	public abstract int getVersion();
+
     public void assign(PwEntry source) {
 		icon = source.icon;
 	}

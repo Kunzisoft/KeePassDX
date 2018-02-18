@@ -191,9 +191,13 @@ public class PwEntryV3 extends PwEntry {
 			tLastMod = new PwDate(now);
 			tExpire = new PwDate(NEVER_EXPIRE);
 		}
-
 	}
-	
+
+	@Override
+	public int getVersion() {
+		return 3;
+	}
+
 	/**
 	 * @return the actual password byte array.
 	 */

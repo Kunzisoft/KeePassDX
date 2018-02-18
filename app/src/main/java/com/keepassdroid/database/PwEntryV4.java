@@ -124,6 +124,11 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		}
 	}
 
+	@Override
+	public int getVersion() {
+		return 4;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public PwEntry clone(boolean deepStrings) {
