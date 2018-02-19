@@ -83,29 +83,26 @@
         style="@style/KeepassDXStyle.Fab" />
 
     <TextView android:id="@+id/add_entry"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_margin="12dp"
         android:layout_above="@+id/add_button"
         android:layout_alignRight="@+id/add_button"
         android:layout_alignEnd="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_entry"
-        android:visibility="invisible"
         style="@style/KeepassDXStyle.FabMenu"
+        android:visibility="gone"
         tools:ignore="UnusedAttribute" />
 
     <TextView android:id="@+id/add_group"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_margin="12dp"
         android:layout_above="@+id/add_entry"
         android:layout_alignRight="@+id/add_button"
         android:layout_alignEnd="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_group"
-        android:visibility="invisible"
         style="@style/KeepassDXStyle.FabMenu"
+        android:visibility="gone"
         tools:ignore="UnusedAttribute" />
 </RelativeLayout>

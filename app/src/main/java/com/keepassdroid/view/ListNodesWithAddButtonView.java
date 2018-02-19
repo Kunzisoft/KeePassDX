@@ -140,6 +140,8 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
      */
     public void enableAddEntry(boolean enable) {
         this.addEntryEnable = enable;
+        if (enable && addEntry != null && addEntry.getVisibility() != VISIBLE)
+            addEntry.setVisibility(INVISIBLE);
     }
 
     /**
@@ -148,6 +150,8 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
      */
     public void enableAddGroup(boolean enable) {
 	    this.addGroupEnable = enable;
+        if (enable && addGroup != null && addGroup.getVisibility() != VISIBLE)
+            addGroup.setVisibility(INVISIBLE);
     }
 
     private void startGlobalAnimation() {

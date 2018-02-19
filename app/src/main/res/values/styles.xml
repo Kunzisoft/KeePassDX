@@ -221,7 +221,10 @@
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
-        <item name="android:layout_margin">24dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginBottom">24dp</item>
+        <item name="android:layout_marginTop">12dp</item>
     </style>
 
     <!-- Menu FAB -->
