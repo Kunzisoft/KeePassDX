@@ -19,10 +19,8 @@
  */
 package com.keepassdroid.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -31,7 +29,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;
@@ -41,7 +38,8 @@ import com.keepassdroid.database.PwGroupIdV4;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.Types;
-import com.keepassdroid.view.EntryEditSection;
+import com.keepassdroid.view.EntryEditNewField;
+import com.kunzisoft.keepass.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +50,6 @@ import java.util.UUID;
 public class EntryEditActivityV4 extends EntryEditActivity {
 	
 	private ScrollView scroll;
-	private LayoutInflater inflater;
 
 	protected static void putParentId(Intent i, String parentKey, PwGroupV4 parent) {
 		PwGroupId id = parent.getId();
@@ -72,13 +69,11 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
 		super.onCreate(savedInstanceState);
 		
 		scroll = (ScrollView) findViewById(R.id.entry_scroll);
 		
-		View add = findViewById(R.id.add_advanced);
+		View add = findViewById(R.id.add_new_field);
 		add.setVisibility(View.VISIBLE);
 		add.setOnClickListener(new View.OnClickListener() {
 			
@@ -86,7 +81,7 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 			public void onClick(View v) {
 				LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
 				
-				EntryEditSection ees = (EntryEditSection) inflater.inflate(R.layout.entry_edit_section, container, false);
+				EntryEditNewField ees = new EntryEditNewField(EntryEditActivityV4.this);
 				ees.setData("", new ProtectedString(false, ""));
 				container.addView(ees);
 				
@@ -97,10 +92,8 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 						scroll.fullScroll(ScrollView.FOCUS_DOWN);
 					}
 				});
-				
 			}
 		});
-
 	}
 
 	@Override
@@ -116,12 +109,11 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 				String key = pair.getKey();
 				
 				if (!PwEntryV4.IsStandardString(key)) {
-					EntryEditSection ees = (EntryEditSection) inflater.inflate(R.layout.entry_edit_section, container, false);
+					EntryEditNewField ees = new EntryEditNewField(EntryEditActivityV4.this);
 					ees.setData(key, pair.getValue());
 					container.addView(ees);
 				}
 			}
-			
 		}
 		
 	}
@@ -148,35 +140,14 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 		
 		LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
 		for (int i = 0; i < container.getChildCount(); i++) {
-			View view = container.getChildAt(i);
-			
-			TextView keyView = (TextView)view.findViewById(R.id.title);
-			String key = keyView.getText().toString();
-			
-			TextView valueView = (TextView)view.findViewById(R.id.value);
-			String value = valueView.getText().toString();
-			
-			CheckBox cb = (CheckBox)view.findViewById(R.id.protection);
-			boolean protect = cb.isChecked();
-			
+			EntryEditNewField view = (EntryEditNewField) container.getChildAt(i);
+			String key = view.getLabel();
+			String value = view.getValue();
+			boolean protect = view.isProtected();
 			strings.put(key, new ProtectedString(protect, value));
 		}
 		
 		return newEntry;
-	}
-	
-	public void deleteAdvancedString(View view) {
-		ViewGroup section = (ViewGroup) view.getParent();
-		LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
-		
-		for (int i = 0; i < container.getChildCount(); i++) {
-			ViewGroup ees = (ViewGroup) container.getChildAt(i);
-			if (ees == section) {
-				container.removeViewAt(i);
-				container.invalidate();
-				break;
-			}
-		}
 	}
 
 	@Override
@@ -184,19 +155,15 @@ public class EntryEditActivityV4 extends EntryEditActivity {
 		if(!super.validateBeforeSaving()) {
 			return false;
 		}
-		
-		LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
+
+		ViewGroup container = (ViewGroup) findViewById(R.id.advanced_container);
 		for (int i = 0; i < container.getChildCount(); i++) {
-			EntryEditSection ees = (EntryEditSection) container.getChildAt(i);
-			
-			TextView keyView = (TextView) ees.findViewById(R.id.title);
-			CharSequence key = keyView.getText();
-			
+			EntryEditNewField ees = (EntryEditNewField) container.getChildAt(i);
+			String key = ees.getLabel();
 			if (key == null || key.length() == 0) {
 				Toast.makeText(this, R.string.error_string_key, Toast.LENGTH_LONG).show();
 				return false;
 			}
-			
 		}
 		
 		return true;

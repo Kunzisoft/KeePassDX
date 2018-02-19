@@ -177,7 +177,7 @@
 				android:orientation="vertical">
 			</LinearLayout>
 
-			<ImageView android:id="@+id/add_advanced"
+			<ImageView android:id="@+id/add_new_field"
 				android:layout_width="30sp"
 				android:layout_height="30sp"
 				android:contentDescription="@string/add_string"
