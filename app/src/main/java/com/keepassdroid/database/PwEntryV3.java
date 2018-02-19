@@ -193,11 +193,6 @@ public class PwEntryV3 extends PwEntry {
 		}
 	}
 
-	@Override
-	public int getVersion() {
-		return 3;
-	}
-
 	/**
 	 * @return the actual password byte array.
 	 */

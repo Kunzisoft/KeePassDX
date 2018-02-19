@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
@@ -69,11 +70,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
 
                     public boolean onPreferenceChange(Preference preference, Object newValue) {
                         Boolean value = (Boolean) newValue;
-
                         if (!value) {
                             App.getFileHistory().deleteAllKeys();
                         }
-
                         return true;
                     }
                 });
@@ -83,15 +82,12 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
 
                     public boolean onPreferenceChange(Preference preference, Object newValue) {
                         Boolean value = (Boolean) newValue;
-
                         if (value == null) {
                             value = true;
                         }
-
                         if (!value) {
                             App.getFileHistory().deleteAll();
                         }
-
                         return true;
                     }
                 });
@@ -142,6 +138,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                                     .setPositiveButton(
                                             getResources().getString(android.R.string.yes),
                                             new DialogInterface.OnClickListener() {
+                                                @RequiresApi(api = Build.VERSION_CODES.M)
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
                                                                     int which) {
@@ -178,26 +175,37 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                 setPreferencesFromResource(R.xml.db_preferences, rootKey);
 
                 Database db = App.getDB();
-                Preference algorithmPref = findPreference(getString(R.string.algorithm_key));
-                Preference roundPref = findPreference(getString(R.string.rounds_key));
+                if (db.Loaded()) {
+                    if (db.pm.algorithmSettingsEnabled()) {
 
-                if (!(db.Loaded() && db.pm.appSettingsEnabled())) {
-                    algorithmPref.setEnabled(false);
-                    roundPref.setEnabled(false);
-                }
+                        Preference roundPref = findPreference(getString(R.string.rounds_key));
+                        roundPref.setEnabled(true);
+                        roundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                                setRounds(App.getDB(), preference);
+                                return true;
+                            }
+                        });
+                        setRounds(db, roundPref);
 
-                if (db.Loaded() && db.pm.appSettingsEnabled()) {
-                    roundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            setRounds(App.getDB(), preference);
-                            return true;
-                        }
-                    });
-                    setRounds(db, roundPref);
-                    setAlgorithm(db, algorithmPref);
+                        // TODO Algo
+                        Preference algorithmPref = findPreference(getString(R.string.algorithm_key));
+                        // algorithmPref.setEnabled(true);
+                        setAlgorithm(db, algorithmPref);
+                    }
+
+                    if (db.pm.isRecycleBinAvailable()) {
+                        SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
+                        // TODO Recycle
+                        //recycleBinPref.setEnabled(true);
+                        recycleBinPref.setChecked(db.pm.isRecycleBinEnable());
+                    }
+
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
                 }
+
+
 
                 break;
 

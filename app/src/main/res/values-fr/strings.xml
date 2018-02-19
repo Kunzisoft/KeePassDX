@@ -239,6 +239,8 @@
     <string name="bytes">Octets</string>
     <string name="full_file_path_enable_title">Chemin de fichier</string>
     <string name="full_file_path_enable_summary">Afficher le chemin complet des fichiers</string>
+    <string name="recycle_bin_title">Utiliser la corbeille</string>
+    <string name="recycle_bin_summary">Déplace un groupe ou une entrée dans la Corbeille avant la suppression</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 secondes</item>

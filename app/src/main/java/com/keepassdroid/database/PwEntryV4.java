@@ -19,6 +19,11 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.database.security.ProtectedBinary;
+import com.keepassdroid.database.security.ProtectedString;
+import com.keepassdroid.utils.SprEngine;
+import com.keepassdroid.utils.SprEngineV4;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,10 +33,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-
-import com.keepassdroid.database.security.ProtectedBinary;
-import com.keepassdroid.database.security.ProtectedString;
-import com.keepassdroid.utils.SprEngine;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public static final String STR_TITLE = "Title";
@@ -124,10 +125,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		}
 	}
 
-	@Override
-	public int getVersion() {
-		return 4;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -438,7 +435,24 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			history.remove(index);
 		}
 	}
-	
+
+	@Override
+	public Map<String, String> getExtraFields(PwDatabase pm) {
+		Map<String, String> fields = super.getExtraFields(pm);
+		SprEngine spr = SprEngine.getInstance(pm);
+		// Display custom strings
+		if (strings.size() > 0) {
+			for (Map.Entry<String, ProtectedString> pair : strings.entrySet()) {
+				String key = pair.getKey();
+                // TODO Add hidden style for protection field
+				if (!PwEntryV4.IsStandardString(key)) {
+					String text = pair.getValue().toString();
+					fields.put(key, spr.compile(text, this, pm));
+				}
+			}
+		}
+		return fields;
+	}
 	
 	private static final long FIXED_LENGTH_SIZE = 128; // Approximate fixed length size
 	public long getSize() {

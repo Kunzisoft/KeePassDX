@@ -58,6 +58,7 @@
     <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
     <string name="full_file_path_enable_key" translatable="true">full_file_path_enable_key</string>
     <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>
+    <string name="recycle_bin_key" translatable="true">recycle_bin_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>

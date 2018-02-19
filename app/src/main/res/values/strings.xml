@@ -240,6 +240,8 @@
     <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">File Path</string>
     <string name="full_file_path_enable_summary">View the full file path</string>
+    <string name="recycle_bin_title">Use Recycle Bin</string>
+    <string name="recycle_bin_summary">Move a group or entry to the Recycle Bin before deleting</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>30 seconds</item>

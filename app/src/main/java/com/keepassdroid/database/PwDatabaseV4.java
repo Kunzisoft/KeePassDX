@@ -300,7 +300,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public boolean appSettingsEnabled() {
+	public boolean algorithmSettingsEnabled() {
 		return false;
 	}
 
@@ -359,6 +359,16 @@ public class PwDatabaseV4 extends PwDatabase {
 			
 			recycleBinUUID = recycleBin.uuid;
 		}
+	}
+
+    @Override
+    public boolean isRecycleBinAvailable() {
+        return true;
+    }
+
+    @Override
+	public boolean isRecycleBinEnable() {
+		return recycleBinEnabled;
 	}
 	
 	@Override

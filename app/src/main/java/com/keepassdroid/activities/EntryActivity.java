@@ -54,16 +54,12 @@ import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.exception.SamsungClipboardException;
-import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
-import com.keepassdroid.utils.SprEngine;
-import com.keepassdroid.utils.SprEngineV4;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryContentsView;
@@ -265,21 +261,9 @@ public class EntryActivity extends LockCloseHideActivity {
 
         // Assign custom fields
         entryContentsView.clearExtraFields();
-        if (mEntry.getVersion() == 4) {
-            PwEntryV4 entry = (PwEntryV4) mEntry;
-            SprEngine spr = SprEngineV4.getInstance(pm);
-            // Display custom strings
-            if (entry.strings.size() > 0) {
-                for (Map.Entry<String, ProtectedString> pair : entry.strings.entrySet()) {
-                    String key = pair.getKey();
-
-                    if (!PwEntryV4.IsStandardString(key)) {
-                        String text = pair.getValue().toString();
-                        entryContentsView.addExtraField(key, spr.compile(text, entry, pm));
-                    }
-                }
-            }
-        }
+        for (Map.Entry<String, String> field : mEntry.getExtraFields(pm).entrySet()) {
+			entryContentsView.addExtraField(field.getKey(), field.getValue());
+		}
 
         // Assign dates
         entryContentsView.assignCreationDate(mEntry.getCreationTime());

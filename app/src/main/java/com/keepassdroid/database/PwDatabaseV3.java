@@ -75,7 +75,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	// Algorithm used to encrypt the database
 	public PwEncryptionAlgorithm algorithm;
 	public int numKeyEncRounds;
-	
+
 	@Override
 	public PwEncryptionAlgorithm getEncAlgorithm() {
 		return algorithm;
@@ -262,7 +262,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public boolean appSettingsEnabled() {
+	public boolean algorithmSettingsEnabled() {
 		return true;
 	}
 

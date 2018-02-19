@@ -20,9 +20,12 @@
 package com.keepassdroid.database;
 
 import com.keepassdroid.database.iterator.EntrySearchStringIterator;
+import com.keepassdroid.database.security.ProtectedString;
 
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class PwEntry extends PwNode implements Cloneable {
@@ -68,11 +71,6 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	public Type getType() {
 		return Type.ENTRY;
 	}
-
-	/**
-	 * Get the version of entry, (ie: 4 if kdbx database version is 4)
-	 */
-	public abstract int getVersion();
 
     public void assign(PwEntry source) {
 		icon = source.icon;
@@ -142,6 +140,14 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		}
 	}
 
+    /**
+     * Retrieve extra fields to show, key is the label, value is the value of field
+     * @param pm Database
+     * @return Map of label/value
+     */
+	public Map<String, String> getExtraFields(PwDatabase pm) {
+		return new HashMap<>();
+	}
 
 	public boolean isMetaStream() {
 		return false;

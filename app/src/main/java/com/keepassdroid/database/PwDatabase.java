@@ -246,7 +246,7 @@ public abstract class PwDatabase {
 
     public abstract void setNumRounds(long rounds) throws NumberFormatException;
 
-    public abstract boolean appSettingsEnabled();
+    public abstract boolean algorithmSettingsEnabled();
 
     public abstract PwEncryptionAlgorithm getEncAlgorithm();
 
@@ -330,6 +330,22 @@ public abstract class PwDatabase {
             groups.put(cur.getId(), cur);
             populateGlobals(cur);
         }
+    }
+
+    /**
+     * Determine if RecycleBin is available or not for this version of database
+     * @return true if RecycleBin enable
+     */
+    public boolean isRecycleBinAvailable() {
+        return false;
+    }
+
+    /**
+     * Determine if RecycleBin is enable or not
+     * @return true if RecycleBin enable, false if is not available or not enable
+     */
+    public boolean isRecycleBinEnable() {
+        return false;
     }
 
     /**
