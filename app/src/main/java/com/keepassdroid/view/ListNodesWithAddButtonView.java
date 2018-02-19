@@ -22,6 +22,8 @@ package com.keepassdroid.view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -30,7 +32,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
+import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 
 import com.kunzisoft.keepass.R;
@@ -156,6 +158,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 
     private void startGlobalAnimation() {
         viewButtonMenuAnimation.startAnimation();
+
         if (addEntryEnable) {
             viewMenuAnimationAddEntry.startAnimation();
         }
@@ -164,55 +167,52 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         }
     }
 
-	private class AddButtonAnimation implements Animation.AnimationListener {
+	private class AddButtonAnimation implements ViewPropertyAnimatorListener {
 
         private View view;
-
         private boolean isRotate;
 
-        private Animation rightAnim;
-        private Animation leftAnim;
+        private Interpolator interpolator;
 
         AddButtonAnimation(View view) {
             this.view = view;
-
             this.isRotate = false;
 
-            rightAnim = new RotateAnimation(0f, 135f,
-                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            rightAnim.setDuration(300);
-            rightAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-            rightAnim.setFillAfter(true);
-            leftAnim = new RotateAnimation(135f, 0f,
-                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            leftAnim.setDuration(300);
-            leftAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-            leftAnim.setFillAfter(true);
-
+            interpolator = new AccelerateDecelerateInterpolator();
         }
 
         @Override
-        public void onAnimationStart(Animation animation) {
+        public void onAnimationStart(View view) {
             allowAction = false;
         }
 
         @Override
-        public void onAnimationEnd(Animation animation) {
+        public void onAnimationEnd(View view) {
             allowAction = true;
             isRotate = !isRotate;
         }
 
         @Override
-        public void onAnimationRepeat(Animation animation) {}
+        public void onAnimationCancel(View view) {}
 
         void startAnimation() {
-            Animation animation;
-            if(!isRotate)
-                animation = rightAnim;
-            else
-                animation = leftAnim;
-            animation.setAnimationListener(this);
-            view.startAnimation(animation);
+            if(!isRotate) {
+                ViewCompat.animate(view)
+                        .rotation(135.0F)
+                        .withLayer()
+                        .setDuration(300L)
+                        .setInterpolator(interpolator)
+                        .setListener(this)
+                        .start();
+            } else {
+                ViewCompat.animate(view)
+                        .rotation(0.0F)
+                        .withLayer()
+                        .setDuration(300L)
+                        .setInterpolator(interpolator)
+                        .setListener(this)
+                        .start();
+            }
         }
     }
 
@@ -227,10 +227,10 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
             this.view = view;
 
             animViewShow = new AlphaAnimation(0.0f, 1.0f);
-            animViewShow.setDuration(300);
+            animViewShow.setDuration(250);
 
             animViewHide = new AlphaAnimation(1.0f, 0.0f);
-            animViewHide.setDuration(300);
+            animViewHide.setDuration(250);
         }
 
         @Override

@@ -112,5 +112,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_database_plus_white_24dp"
+        app:useCompatPadding="true"
         style="@style/KeepassDXStyle.Fab"/>
 </RelativeLayout>

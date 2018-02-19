@@ -196,5 +196,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_save_white_24dp"
+        app:useCompatPadding="true"
         style="@style/KeepassDXStyle.Fab"/>
 </RelativeLayout>
