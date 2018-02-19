@@ -283,8 +283,6 @@ public class EntryActivity extends LockCloseHideActivity {
         switch (requestCode) {
             case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
                 fillData();
-                // Transit data in previous Activity
-                setResult(resultCode, data);
                 break;
         }
 	}
@@ -410,9 +408,17 @@ public class EntryActivity extends LockCloseHideActivity {
 			mTimer.schedule(new ClearClipboardTask(this, text), clipClearTime);
 		}
 	}
-	
 
-	// Setup to allow the toast to happen in the foreground
+    @Override
+    public void finish() {
+        // Transit data in previous Activity after an update
+        Intent intent = new Intent();
+        intent.putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry);
+        setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
+        super.finish();
+    }
+
+    // Setup to allow the toast to happen in the foreground
 	final Handler uiThreadCallback = new Handler();
 
 	// Task which clears the clipboard, and sends a toast to the foreground.
