@@ -497,6 +497,8 @@ public class FileSelectActivity extends StylishActivity implements
 		fnv.updateExternalStorageWarning();
 
 		updateTitleFileListView();
+
+		mAdapter.notifyDataSetChanged();
 	}
 
 	private void checkStoragePermission() {
