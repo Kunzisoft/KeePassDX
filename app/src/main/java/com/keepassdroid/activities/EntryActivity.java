@@ -260,9 +260,11 @@ public class EntryActivity extends LockCloseHideActivity {
         entryContentsView.assignComment(mEntry.getNotes(true, pm));
 
         // Assign custom fields
-        entryContentsView.clearExtraFields();
-        for (Map.Entry<String, String> field : mEntry.getExtraFields(pm).entrySet()) {
-			entryContentsView.addExtraField(field.getKey(), field.getValue());
+		if (mEntry.allowExtraFields()) {
+			entryContentsView.clearExtraFields();
+			for (Map.Entry<String, String> field : mEntry.getExtraFields(pm).entrySet()) {
+				entryContentsView.addExtraField(field.getKey(), field.getValue());
+			}
 		}
 
         // Assign dates

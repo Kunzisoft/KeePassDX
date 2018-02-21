@@ -132,7 +132,7 @@ public class EntryContentsView extends LinearLayout {
     }
 
     public void addExtraField(String title, String value) {
-        View view = new EntrySection(getContext(), null, title, value);
+        View view = new EntryNewField(getContext(), null, title, value);
         extrasView.addView(view);
     }
 

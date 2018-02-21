@@ -35,10 +35,6 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	public PwIconStandard icon = PwIconStandard.FIRST;
 	
 	public static PwEntry getInstance(PwGroup parent) {
-		return PwEntry.getInstance(parent, true, true);
-	}
-	
-	public static PwEntry getInstance(PwGroup parent, boolean initId, boolean initDates) {
 		if (parent instanceof PwGroupV3) {
 			return new PwEntryV3((PwGroupV3)parent);
 		}
@@ -140,6 +136,16 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		}
 	}
 
+	// TODO encapsulate extra fields
+
+    /**
+     * To redefine if version of entry allow extra field,
+     * @return true if entry allows extra field
+     */
+	public boolean allowExtraFields() {
+		return false;
+	}
+
     /**
      * Retrieve extra fields to show, key is the label, value is the value of field
      * @param pm Database
@@ -148,6 +154,26 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	public Map<String, String> getExtraFields(PwDatabase pm) {
 		return new HashMap<>();
 	}
+
+    /**
+     * Retrieve extra protected fields to show, key is the label, value is the value protected of field
+     * @return Map of label/value
+     */
+    public Map<String, ProtectedString> getExtraProtectedFields() {
+        return new HashMap<>();
+    }
+
+    /**
+     * Add an extra field to the list
+     * @param label Label of field, must be unique
+     * @param value Value of field
+     */
+    public void addField(String label, ProtectedString value) {}
+
+    /**
+     * Delete all extra fields
+     */
+    public void removeExtraFields() {}
 
 	public boolean isMetaStream() {
 		return false;

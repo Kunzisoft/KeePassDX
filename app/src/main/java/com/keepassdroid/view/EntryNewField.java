@@ -27,17 +27,17 @@ import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 
-public class EntrySection extends LinearLayout {
+public class EntryNewField extends LinearLayout {
 
-	public EntrySection(Context context) {
+	public EntryNewField(Context context) {
 		this(context, null);
 	}
 	
-	public EntrySection(Context context, AttributeSet attrs) {
+	public EntryNewField(Context context, AttributeSet attrs) {
 		this(context, attrs, null, null);
 	}
 	
-	public EntrySection(Context context, AttributeSet attrs, String title, String value) {
+	public EntryNewField(Context context, AttributeSet attrs, String title, String value) {
 		super(context, attrs);
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,7 +45,7 @@ public class EntrySection extends LinearLayout {
 	}
 
 	protected int getLayout() {
-		return R.layout.entry_section;
+		return R.layout.entry_new_field;
 	}
 
 	protected void inflate(LayoutInflater inflater, Context context, String title, String value) {

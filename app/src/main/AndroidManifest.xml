@@ -111,11 +111,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.keepassdroid.activities.EntryEditActivityV3"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.keepassdroid.activities.EntryEditActivityV4"
+            android:name="com.keepassdroid.activities.EntryEditActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.keepassdroid.search.SearchResultsActivity" android:launchMode="standard">

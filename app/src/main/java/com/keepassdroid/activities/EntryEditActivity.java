@@ -29,26 +29,28 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV3;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
-import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconStandard;
 import com.keepassdroid.database.edit.AddEntry;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
 import com.keepassdroid.database.edit.UpdateEntry;
+import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.fragments.GeneratePasswordDialogFragment;
 import com.keepassdroid.fragments.IconPickerDialogFragment;
 import com.keepassdroid.icons.Icons;
@@ -56,14 +58,17 @@ import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
+import com.keepassdroid.view.EntryEditNewField;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
-public abstract class EntryEditActivity extends LockCloseHideActivity
+public class EntryEditActivity extends LockCloseHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener {
 
@@ -82,51 +87,30 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 	protected boolean mIsNew;
 	protected int mSelectedIconID = -1;
 
+    private ScrollView scrollView;
+    private ViewGroup extraFieldsContainer;
+
 	/**
 	 * launch EntryEditActivity to update an existing entry
 	 * @param act from activity
 	 * @param pw Entry to update
 	 */
 	public static void Launch(Activity act, PwEntry pw) {
-		Intent i;
-		if (pw instanceof PwEntryV3) {
-			i = new Intent(act, EntryEditActivityV3.class);
-		}
-		else if (pw instanceof PwEntryV4) {
-			i = new Intent(act, EntryEditActivityV4.class);
-		}
-		else {
-			throw new RuntimeException("Not yet implemented.");
-		}
-		
-		i.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-		
-		act.startActivityForResult(i, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+		Intent intent = new Intent(act, EntryEditActivity.class);
+        intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+		act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
 	}
 
 	/**
 	 * launch EntryEditActivity to add a new entry
 	 * @param act from activity
-	 * @param pw Group who will contains new entry
+	 * @param pwGroup Group who will contains new entry
 	 */
-	public static void Launch(Activity act, PwGroup pw) {
-		Intent i;
-		if (pw instanceof PwGroupV3) {
-			i = new Intent(act, EntryEditActivityV3.class);
-			EntryEditActivityV3.putParentId(i, KEY_PARENT, (PwGroupV3)pw);
-		}
-		else if (pw instanceof PwGroupV4) {
-			i = new Intent(act, EntryEditActivityV4.class);
-			EntryEditActivityV4.putParentId(i, KEY_PARENT, (PwGroupV4)pw);
-		}
-		else {
-			throw new RuntimeException("Not yet implemented.");
-		}
-
-		act.startActivityForResult(i, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+	public static void Launch(Activity act, PwGroup pwGroup) {
+		Intent intent = new Intent(act, EntryEditActivity.class);
+        intent.putExtra(KEY_PARENT, pwGroup.getId());
+        act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
 	}
-	
-	protected abstract PwGroupId getParentGroupId(Intent i, String key);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -148,17 +132,15 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 			return;
 		}
 
-		Intent i = getIntent();
-		byte[] uuidBytes = i.getByteArrayExtra(KEY_ENTRY);
+		Intent intent = getIntent();
+		byte[] uuidBytes = intent.getByteArrayExtra(KEY_ENTRY);
 
 		PwDatabase pm = db.pm;
 		if ( uuidBytes == null ) {
-
-			PwGroupId parentId = getParentGroupId(i, KEY_PARENT);
+            PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
 			PwGroup parent = pm.groups.get(parentId);
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
-			
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			mEntry = pm.entries.get(uuid);
@@ -166,11 +148,12 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 			fillData();
 		} 
 	
-		View scrollView = findViewById(R.id.entry_scroll);
+		scrollView = (ScrollView) findViewById(R.id.entry_scroll);
 		scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 
 		View iconButton = findViewById(R.id.icon_button);
 		iconButton.setOnClickListener(new View.OnClickListener() {
+
 			public void onClick(View v) {
 				IconPickerDialogFragment.launch(EntryEditActivity.this);
 			}
@@ -194,7 +177,6 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 				if (!validateBeforeSaving()) {
 					return;
 				}
-
                 mCallbackNewEntry = populateNewEntry();
 
 				OnFinish onFinish = new AfterSave();
@@ -210,6 +192,29 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 			}
 			
 		});
+
+        extraFieldsContainer = (ViewGroup) findViewById(R.id.advanced_container);
+		if (mEntry.allowExtraFields()) {
+            View add = findViewById(R.id.add_new_field);
+            add.setVisibility(View.VISIBLE);
+            add.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    EntryEditNewField ees = new EntryEditNewField(EntryEditActivity.this);
+                    ees.setData("", new ProtectedString(false, ""));
+                    extraFieldsContainer.addView(ees);
+
+                    // Scroll bottom
+                    scrollView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    });
+                }
+            });
+        }
 	}
 	
 	protected boolean validateBeforeSaving() {
@@ -227,38 +232,73 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 			Toast.makeText(this, R.string.error_pass_match, Toast.LENGTH_LONG).show();
 			return false;
 		}
-		
-		return true;
+
+		// Validate extra fields
+        if (mEntry.allowExtraFields()) {
+            for (int i = 0; i < extraFieldsContainer.getChildCount(); i++) {
+                EntryEditNewField ees = (EntryEditNewField) extraFieldsContainer.getChildAt(i);
+                String key = ees.getLabel();
+                if (key == null || key.length() == 0) {
+                    Toast.makeText(this, R.string.error_string_key, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            }
+        }
+
+        return true;
 	}
 	
 	protected PwEntry populateNewEntry() {
-		return populateNewEntry(null);
+	    if (mEntry instanceof PwEntryV4) {
+	        // TODO backup
+            PwEntryV4 newEntry = (PwEntryV4) mEntry.clone(true);
+            newEntry.history = (ArrayList<PwEntryV4>) newEntry.history.clone();
+            newEntry.createBackup((PwDatabaseV4) App.getDB().pm);
+        }
+
+        PwEntry newEntry = mEntry.clone(true);
+
+        Date now = Calendar.getInstance().getTime();
+        newEntry.setLastAccessTime(now);
+        newEntry.setLastModificationTime(now);
+
+        PwDatabase db = App.getDB().pm;
+        newEntry.setTitle(Util.getEditText(this, R.id.entry_title), db);
+        if(mSelectedIconID != -1)
+            // or TODO icon factory newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(mSelectedIconID));
+            newEntry.setIcon(new PwIconStandard(mSelectedIconID));
+        else {
+            if (mIsNew) {
+                newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(0));
+            }
+            else {
+                // Keep previous icon, if no new one was selected
+                newEntry.setIcon(mEntry.icon);
+            }
+        }
+        newEntry.setUrl(Util.getEditText(this, R.id.entry_url), db);
+        newEntry.setUsername(Util.getEditText(this, R.id.entry_user_name), db);
+        newEntry.setNotes(Util.getEditText(this, R.id.entry_comment), db);
+        newEntry.setPassword(Util.getEditText(this, R.id.entry_password), db);
+
+
+        if (newEntry.allowExtraFields()) {
+            // Delete all new standard strings
+            newEntry.removeExtraFields();
+
+            // Add extra fields from views
+            for (int i = 0; i < extraFieldsContainer.getChildCount(); i++) {
+                EntryEditNewField view = (EntryEditNewField) extraFieldsContainer.getChildAt(i);
+                String key = view.getLabel();
+                String value = view.getValue();
+                boolean protect = view.isProtected();
+                newEntry.addField(key, new ProtectedString(protect, value));
+            }
+        }
+
+        return newEntry;
 	}
-	
-	protected PwEntry populateNewEntry(PwEntry entry) {
-		PwEntry newEntry;
-		if (entry == null) {
-			newEntry = mEntry.clone(true);
-		} 
-		else {
-			newEntry = entry;
-		}
-		
-		Date now = Calendar.getInstance().getTime(); 
-		newEntry.setLastAccessTime(now);
-		newEntry.setLastModificationTime(now);
-		
-		PwDatabase db = App.getDB().pm;
-		newEntry.setTitle(Util.getEditText(this, R.id.entry_title), db);
-		if(mSelectedIconID != -1)
-		    newEntry.setIcon(new PwIconStandard(mSelectedIconID));
-		newEntry.setUrl(Util.getEditText(this, R.id.entry_url), db);
-		newEntry.setUsername(Util.getEditText(this, R.id.entry_user_name), db);
-		newEntry.setNotes(Util.getEditText(this, R.id.entry_comment), db);
-		newEntry.setPassword(Util.getEditText(this, R.id.entry_password), db);
-		
-		return newEntry;
-	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -295,6 +335,15 @@ public abstract class EntryEditActivity extends LockCloseHideActivity
 		populateText(R.id.entry_confpassword, password);
 
 		populateText(R.id.entry_comment, mEntry.getNotes());
+
+		if (mEntry.allowExtraFields()) {
+            LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
+            for (Map.Entry<String, ProtectedString> pair : mEntry.getExtraProtectedFields().entrySet()) {
+                EntryEditNewField ees = new EntryEditNewField(EntryEditActivity.this);
+                ees.setData(pair.getKey(), pair.getValue());
+                container.addView(ees);
+            }
+        }
 	}
 
 	private void populateText(int viewId, String text) {

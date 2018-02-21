@@ -862,7 +862,7 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.EntryTimes && name.equalsIgnoreCase(ElemTimes) ) {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryString && name.equalsIgnoreCase(ElemString) ) {
-			ctxEntry.strings.put(ctxStringName, ctxStringValue);
+			ctxEntry.addField(ctxStringName, ctxStringValue);
 			ctxStringName = null;
 			ctxStringValue = null;
 			

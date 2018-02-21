@@ -30,6 +30,11 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package com.keepassdroid.database;
 
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.keepassdroid.utils.Types;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
