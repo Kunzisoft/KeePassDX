@@ -486,7 +486,7 @@ public class PasswordActivity extends LockingActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                fingerprintImageView.setAlpha(alpha);
+                fingerprintContainerView.setAlpha(alpha);
             }
         });
     }
@@ -513,7 +513,7 @@ public class PasswordActivity extends LockingActivity
             setFingerPrintVisibility(View.VISIBLE);
 
             if (!fingerPrintHelper.hasEnrolledFingerprints()) {
-                setFingerPrintAlphaImageView(0.3f);
+                setFingerPrintAlphaImageView(0.6f);
                 // This happens when no fingerprints are registered. Listening won't start
                 setFingerPrintTextView(R.string.configure_fingerprint);
             }
