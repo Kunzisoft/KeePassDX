@@ -245,6 +245,9 @@
     <string name="recycle_bin_summary">Move a group or entry to the Recycle Bin before deleting</string>
 
     <string-array name="clipboard_timeout_options">
+    	<item>5 seconds</item>
+    	<item>10 seconds</item>
+    	<item>20 seconds</item>
     	<item>30 seconds</item>
     	<item>1 minute</item>
     	<item>5 minutes</item>

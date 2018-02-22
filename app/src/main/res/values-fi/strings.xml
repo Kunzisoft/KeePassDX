@@ -183,6 +183,9 @@
     <string name="version_label">Versio:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 sekuntia</item>
+    	<item>10 sekuntia</item>
+    	<item>20 sekuntia</item>
     	<item>30 sekuntia</item>
     	<item>1 minuutti</item>
     	<item>5 minuttia</item>

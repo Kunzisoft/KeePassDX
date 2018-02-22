@@ -244,6 +244,9 @@
     <string name="recycle_bin_summary">Déplace un groupe ou une entrée dans la Corbeille avant la suppression</string>
 
     <string-array name="clipboard_timeout_options">
+    	<item>5 secondes</item>
+    	<item>10 secondes</item>
+    	<item>20 secondes</item>
     	<item>30 secondes</item>
     	<item>1 minute</item>
     	<item>5 minutes</item>

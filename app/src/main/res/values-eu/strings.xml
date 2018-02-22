@@ -185,6 +185,9 @@
     <string name="version_label">Bertsioa:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 segundu</item>
+    	<item>10 segundu</item>
+    	<item>20 segundu</item>
     	<item>30 segundu</item>
     	<item>minutu 1</item>
     	<item>5 minutu</item>

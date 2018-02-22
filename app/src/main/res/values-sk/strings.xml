@@ -167,8 +167,11 @@
     <string name="version_label">Version:</string>
     
     <string-array name="clipboard_timeout_options">
-      <item>30 sekúnd</item>
-     <item>1 minúta</item>
+        <item>5 sekúnd</item>
+        <item>10 sekúnd</item>
+        <item>20 sekúnd</item>
+        <item>30 sekúnd</item>
+        <item>1 minúta</item>
     	<item>5 minút</item>
     	<item>Nikdy</item>
     </string-array>

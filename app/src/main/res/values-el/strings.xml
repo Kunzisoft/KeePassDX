@@ -185,6 +185,9 @@
     <string name="version_label">Έκδοση:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 δευτερόλεπτα</item>
+    	<item>10 δευτερόλεπτα</item>
+    	<item>20 δευτερόλεπτα</item>
     	<item>30 δευτερόλεπτα</item>
     	<item>1 λεπτό</item>
     	<item>5 λεπτά</item>

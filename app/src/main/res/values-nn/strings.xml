@@ -167,6 +167,9 @@
     <string name="version_label">Utgåve:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 sekund</item>
+    	<item>10 sekund</item>
+    	<item>20 sekund</item>
     	<item>30 sekund</item>
     	<item>1 minutt</item>
     	<item>5 minutt</item>

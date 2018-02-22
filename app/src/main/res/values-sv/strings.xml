@@ -182,6 +182,9 @@
     <string name="version_label">Version:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 sekunder</item>
+    	<item>10 sekunder</item>
+    	<item>20 sekunder</item>
     	<item>30 sekunder</item>
     	<item>1 minut</item>
     	<item>5 minuter</item>

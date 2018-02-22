@@ -170,6 +170,9 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
     
     <string-array name="clipboard_timeout_options">
+     <item>5 sekund</item>
+     <item>10 sekund</item>
+     <item>20 sekund</item>
      <item>30 sekund</item>
      <item>1 minuta</item>
      <item>5 minut</item>

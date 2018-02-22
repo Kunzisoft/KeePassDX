@@ -167,6 +167,9 @@
     <string name="version_label">Версія:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 секунд</item>
+    	<item>10 секунд</item>
+    	<item>20 секунд</item>
     	<item>30 секунд</item>
     	<item>1 хвилина</item>
     	<item>5 хвилин</item>

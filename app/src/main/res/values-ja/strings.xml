@@ -167,6 +167,9 @@
     <string name="version_label">バージョン:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5秒</item>
+    	<item>10秒</item>
+    	<item>20秒</item>
     	<item>30秒</item>
     	<item>1分</item>
     	<item>5分</item>

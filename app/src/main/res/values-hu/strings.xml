@@ -194,6 +194,9 @@
     <string name="no_password_stored">Nincs még jelszó beállítva ehhez az adatbázishoz</string>
 
     <string-array name="clipboard_timeout_options">
+        <item>5 másodperc</item>
+        <item>10 másodperc</item>
+        <item>20 másodperc</item>
         <item>30 másodperc</item>
         <item>1 perc</item>
         <item>5 perc</item>
