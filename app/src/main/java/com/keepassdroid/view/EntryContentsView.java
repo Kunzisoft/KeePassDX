@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,12 +38,14 @@ public class EntryContentsView extends LinearLayout {
 
     private View userNameContainerView;
     private TextView userNameView;
-
-    private View urlContainerView;
-    private TextView urlView;
+    private ImageView userNameActionView;
 
     private View passwordContainerView;
     private TextView passwordView;
+    private ImageView passwordActionView;
+
+    private View urlContainerView;
+    private TextView urlView;
 
     private View commentContainerView;
     private TextView commentView;
@@ -77,12 +80,14 @@ public class EntryContentsView extends LinearLayout {
 
         userNameContainerView = findViewById(R.id.entry_user_name_container);
         userNameView = (TextView) findViewById(R.id.entry_user_name);
-
-        urlContainerView = findViewById(R.id.entry_url_container);
-        urlView = (TextView) findViewById(R.id.entry_url);
+        userNameActionView = (ImageView) findViewById(R.id.entry_user_name_action_image);
 
         passwordContainerView = findViewById(R.id.entry_password_container);
         passwordView = (TextView) findViewById(R.id.entry_password);
+        passwordActionView = (ImageView) findViewById(R.id.entry_password_action_image);
+
+        urlContainerView = findViewById(R.id.entry_url_container);
+        urlView = (TextView) findViewById(R.id.entry_url);
 
         commentContainerView = findViewById(R.id.entry_comment_container);
         commentView = (TextView) findViewById(R.id.entry_comment);
@@ -102,11 +107,8 @@ public class EntryContentsView extends LinearLayout {
         }
     }
 
-    public void assignURL(String url) {
-        if (url != null && !url.isEmpty()) {
-            urlContainerView.setVisibility(VISIBLE);
-            urlView.setText(url);
-        }
+    public void assignUserNameCopyListener(OnClickListener onClickListener) {
+        userNameActionView.setOnClickListener(onClickListener);
     }
 
     public void assignPassword(String password) {
@@ -114,6 +116,10 @@ public class EntryContentsView extends LinearLayout {
             passwordContainerView.setVisibility(VISIBLE);
             passwordView.setText(password);
         }
+    }
+
+    public void assignPasswordCopyListener(OnClickListener onClickListener) {
+        passwordActionView.setOnClickListener(onClickListener);
     }
 
     public void setHiddenPasswordStyle(boolean hiddenStyle) {
@@ -124,6 +130,14 @@ public class EntryContentsView extends LinearLayout {
         }
     }
 
+    public void assignURL(String url) {
+        if (url != null && !url.isEmpty()) {
+            urlContainerView.setVisibility(VISIBLE);
+            urlView.setText(url);
+        }
+    }
+
+
     public void assignComment(String comment) {
         if (comment != null && !comment.isEmpty()) {
             commentContainerView.setVisibility(VISIBLE);
@@ -131,8 +145,8 @@ public class EntryContentsView extends LinearLayout {
         }
     }
 
-    public void addExtraField(String title, String value) {
-        View view = new EntryNewField(getContext(), null, title, value);
+    public void addExtraField(String title, String value, OnClickListener onActionClickListener) {
+        View view = new EntryNewField(getContext(), null, title, value, onActionClickListener);
         extrasView.addView(view);
     }
 

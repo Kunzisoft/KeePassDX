@@ -254,8 +254,25 @@ public class EntryActivity extends LockCloseHideActivity {
 
         // Assign basic fields
         entryContentsView.assignUserName(mEntry.getUsername(true, pm));
+        entryContentsView.assignUserNameCopyListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm),
+                        getString(R.string.menu_copy_user));
+			}
+		});
+
+		entryContentsView.assignPassword(mEntry.getPassword(true, pm));
+		entryContentsView.assignPasswordCopyListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm),
+                        getString(R.string.menu_copy_pass));
+			}
+		});
+
         entryContentsView.assignURL(mEntry.getUrl(true, pm));
-        entryContentsView.assignPassword(mEntry.getPassword(true, pm));
+
         entryContentsView.setHiddenPasswordStyle(!mShowPassword);
         entryContentsView.assignComment(mEntry.getNotes(true, pm));
 
@@ -263,7 +280,14 @@ public class EntryActivity extends LockCloseHideActivity {
 		if (mEntry.allowExtraFields()) {
 			entryContentsView.clearExtraFields();
 			for (Map.Entry<String, String> field : mEntry.getExtraFields(pm).entrySet()) {
-				entryContentsView.addExtraField(field.getKey(), field.getValue());
+                final String label = field.getKey();
+                final String value = field.getValue();
+				entryContentsView.addExtraField(label, value, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        timeoutCopyToClipboard(value, getString(R.string.copy_field, label));
+                    }
+                });
 			}
 		}
 
@@ -308,29 +332,17 @@ public class EntryActivity extends LockCloseHideActivity {
 		}
 		
 		MenuItem gotoUrl = menu.findItem(R.id.menu_goto_url);
-		MenuItem copyUser = menu.findItem(R.id.menu_copy_user);
-		MenuItem copyPass = menu.findItem(R.id.menu_copy_pass);
 		
 		// In API >= 11 onCreateOptionsMenu may be called before onCreate completes
 		// so mEntry may not be set
 		if (mEntry == null) {
 			gotoUrl.setVisible(false);
-			copyUser.setVisible(false);
-			copyPass.setVisible(false);
 		}
 		else {
 			String url = mEntry.getUrl();
 			if (EmptyUtils.isNullOrEmpty(url)) {
 				// disable button if url is not available
 				gotoUrl.setVisible(false);
-			}
-			if ( mEntry.getUsername().length() == 0 ) {
-				// disable button if username is not available
-				copyUser.setVisible(false);
-			}
-			if ( mEntry.getPassword().length() == 0 ) {
-				// disable button if password is not available
-				copyPass.setVisible(false);
 			}
 		}
 		
@@ -372,14 +384,6 @@ public class EntryActivity extends LockCloseHideActivity {
                 }
                 return true;
 			
-            case R.id.menu_copy_user:
-                timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm));
-                return true;
-			
-            case R.id.menu_copy_pass:
-                timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm));
-                return true;
-			
             case R.id.menu_lock:
                 App.setShutdown();
                 setResult(KeePass.EXIT_LOCK);
@@ -392,8 +396,15 @@ public class EntryActivity extends LockCloseHideActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void timeoutCopyToClipboard(String text) {
+        timeoutCopyToClipboard(text, "");
+    }
+
+	private void timeoutCopyToClipboard(String text, String toastString) {
+        if (!toastString.isEmpty())
+            Toast.makeText(EntryActivity.this, toastString, Toast.LENGTH_LONG).show();
+
 		try {
 			Util.copyToClipboard(this, text);
 		} catch (SamsungClipboardException e) {

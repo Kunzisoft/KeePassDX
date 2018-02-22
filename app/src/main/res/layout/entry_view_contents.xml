@@ -25,29 +25,72 @@
 	android:orientation="vertical">
 
 	<!-- Username -->
-	<LinearLayout
+	<RelativeLayout
         android:id="@+id/entry_user_name_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="gone">
-        <android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_user_name_label"
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/entry_user_name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/entry_user_name"
             style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-        <android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_user_name"
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/entry_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/entry_user_name_label"
             android:textIsSelectable="true"
             style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-    </LinearLayout>
+		<android.support.v7.widget.AppCompatImageView
+			android:id="@+id/entry_user_name_action_image"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignBottom="@+id/entry_user_name"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/entry_user_name_label"
+			android:src="@drawable/ic_content_copy_black_24dp"
+			android:tint="?attr/colorAccent" />
+    </RelativeLayout>
 
-	<!--  URL -->
+	<!-- Password -->
+    <RelativeLayout
+        android:id="@+id/entry_password_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/entry_password_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/entry_password"
+            style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/entry_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/entry_password_label"
+            android:inputType="textPassword"
+            style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/entry_password_action_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/entry_password"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/entry_password_label"
+            android:src="@drawable/ic_content_copy_black_24dp"
+            android:tint="?attr/colorAccent" />
+    </RelativeLayout>
+
+    <!--  URL -->
     <LinearLayout
         android:id="@+id/entry_url_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone">
         <android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_url_label"
@@ -63,30 +106,11 @@
             style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
     </LinearLayout>
 
-	<!-- Password -->
-    <LinearLayout
-        android:id="@+id/entry_password_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-        <android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_password_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/entry_password"
-            style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-        <android.support.v7.widget.AppCompatTextView android:id="@+id/entry_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-    </LinearLayout>
-
 	<!-- Comment -->
     <LinearLayout
         android:id="@+id/entry_comment_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone">
         <android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_comment_label"

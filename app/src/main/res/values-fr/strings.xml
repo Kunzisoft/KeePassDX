@@ -130,8 +130,9 @@
     <string name="maskpass_summary">Par défaut, masquer le mot de passe</string>
     <string name="menu_about">À propos</string>
     <string name="menu_change_key">Modifier la clé maître</string>
-    <string name="menu_copy_pass">Copier le mot de passe</string>
-    <string name="menu_copy_user">Copier le nom d\'utilisateur</string>
+    <string name="menu_copy_pass">Copie du mot de passe</string>
+    <string name="menu_copy_user">Copie du nom d\'utilisateur</string>
+    <string name="copy_field">Copie de %1$s</string>
     <string name="menu_create">Créer</string>
     <string name="settings">Préférences</string>
     <string name="menu_db_settings">Préférences de la base de données</string>

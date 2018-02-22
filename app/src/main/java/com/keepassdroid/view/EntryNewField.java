@@ -22,12 +22,17 @@ package com.keepassdroid.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 
 public class EntryNewField extends LinearLayout {
+
+    private TextView labelView;
+    private TextView valueView;
+    private ImageView actionImageView;
 
 	public EntryNewField(Context context) {
 		this(context, null);
@@ -36,30 +41,44 @@ public class EntryNewField extends LinearLayout {
 	public EntryNewField(Context context, AttributeSet attrs) {
 		this(context, attrs, null, null);
 	}
-	
-	public EntryNewField(Context context, AttributeSet attrs, String title, String value) {
+
+    public EntryNewField(Context context, AttributeSet attrs, String title, String value) {
+        this(context, attrs, title, value, null);
+    }
+
+	public EntryNewField(Context context, AttributeSet attrs, String label, String value, OnClickListener onClickActionListener) {
 		super(context, attrs);
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflate(inflater, context, title, value);
-	}
+		assert inflater != null;
+		inflater.inflate(R.layout.entry_new_field, this);
 
-	protected int getLayout() {
-		return R.layout.entry_new_field;
-	}
+        labelView = (TextView) findViewById(R.id.title);
+        valueView = (TextView) findViewById(R.id.value);
+        actionImageView = (ImageView) findViewById(R.id.action_image);
 
-	protected void inflate(LayoutInflater inflater, Context context, String title, String value) {
-		inflater.inflate(getLayout(), this);
-		
-		setText(R.id.title, title);
-		setText(R.id.value, value);
+        setLabel(label);
+        setValue(value);
+        setAction(onClickActionListener);
 	}
 	
-	private void setText(int resId, String str) {
-		if (str != null) {
-			TextView tvTitle = (TextView) findViewById(resId);
-			tvTitle.setText(str);
+	public void setLabel(String label) {
+		if (label != null) {
+			labelView.setText(label);
 		}
-		
 	}
+
+    public void setValue(String value) {
+        if (value != null) {
+            valueView.setText(value);
+        }
+    }
+
+    public void setAction(OnClickListener onClickListener) {
+        if (onClickListener != null) {
+            actionImageView.setOnClickListener(onClickListener);
+        } else {
+            actionImageView.setVisibility(GONE);
+        }
+    }
 }
