@@ -104,6 +104,9 @@ public class LoadDB extends RunnableOnFinish {
         } catch (OutOfMemoryError e) {
             finish(false, mCtx.getString(R.string.error_out_of_memory));
             return;
+        } catch (Exception e) {
+            finish(false, e.getMessage());
+            return;
         }
 
         finish(true);
