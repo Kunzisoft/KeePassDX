@@ -72,12 +72,16 @@ public abstract class PwGroup extends PwNode {
 	}
 
     /**
+     * Filter MetaStream entries and return children
      * @return List of direct children (one level below) as PwNode
      */
     public List<PwNode> getDirectChildren() {
         children.clear();
         children.addAll(childGroups);
-        children.addAll(childEntries);
+        for(PwEntry child : childEntries) {
+            if (!child.isMetaStream())
+            children.add(child);
+        }
         return children;
     }
 

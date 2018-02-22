@@ -175,10 +175,14 @@ public abstract class PwEntry extends PwNode implements Cloneable {
      */
     public void removeExtraFields() {}
 
+	/**
+	 * If it's a node with only meta information like Meta-info SYSTEM Database Color
+	 * @return false by default, true if it's a meta stream
+	 */
 	public boolean isMetaStream() {
 		return false;
 	}
-	
+
 	public EntrySearchStringIterator stringIterator() {
 		return EntrySearchStringIterator.getInstance(this);
 	}

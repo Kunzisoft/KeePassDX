@@ -43,13 +43,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.keepassdroid.database;
 
 // PhoneID
+import com.keepassdroid.utils.Types;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
-
-import com.keepassdroid.utils.Types;
 
 
 /**
@@ -280,7 +280,6 @@ public class PwEntryV3 extends PwEntry {
 
 		return true;
 	}
-
 	
 	@Override
 	public void assign(PwEntry source) {
