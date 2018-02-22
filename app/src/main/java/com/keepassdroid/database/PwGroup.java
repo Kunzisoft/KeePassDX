@@ -119,6 +119,10 @@ public abstract class PwGroup extends PwNode {
 	public abstract void setLastAccessTime(Date date);
 
 	public abstract void setLastModificationTime(Date date);
+
+	public boolean allowAddEntryIfIsRoot() {
+		return false;
+	}
 	
 	public void touch(boolean modified, boolean touchParents) {
 		Date now = new Date();

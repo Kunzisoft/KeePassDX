@@ -35,14 +35,9 @@ import android.widget.ImageView;
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
-import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwNode;
 import com.keepassdroid.database.edit.AddGroup;
 import com.keepassdroid.database.edit.DeleteEntry;
@@ -55,7 +50,7 @@ import com.keepassdroid.view.ListNodesWithAddButtonView;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
-public abstract class GroupActivity extends ListNodesActivity
+public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
 
 	protected boolean addGroupEnabled = false;
@@ -75,37 +70,11 @@ public abstract class GroupActivity extends ListNodesActivity
 	}
 	
 	public static void Launch(Activity act, PwGroup group) {
-		Intent i;
-		
-		// Need to use PwDatabase since tree may be null
-		PwDatabase db = App.getDB().pm;
-		if ( db instanceof PwDatabaseV3 ) {
-			i = new Intent(act, GroupActivityV3.class);
-		
-			if ( group != null ) {
-				PwGroupV3 g = (PwGroupV3) group;
-				i.putExtra(KEY_ENTRY, g.groupId);
-			}
-		} else if ( db instanceof PwDatabaseV4 ) {
-			i = new Intent(act, GroupActivityV4.class);
-			
-			if ( group != null ) {
-				PwGroupV4 g = (PwGroupV4) group;
-				i.putExtra(KEY_ENTRY, g.uuid.toString());
-			}
-		} else {
-			// Reached if db is null
-			Log.d(TAG, "Tried to launch with null db");
-			return;
-		}
-		
-		act.startActivityForResult(i,0);
-	}
-	
-	protected abstract PwGroupId retrieveGroupId(Intent i);
-	
-	protected void setupButtons() {
-		addGroupEnabled = !readOnly;
+		Intent intent = new Intent(act, GroupActivity.class);
+        if ( group != null ) {
+            intent.putExtra(KEY_ENTRY, group.getId());
+        }
+		act.startActivityForResult(intent,0);
 	}
 	
 	@Override
@@ -119,17 +88,15 @@ public abstract class GroupActivity extends ListNodesActivity
 		setResult(KeePass.EXIT_NORMAL);
 		
 		Log.w(TAG, "Creating tree view");
-		Intent intent = getIntent();
-		
-		PwGroupId id = retrieveGroupId(intent);
+        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(KEY_ENTRY);
 		
 		Database db = App.getDB();
 		readOnly = db.readOnly;
 		PwGroup root = db.pm.rootGroup;
-		if ( id == null ) {
+		if ( pwGroupId == null ) {
 			mCurrentGroup = root;
 		} else {
-			mCurrentGroup = db.pm.groups.get(id);
+			mCurrentGroup = db.pm.groups.get(pwGroupId);
 		}
 		
 		Log.w(TAG, "Retrieved tree");
@@ -137,10 +104,13 @@ public abstract class GroupActivity extends ListNodesActivity
 			Log.w(TAG, "Group was null");
 			return;
 		}
-		
-		isRoot = mCurrentGroup == root;
-		
-		setupButtons();
+
+		addGroupEnabled = !readOnly;
+		addEntryEnabled = !readOnly;
+
+        isRoot = (mCurrentGroup == root);
+		if ( !mCurrentGroup.allowAddEntryIfIsRoot() )
+		    addEntryEnabled = !isRoot && addEntryEnabled;
 
 		// Construct main view
         ListNodesWithAddButtonView rootView = new ListNodesWithAddButtonView(this);
