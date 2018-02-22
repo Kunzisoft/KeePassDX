@@ -453,14 +453,14 @@ public class PasswordActivity extends LockingActivity
     protected void onPause() {
         super.onPause();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && fingerPrintAnimatedVector != null) {
-            fingerPrintAnimatedVector.stopScan();
-        }
-
-        // stop listening when we go in background
-        if (fingerPrintHelper != null) {
-            fingerPrintHelper.stopListening();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (fingerPrintAnimatedVector != null) {
+                fingerPrintAnimatedVector.stopScan();
+            }
+            // stop listening when we go in background
+            if (fingerPrintHelper != null) {
+                fingerPrintHelper.stopListening();
+            }
         }
     }
 
