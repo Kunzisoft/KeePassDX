@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 app:titleEnabled="false"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
                     android:layout_width="match_parent"
