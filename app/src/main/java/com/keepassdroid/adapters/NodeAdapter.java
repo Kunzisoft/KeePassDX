@@ -124,12 +124,18 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Update the last Node register in the list
      * Work if only registerANodeToUpdate(PwNode node) is called before
      */
-    public void updateLastNodeRegister() {
+    public void updateLastNodeRegister(PwNode node) {
         // Don't really update here, sorted list knows each original ref, so we just notify a change
         try {
-            notifyItemChanged(nodePositionToUpdate);
-            nodeSortedList.recalculatePositionOfItemAt(nodePositionToUpdate);
-            nodePositionToUpdate = -1;
+            if (nodePositionToUpdate != -1) {
+                // Don't know why but there is a bug to remove a node after this update
+                nodeSortedList.updateItemAt(nodePositionToUpdate, node);
+                nodeSortedList.recalculatePositionOfItemAt(nodePositionToUpdate);
+                nodePositionToUpdate = -1;
+            }
+            else {
+                Log.e(NodeAdapter.class.getName(), "registerANodeToUpdate must be called before updateLastNodeRegister");
+            }
         } catch (IndexOutOfBoundsException e) {
             Log.e(NodeAdapter.class.getName(), e.getMessage());
         }

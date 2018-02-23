@@ -228,8 +228,10 @@ public abstract class ListNodesActivity extends LockCloseListActivity
                     if (newNode != null) {
 						if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
 							mAdapter.addNode(newNode);
-						if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
-							mAdapter.updateLastNodeRegister();
+						if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
+							//mAdapter.updateLastNodeRegister(newNode);
+							mAdapter.rebuildList(mCurrentGroup);
+						}
 					} else {
                         Log.e(this.getClass().getName(), "New node can be retrieve in Activity Result");
                     }
