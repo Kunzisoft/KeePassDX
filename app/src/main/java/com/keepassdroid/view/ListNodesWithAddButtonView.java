@@ -57,6 +57,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
     private AddButtonAnimation viewButtonMenuAnimation;
     private ViewMenuAnimation viewMenuAnimationAddEntry;
     private ViewMenuAnimation viewMenuAnimationAddGroup;
+    private long animationDuration;
 
 	public ListNodesWithAddButtonView(Context context) {
 		this(context, null);
@@ -78,6 +79,8 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         addButton = (FloatingActionButton) findViewById(R.id.add_button);
         addEntry = findViewById(R.id.add_entry);
         addGroup = findViewById(R.id.add_group);
+
+        animationDuration = 300L;
 
         viewButtonMenuAnimation = new AddButtonAnimation(addButton);
         viewMenuAnimationAddEntry = new ViewMenuAnimation(addEntry);
@@ -214,7 +217,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
                 ViewCompat.animate(view)
                         .rotation(135.0F)
                         .withLayer()
-                        .setDuration(300L)
+                        .setDuration(animationDuration)
                         .setInterpolator(interpolator)
                         .setListener(this)
                         .start();
@@ -222,7 +225,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
                 ViewCompat.animate(view)
                         .rotation(0.0F)
                         .withLayer()
-                        .setDuration(300L)
+                        .setDuration(animationDuration)
                         .setInterpolator(interpolator)
                         .setListener(this)
                         .start();
@@ -230,46 +233,54 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         }
     }
 
-	private class ViewMenuAnimation implements Animation.AnimationListener {
+	private class ViewMenuAnimation implements ViewPropertyAnimatorListener {
 
         private View view;
-
-        private Animation animViewShow;
-        private Animation animViewHide;
+        private Interpolator interpolator;
+        private boolean wasInvisible;
 
         ViewMenuAnimation(View view) {
             this.view = view;
-
-            animViewShow = new AlphaAnimation(0.0f, 1.0f);
-            animViewShow.setDuration(250);
-
-            animViewHide = new AlphaAnimation(1.0f, 0.0f);
-            animViewHide.setDuration(250);
+            this.interpolator = new AccelerateDecelerateInterpolator();
+            this.wasInvisible = true;
         }
 
         @Override
-        public void onAnimationStart(Animation animation) {}
+        public void onAnimationStart(View view) {}
 
         @Override
-        public void onAnimationEnd(Animation animation) {
-            if(view.getVisibility() == VISIBLE) {
-                view.setVisibility(INVISIBLE);
-            } else {
+        public void onAnimationEnd(View view) {
+            if(wasInvisible) {
                 view.setVisibility(VISIBLE);
+            } else {
+                view.setVisibility(INVISIBLE);
             }
         }
 
         @Override
-        public void onAnimationRepeat(Animation animation) {}
+        public void onAnimationCancel(View view) {}
 
         void startAnimation() {
-            Animation animation;
-            if(view.getVisibility() == VISIBLE)
-                animation = animViewHide;
-            else
-                animation = animViewShow;
-            animation.setAnimationListener(this);
-            view.startAnimation(animation);
+            if(view.getVisibility() == VISIBLE) {
+                wasInvisible = false;
+                ViewCompat.animate(view)
+                        .alpha(0.0F)
+                        .withLayer()
+                        .setDuration(animationDuration)
+                        .setInterpolator(interpolator)
+                        .setListener(this)
+                        .start();
+            } else {
+                view.setVisibility(VISIBLE);
+                wasInvisible = true;
+                ViewCompat.animate(view)
+                        .alpha(1.0F)
+                        .withLayer()
+                        .setDuration(animationDuration)
+                        .setInterpolator(interpolator)
+                        .setListener(this)
+                        .start();
+            }
         }
     }
 }
