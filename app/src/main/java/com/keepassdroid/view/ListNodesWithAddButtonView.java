@@ -82,8 +82,8 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         animationDuration = 300L;
 
         viewButtonMenuAnimation = new AddButtonAnimation(addButton);
-        viewMenuAnimationAddEntry = new ViewMenuAnimation(addEntry);
-        viewMenuAnimationAddGroup = new ViewMenuAnimation(addGroup);
+        viewMenuAnimationAddEntry = new ViewMenuAnimation(addEntry, 0L, 150L);
+        viewMenuAnimationAddGroup = new ViewMenuAnimation(addGroup, 150L, 0L);
 
         allowAction = true;
         state = State.CLOSE;
@@ -248,12 +248,20 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         private Interpolator interpolator;
         private float translation;
         private boolean wasInvisible;
+        private long delayIn;
+        private long delayOut;
 
-        ViewMenuAnimation(View view) {
+        ViewMenuAnimation(View view, long delayIn, long delayOut) {
             this.view = view;
             this.interpolator = new FastOutSlowInInterpolator();
             this.wasInvisible = true;
             this.translation = 0;
+            this.delayIn = delayIn;
+            this.delayOut = delayOut;
+        }
+
+        ViewMenuAnimation(View view) {
+            this(view, 0, 0);
         }
 
         @Override
@@ -273,15 +281,17 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 
         void startAnimation() {
             if(view.getVisibility() == VISIBLE) {
+                // In
                 wasInvisible = false;
                 ViewCompat.animate(view)
                         .translationY(-translation)
                         .translationX(view.getWidth()/3)
                         .alpha(0.0F)
                         .scaleX(0.33F)
-                        .setDuration(animationDuration)
+                        .setDuration(animationDuration-delayIn)
                         .setInterpolator(interpolator)
                         .setListener(this)
+                        .setStartDelay(delayIn)
                         .start();
             } else {
                 // The first time
@@ -293,6 +303,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
                     view.setScaleX(0.33F);
                 }
 
+                // Out
                 view.setVisibility(VISIBLE);
                 wasInvisible = true;
                 ViewCompat.animate(view)
@@ -300,9 +311,10 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
                         .translationX(1)
                         .alpha(1.0F)
                         .scaleX(1)
-                        .setDuration(animationDuration)
+                        .setDuration(animationDuration-delayOut)
                         .setInterpolator(interpolator)
                         .setListener(this)
+                        .setStartDelay(delayOut)
                         .start();
             }
         }
