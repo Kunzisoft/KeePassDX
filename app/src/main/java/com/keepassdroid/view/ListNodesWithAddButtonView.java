@@ -116,10 +116,12 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && addButton.getVisibility() == View.VISIBLE) {
-                    hideButton();
-                } else if (dy < 0 && addButton.getVisibility() != View.VISIBLE) {
-                    showButton();
+                if (state.equals(State.CLOSE)) {
+                    if (dy > 0 && addButton.getVisibility() == View.VISIBLE) {
+                        hideButton();
+                    } else if (dy < 0 && addButton.getVisibility() != View.VISIBLE) {
+                        showButton();
+                    }
                 }
             }
         });
@@ -186,7 +188,6 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         AddButtonAnimation(View view) {
             this.view = view;
             this.isRotate = false;
-
             interpolator = new AccelerateDecelerateInterpolator();
         }
 
@@ -199,6 +200,10 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         public void onAnimationEnd(View view) {
             allowAction = true;
             isRotate = !isRotate;
+            if (isRotate)
+                state = State.OPEN;
+            else
+                state = State.CLOSE;
         }
 
         @Override
@@ -249,10 +254,8 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         public void onAnimationEnd(Animation animation) {
             if(view.getVisibility() == VISIBLE) {
                 view.setVisibility(INVISIBLE);
-                state = State.CLOSE;
             } else {
                 view.setVisibility(VISIBLE);
-                state = State.OPEN;
             }
         }
 
