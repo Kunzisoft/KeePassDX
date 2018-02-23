@@ -29,7 +29,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -135,30 +134,19 @@ public class GroupActivity extends ListNodesActivity
         if ( mCurrentGroup.getParent() != null )
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
-		if ( addGroupEnabled ) {
-			// Add Group button
-			View addGroup = findViewById(R.id.add_group);
-			addGroup.setOnClickListener(new View.OnClickListener() {
-
-				public void onClick(View v) {
-                    editGroupDialogAction = EditGroupDialogAction.CREATION;
-					GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
-					groupEditDialogFragment.show(getSupportFragmentManager(),
-                            GroupEditDialogFragment.TAG_CREATE_GROUP);
-				}
-			});
-		}
-		
-		if ( addEntryEnabled ) {
-			// Add Entry button
-			View addEntry = findViewById(R.id.add_entry);
-			addEntry.setOnClickListener(new View.OnClickListener() {
-	
-				public void onClick(View v) {
-					EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup);
-				}
-			});
-		}
+        rootView.setAddGroupClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                editGroupDialogAction = EditGroupDialogAction.CREATION;
+                GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
+                groupEditDialogFragment.show(getSupportFragmentManager(),
+                        GroupEditDialogFragment.TAG_CREATE_GROUP);
+            }
+        });
+        rootView.setAddEntryClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup);
+            }
+        });
 		
 		setGroupTitle();
 		setGroupIcon();

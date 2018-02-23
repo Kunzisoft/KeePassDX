@@ -24,14 +24,13 @@ import android.graphics.Rect;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 
@@ -170,6 +169,16 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
             addGroup.setVisibility(INVISIBLE);
     }
 
+    public void setAddGroupClickListener(OnClickListener onClickListener) {
+        if (addEntryEnable)
+            addGroup.setOnClickListener(onClickListener);
+    }
+
+    public void setAddEntryClickListener(OnClickListener onClickListener) {
+        if (addGroupEnable)
+            addEntry.setOnClickListener(onClickListener);
+    }
+
     private void startGlobalAnimation() {
         viewButtonMenuAnimation.startAnimation();
 
@@ -237,12 +246,14 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 
         private View view;
         private Interpolator interpolator;
+        private float translation;
         private boolean wasInvisible;
 
         ViewMenuAnimation(View view) {
             this.view = view;
-            this.interpolator = new AccelerateDecelerateInterpolator();
+            this.interpolator = new FastOutSlowInInterpolator();
             this.wasInvisible = true;
+            this.translation = 0;
         }
 
         @Override
@@ -264,18 +275,31 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
             if(view.getVisibility() == VISIBLE) {
                 wasInvisible = false;
                 ViewCompat.animate(view)
+                        .translationY(-translation)
+                        .translationX(view.getWidth()/3)
                         .alpha(0.0F)
-                        .withLayer()
+                        .scaleX(0.33F)
                         .setDuration(animationDuration)
                         .setInterpolator(interpolator)
                         .setListener(this)
                         .start();
             } else {
+                // The first time
+                if (translation == 0) {
+                    translation = view.getY() + view.getHeight()/2 - addButton.getY() - addButton.getHeight()/2;
+                    view.setTranslationY(-translation);
+                    view.setTranslationX(view.getWidth()/3);
+                    view.setAlpha(0.0F);
+                    view.setScaleX(0.33F);
+                }
+
                 view.setVisibility(VISIBLE);
                 wasInvisible = true;
                 ViewCompat.animate(view)
+                        .translationY(1)
+                        .translationX(1)
                         .alpha(1.0F)
-                        .withLayer()
+                        .scaleX(1)
                         .setDuration(animationDuration)
                         .setInterpolator(interpolator)
                         .setListener(this)
