@@ -97,7 +97,8 @@
         </activity>
         <activity
             android:name="com.keepassdroid.activities.GroupActivity"
-            android:configChanges="orientation|keyboardHidden">
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value="com.keepassdroid.search.SearchResults"

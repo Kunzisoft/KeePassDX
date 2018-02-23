@@ -110,19 +110,28 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
             }
         };
 
+        // Hide when scroll
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.nodes_list);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0 && addButton.getVisibility() == View.VISIBLE) {
-                    addButton.hide(onAddButtonVisibilityChangedListener);
+                    hideButton();
                 } else if (dy < 0 && addButton.getVisibility() != View.VISIBLE) {
-                    addButton.show(onAddButtonVisibilityChangedListener);
+                    showButton();
                 }
             }
         });
 	}
+
+	public void showButton() {
+        addButton.show(onAddButtonVisibilityChangedListener);
+    }
+
+	public void hideButton() {
+        addButton.hide(onAddButtonVisibilityChangedListener);
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

@@ -21,13 +21,20 @@ package com.keepassdroid.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,8 +50,10 @@ import com.keepassdroid.database.edit.AddGroup;
 import com.keepassdroid.database.edit.DeleteEntry;
 import com.keepassdroid.database.edit.DeleteGroup;
 import com.keepassdroid.dialog.ReadOnlyDialog;
+import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
 import com.keepassdroid.fragments.GroupEditDialogFragment;
 import com.keepassdroid.fragments.IconPickerDialogFragment;
+import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.view.ListNodesWithAddButtonView;
 import com.kunzisoft.keepass.KeePass;
@@ -58,6 +67,7 @@ public class GroupActivity extends ListNodesActivity
 	protected boolean isRoot = false;
 	protected boolean readOnly = false;
 	protected EditGroupDialogAction editGroupDialogAction = EditGroupDialogAction.NONE;
+	private ListNodesWithAddButtonView rootView;
 
     private enum EditGroupDialogAction {
 	    CREATION, UPDATE, NONE
@@ -113,7 +123,7 @@ public class GroupActivity extends ListNodesActivity
 		    addEntryEnabled = !isRoot && addEntryEnabled;
 
 		// Construct main view
-        ListNodesWithAddButtonView rootView = new ListNodesWithAddButtonView(this);
+        rootView = new ListNodesWithAddButtonView(this);
         rootView.enableAddGroup(addGroupEnabled);
         rootView.enableAddEntry(addEntryEnabled);
 		setContentView(rootView);
@@ -233,14 +243,59 @@ public class GroupActivity extends ListNodesActivity
         pt.run();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search, menu);
+        inflater.inflate(R.menu.database, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        assert searchManager != null;
+
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
+            searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        }
+
+        return true;
+    }
+
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 onBackPressed();
                 return true;
+
+            case R.id.menu_search:
+                onSearchRequested();
+                return true;
+
+            case R.id.menu_lock:
+                App.setShutdown();
+                setResult(KeePass.EXIT_LOCK);
+                finish();
+                return true;
+
+            case R.id.menu_change_master_key:
+                setPassword();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setPassword() {
+        AssignMasterKeyDialogFragment dialog = new AssignMasterKeyDialogFragment();
+        dialog.show(getSupportFragmentManager(), "passwordDialog");
     }
 
     @Override

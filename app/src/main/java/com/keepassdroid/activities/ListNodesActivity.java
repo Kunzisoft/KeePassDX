@@ -19,9 +19,6 @@
  */
 package com.keepassdroid.activities;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -32,7 +29,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,7 +46,6 @@ import com.keepassdroid.database.PwNode;
 import com.keepassdroid.database.edit.AfterAddNodeOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
-import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.view.AssignPasswordHelper;
@@ -140,25 +135,9 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.search, menu);
 		MenuUtil.donationMenuInflater(inflater, menu);
 		inflater.inflate(R.menu.tree, menu);
-		inflater.inflate(R.menu.database, menu);
 		inflater.inflate(R.menu.default_menu, menu);
-
-		// Get the SearchView and set the searchable configuration
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		assert searchManager != null;
-
-		MenuItem searchItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
-            searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-        }
 
 		return true;
 	}
@@ -194,22 +173,8 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
 
-            case R.id.menu_search:
-                onSearchRequested();
-                return true;
-
             case R.id.menu_sort:
                 toggleSort();
-                return true;
-
-            case R.id.menu_lock:
-                App.setShutdown();
-                setResult(KeePass.EXIT_LOCK);
-                finish();
-                return true;
-
-            case R.id.menu_change_master_key:
-                setPassword();
                 return true;
 
             default:
@@ -251,11 +216,6 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 			boolean keyFileChecked, Uri keyFile) {
 
     }
-
-	private void setPassword() {
-		AssignMasterKeyDialogFragment dialog = new AssignMasterKeyDialogFragment();
-		dialog.show(getSupportFragmentManager(), "passwordDialog");
-	}
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
