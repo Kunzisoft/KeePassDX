@@ -84,20 +84,6 @@
                     android:hint="@string/entry_user_name" />
             </android.support.design.widget.TextInputLayout>
 
-			<!--  URL -->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/entry_url"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textUri"
-                    android:maxLines="1"
-                    android:hint="@string/entry_url" />
-            </android.support.design.widget.TextInputLayout>
-
 			<!-- Password -->
             <RelativeLayout
                 android:orientation="horizontal"
@@ -154,6 +140,20 @@
                     android:src="@drawable/ic_key_white_24dp"
                     android:tint="?attr/colorAccent" />
             </RelativeLayout>
+
+            <!--  URL -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/entry_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textUri"
+                    android:maxLines="1"
+                    android:hint="@string/entry_url" />
+            </android.support.design.widget.TextInputLayout>
 
 			<!-- Comment -->
             <android.support.design.widget.TextInputLayout
