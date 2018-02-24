@@ -21,6 +21,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_sort"
         android:icon="@drawable/ic_sort_white_24dp"
-        android:title="@string/sort_name"
+        android:title="@string/sort_menu"
         app:showAsAction="ifRoom" />
 </menu>

@@ -48,7 +48,8 @@
     <string name="list_size_key" translatable="false">list_size</string>
     <string name="show_beta_warning" translatable="false">show_beta_warning</string>
     <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
-    <string name="sort_key" translatable="false">sort_key</string>
+    <string name="sort_node_key" translatable="false">sort_node_key</string>
+    <string name="sort_group_before_key" translatable="false">sort_group_before_key</string>
     <string name="timeout_key" translatable="false">timeout_key</string>
     <string name="saf_key" translatable="false">storage_access_framework_key</string>
     <integer name="roundsFix_default" translatable="false">100000</integer>
@@ -62,7 +63,6 @@
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
-    <bool name="sort_default" translatable="false">true</bool>
     <bool name="omitbackup_default" translatable="false">true</bool>
     <bool name="recentfile_default" translatable="false">true</bool>
     <bool name="saf_default" translatable="false">false</bool>
@@ -70,6 +70,7 @@
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
     <bool name="fingerprint_enable_default" translatable="true">false</bool>
     <bool name="full_file_path_enable_default" translatable="true">false</bool>
+    <bool name="sort_group_before_default" translatable="true">true</bool>
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">

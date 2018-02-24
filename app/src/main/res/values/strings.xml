@@ -180,10 +180,15 @@
     <string name="space">Space</string>
     <string name="search_label">Search</string>
     <string name="show_password">Show password</string>
-    <string name="sort_name">Sort by Name</string>
+    <string name="sort_menu">Sort</string>
+    <string name="sort_groups_before">Groups before</string>
     <string name="sort_db">DB sort order</string>
     <string name="sort_title">Sort by Title</string>
+    <string name="sort_name">Sort by Name</string>
+    <string name="sort_username">Sort by Username</string>
     <string name="sort_creation_time">Sort by Creation Time</string>
+    <string name="sort_last_modify_time">Sort by Last Modify Time</string>
+    <string name="sort_last_access_time">Sort by Last Access Time</string>
     <string name="special">Special</string>
     <string name="search_hint">Search</string>
     <string name="search_results">Search results</string>

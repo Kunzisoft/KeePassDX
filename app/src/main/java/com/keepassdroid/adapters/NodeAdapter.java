@@ -36,6 +36,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
 import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.database.SortNodeEnum;
 import com.kunzisoft.keepass.R;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
@@ -45,7 +46,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private Context context;
     private LayoutInflater inflater;
     private float textSize;
-    private boolean sortByName;
+    private SortNodeEnum listSort;
+    private boolean groupsBeforeSort;
 
     private OnNodeClickCallback onNodeClickCallback;
     private int nodePositionToUpdate;
@@ -71,17 +73,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.textSize = PrefsUtil.getListTextSize(context);
-        this.sortByName = PrefsUtil.isListSortByName(context);
+        this.listSort = PrefsUtil.getListSort(context);
+        this.groupsBeforeSort = PrefsUtil.getGroupsBeforeSort(context);
         this.activateContextMenu = activateContextMenu;
         this.nodePositionToUpdate = -1;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
             @Override public int compare(PwNode item1, PwNode item2) {
-                // Choose sort depend of preferences
-                if(sortByName)
-                    return new PwNode.NodeNameComparator().compare(item1, item2);
-                else
-                    return new PwNode.NodeCreationComparator().compare(item1, item2);
+                return listSort.getNodeComparator(groupsBeforeSort).compare(item1, item2);
             }
 
             @Override public boolean areContentsTheSame(PwNode oldItem, PwNode newItem) {
@@ -152,8 +151,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Notify a change sort of the list
      */
-    public void notifyChangeSort() {
-        this.sortByName = PrefsUtil.isListSortByName(context);
+    public void notifyChangeSort(SortNodeEnum sortNodeEnum, boolean groupsBefore) {
+        this.listSort = sortNodeEnum;
+        this.groupsBeforeSort = groupsBefore;
     }
 
     @Override

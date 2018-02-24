@@ -21,7 +21,6 @@
 package com.keepassdroid.database;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -85,79 +84,5 @@ public abstract class PwNode implements Serializable {
      */
     boolean isSameType(PwNode otherNode) {
         return getType() != null ? getType().equals(otherNode.getType()) : otherNode.getType() == null;
-    }
-
-    /**
-     * Comparator of Node by Name, Groups first, Entries second
-     */
-    public static class NodeNameComparator implements Comparator<PwNode> {
-        public int compare(PwNode object1, PwNode object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            if (object1 instanceof PwGroup) {
-                if (object2 instanceof PwGroup) {
-                    return new PwGroup.GroupNameComparator()
-                            .compare((PwGroup) object1, (PwGroup) object2);
-                } else if (object2 instanceof PwEntry) {
-                    return -1;
-                } else {
-                    return -1;
-                }
-            } else if (object1 instanceof PwEntry) {
-                if(object2 instanceof PwEntry) {
-                    return new PwEntry.EntryNameComparator()
-                            .compare((PwEntry) object1, (PwEntry) object2);
-                } else if (object2 instanceof PwGroup) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-            int nodeNameComp = object1.getDisplayTitle()
-                    .compareToIgnoreCase(object2.getDisplayTitle());
-            // If same name, can be different
-            if (nodeNameComp == 0)
-                return object1.hashCode() - object2.hashCode();
-            return nodeNameComp;
-        }
-    }
-
-    /**
-     * Comparator of node by creation, Groups first, Entries second
-     */
-    public static class NodeCreationComparator implements Comparator<PwNode> {
-        @Override
-        public int compare(PwNode object1, PwNode object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            if (object1 instanceof PwGroup) {
-                if (object2 instanceof PwGroup) {
-                    return new PwGroup.GroupCreationComparator()
-                            .compare((PwGroup) object1, (PwGroup) object2);
-                } else if (object2 instanceof PwEntry) {
-                    return -1;
-                } else {
-                    return -1;
-                }
-            } else if (object1 instanceof PwEntry) {
-                if(object2 instanceof PwEntry) {
-                    return new PwEntry.EntryCreationComparator()
-                            .compare((PwEntry) object1, (PwEntry) object2);
-                } else if (object2 instanceof PwGroup) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-            int nodeCreationComp = object1.getCreationTime()
-                    .compareTo(object2.getCreationTime());
-            // If same creation, can be different
-            if (nodeCreationComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-            return nodeCreationComp;
-        }
     }
 }

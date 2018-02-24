@@ -180,10 +180,15 @@
     <string name="space">Espace</string>
     <string name="search_label">Rechercher</string>
     <string name="show_password">Afficher le mot de passe</string>
-    <string name="sort_name">Tri par nom</string>
+    <string name="sort_menu">Trier</string>
+    <string name="sort_groups_before">Groupes avant</string>
     <string name="sort_db">Tri par défaut (base de données)</string>
     <string name="sort_title">Tri par Titre</string>
+    <string name="sort_name">Tri par nom</string>
+    <string name="sort_username">Tri par Nom d\'utilisateur</string>
     <string name="sort_creation_time">Tri par Date de Création</string>
+    <string name="sort_last_modify_time">Tri par Date de Dernière Modification</string>
+    <string name="sort_last_access_time">Tri par Date de Dernier Accès</string>
     <string name="special">Spécial</string>
     <string name="search_hint">Nom/description</string>
     <string name="search_results">Résultats</string>

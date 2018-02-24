@@ -46,15 +46,19 @@ import com.keepassdroid.database.PwNode;
 import com.keepassdroid.database.edit.AfterAddNodeOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
+import com.keepassdroid.fragments.SortDialogFragment;
+import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
+import com.keepassdroid.database.SortNodeEnum;
 import com.keepassdroid.view.AssignPasswordHelper;
 import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
 public abstract class ListNodesActivity extends LockCloseListActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-		NodeAdapter.OnNodeClickCallback {
+		NodeAdapter.OnNodeClickCallback,
+        SortDialogFragment.SortSelectionListener {
 	protected RecyclerView mList;
 	protected NodeAdapter mAdapter;
 
@@ -142,61 +146,37 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		return true;
 	}
 
-	private void setSortMenuText(Menu menu) {
-		boolean sortByTitle = false;
+    @Override
+    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean groupsBefore) {
+        // Toggle setting
+        String sortKey = getString(R.string.sort_node_key);
+        String groupsBeforeKey = getString(R.string.sort_group_before_key);
+        Editor editor = prefs.edit();
+        editor.putString(sortKey, sortNodeEnum.name());
+        editor.putBoolean(groupsBeforeKey, groupsBefore);
+        EditorCompat.apply(editor);
 
-		// Will be null if onPrepareOptionsMenu is called before onCreate
-		if (prefs != null) {
-			sortByTitle = prefs.getBoolean(getString(R.string.sort_key), getResources().getBoolean(R.bool.sort_default));
-		}
-		
-		int resId;
-		if ( sortByTitle ) {
-			resId = R.string.sort_creation_time;
-		} else {
-			resId = R.string.sort_title;
-		}
-			
-		menu.findItem(R.id.menu_sort).setTitle(resId);
-	}
-	
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if ( ! super.onPrepareOptionsMenu(menu) ) {
-			return false;
-		}
-		setSortMenuText(menu);
-		return true;
-	}
+        // Tell the adapter to refresh it's list
+        mAdapter.notifyChangeSort(sortNodeEnum, groupsBefore);
+        mAdapter.rebuildList(mCurrentGroup);
+    }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
 
             case R.id.menu_sort:
-                toggleSort();
+                SortDialogFragment sortDialogFragment =
+                        SortDialogFragment.getInstance(
+                                PrefsUtil.getListSort(this),
+                                PrefsUtil.getGroupsBeforeSort(this));
+                sortDialogFragment.show(getSupportFragmentManager(), "sortDialog");
                 return true;
 
             default:
                 MenuUtil.onDefaultMenuOptionsItemSelected(this, item);
                 return super.onOptionsItemSelected(item);
 		}
-	}
-	
-	private void toggleSort() {
-		// Toggle setting
-		String sortKey = getString(R.string.sort_key);
-		boolean sortByName = prefs.getBoolean(sortKey, getResources().getBoolean(R.bool.sort_default));
-		Editor editor = prefs.edit();
-		editor.putBoolean(sortKey, !sortByName);
-		EditorCompat.apply(editor);
-		
-		// Refresh menu titles
-		ActivityCompat.invalidateOptionsMenu(this);
-		
-		// Tell the adapter to refresh it's list
-        mAdapter.notifyChangeSort();
-        mAdapter.rebuildList(mCurrentGroup);
 	}
 
     @Override

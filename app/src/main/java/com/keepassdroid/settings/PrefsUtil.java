@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.keepassdroid.database.SortNodeEnum;
 import com.kunzisoft.keepass.R;
 
 import java.util.Arrays;
@@ -89,10 +90,16 @@ public class PrefsUtil {
                 ctx.getResources().getBoolean(R.bool.full_file_path_enable_default));
     }
 
-    public static boolean isListSortByName(Context ctx) {
+    public static SortNodeEnum getListSort(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return prefs.getBoolean(ctx.getString(R.string.sort_key),
-                ctx.getResources().getBoolean(R.bool.sort_default));
+        return SortNodeEnum.valueOf(prefs.getString(ctx.getString(R.string.sort_node_key),
+                SortNodeEnum.TITLE.name()));
+    }
+
+    public static boolean getGroupsBeforeSort(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.sort_group_before_key),
+                ctx.getResources().getBoolean(R.bool.sort_group_before_default));
     }
 
     public static boolean isPasswordMask(Context ctx) {
