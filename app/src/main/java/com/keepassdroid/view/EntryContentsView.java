@@ -122,6 +122,10 @@ public class EntryContentsView extends LinearLayout {
         passwordActionView.setOnClickListener(onClickListener);
     }
 
+    public boolean isPasswordPresent() {
+	    return passwordContainerView.getVisibility() == VISIBLE;
+    }
+
     public void setHiddenPasswordStyle(boolean hiddenStyle) {
         if ( !hiddenStyle ) {
             passwordView.setTransformationMethod(null);

@@ -313,6 +313,16 @@ public class EntryActivity extends LockCloseHideActivity {
         }
 	}
 
+	private void changeShowPasswordIcon(MenuItem togglePassword) {
+		if ( mShowPassword ) {
+			togglePassword.setTitle(R.string.menu_hide_password);
+			togglePassword.setIcon(R.drawable.ic_visibility_off_white_24dp);
+		} else {
+			togglePassword.setTitle(R.string.menu_showpass);
+			togglePassword.setIcon(R.drawable.ic_visibility_white_24dp);
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -323,13 +333,11 @@ public class EntryActivity extends LockCloseHideActivity {
 		inflater.inflate(R.menu.lock_database, menu);
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
-		if ( mShowPassword ) {
-			togglePassword.setTitle(R.string.menu_hide_password);
-			togglePassword.setIcon(R.drawable.ic_visibility_off_white_24dp);
-		} else {
-			togglePassword.setTitle(R.string.menu_showpass);
-            togglePassword.setIcon(R.drawable.ic_visibility_white_24dp);
-		}
+		if (!entryContentsView.isPasswordPresent()) {
+		    togglePassword.setVisible(false);
+        } else {
+            changeShowPasswordIcon(togglePassword);
+        }
 		
 		MenuItem gotoUrl = menu.findItem(R.id.menu_goto_url);
 		
@@ -356,15 +364,8 @@ public class EntryActivity extends LockCloseHideActivity {
                 return MenuUtil.onDonationItemSelected(this);
 
             case R.id.menu_toggle_pass:
-                if ( mShowPassword ) {
-                    item.setTitle(R.string.menu_showpass);
-                    item.setIcon(R.drawable.ic_visibility_white_24dp);
-                    mShowPassword = false;
-                } else {
-                    item.setTitle(R.string.menu_hide_password);
-                    item.setIcon(R.drawable.ic_visibility_off_white_24dp);
-                    mShowPassword = true;
-                }
+                mShowPassword = !mShowPassword;
+                changeShowPasswordIcon(item);
                 entryContentsView.setHiddenPasswordStyle(!mShowPassword);
                 return true;
 			
