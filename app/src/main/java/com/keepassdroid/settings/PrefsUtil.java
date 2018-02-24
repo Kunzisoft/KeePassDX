@@ -102,6 +102,12 @@ public class PrefsUtil {
                 ctx.getResources().getBoolean(R.bool.sort_group_before_default));
     }
 
+    public static boolean getAscendingSort(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.sort_ascending_key),
+                ctx.getResources().getBoolean(R.bool.sort_ascending_default));
+    }
+
     public static boolean isPasswordMask(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.maskpass_key),

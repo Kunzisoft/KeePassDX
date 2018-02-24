@@ -48,6 +48,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private float textSize;
     private SortNodeEnum listSort;
     private boolean groupsBeforeSort;
+    private boolean ascendingSort;
 
     private OnNodeClickCallback onNodeClickCallback;
     private int nodePositionToUpdate;
@@ -75,12 +76,13 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         this.textSize = PrefsUtil.getListTextSize(context);
         this.listSort = PrefsUtil.getListSort(context);
         this.groupsBeforeSort = PrefsUtil.getGroupsBeforeSort(context);
+        this.ascendingSort = PrefsUtil.getAscendingSort(context);
         this.activateContextMenu = activateContextMenu;
         this.nodePositionToUpdate = -1;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
             @Override public int compare(PwNode item1, PwNode item2) {
-                return listSort.getNodeComparator(groupsBeforeSort).compare(item1, item2);
+                return listSort.getNodeComparator(ascendingSort, groupsBeforeSort).compare(item1, item2);
             }
 
             @Override public boolean areContentsTheSame(PwNode oldItem, PwNode newItem) {
@@ -151,8 +153,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Notify a change sort of the list
      */
-    public void notifyChangeSort(SortNodeEnum sortNodeEnum, boolean groupsBefore) {
+    public void notifyChangeSort(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore) {
         this.listSort = sortNodeEnum;
+        this.ascendingSort = ascending;
         this.groupsBeforeSort = groupsBefore;
     }
 

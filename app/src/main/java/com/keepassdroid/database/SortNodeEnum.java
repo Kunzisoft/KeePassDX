@@ -25,32 +25,38 @@ import java.util.Comparator;
 public enum SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
 
-    public Comparator<PwNode> getNodeComparator(boolean groupsBefore) {
+    public Comparator<PwNode> getNodeComparator(boolean ascending, boolean groupsBefore) {
         switch (this) {
             case DB:
-                return new NodeCreationComparator(groupsBefore); // TODO Sort
+                return new NodeCreationComparator(ascending, groupsBefore); // TODO Sort
             default:
             case TITLE:
-                return new NodeTitleComparator(groupsBefore);
+                return new NodeTitleComparator(ascending, groupsBefore);
             case USERNAME:
-                return new NodeCreationComparator(groupsBefore); // TODO Sort
+                return new NodeCreationComparator(ascending, groupsBefore); // TODO Sort
             case CREATION_TIME:
-                return new NodeCreationComparator(groupsBefore);
+                return new NodeCreationComparator(ascending, groupsBefore);
             case LAST_MODIFY_TIME:
-                return new NodeCreationComparator(groupsBefore); // TODO Sort
+                return new NodeCreationComparator(ascending, groupsBefore); // TODO Sort
             case LAST_ACCESS_TIME:
-                return new NodeCreationComparator(groupsBefore); // TODO Sort
+                return new NodeCreationComparator(ascending, groupsBefore); // TODO Sort
         }
     }
 
     private static abstract class NodeComparator implements Comparator<PwNode> {
+        boolean ascending;
         boolean groupsBefore;
 
         NodeComparator() {
-            this.groupsBefore = true;
+            this(true, true);
         }
 
         NodeComparator(boolean groupsBefore) {
+            this(true, groupsBefore);
+        }
+
+        NodeComparator(boolean ascending, boolean groupsBefore) {
+            this.ascending = ascending;
             this.groupsBefore = groupsBefore;
         }
     }
@@ -68,13 +74,17 @@ public enum SortNodeEnum {
             super(groupsBefore);
         }
 
+        public NodeTitleComparator(boolean ascending, boolean groupsBefore) {
+            super(ascending, groupsBefore);
+        }
+
         public int compare(PwNode object1, PwNode object2) {
             if (object1.equals(object2))
                 return 0;
 
             if (object1 instanceof PwGroup) {
                 if (object2 instanceof PwGroup) {
-                    return new PwGroup.GroupNameComparator()
+                    return new PwGroup.GroupNameComparator(ascending)
                             .compare((PwGroup) object1, (PwGroup) object2);
                 } else if (object2 instanceof PwEntry) {
                     if(groupsBefore)
@@ -86,7 +96,7 @@ public enum SortNodeEnum {
                 }
             } else if (object1 instanceof PwEntry) {
                 if(object2 instanceof PwEntry) {
-                    return new PwEntry.EntryNameComparator()
+                    return new PwEntry.EntryNameComparator(ascending)
                             .compare((PwEntry) object1, (PwEntry) object2);
                 } else if (object2 instanceof PwGroup) {
                     if(groupsBefore)
@@ -119,6 +129,11 @@ public enum SortNodeEnum {
             super(groupsBefore);
         }
 
+
+        public NodeCreationComparator(boolean ascending, boolean groupsBefore) {
+            super(ascending, groupsBefore);
+        }
+
         @Override
         public int compare(PwNode object1, PwNode object2) {
             if (object1.equals(object2))
@@ -126,7 +141,7 @@ public enum SortNodeEnum {
 
             if (object1 instanceof PwGroup) {
                 if (object2 instanceof PwGroup) {
-                    return new PwGroup.GroupCreationComparator()
+                    return new PwGroup.GroupCreationComparator(ascending)
                             .compare((PwGroup) object1, (PwGroup) object2);
                 } else if (object2 instanceof PwEntry) {
                     if(groupsBefore)
@@ -138,7 +153,7 @@ public enum SortNodeEnum {
                 }
             } else if (object1 instanceof PwEntry) {
                 if(object2 instanceof PwEntry) {
-                    return new PwEntry.EntryCreationComparator()
+                    return new PwEntry.EntryCreationComparator(ascending)
                             .compare((PwEntry) object1, (PwEntry) object2);
                 } else if (object2 instanceof PwGroup) {
                     if(groupsBefore)

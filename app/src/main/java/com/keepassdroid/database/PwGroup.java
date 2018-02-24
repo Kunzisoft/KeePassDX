@@ -252,6 +252,17 @@ public abstract class PwGroup extends PwNode {
      * Group comparator by name
      */
     public static class GroupNameComparator implements Comparator<PwGroup> {
+
+		private boolean ascending;
+
+        public GroupNameComparator() {
+            this(true);
+        }
+
+		public GroupNameComparator(boolean ascending) {
+			this.ascending = ascending;
+		}
+
         public int compare(PwGroup object1, PwGroup object2) {
             if (object1.equals(object2))
                 return 0;
@@ -261,6 +272,10 @@ public abstract class PwGroup extends PwNode {
             if (groupNameComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
+			// If descending
+			if (!ascending)
+				groupNameComp = -groupNameComp;
+
             return groupNameComp;
         }
     }
@@ -269,6 +284,17 @@ public abstract class PwGroup extends PwNode {
      * Group comparator by name
      */
     public static class GroupCreationComparator implements Comparator<PwGroup> {
+
+    	private boolean ascending;
+
+        public GroupCreationComparator() {
+            this(true);
+        }
+
+    	public GroupCreationComparator(boolean ascending) {
+    		this.ascending = ascending;
+		}
+
         public int compare(PwGroup object1, PwGroup object2) {
             if (object1.equals(object2))
                 return 0;
@@ -278,6 +304,10 @@ public abstract class PwGroup extends PwNode {
             if (groupCreationComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
+            // If descending
+            if (!ascending)
+            	groupCreationComp = -groupCreationComp;
+
             return groupCreationComp;
         }
     }

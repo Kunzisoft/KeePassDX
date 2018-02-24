@@ -147,17 +147,16 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 	}
 
     @Override
-    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean groupsBefore) {
+    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore) {
         // Toggle setting
-        String sortKey = getString(R.string.sort_node_key);
-        String groupsBeforeKey = getString(R.string.sort_group_before_key);
         Editor editor = prefs.edit();
-        editor.putString(sortKey, sortNodeEnum.name());
-        editor.putBoolean(groupsBeforeKey, groupsBefore);
+        editor.putString(getString(R.string.sort_node_key), sortNodeEnum.name());
+        editor.putBoolean(getString(R.string.sort_ascending_key), ascending);
+        editor.putBoolean(getString(R.string.sort_group_before_key), groupsBefore);
         EditorCompat.apply(editor);
 
         // Tell the adapter to refresh it's list
-        mAdapter.notifyChangeSort(sortNodeEnum, groupsBefore);
+        mAdapter.notifyChangeSort(sortNodeEnum, ascending, groupsBefore);
         mAdapter.rebuildList(mCurrentGroup);
     }
 
@@ -169,6 +168,7 @@ public abstract class ListNodesActivity extends LockCloseListActivity
                 SortDialogFragment sortDialogFragment =
                         SortDialogFragment.getInstance(
                                 PrefsUtil.getListSort(this),
+                                PrefsUtil.getAscendingSort(this),
                                 PrefsUtil.getGroupsBeforeSort(this));
                 sortDialogFragment.show(getSupportFragmentManager(), "sortDialog");
                 return true;

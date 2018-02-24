@@ -227,6 +227,17 @@ public abstract class PwEntry extends PwNode implements Cloneable {
      * Comparator of Entry by Name
      */
     public static class EntryNameComparator implements Comparator<PwEntry> {
+
+		private boolean ascending;
+
+		public EntryNameComparator() {
+			this(true);
+		}
+
+		public EntryNameComparator(boolean ascending) {
+			this.ascending = ascending;
+		}
+
         public int compare(PwEntry object1, PwEntry object2) {
             if (object1.equals(object2))
                 return 0;
@@ -236,6 +247,10 @@ public abstract class PwEntry extends PwNode implements Cloneable {
             if (entryTitleComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
+			// If descending
+			if (!ascending)
+				entryTitleComp = -entryTitleComp;
+
             return entryTitleComp;
         }
     }
@@ -244,6 +259,17 @@ public abstract class PwEntry extends PwNode implements Cloneable {
      * Comparator of Entry by Creation
      */
     public static class EntryCreationComparator implements Comparator<PwEntry> {
+
+		private boolean ascending;
+
+		public EntryCreationComparator() {
+			this(true);
+		}
+
+		public EntryCreationComparator(boolean ascending) {
+			this.ascending = ascending;
+		}
+
         public int compare(PwEntry object1, PwEntry object2) {
             if (object1.equals(object2))
                 return 0;
@@ -253,6 +279,10 @@ public abstract class PwEntry extends PwNode implements Cloneable {
             if (entryCreationComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
+			// If descending
+			if (!ascending)
+				entryCreationComp = -entryCreationComp;
+
             return entryCreationComp;
         }
     }
