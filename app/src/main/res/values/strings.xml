@@ -181,8 +181,9 @@
     <string name="search_label">Search</string>
     <string name="show_password">Show password</string>
     <string name="sort_menu">Sort</string>
-    <string name="sort_groups_before">Groups before</string>
     <string name="sort_ascending">Ascending</string>
+    <string name="sort_groups_before">Groups before</string>
+    <string name="sort_recycle_bin_bottom">Recycle bin at the bottom</string>
     <string name="sort_db">DB sort order</string>
     <string name="sort_title">Sort by Title</string>
     <string name="sort_name">Sort by Name</string>

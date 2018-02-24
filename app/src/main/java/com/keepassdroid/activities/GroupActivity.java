@@ -45,6 +45,7 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwNode;
+import com.keepassdroid.database.SortNodeEnum;
 import com.keepassdroid.database.edit.AddGroup;
 import com.keepassdroid.database.edit.DeleteEntry;
 import com.keepassdroid.database.edit.DeleteGroup;
@@ -207,7 +208,15 @@ public class GroupActivity extends ListNodesActivity
 		}
 	}
 
-	protected void setGroupIcon() {
+    @Override
+    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
+        super.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
+
+        // Show button if hide after sort
+        rootView.showButton();
+    }
+
+    protected void setGroupIcon() {
 		if (mCurrentGroup != null) {
 			ImageView iv = (ImageView) findViewById(R.id.icon);
 			App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());

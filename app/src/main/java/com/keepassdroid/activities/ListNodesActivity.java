@@ -147,7 +147,7 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 	}
 
     @Override
-    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore) {
+    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
         // Toggle setting
         Editor editor = prefs.edit();
         editor.putString(getString(R.string.sort_node_key), sortNodeEnum.name());

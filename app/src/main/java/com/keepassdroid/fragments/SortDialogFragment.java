@@ -40,6 +40,7 @@ public class SortDialogFragment extends DialogFragment {
     private static final String SORT_NODE_ENUM_BUNDLE_KEY = "SORT_NODE_ENUM_BUNDLE_KEY";
     private static final String SORT_ASCENDING_BUNDLE_KEY = "SORT_ASCENDING_BUNDLE_KEY";
     private static final String SORT_GROUPS_BEFORE_BUNDLE_KEY = "SORT_GROUPS_BEFORE_BUNDLE_KEY";
+    private static final String SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY = "SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY";
 
     private SortSelectionListener mListener;
 
@@ -48,12 +49,33 @@ public class SortDialogFragment extends DialogFragment {
     int mCheckedId;
     private boolean mGroupsBefore;
     private boolean mAscending;
+    private boolean mRecycleBinBottom;
 
-    public static SortDialogFragment getInstance(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore) {
+    private static Bundle buildBundle(SortNodeEnum sortNodeEnum,
+                               boolean ascending,
+                               boolean groupsBefore) {
         Bundle bundle = new Bundle();
         bundle.putString(SORT_NODE_ENUM_BUNDLE_KEY, sortNodeEnum.name());
         bundle.putBoolean(SORT_ASCENDING_BUNDLE_KEY, ascending);
         bundle.putBoolean(SORT_GROUPS_BEFORE_BUNDLE_KEY, groupsBefore);
+        return bundle;
+    }
+
+    public static SortDialogFragment getInstance(SortNodeEnum sortNodeEnum,
+                                                 boolean ascending,
+                                                 boolean groupsBefore) {
+        Bundle bundle = buildBundle(sortNodeEnum, ascending, groupsBefore);
+        SortDialogFragment fragment = new SortDialogFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static SortDialogFragment getInstance(SortNodeEnum sortNodeEnum,
+                                                 boolean ascending,
+                                                 boolean groupsBefore,
+                                                 boolean recycleBinBottom) {
+        Bundle bundle = buildBundle(sortNodeEnum, ascending, groupsBefore);
+        bundle.putBoolean(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY, recycleBinBottom);
         SortDialogFragment fragment = new SortDialogFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -79,14 +101,20 @@ public class SortDialogFragment extends DialogFragment {
         sortNodeEnum = SortNodeEnum.TITLE;
         mAscending = true;
         mGroupsBefore = true;
+        boolean recycleBinAllowed = false;
+        mRecycleBinBottom = true;
 
-        if (getArguments() != null
-                && getArguments().containsKey(SORT_NODE_ENUM_BUNDLE_KEY)
-                && getArguments().containsKey(SORT_ASCENDING_BUNDLE_KEY)
-                && getArguments().containsKey(SORT_GROUPS_BEFORE_BUNDLE_KEY)) {
-            sortNodeEnum = SortNodeEnum.valueOf(getArguments().getString(SORT_NODE_ENUM_BUNDLE_KEY));
-            mAscending = getArguments().getBoolean(SORT_ASCENDING_BUNDLE_KEY);
-            mGroupsBefore = getArguments().getBoolean(SORT_GROUPS_BEFORE_BUNDLE_KEY);
+        if (getArguments() != null) {
+            if (getArguments().containsKey(SORT_NODE_ENUM_BUNDLE_KEY))
+                sortNodeEnum = SortNodeEnum.valueOf(getArguments().getString(SORT_NODE_ENUM_BUNDLE_KEY));
+            if (getArguments().containsKey(SORT_ASCENDING_BUNDLE_KEY))
+                mAscending = getArguments().getBoolean(SORT_ASCENDING_BUNDLE_KEY);
+            if (getArguments().containsKey(SORT_GROUPS_BEFORE_BUNDLE_KEY))
+                mGroupsBefore = getArguments().getBoolean(SORT_GROUPS_BEFORE_BUNDLE_KEY);
+            if (getArguments().containsKey(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY)) {
+                recycleBinAllowed = true;
+                mRecycleBinBottom = getArguments().getBoolean(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY);
+            }
         }
 
         mCheckedId = retrieveViewFromEnum(sortNodeEnum);
@@ -98,7 +126,7 @@ public class SortDialogFragment extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onSortSelected(sortNodeEnum, mAscending, mGroupsBefore);
+                        mListener.onSortSelected(sortNodeEnum, mAscending, mGroupsBefore, mRecycleBinBottom);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -124,6 +152,20 @@ public class SortDialogFragment extends DialogFragment {
                 mGroupsBefore = isChecked;
             }
         });
+
+        CompoundButton recycleBinBottomView = (CompoundButton) rootView.findViewById(R.id.sort_selection_recycle_bin_bottom);
+        if (!recycleBinAllowed) {
+            recycleBinBottomView.setVisibility(View.GONE);
+        } else {
+            // Check if recycle bin at the bottom
+            recycleBinBottomView.setChecked(mRecycleBinBottom);
+            recycleBinBottomView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mRecycleBinBottom = isChecked;
+                }
+            });
+        }
 
         RadioGroup sortSelectionRadioGroupView = (RadioGroup) rootView.findViewById(R.id.sort_selection_radio_group);
         // Check value by default
@@ -185,6 +227,9 @@ public class SortDialogFragment extends DialogFragment {
     }
 
     public interface SortSelectionListener {
-        void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore);
+        void onSortSelected(SortNodeEnum sortNodeEnum,
+                            boolean ascending,
+                            boolean groupsBefore,
+                            boolean recycleBinBottom);
     }
 }

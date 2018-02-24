@@ -181,8 +181,9 @@
     <string name="search_label">Rechercher</string>
     <string name="show_password">Afficher le mot de passe</string>
     <string name="sort_menu">Trier</string>
-    <string name="sort_groups_before">Groupes avant</string>
     <string name="sort_ascending">Ascendant</string>
+    <string name="sort_groups_before">Groupes avant</string>
+    <string name="sort_recycle_bin_bottom">Corbeille à la fin</string>
     <string name="sort_db">Tri par défaut (base de données)</string>
     <string name="sort_title">Tri par Titre</string>
     <string name="sort_name">Tri par nom</string>

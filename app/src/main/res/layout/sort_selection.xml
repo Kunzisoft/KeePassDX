@@ -47,4 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sort_groups_before"/>
+    <CheckBox android:id="@+id/sort_selection_recycle_bin_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sort_recycle_bin_bottom"/>
 </LinearLayout>
