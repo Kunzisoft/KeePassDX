@@ -71,7 +71,7 @@
     <string name="entry_not_found">Entry data not found.</string>
     <string name="entry_password">Mot de passe</string>
     <string name="entry_save">Enregistrer</string>
-    <string name="entry_title">Nom</string>
+    <string name="entry_title">Titre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nom d\'utilisateur</string>
     <string name="error_arc4">Le chiffrement de flux ArcFour n\'est pas supporté.</string>
@@ -182,6 +182,8 @@
     <string name="show_password">Afficher le mot de passe</string>
     <string name="sort_name">Tri par nom</string>
     <string name="sort_db">Tri par défaut (base de données)</string>
+    <string name="sort_title">Tri par Titre</string>
+    <string name="sort_creation_time">Tri par Date de Création</string>
     <string name="special">Spécial</string>
     <string name="search_hint">Nom/description</string>
     <string name="search_results">Résultats</string>

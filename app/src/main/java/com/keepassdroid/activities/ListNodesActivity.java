@@ -143,18 +143,18 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 	}
 
 	private void setSortMenuText(Menu menu) {
-		boolean sortByName = false;
+		boolean sortByTitle = false;
 
 		// Will be null if onPrepareOptionsMenu is called before onCreate
 		if (prefs != null) {
-			sortByName = prefs.getBoolean(getString(R.string.sort_key), getResources().getBoolean(R.bool.sort_default));
+			sortByTitle = prefs.getBoolean(getString(R.string.sort_key), getResources().getBoolean(R.bool.sort_default));
 		}
 		
 		int resId;
-		if ( sortByName ) {
-			resId = R.string.sort_db;
+		if ( sortByTitle ) {
+			resId = R.string.sort_creation_time;
 		} else {
-			resId = R.string.sort_name;
+			resId = R.string.sort_title;
 		}
 			
 		menu.findItem(R.id.menu_sort).setTitle(resId);

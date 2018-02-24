@@ -70,7 +70,7 @@
     <string name="entry_not_found">Entry data not found.</string>
     <string name="entry_password">Password:</string>
     <string name="entry_save">Save</string>
-    <string name="entry_title">Name: </string>
+    <string name="entry_title">Title: </string>
     <string name="entry_url">URL: </string>
     <string name="entry_user_name">User Name: </string>
     <string name="error_arc4">The ArcFour stream cipher is not supported.</string>
@@ -180,8 +180,10 @@
     <string name="space">Space</string>
     <string name="search_label">Search</string>
     <string name="show_password">Show password</string>
-    <string name="sort_name">Sort by name</string>
+    <string name="sort_name">Sort by Name</string>
     <string name="sort_db">DB sort order</string>
+    <string name="sort_title">Sort by Title</string>
+    <string name="sort_creation_time">Sort by Creation Time</string>
     <string name="special">Special</string>
     <string name="search_hint">Search</string>
     <string name="search_results">Search results</string>
