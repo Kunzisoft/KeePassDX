@@ -40,6 +40,7 @@ import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
@@ -165,6 +166,7 @@ public abstract class ListNodesActivity extends LockCloseListActivity
         editor.putString(getString(R.string.sort_node_key), sortNodeEnum.name());
         editor.putBoolean(getString(R.string.sort_ascending_key), ascending);
         editor.putBoolean(getString(R.string.sort_group_before_key), groupsBefore);
+        editor.putBoolean(getString(R.string.sort_recycle_bin_bottom_key), recycleBinBottom);
         EditorCompat.apply(editor);
 
         // Tell the adapter to refresh it's list
@@ -177,11 +179,27 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		switch ( item.getItemId() ) {
 
             case R.id.menu_sort:
-                SortDialogFragment sortDialogFragment =
-                        SortDialogFragment.getInstance(
-                                PrefsUtil.getListSort(this),
-                                PrefsUtil.getAscendingSort(this),
-                                PrefsUtil.getGroupsBeforeSort(this));
+                SortDialogFragment sortDialogFragment;
+
+                PwDatabase database = App.getDB().pm;
+                /*
+                // TODO Recycle bin bottom
+                if (database.isRecycleBinAvailable() && database.isRecycleBinEnable()) {
+                    sortDialogFragment =
+                            SortDialogFragment.getInstance(
+                                    PrefsUtil.getListSort(this),
+                                    PrefsUtil.getAscendingSort(this),
+                                    PrefsUtil.getGroupsBeforeSort(this),
+                                    PrefsUtil.getRecycleBinBottomSort(this));
+                } else {
+                */
+                    sortDialogFragment =
+                            SortDialogFragment.getInstance(
+                                    PrefsUtil.getListSort(this),
+                                    PrefsUtil.getAscendingSort(this),
+                                    PrefsUtil.getGroupsBeforeSort(this));
+                //}
+
                 sortDialogFragment.show(getSupportFragmentManager(), "sortDialog");
                 return true;
 
@@ -278,12 +296,15 @@ public abstract class ListNodesActivity extends LockCloseListActivity
             if ( mSuccess) {
                 mAdapter.removeNode(pwNode);
                 PwGroup parent = pwNode.getParent();
-                PwGroup recycleBin = App.getDB().pm.getRecycleBin();
-                // Add trash if it doesn't exists
-                if (parent.equals(recycleBin)
-                        && mCurrentGroup.getParent() == null
-                        && !mCurrentGroup.equals(recycleBin)) {
-                    mAdapter.addNode(parent);
+                PwDatabase database = App.getDB().pm;
+                if (database.isRecycleBinAvailable() && database.isRecycleBinEnable()) {
+                    PwGroup recycleBin = database.getRecycleBin();
+                    // Add trash if it doesn't exists
+                    if (parent.equals(recycleBin)
+                            && mCurrentGroup.getParent() == null
+                            && !mCurrentGroup.equals(recycleBin)) {
+                        mAdapter.addNode(parent);
+                    }
                 }
             } else {
                 mHandler.post(new UIToastTask(ListNodesActivity.this, "Unrecoverable error: " + mMessage));
