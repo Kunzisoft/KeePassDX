@@ -56,7 +56,7 @@
     <string name="decrypting_entry">Déchiffrement de l\'entrée</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Nombres</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Sélectionnez la base de données :</string>
     <string name="entry_accessed">Dernier accès</string>

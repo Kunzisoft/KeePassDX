@@ -48,7 +48,7 @@
     <string name="decrypting_entry">Dešifrujem záznam</string>
     <string name="default_checkbox">Použiť toto ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 2 alebo vyššie.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 2 alebo vyššie.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Vložte názov Databázy:</string>
     <string name="entry_accessed">Pristupované: </string>

@@ -51,7 +51,7 @@
     <string name="decrypting_entry">Desencriptant entrada</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin ve SENSE CAP MENA DE GARANTIA; Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 2 o posterior.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ve SENSE CAP MENA DE GARANTIA; Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 2 o posterior.</string>
     <string name="ellipsis">\u2026</string>
     <string name="enter_filename">Introdueix el nom de la base de dades:</string>
     <string name="entry_accessed">Accedida: </string>
