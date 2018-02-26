@@ -183,6 +183,7 @@
     <item>30 שניות</item>
     <item>דקה אחת</item>
     <item>5 דקות</item>
+    <item>15 דקות</item>
     <item>אף פעם</item>
   </string-array>
   <string-array name="list_size_options">

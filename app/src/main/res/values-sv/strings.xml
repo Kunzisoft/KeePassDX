@@ -188,6 +188,7 @@
     	<item>30 sekunder</item>
     	<item>1 minut</item>
     	<item>5 minuter</item>
+    	<item>15 minuter</item>
     	<item>Aldrig</item>
     </string-array>
     <string-array name="list_size_options">

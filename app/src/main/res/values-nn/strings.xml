@@ -173,6 +173,7 @@
     	<item>30 sekund</item>
     	<item>1 minutt</item>
     	<item>5 minutt</item>
+    	<item>15 minutt</item>
     	<item>Aldri</item>
     </string-array>
     <string-array name="list_size_options">

@@ -169,6 +169,7 @@
         <item>30 sekundes</item>
         <item>1 minūte</item>
         <item>5 minūtes</item>
+        <item>15 minūtes</item>
         <item>Nekad</item>
     </string-array>
     <string-array name="list_size_options">

@@ -260,6 +260,7 @@
     	<item>30 seconds</item>
     	<item>1 minute</item>
     	<item>5 minutes</item>
+    	<item>15 minutes</item>
     	<item>Never</item>
     </string-array>
     <string-array name="list_size_options">

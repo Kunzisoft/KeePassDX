@@ -194,6 +194,7 @@
     	<item>30 sekund</item>
     	<item>1 minuta</item>
     	<item>5 minut</item>
+    	<item>15 minut</item>
     	<item>Nikdy</item>
     </string-array>
     <string-array name="list_size_options">

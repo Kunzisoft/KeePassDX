@@ -173,6 +173,7 @@
         <item>30 sekúnd</item>
         <item>1 minúta</item>
     	<item>5 minút</item>
+    	<item>15 minút</item>
     	<item>Nikdy</item>
     </string-array>
     <string-array name="list_size_options">

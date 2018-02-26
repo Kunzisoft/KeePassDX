@@ -173,6 +173,7 @@
     	<item>30 секунд</item>
     	<item>1 хвилина</item>
     	<item>5 хвилин</item>
+    	<item>15 хвилин</item>
     	<item>Ніколи</item>
     </string-array>
     <string-array name="list_size_options">

@@ -169,6 +169,7 @@
     	<item>30秒</item>
     	<item>1分鐘</item>
     	<item>5分鐘</item>
+    	<item>15分鐘</item>
     	<item>從不</item>
     </string-array>
     <string-array name="list_size_options">

@@ -191,6 +191,7 @@
     	<item>30 δευτερόλεπτα</item>
     	<item>1 λεπτό</item>
     	<item>5 λεπτά</item>
+    	<item>15 λεπτά</item>
     	<item>Ποτέ</item>
     </string-array>
     <string-array name="list_size_options">

@@ -173,6 +173,7 @@
     	<item>30秒</item>
     	<item>1分</item>
     	<item>5分</item>
+    	<item>15分</item>
     	<item>なし</item>
     </string-array>
     <string-array name="list_size_options">

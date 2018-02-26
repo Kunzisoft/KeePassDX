@@ -82,6 +82,7 @@
     	<item translatable="false">30000</item>
     	<item translatable="false">60000</item>
     	<item translatable="false">300000</item>
+        <item translatable="false">900000</item>
     	<item translatable="false">-1</item>
     </string-array>
 

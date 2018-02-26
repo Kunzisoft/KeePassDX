@@ -189,6 +189,7 @@
     	<item>30 sekuntia</item>
     	<item>1 minuutti</item>
     	<item>5 minuttia</item>
+    	<item>15 minuttia</item>
     	<item>Ei koskaan</item>
     </string-array>
     <string-array name="list_size_options">
