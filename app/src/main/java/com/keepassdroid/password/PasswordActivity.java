@@ -45,20 +45,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keepassdroid.database.Database;
+import com.keepassdroid.activities.GroupActivity;
 import com.keepassdroid.activities.LockingActivity;
-import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.ClipDataCompat;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 import com.keepassdroid.fingerprint.FingerPrintAnimatedVector;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
-import com.keepassdroid.activities.GroupActivity;
 import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
@@ -70,7 +70,9 @@ import com.kunzisoft.keepass.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.crypto.Cipher;
+import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.DECRYPT_MODE;
+import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.ENCRYPT_MODE;
+import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.NOT_CONFIGURED_MODE;
 
 public class PasswordActivity extends LockingActivity
         implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
@@ -80,7 +82,6 @@ public class PasswordActivity extends LockingActivity
     private static final String KEY_LAUNCH_IMMEDIATELY = "launchImmediately";
 
     private Uri mDbUri = null;
-    private Uri mKeyUri = null;
     SharedPreferences prefs;
     SharedPreferences prefsNoBackup;
 
@@ -88,12 +89,11 @@ public class PasswordActivity extends LockingActivity
     private boolean fingerprintMustBeConfigured = true;
     private boolean mRememberKeyfile;
 
-    private int mode;
+    private FingerPrintHelper.Mode mode;
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
     private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
 
     private View fingerprintContainerView;
-    private View fingerprintImageView;
     private FingerPrintAnimatedVector fingerPrintAnimatedVector;
     private TextView fingerprintTextView;
     private TextView filenameView;
@@ -103,6 +103,9 @@ public class PasswordActivity extends LockingActivity
     private CompoundButton checkboxPasswordView;
     private CompoundButton checkboxKeyfileView;
     private CompoundButton checkboxDefaultDatabaseView;
+
+    private DefaultCheckChange defaultCheckChange;
+    private ValidateButtonViewClickListener validateButtonViewClickListener;
 
     private KeyFileHelper keyFileHelper;
 
@@ -194,7 +197,6 @@ public class PasswordActivity extends LockingActivity
 
         confirmButtonView = (Button) findViewById(R.id.pass_ok);
         fingerprintContainerView = findViewById(R.id.fingerprint_container);
-        fingerprintImageView = findViewById(R.id.fingerprint_image);
         fingerprintTextView = (TextView) findViewById(R.id.fingerprint_label);
         filenameView = (TextView) findViewById(R.id.filename);
         passwordView = (EditText) findViewById(R.id.password);
@@ -232,75 +234,16 @@ public class PasswordActivity extends LockingActivity
             }
         });
 
-        new UriIntentInitTask(this, mRememberKeyfile)
-                .execute(getIntent());
+        defaultCheckChange = new DefaultCheckChange();
+        validateButtonViewClickListener = new ValidateButtonViewClickListener();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            initForFingerprint();
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
-                            (ImageView) fingerprintImageView);
+                            (ImageView) findViewById(R.id.fingerprint_image));
         }
     }
 
-    @Override
-    public void onPostInitTask(Uri dbUri, Uri keyFileUri, Integer errorStringId) {
-
-        mDbUri = dbUri;
-        mKeyUri = keyFileUri;
-
-        Intent intent = getIntent();
-        String password = intent.getStringExtra(KEY_PASSWORD);
-        boolean launch_immediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
-
-        if (errorStringId != null) {
-            Toast.makeText(PasswordActivity.this, errorStringId, Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
-
-        populateView();
-
-        confirmButtonView.setOnClickListener(new OkClickHandler());
-
-        if (password != null) {
-            passwordView.setText(password);
-        }
-
-        checkboxDefaultDatabaseView.setOnCheckedChangeListener(new DefaultCheckChange());
-
-        retrieveSettings();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkFingerprintAvailability();
-        }
-
-        if (launch_immediately) {
-            verifyCheckboxesAndLoadDatabase(password, mKeyUri);
-        }
-    }
-
-    private void retrieveSettings() {
-        String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
-        if (mDbUri!=null
-                && !EmptyUtils.isNullOrEmpty(mDbUri.getPath())
-                && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
-            checkboxDefaultDatabaseView.setChecked(true);
-        }
-    }
-
-    private void populateView() {
-        String db = (mDbUri == null) ? "" : mDbUri.toString();
-        if (!db.isEmpty()) {
-            if (PrefsUtil.isFullFilePathEnable(this))
-                filenameView.setText(db);
-            else
-                filenameView.setText(new File(mDbUri.getPath()).getName()); // TODO Encapsulate
-        }
-
-        String key = (mKeyUri == null) ? "" : mKeyUri.toString();
-        if (!key.isEmpty() && mRememberKeyfile) { // Bug KeepassDX #18
-            keyFileView.setText(key);
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -316,13 +259,66 @@ public class PasswordActivity extends LockingActivity
         // For check shutdown
         super.onResume();
 
+        new UriIntentInitTask(this, mRememberKeyfile)
+                .execute(getIntent());
+    }
+
+    @Override
+    public void onPostInitTask(Uri dbUri, Uri keyFileUri, Integer errorStringId) {
+
+        mDbUri = dbUri;
+
+        if (errorStringId != null) {
+            Toast.makeText(PasswordActivity.this, errorStringId, Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
+        // Define title
+        String dbUriString = (mDbUri == null) ? "" : mDbUri.toString();
+        if (!dbUriString.isEmpty()) {
+            if (PrefsUtil.isFullFilePathEnable(this))
+                filenameView.setText(dbUriString);
+            else
+                filenameView.setText(new File(mDbUri.getPath()).getName()); // TODO Encapsulate
+        }
+
+        // Define Key File text
+        String keyUriString = (keyFileUri == null) ? "" : keyFileUri.toString();
+        if (!keyUriString.isEmpty() && mRememberKeyfile) { // Bug KeepassDX #18
+            keyFileView.setText(keyUriString);
+        }
+
+        // Define listeners for default database checkbox and validate button
+        checkboxDefaultDatabaseView.setOnCheckedChangeListener(defaultCheckChange);
+        confirmButtonView.setOnClickListener(validateButtonViewClickListener);
+
+        // Retrieve settings for default database
+        String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
+        if (mDbUri!=null
+                && !EmptyUtils.isNullOrEmpty(mDbUri.getPath())
+                && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
+            checkboxDefaultDatabaseView.setChecked(true);
+        }
+
         // checks if fingerprint is available, will also start listening for fingerprints when available
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            initForFingerprint();
             checkFingerprintAvailability();
             if (fingerPrintAnimatedVector != null) {
                 fingerPrintAnimatedVector.startScan();
             }
+        }
+
+        // If Activity is launch with a password and want to open directly
+        Intent intent = getIntent();
+        String password = intent.getStringExtra(KEY_PASSWORD);
+        boolean launch_immediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
+
+        if (password != null) {
+            passwordView.setText(password);
+        }
+        if (launch_immediately) {
+            verifyCheckboxesAndLoadDatabase(password, keyFileUri);
         }
     }
 
@@ -339,8 +335,6 @@ public class PasswordActivity extends LockingActivity
     // fingerprint related code here
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initForFingerprint() {
-        mode = -1;
-
         fingerPrintHelper = new FingerPrintHelper(this, this);
 
         // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
@@ -365,7 +359,10 @@ public class PasswordActivity extends LockingActivity
                     final boolean validInput = s.length() > 0;
                     // encrypt or decrypt mode based on how much input or not
                     setFingerPrintTextView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
-                    mode = validInput ? toggleMode(Cipher.ENCRYPT_MODE) : toggleMode(Cipher.DECRYPT_MODE);
+                    if (validInput)
+                        toggleMode(ENCRYPT_MODE);
+                    else
+                        toggleMode(DECRYPT_MODE);
                 }
             }
         });
@@ -398,13 +395,13 @@ public class PasswordActivity extends LockingActivity
             @Override
             public void onAuthenticationSucceeded(final FingerprintManagerCompat.AuthenticationResult result) {
 
-                if (mode == Cipher.ENCRYPT_MODE) {
+                if (mode.equals(ENCRYPT_MODE)) {
 
                     // newly store the entered password in encrypted way
                     final String password = passwordView.getText().toString();
                     fingerPrintHelper.encryptData(password);
 
-                } else if (mode == Cipher.DECRYPT_MODE) {
+                } else if (mode.equals(DECRYPT_MODE)) {
 
                     // retrieve the encrypted value from preferences
                     final String encryptedValue = prefsNoBackup.getString(getPreferenceKeyValue(), null);
@@ -432,21 +429,20 @@ public class PasswordActivity extends LockingActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private synchronized int toggleMode(final int newMode) {
+    private synchronized void toggleMode(final FingerPrintHelper.Mode newMode) {
         if(newMode != mode) {
             mode = newMode;
             switch (mode) {
-                case Cipher.ENCRYPT_MODE:
+                case ENCRYPT_MODE:
                     fingerPrintHelper.initEncryptData();
                     break;
-                case Cipher.DECRYPT_MODE:
+                case DECRYPT_MODE:
                     final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
                     if (ivSpecValue != null)
                         fingerPrintHelper.initDecryptData(ivSpecValue);
                     break;
             }
         }
-        return newMode;
     }
 
     @Override
@@ -493,6 +489,7 @@ public class PasswordActivity extends LockingActivity
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private synchronized void checkFingerprintAvailability() {
+        toggleMode(NOT_CONFIGURED_MODE);
 
         // fingerprint not supported (by API level or hardware) so keep option hidden
         // or manually disable
@@ -526,13 +523,13 @@ public class PasswordActivity extends LockingActivity
                 if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
                     setFingerPrintTextView(R.string.no_password_stored);
                     // listen for encryption
-                    toggleMode(Cipher.ENCRYPT_MODE);
+                    toggleMode(ENCRYPT_MODE);
                 }
                 // all is set here so we can confirm to user and start listening for fingerprints
                 else {
                     setFingerPrintTextView(R.string.scanning_fingerprint);
                     // listen for decryption
-                    toggleMode(Cipher.DECRYPT_MODE);
+                    toggleMode(DECRYPT_MODE);
                 }
             }
         }
@@ -547,7 +544,7 @@ public class PasswordActivity extends LockingActivity
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
                 .apply();
         // and remove visual input to reset UI
-        confirmButtonView.performClick();
+        confirmButtonView.performClick(); // TODO remove click
         setFingerPrintTextView(R.string.encrypted_value_stored);
     }
 
@@ -597,18 +594,14 @@ public class PasswordActivity extends LockingActivity
     }
 
     private class DefaultCheckChange implements CompoundButton.OnCheckedChangeListener {
-
         @Override
         public void onCheckedChanged(
                 CompoundButton buttonView,
                 boolean isChecked) {
 
-            String newDefaultFileName;
-
+            String newDefaultFileName = "";
             if (isChecked) {
                 newDefaultFileName = mDbUri.toString();
-            } else {
-                newDefaultFileName = "";
             }
 
             SharedPreferences.Editor editor = prefs.edit();
@@ -617,13 +610,10 @@ public class PasswordActivity extends LockingActivity
 
             BackupManagerCompat backupManager = new BackupManagerCompat(PasswordActivity.this);
             backupManager.dataChanged();
-
         }
-
     }
 
-    private class OkClickHandler implements View.OnClickListener {
-
+    private class ValidateButtonViewClickListener implements View.OnClickListener {
         public void onClick(View view) {
             String pass = passwordView.getText().toString();
             String key = keyFileView.getText().toString();

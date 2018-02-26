@@ -320,4 +320,8 @@ public class FingerPrintHelper {
         void handleDecryptedResult(String value);
     }
 
+    public enum Mode {
+        NOT_CONFIGURED_MODE, ENCRYPT_MODE, DECRYPT_MODE
+    }
+
 }

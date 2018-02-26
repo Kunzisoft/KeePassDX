@@ -25,6 +25,5 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/fingerprint_image"
         style="@style/KeepassDXStyle.TextAppearance.DefaultTextOnPrimary"
-        android:gravity="center_vertical|end"
-        android:text="@string/entry_and_or" />
+        android:gravity="center_vertical|end" />
 </RelativeLayout>
