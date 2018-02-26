@@ -56,28 +56,17 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private boolean activateContextMenu;
 
     /**
-     * Create node list adapter without contextMenu
-     * @param context Context to use
-     * @param mainNode Main node as group to build children
-     */
-    public NodeAdapter(final Context context, PwGroup mainNode) {
-        this(context, mainNode, false);
-    }
-
-    /**
      * Create node list adapter with contextMenu or not
      * @param context Context to use
-     * @param mainNode Main node as group to build children
-     * @param mainNode true if contextMenu need to be shown
      */
-    public NodeAdapter(final Context context, PwGroup mainNode, boolean activateContextMenu) {
+    public NodeAdapter(final Context context) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.textSize = PrefsUtil.getListTextSize(context);
         this.listSort = PrefsUtil.getListSort(context);
         this.groupsBeforeSort = PrefsUtil.getGroupsBeforeSort(context);
         this.ascendingSort = PrefsUtil.getAscendingSort(context);
-        this.activateContextMenu = activateContextMenu;
+        this.activateContextMenu = false;
         this.nodePositionToUpdate = -1;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
@@ -93,11 +82,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 return item1.equals(item2);
             }
         });
-        this.nodeSortedList.addAll(mainNode.getDirectChildren());
+    }
+
+    public void setActivateContextMenu(boolean activate) {
+        this.activateContextMenu = activate;
     }
 
     /**
-     * Rebuild the list by clear and build again for the group
+     * Rebuild the list by clear and build children from the group
      */
     public void rebuildList(PwGroup group) {
         this.nodeSortedList.clear();

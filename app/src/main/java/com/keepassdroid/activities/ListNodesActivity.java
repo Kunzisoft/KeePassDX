@@ -59,18 +59,21 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
 		NodeAdapter.OnNodeClickCallback,
         SortDialogFragment.SortSelectionListener {
-	protected RecyclerView mList;
-	protected NodeAdapter mAdapter;
 
-	public static final String KEY_ENTRY = "entry";
+    public static final String KEY_ENTRY = "entry";
+
+    protected PwGroup mCurrentGroup;
+	protected NodeAdapter mAdapter;
 	
 	private SharedPreferences prefs;
-	
-	protected PwGroup mCurrentGroup;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        if ( isFinishing() ) {
+            return;
+        }
 		
 		// Likely the app has been killed exit the activity 
 		if ( ! App.getDB().Loaded() ) {
@@ -85,14 +88,27 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		setContentView(R.layout.list_nodes);
 		setResult(KeePass.EXIT_NORMAL);
 
-		styleScrollBars();
+        mCurrentGroup = initCurrentGroup();
+
+        mAdapter = new NodeAdapter(this);
+        addOptionsToAdapter(mAdapter);
 	}
-	
-	protected void styleScrollBars() {
-		ensureCorrectListView();
-		mList.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-		// TODO mList.setTextFilterEnabled(true);
-	}
+
+    protected abstract PwGroup initCurrentGroup();
+
+    protected abstract RecyclerView defineNodeList();
+
+    protected void addOptionsToAdapter(NodeAdapter nodeAdapter) {
+        mAdapter.setOnNodeClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Add elements to the list
+        mAdapter.rebuildList(mCurrentGroup);
+        assignListToNodeAdapter(defineNodeList());
+    }
 	
 	protected void setGroupTitle() {
 		if ( mCurrentGroup != null ) {
@@ -110,15 +126,11 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		}
 	}
 
-	private void ensureCorrectListView(){
-		mList = (RecyclerView) findViewById(R.id.nodes_list);
-		mList.setLayoutManager(new LinearLayoutManager(this));
-	}
-
-	protected void setNodeAdapter(NodeAdapter adapter) {
-		ensureCorrectListView();
-		mAdapter = adapter;
-		mList.setAdapter(adapter);
+	protected void assignListToNodeAdapter(RecyclerView recyclerView) {
+        recyclerView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
+        // TODO mList.setTextFilterEnabled(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(mAdapter);
 	}
 
     @Override

@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -91,36 +92,11 @@ public class GroupActivity extends ListNodesActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		if ( isFinishing() ) {
-			return;
-		}
-		
-		setResult(KeePass.EXIT_NORMAL);
-		
-		Log.w(TAG, "Creating tree view");
-        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(KEY_ENTRY);
-		
-		Database db = App.getDB();
-		readOnly = db.readOnly;
-		PwGroup root = db.pm.rootGroup;
-		if ( pwGroupId == null ) {
-			mCurrentGroup = root;
-		} else {
-			mCurrentGroup = db.pm.groups.get(pwGroupId);
-		}
-		
 		Log.w(TAG, "Retrieved tree");
 		if ( mCurrentGroup == null ) {
 			Log.w(TAG, "Group was null");
 			return;
 		}
-
-		addGroupEnabled = !readOnly;
-		addEntryEnabled = !readOnly;
-
-        isRoot = (mCurrentGroup == root);
-		if ( !mCurrentGroup.allowAddEntryIfIsRoot() )
-		    addEntryEnabled = !isRoot && addEntryEnabled;
 
 		// Construct main view
         rootView = new ListNodesWithAddButtonView(this);
@@ -152,11 +128,50 @@ public class GroupActivity extends ListNodesActivity
 		setGroupTitle();
 		setGroupIcon();
 
-		NodeAdapter nodeAdapter = new NodeAdapter(this, mCurrentGroup, true);
-		nodeAdapter.setOnNodeClickListener(this);
-		nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
-			@Override
-			public boolean onOpenMenuClick(PwNode node) {
+        Log.w(TAG, "Finished creating tree");
+
+        if (isRoot) {
+            showWarnings();
+        }
+	}
+
+	protected PwGroup initCurrentGroup() {
+	    PwGroup currentGroup;
+        Database db = App.getDB();
+        readOnly = db.readOnly;
+        PwGroup root = db.pm.rootGroup;
+
+        Log.w(TAG, "Creating tree view");
+        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(KEY_ENTRY);
+        if ( pwGroupId == null ) {
+            currentGroup = root;
+        } else {
+            currentGroup = db.pm.groups.get(pwGroupId);
+        }
+
+        addGroupEnabled = !readOnly;
+        addEntryEnabled = !readOnly;
+
+        isRoot = (currentGroup == root);
+        if ( !currentGroup.allowAddEntryIfIsRoot() )
+            addEntryEnabled = !isRoot && addEntryEnabled;
+
+        return currentGroup;
+    }
+
+    @Override
+    protected RecyclerView defineNodeList() {
+        return (RecyclerView) findViewById(R.id.nodes_list);
+    }
+
+    @Override
+    protected void addOptionsToAdapter(NodeAdapter nodeAdapter) {
+	    super.addOptionsToAdapter(nodeAdapter);
+
+        nodeAdapter.setActivateContextMenu(true);
+        nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
+            @Override
+            public boolean onOpenMenuClick(PwNode node) {
                 mAdapter.registerANodeToUpdate(node);
                 switch (node.getType()) {
                     case GROUP:
@@ -166,29 +181,29 @@ public class GroupActivity extends ListNodesActivity
                         EntryActivity.Launch(GroupActivity.this, (PwEntry) node);
                         break;
                 }
-				return true;
-			}
+                return true;
+            }
 
-			@Override
-			public boolean onEditMenuClick(PwNode node) {
-			    mAdapter.registerANodeToUpdate(node);
-				switch (node.getType()) {
-					case GROUP:
+            @Override
+            public boolean onEditMenuClick(PwNode node) {
+                mAdapter.registerANodeToUpdate(node);
+                switch (node.getType()) {
+                    case GROUP:
                         editGroupDialogAction = EditGroupDialogAction.UPDATE;
-						GroupEditDialogFragment groupEditDialogFragment =
+                        GroupEditDialogFragment groupEditDialogFragment =
                                 GroupEditDialogFragment.build(node);
-						groupEditDialogFragment.show(getSupportFragmentManager(),
+                        groupEditDialogFragment.show(getSupportFragmentManager(),
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
-						break;
-					case ENTRY:
-						EntryEditActivity.Launch(GroupActivity.this, (PwEntry) node);
-						break;
-				}
-				return true;
-			}
+                        break;
+                    case ENTRY:
+                        EntryEditActivity.Launch(GroupActivity.this, (PwEntry) node);
+                        break;
+                }
+                return true;
+            }
 
-			@Override
-			public boolean onDeleteMenuClick(PwNode node) {
+            @Override
+            public boolean onDeleteMenuClick(PwNode node) {
                 switch (node.getType()) {
                     case GROUP:
                         deleteGroup((PwGroup) node);
@@ -197,16 +212,17 @@ public class GroupActivity extends ListNodesActivity
                         deleteEntry((PwEntry) node);
                         break;
                 }
-				return true;
-			}
-		});
-		setNodeAdapter(nodeAdapter);
-		Log.w(TAG, "Finished creating tree");
-		
-		if (isRoot) {
-			showWarnings();
-		}
-	}
+                return true;
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Show button on resume
+        rootView.showButton();
+    }
 
     @Override
     public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
