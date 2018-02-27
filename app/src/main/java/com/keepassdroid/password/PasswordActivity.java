@@ -35,7 +35,9 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -70,9 +72,9 @@ import com.kunzisoft.keepass.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.DECRYPT_MODE;
-import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.ENCRYPT_MODE;
 import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.NOT_CONFIGURED_MODE;
+import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.OPEN_MODE;
+import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.STORE_MODE;
 
 public class PasswordActivity extends LockingActivity
         implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
@@ -89,7 +91,7 @@ public class PasswordActivity extends LockingActivity
     private boolean fingerprintMustBeConfigured = true;
     private boolean mRememberKeyfile;
 
-    private FingerPrintHelper.Mode mode;
+    private FingerPrintHelper.Mode fingerPrintMode;
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
     private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
 
@@ -196,8 +198,6 @@ public class PasswordActivity extends LockingActivity
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         confirmButtonView = (Button) findViewById(R.id.pass_ok);
-        fingerprintContainerView = findViewById(R.id.fingerprint_container);
-        fingerprintTextView = (TextView) findViewById(R.id.fingerprint_label);
         filenameView = (TextView) findViewById(R.id.filename);
         passwordView = (EditText) findViewById(R.id.password);
         keyFileView = (EditText) findViewById(R.id.pass_keyfile);
@@ -238,6 +238,8 @@ public class PasswordActivity extends LockingActivity
         validateButtonViewClickListener = new ValidateButtonViewClickListener();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fingerprintContainerView = findViewById(R.id.fingerprint_container);
+            fingerprintTextView = (TextView) findViewById(R.id.fingerprint_label);
             initForFingerprint();
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                             (ImageView) findViewById(R.id.fingerprint_image));
@@ -335,6 +337,8 @@ public class PasswordActivity extends LockingActivity
     // fingerprint related code here
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initForFingerprint() {
+        fingerPrintMode = NOT_CONFIGURED_MODE;
+
         fingerPrintHelper = new FingerPrintHelper(this, this);
 
         // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
@@ -360,9 +364,9 @@ public class PasswordActivity extends LockingActivity
                     // encrypt or decrypt mode based on how much input or not
                     setFingerPrintTextView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
                     if (validInput)
-                        toggleMode(ENCRYPT_MODE);
+                        toggleFingerprintMode(STORE_MODE);
                     else
-                        toggleMode(DECRYPT_MODE);
+                        toggleFingerprintMode(OPEN_MODE);
                 }
             }
         });
@@ -373,48 +377,40 @@ public class PasswordActivity extends LockingActivity
             public void onAuthenticationError(
                     final int errorCode,
                     final CharSequence errString) {
-
-                // this is triggered on stop/start listening done by helper to switch between modes so don't restart here
-                // errorCode = 5
-                // errString = "Fingerprint operation canceled."
-                //onFingerprintException();
-                //fingerprintTextView.setText(errString);
-                // true false fingerprint readings are handled otherwise with the toast messages, see below in code
+                Log.i(getClass().getName(), errString.toString());
             }
 
             @Override
             public void onAuthenticationHelp(
                     final int helpCode,
                     final CharSequence helpString) {
-
                 showError(helpString);
-                checkFingerprintAvailability();
+                reInitWithSameFingerprintMode();
                 fingerprintTextView.setText(helpString);
-            }
-
-            @Override
-            public void onAuthenticationSucceeded(final FingerprintManagerCompat.AuthenticationResult result) {
-
-                if (mode.equals(ENCRYPT_MODE)) {
-
-                    // newly store the entered password in encrypted way
-                    final String password = passwordView.getText().toString();
-                    fingerPrintHelper.encryptData(password);
-
-                } else if (mode.equals(DECRYPT_MODE)) {
-
-                    // retrieve the encrypted value from preferences
-                    final String encryptedValue = prefsNoBackup.getString(getPreferenceKeyValue(), null);
-                    if (encryptedValue != null) {
-                        fingerPrintHelper.decryptData(encryptedValue);
-                    }
-                }
             }
 
             @Override
             public void onAuthenticationFailed() {
                 showError(R.string.fingerprint_not_recognized);
-                checkFingerprintAvailability();
+                reInitWithSameFingerprintMode();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(final FingerprintManagerCompat.AuthenticationResult result) {
+                switch (fingerPrintMode) {
+                    case STORE_MODE:
+                        // newly store the entered password in encrypted way
+                        final String password = passwordView.getText().toString();
+                        fingerPrintHelper.encryptData(password);
+                        break;
+                    case OPEN_MODE:
+                        // retrieve the encrypted value from preferences
+                        final String encryptedValue = prefsNoBackup.getString(getPreferenceKeyValue(), null);
+                        if (encryptedValue != null) {
+                            fingerPrintHelper.decryptData(encryptedValue);
+                        }
+                        break;
+                }
             }
         });
     }
@@ -429,20 +425,44 @@ public class PasswordActivity extends LockingActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private synchronized void toggleMode(final FingerPrintHelper.Mode newMode) {
-        if(newMode != mode) {
-            mode = newMode;
-            switch (mode) {
-                case ENCRYPT_MODE:
-                    fingerPrintHelper.initEncryptData();
-                    break;
-                case DECRYPT_MODE:
-                    final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
-                    if (ivSpecValue != null)
-                        fingerPrintHelper.initDecryptData(ivSpecValue);
-                    break;
-            }
+    private void initEncryptData() {
+        setFingerPrintTextView(R.string.store_with_fingerprint);
+        fingerPrintMode = STORE_MODE;
+        if (fingerPrintHelper != null)
+            fingerPrintHelper.initEncryptData();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void initDecryptData() {
+        setFingerPrintTextView(R.string.scanning_fingerprint);
+        fingerPrintMode = OPEN_MODE;
+        if (fingerPrintHelper != null) {
+            final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
+            if (ivSpecValue != null)
+                fingerPrintHelper.initDecryptData(ivSpecValue);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private synchronized void toggleFingerprintMode(final FingerPrintHelper.Mode newMode) {
+        if( !newMode.equals(fingerPrintMode) ) {
+            fingerPrintMode = newMode;
+            reInitWithSameFingerprintMode();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private synchronized void reInitWithSameFingerprintMode() {
+        switch (fingerPrintMode) {
+            case STORE_MODE:
+                initEncryptData();
+                break;
+            case OPEN_MODE:
+                initDecryptData();
+                break;
+        }
+        // Show fingerprint key deletion
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -454,6 +474,7 @@ public class PasswordActivity extends LockingActivity
                 fingerPrintAnimatedVector.stopScan();
             }
             // stop listening when we go in background
+            fingerPrintMode = NOT_CONFIGURED_MODE;
             if (fingerPrintHelper != null) {
                 fingerPrintHelper.stopListening();
             }
@@ -489,8 +510,6 @@ public class PasswordActivity extends LockingActivity
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private synchronized void checkFingerprintAvailability() {
-        toggleMode(NOT_CONFIGURED_MODE);
-
         // fingerprint not supported (by API level or hardware) so keep option hidden
         // or manually disable
         if (!PrefsUtil.isFingerprintEnable(getApplicationContext())
@@ -523,16 +542,25 @@ public class PasswordActivity extends LockingActivity
                 if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
                     setFingerPrintTextView(R.string.no_password_stored);
                     // listen for encryption
-                    toggleMode(ENCRYPT_MODE);
+                    initEncryptData();
                 }
                 // all is set here so we can confirm to user and start listening for fingerprints
                 else {
-                    setFingerPrintTextView(R.string.scanning_fingerprint);
                     // listen for decryption
-                    toggleMode(DECRYPT_MODE);
+                    initDecryptData();
                 }
             }
         }
+
+        // Show fingerprint key deletion
+        invalidateOptionsMenu();
+    }
+
+    private void removePrefsNoBackupKeys() {
+        prefsNoBackup.edit()
+                .remove(getPreferenceKeyValue())
+                .remove(getPreferenceKeyIvSpec())
+                .apply();
     }
 
     @Override
@@ -559,12 +587,9 @@ public class PasswordActivity extends LockingActivity
     @Override
     public void onInvalidKeyException(Exception e) {
         showError(R.string.fingerprint_invalid_key);
-        prefsNoBackup.edit()
-            .remove(getPreferenceKeyValue())
-            .remove(getPreferenceKeyIvSpec())
-            .apply();
+        removePrefsNoBackupKeys();
         e.printStackTrace();
-        checkFingerprintAvailability(); // restarts listening
+        reInitWithSameFingerprintMode(); // restarts listening
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -572,7 +597,7 @@ public class PasswordActivity extends LockingActivity
     public void onFingerPrintException(Exception e) {
         showError(R.string.fingerprint_error);
         e.printStackTrace();
-        checkFingerprintAvailability();
+        reInitWithSameFingerprintMode();
     }
 
     private void showError(final int messageId) {
@@ -665,7 +690,11 @@ public class PasswordActivity extends LockingActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        MenuUtil.defaultMenuInflater(getMenuInflater(), menu);
+        MenuInflater inflater = getMenuInflater();
+        MenuUtil.defaultMenuInflater(inflater, menu);
+        if (!fingerprintMustBeConfigured
+                && prefsNoBackup.contains(getPreferenceKeyValue()) )
+            inflater.inflate(R.menu.fingerprint, menu);
         return true;
     }
 
@@ -676,7 +705,14 @@ public class PasswordActivity extends LockingActivity
             case android.R.id.home:
                 finish();
                 break;
-
+            case R.id.menu_fingerprint_remove_key:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    fingerPrintHelper.deleteEntryKey();
+                    removePrefsNoBackupKeys();
+                    fingerPrintMode = NOT_CONFIGURED_MODE;
+                    checkFingerprintAvailability();
+                }
+                break;
             default:
                 return MenuUtil.onDefaultMenuOptionsItemSelected(this, item);
         }
@@ -684,6 +720,9 @@ public class PasswordActivity extends LockingActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Called after verify and try to opening the database
+     */
     private final class AfterLoad extends OnFinish {
 
         private Database db;
@@ -698,6 +737,16 @@ public class PasswordActivity extends LockingActivity
 
         @Override
         public void run() {
+
+            // Recheck fingerprint if error
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                //setEmptyViews();
+                //mMessage = getString(R.string.fingerprint_error) + " : " + mMessage;
+                // TODO Change fingerprint message
+                // Stay with the same mode
+                reInitWithSameFingerprintMode();
+            }
+
             if (db.passwordEncodingError) {
                 PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
                 dialog.show(PasswordActivity.this, new OnClickListener() {

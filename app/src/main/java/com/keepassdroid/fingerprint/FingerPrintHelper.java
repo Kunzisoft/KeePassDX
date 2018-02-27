@@ -147,7 +147,6 @@ public class FingerPrintHelper {
             final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
             cipher.init(Cipher.ENCRYPT_MODE, key);
 
-            stopListening();
             startListening();
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
             deleteEntryKey();
@@ -191,9 +190,7 @@ public class FingerPrintHelper {
             final IvParameterSpec spec = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
-            stopListening();
             startListening();
-
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
@@ -321,7 +318,7 @@ public class FingerPrintHelper {
     }
 
     public enum Mode {
-        NOT_CONFIGURED_MODE, ENCRYPT_MODE, DECRYPT_MODE
+        NOT_CONFIGURED_MODE, STORE_MODE, OPEN_MODE
     }
 
 }
