@@ -330,7 +330,7 @@ public class EntryActivity extends LockCloseHideActivity {
 		MenuInflater inflater = getMenuInflater();
         MenuUtil.donationMenuInflater(inflater, menu);
 		inflater.inflate(R.menu.entry, menu);
-		inflater.inflate(R.menu.lock_database, menu);
+		inflater.inflate(R.menu.database_lock, menu);
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
 		if (!entryContentsView.isPasswordPresent()) {

@@ -262,7 +262,8 @@ public class GroupActivity extends ListNodesActivity
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
-        inflater.inflate(R.menu.database, menu);
+        inflater.inflate(R.menu.database_master_key, menu);
+        inflater.inflate(R.menu.database_lock, menu);
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);

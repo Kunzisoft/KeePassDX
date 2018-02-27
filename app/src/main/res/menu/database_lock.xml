@@ -22,9 +22,6 @@
     <item android:id="@+id/menu_lock"
         android:icon="@drawable/ic_lock_white_24dp"
         android:title="@string/menu_lock"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_change_master_key"
-        android:icon="@drawable/ic_key_white_24dp"
-        android:title="@string/menu_change_key"
+        android:orderInCategory="81"
         app:showAsAction="ifRoom" />
 </menu>

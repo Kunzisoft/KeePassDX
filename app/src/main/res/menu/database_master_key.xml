@@ -19,8 +19,9 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_lock"
-        android:icon="@drawable/ic_lock_white_24dp"
-        android:title="@string/menu_lock"
+    <item android:id="@+id/menu_change_master_key"
+        android:icon="@drawable/ic_key_white_24dp"
+        android:title="@string/menu_change_key"
+        android:orderInCategory="82"
         app:showAsAction="ifRoom" />
 </menu>
