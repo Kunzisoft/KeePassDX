@@ -253,6 +253,9 @@
     <string name="full_file_path_enable_summary">View the full file path</string>
     <string name="recycle_bin_title">Use Recycle Bin</string>
     <string name="recycle_bin_summary">Move a group or entry to the Recycle Bin before deleting</string>
+    <string name="permission_external_storage_rationale">Application need external storage permission</string>
+    <string name="permission_external_storage_denied">Permission_external_storage_denied</string>
+    <string name="permission_external_storage_neverask">Permission_external_storage_neverask</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 seconds</item>

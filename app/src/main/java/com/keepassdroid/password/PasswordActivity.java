@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.password;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -32,6 +33,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -76,6 +78,14 @@ import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.NOT_CONFIGURED
 import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.OPEN_MODE;
 import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.STORE_MODE;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
 public class PasswordActivity extends LockingActivity
         implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
 
@@ -260,6 +270,9 @@ public class PasswordActivity extends LockingActivity
 
         // For check shutdown
         super.onResume();
+
+        // Check the storage permission
+        checkStoragePermission();
 
         new UriIntentInitTask(this, mRememberKeyfile)
                 .execute(getIntent());
@@ -842,5 +855,37 @@ public class PasswordActivity extends LockingActivity
                 return null;
             }
         }
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void checkStoragePermission() {}
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showRationaleForExternalStorage(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.permission_external_storage_rationale)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .show();
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showDeniedForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showNeverAskForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_neverask, Toast.LENGTH_SHORT).show();
     }
 }
