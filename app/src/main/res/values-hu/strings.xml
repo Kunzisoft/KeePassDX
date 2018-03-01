@@ -52,7 +52,7 @@
     <string name="digits">Számok</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: Eversmann</string>
     <string name="ellipsis">…</string>
-    <string name="enter_filename">Adja meg az adatbázis fájlnevét:</string>
+    <string name="select_database_file">Adja meg az adatbázis fájlnevét:</string>
     <string name="entry_accessed">Utolsó hozzáférés:</string>
     <string name="entry_and_or">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist:</string>
     <string name="entry_cancel">Mégsem</string>

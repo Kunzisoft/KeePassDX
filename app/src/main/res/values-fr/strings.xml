@@ -59,7 +59,6 @@
     <string name="digits">Nombres</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Sélectionnez la base de données :</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données :</string>
     <string name="entry_cancel">Annuler</string>
@@ -154,7 +153,8 @@
     <string name="no_keys">Aucun élément.</string>
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
-    <string name="open_recent">Bases de données utilisées récemment :</string>
+    <string name="select_database_file">Sélectionner une base de données existante :</string>
+    <string name="open_recent">Ouvrir une base de données récente :</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
     <string name="pass_filename">Fichier de base de données KeePass</string>

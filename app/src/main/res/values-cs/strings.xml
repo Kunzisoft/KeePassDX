@@ -58,7 +58,7 @@
     <string name="digits">Čísla</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Zadejte názvev souboru databáze:</string>
+    <string name="select_database_file">Zadejte názvev souboru databáze:</string>
     <string name="entry_accessed">Poslední přístup: </string>
     <string name="entry_and_or">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze:</string>
     <string name="entry_cancel">Storno</string>

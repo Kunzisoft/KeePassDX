@@ -71,7 +71,7 @@
     <string name="sort_name">Rūšiuoti pagal pavadinimą</string>
     <string name="version_label">Versija:</string>
     <string name="warning">Įspėjimas</string>
-    <string name="enter_filename">Įveskite duomenų bazės failą</string>
+    <string name="select_database_file">Įveskite duomenų bazės failą</string>
     <string name="error_wrong_length">Įveskite teigiamą skaičių ilgio lauke</string>
     <string name="recentfile_title">Naujausių failų istorija</string>
     <string name="recentfile_summary">Atsiminti paskutinius naudotus failų pavadinimus</string>

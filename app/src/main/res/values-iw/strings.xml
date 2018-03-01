@@ -54,7 +54,7 @@
   <string name="decrypting_entry">מפענח חוליה</string>
   <string name="default_checkbox">השתמש בזה כמסד הנתונים הברירת מחדל</string>
   <string name="digits">ספרות</string>
-  <string name="enter_filename">הזן שם קובץ למסד נתונים:</string>
+  <string name="select_database_file">הזן שם קובץ למסד נתונים:</string>
   <string name="entry_accessed">ניגש לאחרונה: </string>
   <string name="entry_and_or">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים:</string>
   <string name="entry_cancel">בטל</string>

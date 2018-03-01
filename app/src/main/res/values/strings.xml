@@ -58,7 +58,6 @@
     <string name="digits">Digits</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Enter database filename:</string>
     <string name="entry_accessed">Accessed: </string>
     <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
     <string name="entry_cancel">Cancel</string>
@@ -154,7 +153,8 @@
     <string name="no_keys">No entries in the database or group.</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
-    <string name="open_recent">Open recent database :</string>
+    <string name="select_database_file">Select an existing database :</string>
+    <string name="open_recent">Open a recent database :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
     <string name="pass_filename">KeePass database filename:</string>

@@ -48,17 +48,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/KeepassDXStyle.TextAppearance.Inverse"
-                android:text="@string/enter_filename"/>
+                android:text="@string/select_database_file"/>
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/browse_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/file_filename"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@id/label_open_by_filename"
-                android:padding="6dp"
                 android:src="@drawable/ic_folder_white_24dp"
                 android:tint="?attr/colorAccentCompat" />
 
@@ -69,8 +68,12 @@
                 android:layout_below="@id/label_open_by_filename"
                 android:inputType="textUri"
                 android:textColor="?attr/textColorInverse"
-                android:layout_toLeftOf="@+id/browse_button"
-                android:layout_toStartOf="@+id/browse_button"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_toRightOf="@+id/browse_button"
+                android:layout_toEndOf="@+id/browse_button"
                 android:maxLines="1" />
         </RelativeLayout>
 

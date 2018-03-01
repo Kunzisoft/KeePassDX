@@ -50,7 +50,7 @@
     <string name="digits">数字</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン2以上の条件下でこれを再頒布することができます。</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">データベースファイル:</string>
+    <string name="select_database_file">データベースファイル:</string>
     <string name="entry_accessed">最終アクセス日: </string>
     <string name="entry_and_or">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
     <string name="entry_cancel">キャンセル</string>
