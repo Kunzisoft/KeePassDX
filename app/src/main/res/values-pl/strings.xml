@@ -48,7 +48,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="default_checkbox">Używaj tej bazy danych jako domyślnej</string>
     <string name="digits">Cyfry</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Wprowadź nazwę pliku bazy danych:</string>
+    <string name="select_database_file">Wprowadź nazwę pliku bazy danych:</string>
     <string name="entry_accessed">Dostęp do pliku: </string>
     <string name="entry_and_or">Wprowadź hasło i/lub plik klucza by uzyskać dostęp do bazy danych:</string>
     <string name="entry_cancel">Anuluj</string>

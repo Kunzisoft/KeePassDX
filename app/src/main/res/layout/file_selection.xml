@@ -66,8 +66,6 @@
             android:layout_marginLeft="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="48dp"
-            android:paddingTop="-20dp"
             app:fabSize="mini"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"

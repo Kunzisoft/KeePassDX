@@ -52,7 +52,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="digits">Dígitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft NO TIENE TOTAL GARANTÍA; Este es software libre, y puedes redristribuirlo bajo las condiciones de la licencia GPL version 2 o posterior.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Introduzca el nombre del archivo de base de datos:</string>
+    <string name="select_database_file">Introduzca el nombre del archivo de base de datos:</string>
     <string name="entry_accessed">Acceso: </string>
     <string name="entry_and_or">Introduzca una contraseña y/o un archivo de clave para desbloquear su base de datos:</string>
     <string name="entry_cancel">Cancelar</string>

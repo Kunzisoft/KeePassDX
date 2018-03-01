@@ -58,7 +58,7 @@
     <string name="digits">Dígitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 2 ou superior.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Introduza o nome do ficheiro da base de dados:</string>
+    <string name="select_database_file">Introduza o nome do ficheiro da base de dados:</string>
     <string name="entry_accessed">Acedido: </string>
     <string name="entry_and_or">Introduza a palavra-passe e/ou o ficheiro chave para desbloquear a base de dados:</string>
     <string name="entry_cancel">Cancelar</string>

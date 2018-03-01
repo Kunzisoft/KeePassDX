@@ -50,7 +50,7 @@
     <string name="digits">Tal</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL utgåve 2 eller nyare.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Skriv filnamnet til databasen:</string>
+    <string name="select_database_file">Skriv filnamnet til databasen:</string>
     <string name="entry_accessed">Brukt: </string>
     <string name="entry_and_or">Skriv inn passordet og/eller nøkkelfil for å låsa opp databasen:</string>
     <string name="entry_cancel">Avbryt</string>

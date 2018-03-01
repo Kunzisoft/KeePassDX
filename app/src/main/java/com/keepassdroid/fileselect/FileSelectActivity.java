@@ -22,15 +22,15 @@ package com.keepassdroid.fileselect;
 import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -41,24 +41,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
-import com.keepassdroid.fragments.CreateFileDialogFragment;
 import com.keepassdroid.activities.GroupActivity;
-import com.keepassdroid.password.PasswordActivity;
-import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;
+import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
+import com.keepassdroid.fragments.CreateFileDialogFragment;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.stylish.StylishActivity;
+import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
-import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.AssignPasswordHelper;
 import com.keepassdroid.view.FileNameView;
 import com.kunzisoft.keepass.R;
@@ -68,6 +67,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
 public class FileSelectActivity extends StylishActivity implements
 		CreateFileDialogFragment.DefinePathDialogListener ,
 		AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
@@ -77,7 +84,6 @@ public class FileSelectActivity extends StylishActivity implements
 
     private static final String TAG = "FileSelectActivity";
 
-	private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 111;
 	private RecyclerView mListFiles;
 	private FileSelectAdapter mAdapter;
 	private View fileListTitle;
@@ -111,6 +117,15 @@ public class FileSelectActivity extends StylishActivity implements
 		toolbar.setTitle(getString(R.string.app_name));
 		setSupportActionBar(toolbar);
 
+        openFileNameView = (EditText) findViewById(R.id.file_filename);
+
+        // Set the initial value of the filename
+        String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+                + getString(R.string.database_file_path_default)
+                + getString(R.string.database_file_name_default)
+                + getString(R.string.database_file_extension_default);
+        openFileNameView.setText(defaultPath);
+
 		mListFiles = (RecyclerView) findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
 
@@ -119,8 +134,7 @@ public class FileSelectActivity extends StylishActivity implements
 		openButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				String fileName = Util.getEditText(FileSelectActivity.this,
-						R.id.file_filename);
+				String fileName = openFileNameView.getText().toString();
 				try {
 					PasswordActivity.Launch(FileSelectActivity.this, fileName);
 				}
@@ -139,8 +153,8 @@ public class FileSelectActivity extends StylishActivity implements
 		View createButton = findViewById(R.id.create_database);
 		createButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-                CreateFileDialogFragment createFileDialogFragment = new CreateFileDialogFragment();
-                createFileDialogFragment.show(getSupportFragmentManager(), "createFileDialogFragment");
+                FileSelectActivityPermissionsDispatcher
+                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this);
 			}
 		});
 		
@@ -176,7 +190,7 @@ public class FileSelectActivity extends StylishActivity implements
 			private void lookForOpenIntentsFilePicker() {
 				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
 					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
-					i.setData(Uri.parse("file://" + Util.getEditText(FileSelectActivity.this, R.id.file_filename)));
+					i.setData(Uri.parse("file://" + openFileNameView.getText().toString()));
 					try {
 						startActivityForResult(i, FILE_BROWSE);
 					} catch (ActivityNotFoundException e) {
@@ -192,14 +206,6 @@ public class FileSelectActivity extends StylishActivity implements
 				diag.show();
 			}
 		});
-
-        // Set the initial value of the filename
-        openFileNameView = (EditText) findViewById(R.id.file_filename);
-        String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + getString(R.string.database_file_path_default)
-                + getString(R.string.database_file_name_default)
-                + getString(R.string.database_file_extension_default);
-        openFileNameView.setText(defaultPath);
 
 		// Construct adapter with listeners
 		mAdapter = new FileSelectAdapter(FileSelectActivity.this, fileHistory.getDbList());
@@ -239,6 +245,19 @@ public class FileSelectActivity extends StylishActivity implements
 			}
 		}
 	}
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // NOTE: delegate the permission handling to generated method
+        FileSelectActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void openCreateFileDialogFragment() {
+        CreateFileDialogFragment createFileDialogFragment = new CreateFileDialogFragment();
+        createFileDialogFragment.show(getSupportFragmentManager(), "createFileDialogFragment");
+    }
 
 	private void updateTitleFileListView() {
 	    if(mAdapter.getItemCount() == 0)
@@ -481,9 +500,6 @@ public class FileSelectActivity extends StylishActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		// check for storage permission
-		checkStoragePermission();
 		
 		// Check to see if we need to change modes
 		if ( fileHistory.hasRecentFiles() != recentMode ) {
@@ -501,59 +517,34 @@ public class FileSelectActivity extends StylishActivity implements
 		mAdapter.notifyDataSetChanged();
 	}
 
-	private void checkStoragePermission() {
-		// Here, thisActivity is the current activity
-		if (ContextCompat.checkSelfPermission(FileSelectActivity.this,
-											  Manifest.permission.WRITE_EXTERNAL_STORAGE)
-				!= PackageManager.PERMISSION_GRANTED) {
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showRationaleForExternalStorage(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.permission_external_storage_rationale_write_database)
+                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .show();
+    }
 
-			// Should we show an explanation?
-			//if (ActivityCompat.shouldShowRequestPermissionRationale(FileSelectActivity.this,
-			//														Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showDeniedForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show();
+    }
 
-				// Show an explanation to the user *asynchronously* -- don't block
-				// this thread waiting for the user's response! After the user
-				// sees the explanation, try again to request the permission.
-
-			//} else {
-
-				// No explanation needed, we can request the permission.
-
-				ActivityCompat.requestPermissions(FileSelectActivity.this,
-												  new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-												  MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE);
-
-				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-				// app-defined int constant. The callback method gets the
-				// result of the request.
-			//}
-		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode,
-										   String permissions[], int[] grantResults) {
-		switch (requestCode) {
-			case MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
-				// If request is cancelled, the result arrays are empty.
-				if (grantResults.length > 0
-						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-					// permission was granted, yay! Do the
-					// contacts-related task you need to do.
-
-				} else {
-
-					// permission denied, boo! Disable the
-					// functionality that depends on this permission.
-				}
-				return;
-			}
-
-			// other 'case' lines to check for other
-			// permissions this app might request
-		}
-	}
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showNeverAskForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_never_ask, Toast.LENGTH_SHORT).show();
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

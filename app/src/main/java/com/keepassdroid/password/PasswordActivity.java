@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.password;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -30,8 +31,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -72,10 +75,18 @@ import com.kunzisoft.keepass.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
 import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.NOT_CONFIGURED_MODE;
 import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.OPEN_MODE;
 import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.STORE_MODE;
 
+@RuntimePermissions
 public class PasswordActivity extends LockingActivity
         implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
 
@@ -267,7 +278,6 @@ public class PasswordActivity extends LockingActivity
 
     @Override
     public void onPostInitTask(Uri dbUri, Uri keyFileUri, Integer errorStringId) {
-
         mDbUri = dbUri;
 
         if (errorStringId != null) {
@@ -275,6 +285,12 @@ public class PasswordActivity extends LockingActivity
             finish();
             return;
         }
+
+        // Verify permission to read file
+        if (mDbUri != null
+                && !dbUri.getScheme().contains("content"))
+            PasswordActivityPermissionsDispatcher
+                    .doNothingWithPermissionCheck(this);
 
         // Define title
         String dbUriString = (mDbUri == null) ? "" : mDbUri.toString();
@@ -720,6 +736,13 @@ public class PasswordActivity extends LockingActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // NOTE: delegate the permission handling to generated method
+        PasswordActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
     /**
      * Called after verify and try to opening the database
      */
@@ -819,7 +842,6 @@ public class PasswordActivity extends LockingActivity
                     return R.string.error_can_not_handle_uri;
                 }
 
-
             } else {
                 databaseUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_FILENAME));
                 keyFileUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_KEYFILE));
@@ -842,5 +864,39 @@ public class PasswordActivity extends LockingActivity
                 return null;
             }
         }
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void doNothing() {}
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showRationaleForExternalStorage(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.permission_external_storage_rationale_read_database)
+                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .show();
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showDeniedForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showNeverAskForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_never_ask, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

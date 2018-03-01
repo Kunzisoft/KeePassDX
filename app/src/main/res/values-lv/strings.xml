@@ -36,7 +36,7 @@
     <string name="default_checkbox">Izmantot šo kā manu noklusējuma datu bāzi</string>
     <string name="digits">Cipari</string>
     <string name="ellipsis">…</string>
-    <string name="enter_filename">Ievadiet datu bāzes nosaukumu:</string>
+    <string name="select_database_file">Ievadiet datu bāzes nosaukumu:</string>
     <string name="entry_accessed">Piekļuve:</string>
     <string name="entry_and_or">Ievadiet paroli/atslēgas failu, lai atbloķētu savu datu bāzi:</string>
     <string name="entry_cancel">Atcelt</string>

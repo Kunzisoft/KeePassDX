@@ -57,7 +57,7 @@
     <string name="digits">Cifre</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Angiv navn på databasefil:</string>
+    <string name="select_database_file">Angiv navn på databasefil:</string>
     <string name="entry_accessed">Senest åbnet: </string>
     <string name="entry_and_or">Angiv en adgangskode og/eller en nøglefil for at få adgang til din database:</string>
     <string name="entry_cancel">Annuller</string>

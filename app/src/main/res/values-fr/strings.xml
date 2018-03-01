@@ -40,6 +40,7 @@
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="building_search_idx">Reconstruction de l\'index de recherche…</string>
     <string name="cancel">Annuler</string>
+    <string name="allow">Permettre</string>
     <string name="ClearClipboard">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
     <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez :</string>
@@ -58,7 +59,6 @@
     <string name="digits">Nombres</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Sélectionnez la base de données :</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données :</string>
     <string name="entry_cancel">Annuler</string>
@@ -153,7 +153,8 @@
     <string name="no_keys">Aucun élément.</string>
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
-    <string name="open_recent">Bases de données utilisées récemment :</string>
+    <string name="select_database_file">Sélectionner une base de données existante :</string>
+    <string name="open_recent">Ouvrir une base de données récente :</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
     <string name="pass_filename">Fichier de base de données KeePass</string>
@@ -252,6 +253,10 @@
     <string name="full_file_path_enable_summary">Afficher le chemin complet des fichiers</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>
     <string name="recycle_bin_summary">Déplace un groupe ou une entrée dans la Corbeille avant la suppression</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass DX a besoin d\'une permission de stockage externe pour écrire une base de données</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin d\'une permission de stockage externe pour lire une URI non fournie par un Content Provider</string>
+    <string name="permission_external_storage_denied">Permission de stockage externe refusée</string>
+    <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 secondes</item>
