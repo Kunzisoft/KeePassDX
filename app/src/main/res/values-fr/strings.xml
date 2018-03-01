@@ -256,7 +256,7 @@
     <string name="permission_external_storage_rationale_write_database">KeePass DX a besoin d\'une permission de stockage externe pour écrire une base de données</string>
     <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin d\'une permission de stockage externe pour lire une URI non fournie par un Content Provider</string>
     <string name="permission_external_storage_denied">Permission de stockage externe refusée</string>
-    <string name="permission_external_storage_never_ask">Ne plus demander d\'autorisation de sockage externe</string>
+    <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 secondes</item>
