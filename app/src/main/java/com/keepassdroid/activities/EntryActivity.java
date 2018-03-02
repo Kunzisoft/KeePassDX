@@ -259,7 +259,7 @@ public class EntryActivity extends LockCloseHideActivity {
 			@Override
 			public void onClick(View view) {
 				timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm),
-                        getString(R.string.menu_copy_user));
+                        getString(R.string.copy_field, getString(R.string.entry_user_name)));
 			}
 		});
 
@@ -268,7 +268,7 @@ public class EntryActivity extends LockCloseHideActivity {
 			@Override
 			public void onClick(View view) {
 				timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm),
-                        getString(R.string.menu_copy_pass));
+                        getString(R.string.copy_field, getString(R.string.entry_password)));
 			}
 		});
 
