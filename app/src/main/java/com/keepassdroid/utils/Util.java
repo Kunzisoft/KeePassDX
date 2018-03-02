@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.utils;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -64,16 +63,6 @@ public class Util {
 	
 	public static void gotoUrl(Context context, int resId) throws ActivityNotFoundException {
 		gotoUrl(context, context.getString(resId));
-	}
-
-	public static String getEditText(Activity act, int resId) {
-		TextView te =  (TextView) act.findViewById(resId);
-
-		if (te != null) {
-			return te.getText().toString();
-		} else {
-			return "";
-		}
 	}
 	
 	public static void copyStream(InputStream in, OutputStream out) throws IOException {
