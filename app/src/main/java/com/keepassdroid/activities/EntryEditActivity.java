@@ -30,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -54,6 +53,7 @@ import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.fragments.GeneratePasswordDialogFragment;
 import com.keepassdroid.fragments.IconPickerDialogFragment;
 import com.keepassdroid.icons.Icons;
+import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
@@ -87,8 +87,15 @@ public class EntryEditActivity extends LockCloseHideActivity
 	protected boolean mIsNew;
 	protected int mSelectedIconID = -1;
 
+    // Views
     private ScrollView scrollView;
-    private ViewGroup extraFieldsContainer;
+    private TextView entryTitleView;
+    private TextView entryUserNameView;
+    private TextView entryUrlView;
+    private TextView entryPasswordView;
+    private TextView entryConfirmationPasswordView;
+    private TextView entryCommentView;
+    private ViewGroup entryExtraFieldsContainer;
 
 	/**
 	 * launch EntryEditActivity to update an existing entry
@@ -124,6 +131,17 @@ public class EntryEditActivity extends LockCloseHideActivity
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        scrollView = (ScrollView) findViewById(R.id.entry_scroll);
+        scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
+
+        entryTitleView = (TextView) findViewById(R.id.entry_title);
+        entryUserNameView = (TextView) findViewById(R.id.entry_user_name);
+        entryUrlView = (TextView) findViewById(R.id.entry_url);
+        entryPasswordView = (TextView) findViewById(R.id.entry_password);
+        entryConfirmationPasswordView = (TextView) findViewById(R.id.entry_confpassword);
+        entryCommentView = (TextView) findViewById(R.id.entry_comment);
+        entryExtraFieldsContainer = (ViewGroup) findViewById(R.id.advanced_container);
 		
 		// Likely the app has been killed exit the activity
 		Database db = App.getDB();
@@ -146,10 +164,7 @@ public class EntryEditActivity extends LockCloseHideActivity
 			mEntry = pm.entries.get(uuid);
 			mIsNew = false;
 			fillData();
-		} 
-	
-		scrollView = (ScrollView) findViewById(R.id.entry_scroll);
-		scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
+		}
 
 		View iconButton = findViewById(R.id.icon_button);
 		iconButton.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +208,7 @@ public class EntryEditActivity extends LockCloseHideActivity
 			
 		});
 
-        extraFieldsContainer = (ViewGroup) findViewById(R.id.advanced_container);
+
 		if (mEntry.allowExtraFields()) {
             View add = findViewById(R.id.add_new_field);
             add.setVisibility(View.VISIBLE);
@@ -203,7 +218,7 @@ public class EntryEditActivity extends LockCloseHideActivity
                 public void onClick(View v) {
                     EntryEditNewField ees = new EntryEditNewField(EntryEditActivity.this);
                     ees.setData("", new ProtectedString(false, ""));
-                    extraFieldsContainer.addView(ees);
+                    entryExtraFieldsContainer.addView(ees);
 
                     // Scroll bottom
                     scrollView.post(new Runnable() {
@@ -219,15 +234,15 @@ public class EntryEditActivity extends LockCloseHideActivity
 	
 	protected boolean validateBeforeSaving() {
 		// Require title
-		String title = Util.getEditText(this, R.id.entry_title);
+		String title = entryTitleView.getText().toString();
 		if ( title.length() == 0 ) {
 			Toast.makeText(this, R.string.error_title_required, Toast.LENGTH_LONG).show();
 			return false;
 		}
 		
 		// Validate password
-		String pass = Util.getEditText(this, R.id.entry_password);
-		String conf = Util.getEditText(this, R.id.entry_confpassword);
+		String pass = entryPasswordView.getText().toString();
+		String conf = entryConfirmationPasswordView.getText().toString();
 		if ( ! pass.equals(conf) ) {
 			Toast.makeText(this, R.string.error_pass_match, Toast.LENGTH_LONG).show();
 			return false;
@@ -235,9 +250,9 @@ public class EntryEditActivity extends LockCloseHideActivity
 
 		// Validate extra fields
         if (mEntry.allowExtraFields()) {
-            for (int i = 0; i < extraFieldsContainer.getChildCount(); i++) {
-                EntryEditNewField ees = (EntryEditNewField) extraFieldsContainer.getChildAt(i);
-                String key = ees.getLabel();
+            for (int i = 0; i < entryExtraFieldsContainer.getChildCount(); i++) {
+                EntryEditNewField entryEditNewField = (EntryEditNewField) entryExtraFieldsContainer.getChildAt(i);
+                String key = entryEditNewField.getLabel();
                 if (key == null || key.length() == 0) {
                     Toast.makeText(this, R.string.error_string_key, Toast.LENGTH_LONG).show();
                     return false;
@@ -263,7 +278,7 @@ public class EntryEditActivity extends LockCloseHideActivity
         newEntry.setLastModificationTime(now);
 
         PwDatabase db = App.getDB().pm;
-        newEntry.setTitle(Util.getEditText(this, R.id.entry_title), db);
+        newEntry.setTitle(entryTitleView.getText().toString(), db);
         if(mSelectedIconID != -1)
             // or TODO icon factory newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(mSelectedIconID));
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
@@ -276,19 +291,17 @@ public class EntryEditActivity extends LockCloseHideActivity
                 newEntry.setIcon(mEntry.icon);
             }
         }
-        newEntry.setUrl(Util.getEditText(this, R.id.entry_url), db);
-        newEntry.setUsername(Util.getEditText(this, R.id.entry_user_name), db);
-        newEntry.setNotes(Util.getEditText(this, R.id.entry_comment), db);
-        newEntry.setPassword(Util.getEditText(this, R.id.entry_password), db);
-
+        newEntry.setUrl(entryUrlView.getText().toString(), db);
+        newEntry.setUsername(entryUserNameView.getText().toString(), db);
+        newEntry.setNotes(entryCommentView.getText().toString(), db);
+        newEntry.setPassword(entryPasswordView.getText().toString(), db);
 
         if (newEntry.allowExtraFields()) {
             // Delete all new standard strings
             newEntry.removeExtraFields();
-
             // Add extra fields from views
-            for (int i = 0; i < extraFieldsContainer.getChildCount(); i++) {
-                EntryEditNewField view = (EntryEditNewField) extraFieldsContainer.getChildAt(i);
+            for (int i = 0; i < entryExtraFieldsContainer.getChildCount(); i++) {
+                EntryEditNewField view = (EntryEditNewField) entryExtraFieldsContainer.getChildAt(i);
                 String key = view.getLabel();
                 String value = view.getValue();
                 boolean protect = view.isProtected();
@@ -326,29 +339,26 @@ public class EntryEditActivity extends LockCloseHideActivity
 		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 
-		populateText(R.id.entry_title, mEntry.getTitle());
-		populateText(R.id.entry_user_name, mEntry.getUsername());
-		populateText(R.id.entry_url, mEntry.getUrl());
-		
-		String password = mEntry.getPassword();
-		populateText(R.id.entry_password, password);
-		populateText(R.id.entry_confpassword, password);
+		boolean visibilityFont = PrefsUtil.fieldFontIsInVisibility(this);
 
-		populateText(R.id.entry_comment, mEntry.getNotes());
+        entryTitleView.setText(mEntry.getTitle());
+        entryUserNameView.setText(mEntry.getUsername());
+        entryUrlView.setText(mEntry.getUrl());
+        String password = mEntry.getPassword();
+        entryPasswordView.setText(password);
+        entryConfirmationPasswordView.setText(password);
+        entryCommentView.setText(mEntry.getNotes());
+        Util.applyFontVisibilityToTextView(visibilityFont, entryCommentView);
 
 		if (mEntry.allowExtraFields()) {
             LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
             for (Map.Entry<String, ProtectedString> pair : mEntry.getExtraProtectedFields().entrySet()) {
-                EntryEditNewField ees = new EntryEditNewField(EntryEditActivity.this);
-                ees.setData(pair.getKey(), pair.getValue());
-                container.addView(ees);
+                EntryEditNewField entryEditNewField = new EntryEditNewField(EntryEditActivity.this);
+                entryEditNewField.setData(pair.getKey(), pair.getValue());
+                entryEditNewField.setFontVisibility(visibilityFont);
+                container.addView(entryEditNewField);
             }
         }
-	}
-
-	private void populateText(int viewId, String text) {
-		TextView tv = (TextView) findViewById(viewId);
-		tv.setText(text);
 	}
 
     @Override
@@ -361,11 +371,8 @@ public class EntryEditActivity extends LockCloseHideActivity
     @Override
     public void acceptPassword(Bundle bundle) {
         String generatedPassword = bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID);
-        EditText password = (EditText) findViewById(R.id.entry_password);
-        EditText confPassword = (EditText) findViewById(R.id.entry_confpassword);
-
-        password.setText(generatedPassword);
-        confPassword.setText(generatedPassword);
+        entryPasswordView.setText(generatedPassword);
+        entryConfirmationPasswordView.setText(generatedPassword);
     }
 
     @Override

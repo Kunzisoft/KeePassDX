@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.keepassdroid.database.security.ProtectedString;
+import com.keepassdroid.utils.Util;
 import com.kunzisoft.keepass.R;
 
 public class EntryEditNewField extends RelativeLayout {
@@ -85,6 +86,10 @@ public class EntryEditNewField extends RelativeLayout {
 
     public boolean isProtected() {
         return protectionCheckView.isChecked();
+    }
+
+    public void setFontVisibility(boolean applyFontVisibility) {
+        Util.applyFontVisibilityToTextView(applyFontVisibility, valueView);
     }
 
 	public void deleteViewFromParent() {

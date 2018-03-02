@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.ClipboardManager;
 import android.widget.TextView;
@@ -40,13 +41,13 @@ public class Util {
 		if (csText == null) {
 			return "";
 		}
-		
+
 		return csText.toString();
 	}
-	
+
 	public static void copyToClipboard(Context context, String text) throws SamsungClipboardException {
 		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-		
+
 		try {
 			clipboard.setText(text);
 		} catch (NullPointerException e) {
@@ -67,7 +68,7 @@ public class Util {
 
 	public static String getEditText(Activity act, int resId) {
 		TextView te =  (TextView) act.findViewById(resId);
-		
+
 		if (te != null) {
 			return te.getText().toString();
 		} else {
@@ -81,6 +82,11 @@ public class Util {
 		while ((read = in.read(buf)) != -1) {
 			out.write(buf, 0, read);
 		}
+	}
+
+	public static void applyFontVisibilityToTextView(boolean applyMonospace, TextView textView) {
+	    if (applyMonospace)
+		    textView.setTypeface(Typeface.MONOSPACE);
 	}
 
 }

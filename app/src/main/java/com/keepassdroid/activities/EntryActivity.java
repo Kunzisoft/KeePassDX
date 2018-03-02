@@ -142,6 +142,7 @@ public class EntryActivity extends LockCloseHideActivity {
         titleIconView = (ImageView) findViewById(R.id.entry_icon);
         titleView = (TextView) findViewById(R.id.entry_title);
         entryContentsView = (EntryContentsView) findViewById(R.id.entry_contents);
+        entryContentsView.applyFontVisibilityToFields(PrefsUtil.fieldFontIsInVisibility(this));
 
 		fillData();
 

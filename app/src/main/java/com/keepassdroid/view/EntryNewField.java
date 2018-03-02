@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keepassdroid.utils.Util;
 import com.kunzisoft.keepass.R;
 
 public class EntryNewField extends LinearLayout {
@@ -61,6 +62,10 @@ public class EntryNewField extends LinearLayout {
         setValue(value);
         setAction(onClickActionListener);
 	}
+
+	public void applyFontVisibilityToValue(boolean changeFont) {
+        Util.applyFontVisibilityToTextView(changeFont, valueView);
+    }
 	
 	public void setLabel(String label) {
 		if (label != null) {

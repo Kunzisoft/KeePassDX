@@ -119,4 +119,10 @@ public class PrefsUtil {
         return prefs.getBoolean(ctx.getString(R.string.maskpass_key),
                 ctx.getResources().getBoolean(R.bool.maskpass_default));
     }
+
+    public static boolean fieldFontIsInVisibility(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.monospace_font_fields_enable_key),
+                ctx.getResources().getBoolean(R.bool.monospace_font_fields_enable_default));
+    }
 }

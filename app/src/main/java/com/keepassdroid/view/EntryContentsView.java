@@ -29,12 +29,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keepassdroid.utils.Util;
 import com.kunzisoft.keepass.R;
 
 import java.text.DateFormat;
 import java.util.Date;
 
 public class EntryContentsView extends LinearLayout {
+
+    private boolean fontInVisibility;
 
     private View userNameContainerView;
     private TextView userNameView;
@@ -66,6 +69,8 @@ public class EntryContentsView extends LinearLayout {
 	
 	public EntryContentsView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+
+		fontInVisibility = false;
 
         dateFormat = android.text.format.DateFormat.getDateFormat(context);
         timeFormat = android.text.format.DateFormat.getTimeFormat(context);
@@ -99,6 +104,10 @@ public class EntryContentsView extends LinearLayout {
         lastAccessDateView = (TextView) findViewById(R.id.entry_accessed);
         expiresDateView = (TextView) findViewById(R.id.entry_expires);
 	}
+
+    public void applyFontVisibilityToFields(boolean fontInVisibility) {
+        this.fontInVisibility = fontInVisibility;
+    }
 
 	public void assignUserName(String userName) {
         if (userName != null && !userName.isEmpty()) {
@@ -145,13 +154,15 @@ public class EntryContentsView extends LinearLayout {
     public void assignComment(String comment) {
         if (comment != null && !comment.isEmpty()) {
             commentContainerView.setVisibility(VISIBLE);
+            Util.applyFontVisibilityToTextView(fontInVisibility, commentView);
             commentView.setText(comment);
         }
     }
 
     public void addExtraField(String title, String value, OnClickListener onActionClickListener) {
-        View view = new EntryNewField(getContext(), null, title, value, onActionClickListener);
-        extrasView.addView(view);
+        EntryNewField entryNewField = new EntryNewField(getContext(), null, title, value, onActionClickListener);
+        entryNewField.applyFontVisibilityToValue(fontInVisibility);
+        extrasView.addView(entryNewField);
     }
 
     public void clearExtraFields() {

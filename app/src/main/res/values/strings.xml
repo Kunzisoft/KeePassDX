@@ -258,6 +258,8 @@
     <string name="permission_external_storage_rationale_read_database">KeePass DX need external storage permission to read an URI not provided by a Content Provider</string>
     <string name="permission_external_storage_denied">External storage permission denied</string>
     <string name="permission_external_storage_never_ask">Can\'t perform the action without external storage permission</string>
+    <string name="monospace_font_fields_enable_title">Fields Font</string>
+    <string name="monospace_font_fields_enable_summary">Change the font of the fields for better character visibility</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 seconds</item>

@@ -42,6 +42,7 @@ public class GroupHeaderView extends RelativeLayout {
 	
 	private void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		assert inflater != null;
 		inflater.inflate(R.layout.group_header, this);
 		
 		if (App.getDB().readOnly) {

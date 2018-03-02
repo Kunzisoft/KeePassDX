@@ -144,6 +144,11 @@
             android:dialogTitle="@string/list_size_summary"
             android:defaultValue="@string/list_size_default"/>
         <android.support.v14.preference.SwitchPreference
+            android:key="@string/monospace_font_fields_enable_key"
+            android:title="@string/monospace_font_fields_enable_title"
+            android:summary="@string/monospace_font_fields_enable_summary"
+            android:defaultValue="@bool/monospace_font_fields_enable_default"/>
+        <android.support.v14.preference.SwitchPreference
             android:key="@string/full_file_path_enable_key"
             android:title="@string/full_file_path_enable_title"
             android:summary="@string/full_file_path_enable_summary"
