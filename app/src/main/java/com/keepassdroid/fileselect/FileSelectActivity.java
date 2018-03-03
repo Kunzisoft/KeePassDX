@@ -20,8 +20,6 @@
 package com.keepassdroid.fileselect;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,23 +41,20 @@ import android.widget.Toast;
 
 import com.keepassdroid.activities.GroupActivity;
 import com.keepassdroid.app.App;
-import com.keepassdroid.compat.ContentResolverCompat;
-import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.database.edit.CreateDB;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
 import com.keepassdroid.fragments.CreateFileDialogFragment;
-import com.keepassdroid.intents.Intents;
 import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.EmptyUtils;
-import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.view.AssignPasswordHelper;
 import com.keepassdroid.view.FileNameView;
+import com.keepassdroid.view.KeyFileHelper;
 import com.kunzisoft.keepass.R;
 
 import java.io.File;
@@ -84,22 +79,20 @@ public class FileSelectActivity extends StylishActivity implements
 
     private static final String TAG = "FileSelectActivity";
 
-	private RecyclerView mListFiles;
-	private FileSelectAdapter mAdapter;
+    private FileSelectAdapter mAdapter;
 	private View fileListTitle;
-	
-	public static final int FILE_BROWSE = 1;
-	public static final int GET_CONTENT = 2;
-	public static final int OPEN_DOC = 3;
 
 	private RecentFileHistory fileHistory;
 
 	private boolean recentMode = false;
 
 	private EditText openFileNameView;
+	private FileNameView fileNameView;
 
 	private AssignPasswordHelper assignPasswordHelper;
 	private Uri databaseUri;
+
+	private KeyFileHelper keyFileHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +111,7 @@ public class FileSelectActivity extends StylishActivity implements
 		setSupportActionBar(toolbar);
 
         openFileNameView = (EditText) findViewById(R.id.file_filename);
+        fileNameView = (FileNameView) findViewById(R.id.file_select);
 
         // Set the initial value of the filename
         String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -126,7 +120,7 @@ public class FileSelectActivity extends StylishActivity implements
                 + getString(R.string.database_file_extension_default);
         openFileNameView.setText(defaultPath);
 
-		mListFiles = (RecyclerView) findViewById(R.id.file_list);
+        RecyclerView mListFiles = (RecyclerView) findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
 
 		// Open button
@@ -157,55 +151,16 @@ public class FileSelectActivity extends StylishActivity implements
                         .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this);
 			}
 		});
-		
-		View browseButton = findViewById(R.id.browse_button);
-		browseButton.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				if (StorageAF.useStorageFramework(FileSelectActivity.this)) {
-					Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
-					i.addCategory(Intent.CATEGORY_OPENABLE);
-					i.setType("*/*");
-					i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
-							Intent.FLAG_GRANT_WRITE_URI_PERMISSION|
-							Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-					startActivityForResult(i, OPEN_DOC);
-				}
-				else {
-					Intent i;
-                    i = new Intent(Intent.ACTION_GET_CONTENT);
-					i.addCategory(Intent.CATEGORY_OPENABLE);
-					i.setType("*/*");
 
-					try {
-						startActivityForResult(i, GET_CONTENT);
-					} catch (ActivityNotFoundException e) {
-						lookForOpenIntentsFilePicker();
-					} catch (SecurityException e) {
-						lookForOpenIntentsFilePicker();
-					}
-				}
-			}
-			
-			private void lookForOpenIntentsFilePicker() {
-				if (Interaction.isIntentAvailable(FileSelectActivity.this, Intents.OPEN_INTENTS_FILE_BROWSE)) {
-					Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
-					i.setData(Uri.parse("file://" + openFileNameView.getText().toString()));
-					try {
-						startActivityForResult(i, FILE_BROWSE);
-					} catch (ActivityNotFoundException e) {
-						showBrowserDialog();
-					}
-				} else {
-					showBrowserDialog();
-				}
-			}
-			
-			private void showBrowserDialog() {
-				BrowserDialog diag = new BrowserDialog(FileSelectActivity.this);
-				diag.show();
-			}
-		});
+        keyFileHelper = new KeyFileHelper(this);
+		View browseButton = findViewById(R.id.browse_button);
+		browseButton.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
+		        new KeyFileHelper.ClickDataUriCallback() {
+            @Override
+            public Uri onRequestIntentFilePicker() {
+                return Uri.parse("file://" + openFileNameView.getText().toString());
+            }
+        }));
 
 		// Construct adapter with listeners
 		mAdapter = new FileSelectAdapter(FileSelectActivity.this, fileHistory.getDbList());
@@ -245,6 +200,23 @@ public class FileSelectActivity extends StylishActivity implements
 			}
 		}
 	}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Check to see if we need to change modes
+        if ( fileHistory.hasRecentFiles() != recentMode ) {
+            // Restart the activity
+            Intent intent = getIntent();
+            startActivity(intent);
+            finish();
+        }
+
+        fileNameView.updateExternalStorageWarning();
+        updateTitleFileListView();
+        mAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -457,64 +429,17 @@ public class FileSelectActivity extends StylishActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		String filename = null;
-		if (requestCode == FILE_BROWSE && resultCode == RESULT_OK) {
-			filename = data.getDataString();
-			if (filename != null) {
-				if (filename.startsWith("file://")) {
-					filename = filename.substring(7);
-				}
-				
-				filename = URLDecoder.decode(filename);
-			}
-			
-		}
-		else if ((requestCode == GET_CONTENT || requestCode == OPEN_DOC) && resultCode == RESULT_OK) {
-			if (data != null) {
-				Uri uri = data.getData();
-				if (uri != null) {
-					if (StorageAF.useStorageFramework(this)) {
-						try {
-							// try to persist read and write permissions
-							ContentResolver resolver = getContentResolver();
-							ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-							ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-						} catch (Exception e) {
-							// nop
-						}
-					}
-					if (requestCode == GET_CONTENT) {
-						uri = UriUtil.translate(this, uri);
-					}
-					filename = uri.toString();
-				}
-			}
-		}
 
-		if (filename != null) {
-			openFileNameView.setText(filename);
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		// Check to see if we need to change modes
-		if ( fileHistory.hasRecentFiles() != recentMode ) {
-			// Restart the activity
-			Intent intent = getIntent();
-			startActivity(intent);
-			finish();
-		}
-		
-		FileNameView fnv = (FileNameView) findViewById(R.id.file_select);
-		fnv.updateExternalStorageWarning();
-
-		updateTitleFileListView();
-
-		mAdapter.notifyDataSetChanged();
+        keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
+                new KeyFileHelper.KeyFileCallback() {
+            @Override
+            public void onKeyFileResultCallback(Uri uri) {
+                if (uri != null) {
+                    String filename = uri.toString();
+                    openFileNameView.setText(filename);
+                }
+            }
+        });
 	}
 
     @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
