@@ -59,7 +59,6 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditNewField;
-import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
-public class EntryEditActivity extends LockCloseHideActivity
+public class EntryEditActivity extends LockingHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener {
 
@@ -123,7 +122,6 @@ public class EntryEditActivity extends LockCloseHideActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_edit);
-		setResult(KeePass.EXIT_NORMAL);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));

@@ -21,8 +21,27 @@ package com.keepassdroid.activities;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.WindowManager;
 
-public abstract class LockCloseActivity extends LockingActivity {
+import com.keepassdroid.compat.BuildCompat;
+
+/**
+ * Locking Hide Activity that sets FLAG_SECURE to prevent screenshots, and from
+ * appearing in the recent app preview
+ */
+public abstract class LockingHideActivity extends LockingActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Several gingerbread devices have problems with FLAG_SECURE
+		int ver = BuildCompat.getSdkVersion();
+		if (ver >= BuildCompat.VERSION_CODE_ICE_CREAM_SANDWICH || ver < BuildCompat.VERSION_CODE_GINGERBREAD) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+		}
+	}
 
 	/* (non-Javadoc) Workaround for HTC Linkify issues 
 	 * @see android.app.Activity#startActivity(android.content.Intent)

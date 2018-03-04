@@ -54,10 +54,10 @@ import com.keepassdroid.dialog.ReadOnlyDialog;
 import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
 import com.keepassdroid.fragments.GroupEditDialogFragment;
 import com.keepassdroid.fragments.IconPickerDialogFragment;
+import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.view.ListNodesWithAddButtonView;
-import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
 public class GroupActivity extends ListNodesActivity
@@ -76,11 +76,11 @@ public class GroupActivity extends ListNodesActivity
 
 	private static final String TAG = "Group Activity:";
 	
-	public static void Launch(Activity act) {
-		Launch(act, null);
+	public static void launch(Activity act) {
+		launch(act, null);
 	}
 	
-	public static void Launch(Activity act, PwGroup group) {
+	public static void launch(Activity act, PwGroup group) {
 		Intent intent = new Intent(act, GroupActivity.class);
         if ( group != null ) {
             intent.putExtra(KEY_ENTRY, group.getId());
@@ -175,10 +175,10 @@ public class GroupActivity extends ListNodesActivity
                 mAdapter.registerANodeToUpdate(node);
                 switch (node.getType()) {
                     case GROUP:
-                        GroupActivity.Launch(GroupActivity.this, (PwGroup) node);
+                        GroupActivity.launch(GroupActivity.this, (PwGroup) node);
                         break;
                     case ENTRY:
-                        EntryActivity.Launch(GroupActivity.this, (PwEntry) node);
+                        EntryActivity.launch(GroupActivity.this, (PwEntry) node);
                         break;
                 }
                 return true;
@@ -296,7 +296,7 @@ public class GroupActivity extends ListNodesActivity
 
             case R.id.menu_lock:
                 App.setShutdown();
-                setResult(KeePass.EXIT_LOCK);
+                setResult(PasswordActivity.RESULT_EXIT_LOCK);
                 finish();
                 return true;
 

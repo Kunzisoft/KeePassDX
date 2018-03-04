@@ -147,7 +147,12 @@ public class KeyFileHelper {
         browserDialog.show();
     }
 
-    public void onActivityResultCallback(
+    /**
+     * To use in onActivityResultCallback in Fragment or Activity
+     * @param keyFileCallback Callback retrieve from data
+     * @return true if requestCode was captured, false elsechere
+     */
+    public boolean onActivityResultCallback(
             int requestCode,
             int resultCode,
             Intent data,
@@ -164,7 +169,7 @@ public class KeyFileHelper {
                     if (keyFileCallback != null)
                         keyFileCallback.onKeyFileResultCallback(keyUri);
                 }
-                break;
+                return true;
             case GET_CONTENT:
             case OPEN_DOC:
                 if (resultCode == RESULT_OK) {
@@ -189,8 +194,9 @@ public class KeyFileHelper {
                         }
                     }
                 }
-                break;
+                return true;
         }
+        return false;
     }
 
     public interface KeyFileCallback {

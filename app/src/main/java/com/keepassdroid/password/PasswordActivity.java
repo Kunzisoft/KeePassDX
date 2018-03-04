@@ -69,7 +69,6 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.view.FingerPrintDialog;
 import com.keepassdroid.view.KeyFileHelper;
-import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
 import java.io.File;
@@ -91,6 +90,8 @@ public class PasswordActivity extends LockingActivity
         implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
 
     public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
+    public static final int RESULT_EXIT_LOCK = 1450;
+
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_LAUNCH_IMMEDIATELY = "launchImmediately";
 
@@ -125,7 +126,7 @@ public class PasswordActivity extends LockingActivity
     public static void launch(
             Activity act,
             String fileName) throws FileNotFoundException {
-        launch(act, fileName, "", null);
+        launch(act, fileName,null);
     }
 
     public static void launch(
@@ -155,13 +156,13 @@ public class PasswordActivity extends LockingActivity
             }
         }
 
-        Intent i = new Intent(act, PasswordActivity.class);
-        i.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
-        i.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
+        Intent intent = new Intent(act, PasswordActivity.class);
+        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
         if (extras != null)
-            i.putExtras(extras);
-
-        act.startActivityForResult(i, 0);
+            intent.putExtras(extras);
+        // only to avoid visible  flickering when redirecting
+        act.startActivityForResult(intent, 0);
     }
 
     @Override
@@ -171,8 +172,9 @@ public class PasswordActivity extends LockingActivity
             Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        boolean stopResult = false;
         if (keyFileHelper != null) {
-            keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
+            stopResult = keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
                     new KeyFileHelper.KeyFileCallback() {
                         @Override
                         public void onKeyFileResultCallback(Uri uri) {
@@ -183,18 +185,14 @@ public class PasswordActivity extends LockingActivity
                     });
         }
 
-        switch (requestCode) {
-            case KeePass.EXIT_NORMAL:
-                setEmptyViews();
-                App.getDB().clear();
-                break;
-
-            case KeePass.EXIT_LOCK:
-                setResult(KeePass.EXIT_LOCK);
-                setEmptyViews();
-                finish();
-                App.getDB().clear();
-                break;
+        if (!stopResult) {
+            switch (resultCode) {
+                case RESULT_EXIT_LOCK:
+                case Activity.RESULT_CANCELED:
+                    setEmptyViews();
+                    App.getDB().clear();
+                    break;
+            }
         }
     }
 
@@ -790,13 +788,13 @@ public class PasswordActivity extends LockingActivity
                             DialogInterface dialog,
                             int which) {
                         // TODO GroupActivity.launch(PasswordActivity.this, getIntent().getExtras());
-                        GroupActivity.Launch(PasswordActivity.this);
+                        GroupActivity.launch(PasswordActivity.this);
                     }
 
                 });
             } else if (mSuccess) {
                 // TODO GroupActivity.launch(PasswordActivity.this, getIntent().getExtras());
-                GroupActivity.Launch(PasswordActivity.this);
+                GroupActivity.launch(PasswordActivity.this);
             } else {
                 displayMessage(PasswordActivity.this);
             }

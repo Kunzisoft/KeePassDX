@@ -53,10 +53,9 @@ import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.database.SortNodeEnum;
 import com.keepassdroid.view.AssignPasswordHelper;
-import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
-public abstract class ListNodesActivity extends LockCloseListActivity
+public abstract class ListNodesActivity extends LockingActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
 		NodeAdapter.OnNodeClickCallback,
         SortDialogFragment.SortSelectionListener {
@@ -87,7 +86,6 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		ActivityCompat.invalidateOptionsMenu(this);
 
 		setContentView(R.layout.list_nodes);
-		setResult(KeePass.EXIT_NORMAL);
 
         mCurrentGroup = initCurrentGroup();
 
@@ -139,10 +137,10 @@ public abstract class ListNodesActivity extends LockCloseListActivity
 		mAdapter.registerANodeToUpdate(node);
         switch (node.getType()) {
             case GROUP:
-                GroupActivity.Launch(this, (PwGroup) node);
+                GroupActivity.launch(this, (PwGroup) node);
                 break;
             case ENTRY:
-                EntryActivity.Launch(this, (PwEntry) node);
+                EntryActivity.launch(this, (PwEntry) node);
                 break;
         }
     }

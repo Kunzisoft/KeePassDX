@@ -105,7 +105,8 @@ public class FileSelectActivity extends StylishActivity implements
 		Intent intent = new Intent(activity, FileSelectActivity.class);
 		if (extras != null)
 			intent.putExtras(extras);
-		activity.startActivity(intent);
+		// only to avoid visible flickering when redirecting
+		activity.startActivityForResult(intent, 0);
 	}
 
 	@Override
@@ -400,7 +401,7 @@ public class FileSelectActivity extends StylishActivity implements
 				fileHistory.createFile(mUri, getFilename());
                 mAdapter.notifyDataSetChanged();
                 updateTitleFileListView();
-				GroupActivity.Launch(FileSelectActivity.this);
+				GroupActivity.launch(FileSelectActivity.this);
 			}
 		}
 	}
