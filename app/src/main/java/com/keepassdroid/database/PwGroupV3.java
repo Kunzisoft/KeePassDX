@@ -30,11 +30,14 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package com.keepassdroid.database;
 
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.keepassdroid.utils.Types;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-
 
 /**
  * @author Brian Pellin <bpellin@gmail.com>
@@ -43,8 +46,6 @@ import java.util.List;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
 public class PwGroupV3 extends PwGroup {
-  public PwGroupV3() {
-  }
 
 	public String toString() {
 		return name;
@@ -155,4 +156,11 @@ public class PwGroupV3 extends PwGroup {
 		tLastMod = new PwDate(date);
 	}
 
+	@Override
+	public Date getCreationTime() {
+	    if(tCreation != null)
+		    return tCreation.getJDate();
+	    else
+	        return new Date();
+	}
 }

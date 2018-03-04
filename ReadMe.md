@@ -1,6 +1,6 @@
 # Android Keepass DX
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/logo.png"> Keepass DX is a material design Keepass Client for manage keys and passwords in crypt database for your android device.
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/icon.png"> Keepass DX is a material design Keepass Client for manage keys and passwords in crypt database for your android device.
 
 ### Features
 
@@ -11,8 +11,8 @@
 - Material design with themes
 - Device integration and AutoFill (In progress)
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen1.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen2.jpg" width="220">
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen1.jpg" width="220">
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen2.jpg" width="220">
 
 ## What is KeePass?
 
@@ -32,8 +32,8 @@ Even if the application is free, to maintain the application, you can make donat
 
 [![Donation Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Kunzisoft/donate "Kunzisoft Liberapay Donation")
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen4.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen5.jpg" width="220">
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen4.jpg" width="220">
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen5.jpg" width="220">
 
 ## Download
 

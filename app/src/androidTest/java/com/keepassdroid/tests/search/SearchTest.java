@@ -26,7 +26,7 @@ import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
 import com.kunzisoft.keepass.R;
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.tests.database.TestData;
 
@@ -43,7 +43,7 @@ public class SearchTest extends AndroidTestCase {
 	
 	public void testSearch() {
 		PwGroup results = mDb.Search("Amazon");
-		assertTrue("Search result not found.", results.childEntries.size() > 0);
+		assertTrue("Search result not found.", results.numbersOfChildEntries() > 0);
 		
 	}
 	
@@ -51,14 +51,14 @@ public class SearchTest extends AndroidTestCase {
 		updateOmitSetting(false);
 		PwGroup results = mDb.Search("BackupOnly");
 		
-		assertTrue("Search result not found.", results.childEntries.size() > 0);
+		assertTrue("Search result not found.", results.numbersOfChildEntries() > 0);
 	}
 	
 	public void testBackupExcluded() {
 		updateOmitSetting(true);
 		PwGroup results = mDb.Search("BackupOnly");
 		
-		assertFalse("Search result found, but should not have been.", results.childEntries.size() > 0);
+		assertFalse("Search result found, but should not have been.", results.numbersOfChildEntries() > 0);
 	}
 	
 	private void updateOmitSetting(boolean setting) {

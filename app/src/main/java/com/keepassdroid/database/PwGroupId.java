@@ -1,5 +1,7 @@
 package com.keepassdroid.database;
 
-public abstract class PwGroupId {
+import java.io.Serializable;
+
+public abstract class PwGroupId implements Serializable {
 
 }

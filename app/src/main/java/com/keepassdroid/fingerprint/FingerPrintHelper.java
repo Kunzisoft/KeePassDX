@@ -20,7 +20,6 @@
 package com.keepassdroid.fingerprint;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.Build;
@@ -31,8 +30,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
 import android.util.Base64;
-
-import com.keepassdroid.compat.BuildCompat;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -47,6 +44,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class FingerPrintHelper {
 
     private static final String FINGERPRINT_KEYSTORE_KEY = "example-key";
@@ -89,7 +87,6 @@ public class FingerPrintHelper {
         }
     }
 
-    @TargetApi(BuildCompat.VERSION_CODE_M)
     public FingerPrintHelper(
             final Context context,
             final FingerPrintCallback fingerPrintCallback) {
@@ -123,8 +120,7 @@ public class FingerPrintHelper {
     }
 
     public static boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
-        return Build.VERSION.SDK_INT >= BuildCompat.VERSION_CODE_M
-                && fingerprintManager != null
+        return fingerprintManager != null
                 && fingerprintManager.isHardwareDetected();
     }
 
@@ -141,7 +137,6 @@ public class FingerPrintHelper {
         return isFingerprintInit;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public void initEncryptData() {
         if (!isFingerprintInitialized()) {
             return;
@@ -152,7 +147,6 @@ public class FingerPrintHelper {
             final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
             cipher.init(Cipher.ENCRYPT_MODE, key);
 
-            stopListening();
             startListening();
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
             deleteEntryKey();
@@ -182,7 +176,6 @@ public class FingerPrintHelper {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public void initDecryptData(final String ivSpecValue) {
         if (!isFingerprintInitialized()) {
             return;
@@ -197,9 +190,7 @@ public class FingerPrintHelper {
             final IvParameterSpec spec = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
-            stopListening();
             startListening();
-
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
             fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
@@ -269,8 +260,10 @@ public class FingerPrintHelper {
         } catch (KeyStoreException
                     | CertificateException
                     | NoSuchAlgorithmException
-                    | IOException e) {
-            fingerPrintCallback.onFingerPrintException(e);
+                    | IOException
+                    | NullPointerException e) {
+            if (fingerPrintCallback != null)
+                fingerPrintCallback.onFingerPrintException(e);
         }
     }
 
@@ -322,6 +315,10 @@ public class FingerPrintHelper {
     public interface FingerPrintCallback extends FingerPrintErrorCallback {
         void handleEncryptedResult(String value, String ivSpec);
         void handleDecryptedResult(String value);
+    }
+
+    public enum Mode {
+        NOT_CONFIGURED_MODE, STORE_MODE, OPEN_MODE
     }
 
 }

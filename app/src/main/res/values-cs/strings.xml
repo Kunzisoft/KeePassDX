@@ -56,24 +56,24 @@
     <string name="decrypting_entry">Dešifruji záznam</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Čísla</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Zadejte názvev souboru databáze:</string>
-    <string name="entry_accessed">Poslední přístup: </string>
+    <string name="select_database_file">Zadejte názvev souboru databáze:</string>
+    <string name="entry_accessed">Poslední přístup</string>
     <string name="entry_and_or">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze:</string>
     <string name="entry_cancel">Storno</string>
-    <string name="entry_comment">Poznámky: </string>
-    <string name="entry_confpassword">Potvrďte heslo:</string>
-    <string name="entry_created">Vytvořeno: </string>
-    <string name="entry_expires">Vyprší: </string>
+    <string name="entry_comment">Poznámky</string>
+    <string name="entry_confpassword">Potvrďte heslo</string>
+    <string name="entry_created">Vytvořeno</string>
+    <string name="entry_expires">Vyprší</string>
     <string name="entry_keyfile">Klíčový soubor</string>
-    <string name="entry_modified">Změněno: </string>
+    <string name="entry_modified">Změněno</string>
     <string name="entry_not_found">Vstupní data nenalezena.</string>
-    <string name="entry_password">Heslo:</string>
+    <string name="entry_password">Heslo</string>
     <string name="entry_save">Uložit</string>
-    <string name="entry_title">Název: </string>
-    <string name="entry_url">URL: </string>
-    <string name="entry_user_name">Uživatelské jméno: </string>
+    <string name="entry_title">Název</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">Uživatelské jméno</string>
     <string name="error_arc4">ArcFour stream šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePass DX nemůže zpracovat tuto uri.</string>
     <string name="error_could_not_create_group">Chyba při vytváření skupiny.</string>
@@ -188,9 +188,13 @@
     <string name="version_label">Verze:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 sekund</item>
+    	<item>10 sekund</item>
+    	<item>20 sekund</item>
     	<item>30 sekund</item>
     	<item>1 minuta</item>
     	<item>5 minut</item>
+    	<item>15 minut</item>
     	<item>Nikdy</item>
     </string-array>
     <string-array name="list_size_options">

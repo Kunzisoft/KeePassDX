@@ -22,43 +22,27 @@ package com.keepassdroid.search;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.kunzisoft.keepass.KeePass;
-import com.kunzisoft.keepass.R;
-import com.keepassdroid.Database;
-import com.keepassdroid.GroupBaseActivity;
-import com.keepassdroid.PwGroupListAdapter;
+import com.keepassdroid.activities.ListNodesActivity;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.utils.MenuUtil;
+import com.kunzisoft.keepass.R;
 
-public class SearchResultsActivity extends GroupBaseActivity {
-	
-	private Database mDb;
+public class SearchResultsActivity extends ListNodesActivity {
 
-	private View listView;
-	private View imageNotFoundView;
+    private RecyclerView listView;
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if ( isFinishing() ) {
-			return;
-		}
-		
-		setResult(KeePass.EXIT_NORMAL);
-		
-		mDb = App.getDB();
-		
-		// Likely the app has been killed exit the activity 
-		if ( ! mDb.Loaded() ) {
-			finish();
-		}
 
         setContentView(getLayoutInflater().inflate(R.layout.search_results, null));
 
@@ -69,12 +53,34 @@ public class SearchResultsActivity extends GroupBaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        listView = findViewById(R.id.group_list);
-        imageNotFoundView = findViewById(R.id.img_not_found);
+        listView = (RecyclerView) findViewById(R.id.nodes_list);
+        View notFoundView = findViewById(R.id.not_found_container);
 
-		performSearch(getSearchStr(getIntent()));
-		
+        if ( mCurrentGroup == null || mCurrentGroup.numbersOfChildEntries() < 1 ) {
+            listView.setVisibility(View.GONE);
+            notFoundView.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            notFoundView.setVisibility(View.GONE);
+        }
+
+        setGroupTitle();
 	}
+
+    @Override
+    protected PwGroup initCurrentGroup() {
+        Database mDb = App.getDB();
+        // Likely the app has been killed exit the activity
+        if ( ! mDb.Loaded() ) {
+            finish();
+        }
+        return mDb.Search(getSearchStr(getIntent()).trim());
+    }
+
+    @Override
+    protected RecyclerView defineNodeList() {
+        return listView;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,25 +98,8 @@ public class SearchResultsActivity extends GroupBaseActivity {
             case android.R.id.home:
                 finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
-	
-	private void performSearch(String query) {
-		mGroup = mDb.Search(query.trim());
-
-		if ( mGroup == null || mGroup.childEntries.size() < 1 ) {
-            listView.setVisibility(View.GONE);
-            imageNotFoundView.setVisibility(View.VISIBLE);
-		} else {
-            listView.setVisibility(View.VISIBLE);
-            imageNotFoundView.setVisibility(View.GONE);
-        }
-
-		setGroupTitle();
-		
-		setListAdapter(new PwGroupListAdapter(this, mGroup));
-	}
 
 	private String getSearchStr(Intent queryIntent) {
         // get and process search query here

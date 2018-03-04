@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/default_margin">
+    <RadioGroup
+        android:id="@+id/sort_selection_radio_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton android:id="@+id/sort_selection_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_db"
+            android:visibility="gone"/>
+        <RadioButton android:id="@+id/sort_selection_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_title"/>
+        <RadioButton android:id="@+id/sort_selection_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_username"
+            android:visibility="gone"/>
+        <RadioButton android:id="@+id/sort_selection_creation_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_creation_time"/>
+        <RadioButton android:id="@+id/sort_selection_last_modify_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_last_modify_time"
+            android:visibility="gone"/>
+        <RadioButton android:id="@+id/sort_selection_last_access_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_last_access_time"
+            android:visibility="gone"/>
+    </RadioGroup>
+    <CheckBox android:id="@+id/sort_selection_ascending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/sort_ascending"/>
+    <CheckBox android:id="@+id/sort_selection_groups_before"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sort_groups_before"/>
+    <CheckBox android:id="@+id/sort_selection_recycle_bin_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sort_recycle_bin_bottom"/>
+</LinearLayout>

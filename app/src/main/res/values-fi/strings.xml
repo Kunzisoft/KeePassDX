@@ -53,24 +53,24 @@
     <string name="decrypting_entry">Puretaan salasanatietuetta</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Anna tietokannan tiedostonimi:</string>
-    <string name="entry_accessed">Käytetty: </string>
+    <string name="select_database_file">Anna tietokannan tiedostonimi:</string>
+    <string name="entry_accessed">Käytetty</string>
     <string name="entry_and_or">Syötä salasana ja/tai avaintiedosto avataksesi tietokantasi:</string>
     <string name="entry_cancel">Peruuta</string>
-    <string name="entry_comment">Kommentit: </string>
-    <string name="entry_confpassword">Vahvista salasana:</string>
-    <string name="entry_created">Luotu: </string>
-    <string name="entry_expires">Vanhenee: </string>
+    <string name="entry_comment">Kommentit</string>
+    <string name="entry_confpassword">Vahvista salasana</string>
+    <string name="entry_created">Luotu</string>
+    <string name="entry_expires">Vanhenee</string>
     <string name="entry_keyfile">Avaintiedosto</string>
-    <string name="entry_modified">Muokattu: </string>
+    <string name="entry_modified">Muokattu</string>
     <string name="entry_not_found">Tietueen tietoja ei löytynyt.</string>
-    <string name="entry_password">Salasana:</string>
+    <string name="entry_password">Salasana</string>
     <string name="entry_save">Tallenna</string>
-    <string name="entry_title">Nimi: </string>
-    <string name="entry_url">URL-osoite: </string>
-    <string name="entry_user_name">Käyttäjänimi: </string>
+    <string name="entry_title">Nimi</string>
+    <string name="entry_url">URL-osoite</string>
+    <string name="entry_user_name">Käyttäjänimi</string>
     <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
     <string name="error_can_not_handle_uri">KeePass DX ei osaa käsitellä tätä osoitetta.</string>
     <string name="error_could_not_create_group">Virhe ryhmän luonnissa.</string>
@@ -183,9 +183,13 @@
     <string name="version_label">Versio:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 sekuntia</item>
+    	<item>10 sekuntia</item>
+    	<item>20 sekuntia</item>
     	<item>30 sekuntia</item>
     	<item>1 minuutti</item>
     	<item>5 minuttia</item>
+    	<item>15 minuttia</item>
     	<item>Ei koskaan</item>
     </string-array>
     <string-array name="list_size_options">

@@ -475,7 +475,7 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		writeList(ElemTimes, entry);
 		
-		writeList(entry.strings, true);
+		writeList(entry.getFields(), true);
 		writeList(entry.binaries);
 		writeList(ElemAutoType, entry.autoType);
 		

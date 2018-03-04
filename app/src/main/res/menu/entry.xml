@@ -22,15 +22,11 @@
     <item android:id="@+id/menu_toggle_pass"
         android:icon="@drawable/ic_visibility_white_24dp"
         android:title="@string/menu_showpass"
+        android:orderInCategory="21"
         app:showAsAction="always" />
     <item android:id="@+id/menu_goto_url"
         android:icon="@drawable/ic_file_upload_white_24dp"
         android:title="@string/menu_url"
+        android:orderInCategory="22"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_copy_user"
-        android:title="@string/menu_copy_user"
-        app:showAsAction="never" />
-    <item android:id="@+id/menu_copy_pass"
-        android:title="@string/menu_copy_pass"
-        app:showAsAction="never" />
 </menu>

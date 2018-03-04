@@ -21,21 +21,16 @@ package com.keepassdroid.database.edit;
 
 import android.content.Context;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwGroup;
 
 public class AddEntry extends RunnableOnFinish {
 	protected Database mDb;
 	private PwEntry mEntry;
 	private Context ctx;
 	
-	public static AddEntry getInstance(Context ctx, Database db, PwEntry entry, OnFinish finish) {
-		return new AddEntry(ctx, db, entry, finish);
-	}
-	
-	protected AddEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
+	public AddEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
 		super(finish);
 		
 		mDb = db;
@@ -56,27 +51,18 @@ public class AddEntry extends RunnableOnFinish {
 	
 	private class AfterAdd extends OnFinish {
 
-		public AfterAdd(OnFinish finish) {
+		AfterAdd(OnFinish finish) {
 			super(finish);
 		}
 
 		@Override
 		public void run() {
 			PwDatabase pm = mDb.pm;
-			if ( mSuccess ) {
-				
-				PwGroup parent = mEntry.getParent();
-
-				// Mark parent tree dirty
-				mDb.dirty.add(parent);
-				
-			} else {
+			if ( !mSuccess ) {
 				pm.removeEntryFrom(mEntry, mEntry.getParent());
 			}
-			
+			// TODO if add entry callback
 			super.run();
 		}
 	}
-	
-
 }

@@ -53,24 +53,24 @@
     <string name="decrypting_entry">Расшифровка записи…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
     <string name="ellipsis">…</string>
-    <string name="enter_filename">Путь к базе KeePass:</string>
-    <string name="entry_accessed">Доступ:</string>
+    <string name="select_database_file">Путь к базе KeePass:</string>
+    <string name="entry_accessed">Доступ</string>
     <string name="entry_and_or">Введите пароль или путь к файлу-ключу:</string>
     <string name="entry_cancel">Отмена</string>
-    <string name="entry_comment">Комментарий:</string>
-    <string name="entry_confpassword">Подтверждение:</string>
-    <string name="entry_created">Создано:</string>
-    <string name="entry_expires">Истекает:</string>
+    <string name="entry_comment">Комментарий</string>
+    <string name="entry_confpassword">Подтверждение</string>
+    <string name="entry_created">Создано</string>
+    <string name="entry_expires">Истекает</string>
     <string name="entry_keyfile">файл-ключ</string>
-    <string name="entry_modified">Изменено:</string>
+    <string name="entry_modified">Изменено</string>
     <string name="entry_not_found">Данные записи не найдены.</string>
-    <string name="entry_password">Пароль:</string>
+    <string name="entry_password">Пароль</string>
     <string name="entry_save">Сохранить</string>
-    <string name="entry_title">Название:</string>
-    <string name="entry_url">Ссылка:</string>
-    <string name="entry_user_name">Логин:</string>
+    <string name="entry_title">Название</string>
+    <string name="entry_url">Ссылка</string>
+    <string name="entry_user_name">Логин</string>
     <string name="error_arc4">Потоковый шифр ARC4 не поддерживается</string>
     <string name="error_can_not_handle_uri">Не удалось перейти по указанному адресу</string>
     <string name="error_could_not_create_group">Не удалось создать группу</string>
@@ -191,9 +191,13 @@
     <string name="version_label">Версия:</string>
 
     <string-array name="clipboard_timeout_options">
+       <item>5 сек.</item>
+       <item>10 сек.</item>
+       <item>20 сек.</item>
        <item>30 сек.</item>
        <item>1 мин.</item>
        <item>5 мин.</item>
+       <item>15 мин.</item>
        <item>Никогда</item>
     </string-array>
     <string-array name="list_size_options">

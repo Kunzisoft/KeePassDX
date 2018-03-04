@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
@@ -33,8 +34,8 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.keepassdroid.Database;
-import com.keepassdroid.UnavailableFeatureDialog;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.fragments.UnavailableFeatureDialogFragment;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
@@ -69,26 +70,21 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference keyFile = findPreference(getString(R.string.keyfile_key));
                 keyFile.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
-
                     if (!value) {
                         App.getFileHistory().deleteAllKeys();
                     }
-
                     return true;
                 });
 
                 Preference recentHistory = findPreference(getString(R.string.recentfile_key));
                 recentHistory.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
-
                     if (value == null) {
                         value = true;
                     }
-
                     if (!value) {
                         App.getFileHistory().deleteAll();
                     }
-
                     return true;
                 });
 
@@ -100,15 +96,21 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     return true;
                 });
 
-                SwitchPreference fingerprintEnablePreference = (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
-                if (!FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(getContext()))) {
+                SwitchPreference fingerprintEnablePreference =
+                        (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
+                // < M solve verifyError exception
+                boolean fingerprintSupported = false;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    fingerprintSupported = FingerPrintHelper.isFingerprintSupported(
+                            FingerprintManagerCompat.from(getContext()));
+                if (!fingerprintSupported) {
                     // False if under Marshmallow
-                    fingerprintEnablePreference.setDefaultValue(false);
+                    fingerprintEnablePreference.setChecked(false);
                     fingerprintEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
                             ((SwitchPreference) preference).setChecked(false);
-                            UnavailableFeatureDialog.getInstance(Build.VERSION_CODES.M)
+                            UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                     .show(getFragmentManager(), "unavailableFeatureDialog");
                             return false;
                         }
@@ -123,71 +125,87 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 }
 
                 Preference deleteKeysFingerprints = findPreference(getString(R.string.fingerprint_delete_all_key));
-                deleteKeysFingerprints.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        new AlertDialog.Builder(getContext())
-                                .setMessage(getResources().getString(R.string.fingerprint_delete_all_warning))
-                                .setIcon(getResources().getDrawable(
-                                                android.R.drawable.ic_dialog_alert))
-                                .setPositiveButton(
-                                        getResources().getString(android.R.string.yes),
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
-                                                        getContext(),
-                                                        new FingerPrintHelper.FingerPrintErrorCallback() {
-                                                            @Override
-                                                            public void onInvalidKeyException(Exception e) {}
+                if (!fingerprintSupported) {
+                    deleteKeysFingerprints.setEnabled(false);
+                } else {
+                    deleteKeysFingerprints.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage(getResources().getString(R.string.fingerprint_delete_all_warning))
+                                    .setIcon(getResources().getDrawable(
+                                            android.R.drawable.ic_dialog_alert))
+                                    .setPositiveButton(
+                                            getResources().getString(android.R.string.yes),
+                                            new DialogInterface.OnClickListener() {
+                                                @RequiresApi(api = Build.VERSION_CODES.M)
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
+                                                            getContext(),
+                                                            new FingerPrintHelper.FingerPrintErrorCallback() {
+                                                                @Override
+                                                                public void onInvalidKeyException(Exception e) {
+                                                                }
 
-                                                            @Override
-                                                            public void onFingerPrintException(Exception e) {
-                                                                Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        });
-                                                PreferencesUtil.deleteAllValuesFromNoBackupPreferences(getContext());
-                                            }
-                                        })
-                                .setNegativeButton(
-                                        getResources().getString(android.R.string.no),
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                            }
-                                        }).show();
-                        return false;
-                    }
-                });
-
+                                                                @Override
+                                                                public void onFingerPrintException(Exception e) {
+                                                                    Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                    PreferencesUtil.deleteAllValuesFromNoBackupPreferences(getContext());
+                                                }
+                                            })
+                                    .setNegativeButton(
+                                            getResources().getString(android.R.string.no),
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                }
+                                            }).show();
+                            return false;
+                        }
+                    });
+                }
                 break;
 
             case NESTED_SCREEN_DB_KEY:
                 setPreferencesFromResource(R.xml.db_preferences, rootKey);
 
                 Database db = App.getDB();
-                Preference algorithmPref = findPreference(getString(R.string.algorithm_key));
-                Preference roundPref = findPreference(getString(R.string.rounds_key));
+                if (db.Loaded()) {
+                    if (db.pm.algorithmSettingsEnabled()) {
 
-                if (!(db.Loaded() && db.pm.appSettingsEnabled())) {
-                    algorithmPref.setEnabled(false);
-                    roundPref.setEnabled(false);
-                }
+                        Preference roundPref = findPreference(getString(R.string.rounds_key));
+                        roundPref.setEnabled(true);
+                        roundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                                setRounds(App.getDB(), preference);
+                                return true;
+                            }
+                        });
+                        setRounds(db, roundPref);
 
-                if (db.Loaded() && db.pm.appSettingsEnabled()) {
-                    roundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            setRounds(App.getDB(), preference);
-                            return true;
-                        }
-                    });
-                    setRounds(db, roundPref);
-                    setAlgorithm(db, algorithmPref);
+                        // TODO Algo
+                        Preference algorithmPref = findPreference(getString(R.string.algorithm_key));
+                        // algorithmPref.setEnabled(true);
+                        setAlgorithm(db, algorithmPref);
+                    }
+
+                    if (db.pm.isRecycleBinAvailable()) {
+                        SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
+                        // TODO Recycle
+                        //recycleBinPref.setEnabled(true);
+                        recycleBinPref.setChecked(db.pm.isRecycleBinEnable());
+                    }
+
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
                 }
+
+
 
                 break;
 

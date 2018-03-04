@@ -46,11 +46,10 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import biz.source_code.base64Coder.Base64Coder;
 
-import com.keepassdroid.UpdateStatus;
+import com.keepassdroid.tasks.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.crypto.engine.CipherEngine;
-import com.keepassdroid.database.BinaryPool;
 import com.keepassdroid.database.ITimeLogger;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
@@ -863,7 +862,7 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.EntryTimes && name.equalsIgnoreCase(ElemTimes) ) {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryString && name.equalsIgnoreCase(ElemString) ) {
-			ctxEntry.strings.put(ctxStringName, ctxStringValue);
+			ctxEntry.addField(ctxStringName, ctxStringValue);
 			ctxStringName = null;
 			ctxStringValue = null;
 			

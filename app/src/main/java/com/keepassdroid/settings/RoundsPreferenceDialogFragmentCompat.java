@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keepassdroid.Database;
-import com.keepassdroid.ProgressTask;
+import com.keepassdroid.database.Database;
+import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.edit.OnFinish;

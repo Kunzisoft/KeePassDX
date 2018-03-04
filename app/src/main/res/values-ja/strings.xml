@@ -48,23 +48,23 @@
     <string name="decrypting_entry">暗号解除エントリー</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin によって作られたフリーソフトウェアであり、無保証です。GPLバージョン2以上の条件下でこれを再頒布することができます。</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン2以上の条件下でこれを再頒布することができます。</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">データベースファイル:</string>
-    <string name="entry_accessed">最終アクセス日: </string>
+    <string name="select_database_file">データベースファイル:</string>
+    <string name="entry_accessed">最終アクセス日</string>
     <string name="entry_and_or">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
     <string name="entry_cancel">キャンセル</string>
-    <string name="entry_comment">備考: </string>
-    <string name="entry_confpassword">パスワードの確認:</string>
-    <string name="entry_created">作成日: </string>
-    <string name="entry_expires">有効期限: </string>
+    <string name="entry_comment">備考</string>
+    <string name="entry_confpassword">パスワードの確認</string>
+    <string name="entry_created">作成日</string>
+    <string name="entry_expires">有効期限</string>
     <string name="entry_keyfile">キーファイル</string>
-    <string name="entry_modified">更新日: </string>
-    <string name="entry_password">パスワード:</string>
+    <string name="entry_modified">更新日</string>
+    <string name="entry_password">パスワード</string>
     <string name="entry_save">保存</string>
-    <string name="entry_title">タイトル: </string>
-    <string name="entry_url">URL: </string>
-    <string name="entry_user_name">ユーザー名: </string>
+    <string name="entry_title">タイトル</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">ArcFour stream cipherには対応していません。</string>
     <string name="error_can_not_handle_uri">KeePass DXはこのuriを処理できません。</string>
     <string name="error_could_not_create_group">グループ追加エラー</string>
@@ -167,9 +167,13 @@
     <string name="version_label">バージョン:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5秒</item>
+    	<item>10秒</item>
+    	<item>20秒</item>
     	<item>30秒</item>
     	<item>1分</item>
     	<item>5分</item>
+    	<item>15分</item>
     	<item>なし</item>
     </string-array>
     <string-array name="list_size_options">

@@ -19,12 +19,8 @@
  */
 package com.keepassdroid.database;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -35,8 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import android.os.DropBoxManager.Entry;
 
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
@@ -252,7 +246,7 @@ public abstract class PwDatabase {
 
     public abstract void setNumRounds(long rounds) throws NumberFormatException;
 
-    public abstract boolean appSettingsEnabled();
+    public abstract boolean algorithmSettingsEnabled();
 
     public abstract PwEncryptionAlgorithm getEncAlgorithm();
 
@@ -262,7 +256,7 @@ public abstract class PwDatabase {
             parent = rootGroup;
         }
 
-        parent.childGroups.add(newGroup);
+        parent.addChildGroup(newGroup);
         newGroup.setParent(parent);
         groups.put(newGroup.getId(), newGroup);
 
@@ -271,15 +265,16 @@ public abstract class PwDatabase {
 
     public void removeGroupFrom(PwGroup remove, PwGroup parent) {
         // Remove tree from parent tree
-        parent.childGroups.remove(remove);
-
+        if (parent != null) {
+            parent.removeChildGroup(remove);
+        }
         groups.remove(remove.getId());
     }
 
     public void addEntryTo(PwEntry newEntry, PwGroup parent) {
         // Add entry to parent
         if (parent != null) {
-            parent.childEntries.add(newEntry);
+            parent.addChildEntry(newEntry);
         }
         newEntry.setParent(parent);
 
@@ -289,7 +284,7 @@ public abstract class PwDatabase {
     public void removeEntryFrom(PwEntry remove, PwGroup parent) {
         // Remove entry for parent
         if (parent != null) {
-            parent.childEntries.remove(remove);
+            parent.removeChildEntry(remove);
         }
         entries.remove(remove.getUUID());
     }
@@ -337,12 +332,43 @@ public abstract class PwDatabase {
         }
     }
 
+    /**
+     * Determine if RecycleBin is available or not for this version of database
+     * @return true if RecycleBin enable
+     */
+    public boolean isRecycleBinAvailable() {
+        return false;
+    }
+
+    /**
+     * Determine if RecycleBin is enable or not
+     * @return true if RecycleBin enable, false if is not available or not enable
+     */
+    public boolean isRecycleBinEnable() {
+        return false;
+    }
+
+    /**
+     * Define if a Group must be delete or recycle
+     * @param group Group to remove
+     * @return true if group can be recycle, false elsewhere
+     */
     public boolean canRecycle(PwGroup group) {
         return false;
     }
 
+    /**
+     * Define if an Entry must be delete or recycle
+     * @param entry Entry to remove
+     * @return true if entry can be recycle, false elsewhere
+     */
     public boolean canRecycle(PwEntry entry) {
         return false;
+    }
+
+    public void recycle(PwGroup group) {
+        // Assume calls to this are protected by calling inRecyleBin
+        throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
     public void recycle(PwEntry entry) {
@@ -350,15 +376,29 @@ public abstract class PwDatabase {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
+    public void undoRecycle(PwGroup group, PwGroup origParent) {
+        throw new RuntimeException("Call not valid for .kdb databases.");
+    }
+
     public void undoRecycle(PwEntry entry, PwGroup origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
+    }
+
+    public void deleteGroup(PwGroup group) {
+        PwGroup parent = group.getParent();
+        removeGroupFrom(group, parent);
+        parent.touch(false, true);
     }
 
     public void deleteEntry(PwEntry entry) {
         PwGroup parent = entry.getParent();
         removeEntryFrom(entry, parent);
         parent.touch(false, true);
+    }
 
+    // TODO Delete group
+    public void undoDeleteGroup(PwGroup group, PwGroup origParent) {
+        addGroupTo(group, origParent);
     }
 
     public void undoDeleteEntry(PwEntry entry, PwGroup origParent) {

@@ -19,18 +19,20 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.database.security.ProtectedBinary;
+import com.keepassdroid.database.security.ProtectedString;
+import com.keepassdroid.utils.SprEngine;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-
-import com.keepassdroid.database.security.ProtectedBinary;
-import com.keepassdroid.database.security.ProtectedString;
-import com.keepassdroid.utils.SprEngine;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public static final String STR_TITLE = "Title";
@@ -41,14 +43,14 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	
 	public PwGroupV4 parent;
 	public UUID uuid = PwDatabaseV4.UUID_ZERO;
-	public HashMap<String, ProtectedString> strings = new HashMap<String, ProtectedString>();
-	public HashMap<String, ProtectedBinary> binaries = new HashMap<String, ProtectedBinary>();
+	private HashMap<String, ProtectedString> fields = new HashMap<>();
+	public HashMap<String, ProtectedBinary> binaries = new HashMap<>();
 	public PwIconCustom customIcon = PwIconCustom.ZERO;
 	public String foregroundColor = "";
 	public String backgroupColor = "";
 	public String overrideURL = "";
 	public AutoType autoType = new AutoType();
-	public ArrayList<PwEntryV4> history = new ArrayList<PwEntryV4>();
+	public ArrayList<PwEntryV4> history = new ArrayList<>();
 	
 	private Date parentGroupLastMod = PwDatabaseV4.DEFAULT_NOW;
 	private Date creation = PwDatabaseV4.DEFAULT_NOW;
@@ -62,7 +64,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public String tags = "";
 	public Map<String, String> customData = new HashMap<String, String>();
 
-	public class AutoType implements Cloneable {
+	public class AutoType implements Cloneable, Serializable {
 		private static final long OBF_OPT_NONE = 0;
 		
 		public boolean enabled = true;
@@ -123,26 +125,16 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		}
 	}
 
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public PwEntry clone(boolean deepStrings) {
 		PwEntryV4 entry = (PwEntryV4) super.clone(deepStrings);
 		
 		if (deepStrings) {
-			entry.strings = (HashMap<String, ProtectedString>) strings.clone();
+			entry.fields = (HashMap<String, ProtectedString>) fields.clone();
 		}
 		
-		return entry;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public PwEntryV4 cloneDeep() {
-		PwEntryV4 entry = (PwEntryV4) clone(true);
-		
-		entry.binaries = (HashMap<String, ProtectedBinary>) binaries.clone();
-		entry.history = (ArrayList<PwEntryV4>) history.clone();
-		entry.autoType = (AutoType) autoType.clone();
-
 		return entry;
 	}
 
@@ -162,7 +154,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private void assign(PwEntryV4 source) {
 		parent = source.parent;
 		uuid = source.uuid;
-		strings = source.strings;
+		fields = source.fields;
 		binaries = source.binaries;
 		customIcon = source.customIcon;
 		foregroundColor = source.foregroundColor;
@@ -313,7 +305,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 	
 	public String getString(String key) {
-		ProtectedString value = strings.get(key);
+		ProtectedString value = fields.get(key);
 		
 		if ( value == null ) return new String("");
 		
@@ -322,7 +314,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	public void setString(String key, String value, boolean protect) {
 		ProtectedString ps = new ProtectedString(protect, value);
-		strings.put(key, ps);
+		fields.put(key, ps);
 	}
 
 	public Date getLocationChanged() {
@@ -367,22 +359,26 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		} else {
 			return customIcon;
 		}
-		
-	}
-
-	public static boolean IsStandardString(String key) {
-		return key.equals(STR_TITLE) || key.equals(STR_USERNAME) 
-		  || key.equals(STR_PASSWORD) || key.equals(STR_URL)
-		  || key.equals(STR_NOTES);
 	}
 	
 	public void createBackup(PwDatabaseV4 db) {
 		PwEntryV4 copy = cloneDeep();
-		copy.history = new ArrayList<PwEntryV4>();
+		copy.history = new ArrayList<>();
 		history.add(copy);
 		
 		if (db != null) maintainBackups(db);
 	}
+
+    @SuppressWarnings("unchecked")
+    public PwEntryV4 cloneDeep() {
+        PwEntryV4 entry = (PwEntryV4) clone(true);
+
+        entry.binaries = (HashMap<String, ProtectedBinary>) binaries.clone();
+        entry.history = (ArrayList<PwEntryV4>) history.clone();
+        entry.autoType = (AutoType) autoType.clone();
+
+        return entry;
+    }
 	
 	private boolean maintainBackups(PwDatabaseV4 db) {
 		boolean deleted = false;
@@ -432,13 +428,73 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			history.remove(index);
 		}
 	}
-	
+
+	@Override
+	public boolean allowExtraFields() {
+		return true;
+	}
+
+	public Map<String, ProtectedString> getFields() {
+	    return fields;
+    }
+
+    @Override
+    public Map<String, ProtectedString> getExtraProtectedFields() {
+        Map<String, ProtectedString> protectedFields = super.getExtraProtectedFields();
+        if (fields.size() > 0) {
+            for (Map.Entry<String, ProtectedString> pair : fields.entrySet()) {
+                String key = pair.getKey();
+                if (!PwEntryV4.IsStandardField(key)) {
+                    protectedFields.put(key, pair.getValue());
+                }
+            }
+        }
+        return protectedFields;
+    }
+
+    @Override
+	public Map<String, String> getExtraFields(PwDatabase pm) {
+		Map<String, String> extraFields = super.getExtraFields(pm);
+		SprEngine spr = SprEngine.getInstance(pm);
+		// Display custom fields
+		if (fields.size() > 0) {
+			for (Map.Entry<String, ProtectedString> pair : fields.entrySet()) {
+				String key = pair.getKey();
+                // TODO Add hidden style for protection field
+				if (!PwEntryV4.IsStandardField(key)) {
+                    extraFields.put(key, spr.compile(pair.getValue().toString(), this, pm));
+				}
+			}
+		}
+		return extraFields;
+	}
+
+    public static boolean IsStandardField(String key) {
+        return key.equals(STR_TITLE) || key.equals(STR_USERNAME)
+                || key.equals(STR_PASSWORD) || key.equals(STR_URL)
+                || key.equals(STR_NOTES);
+    }
+
+	public void addField(String label, ProtectedString value) {
+	    fields.put(label, value);
+    }
+
+    @Override
+    public void removeExtraFields() {
+        Iterator<Entry<String, ProtectedString>> iter = fields.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, ProtectedString> pair = iter.next();
+            if (!PwEntryV4.IsStandardField(pair.getKey())) {
+                iter.remove();
+            }
+        }
+    }
 	
 	private static final long FIXED_LENGTH_SIZE = 128; // Approximate fixed length size
 	public long getSize() {
 		long size = FIXED_LENGTH_SIZE;
 		
-		for (Entry<String, ProtectedString> pair : strings.entrySet()) {
+		for (Entry<String, ProtectedString> pair : fields.entrySet()) {
 			size += pair.getKey().length();
 			size += pair.getValue().length();
 		}

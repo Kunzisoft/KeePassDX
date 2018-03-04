@@ -1,6 +1,8 @@
 package com.keepassdroid.database;
 
-public abstract class PwIcon {
+import java.io.Serializable;
+
+public abstract class PwIcon implements Serializable {
 	
 	public boolean isMetaStreamIcon() {
 		return false;

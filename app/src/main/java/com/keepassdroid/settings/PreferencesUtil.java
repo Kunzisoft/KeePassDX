@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.keepassdroid.database.SortNodeEnum;
 import com.kunzisoft.keepass.R;
 
 import java.util.Arrays;
@@ -87,5 +88,41 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.full_file_path_enable_key),
                 ctx.getResources().getBoolean(R.bool.full_file_path_enable_default));
+    }
+
+    public static SortNodeEnum getListSort(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return SortNodeEnum.valueOf(prefs.getString(ctx.getString(R.string.sort_node_key),
+                SortNodeEnum.TITLE.name()));
+    }
+
+    public static boolean getGroupsBeforeSort(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.sort_group_before_key),
+                ctx.getResources().getBoolean(R.bool.sort_group_before_default));
+    }
+
+    public static boolean getAscendingSort(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.sort_ascending_key),
+                ctx.getResources().getBoolean(R.bool.sort_ascending_default));
+    }
+
+    public static boolean getRecycleBinBottomSort(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.sort_recycle_bin_bottom_key),
+                ctx.getResources().getBoolean(R.bool.sort_recycle_bin_bottom_default));
+    }
+
+    public static boolean isPasswordMask(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.maskpass_key),
+                ctx.getResources().getBoolean(R.bool.maskpass_default));
+    }
+
+    public static boolean fieldFontIsInVisibility(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.monospace_font_fields_enable_key),
+                ctx.getResources().getBoolean(R.bool.monospace_font_fields_enable_default));
     }
 }

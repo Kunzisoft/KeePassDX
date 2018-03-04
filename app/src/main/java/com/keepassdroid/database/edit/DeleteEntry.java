@@ -21,7 +21,7 @@ package com.keepassdroid.database.edit;
 
 import android.content.Context;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
@@ -71,8 +71,6 @@ public class DeleteEntry extends RunnableOnFinish {
 		// Commit database
 		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
 		save.run();
-	
-		
 	}
 
 	private class AfterDelete extends OnFinish {
@@ -81,7 +79,7 @@ public class DeleteEntry extends RunnableOnFinish {
 		private PwEntry mEntry;
 		private boolean recycled;
 		
-		public AfterDelete(OnFinish finish, PwGroup parent, PwEntry entry, boolean r) {
+		AfterDelete(OnFinish finish, PwGroup parent, PwEntry entry, boolean r) {
 			super(finish);
 			
 			mParent = parent;
@@ -92,18 +90,7 @@ public class DeleteEntry extends RunnableOnFinish {
 		@Override
 		public void run() {
 			PwDatabase pm = mDb.pm;
-			if ( mSuccess ) {
-				// Mark parent dirty
-				if ( mParent != null ) {
-					mDb.dirty.add(mParent);
-				}
-				
-				if (recycled) {
-					PwGroup recycleBin = pm.getRecycleBin();
-					mDb.dirty.add(recycleBin);
-					mDb.dirty.add(mDb.pm.rootGroup);
-				}
-			} else {
+			if ( !mSuccess ) {
 				if (recycled) {
 					pm.undoRecycle(mEntry, mParent);
 				}
@@ -111,11 +98,9 @@ public class DeleteEntry extends RunnableOnFinish {
 					pm.undoDeleteEntry(mEntry, mParent);
 				}
 			}
+			// TODO Callback after delete entry
 
 			super.run();
-			
 		}
-		
 	}
-	
 }

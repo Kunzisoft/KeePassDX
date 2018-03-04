@@ -21,21 +21,21 @@ package com.keepassdroid.view;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
+import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.fileselect.BrowserDialog;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
 
-import java.io.File;
-
 import static android.app.Activity.RESULT_OK;
-
 
 public class KeyFileHelper {
 
@@ -45,75 +45,88 @@ public class KeyFileHelper {
 
     private Activity activity;
     private Fragment fragment;
-    private Uri mDbUri;
 
     public KeyFileHelper(Activity context) {
-        this(context, null);
-    }
-
-    public KeyFileHelper(Activity context, Uri mDbUri) {
         this.activity = context;
         this.fragment = null;
-        this.mDbUri = mDbUri;
     }
 
     public KeyFileHelper(Fragment context) {
-        this(context, null);
-    }
-
-    public KeyFileHelper(Fragment context, Uri mDbUri) {
         this.activity = context.getActivity();
         this.fragment = context;
-        this.mDbUri = mDbUri;
     }
 
-    public View.OnClickListener getOpenFileOnClickViewListener() {
-        return new View.OnClickListener() {
+    public class OpenFileOnClickViewListener implements View.OnClickListener {
 
-            public void onClick(View v) {
-                if (StorageAF.useStorageFramework(activity)) {
-                    Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
-                    i.addCategory(Intent.CATEGORY_OPENABLE);
-                    i.setType("*/*");
+        private ClickDataUriCallback dataUri;
+
+        OpenFileOnClickViewListener(ClickDataUriCallback dataUri) {
+            this.dataUri = dataUri;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (StorageAF.useStorageFramework(activity)) {
+                Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION|
+                        Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                if(fragment != null)
+                    fragment.startActivityForResult(i, OPEN_DOC);
+                else
+                    activity.startActivityForResult(i, OPEN_DOC);
+            } else {
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+
+                try {
                     if(fragment != null)
-                        fragment.startActivityForResult(i, OPEN_DOC);
+                        fragment.startActivityForResult(i, GET_CONTENT);
                     else
-                        activity.startActivityForResult(i, OPEN_DOC);
-                } else {
-                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                    i.addCategory(Intent.CATEGORY_OPENABLE);
-                    i.setType("*/*");
-
-                    try {
-                        if(fragment != null)
-                            fragment.startActivityForResult(i, GET_CONTENT);
-                        else
-                            activity.startActivityForResult(i, GET_CONTENT);
-                    } catch (ActivityNotFoundException e) {
-                        lookForOpenIntentsFilePicker();
-                    }
+                        activity.startActivityForResult(i, GET_CONTENT);
+                } catch (ActivityNotFoundException|SecurityException e) {
+                    lookForOpenIntentsFilePicker(dataUri.onRequestIntentFilePicker());
                 }
             }
-        };
+        }
     }
 
-    private void lookForOpenIntentsFilePicker() {
+    public OpenFileOnClickViewListener getOpenFileOnClickViewListener() {
+        return new OpenFileOnClickViewListener(null);
+    }
+
+    public OpenFileOnClickViewListener getOpenFileOnClickViewListener(ClickDataUriCallback dataUri) {
+        return new OpenFileOnClickViewListener(dataUri);
+    }
+
+    private void lookForOpenIntentsFilePicker(Uri dataUri) {
         if (Interaction.isIntentAvailable(activity, Intents.OPEN_INTENTS_FILE_BROWSE)) {
             Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
 
             // Get file path parent if possible
             try {
-                if (mDbUri != null && mDbUri.toString().length() > 0) {
-                    if (mDbUri.getScheme().equals("file")) {
+                if (dataUri != null
+                        && dataUri.toString().length() > 0
+                        && dataUri.getScheme().equals("file")) {
+                        i.setData(dataUri);
+                        //i.setData(Uri.parse("file://" + mDbUri.getPath()));
+                        /*
+                        TODO Verify Intent File Picker
                         File keyfile = new File(mDbUri.getPath());
                         File parent = keyfile.getParentFile();
                         if (parent != null) {
                             i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
                         }
-                    }
+                        */
+                } else {
+                    Log.w(getClass().getName(), "Unable to read the URI");
                 }
             } catch (Exception e) {
                 // Ignore
+                Log.w(getClass().getName(), "Unable to read the URI " + e.getMessage());
             }
 
             try {
@@ -133,7 +146,6 @@ public class KeyFileHelper {
         BrowserDialog browserDialog = new BrowserDialog(activity);
         browserDialog.show();
     }
-
 
     public void onActivityResultCallback(
             int requestCode,
@@ -159,6 +171,16 @@ public class KeyFileHelper {
                     if (data != null) {
                         Uri uri = data.getData();
                         if (uri != null) {
+                            if (StorageAF.useStorageFramework(activity)) {
+                                try {
+                                    // try to persist read and write permissions
+                                    ContentResolver resolver = activity.getContentResolver();
+                                    ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                } catch (Exception e) {
+                                    // nop
+                                }
+                            }
                             if (requestCode == GET_CONTENT) {
                                 uri = UriUtil.translate(activity, uri);
                             }
@@ -173,6 +195,10 @@ public class KeyFileHelper {
 
     public interface KeyFileCallback {
         void onKeyFileResultCallback(Uri uri);
+    }
+
+    public interface ClickDataUriCallback {
+        Uri onRequestIntentFilePicker();
     }
 
 }
