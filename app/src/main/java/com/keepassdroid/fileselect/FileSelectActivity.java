@@ -130,7 +130,7 @@ public class FileSelectActivity extends StylishActivity implements
 			public void onClick(View v) {
 				String fileName = openFileNameView.getText().toString();
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this, fileName);
+					PasswordActivity.launch(FileSelectActivity.this, fileName);
 				}
 				catch (ContentFileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
@@ -185,7 +185,7 @@ public class FileSelectActivity extends StylishActivity implements
 
 				if (db.exists()) {
 					try {
-						PasswordActivity.Launch(FileSelectActivity.this, path);
+						PasswordActivity.launch(FileSelectActivity.this, path);
 					} catch (Exception e) {
 						// Ignore exception
 					}
@@ -193,7 +193,7 @@ public class FileSelectActivity extends StylishActivity implements
 			}
 			else {
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this, dbUri.toString());
+					PasswordActivity.launch(FileSelectActivity.this, dbUri.toString());
 				} catch (Exception e) {
 					// Ignore exception
 				}
@@ -377,7 +377,7 @@ public class FileSelectActivity extends StylishActivity implements
 				fileHistory.createFile(mUri, getFilename());
                 mAdapter.notifyDataSetChanged();
                 updateTitleFileListView();
-				GroupActivity.Launch(FileSelectActivity.this);
+				GroupActivity.launch(FileSelectActivity.this);
 			}
 		}
 	}
@@ -388,7 +388,7 @@ public class FileSelectActivity extends StylishActivity implements
 			@Override
 			public void afterOpenFile(String fileName, String keyFile) {
 				try {
-					PasswordActivity.Launch(FileSelectActivity.this,
+					PasswordActivity.launch(FileSelectActivity.this,
 							fileName, keyFile);
 				} catch (ContentFileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,

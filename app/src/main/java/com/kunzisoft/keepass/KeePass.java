@@ -21,20 +21,11 @@ package com.kunzisoft.keepass;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 
 import com.keepassdroid.fileselect.FileSelectActivity;
 
 public class KeePass extends Activity {
 
-	public static final int EXIT_NORMAL = 0;
-	public static final int EXIT_LOCK = 1;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-	
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -43,19 +34,14 @@ public class KeePass extends Activity {
 
 	private void startFileSelect() {
 		Intent intent = new Intent(this, FileSelectActivity.class);
+        // only to avoid visible  flickering when redirecting
 		startActivityForResult(intent, 0);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		if (resultCode == EXIT_NORMAL) {
+		if (resultCode == Activity.RESULT_CANCELED) {
 			finish();
 		}
 	}

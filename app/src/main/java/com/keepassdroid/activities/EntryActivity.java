@@ -56,6 +56,7 @@ import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
@@ -63,7 +64,6 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryContentsView;
-import com.kunzisoft.keepass.KeePass;
 import com.kunzisoft.keepass.R;
 
 import java.util.Date;
@@ -74,7 +74,7 @@ import java.util.UUID;
 
 import static com.keepassdroid.settings.PrefsUtil.isClipboardNotificationsEnable;
 
-public class EntryActivity extends LockCloseHideActivity {
+public class EntryActivity extends LockingHideActivity {
 	public static final String KEY_ENTRY = "entry";
 
 	public static final int NOTIFY_USERNAME = 1;
@@ -91,7 +91,7 @@ public class EntryActivity extends LockCloseHideActivity {
 	private BroadcastReceiver mIntentReceiver;
 	protected boolean readOnly = false;
 
-    public static void Launch(Activity act, PwEntry pw) {
+    public static void launch(Activity act, PwEntry pw) {
         Intent intent = new Intent(act, EntryActivity.class);
         intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
         act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
@@ -119,8 +119,6 @@ public class EntryActivity extends LockCloseHideActivity {
 		readOnly = db.readOnly;
 
         mShowPassword = !PrefsUtil.isPasswordMask(this);
-
-		setResult(KeePass.EXIT_NORMAL);
 
 		// Get Entry from UUID
 		Intent i = getIntent();
@@ -388,7 +386,7 @@ public class EntryActivity extends LockCloseHideActivity {
 			
             case R.id.menu_lock:
                 App.setShutdown();
-                setResult(KeePass.EXIT_LOCK);
+                setResult(PasswordActivity.RESULT_EXIT_LOCK);
                 finish();
                 return true;
 
