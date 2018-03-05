@@ -34,6 +34,7 @@
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
+    <string name="menu_form_filling_settings">Préférences de remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>
@@ -222,6 +223,7 @@
     <string name="password_size_summary">Définir la taille par défaut du mot de passe généré</string>
     <string name="list_password_generator_options_title">Caractères de mot de passe</string>
     <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
+    <string name="notifications">Notifications</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
     <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier le nom d\'utilisateur et le mot de passe</string>
     <string name="lock_database_screen_off_title">Verrouillage d\'écran</string>

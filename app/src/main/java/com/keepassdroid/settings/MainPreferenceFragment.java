@@ -1,13 +1,14 @@
 package com.keepassdroid.settings;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
-import com.keepassdroid.database.Database;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.Database;
 import com.kunzisoft.keepass.R;
 
 public class MainPreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
@@ -32,6 +33,13 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         // add listeners for non-default actions
         Preference preference = findPreference(getString(R.string.app_key));
         preference.setOnPreferenceClickListener(this);
+
+        Preference preferenceAutofill = findPreference(getString(R.string.settings_form_filling_key));
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            preferenceAutofill.setEnabled(false);
+        } else {
+            preferenceAutofill.setOnPreferenceClickListener(this);
+        }
 
         preference = findPreference(getString(R.string.db_key));
         preference.setOnPreferenceClickListener(this);
@@ -61,6 +69,10 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         // here you should use the same keys as you used in the xml-file
         if (preference.getKey().equals(getString(R.string.app_key))) {
             mCallback.onNestedPreferenceSelected(NestedSettingsFragment.NESTED_SCREEN_APP_KEY);
+        }
+
+        if (preference.getKey().equals(getString(R.string.settings_form_filling_key))) {
+            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.NESTED_SCREEN_FORM_FILLING_KEY);
         }
 
         if (preference.getKey().equals(getString(R.string.db_key))) {

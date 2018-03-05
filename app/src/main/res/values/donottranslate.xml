@@ -59,7 +59,7 @@
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
-    <string name="settings_autofill_key" translatable="false">settings_autofill_key</string>
+    <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
     <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
     <string name="full_file_path_enable_key" translatable="true">full_file_path_enable_key</string>
     <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>

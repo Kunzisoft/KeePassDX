@@ -133,8 +133,8 @@
     <string name="menu_create">Create</string>
     <string name="settings">Settings</string>
     <string name="menu_app_settings">Application settings</string>
+    <string name="menu_form_filling_settings">Form filling settings</string>
     <string name="menu_db_settings">Database settings</string>
-    <string name="menu_autofill_settings">Autofill settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
@@ -228,6 +228,7 @@
     <string name="password_size_summary">Set the default size of the generated password</string>
     <string name="list_password_generator_options_title">Password characters</string>
     <string name="list_password_generator_options_summary">Set the default password generator characters</string>
+    <string name="notifications">Notifications</string>
     <string name="clipboard_notifications_title">Clipboard Notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy username and password</string>
     <string name="lock">Lock</string>
