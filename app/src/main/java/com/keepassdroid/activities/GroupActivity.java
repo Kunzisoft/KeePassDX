@@ -22,10 +22,12 @@ package com.keepassdroid.activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
+import android.app.assist.AssistStructure;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -41,6 +43,7 @@ import android.widget.ImageView;
 
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
+import com.keepassdroid.autofill.AutofillHelper;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
@@ -70,6 +73,8 @@ public class GroupActivity extends ListNodesActivity
 	protected EditGroupDialogAction editGroupDialogAction = EditGroupDialogAction.NONE;
 	private ListNodesWithAddButtonView rootView;
 
+    private AutofillHelper autofillHelper;
+
     private enum EditGroupDialogAction {
 	    CREATION, UPDATE, NONE
     }
@@ -77,15 +82,27 @@ public class GroupActivity extends ListNodesActivity
 	private static final String TAG = "Group Activity:";
 	
 	public static void launch(Activity act) {
-		launch(act, null);
+		launch(act, null, null);
 	}
-	
-	public static void launch(Activity act, PwGroup group) {
+
+    public static void launch(Activity act, AssistStructure assistStructure) {
+        launch(act, null, assistStructure);
+    }
+
+    public static void launch(Activity act, PwGroup group) {
+        launch(act, group, null);
+    }
+
+    public static void launch(Activity act, PwGroup group, AssistStructure assistStructure) {
 		Intent intent = new Intent(act, GroupActivity.class);
         if ( group != null ) {
             intent.putExtra(KEY_ENTRY, group.getId());
         }
-		act.startActivityForResult(intent,0);
+        AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+        if ( assistStructure != null ) {
+            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+        } else
+            act.startActivityForResult(intent, 0);
 	}
 	
 	@Override
@@ -128,6 +145,9 @@ public class GroupActivity extends ListNodesActivity
 		setGroupTitle();
 		setGroupIcon();
 
+        autofillHelper = new AutofillHelper();
+        autofillHelper.retrieveAssistStructure(getIntent());
+
         Log.w(TAG, "Finished creating tree");
 
         if (isRoot) {
@@ -162,6 +182,30 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected RecyclerView defineNodeList() {
         return (RecyclerView) findViewById(R.id.nodes_list);
+    }
+
+    @Override
+    public void onNodeClick(PwNode node) {
+        // Add event when we have Autofill
+        AssistStructure assistStructure = autofillHelper.getAssistStructure();
+        if (assistStructure != null) {
+            mAdapter.registerANodeToUpdate(node);
+            switch (node.getType()) {
+                case GROUP:
+                    GroupActivity.launch(this, (PwGroup) node, assistStructure);
+                    break;
+                case ENTRY:
+                    // TODO Define a DataSet object
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        //AutofillHelper.onAutofillResponse(this);
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
+                    }
+                    break;
+            }
+        } else {
+            super.onNodeClick(node);
+        }
     }
 
     @Override
@@ -222,6 +266,12 @@ public class GroupActivity extends ListNodesActivity
         super.onResume();
         // Show button on resume
         rootView.showButton();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        AutofillHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override

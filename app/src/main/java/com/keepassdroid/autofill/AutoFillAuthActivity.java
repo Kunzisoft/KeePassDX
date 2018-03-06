@@ -17,14 +17,16 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid;
+package com.keepassdroid.autofill;
 
 import android.app.PendingIntent;
+import android.app.assist.AssistStructure;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 import com.keepassdroid.fileselect.FileSelectActivity;
@@ -33,17 +35,35 @@ import com.kunzisoft.keepass.KeePass;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AutoFillAuthActivity extends KeePass {
 
+    private AutofillHelper autofillHelper;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        autofillHelper = new AutofillHelper();
+    }
+
     public static IntentSender getAuthIntentSenderForResponse(Context context) {
         final Intent intent = new Intent(context, AutoFillAuthActivity.class);
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
                 .getIntentSender();
     }
 
+    @Override
     protected void startFileSelectActivity() {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        Bundle extras = null;
-        if (getIntent() != null && getIntent().getExtras() != null)
-            extras = getIntent().getExtras();
-        FileSelectActivity.launch(this, extras);
+        autofillHelper.retrieveAssistStructure(getIntent());
+        AssistStructure assistStructure = autofillHelper.getAssistStructure();
+        if (assistStructure != null) {
+            FileSelectActivity.launch(this, assistStructure);
+        } else {
+            FileSelectActivity.launch(this);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        AutofillHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 }

@@ -35,7 +35,6 @@ import android.util.Log;
 import android.view.autofill.AutofillId;
 import android.widget.RemoteViews;
 
-import com.keepassdroid.AutoFillAuthActivity;
 import com.kunzisoft.keepass.R;
 
 import java.util.Arrays;

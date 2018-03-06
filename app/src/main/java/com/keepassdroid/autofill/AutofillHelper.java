@@ -30,6 +30,7 @@ import android.service.autofill.SaveInfo;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.autofill.AutofillId;
+import android.view.autofill.AutofillManager;
 import android.widget.RemoteViews;
 
 import com.keepassdroid.autofill.dataSource.SharedPrefsAutofillRepository;
@@ -41,7 +42,31 @@ import java.util.Set;
 
 public class AutofillHelper {
 
-    private static final int AUTOFILL_RESPONSE_REQUEST_CODE = 81653;
+    public static final int AUTOFILL_RESPONSE_REQUEST_CODE = 8165;
+
+    private AssistStructure assistStructure;
+
+    public void retrieveAssistStructure(Intent intent) {
+        if (intent != null && intent.getExtras() != null
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            assistStructure = intent.getParcelableExtra(AutofillManager.EXTRA_ASSIST_STRUCTURE);
+        }
+    }
+
+    /**
+     * Call retrieveAssistStructure before
+     */
+    public AssistStructure getAssistStructure() {
+        return assistStructure;
+    }
+
+    public static void addAssistStructureExtraInIntent(Intent intent, AssistStructure assistStructure) {
+        if (assistStructure != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                intent.putExtra(AutofillManager.EXTRA_ASSIST_STRUCTURE, assistStructure);
+            }
+        }
+    }
 
     /**
      * Define if EXTRA_AUTHENTICATION_RESULT is an extra bundle key present in the Intent
@@ -57,7 +82,7 @@ public class AutofillHelper {
      * Method to hit when right key is selected
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private static void onAutofillResponse(Activity activity) {
+    public static void onAutofillResponse(Activity activity) {
         // TODO Connect this method in each item in GroupActivity
         Intent mReplyIntent = null;
         Intent intent = activity.getIntent();
@@ -102,7 +127,7 @@ public class AutofillHelper {
     }
 
     /**
-     * Wraps autofill data in a LoginCredential  Dataset object which can then be sent back to the
+     * Wraps autofill data in a LoginCredential Dataset object which can then be sent back to the
      * client View.
      */
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -21,6 +21,7 @@ package com.keepassdroid.password;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.assist.AssistStructure;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -53,6 +54,7 @@ import android.widget.Toast;
 import com.keepassdroid.activities.GroupActivity;
 import com.keepassdroid.activities.LockingActivity;
 import com.keepassdroid.app.App;
+import com.keepassdroid.autofill.AutofillHelper;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.ClipDataCompat;
 import com.keepassdroid.compat.EditorCompat;
@@ -123,24 +125,33 @@ public class PasswordActivity extends LockingActivity
 
     private KeyFileHelper keyFileHelper;
 
+    private AutofillHelper autofillHelper;
+
     public static void launch(
             Activity act,
             String fileName) throws FileNotFoundException {
-        launch(act, fileName,null);
+        launch(act, fileName, "", null);
     }
 
     public static void launch(
             Activity act,
             String fileName,
-            Bundle extras) throws FileNotFoundException {
-        launch(act, fileName, "", extras);
+            AssistStructure assistStructure) throws FileNotFoundException {
+        launch(act, fileName, "", assistStructure);
+    }
+
+    public static void launch(
+            Activity act,
+            String fileName,
+            String keyFile) throws FileNotFoundException {
+        launch(act, fileName, keyFile, null);
     }
 
     public static void launch(
             Activity act,
             String fileName,
             String keyFile,
-            Bundle extras) throws FileNotFoundException {
+            AssistStructure assistStructure) throws FileNotFoundException {
         if (EmptyUtils.isNullOrEmpty(fileName)) {
             throw new FileNotFoundException();
         }
@@ -159,10 +170,13 @@ public class PasswordActivity extends LockingActivity
         Intent intent = new Intent(act, PasswordActivity.class);
         intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
         intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
-        if (extras != null)
-            intent.putExtras(extras);
-        // only to avoid visible  flickering when redirecting
-        act.startActivityForResult(intent, 0);
+        AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+        if ( assistStructure != null ) {
+            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+        } else {
+            // only to avoid visible  flickering when redirecting
+            act.startActivityForResult(intent, 0);
+        }
     }
 
     @Override
@@ -171,6 +185,9 @@ public class PasswordActivity extends LockingActivity
             int resultCode,
             Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        AutofillHelper.onActivityResult(this, requestCode, resultCode, data);
+        // TODO Tests
 
         boolean stopResult = false;
         if (keyFileHelper != null) {
@@ -262,6 +279,9 @@ public class PasswordActivity extends LockingActivity
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                             (ImageView) findViewById(R.id.fingerprint_image));
         }
+
+        autofillHelper = new AutofillHelper();
+        autofillHelper.retrieveAssistStructure(getIntent());
     }
 
 
@@ -787,17 +807,24 @@ public class PasswordActivity extends LockingActivity
                     public void onClick(
                             DialogInterface dialog,
                             int which) {
-                        // TODO GroupActivity.launch(PasswordActivity.this, getIntent().getExtras());
-                        GroupActivity.launch(PasswordActivity.this);
+                        launchGroupActivity();
                     }
 
                 });
             } else if (mSuccess) {
-                // TODO GroupActivity.launch(PasswordActivity.this, getIntent().getExtras());
-                GroupActivity.launch(PasswordActivity.this);
+                launchGroupActivity();
             } else {
                 displayMessage(PasswordActivity.this);
             }
+        }
+    }
+
+    private void launchGroupActivity() {
+        AssistStructure assistStructure = autofillHelper.getAssistStructure();
+        if (assistStructure != null) {
+            GroupActivity.launch(PasswordActivity.this, assistStructure);
+        } else {
+            GroupActivity.launch(PasswordActivity.this);
         }
     }
 

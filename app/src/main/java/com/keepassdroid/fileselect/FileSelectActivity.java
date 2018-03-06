@@ -21,6 +21,7 @@ package com.keepassdroid.fileselect;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.assist.AssistStructure;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +38,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.autofill.AutofillManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -88,6 +90,7 @@ public class FileSelectActivity extends StylishActivity implements
 
 	private boolean recentMode = false;
 	private boolean consultationMode = false;
+    private AssistStructure assistStructure;
 
 	private EditText openFileNameView;
 	private FileNameView fileNameView;
@@ -101,12 +104,15 @@ public class FileSelectActivity extends StylishActivity implements
 		launch(activity, null);
 	}
 
-	public static void launch(Activity activity, Bundle extras) {
+	public static void launch(Activity activity, AssistStructure assistStructure) {
 		Intent intent = new Intent(activity, FileSelectActivity.class);
-		if (extras != null)
-			intent.putExtras(extras);
-		// only to avoid visible flickering when redirecting
-		activity.startActivityForResult(intent, 0);
+        AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+        if ( assistStructure != null ) {
+            activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+        } else {
+            // only to avoid visible flickering when redirecting
+            activity.startActivityForResult(intent, 0);
+        }
 	}
 
 	@Override
@@ -141,6 +147,14 @@ public class FileSelectActivity extends StylishActivity implements
         RecyclerView mListFiles = (RecyclerView) findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
 
+		// To retrieve info for AutoFill
+		if (getIntent() != null && getIntent().getExtras() != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                assistStructure =
+                        getIntent().getParcelableExtra(AutofillManager.EXTRA_ASSIST_STRUCTURE);
+            }
+        }
+
 		// Open button
 		View openButton = findViewById(R.id.open_database);
 		openButton.setOnClickListener(new View.OnClickListener() {
@@ -148,9 +162,13 @@ public class FileSelectActivity extends StylishActivity implements
 			public void onClick(View v) {
 				String fileName = openFileNameView.getText().toString();
 				try {
-					PasswordActivity.launch(FileSelectActivity.this,
-                            fileName,
-                            getIntent().getExtras());
+				    if (assistStructure != null) {
+                        PasswordActivity.launch(FileSelectActivity.this,
+                                fileName,
+                                assistStructure);
+                    } else {
+                        PasswordActivity.launch(FileSelectActivity.this, fileName);
+                    }
 				}
 				catch (ContentFileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
@@ -204,26 +222,29 @@ public class FileSelectActivity extends StylishActivity implements
 				File db = new File(path);
 
 				if (db.exists()) {
-					try {
-						PasswordActivity.launch(FileSelectActivity.this,
-                            path,
-                            getIntent().getExtras());
-					} catch (Exception e) {
-						// Ignore exception
-					}
+                    launchPasswordActivityWithPath(path);
 				}
 			}
 			else {
-				try {
-					PasswordActivity.launch(FileSelectActivity.this,
-							dbUri.toString(),
-							getIntent().getExtras());
-				} catch (Exception e) {
-					// Ignore exception
-				}
+			    if (dbUri != null)
+                    launchPasswordActivityWithPath(dbUri.toString());
 			}
 		}
 	}
+
+	private void launchPasswordActivityWithPath(String path) {
+        try {
+            if (assistStructure != null) {
+                PasswordActivity.launch(FileSelectActivity.this,
+                        path,
+                        assistStructure);
+            } else {
+                PasswordActivity.launch(FileSelectActivity.this, path);
+            }
+        } catch (Exception e) {
+            // Ignore exception
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -412,8 +433,12 @@ public class FileSelectActivity extends StylishActivity implements
 			@Override
 			public void afterOpenFile(String fileName, String keyFile) {
 				try {
-					PasswordActivity.launch(FileSelectActivity.this,
-							fileName, keyFile, getIntent().getExtras());
+				    if (assistStructure != null) {
+                        PasswordActivity.launch(FileSelectActivity.this,
+                                fileName, keyFile, assistStructure);
+                    } else {
+                        PasswordActivity.launch(FileSelectActivity.this, fileName, keyFile);
+                    }
 				} catch (ContentFileNotFoundException e) {
 					Toast.makeText(FileSelectActivity.this,
 							R.string.file_not_found_content, Toast.LENGTH_LONG)
@@ -453,6 +478,8 @@ public class FileSelectActivity extends StylishActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+        AutofillHelper.onActivityResult(this, requestCode, resultCode, data);
 
         keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
                 new KeyFileHelper.KeyFileCallback() {
