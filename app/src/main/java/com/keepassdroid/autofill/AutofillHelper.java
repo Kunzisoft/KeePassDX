@@ -26,31 +26,32 @@ import android.content.Intent;
 import android.os.Build;
 import android.service.autofill.Dataset;
 import android.service.autofill.FillResponse;
-import android.service.autofill.SaveInfo;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.autofill.AutofillId;
 import android.view.autofill.AutofillManager;
+import android.view.autofill.AutofillValue;
 import android.widget.RemoteViews;
 
-import com.keepassdroid.autofill.dataSource.SharedPrefsAutofillRepository;
-import com.keepassdroid.model.FilledAutofillFieldCollection;
+import com.keepassdroid.database.PwEntry;
 import com.kunzisoft.keepass.R;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.stream.Stream;
 
+
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class AutofillHelper {
 
     public static final int AUTOFILL_RESPONSE_REQUEST_CODE = 8165;
 
-    private AssistStructure assistStructure;
+    private AssistStructure assistStructure = null;
 
-    public void retrieveAssistStructure(Intent intent) {
-        if (intent != null && intent.getExtras() != null
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            assistStructure = intent.getParcelableExtra(AutofillManager.EXTRA_ASSIST_STRUCTURE);
+    public AssistStructure retrieveAssistStructure(Intent intent) {
+        if (intent != null && intent.getExtras() != null) {
+            assistStructure = intent.getParcelableExtra(android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE);
         }
+        return assistStructure;
     }
 
     /**
@@ -62,46 +63,76 @@ public class AutofillHelper {
 
     public static void addAssistStructureExtraInIntent(Intent intent, AssistStructure assistStructure) {
         if (assistStructure != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                intent.putExtra(AutofillManager.EXTRA_ASSIST_STRUCTURE, assistStructure);
-            }
+            intent.putExtra(android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE, assistStructure);
         }
     }
 
     /**
-     * Define if EXTRA_AUTHENTICATION_RESULT is an extra bundle key present in the Intent
+     * Define if android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE is an extra bundle key present in the Intent
      */
-    public static boolean isIntentContainsAutofillAuthKey(Intent intent) {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                && (intent != null
+    public static boolean isIntentContainsExtraAssistStructureKey(Intent intent) {
+        return (intent != null
                 && intent.getExtras() != null
                 && intent.getExtras().containsKey(android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE));
+    }
+
+    private @Nullable Dataset buildDataset(Context context, PwEntry entry,
+                         StructureParser.Result struct) {
+        String title = makeEntryTitle(entry);
+        RemoteViews views = newRemoteViews(context.getPackageName(), title);
+        Dataset.Builder builder = new Dataset.Builder(views);
+        builder.setId(entry.getUUID().toString());
+
+        if (entry.getPassword() != null) {
+            AutofillValue value = AutofillValue.forText(entry.getPassword());
+            struct.password.forEach(id -> builder.setValue(id, value));
+        }
+        if (entry.getUsername() != null) {
+            AutofillValue value = AutofillValue.forText(entry.getUsername());
+            Stream<AutofillId> ids = struct.username.stream();
+            if (entry.getUsername().contains("@") || struct.username.isEmpty())
+                ids = Stream.concat(ids, struct.email.stream());
+            ids.forEach(id -> builder.setValue(id, value));
+        }
+        try {
+            return builder.build();
+        } catch (IllegalArgumentException e) {
+            // if not value be set
+            return null;
+        }
+    }
+
+    static private String makeEntryTitle(PwEntry entry) {
+        if (!entry.getTitle().isEmpty() && !entry.getUsername().isEmpty())
+            return String.format("%s (%s)", entry.getTitle(), entry.getUsername());
+        if (!entry.getTitle().isEmpty())
+            return entry.getTitle();
+        if (!entry.getUsername().isEmpty())
+            return entry.getUsername();
+        if (!entry.getNotes().isEmpty())
+            return entry.getNotes().trim();
+        return ""; // TODO No title
     }
 
     /**
      * Method to hit when right key is selected
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void onAutofillResponse(Activity activity) {
-        // TODO Connect this method in each item in GroupActivity
-        Intent mReplyIntent = null;
+    public void buildResponseWhenEntrySelected(Activity activity, PwEntry entry) {
+        Intent mReplyIntent;
         Intent intent = activity.getIntent();
-        if (isIntentContainsAutofillAuthKey(intent)) {
-            AssistStructure structure = intent.getParcelableExtra(
-                    android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE);
-            StructureParser parser = new StructureParser(activity, structure);
-            parser.parseForFill();
-            AutofillFieldMetadataCollection autofillFields = parser.getAutofillFields();
-            mReplyIntent = new Intent();
-            HashMap<String, FilledAutofillFieldCollection> clientFormDataMap =
-                    SharedPrefsAutofillRepository.getInstance().getFilledAutofillFieldCollection
-                            (activity, autofillFields.getFocusedHints(), autofillFields.getAllHints());
+        if (isIntentContainsExtraAssistStructureKey(intent)) {
+            AssistStructure structure = intent.getParcelableExtra(android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE);
+            StructureParser.Result result = new StructureParser(structure).parse();
 
+            // New Response
+            FillResponse.Builder responseBuilder = new FillResponse.Builder();
+            Dataset dataset = buildDataset(activity, entry, result);
+            responseBuilder.addDataset(dataset);
+            mReplyIntent = new Intent();
             Log.d(activity.getClass().getName(), "Successed Autofill auth.");
             mReplyIntent.putExtra(
-                    android.view.autofill.AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                    AutofillHelper.newResponse
-                            (activity, autofillFields, clientFormDataMap));
+                    AutofillManager.EXTRA_AUTHENTICATION_RESULT,
+                    responseBuilder.build());
             activity.setResult(Activity.RESULT_OK, mReplyIntent);
         } else {
             Log.w(activity.getClass().getName(), "Failed Autofill auth.");
@@ -112,87 +143,31 @@ public class AutofillHelper {
     /**
      * Utility method to loop and close each activity with return data
      */
-    public static void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    public static void onActivityResultSetResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == AUTOFILL_RESPONSE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    activity.setResult(Activity.RESULT_OK, data);
-                } else {
-                    activity.setResult(Activity.RESULT_CANCELED);
-                }
-            } else
+                activity.setResult(resultCode, data);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
                 activity.setResult(Activity.RESULT_CANCELED);
+            }
+        }
+    }
+
+    /**
+     * Utility method to loop and close each activity with return data
+     */
+    public static void onActivityResultSetResultAndFinish(Activity activity, int requestCode, int resultCode, Intent data) {
+        if (requestCode == AUTOFILL_RESPONSE_REQUEST_CODE) {
+            onActivityResultSetResult(activity, requestCode, resultCode, data);
             activity.finish();
         }
     }
 
-    /**
-     * Wraps autofill data in a LoginCredential Dataset object which can then be sent back to the
-     * client View.
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static Dataset newDataset(Context context,
-                                     AutofillFieldMetadataCollection autofillFields,
-                                     FilledAutofillFieldCollection filledAutofillFieldCollection) {
-        String datasetName = filledAutofillFieldCollection.getDatasetName();
-        if (datasetName != null) {
-            Dataset.Builder datasetBuilder;
-            datasetBuilder = new Dataset.Builder
-                    (newRemoteViews(context.getPackageName(), datasetName));
-            boolean setValueAtLeastOnce =
-                    filledAutofillFieldCollection.applyToFields(autofillFields, datasetBuilder);
-            if (setValueAtLeastOnce) {
-                return datasetBuilder.build();
-            }
-        }
-        return null;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static RemoteViews newRemoteViews(String packageName, String remoteViewsText) {
+    private static RemoteViews newRemoteViews(String packageName, String remoteViewsText) {
         RemoteViews presentation =
                 new RemoteViews(packageName, R.layout.autofill_service_list_item);
         presentation.setTextViewText(R.id.text, remoteViewsText);
         return presentation;
-    }
-
-    /**
-     * Wraps autofill data in a Response object (essentially a series of Datasets) which can then
-     * be sent back to the client View.
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static FillResponse newResponse(Context context,
-                                           AutofillFieldMetadataCollection autofillFields,
-                                           HashMap<String, FilledAutofillFieldCollection> clientFormDataMap) {
-        FillResponse.Builder responseBuilder = new FillResponse.Builder();
-        if (clientFormDataMap != null) {
-            Set<String> datasetNames = clientFormDataMap.keySet();
-            for (String datasetName : datasetNames) {
-                FilledAutofillFieldCollection filledAutofillFieldCollection =
-                        clientFormDataMap.get(datasetName);
-                if (filledAutofillFieldCollection != null) {
-                    Dataset dataset = newDataset(context, autofillFields,
-                            filledAutofillFieldCollection);
-                    if (dataset != null) {
-                        responseBuilder.addDataset(dataset);
-                    }
-                }
-            }
-        }
-        int saveType = autofillFields.getSaveType();
-        if (saveType != 0) {
-            setFullSaveInfo(responseBuilder, saveType, autofillFields);
-            return responseBuilder.build();
-        } else {
-            Log.d(AutofillHelper.class.getName(), "These fields are not meant to be saved by autofill.");
-            return null;
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private static void setFullSaveInfo(FillResponse.Builder responseBuilder, int saveType,
-                                        AutofillFieldMetadataCollection autofillFields) {
-        AutofillId[] autofillIds = autofillFields.getAutofillIds();
-        responseBuilder.setSaveInfo(new SaveInfo.Builder(saveType, autofillIds).build());
     }
 }

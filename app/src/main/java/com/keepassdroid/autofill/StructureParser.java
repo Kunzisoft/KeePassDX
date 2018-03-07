@@ -1,111 +1,115 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This file is part of KeePass DX.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  KeePass DX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  KeePass DX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 package com.keepassdroid.autofill;
 
 import android.app.assist.AssistStructure;
-import android.app.assist.AssistStructure.ViewNode;
-import android.app.assist.AssistStructure.WindowNode;
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.text.InputType;
 import android.util.Log;
+import android.view.View;
+import android.view.autofill.AutofillId;
 
-import com.keepassdroid.autofill.dataSource.SharedPrefsDigitalAssetLinksRepository;
-import com.keepassdroid.model.FilledAutofillFieldCollection;
-import com.kunzisoft.keepass.R;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
- * Parser for an AssistStructure object. This is invoked when the Autofill Service receives an
- * AssistStructure from the client Activity, representing its View hierarchy. In this sample, it
- * parses the hierarchy and collects autofill metadata from {@link ViewNode}s along the way.
+ * Parse AssistStructure and guess username and password fields.
  */
 @RequiresApi(api = Build.VERSION_CODES.O)
-final public class StructureParser {
-    private final AutofillFieldMetadataCollection mAutofillFields =
-            new AutofillFieldMetadataCollection();
-    private final Context mContext;
-    private final AssistStructure mStructure;
-    private FilledAutofillFieldCollection mFilledAutofillFieldCollection;
+class StructureParser {
+    static private final String TAG = StructureParser.class.getName();
 
-    public StructureParser(Context context, AssistStructure structure) {
-        mContext = context;
-        mStructure = structure;
+    final private AssistStructure structure;
+    private Result result;
+    private AutofillId usernameCandidate;
+
+    StructureParser(AssistStructure structure) {
+        this.structure = structure;
     }
 
-    /**
-     * Traverse AssistStructure and add ViewNode metadata to a flat list.
-     */
-    public void parseForFill() {
-        Log.d(getClass().getName(), "Parsing structure for " + mStructure.getActivityComponent());
-        int nodes = mStructure.getWindowNodeCount();
-        mFilledAutofillFieldCollection = new FilledAutofillFieldCollection();
-        StringBuilder webDomain = new StringBuilder();
-        for (int i = 0; i < nodes; i++) {
-            WindowNode node = mStructure.getWindowNodeAt(i);
-            ViewNode view = node.getRootViewNode();
-            parseLocked(view, webDomain);
+    Result parse() {
+        result = new Result();
+        usernameCandidate = null;
+        for (int i=0; i<structure.getWindowNodeCount(); ++i) {
+            AssistStructure.WindowNode windowNode = structure.getWindowNodeAt(i);
+            result.title.add(windowNode.getTitle());
+            result.webDomain.add(windowNode.getRootViewNode().getWebDomain());
+            parseViewNode(windowNode.getRootViewNode());
         }
-        if (webDomain.length() > 0) {
-            String packageName = mStructure.getActivityComponent().getPackageName();
-            boolean valid = SharedPrefsDigitalAssetLinksRepository.getInstance().isValid(mContext,
-                    webDomain.toString(), packageName);
-            if (!valid) {
-                throw new SecurityException(mContext.getString(
-                        R.string.invalid_link_association, webDomain, packageName));
-            }
-            Log.d(getClass().getName(), "Domain " + webDomain + " is valid for " + packageName);
-        } else {
-            Log.d(getClass().getName(), "no web domain");
-        }
+        // If not explicit username field found, add the field just before password field.
+        if (result.username.isEmpty() && result.email.isEmpty()
+                && !result.password.isEmpty() && usernameCandidate != null)
+            result.username.add(usernameCandidate);
+        return result;
     }
 
-    private void parseLocked(ViewNode viewNode, StringBuilder validWebDomain) {
-        String webDomain = viewNode.getWebDomain();
-        if (webDomain != null) {
-            Log.d(getClass().getName(),"child web domain: " + webDomain);
-            if (validWebDomain.length() > 0) {
-                if (!webDomain.equals(validWebDomain.toString())) {
-                    throw new SecurityException("Found multiple web domains: valid= "
-                            + validWebDomain + ", child=" + webDomain);
-                }
-            } else {
-                validWebDomain.append(webDomain);
-            }
+    private void parseViewNode(AssistStructure.ViewNode node) {
+        String[] hints = node.getAutofillHints();
+        if (hints != null && hints.length > 0) {
+            if (Arrays.stream(hints).anyMatch(View.AUTOFILL_HINT_USERNAME::equals))
+                result.username.add(node.getAutofillId());
+            else if (Arrays.stream(hints).anyMatch(View.AUTOFILL_HINT_EMAIL_ADDRESS::equals))
+                result.email.add(node.getAutofillId());
+            else if (Arrays.stream(hints).anyMatch(View.AUTOFILL_HINT_PASSWORD::equals))
+                result.password.add(node.getAutofillId());
+            else
+                Log.d(TAG, "unsupported hints");
+        } else if (node.getAutofillType() == View.AUTOFILL_TYPE_TEXT) {
+            int inputType = node.getInputType();
+            if ((inputType & InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) > 0)
+                result.email.add(node.getAutofillId());
+            else if ((inputType & InputType.TYPE_TEXT_VARIATION_PASSWORD) > 0)
+                result.password.add(node.getAutofillId());
+            else if (result.password.isEmpty())
+                usernameCandidate = node.getAutofillId();
         }
 
-        if (viewNode.getAutofillHints() != null) {
-            String[] filteredHints = AutofillHints.filterForSupportedHints(
-                    viewNode.getAutofillHints());
-            if (filteredHints != null && filteredHints.length > 0) {
-                mAutofillFields.add(new AutofillFieldMetadata(viewNode));
-            }
-        }
-        int childrenSize = viewNode.getChildCount();
-        if (childrenSize > 0) {
-            for (int i = 0; i < childrenSize; i++) {
-                parseLocked(viewNode.getChildAt(i), validWebDomain);
-            }
-        }
+        for (int i=0; i<node.getChildCount(); ++i)
+            parseViewNode(node.getChildAt(i));
     }
 
-    public AutofillFieldMetadataCollection getAutofillFields() {
-        return mAutofillFields;
-    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    static class Result {
+        final List<CharSequence> title;
+        final List<String> webDomain;
+        final List<AutofillId> username;
+        final List<AutofillId> email;
+        final List<AutofillId> password;
 
-    public FilledAutofillFieldCollection getClientFormData() {
-        return mFilledAutofillFieldCollection;
+        private Result() {
+            title = new ArrayList<>();
+            webDomain = new ArrayList<>();
+            username = new ArrayList<>();
+            email = new ArrayList<>();
+            password = new ArrayList<>();
+        }
+
+        AutofillId[] allAutofillIds() {
+            ArrayList<AutofillId> all = new ArrayList<>();
+            all.addAll(username);
+            all.addAll(email);
+            all.addAll(password);
+            return all.toArray(new AutofillId[0]);
+        }
     }
 }

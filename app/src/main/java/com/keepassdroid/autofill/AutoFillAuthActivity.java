@@ -45,25 +45,24 @@ public class AutoFillAuthActivity extends KeePass {
 
     public static IntentSender getAuthIntentSenderForResponse(Context context) {
         final Intent intent = new Intent(context, AutoFillAuthActivity.class);
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-                .getIntentSender();
+        return PendingIntent.getActivity(context, 0,
+                intent, PendingIntent.FLAG_CANCEL_CURRENT).getIntentSender();
     }
 
     @Override
     protected void startFileSelectActivity() {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        autofillHelper.retrieveAssistStructure(getIntent());
-        AssistStructure assistStructure = autofillHelper.getAssistStructure();
+        AssistStructure assistStructure = autofillHelper.retrieveAssistStructure(getIntent());
         if (assistStructure != null) {
             FileSelectActivity.launch(this, assistStructure);
         } else {
-            FileSelectActivity.launch(this);
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        AutofillHelper.onActivityResult(this, requestCode, resultCode, data);
+        AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
     }
 }

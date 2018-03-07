@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.CancellationSignal;
 import android.service.autofill.AutofillService;
 import android.service.autofill.FillCallback;
+import android.service.autofill.FillContext;
 import android.service.autofill.FillRequest;
 import android.service.autofill.FillResponse;
 import android.service.autofill.SaveCallback;
@@ -38,6 +39,7 @@ import android.widget.RemoteViews;
 import com.kunzisoft.keepass.R;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class KeeAutofillService extends AutofillService {
@@ -46,43 +48,40 @@ public class KeeAutofillService extends AutofillService {
     @Override
     public void onFillRequest(@NonNull FillRequest request, @NonNull CancellationSignal cancellationSignal,
                               @NonNull FillCallback callback) {
-        AssistStructure structure = request.getFillContexts()
-                .get(request.getFillContexts().size() - 1).getStructure();
+        List<FillContext> fillContexts = request.getFillContexts();
+        AssistStructure latestStructure = fillContexts.get(fillContexts.size() - 1).getStructure();
 
         cancellationSignal.setOnCancelListener(() ->
                 Log.e(TAG, "Cancel autofill not implemented in this sample.")
         );
 
-        // Parse AutoFill data in Activity
-        StructureParser parser = new StructureParser(getApplicationContext(), structure);
-        // TODO: try / catch on other places (onSave, auth activity, etc...)
-        try {
-            parser.parseForFill();
-        } catch (SecurityException e) {
-            // TODO: handle cases where DAL didn't pass by showing a custom UI asking the user
-            // to confirm the mapping. Might require subclassing SecurityException.
-            Log.e(TAG, "Security exception handling " + request);
-            callback.onFailure(e.getMessage());
-            return;
-        }
-        AutofillFieldMetadataCollection autofillFields = parser.getAutofillFields();
         FillResponse.Builder responseBuilder = new FillResponse.Builder();
         // Check user's settings for authenticating Responses and Datasets.
-        AutofillId[] autofillIds = autofillFields.getAutofillIds();
+        StructureParser.Result parseResult = new StructureParser(latestStructure).parse();
+        AutofillId[] autofillIds = parseResult.allAutofillIds();
         if (!Arrays.asList(autofillIds).isEmpty()) {
             // If the entire Autofill Response is authenticated, AuthActivity is used
             // to generate Response.
             IntentSender sender = AutoFillAuthActivity.getAuthIntentSenderForResponse(this);
-            RemoteViews presentation =
-                    new RemoteViews(getPackageName(), R.layout.autofill_service_unlock);
-            responseBuilder
-                    .setAuthentication(autofillIds, sender, presentation);
+            RemoteViews presentation = new RemoteViews(getPackageName(), R.layout.autofill_service_unlock);
+            responseBuilder.setAuthentication(autofillIds, sender, presentation);
             callback.onSuccess(responseBuilder.build());
         }
     }
 
     @Override
     public void onSaveRequest(@NonNull SaveRequest request, @NonNull SaveCallback callback) {
-        // Do nothing if is fill
+        // TODO Save autofill
+        //callback.onFailure(getString(R.string.autofill_not_support_save));
+    }
+
+    @Override
+    public void onConnected() {
+        Log.d(TAG, "onConnected");
+    }
+
+    @Override
+    public void onDisconnected() {
+        Log.d(TAG, "onDisconnected");
     }
 }

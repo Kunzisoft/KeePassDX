@@ -130,9 +130,23 @@ public class PasswordActivity extends LockingActivity
     public static void launch(
             Activity act,
             String fileName) throws FileNotFoundException {
-        launch(act, fileName, "", null);
+        launch(act, fileName, "");
     }
 
+    public static void launch(
+            Activity act,
+            String fileName,
+            String keyFile) throws FileNotFoundException {
+        verifyFileNameUriFromLaunch(fileName);
+
+        Intent intent = new Intent(act, PasswordActivity.class);
+        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
+        // only to avoid visible  flickering when redirecting
+        act.startActivityForResult(intent, 0);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(
             Activity act,
             String fileName,
@@ -140,18 +154,26 @@ public class PasswordActivity extends LockingActivity
         launch(act, fileName, "", assistStructure);
     }
 
-    public static void launch(
-            Activity act,
-            String fileName,
-            String keyFile) throws FileNotFoundException {
-        launch(act, fileName, keyFile, null);
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(
             Activity act,
             String fileName,
             String keyFile,
             AssistStructure assistStructure) throws FileNotFoundException {
+        verifyFileNameUriFromLaunch(fileName);
+
+        if ( assistStructure != null ) {
+            Intent intent = new Intent(act, PasswordActivity.class);
+            intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+            intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
+            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+        } else {
+            launch(act, fileName, keyFile);
+        }
+    }
+
+    private static void verifyFileNameUriFromLaunch(String fileName) throws FileNotFoundException {
         if (EmptyUtils.isNullOrEmpty(fileName)) {
             throw new FileNotFoundException();
         }
@@ -166,17 +188,6 @@ public class PasswordActivity extends LockingActivity
                 throw new FileNotFoundException();
             }
         }
-
-        Intent intent = new Intent(act, PasswordActivity.class);
-        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
-        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
-        AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-        if ( assistStructure != null ) {
-            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
-        } else {
-            // only to avoid visible  flickering when redirecting
-            act.startActivityForResult(intent, 0);
-        }
     }
 
     @Override
@@ -186,7 +197,9 @@ public class PasswordActivity extends LockingActivity
             Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        AutofillHelper.onActivityResult(this, requestCode, resultCode, data);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+        }
         // TODO Tests
 
         boolean stopResult = false;
@@ -280,10 +293,11 @@ public class PasswordActivity extends LockingActivity
                             (ImageView) findViewById(R.id.fingerprint_image));
         }
 
-        autofillHelper = new AutofillHelper();
-        autofillHelper.retrieveAssistStructure(getIntent());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            autofillHelper = new AutofillHelper();
+            autofillHelper.retrieveAssistStructure(getIntent());
+        }
     }
-
 
     @Override
     protected void onResume() {
@@ -820,10 +834,14 @@ public class PasswordActivity extends LockingActivity
     }
 
     private void launchGroupActivity() {
-        AssistStructure assistStructure = autofillHelper.getAssistStructure();
-        if (assistStructure != null) {
-            GroupActivity.launch(PasswordActivity.this, assistStructure);
-        } else {
+        AssistStructure assistStructure = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            assistStructure = autofillHelper.getAssistStructure();
+            if (assistStructure != null) {
+                GroupActivity.launch(PasswordActivity.this, assistStructure);
+            }
+        }
+        if (assistStructure == null) {
             GroupActivity.launch(PasswordActivity.this);
         }
     }

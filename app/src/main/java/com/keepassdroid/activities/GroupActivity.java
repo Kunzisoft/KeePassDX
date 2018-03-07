@@ -31,6 +31,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -82,27 +83,34 @@ public class GroupActivity extends ListNodesActivity
 	private static final String TAG = "Group Activity:";
 	
 	public static void launch(Activity act) {
-		launch(act, null, null);
+		launch(act, (PwGroup) null);
 	}
 
+    public static void launch(Activity act, PwGroup group) {
+        Intent intent = new Intent(act, GroupActivity.class);
+        if ( group != null ) {
+            intent.putExtra(KEY_ENTRY, group.getId());
+        }
+        act.startActivityForResult(intent, 0);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, AssistStructure assistStructure) {
         launch(act, null, assistStructure);
     }
 
-    public static void launch(Activity act, PwGroup group) {
-        launch(act, group, null);
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, PwGroup group, AssistStructure assistStructure) {
-		Intent intent = new Intent(act, GroupActivity.class);
-        if ( group != null ) {
-            intent.putExtra(KEY_ENTRY, group.getId());
-        }
-        AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
         if ( assistStructure != null ) {
+            Intent intent = new Intent(act, GroupActivity.class);
+            if ( group != null ) {
+                intent.putExtra(KEY_ENTRY, group.getId());
+            }
+            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
             act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
-        } else
-            act.startActivityForResult(intent, 0);
+        } else {
+            launch(act, group);
+        }
 	}
 	
 	@Override
@@ -145,8 +153,10 @@ public class GroupActivity extends ListNodesActivity
 		setGroupTitle();
 		setGroupIcon();
 
-        autofillHelper = new AutofillHelper();
-        autofillHelper.retrieveAssistStructure(getIntent());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            autofillHelper = new AutofillHelper();
+            autofillHelper.retrieveAssistStructure(getIntent());
+        }
 
         Log.w(TAG, "Finished creating tree");
 
@@ -187,23 +197,24 @@ public class GroupActivity extends ListNodesActivity
     @Override
     public void onNodeClick(PwNode node) {
         // Add event when we have Autofill
-        AssistStructure assistStructure = autofillHelper.getAssistStructure();
-        if (assistStructure != null) {
-            mAdapter.registerANodeToUpdate(node);
-            switch (node.getType()) {
-                case GROUP:
-                    GroupActivity.launch(this, (PwGroup) node, assistStructure);
-                    break;
-                case ENTRY:
-                    // TODO Define a DataSet object
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        //AutofillHelper.onAutofillResponse(this);
-                        setResult(Activity.RESULT_CANCELED);
+        AssistStructure assistStructure = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            assistStructure = autofillHelper.getAssistStructure();
+            if (assistStructure != null) {
+                mAdapter.registerANodeToUpdate(node);
+                switch (node.getType()) {
+                    case GROUP:
+                        GroupActivity.launch(this, (PwGroup) node, assistStructure);
+                        break;
+                    case ENTRY:
+                        // Build response with the entry selected
+                        autofillHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
                         finish();
-                    }
-                    break;
+                        break;
+                }
             }
-        } else {
+        }
+        if ( assistStructure == null ){
             super.onNodeClick(node);
         }
     }
@@ -271,7 +282,10 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        AutofillHelper.onActivityResult(this, requestCode, resultCode, data);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+        }
     }
 
     @Override
