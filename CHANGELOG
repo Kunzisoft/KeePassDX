@@ -1,3 +1,24 @@
+KeepassDX (2.5.0.0beta5)
+ * Autofill (Android O)
+ * Deletion for group
+ * New sorts with (Asc/Dsc, Groups before or after)
+ * Better permission management with dialog at runtime
+ * Setting to change font of field (monospace for a better visibility)
+ * Open kdbx and kdb files from file browser
+ * Change sort of fields
+ * Hide empty fields
+ * Add copy button for Username / Password and extra field
+ * Add 5, 10, 20 seconds and 15 minutes of clipboard timeout
+ * Hide "show password" icon when password not present
+ * New animations for add button
+ * New list to add and delete node with animation
+ * Change view for better cohesion
+ * Upgrade translations
+ * Fix crash for API < Kitkat
+ * Fix fingerprint bugs
+ * Fix many small bugs
+ * Add recycle bin setting (not yet accessible)
+
 KeepassDX (2.5.0.0beta4)
  * Show only file name
  * Setting for full path
