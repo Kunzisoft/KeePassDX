@@ -18,11 +18,14 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/edit"
 	android:padding="20dp"
     android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:importantForAutofill="noExcludeDescendants"
+	tools:targetApi="o">
     <android.support.v7.widget.AppCompatTextView
         android:layout_marginBottom="8dp"
         android:id="@+id/rounds_explanation"
