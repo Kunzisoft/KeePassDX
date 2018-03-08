@@ -34,6 +34,7 @@
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
+    <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>
@@ -218,10 +219,16 @@
     <string name="history">Historique</string>
     <string name="appearance">Apparence</string>
     <string name="general">Générale</string>
+    <string name="autofill">Remplissage automatique</string>
+    <string name="autofill_service_name">Service de saisie KeePass DX</string>
+    <string name="autofill_sign_in_prompt">Se connecter avec KeePass DX</string>
+    <string name="set_autofill_service_title">Définir le service de saisie automatique par défaut</string>
+    <string name="set_autofill_service_summary">Activer le service qui permet de remplir facilement les formulaires depuis d\'autres applications</string>
     <string name="password_size_title">Taille de mot de passe</string>
     <string name="password_size_summary">Définir la taille par défaut du mot de passe généré</string>
     <string name="list_password_generator_options_title">Caractères de mot de passe</string>
     <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
+    <string name="notifications">Notifications</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
     <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier le nom d\'utilisateur et le mot de passe</string>
     <string name="lock_database_screen_off_title">Verrouillage d\'écran</string>

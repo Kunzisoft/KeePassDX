@@ -32,7 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.kunzisoft.keepass.R;
 
 import java.util.List;
@@ -77,11 +77,11 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         if (fileItemOpenListener != null)
             holder.fileContainer.setOnClickListener(new FileItemClickListener(position));
         // Assign file name
-        if (PrefsUtil.isFullFilePathEnable(context))
+        if (PreferencesUtil.isFullFilePathEnable(context))
             holder.fileName.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
         else
             holder.fileName.setText(fileSelectBean.getFileName());
-        holder.fileName.setTextSize(PrefsUtil.getListTextSize(context));
+        holder.fileName.setTextSize(PreferencesUtil.getListTextSize(context));
         // Set warning
         if (fileSelectBean.notFound()) {
             holder.fileInformation.setColorFilter(

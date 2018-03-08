@@ -25,7 +25,12 @@
 		<android.support.v7.preference.Preference
             android:key="@string/app_key"
             android:title="@string/menu_app_settings"
-			android:icon="@drawable/ic_phone_android_white_24dp"
+			android:icon="@drawable/ic_phone_android_prefs_24dp"
+            android:persistent="false" />
+        <android.support.v7.preference.Preference
+            android:key="@string/settings_form_filling_key"
+            android:title="@string/menu_form_filling_settings"
+            android:icon="@drawable/ic_content_paste_prefs_24dp"
             android:persistent="false" />
 	</android.support.v7.preference.PreferenceCategory>
 
@@ -34,7 +39,7 @@
 		<android.support.v7.preference.Preference
             android:key="@string/db_key"
             android:title="@string/menu_db_settings"
-            android:icon="@drawable/ic_data_usage_white_24dp"
+            android:icon="@drawable/ic_data_usage_prefs_24dp"
             android:persistent="false" />
 		<com.keepassdroid.settings.RoundsPreference
 			android:key="@string/roundsFix_key"

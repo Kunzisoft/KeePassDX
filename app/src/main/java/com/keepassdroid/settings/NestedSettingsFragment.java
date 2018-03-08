@@ -19,18 +19,23 @@
  */
 package com.keepassdroid.settings;
 
+import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.view.autofill.AutofillManager;
 import android.widget.Toast;
 
 import com.keepassdroid.database.Database;
@@ -41,12 +46,16 @@ import com.keepassdroid.fingerprint.FingerPrintHelper;
 import com.keepassdroid.stylish.Stylish;
 import com.kunzisoft.keepass.R;
 
-public class NestedSettingsFragment extends PreferenceFragmentCompat {
+public class NestedSettingsFragment extends PreferenceFragmentCompat
+        implements Preference.OnPreferenceClickListener {
 
     public static final int NESTED_SCREEN_APP_KEY = 1;
-    public static final int NESTED_SCREEN_DB_KEY = 2;
+    public static final int NESTED_SCREEN_FORM_FILLING_KEY = 2;
+    public static final int NESTED_SCREEN_DB_KEY = 3;
 
     private static final String TAG_KEY = "NESTED_KEY";
+
+    private static final int REQUEST_CODE_AUTOFILL = 5201;
 
     public static NestedSettingsFragment newInstance(int key) {
         NestedSettingsFragment fragment = new NestedSettingsFragment();
@@ -58,6 +67,23 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            SwitchPreference autoFillEnablePreference =
+                    (SwitchPreference) findPreference(getString(R.string.settings_autofill_enable_key));
+            if (autoFillEnablePreference != null) {
+                AutofillManager autofillManager = getActivity().getSystemService(AutofillManager.class);
+                if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
+                    autoFillEnablePreference.setChecked(true);
+                else
+                    autoFillEnablePreference.setChecked(false);
+            }
+        }
+    }
+
+    @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         int key = getArguments().getInt(TAG_KEY);
         // Load the preferences from an XML resource
@@ -66,41 +92,32 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                 setPreferencesFromResource(R.xml.app_preferences, rootKey);
 
                 Preference keyFile = findPreference(getString(R.string.keyfile_key));
-                keyFile.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        Boolean value = (Boolean) newValue;
-                        if (!value) {
-                            App.getFileHistory().deleteAllKeys();
-                        }
-                        return true;
+                keyFile.setOnPreferenceChangeListener((preference, newValue) -> {
+                    Boolean value = (Boolean) newValue;
+                    if (!value) {
+                        App.getFileHistory().deleteAllKeys();
                     }
+                    return true;
                 });
 
                 Preference recentHistory = findPreference(getString(R.string.recentfile_key));
-                recentHistory.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        Boolean value = (Boolean) newValue;
-                        if (value == null) {
-                            value = true;
-                        }
-                        if (!value) {
-                            App.getFileHistory().deleteAll();
-                        }
-                        return true;
+                recentHistory.setOnPreferenceChangeListener((preference, newValue) -> {
+                    Boolean value = (Boolean) newValue;
+                    if (value == null) {
+                        value = true;
                     }
+                    if (!value) {
+                        App.getFileHistory().deleteAll();
+                    }
+                    return true;
                 });
 
                 Preference stylePreference = findPreference(getString(R.string.setting_style_key));
-                stylePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                    @Override
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        String styleString = (String) newValue;
-                        Stylish.assignStyle(getActivity(), styleString);
-                        getActivity().recreate();
-                        return true;
-                    }
+                stylePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String styleString = (String) newValue;
+                    Stylish.assignStyle(getActivity(), styleString);
+                    getActivity().recreate();
+                    return true;
                 });
 
                 SwitchPreference fingerprintEnablePreference =
@@ -116,6 +133,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                     fingerprintEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
+                            FragmentManager fragmentManager = getFragmentManager();
+                            assert fragmentManager != null;
                             ((SwitchPreference) preference).setChecked(false);
                             UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                     .show(getFragmentManager(), "unavailableFeatureDialog");
@@ -154,7 +173,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                                                                     Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
-                                                    PrefsUtil.deleteAllValuesFromNoBackupPreferences(getContext());
+                                                    PreferencesUtil.deleteAllValuesFromNoBackupPreferences(getContext());
                                                 }
                                             })
                                     .setNegativeButton(
@@ -165,6 +184,65 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                                                                     int which) {
                                                 }
                                             }).show();
+                            return false;
+                        }
+                    });
+                }
+                break;
+
+            case NESTED_SCREEN_FORM_FILLING_KEY:
+                setPreferencesFromResource(R.xml.form_filling_preferences, rootKey);
+
+                SwitchPreference autoFillEnablePreference =
+                        (SwitchPreference) findPreference(getString(R.string.settings_autofill_enable_key));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    AutofillManager autofillManager = getActivity().getSystemService(AutofillManager.class);
+                    if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
+                        autoFillEnablePreference.setChecked(autofillManager.hasEnabledAutofillServices());
+                    autoFillEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            if (((SwitchPreference) preference).isChecked()) {
+                                startEnableService();
+                            } else {
+                                disableService();
+                            }
+                            return false;
+                        }
+
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        private void disableService() {
+                            if (autofillManager != null && autofillManager.hasEnabledAutofillServices()) {
+                                autofillManager.disableAutofillServices();
+                            } else {
+                                Log.d(getClass().getName(), "Sample service already disabled.");
+                            }
+                        }
+
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        private void startEnableService() {
+                            if (autofillManager != null && !autofillManager.hasEnabledAutofillServices()) {
+                                Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                                intent.setData(Uri.parse("package:com.example.android.autofill.service"));
+                                Log.d(getClass().getName(), "enableService(): intent="+ intent);
+                                startActivityForResult(intent, REQUEST_CODE_AUTOFILL);
+                            } else {
+                                Log.d(getClass().getName(), "Sample service already enabled.");
+                            }
+                        }
+                    });
+                } else {
+                    autoFillEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                                ((SwitchPreference) preference).setChecked(false);
+                                FragmentManager fragmentManager = getFragmentManager();
+                                assert fragmentManager != null;
+                                UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
+                                        .show(fragmentManager, "unavailableFeatureDialog");
+                            }
                             return false;
                         }
                     });
@@ -204,8 +282,6 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
                 }
-
-
 
                 break;
 
@@ -247,10 +323,19 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat {
         switch (key) {
             case NESTED_SCREEN_APP_KEY:
                 return resources.getString(R.string.menu_app_settings);
+            case NESTED_SCREEN_FORM_FILLING_KEY:
+                return resources.getString(R.string.menu_form_filling_settings);
             case NESTED_SCREEN_DB_KEY:
                 return resources.getString(R.string.menu_db_settings);
             default:
                 return resources.getString(R.string.settings);
         }
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        // TODO encapsulate
+
+        return false;
     }
 }

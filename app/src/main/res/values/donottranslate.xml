@@ -59,6 +59,8 @@
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
+    <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
+    <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
     <string name="full_file_path_enable_key" translatable="true">full_file_path_enable_key</string>
     <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>
     <string name="recycle_bin_key" translatable="true">recycle_bin_key</string>
@@ -72,6 +74,7 @@
     <bool name="clipboard_notifications_default" translatable="false">true</bool>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
     <bool name="fingerprint_enable_default" translatable="true">false</bool>
+    <bool name="settings_autofill_enable_default" translatable="false">false</bool>
     <bool name="full_file_path_enable_default" translatable="true">false</bool>
     <bool name="sort_group_before_default" translatable="true">true</bool>
     <bool name="sort_ascending_default" translatable="true">true</bool>

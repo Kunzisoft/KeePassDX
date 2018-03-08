@@ -29,14 +29,12 @@ public class KeePass extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		startFileSelect();
+		startFileSelectActivity();
 	}
 
-	private void startFileSelect() {
-		Intent intent = new Intent(this, FileSelectActivity.class);
-        // only to avoid visible  flickering when redirecting
-		startActivityForResult(intent, 0);
-	}
+	protected void startFileSelectActivity() {
+        FileSelectActivity.launch(this);
+    }
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

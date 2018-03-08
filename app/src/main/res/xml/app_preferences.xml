@@ -33,11 +33,6 @@
             android:defaultValue="@bool/saf_default"
             android:title="@string/use_saf_title"
             android:key="@string/saf_key"/>
-        <android.support.v14.preference.SwitchPreference
-            android:key="@string/clipboard_notifications_key"
-            android:title="@string/clipboard_notifications_title"
-            android:defaultValue="@bool/clipboard_notifications_default"
-            android:summary="@string/clipboard_notifications_summary" />
 
     </android.support.v7.preference.PreferenceCategory>
 

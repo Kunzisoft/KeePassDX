@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.keepassdroid.app.App;
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.timeout.TimeoutHelper;
 
@@ -40,7 +40,7 @@ public abstract class LockingActivity extends StylishActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (PrefsUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
+        if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
             screenReceiver = new ScreenReceiver();
             registerReceiver(screenReceiver, new IntentFilter((Intent.ACTION_SCREEN_OFF)));
         } else
@@ -76,7 +76,7 @@ public abstract class LockingActivity extends StylishActivity {
 
             if(intent.getAction() != null) {
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-                    if (PrefsUtil.isLockDatabaseWhenScreenShutOffEnable(LockingActivity.this)) {
+                    if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(LockingActivity.this)) {
                         App.setShutdown();
                         TimeoutHelper.checkShutdown(LockingActivity.this);
                     }

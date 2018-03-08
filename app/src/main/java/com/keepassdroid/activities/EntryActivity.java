@@ -56,8 +56,8 @@ import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.password.PasswordActivity;
-import com.keepassdroid.settings.PrefsUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
@@ -72,7 +72,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import static com.keepassdroid.settings.PrefsUtil.isClipboardNotificationsEnable;
+import static com.keepassdroid.settings.PreferencesUtil.isClipboardNotificationsEnable;
 
 public class EntryActivity extends LockingHideActivity {
 	public static final String KEY_ENTRY = "entry";
@@ -118,7 +118,7 @@ public class EntryActivity extends LockingHideActivity {
 		}
 		readOnly = db.readOnly;
 
-        mShowPassword = !PrefsUtil.isPasswordMask(this);
+        mShowPassword = !PreferencesUtil.isPasswordMask(this);
 
 		// Get Entry from UUID
 		Intent i = getIntent();
@@ -140,7 +140,7 @@ public class EntryActivity extends LockingHideActivity {
         titleIconView = (ImageView) findViewById(R.id.entry_icon);
         titleView = (TextView) findViewById(R.id.entry_title);
         entryContentsView = (EntryContentsView) findViewById(R.id.entry_contents);
-        entryContentsView.applyFontVisibilityToFields(PrefsUtil.fieldFontIsInVisibility(this));
+        entryContentsView.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this));
 
 		fillData();
 
@@ -425,9 +425,12 @@ public class EntryActivity extends LockingHideActivity {
     @Override
     public void finish() {
         // Transit data in previous Activity after an update
+		/*
+		TODO Slowdown when add entry as result
         Intent intent = new Intent();
         intent.putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry);
         setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
+        */
         super.finish();
     }
 

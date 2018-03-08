@@ -35,7 +35,7 @@ import android.view.ViewGroup;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.database.SortNodeEnum;
 import com.kunzisoft.keepass.R;
 
@@ -62,10 +62,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public NodeAdapter(final Context context) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-        this.textSize = PrefsUtil.getListTextSize(context);
-        this.listSort = PrefsUtil.getListSort(context);
-        this.groupsBeforeSort = PrefsUtil.getGroupsBeforeSort(context);
-        this.ascendingSort = PrefsUtil.getAscendingSort(context);
+        this.textSize = PreferencesUtil.getListTextSize(context);
+        this.listSort = PreferencesUtil.getListSort(context);
+        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
+        this.ascendingSort = PreferencesUtil.getAscendingSort(context);
         this.activateContextMenu = false;
         this.nodePositionToUpdate = -1;
 

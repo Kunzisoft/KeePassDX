@@ -48,7 +48,7 @@ import com.keepassdroid.database.edit.AfterAddNodeOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
 import com.keepassdroid.fragments.SortDialogFragment;
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.database.SortNodeEnum;
@@ -193,9 +193,9 @@ public abstract class ListNodesActivity extends LockingActivity
                 */
                     sortDialogFragment =
                             SortDialogFragment.getInstance(
-                                    PrefsUtil.getListSort(this),
-                                    PrefsUtil.getAscendingSort(this),
-                                    PrefsUtil.getGroupsBeforeSort(this));
+                                    PreferencesUtil.getListSort(this),
+                                    PreferencesUtil.getAscendingSort(this),
+                                    PreferencesUtil.getGroupsBeforeSort(this));
                 //}
 
                 sortDialogFragment.show(getSupportFragmentManager(), "sortDialog");

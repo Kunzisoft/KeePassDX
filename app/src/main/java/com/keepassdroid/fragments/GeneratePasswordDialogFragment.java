@@ -36,7 +36,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.keepassdroid.password.PasswordGenerator;
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.kunzisoft.keepass.R;
 
 import java.util.Set;
@@ -102,7 +102,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        seekBar.setProgress(PrefsUtil.getDefaultPasswordLength(getContext().getApplicationContext()));
+        seekBar.setProgress(PreferencesUtil.getDefaultPasswordLength(getContext().getApplicationContext()));
 
         Button genPassButton = (Button) root.findViewById(R.id.generate_password_button);
         genPassButton.setOnClickListener(new OnClickListener() {
@@ -149,7 +149,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         bracketsBox.setChecked(false);
 
         Set<String> defaultPasswordChars =
-                PrefsUtil.getDefaultPasswordCharacters(getContext().getApplicationContext());
+                PreferencesUtil.getDefaultPasswordCharacters(getContext().getApplicationContext());
         for(String passwordChar : defaultPasswordChars) {
             if (passwordChar.equals(getString(R.string.value_password_uppercase))) {
                 uppercaseBox.setChecked(true);

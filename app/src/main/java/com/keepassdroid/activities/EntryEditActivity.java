@@ -53,7 +53,7 @@ import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.fragments.GeneratePasswordDialogFragment;
 import com.keepassdroid.fragments.IconPickerDialogFragment;
 import com.keepassdroid.icons.Icons;
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
@@ -337,7 +337,7 @@ public class EntryEditActivity extends LockingHideActivity
 		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 
-		boolean visibilityFont = PrefsUtil.fieldFontIsInVisibility(this);
+		boolean visibilityFont = PreferencesUtil.fieldFontIsInVisibility(this);
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());

@@ -21,6 +21,7 @@ package com.keepassdroid.password;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.assist.AssistStructure;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -53,6 +54,7 @@ import android.widget.Toast;
 import com.keepassdroid.activities.GroupActivity;
 import com.keepassdroid.activities.LockingActivity;
 import com.keepassdroid.app.App;
+import com.keepassdroid.autofill.AutofillHelper;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.keepassdroid.compat.ClipDataCompat;
 import com.keepassdroid.compat.EditorCompat;
@@ -62,7 +64,7 @@ import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 import com.keepassdroid.fingerprint.FingerPrintAnimatedVector;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
@@ -123,6 +125,8 @@ public class PasswordActivity extends LockingActivity
 
     private KeyFileHelper keyFileHelper;
 
+    private AutofillHelper autofillHelper;
+
     public static void launch(
             Activity act,
             String fileName) throws FileNotFoundException {
@@ -133,6 +137,43 @@ public class PasswordActivity extends LockingActivity
             Activity act,
             String fileName,
             String keyFile) throws FileNotFoundException {
+        verifyFileNameUriFromLaunch(fileName);
+
+        Intent intent = new Intent(act, PasswordActivity.class);
+        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
+        // only to avoid visible  flickering when redirecting
+        act.startActivityForResult(intent, 0);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void launch(
+            Activity act,
+            String fileName,
+            AssistStructure assistStructure) throws FileNotFoundException {
+        launch(act, fileName, "", assistStructure);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void launch(
+            Activity act,
+            String fileName,
+            String keyFile,
+            AssistStructure assistStructure) throws FileNotFoundException {
+        verifyFileNameUriFromLaunch(fileName);
+
+        if ( assistStructure != null ) {
+            Intent intent = new Intent(act, PasswordActivity.class);
+            intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+            intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
+            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+        } else {
+            launch(act, fileName, keyFile);
+        }
+    }
+
+    private static void verifyFileNameUriFromLaunch(String fileName) throws FileNotFoundException {
         if (EmptyUtils.isNullOrEmpty(fileName)) {
             throw new FileNotFoundException();
         }
@@ -147,12 +188,6 @@ public class PasswordActivity extends LockingActivity
                 throw new FileNotFoundException();
             }
         }
-
-        Intent intent = new Intent(act, PasswordActivity.class);
-        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
-        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
-        // only to avoid visible  flickering when redirecting
-        act.startActivityForResult(intent, 0);
     }
 
     @Override
@@ -161,6 +196,11 @@ public class PasswordActivity extends LockingActivity
             int resultCode,
             Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+        }
+        // TODO Tests
 
         boolean stopResult = false;
         if (keyFileHelper != null) {
@@ -191,7 +231,7 @@ public class PasswordActivity extends LockingActivity
         super.onCreate(savedInstanceState);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefsNoBackup = PrefsUtil.getNoBackupSharedPreferences(getApplicationContext());
+        prefsNoBackup = PreferencesUtil.getNoBackupSharedPreferences(getApplicationContext());
 
         mRememberKeyfile = prefs.getBoolean(getString(R.string.keyfile_key),
                 getResources().getBoolean(R.bool.keyfile_default));
@@ -252,8 +292,12 @@ public class PasswordActivity extends LockingActivity
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                             (ImageView) findViewById(R.id.fingerprint_image));
         }
-    }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            autofillHelper = new AutofillHelper();
+            autofillHelper.retrieveAssistStructure(getIntent());
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -292,7 +336,7 @@ public class PasswordActivity extends LockingActivity
         // Define title
         String dbUriString = (mDbUri == null) ? "" : mDbUri.toString();
         if (!dbUriString.isEmpty()) {
-            if (PrefsUtil.isFullFilePathEnable(this))
+            if (PreferencesUtil.isFullFilePathEnable(this))
                 filenameView.setText(dbUriString);
             else
                 filenameView.setText(new File(mDbUri.getPath()).getName()); // TODO Encapsulate
@@ -525,7 +569,7 @@ public class PasswordActivity extends LockingActivity
     private synchronized void checkFingerprintAvailability() {
         // fingerprint not supported (by API level or hardware) so keep option hidden
         // or manually disable
-        if (!PrefsUtil.isFingerprintEnable(getApplicationContext())
+        if (!PreferencesUtil .isFingerprintEnable(getApplicationContext())
                 || !FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
             setFingerPrintVisibility(View.GONE);
         }
@@ -695,7 +739,9 @@ public class PasswordActivity extends LockingActivity
         App.clearShutdown();
 
         Handler handler = new Handler();
-        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, new AfterLoad(handler, db));
+        AfterLoad afterLoad = new AfterLoad(handler, db);
+
+        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, afterLoad);
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
         pt.run();
     }
@@ -745,7 +791,7 @@ public class PasswordActivity extends LockingActivity
      */
     private final class AfterLoad extends OnFinish {
 
-        private Database db;
+        protected Database db;
 
         AfterLoad(
                 Handler handler,
@@ -775,15 +821,28 @@ public class PasswordActivity extends LockingActivity
                     public void onClick(
                             DialogInterface dialog,
                             int which) {
-                        GroupActivity.launch(PasswordActivity.this);
+                        launchGroupActivity();
                     }
 
                 });
             } else if (mSuccess) {
-                GroupActivity.launch(PasswordActivity.this);
+                launchGroupActivity();
             } else {
                 displayMessage(PasswordActivity.this);
             }
+        }
+    }
+
+    private void launchGroupActivity() {
+        AssistStructure assistStructure = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            assistStructure = autofillHelper.getAssistStructure();
+            if (assistStructure != null) {
+                GroupActivity.launch(PasswordActivity.this, assistStructure);
+            }
+        }
+        if (assistStructure == null) {
+            GroupActivity.launch(PasswordActivity.this);
         }
     }
 

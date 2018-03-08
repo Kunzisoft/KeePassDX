@@ -133,6 +133,7 @@
     <string name="menu_create">Create</string>
     <string name="settings">Settings</string>
     <string name="menu_app_settings">Application settings</string>
+    <string name="menu_form_filling_settings">Form filling</string>
     <string name="menu_db_settings">Database settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
@@ -218,10 +219,17 @@
     <string name="history">History</string>
     <string name="appearance">Appearance</string>
     <string name="general">General</string>
+    <string name="autofill">Autofill</string>
+    <string name="autofill_service_name">KeePass DX Autofill Service</string>
+    <string name="autofill_sign_in_prompt">Sign in with KeePass DX</string>
+    <string name="set_autofill_service_title">Set default Autofill service</string>
+    <string name="set_autofill_service_summary">Enable the service to easily fill out forms from other applications</string>
+    <string name="invalid_link_association">Could not associate web domain %1$s with app %2$s</string>
     <string name="password_size_title">Password size</string>
     <string name="password_size_summary">Set the default size of the generated password</string>
     <string name="list_password_generator_options_title">Password characters</string>
     <string name="list_password_generator_options_summary">Set the default password generator characters</string>
+    <string name="notifications">Notifications</string>
     <string name="clipboard_notifications_title">Clipboard Notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy username and password</string>
     <string name="lock">Lock</string>

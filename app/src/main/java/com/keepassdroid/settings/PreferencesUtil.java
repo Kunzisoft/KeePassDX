@@ -30,13 +30,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PrefsUtil {
+public class PreferencesUtil {
 
     private static final String NO_BACKUP_PREFERENCE_FILE_NAME = "nobackup";
 
     public static SharedPreferences getNoBackupSharedPreferences(Context ctx) {
         return ctx.getSharedPreferences(
-                PrefsUtil.NO_BACKUP_PREFERENCE_FILE_NAME,
+                PreferencesUtil.NO_BACKUP_PREFERENCE_FILE_NAME,
                 Context.MODE_PRIVATE);
     }
 
