@@ -34,16 +34,11 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         Preference preference = findPreference(getString(R.string.app_key));
         preference.setOnPreferenceClickListener(this);
 
-        Preference preferenceAutofill = findPreference(getString(R.string.settings_form_filling_key));
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            preferenceAutofill.setEnabled(false);
-        } else {
-            preferenceAutofill.setOnPreferenceClickListener(this);
-        }
+        preference = findPreference(getString(R.string.settings_form_filling_key));
+        preference.setOnPreferenceClickListener(this);
 
         preference = findPreference(getString(R.string.db_key));
         preference.setOnPreferenceClickListener(this);
-
         Database db = App.getDB();
         if (!(db.Loaded())) {
             preference.setEnabled(false);

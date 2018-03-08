@@ -29,6 +29,7 @@ import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
@@ -132,6 +133,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     fingerprintEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
+                            FragmentManager fragmentManager = getFragmentManager();
+                            assert fragmentManager != null;
                             ((SwitchPreference) preference).setChecked(false);
                             UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                     .show(getFragmentManager(), "unavailableFeatureDialog");
@@ -190,9 +193,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             case NESTED_SCREEN_FORM_FILLING_KEY:
                 setPreferencesFromResource(R.xml.form_filling_preferences, rootKey);
 
+                SwitchPreference autoFillEnablePreference =
+                        (SwitchPreference) findPreference(getString(R.string.settings_autofill_enable_key));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    SwitchPreference autoFillEnablePreference =
-                            (SwitchPreference) findPreference(getString(R.string.settings_autofill_enable_key));
                     AutofillManager autofillManager = getActivity().getSystemService(AutofillManager.class);
                     if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
                         autoFillEnablePreference.setChecked(autofillManager.hasEnabledAutofillServices());
@@ -227,6 +230,20 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                             } else {
                                 Log.d(getClass().getName(), "Sample service already enabled.");
                             }
+                        }
+                    });
+                } else {
+                    autoFillEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                                ((SwitchPreference) preference).setChecked(false);
+                                FragmentManager fragmentManager = getFragmentManager();
+                                assert fragmentManager != null;
+                                UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
+                                        .show(fragmentManager, "unavailableFeatureDialog");
+                            }
+                            return false;
                         }
                     });
                 }
