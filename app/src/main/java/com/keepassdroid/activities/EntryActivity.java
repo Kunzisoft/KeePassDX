@@ -425,9 +425,12 @@ public class EntryActivity extends LockingHideActivity {
     @Override
     public void finish() {
         // Transit data in previous Activity after an update
+		/*
+		TODO Slowdown when add entry as result
         Intent intent = new Intent();
         intent.putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry);
         setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
+        */
         super.finish();
     }
 
