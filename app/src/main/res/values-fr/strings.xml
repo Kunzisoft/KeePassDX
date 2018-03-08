@@ -34,7 +34,7 @@
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
-    <string name="menu_form_filling_settings">Préférences de remplissage de formulaire</string>
+    <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>

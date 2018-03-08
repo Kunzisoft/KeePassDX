@@ -133,7 +133,7 @@
     <string name="menu_create">Create</string>
     <string name="settings">Settings</string>
     <string name="menu_app_settings">Application settings</string>
-    <string name="menu_form_filling_settings">Form filling settings</string>
+    <string name="menu_form_filling_settings">Form filling</string>
     <string name="menu_db_settings">Database settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
