@@ -126,8 +126,6 @@
     <string name="maskpass_summary">Скрыть пароли маской *****</string>
     <string name="menu_about">Сведения</string>
     <string name="menu_change_key">Пароль базы</string>
-    <string name="menu_copy_pass">Пароль в буфер</string>
-    <string name="menu_copy_user">Логин в буфер</string>
     <string name="menu_create">Создать</string>
     <string name="settings">Настройки</string>
     <string name="menu_db_settings">Настройки базы KeePass</string>

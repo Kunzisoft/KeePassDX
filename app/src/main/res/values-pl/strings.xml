@@ -112,8 +112,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="maskpass_summary">Domyślnie ukrywa hasło</string>
     <string name="menu_about">O programie</string>
     <string name="menu_change_key">Zmień klucz główny</string>
-    <string name="menu_copy_pass">Kopiuj hasło</string>
-    <string name="menu_copy_user">Kopiuj nazwę użytkownika</string>
     <string name="menu_create">Utwórz</string>
     <string name="settings">Ustawienia</string>
     <string name="menu_db_settings">Ustawienia bazy danych</string>

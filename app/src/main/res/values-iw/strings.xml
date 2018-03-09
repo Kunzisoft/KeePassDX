@@ -122,8 +122,6 @@
   <string name="maskpass_summary">הסתר סיסמאות כברירת מחדל</string>
   <string name="menu_about">אודות</string>
   <string name="menu_change_key">שנה מפתח ראשי</string>
-  <string name="menu_copy_pass">העתק סיסמה</string>
-  <string name="menu_copy_user">העתק שם משתמש</string>
   <string name="menu_create">צור</string>
   <string name="settings">העדפות</string>
   <string name="menu_db_settings">הגדרות מסד נתונים</string>

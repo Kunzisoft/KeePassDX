@@ -106,8 +106,6 @@
     <string name="maskpass_summary">Sēpt paroles *****</string>
     <string name="menu_about">Par</string>
     <string name="menu_change_key">Mainīt galveno paroli</string>
-    <string name="menu_copy_pass">Kopēt paroli</string>
-    <string name="menu_copy_user">Kopēt lietotājvārdu</string>
     <string name="menu_create">Izveidot</string>
     <string name="settings">Iestatījumi</string>
     <string name="menu_db_settings">Datu bāzes iestatījumi</string>

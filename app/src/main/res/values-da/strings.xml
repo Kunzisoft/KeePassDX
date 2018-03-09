@@ -128,8 +128,6 @@
     <string name="maskpass_summary">Skjul adgangskoder som standard</string>
     <string name="menu_about">Om</string>
     <string name="menu_change_key">Skift master-adgangskode</string>
-    <string name="menu_copy_pass">Kopier adgangskode</string>
-    <string name="menu_copy_user">Kopier brugernavn</string>
     <string name="menu_create">Opret</string>
     <string name="settings">Indstillinger</string>
     <string name="menu_db_settings">Database indstillinger</string>

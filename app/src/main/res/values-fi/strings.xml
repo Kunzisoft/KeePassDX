@@ -126,8 +126,6 @@
     <string name="maskpass_summary">Piilota salasanat oletuksena</string>
     <string name="menu_about">Tietoa</string>
     <string name="menu_change_key">Vaihda pääsalasanaa</string>
-    <string name="menu_copy_pass">Kopioi salasana</string>
-    <string name="menu_copy_user">Kopioi käyttäjänimi</string>
     <string name="menu_create">Luo</string>
     <string name="settings">Asetukset</string>
     <string name="menu_db_settings">Salasanatietokannan asetukset</string>

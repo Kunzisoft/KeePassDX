@@ -117,8 +117,6 @@
     <string name="maskpass_summary">Nascondi le password in modo predefinito</string>
     <string name="menu_about">Info</string>
     <string name="menu_change_key">Modifica chiave Principale</string>
-    <string name="menu_copy_pass">Copia Password</string>
-    <string name="menu_copy_user">Copia Utente</string>
     <string name="menu_create">Crea</string>
     <string name="settings">Impostazioni</string>
     <string name="menu_db_settings">Impostazioni Database</string>

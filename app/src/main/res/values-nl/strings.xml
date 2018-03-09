@@ -116,8 +116,6 @@
     <string name="maskpass_summary">Verberg wachtwoorden standaardmatig</string>
     <string name="menu_about">Over</string>
     <string name="menu_change_key">Wijzig hoofdsleutel</string>
-    <string name="menu_copy_pass">Kopieer wachtwoord</string>
-    <string name="menu_copy_user">Kopieer gebruikersnaam</string>
     <string name="menu_create">Aanmaken</string>
     <string name="settings">Instellingen</string>
     <string name="menu_db_settings">Database-instellingen</string>
