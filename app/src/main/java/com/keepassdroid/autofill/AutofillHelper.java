@@ -37,7 +37,8 @@ import android.widget.RemoteViews;
 import com.keepassdroid.database.PwEntry;
 import com.kunzisoft.keepass.R;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -89,9 +90,9 @@ public class AutofillHelper {
         }
         if (entry.getUsername() != null) {
             AutofillValue value = AutofillValue.forText(entry.getUsername());
-            Stream<AutofillId> ids = struct.username.stream();
+            List<AutofillId> ids = new ArrayList<>(struct.username);
             if (entry.getUsername().contains("@") || struct.username.isEmpty())
-                ids = Stream.concat(ids, struct.email.stream());
+                ids.addAll(struct.email);
             ids.forEach(id -> builder.setValue(id, value));
         }
         try {

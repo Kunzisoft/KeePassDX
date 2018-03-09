@@ -10,6 +10,7 @@ android {
         targetSdkVersion 27
         versionCode = 5
         versionName = "2.5.0.0beta5"
+        multiDexEnabled true
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"

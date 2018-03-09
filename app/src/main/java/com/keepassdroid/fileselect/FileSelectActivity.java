@@ -40,7 +40,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.autofill.AutofillManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -256,6 +255,8 @@ public class FileSelectActivity extends StylishActivity implements
 			if (assistStructure == null) {
                 PasswordActivity.launch(FileSelectActivity.this, path);
             }
+            // Delete flickering for kitkat <
+            overridePendingTransition(0, 0);
         } catch (Exception e) {
             // Ignore exception
         }

@@ -39,8 +39,8 @@ public class AutoFillAuthActivity extends KeePass {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         autofillHelper = new AutofillHelper();
+        super.onCreate(savedInstanceState);
     }
 
     public static IntentSender getAuthIntentSenderForResponse(Context context) {

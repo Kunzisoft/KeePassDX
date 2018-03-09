@@ -19,16 +19,16 @@
  */
 package com.keepassdroid.app;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
-import com.keepassdroid.database.Database;
 import com.keepassdroid.compat.PRNGFixes;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.fileselect.RecentFileHistory;
 import com.keepassdroid.stylish.Stylish;
 
 import java.util.Calendar;
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 	private static Database db = null;
 	private static boolean shutdown = false;
 	private static Calendar calendar = null;
