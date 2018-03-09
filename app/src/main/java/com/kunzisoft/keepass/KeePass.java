@@ -21,6 +21,7 @@ package com.kunzisoft.keepass;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -32,6 +33,9 @@ public class KeePass extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         startFileSelectActivity();
+        // Delete flickering for kitkat <=
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            overridePendingTransition(0, 0);
     }
 
 	protected void startFileSelectActivity() {
