@@ -256,8 +256,6 @@ public class FileSelectActivity extends StylishActivity implements
 			if (assistStructure == null) {
                 PasswordActivity.launch(FileSelectActivity.this, path);
             }
-            // Delete flickering for kitkat <
-            overridePendingTransition(0, 0);
         } catch (Exception e) {
             // Ignore exception
         }

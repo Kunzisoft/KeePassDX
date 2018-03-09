@@ -32,8 +32,6 @@ public class KeePass extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         startFileSelectActivity();
-        // Delete flickering for kitkat <
-        overridePendingTransition(0, 0);
     }
 
 	protected void startFileSelectActivity() {
