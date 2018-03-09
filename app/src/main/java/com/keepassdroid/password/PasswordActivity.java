@@ -52,7 +52,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.activities.GroupActivity;
-import com.keepassdroid.activities.LockingActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.autofill.AutofillHelper;
 import com.keepassdroid.compat.BackupManagerCompat;
@@ -65,6 +64,7 @@ import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
 import com.keepassdroid.fingerprint.FingerPrintAnimatedVector;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
 import com.keepassdroid.settings.PreferencesUtil;
+import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
@@ -88,7 +88,7 @@ import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.OPEN_MODE;
 import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.STORE_MODE;
 
 @RuntimePermissions
-public class PasswordActivity extends LockingActivity
+public class PasswordActivity extends StylishActivity
         implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
 
     public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
