@@ -202,20 +202,20 @@ public class PasswordActivity extends LockingActivity
         }
         // TODO Tests
 
-        boolean stopResult = false;
+        boolean keyFileResult = false;
         if (keyFileHelper != null) {
-            stopResult = keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
+            keyFileResult = keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
                     new KeyFileHelper.KeyFileCallback() {
                         @Override
                         public void onKeyFileResultCallback(Uri uri) {
                             if (uri != null) {
-                                keyFileView.setText(uri.toString());
+                                populateKeyFileTextView(uri.toString());
                             }
                         }
                     });
         }
-
-        if (!stopResult) {
+        if (!keyFileResult) {
+            // this block if not a key file response
             switch (resultCode) {
                 case RESULT_EXIT_LOCK:
                 case Activity.RESULT_CANCELED:
@@ -266,7 +266,8 @@ public class PasswordActivity extends LockingActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
-                checkboxPasswordView.setChecked(true);
+                if (!editable.toString().isEmpty() && !checkboxKeyfileView.isChecked())
+                    checkboxPasswordView.setChecked(true);
             }
         });
         keyFileView.addTextChangedListener(new TextWatcher() {
@@ -278,7 +279,8 @@ public class PasswordActivity extends LockingActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
-                checkboxKeyfileView.setChecked(true);
+                if (!editable.toString().isEmpty() && !checkboxKeyfileView.isChecked())
+                    checkboxKeyfileView.setChecked(true);
             }
         });
 
@@ -345,7 +347,7 @@ public class PasswordActivity extends LockingActivity
         // Define Key File text
         String keyUriString = (keyFileUri == null) ? "" : keyFileUri.toString();
         if (!keyUriString.isEmpty() && mRememberKeyfile) { // Bug KeepassDX #18
-            keyFileView.setText(keyUriString);
+            populateKeyFileTextView(keyUriString);
         }
 
         // Define listeners for default database checkbox and validate button
@@ -372,9 +374,8 @@ public class PasswordActivity extends LockingActivity
         Intent intent = getIntent();
         String password = intent.getStringExtra(KEY_PASSWORD);
         boolean launch_immediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false);
-
         if (password != null) {
-            passwordView.setText(password);
+            populatePasswordTextView(password);
         }
         if (launch_immediately) {
             verifyCheckboxesAndLoadDatabase(password, keyFileUri);
@@ -382,12 +383,34 @@ public class PasswordActivity extends LockingActivity
     }
 
     private void setEmptyViews() {
-        passwordView.setText("");
-        checkboxPasswordView.setChecked(false);
+        populatePasswordTextView(null);
         // Bug KeepassDX #18
         if (!mRememberKeyfile) {
+            populateKeyFileTextView(null);
+        }
+    }
+
+    private void populatePasswordTextView(String text) {
+        if (text == null || text.isEmpty()) {
+            passwordView.setText("");
+            if (checkboxPasswordView.isChecked())
+                checkboxPasswordView.setChecked(false);
+        } else {
+            passwordView.setText(text);
+            if (!checkboxPasswordView.isChecked())
+                checkboxPasswordView.setChecked(true);
+        }
+    }
+
+    private void populateKeyFileTextView(String text) {
+        if (text == null || text.isEmpty()) {
             keyFileView.setText("");
-            checkboxKeyfileView.setChecked(false);
+            if (checkboxKeyfileView.isChecked())
+                checkboxKeyfileView.setChecked(false);
+        } else {
+            keyFileView.setText(text);
+            if (!checkboxKeyfileView.isChecked())
+                checkboxKeyfileView.setChecked(true);
         }
     }
 

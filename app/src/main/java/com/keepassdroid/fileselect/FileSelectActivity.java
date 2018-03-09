@@ -84,12 +84,13 @@ public class FileSelectActivity extends StylishActivity implements
 
     private static final String TAG = "FileSelectActivity";
 
+    private static final String EXTRA_STAY = "EXTRA_STAY";
+
     private FileSelectAdapter mAdapter;
 	private View fileListTitle;
 
 	private RecentFileHistory fileHistory;
 
-	private boolean recentMode = false;
 	// TODO Consultation Mode
 	private boolean consultationMode = false;
     private AutofillHelper autofillHelper;
@@ -132,9 +133,6 @@ public class FileSelectActivity extends StylishActivity implements
 
         setContentView(R.layout.file_selection);
         fileListTitle = findViewById(R.id.file_list_title);
-		if (fileHistory.hasRecentFiles()) {
-			recentMode = true;
-		}
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
@@ -216,29 +214,32 @@ public class FileSelectActivity extends StylishActivity implements
 		mAdapter.setFileInformationShowListener(this);
 		mListFiles.setAdapter(mAdapter);
 
-		// Load default database
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "");
+		// Load default database if not an orientation change
+        if (! (savedInstanceState != null
+                && savedInstanceState.containsKey(EXTRA_STAY)
+                && savedInstanceState.getBoolean(EXTRA_STAY, false)) ) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "");
 
-		if (fileName.length() > 0) {
-			Uri dbUri = UriUtil.parseDefaultFile(fileName);
-            String scheme = null;
-			if (dbUri!=null)
-			    scheme = dbUri.getScheme();
+            if (fileName.length() > 0) {
+                Uri dbUri = UriUtil.parseDefaultFile(fileName);
+                String scheme = null;
+                if (dbUri != null)
+                    scheme = dbUri.getScheme();
 
-			if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
-				String path = dbUri.getPath();
-				File db = new File(path);
+                if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
+                    String path = dbUri.getPath();
+                    File db = new File(path);
 
-				if (db.exists()) {
-                    launchPasswordActivityWithPath(path);
-				}
-			}
-			else {
-			    if (dbUri != null)
-                    launchPasswordActivityWithPath(dbUri.toString());
-			}
-		}
+                    if (db.exists()) {
+                        launchPasswordActivityWithPath(path);
+                    }
+                } else {
+                    if (dbUri != null)
+                        launchPasswordActivityWithPath(dbUri.toString());
+                }
+            }
+        }
 	}
 
 	private void launchPasswordActivityWithPath(String path) {
@@ -266,17 +267,16 @@ public class FileSelectActivity extends StylishActivity implements
     protected void onResume() {
         super.onResume();
 
-        // Check to see if we need to change modes
-        if ( fileHistory.hasRecentFiles() != recentMode ) {
-            // Restart the activity
-            Intent intent = getIntent();
-            startActivity(intent);
-            finish();
-        }
-
         fileNameView.updateExternalStorageWarning();
         updateTitleFileListView();
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // only to keep the current activity
+        outState.putBoolean(EXTRA_STAY, true);
     }
 
     @Override
