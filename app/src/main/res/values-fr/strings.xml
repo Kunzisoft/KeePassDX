@@ -34,12 +34,14 @@
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
+    <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="building_search_idx">Reconstruction de l\'index de recherche…</string>
     <string name="cancel">Annuler</string>
+    <string name="allow">Permettre</string>
     <string name="ClearClipboard">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
     <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez :</string>
@@ -56,9 +58,8 @@
     <string name="decrypting_entry">Déchiffrement de l\'entrée</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Nombres</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Sélectionnez la base de données :</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données :</string>
     <string name="entry_cancel">Annuler</string>
@@ -71,7 +72,7 @@
     <string name="entry_not_found">Entry data not found.</string>
     <string name="entry_password">Mot de passe</string>
     <string name="entry_save">Enregistrer</string>
-    <string name="entry_title">Nom</string>
+    <string name="entry_title">Titre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nom d\'utilisateur</string>
     <string name="error_arc4">Le chiffrement de flux ArcFour n\'est pas supporté.</string>
@@ -130,8 +131,7 @@
     <string name="maskpass_summary">Par défaut, masquer le mot de passe</string>
     <string name="menu_about">À propos</string>
     <string name="menu_change_key">Modifier la clé maître</string>
-    <string name="menu_copy_pass">Copier le mot de passe</string>
-    <string name="menu_copy_user">Copier le nom d\'utilisateur</string>
+    <string name="copy_field">Copie de %1$s</string>
     <string name="menu_create">Créer</string>
     <string name="settings">Préférences</string>
     <string name="menu_db_settings">Préférences de la base de données</string>
@@ -145,13 +145,15 @@
     <string name="menu_rename">Renommer</string>
     <string name="menu_search">Rechercher</string>
     <string name="menu_showpass">Afficher le mot de passe</string>
+    <string name="menu_fingerprint_remove_key">Supprimer la clé de l\'empreinte</string>
     <string name="menu_url">Ouvrir l\'URL</string>
     <string name="minus">Moins</string>
     <string name="never">Jamais</string>
     <string name="no_keys">Aucun élément.</string>
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
-    <string name="open_recent">Bases de données utilisées récemment :</string>
+    <string name="select_database_file">Sélectionner une base de données existante :</string>
+    <string name="open_recent">Ouvrir une base de données récente :</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
     <string name="pass_filename">Fichier de base de données KeePass</string>
@@ -179,8 +181,17 @@
     <string name="space">Espace</string>
     <string name="search_label">Rechercher</string>
     <string name="show_password">Afficher le mot de passe</string>
-    <string name="sort_name">Tri par nom</string>
+    <string name="sort_menu">Trier</string>
+    <string name="sort_ascending">Ascendant</string>
+    <string name="sort_groups_before">Groupes avant</string>
+    <string name="sort_recycle_bin_bottom">Corbeille à la fin</string>
     <string name="sort_db">Tri par défaut (base de données)</string>
+    <string name="sort_title">Tri par Titre</string>
+    <string name="sort_name">Tri par nom</string>
+    <string name="sort_username">Tri par Nom d\'utilisateur</string>
+    <string name="sort_creation_time">Tri par Date de Création</string>
+    <string name="sort_last_modify_time">Tri par Date de Dernière Modification</string>
+    <string name="sort_last_access_time">Tri par Date de Dernier Accès</string>
     <string name="special">Spécial</string>
     <string name="search_hint">Nom/description</string>
     <string name="search_results">Résultats</string>
@@ -208,10 +219,16 @@
     <string name="history">Historique</string>
     <string name="appearance">Apparence</string>
     <string name="general">Générale</string>
+    <string name="autofill">Remplissage automatique</string>
+    <string name="autofill_service_name">Service de saisie KeePass DX</string>
+    <string name="autofill_sign_in_prompt">Se connecter avec KeePass DX</string>
+    <string name="set_autofill_service_title">Définir le service de saisie automatique par défaut</string>
+    <string name="set_autofill_service_summary">Activer le service qui permet de remplir facilement les formulaires depuis d\'autres applications</string>
     <string name="password_size_title">Taille de mot de passe</string>
     <string name="password_size_summary">Définir la taille par défaut du mot de passe généré</string>
     <string name="list_password_generator_options_title">Caractères de mot de passe</string>
     <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
+    <string name="notifications">Notifications</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
     <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier le nom d\'utilisateur et le mot de passe</string>
     <string name="lock_database_screen_off_title">Verrouillage d\'écran</string>
@@ -239,11 +256,21 @@
     <string name="bytes">Octets</string>
     <string name="full_file_path_enable_title">Chemin de fichier</string>
     <string name="full_file_path_enable_summary">Afficher le chemin complet des fichiers</string>
+    <string name="recycle_bin_title">Utiliser la corbeille</string>
+    <string name="recycle_bin_summary">Déplace un groupe ou une entrée dans la Corbeille avant la suppression</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass DX a besoin d\'une permission de stockage externe pour écrire une base de données</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin d\'une permission de stockage externe pour lire une URI non fournie par un Content Provider</string>
+    <string name="permission_external_storage_denied">Permission de stockage externe refusée</string>
+    <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
 
     <string-array name="clipboard_timeout_options">
+    	<item>5 secondes</item>
+    	<item>10 secondes</item>
+    	<item>20 secondes</item>
     	<item>30 secondes</item>
     	<item>1 minute</item>
     	<item>5 minutes</item>
+    	<item>15 minutes</item>
     	<item>Jamais</item>
     </string-array>
     <string-array name="list_size_options">

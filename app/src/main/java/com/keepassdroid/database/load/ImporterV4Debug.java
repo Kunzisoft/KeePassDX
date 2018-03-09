@@ -19,7 +19,7 @@
  */
 package com.keepassdroid.database.load;
 
-import com.keepassdroid.UpdateStatus;
+import com.keepassdroid.tasks.UpdateStatus;
 import com.keepassdroid.database.PwDatabaseV4Debug;
 import com.keepassdroid.database.exception.InvalidDBException;
 

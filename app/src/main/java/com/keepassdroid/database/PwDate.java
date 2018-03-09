@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.database;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,7 +33,7 @@ import com.keepassdroid.utils.Types;
  * @author bpellin
  *
  */
-public class PwDate implements Cloneable {
+public class PwDate implements Cloneable, Serializable {
 	
 	private static final int DATE_SIZE = 5; 
 	

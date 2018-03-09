@@ -48,23 +48,23 @@
     <string name="decrypting_entry">解密条目中</string>
     <string name="default_checkbox">使用这做为我的默认数据库</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin；软件不带有绝对担保；是自由软件，您可在遵循GPL 2或者更高版本的情况下重新发布。中文简繁体翻译：wangkf@gmail.com</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft；软件不带有绝对担保；是自由软件，您可在遵循GPL 2或者更高版本的情况下重新发布。中文简繁体翻译：wangkf@gmail.com</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">输入数据库名：</string>
-    <string name="entry_accessed">访问时间：</string>
+    <string name="select_database_file">输入数据库名：</string>
+    <string name="entry_accessed">访问时间</string>
     <string name="entry_and_or">输入密码和/或一个密钥文件来解锁你的数据库：</string>
     <string name="entry_cancel">取消</string>
-    <string name="entry_comment">备注：</string>
-    <string name="entry_confpassword">确认密码：</string>
-    <string name="entry_created">创建：</string>
-    <string name="entry_expires">失效时间：</string>
+    <string name="entry_comment">备注</string>
+    <string name="entry_confpassword">确认密码</string>
+    <string name="entry_created">创建</string>
+    <string name="entry_expires">失效时间</string>
     <string name="entry_keyfile">密钥文件</string>
-    <string name="entry_modified">修改时间：: </string>
-    <string name="entry_password">密码：</string>
+    <string name="entry_modified">修改时间</string>
+    <string name="entry_password">密码</string>
     <string name="entry_save">保存</string>
-    <string name="entry_title">名称：</string>
-    <string name="entry_url">网址：</string>
-    <string name="entry_user_name">用户名：</string>
+    <string name="entry_title">名称</string>
+    <string name="entry_url">网址</string>
+    <string name="entry_user_name">用户名</string>
     <string name="error_arc4">ArcFour流密码不被支持。</string>
     <string name="error_can_not_handle_uri">KeePass DX无法处理此URI。</string>
     <string name="error_could_not_create_group">创建群组错误。</string>
@@ -163,9 +163,13 @@
     <string name="warning_unmounted">你的SD卡目前尚未安装在您的设备上。你将无法加载或创建您的数据库。</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5秒</item>
+    	<item>10秒</item>
+    	<item>20秒</item>
     	<item>30秒</item>
     	<item>1分钟</item>
     	<item>5分钟</item>
+    	<item>15分钟</item>
     	<item>从不</item>
     </string-array>
     <string-array name="list_size_options">

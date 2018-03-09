@@ -19,8 +19,11 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:importantForAutofill="noExcludeDescendants"
+    tools:targetApi="o">
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -40,7 +43,7 @@
                 android:layout_height="match_parent"
                 app:titleEnabled="false"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
                     android:layout_width="match_parent"
@@ -66,8 +69,6 @@
             android:layout_marginLeft="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="48dp"
-            android:paddingTop="-20dp"
             app:fabSize="mini"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
@@ -98,7 +99,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/file_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
@@ -112,5 +113,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_database_plus_white_24dp"
+        app:useCompatPadding="true"
         style="@style/KeepassDXStyle.Fab"/>
 </RelativeLayout>

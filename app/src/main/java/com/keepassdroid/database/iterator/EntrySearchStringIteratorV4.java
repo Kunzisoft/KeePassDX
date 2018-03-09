@@ -35,14 +35,14 @@ public class EntrySearchStringIteratorV4 extends EntrySearchStringIterator {
 
 	public EntrySearchStringIteratorV4(PwEntryV4 entry) {
 		this.sp = SearchParametersV4.DEFAULT;
-		setIterator = entry.strings.entrySet().iterator();
+		setIterator = entry.getFields().entrySet().iterator();
 		advance();
 		
 	}
 
 	public EntrySearchStringIteratorV4(PwEntryV4 entry, SearchParametersV4 sp) {
 		this.sp = sp;
-		setIterator = entry.strings.entrySet().iterator();
+		setIterator = entry.getFields().entrySet().iterator();
 		advance();
 	}
 

@@ -39,7 +39,7 @@ public class PwGroupIdV3 extends PwGroupId {
 
 	@Override
 	public int hashCode() {
-		Integer i = Integer.valueOf(id);
+		Integer i = id;
 		return i.hashCode();
 	}
 	

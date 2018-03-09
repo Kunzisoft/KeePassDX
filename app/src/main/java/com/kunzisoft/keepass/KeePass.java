@@ -21,43 +21,31 @@ package com.kunzisoft.keepass;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.keepassdroid.fileselect.FileSelectActivity;
 
 public class KeePass extends Activity {
 
-	public static final int EXIT_NORMAL = 0;
-	public static final int EXIT_LOCK = 1;
-	public static final int EXIT_REFRESH = 2;
-	public static final int EXIT_REFRESH_TITLE = 3;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
-		startFileSelect();
-	}
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        startFileSelectActivity();
+        // Delete flickering for kitkat <=
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            overridePendingTransition(0, 0);
+    }
 
-	private void startFileSelect() {
-		Intent intent = new Intent(this, FileSelectActivity.class);
-		startActivityForResult(intent, 0);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
+	protected void startFileSelectActivity() {
+        FileSelectActivity.launch(this);
+    }
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		if (resultCode == EXIT_NORMAL) {
+		if (resultCode == Activity.RESULT_CANCELED) {
 			finish();
 		}
 	}

@@ -55,24 +55,24 @@
     <string name="decrypting_entry">Sarrera desenkriptatzen</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Datubasearen fitxategiaren izena sartu:</string>
-    <string name="entry_accessed">Akzesoa: </string>
+    <string name="select_database_file">Datubasearen fitxategiaren izena sartu:</string>
+    <string name="entry_accessed">Akzesoa</string>
     <string name="entry_and_or">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko:</string>
     <string name="entry_cancel">Utzi</string>
-    <string name="entry_comment">Iruzkinak: </string>
-    <string name="entry_confpassword">Pasahitza berretsi:</string>
-    <string name="entry_created">Sortua: </string>
-    <string name="entry_expires">Iraungitzen da: </string>
+    <string name="entry_comment">Iruzkinak</string>
+    <string name="entry_confpassword">Pasahitza berretsi</string>
+    <string name="entry_created">Sortua</string>
+    <string name="entry_expires">Iraungitzen da</string>
     <string name="entry_keyfile">Gako fitxategia</string>
-    <string name="entry_modified">Aldatua: </string>
+    <string name="entry_modified">Aldatua</string>
     <string name="entry_not_found">Sarreraren datuak ez aurkituak.</string>
-    <string name="entry_password">Pasahitza:</string>
+    <string name="entry_password">Pasahitza</string>
     <string name="entry_save">Gorde</string>
-    <string name="entry_title">Izena: </string>
-    <string name="entry_url">URLa: </string>
-    <string name="entry_user_name">Erabiltzaile izena: </string>
+    <string name="entry_title">Izena</string>
+    <string name="entry_url">URLa</string>
+    <string name="entry_user_name">Erabiltzaile izena</string>
     <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
     <string name="error_can_not_handle_uri">KeePass DX-ek ezin dut uri hau kudeatu.</string>
     <string name="error_could_not_create_group">Errorea taldea sortzerakoan.</string>
@@ -185,9 +185,13 @@
     <string name="version_label">Bertsioa:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 segundu</item>
+    	<item>10 segundu</item>
+    	<item>20 segundu</item>
     	<item>30 segundu</item>
     	<item>minutu 1</item>
     	<item>5 minutu</item>
+    	<item>15 minutu</item>
     	<item>Inoiz ez</item>
     </string-array>
     <string-array name="list_size_options">

@@ -23,7 +23,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.kunzisoft.keepass.KeePass;
+import com.keepassdroid.password.PasswordActivity;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.EditorCompat;
@@ -88,7 +88,7 @@ public class TimeoutHelper {
 
 	public static void checkShutdown(Activity act) {
 		if ( App.isShutdown() && App.getDB().Loaded() ) {
-			act.setResult(KeePass.EXIT_LOCK);
+			act.setResult(PasswordActivity.RESULT_EXIT_LOCK);
 			act.finish();
 		}
 	}

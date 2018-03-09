@@ -51,6 +51,6 @@ public class StorageAF {
         if (!supportsStorageFramework()) { return false; }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return prefs.getBoolean(ctx.getString(R.string.saf_key), ctx.getResources().getBoolean(R.bool.saf_default));
+        return prefs.getBoolean(ctx.getString(R.string.saf_key), ctx.getResources().getBoolean(R.bool.settings_saf_default));
     }
 }

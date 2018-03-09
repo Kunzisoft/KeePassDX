@@ -32,7 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.keepassdroid.settings.PrefsUtil;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.kunzisoft.keepass.R;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     private Context context;
     private LayoutInflater inflater;
     private List<String> listFiles;
-    private View.OnClickListener mOnClickListener;
+    private FileItemOpenListener fileItemOpenListener;
     private FileSelectClearListener fileSelectClearListener;
     private FileInformationShowListener fileInformationShowListener;
 
@@ -52,7 +52,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     int warningColor;
 
     FileSelectAdapter(Context context, List<String> listFiles) {
-        inflater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.listFiles = listFiles;
 
@@ -65,27 +65,30 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     @Override
     public FileSelectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.file_row, parent, false);
-        view.setOnClickListener(mOnClickListener);
         return new FileSelectViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(FileSelectViewHolder holder, int position) {
         FileSelectBean fileSelectBean = new FileSelectBean(context, listFiles.get(position));
+        // Context menu creation
         holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
-
-        if (PrefsUtil.isFullFilePathEnable(context))
+        // Click item to open file
+        if (fileItemOpenListener != null)
+            holder.fileContainer.setOnClickListener(new FileItemClickListener(position));
+        // Assign file name
+        if (PreferencesUtil.isFullFilePathEnable(context))
             holder.fileName.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
         else
             holder.fileName.setText(fileSelectBean.getFileName());
-        holder.fileName.setTextSize(PrefsUtil.getListTextSize(context));
-
-
-        if(fileSelectBean.notFound()) {
+        holder.fileName.setTextSize(PreferencesUtil.getListTextSize(context));
+        // Set warning
+        if (fileSelectBean.notFound()) {
             holder.fileInformation.setColorFilter(
                     warningColor,
                     android.graphics.PorterDuff.Mode.MULTIPLY);
         }
+        // Click on information
         if (fileInformationShowListener != null)
             holder.fileInformation.setOnClickListener(new FileInformationClickListener(fileSelectBean));
     }
@@ -95,8 +98,8 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         return listFiles.size();
     }
 
-    void setOnItemClickListener(View.OnClickListener onItemClickListener) {
-        this.mOnClickListener = onItemClickListener;
+    void setOnItemClickListener(FileItemOpenListener fileItemOpenListener) {
+        this.fileItemOpenListener = fileItemOpenListener;
     }
 
     void setFileSelectClearListener(FileSelectClearListener fileSelectClearListener) {
@@ -107,12 +110,30 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         this.fileInformationShowListener = fileInformationShowListener;
     }
 
-    public interface FileInformationShowListener {
-        void onClickFileInformation(FileSelectBean fileSelectBean);
+    public interface FileItemOpenListener {
+        void onFileItemOpenListener(int itemPosition);
     }
 
     public interface FileSelectClearListener {
         boolean onFileSelectClearListener(FileSelectBean fileSelectBean);
+    }
+
+    public interface FileInformationShowListener {
+        void onClickFileInformation(FileSelectBean fileSelectBean);
+    }
+
+    private class FileItemClickListener implements View.OnClickListener {
+
+        private int position;
+
+        FileItemClickListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            fileItemOpenListener.onFileItemOpenListener(position);
+        }
     }
 
     private class FileInformationClickListener implements View.OnClickListener {
@@ -146,15 +167,15 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         private MenuItem.OnMenuItemClickListener mOnMyActionClickListener = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == MENU_CLEAR) {
-                    return fileSelectClearListener.onFileSelectClearListener(fileSelectBean);
+                if (fileSelectClearListener == null)
+                    return false;
+                switch ( item.getItemId() ) {
+                    case MENU_CLEAR:
+                        return fileSelectClearListener.onFileSelectClearListener(fileSelectBean);
+                    default:
+                        return false;
                 }
-                return false;
             }
         };
     }
-
-
-
-
 }

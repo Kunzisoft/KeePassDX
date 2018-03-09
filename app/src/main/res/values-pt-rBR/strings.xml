@@ -51,23 +51,23 @@
     <string name="decrypting_entry">Decifrando entrada</string>
     <string name="default_checkbox">Usar este banco de dados como padrão</string>
     <string name="digits">Digitos</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 2 ou posterior.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 2 ou posterior.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Digite o nome do arquivo de banco de dados:</string>
-    <string name="entry_accessed">Acessado: </string>
+    <string name="select_database_file">Digite o nome do arquivo de banco de dados:</string>
+    <string name="entry_accessed">Acessado</string>
     <string name="entry_and_or">Digite uma senha e/ ou entre com o caminho para o arquivo de chaves do banco de dados:</string>
     <string name="entry_cancel">Cancelar</string>
-    <string name="entry_comment">Comentários: </string>
-    <string name="entry_confpassword">Confirmar senha:</string>
-    <string name="entry_created">Criado: </string>
-    <string name="entry_expires">Expira: </string>
+    <string name="entry_comment">Comentários</string>
+    <string name="entry_confpassword">Confirmar senha</string>
+    <string name="entry_created">Criado</string>
+    <string name="entry_expires">Expira</string>
     <string name="entry_keyfile">Arquivo de chave</string>
-    <string name="entry_modified">Modificado: </string>
-    <string name="entry_password">Senha:</string>
+    <string name="entry_modified">Modificado</string>
+    <string name="entry_password">Senha</string>
     <string name="entry_save">Salvar</string>
-    <string name="entry_title">Nome: </string>
-    <string name="entry_url">URL: </string>
-    <string name="entry_user_name">Nome de usuário: </string>
+    <string name="entry_title">Nome</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo ArcFour não é suportada.</string>
     <string name="error_can_not_handle_uri">KeePass DX não pôde tratar esta uri.</string>
     <string name="error_could_not_create_group">Erro ao criar grupo.</string>
@@ -170,9 +170,13 @@
     <string name="version_label">Versão:</string>
     
     <string-array name="clipboard_timeout_options">
+    	<item>5 segundos</item>
+    	<item>10 segundos</item>
+    	<item>20 segundos</item>
     	<item>30 segundos</item>
     	<item>1 minuto</item>
     	<item>5 minutos</item>
+    	<item>15 minutos</item>
     	<item>Nunca</item>
     </string-array>
     <string-array name="list_size_options">

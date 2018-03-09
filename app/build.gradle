@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion = 25
-    buildToolsVersion = "27.0.1"
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.3"
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
-        targetSdkVersion 25
-        versionCode = 4
-        versionName = "2.5.0.0beta4"
+        targetSdkVersion 27
+        versionCode = 5
+        versionName = "2.5.0.0beta5"
+        multiDexEnabled true
 
         testApplicationId = "com.keepassdroid.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
@@ -58,21 +59,34 @@ android {
             buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
-def supportVersion = "25.4.0"
+def supportVersion = "27.1.0"
 def spongycastleVersion = "1.58.0.0"
+def permissionDispatcherVersion = "3.1.0"
 
 dependencies {
-    androidTestCompile "junit:junit:4.12"
-    compile "com.android.support:appcompat-v7:$supportVersion"
-    compile "com.android.support:design:$supportVersion"
-    compile "com.android.support:preference-v7:$supportVersion"
-    compile "com.android.support:preference-v14:$supportVersion"
-    compile "com.android.support:cardview-v7:$supportVersion"
-    compile "com.madgag.spongycastle:core:$spongycastleVersion"
-    compile "com.madgag.spongycastle:prov:$spongycastleVersion"
-    compile "joda-time:joda-time:2.9.9"
-    compile "org.sufficientlysecure:html-textview:3.5"
-    compile "com.nononsenseapps:filepicker:4.1.0"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    implementation "com.android.support:preference-v7:$supportVersion"
+    implementation "com.android.support:preference-v14:$supportVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
+    implementation "com.madgag.spongycastle:core:$spongycastleVersion"
+    implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
+    // Time
+    implementation "joda-time:joda-time:2.9.9"
+    implementation "org.sufficientlysecure:html-textview:3.5"
+    implementation "com.nononsenseapps:filepicker:4.1.0"
+    // Permissions
+    implementation ("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude module: "support-v13"
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
+    implementation group: 'com.google.guava', name: 'guava', version: '23.0-android'
 }

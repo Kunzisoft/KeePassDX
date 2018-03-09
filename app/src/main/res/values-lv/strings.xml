@@ -36,21 +36,21 @@
     <string name="default_checkbox">Izmantot šo kā manu noklusējuma datu bāzi</string>
     <string name="digits">Cipari</string>
     <string name="ellipsis">…</string>
-    <string name="enter_filename">Ievadiet datu bāzes nosaukumu:</string>
-    <string name="entry_accessed">Piekļuve:</string>
+    <string name="select_database_file">Ievadiet datu bāzes nosaukumu:</string>
+    <string name="entry_accessed">Piekļuve</string>
     <string name="entry_and_or">Ievadiet paroli/atslēgas failu, lai atbloķētu savu datu bāzi:</string>
     <string name="entry_cancel">Atcelt</string>
-    <string name="entry_comment">Komentāri:</string>
-    <string name="entry_confpassword">Apstipriniet paroli:</string>
-    <string name="entry_created">Izveidots:</string>
-    <string name="entry_expires">Derīguma termiņš beidzas:</string>
+    <string name="entry_comment">Komentāri</string>
+    <string name="entry_confpassword">Apstipriniet paroli</string>
+    <string name="entry_created">Izveidots</string>
+    <string name="entry_expires">Derīguma termiņš beidzas</string>
     <string name="entry_keyfile">Atslēgas fails</string>
-    <string name="entry_modified">Modificēts:</string>
-    <string name="entry_password">Parole:</string>
+    <string name="entry_modified">Modificēts</string>
+    <string name="entry_password">Parole</string>
     <string name="entry_save">Saglabāt</string>
-    <string name="entry_title">Vārds:</string>
-    <string name="entry_url">URL:</string>
-    <string name="entry_user_name">Lietotāja vārds:</string>
+    <string name="entry_title">Vārds</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">Lietotāja vārds</string>
     <string name="error_arc4">ArcFour plūsmas šifrs netiek atbalstīts.</string>
     <string name="error_can_not_handle_uri">Neizdevās pātiet uz norādīto adresi.</string>
     <string name="error_could_not_create_group">Neizdevās izveidot grupu.</string>
@@ -163,9 +163,13 @@
     <string name="version_label">Versija:</string>
 
     <string-array name="clipboard_timeout_options">
+        <item>5 sekundes</item>
+        <item>10 sekundes</item>
+        <item>20 sekundes</item>
         <item>30 sekundes</item>
         <item>1 minūte</item>
         <item>5 minūtes</item>
+        <item>15 minūtes</item>
         <item>Nekad</item>
     </string-array>
     <string-array name="list_size_options">

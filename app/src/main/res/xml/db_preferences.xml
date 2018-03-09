@@ -25,6 +25,7 @@
 
 		<android.support.v7.preference.Preference
 			android:key="@string/algorithm_key"
+            android:persistent="false"
 			android:title="@string/algorithm"
 			android:enabled="false"/>
 		<com.keepassdroid.settings.RoundsPreference
@@ -32,7 +33,15 @@
 			android:persistent="false"
 			android:title="@string/rounds"
 			android:positiveButtonText="@string/entry_save"
-			android:negativeButtonText="@string/entry_cancel"/>
+			android:negativeButtonText="@string/entry_cancel"
+			android:enabled="false"/>
+		<android.support.v14.preference.SwitchPreference
+            android:key="@string/recycle_bin_key"
+            android:persistent="false"
+            android:title="@string/recycle_bin_title"
+			android:summary="@string/recycle_bin_summary"
+            android:enabled="false"
+            android:checked="false"/>
 
     </android.support.v7.preference.PreferenceCategory>
 </android.support.v7.preference.PreferenceScreen>

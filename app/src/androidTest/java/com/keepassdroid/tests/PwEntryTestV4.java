@@ -50,7 +50,7 @@ public class PwEntryTestV4 extends TestCase {
 		entry.icon = new PwIconStandard(5);
 		entry.overrideURL = "override";
 		entry.parent = new PwGroupV4();
-		entry.strings.put("key2", new ProtectedString(false, "value2"));
+		entry.addField("key2", new ProtectedString(false, "value2"));
 		entry.url = "http://localhost";
 		entry.uuid = UUID.randomUUID();
 

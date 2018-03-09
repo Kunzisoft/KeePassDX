@@ -18,9 +18,12 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:padding="@dimen/default_margin"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:importantForAutofill="noExcludeDescendants"
+	tools:targetApi="o">
 	<android.support.v7.widget.AppCompatImageButton android:id="@+id/icon_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

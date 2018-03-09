@@ -23,7 +23,7 @@ import android.content.Context;
 
 import java.io.IOException;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.exception.PwDbOutputException;
 
 public class SaveDB extends RunnableOnFinish {

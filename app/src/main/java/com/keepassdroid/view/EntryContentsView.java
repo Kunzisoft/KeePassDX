@@ -20,28 +20,178 @@
 package com.keepassdroid.view;
 
 import android.content.Context;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.keepassdroid.utils.Util;
 import com.kunzisoft.keepass.R;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class EntryContentsView extends LinearLayout {
-	
+
+    private boolean fontInVisibility;
+
+    private View userNameContainerView;
+    private TextView userNameView;
+    private ImageView userNameActionView;
+
+    private View passwordContainerView;
+    private TextView passwordView;
+    private ImageView passwordActionView;
+
+    private View urlContainerView;
+    private TextView urlView;
+
+    private View commentContainerView;
+    private TextView commentView;
+
+    private ViewGroup extrasView;
+
+    private DateFormat dateFormat;
+    private DateFormat timeFormat;
+
+    private TextView creationDateView;
+    private TextView modificationDateView;
+    private TextView lastAccessDateView;
+    private TextView expiresDateView;
+
 	public EntryContentsView(Context context) {
 		this(context, null);
 	}
 	
 	public EntryContentsView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+
+		fontInVisibility = false;
+
+        dateFormat = android.text.format.DateFormat.getDateFormat(context);
+        timeFormat = android.text.format.DateFormat.getTimeFormat(context);
 		
 		inflate(context);
 	}
 	
 	private void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		assert inflater != null;
 		inflater.inflate(R.layout.entry_view_contents, this);
+
+        userNameContainerView = findViewById(R.id.entry_user_name_container);
+        userNameView = (TextView) findViewById(R.id.entry_user_name);
+        userNameActionView = (ImageView) findViewById(R.id.entry_user_name_action_image);
+
+        passwordContainerView = findViewById(R.id.entry_password_container);
+        passwordView = (TextView) findViewById(R.id.entry_password);
+        passwordActionView = (ImageView) findViewById(R.id.entry_password_action_image);
+
+        urlContainerView = findViewById(R.id.entry_url_container);
+        urlView = (TextView) findViewById(R.id.entry_url);
+
+        commentContainerView = findViewById(R.id.entry_comment_container);
+        commentView = (TextView) findViewById(R.id.entry_comment);
+
+        extrasView = (ViewGroup) findViewById(R.id.extra_strings);
+
+        creationDateView = (TextView) findViewById(R.id.entry_created);
+        modificationDateView = (TextView) findViewById(R.id.entry_modified);
+        lastAccessDateView = (TextView) findViewById(R.id.entry_accessed);
+        expiresDateView = (TextView) findViewById(R.id.entry_expires);
 	}
+
+    public void applyFontVisibilityToFields(boolean fontInVisibility) {
+        this.fontInVisibility = fontInVisibility;
+    }
+
+	public void assignUserName(String userName) {
+        if (userName != null && !userName.isEmpty()) {
+            userNameContainerView.setVisibility(VISIBLE);
+            userNameView.setText(userName);
+        }
+    }
+
+    public void assignUserNameCopyListener(OnClickListener onClickListener) {
+        userNameActionView.setOnClickListener(onClickListener);
+    }
+
+    public void assignPassword(String password) {
+        if (password != null && !password.isEmpty()) {
+            passwordContainerView.setVisibility(VISIBLE);
+            passwordView.setText(password);
+        }
+    }
+
+    public void assignPasswordCopyListener(OnClickListener onClickListener) {
+        passwordActionView.setOnClickListener(onClickListener);
+    }
+
+    public boolean isPasswordPresent() {
+	    return passwordContainerView.getVisibility() == VISIBLE;
+    }
+
+    public void setHiddenPasswordStyle(boolean hiddenStyle) {
+        if ( !hiddenStyle ) {
+            passwordView.setTransformationMethod(null);
+        } else {
+            passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+    }
+
+    public void assignURL(String url) {
+        if (url != null && !url.isEmpty()) {
+            urlContainerView.setVisibility(VISIBLE);
+            urlView.setText(url);
+        }
+    }
+
+
+    public void assignComment(String comment) {
+        if (comment != null && !comment.isEmpty()) {
+            commentContainerView.setVisibility(VISIBLE);
+            Util.applyFontVisibilityToTextView(fontInVisibility, commentView);
+            commentView.setText(comment);
+        }
+    }
+
+    public void addExtraField(String title, String value, OnClickListener onActionClickListener) {
+        EntryNewField entryNewField = new EntryNewField(getContext(), null, title, value, onActionClickListener);
+        entryNewField.applyFontVisibilityToValue(fontInVisibility);
+        extrasView.addView(entryNewField);
+    }
+
+    public void clearExtraFields() {
+        extrasView.removeAllViews();
+    }
+
+    private String getDateTime(Date date) {
+        return dateFormat.format(date) + " " + timeFormat.format(date);
+    }
+
+    public void assignCreationDate(Date date) {
+        creationDateView.setText(getDateTime(date));
+    }
+
+    public void assignModificationDate(Date date) {
+        modificationDateView.setText(getDateTime(date));
+    }
+
+    public void assignLastAccessDate(Date date) {
+        lastAccessDateView.setText(getDateTime(date));
+    }
+
+    public void assignExpiresDate(Date date) {
+        expiresDateView.setText(getDateTime(date));
+    }
+
+    public void assignExpiresDate(String constString) {
+        expiresDateView.setText(constString);
+    }
 
 	@Override
 	protected LayoutParams generateDefaultLayoutParams() {

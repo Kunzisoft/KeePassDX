@@ -21,7 +21,7 @@ package com.keepassdroid.database.edit;
 
 import android.content.Context;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.utils.UriUtil;

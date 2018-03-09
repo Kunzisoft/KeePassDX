@@ -23,8 +23,9 @@
         android:theme="@style/KeepassDXStyle.Light"
         tools:replace="android:theme">
         <!-- TODO backup API Key -->
-        <meta-data android:name="com.google.android.backup.api_key"
-          android:value="" />
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="" />
 
         <!-- Folder picker -->
         <provider
@@ -37,7 +38,7 @@
                 android:resource="@xml/nnf_provider_paths" />
         </provider>
         <activity
-            android:name="com.keepassdroid.FilePickerStylishActivity"
+            android:name="com.keepassdroid.fileselect.FilePickerStylishActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
@@ -52,15 +53,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.keepassdroid.fileselect.FileSelectActivity"
+        <activity
+            android:name="com.keepassdroid.fileselect.FileSelectActivity"
             android:launchMode="singleInstance"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.keepassdroid.AboutActivity"
+        <activity
+            android:name="com.keepassdroid.activities.AboutActivity"
             android:launchMode="singleInstance"
             android:label="@string/menu_about" />
-        <activity android:name="com.keepassdroid.PasswordActivity"
-            android:configChanges="orientation|keyboardHidden">
+        <activity
+            android:name="com.keepassdroid.password.PasswordActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -90,42 +95,58 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
             </intent-filter>
-        </activity>
-        <activity android:name="com.keepassdroid.GroupActivityV3" android:configChanges="orientation|keyboardHidden">
-            <meta-data android:name="android.app.default_searchable"
-                       android:value="com.keepassdroid.search.SearchResults" />
-        </activity>
-        <activity android:name="com.keepassdroid.GroupActivityV4" android:configChanges="orientation|keyboardHidden">
-            <meta-data android:name="android.app.default_searchable"
-                       android:value="com.keepassdroid.search.SearchResults"
-                       android:exported="false" />
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="application/octet-stream"/>
+            </intent-filter>
         </activity>
         <activity
-            android:name="com.keepassdroid.EntryActivity"
+            android:name="com.keepassdroid.activities.GroupActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value="com.keepassdroid.search.SearchResults"
+                android:exported="false"/>
+        </activity>
+        <activity
+            android:name="com.keepassdroid.activities.EntryActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.keepassdroid.EntryActivityV4"
+            android:name="com.keepassdroid.activities.EntryEditActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.keepassdroid.EntryEditActivityV3"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.keepassdroid.EntryEditActivityV4"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.keepassdroid.search.SearchResultsActivity" android:launchMode="standard">
+            android:name="com.keepassdroid.search.SearchResultsActivity"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
              </intent-filter>
-            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity android:name="com.keepassdroid.settings.SettingsActivity" />
+        <activity android:name="com.keepassdroid.autofill.AutoFillAuthActivity"
+            android:configChanges="orientation|keyboardHidden" />
 
         <service android:name="com.keepassdroid.services.TimeoutService" />
+        <service
+            android:name="com.keepassdroid.autofill.KeeAutofillService"
+            android:label="@string/autofill_service_name"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            <meta-data
+                android:name="android.autofill"
+                android:resource="@xml/dataset_service" />
+
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+        </service>
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
     </application>
 </manifest> 

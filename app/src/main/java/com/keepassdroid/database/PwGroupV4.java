@@ -48,9 +48,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	private long usageCount = 0;
 	public Map<String, String> customData = new HashMap<String, String>();
 
-	public PwGroupV4() {
-		
-	}
+	public PwGroupV4() {}
 	
 	public PwGroupV4(boolean createUUID, boolean setTimes, String name, PwIconStandard icon) {
 		if (createUUID) {
@@ -64,7 +62,14 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		this.name = name;
 		this.icon = icon;
 	}
-	
+
+    @Override
+    public void initNewGroup(String nm, PwGroupId newId) {
+        super.initNewGroup(nm, newId);
+
+        lastAccess = lastMod = creation = parentGroupLastMod = new Date();
+    }
+
 	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership) {
 		AddGroup(subGroup, takeOwnership, false);
 	}
@@ -86,8 +91,8 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	
 	public void AddEntry(PwEntryV4 pe, boolean takeOwnership, boolean updateLocationChanged) {
 		assert(pe != null);
-		
-		childEntries.add(pe);
+
+		addChildEntry(pe);
 		
 		if ( takeOwnership ) pe.parent = this;
 		
@@ -102,7 +107,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public void buildChildGroupsRecursive(List<PwGroup> list) {
 		list.add(this);
 		
-		for ( int i = 0; i < childGroups.size(); i++) {
+		for ( int i = 0; i < numbersOfChildGroups(); i++) {
 			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
 			child.buildChildGroupsRecursive(list);
 			
@@ -110,11 +115,11 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 
 	public void buildChildEntriesRecursive(List<PwEntry> list) {
-		for ( int i = 0; i < childEntries.size(); i++ ) {
+		for ( int i = 0; i < numbersOfChildEntries(); i++ ) {
 			list.add(childEntries.get(i));
 		}
 		
-		for ( int i = 0; i < childGroups.size(); i++ ) {
+		for ( int i = 0; i < numbersOfChildGroups(); i++ ) {
 			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
 			child.buildChildEntriesRecursive(list);
 		}
@@ -168,7 +173,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 	public void setCreationTime(Date date) {
 		creation = date;
-		
 	}
 
 	public void setExpiryTime(Date date) {
@@ -204,7 +208,11 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	@Override
 	public void setParent(PwGroup prt) {
 		parent = (PwGroupV4) prt;
-		
+	}
+
+	@Override
+	public boolean allowAddEntryIfIsRoot() {
+		return true;
 	}
 
 	@Override
@@ -214,13 +222,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		} else {
 			return customIcon;
 		}
-	}
-	
-	@Override
-	public void initNewGroup(String nm, PwGroupId newId) {
-		super.initNewGroup(nm, newId);
-		
-		lastAccess = lastMod = creation = parentGroupLastMod = new Date();
 	}
 	
 	public boolean isSearchEnabled() {

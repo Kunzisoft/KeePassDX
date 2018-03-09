@@ -39,6 +39,7 @@
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="building_search_idx">Building search index&#8230;</string>
     <string name="cancel">Cancel</string>
+    <string name="allow">Allow</string>
     <string name="ClearClipboard">Clipboard cleared.</string>
     <string name="clipboard_error_title">Clipboard error</string>
     <string name="clipboard_error">Some Samsung Android phones have a bug in the clipboard implementation that causes copying from applications to fail. For more details go to:</string>
@@ -55,24 +56,23 @@
     <string name="decrypting_entry">Decrypting entry</string>
     <string name="default_checkbox">Use this as my default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Jeremy Jamet / Kunzisoft, Brian Pellin comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="ellipsis">\u2026</string>
-    <string name="enter_filename">Enter database filename:</string>
-    <string name="entry_accessed">Accessed: </string>
+    <string name="entry_accessed">Accessed</string>
     <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
     <string name="entry_cancel">Cancel</string>
-    <string name="entry_comment">Comments: </string>
-    <string name="entry_confpassword">Confirm password:</string>
-    <string name="entry_created">Created: </string>
-    <string name="entry_expires">Expires: </string>
+    <string name="entry_comment">Comments</string>
+    <string name="entry_confpassword">Confirm password</string>
+    <string name="entry_created">Created</string>
+    <string name="entry_expires">Expires</string>
     <string name="entry_keyfile">Key file</string>
-    <string name="entry_modified">Modified: </string>
+    <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Entry data not found.</string>
-    <string name="entry_password">Password:</string>
+    <string name="entry_password">Password</string>
     <string name="entry_save">Save</string>
-    <string name="entry_title">Name: </string>
-    <string name="entry_url">URL: </string>
-    <string name="entry_user_name">User Name: </string>
+    <string name="entry_title">Title</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">User Name</string>
     <string name="error_arc4">The ArcFour stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">KeePass DX cannot handle this uri.</string>
     <string name="error_could_not_create_group">Error creating group.</string>
@@ -129,11 +129,11 @@
     <string name="maskpass_summary">Hide passwords by default</string>
     <string name="menu_about">About</string>
     <string name="menu_change_key">Change Master Key</string>
-    <string name="menu_copy_pass">Copy Password</string>
-    <string name="menu_copy_user">Copy User</string>
+    <string name="copy_field">Copy of %1$s</string>
     <string name="menu_create">Create</string>
     <string name="settings">Settings</string>
     <string name="menu_app_settings">Application settings</string>
+    <string name="menu_form_filling_settings">Form filling</string>
     <string name="menu_db_settings">Database settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
@@ -145,13 +145,15 @@
     <string name="menu_rename">Rename</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show pass</string>
+    <string name="menu_fingerprint_remove_key">Remove the fingerprint key</string>
     <string name="menu_url">Go to URL</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_keys">No entries in the database or group.</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
-    <string name="open_recent">Open recent database :</string>
+    <string name="select_database_file">Select an existing database :</string>
+    <string name="open_recent">Open a recent database :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
     <string name="pass_filename">KeePass database filename:</string>
@@ -179,8 +181,17 @@
     <string name="space">Space</string>
     <string name="search_label">Search</string>
     <string name="show_password">Show password</string>
-    <string name="sort_name">Sort by name</string>
+    <string name="sort_menu">Sort</string>
+    <string name="sort_ascending">Ascending</string>
+    <string name="sort_groups_before">Groups before</string>
+    <string name="sort_recycle_bin_bottom">Recycle bin at the bottom</string>
     <string name="sort_db">DB sort order</string>
+    <string name="sort_title">Sort by Title</string>
+    <string name="sort_name">Sort by Name</string>
+    <string name="sort_username">Sort by Username</string>
+    <string name="sort_creation_time">Sort by Creation Time</string>
+    <string name="sort_last_modify_time">Sort by Last Modify Time</string>
+    <string name="sort_last_access_time">Sort by Last Access Time</string>
     <string name="special">Special</string>
     <string name="search_hint">Search</string>
     <string name="search_results">Search results</string>
@@ -208,10 +219,17 @@
     <string name="history">History</string>
     <string name="appearance">Appearance</string>
     <string name="general">General</string>
+    <string name="autofill">Autofill</string>
+    <string name="autofill_service_name">KeePass DX Autofill Service</string>
+    <string name="autofill_sign_in_prompt">Sign in with KeePass DX</string>
+    <string name="set_autofill_service_title">Set default Autofill service</string>
+    <string name="set_autofill_service_summary">Enable the service to easily fill out forms from other applications</string>
+    <string name="invalid_link_association">Could not associate web domain %1$s with app %2$s</string>
     <string name="password_size_title">Password size</string>
     <string name="password_size_summary">Set the default size of the generated password</string>
     <string name="list_password_generator_options_title">Password characters</string>
     <string name="list_password_generator_options_summary">Set the default password generator characters</string>
+    <string name="notifications">Notifications</string>
     <string name="clipboard_notifications_title">Clipboard Notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy username and password</string>
     <string name="lock">Lock</string>
@@ -240,11 +258,23 @@
     <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">File Path</string>
     <string name="full_file_path_enable_summary">View the full file path</string>
+    <string name="recycle_bin_title">Use Recycle Bin</string>
+    <string name="recycle_bin_summary">Move a group or entry to the Recycle Bin before deleting</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass DX need external storage permission to write a database</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX need external storage permission to read an URI not provided by a Content Provider</string>
+    <string name="permission_external_storage_denied">External storage permission denied</string>
+    <string name="permission_external_storage_never_ask">Can\'t perform the action without external storage permission</string>
+    <string name="monospace_font_fields_enable_title">Fields Font</string>
+    <string name="monospace_font_fields_enable_summary">Change the font of the fields for better character visibility</string>
 
     <string-array name="clipboard_timeout_options">
+    	<item>5 seconds</item>
+    	<item>10 seconds</item>
+    	<item>20 seconds</item>
     	<item>30 seconds</item>
     	<item>1 minute</item>
     	<item>5 minutes</item>
+    	<item>15 minutes</item>
     	<item>Never</item>
     </string-array>
     <string-array name="list_size_options">

@@ -23,13 +23,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.kunzisoft.keepass.R;
+import com.keepassdroid.activities.LockingActivity;
+import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
-import com.keepassdroid.stylish.StylishActivity;
-import com.keepassdroid.timeout.TimeoutHelper;
+import com.kunzisoft.keepass.R;
 
 
-public class SettingsActivity extends StylishActivity implements MainPreferenceFragment.Callback {
+public class SettingsActivity extends LockingActivity implements MainPreferenceFragment.Callback {
 
     private static final String TAG_NESTED = "TAG_NESTED";
 
@@ -38,18 +38,12 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
     private Toolbar toolbar;
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        TimeoutHelper.pause(this);
-    }
-
-    @Override
     protected void onResume() {
-        super.onResume();
 
-        TimeoutHelper.resume(this);
-        TimeoutHelper.checkShutdown(this);
+        // Clear the shutdown flag
+        App.clearShutdown();
+
+        super.onResume();
     }
 	
 	@Override
@@ -57,7 +51,7 @@ public class SettingsActivity extends StylishActivity implements MainPreferenceF
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_toolbar);
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar = findViewById(R.id.toolbar);
 		toolbar.setTitle(R.string.settings);
 		setSupportActionBar(toolbar);
 		assert getSupportActionBar() != null;

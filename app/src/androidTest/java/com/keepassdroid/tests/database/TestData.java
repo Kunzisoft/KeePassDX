@@ -25,12 +25,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
 
-import com.keepassdroid.Database;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabaseV3Debug;
 import com.keepassdroid.database.load.Importer;
 import com.keepassdroid.tests.TestUtil;
-import com.keepassdroid.utils.EmptyUtils;
-import com.keepassdroid.utils.UriUtil;
 
 public class TestData {
 	private static final String TEST1_KEYFILE = "";

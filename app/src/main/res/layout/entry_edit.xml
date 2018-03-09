@@ -18,9 +18,12 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:importantForAutofill="noExcludeDescendants"
+    tools:targetApi="o">
 
     <include
         android:id="@+id/toolbar"
@@ -84,20 +87,6 @@
                     android:hint="@string/entry_user_name" />
             </android.support.design.widget.TextInputLayout>
 
-			<!--  URL -->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/entry_url"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textUri"
-                    android:maxLines="1"
-                    android:hint="@string/entry_url" />
-            </android.support.design.widget.TextInputLayout>
-
 			<!-- Password -->
             <RelativeLayout
                 android:orientation="horizontal"
@@ -155,6 +144,20 @@
                     android:tint="?attr/colorAccent" />
             </RelativeLayout>
 
+            <!--  URL -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/entry_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textUri"
+                    android:maxLines="1"
+                    android:hint="@string/entry_url" />
+            </android.support.design.widget.TextInputLayout>
+
 			<!-- Comment -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -177,7 +180,7 @@
 				android:orientation="vertical">
 			</LinearLayout>
 
-			<ImageView android:id="@+id/add_advanced"
+			<ImageView android:id="@+id/add_new_field"
 				android:layout_width="30sp"
 				android:layout_height="30sp"
 				android:contentDescription="@string/add_string"
@@ -196,5 +199,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_save_white_24dp"
+        app:useCompatPadding="true"
         style="@style/KeepassDXStyle.Fab"/>
 </RelativeLayout>
