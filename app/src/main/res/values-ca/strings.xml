@@ -117,8 +117,6 @@
     <string name="maskpass_summary">Amaga les contrasenyes per defecte</string>
     <string name="menu_about">Sobre</string>
     <string name="menu_change_key">Canvia Clau Mestra</string>
-    <string name="menu_copy_pass">Copia contrasenya</string>
-    <string name="menu_copy_user">Copia usuari</string>
     <string name="menu_create">Crear</string>
     <string name="settings">Paràmetres</string>
     <string name="menu_db_settings">Paràmetres de la base de dades</string>

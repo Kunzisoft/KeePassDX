@@ -133,8 +133,6 @@
     <string name="maskpass_summary">Passwörter standardmäßig verstecken</string>
     <string name="menu_about">Über</string>
     <string name="menu_change_key">Master-Schlüssel ändern</string>
-    <string name="menu_copy_pass">Passwort kopieren</string>
-    <string name="menu_copy_user">Benutzername kopieren</string>
     <string name="menu_create">Erstellen</string>
     <string name="settings">Einstellungen</string>
     <string name="menu_db_settings">Datenbank-Einstellungen</string>

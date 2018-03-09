@@ -114,8 +114,6 @@
     <string name="maskpass_summary">默认隐藏密码</string>
     <string name="menu_about">关于</string>
     <string name="menu_change_key">改变主密钥</string>
-    <string name="menu_copy_pass">复制密码</string>
-    <string name="menu_copy_user">复制用户</string>
     <string name="menu_create">创建</string>
     <string name="settings">设置</string>
     <string name="menu_db_settings">数据库设置</string>

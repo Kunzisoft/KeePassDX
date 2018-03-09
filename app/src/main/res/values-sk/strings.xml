@@ -114,8 +114,6 @@
     <string name="maskpass_summary">Skryť heslá štandardne</string>
     <string name="menu_about">O Programe</string>
     <string name="menu_change_key">Zmeniť hlavný Kľúč</string>
-    <string name="menu_copy_pass">Kopíruj Heslo</string>
-    <string name="menu_copy_user">Kopíruj Užívateľa</string>
     <string name="menu_create">Vytvoriť</string>
     <string name="settings">Nastavenia</string>
     <string name="menu_db_settings">Nastavenia Databázy</string>

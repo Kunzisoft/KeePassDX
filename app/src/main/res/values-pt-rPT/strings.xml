@@ -130,8 +130,6 @@
     <string name="maskpass_summary">Ocultar as palavras-passe por predefinição</string>
     <string name="menu_about">Sobre</string>
     <string name="menu_change_key">Alterar chave mestre</string>
-    <string name="menu_copy_pass">Copiar palavra-passe</string>
-    <string name="menu_copy_user">Copiar nome de utilizador</string>
     <string name="menu_create">Criar</string>
     <string name="settings">Definições</string>
     <string name="menu_db_settings">Definições da base de dados</string>

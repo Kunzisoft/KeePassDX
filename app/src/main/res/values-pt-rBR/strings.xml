@@ -117,8 +117,6 @@
     <string name="maskpass_summary">Esconder senha por padrão</string>
     <string name="menu_about">Sobre</string>
     <string name="menu_change_key">Modificar Senha Mestre</string>
-    <string name="menu_copy_pass">Copiar Senha</string>
-    <string name="menu_copy_user">Copiar Usuário</string>
     <string name="menu_create">Criar</string>
     <string name="settings">Configurações</string>
     <string name="menu_db_settings">Configurações do banco de dados</string>

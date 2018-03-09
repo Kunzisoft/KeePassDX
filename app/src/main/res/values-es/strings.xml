@@ -116,8 +116,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="maskpass_summary">Ocultar contraseñas por defecto</string>
     <string name="menu_about">Acerca de</string>
     <string name="menu_change_key">Cambiar Contraseña Maestra</string>
-    <string name="menu_copy_pass">Copiar Contraseña</string>
-    <string name="menu_copy_user">Copiar Usuario</string>
     <string name="menu_create">Crear</string>
     <string name="settings">Configuración</string>
     <string name="menu_db_settings">Configuración de Base de datos</string>

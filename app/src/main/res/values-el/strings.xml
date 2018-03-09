@@ -126,8 +126,6 @@
     <string name="maskpass_summary">Απόκρυψη κωδικών από προεπιλογή</string>
     <string name="menu_about">Σχετικά με</string>
     <string name="menu_change_key">Αλλαγή Κύριου Κλειδιού</string>
-    <string name="menu_copy_pass">Αντιγραφή Κωδικού</string>
-    <string name="menu_copy_user">Αντιγραφή Χρήστη</string>
     <string name="menu_create">Δημιουργία</string>
     <string name="settings">Ρυθμίσεις</string>
     <string name="menu_db_settings">Ρυθμίσεις βάσης δεδομένων</string>

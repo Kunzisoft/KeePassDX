@@ -128,8 +128,6 @@
     <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
     <string name="menu_about">Honi buruz</string>
     <string name="menu_change_key">Gako Maisua Aldatu</string>
-    <string name="menu_copy_pass">Pasahitza Kopiatu</string>
-    <string name="menu_copy_user">Erabiltzailea Kopiatu</string>
     <string name="menu_create">Sortu</string>
     <string name="settings">Ezarpenak</string>
     <string name="menu_db_settings">Datubasearen ezarpenak</string>
