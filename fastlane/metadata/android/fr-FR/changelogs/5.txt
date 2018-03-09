@@ -1,19 +1,8 @@
  * Remplissage automatique (Android O)
  * Suppression pour les groupes
  * Nouveau tri avec (Asc / Dsc, Groupes avant ou après)
- * Meilleure gestion des permissions avec dialogue à l'exécution
  * Réglage pour changer la police de champ (monospace pour une meilleure visibilité)
- * Ouverture des fichiers kdbx et kdb à partir du navigateur de fichiers
- * Modification des types de champs
  * Masquage des champs vides
  * Ajout d'un bouton de copie pour le nom d'utilisateur / mot de passe et champ supplémentaire
- * Ajout de 5, 10, 20 secondes et 15 minutes d'expiration du presse-papiers
- * Masquage de l'icône "Afficher le mot de passe" lorsque le mot de passe n'est pas présent
- * Nouvelles animations pour le bouton d'ajout
  * Nouvelle liste pour ajouter et supprimer un noeud avec animation
- * Changement de vue pour une meilleure cohésion
- * Mise à jour des traductions
- * Correction d'un crash pour API < Kitkat
- * Correction de bugs d'empreintes digitales
- * Correction de nombreux petits bugs
- * Ajout d'un paramètre de corbeille (pas encore accessible)
+ * Correction de bugs
