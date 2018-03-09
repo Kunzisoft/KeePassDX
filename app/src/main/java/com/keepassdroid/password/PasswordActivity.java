@@ -200,7 +200,6 @@ public class PasswordActivity extends StylishActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         }
-        // TODO Tests
 
         boolean keyFileResult = false;
         if (keyFileHelper != null) {
@@ -651,16 +650,14 @@ public class PasswordActivity extends StylishActivity
                 .putString(getPreferenceKeyValue(), value)
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
                 .apply();
-        // and remove visual input to reset UI
-        confirmButtonView.performClick(); // TODO remove click
+        verifyAllViewsAndLoadDatabase();
         setFingerPrintTextView(R.string.encrypted_value_stored);
     }
 
     @Override
     public void handleDecryptedResult(final String passwordValue) {
         // Load database directly
-        String key = keyFileView.getText().toString();
-        loadDatabase(passwordValue, key);
+        verifyKeyFileViewsAndLoadDatabase(passwordValue);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -720,21 +717,17 @@ public class PasswordActivity extends StylishActivity
 
     private class ValidateButtonViewClickListener implements View.OnClickListener {
         public void onClick(View view) {
-            String pass = passwordView.getText().toString();
-            String key = keyFileView.getText().toString();
-            verifyCheckboxesAndLoadDatabase(pass, key);
+            verifyAllViewsAndLoadDatabase();
         }
     }
 
-    private void verifyCheckboxesAndLoadDatabase(
-            String pass,
-            String keyfile) {
+    private void verifyAllViewsAndLoadDatabase() {
+        String pass = passwordView.getText().toString();
+        String keyfile = keyFileView.getText().toString();
         verifyCheckboxesAndLoadDatabase(pass, UriUtil.parseDefaultFile(keyfile));
     }
 
-    private void verifyCheckboxesAndLoadDatabase(
-            String pass,
-            Uri keyfile) {
+    private void verifyCheckboxesAndLoadDatabase(String pass, Uri keyfile) {
         if (!checkboxPasswordView.isChecked()) {
             pass = "";
         }
@@ -744,16 +737,16 @@ public class PasswordActivity extends StylishActivity
         loadDatabase(pass, keyfile);
     }
 
-    private void loadDatabase(
-            String pass,
-            String keyfile) {
-        loadDatabase(pass, UriUtil.parseDefaultFile(keyfile));
+    private void verifyKeyFileViewsAndLoadDatabase(String password) {
+        String key = keyFileView.getText().toString();
+        Uri keyUri = UriUtil.parseDefaultFile(key);
+        if (!checkboxKeyfileView.isChecked()) {
+            keyUri = null;
+        }
+        loadDatabase(password, keyUri);
     }
 
-    private void loadDatabase(
-            String pass,
-            Uri keyfile) {
-
+    private void loadDatabase(String pass, Uri keyfile) {
         // Clear before we load
         Database db = App.getDB();
         db.clear();
