@@ -127,8 +127,6 @@
     <string name="maskpass_summary">Döljer lösenord som standard</string>
     <string name="menu_about">Om</string>
     <string name="menu_change_key">Byt nyckelfil</string>
-    <string name="menu_copy_pass">Kopiera lösenordet</string>
-    <string name="menu_copy_user">Kopiera användarnamnet</string>
     <string name="menu_create">Skapa ny</string>
     <string name="settings">Inställningar</string>
     <string name="menu_db_settings">Databasinställningar</string>

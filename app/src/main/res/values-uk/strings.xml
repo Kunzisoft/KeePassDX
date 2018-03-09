@@ -114,8 +114,6 @@
     <string name="maskpass_summary">Приховати паролі за замовчуванням</string>
     <string name="menu_about">Про</string>
     <string name="menu_change_key">Змінити головний ключ</string>
-    <string name="menu_copy_pass">Копіювати пароль</string>
-    <string name="menu_copy_user">Копіювати користувача</string>
     <string name="menu_create">Створити</string>
     <string name="settings">Налаштування</string>
     <string name="menu_db_settings">Налаштування бази даних</string>

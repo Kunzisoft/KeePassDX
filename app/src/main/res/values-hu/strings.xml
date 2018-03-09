@@ -123,8 +123,6 @@
     <string name="maskpass_summary">Jelszavak elrejtése alapértelmezésben</string>
     <string name="menu_about">Névjegy</string>
     <string name="menu_change_key">Mesterkulcs megváltoztatása</string>
-    <string name="menu_copy_pass">Jelszó másolása</string>
-    <string name="menu_copy_user">Felhasználónév másolása</string>
     <string name="menu_create">Létrehozás</string>
     <string name="settings">Beállítások</string>
     <string name="menu_db_settings">Adatbázis beállítások</string>

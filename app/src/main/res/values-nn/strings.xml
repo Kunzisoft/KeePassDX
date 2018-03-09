@@ -114,8 +114,6 @@
     <string name="maskpass_summary">Gøym passorda (standardval)</string>
     <string name="menu_about">Om</string>
     <string name="menu_change_key">Endra hovudnøkkelen</string>
-    <string name="menu_copy_pass">Kopier passordet</string>
-    <string name="menu_copy_user">Kopier brukaren</string>
     <string name="menu_create">Lag</string>
     <string name="settings">Innstillingar</string>
     <string name="menu_db_settings">Databaseinnstillingar</string>

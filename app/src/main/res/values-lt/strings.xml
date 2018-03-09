@@ -84,8 +84,6 @@
     <string name="clipboard_timeout">Iškarpinės trukmė</string>
     <string name="clipboard_error_title">Iškarpinės klaida</string>
     <string name="entry_confpassword">Patvirtinti slaptažodį</string>
-    <string name="menu_copy_pass">Kopijuoti slaptažodį</string>
-    <string name="menu_copy_user">Kopijuoti naudotoją</string>
     <string name="invalid_db_sig">Duomenų bazės formatas nežinomas.</string>
     <string name="current_group">Dabartinė grupė:</string>
     <string name="sort_db">DB rūšiavimo tvarka</string>
