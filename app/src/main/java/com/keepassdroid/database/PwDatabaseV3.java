@@ -221,18 +221,16 @@ public class PwDatabaseV3 extends PwDatabase {
 
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
-		assert (key != null);
 
-		if (key.length() > 0 && keyInputStream != null) {
+	    if (key != null && key.length() > 0 && keyInputStream != null) {
 			return getCompositeKey(key, keyInputStream);
-		} else if (key.length() > 0) {
+		} else if (key != null && key.length() > 0) {
 			return getPasswordKey(key);
 		} else if (keyInputStream != null) {
 			return getFileKey(keyInputStream);
 		} else {
 			throw new IllegalArgumentException("Key cannot be empty.");
 		}
-
 	}
 
 	@Override
