@@ -403,8 +403,9 @@ public class FileSelectActivity extends StylishActivity implements
 					new AssignPasswordHelper(this,
 							masterPassword, keyFile);
 		} catch (Exception e) {
-			Log.e(TAG, "Unable to create database with this password and key file");
-			e.printStackTrace();
+			String error = "Unable to create database with this password and key file";
+			Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+			Log.e(TAG, error + " " + e.getMessage());
 		}
 	}
 
