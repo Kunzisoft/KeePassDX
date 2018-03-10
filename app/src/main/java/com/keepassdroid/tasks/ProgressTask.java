@@ -23,9 +23,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
+import com.kunzisoft.keepass.R;
 
 /** Designed to Pop up a progress dialog, run a thread in the background, 
  *  run cleanup in the current thread, close the dialog.  Without blocking 
@@ -82,11 +82,11 @@ public class ProgressTask implements Runnable {
 	}
 	
 	private class CloseProcessDialog implements Runnable {
-
 		public void run() {
-			mPd.dismiss();
+            if (mPd != null && mPd.isShowing()) {
+				mPd.dismiss();
+			}
 		}
-		
 	}
 	
 }
