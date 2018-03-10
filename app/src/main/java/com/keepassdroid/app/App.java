@@ -31,6 +31,7 @@ import java.util.Calendar;
 public class App extends MultiDexApplication {
 	private static Database db = null;
 	private static boolean shutdown = false;
+	private static CharSequence mMessage = "";
 	private static Calendar calendar = null;
 	private static RecentFileHistory fileHistory = null;
 	
@@ -38,7 +39,6 @@ public class App extends MultiDexApplication {
 		if ( db == null ) {
 			db = new Database();
 		}
-		
 		return db;
 	}
 	
@@ -56,17 +56,27 @@ public class App extends MultiDexApplication {
 	
 	public static void setShutdown() {
 		shutdown = true;
+		mMessage = "";
+	}
+
+	public static void setShutdown(CharSequence message) {
+		shutdown = true;
+		mMessage = message;
+	}
+
+	public static CharSequence getMessage() {
+		return mMessage;
 	}
 	
 	public static void clearShutdown() {
 		shutdown = false;
+		mMessage = "";
 	}
 	
 	public static Calendar getCalendar() {
 		if ( calendar == null ) {
 			calendar = Calendar.getInstance();
 		}
-		
 		return calendar;
 	}
 
@@ -75,9 +85,7 @@ public class App extends MultiDexApplication {
 		super.onCreate();
 
 		Stylish.init(this);
-
 		fileHistory = new RecentFileHistory(this);
-		
 		PRNGFixes.apply();
 	}
 
@@ -86,7 +94,6 @@ public class App extends MultiDexApplication {
 		if ( db != null ) {
 			db.clear();
 		}
-		
 		super.onTerminate();
 	}
 }

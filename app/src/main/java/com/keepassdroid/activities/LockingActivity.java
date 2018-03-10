@@ -50,16 +50,15 @@ public abstract class LockingActivity extends StylishActivity {
     @Override
 	protected void onResume() {
 		super.onResume();
-
         TimeoutHelper.checkShutdown(this);
-		TimeoutHelper.resume(this);
+        TimeoutHelper.recordTime(this);
 	}
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        TimeoutHelper.pause(this);
+        TimeoutHelper.checkTime(this);
+        TimeoutHelper.checkShutdown(this);
     }
 
     @Override

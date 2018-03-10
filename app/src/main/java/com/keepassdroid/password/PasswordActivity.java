@@ -308,6 +308,11 @@ public class PasswordActivity extends StylishActivity
             setEmptyViews();
         }
 
+        // Show message if exists
+        CharSequence appMessage = App.getMessage();
+        if (! appMessage.toString().isEmpty())
+            Toast.makeText(this, appMessage, Toast.LENGTH_SHORT).show();
+
         // Clear the shutdown flag
         App.clearShutdown();
 
