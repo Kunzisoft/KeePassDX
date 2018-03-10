@@ -262,6 +262,8 @@
     <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin d\'une permission de stockage externe pour lire une URI non fournie par un Content Provider</string>
     <string name="permission_external_storage_denied">Permission de stockage externe refusée</string>
     <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
+    <string name="monospace_font_fields_enable_title">Police des champs</string>
+    <string name="monospace_font_fields_enable_summary">Change la police de caractères des champs pour une meilleure visibilité</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 secondes</item>
