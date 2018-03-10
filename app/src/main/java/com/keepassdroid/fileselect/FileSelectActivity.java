@@ -381,26 +381,32 @@ public class FileSelectActivity extends StylishActivity implements
 			boolean masterPasswordChecked, String masterPassword,
 			boolean keyFileChecked, Uri keyFile) {
 
-	    String databaseFilename = databaseUri.getPath();
+		try {
+			String databaseFilename = databaseUri.getPath();
 
-        // Prep an object to collect a password once the database has
-        // been created
-        FileOnFinish launchActivityOnFinish = new FileOnFinish(
-                new LaunchGroupActivity(databaseFilename));
-        AssignPasswordOnFinish assignPasswordOnFinish =
-                new AssignPasswordOnFinish(launchActivityOnFinish);
+			// Prep an object to collect a password once the database has
+			// been created
+			FileOnFinish launchActivityOnFinish = new FileOnFinish(
+					new LaunchGroupActivity(databaseFilename));
+			AssignPasswordOnFinish assignPasswordOnFinish =
+					new AssignPasswordOnFinish(launchActivityOnFinish);
 
-        // Create the new database
-        CreateDB create = new CreateDB(FileSelectActivity.this,
-                databaseFilename, assignPasswordOnFinish, true);
+			// Create the new database
+			CreateDB create = new CreateDB(FileSelectActivity.this,
+					databaseFilename, assignPasswordOnFinish, true);
 
-        ProgressTask createTask = new ProgressTask(
-                FileSelectActivity.this, create,
-                R.string.progress_create);
-        createTask.run();
-        assignPasswordHelper =
-                new AssignPasswordHelper(this,
-                        masterPassword, keyFile);
+			ProgressTask createTask = new ProgressTask(
+					FileSelectActivity.this, create,
+					R.string.progress_create);
+			createTask.run();
+			assignPasswordHelper =
+					new AssignPasswordHelper(this,
+							masterPassword, keyFile);
+		} catch (Exception e) {
+			String error = "Unable to create database with this password and key file";
+			Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+			Log.e(TAG, error + " " + e.getMessage());
+		}
 	}
 
 	@Override

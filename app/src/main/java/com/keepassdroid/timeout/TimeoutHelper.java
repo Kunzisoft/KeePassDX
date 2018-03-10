@@ -33,7 +33,7 @@ public class TimeoutHelper {
 	
 	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
 	
-	public static void pause(Activity act) {
+	public static void recordTime(Activity act) {
 		// Record timeout time in case timeout service is killed
 		long time = System.currentTimeMillis();
 		
@@ -46,14 +46,12 @@ public class TimeoutHelper {
 		if ( App.getDB().Loaded() ) {
 	        Timeout.start(act);
 		}
-
 	}
 	
-	public static void resume(Activity act) {
+	public static void checkTime(Activity act) {
 		if ( App.getDB().Loaded() ) {
 	        Timeout.cancel(act);
 		}
-
 		
 		// Check whether the timeout has expired
 		long cur_time = System.currentTimeMillis();
@@ -82,7 +80,7 @@ public class TimeoutHelper {
 		long diff = cur_time - timeout_start;
 		if (diff >= timeout) {
 			// We have timed out
-			App.setShutdown();
+			App.setShutdown(act.getString(R.string.app_timeout));
 		}
 	}
 

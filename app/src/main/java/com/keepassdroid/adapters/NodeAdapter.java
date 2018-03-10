@@ -93,7 +93,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      */
     public void rebuildList(PwGroup group) {
         this.nodeSortedList.clear();
-        this.nodeSortedList.addAll(group.getDirectChildren());
+        if (group != null) {
+            this.nodeSortedList.addAll(group.getDirectChildren());
+        }
     }
 
     /**
