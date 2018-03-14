@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.activities;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -58,7 +57,6 @@ public abstract class LockingActivity extends StylishActivity {
     protected void onPause() {
         super.onPause();
         TimeoutHelper.checkTime(this);
-        TimeoutHelper.checkShutdown(this);
     }
 
     @Override

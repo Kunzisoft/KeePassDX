@@ -22,6 +22,7 @@ package com.keepassdroid.timeout;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.keepassdroid.password.PasswordActivity;
 import com.kunzisoft.keepass.R;
@@ -30,7 +31,9 @@ import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.timers.Timeout;
 
 public class TimeoutHelper {
-	
+
+	private static final String TAG = "TimeoutHelper";
+
 	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
 	
 	public static void recordTime(Activity act) {
@@ -62,8 +65,7 @@ public class TimeoutHelper {
 		if (timeout_start == -1) {
 			return;
 		}
-		
-		
+
 		String sTimeout = prefs.getString(act.getString(R.string.app_timeout_key), act.getString(R.string.clipboard_timeout_default));
 		long timeout;
 		try {
@@ -80,12 +82,15 @@ public class TimeoutHelper {
 		long diff = cur_time - timeout_start;
 		if (diff >= timeout) {
 			// We have timed out
-			App.setShutdown(act.getString(R.string.app_timeout));
+            if ( App.getDB().Loaded() ) {
+                App.setShutdown(act.getString(R.string.app_timeout));
+            }
 		}
 	}
 
 	public static void checkShutdown(Activity act) {
 		if ( App.isShutdown() && App.getDB().Loaded() ) {
+            Log.e(TAG, "Shutdown " + act.getLocalClassName() + " after inactivity");
 			act.setResult(PasswordActivity.RESULT_EXIT_LOCK);
 			act.finish();
 		}
