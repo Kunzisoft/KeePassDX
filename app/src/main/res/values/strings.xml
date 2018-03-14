@@ -94,6 +94,7 @@
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">A title is required.</string>
     <string name="error_wrong_length">Enter a positive integer on length field</string>
+    <string name="error_autofill_enable_service">Autofill service can\'t be enabled.</string>
     <string name="field_name">Field Name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found">File not found.</string>

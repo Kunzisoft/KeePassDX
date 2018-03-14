@@ -96,6 +96,7 @@
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">Le titre est obligatoire.</string>
     <string name="error_wrong_length">Entrez un entier positif pour la longueur du champ</string>
+    <string name="error_autofill_enable_service">Le service de remplissage automatique ne peut être activé.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur</string>
     <string name="file_not_found">Fichier non trouvé.</string>

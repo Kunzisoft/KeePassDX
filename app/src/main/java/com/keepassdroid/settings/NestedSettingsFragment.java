@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.settings;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -204,7 +205,14 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
                             if (((SwitchPreference) preference).isChecked()) {
-                                startEnableService();
+                                try {
+                                    startEnableService();
+                                } catch (ActivityNotFoundException e) {
+                                    String error = getString(R.string.error_autofill_enable_service);
+                                    ((SwitchPreference) preference).setChecked(false);
+                                    Log.d(getClass().getName(), error, e);
+                                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 disableService();
                             }
@@ -221,11 +229,11 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         }
 
                         @RequiresApi(api = Build.VERSION_CODES.O)
-                        private void startEnableService() {
+                        private void startEnableService() throws ActivityNotFoundException{
                             if (autofillManager != null && !autofillManager.hasEnabledAutofillServices()) {
                                 Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
                                 intent.setData(Uri.parse("package:com.example.android.autofill.service"));
-                                Log.d(getClass().getName(), "enableService(): intent="+ intent);
+                                Log.d(getClass().getName(), "enableService(): intent=" + intent);
                                 startActivityForResult(intent, REQUEST_CODE_AUTOFILL);
                             } else {
                                 Log.d(getClass().getName(), "Sample service already enabled.");
