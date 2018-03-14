@@ -100,8 +100,8 @@
     <string name="hint_title">namn</string>
     <string name="hint_url">adresse</string>
     <string name="hint_username">brukarnamn</string>
-    <string name="install_from_market">Installer frå marknaden</string>
-    <string name="install_from_website">Installer frå nettet</string>
+    <string name="install_from_play_store">Installer frå Play Store</string>
+    <string name="install_from_f_droid">Installer frå F-Droid</string>
     <string name="InvalidPassword">Ugyldig passord eller nøkkelfil.</string>
     <string name="invalid_db_sig">Ukjent databaseformat.</string>
     <string name="length">Lengd</string>

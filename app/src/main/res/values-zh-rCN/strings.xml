@@ -100,8 +100,8 @@
     <string name="hint_title">名称</string>
     <string name="hint_url">网址</string>
     <string name="hint_username">用户名</string>
-    <string name="install_from_market">从电子市场安装</string>
-    <string name="install_from_website">从网络安装</string>
+    <string name="install_from_play_store">从电子市场安装</string>
+    <string name="install_from_f_droid">从网络安装</string>
     <string name="InvalidPassword">非法的密码或密钥文件。</string>
     <string name="invalid_db_sig">数据库格式无法识别。</string>
     <string name="length">长度</string>

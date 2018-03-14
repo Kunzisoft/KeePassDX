@@ -102,8 +102,8 @@
     <string name="hint_title">naam</string>
     <string name="hint_url">url</string>
     <string name="hint_username">gebruikersnaam</string>
-    <string name="install_from_market">Installeer van Market</string>
-    <string name="install_from_website">Installeer van Web</string>
+    <string name="install_from_play_store">Installeer van Play Store</string>
+    <string name="install_from_f_droid">Installeer van F-Droid</string>
     <string name="InvalidPassword">Ongeldig wachtwoord of sleutelbestand.</string>
     <string name="invalid_db_sig">Databaseformaat niet herkend.</string>
     <string name="length">Lengte</string>

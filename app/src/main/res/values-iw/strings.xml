@@ -106,8 +106,8 @@
   <string name="password">סיסמה</string>
   <string name="hint_title">שם</string>
   <string name="hint_username">שם משתמש</string>
-  <string name="install_from_market">התקן מחנות Play</string>
-  <string name="install_from_website">התקן מהאינטרנט</string>
+  <string name="install_from_play_store">התקן מחנות Play</string>
+  <string name="install_from_f_droid">התקן מהאינטרנט</string>
   <string name="InvalidPassword">סיסמה או קובץ מפתח לא מתאימים.</string>
   <string name="invalid_algorithm">אלגוריתם לא חוקי.</string>
   <string name="invalid_db_sig">תבנית מסד הנתונים אינה מזוהה.</string>

@@ -116,8 +116,8 @@
     <string name="hint_title">Name</string>
     <string name="hint_url">URL-Adresse</string>
     <string name="hint_username">Benutzername</string>
-    <string name="install_from_market">Google Play</string>
-    <string name="install_from_website">Webseite</string>
+    <string name="install_from_play_store">Google Play</string>
+    <string name="install_from_f_droid">F-Droid</string>
     <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
     <string name="invalid_algorithm">Ungültiger Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat wurde nicht erkannt.</string>

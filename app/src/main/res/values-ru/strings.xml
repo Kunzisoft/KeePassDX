@@ -109,8 +109,8 @@
     <string name="hint_title">название</string>
     <string name="hint_url">ссылка</string>
     <string name="hint_username">логин</string>
-    <string name="install_from_market">Google Play</string>
-    <string name="install_from_website">OpenIntents</string>
+    <string name="install_from_play_store">Google Play</string>
+    <string name="install_from_f_droid">F-Droid</string>
     <string name="InvalidPassword">Неверный пароль или файл-ключ</string>
     <string name="invalid_algorithm">Неверный криптоалгоритм</string>
     <string name="invalid_db_sig">Формат базы не определён</string>

@@ -20,11 +20,12 @@
 package com.keepassdroid.view;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -35,11 +36,15 @@ import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
 
+import javax.annotation.Nullable;
+
 import static android.app.Activity.RESULT_OK;
 
 public class KeyFileHelper {
 
-    public static final int GET_CONTENT = 25745;
+    private static final String TAG = "KeyFileHelper";
+
+    private static final int GET_CONTENT = 25745;
     private static final int OPEN_DOC = 25845;
     private static final int FILE_BROWSE = 25645;
 
@@ -66,32 +71,51 @@ public class KeyFileHelper {
 
         @Override
         public void onClick(View v) {
-            if (StorageAF.useStorageFramework(activity)) {
-                Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION|
-                        Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                if(fragment != null)
-                    fragment.startActivityForResult(i, OPEN_DOC);
-                else
-                    activity.startActivityForResult(i, OPEN_DOC);
-            } else {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-
-                try {
-                    if(fragment != null)
-                        fragment.startActivityForResult(i, GET_CONTENT);
-                    else
-                        activity.startActivityForResult(i, GET_CONTENT);
-                } catch (ActivityNotFoundException|SecurityException e) {
-                    lookForOpenIntentsFilePicker(dataUri.onRequestIntentFilePicker());
+            try {
+                if (StorageAF.useStorageFramework(activity)) {
+                    openActivityWithActionOpenDocument();
+                } else {
+                    openActivityWithActionGetContent();
                 }
+            } catch (Exception e) {
+                Log.e(TAG,"Enable to start the file picker activity", e);
+
+                // Open File picker if can't open activity
+                Uri uri = null;
+                if (dataUri != null)
+                    uri = dataUri.onRequestIntentFilePicker();
+                if(lookForOpenIntentsFilePicker(uri))
+                    showBrowserDialog();
             }
         }
+    }
+
+    private void openActivityWithActionOpenDocument() {
+        Intent i = new Intent(StorageAF.ACTION_OPEN_DOCUMENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("*/*");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
+                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        } else {
+            i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+        if (fragment != null)
+            fragment.startActivityForResult(i, OPEN_DOC);
+        else
+            activity.startActivityForResult(i, OPEN_DOC);
+    }
+
+    private void openActivityWithActionGetContent() {
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("*/*");
+        if(fragment != null)
+            fragment.startActivityForResult(i, GET_CONTENT);
+        else
+            activity.startActivityForResult(i, GET_CONTENT);
     }
 
     public OpenFileOnClickViewListener getOpenFileOnClickViewListener() {
@@ -102,49 +126,46 @@ public class KeyFileHelper {
         return new OpenFileOnClickViewListener(dataUri);
     }
 
-    private void lookForOpenIntentsFilePicker(Uri dataUri) {
-        if (Interaction.isIntentAvailable(activity, Intents.OPEN_INTENTS_FILE_BROWSE)) {
-            Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
-
-            // Get file path parent if possible
-            try {
+    private boolean lookForOpenIntentsFilePicker(@Nullable Uri dataUri) {
+        boolean showBrowser = false;
+        try {
+            if (Interaction.isIntentAvailable(activity, Intents.OPEN_INTENTS_FILE_BROWSE)) {
+                Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
+                // Get file path parent if possible
                 if (dataUri != null
                         && dataUri.toString().length() > 0
                         && dataUri.getScheme().equals("file")) {
                         i.setData(dataUri);
-                        //i.setData(Uri.parse("file://" + mDbUri.getPath()));
-                        /*
-                        TODO Verify Intent File Picker
-                        File keyfile = new File(mDbUri.getPath());
-                        File parent = keyfile.getParentFile();
-                        if (parent != null) {
-                            i.setData(Uri.parse("file://" + parent.getAbsolutePath()));
-                        }
-                        */
                 } else {
                     Log.w(getClass().getName(), "Unable to read the URI");
                 }
-            } catch (Exception e) {
-                // Ignore
-                Log.w(getClass().getName(), "Unable to read the URI " + e.getMessage());
-            }
-
-            try {
                 if(fragment != null)
                     fragment.startActivityForResult(i, FILE_BROWSE);
                 else
                     activity.startActivityForResult(i, FILE_BROWSE);
-            } catch (ActivityNotFoundException e) {
-                showBrowserDialog();
+            } else {
+                showBrowser = true;
             }
-        } else {
-            showBrowserDialog();
+        } catch (Exception e) {
+            Log.w(TAG, "Enable to start OPEN_INTENTS_FILE_BROWSE", e);
+            showBrowser = true;
         }
+        return showBrowser;
     }
 
+    /**
+     * Show Browser dialog to select file picker app
+     */
     private void showBrowserDialog() {
-        BrowserDialog browserDialog = new BrowserDialog(activity);
-        browserDialog.show();
+        try {
+            BrowserDialog browserDialog = new BrowserDialog();
+            if (fragment != null && fragment.getFragmentManager() != null)
+                browserDialog.show(fragment.getFragmentManager(), "browserDialog");
+            else if (activity.getFragmentManager() != null)
+                browserDialog.show(((FragmentActivity) activity).getSupportFragmentManager(), "browserDialog");
+        } catch (Exception e) {
+            Log.e(TAG, "Can't open BrowserDialog", e);
+        }
     }
 
     /**

@@ -89,8 +89,8 @@
     <string name="hint_title">vārds</string>
     <string name="hint_url">url</string>
     <string name="hint_username">lietotājvārds</string>
-    <string name="install_from_market">Instalēt no Play veikala</string>
-    <string name="install_from_website">Instalēt no Web</string>
+    <string name="install_from_play_store">Instalēt no Play veikala</string>
+    <string name="install_from_f_droid">Instalēt no F-Droid</string>
     <string name="InvalidPassword">Nederīga parole vai atslēgas fails.</string>
     <string name="invalid_algorithm">Nederīgs algoritms.</string>
     <string name="invalid_db_sig">Datu bāzes formāts nav atpazīts.</string>

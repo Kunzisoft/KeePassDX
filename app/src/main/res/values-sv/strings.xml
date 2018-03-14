@@ -110,8 +110,8 @@
     <string name="hint_title">namn</string>
     <string name="hint_url">url</string>
     <string name="hint_username">användarnamn</string>
-    <string name="install_from_market">Installera från Play Store</string>
-    <string name="install_from_website">Installera från webbsida</string>
+    <string name="install_from_play_store">Installera från Play Store</string>
+    <string name="install_from_f_droid">Installera från F-Droid</string>
     <string name="InvalidPassword">Ogiltigt lösenord eller nyckelfil.</string>
     <string name="invalid_algorithm">Ogiltig algoritm.</string>
     <string name="invalid_db_sig">Databasformatet är okänt.</string>

@@ -100,8 +100,8 @@
     <string name="hint_title">タイトル</string>
     <string name="hint_url">url</string>
     <string name="hint_username">ユーザー名</string>
-    <string name="install_from_market">Android Marketで入手</string>
-    <string name="install_from_website">Webサイトから入手</string>
+    <string name="install_from_play_store">Play Storeで入手</string>
+    <string name="install_from_f_droid">F-Droidで入手</string>
     <string name="InvalidPassword">パスワード/キーファイルが違います。</string>
     <string name="invalid_db_sig">データベースフォーマットが認識できません。</string>
     <string name="length">生成するパスワードの長さ</string>

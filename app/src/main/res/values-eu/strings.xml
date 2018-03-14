@@ -111,8 +111,8 @@
     <string name="hint_title">izena</string>
     <string name="hint_url">url</string>
     <string name="hint_username">erabiltzaile izena</string>
-    <string name="install_from_market">Play store-etik Instalatu</string>
-    <string name="install_from_website">Web-etik Instalatu</string>
+    <string name="install_from_play_store">Play store-etik Instalatu</string>
+    <string name="install_from_f_droid">F-Droid-etik Instalatu</string>
     <string name="InvalidPassword">Pasahitz edo gako fitxategi baliogabea.</string>
     <string name="invalid_algorithm">Algoritmo baliogabea.</string>
     <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>

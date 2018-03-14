@@ -109,8 +109,8 @@
     <string name="hint_title">nimi</string>
     <string name="hint_url">url-osoite</string>
     <string name="hint_username">käyttäjänimi</string>
-    <string name="install_from_market">Asenna Play Storesta</string>
-    <string name="install_from_website">Asenna Internetistä</string>
+    <string name="install_from_play_store">Asenna Play Storesta</string>
+    <string name="install_from_f_droid">Asenna F-Droid</string>
     <string name="InvalidPassword">Väärä salasana tai avaintiedosto.</string>
     <string name="invalid_algorithm">Epäkelpo algoritmi.</string>
     <string name="invalid_db_sig">Salasanatietokannan tyyppiä ei tunnistettu.</string>

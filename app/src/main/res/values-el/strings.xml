@@ -109,8 +109,8 @@
     <string name="hint_title">όνομα</string>
     <string name="hint_url">διεύθυνση url</string>
     <string name="hint_username">όνομα χρήστη</string>
-    <string name="install_from_market">Εγκατάσταση από το Play Store</string>
-    <string name="install_from_website">Εγκατάσταση από το Διαδίκτυο</string>
+    <string name="install_from_play_store">Εγκατάσταση από το Play Store</string>
+    <string name="install_from_f_droid">Εγκατάσταση από το F-Droid</string>
     <string name="InvalidPassword">Εσφαλμένος κωδικός ή αρχείο κλειδιού.</string>
     <string name="invalid_algorithm">Εσφαλμένος αλγόριθμος.</string>
     <string name="invalid_db_sig">Η μορφή της Βάσης Δεδομένων δεν αναγνωρίζεται.</string>

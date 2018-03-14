@@ -100,8 +100,8 @@
     <string name="hint_title">meno</string>
     <string name="hint_url">url</string>
     <string name="hint_username">užívateľské meno</string>
-    <string name="install_from_market">Inštalovať z Marketu</string>
-    <string name="install_from_website">Inštalovať z WEBu</string>
+    <string name="install_from_play_store">Inštalovať z Play Store</string>
+    <string name="install_from_f_droid">Inštalovať z F-Droid</string>
     <string name="InvalidPassword">Chybné heslo, alebo súbor keyfile.</string>
     <string name="invalid_db_sig">Formát Databázy nerozpoznaný.</string>
     <string name="length">Dĺžka</string>

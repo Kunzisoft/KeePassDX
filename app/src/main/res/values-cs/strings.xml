@@ -112,8 +112,8 @@
     <string name="hint_title">název</string>
     <string name="hint_url">url</string>
     <string name="hint_username">uživatelské jméno</string>
-    <string name="install_from_market">Instalovat z Play</string>
-    <string name="install_from_website">Instalovat z webu</string>
+    <string name="install_from_play_store">Instalovat z Play</string>
+    <string name="install_from_f_droid">Instalovat z F-Droid</string>
     <string name="InvalidPassword">Chybné heslo nebo klíčový soubor.</string>
     <string name="invalid_algorithm">Chybný algoritmus.</string>
     <string name="invalid_db_sig">Databázový formát nelze rozpoznat.</string>

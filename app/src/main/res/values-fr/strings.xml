@@ -115,8 +115,8 @@
     <string name="hint_title">nom</string>
     <string name="hint_url">URL</string>
     <string name="hint_username">nom d\'utilisateur</string>
-    <string name="install_from_market">Installer depuis Google Play</string>
-    <string name="install_from_website">Installer depuis le site web</string>
+    <string name="install_from_play_store">Installer depuis Google Play</string>
+    <string name="install_from_f_droid">Installer depuis F-Droid</string>
     <string name="InvalidPassword">Mot de passe ou fichier de clé invalide.</string>
     <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Format de base de données non reconnu.</string>

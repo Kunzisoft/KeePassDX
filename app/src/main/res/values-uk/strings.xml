@@ -100,8 +100,8 @@
     <string name="hint_title">ім’я</string>
     <string name="hint_url">url</string>
     <string name="hint_username">ім’я користувача</string>
-    <string name="install_from_market">Інсталювати із Google Play</string>
-    <string name="install_from_website">Інсталювати із Інтернету</string>
+    <string name="install_from_play_store">Інсталювати із Google Play</string>
+    <string name="install_from_f_droid">Інсталювати із F-Droid</string>
     <string name="InvalidPassword">Невірний пароль або файл ключа.</string>
     <string name="invalid_db_sig">Формат бази даних не розпізнано.</string>
     <string name="length">Довжина</string>

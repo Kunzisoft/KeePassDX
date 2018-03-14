@@ -106,8 +106,8 @@
     <string name="hint_title">név</string>
     <string name="hint_url">url</string>
     <string name="hint_username">felhasználónév</string>
-    <string name="install_from_market">Letöltés a Google Play-ről</string>
-    <string name="install_from_website">Letöltés az weboldalról</string>
+    <string name="install_from_play_store">Letöltés a Google Play-ről</string>
+    <string name="install_from_f_droid">Letöltés a F-Droid</string>
     <string name="InvalidPassword">Érvénytelen jelszó vagy kulcsfájl.</string>
     <string name="invalid_algorithm">Érvénytelen algoritmus.</string>
     <string name="invalid_db_sig">Az adabázis formátuma nem ismert.</string>

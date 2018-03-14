@@ -98,8 +98,8 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="hint_title">nazwa</string>
     <string name="hint_url">url</string>
     <string name="hint_username">nazwa użytkownika</string>
-    <string name="install_from_market">Zainstaluj z Marketu</string>
-    <string name="install_from_website">Zainstaluj z WWW</string>
+    <string name="install_from_play_store">Zainstaluj z Play-Store</string>
+    <string name="install_from_f_droid">Zainstaluj z F-Droid</string>
     <string name="InvalidPassword">Nieprawidłowe hasło lub plik klucza.</string>
     <string name="invalid_db_sig">Format bazy danych nierozpoznany.</string>
     <string name="length">Długość</string>

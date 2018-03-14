@@ -102,8 +102,8 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="hint_title">nombre</string>
     <string name="hint_url">url</string>
     <string name="hint_username">nombre de usuario</string>
-    <string name="install_from_market">Instalar desde Market</string>
-    <string name="install_from_website">Instalar desde Web</string>
+    <string name="install_from_play_store">Instalar desde Play Store</string>
+    <string name="install_from_f_droid">Instalar desde F-Droid</string>
     <string name="InvalidPassword">Contraseña o archivo de clave no válido.</string>
     <string name="invalid_db_sig">Formato de base de datos no reconocido.</string>
     <string name="length">Longitud</string>

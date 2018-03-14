@@ -24,8 +24,8 @@
     <string name="donate_url" translatable="false">http://www.kunzisoft.com/donation.html</string>
     <string name="homepage" translatable="false">http://www.kunzisoft.com/KeepassDX</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
-    <string name="oi_filemanager_market" translatable="false">market://details?id=org.openintents.filemanager</string>
-    <string name="oi_filemanager_web" translatable="false">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
+    <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
+    <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
     
     <!--  Password generator -->
     <string name="password_length_key" translatable="false">password_length_key</string>

@@ -111,8 +111,8 @@
     <string name="hint_title">navn</string>
     <string name="hint_url">url</string>
     <string name="hint_username">brugernavn</string>
-    <string name="install_from_market">Installer fra Play Butik</string>
-    <string name="install_from_website">Installer fra internettet</string>
+    <string name="install_from_play_store">Installer fra Play Butik</string>
+    <string name="install_from_f_droid">Installer fra F-Droid</string>
     <string name="InvalidPassword">Ugyldig adgangskode eller nøglefil.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Databaseformatet blev ikke genkendt.</string>

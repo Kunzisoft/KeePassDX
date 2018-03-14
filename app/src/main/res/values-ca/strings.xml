@@ -103,8 +103,8 @@
     <string name="hint_title">nom</string>
     <string name="hint_url">url</string>
     <string name="hint_username">usuari</string>
-    <string name="install_from_market">Instal·la de la Play Store</string>
-    <string name="install_from_website">Instal·la de la web</string>
+    <string name="install_from_play_store">Instal·la de la Play Store</string>
+    <string name="install_from_f_droid">Instal·la de la F-Droid</string>
     <string name="InvalidPassword">Contrasenya o arxiu clau invàlids.</string>
     <string name="invalid_db_sig">Format de base de dades desconegut.</string>
     <string name="length">Longitud</string>
