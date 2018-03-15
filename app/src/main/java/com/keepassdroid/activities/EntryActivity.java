@@ -22,9 +22,6 @@ package com.keepassdroid.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,7 +33,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -56,8 +52,9 @@ import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
-import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.password.PasswordActivity;
+import com.keepassdroid.services.NotificationCopingService;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
@@ -77,9 +74,6 @@ import static com.keepassdroid.settings.PreferencesUtil.isClipboardNotifications
 public class EntryActivity extends LockingHideActivity {
 	public static final String KEY_ENTRY = "entry";
 
-	public static final int NOTIFY_USERNAME = 1;
-	public static final int NOTIFY_PASSWORD = 2;
-
 	private ImageView titleIconView;
     private TextView titleView;
 	private EntryContentsView entryContentsView;
@@ -87,7 +81,6 @@ public class EntryActivity extends LockingHideActivity {
 	protected PwEntry mEntry;
 	private Timer mTimer = new Timer();
 	private boolean mShowPassword;
-	private NotificationManager mNM;
 	private BroadcastReceiver mIntentReceiver;
 	protected boolean readOnly = false;
 
@@ -159,20 +152,24 @@ public class EntryActivity extends LockingHideActivity {
 
 		// If notifications enabled in settings
 		if (isClipboardNotificationsEnable(getApplicationContext())) {
-            // Notification Manager
-            mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            if (mEntry.getPassword().length() > 0) {
-                // only show notification if password is available
-                Notification password = getNotification(Intents.COPY_PASSWORD, R.string.copy_password);
-                mNM.notify(NOTIFY_PASSWORD, password);
-            }
-
-            if (mEntry.getUsername().length() > 0) {
-                // only show notification if username is available
-                Notification username = getNotification(Intents.COPY_USERNAME, R.string.copy_username);
-                mNM.notify(NOTIFY_USERNAME, username);
-            }
+			if (mEntry.getPassword().length() > 0) {
+				if (mEntry.getUsername().length() > 0) {
+					// username already copied, waiting for user's action before copy password.
+					Intent intent = new Intent(this, NotificationCopingService.class);
+					intent.setAction(NotificationCopingService.ACTION_NEW_NOTIFICATION);
+					intent.putExtra(NotificationCopingService.EXTRA_PASSWORD, mEntry.getPassword());
+                    intent.putExtra(NotificationCopingService.EXTRA_USERNAME, mEntry.getUsername());
+					if (mEntry.getTitle() != null)
+						intent.putExtra(NotificationCopingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
+					startService(intent);
+				} else {
+					// username not copied, copy password immediately.
+                    Intent intent = new Intent(this, NotificationCopingService.class);
+                    intent.setAction(NotificationCopingService.ACTION_COPY_PASSWORD);
+                    intent.putExtra(NotificationCopingService.EXTRA_PASSWORD, mEntry.getPassword());
+                    startService(intent);
+				}
+			}
         }
 			
 		mIntentReceiver = new BroadcastReceiver() {
@@ -209,33 +206,7 @@ public class EntryActivity extends LockingHideActivity {
 			unregisterReceiver(mIntentReceiver);
 		}
 		
-		if ( mNM != null ) {
-			try {
-			    mNM.cancelAll();
-			} catch (SecurityException e) {
-				// Some android devices give a SecurityException when trying to cancel notifications without the WAKE_LOCK permission,
-				// we'll ignore these.
-			}
-		}
-		
 		super.onDestroy();
-	}
-
-	private Notification getNotification(String intentText, int descResId) {
-
-		String desc = getString(descResId);
-
-		Intent intent = new Intent(intentText);
-		PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-		// no longer supported for api level >22
-		// notify.setLatestEventInfo(this, getString(R.string.app_name), desc, pending);
-		// so instead using compat builder and create new notification
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-		Notification notify = builder.setContentIntent(pending).setContentText(desc).setContentTitle(getString(R.string.app_name))
-				.setSmallIcon(R.drawable.notify).setTicker(desc).setWhen(System.currentTimeMillis()).build();
-
-		return notify;
 	}
 
     private void populateTitle(Drawable drawIcon, String text) {

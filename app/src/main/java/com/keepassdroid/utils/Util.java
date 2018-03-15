@@ -20,11 +20,11 @@
 package com.keepassdroid.utils;
 
 import android.content.ActivityNotFoundException;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.text.ClipboardManager;
 import android.widget.TextView;
 
 import com.keepassdroid.database.exception.SamsungClipboardException;

@@ -46,6 +46,7 @@
     <string name="clipboard_error_clear">Clearing the clipboard failed</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Time before clearing clipboard after copying username or password</string>
+    <string name="clipboard_swipe_clean">Swipe to clean clipboard now</string>
     <string name="copy_username">Select to copy username to clipboard</string>
     <string name="copy_password">Select to copy password to clipboard</string>
     <string name="creating_db_key">Creating database key&#8230;</string>

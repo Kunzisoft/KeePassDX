@@ -48,6 +48,7 @@
     <string name="clipboard_error_clear">Le vidage du presse-papier a échoué</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Temps avant le vidage du presse-papier après copie du nom d\'utilisateur ou du mot de passe</string>
+    <string name="clipboard_swipe_clean">Balayez pour effacer le presse-papiers maintenant</string>
     <string name="copy_username">Copier le nom d\'utilisateur dans le presse-papier</string>
     <string name="copy_password">Copier le mot de passe dans le presse-papier</string>
     <string name="creating_db_key">Création de la clé de base de données…</string>
