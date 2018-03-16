@@ -133,6 +133,7 @@
         <activity android:name="com.keepassdroid.settings.SettingsActivity" />
         <activity android:name="com.keepassdroid.autofill.AutoFillAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.keepassdroid.settings.SettingsAutofillActivity" />
 
         <service android:name="com.keepassdroid.services.TimeoutService" />
         <service

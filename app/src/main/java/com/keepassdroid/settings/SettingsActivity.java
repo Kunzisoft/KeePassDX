@@ -20,6 +20,7 @@
 package com.keepassdroid.settings;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -39,13 +40,19 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
     @Override
     protected void onResume() {
-
         // Clear the shutdown flag
         App.clearShutdown();
-
         super.onResume();
     }
-	
+
+    /**
+     * Retrieve the main fragment to show in first
+     * @return The main fragment
+     */
+    protected Fragment retrieveMainFragment() {
+        return new MainPreferenceFragment();
+    }
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,7 +66,7 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new MainPreferenceFragment())
+                    .add(R.id.fragment_container, retrieveMainFragment())
                     .commit();
         }
 
@@ -80,7 +87,6 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 	@Override
 	protected void onStop() {
 		backupManager.dataChanged();
-		
 		super.onStop();
 	}
 
