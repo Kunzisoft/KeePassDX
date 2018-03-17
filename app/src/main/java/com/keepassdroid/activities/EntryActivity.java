@@ -53,7 +53,7 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.intents.Intents;
 import com.keepassdroid.password.PasswordActivity;
-import com.keepassdroid.services.NotificationCopingService;
+import com.keepassdroid.services.NotificationCopyingService;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.EmptyUtils;
@@ -153,22 +153,16 @@ public class EntryActivity extends LockingHideActivity {
 		// If notifications enabled in settings
 		if (isClipboardNotificationsEnable(getApplicationContext())) {
 			if (mEntry.getPassword().length() > 0) {
+				// username already copied, waiting for user's action before copy password.
+				Intent intent = new Intent(this, NotificationCopyingService.class);
+				intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
+				intent.putExtra(NotificationCopyingService.EXTRA_PASSWORD, mEntry.getPassword());
 				if (mEntry.getUsername().length() > 0) {
-					// username already copied, waiting for user's action before copy password.
-					Intent intent = new Intent(this, NotificationCopingService.class);
-					intent.setAction(NotificationCopingService.ACTION_NEW_NOTIFICATION);
-					intent.putExtra(NotificationCopingService.EXTRA_PASSWORD, mEntry.getPassword());
-                    intent.putExtra(NotificationCopingService.EXTRA_USERNAME, mEntry.getUsername());
-					if (mEntry.getTitle() != null)
-						intent.putExtra(NotificationCopingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
-					startService(intent);
-				} else {
-					// username not copied, copy password immediately.
-                    Intent intent = new Intent(this, NotificationCopingService.class);
-                    intent.setAction(NotificationCopingService.ACTION_COPY_PASSWORD);
-                    intent.putExtra(NotificationCopingService.EXTRA_PASSWORD, mEntry.getPassword());
-                    startService(intent);
+                    intent.putExtra(NotificationCopyingService.EXTRA_USERNAME, mEntry.getUsername());
 				}
+				if (mEntry.getTitle() != null)
+					intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
+				startService(intent);
 			}
         }
 			

@@ -137,7 +137,7 @@
 
         <service android:name="com.keepassdroid.services.TimeoutService" />
         <service
-            android:name="com.keepassdroid.services.NotificationCopingService"
+            android:name="com.keepassdroid.services.NotificationCopyingService"
             android:enabled="true"
             android:exported="false" />
         <service
