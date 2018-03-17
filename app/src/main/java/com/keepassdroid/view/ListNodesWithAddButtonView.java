@@ -170,12 +170,12 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
     }
 
     public void setAddGroupClickListener(OnClickListener onClickListener) {
-        if (addEntryEnable)
+        if (addGroupEnable)
             addGroup.setOnClickListener(onClickListener);
     }
 
     public void setAddEntryClickListener(OnClickListener onClickListener) {
-        if (addGroupEnable)
+        if (addEntryEnable)
             addEntry.setOnClickListener(onClickListener);
     }
 
