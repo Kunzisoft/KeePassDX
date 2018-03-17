@@ -32,7 +32,6 @@ import android.view.View;
 import com.keepassdroid.compat.ContentResolverCompat;
 import com.keepassdroid.compat.StorageAF;
 import com.keepassdroid.fileselect.BrowserDialog;
-import com.keepassdroid.intents.Intents;
 import com.keepassdroid.utils.Interaction;
 import com.keepassdroid.utils.UriUtil;
 
@@ -43,6 +42,8 @@ import static android.app.Activity.RESULT_OK;
 public class KeyFileHelper {
 
     private static final String TAG = "KeyFileHelper";
+
+    public static final String OPEN_INTENTS_FILE_BROWSE = "org.openintents.action.PICK_FILE";
 
     private static final int GET_CONTENT = 25745;
     private static final int OPEN_DOC = 25845;
@@ -129,8 +130,8 @@ public class KeyFileHelper {
     private boolean lookForOpenIntentsFilePicker(@Nullable Uri dataUri) {
         boolean showBrowser = false;
         try {
-            if (Interaction.isIntentAvailable(activity, Intents.OPEN_INTENTS_FILE_BROWSE)) {
-                Intent i = new Intent(Intents.OPEN_INTENTS_FILE_BROWSE);
+            if (Interaction.isIntentAvailable(activity, OPEN_INTENTS_FILE_BROWSE)) {
+                Intent i = new Intent(OPEN_INTENTS_FILE_BROWSE);
                 // Get file path parent if possible
                 if (dataUri != null
                         && dataUri.toString().length() > 0

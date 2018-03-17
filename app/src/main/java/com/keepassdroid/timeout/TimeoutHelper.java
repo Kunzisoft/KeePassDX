@@ -28,7 +28,6 @@ import com.keepassdroid.password.PasswordActivity;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.EditorCompat;
-import com.keepassdroid.timers.Timeout;
 
 public class TimeoutHelper {
 

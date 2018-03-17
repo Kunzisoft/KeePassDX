@@ -1,4 +1,4 @@
-package com.keepassdroid.timers;
+package com.keepassdroid.timeout;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -8,20 +8,20 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.keepassdroid.intents.Intents;
 import com.keepassdroid.services.TimeoutService;
 import com.kunzisoft.keepass.R;
 
 public class Timeout {
+
+	public static final String TIMEOUT = "com.keepassdroid.timeout";
+
 	private static final int REQUEST_ID = 0;
 	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
 	private static String TAG = "KeePass Timeout";
 
 	private static PendingIntent buildIntent(Context ctx) {
-		Intent intent = new Intent(Intents.TIMEOUT);
-		PendingIntent sender = PendingIntent.getBroadcast(ctx, REQUEST_ID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-		return sender;
+		Intent intent = new Intent(TIMEOUT);
+        return PendingIntent.getBroadcast(ctx, REQUEST_ID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 	}
 	
 	public static void start(Context ctx) {
@@ -46,16 +46,20 @@ public class Timeout {
 		AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		
 		Log.d(TAG, "Timeout start");
-		am.set(AlarmManager.RTC, triggerTime, buildIntent(ctx));
-	}
+        if (am != null) {
+            am.set(AlarmManager.RTC, triggerTime, buildIntent(ctx));
+        }
+    }
 	
 	public static void cancel(Context ctx) {
 		AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		
 		Log.d(TAG, "Timeout cancel");
-		am.cancel(buildIntent(ctx));
-		
-		ctx.stopService(new Intent(ctx, TimeoutService.class));
+        if (am != null) {
+            am.cancel(buildIntent(ctx));
+        }
+
+        ctx.stopService(new Intent(ctx, TimeoutService.class));
 	}
 
 }

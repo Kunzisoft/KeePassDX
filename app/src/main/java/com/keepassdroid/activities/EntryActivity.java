@@ -51,7 +51,6 @@ import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.exception.SamsungClipboardException;
-import com.keepassdroid.intents.Intents;
 import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.services.NotificationCopyingService;
 import com.keepassdroid.settings.PreferencesUtil;
@@ -73,6 +72,9 @@ import static com.keepassdroid.settings.PreferencesUtil.isClipboardNotifications
 
 public class EntryActivity extends LockingHideActivity {
 	public static final String KEY_ENTRY = "entry";
+
+	public static final String COPY_USERNAME = "com.keepassdroid.copy_username";
+	public static final String COPY_PASSWORD = "com.keepassdroid.copy_password";
 
 	private ImageView titleIconView;
     private TextView titleView;
@@ -167,17 +169,16 @@ public class EntryActivity extends LockingHideActivity {
         }
 			
 		mIntentReceiver = new BroadcastReceiver() {
-			
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String action = intent.getAction();
 				if ( action != null) {
-					if (action.equals(Intents.COPY_USERNAME)) {
+					if (action.equals(COPY_USERNAME)) {
 						String username = mEntry.getUsername();
 						if (username.length() > 0) {
 							timeoutCopyToClipboard(username);
 						}
-					} else if (action.equals(Intents.COPY_PASSWORD)) {
+					} else if (action.equals(COPY_PASSWORD)) {
 						String password = mEntry.getPassword();
 						if (password.length() > 0) {
 							timeoutCopyToClipboard(password);
@@ -188,8 +189,8 @@ public class EntryActivity extends LockingHideActivity {
 		};
 		
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(Intents.COPY_USERNAME);
-		filter.addAction(Intents.COPY_PASSWORD);
+		filter.addAction(COPY_USERNAME);
+		filter.addAction(COPY_PASSWORD);
 		registerReceiver(mIntentReceiver, filter);
 	}
 	
@@ -199,7 +200,7 @@ public class EntryActivity extends LockingHideActivity {
 		if ( mIntentReceiver != null ) {
 			unregisterReceiver(mIntentReceiver);
 		}
-		
+
 		super.onDestroy();
 	}
 

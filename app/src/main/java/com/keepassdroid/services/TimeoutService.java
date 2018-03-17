@@ -30,7 +30,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.keepassdroid.app.App;
-import com.keepassdroid.intents.Intents;
+import com.keepassdroid.timeout.Timeout;
 
 public class TimeoutService extends Service {
 	private static final String TAG = "KeePassDroid Timer"; 
@@ -44,42 +44,36 @@ public class TimeoutService extends Service {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String action = intent.getAction();
-				
-				if ( action.equals(Intents.TIMEOUT) ) {
-					timeout(context);
+				if ( action != null && action.equals(Timeout.TIMEOUT) ) {
+					timeout();
 				}
 			}
 		};
 		
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(Intents.TIMEOUT);
+		filter.addAction(Timeout.TIMEOUT);
 		registerReceiver(mIntentReceiver, filter);
-		
 	}
 	
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		
 		Log.d(TAG, "Timeout service started");
 	}
 
-	private void timeout(Context context) {
+	private void timeout() {
 		Log.d(TAG, "Timeout");
 		App.setShutdown();
-		
 		NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		nm.cancelAll();
-		
+		if (nm != null)
+			nm.cancelAll();
 		stopSelf();
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
 		Log.d(TAG, "Timeout service stopped");
-	
 		unregisterReceiver(mIntentReceiver);
 	}
 
