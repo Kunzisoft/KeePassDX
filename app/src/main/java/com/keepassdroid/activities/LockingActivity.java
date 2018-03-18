@@ -49,6 +49,7 @@ public abstract class LockingActivity extends StylishActivity {
     @Override
 	protected void onResume() {
 		super.onResume();
+		// TODO Solve timeout shutdown
         TimeoutHelper.checkShutdown(this);
         TimeoutHelper.recordTime(this);
 	}

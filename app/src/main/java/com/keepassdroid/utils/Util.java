@@ -20,40 +20,18 @@
 package com.keepassdroid.utils;
 
 import android.content.ActivityNotFoundException;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.widget.TextView;
 
-import com.keepassdroid.database.exception.SamsungClipboardException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class Util {
-	public static String getClipboard(Context context) {
-		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-		CharSequence csText = clipboard.getText();
-		if (csText == null) {
-			return "";
-		}
 
-		return csText.toString();
-	}
-
-	public static void copyToClipboard(Context context, String text) throws SamsungClipboardException {
-		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-
-		try {
-			clipboard.setText(text);
-		} catch (NullPointerException e) {
-			throw new SamsungClipboardException(e);
-		}
-	}
-	
 	public static void gotoUrl(Context context, String url) throws ActivityNotFoundException {
 		if ( url != null && url.length() > 0 ) {
 			Uri uri = Uri.parse(url);

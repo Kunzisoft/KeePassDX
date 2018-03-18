@@ -5,8 +5,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -15,6 +13,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.keepassdroid.database.exception.SamsungClipboardException;
+import com.keepassdroid.timeout.ClipboardHelper;
 import com.kunzisoft.keepass.R;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class NotificationCopyingService extends Service {
     public static final String ACTION_CLEAN_CLIPBOARD = "ACTION_CLEAN_CLIPBOARD";
 
     private NotificationManager notificationManager;
-    private ClipboardManager clipboardManager;
+    private ClipboardHelper clipboardHelper;
     private Thread cleanNotificationTimer;
     private Thread countingDownTask;
     private int notificationId = 1;
@@ -57,7 +57,7 @@ public class NotificationCopyingService extends Service {
     public void onCreate() {
         super.onCreate();
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        clipboardHelper = new ClipboardHelper(this);
 
         // Create notification channel for Oreo+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -98,8 +98,11 @@ public class NotificationCopyingService extends Service {
 
         } else if (ACTION_CLEAN_CLIPBOARD.equals(intent.getAction())) {
             stopTask(countingDownTask);
-            cleanPassword();
-
+            try {
+                clipboardHelper.cleanClipboard();
+            } catch (SamsungClipboardException e) {
+                Log.e(TAG, "Clipboard can't be cleaned", e);
+            }
         } else {
             Log.w(TAG, "unknown action");
         }
@@ -159,19 +162,11 @@ public class NotificationCopyingService extends Service {
                 this, 0, copyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private void addActionsToBuilder(NotificationCompat.Builder builder, List<Field> fieldsToAdd) {
-        // Add extra actions
-        for (Field fieldToAdd : fieldsToAdd) {
-            builder.addAction(R.drawable.notify, fieldToAdd.label,
-                    getCopyPendingIntent(fieldToAdd, fieldsToAdd));
-        }
-    }
-
     private void newNotification(@Nullable String title, List<Field> fieldsToAdd) {
         stopTask(countingDownTask);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
-                .setSmallIcon(R.drawable.notify);
+                .setSmallIcon(R.drawable.ic_key_white_24dp);
         if (title != null)
             builder.setContentTitle(title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -182,8 +177,14 @@ public class NotificationCopyingService extends Service {
             builder.setContentText(field.copyText);
             builder.setContentIntent(getCopyPendingIntent(field, fieldsToAdd));
 
+            // Add extra actions without password
+            List<Field> fieldsWithoutPassword = new ArrayList<>(fieldsToAdd);
+            fieldsWithoutPassword.remove(field);
             // Add extra actions
-            addActionsToBuilder(builder, fieldsToAdd);
+            for (Field fieldToAdd : fieldsWithoutPassword) {
+                builder.addAction(R.drawable.ic_key_white_24dp, fieldToAdd.label,
+                        getCopyPendingIntent(fieldToAdd, fieldsToAdd));
+            }
         }
 
         notificationManager.cancel(notificationId);
@@ -207,59 +208,61 @@ public class NotificationCopyingService extends Service {
         stopTask(countingDownTask);
         stopTask(cleanNotificationTimer);
 
-        copyToClipboard(fieldToCopy.label, fieldToCopy.value);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
-                .setSmallIcon(R.drawable.ic_key_white_24dp)
-                .setContentTitle(fieldToCopy.label);
+        try {
+            clipboardHelper.copyToClipboard(fieldToCopy.label, fieldToCopy.value);
 
-        // Remove the current field from the next fields
-        if (nextFields.contains(fieldToCopy))
-            nextFields.remove(fieldToCopy);
-        // New action with next field if click
-        if (nextFields.size() > 0) {
-            Field nextField = nextFields.get(0);
-            builder.setContentText(nextField.copyText);
-            builder.setContentIntent(getCopyPendingIntent(nextField, nextFields));
-        // Else tell to swipe for a clean
-        } else {
-            builder.setContentText(getString(R.string.clipboard_swipe_clean));
-        }
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
+                    .setSmallIcon(R.drawable.ic_key_white_24dp)
+                    .setContentTitle(fieldToCopy.label);
 
-        Intent cleanIntent = new Intent(this, NotificationCopyingService.class);
-        cleanIntent.setAction(ACTION_CLEAN_CLIPBOARD);
-        PendingIntent cleanPendingIntent = PendingIntent.getService(
-                this, 0, cleanIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setDeleteIntent(cleanPendingIntent);
-
-        int myNotificationId = notificationId;
-
-        countingDownTask = new Thread(() -> {
-            int maxPos = 100;
-            long posDurationMills = notificationTimeoutMilliSecs / maxPos;
-            for (int pos = maxPos; pos > 0; --pos) {
-                builder.setProgress(maxPos, pos, false);
-                notificationManager.notify(myNotificationId, builder.build());
-                try {
-                    Thread.sleep(posDurationMills);
-                } catch (InterruptedException e) {
-                    break;
-                }
+            // Remove the current field from the next fields
+            if (nextFields.contains(fieldToCopy))
+                nextFields.remove(fieldToCopy);
+            // New action with next field if click
+            if (nextFields.size() > 0) {
+                Field nextField = nextFields.get(0);
+                builder.setContentText(nextField.copyText);
+                builder.setContentIntent(getCopyPendingIntent(nextField, nextFields));
+            // Else tell to swipe for a clean
+            } else {
+                builder.setContentText(getString(R.string.clipboard_swipe_clean));
             }
-            countingDownTask = null;
-            notificationManager.cancel(myNotificationId);
-            // Clean password only if no next field
-            if (nextFields.size() <= 0)
-                cleanPassword();
-        });
-        countingDownTask.start();
-    }
 
-    private void copyToClipboard(String name, String value) {
-        clipboardManager.setPrimaryClip(ClipData.newPlainText(name, value));
-    }
+            Intent cleanIntent = new Intent(this, NotificationCopyingService.class);
+            cleanIntent.setAction(ACTION_CLEAN_CLIPBOARD);
+            PendingIntent cleanPendingIntent = PendingIntent.getService(
+                    this, 0, cleanIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setDeleteIntent(cleanPendingIntent);
 
-    private void cleanPassword() {
-        clipboardManager.setPrimaryClip(ClipData.newPlainText("",""));
+            int myNotificationId = notificationId;
+
+            countingDownTask = new Thread(() -> {
+                int maxPos = 100;
+                long posDurationMills = notificationTimeoutMilliSecs / maxPos;
+                for (int pos = maxPos; pos > 0; --pos) {
+                    builder.setProgress(maxPos, pos, false);
+                    notificationManager.notify(myNotificationId, builder.build());
+                    try {
+                        Thread.sleep(posDurationMills);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+                countingDownTask = null;
+                notificationManager.cancel(myNotificationId);
+                // Clean password only if no next field
+                if (nextFields.size() <= 0)
+                    try {
+                        clipboardHelper.cleanClipboard();
+                    } catch (SamsungClipboardException e) {
+                        Log.e(TAG, "Clipboard can't be cleaned", e);
+                    }
+            });
+            countingDownTask.start();
+
+        } catch (SamsungClipboardException e) {
+            Log.e(TAG, "Clipboard can't be populate", e);
+        }
     }
 
     private void stopTask(Thread task) {

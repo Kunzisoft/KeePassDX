@@ -89,7 +89,7 @@ public class TimeoutHelper {
 
 	public static void checkShutdown(Activity act) {
 		if ( App.isShutdown() && App.getDB().Loaded() ) {
-            Log.e(TAG, "Shutdown " + act.getLocalClassName() + " after inactivity");
+            Log.i(TAG, "Shutdown " + act.getLocalClassName() + " after inactivity");
 			act.setResult(PasswordActivity.RESULT_EXIT_LOCK);
 			act.finish();
 		}
