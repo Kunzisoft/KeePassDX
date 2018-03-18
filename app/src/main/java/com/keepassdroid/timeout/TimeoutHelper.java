@@ -83,6 +83,7 @@ public class TimeoutHelper {
 			// We have timed out
             if ( App.getDB().Loaded() ) {
                 App.setShutdown(act.getString(R.string.app_timeout));
+				TimeoutHelper.checkShutdown(act);
             }
 		}
 	}

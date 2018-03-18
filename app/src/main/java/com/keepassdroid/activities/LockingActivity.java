@@ -31,10 +31,12 @@ import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.timeout.TimeoutHelper;
 
-
 public abstract class LockingActivity extends StylishActivity {
 
+    private static final String AT_LEAST_SECOND_SHOWN_KEY = "AT_LEAST_SECOND_SHOWN_KEY";
+
     private ScreenReceiver screenReceiver;
+    private boolean timeAlreadyRecord;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,19 +46,35 @@ public abstract class LockingActivity extends StylishActivity {
             registerReceiver(screenReceiver, new IntentFilter((Intent.ACTION_SCREEN_OFF)));
         } else
             screenReceiver = null;
+
+        // If it's the first shown, record the time
+        // WARNING TODO recordTime is not called after a back if was in backstack
+        if (! (savedInstanceState != null
+                && savedInstanceState.containsKey(AT_LEAST_SECOND_SHOWN_KEY)
+                && savedInstanceState.getBoolean(AT_LEAST_SECOND_SHOWN_KEY)) ) {
+            TimeoutHelper.recordTime(this);
+            timeAlreadyRecord = true;
+        } else {
+            timeAlreadyRecord = false;
+        }
     }
 
     @Override
 	protected void onResume() {
 		super.onResume();
-		// TODO Solve timeout shutdown
-        TimeoutHelper.checkShutdown(this);
-        TimeoutHelper.recordTime(this);
+		// After the first creation
+		// or If simply swipe with another application
+        // If the time is out -> close the Activity
+        TimeoutHelper.checkTime(this);
+        // If onCreate already record time
+        if (!timeAlreadyRecord)
+            TimeoutHelper.recordTime(this);
 	}
 
     @Override
     protected void onPause() {
         super.onPause();
+        // If the time is out during our navigation in activity -> close the Activity
         TimeoutHelper.checkTime(this);
     }
 
@@ -65,6 +83,12 @@ public abstract class LockingActivity extends StylishActivity {
         super.onDestroy();
         if(screenReceiver != null)
             unregisterReceiver(screenReceiver);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(AT_LEAST_SECOND_SHOWN_KEY, true);
     }
 
     public class ScreenReceiver extends BroadcastReceiver {
