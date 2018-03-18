@@ -68,6 +68,7 @@ public class EntryActivity extends LockingHideActivity {
 	protected boolean readOnly = false;
 
 	private ClipboardHelper clipboardHelper;
+	private boolean firstLaunchOfActivity;
 
     public static void launch(Activity act, PwEntry pw) {
         Intent intent = new Intent(act, EntryActivity.class);
@@ -131,6 +132,7 @@ public class EntryActivity extends LockingHideActivity {
 
         // Init the clipboard helper
         clipboardHelper = new ClipboardHelper(this);
+        firstLaunchOfActivity = true;
 	}
 
     @Override
@@ -139,7 +141,7 @@ public class EntryActivity extends LockingHideActivity {
 
         // If notifications enabled in settings
         // Don't if application timeout
-        if (!App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
+        if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
             if (mEntry.getPassword().length() > 0) {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
@@ -153,6 +155,7 @@ public class EntryActivity extends LockingHideActivity {
                 startService(intent);
             }
         }
+        firstLaunchOfActivity = false;
     }
 
     private void populateTitle(Drawable drawIcon, String text) {
