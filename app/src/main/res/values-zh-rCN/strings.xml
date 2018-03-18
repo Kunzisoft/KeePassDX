@@ -168,6 +168,7 @@
     	<item>1分钟</item>
     	<item>5分钟</item>
     	<item>15分钟</item>
+    	<item>30分钟</item>
     	<item>从不</item>
     </string-array>
     <string-array name="list_size_options">

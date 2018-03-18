@@ -199,6 +199,7 @@
         <item>1 perc</item>
         <item>5 perc</item>
         <item>15 perc</item>
+        <item>30 perc</item>
         <item>Soha</item>
     </string-array>
     <string-array name="list_size_options">

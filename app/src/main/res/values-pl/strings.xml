@@ -175,6 +175,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
      <item>1 minuta</item>
      <item>5 minut</item>
      <item>15 minut</item>
+     <item>30 minut</item>
      <item>Nigdy</item>
     </string-array>
     <string-array name="list_size_options">

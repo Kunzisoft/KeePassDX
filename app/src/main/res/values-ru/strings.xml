@@ -196,6 +196,7 @@
        <item>1 мин.</item>
        <item>5 мин.</item>
        <item>15 мин.</item>
+       <item>30 мин.</item>
        <item>Никогда</item>
     </string-array>
     <string-array name="list_size_options">

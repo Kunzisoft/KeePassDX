@@ -176,6 +176,7 @@
     	<item>1 minut</item>
     	<item>5 minuts</item>
     	<item>15 minuts</item>
+    	<item>30 minuts</item>
     	<item>Mai</item>
     </string-array>
     <string-array name="list_size_options">

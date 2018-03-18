@@ -175,6 +175,7 @@
     	<item>1 minuto</item>
     	<item>5 minutos</item>
     	<item>15 minutos</item>
+    	<item>30 minutos</item>
     	<item>Nunca</item>
     </string-array>
     <string-array name="list_size_options">

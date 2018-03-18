@@ -205,6 +205,7 @@
       <item>1 Minute</item>
       <item>5 Minuten</item>
       <item>15 Minuten</item>
+      <item>30 Minuten</item>
       <item>Nie</item>
     </string-array>
     <string-array name="list_size_options">
