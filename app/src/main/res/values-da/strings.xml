@@ -174,7 +174,7 @@
     <string name="sort_name">Sorter efter navn</string>
     <string name="sort_db">DB sorteringsrækkefølge</string>
     <string name="special">Speciel</string>
-    <string name="search_hint">Post titel/beskrivelse</string>
+    <string name="search">Post titel/beskrivelse</string>
     <string name="search_results">Søgeresultater</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Understreget</string>

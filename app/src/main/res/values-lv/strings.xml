@@ -150,7 +150,7 @@
     <string name="sort_name">Kārtot pēc nosaukuma</string>
     <string name="sort_db">Izejas</string>
     <string name="special">Speciālie</string>
-    <string name="search_hint">Ieraksta nosaukums/apraksts</string>
+    <string name="search">Ieraksta nosaukums/apraksts</string>
     <string name="search_results">Meklēšanas rezultāti</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Pasvītrojums</string>

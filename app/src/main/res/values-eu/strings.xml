@@ -172,7 +172,7 @@
     <string name="sort_name">Izenaren arabera ordenatu</string>
     <string name="sort_db">DB-a antolatzeko ordena</string>
     <string name="special">Berezia</string>
-    <string name="search_hint">Sarreraren Izena / Deskribapena</string>
+    <string name="search">Sarreraren Izena / Deskribapena</string>
     <string name="search_results">Bilaketaren emaitzak</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Azpimarratu</string>

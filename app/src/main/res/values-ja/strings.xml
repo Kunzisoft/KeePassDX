@@ -155,7 +155,7 @@
     <string name="sort_name">A-Z順に並び替え</string>
     <string name="sort_db">並べ替え</string>
     <string name="special">記号</string>
-    <string name="search_hint">キーワードを入力</string>
+    <string name="search">キーワードを入力</string>
     <string name="twofish">Twofish</string>
     <string name="underline">アンダーライン (_)</string>
     <string name="unsupported_db_version">このバージョンのデータベースはサポートされていません。</string>

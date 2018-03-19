@@ -183,7 +183,7 @@
     <string name="sort_name">Sortieren nach Name</string>
     <string name="sort_db">Sortieren nach Erstellung</string>
     <string name="special">Spezialsymbole</string>
-    <string name="search_hint">Titel/Beschreibung des Eintrags</string>
+    <string name="search">Titel/Beschreibung des Eintrags</string>
     <string name="search_results">Suchergebnisse</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Unterstrichen</string>

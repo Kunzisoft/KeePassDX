@@ -65,6 +65,7 @@
     <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>
     <string name="recycle_bin_key" translatable="true">recycle_bin_key</string>
     <string name="monospace_font_fields_enable_key" translatable="true">monospace_font_extra_fields_enable_key</string>
+    <string name="auto_open_file_uri_key" translatable="true">auto_open_file_uri_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -80,6 +81,7 @@
     <bool name="sort_ascending_default" translatable="true">true</bool>
     <bool name="sort_recycle_bin_bottom_default" translatable="true">true</bool>
     <bool name="monospace_font_fields_enable_default" translatable="true">false</bool>
+    <bool name="auto_open_file_uri_default" translatable="true">true</bool>
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">

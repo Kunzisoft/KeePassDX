@@ -172,7 +172,7 @@
     <string name="sort_name">Ταξινόμηση κατά όνομα</string>
     <string name="sort_db">Σειρά ταξινόμησης βάσης</string>
     <string name="special">Ειδικοί</string>
-    <string name="search_hint">Τίτλος/περιγραφή εγγραφής</string>
+    <string name="search">Τίτλος/περιγραφή εγγραφής</string>
     <string name="search_results">Αποτελέσματα αναζήτησης</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Υπογράμμιση</string>

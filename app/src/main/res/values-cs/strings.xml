@@ -175,7 +175,7 @@
     <string name="sort_name">Seřadit podle jména</string>
     <string name="sort_db">Seřadit podle DB</string>
     <string name="special">Speciální</string>
-    <string name="search_hint">Zadejte název/popis</string>
+    <string name="search">Zadejte název/popis</string>
     <string name="search_results">Výsledky hledání</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Podtrženo</string>

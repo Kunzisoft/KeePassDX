@@ -155,7 +155,7 @@
     <string name="sort_name">Упорядкувати за ім’ям</string>
     <string name="sort_db">Упорядкування БД</string>
     <string name="special">Спеціальний</string>
-    <string name="search_hint">Введіть заголовок/опис</string>
+    <string name="search">Введіть заголовок/опис</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Підкреслення</string>
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>

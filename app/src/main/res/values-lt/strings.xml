@@ -101,7 +101,7 @@
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>
     <string name="keyfile_does_not_exist">Rakto failas neegzistuoja.</string>
     <string name="entry_keyfile">Rakto failas</string>
-    <string name="search_hint">Įrašo pavadinimas/aprašymas</string>
+    <string name="search">Įrašo pavadinimas/aprašymas</string>
     <string name="menu_change_key">Pakeisti master raktą</string>
     <string name="entry_accessed">Naudota:</string>
     <string name="maskpass_title">Maskuoti slaptažodį</string>

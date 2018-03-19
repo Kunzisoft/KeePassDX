@@ -170,7 +170,7 @@
     <string name="sort_name">Rendezés név alapján</string>
     <string name="sort_db">Rendezés dátum alapján</string>
     <string name="special">Speciális</string>
-    <string name="search_hint">Bejegyzés név/leírás</string>
+    <string name="search">Bejegyzés név/leírás</string>
     <string name="search_results">Keresés eredménye</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Aláhúzás</string>

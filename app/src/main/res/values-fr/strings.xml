@@ -195,7 +195,7 @@
     <string name="sort_last_modify_time">Tri par Date de Dernière Modification</string>
     <string name="sort_last_access_time">Tri par Date de Dernier Accès</string>
     <string name="special">Spécial</string>
-    <string name="search_hint">Nom/description</string>
+    <string name="search">Nom/description</string>
     <string name="search_results">Résultats</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Souligné</string>
@@ -266,6 +266,8 @@
     <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
     <string name="monospace_font_fields_enable_title">Police des champs</string>
     <string name="monospace_font_fields_enable_summary">Change la police de caractères des champs pour une meilleure visibilité</string>
+    <string name="auto_open_file_uri_title">Ouvrir le fichier sélectionné automatiquement</string>
+    <string name="auto_open_file_uri_summary">Ouvrir automatiquement un fichier à partir de l\'écran de sélection après une sélection dans le navigateur de fichiers</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 secondes</item>

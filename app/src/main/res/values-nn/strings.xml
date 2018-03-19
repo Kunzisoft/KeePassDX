@@ -155,7 +155,7 @@
     <string name="sort_name">Sorter etter namn</string>
     <string name="sort_db">DB-sortering</string>
     <string name="special">Spesial</string>
-    <string name="search_hint">Oppføringa sin tittel/skildring</string>
+    <string name="search">Oppføringa sin tittel/skildring</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Understreking</string>
     <string name="unsupported_db_version">Kan ikkje bruka databaseutgåva.</string>

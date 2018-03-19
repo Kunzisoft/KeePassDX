@@ -169,7 +169,7 @@
     <string name="sort_name">Sortera efter namn</string>
     <string name="sort_db">Sortera efter databasordning</string>
     <string name="special">Specialtecken</string>
-    <string name="search_hint">Postens titel/beskrivning</string>
+    <string name="search">Postens titel/beskrivning</string>
     <string name="search_results">Sökresultat</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Understreck</string>

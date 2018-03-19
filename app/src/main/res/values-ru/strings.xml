@@ -174,7 +174,7 @@
     <string name="sort_name">А–Я</string>
     <string name="sort_db">Исходный</string>
     <string name="special">$пеци@льные</string>
-    <string name="search_hint">название, комментарий</string>
+    <string name="search">название, комментарий</string>
     <string name="search_results">Результаты поиска</string>
     <string name="twofish">Twofish</string>
     <string name="underline">_Подчёркивание_</string>

@@ -20,24 +20,36 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<PreferenceCategory
-		android:title="@string/general">
+    <PreferenceCategory
+        android:title="@string/file_browser">
+
+        <SwitchPreference
+            android:key="@string/saf_key"
+            android:summary="@string/use_saf_summary"
+            android:defaultValue="@bool/saf_default"
+            android:title="@string/use_saf_title"/>
+        <SwitchPreference
+            android:key="@string/auto_open_file_uri_key"
+            android:summary="@string/auto_open_file_uri_summary"
+            android:defaultValue="@bool/auto_open_file_uri_default"
+            android:title="@string/auto_open_file_uri_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/search">
 
         <SwitchPreference
             android:summary="@string/omitbackup_summary"
             android:defaultValue="@bool/omitbackup_default"
             android:title="@string/omitbackup_title"
             android:key="@string/omitbackup_key"/>
-        <SwitchPreference
-            android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/saf_default"
-            android:title="@string/use_saf_title"
-            android:key="@string/saf_key"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/lock">
+
         <ListPreference
             android:key="@string/clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
@@ -59,6 +71,7 @@
             android:title="@string/lock_database_screen_off_title"
             android:summary="@string/lock_database_screen_off_summary"
             android:defaultValue="@bool/lock_database_screen_off_default"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -71,7 +84,6 @@
             android:defaultValue="@string/default_password_length"
             app:min="@string/min_password_length"
             android:max="@string/max_password_length" />
-
         <MultiSelectListPreference
             android:key="@string/list_password_generator_options_key"
             android:title="@string/list_password_generator_options_title"
@@ -79,7 +91,6 @@
             android:entries="@array/list_password_generator_options_entries"
             android:entryValues="@array/list_password_generator_options_values"
             android:defaultValue="@array/list_password_generator_options_default_values"/>
-
         <SwitchPreference
             android:key="@string/maskpass_key"
             android:title="@string/maskpass_title"

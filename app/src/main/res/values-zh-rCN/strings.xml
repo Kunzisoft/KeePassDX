@@ -152,7 +152,7 @@
     <string name="sort_name">通过名称排序</string>
     <string name="sort_db">数据库的排序顺序</string>
     <string name="special">特别</string>
-    <string name="search_hint">条目名称/说明</string>
+    <string name="search">条目名称/说明</string>
     <string name="twofish">Twofish算法</string>
     <string name="underline">强调</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>

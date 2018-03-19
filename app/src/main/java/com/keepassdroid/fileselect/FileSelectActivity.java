@@ -22,7 +22,6 @@ package com.keepassdroid.fileselect;
 import android.Manifest;
 import android.app.Activity;
 import android.app.assist.AssistStructure;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -51,13 +50,14 @@ import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.exception.ContentFileNotFoundException;
 import com.keepassdroid.dialogs.AssignMasterKeyDialogFragment;
 import com.keepassdroid.dialogs.CreateFileDialogFragment;
+import com.keepassdroid.password.AssignPasswordHelper;
 import com.keepassdroid.password.PasswordActivity;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.stylish.StylishActivity;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
-import com.keepassdroid.password.AssignPasswordHelper;
 import com.keepassdroid.view.FileNameView;
 import com.kunzisoft.keepass.R;
 
@@ -102,6 +102,8 @@ public class FileSelectActivity extends StylishActivity implements
 
 	private KeyFileHelper keyFileHelper;
 
+    private String defaultPath;
+
 	public static void launch(Activity activity) {
 		Intent intent = new Intent(activity, FileSelectActivity.class);
 		// only to avoid visible flickering when redirecting
@@ -141,7 +143,7 @@ public class FileSelectActivity extends StylishActivity implements
         fileNameView = (FileNameView) findViewById(R.id.file_select);
 
         // Set the initial value of the filename
-        final String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+        defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + getString(R.string.database_file_path_default)
                 + getString(R.string.database_file_name_default)
                 + getString(R.string.database_file_extension_default);
@@ -158,55 +160,24 @@ public class FileSelectActivity extends StylishActivity implements
 
 		// Open button
 		View openButton = findViewById(R.id.open_database);
-		openButton.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				String fileName = openFileNameView.getText().toString();
-				if (fileName.isEmpty())
-					fileName = defaultPath;
-				try {
-				    AssistStructure assistStructure = null;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        assistStructure = autofillHelper.retrieveAssistStructure(getIntent());
-                        if (assistStructure != null) {
-							PasswordActivity.launch(FileSelectActivity.this,
-                                    fileName,
-                                    assistStructure);
-						}
-					}
-					if (assistStructure == null) {
-                        PasswordActivity.launch(FileSelectActivity.this, fileName);
-                    }
-				}
-				catch (ContentFileNotFoundException e) {
-					Toast.makeText(FileSelectActivity.this,
-							R.string.file_not_found_content, Toast.LENGTH_LONG).show();
-				}
-				catch (FileNotFoundException e) {
-					Toast.makeText(FileSelectActivity.this,
-							R.string.file_not_found, Toast.LENGTH_LONG).show();
-				}
-			}
-		});
+		openButton.setOnClickListener(v -> {
+		    String fileName = openFileNameView.getText().toString();
+            if (fileName.isEmpty())
+                fileName = defaultPath;
+            launchPasswordActivityWithPath(fileName);
+        });
 
 		// Create button
 		View createButton = findViewById(R.id.create_database);
-		createButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
+		createButton.setOnClickListener(v ->
                 FileSelectActivityPermissionsDispatcher
-                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this);
-			}
-		});
+                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this)
+		);
 
         keyFileHelper = new KeyFileHelper(this);
 		View browseButton = findViewById(R.id.browse_button);
 		browseButton.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
-		        new KeyFileHelper.ClickDataUriCallback() {
-            @Override
-            public Uri onRequestIntentFilePicker() {
-                return Uri.parse("file://" + openFileNameView.getText().toString());
-            }
-        }));
+                () -> Uri.parse("file://" + openFileNameView.getText().toString())));
 
 		// Construct adapter with listeners
 		mAdapter = new FileSelectAdapter(FileSelectActivity.this, fileHistory.getDbList());
@@ -260,8 +231,18 @@ public class FileSelectActivity extends StylishActivity implements
             // Delete flickering for kitkat <=
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 overridePendingTransition(0, 0);
+        } catch (ContentFileNotFoundException e) {
+            String error = getString(R.string.file_not_found_content);
+            Toast.makeText(FileSelectActivity.this,
+                    error, Toast.LENGTH_LONG).show();
+            Log.e(TAG, error, e);
+        } catch (FileNotFoundException e) {
+            String error = getString(R.string.file_not_found);
+            Toast.makeText(FileSelectActivity.this,
+                    error, Toast.LENGTH_LONG).show();
+            Log.e(TAG, error, e);
         } catch (Exception e) {
-            // Ignore exception
+            Log.e(TAG, "Can't launch PasswordActivity", e);
         }
     }
 
@@ -453,33 +434,31 @@ public class FileSelectActivity extends StylishActivity implements
 
 	@Override
 	public void onFileItemOpenListener(int itemPosition) {
-		new OpenFileHistoryAsyncTask(new OpenFileHistoryAsyncTask.AfterOpenFileHistoryListener() {
-			@Override
-			public void afterOpenFile(String fileName, String keyFile) {
-				try {
-				    AssistStructure assistStructure = null;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        assistStructure = autofillHelper.getAssistStructure();
-				        if (assistStructure != null) {
-							PasswordActivity.launch(FileSelectActivity.this,
-                                    fileName, keyFile, assistStructure);
-						}
-					}
-					if (assistStructure == null) {
-                        PasswordActivity.launch(FileSelectActivity.this, fileName, keyFile);
+		new OpenFileHistoryAsyncTask((fileName, keyFile) -> {
+            // TODO ENCAPSULATE
+            try {
+                AssistStructure assistStructure = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    assistStructure = autofillHelper.getAssistStructure();
+                    if (assistStructure != null) {
+                        PasswordActivity.launch(FileSelectActivity.this,
+                            fileName, keyFile, assistStructure);
                     }
-				} catch (ContentFileNotFoundException e) {
-					Toast.makeText(FileSelectActivity.this,
-							R.string.file_not_found_content, Toast.LENGTH_LONG)
-							.show();
-				} catch (FileNotFoundException e) {
-					Toast.makeText(FileSelectActivity.this,
-							R.string.file_not_found, Toast.LENGTH_LONG)
-							.show();
-				}
-				updateTitleFileListView();
-			}
-		}, fileHistory).execute(itemPosition);
+                }
+                if (assistStructure == null) {
+                    PasswordActivity.launch(FileSelectActivity.this, fileName, keyFile);
+                }
+            } catch (ContentFileNotFoundException e) {
+                Toast.makeText(FileSelectActivity.this,
+                        R.string.file_not_found_content, Toast.LENGTH_LONG)
+                        .show();
+            } catch (FileNotFoundException e) {
+                Toast.makeText(FileSelectActivity.this,
+                        R.string.file_not_found, Toast.LENGTH_LONG)
+                        .show();
+            }
+            updateTitleFileListView();
+        }, fileHistory).execute(itemPosition);
 	}
 
     @Override
@@ -493,13 +472,10 @@ public class FileSelectActivity extends StylishActivity implements
 
     @Override
     public boolean onFileSelectClearListener(final FileSelectBean fileSelectBean) {
-        new DeleteFileHistoryAsyncTask(new DeleteFileHistoryAsyncTask.AfterDeleteFileHistoryListener() {
-            @Override
-            public void afterDeleteFile() {
-                fileHistory.deleteFile(fileSelectBean.getFileUri());
-                mAdapter.notifyDataSetChanged();
-                updateTitleFileListView();
-            }
+        new DeleteFileHistoryAsyncTask(() -> {
+            fileHistory.deleteFile(fileSelectBean.getFileUri());
+            mAdapter.notifyDataSetChanged();
+            updateTitleFileListView();
         }, fileHistory, mAdapter).execute(fileSelectBean);
         return true;
     }
@@ -513,33 +489,23 @@ public class FileSelectActivity extends StylishActivity implements
 		}
 
 		keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
-                new KeyFileHelper.KeyFileCallback() {
-            @Override
-            public void onKeyFileResultCallback(Uri uri) {
-                if (uri != null) {
-                    String filename = uri.toString();
-                    openFileNameView.setText(filename);
-                }
-            }
-        });
+                uri -> {
+                    if (uri != null) {
+                        if (PreferencesUtil.autoOpenSelectedFile(FileSelectActivity.this)) {
+                            launchPasswordActivityWithPath(uri.toString());
+                        } else {
+                            openFileNameView.setText(uri.toString());
+                        }
+                    }
+                });
 	}
 
     @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void showRationaleForExternalStorage(final PermissionRequest request) {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.permission_external_storage_rationale_write_database)
-                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.proceed();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.cancel();
-                    }
-                })
+                .setPositiveButton(R.string.allow, (dialog, which) -> request.proceed())
+                .setNegativeButton(R.string.cancel, (dialog, which) -> request.cancel())
                 .show();
     }
 

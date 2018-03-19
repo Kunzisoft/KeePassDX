@@ -157,7 +157,7 @@
     <string name="sort_name">Sorteren op naam</string>
     <string name="sort_db">Sorteringsvolgorde DB</string>
     <string name="special">Speciaal</string>
-    <string name="search_hint">Record titel/beschrijving</string>
+    <string name="search">Record titel/beschrijving</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Onderlijnen</string>
     <string name="unsupported_db_version">Niet-ondersteunde databaseversie.</string>

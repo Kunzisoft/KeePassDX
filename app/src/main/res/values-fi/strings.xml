@@ -170,7 +170,7 @@
     <string name="sort_name">Lajittele nimen mukaan</string>
     <string name="sort_db">Tietokannan lajittelujärjestys</string>
     <string name="special">Erityistä</string>
-    <string name="search_hint">Tietueen otsikko/kuvaus</string>
+    <string name="search">Tietueen otsikko/kuvaus</string>
     <string name="search_results">Hakutulokset</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Alleviivattu</string>

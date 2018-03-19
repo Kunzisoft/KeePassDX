@@ -177,7 +177,7 @@
     <string name="sort_name">Ordenar por nome</string>
     <string name="sort_db">Ordenação da BD</string>
     <string name="special">Especiais</string>
-    <string name="search_hint">Título/descrição da entrada</string>
+    <string name="search">Título/descrição da entrada</string>
     <string name="search_results">Resultados da pesquisa</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Sublinhado</string>

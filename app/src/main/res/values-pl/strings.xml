@@ -157,7 +157,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="sort_name">Sortuj wg nazwy</string>
     <string name="sort_db">Sortuj wg daty</string>
     <string name="special">Znaki specjalne</string>
-    <string name="search_hint">Tytuł/opis wpisu</string>
+    <string name="search">Tytuł/opis wpisu</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>

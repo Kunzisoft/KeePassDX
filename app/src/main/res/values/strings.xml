@@ -195,7 +195,7 @@
     <string name="sort_last_modify_time">Sort by Last Modify Time</string>
     <string name="sort_last_access_time">Sort by Last Access Time</string>
     <string name="special">Special</string>
-    <string name="search_hint">Search</string>
+    <string name="search">Search</string>
     <string name="search_results">Search results</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Underline</string>
@@ -268,6 +268,8 @@
     <string name="permission_external_storage_never_ask">Can\'t perform the action without external storage permission</string>
     <string name="monospace_font_fields_enable_title">Fields Font</string>
     <string name="monospace_font_fields_enable_summary">Change the font of the fields for better character visibility</string>
+    <string name="auto_open_file_uri_title">Auto open selected file</string>
+    <string name="auto_open_file_uri_summary">Automatically open a file from the selection screen after a selection in the file browser</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 seconds</item>

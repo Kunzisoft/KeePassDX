@@ -125,4 +125,10 @@ public class PreferencesUtil {
         return prefs.getBoolean(ctx.getString(R.string.monospace_font_fields_enable_key),
                 ctx.getResources().getBoolean(R.bool.monospace_font_fields_enable_default));
     }
+
+    public static boolean autoOpenSelectedFile(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.auto_open_file_uri_key),
+                ctx.getResources().getBoolean(R.bool.auto_open_file_uri_default));
+    }
 }

@@ -155,7 +155,7 @@
     <string name="sort_name">Zoradiť podľa mena</string>
     <string name="sort_db">DB zoradenie poradia</string>
     <string name="special">Špeciálne</string>
-    <string name="search_hint">Záznam názov/popis</string>
+    <string name="search">Záznam názov/popis</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Podčiarknuté</string>
     <string name="unsupported_db_version">Nepodporovaná verzia databázy.</string>

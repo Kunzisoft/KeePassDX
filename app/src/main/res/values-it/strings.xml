@@ -158,7 +158,7 @@
     <string name="sort_name">Ordina per nome</string>
     <string name="sort_db">Ordinamento DB</string>
     <string name="special">Speciale</string>
-    <string name="search_hint">Titolo/descrizione voce</string>
+    <string name="search">Titolo/descrizione voce</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Sottolinea</string>
     <string name="unsupported_db_version">Versione database non supportata.</string>
