@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.keepassdroid.services.TimeoutService;
 import com.kunzisoft.keepass.R;
 
 public class Timeout {

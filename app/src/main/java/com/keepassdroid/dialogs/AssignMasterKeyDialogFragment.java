@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.fragments;
+package com.keepassdroid.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -39,7 +39,7 @@ import android.widget.Toast;
 
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.UriUtil;
-import com.keepassdroid.view.KeyFileHelper;
+import com.keepassdroid.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.R;
 
 public class AssignMasterKeyDialogFragment extends DialogFragment {

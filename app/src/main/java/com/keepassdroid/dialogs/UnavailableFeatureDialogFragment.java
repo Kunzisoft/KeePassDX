@@ -1,4 +1,4 @@
-package com.keepassdroid.fragments;
+package com.keepassdroid.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.view;
+package com.keepassdroid.fingerprint;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

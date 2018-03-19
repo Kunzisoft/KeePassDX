@@ -40,7 +40,7 @@ import android.view.autofill.AutofillManager;
 import android.widget.Toast;
 
 import com.keepassdroid.database.Database;
-import com.keepassdroid.fragments.UnavailableFeatureDialogFragment;
+import com.keepassdroid.dialogs.UnavailableFeatureDialogFragment;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.fingerprint.FingerPrintHelper;

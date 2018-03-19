@@ -40,7 +40,7 @@ import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.password.PasswordActivity;
-import com.keepassdroid.services.NotificationCopyingService;
+import com.keepassdroid.notifications.NotificationCopyingService;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.timeout.ClipboardHelper;
 import com.keepassdroid.utils.EmptyUtils;

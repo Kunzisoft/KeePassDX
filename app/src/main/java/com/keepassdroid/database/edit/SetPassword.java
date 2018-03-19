@@ -26,7 +26,7 @@ import android.net.Uri;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
-import com.keepassdroid.dialog.PasswordEncodingDialogHelper;
+import com.keepassdroid.dialogs.PasswordEncodingDialogHelper;
 import com.keepassdroid.utils.UriUtil;
 
 import java.io.IOException;

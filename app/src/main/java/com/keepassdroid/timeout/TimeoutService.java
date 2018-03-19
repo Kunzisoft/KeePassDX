@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.services;
+package com.keepassdroid.timeout;
 
 import android.app.NotificationManager;
 import android.app.Service;
@@ -30,7 +30,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.keepassdroid.app.App;
-import com.keepassdroid.timeout.Timeout;
 
 public class TimeoutService extends Service {
 	private static final String TAG = "KeePassDroid Timer"; 

@@ -1,4 +1,4 @@
-package com.keepassdroid.view;
+package com.keepassdroid.password;
 
 
 import android.content.Context;

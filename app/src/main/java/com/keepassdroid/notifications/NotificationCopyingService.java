@@ -1,4 +1,4 @@
-package com.keepassdroid.services;
+package com.keepassdroid.notifications;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

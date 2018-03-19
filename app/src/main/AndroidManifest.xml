@@ -135,9 +135,9 @@
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.keepassdroid.settings.SettingsAutofillActivity" />
 
-        <service android:name="com.keepassdroid.services.TimeoutService" />
+        <service android:name="com.keepassdroid.timeout.TimeoutService" />
         <service
-            android:name="com.keepassdroid.services.NotificationCopyingService"
+            android:name="com.keepassdroid.notifications.NotificationCopyingService"
             android:enabled="true"
             android:exported="false" />
         <service

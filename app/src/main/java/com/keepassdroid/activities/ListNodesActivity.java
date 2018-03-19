@@ -46,13 +46,13 @@ import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
 import com.keepassdroid.database.edit.AfterAddNodeOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
-import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
-import com.keepassdroid.fragments.SortDialogFragment;
+import com.keepassdroid.dialogs.AssignMasterKeyDialogFragment;
+import com.keepassdroid.dialogs.SortDialogFragment;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.database.SortNodeEnum;
-import com.keepassdroid.view.AssignPasswordHelper;
+import com.keepassdroid.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.R;
 
 public abstract class ListNodesActivity extends LockingActivity

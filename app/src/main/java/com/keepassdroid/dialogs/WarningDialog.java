@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepassdroid.dialog;
+package com.keepassdroid.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;
