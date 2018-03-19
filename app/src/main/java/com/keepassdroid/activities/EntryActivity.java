@@ -242,26 +242,28 @@ public class EntryActivity extends LockingHideActivity {
 		inflater.inflate(R.menu.database_lock, menu);
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
-		if (!entryContentsView.isPasswordPresent()) {
-		    togglePassword.setVisible(false);
-        } else {
-            changeShowPasswordIcon(togglePassword);
+		if (entryContentsView != null && togglePassword != null) {
+            if (!entryContentsView.isPasswordPresent()) {
+                togglePassword.setVisible(false);
+            } else {
+                changeShowPasswordIcon(togglePassword);
+            }
         }
 		
 		MenuItem gotoUrl = menu.findItem(R.id.menu_goto_url);
-		
-		// In API >= 11 onCreateOptionsMenu may be called before onCreate completes
-		// so mEntry may not be set
-		if (mEntry == null) {
-			gotoUrl.setVisible(false);
-		}
-		else {
-			String url = mEntry.getUrl();
-			if (EmptyUtils.isNullOrEmpty(url)) {
-				// disable button if url is not available
-				gotoUrl.setVisible(false);
-			}
-		}
+		if (gotoUrl != null) {
+            // In API >= 11 onCreateOptionsMenu may be called before onCreate completes
+            // so mEntry may not be set
+            if (mEntry == null) {
+                gotoUrl.setVisible(false);
+            } else {
+                String url = mEntry.getUrl();
+                if (EmptyUtils.isNullOrEmpty(url)) {
+                    // disable button if url is not available
+                    gotoUrl.setVisible(false);
+                }
+            }
+        }
 		
 		return true;
 	}
