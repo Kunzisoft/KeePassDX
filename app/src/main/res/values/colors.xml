@@ -45,7 +45,7 @@
     <color name="colorTextInverseDisable">#565656</color>
     <color name="colorTextSecondary">#7c7c7c</color>
     <color name="colorTextSecondaryDisable">#c7c7c7</color>
-    <color name="colorTextSecondaryInverse">#999999</color>
+    <color name="colorTextSecondaryInverse">#a5d6a7</color>
     <color name="colorTextSecondaryInverseDisable">#565656</color>
 
     <color name="colorPrimaryInverse">#bdbdbd</color>

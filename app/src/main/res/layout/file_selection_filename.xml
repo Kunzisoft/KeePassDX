@@ -68,6 +68,7 @@
                 android:layout_below="@id/label_open_by_filename"
                 android:inputType="textUri"
                 android:textColor="?attr/textColorInverse"
+                android:textColorHint="?attr/android:textColorHintInverse"
                 android:layout_marginStart="2dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"

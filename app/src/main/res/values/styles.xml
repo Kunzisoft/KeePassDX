@@ -54,6 +54,7 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
+        <item name="android:textColorHintInverse">@color/colorTextSecondaryInverse</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
@@ -100,6 +101,7 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
+        <item name="android:textColorHintInverse">@color/colorTextSecondaryInverse</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
