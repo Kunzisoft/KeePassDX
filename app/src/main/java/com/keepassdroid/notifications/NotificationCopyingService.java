@@ -30,12 +30,7 @@ public class NotificationCopyingService extends Service {
 
     public static final String ACTION_NEW_NOTIFICATION = "ACTION_NEW_NOTIFICATION";
     public static final String EXTRA_ENTRY_TITLE = "EXTRA_ENTRY_TITLE";
-    public static final String EXTRA_USERNAME = "EXTRA_USERNAME";
-    public static final String EXTRA_PASSWORD = "EXTRA_PASSWORD";
-
-    public static final String ACTION_COPY_USERNAME = "ACTION_COPY_USERNAME";
-    public static final String ACTION_COPY_PASSWORD = "ACTION_COPY_PASSWORD";
-
+    public static final String EXTRA_FIELDS = "EXTRA_FIELDS";
     public static final String ACTION_CLEAN_CLIPBOARD = "ACTION_CLEAN_CLIPBOARD";
 
     private NotificationManager notificationManager;
@@ -81,20 +76,7 @@ public class NotificationCopyingService extends Service {
 
         } else if (ACTION_NEW_NOTIFICATION.equals(intent.getAction())) {
             String title = intent.getStringExtra(EXTRA_ENTRY_TITLE);
-            String password = intent.getStringExtra(EXTRA_PASSWORD);
-            if (password == null) {
-                Log.e(TAG, "password is null");
-                return START_NOT_STICKY;
-            }
             newNotification(title, constructListOfField(intent));
-
-        } else if (ACTION_COPY_USERNAME.equals(intent.getAction())) {
-            String fieldValueToCopy = intent.getStringExtra(EXTRA_USERNAME);
-            copyField(new Field(EXTRA_USERNAME, fieldValueToCopy), constructListOfField(intent));
-
-        }  else if (ACTION_COPY_PASSWORD.equals(intent.getAction())) {
-            String fieldValueToCopy = intent.getStringExtra(EXTRA_PASSWORD);
-            copyField(new Field(EXTRA_PASSWORD, fieldValueToCopy), constructListOfField(intent));
 
         } else if (ACTION_CLEAN_CLIPBOARD.equals(intent.getAction())) {
             stopTask(countingDownTask);
@@ -103,66 +85,43 @@ public class NotificationCopyingService extends Service {
             } catch (SamsungClipboardException e) {
                 Log.e(TAG, "Clipboard can't be cleaned", e);
             }
+
         } else {
-            Log.w(TAG, "unknown action");
+            for (String actionKey : NotificationField.getAllActionKeys()) {
+                if (actionKey.equals(intent.getAction())) {
+                    NotificationField fieldToCopy = intent.getParcelableExtra(
+                            NotificationField.getExtraKeyLinkToActionKey(actionKey));
+                    ArrayList<NotificationField> nextFields = constructListOfField(intent);
+                    // Remove the current field from the next fields
+                    if (nextFields.contains(fieldToCopy))
+                        nextFields.remove(fieldToCopy);
+                    copyField(fieldToCopy, nextFields);
+                }
+            }
         }
         return START_NOT_STICKY;
     }
 
-    private List<Field> constructListOfField(Intent intent) {
-        List<Field> fieldList = new ArrayList<>();
+    private ArrayList<NotificationField> constructListOfField(Intent intent) {
+        ArrayList<NotificationField> fieldList = new ArrayList<>();
         if (intent != null && intent.getExtras() != null) {
-            if (intent.getExtras().containsKey(EXTRA_USERNAME))
-                fieldList.add(new Field(
-                        EXTRA_USERNAME,
-                        intent.getStringExtra(EXTRA_USERNAME)));
-            if (intent.getExtras().containsKey(EXTRA_PASSWORD))
-                fieldList.add(new Field(
-                        EXTRA_PASSWORD,
-                        intent.getStringExtra(EXTRA_PASSWORD)));
+            if (intent.getExtras().containsKey(EXTRA_FIELDS))
+                fieldList = intent.getParcelableArrayListExtra(EXTRA_FIELDS);
         }
         return fieldList;
     }
 
-    private String getLabelFromExtra(String extra) {
-        switch (extra) {
-            case EXTRA_USERNAME:
-                return getString(R.string.entry_user_name);
-            case EXTRA_PASSWORD:
-                return getString(R.string.entry_password);
-            default:
-                return "";
-        }
-    }
-
-    private String getCopyTextFromExtra(String extra) {
-        switch (extra) {
-            case EXTRA_USERNAME:
-                return getString(R.string.copy_username);
-            case EXTRA_PASSWORD:
-                return getString(R.string.copy_password);
-            default:
-                return "";
-        }
-    }
-
-    private PendingIntent getCopyPendingIntent(Field field, List<Field> fieldsToAdd) {
+    private PendingIntent getCopyPendingIntent(NotificationField fieldToCopy, ArrayList<NotificationField> fieldsToAdd) {
         Intent copyIntent = new Intent(this, NotificationCopyingService.class);
-        switch (field.extra) {
-            case EXTRA_USERNAME:
-                copyIntent.setAction(ACTION_COPY_USERNAME);
-                break;
-            case EXTRA_PASSWORD:
-                copyIntent.setAction(ACTION_COPY_PASSWORD);
-        }
-        for (Field fieldToAdd : fieldsToAdd) {
-            copyIntent.putExtra(fieldToAdd.extra, fieldToAdd.value);
-        }
+        copyIntent.setAction(fieldToCopy.getActionKey());
+        copyIntent.putExtra(fieldToCopy.getExtraKey(), fieldToCopy);
+        copyIntent.putParcelableArrayListExtra(EXTRA_FIELDS, fieldsToAdd);
+
         return PendingIntent.getService(
                 this, 0, copyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private void newNotification(@Nullable String title, List<Field> fieldsToAdd) {
+    private void newNotification(@Nullable String title, ArrayList<NotificationField> fieldsToAdd) {
         stopTask(countingDownTask);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
@@ -173,15 +132,15 @@ public class NotificationCopyingService extends Service {
             builder.setVisibility(Notification.VISIBILITY_SECRET);
 
         if (fieldsToAdd.size() > 0) {
-            Field field = fieldsToAdd.get(fieldsToAdd.size() - 1);
+            NotificationField field = fieldsToAdd.get(0);
             builder.setContentText(field.copyText);
             builder.setContentIntent(getCopyPendingIntent(field, fieldsToAdd));
 
-            // Add extra actions without password
-            List<Field> fieldsWithoutPassword = new ArrayList<>(fieldsToAdd);
-            fieldsWithoutPassword.remove(field);
+            // Add extra actions without 1st field
+            List<NotificationField> fieldsWithoutFirstField = new ArrayList<>(fieldsToAdd);
+            fieldsWithoutFirstField.remove(field);
             // Add extra actions
-            for (Field fieldToAdd : fieldsWithoutPassword) {
+            for (NotificationField fieldToAdd : fieldsWithoutFirstField) {
                 builder.addAction(R.drawable.ic_key_white_24dp, fieldToAdd.label,
                         getCopyPendingIntent(fieldToAdd, fieldsToAdd));
             }
@@ -204,7 +163,7 @@ public class NotificationCopyingService extends Service {
         cleanNotificationTimer.start();
     }
 
-    private void copyField(Field fieldToCopy, List<Field> nextFields) {
+    private void copyField(NotificationField fieldToCopy, ArrayList<NotificationField> nextFields) {
         stopTask(countingDownTask);
         stopTask(cleanNotificationTimer);
 
@@ -215,12 +174,9 @@ public class NotificationCopyingService extends Service {
                     .setSmallIcon(R.drawable.ic_key_white_24dp)
                     .setContentTitle(fieldToCopy.label);
 
-            // Remove the current field from the next fields
-            if (nextFields.contains(fieldToCopy))
-                nextFields.remove(fieldToCopy);
             // New action with next field if click
             if (nextFields.size() > 0) {
-                Field nextField = nextFields.get(0);
+                NotificationField nextField = nextFields.get(0);
                 builder.setContentText(nextField.copyText);
                 builder.setContentIntent(getCopyPendingIntent(nextField, nextFields));
             // Else tell to swipe for a clean
@@ -260,7 +216,7 @@ public class NotificationCopyingService extends Service {
             });
             countingDownTask.start();
 
-        } catch (SamsungClipboardException e) {
+        } catch (Exception e) {
             Log.e(TAG, "Clipboard can't be populate", e);
         }
     }
@@ -270,33 +226,4 @@ public class NotificationCopyingService extends Service {
             task.interrupt();
     }
 
-    /**
-     * Utility class to manage fields in Notifications
-     */
-    private class Field {
-        String extra;
-        String label;
-        String copyText;
-        String value;
-
-        Field(String extra, String value) {
-            this.extra = extra;
-            this.label = getLabelFromExtra(extra);
-            this.copyText = getCopyTextFromExtra(extra);
-            this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Field field = (Field) o;
-            return extra.equals(field.extra);
-        }
-
-        @Override
-        public int hashCode() {
-            return extra.hashCode();
-        }
-    }
 }

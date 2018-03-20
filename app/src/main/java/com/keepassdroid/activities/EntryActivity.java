@@ -39,8 +39,9 @@ import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.notifications.NotificationCopyingService;
+import com.keepassdroid.notifications.NotificationField;
+import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.timeout.ClipboardHelper;
 import com.keepassdroid.utils.EmptyUtils;
@@ -50,6 +51,7 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryContentsView;
 import com.kunzisoft.keepass.R;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -146,12 +148,26 @@ public class EntryActivity extends LockingHideActivity {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
                 intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
-                intent.putExtra(NotificationCopyingService.EXTRA_PASSWORD, mEntry.getPassword());
-                if (mEntry.getUsername().length() > 0) {
-                    intent.putExtra(NotificationCopyingService.EXTRA_USERNAME, mEntry.getUsername());
-                }
                 if (mEntry.getTitle() != null)
                     intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
+                // Construct notification fields
+                ArrayList<NotificationField> notificationFields = new ArrayList<>();
+                // Add username if exists to notifications
+                if (mEntry.getUsername().length() > 0)
+                    notificationFields.add(
+                            new NotificationField(
+                                    NotificationField.NotificationFieldId.USERNAME,
+                                    mEntry.getUsername(),
+                                    getResources()));
+                // Add password to notifications
+                notificationFields.add(
+                        new NotificationField(
+                                NotificationField.NotificationFieldId.PASSWORD,
+                                mEntry.getPassword(),
+                                getResources()));
+                // Add notifications
+                intent.putParcelableArrayListExtra(NotificationCopyingService.EXTRA_FIELDS, notificationFields);
+
                 startService(intent);
             }
         }
