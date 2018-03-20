@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,6 +60,8 @@ import java.util.UUID;
 import static com.keepassdroid.settings.PreferencesUtil.isClipboardNotificationsEnable;
 
 public class EntryActivity extends LockingHideActivity {
+    private final static String TAG = EntryActivity.class.getName();
+
 	public static final String KEY_ENTRY = "entry";
 
 	private ImageView titleIconView;
@@ -165,6 +168,24 @@ public class EntryActivity extends LockingHideActivity {
                                 NotificationField.NotificationFieldId.PASSWORD,
                                 mEntry.getPassword(),
                                 getResources()));
+                // Add extra fields
+                if (mEntry.allowExtraFields()) {
+                    try {
+                        int anonymousFieldNumber = 0;
+                        for (Map.Entry<String, String> entry : mEntry.getExtraFields(App.getDB().pm).entrySet()) {
+                            notificationFields.add(
+                                    new NotificationField(
+                                            NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
+                                            entry.getValue(),
+                                            entry.getKey(),
+                                            getResources()));
+                            anonymousFieldNumber++;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Log.w(TAG, "Only " + NotificationField.NotificationFieldId.getAnonymousFieldId().length +
+                                " anonymous notifications are available");
+                    }
+                }
                 // Add notifications
                 intent.putParcelableArrayListExtra(NotificationCopyingService.EXTRA_FIELDS, notificationFields);
 

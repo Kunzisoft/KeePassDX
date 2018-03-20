@@ -52,6 +52,13 @@ public class NotificationField implements Parcelable {
         this.copyText = getCopyText(resources);
     }
 
+    public NotificationField(NotificationFieldId id, String value, String label, Resources resources) {
+        this.id = id;
+        this.value = value;
+        this.label = label;
+        this.copyText = getCopyText(resources);
+    }
+
     protected NotificationField(Parcel in) {
         id = NotificationFieldId.values()[in.readInt()];
         value = in.readString();
@@ -99,6 +106,10 @@ public class NotificationField implements Parcelable {
 
     public enum NotificationFieldId {
         USERNAME, PASSWORD, FIELD_A, FIELD_B, FIELD_C;
+
+        public static NotificationFieldId[] getAnonymousFieldId() {
+            return new NotificationFieldId[] {FIELD_A, FIELD_B, FIELD_C};
+        }
     }
 
     private static final String ACTION_COPY_PREFIX = "ACTION_COPY_";
@@ -143,35 +154,18 @@ public class NotificationField implements Parcelable {
         return actionKeys;
     }
 
-    public static List<String> getAllExtraKeys() {
-        List<String> extraKeys = new ArrayList<>();
-        for (NotificationFieldId id : NotificationFieldId.values()) {
-            extraKeys.add(getExtraKey(id));
-        }
-        return extraKeys;
-    }
-
     private String getLabel(Resources resources) {
         switch (id) {
             case USERNAME:
                 return resources.getString(R.string.entry_user_name);
             case PASSWORD:
                 return resources.getString(R.string.entry_password);
-                // TODO default
             default:
-                return "";
+                return id.name();
         }
     }
 
     private String getCopyText(Resources resources) {
-        switch (id) {
-            case USERNAME:
-                return resources.getString(R.string.copy_username);
-            case PASSWORD:
-                return resources.getString(R.string.copy_password);
-            // TODO default
-            default:
-                return "";
-        }
+        return resources.getString(R.string.select_to_copy, label);
     }
 }
