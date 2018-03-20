@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -49,6 +50,8 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     private FileInformationShowListener fileInformationShowListener;
 
     private @ColorInt
+    int defaultColor;
+    private @ColorInt
     int warningColor;
 
     FileSelectAdapter(Context context, List<String> listFiles) {
@@ -60,16 +63,19 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(R.attr.colorAccentCompat, typedValue, true);
         warningColor = typedValue.data;
+        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+        defaultColor = typedValue.data;
     }
 
+    @NonNull
     @Override
-    public FileSelectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FileSelectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.file_row, parent, false);
         return new FileSelectViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(FileSelectViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FileSelectViewHolder holder, int position) {
         FileSelectBean fileSelectBean = new FileSelectBean(context, listFiles.get(position));
         // Context menu creation
         holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
@@ -86,6 +92,10 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         if (fileSelectBean.notFound()) {
             holder.fileInformation.setColorFilter(
                     warningColor,
+                    android.graphics.PorterDuff.Mode.MULTIPLY);
+        } else {
+            holder.fileInformation.setColorFilter(
+                    defaultColor,
                     android.graphics.PorterDuff.Mode.MULTIPLY);
         }
         // Click on information
@@ -154,7 +164,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
         private FileSelectBean fileSelectBean;
 
-        public ContextMenuBuilder(FileSelectBean fileSelectBean) {
+        ContextMenuBuilder(FileSelectBean fileSelectBean) {
             this.fileSelectBean = fileSelectBean;
         }
 

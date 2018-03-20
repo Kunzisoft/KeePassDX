@@ -47,5 +47,5 @@
         android:src="@drawable/ic_info_white_24dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:tint="?attr/colorPrimary"/>
+        android:tint="?android:attr/textColorPrimary"/>
 </RelativeLayout>

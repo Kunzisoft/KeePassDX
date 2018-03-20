@@ -18,21 +18,21 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.preference.PreferenceCategory
+    <PreferenceCategory
         android:title="@string/autofill">
         <SwitchPreference
             android:title="@string/set_autofill_service_title"
             android:summary="@string/set_autofill_service_summary"
             android:defaultValue="@bool/settings_autofill_enable_default"
             android:key="@string/settings_autofill_enable_key"/>
-    </android.support.v7.preference.PreferenceCategory>
+    </PreferenceCategory>
 
-    <android.support.v7.preference.PreferenceCategory
+    <PreferenceCategory
         android:title="@string/notifications">
-        <android.support.v14.preference.SwitchPreference
+        <SwitchPreference
             android:key="@string/clipboard_notifications_key"
             android:title="@string/clipboard_notifications_title"
             android:defaultValue="@bool/clipboard_notifications_default"
             android:summary="@string/clipboard_notifications_summary" />
-    </android.support.v7.preference.PreferenceCategory>
+    </PreferenceCategory>
 </PreferenceScreen>

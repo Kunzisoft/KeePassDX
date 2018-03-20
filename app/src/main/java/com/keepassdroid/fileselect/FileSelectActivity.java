@@ -141,11 +141,11 @@ public class FileSelectActivity extends StylishActivity implements
         fileNameView = (FileNameView) findViewById(R.id.file_select);
 
         // Set the initial value of the filename
-        String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+        final String defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + getString(R.string.database_file_path_default)
                 + getString(R.string.database_file_name_default)
                 + getString(R.string.database_file_extension_default);
-        openFileNameView.setText(defaultPath);
+        openFileNameView.setHint(defaultPath);
 
         RecyclerView mListFiles = (RecyclerView) findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
@@ -162,6 +162,8 @@ public class FileSelectActivity extends StylishActivity implements
 
 			public void onClick(View v) {
 				String fileName = openFileNameView.getText().toString();
+				if (fileName.isEmpty())
+					fileName = defaultPath;
 				try {
 				    AssistStructure assistStructure = null;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
