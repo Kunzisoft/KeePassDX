@@ -147,7 +147,7 @@ public class EntryActivity extends LockingHideActivity {
         // If notifications enabled in settings
         // Don't if application timeout
         if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
-            if (mEntry.getPassword().length() > 0) {
+            if (mEntry.getUsername().length() > 0 || mEntry.getPassword().length() > 0 || mEntry.containsExtraFields()) {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
                 intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
@@ -163,11 +163,12 @@ public class EntryActivity extends LockingHideActivity {
                                     mEntry.getUsername(),
                                     getResources()));
                 // Add password to notifications
-                notificationFields.add(
-                        new NotificationField(
-                                NotificationField.NotificationFieldId.PASSWORD,
-                                mEntry.getPassword(),
-                                getResources()));
+                if (mEntry.getPassword().length() > 0)
+                    notificationFields.add(
+                            new NotificationField(
+                                    NotificationField.NotificationFieldId.PASSWORD,
+                                    mEntry.getPassword(),
+                                    getResources()));
                 // Add extra fields
                 if (mEntry.allowExtraFields()) {
                     try {

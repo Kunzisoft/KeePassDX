@@ -163,6 +163,14 @@ public abstract class PwEntry extends PwNode implements Cloneable {
         return new HashMap<>();
     }
 
+	/**
+	 * If entry contains extra fields
+	 * @return true if there is extra fields
+	 */
+	public boolean containsExtraFields() {
+		return !getExtraProtectedFields().keySet().isEmpty();
+	}
+
     /**
      * Add an extra field to the list
      * @param label Label of field, must be unique
