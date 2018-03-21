@@ -87,7 +87,7 @@ public class EntryActivity extends LockingHideActivity {
 
         setContentView(R.layout.entry_view);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
@@ -121,12 +121,10 @@ public class EntryActivity extends LockingHideActivity {
 		mEntry.touch(false, false);
 
         // Get views
-        titleIconView = (ImageView) findViewById(R.id.entry_icon);
-        titleView = (TextView) findViewById(R.id.entry_title);
-        entryContentsView = (EntryContentsView) findViewById(R.id.entry_contents);
+        titleIconView = findViewById(R.id.entry_icon);
+        titleView = findViewById(R.id.entry_title);
+        entryContentsView = findViewById(R.id.entry_contents);
         entryContentsView.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this));
-
-		fillData();
 
 		// Setup Edit Buttons
         View edit = findViewById(R.id.entry_edit);
@@ -143,6 +141,10 @@ public class EntryActivity extends LockingHideActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Fill data in resume to update from EntryEditActivity
+        fillData();
+        invalidateOptionsMenu();
 
         // If notifications enabled in settings
         // Don't if application timeout
@@ -280,7 +282,6 @@ public class EntryActivity extends LockingHideActivity {
 		inflater.inflate(R.menu.database_lock, menu);
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
-		// TODO Refresh if change
 		if (entryContentsView != null && togglePassword != null) {
             if (!entryContentsView.isPasswordPresent()) {
                 togglePassword.setVisible(false);
