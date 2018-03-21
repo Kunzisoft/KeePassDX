@@ -88,6 +88,7 @@
     <string name="field_value">Valor do campo</string>
     <string name="file_not_found">Ficheiro não encontrado.</string>
     <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir do seu fornecedor de conteúdo.</string>
+    <string name="file_browser">Explorador de ficheiros</string>
     <string name="generate_password">Gerar palavra-passe</string>
     <string name="hint_conf_pass">confirmar palavra-passe</string>
     <string name="hint_generated_password">palavra-passe gerada</string>

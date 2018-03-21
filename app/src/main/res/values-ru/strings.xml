@@ -84,6 +84,7 @@
     <string name="field_name">Имя поля</string>
     <string name="field_value">Значение поля</string>
     <string name="file_not_found">Файл не найден</string>
+    <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Создать пароль</string>
     <string name="hint_conf_pass">подтверждение</string>
     <string name="hint_generated_password">созданный пароль</string>

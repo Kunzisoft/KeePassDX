@@ -76,6 +76,7 @@
     <string name="error_title_required">Vyžaduje sa názov.</string>
     <string name="error_wrong_length">Zadajte celé kladné číslo na dĺžku poľa</string>
     <string name="file_not_found">Súbor nenájdený.</string>
+    <string name="file_browser">Správca Súborov</string>
     <string name="generate_password">Generovať Heslo</string>
     <string name="hint_conf_pass">potvrdiť heslo</string>
     <string name="hint_generated_password">generované heslo</string>

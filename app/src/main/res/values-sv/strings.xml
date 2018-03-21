@@ -85,6 +85,7 @@
     <string name="field_name">Fältnamn</string>
     <string name="field_value">Fältvärde</string>
     <string name="file_not_found">Filen hittades inte.</string>
+    <string name="file_browser">Filhanterare</string>
     <string name="generate_password">Generera lösenord</string>
     <string name="hint_conf_pass">bekräfta lösenord</string>
     <string name="hint_generated_password">genererat lösenord</string>

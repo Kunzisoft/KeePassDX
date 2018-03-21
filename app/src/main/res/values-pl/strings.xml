@@ -74,6 +74,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_title_required">Wymagany tytuł.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą.</string>
     <string name="file_not_found">Plik nie istnieje.</string>
+    <string name="file_browser">Przeglądarka plików</string>
     <string name="generate_password">Generuj hasło</string>
     <string name="hint_conf_pass">potwierdź hasło</string>
     <string name="hint_generated_password">hasło wygenerowane</string>

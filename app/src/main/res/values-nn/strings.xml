@@ -76,6 +76,7 @@
     <string name="error_title_required">Treng ein tittel.</string>
     <string name="error_wrong_length">Bruk eit positivt heiltal i lengdfeltet</string>
     <string name="file_not_found">Fann ikkje fila.</string>
+    <string name="file_browser">Filbehandlar</string>
     <string name="generate_password">Lag passord</string>
     <string name="hint_conf_pass">stadfest passordet</string>
     <string name="hint_generated_password">laga passord</string>

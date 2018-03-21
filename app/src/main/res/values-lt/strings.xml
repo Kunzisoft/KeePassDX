@@ -32,6 +32,7 @@
     <string name="error_invalid_db">Neteisinga duomenų bazė.</string>
     <string name="field_name">Lauko pavadinimas</string>
     <string name="field_value">Lauko reikšmė</string>
+    <string name="file_browser">Failų naršyklė</string>
     <string name="generate_password">Generuoti slaptažodį</string>
     <string name="hint_conf_pass">patvirtinti slaptažodį</string>
     <string name="hint_generated_password">generuoti slaptažodį</string>

@@ -78,6 +78,7 @@
     <string name="error_title_required">Een titel ontbreekt.</string>
     <string name="error_wrong_length">Geef een positief geheel getal voor het lengteveld</string>
     <string name="file_not_found">Bestand niet gevonden.</string>
+    <string name="file_browser">Verkenner</string>
     <string name="generate_password">Genereer wachtwoord</string>
     <string name="hint_conf_pass">bevestig wachtwoord</string>
     <string name="hint_generated_password">gegenereerd wachtwoord</string>

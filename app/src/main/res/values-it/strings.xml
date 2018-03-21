@@ -79,6 +79,7 @@
     <string name="error_title_required">E\' necessario un titolo.</string>
     <string name="error_wrong_length">Inserisci un valore positivo nella lunghezza campo</string>
     <string name="file_not_found">File non trovato.</string>
+    <string name="file_browser">Sfoglia file</string>
     <string name="generate_password">Genera password</string>
     <string name="hint_conf_pass">conferma password</string>
     <string name="hint_generated_password">password generata</string>

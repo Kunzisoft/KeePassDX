@@ -89,6 +89,7 @@
     <string name="field_value">Field value</string>
     <string name="file_not_found">File not found.</string>
     <string name="file_not_found_content">File not found. Try reopening from your content provider.</string>
+    <string name="file_browser">File Browser</string>
     <string name="generate_password">Generate Password</string>
     <string name="hint_conf_pass">confirm password</string>
     <string name="hint_generated_password">generated password</string>

@@ -91,6 +91,7 @@
     <string name="field_value">Feldwert</string>
     <string name="file_not_found">Datei nicht gefunden.</string>
     <string name="file_not_found_content">Datei nicht gefunden. Versuche es von ihrem Dienstanbieter erneut zu öffnen.</string>
+    <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
     <string name="hint_conf_pass">Passwort wiederholen</string>
     <string name="hint_generated_password">Generiertes Passwort</string>

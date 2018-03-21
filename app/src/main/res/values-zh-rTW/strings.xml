@@ -76,6 +76,7 @@
     <string name="error_title_required">標題是必填項。</string>
     <string name="error_wrong_length">長度欄位輸入一個正整數</string>
     <string name="file_not_found">文件未找到。</string>
+    <string name="file_browser">檔流覽</string>
     <string name="generate_password">生成密碼</string>
     <string name="hint_conf_pass">確認密碼</string>
     <string name="hint_generated_password">生成密碼</string>

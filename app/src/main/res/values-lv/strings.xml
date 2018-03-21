@@ -64,6 +64,7 @@
     <string name="field_name">Lauka nosaukums</string>
     <string name="field_value">Lauka vērtība</string>
     <string name="file_not_found">Fails nav atrasts.</string>
+    <string name="file_browser">Failu pārlūks</string>
     <string name="generate_password">Ģenerēt Paroli</string>
     <string name="hint_conf_pass">apstipriniet paroli</string>
     <string name="hint_generated_password">ģenerēt paroli</string>
