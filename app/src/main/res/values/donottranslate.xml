@@ -79,7 +79,7 @@
     <bool name="sort_group_before_default" translatable="true">true</bool>
     <bool name="sort_ascending_default" translatable="true">true</bool>
     <bool name="sort_recycle_bin_bottom_default" translatable="true">true</bool>
-    <bool name="monospace_font_fields_enable_default" translatable="true">false</bool>
+    <bool name="monospace_font_fields_enable_default" translatable="true">true</bool>
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">

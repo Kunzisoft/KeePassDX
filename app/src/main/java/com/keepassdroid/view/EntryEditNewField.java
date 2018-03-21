@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ import com.kunzisoft.keepass.R;
 public class EntryEditNewField extends RelativeLayout {
 
     private TextView labelView;
-    private TextView valueView;
+    private EditText valueView;
     private CompoundButton protectionCheckView;
 
 	public EntryEditNewField(Context context) {
@@ -55,16 +56,11 @@ public class EntryEditNewField extends RelativeLayout {
         inflater.inflate(R.layout.entry_edit_new_field, this);
 
         View deleteView = findViewById(R.id.entry_edit_new_field_delete);
-        deleteView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteViewFromParent();
-            }
-        });
+        deleteView.setOnClickListener(v -> deleteViewFromParent());
 
-        labelView = (TextView) findViewById(R.id.entry_edit_new_field_label);
-        valueView = (TextView) findViewById(R.id.entry_edit_new_field_value);
-        protectionCheckView = (CompoundButton) findViewById(R.id.protection);
+        labelView = findViewById(R.id.entry_edit_new_field_label);
+        valueView = findViewById(R.id.entry_edit_new_field_value);
+        protectionCheckView = findViewById(R.id.protection);
 	}
 	
 	public void setData(String label, ProtectedString value) {
@@ -89,7 +85,8 @@ public class EntryEditNewField extends RelativeLayout {
     }
 
     public void setFontVisibility(boolean applyFontVisibility) {
-        Util.applyFontVisibilityToTextView(applyFontVisibility, valueView);
+	    if (applyFontVisibility)
+            Util.applyFontVisibilityTo(valueView);
     }
 
 	public void deleteViewFromParent() {
