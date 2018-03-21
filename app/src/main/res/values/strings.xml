@@ -121,6 +121,7 @@
     <string name="menu_db_settings">Database settings</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
+    <string name="menu_edit">Edit</string>
     <string name="menu_hide_password">Hide Pass</string>
     <string name="menu_lock">Lock Database</string>
     <string name="menu_open">Open</string>

@@ -112,6 +112,7 @@
     <string name="menu_db_settings">הגדרות מסד נתונים</string>
     <string name="menu_delete">מחק</string>
     <string name="menu_donate">תרום</string>
+    <string name="menu_edit">ערוך</string>
     <string name="menu_hide_password">הסתר סיסמה</string>
     <string name="menu_lock">נעל מסד נתונים</string>
     <string name="menu_open">פתח</string>

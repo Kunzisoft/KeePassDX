@@ -102,6 +102,7 @@
     <string name="menu_db_settings">データベース設定</string>
     <string name="menu_delete">削除</string>
     <string name="menu_donate">寄付</string>
+    <string name="menu_edit">編集</string>
     <string name="menu_hide_password">パスワードを隠す</string>
     <string name="menu_lock">データベースをロック</string>
     <string name="menu_open">開く</string>

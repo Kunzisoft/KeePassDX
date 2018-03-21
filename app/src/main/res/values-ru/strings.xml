@@ -113,6 +113,7 @@
     <string name="menu_db_settings">Настройки базы KeePass</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_donate">Помочь</string>
+    <string name="menu_edit">Правка</string>
     <string name="menu_hide_password">Скрыть</string>
     <string name="menu_lock">Блокировка</string>
     <string name="menu_open">Открыть</string>

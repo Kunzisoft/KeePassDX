@@ -104,6 +104,7 @@
     <string name="menu_db_settings">Database-instellingen</string>
     <string name="menu_delete">Wissen</string>
     <string name="menu_donate">Doneren</string>
+    <string name="menu_edit">Bewerken</string>
     <string name="menu_hide_password">Wachtwoord verbergen</string>
     <string name="menu_lock">Vergrendel database</string>
     <string name="menu_open">Openen</string>

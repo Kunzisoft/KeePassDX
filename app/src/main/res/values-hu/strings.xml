@@ -110,6 +110,7 @@
     <string name="menu_db_settings">Adatbázis beállítások</string>
     <string name="menu_delete">Törlés</string>
     <string name="menu_donate">Támogatás</string>
+    <string name="menu_edit">Szerkesztés</string>
     <string name="menu_hide_password">Jelszó elrejtése</string>
     <string name="menu_lock">Adatbázis lezárása</string>
     <string name="menu_open">Megnyitás</string>

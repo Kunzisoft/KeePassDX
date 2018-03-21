@@ -102,6 +102,7 @@
     <string name="menu_db_settings">Nastavenia Databázy</string>
     <string name="menu_delete">Zmazať</string>
     <string name="menu_donate">Darovať</string>
+    <string name="menu_edit">Upraviť</string>
     <string name="menu_hide_password">Skryť Heslo</string>
     <string name="menu_lock">Zamknúť Databázu</string>
     <string name="menu_open">Otvoriť</string>

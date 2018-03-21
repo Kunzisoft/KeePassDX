@@ -121,6 +121,7 @@
     <string name="menu_db_settings">Préférences de la base de données</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_donate">Faire un don</string>
+    <string name="menu_edit">Modifier</string>
     <string name="menu_hide_password">Masquer le mot de passe</string>
     <string name="menu_lock">Verrouiller la base de données</string>
     <string name="menu_open">Ouvrir</string>

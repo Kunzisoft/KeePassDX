@@ -115,6 +115,7 @@
     <string name="menu_db_settings">Database indstillinger</string>
     <string name="menu_delete">Slet</string>
     <string name="menu_donate">Donér</string>
+    <string name="menu_edit">Rediger</string>
     <string name="menu_hide_password">Skjul adgangskode</string>
     <string name="menu_lock">Lås database</string>
     <string name="menu_open">Åbn</string>

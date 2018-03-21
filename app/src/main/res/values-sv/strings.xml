@@ -114,6 +114,7 @@
     <string name="menu_db_settings">Databasinställningar</string>
     <string name="menu_delete">Radera</string>
     <string name="menu_donate">Donera</string>
+    <string name="menu_edit">Redigera</string>
     <string name="menu_hide_password">Göm lösenord</string>
     <string name="menu_lock">Lås databas</string>
     <string name="menu_open">Öppna</string>

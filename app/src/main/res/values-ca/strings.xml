@@ -105,6 +105,7 @@
     <string name="menu_db_settings">Paràmetres de la base de dades</string>
     <string name="menu_delete">Esborra</string>
     <string name="menu_donate">Donar</string>
+    <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Amaga contrasenya</string>
     <string name="menu_lock">Bloqueja la base de dades</string>
     <string name="menu_open">Obre</string>

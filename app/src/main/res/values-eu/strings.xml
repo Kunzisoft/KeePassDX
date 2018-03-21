@@ -115,6 +115,7 @@
     <string name="menu_db_settings">Datubasearen ezarpenak</string>
     <string name="menu_delete">Ezabatu</string>
     <string name="menu_donate">Dirua eman</string>
+    <string name="menu_edit">Editatu</string>
     <string name="menu_hide_password">Pasahitza Ezkutatu</string>
     <string name="menu_lock">Datubasea Blokeatu</string>
     <string name="menu_open">Ireki</string>

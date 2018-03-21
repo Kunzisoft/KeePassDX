@@ -102,6 +102,7 @@
     <string name="menu_db_settings">Налаштування бази даних</string>
     <string name="menu_delete">Вилучити</string>
     <string name="menu_donate">Пожертвувати</string>
+    <string name="menu_edit">Редагувати</string>
     <string name="menu_hide_password">Приховати пароль</string>
     <string name="menu_lock">Блокувати базу даних</string>
     <string name="menu_open">Відкрити</string>

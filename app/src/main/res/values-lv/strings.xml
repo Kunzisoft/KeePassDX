@@ -93,6 +93,7 @@
     <string name="menu_db_settings">Datu bāzes iestatījumi</string>
     <string name="menu_delete">Dzēst</string>
     <string name="menu_donate">Ziedot</string>
+    <string name="menu_edit">Rediģēt</string>
     <string name="menu_hide_password">Paslēpt paroli</string>
     <string name="menu_lock">Bloķēt datu bāzi</string>
     <string name="menu_open">Atvērt</string>

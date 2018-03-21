@@ -48,6 +48,7 @@
     <string name="menu_db_settings">Duomenų bazės nustatymai</string>
     <string name="menu_delete">Išrinti</string>
     <string name="menu_donate">Aukoti</string>
+    <string name="menu_edit">Keisti</string>
     <string name="menu_open">Atidaryti</string>
     <string name="menu_search">Ieškoti</string>
     <string name="menu_showpass">Rodyti slaptažodį</string>

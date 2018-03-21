@@ -105,6 +105,7 @@
     <string name="menu_db_settings">Impostazioni Database</string>
     <string name="menu_delete">Elimina</string>
     <string name="menu_donate">Dona</string>
+    <string name="menu_edit">Modifica</string>
     <string name="menu_hide_password">Nascondi Password</string>
     <string name="menu_lock">Blocca Database</string>
     <string name="menu_open">Apri</string>

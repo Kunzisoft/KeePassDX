@@ -120,6 +120,7 @@
     <string name="menu_db_settings">Datenbank-Einstellungen</string>
     <string name="menu_delete">Löschen</string>
     <string name="menu_donate">Spenden</string>
+    <string name="menu_edit">Ändern</string>
     <string name="menu_hide_password">Passwort verstecken</string>
     <string name="menu_lock">Datenbank sperren</string>
     <string name="menu_open">Öffnen</string>
