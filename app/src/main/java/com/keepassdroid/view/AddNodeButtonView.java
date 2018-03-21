@@ -19,7 +19,9 @@
  */
 package com.keepassdroid.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
@@ -35,15 +37,15 @@ import android.widget.RelativeLayout;
 
 import com.kunzisoft.keepass.R;
 
-public class AddNodeView extends RelativeLayout {
+public class AddNodeButtonView extends RelativeLayout {
 
     private enum State {
         OPEN, CLOSE
     }
 
-    private FloatingActionButton addButton;
-    private View addEntry;
-    private View addGroup;
+    private FloatingActionButton addButtonView;
+    private View addEntryView;
+    private View addGroupView;
 
     private boolean addEntryEnable;
     private boolean addGroupEnable;
@@ -57,11 +59,11 @@ public class AddNodeView extends RelativeLayout {
     private ViewMenuAnimation viewMenuAnimationAddGroup;
     private long animationDuration;
 
-	public AddNodeView(Context context) {
+	public AddNodeButtonView(Context context) {
 		this(context, null);
 	}
 	
-	public AddNodeView(Context context, AttributeSet attrs) {
+	public AddNodeButtonView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		inflate(context);
 	}
@@ -74,50 +76,63 @@ public class AddNodeView extends RelativeLayout {
         addEntryEnable = true;
         addGroupEnable = true;
 
-        addButton = findViewById(R.id.add_button);
-        addEntry = findViewById(R.id.add_entry);
-        addGroup = findViewById(R.id.add_group);
+        addButtonView = findViewById(R.id.add_button);
+        addEntryView = findViewById(R.id.add_entry);
+        addGroupView = findViewById(R.id.add_group);
 
         animationDuration = 300L;
 
-        viewButtonMenuAnimation = new AddButtonAnimation(addButton);
-        viewMenuAnimationAddEntry = new ViewMenuAnimation(addEntry, 0L, 150L);
-        viewMenuAnimationAddGroup = new ViewMenuAnimation(addGroup, 150L, 0L);
+        viewButtonMenuAnimation = new AddButtonAnimation(addButtonView);
+        viewMenuAnimationAddEntry = new ViewMenuAnimation(addEntryView, 0L, 150L);
+        viewMenuAnimationAddGroup = new ViewMenuAnimation(addGroupView, 150L, 0L);
 
         allowAction = true;
         state = State.CLOSE;
 
-        onAddButtonClickListener = v -> {
-            if (allowAction) {
-                startGlobalAnimation();
-            }
-        };
-        addButton.setOnClickListener(onAddButtonClickListener);
+        onAddButtonClickListener = v -> startGlobalAnimation();
+        addButtonView.setOnClickListener(onAddButtonClickListener);
 
         onAddButtonVisibilityChangedListener = new FloatingActionButton.OnVisibilityChangedListener() {
             @Override
             public void onHidden(FloatingActionButton fab) {
                 super.onHidden(fab);
-                addButton.setOnClickListener(null);
-                addButton.setClickable(false);
+                addButtonView.setOnClickListener(null);
+                addButtonView.setClickable(false);
             }
             @Override
             public void onShown(FloatingActionButton fab) {
                 super.onShown(fab);
-                addButton.setOnClickListener(onAddButtonClickListener);
+                addButtonView.setOnClickListener(onAddButtonClickListener);
             }
         };
 	}
 
-	public RecyclerView.OnScrollListener hideButtonOnScrollListener() {
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Rect viewButtonRect = new Rect(),
+        viewEntryRect = new Rect(),
+        viewGroupRect = new Rect();
+        addButtonView.getGlobalVisibleRect(viewButtonRect);
+        addEntryView.getGlobalVisibleRect(viewEntryRect);
+        addGroupView.getGlobalVisibleRect(viewGroupRect);
+        if (! (viewButtonRect.contains((int) event.getRawX(), (int) event.getRawY())
+                && viewEntryRect.contains((int) event.getRawX(), (int) event.getRawY())
+                && viewGroupRect.contains((int) event.getRawX(), (int) event.getRawY()) )) {
+            closeButtonIfOpen();
+        }
+        return super.onTouchEvent(event);
+    }
+
+    public RecyclerView.OnScrollListener hideButtonOnScrollListener() {
 	    return new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (state.equals(State.CLOSE)) {
-                    if (dy > 0 && addButton.getVisibility() == View.VISIBLE) {
+                    if (dy > 0 && addButtonView.getVisibility() == View.VISIBLE) {
                         hideButton();
-                    } else if (dy < 0 && addButton.getVisibility() != View.VISIBLE) {
+                    } else if (dy < 0 && addButtonView.getVisibility() != View.VISIBLE) {
                         showButton();
                     }
                 }
@@ -126,26 +141,20 @@ public class AddNodeView extends RelativeLayout {
     }
 
 	public void showButton() {
-        addButton.show(onAddButtonVisibilityChangedListener);
+        addButtonView.show(onAddButtonVisibilityChangedListener);
     }
 
 	public void hideButton() {
-        addButton.hide(onAddButtonVisibilityChangedListener);
+        addButtonView.hide(onAddButtonVisibilityChangedListener);
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        /*
-        TODO Dispatch event to close
-        Rect viewRectG = new Rect();
-        getGlobalVisibleRect(viewRectG);
-        if (viewRectG.contains((int) ev.getRawX(), (int) ev.getRawY())) {
-            if(allowAction && state.equals(State.OPEN)) {
-                startGlobalAnimation();
-            }
+    /**
+     * Start the animation to close the button
+     */
+    public void closeButtonIfOpen() {
+        if(state.equals(State.OPEN)) {
+            startGlobalAnimation();
         }
-        */
-        return super.dispatchTouchEvent(ev);
     }
 
     /**
@@ -154,8 +163,8 @@ public class AddNodeView extends RelativeLayout {
      */
     public void enableAddEntry(boolean enable) {
         this.addEntryEnable = enable;
-        if (enable && addEntry != null && addEntry.getVisibility() != VISIBLE)
-            addEntry.setVisibility(INVISIBLE);
+        if (enable && addEntryView != null && addEntryView.getVisibility() != VISIBLE)
+            addEntryView.setVisibility(INVISIBLE);
     }
 
     /**
@@ -164,34 +173,36 @@ public class AddNodeView extends RelativeLayout {
      */
     public void enableAddGroup(boolean enable) {
 	    this.addGroupEnable = enable;
-        if (enable && addGroup != null && addGroup.getVisibility() != VISIBLE)
-            addGroup.setVisibility(INVISIBLE);
+        if (enable && addGroupView != null && addGroupView.getVisibility() != VISIBLE)
+            addGroupView.setVisibility(INVISIBLE);
     }
 
     public void setAddGroupClickListener(OnClickListener onClickListener) {
         if (addGroupEnable)
-            addGroup.setOnClickListener(view -> {
+            addGroupView.setOnClickListener(view -> {
                 onClickListener.onClick(view);
-                startGlobalAnimation();
+                closeButtonIfOpen();
             });
     }
 
     public void setAddEntryClickListener(OnClickListener onClickListener) {
         if (addEntryEnable)
-            addEntry.setOnClickListener(view -> {
+            addEntryView.setOnClickListener(view -> {
                 onClickListener.onClick(view);
-                startGlobalAnimation();
+                closeButtonIfOpen();
             });
     }
 
     private void startGlobalAnimation() {
-        viewButtonMenuAnimation.startAnimation();
+        if (allowAction) {
+            viewButtonMenuAnimation.startAnimation();
 
-        if (addEntryEnable) {
-            viewMenuAnimationAddEntry.startAnimation();
-        }
-        if (addGroupEnable) {
-            viewMenuAnimationAddGroup.startAnimation();
+            if (addEntryEnable) {
+                viewMenuAnimationAddEntry.startAnimation();
+            }
+            if (addGroupEnable) {
+                viewMenuAnimationAddGroup.startAnimation();
+            }
         }
     }
 
@@ -265,10 +276,6 @@ public class AddNodeView extends RelativeLayout {
             this.delayOut = delayOut;
         }
 
-        ViewMenuAnimation(View view) {
-            this(view, 0, 0);
-        }
-
         @Override
         public void onAnimationStart(View view) {}
 
@@ -301,7 +308,7 @@ public class AddNodeView extends RelativeLayout {
             } else {
                 // The first time
                 if (translation == 0) {
-                    translation = view.getY() + view.getHeight()/2 - addButton.getY() - addButton.getHeight()/2;
+                    translation = view.getY() + view.getHeight()/2 - addButtonView.getY() - addButtonView.getHeight()/2;
                     view.setTranslationY(-translation);
                     view.setTranslationX(view.getWidth()/3);
                     view.setAlpha(0.0F);

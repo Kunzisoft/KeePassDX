@@ -39,7 +39,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.keepassdroid.adapters.NodeAdapter;
@@ -54,20 +53,20 @@ import com.keepassdroid.database.SortNodeEnum;
 import com.keepassdroid.database.edit.AddGroup;
 import com.keepassdroid.database.edit.DeleteEntry;
 import com.keepassdroid.database.edit.DeleteGroup;
-import com.keepassdroid.dialogs.ReadOnlyDialog;
 import com.keepassdroid.dialogs.AssignMasterKeyDialogFragment;
 import com.keepassdroid.dialogs.GroupEditDialogFragment;
 import com.keepassdroid.dialogs.IconPickerDialogFragment;
+import com.keepassdroid.dialogs.ReadOnlyDialog;
 import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.ProgressTask;
-import com.keepassdroid.view.AddNodeView;
+import com.keepassdroid.view.AddNodeButtonView;
 import com.kunzisoft.keepass.R;
 
 public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
 
-    private AddNodeView addNodeView;
+    private AddNodeButtonView addNodeButtonView;
 
 	protected boolean addGroupEnabled = false;
 	protected boolean addEntryEnabled = false;
@@ -127,12 +126,12 @@ public class GroupActivity extends ListNodesActivity
 		// Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
 
-        addNodeView = findViewById(R.id.add_node_button);
-        addNodeView.enableAddGroup(addGroupEnabled);
-        addNodeView.enableAddEntry(addEntryEnabled);
+        addNodeButtonView = findViewById(R.id.add_node_button);
+        addNodeButtonView.enableAddGroup(addGroupEnabled);
+        addNodeButtonView.enableAddEntry(addEntryEnabled);
         // Hide when scroll
         RecyclerView recyclerView = findViewById(R.id.nodes_list);
-        recyclerView.addOnScrollListener(addNodeView.hideButtonOnScrollListener());
+        recyclerView.addOnScrollListener(addNodeButtonView.hideButtonOnScrollListener());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -141,13 +140,13 @@ public class GroupActivity extends ListNodesActivity
         if ( mCurrentGroup.getParent() != null )
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
-        addNodeView.setAddGroupClickListener(v -> {
+        addNodeButtonView.setAddGroupClickListener(v -> {
             editGroupDialogAction = EditGroupDialogAction.CREATION;
             GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
             groupEditDialogFragment.show(getSupportFragmentManager(),
                     GroupEditDialogFragment.TAG_CREATE_GROUP);
         });
-        addNodeView.setAddEntryClickListener(v ->
+        addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
@@ -276,14 +275,14 @@ public class GroupActivity extends ListNodesActivity
     protected void onResume() {
         super.onResume();
         // Show button on resume
-        addNodeView.showButton();
+        addNodeButtonView.showButton();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         // Hide button
-        addNodeView.hideButton();
+        addNodeButtonView.hideButton();
     }
 
     @Override
@@ -299,7 +298,7 @@ public class GroupActivity extends ListNodesActivity
     public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
         super.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
         // Show button if hide after sort
-        addNodeView.showButton();
+        addNodeButtonView.showButton();
     }
 
     protected void setGroupIcon() {
