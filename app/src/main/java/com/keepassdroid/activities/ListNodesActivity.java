@@ -38,7 +38,6 @@ import android.widget.TextView;
 
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
-import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
@@ -59,8 +58,6 @@ public abstract class ListNodesActivity extends LockingActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
 		NodeAdapter.OnNodeClickCallback,
         SortDialogFragment.SortSelectionListener {
-
-    public static final String KEY_ENTRY = "entry";
 
     protected PwGroup mCurrentGroup;
 	protected NodeAdapter mAdapter;
@@ -83,8 +80,9 @@ public abstract class ListNodesActivity extends LockingActivity
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		ActivityCompat.invalidateOptionsMenu(this);
+		invalidateOptionsMenu();
 
+		// TODO Move in search
 		setContentView(R.layout.list_nodes);
 
         mCurrentGroup = initCurrentGroup();
@@ -262,6 +260,7 @@ public abstract class ListNodesActivity extends LockingActivity
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+		    // TODO BUG HERE
 			super.startActivityForResult(intent, requestCode, options);
 		}
 	}

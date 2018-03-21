@@ -33,6 +33,7 @@ import com.keepassdroid.timeout.TimeoutHelper;
 
 public abstract class LockingActivity extends StylishActivity {
 
+    protected static final String FIRST_LOCKING_ACTIVITY_KEY = "FIRST_LOCKING_ACTIVITY_KEY";
     private static final String AT_LEAST_SECOND_SHOWN_KEY = "AT_LEAST_SECOND_SHOWN_KEY";
 
     private ScreenReceiver screenReceiver;
@@ -41,21 +42,25 @@ public abstract class LockingActivity extends StylishActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
             screenReceiver = new ScreenReceiver();
             registerReceiver(screenReceiver, new IntentFilter((Intent.ACTION_SCREEN_OFF)));
         } else
             screenReceiver = null;
 
-        // If it's the first shown, record the time
         // WARNING TODO recordTime is not called after a back if was in backstack
+        timeAlreadyRecord = false;
+        // In case of orientation changing
         if (! (savedInstanceState != null
                 && savedInstanceState.containsKey(AT_LEAST_SECOND_SHOWN_KEY)
                 && savedInstanceState.getBoolean(AT_LEAST_SECOND_SHOWN_KEY)) ) {
-            TimeoutHelper.recordTime(this);
-            timeAlreadyRecord = true;
-        } else {
-            timeAlreadyRecord = false;
+            // If it's the first locking activity, record the time
+            if (getIntent() != null
+                    && getIntent().getBooleanExtra(FIRST_LOCKING_ACTIVITY_KEY, false)) {
+                TimeoutHelper.recordTime(this);
+                timeAlreadyRecord = true;
+            }
         }
     }
 
@@ -65,6 +70,7 @@ public abstract class LockingActivity extends StylishActivity {
 		// After the first creation
 		// or If simply swipe with another application
         // If the time is out -> close the Activity
+        // TODO Solve flickering
         TimeoutHelper.checkTime(this);
         // If onCreate already record time
         if (!timeAlreadyRecord)

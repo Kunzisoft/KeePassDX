@@ -36,7 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.app.App;
-import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
@@ -115,7 +114,7 @@ public class EntryActivity extends LockingHideActivity {
 		}
 		
 		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
-		ActivityCompat.invalidateOptionsMenu(this);
+		invalidateOptionsMenu();
 		
 		// Update last access time.
 		mEntry.touch(false, false);

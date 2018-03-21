@@ -66,6 +66,8 @@ import com.kunzisoft.keepass.R;
 public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
 
+    private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
+
     private AddNodeButtonView addNodeButtonView;
 
 	protected boolean addGroupEnabled = false;
@@ -83,20 +85,29 @@ public class GroupActivity extends ListNodesActivity
 	private static final String TAG = "Group Activity:";
 	
 	public static void launch(Activity act) {
-		launch(act, (PwGroup) null);
+        Intent intent = new Intent(act, GroupActivity.class);
+        intent.putExtra(FIRST_LOCKING_ACTIVITY_KEY, true);
+        act.startActivityForResult(intent, 0);
 	}
 
     public static void launch(Activity act, PwGroup group) {
         Intent intent = new Intent(act, GroupActivity.class);
         if ( group != null ) {
-            intent.putExtra(KEY_ENTRY, group.getId());
+            intent.putExtra(GROUP_ID_KEY, group.getId());
         }
         act.startActivityForResult(intent, 0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, AssistStructure assistStructure) {
-        launch(act, null, assistStructure);
+        if ( assistStructure != null ) {
+            Intent intent = new Intent(act, GroupActivity.class);
+            intent.putExtra(FIRST_LOCKING_ACTIVITY_KEY, true);
+            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+        } else {
+            launch(act);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -104,7 +115,7 @@ public class GroupActivity extends ListNodesActivity
         if ( assistStructure != null ) {
             Intent intent = new Intent(act, GroupActivity.class);
             if ( group != null ) {
-                intent.putExtra(KEY_ENTRY, group.getId());
+                intent.putExtra(GROUP_ID_KEY, group.getId());
             }
             AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
             act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
@@ -171,7 +182,7 @@ public class GroupActivity extends ListNodesActivity
         PwGroup root = db.pm.rootGroup;
 
         Log.w(TAG, "Creating tree view");
-        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(KEY_ENTRY);
+        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
         if ( pwGroupId == null ) {
             currentGroup = root;
         } else {
