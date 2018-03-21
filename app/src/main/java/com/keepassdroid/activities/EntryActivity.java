@@ -280,6 +280,7 @@ public class EntryActivity extends LockingHideActivity {
 		inflater.inflate(R.menu.database_lock, menu);
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
+		// TODO Refresh if change
 		if (entryContentsView != null && togglePassword != null) {
             if (!entryContentsView.isPasswordPresent()) {
                 togglePassword.setVisible(false);

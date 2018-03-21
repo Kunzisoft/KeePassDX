@@ -41,13 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/entry_user_name_label"
+			android:layout_toLeftOf="@+id/entry_user_name_action_image"
+			android:layout_toStartOf="@+id/entry_user_name_action_image"
             android:textIsSelectable="true"
             style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 		<android.support.v7.widget.AppCompatImageView
 			android:id="@+id/entry_user_name_action_image"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignBottom="@+id/entry_user_name"
 			android:layout_alignParentEnd="true"
 			android:layout_alignParentRight="true"
 			android:layout_below="@+id/entry_user_name_label"
@@ -67,18 +68,26 @@
             android:layout_height="wrap_content"
             android:text="@string/entry_password"
             style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/entry_password"
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/entry_password_label"
-            android:inputType="textPassword"
-            style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+            android:layout_toLeftOf="@+id/entry_password_action_image"
+            android:layout_toStartOf="@+id/entry_password_action_image">
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/entry_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollHorizontally="true"
+                android:inputType="textPassword"
+                android:focusable="false"
+                android:lines="1"
+                style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+        </HorizontalScrollView>
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/entry_password_action_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/entry_password"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/entry_password_label"
