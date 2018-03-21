@@ -31,6 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
+        android:layout_toLeftOf="@+id/action_image"
+        android:layout_toStartOf="@+id/action_image"
         android:textIsSelectable="true"
         style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
     <android.support.v7.widget.AppCompatImageView

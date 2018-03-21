@@ -54,17 +54,18 @@ public class EntryNewField extends LinearLayout {
 		assert inflater != null;
 		inflater.inflate(R.layout.entry_new_field, this);
 
-        labelView = (TextView) findViewById(R.id.title);
-        valueView = (TextView) findViewById(R.id.value);
-        actionImageView = (ImageView) findViewById(R.id.action_image);
+        labelView = findViewById(R.id.title);
+        valueView = findViewById(R.id.value);
+        actionImageView = findViewById(R.id.action_image);
 
         setLabel(label);
         setValue(value);
         setAction(onClickActionListener);
 	}
 
-	public void applyFontVisibilityToValue(boolean changeFont) {
-        Util.applyFontVisibilityToTextView(changeFont, valueView);
+	public void applyFontVisibility(boolean fontInVisibility) {
+        if (fontInVisibility)
+            Util.applyFontVisibilityTo(valueView);
     }
 	
 	public void setLabel(String label) {

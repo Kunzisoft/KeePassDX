@@ -19,175 +19,152 @@
 -->
 <!-- translated by Arthur Zamarin<arthurzam@gmail.com>-->
 <resources>
-  <string name="about_feedback">משוב:</string>
-  <string name="about_homepage">דף הבית:</string>
-  <string name="AboutText">KeePass DX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
-  <string name="accept">קבל</string>
-  <string name="add_entry">הוסף ערך</string>
-  <string name="add_group">הוסף קבוצה</string>
-  <string name="add_group_title">הוסף קבוצה</string>
-  <string name="algorithm">אלגוריתם</string>
-  <string name="algorithm_colon">אלגוריתם:</string>
-  <string name="app_timeout">פסק זמן ליישום</string>
-  <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל.</string>
-  <string name="application">יישום</string>
-  <string name="menu_app_settings">הגדרות יישום</string>
-  <string name="beta_dontask">אל תציג שוב</string>
-  <string name="beta_warning">התמיכה לשמירת שינויים לקבצי kdbx היא נסיונית. תגבה את מסד הנתונים לפני שמירת השינויים.</string>
-  <string name="brackets">סוגריים</string>
-  <string name="browser_intall_text">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
-  <string name="building_search_idx">בונה אינדקס חיפוש&#8230;</string>
-  <string name="cancel">בטל</string>
-  <string name="ClearClipboard">לוח ההעתקה נוקה.</string>
-  <string name="clipboard_error_title">שגיאת לוח ההעתקה</string>
-  <string name="clipboard_error">במספר מכשירי אנרואיד מסמסונג קיים באג במימוש לוח ההעתקה שיכול לגרום לבעיות בהעתקה מהיישום. לעוד מידע עבור אל:</string>
-  <string name="clipboard_error_clear">ניקוי לוח ההעתקה נכשל</string>
-  <string name="clipboard_timeout">זמן עד לניקוי לוח ההעתקה</string>
-  <string name="clipboard_timeout_summary">זמן לפני שלוח ההעתקה מנוקה לאחר העתקת שם משתמש או סיסמה</string>
-  <string name="copy_username">בחר בהעתקת שם המשתמש ללוח ההעתקה</string>
-  <string name="copy_password">בחר בהעתקת הסיסמה ללוח ההעתקה</string>
-  <string name="creating_db_key">יוצר מפתח מסד נתונים&#8230;</string>
-  <string name="current_group">הקבוצה הנוכחית: </string>
-  <string name="current_group_root">קבוצה נוכחית: בסיס</string>
-  <string name="database">מסד נתונים</string>
-  <string name="decrypting_db">מפענח תוכן מסד נתונים&#8230;</string>
-  <string name="decrypting_entry">מפענח חוליה</string>
-  <string name="default_checkbox">השתמש בזה כמסד הנתונים הברירת מחדל</string>
-  <string name="digits">ספרות</string>
-  <string name="select_database_file">הזן שם קובץ למסד נתונים:</string>
-  <string name="entry_accessed">ניגש לאחרונה</string>
-  <string name="entry_and_or">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים:</string>
-  <string name="entry_cancel">בטל</string>
-  <string name="entry_comment">הערות</string>
-  <string name="entry_confpassword">אשר סיסמה</string>
-  <string name="entry_created">תאריך יצירה</string>
-  <string name="entry_expires">פג תוקף</string>
-  <string name="entry_keyfile">קובץ מפתח</string>
-  <string name="entry_modified">נערך לאחרונה</string>
-  <string name="entry_not_found">נתוני ערך לא נמצאו.</string>
-  <string name="entry_password">סיסמה</string>
-  <string name="entry_save">שמור</string>
-  <string name="entry_title">שם</string>
-  <string name="entry_user_name">שם משתמש</string>
-  <string name="error_arc4">צופן זרם ArcFour אינו נתמך.</string>
-  <string name="error_can_not_handle_uri">KeePass DX לא יכול לטפל ב-URI הזה.</string>
-  <string name="error_could_not_create_group">שגיאה ביצירת קבוצה.</string>
-  <string name="error_could_not_create_parent">לא הצליח לפתוח את תקיית האב.</string>
-  <string name="error_database_exists">קובץ זה קיים כבר.</string>
-  <string name="error_database_settings">קביעת הגדרות מסד הנתונים נכשלה.</string>
-  <string name="error_failed_to_launch_link">הפעלת הקישור נכשלה.</string>
-  <string name="error_filename_required">שם קובץ נדרש.</string>
-  <string name="error_file_not_create">לא הצליח ליצור קובץ:</string>
-  <string name="error_invalid_db">מסד נתונים לא חוקי.</string>
-  <string name="error_invalid_path">נתיב לא חוקי.</string>
-  <string name="error_no_name">שם נדרש.</string>
-  <string name="error_nokeyfile">סיסמה או קובץ מפתח נדרשים.</string>
-  <string name="error_out_of_memory">זיכרון המכשיר אזל בזמן ניתוח מסד הנתונים. יתכן והוא גדול מדי למכשירך.</string>
-  <string name="error_pass_gen_type">לפחות סוג אחד ליצירת סיסמה צריך להיבחר</string>
-  <string name="error_pass_match">הסיסמאות לא תואמות.</string>
-  <string name="error_rounds_not_number">סיבובים חייב להיות מספר.</string>
-  <string name="error_rounds_too_large">מספר סיבובים גדול מדי. מגדיר ל-2147483648.</string>
-  <string name="error_string_key">שדה שם נדרש לכל מחרוזת.</string>
-  <string name="error_title_required">כותרת נדרשת.</string>
-  <string name="error_wrong_length">הזן מספר חיובי בשדה האורך</string>
-  <string name="field_name">שם השדה</string>
-  <string name="field_value">ערך השדה</string>
-  <string name="file_not_found">קובץ לא נמצא.</string>
-  <string name="file_browser">סייר קבצים</string>
-  <string name="generate_password">צור סיסמה</string>
-  <string name="group">קבוצה</string>
-  <string name="hint_comment">הערה</string>
-  <string name="hint_conf_pass">אשר סיסמה</string>
-  <string name="hint_generated_password">סיסמה שנוצרה</string>
-  <string name="hint_group_name">שם קבוצה</string>
-  <string name="hint_keyfile">קובץ המפתח</string>
-  <string name="hint_length">אורך</string>
-  <string name="hint_pass">סיסמה</string>
-  <string name="password">סיסמה</string>
-  <string name="hint_title">שם</string>
-  <string name="hint_username">שם משתמש</string>
-  <string name="install_from_play_store">התקן מחנות Play</string>
-  <string name="install_from_f_droid">התקן מהאינטרנט</string>
-  <string name="InvalidPassword">סיסמה או קובץ מפתח לא מתאימים.</string>
-  <string name="invalid_algorithm">אלגוריתם לא חוקי.</string>
-  <string name="invalid_db_sig">תבנית מסד הנתונים אינה מזוהה.</string>
-  <string name="keyfile_does_not_exist">קובץ המפתח לא קיים.</string>
-  <string name="keyfile_is_empty">קובץ מפתח ריק.</string>
-  <string name="length">אורך</string>
-  <string name="list_size_title">גודל רשימה קבוצות</string>
-  <string name="list_size_summary">גודל הטקסט ברשימת הקבוצות</string>
-  <string name="loading_database">טוען מסד נתונים&#8230;</string>
-  <string name="lowercase">אות קטנה</string>
-  <string name="maskpass_title">מסיכת הסיסמה</string>
-  <string name="maskpass_summary">הסתר סיסמאות כברירת מחדל</string>
-  <string name="menu_about">אודות</string>
-  <string name="menu_change_key">שנה מפתח ראשי</string>
-  <string name="menu_create">צור</string>
-  <string name="settings">העדפות</string>
-  <string name="menu_db_settings">הגדרות מסד נתונים</string>
-  <string name="menu_delete">מחק</string>
-  <string name="menu_donate">תרום</string>
-  <string name="menu_edit">ערוך</string>
-  <string name="menu_hide_password">הסתר סיסמה</string>
-  <string name="menu_homepage">עבור לדף הבית</string>
-  <string name="menu_lock">נעל מסד נתונים</string>
-  <string name="menu_open">פתח</string>
-  <string name="menu_rename">שנה שם</string>
-  <string name="menu_search">חפש</string>
-  <string name="menu_showpass">הצג סיסמה</string>
-  <string name="menu_url">לך ל-URL</string>
-  <string name="minus">מינוס</string>
-  <string name="never">אף פעם</string>
-  <string name="no_keys">אין ערכים במסד נתונים או בקבוצה.</string>
-  <string name="no_results">אין תוצאות חיפוש</string>
-  <string name="no_url_handler">אין מטפל לכתובת url זו.</string>
-  <string name="open_recent">פתח מסד נתונים אחרון :</string>
-  <string name="omitbackup_title">אל תחפש ערכי גיבוי</string>
-  <string name="omitbackup_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
-  <string name="pass_filename">שם קובץ למסד נתוני KeePass:</string>
-  <string name="password_title">הזן סיסמת מסד נתונים</string>
-  <string name="progress_create">צור מסד נתונים חדש&#8230;</string>
-  <string name="progress_title">עובד&#8230;</string>
-  <string name="protection">הגנה</string>
-  <string name="read_only_warning">ל-KeePass DX אין הרשאות כתיבה למסד הנתונים הזה, ולכן הוא יפתח לקריאה בלבד.</string>
-  <string name="read_only_kitkat_warning">החל מאנרואיד 4.4, מספר מכשירים לא מרשים ליישומים לכתובת לכרטיס ה-SD.</string>
-  <string name="recentfile_title">היסטוריית קובץ אחרונה</string>
-  <string name="recentfile_summary">שמור קבצים שהיו בשימוש לאחרונה</string>
-  <string name="remember_keyfile_summary">זכור מיקום קבצי מפתח</string>
-  <string name="remember_keyfile_title">שמור קובץ מפתח</string>
-  <string name="remove_from_filelist">הסר</string>
-  <string name="rounds">סיבובי הצפנה</string>
-  <string name="rounds_explaination">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
-  <string name="rounds_hint">סיבובים</string>
-  <string name="saving_database">שומר מסד נתונים&#8230;</string>
-  <string name="space">גודל</string>
-  <string name="search_label">חיפוש</string>
-  <string name="show_password">הצג סיסמה</string>
-  <string name="sort_name">מיין לפי שם</string>
-  <string name="sort_db">סדר מיון מסד נתונים</string>
-  <string name="special">מיוחד</string>
-  <string name="search">כותרת/תיאור ערך</string>
-  <string name="search_results">תוצאות חיפוש</string>
-  <string name="underline">קו תחתון</string>
-  <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
-  <string name="uppercase">רישית</string>
-  <string name="warning_read_only">כרטיס ה-SD שלך במצב לקריאה בלבד. אתה לא תוכל לשמור את השינויים למסד הנתונים.</string>
-  <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
-  <string name="version_label">גרסה:</string>
-  <string-array name="clipboard_timeout_options">
-    <item>5 שניות</item>
-    <item>10 שניות</item>
-    <item>20 שניות</item>
-    <item>30 שניות</item>
-    <item>דקה אחת</item>
-    <item>5 דקות</item>
-    <item>15 דקות</item>
-    <item>30 דקות</item>
-    <item>אף פעם</item>
-  </string-array>
-  <string-array name="list_size_options">
-    <item>קטן</item>
-    <item>בינוני</item>
-    <item>גדול</item>
-  </string-array>
+    <string name="about_feedback">משוב:</string>
+    <string name="about_homepage">דף הבית:</string>
+    <string name="AboutText">KeePass DX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
+    <string name="accept">קבל</string>
+    <string name="add_entry">הוסף ערך</string>
+    <string name="add_group">הוסף קבוצה</string>
+    <string name="algorithm">אלגוריתם</string>
+    <string name="app_timeout">פסק זמן ליישום</string>
+    <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל.</string>
+    <string name="application">יישום</string>
+    <string name="menu_app_settings">הגדרות יישום</string>
+    <string name="beta_dontask">אל תציג שוב</string>
+    <string name="brackets">סוגריים</string>
+    <string name="browser_intall_text">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
+    <string name="cancel">בטל</string>
+    <string name="ClearClipboard">לוח ההעתקה נוקה.</string>
+    <string name="clipboard_error_title">שגיאת לוח ההעתקה</string>
+    <string name="clipboard_error">במספר מכשירי אנרואיד מסמסונג קיים באג במימוש לוח ההעתקה שיכול לגרום לבעיות בהעתקה מהיישום. לעוד מידע עבור אל:</string>
+    <string name="clipboard_error_clear">ניקוי לוח ההעתקה נכשל</string>
+    <string name="clipboard_timeout">זמן עד לניקוי לוח ההעתקה</string>
+    <string name="clipboard_timeout_summary">זמן לפני שלוח ההעתקה מנוקה לאחר העתקת שם משתמש או סיסמה</string>
+    <string name="select_to_copy">בחר בהעתקת %1$s ללוח ההעתקה</string>
+    <string name="creating_db_key">יוצר מפתח מסד נתונים&#8230;</string>
+    <string name="database">מסד נתונים</string>
+    <string name="decrypting_db">מפענח תוכן מסד נתונים&#8230;</string>
+    <string name="default_checkbox">השתמש בזה כמסד הנתונים הברירת מחדל</string>
+    <string name="digits">ספרות</string>
+    <string name="select_database_file">הזן שם קובץ למסד נתונים:</string>
+    <string name="entry_accessed">ניגש לאחרונה</string>
+    <string name="entry_and_or">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים:</string>
+    <string name="entry_cancel">בטל</string>
+    <string name="entry_comment">הערות</string>
+    <string name="entry_confpassword">אשר סיסמה</string>
+    <string name="entry_created">תאריך יצירה</string>
+    <string name="entry_expires">פג תוקף</string>
+    <string name="entry_keyfile">קובץ מפתח</string>
+    <string name="entry_modified">נערך לאחרונה</string>
+    <string name="entry_not_found">נתוני ערך לא נמצאו.</string>
+    <string name="entry_password">סיסמה</string>
+    <string name="entry_save">שמור</string>
+    <string name="entry_title">שם</string>
+    <string name="entry_user_name">שם משתמש</string>
+    <string name="error_arc4">צופן זרם ArcFour אינו נתמך.</string>
+    <string name="error_can_not_handle_uri">KeePass DX לא יכול לטפל ב-URI הזה.</string>
+    <string name="error_could_not_create_parent">לא הצליח לפתוח את תקיית האב.</string>
+    <string name="error_database_exists">קובץ זה קיים כבר.</string>
+    <string name="error_failed_to_launch_link">הפעלת הקישור נכשלה.</string>
+    <string name="error_filename_required">שם קובץ נדרש.</string>
+    <string name="error_file_not_create">לא הצליח ליצור קובץ:</string>
+    <string name="error_invalid_db">מסד נתונים לא חוקי.</string>
+    <string name="error_invalid_path">נתיב לא חוקי.</string>
+    <string name="error_no_name">שם נדרש.</string>
+    <string name="error_nokeyfile">סיסמה או קובץ מפתח נדרשים.</string>
+    <string name="error_out_of_memory">זיכרון המכשיר אזל בזמן ניתוח מסד הנתונים. יתכן והוא גדול מדי למכשירך.</string>
+    <string name="error_pass_gen_type">לפחות סוג אחד ליצירת סיסמה צריך להיבחר</string>
+    <string name="error_pass_match">הסיסמאות לא תואמות.</string>
+    <string name="error_rounds_not_number">סיבובים חייב להיות מספר.</string>
+    <string name="error_rounds_too_large">מספר סיבובים גדול מדי. מגדיר ל-2147483648.</string>
+    <string name="error_string_key">שדה שם נדרש לכל מחרוזת.</string>
+    <string name="error_title_required">כותרת נדרשת.</string>
+    <string name="error_wrong_length">הזן מספר חיובי בשדה האורך</string>
+    <string name="field_name">שם השדה</string>
+    <string name="field_value">ערך השדה</string>
+    <string name="file_not_found">קובץ לא נמצא.</string>
+    <string name="generate_password">צור סיסמה</string>
+    <string name="hint_conf_pass">אשר סיסמה</string>
+    <string name="hint_generated_password">סיסמה שנוצרה</string>
+    <string name="hint_group_name">שם קבוצה</string>
+    <string name="hint_keyfile">קובץ המפתח</string>
+    <string name="hint_length">אורך</string>
+    <string name="hint_pass">סיסמה</string>
+    <string name="password">סיסמה</string>
+    <string name="install_from_play_store">התקן מחנות Play</string>
+    <string name="install_from_f_droid">התקן מהאינטרנט</string>
+    <string name="InvalidPassword">סיסמה או קובץ מפתח לא מתאימים.</string>
+    <string name="invalid_algorithm">אלגוריתם לא חוקי.</string>
+    <string name="invalid_db_sig">תבנית מסד הנתונים אינה מזוהה.</string>
+    <string name="keyfile_does_not_exist">קובץ המפתח לא קיים.</string>
+    <string name="keyfile_is_empty">קובץ מפתח ריק.</string>
+    <string name="length">אורך</string>
+    <string name="list_size_title">גודל רשימה קבוצות</string>
+    <string name="list_size_summary">גודל הטקסט ברשימת הקבוצות</string>
+    <string name="loading_database">טוען מסד נתונים&#8230;</string>
+    <string name="lowercase">אות קטנה</string>
+    <string name="maskpass_title">מסיכת הסיסמה</string>
+    <string name="maskpass_summary">הסתר סיסמאות כברירת מחדל</string>
+    <string name="menu_about">אודות</string>
+    <string name="menu_change_key">שנה מפתח ראשי</string>
+    <string name="settings">העדפות</string>
+    <string name="menu_db_settings">הגדרות מסד נתונים</string>
+    <string name="menu_delete">מחק</string>
+    <string name="menu_donate">תרום</string>
+    <string name="menu_hide_password">הסתר סיסמה</string>
+    <string name="menu_lock">נעל מסד נתונים</string>
+    <string name="menu_open">פתח</string>
+    <string name="menu_search">חפש</string>
+    <string name="menu_showpass">הצג סיסמה</string>
+    <string name="menu_url">לך ל-URL</string>
+    <string name="minus">מינוס</string>
+    <string name="never">אף פעם</string>
+    <string name="no_results">אין תוצאות חיפוש</string>
+    <string name="no_url_handler">אין מטפל לכתובת url זו.</string>
+    <string name="open_recent">פתח מסד נתונים אחרון :</string>
+    <string name="omitbackup_title">אל תחפש ערכי גיבוי</string>
+    <string name="omitbackup_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
+    <string name="progress_create">צור מסד נתונים חדש&#8230;</string>
+    <string name="progress_title">עובד&#8230;</string>
+    <string name="protection">הגנה</string>
+    <string name="read_only_warning">ל-KeePass DX אין הרשאות כתיבה למסד הנתונים הזה, ולכן הוא יפתח לקריאה בלבד.</string>
+    <string name="read_only_kitkat_warning">החל מאנרואיד 4.4, מספר מכשירים לא מרשים ליישומים לכתובת לכרטיס ה-SD.</string>
+    <string name="recentfile_title">היסטוריית קובץ אחרונה</string>
+    <string name="recentfile_summary">שמור קבצים שהיו בשימוש לאחרונה</string>
+    <string name="remember_keyfile_summary">זכור מיקום קבצי מפתח</string>
+    <string name="remember_keyfile_title">שמור קובץ מפתח</string>
+    <string name="remove_from_filelist">הסר</string>
+    <string name="rounds">סיבובי הצפנה</string>
+    <string name="rounds_explaination">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
+    <string name="rounds_hint">סיבובים</string>
+    <string name="saving_database">שומר מסד נתונים&#8230;</string>
+    <string name="space">גודל</string>
+    <string name="search_label">חיפוש</string>
+    <string name="sort_db">סדר מיון מסד נתונים</string>
+    <string name="special">מיוחד</string>
+    <string name="search_hint">כותרת/תיאור ערך</string>
+    <string name="search_results">תוצאות חיפוש</string>
+    <string name="underline">קו תחתון</string>
+    <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
+    <string name="uppercase">רישית</string>
+    <string name="warning_read_only">כרטיס ה-SD שלך במצב לקריאה בלבד. אתה לא תוכל לשמור את השינויים למסד הנתונים.</string>
+    <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
+    <string name="version_label">גרסה:</string>
+
+    <string-array name="clipboard_timeout_options">
+        <item>5 שניות</item>
+        <item>10 שניות</item>
+        <item>20 שניות</item>
+        <item>30 שניות</item>
+        <item>דקה אחת</item>
+        <item>5 דקות</item>
+        <item>15 דקות</item>
+        <item>30 דקות</item>
+        <item>אף פעם</item>
+    </string-array>
+    <string-array name="list_size_options">
+        <item>קטן</item>
+        <item>בינוני</item>
+        <item>גדול</item>
+    </string-array>
 </resources>

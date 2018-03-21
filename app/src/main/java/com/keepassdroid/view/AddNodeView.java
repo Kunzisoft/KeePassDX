@@ -20,7 +20,6 @@
 package com.keepassdroid.view;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
@@ -36,7 +35,7 @@ import android.widget.RelativeLayout;
 
 import com.kunzisoft.keepass.R;
 
-public class ListNodesWithAddButtonView extends RelativeLayout {
+public class AddNodeView extends RelativeLayout {
 
     private enum State {
         OPEN, CLOSE
@@ -58,11 +57,11 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
     private ViewMenuAnimation viewMenuAnimationAddGroup;
     private long animationDuration;
 
-	public ListNodesWithAddButtonView(Context context) {
+	public AddNodeView(Context context) {
 		this(context, null);
 	}
 	
-	public ListNodesWithAddButtonView(Context context, AttributeSet attrs) {
+	public AddNodeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		inflate(context);
 	}
@@ -70,12 +69,12 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 	protected void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		assert inflater != null;
-        inflater.inflate(R.layout.list_nodes_with_add_button, this);
+        inflater.inflate(R.layout.add_node_button, this);
 
         addEntryEnable = true;
         addGroupEnable = true;
 
-        addButton = (FloatingActionButton) findViewById(R.id.add_button);
+        addButton = findViewById(R.id.add_button);
         addEntry = findViewById(R.id.add_entry);
         addGroup = findViewById(R.id.add_group);
 
@@ -88,12 +87,9 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
         allowAction = true;
         state = State.CLOSE;
 
-        onAddButtonClickListener = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (allowAction && state.equals(State.CLOSE)) {
-                    startGlobalAnimation();
-                }
+        onAddButtonClickListener = v -> {
+            if (allowAction) {
+                startGlobalAnimation();
             }
         };
         addButton.setOnClickListener(onAddButtonClickListener);
@@ -111,10 +107,10 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
                 addButton.setOnClickListener(onAddButtonClickListener);
             }
         };
+	}
 
-        // Hide when scroll
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.nodes_list);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+	public RecyclerView.OnScrollListener hideButtonOnScrollListener() {
+	    return new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -126,8 +122,8 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
                     }
                 }
             }
-        });
-	}
+        };
+    }
 
 	public void showButton() {
         addButton.show(onAddButtonVisibilityChangedListener);
@@ -139,6 +135,8 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        /*
+        TODO Dispatch event to close
         Rect viewRectG = new Rect();
         getGlobalVisibleRect(viewRectG);
         if (viewRectG.contains((int) ev.getRawX(), (int) ev.getRawY())) {
@@ -146,6 +144,7 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
                 startGlobalAnimation();
             }
         }
+        */
         return super.dispatchTouchEvent(ev);
     }
 
@@ -171,12 +170,18 @@ public class ListNodesWithAddButtonView extends RelativeLayout {
 
     public void setAddGroupClickListener(OnClickListener onClickListener) {
         if (addGroupEnable)
-            addGroup.setOnClickListener(onClickListener);
+            addGroup.setOnClickListener(view -> {
+                onClickListener.onClick(view);
+                startGlobalAnimation();
+            });
     }
 
     public void setAddEntryClickListener(OnClickListener onClickListener) {
         if (addEntryEnable)
-            addEntry.setOnClickListener(onClickListener);
+            addEntry.setOnClickListener(view -> {
+                onClickListener.onClick(view);
+                startGlobalAnimation();
+            });
     }
 
     private void startGlobalAnimation() {

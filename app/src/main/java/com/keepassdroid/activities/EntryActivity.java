@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,8 +40,9 @@ import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.notifications.NotificationCopyingService;
+import com.keepassdroid.notifications.NotificationField;
+import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.timeout.ClipboardHelper;
 import com.keepassdroid.utils.EmptyUtils;
@@ -50,6 +52,7 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryContentsView;
 import com.kunzisoft.keepass.R;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -57,6 +60,8 @@ import java.util.UUID;
 import static com.keepassdroid.settings.PreferencesUtil.isClipboardNotificationsEnable;
 
 public class EntryActivity extends LockingHideActivity {
+    private final static String TAG = EntryActivity.class.getName();
+
 	public static final String KEY_ENTRY = "entry";
 
 	private ImageView titleIconView;
@@ -142,16 +147,49 @@ public class EntryActivity extends LockingHideActivity {
         // If notifications enabled in settings
         // Don't if application timeout
         if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
-            if (mEntry.getPassword().length() > 0) {
+            if (mEntry.getUsername().length() > 0 || mEntry.getPassword().length() > 0 || mEntry.containsExtraFields()) {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
                 intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
-                intent.putExtra(NotificationCopyingService.EXTRA_PASSWORD, mEntry.getPassword());
-                if (mEntry.getUsername().length() > 0) {
-                    intent.putExtra(NotificationCopyingService.EXTRA_USERNAME, mEntry.getUsername());
-                }
                 if (mEntry.getTitle() != null)
                     intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
+                // Construct notification fields
+                ArrayList<NotificationField> notificationFields = new ArrayList<>();
+                // Add username if exists to notifications
+                if (mEntry.getUsername().length() > 0)
+                    notificationFields.add(
+                            new NotificationField(
+                                    NotificationField.NotificationFieldId.USERNAME,
+                                    mEntry.getUsername(),
+                                    getResources()));
+                // Add password to notifications
+                if (mEntry.getPassword().length() > 0)
+                    notificationFields.add(
+                            new NotificationField(
+                                    NotificationField.NotificationFieldId.PASSWORD,
+                                    mEntry.getPassword(),
+                                    getResources()));
+                // Add extra fields
+                if (mEntry.allowExtraFields()) {
+                    try {
+                        int anonymousFieldNumber = 0;
+                        for (Map.Entry<String, String> entry : mEntry.getExtraFields(App.getDB().pm).entrySet()) {
+                            notificationFields.add(
+                                    new NotificationField(
+                                            NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
+                                            entry.getValue(),
+                                            entry.getKey(),
+                                            getResources()));
+                            anonymousFieldNumber++;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Log.w(TAG, "Only " + NotificationField.NotificationFieldId.getAnonymousFieldId().length +
+                                " anonymous notifications are available");
+                    }
+                }
+                // Add notifications
+                intent.putParcelableArrayListExtra(NotificationCopyingService.EXTRA_FIELDS, notificationFields);
+
                 startService(intent);
             }
         }
@@ -242,6 +280,7 @@ public class EntryActivity extends LockingHideActivity {
 		inflater.inflate(R.menu.database_lock, menu);
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
+		// TODO Refresh if change
 		if (entryContentsView != null && togglePassword != null) {
             if (!entryContentsView.isPasswordPresent()) {
                 togglePassword.setVisible(false);

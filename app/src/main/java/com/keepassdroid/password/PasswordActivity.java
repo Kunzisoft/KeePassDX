@@ -204,12 +204,9 @@ public class PasswordActivity extends StylishActivity
         boolean keyFileResult = false;
         if (keyFileHelper != null) {
             keyFileResult = keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
-                    new KeyFileHelper.KeyFileCallback() {
-                        @Override
-                        public void onKeyFileResultCallback(Uri uri) {
-                            if (uri != null) {
-                                populateKeyFileTextView(uri.toString());
-                            }
+                    uri -> {
+                        if (uri != null) {
+                            populateKeyFileTextView(uri.toString());
                         }
                     });
         }
@@ -237,20 +234,20 @@ public class PasswordActivity extends StylishActivity
 
         setContentView(R.layout.password);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        confirmButtonView = (Button) findViewById(R.id.pass_ok);
-        filenameView = (TextView) findViewById(R.id.filename);
-        passwordView = (EditText) findViewById(R.id.password);
-        keyFileView = (EditText) findViewById(R.id.pass_keyfile);
-        checkboxPasswordView = (CompoundButton) findViewById(R.id.password_checkbox);
-        checkboxKeyfileView = (CompoundButton) findViewById(R.id.keyfile_checkox);
-        checkboxDefaultDatabaseView = (CompoundButton) findViewById(R.id.default_database);
+        confirmButtonView = findViewById(R.id.pass_ok);
+        filenameView = findViewById(R.id.filename);
+        passwordView = findViewById(R.id.password);
+        keyFileView = findViewById(R.id.pass_keyfile);
+        checkboxPasswordView = findViewById(R.id.password_checkbox);
+        checkboxKeyfileView = findViewById(R.id.keyfile_checkox);
+        checkboxDefaultDatabaseView = findViewById(R.id.default_database);
 
         View browseView = findViewById(R.id.browse_button);
         keyFileHelper = new KeyFileHelper(PasswordActivity.this);
@@ -265,7 +262,7 @@ public class PasswordActivity extends StylishActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().isEmpty() && !checkboxKeyfileView.isChecked())
+                if (!editable.toString().isEmpty() && !checkboxPasswordView.isChecked())
                     checkboxPasswordView.setChecked(true);
             }
         });
@@ -288,10 +285,10 @@ public class PasswordActivity extends StylishActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintContainerView = findViewById(R.id.fingerprint_container);
-            fingerprintTextView = (TextView) findViewById(R.id.fingerprint_label);
+            fingerprintTextView = findViewById(R.id.fingerprint_label);
             initForFingerprint();
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
-                            (ImageView) findViewById(R.id.fingerprint_image));
+                    findViewById(R.id.fingerprint_image));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -566,30 +563,15 @@ public class PasswordActivity extends StylishActivity
     }
 
     private void setFingerPrintVisibility(final int vis) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fingerprintContainerView.setVisibility(vis);
-            }
-        });
+        runOnUiThread(() -> fingerprintContainerView.setVisibility(vis));
     }
 
     private void setFingerPrintTextView(final int textId) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fingerprintTextView.setText(textId);
-            }
-        });
+        runOnUiThread(() -> fingerprintTextView.setText(textId));
     }
 
     private void setFingerPrintAlphaImageView(final float alpha) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fingerprintContainerView.setAlpha(alpha);
-            }
-        });
+        runOnUiThread(() -> fingerprintContainerView.setAlpha(alpha));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -603,12 +585,9 @@ public class PasswordActivity extends StylishActivity
         // fingerprint is available but not configured show icon but in disabled state with some information
         else {
             // show explanations
-            fingerprintContainerView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FingerPrintDialog fingerPrintDialog = new FingerPrintDialog();
-                    fingerPrintDialog.show(getSupportFragmentManager(), "fingerprintDialog");
-                }
+            fingerprintContainerView.setOnClickListener(view -> {
+                FingerPrintDialog fingerPrintDialog = new FingerPrintDialog();
+                fingerPrintDialog.show(getSupportFragmentManager(), "fingerprintDialog");
             });
             setFingerPrintVisibility(View.VISIBLE);
 
@@ -683,21 +662,11 @@ public class PasswordActivity extends StylishActivity
     }
 
     private void showError(final int messageId) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show());
     }
 
     private void showError(final CharSequence message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show());
     }
 
     private class DefaultCheckChange implements CompoundButton.OnCheckedChangeListener {
@@ -836,16 +805,7 @@ public class PasswordActivity extends StylishActivity
 
             if (db.passwordEncodingError) {
                 PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
-                dialog.show(PasswordActivity.this, new OnClickListener() {
-
-                    @Override
-                    public void onClick(
-                            DialogInterface dialog,
-                            int which) {
-                        launchGroupActivity();
-                    }
-
-                });
+                dialog.show(PasswordActivity.this, (dialog1, which) -> launchGroupActivity());
             } else if (mSuccess) {
                 launchGroupActivity();
             } else {
@@ -950,18 +910,8 @@ public class PasswordActivity extends StylishActivity
     void showRationaleForExternalStorage(final PermissionRequest request) {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.permission_external_storage_rationale_read_database)
-                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.proceed();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.cancel();
-                    }
-                })
+                .setPositiveButton(R.string.allow, (dialog, which) -> request.proceed())
+                .setNegativeButton(R.string.cancel, (dialog, which) -> request.cancel())
                 .show();
     }
 
