@@ -41,7 +41,6 @@ import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.notifications.NotificationCopyingService;
 import com.keepassdroid.notifications.NotificationField;
-import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.timeout.ClipboardHelper;
 import com.keepassdroid.utils.EmptyUtils;
@@ -338,9 +337,7 @@ public class EntryActivity extends LockingHideActivity {
                 return true;
 			
             case R.id.menu_lock:
-                App.setShutdown();
-                setResult(PasswordActivity.RESULT_EXIT_LOCK);
-                finish();
+                lockAndExit();
                 return true;
 
             case android.R.id.home :

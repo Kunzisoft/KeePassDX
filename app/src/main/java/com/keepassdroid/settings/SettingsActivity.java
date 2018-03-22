@@ -27,7 +27,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.keepassdroid.activities.LockingActivity;
-import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.kunzisoft.keepass.R;
 
@@ -52,13 +51,6 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
         else if (LockingActivity.checkTimeIsAllowedOrFinish(activity)) {
             launch(activity);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        // Clear the shutdown flag
-        App.clearShutdown();
-        super.onResume();
     }
 
     /**

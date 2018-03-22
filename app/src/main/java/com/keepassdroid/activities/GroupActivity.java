@@ -57,7 +57,6 @@ import com.keepassdroid.dialogs.AssignMasterKeyDialogFragment;
 import com.keepassdroid.dialogs.GroupEditDialogFragment;
 import com.keepassdroid.dialogs.IconPickerDialogFragment;
 import com.keepassdroid.dialogs.ReadOnlyDialog;
-import com.keepassdroid.password.PasswordActivity;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.view.AddNodeButtonView;
@@ -90,11 +89,13 @@ public class GroupActivity extends ListNodesActivity
 	}
 
     public static void launch(Activity act, PwGroup group) {
-        Intent intent = new Intent(act, GroupActivity.class);
-        if ( group != null ) {
-            intent.putExtra(GROUP_ID_KEY, group.getId());
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, GroupActivity.class);
+            if (group != null) {
+                intent.putExtra(GROUP_ID_KEY, group.getId());
+            }
+            act.startActivityForResult(intent, 0);
         }
-        act.startActivityForResult(intent, 0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -110,12 +111,14 @@ public class GroupActivity extends ListNodesActivity
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, PwGroup group, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
-            Intent intent = new Intent(act, GroupActivity.class);
-            if ( group != null ) {
-                intent.putExtra(GROUP_ID_KEY, group.getId());
+            if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+                Intent intent = new Intent(act, GroupActivity.class);
+                if (group != null) {
+                    intent.putExtra(GROUP_ID_KEY, group.getId());
+                }
+                AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+                act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
             }
-            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
         } else {
             launch(act, group);
         }
@@ -373,9 +376,7 @@ public class GroupActivity extends ListNodesActivity
                 return true;
 
             case R.id.menu_lock:
-                App.setShutdown();
-                setResult(PasswordActivity.RESULT_EXIT_LOCK);
-                finish();
+                lockAndExit();
                 return true;
 
             case R.id.menu_change_master_key:

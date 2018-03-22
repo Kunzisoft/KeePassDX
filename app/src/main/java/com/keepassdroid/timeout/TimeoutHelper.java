@@ -22,9 +22,8 @@ package com.keepassdroid.timeout;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.keepassdroid.password.PasswordActivity;
+import com.keepassdroid.activities.LockingActivity;
 import com.kunzisoft.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.EditorCompat;
@@ -83,18 +82,11 @@ public class TimeoutHelper {
 			// We have timed out
             if ( App.getDB().Loaded() ) {
                 App.setShutdown(act.getString(R.string.app_timeout));
-				TimeoutHelper.checkShutdown(act);
+				LockingActivity.checkShutdown(act);
                 return false;
             }
 		}
 		return true;
 	}
 
-	public static void checkShutdown(Activity act) {
-		if ( App.isShutdown() && App.getDB().Loaded() ) {
-            Log.i(TAG, "Shutdown " + act.getLocalClassName() + " after inactivity");
-			act.setResult(PasswordActivity.RESULT_EXIT_LOCK);
-			act.finish();
-		}
-	}
 }

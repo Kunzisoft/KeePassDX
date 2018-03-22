@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.settings.PreferencesUtil;
@@ -34,9 +35,14 @@ import com.keepassdroid.timeout.TimeoutHelper;
 
 public abstract class LockingActivity extends StylishActivity {
 
+    private static final String TAG = LockingActivity.class.getName();
+
+    public static final int RESULT_EXIT_LOCK = 1450;
+
     private static final String AT_LEAST_SECOND_SHOWN_KEY = "AT_LEAST_SECOND_SHOWN_KEY";
 
     private ScreenReceiver screenReceiver;
+    private boolean exitLock;
 
     protected static void recordFirstTimeBeforeLaunch(Activity activity) {
         TimeoutHelper.recordTime(activity);
@@ -56,7 +62,33 @@ public abstract class LockingActivity extends StylishActivity {
         } else
             screenReceiver = null;
 
+        exitLock = false;
+
         // WARNING TODO recordTime is not called after a back if was in backstack
+    }
+
+    public static void checkShutdown(Activity act) {
+        if (App.isShutdown() && App.getDB().Loaded()) {
+            Log.i(TAG, "Shutdown " + act.getLocalClassName() +
+                    " after inactivity or manual lock");
+            act.setResult(RESULT_EXIT_LOCK);
+            act.finish();
+        }
+    }
+
+    protected void lockAndExit() {
+        App.setShutdown();
+        setResult(LockingActivity.RESULT_EXIT_LOCK);
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_EXIT_LOCK) {
+            exitLock = true;
+            checkShutdown(this);
+        }
     }
 
     @Override
@@ -67,7 +99,8 @@ public abstract class LockingActivity extends StylishActivity {
         // If the time is out -> close the Activity
         TimeoutHelper.checkTime(this);
         // If onCreate already record time
-        TimeoutHelper.recordTime(this);
+        if (!exitLock)
+            TimeoutHelper.recordTime(this);
 	}
 
     @Override
@@ -99,7 +132,7 @@ public abstract class LockingActivity extends StylishActivity {
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                     if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(LockingActivity.this)) {
                         App.setShutdown();
-                        TimeoutHelper.checkShutdown(LockingActivity.this);
+                        checkShutdown(LockingActivity.this);
                     }
                 }
             }

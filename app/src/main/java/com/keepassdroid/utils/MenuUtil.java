@@ -7,12 +7,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.keepassdroid.activities.LockingActivity;
-import com.kunzisoft.keepass.BuildConfig;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.activities.AboutActivity;
 import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.stylish.StylishActivity;
+import com.kunzisoft.keepass.BuildConfig;
+import com.kunzisoft.keepass.R;
 
 
 public class MenuUtil {
