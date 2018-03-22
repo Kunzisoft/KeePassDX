@@ -189,12 +189,13 @@ public class GroupActivity extends ListNodesActivity
             currentGroup = db.pm.groups.get(pwGroupId);
         }
 
-        addGroupEnabled = !readOnly;
-        addEntryEnabled = !readOnly;
-
-        isRoot = (currentGroup == root);
-        if ( !currentGroup.allowAddEntryIfIsRoot() )
-            addEntryEnabled = !isRoot && addEntryEnabled;
+        if (currentGroup != null) {
+            addGroupEnabled = !readOnly;
+            addEntryEnabled = !readOnly; // TODO ReadOnly
+            isRoot = (currentGroup == root);
+            if (!currentGroup.allowAddEntryIfIsRoot())
+                addEntryEnabled = !isRoot && addEntryEnabled;
+        }
 
         return currentGroup;
     }

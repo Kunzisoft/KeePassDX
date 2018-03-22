@@ -299,6 +299,7 @@ public abstract class ListNodesActivity extends LockingActivity
                     PwGroup recycleBin = database.getRecycleBin();
                     // Add trash if it doesn't exists
                     if (parent.equals(recycleBin)
+                            && mCurrentGroup != null
                             && mCurrentGroup.getParent() == null
                             && !mCurrentGroup.equals(recycleBin)) {
                         mAdapter.addNode(parent);
