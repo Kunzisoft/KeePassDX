@@ -7,8 +7,4 @@ public abstract class PwIcon implements Serializable {
 	public boolean isMetaStreamIcon() {
 		return false;
 	}
-	
-	public void writeBytes() {
-	}
-	
 }

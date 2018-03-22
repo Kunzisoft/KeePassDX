@@ -65,46 +65,46 @@ public class PwGroupOutputV3 {
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(GROUPID_FIELD_SIZE);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPG.groupId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getGroupId()));
 		
 		// Name
 		mOS.write(NAME_FIELD_TYPE);
-		Types.writeCString(mPG.name, mOS);
+		Types.writeCString(mPG.getName(), mOS);
 
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tCreation.getCDate());
+		mOS.write(mPG.getCreationTime().getCDate());
 		
 		// Modification date
 		mOS.write(MOD_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tLastMod.getCDate());
+		mOS.write(mPG.getLastModificationTime().getCDate());
 		
 		// Access date
 		mOS.write(ACCESS_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tLastAccess.getCDate());
+		mOS.write(mPG.getLastAccessTime().getCDate());
 		
 		// Expiration date
 		mOS.write(EXPIRE_FIELD_TYPE);
 		mOS.write(DATE_FIELD_SIZE);
-		mOS.write(mPG.tExpire.getCDate());
+		mOS.write(mPG.getExpiryTime().getCDate());
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(IMAGEID_FIELD_SIZE);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPG.icon.iconId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getIconStandard().iconId));
 		
 		// Level
 		mOS.write(LEVEL_FIELD_TYPE);
 		mOS.write(LEVEL_FIELD_SIZE);
-		mOS.write(LEDataOutputStream.writeUShortBuf(mPG.level));
+		mOS.write(LEDataOutputStream.writeUShortBuf(mPG.getLevel()));
 		
 		// Flags
 		mOS.write(FLAGS_FIELD_TYPE);
 		mOS.write(FLAGS_FIELD_SIZE);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPG.flags));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getFlags()));
 
 		// End
 		mOS.write(END_FIELD_TYPE);

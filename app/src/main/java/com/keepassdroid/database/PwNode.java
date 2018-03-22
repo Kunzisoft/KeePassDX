@@ -23,10 +23,18 @@ package com.keepassdroid.database;
 import java.io.Serializable;
 import java.util.Date;
 
+import static com.keepassdroid.database.PwDate.NEVER_EXPIRE;
+import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
+
 /**
  * Abstract class who manage Groups and Entries
  */
 public abstract class PwNode implements Serializable {
+
+    private PwDate creation = new PwDate();
+    private PwDate lastMod = new PwDate();
+    private PwDate lastAccess = new PwDate();
+    private PwDate expireDate = new PwDate(NEVER_EXPIRE);
 
     /**
      * Type of available Nodes
@@ -49,11 +57,6 @@ public abstract class PwNode implements Serializable {
      * @return Visual icon
      */
     public abstract PwIcon getIcon();
-
-    /**
-     * @return Creation date and time of the node
-     */
-    public abstract Date getCreationTime();
 
     /**
      * Retrieve the parent node
@@ -84,5 +87,54 @@ public abstract class PwNode implements Serializable {
      */
     boolean isSameType(PwNode otherNode) {
         return getType() != null ? getType().equals(otherNode.getType()) : otherNode.getType() == null;
+    }
+
+    public void assign(PwNode source) {
+        this.creation = source.creation;
+        this.lastMod = source.lastMod;
+        this.lastAccess = source.lastAccess;
+        this.expireDate = source.expireDate;
+    }
+
+    public PwDate getCreationTime() {
+        return creation;
+    }
+
+    public void setCreationTime(PwDate date) {
+        creation = date;
+    }
+
+    public PwDate getLastModificationTime() {
+        return lastMod;
+    }
+
+    public void setLastModificationTime(PwDate date) {
+        lastMod = date;
+    }
+
+    public PwDate getLastAccessTime() {
+        return lastAccess;
+    }
+
+    public void setLastAccessTime(PwDate date) {
+        lastAccess = date;
+    }
+
+    public PwDate getExpiryTime() {
+        return expireDate;
+    }
+
+    public void setExpiryTime(PwDate date) {
+        expireDate = date;
+    }
+
+    public void setExpires(boolean expires) {
+        if (!expires) {
+            expireDate = PW_NEVER_EXPIRE;
+        }
+    }
+
+    public boolean expires() {
+        return ! PwDate.IsSameDate(NEVER_EXPIRE, expireDate.getDate());
     }
 }

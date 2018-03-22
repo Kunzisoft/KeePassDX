@@ -72,14 +72,14 @@ public class DeleteGroup extends RunnableOnFinish {
         else {
             // TODO tests
             // Remove child entries
-            List<PwEntry> childEnt = new ArrayList<>(mGroup.childEntries);
+            List<PwEntry> childEnt = new ArrayList<>(mGroup.getChildEntries());
             for ( int i = 0; i < childEnt.size(); i++ ) {
                 DeleteEntry task = new DeleteEntry(mContext, mDb, childEnt.get(i), null, true);
                 task.run();
             }
 
             // Remove child groups
-            List<PwGroup> childGrp = new ArrayList<>(mGroup.childGroups);
+            List<PwGroup> childGrp = new ArrayList<>(mGroup.getChildGroups());
             for ( int i = 0; i < childGrp.size(); i++ ) {
                 DeleteGroup task = new DeleteGroup(mContext, mDb, childGrp.get(i), null, true);
                 task.run();

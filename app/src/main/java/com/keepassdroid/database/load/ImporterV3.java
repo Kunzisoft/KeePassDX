@@ -340,31 +340,31 @@ public class ImporterV3 extends Importer {
 			// Ignore field
 			break;
 		case 0x0001 :
-			grp.groupId = LEDataInputStream.readInt(buf, offset);
+			grp.setGroupId(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0002 :
-			grp.name = Types.readCString(buf, offset);
+			grp.setName(Types.readCString(buf, offset));
 			break;
 		case 0x0003 :
-			grp.tCreation = new PwDate(buf, offset);
+			grp.setCreationTime(new PwDate(buf, offset));
 			break;
 		case 0x0004 :
-			grp.tLastMod = new PwDate(buf, offset);
+			grp.setLastModificationTime(new PwDate(buf, offset));
 			break;
 		case 0x0005 :
-			grp.tLastAccess = new PwDate(buf, offset);
+			grp.setLastAccessTime(new PwDate(buf, offset));
 			break;
 		case 0x0006 :
-			grp.tExpire = new PwDate(buf, offset);
+			grp.setExpiryTime(new PwDate(buf, offset));
 			break;
 		case 0x0007 :
-			grp.icon = db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset));
+			grp.setIcon(db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset)));
 			break;
 		case 0x0008 :
-			grp.level = LEDataInputStream.readUShort(buf, offset);
+			grp.setLevel(LEDataInputStream.readUShort(buf, offset));
 			break;
 		case 0x0009 :
-			grp.flags = LEDataInputStream.readInt(buf, offset);
+			grp.setFlags(LEDataInputStream.readInt(buf, offset));
 			break;
 		}
 	}
@@ -387,7 +387,7 @@ public class ImporterV3 extends Importer {
 			ent.setUUID(Types.bytestoUUID(buf, offset));
 			break;
 		case 0x0002 :
-			ent.groupId = LEDataInputStream.readInt(buf, offset);
+			ent.setGroupId(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0003 :
 			int iconId = LEDataInputStream.readInt(buf, offset);
@@ -400,34 +400,34 @@ public class ImporterV3 extends Importer {
 			ent.icon = db.iconFactory.getIcon(iconId);
 			break;
 		case 0x0004 :
-			ent.title = Types.readCString(buf, offset); 
+			ent.setTitle(Types.readCString(buf, offset));
 			break;
 		case 0x0005 :
-			ent.url = Types.readCString(buf, offset);
+			ent.setUrl(Types.readCString(buf, offset));
 			break;
 		case 0x0006 :
-			ent.username = Types.readCString(buf, offset);
+			ent.setUsername(Types.readCString(buf, offset));
 			break;
 		case 0x0007 :
 			ent.setPassword(buf, offset, Types.strlen(buf, offset));
 			break;
 		case 0x0008 :
-			ent.additional = Types.readCString(buf, offset);
+			ent.setNotes(Types.readCString(buf, offset));
 			break;
 		case 0x0009 :
-			ent.tCreation = new PwDate(buf, offset);
+			ent.setCreationTime(new PwDate(buf, offset));
 			break;
 		case 0x000A :
-			ent.tLastMod = new PwDate(buf, offset);
+			ent.setLastModificationTime(new PwDate(buf, offset));
 			break;
 		case 0x000B :
-			ent.tLastAccess = new PwDate(buf, offset);
+			ent.setLastAccessTime(new PwDate(buf, offset));
 			break;
 		case 0x000C :
-			ent.tExpire = new PwDate(buf, offset);
+			ent.setExpiryTime(new PwDate(buf, offset));
 			break;
 		case 0x000D :
-			ent.binaryDesc = Types.readCString(buf, offset);
+			ent.setBinaryDesc(Types.readCString(buf, offset));
 			break;
 		case 0x000E :
 			ent.setBinaryData(buf, offset, fieldSize);

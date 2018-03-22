@@ -164,8 +164,8 @@ public enum SortNodeEnum {
                     return -1;
                 }
             }
-            int nodeCreationComp = object1.getCreationTime()
-                    .compareTo(object2.getCreationTime());
+            int nodeCreationComp = object1.getCreationTime().getDate()
+                    .compareTo(object2.getCreationTime().getDate());
             // If same creation, can be different
             if (nodeCreationComp == 0) {
                 return object1.hashCode() - object2.hashCode();

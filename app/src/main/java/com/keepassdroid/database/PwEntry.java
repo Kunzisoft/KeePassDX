@@ -69,52 +69,30 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	}
 
     public void assign(PwEntry source) {
+	    super.assign(source);
 		icon = source.icon;
 	}
 	
 	public abstract UUID getUUID();
 	public abstract void setUUID(UUID u);
-	
-	public String getTitle() {
-		return getTitle(false, null);
-	}
-	
-	public String getUsername() {
-		return getUsername(false, null);
-	}
 
-	public String getPassword() {
-		return getPassword(false, null);
-	}
-	
-	public String getUrl() {
-		return getUrl(false, null);
-	}
+	public void startToDecodeReference(PwDatabase db) {}
+	public void endToDecodeReference(PwDatabase db) {}
 
-	public String getNotes() {
-		return getNotes(false, null);
-	}
+	public abstract String getTitle();
+    public abstract void setTitle(String title);
 
-	public abstract String getTitle(boolean decodeRef, PwDatabase db);
-	public abstract String getUsername(boolean decodeRef, PwDatabase db);
-	public abstract String getPassword(boolean decodeRef, PwDatabase db);
-	public abstract String getUrl(boolean decodeRef, PwDatabase db);
-	public abstract String getNotes(boolean decodeRef, PwDatabase db);
-	public abstract Date getLastModificationTime();
-	public abstract Date getLastAccessTime();
-	public abstract Date getExpiryTime();
-	public abstract boolean expires();
-	
-	public abstract void setTitle(String title, PwDatabase db);
-	public abstract void setUsername(String user, PwDatabase db);
-	public abstract void setPassword(String pass, PwDatabase db);
-	public abstract void setUrl(String url, PwDatabase db);
-	public abstract void setNotes(String notes, PwDatabase db);
-	public abstract void setCreationTime(Date create);
-	public abstract void setLastModificationTime(Date mod);
-	public abstract void setLastAccessTime(Date access);
-	public abstract void setExpires(boolean exp);
-	public abstract void setExpiryTime(Date expires);
+	public abstract String getUsername();
+    public abstract void setUsername(String user);
+
+	public abstract String getPassword();
+    public abstract void setPassword(String pass);
+
+	public abstract String getUrl();
+    public abstract void setUrl(String url);
+
+	public abstract String getNotes();
+	public abstract void setNotes(String notes);
 
 	public PwIcon getIcon() {
 		return icon;
@@ -148,10 +126,9 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 
     /**
      * Retrieve extra fields to show, key is the label, value is the value of field
-     * @param pm Database
      * @return Map of label/value
      */
-	public Map<String, String> getExtraFields(PwDatabase pm) {
+	public Map<String, String> getExtraFields() {
 		return new HashMap<>();
 	}
 
@@ -196,8 +173,8 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	}
 	
 	public void touch(boolean modified, boolean touchParents) {
-		Date now = new Date();
-		
+		PwDate now = new PwDate();
+
 		setLastAccessTime(now);
 		
 		if (modified) {
@@ -282,7 +259,8 @@ public abstract class PwEntry extends PwNode implements Cloneable {
             if (object1.equals(object2))
                 return 0;
 
-            int entryCreationComp = object1.getCreationTime().compareTo(object2.getCreationTime());
+            int entryCreationComp = object1.getCreationTime().getDate()
+					.compareTo(object2.getCreationTime().getDate());
             // If same creation, can be different
             if (entryCreationComp == 0) {
                 return object1.hashCode() - object2.hashCode();

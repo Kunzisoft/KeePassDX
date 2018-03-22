@@ -435,9 +435,9 @@ public class PwDbV4Output extends PwDbOutput {
 	private void startGroup(PwGroupV4 group) throws IllegalArgumentException, IllegalStateException, IOException {
 		xml.startTag(null, ElemGroup);
 		writeObject(ElemUuid, group.uuid);
-		writeObject(ElemName, group.name);
+		writeObject(ElemName, group.getName());
 		writeObject(ElemNotes, group.notes);
-		writeObject(ElemIcon, group.icon.iconId);
+		writeObject(ElemIcon, group.getIconStandard().iconId);
 		
 		if (!group.customIcon.equals(PwIconCustom.ZERO)) {
 			writeObject(ElemCustomIconID, group.customIcon.uuid);
@@ -461,7 +461,7 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		xml.startTag(null, ElemEntry);
 		
-		writeObject(ElemUuid, entry.uuid);
+		writeObject(ElemUuid, entry.getUUID());
 		writeObject(ElemIcon, entry.icon.iconId);
 		
 		if (!entry.customIcon.equals(PwIconCustom.ZERO)) {
@@ -755,13 +755,13 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		xml.startTag(null, name);
 		
-		writeObject(ElemLastModTime, it.getLastModificationTime());
-		writeObject(ElemCreationTime, it.getCreationTime());
-		writeObject(ElemLastAccessTime, it.getLastAccessTime());
-		writeObject(ElemExpiryTime, it.getExpiryTime());
+		writeObject(ElemLastModTime, it.getLastModificationTime().getDate());
+		writeObject(ElemCreationTime, it.getCreationTime().getDate());
+		writeObject(ElemLastAccessTime, it.getLastAccessTime().getDate());
+		writeObject(ElemExpiryTime, it.getExpiryTime().getDate());
 		writeObject(ElemExpires, it.expires());
 		writeObject(ElemUsageCount, it.getUsageCount());
-		writeObject(ElemLocationChanged, it.getLocationChanged());
+		writeObject(ElemLocationChanged, it.getLocationChanged().getDate());
 		
 		xml.endTag(null, name);
 	}

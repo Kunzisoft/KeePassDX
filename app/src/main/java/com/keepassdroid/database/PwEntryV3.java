@@ -42,12 +42,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.keepassdroid.database;
 
-// PhoneID
 import com.keepassdroid.utils.Types;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -74,141 +71,165 @@ import java.util.UUID;
  */
 public class PwEntryV3 extends PwEntry {
 
-	public static final Date NEVER_EXPIRE = getNeverExpire();
-	public static final Date NEVER_EXPIRE_BUG = getNeverExpireBug();
-	public static final Date DEFAULT_DATE = getDefaultDate();
-	public static final PwDate PW_NEVER_EXPIRE = new PwDate(NEVER_EXPIRE);
-	public static final PwDate PW_NEVER_EXPIRE_BUG = new PwDate(NEVER_EXPIRE_BUG);
-	public static final PwDate DEFAULT_PWDATE = new PwDate(DEFAULT_DATE);
-	
-
 	/** Size of byte buffer needed to hold this struct. */
-	public static final String PMS_ID_BINDESC = "bin-stream";
-	public static final String PMS_ID_TITLE   = "Meta-Info";
-	public static final String PMS_ID_USER    = "SYSTEM";
-	public static final String PMS_ID_URL     = "$";
+	private static final String PMS_ID_BINDESC = "bin-stream";
+	private static final String PMS_ID_TITLE   = "Meta-Info";
+	private static final String PMS_ID_USER    = "SYSTEM";
+	private static final String PMS_ID_URL     = "$";
 
+    // for tree traversing
+    private PwGroupV3 parent = null;
+    private int              groupId;
 
-
-	public int              groupId;
-	public 	String 			username;
-	private byte[]          password;
-	private byte[]          uuid;
-	public String title;
-	public String url;
-	public String additional;
-
-
-	public PwDate             tCreation;
-	public PwDate             tLastMod;
-	public PwDate             tLastAccess;
-	public PwDate             tExpire;
+    private byte[] uuid;
+	private	String username;
+	private byte[] password;
+	private String title;
+	private String url;
+	private String additional;
 
 	/** A string describing what is in pBinaryData */
-	public String           binaryDesc;
+	private String           binaryDesc;
 	private byte[]          binaryData;
-
-	private static Date getDefaultDate() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 2004);
-		cal.set(Calendar.MONTH, Calendar.JANUARY);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		cal.set(Calendar.HOUR, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-
-		return cal.getTime();
-	}
-
-	private static Date getNeverExpire() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 2999);
-		cal.set(Calendar.MONTH, 11);
-		cal.set(Calendar.DAY_OF_MONTH, 28);
-		cal.set(Calendar.HOUR, 23);
-		cal.set(Calendar.MINUTE, 59);
-		cal.set(Calendar.SECOND, 59);
-
-		return cal.getTime();
-	}
-	
-	/** This date was was accidentally being written
-	 *  out when an entry was supposed to be marked as
-	 *  expired. We'll use this to silently correct those
-	 *  entries.
-	 * @return
-	 */
-	private static Date getNeverExpireBug() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 2999);
-		cal.set(Calendar.MONTH, 11);
-		cal.set(Calendar.DAY_OF_MONTH, 30);
-		cal.set(Calendar.HOUR, 23);
-		cal.set(Calendar.MINUTE, 59);
-		cal.set(Calendar.SECOND, 59);
-
-		return cal.getTime();
-	}
-
-	public static boolean IsNever(Date date) {
-		return PwDate.IsSameDate(NEVER_EXPIRE, date);
-	}
-	
-	// for tree traversing
-	public PwGroupV3 parent = null;
 
 
 	public PwEntryV3() {
 		super();
 	}
-
-	/*
-	public PwEntryV3(PwEntryV3 source) {
-		assign(source);
-	}
-	*/
 	
 	public PwEntryV3(PwGroupV3 p) {
-		this(p, true, true);
-	}
-
-	public PwEntryV3(PwGroupV3 p, boolean initId, boolean initDates) {
 
 		parent = p;
 		groupId = ((PwGroupIdV3)parent.getId()).getId();
 
-		if (initId) {
-			Random random = new Random();
-			uuid = new byte[16];
-			random.nextBytes(uuid);
-		}
-		
-		if (initDates) {
-			Calendar cal = Calendar.getInstance();
-			Date now = cal.getTime();
-			tCreation = new PwDate(now);
-			tLastAccess = new PwDate(now);
-			tLastMod = new PwDate(now);
-			tExpire = new PwDate(NEVER_EXPIRE);
-		}
+        Random random = new Random();
+        uuid = new byte[16];
+        random.nextBytes(uuid);
 	}
+
+    @Override
+    public PwGroupV3 getParent() {
+        return parent;
+    }
+
+    @Override
+    public void setParent(PwGroup parent) {
+        this.parent = (PwGroupV3) parent;
+    }
+
+    public int getGroupId() {
+	    return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+	    this.groupId = groupId;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return Types.bytestoUUID(uuid);
+    }
+
+    @Override
+    public void setUUID(UUID u) {
+        uuid = Types.UUIDtoBytes(u);
+    }
+
+    @Override
+    public String getUsername() {
+        if (username == null) {
+            return "";
+        }
+        return username;
+    }
+
+    @Override
+    public void setUsername(String user) {
+        username = user;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String getNotes() {
+        return additional;
+    }
+
+    @Override
+    public void setNotes(String notes) {
+        additional = notes;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void populateBlankFields(PwDatabaseV3 db) {
+        if (icon == null) {
+            icon = db.iconFactory.getIcon(1);
+        }
+
+        if (username == null) {
+            username = "";
+        }
+
+        if (password == null) {
+            password = new byte[0];
+        }
+
+        if (uuid == null) {
+            uuid = Types.UUIDtoBytes(UUID.randomUUID());
+        }
+
+        if (title == null) {
+            title = "";
+        }
+
+        if (url == null) {
+            url = "";
+        }
+
+        if (additional == null) {
+            additional = "";
+        }
+
+        if (binaryDesc == null) {
+            binaryDesc = "";
+        }
+
+        if (binaryData == null) {
+            binaryData = new byte[0];
+        }
+    }
 
 	/**
 	 * @return the actual password byte array.
 	 */
 	@Override
-	public String getPassword(boolean decodeRef, PwDatabase db) {
+	public String getPassword() {
 		if (password == null) {
 			return "";
 		}
-		
 		return new String(password);
 	}
 	
 	public byte[] getPasswordBytes() {
 		return password;
 	}
-
 
 	/**
 	 * fill byte array
@@ -230,10 +251,8 @@ public class PwEntryV3 extends PwEntry {
 		System.arraycopy( buf, offset, password, 0, len );
 	}
 
-
-
 	@Override
-	public void setPassword(String pass, PwDatabase db) {
+	public void setPassword(String pass) {
 		byte[] password;
 		try {
 			password = pass.getBytes("UTF-8");
@@ -252,8 +271,6 @@ public class PwEntryV3 extends PwEntry {
 		return binaryData;
 	}
 
-
-
 	/** Securely erase old data before copying new. */
 	public void setBinaryData( byte[] buf, int offset, int len ) {
 		if( binaryData != null ) {
@@ -263,6 +280,14 @@ public class PwEntryV3 extends PwEntry {
 		binaryData = new byte[len];
 		System.arraycopy( buf, offset, binaryData, 0, len );
 	}
+
+	public String getBinaryDesc() {
+	    return binaryDesc;
+    }
+
+    public void setBinaryDesc(String binaryDesc) {
+	    this.binaryDesc = binaryDesc;
+    }
 
 	// Determine if this is a MetaStream entry
 	@Override
@@ -292,7 +317,6 @@ public class PwEntryV3 extends PwEntry {
 		
 		PwEntryV3 src = (PwEntryV3) source;
 		assign(src);
-	
 	}
 
 	private void assign(PwEntryV3 source) {
@@ -307,10 +331,10 @@ public class PwEntryV3 extends PwEntry {
 		password = new byte[passLen]; 
 		System.arraycopy(source.password, 0, password, 0, passLen);
 
-		tCreation = (PwDate) source.tCreation.clone();
-		tLastMod = (PwDate) source.tLastMod.clone();
-		tLastAccess = (PwDate) source.tLastAccess.clone();
-		tExpire = (PwDate) source.tExpire.clone();
+		setCreationTime( (PwDate) source.getCreationTime().clone() );
+		setLastModificationTime( (PwDate) source.getLastModificationTime().clone() );
+		setLastAccessTime( (PwDate) source.getLastAccessTime().clone() );
+		setExpiryTime( (PwDate) source.getExpiryTime().clone() );
 
 		binaryDesc = source.binaryDesc;
 
@@ -334,10 +358,10 @@ public class PwEntryV3 extends PwEntry {
 			System.arraycopy(password, 0, newEntry.password, 0, passLen);
 		}
 
-		newEntry.tCreation = (PwDate) tCreation.clone();
-		newEntry.tLastMod = (PwDate) tLastMod.clone();
-		newEntry.tLastAccess = (PwDate) tLastAccess.clone();
-		newEntry.tExpire = (PwDate) tExpire.clone();
+        newEntry.setCreationTime( (PwDate) getCreationTime().clone() );
+        newEntry.setLastModificationTime( (PwDate) getLastModificationTime().clone() );
+        newEntry.setLastAccessTime( (PwDate) getLastAccessTime().clone() );
+        newEntry.setExpiryTime( (PwDate) getExpiryTime().clone() );
 		
 		newEntry.binaryDesc = binaryDesc;
 
@@ -349,180 +373,6 @@ public class PwEntryV3 extends PwEntry {
 
 		newEntry.parent = parent;
 
-		
 		return newEntry;
-	}
-
-	@Override
-	public Date getLastAccessTime() {
-		return tLastAccess.getJDate();
-	}
-
-	@Override
-	public Date getCreationTime() {
-		return tCreation.getJDate();
-	}
-
-	@Override
-	public Date getExpiryTime() {
-		return tExpire.getJDate();
-	}
-
-	@Override
-	public Date getLastModificationTime() {
-		return tLastMod.getJDate();
-	}
-
-	@Override
-	public void setCreationTime(Date create) {
-		tCreation = new PwDate(create);
-		
-	}
-
-	@Override
-	public void setLastModificationTime(Date mod) {
-		tLastMod = new PwDate(mod);
-		
-	}
-
-	@Override
-	public void setLastAccessTime(Date access) {
-		tLastAccess = new PwDate(access);
-		
-	}
-
-	@Override
-	public void setExpires(boolean expires) {
-		if (!expires) {
-			tExpire = PW_NEVER_EXPIRE;
-		}
-	}
-
-	@Override
-	public void setExpiryTime(Date expires) {
-		tExpire = new PwDate(expires);
-	}
-
-	@Override
-	public PwGroupV3 getParent() {
-		return parent;
-	}
-
-	@Override
-	public UUID getUUID() {
-		return Types.bytestoUUID(uuid);
-	}
-
-	@Override
-	public void setUUID(UUID u) {
-		uuid = Types.UUIDtoBytes(u);
-	}
-
-	@Override
-	public String getUsername(boolean decodeRef, PwDatabase db) {
-		if (username == null) {
-			return "";
-		}
-		
-		return username;
-	}
-
-	@Override
-	public void setUsername(String user, PwDatabase db) {
-		username = user;
-	}
-
-	@Override
-	public String getTitle(boolean decodeRef, PwDatabase db) {
-        return title;
-	}
-
-	@Override
-	public void setTitle(String title, PwDatabase db) {
-		this.title = title;
-	}
-
-	@Override
-	public String getNotes(boolean decodeRef, PwDatabase db) {
-		return additional;
-	}
-
-	@Override
-	public void setNotes(String notes, PwDatabase db) {
-		additional = notes;
-	}
-
-	@Override
-	public String getUrl(boolean decodeRef, PwDatabase db) {
-		return url;
-	}
-
-	@Override
-	public void setUrl(String url, PwDatabase db) {
-		this.url = url;
-	}
-
-	@Override
-	public boolean expires() {
-		return ! IsNever(tExpire.getJDate());
-	}
-	
-	public void populateBlankFields(PwDatabaseV3 db) {
-		if (icon == null) {
-			icon = db.iconFactory.getIcon(1);
-		}
-		
-		if (username == null) {
-			username = "";
-		}
-		
-		if (password == null) {
-			password = new byte[0];
-		}
-		
-		if (uuid == null) {
-			uuid = Types.UUIDtoBytes(UUID.randomUUID());
-		}
-		
-		if (title == null) {
-			title = "";
-		}
-		
-		if (url == null) {
-			url = "";
-		}
-		
-		if (additional == null) {
-			additional = "";
-		}
-		
-		if (tCreation == null) {
-			tCreation = DEFAULT_PWDATE;
-		}
-		
-		if (tLastMod == null) {
-			tLastMod = DEFAULT_PWDATE;
-		}
-		
-		if (tLastAccess == null) {
-			tLastAccess = DEFAULT_PWDATE;
-		}
-		
-		if (tExpire == null) {
-			tExpire = PW_NEVER_EXPIRE;
-		}
-		
-		if (binaryDesc == null) {
-			binaryDesc = "";
-		}
-		
-		if (binaryData == null) {
-			binaryData = new byte[0];
-		}
-	}
-
-	@Override
-	public void setParent(PwGroup parent) {
-		this.parent = (PwGroupV3) parent;
 	}
 }

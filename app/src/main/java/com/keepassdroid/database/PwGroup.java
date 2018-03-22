@@ -24,22 +24,38 @@ import com.keepassdroid.utils.StrUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public abstract class PwGroup extends PwNode {
 
     // TODO Change dependency and make private
-	public List<PwGroup> childGroups = new ArrayList<>();
-	public List<PwEntry> childEntries = new ArrayList<>();
-	public String name = "";
-	public PwIconStandard icon;
 
-	private List<PwNode> children = new ArrayList<>();
+    protected String name = "";
+    protected PwIconStandard icon;
+
+	protected List<PwGroup> childGroups = new ArrayList<>();
+	protected List<PwEntry> childEntries = new ArrayList<>();
+	private transient List<PwNode> children = new ArrayList<>();
 
     public void initNewGroup(String nm, PwGroupId newId) {
         setId(newId);
         name = nm;
+    }
+
+    public List<PwGroup> getChildGroups() {
+        return childGroups;
+    }
+
+    public List<PwEntry> getChildEntries() {
+        return childEntries;
+    }
+
+    public void setGroups(List<PwGroup> groups) {
+        childGroups = groups;
+    }
+
+    public void setEntries(List<PwEntry> entries) {
+        childEntries = entries;
     }
 
     public void addChildGroup(PwGroup group) {
@@ -48,6 +64,15 @@ public abstract class PwGroup extends PwNode {
 
     public void addChildEntry(PwEntry entry) {
         this.childEntries.add(entry);
+    }
+
+    // Todo parameter type
+    public PwGroup getChildGroupAt(int number) {
+        return this.childGroups.get(number);
+    }
+
+    public PwEntry getChildEntryAt(int number) {
+        return this.childEntries.get(number);
     }
 
     public void removeChildGroup(PwGroup group) {
@@ -112,24 +137,33 @@ public abstract class PwGroup extends PwNode {
         return getName();
     }
 
-    public abstract String getName();
-	
-	public abstract Date getLastMod();
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 	
 	public PwIcon getIcon() {
 		return icon;
 	}
-	
-	public abstract void setLastAccessTime(Date date);
 
-	public abstract void setLastModificationTime(Date date);
+	public PwIconStandard getIconStandard() {
+        return icon;
+    }
+
+	public void setIcon(PwIconStandard icon) {
+        this.icon = icon;
+    }
 
 	public boolean allowAddEntryIfIsRoot() {
 		return false;
 	}
+
 	
 	public void touch(boolean modified, boolean touchParents) {
-		Date now = new Date();
+		PwDate now = new PwDate();
 		setLastAccessTime(now);
 		
 		if (modified) {
@@ -299,7 +333,8 @@ public abstract class PwGroup extends PwNode {
             if (object1.equals(object2))
                 return 0;
 
-            int groupCreationComp = object1.getCreationTime().compareTo(object2.getCreationTime());
+            int groupCreationComp = object1.getCreationTime().getDate()
+					.compareTo(object2.getCreationTime().getDate());
             // If same creation, can be different
             if (groupCreationComp == 0) {
                 return object1.hashCode() - object2.hashCode();

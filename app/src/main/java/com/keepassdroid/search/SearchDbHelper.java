@@ -66,8 +66,8 @@ public class SearchDbHelper {
 			Log.d("SearchDbHelper", "Tried to search with unknown db");
 			return null;
 		}
-		group.name = mCtx.getString(R.string.search_results);
-		group.childEntries = new ArrayList<PwEntry>();
+		group.setName(mCtx.getString(R.string.search_results));
+		group.setEntries(new ArrayList<>());
 		
 		// Search all entries
 		Locale loc = Locale.getDefault();
@@ -83,11 +83,11 @@ public class SearchDbHelper {
 			PwGroup top = worklist.remove();
 			
 			if (pm.isGroupSearchable(top, isOmitBackup)) {
-				for (PwEntry entry : top.childEntries) {
-					processEntries(entry, group.childEntries, qStr, loc);
+				for (PwEntry entry : top.getChildEntries()) {
+					processEntries(entry, group.getChildEntries(), qStr, loc);
 				}
 				
-				for (PwGroup childGroup : top.childGroups) {
+				for (PwGroup childGroup : top.getChildGroups()) {
 					if (childGroup != null) {
 						worklist.add(childGroup);
 					}

@@ -21,11 +21,10 @@ package com.keepassdroid.database;
 
 import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
-import com.keepassdroid.utils.SprEngine;
+import com.keepassdroid.utils.SprEngineV4;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,9 +39,13 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public static final String STR_PASSWORD = "Password";
 	public static final String STR_URL = "URL";
 	public static final String STR_NOTES = "Notes";
+
+	// To decode each field not serializable
+    private transient PwDatabase mDatabase = null;
+    private transient boolean mDecodeRef = false;
 	
 	public PwGroupV4 parent;
-	public UUID uuid = PwDatabaseV4.UUID_ZERO;
+	private UUID uuid = PwDatabaseV4.UUID_ZERO;
 	private HashMap<String, ProtectedString> fields = new HashMap<>();
 	public HashMap<String, ProtectedBinary> binaries = new HashMap<>();
 	public PwIconCustom customIcon = PwIconCustom.ZERO;
@@ -52,17 +55,12 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public AutoType autoType = new AutoType();
 	public ArrayList<PwEntryV4> history = new ArrayList<>();
 	
-	private Date parentGroupLastMod = PwDatabaseV4.DEFAULT_NOW;
-	private Date creation = PwDatabaseV4.DEFAULT_NOW;
-	private Date lastMod = PwDatabaseV4.DEFAULT_NOW;
-	private Date lastAccess = PwDatabaseV4.DEFAULT_NOW;
-	private Date expireDate = PwDatabaseV4.DEFAULT_NOW;
-	private boolean expires = false;
+	private PwDate parentGroupLastMod = new PwDate();
 	private long usageCount = 0;
 	public String url = "";
 	public String additional = "";
 	public String tags = "";
-	public Map<String, String> customData = new HashMap<String, String>();
+	public Map<String, String> customData = new HashMap<>();
 
 	public class AutoType implements Cloneable, Serializable {
 		private static final long OBF_OPT_NONE = 0;
@@ -71,7 +69,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		public long obfuscationOptions = OBF_OPT_NONE;
 		public String defaultSequence = "";
 		
-		private HashMap<String, String> windowSeqPairs = new HashMap<String, String>();
+		private HashMap<String, String> windowSeqPairs = new HashMap<>();
 		
 		@SuppressWarnings("unchecked")
 		public Object clone() {
@@ -80,7 +78,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 				auto = (AutoType) super.clone();
 			} 
 			catch (CloneNotSupportedException e) {
-				assert(false);
 				throw new RuntimeException(e);
 			}
 			
@@ -101,28 +98,11 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 	
 	public PwEntryV4() {
-
 	}
 	
 	public PwEntryV4(PwGroupV4 p) {
-		this(p, true, true);
-	}
-	
-	public PwEntryV4(PwGroupV4 p, boolean initId, boolean initDates) {
 		parent = p;
-		
-		if (initId) {
-			uuid = UUID.randomUUID();
-		}
-		
-		if (initDates) {
-			Calendar cal = Calendar.getInstance();
-			Date now = cal.getTime();
-			creation = now;
-			lastAccess = now;
-			lastMod = now;
-			expires = false;
-		}
+		uuid = UUID.randomUUID();
 	}
 
 
@@ -152,6 +132,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 
 	private void assign(PwEntryV4 source) {
+		super.assign(source);
 		parent = source.parent;
 		uuid = source.uuid;
 		fields = source.fields;
@@ -163,129 +144,96 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		autoType = source.autoType;
 		history = source.history;
 		parentGroupLastMod = source.parentGroupLastMod;
-		creation = source.creation;
-		lastMod = source.lastMod;
-		lastAccess = source.lastAccess;
-		expireDate = source.expireDate;
-		expires = source.expires;
 		usageCount = source.usageCount;
 		url = source.url;
 		additional = source.additional;
-		
 	}
 	
 	@Override
 	public Object clone() {
 		PwEntryV4 newEntry = (PwEntryV4) super.clone();
-		
 		return newEntry;
 	}
+
+	@Override
+	public void startToDecodeReference(PwDatabase db) {
+        this.mDatabase = db;
+        this.mDecodeRef = true;
+	}
+
+	@Override
+	public void endToDecodeReference(PwDatabase db) {
+        this.mDatabase = null;
+        this.mDecodeRef = false;
+	}
 	
-	private String decodeRefKey(boolean decodeRef, String key, PwDatabase db) {
+	private String decodeRefKey(boolean decodeRef, String key) {
 		String text = getString(key);
 		if (decodeRef) {
-			text = decodeRef(text, db);
+			text = decodeRef(text, mDatabase);
 		}
-		
 		return text;
 	}
 
 	private String decodeRef(String text, PwDatabase db) {
 		if (db == null) { return text; }
-		
-		SprEngine spr = SprEngine.getInstance(db);
+		SprEngineV4 spr = new SprEngineV4();
 		return spr.compile(text, this, db);
 	}
 
 	@Override
-	public String getUsername(boolean decodeRef, PwDatabase db) {
-		return decodeRefKey(decodeRef, STR_USERNAME, db);
+	public String getUsername() {
+		return decodeRefKey(mDecodeRef, STR_USERNAME);
 	}
 
 	@Override
-	public String getTitle(boolean decodeRef, PwDatabase db) {
-		return decodeRefKey(decodeRef, STR_TITLE, db);
+	public String getTitle() {
+		return decodeRefKey(mDecodeRef, STR_TITLE);
 	}
 	
 	@Override
-	public String getPassword(boolean decodeRef, PwDatabase db) {
-		return decodeRefKey(decodeRef, STR_PASSWORD, db);
+	public String getPassword() {
+		return decodeRefKey(mDecodeRef, STR_PASSWORD);
 	}
 
 	@Override
-	public Date getLastAccessTime() {
-		return lastAccess;
-	}
-
-	@Override
-	public Date getCreationTime() {
-		return creation;
-	}
-
-	@Override
-	public Date getExpiryTime() {
-		return expireDate;
-	}
-
-	@Override
-	public Date getLastModificationTime() {
-		return lastMod;
-	}
-
-	@Override
-	public void setTitle(String title, PwDatabase d) {
-		PwDatabaseV4 db = (PwDatabaseV4) d;
+	public void setTitle(String title) {
+		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
 		boolean protect = db.memoryProtection.protectTitle;
 		
 		setString(STR_TITLE, title, protect);
 	}
 
 	@Override
-	public void setUsername(String user, PwDatabase d) {
-		PwDatabaseV4 db = (PwDatabaseV4) d;
+	public void setUsername(String user) {
+		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
 		boolean protect = db.memoryProtection.protectUserName;
 		
 		setString(STR_USERNAME, user, protect);
 	}
 
 	@Override
-	public void setPassword(String pass, PwDatabase d) {
-		PwDatabaseV4 db = (PwDatabaseV4) d;
+	public void setPassword(String pass) {
+		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
 		boolean protect = db.memoryProtection.protectPassword;
 		
 		setString(STR_PASSWORD, pass, protect);
 	}
 
 	@Override
-	public void setUrl(String url, PwDatabase d) {
-		PwDatabaseV4 db = (PwDatabaseV4) d;
+	public void setUrl(String url) {
+		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
 		boolean protect = db.memoryProtection.protectUrl;
 		
 		setString(STR_URL, url, protect);
 	}
 
 	@Override
-	public void setNotes(String notes, PwDatabase d) {
-		PwDatabaseV4 db = (PwDatabaseV4) d;
+	public void setNotes(String notes) {
+		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
 		boolean protect = db.memoryProtection.protectNotes;
 		
 		setString(STR_NOTES, notes, protect);
-	}
-
-	public void setCreationTime(Date date) {
-		creation = date;
-	}
-
-	public void setExpiryTime(Date date) {
-		expireDate = date;
-	}
-
-	public void setLastAccessTime(Date date) {
-		lastAccess = date;
-	}
-
-	public void setLastModificationTime(Date date) {
-		lastMod = date;
 	}
 
 	@Override
@@ -303,11 +251,11 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public void setUUID(UUID u) {
 		uuid = u;
 	}
-	
+
 	public String getString(String key) {
 		ProtectedString value = fields.get(key);
 		
-		if ( value == null ) return new String("");
+		if ( value == null ) return "";
 		
 		return value.toString();
 	}
@@ -317,7 +265,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		fields.put(key, ps);
 	}
 
-	public Date getLocationChanged() {
+	public PwDate getLocationChanged() {
 		return parentGroupLastMod;
 	}
 
@@ -325,31 +273,22 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		return usageCount;
 	}
 
-	public void setLocationChanged(Date date) {
+	public void setLocationChanged(PwDate date) {
 		parentGroupLastMod = date;
 	}
 
 	public void setUsageCount(long count) {
 		usageCount = count;
 	}
-	
-	@Override
-	public boolean expires() {
-		return expires;
-	}
 
-	public void setExpires(boolean exp) {
-		expires = exp;
+	@Override
+	public String getNotes() {
+		return decodeRefKey(mDecodeRef, STR_NOTES);
 	}
 
 	@Override
-	public String getNotes(boolean decodeRef, PwDatabase db) {
-		return decodeRefKey(decodeRef, STR_NOTES, db);
-	}
-
-	@Override
-	public String getUrl(boolean decodeRef, PwDatabase db) {
-		return decodeRefKey(decodeRef, STR_URL, db);
+	public String getUrl() {
+		return decodeRefKey(mDecodeRef, STR_URL);
 	}
 
 	@Override
@@ -417,7 +356,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		
 		for (int i = 0; i < history.size(); i++) {
 			PwEntry entry = history.get(i);
-			Date lastMod = entry.getLastModificationTime();
+			Date lastMod = entry.getLastModificationTime().getDate();
 			if ((min == null) || lastMod.before(min)) {
 				index = i;
 				min = lastMod;
@@ -453,16 +392,16 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
     }
 
     @Override
-	public Map<String, String> getExtraFields(PwDatabase pm) {
-		Map<String, String> extraFields = super.getExtraFields(pm);
-		SprEngine spr = SprEngine.getInstance(pm);
+	public Map<String, String> getExtraFields() {
+		Map<String, String> extraFields = super.getExtraFields();
+		SprEngineV4 spr = new SprEngineV4();
 		// Display custom fields
 		if (fields.size() > 0) {
 			for (Map.Entry<String, ProtectedString> pair : fields.entrySet()) {
 				String key = pair.getKey();
                 // TODO Add hidden style for protection field
 				if (!PwEntryV4.IsStandardField(key)) {
-                    extraFields.put(key, spr.compile(pair.getValue().toString(), this, pm));
+                    extraFields.put(key, spr.compile(pair.getValue().toString(), this, mDatabase));
 				}
 			}
 		}
@@ -529,7 +468,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public void touchLocation() {
-		parentGroupLastMod = new Date();
+		parentGroupLastMod = new PwDate();
 	}
 	
 	@Override

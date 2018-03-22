@@ -317,8 +317,8 @@ public abstract class PwDatabase {
 
     public void populateGlobals(PwGroup currentGroup) {
 
-        List<PwGroup> childGroups = currentGroup.childGroups;
-        List<PwEntry> childEntries = currentGroup.childEntries;
+        List<PwGroup> childGroups = currentGroup.getChildGroups();
+        List<PwEntry> childEntries = currentGroup.getChildEntries();
 
         for (int i = 0; i < childEntries.size(); i++ ) {
             PwEntry cur = childEntries.get(i);

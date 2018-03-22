@@ -46,6 +46,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import biz.source_code.base64Coder.Base64Coder;
 
+import com.keepassdroid.database.PwDate;
 import com.keepassdroid.tasks.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
@@ -559,11 +560,11 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(ElemUuid) ) {
 				ctxGroup.uuid = ReadUuid(xpp);
 			} else if ( name.equalsIgnoreCase(ElemName) ) {
-				ctxGroup.name = ReadString(xpp);
+				ctxGroup.setName(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemNotes) ) {
 				ctxGroup.notes = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxGroup.icon = db.iconFactory.getIcon((int)ReadUInt(xpp, 0));
+				ctxGroup.setIcon(db.iconFactory.getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
 				ctxGroup.customIcon = db.iconFactory.getIcon(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
@@ -679,19 +680,19 @@ public class ImporterV4 extends Importer {
 			}
 			
 			if ( name.equalsIgnoreCase(ElemLastModTime) ) {
-				tl.setLastModificationTime(ReadTime(xpp));
+				tl.setLastModificationTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemCreationTime) ) {
-				tl.setCreationTime(ReadTime(xpp));
+				tl.setCreationTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemLastAccessTime) ) {
-				tl.setLastAccessTime(ReadTime(xpp));
+				tl.setLastAccessTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemExpiryTime) ) {
-				tl.setExpiryTime(ReadTime(xpp));
+				tl.setExpiryTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemExpires) ) {
 				tl.setExpires(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(ElemUsageCount) ) {
 				tl.setUsageCount(ReadULong(xpp, 0));
 			} else if ( name.equalsIgnoreCase(ElemLocationChanged) ) {
-				tl.setLocationChanged(ReadTime(xpp));
+				tl.setLocationChanged(ReadPwTime(xpp));
 			} else {
 				ReadUnknown(xpp);
 			}
@@ -849,8 +850,8 @@ public class ImporterV4 extends Importer {
 			return KdbContext.GroupCustomData;
 
 		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(ElemEntry) ) {
-			if ( ctxEntry.uuid == null || ctxEntry.uuid.equals(PwDatabaseV4.UUID_ZERO) ) {
-				ctxEntry.uuid = UUID.randomUUID();
+			if ( ctxEntry.getUUID() == null || ctxEntry.getUUID().equals(PwDatabaseV4.UUID_ZERO) ) {
+				ctxEntry.setUUID(UUID.randomUUID());
 			}
 			
 			if ( entryInHistory ) {
@@ -911,6 +912,10 @@ public class ImporterV4 extends Importer {
 			}
 			throw new RuntimeException("Invalid end element: Context " +  contextName + "End element: " + name);
 		}
+	}
+
+	private PwDate ReadPwTime(XmlPullParser xpp) throws IOException, XmlPullParserException {
+		return new PwDate(ReadTime(xpp));
 	}
 	
 	private Date ReadTime(XmlPullParser xpp) throws IOException, XmlPullParserException {

@@ -105,7 +105,7 @@ public class PwDatabaseV3 extends PwDatabase {
 		List<PwGroup> kids = new ArrayList<PwGroup>();
 		for (int i = 0; i < groups.size(); i++) {
 			PwGroupV3 grp = (PwGroupV3) groups.get(i);
-			if (grp.level == target)
+			if (grp.getLevel() == target)
 				kids.add(grp);
 		}
 		return kids;
@@ -114,8 +114,8 @@ public class PwDatabaseV3 extends PwDatabase {
 	public int getRootGroupId() {
 		for (int i = 0; i < groups.size(); i++) {
 			PwGroupV3 grp = (PwGroupV3) groups.get(i);
-			if (grp.level == 0) {
-				return grp.groupId;
+			if (grp.getLevel() == 0) {
+				return grp.getGroupId();
 			}
 		}
 
@@ -124,13 +124,13 @@ public class PwDatabaseV3 extends PwDatabase {
 
 	public List<PwGroup> getGrpChildren(PwGroupV3 parent) {
 		int idx = groups.indexOf(parent);
-		int target = parent.level + 1;
+		int target = parent.getLevel() + 1;
 		List<PwGroup> kids = new ArrayList<PwGroup>();
 		while (++idx < groups.size()) {
 			PwGroupV3 grp = (PwGroupV3) groups.get(idx);
-			if (grp.level < target)
+			if (grp.getLevel() < target)
 				break;
-			else if (grp.level == target)
+			else if (grp.getLevel() == target)
 				kids.add(grp);
 		}
 		return kids;
@@ -145,7 +145,7 @@ public class PwDatabaseV3 extends PwDatabase {
 		 */
 		for (int i = 0; i < entries.size(); i++) {
 			PwEntryV3 ent = (PwEntryV3) entries.get(i);
-			if (ent.groupId == parent.groupId)
+			if (ent.getGroupId() == parent.getGroupId())
 				kids.add(ent);
 		}
 		return kids;
@@ -163,11 +163,11 @@ public class PwDatabaseV3 extends PwDatabase {
 
 			List<PwGroup> rootChildGroups = getGrpRoots();
 			root.setGroups(rootChildGroups);
-			root.childEntries = new ArrayList<>();
-			root.level = -1;
+			root.setEntries(new ArrayList<>());
+			root.setLevel(-1);
 			for (int i = 0; i < rootChildGroups.size(); i++) {
 				PwGroupV3 grp = (PwGroupV3) rootChildGroups.get(i);
-				grp.parent = root;
+				grp.setParent(root);
 				constructTree(grp);
 			}
 			return;
@@ -176,18 +176,18 @@ public class PwDatabaseV3 extends PwDatabase {
 		// I'm in non-root
 		// get child groups
 		currentGroup.setGroups(getGrpChildren(currentGroup));
-		currentGroup.childEntries = getEntries(currentGroup);
+		currentGroup.setEntries(getEntries(currentGroup));
 
 		// set parent in child entries
 		for (int i = 0; i < currentGroup.numbersOfChildEntries(); i++) {
-			PwEntryV3 entry = (PwEntryV3) currentGroup.childEntries.get(i);
-			entry.parent = currentGroup;
+			PwEntryV3 entry = (PwEntryV3) currentGroup.getChildEntryAt(i);
+			entry.setParent(currentGroup);
 		}
 		// recursively construct child groups
 		for (int i = 0; i < currentGroup.numbersOfChildGroups(); i++) {
-			PwGroupV3 grp = (PwGroupV3) currentGroup.childGroups.get(i);
-			grp.parent = currentGroup;
-			constructTree((PwGroupV3) currentGroup.childGroups.get(i));
+			PwGroupV3 grp = (PwGroupV3) currentGroup.getChildGroupAt(i);
+			grp.setParent(currentGroup);
+			constructTree((PwGroupV3) currentGroup.getChildGroupAt(i));
 		}
 		return;
 	}
@@ -316,11 +316,11 @@ public class PwDatabaseV3 extends PwDatabase {
 	public boolean isBackup(PwGroup group) {
 		PwGroupV3 g = (PwGroupV3) group;
 		while (g != null) {
-			if (g.level == 0 && g.name.equalsIgnoreCase("Backup")) {
+			if (g.getLevel() == 0 && g.getName().equalsIgnoreCase("Backup")) {
 				return true;
 			}
 			
-			g = g.parent;
+			g = (PwGroupV3) g.getParent();
 		}
 		
 		return false;
@@ -338,7 +338,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	private void initAndAddGroup(String name, int iconId, PwGroup parent) {
 		PwGroup group = createGroup();
 		group.initNewGroup(name, newGroupId());
-		group.icon = iconFactory.getIcon(iconId);
+		group.setIcon(iconFactory.getIcon(iconId));
 		addGroupTo(group, parent);
 	}
 

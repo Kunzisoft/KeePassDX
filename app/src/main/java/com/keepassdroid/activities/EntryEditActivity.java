@@ -39,6 +39,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
@@ -254,12 +255,14 @@ public class EntryEditActivity extends LockingHideActivity
 
         PwEntry newEntry = mEntry.clone(true);
 
-        Date now = Calendar.getInstance().getTime();
-        newEntry.setLastAccessTime(now);
-        newEntry.setLastModificationTime(now);
+        newEntry.setLastAccessTime(new PwDate());
+        newEntry.setLastModificationTime(new PwDate());
 
         PwDatabase db = App.getDB().pm;
-        newEntry.setTitle(entryTitleView.getText().toString(), db);
+
+        newEntry.startToDecodeReference(db);
+
+        newEntry.setTitle(entryTitleView.getText().toString());
         if(mSelectedIconID != -1)
             // or TODO icon factory newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(mSelectedIconID));
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
@@ -272,10 +275,10 @@ public class EntryEditActivity extends LockingHideActivity
                 newEntry.setIcon(mEntry.icon);
             }
         }
-        newEntry.setUrl(entryUrlView.getText().toString(), db);
-        newEntry.setUsername(entryUserNameView.getText().toString(), db);
-        newEntry.setNotes(entryCommentView.getText().toString(), db);
-        newEntry.setPassword(entryPasswordView.getText().toString(), db);
+        newEntry.setUrl(entryUrlView.getText().toString());
+        newEntry.setUsername(entryUserNameView.getText().toString());
+        newEntry.setNotes(entryCommentView.getText().toString());
+        newEntry.setPassword(entryPasswordView.getText().toString());
 
         if (newEntry.allowExtraFields()) {
             // Delete all new standard strings
@@ -289,6 +292,8 @@ public class EntryEditActivity extends LockingHideActivity
                 newEntry.addField(key, new ProtectedString(protect, value));
             }
         }
+
+        newEntry.endToDecodeReference(db);
 
         return newEntry;
 	}

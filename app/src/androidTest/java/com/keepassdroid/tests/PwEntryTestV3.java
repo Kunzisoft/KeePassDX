@@ -42,7 +42,7 @@ public class PwEntryTestV3 extends AndroidTestCase {
 	}
 	
 	public void testName() {
-		assertTrue("Name was " + mPE.title, mPE.title.equals("Amazon"));
+		assertTrue("Name was " + mPE.getTitle(), mPE.getTitle().equals("Amazon"));
 	}
 	
 	public void testPassword() throws UnsupportedEncodingException {
@@ -54,7 +54,7 @@ public class PwEntryTestV3 extends AndroidTestCase {
 	
 	public void testCreation() {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(mPE.tCreation.getJDate());
+		cal.setTime(mPE.getCreationTime().getDate());
 		
 		assertEquals("Incorrect year.", cal.get(Calendar.YEAR), 2009);
 		assertEquals("Incorrect month.", cal.get(Calendar.MONTH), 3);

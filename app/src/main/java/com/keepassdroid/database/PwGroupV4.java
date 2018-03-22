@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.database;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ import java.util.UUID;
 
 public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
-	//public static final int FOLDER_ICON = 48;
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 	
 	public PwGroupV4 parent = null;
@@ -39,24 +37,17 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public Boolean enableAutoType = null;
 	public Boolean enableSearching = null;
 	public UUID lastTopVisibleEntry = PwDatabaseV4.UUID_ZERO;
-	private Date parentGroupLastMod = PwDatabaseV4.DEFAULT_NOW;
-	private Date creation = PwDatabaseV4.DEFAULT_NOW;
-	private Date lastMod = PwDatabaseV4.DEFAULT_NOW;
-	private Date lastAccess = PwDatabaseV4.DEFAULT_NOW;
-	private Date expireDate = PwDatabaseV4.DEFAULT_NOW;
+	private PwDate parentGroupLastMod = new PwDate();
+
 	private boolean expires = false;
 	private long usageCount = 0;
-	public Map<String, String> customData = new HashMap<String, String>();
+	public Map<String, String> customData = new HashMap<>();
 
 	public PwGroupV4() {}
 	
-	public PwGroupV4(boolean createUUID, boolean setTimes, String name, PwIconStandard icon) {
+	public PwGroupV4(boolean createUUID, String name, PwIconStandard icon) {
 		if (createUUID) {
 			uuid = UUID.randomUUID();
-		}
-		
-		if (setTimes) {
-			creation = lastMod = lastAccess = new Date();
 		}
 		
 		this.name = name;
@@ -67,7 +58,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
     public void initNewGroup(String nm, PwGroupId newId) {
         super.initNewGroup(nm, newId);
 
-        lastAccess = lastMod = creation = parentGroupLastMod = new Date();
+        parentGroupLastMod = new PwDate();
     }
 
 	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership) {
@@ -81,7 +72,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		
 		if ( takeOwnership ) subGroup.parent = this;
 		
-		if ( updateLocationChanged ) subGroup.parentGroupLastMod = new Date(System.currentTimeMillis());
+		if ( updateLocationChanged ) subGroup.parentGroupLastMod = new PwDate(System.currentTimeMillis());
 		
 	}
 	
@@ -96,7 +87,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		
 		if ( takeOwnership ) pe.parent = this;
 		
-		if ( updateLocationChanged ) pe.setLocationChanged(new Date(System.currentTimeMillis()));
+		if ( updateLocationChanged ) pe.setLocationChanged(new PwDate(System.currentTimeMillis()));
 	}
 	
 	@Override
@@ -138,69 +129,31 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 
 	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public Date getLastMod() {
+	public PwDate getLocationChanged() {
 		return parentGroupLastMod;
 	}
 
-	public Date getCreationTime() {
-		return creation;
-	}
-
-	public Date getExpiryTime() {
-		return expireDate;
-	}
-
-	public Date getLastAccessTime() {
-		return lastAccess;
-	}
-
-	public Date getLastModificationTime() {
-		return lastMod;
-	}
-
-	public Date getLocationChanged() {
-		return parentGroupLastMod;
-	}
-
-	public long getUsageCount() {
-		return usageCount;
-	}
-
-	public void setCreationTime(Date date) {
-		creation = date;
-	}
-
-	public void setExpiryTime(Date date) {
-		expireDate = date;
-	}
-
 	@Override
-	public void setLastAccessTime(Date date) {
-		lastAccess = date;
-	}
-
-	@Override
-	public void setLastModificationTime(Date date) {
-		lastMod = date;
-	}
-
-	public void setLocationChanged(Date date) {
+	public void setLocationChanged(PwDate date) {
 		parentGroupLastMod = date;
 	}
 
+    @Override
+    public long getUsageCount() {
+        return usageCount;
+    }
+
+	@Override
 	public void setUsageCount(long count) {
 		usageCount = count;
 	}
 
+	@Override
 	public boolean expires() {
 		return expires;
 	}
 
+	@Override
 	public void setExpires(boolean exp) {
 		expires = exp;
 	}

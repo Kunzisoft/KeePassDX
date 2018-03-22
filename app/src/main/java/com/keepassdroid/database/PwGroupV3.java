@@ -1,15 +1,5 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-
-This file was derived from
-
-Copyright 2007 Naomaru Itoi <nao@phoneid.org>
-
-This file was derived from 
-
-Java clone of KeePass - A KeePass file viewer for Java
-Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
-
  *     
  * This file is part of KeePass DX.
  *
@@ -30,15 +20,6 @@ Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
 
 package com.keepassdroid.database;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.keepassdroid.utils.Types;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 /**
  * @author Brian Pellin <bpellin@gmail.com>
  * @author Naomaru Itoi <nao@phoneid.org>
@@ -47,38 +28,42 @@ import java.util.List;
  */
 public class PwGroupV3 extends PwGroup {
 
-	public String toString() {
-		return name;
-	}
-
-	public static final Date NEVER_EXPIRE = PwEntryV3.NEVER_EXPIRE;
-	
-	/** Size of byte buffer needed to hold this struct. */
-	public static final int BUF_SIZE = 124;
-
+    // TODO Same as PwEntryV3
 	// for tree traversing
-	public PwGroupV3 parent = null;
+	private PwGroupV3 parent = null;
+	private int groupId;
 
-	public int groupId;
-
-	public PwDate tCreation;
-	public PwDate tLastMod;
-	public PwDate tLastAccess;
-	public PwDate tExpire;
-
-	public int level; // short
+	private int level = 0; // short
 
 	/** Used by KeePass internally, don't use */
-	public int flags;
-	
-	public void setGroups(List<PwGroup> groups) {
-		childGroups = groups;
-	}
+	private int flags;
 	
 	@Override
 	public PwGroup getParent() {
 		return parent;
 	}
+
+    @Override
+    public void setParent(PwGroup prt) {
+        parent = (PwGroupV3) prt;
+        level = parent.getLevel() + 1;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
 	@Override
 	public PwGroupId getId() {
@@ -90,35 +75,6 @@ public class PwGroupV3 extends PwGroup {
 		PwGroupIdV3 id3 = (PwGroupIdV3) id;
 		groupId = id3.getId();
 	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public Date getLastMod() {
-		return tLastMod.getJDate();
-	}
-
-	@Override
-	public void setParent(PwGroup prt) {
-		parent = (PwGroupV3) prt;
-		level = parent.level + 1;
-		
-	}
-
-	@Override
-	public void initNewGroup(String nm, PwGroupId newId) {
-		super.initNewGroup(nm, newId);
-		
-		Date now = Calendar.getInstance().getTime();
-		tCreation = new PwDate(now);
-		tLastAccess = new PwDate(now);
-		tLastMod = new PwDate(now);
-		tExpire = new PwDate(PwGroupV3.NEVER_EXPIRE);
-
-	}
 	
 	public void populateBlankFields(PwDatabaseV3 db) {
 		if (icon == null) {
@@ -128,39 +84,18 @@ public class PwGroupV3 extends PwGroup {
 		if (name == null) {
 			name = "";
 		}
-		
-		if (tCreation == null) {
-			tCreation = PwEntryV3.DEFAULT_PWDATE;
-		}
-		
-		if (tLastMod == null) {
-			tLastMod = PwEntryV3.DEFAULT_PWDATE;
-		}
-		
-		if (tLastAccess == null) {
-			tLastAccess = PwEntryV3.DEFAULT_PWDATE;
-		}
-		
-		if (tExpire == null) {
-			tExpire = PwEntryV3.DEFAULT_PWDATE;
-		}
 	}
 
-	@Override
-	public void setLastAccessTime(Date date) {
-		tLastAccess = new PwDate(date);
-	}
+	public int getFlags() {
+	    return flags;
+    }
+
+    public void setFlags(int flags) {
+	    this.flags = flags;
+    }
 
 	@Override
-	public void setLastModificationTime(Date date) {
-		tLastMod = new PwDate(date);
-	}
-
-	@Override
-	public Date getCreationTime() {
-	    if(tCreation != null)
-		    return tCreation.getJDate();
-	    else
-	        return new Date();
-	}
+    public String toString() {
+        return getName();
+    }
 }

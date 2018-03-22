@@ -146,6 +146,8 @@ public class EntryActivity extends LockingHideActivity {
         fillData();
         invalidateOptionsMenu();
 
+        // TODO Start decode
+
         // If notifications enabled in settings
         // Don't if application timeout
         if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
@@ -177,7 +179,7 @@ public class EntryActivity extends LockingHideActivity {
                 if (mEntry.allowExtraFields()) {
                     try {
                         int anonymousFieldNumber = 0;
-                        for (Map.Entry<String, String> entry : mEntry.getExtraFields(App.getDB().pm).entrySet()) {
+                        for (Map.Entry<String, String> entry : mEntry.getExtraFields().entrySet()) {
                             notificationFields.add(
                                     new NotificationField(
                                             NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
@@ -196,6 +198,7 @@ public class EntryActivity extends LockingHideActivity {
 
                 startService(intent);
             }
+            // TODO end decode
         }
         firstLaunchOfActivity = false;
     }
@@ -209,34 +212,36 @@ public class EntryActivity extends LockingHideActivity {
 		Database db = App.getDB();
 		PwDatabase pm = db.pm;
 
+		mEntry.startToDecodeReference(pm);
+
 		// Assign title
         populateTitle(db.drawFactory.getIconDrawable(getResources(), mEntry.getIcon()),
-                mEntry.getTitle(true, pm));
+                mEntry.getTitle());
 
         // Assign basic fields
-        entryContentsView.assignUserName(mEntry.getUsername(true, pm));
+        entryContentsView.assignUserName(mEntry.getUsername());
         entryContentsView.assignUserNameCopyListener(view ->
-                clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm),
+                clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),
                 getString(R.string.copy_field, getString(R.string.entry_user_name)))
         );
 
-		entryContentsView.assignPassword(mEntry.getPassword(true, pm));
+		entryContentsView.assignPassword(mEntry.getPassword());
 		if (PreferencesUtil.allowCopyPassword(this)) {
             entryContentsView.assignPasswordCopyListener(view ->
-                    clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm),
+                    clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(),
                             getString(R.string.copy_field, getString(R.string.entry_password)))
             );
         }
 
-        entryContentsView.assignURL(mEntry.getUrl(true, pm));
+        entryContentsView.assignURL(mEntry.getUrl());
 
         entryContentsView.setHiddenPasswordStyle(!mShowPassword);
-        entryContentsView.assignComment(mEntry.getNotes(true, pm));
+        entryContentsView.assignComment(mEntry.getNotes());
 
         // Assign custom fields
 		if (mEntry.allowExtraFields()) {
 			entryContentsView.clearExtraFields();
-			for (Map.Entry<String, String> field : mEntry.getExtraFields(pm).entrySet()) {
+			for (Map.Entry<String, String> field : mEntry.getExtraFields().entrySet()) {
                 final String label = field.getKey();
                 final String value = field.getValue();
 				entryContentsView.addExtraField(label, value, view ->
@@ -245,15 +250,17 @@ public class EntryActivity extends LockingHideActivity {
 		}
 
         // Assign dates
-        entryContentsView.assignCreationDate(mEntry.getCreationTime());
-        entryContentsView.assignModificationDate(mEntry.getLastModificationTime());
-        entryContentsView.assignLastAccessDate(mEntry.getLastAccessTime());
-		Date expires = mEntry.getExpiryTime();
+        entryContentsView.assignCreationDate(mEntry.getCreationTime().getDate());
+        entryContentsView.assignModificationDate(mEntry.getLastModificationTime().getDate());
+        entryContentsView.assignLastAccessDate(mEntry.getLastAccessTime().getDate());
+		Date expires = mEntry.getExpiryTime().getDate();
 		if ( mEntry.expires() ) {
 			entryContentsView.assignExpiresDate(expires);
 		} else {
             entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
+
+        mEntry.endToDecodeReference(pm);
 	}
 
 	@Override

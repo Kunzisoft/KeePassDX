@@ -58,7 +58,6 @@ import biz.source_code.base64Coder.Base64Coder;
 
 public class PwDatabaseV4 extends PwDatabase {
 
-	public static final Date DEFAULT_NOW = new Date();
     public static final UUID UUID_ZERO = new UUID(0,0);
 	public static final int DEFAULT_ROUNDS = 6000;
 	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
@@ -71,14 +70,14 @@ public class PwDatabaseV4 extends PwDatabase {
 	public PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
 	// TODO: Refactor me away to get directly from kdfParameters
     public long numKeyEncRounds = 6000;
-    public Date nameChanged = DEFAULT_NOW;
-    public Date settingsChanged = DEFAULT_NOW;
+    public Date nameChanged = new Date();
+    public Date settingsChanged = new Date();
     public String description = "";
-    public Date descriptionChanged = DEFAULT_NOW;
+    public Date descriptionChanged = new Date();
     public String defaultUserName = "";
-    public Date defaultUserNameChanged = DEFAULT_NOW;
+    public Date defaultUserNameChanged = new Date();
     
-    public Date keyLastChanged = DEFAULT_NOW;
+    public Date keyLastChanged = new Date();
     public long keyChangeRecDays = -1;
     public long keyChangeForceDays = 1;
 	public boolean keyChangeForceOnce = false;
@@ -87,17 +86,17 @@ public class PwDatabaseV4 extends PwDatabase {
     public String color = "";
     public boolean recycleBinEnabled = true;
     public UUID recycleBinUUID = UUID_ZERO;
-    public Date recycleBinChanged = DEFAULT_NOW;
+    public Date recycleBinChanged = new Date();
     public UUID entryTemplatesGroup = UUID_ZERO;
-    public Date entryTemplatesGroupChanged = DEFAULT_NOW;
+    public Date entryTemplatesGroupChanged = new Date();
     public int historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS;
     public long historyMaxSize = DEFAULT_HISTORY_MAX_SIZE;
     public UUID lastSelectedGroup = UUID_ZERO;
     public UUID lastTopVisibleGroup = UUID_ZERO;
     public MemoryProtectionConfig memoryProtection = new MemoryProtectionConfig();
-    public List<PwDeletedObject> deletedObjects = new ArrayList<PwDeletedObject>();
-    public List<PwIconCustom> customIcons = new ArrayList<PwIconCustom>();
-    public Map<String, String> customData = new HashMap<String, String>();
+    public List<PwDeletedObject> deletedObjects = new ArrayList<>();
+    public List<PwIconCustom> customIcons = new ArrayList<>();
+    public Map<String, String> customData = new HashMap<>();
 	public KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
 	public VariantDictionary publicCustomData = new VariantDictionary();
 	public BinaryPool binPool = new BinaryPool();
@@ -276,7 +275,7 @@ public class PwDatabaseV4 extends PwDatabase {
 
 	@Override
 	public List<PwGroup> getGrpRoots() {
-		return rootGroup.childGroups;
+		return rootGroup.getChildGroups();
 	}
 
 	@Override
@@ -351,7 +350,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		if (getRecycleBin() == null) {
 			// Create recycle bin
 				
-			PwGroupV4 recycleBin = new PwGroupV4(true, true, RECYCLEBIN_NAME, iconFactory.getIcon(PwIconStandard.TRASH_BIN));
+			PwGroupV4 recycleBin = new PwGroupV4(true, RECYCLEBIN_NAME, iconFactory.getIcon(PwIconStandard.TRASH_BIN));
 			recycleBin.enableAutoType = false;
 			recycleBin.enableSearching = false;
 			recycleBin.isExpanded = false;
@@ -480,7 +479,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	public void initNew(String dbPath) {
 		String filename = URLUtil.guessFileName(dbPath, null, null);
 		
-		rootGroup = new PwGroupV4(true, true, dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
+		rootGroup = new PwGroupV4(true, dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
 		groups.put(rootGroup.getId(), rootGroup);
 	}
 	

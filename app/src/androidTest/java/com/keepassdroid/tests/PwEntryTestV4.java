@@ -52,7 +52,7 @@ public class PwEntryTestV4 extends TestCase {
 		entry.parent = new PwGroupV4();
 		entry.addField("key2", new ProtectedString(false, "value2"));
 		entry.url = "http://localhost";
-		entry.uuid = UUID.randomUUID();
+		entry.setUUID(UUID.randomUUID());
 
 		PwEntryV4 target = new PwEntryV4();
 		target.assign(entry);
