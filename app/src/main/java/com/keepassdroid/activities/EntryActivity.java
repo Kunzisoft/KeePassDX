@@ -165,12 +165,14 @@ public class EntryActivity extends LockingHideActivity {
                                     mEntry.getUsername(),
                                     getResources()));
                 // Add password to notifications
-                if (mEntry.getPassword().length() > 0)
-                    notificationFields.add(
-                            new NotificationField(
-                                    NotificationField.NotificationFieldId.PASSWORD,
-                                    mEntry.getPassword(),
-                                    getResources()));
+                if (PreferencesUtil.allowCopyPassword(this)) {
+                    if (mEntry.getPassword().length() > 0)
+                        notificationFields.add(
+                                new NotificationField(
+                                        NotificationField.NotificationFieldId.PASSWORD,
+                                        mEntry.getPassword(),
+                                        getResources()));
+                }
                 // Add extra fields
                 if (mEntry.allowExtraFields()) {
                     try {
@@ -219,10 +221,12 @@ public class EntryActivity extends LockingHideActivity {
         );
 
 		entryContentsView.assignPassword(mEntry.getPassword(true, pm));
-		entryContentsView.assignPasswordCopyListener(view ->
-                clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm),
-                        getString(R.string.copy_field, getString(R.string.entry_password)))
-        );
+		if (PreferencesUtil.allowCopyPassword(this)) {
+            entryContentsView.assignPasswordCopyListener(view ->
+                    clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm),
+                            getString(R.string.copy_field, getString(R.string.entry_password)))
+            );
+        }
 
         entryContentsView.assignURL(mEntry.getUrl(true, pm));
 

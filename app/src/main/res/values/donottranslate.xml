@@ -66,6 +66,7 @@
     <string name="recycle_bin_key" translatable="true">recycle_bin_key</string>
     <string name="monospace_font_fields_enable_key" translatable="true">monospace_font_extra_fields_enable_key</string>
     <string name="auto_open_file_uri_key" translatable="true">auto_open_file_uri_key</string>
+    <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -82,6 +83,7 @@
     <bool name="sort_recycle_bin_bottom_default" translatable="true">true</bool>
     <bool name="monospace_font_fields_enable_default" translatable="true">true</bool>
     <bool name="auto_open_file_uri_default" translatable="true">true</bool>
+    <bool name="allow_copy_password_default" translatable="true">true</bool> <!-- TODO To change after implementing the way to enter password < O -->
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">

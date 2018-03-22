@@ -131,4 +131,10 @@ public class PreferencesUtil {
         return prefs.getBoolean(ctx.getString(R.string.auto_open_file_uri_key),
                 ctx.getResources().getBoolean(R.bool.auto_open_file_uri_default));
     }
+
+    public static boolean allowCopyPassword(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_key),
+                ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
+    }
 }

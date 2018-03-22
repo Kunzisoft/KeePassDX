@@ -130,6 +130,7 @@ public class EntryContentsView extends LinearLayout {
             passwordView.setText(password);
             if (fontInVisibility)
                 Util.applyFontVisibilityTo(passwordView);
+            passwordActionView.setVisibility(GONE);
         } else {
             passwordContainerView.setVisibility(GONE);
         }
@@ -137,6 +138,7 @@ public class EntryContentsView extends LinearLayout {
 
     public void assignPasswordCopyListener(OnClickListener onClickListener) {
         passwordActionView.setOnClickListener(onClickListener);
+        passwordActionView.setVisibility(VISIBLE);
     }
 
     public boolean isPasswordPresent() {
