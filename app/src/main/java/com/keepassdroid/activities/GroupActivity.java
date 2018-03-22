@@ -85,9 +85,8 @@ public class GroupActivity extends ListNodesActivity
 	private static final String TAG = "Group Activity:";
 	
 	public static void launch(Activity act) {
-        Intent intent = new Intent(act, GroupActivity.class);
-        intent.putExtra(FIRST_LOCKING_ACTIVITY_KEY, true);
-        act.startActivityForResult(intent, 0);
+        LockingActivity.recordFirstTimeBeforeLaunch(act);
+        launch(act, (PwGroup) null);
 	}
 
     public static void launch(Activity act, PwGroup group) {
@@ -101,10 +100,8 @@ public class GroupActivity extends ListNodesActivity
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
-            Intent intent = new Intent(act, GroupActivity.class);
-            intent.putExtra(FIRST_LOCKING_ACTIVITY_KEY, true);
-            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+            LockingActivity.recordFirstTimeBeforeLaunch(act);
+            launch(act, null, assistStructure);
         } else {
             launch(act);
         }
@@ -355,6 +352,7 @@ public class GroupActivity extends ListNodesActivity
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
+            // TODO Flickering when locking, will be better with content provider
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
         }

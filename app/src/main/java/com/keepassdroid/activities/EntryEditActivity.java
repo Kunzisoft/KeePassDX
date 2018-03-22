@@ -101,9 +101,11 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param pw Entry to update
 	 */
 	public static void Launch(Activity act, PwEntry pw) {
-		Intent intent = new Intent(act, EntryEditActivity.class);
-        intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-		act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, EntryEditActivity.class);
+            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        }
 	}
 
 	/**
@@ -112,9 +114,11 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param pwGroup Group who will contains new entry
 	 */
 	public static void Launch(Activity act, PwGroup pwGroup) {
-		Intent intent = new Intent(act, EntryEditActivity.class);
-        intent.putExtra(KEY_PARENT, pwGroup.getId());
-        act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, EntryEditActivity.class);
+            intent.putExtra(KEY_PARENT, pwGroup.getId());
+            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        }
 	}
 	
 	@Override

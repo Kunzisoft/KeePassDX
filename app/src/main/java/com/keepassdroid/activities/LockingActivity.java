@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.activities;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,11 +34,17 @@ import com.keepassdroid.timeout.TimeoutHelper;
 
 public abstract class LockingActivity extends StylishActivity {
 
-    protected static final String FIRST_LOCKING_ACTIVITY_KEY = "FIRST_LOCKING_ACTIVITY_KEY";
     private static final String AT_LEAST_SECOND_SHOWN_KEY = "AT_LEAST_SECOND_SHOWN_KEY";
 
     private ScreenReceiver screenReceiver;
-    private boolean timeAlreadyRecord;
+
+    protected static void recordFirstTimeBeforeLaunch(Activity activity) {
+        TimeoutHelper.recordTime(activity);
+    }
+
+    protected static boolean checkTimeIsAllowedOrFinish(Activity activity) {
+        return TimeoutHelper.checkTime(activity);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,18 +57,6 @@ public abstract class LockingActivity extends StylishActivity {
             screenReceiver = null;
 
         // WARNING TODO recordTime is not called after a back if was in backstack
-        timeAlreadyRecord = false;
-        // In case of orientation changing
-        if (! (savedInstanceState != null
-                && savedInstanceState.containsKey(AT_LEAST_SECOND_SHOWN_KEY)
-                && savedInstanceState.getBoolean(AT_LEAST_SECOND_SHOWN_KEY)) ) {
-            // If it's the first locking activity, record the time
-            if (getIntent() != null
-                    && getIntent().getBooleanExtra(FIRST_LOCKING_ACTIVITY_KEY, false)) {
-                TimeoutHelper.recordTime(this);
-                timeAlreadyRecord = true;
-            }
-        }
     }
 
     @Override
@@ -70,11 +65,9 @@ public abstract class LockingActivity extends StylishActivity {
 		// After the first creation
 		// or If simply swipe with another application
         // If the time is out -> close the Activity
-        // TODO Solve flickering
         TimeoutHelper.checkTime(this);
         // If onCreate already record time
-        if (!timeAlreadyRecord)
-            TimeoutHelper.recordTime(this);
+        TimeoutHelper.recordTime(this);
 	}
 
     @Override

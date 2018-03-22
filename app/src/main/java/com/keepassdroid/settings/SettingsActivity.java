@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.settings;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +39,20 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 	private BackupManagerCompat backupManager;
 
     private Toolbar toolbar;
+
+    public static void launch(Activity activity) {
+        Intent i = new Intent(activity, SettingsActivity.class);
+        activity.startActivity(i);
+    }
+
+    public static void launch(Activity activity, boolean checkLock) {
+        // To avoid flickering when launch settings in a LockingActivity
+        if (!checkLock)
+            launch(activity);
+        else if (LockingActivity.checkTimeIsAllowedOrFinish(activity)) {
+            launch(activity);
+        }
+    }
 
     @Override
     protected void onResume() {

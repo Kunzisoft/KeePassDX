@@ -200,7 +200,8 @@ public abstract class ListNodesActivity extends LockingActivity
                 return true;
 
             default:
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item);
+                // Check the time lock before launching settings
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true);
                 return super.onOptionsItemSelected(item);
 		}
 	}

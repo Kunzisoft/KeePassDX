@@ -75,9 +75,11 @@ public class EntryActivity extends LockingHideActivity {
 	private boolean firstLaunchOfActivity;
 
     public static void launch(Activity act, PwEntry pw) {
-        Intent intent = new Intent(act, EntryActivity.class);
-        intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-        act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, EntryActivity.class);
+            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+            act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        }
     }
 
 	@Override

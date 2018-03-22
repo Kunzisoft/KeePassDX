@@ -50,7 +50,7 @@ public class TimeoutHelper {
 		}
 	}
 	
-	public static void checkTime(Activity act) {
+	public static boolean checkTime(Activity act) {
 		if ( App.getDB().Loaded() ) {
 	        Timeout.cancel(act);
 		}
@@ -62,7 +62,7 @@ public class TimeoutHelper {
 		long timeout_start = prefs.getLong(act.getString(R.string.timeout_key), -1);
 		// The timeout never started
 		if (timeout_start == -1) {
-			return;
+			return true;
 		}
 
 		String sTimeout = prefs.getString(act.getString(R.string.app_timeout_key), act.getString(R.string.clipboard_timeout_default));
@@ -75,7 +75,7 @@ public class TimeoutHelper {
 		
 		// We are set to never timeout
 		if (timeout == -1) {
-			return;
+			return true;
 		}
 		
 		long diff = cur_time - timeout_start;
@@ -84,8 +84,10 @@ public class TimeoutHelper {
             if ( App.getDB().Loaded() ) {
                 App.setShutdown(act.getString(R.string.app_timeout));
 				TimeoutHelper.checkShutdown(act);
+                return false;
             }
 		}
+		return true;
 	}
 
 	public static void checkShutdown(Activity act) {
