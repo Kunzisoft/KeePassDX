@@ -21,22 +21,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:title="@string/file_browser">
-
-        <SwitchPreference
-            android:key="@string/saf_key"
-            android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/saf_default"
-            android:title="@string/use_saf_title"/>
-        <SwitchPreference
-            android:key="@string/auto_open_file_uri_key"
-            android:summary="@string/auto_open_file_uri_summary"
-            android:defaultValue="@bool/auto_open_file_uri_default"
-            android:title="@string/auto_open_file_uri_title"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/search">
 
         <SwitchPreference
@@ -113,6 +97,22 @@
             android:summary="@string/remember_keyfile_summary"
             android:dependency="@string/recentfile_key"
             android:defaultValue="@bool/keyfile_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/file_browser">
+
+        <SwitchPreference
+            android:key="@string/saf_key"
+            android:summary="@string/use_saf_summary"
+            android:defaultValue="@bool/saf_default"
+            android:title="@string/use_saf_title"/>
+        <SwitchPreference
+            android:key="@string/auto_open_file_uri_key"
+            android:summary="@string/auto_open_file_uri_summary"
+            android:defaultValue="@bool/auto_open_file_uri_default"
+            android:title="@string/auto_open_file_uri_title"/>
 
     </PreferenceCategory>
 
