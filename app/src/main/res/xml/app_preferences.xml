@@ -21,7 +21,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:title="@string/search">
+        android:title="@string/search_label">
 
         <SwitchPreference
             android:summary="@string/omitbackup_summary"
