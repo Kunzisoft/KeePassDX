@@ -89,6 +89,8 @@ import static com.keepassdroid.fingerprint.FingerPrintHelper.Mode.STORE_MODE;
 public class PasswordActivity extends StylishActivity
         implements FingerPrintHelper.FingerPrintCallback, UriIntentInitTaskCallback {
 
+    private static final String TAG = PasswordActivity.class.getName();
+
     public static final String KEY_DEFAULT_FILENAME = "defaultFileName";
 
     private static final String KEY_PASSWORD = "password";
@@ -440,7 +442,7 @@ public class PasswordActivity extends StylishActivity
                 if ( !fingerprintMustBeConfigured ) {
                     final boolean validInput = s.length() > 0;
                     // encrypt or decrypt mode based on how much input or not
-                    setFingerPrintTextView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
+                    setFingerPrintView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
                     if (validInput)
                         toggleFingerprintMode(STORE_MODE);
                     else
@@ -455,22 +457,30 @@ public class PasswordActivity extends StylishActivity
             public void onAuthenticationError(
                     final int errorCode,
                     final CharSequence errString) {
-                Log.i(getClass().getName(), errString.toString());
+                switch (errorCode) {
+                    case 5:
+                        Log.i(TAG, "Fingerprint authentication error. Code : " + errorCode + " Error : " + errString);
+                        break;
+                    default:
+                        Log.e(TAG, "Fingerprint authentication error. Code : " + errorCode + " Error : " + errString);
+                        setFingerPrintView(errString.toString(), true);
+                }
             }
 
             @Override
             public void onAuthenticationHelp(
                     final int helpCode,
                     final CharSequence helpString) {
+                Log.w(TAG, "Fingerprint authentication help. Code : " + helpCode + " Help : " + helpString);
                 showError(helpString);
-                reInitWithSameFingerprintMode();
+                setFingerPrintView(helpString.toString(), true);
                 fingerprintTextView.setText(helpString);
             }
 
             @Override
             public void onAuthenticationFailed() {
+                Log.e(TAG, "Fingerprint authentication failed, fingerprint not recognized");
                 showError(R.string.fingerprint_not_recognized);
-                reInitWithSameFingerprintMode();
             }
 
             @Override
@@ -504,7 +514,7 @@ public class PasswordActivity extends StylishActivity
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initEncryptData() {
-        setFingerPrintTextView(R.string.store_with_fingerprint);
+        setFingerPrintView(R.string.store_with_fingerprint);
         fingerPrintMode = STORE_MODE;
         if (fingerPrintHelper != null)
             fingerPrintHelper.initEncryptData();
@@ -512,7 +522,7 @@ public class PasswordActivity extends StylishActivity
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initDecryptData() {
-        setFingerPrintTextView(R.string.scanning_fingerprint);
+        setFingerPrintView(R.string.scanning_fingerprint);
         fingerPrintMode = OPEN_MODE;
         if (fingerPrintHelper != null) {
             final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
@@ -525,12 +535,12 @@ public class PasswordActivity extends StylishActivity
     private synchronized void toggleFingerprintMode(final FingerPrintHelper.Mode newMode) {
         if( !newMode.equals(fingerPrintMode) ) {
             fingerPrintMode = newMode;
-            reInitWithSameFingerprintMode();
+            reInitWithFingerprintMode();
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private synchronized void reInitWithSameFingerprintMode() {
+    private synchronized void reInitWithFingerprintMode() {
         switch (fingerPrintMode) {
             case STORE_MODE:
                 initEncryptData();
@@ -545,8 +555,6 @@ public class PasswordActivity extends StylishActivity
 
     @Override
     protected void onPause() {
-        super.onPause();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (fingerPrintAnimatedVector != null) {
                 fingerPrintAnimatedVector.stopScan();
@@ -557,18 +565,33 @@ public class PasswordActivity extends StylishActivity
                 fingerPrintHelper.stopListening();
             }
         }
+        super.onPause();
     }
 
     private void setFingerPrintVisibility(final int vis) {
         runOnUiThread(() -> fingerprintContainerView.setVisibility(vis));
     }
 
-    private void setFingerPrintTextView(final int textId) {
-        runOnUiThread(() -> fingerprintTextView.setText(textId));
+    private void setFingerPrintView(final int textId) {
+        setFingerPrintView(textId, false);
     }
 
-    private void setFingerPrintAlphaImageView(final float alpha) {
-        runOnUiThread(() -> fingerprintContainerView.setAlpha(alpha));
+    private void setFingerPrintView(final CharSequence text) {
+        setFingerPrintView(text, false);
+    }
+
+    private void setFingerPrintView(final int textId, boolean lock) {
+        setFingerPrintView(getString(textId), lock);
+    }
+
+    private void setFingerPrintView(final CharSequence text, boolean lock) {
+        runOnUiThread(() -> {
+            if (lock) {
+                fingerprintContainerView.setAlpha(0.6f);
+            } else
+                fingerprintContainerView.setAlpha(1f);
+            fingerprintTextView.setText(text);
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -589,18 +612,16 @@ public class PasswordActivity extends StylishActivity
             setFingerPrintVisibility(View.VISIBLE);
 
             if (!fingerPrintHelper.hasEnrolledFingerprints()) {
-                setFingerPrintAlphaImageView(0.6f);
                 // This happens when no fingerprints are registered. Listening won't start
-                setFingerPrintTextView(R.string.configure_fingerprint);
+                setFingerPrintView(R.string.configure_fingerprint, true);
             }
             // finally fingerprint available and configured so we can use it
             else {
                 fingerprintMustBeConfigured = false;
-                setFingerPrintAlphaImageView(1f);
 
                 // fingerprint available but no stored password found yet for this DB so show info don't listen
                 if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
-                    setFingerPrintTextView(R.string.no_password_stored);
+                    setFingerPrintView(R.string.no_password_stored);
                     // listen for encryption
                     initEncryptData();
                 }
@@ -616,7 +637,7 @@ public class PasswordActivity extends StylishActivity
         invalidateOptionsMenu();
     }
 
-    private void removePrefsNoBackupKeys() {
+    private void removePrefsNoBackupKey() {
         prefsNoBackup.edit()
                 .remove(getPreferenceKeyValue())
                 .remove(getPreferenceKeyIvSpec())
@@ -632,7 +653,7 @@ public class PasswordActivity extends StylishActivity
                 .putString(getPreferenceKeyIvSpec(), ivSpec)
                 .apply();
         verifyAllViewsAndLoadDatabase();
-        setFingerPrintTextView(R.string.encrypted_value_stored);
+        setFingerPrintView(R.string.encrypted_value_stored);
     }
 
     @Override
@@ -644,22 +665,27 @@ public class PasswordActivity extends StylishActivity
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onInvalidKeyException(Exception e) {
-        showError(R.string.fingerprint_invalid_key);
-        removePrefsNoBackupKeys();
-        e.printStackTrace();
-        reInitWithSameFingerprintMode(); // restarts listening
+        showError(getString(R.string.fingerprint_invalid_key));
+        deleteEntryKey();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onFingerPrintException(Exception e) {
-        showError(R.string.fingerprint_error);
-        e.printStackTrace();
-        reInitWithSameFingerprintMode();
+        showError(getString(R.string.fingerprint_error, e.getMessage()));
+        setFingerPrintView(e.getLocalizedMessage(), true);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void deleteEntryKey() {
+        fingerPrintHelper.deleteEntryKey();
+        removePrefsNoBackupKey();
+        fingerPrintMode = NOT_CONFIGURED_MODE;
+        checkFingerprintAvailability();
     }
 
     private void showError(final int messageId) {
-        runOnUiThread(() -> Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show());
+        showError(getString(messageId));
     }
 
     private void showError(final CharSequence message) {
@@ -753,10 +779,7 @@ public class PasswordActivity extends StylishActivity
                 break;
             case R.id.menu_fingerprint_remove_key:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    fingerPrintHelper.deleteEntryKey();
-                    removePrefsNoBackupKeys();
-                    fingerPrintMode = NOT_CONFIGURED_MODE;
-                    checkFingerprintAvailability();
+                    deleteEntryKey();
                 }
                 break;
             default:
@@ -793,11 +816,8 @@ public class PasswordActivity extends StylishActivity
 
             // Recheck fingerprint if error
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                //setEmptyViews();
-                //mMessage = getString(R.string.fingerprint_error) + " : " + mMessage;
-                // TODO Change fingerprint message
                 // Stay with the same mode
-                reInitWithSameFingerprintMode();
+                reInitWithFingerprintMode();
             }
 
             if (db.passwordEncodingError) {

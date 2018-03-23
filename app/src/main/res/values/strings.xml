@@ -188,9 +188,9 @@
     <string name="configure_fingerprint">Fingerprint supported but not configured for device</string>
     <string name="scanning_fingerprint">Listening for fingerprints</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="fingerprint_invalid_key">Invalid Key problem</string>
+    <string name="fingerprint_invalid_key">Invalid fingerprint key problem. Restore your password.</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
-    <string name="fingerprint_error">Fingerprint problem</string>
+    <string name="fingerprint_error">Fingerprint problem : %1$s</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
     <string name="no_password_stored">No password stored yet for this database</string>
     <string name="history">History</string>
