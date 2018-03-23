@@ -23,16 +23,15 @@ import com.keepassdroid.database.iterator.EntrySearchStringIterator;
 import com.keepassdroid.database.security.ProtectedString;
 
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public abstract class PwEntry extends PwNode implements Cloneable {
 
-	protected static final String PMS_TAN_ENTRY = "<TAN>";
+	private static final String PMS_TAN_ENTRY = "<TAN>";
 	
-	public PwIconStandard icon = PwIconStandard.FIRST;
+	protected PwIconStandard icon = PwIconStandard.FIRST;
 	
 	public static PwEntry getInstance(PwGroup parent) {
 		if (parent instanceof PwGroupV3) {
@@ -52,7 +51,6 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		try {
 			newEntry = (PwEntry) super.clone();
 		} catch (CloneNotSupportedException e) {
-			assert(false);
 			throw new RuntimeException("Clone should be supported");
 		}
 		
@@ -98,14 +96,19 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		return icon;
 	}
 
+	public PwIconStandard getStandardIcon() {
+		return icon;
+	}
+
     public void setIcon(PwIconStandard icon) {
         this.icon = icon;
     }
 	
-	public boolean isTan() {
+	private boolean isTan() {
 		return getTitle().equals(PMS_TAN_ENTRY) && (getUsername().length() > 0);
 	}
 
+	@Override
 	public String getDisplayTitle() {
 		if ( isTan() ) {
 			return PMS_TAN_ENTRY + " " + getUsername();

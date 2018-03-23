@@ -44,23 +44,25 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
     private transient PwDatabase mDatabase = null;
     private transient boolean mDecodeRef = false;
 	
-	public PwGroupV4 parent;
+	private PwGroupV4 parent;
 	private UUID uuid = PwDatabaseV4.UUID_ZERO;
-	private HashMap<String, ProtectedString> fields = new HashMap<>();
-	public HashMap<String, ProtectedBinary> binaries = new HashMap<>();
-	public PwIconCustom customIcon = PwIconCustom.ZERO;
-	public String foregroundColor = "";
-	public String backgroupColor = "";
-	public String overrideURL = "";
-	public AutoType autoType = new AutoType();
-	public ArrayList<PwEntryV4> history = new ArrayList<>();
-	
-	private PwDate parentGroupLastMod = new PwDate();
-	private long usageCount = 0;
-	public String url = "";
-	public String additional = "";
-	public String tags = "";
-	public Map<String, String> customData = new HashMap<>();
+	private PwIconCustom customIcon = PwIconCustom.ZERO;
+    private long usageCount = 0;
+    private PwDate parentGroupLastMod = new PwDate();
+    private Map<String, String> customData = new HashMap<>();
+
+    private HashMap<String, ProtectedString> fields = new HashMap<>();
+    private HashMap<String, ProtectedBinary> binaries = new HashMap<>();
+	private String foregroundColor = "";
+	private String backgroupColor = "";
+	private String overrideURL = "";
+	private AutoType autoType = new AutoType();
+	private ArrayList<PwEntryV4> history = new ArrayList<>();
+
+
+	private String url = "";
+	private String additional = "";
+	private String tags = "";
 
 	public class AutoType implements Cloneable, Serializable {
 		private static final long OBF_OPT_NONE = 0;
@@ -119,6 +121,12 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 
 	@Override
+	public Object clone() {
+		PwEntryV4 newEntry = (PwEntryV4) super.clone();
+		return newEntry;
+	}
+
+	@Override
 	public void assign(PwEntry source) {
 		
 		if ( ! (source instanceof PwEntryV4) ) {
@@ -147,12 +155,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		usageCount = source.usageCount;
 		url = source.url;
 		additional = source.additional;
-	}
-	
-	@Override
-	public Object clone() {
-		PwEntryV4 newEntry = (PwEntryV4) super.clone();
-		return newEntry;
 	}
 
 	@Override
@@ -241,11 +243,15 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		return parent;
 	}
 
-	@Override
+    @Override
+    public void setParent(PwGroup parent) {
+        this.parent = (PwGroupV4) parent;
+    }
+
+    @Override
 	public UUID getUUID() {
 		return uuid;
 	}
-
 
 	@Override
 	public void setUUID(UUID u) {
@@ -264,6 +270,14 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		ProtectedString ps = new ProtectedString(protect, value);
 		fields.put(key, ps);
 	}
+
+	public PwIconCustom getCustomIcon() {
+	    return customIcon;
+    }
+
+    public void setCustomIcon(PwIconCustom icon) {
+	    this.customIcon = icon;
+    }
 
 	public PwDate getLocationChanged() {
 		return parentGroupLastMod;
@@ -428,8 +442,96 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
             }
         }
     }
-	
-	private static final long FIXED_LENGTH_SIZE = 128; // Approximate fixed length size
+
+    public HashMap<String, ProtectedBinary> getBinaries() {
+        return binaries;
+    }
+
+    public void putProtectedBinary(String key, ProtectedBinary value) {
+	    binaries.put(key, value);
+    }
+
+    public String getForegroundColor() {
+	    return foregroundColor;
+    }
+
+    public void setForegroundColor(String color) {
+        this.foregroundColor = color;
+    }
+
+    public String getBackgroupColor() {
+        return backgroupColor;
+    }
+
+    public void setBackgroupColor(String color) {
+        this.backgroupColor = color;
+    }
+
+    public String getOverrideURL() {
+        return overrideURL;
+    }
+
+    public void setOverrideURL(String overrideURL) {
+        this.overrideURL = overrideURL;
+    }
+
+    public AutoType getAutoType() {
+        return autoType;
+    }
+
+    public void setAutoType(AutoType autoType) {
+        this.autoType = autoType;
+    }
+
+    public ArrayList<PwEntryV4> getHistory() {
+        return history;
+    }
+
+    public void setHistory(ArrayList<PwEntryV4> history) {
+        this.history = history;
+    }
+
+    public void addToHistory(PwEntryV4 entry) {
+	    history.add(entry);
+    }
+
+    public int sizeOfHistory() {
+	    return history.size();
+    }
+
+    public static String getStrTitle() {
+        return STR_TITLE;
+    }
+
+    public String getAdditional() {
+        return additional;
+    }
+
+    public void setAdditional(String additional) {
+        this.additional = additional;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public Map<String, String> getCustomData() {
+        return customData;
+    }
+
+    public void setCustomData(Map<String, String> customData) {
+        this.customData = customData;
+    }
+
+    public int sizeOfCustomData() {
+	    return customData.size();
+    }
+
+    private static final long FIXED_LENGTH_SIZE = 128; // Approximate fixed length size
 	public long getSize() {
 		long size = FIXED_LENGTH_SIZE;
 		
@@ -469,11 +571,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void touchLocation() {
 		parentGroupLastMod = new PwDate();
-	}
-	
-	@Override
-	public void setParent(PwGroup parent) {
-		this.parent = (PwGroupV4) parent;
 	}
 	
 	public boolean isSearchingEnabled() {

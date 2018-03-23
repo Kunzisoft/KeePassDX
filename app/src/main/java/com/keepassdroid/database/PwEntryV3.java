@@ -79,7 +79,7 @@ public class PwEntryV3 extends PwEntry {
 
     // for tree traversing
     private PwGroupV3 parent = null;
-    private int              groupId;
+    private int groupId;
 
     private byte[] uuid;
 	private	String username;

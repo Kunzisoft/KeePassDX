@@ -558,27 +558,27 @@ public class ImporterV4 extends Importer {
 			
 		case Group:
 			if ( name.equalsIgnoreCase(ElemUuid) ) {
-				ctxGroup.uuid = ReadUuid(xpp);
+				ctxGroup.setUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemName) ) {
 				ctxGroup.setName(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemNotes) ) {
-				ctxGroup.notes = ReadString(xpp);
+				ctxGroup.setNotes(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
 				ctxGroup.setIcon(db.iconFactory.getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxGroup.customIcon = db.iconFactory.getIcon(ReadUuid(xpp));
+				ctxGroup.setCustomIcon(db.iconFactory.getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.GroupTimes, xpp);
 			} else if ( name.equalsIgnoreCase(ElemIsExpanded) ) {
-				ctxGroup.isExpanded = ReadBool(xpp, true);
+				ctxGroup.setExpanded(ReadBool(xpp, true));
 			} else if ( name.equalsIgnoreCase(ElemGroupDefaultAutoTypeSeq) ) {
-				ctxGroup.defaultAutoTypeSequence = ReadString(xpp);
+				ctxGroup.setDefaultAutoTypeSequence(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemEnableAutoType) ) {
-				ctxGroup.enableAutoType = StringToBoolean(ReadString(xpp));
+				ctxGroup.setEnableAutoType(StringToBoolean(ReadString(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemEnableSearching) ) {
-				ctxGroup.enableSearching = StringToBoolean(ReadString(xpp));
+				ctxGroup.setEnableSearching(StringToBoolean(ReadString(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemLastTopVisibleEntry) ) {
-				ctxGroup.lastTopVisibleEntry = ReadUuid(xpp);
+				ctxGroup.setLastTopVisibleEntry(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemCustomData) ) {
                 return SwitchContext(ctx, KdbContext.GroupCustomData, xpp);
 			} else if ( name.equalsIgnoreCase(ElemGroup) ) {
@@ -619,17 +619,17 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(ElemUuid) ) {
 				ctxEntry.setUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxEntry.icon = db.iconFactory.getIcon((int)ReadUInt(xpp, 0));
+				ctxEntry.setIcon(db.iconFactory.getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxEntry.customIcon = db.iconFactory.getIcon(ReadUuid(xpp));
+				ctxEntry.setCustomIcon(db.iconFactory.getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemFgColor) ) {
-				ctxEntry.foregroundColor = ReadString(xpp);
+				ctxEntry.setForegroundColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemBgColor) ) {
-				ctxEntry.backgroupColor = ReadString(xpp);
+				ctxEntry.setBackgroupColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemOverrideUrl) ) {
-				ctxEntry.overrideURL = ReadString(xpp);
+				ctxEntry.setOverrideURL(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemTags) ) {
-				ctxEntry.tags = ReadString(xpp);
+				ctxEntry.setTags(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.EntryTimes, xpp);
 			} else if ( name.equalsIgnoreCase(ElemString) ) {
@@ -718,11 +718,11 @@ public class ImporterV4 extends Importer {
 			
 		case EntryAutoType:
 			if ( name.equalsIgnoreCase(ElemAutoTypeEnabled) ) {
-				ctxEntry.autoType.enabled = ReadBool(xpp, true);
+				ctxEntry.getAutoType().enabled = ReadBool(xpp, true);
 			} else if ( name.equalsIgnoreCase(ElemAutoTypeObfuscation) ) {
-				ctxEntry.autoType.obfuscationOptions = ReadUInt(xpp, 0);
+				ctxEntry.getAutoType().obfuscationOptions = ReadUInt(xpp, 0);
 			} else if ( name.equalsIgnoreCase(ElemAutoTypeDefaultSeq) ) {
-				ctxEntry.autoType.defaultSequence = ReadString(xpp);
+				ctxEntry.getAutoType().defaultSequence = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemAutoTypeItem) ) {
 				return SwitchContext(ctx, KdbContext.EntryAutoTypeItem, xpp);
 			} else {
@@ -743,7 +743,7 @@ public class ImporterV4 extends Importer {
 		case EntryHistory:
 			if ( name.equalsIgnoreCase(ElemEntry) ) {
 				ctxEntry = new PwEntryV4();
-				ctxHistoryBase.history.add(ctxEntry);
+				ctxHistoryBase.addToHistory(ctxEntry);
 				
 				entryInHistory = true;
 				return SwitchContext(ctx, KdbContext.Entry, xpp);
@@ -820,8 +820,8 @@ public class ImporterV4 extends Importer {
 			
 			return KdbContext.CustomData;
 		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(ElemGroup) ) {
-			if ( ctxGroup.uuid == null || ctxGroup.uuid.equals(PwDatabaseV4.UUID_ZERO) ) {
-				ctxGroup.uuid = UUID.randomUUID();
+			if ( ctxGroup.getUUID() == null || ctxGroup.getUUID().equals(PwDatabaseV4.UUID_ZERO) ) {
+				ctxGroup.setUUID(UUID.randomUUID());
 			}
 			
 			ctxGroups.pop();
@@ -839,7 +839,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Group;
 		} else if ( ctx == KdbContext.GroupCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
 			if (groupCustomDataKey != null && groupCustomDataValue != null) {
-				ctxGroup.customData.put(groupCustomDataKey, groupCustomDataKey);
+				ctxGroup.getCustomData().put(groupCustomDataKey, groupCustomDataKey);
 			} else {
 				assert(false);
 			}
@@ -869,7 +869,7 @@ public class ImporterV4 extends Importer {
 			
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryBinary && name.equalsIgnoreCase(ElemBinary) ) {
-			ctxEntry.binaries.put(ctxBinaryName, ctxBinaryValue);
+			ctxEntry.putProtectedBinary(ctxBinaryName, ctxBinaryValue);
 			ctxBinaryName = null;
 			ctxBinaryValue = null;
 			
@@ -877,7 +877,7 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.EntryAutoType && name.equalsIgnoreCase(ElemAutoType) ) {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryAutoTypeItem && name.equalsIgnoreCase(ElemAutoTypeItem) ) {
-			ctxEntry.autoType.put(ctxATName, ctxATSeq);
+			ctxEntry.getAutoType().put(ctxATName, ctxATSeq);
 			ctxATName = null;
 			ctxATSeq = null;
 
@@ -886,7 +886,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
 			if (entryCustomDataKey != null && entryCustomDataValue != null) {
-				ctxEntry.customData.put(entryCustomDataKey, entryCustomDataValue);
+				ctxEntry.getCustomData().put(entryCustomDataKey, entryCustomDataValue);
 			} else {
 				assert(false);
 			}

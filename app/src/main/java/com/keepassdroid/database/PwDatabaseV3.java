@@ -69,9 +69,9 @@ public class PwDatabaseV3 extends PwDatabase {
 	public PwEntry metaInfo;
 
 	// all entries
-	public List<PwEntry> entries = new ArrayList<PwEntry>();
+	public List<PwEntry> entries = new ArrayList<>();
 	// all groups
-	public List<PwGroup> groups = new ArrayList<PwGroup>();
+	public List<PwGroup> groups = new ArrayList<>();
 	// Algorithm used to encrypt the database
 	public PwEncryptionAlgorithm algorithm;
 	public int numKeyEncRounds;

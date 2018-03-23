@@ -27,21 +27,23 @@ import java.util.UUID;
 public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
-	
-	public PwGroupV4 parent = null;
-	public UUID uuid = PwDatabaseV4.UUID_ZERO;
-	public String notes = "";
-	public PwIconCustom customIcon = PwIconCustom.ZERO;
-	public boolean isExpanded = true;
-	public String defaultAutoTypeSequence = "";
-	public Boolean enableAutoType = null;
-	public Boolean enableSearching = null;
-	public UUID lastTopVisibleEntry = PwDatabaseV4.UUID_ZERO;
-	private PwDate parentGroupLastMod = new PwDate();
 
-	private boolean expires = false;
-	private long usageCount = 0;
-	public Map<String, String> customData = new HashMap<>();
+	// TODO Same in PwEntry4
+	private PwGroupV4 parent = null;
+	private UUID uuid = PwDatabaseV4.UUID_ZERO;
+	private PwIconCustom customIcon = PwIconCustom.ZERO;
+    private long usageCount = 0;
+    private PwDate parentGroupLastMod = new PwDate();
+    private Map<String, String> customData = new HashMap<>();
+
+    private boolean expires = false;
+
+    private String notes = "";
+	private boolean isExpanded = true;
+	private String defaultAutoTypeSequence = "";
+	private Boolean enableAutoType = null;
+	private Boolean enableSearching = null;
+	private UUID lastTopVisibleEntry = PwDatabaseV4.UUID_ZERO;
 
 	public PwGroupV4() {}
 	
@@ -85,7 +87,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 		addChildEntry(pe);
 		
-		if ( takeOwnership ) pe.parent = this;
+		if ( takeOwnership ) pe.setParent(this);
 		
 		if ( updateLocationChanged ) pe.setLocationChanged(new PwDate(System.currentTimeMillis()));
 	}
@@ -94,6 +96,19 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public PwGroup getParent() {
 		return parent;
 	}
+
+    @Override
+    public void setParent(PwGroup prt) {
+        parent = (PwGroupV4) prt;
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID u) {
+        uuid = u;
+    }
 	
 	public void buildChildGroupsRecursive(List<PwGroup> list) {
 		list.add(this);
@@ -114,8 +129,15 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
 			child.buildChildEntriesRecursive(list);
 		}
-		
 	}
+
+    public PwIconCustom getCustomIcon() {
+        return customIcon;
+    }
+
+    public void setCustomIcon(PwIconCustom icon) {
+        this.customIcon = icon;
+    }
 
 	@Override
 	public PwGroupId getId() {
@@ -159,11 +181,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 
 	@Override
-	public void setParent(PwGroup prt) {
-		parent = (PwGroupV4) prt;
-	}
-
-	@Override
 	public boolean allowAddEntryIfIsRoot() {
 		return true;
 	}
@@ -176,8 +193,68 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 			return customIcon;
 		}
 	}
-	
-	public boolean isSearchEnabled() {
+
+    public Map<String, String> getCustomData() {
+        return customData;
+    }
+
+    public void setCustomData(Map<String, String> customData) {
+        this.customData = customData;
+    }
+
+    public int sizeOfCustomData() {
+        return customData.size();
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        isExpanded = expanded;
+    }
+
+    public String getDefaultAutoTypeSequence() {
+        return defaultAutoTypeSequence;
+    }
+
+    public void setDefaultAutoTypeSequence(String defaultAutoTypeSequence) {
+        this.defaultAutoTypeSequence = defaultAutoTypeSequence;
+    }
+
+    public Boolean getEnableAutoType() {
+        return enableAutoType;
+    }
+
+    public void setEnableAutoType(Boolean enableAutoType) {
+        this.enableAutoType = enableAutoType;
+    }
+
+    public Boolean getEnableSearching() {
+        return enableSearching;
+    }
+
+    public void setEnableSearching(Boolean enableSearching) {
+        this.enableSearching = enableSearching;
+    }
+
+    public UUID getLastTopVisibleEntry() {
+        return lastTopVisibleEntry;
+    }
+
+    public void setLastTopVisibleEntry(UUID lastTopVisibleEntry) {
+        this.lastTopVisibleEntry = lastTopVisibleEntry;
+    }
+
+    public boolean isSearchEnabled() {
 		PwGroupV4 group = this;
 		while (group != null) {
 			Boolean search = group.enableSearching;

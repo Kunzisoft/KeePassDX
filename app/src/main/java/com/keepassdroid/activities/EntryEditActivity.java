@@ -249,7 +249,7 @@ public class EntryEditActivity extends LockingHideActivity
 	    if (mEntry instanceof PwEntryV4) {
 	        // TODO backup
             PwEntryV4 newEntry = (PwEntryV4) mEntry.clone(true);
-            newEntry.history = (ArrayList<PwEntryV4>) newEntry.history.clone();
+            newEntry.setHistory((ArrayList<PwEntryV4>) newEntry.getHistory().clone());
             newEntry.createBackup((PwDatabaseV4) App.getDB().pm);
         }
 
@@ -272,7 +272,7 @@ public class EntryEditActivity extends LockingHideActivity
             }
             else {
                 // Keep previous icon, if no new one was selected
-                newEntry.setIcon(mEntry.icon);
+                newEntry.setIcon(mEntry.getStandardIcon());
             }
         }
         newEntry.setUrl(entryUrlView.getText().toString());

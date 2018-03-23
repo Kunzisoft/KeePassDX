@@ -397,7 +397,7 @@ public class ImporterV3 extends Importer {
 				iconId = 0;
 			}
 			
-			ent.icon = db.iconFactory.getIcon(iconId);
+			ent.setIcon(db.iconFactory.getIcon(iconId));
 			break;
 		case 0x0004 :
 			ent.setTitle(Types.readCString(buf, offset));

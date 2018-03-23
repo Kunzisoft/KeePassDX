@@ -46,8 +46,8 @@ public abstract class PwDatabase {
     public String name = "KeePass database";
     public PwGroup rootGroup;
     public PwIconFactory iconFactory = new PwIconFactory();
-    public Map<PwGroupId, PwGroup> groups = new HashMap<PwGroupId, PwGroup>();
-    public Map<UUID, PwEntry> entries = new HashMap<UUID, PwEntry>();
+    public Map<PwGroupId, PwGroup> groups = new HashMap<>();
+    public Map<UUID, PwEntry> entries = new HashMap<>();
 
 
     private static boolean isKDBExtension(String filename) {

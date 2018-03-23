@@ -351,12 +351,12 @@ public class PwDatabaseV4 extends PwDatabase {
 			// Create recycle bin
 				
 			PwGroupV4 recycleBin = new PwGroupV4(true, RECYCLEBIN_NAME, iconFactory.getIcon(PwIconStandard.TRASH_BIN));
-			recycleBin.enableAutoType = false;
-			recycleBin.enableSearching = false;
-			recycleBin.isExpanded = false;
+			recycleBin.setEnableAutoType(false);
+			recycleBin.setEnableSearching(false);
+			recycleBin.setExpanded(false);
 			addGroupTo(recycleBin, rootGroup);
 			
-			recycleBinUUID = recycleBin.uuid;
+			recycleBinUUID = recycleBin.getUUID();
 		}
 	}
 
@@ -507,7 +507,7 @@ public class PwDatabaseV4 extends PwDatabase {
 				return true;
 			}
 			PwGroupV4 g4 = (PwGroupV4) group;
-			if (g4.customData.size() > 0) {
+			if (g4.sizeOfCustomData() > 0) {
 				hasCustomData = true;
 				return false;
 			}
@@ -527,7 +527,7 @@ public class PwDatabaseV4 extends PwDatabase {
 			}
 
 			PwEntryV4 e4 = (PwEntryV4)entry;
-			if (e4.customData.size() > 0) {
+			if (e4.sizeOfCustomData() > 0) {
 				hasCustomData = true;
 				return false;
 			}

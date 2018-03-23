@@ -245,7 +245,7 @@ public class PwDbV4Output extends PwDbOutput {
 			
 			while(true) {
 				try {
-					if (group.parent == groupStack.peek()) {
+					if (group.getParent() == groupStack.peek()) {
 						groupStack.push(group);
 						startGroup(group);
 						break;
@@ -434,21 +434,21 @@ public class PwDbV4Output extends PwDbOutput {
 	
 	private void startGroup(PwGroupV4 group) throws IllegalArgumentException, IllegalStateException, IOException {
 		xml.startTag(null, ElemGroup);
-		writeObject(ElemUuid, group.uuid);
+		writeObject(ElemUuid, group.getUUID());
 		writeObject(ElemName, group.getName());
-		writeObject(ElemNotes, group.notes);
+		writeObject(ElemNotes, group.getNotes());
 		writeObject(ElemIcon, group.getIconStandard().iconId);
 		
-		if (!group.customIcon.equals(PwIconCustom.ZERO)) {
-			writeObject(ElemCustomIconID, group.customIcon.uuid);
+		if (!group.getCustomIcon().equals(PwIconCustom.ZERO)) {
+			writeObject(ElemCustomIconID, group.getCustomIcon().uuid);
 		}
 		
 		writeList(ElemTimes, group);
-		writeObject(ElemIsExpanded, group.isExpanded);
-		writeObject(ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence);
-		writeObject(ElemEnableAutoType, group.enableAutoType);
-		writeObject(ElemEnableSearching, group.enableSearching);
-		writeObject(ElemLastTopVisibleEntry, group.lastTopVisibleEntry);
+		writeObject(ElemIsExpanded, group.isExpanded());
+		writeObject(ElemGroupDefaultAutoTypeSeq, group.getDefaultAutoTypeSequence());
+		writeObject(ElemEnableAutoType, group.getEnableAutoType());
+		writeObject(ElemEnableSearching, group.getEnableSearching());
+		writeObject(ElemLastTopVisibleEntry, group.getLastTopVisibleEntry());
 		
 	}
 	
@@ -462,27 +462,27 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.startTag(null, ElemEntry);
 		
 		writeObject(ElemUuid, entry.getUUID());
-		writeObject(ElemIcon, entry.icon.iconId);
+		writeObject(ElemIcon, entry.getStandardIcon().iconId);
 		
-		if (!entry.customIcon.equals(PwIconCustom.ZERO)) {
-			writeObject(ElemCustomIconID, entry.customIcon.uuid);
+		if (!entry.getCustomIcon().equals(PwIconCustom.ZERO)) {
+			writeObject(ElemCustomIconID, entry.getCustomIcon().uuid);
 		}
 		
-		writeObject(ElemFgColor, entry.foregroundColor);
-		writeObject(ElemBgColor, entry.backgroupColor);
-		writeObject(ElemOverrideUrl, entry.overrideURL);
-		writeObject(ElemTags, entry.tags);
+		writeObject(ElemFgColor, entry.getForegroundColor());
+		writeObject(ElemBgColor, entry.getBackgroupColor());
+		writeObject(ElemOverrideUrl, entry.getOverrideURL());
+		writeObject(ElemTags, entry.getTags());
 		
 		writeList(ElemTimes, entry);
 		
 		writeList(entry.getFields(), true);
-		writeList(entry.binaries);
-		writeList(ElemAutoType, entry.autoType);
+		writeList(entry.getBinaries());
+		writeList(ElemAutoType, entry.getAutoType());
 		
 		if (!isHistory) {
-			writeList(ElemHistory, entry.history, true);
+			writeList(ElemHistory, entry.getHistory(), true);
 		} else {
-			assert(entry.history.size() == 0);
+			assert(entry.sizeOfHistory() == 0);
 		}
 		
 		xml.endTag(null, ElemEntry);

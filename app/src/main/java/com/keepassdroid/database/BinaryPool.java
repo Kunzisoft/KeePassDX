@@ -28,7 +28,7 @@ import java.util.Set;
 import com.keepassdroid.database.security.ProtectedBinary;
 
 public class BinaryPool {
-	private HashMap<Integer, ProtectedBinary> pool = new HashMap<Integer, ProtectedBinary>();
+	private HashMap<Integer, ProtectedBinary> pool = new HashMap<>();
 	
 	public BinaryPool() {
 		
@@ -63,12 +63,10 @@ public class BinaryPool {
 
 		@Override
 		public boolean operate(PwEntryV4 entry) {
-			for (PwEntryV4 histEntry : entry.history) {
-				poolAdd(histEntry.binaries);
-				
+			for (PwEntryV4 histEntry : entry.getHistory()) {
+				poolAdd(histEntry.getBinaries());
 			}
-			
-			poolAdd(entry.binaries);
+			poolAdd(entry.getBinaries());
 			return true;
 		}
 		
