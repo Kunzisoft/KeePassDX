@@ -20,7 +20,6 @@
 package com.keepassdroid.database;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,7 +27,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
-	// TODO Same in PwEntry4
 	private PwGroupV4 parent = null;
 	private UUID uuid = PwDatabaseV4.UUID_ZERO;
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
@@ -47,11 +45,8 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 	public PwGroupV4() {}
 	
-	public PwGroupV4(boolean createUUID, String name, PwIconStandard icon) {
-		if (createUUID) {
-			uuid = UUID.randomUUID();
-		}
-		
+	public PwGroupV4(String name, PwIconStandard icon) {
+		this.uuid = UUID.randomUUID();
 		this.name = name;
 		this.icon = icon;
 	}
@@ -59,38 +54,20 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
     @Override
     public void initNewGroup(String nm, PwGroupId newId) {
         super.initNewGroup(nm, newId);
-
         parentGroupLastMod = new PwDate();
     }
-
-	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership) {
-		AddGroup(subGroup, takeOwnership, false);
-	}
 	
-	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership, boolean updateLocationChanged) {
+	public void AddGroup(PwGroupV4 subGroup) {
 		if ( subGroup == null ) throw new RuntimeException("subGroup");
-		
 		childGroups.add(subGroup);
-		
-		if ( takeOwnership ) subGroup.parent = this;
-		
-		if ( updateLocationChanged ) subGroup.parentGroupLastMod = new PwDate(System.currentTimeMillis());
-		
-	}
+        subGroup.parent = this;
+    }
 	
-	public void AddEntry(PwEntryV4 pe, boolean takeOwnership) {
-		AddEntry(pe, takeOwnership, false);
-	}
-	
-	public void AddEntry(PwEntryV4 pe, boolean takeOwnership, boolean updateLocationChanged) {
+	public void AddEntry(PwEntryV4 pe) {
 		assert(pe != null);
-
 		addChildEntry(pe);
-		
-		if ( takeOwnership ) pe.setParent(this);
-		
-		if ( updateLocationChanged ) pe.setLocationChanged(new PwDate(System.currentTimeMillis()));
-	}
+        pe.setParent(this);
+    }
 	
 	@Override
 	public PwGroup getParent() {
@@ -109,27 +86,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
     public void setUUID(UUID u) {
         uuid = u;
     }
-	
-	public void buildChildGroupsRecursive(List<PwGroup> list) {
-		list.add(this);
-		
-		for ( int i = 0; i < numbersOfChildGroups(); i++) {
-			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
-			child.buildChildGroupsRecursive(list);
-			
-		}
-	}
-
-	public void buildChildEntriesRecursive(List<PwEntry> list) {
-		for ( int i = 0; i < numbersOfChildEntries(); i++ ) {
-			list.add(childEntries.get(i));
-		}
-		
-		for ( int i = 0; i < numbersOfChildGroups(); i++ ) {
-			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
-			child.buildChildEntriesRecursive(list);
-		}
-	}
 
     public PwIconCustom getCustomIcon() {
         return customIcon;
@@ -194,16 +150,12 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 		}
 	}
 
-    public Map<String, String> getCustomData() {
-        return customData;
+    public void putCustomData(String key, String value) {
+        customData.put(key, value);
     }
 
-    public void setCustomData(Map<String, String> customData) {
-        this.customData = customData;
-    }
-
-    public int sizeOfCustomData() {
-        return customData.size();
+    public boolean containsCustomData() {
+	    return customData.size() > 0;
     }
 
     public String getNotes() {

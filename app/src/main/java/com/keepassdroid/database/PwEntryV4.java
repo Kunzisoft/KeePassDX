@@ -59,7 +59,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private AutoType autoType = new AutoType();
 	private ArrayList<PwEntryV4> history = new ArrayList<>();
 
-
 	private String url = "";
 	private String additional = "";
 	private String tags = "";
@@ -519,16 +518,12 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
         this.tags = tags;
     }
 
-    public Map<String, String> getCustomData() {
-        return customData;
+    public void putCustomData(String key, String value) {
+        customData.put(key, value);
     }
 
-    public void setCustomData(Map<String, String> customData) {
-        this.customData = customData;
-    }
-
-    public int sizeOfCustomData() {
-	    return customData.size();
+    public boolean containsCustomData() {
+        return customData.size() > 0;
     }
 
     private static final long FIXED_LENGTH_SIZE = 128; // Approximate fixed length size

@@ -268,9 +268,17 @@ public class PwDatabaseV4 extends PwDatabase {
 	public List<PwGroup> getGroups() {
 		List<PwGroup> list = new ArrayList<PwGroup>();
 		PwGroupV4 root = (PwGroupV4) rootGroup;
-		root.buildChildGroupsRecursive(list);
+        buildChildGroupsRecursive(root, list);
 		
 		return list;
+	}
+
+	private static void buildChildGroupsRecursive(PwGroupV4 root, List<PwGroup> list) {
+		list.add(root);
+		for ( int i = 0; i < root.numbersOfChildGroups(); i++) {
+			PwGroupV4 child = (PwGroupV4) root.getChildGroupAt(i);
+			buildChildGroupsRecursive(child, list);
+		}
 	}
 
 	@Override
@@ -282,10 +290,19 @@ public class PwDatabaseV4 extends PwDatabase {
 	public List<PwEntry> getEntries() {
 		List<PwEntry> list = new ArrayList<PwEntry>();
 		PwGroupV4 root = (PwGroupV4) rootGroup;
-		root.buildChildEntriesRecursive(list);
-		
+		buildChildEntriesRecursive(root, list);
 		return list;
 	}
+
+    private static void buildChildEntriesRecursive(PwGroupV4 root, List<PwEntry> list) {
+        for ( int i = 0; i < root.numbersOfChildEntries(); i++ ) {
+            list.add(root.getChildEntryAt(i));
+        }
+        for ( int i = 0; i < root.numbersOfChildGroups(); i++ ) {
+            PwGroupV4 child = (PwGroupV4) root.getChildGroupAt(i);
+            buildChildEntriesRecursive(child, list);
+        }
+    }
 
 	@Override
 	public long getNumRounds() {
@@ -350,7 +367,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		if (getRecycleBin() == null) {
 			// Create recycle bin
 				
-			PwGroupV4 recycleBin = new PwGroupV4(true, RECYCLEBIN_NAME, iconFactory.getIcon(PwIconStandard.TRASH_BIN));
+			PwGroupV4 recycleBin = new PwGroupV4(RECYCLEBIN_NAME, iconFactory.getIcon(PwIconStandard.TRASH_BIN));
 			recycleBin.setEnableAutoType(false);
 			recycleBin.setEnableSearching(false);
 			recycleBin.setExpanded(false);
@@ -479,7 +496,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	public void initNew(String dbPath) {
 		String filename = URLUtil.guessFileName(dbPath, null, null);
 		
-		rootGroup = new PwGroupV4(true, dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
+		rootGroup = new PwGroupV4(dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
 		groups.put(rootGroup.getId(), rootGroup);
 	}
 	
@@ -507,7 +524,7 @@ public class PwDatabaseV4 extends PwDatabase {
 				return true;
 			}
 			PwGroupV4 g4 = (PwGroupV4) group;
-			if (g4.sizeOfCustomData() > 0) {
+			if (g4.containsCustomData()) {
 				hasCustomData = true;
 				return false;
 			}
@@ -527,7 +544,7 @@ public class PwDatabaseV4 extends PwDatabase {
 			}
 
 			PwEntryV4 e4 = (PwEntryV4)entry;
-			if (e4.sizeOfCustomData() > 0) {
+			if (e4.containsCustomData()) {
 				hasCustomData = true;
 				return false;
 			}

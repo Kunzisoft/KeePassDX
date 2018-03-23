@@ -19,22 +19,8 @@
  */
 package com.keepassdroid.database;
 
-public interface ITimeLogger {
-	PwDate getLastModificationTime();
-	void setLastModificationTime(PwDate date);
+public interface ITimeLogger extends ISmallTimeLogger {
 
-	PwDate getCreationTime();
-	void setCreationTime(PwDate date);
-
-	PwDate getLastAccessTime();
-	void setLastAccessTime(PwDate date);
-
-	PwDate getExpiryTime();
-	void setExpiryTime(PwDate date);
-	
-	boolean expires();
-	void setExpires(boolean exp);
-	
 	long getUsageCount();
 	void setUsageCount(long count);
 

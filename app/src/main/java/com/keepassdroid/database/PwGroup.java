@@ -161,7 +161,6 @@ public abstract class PwGroup extends PwNode {
 		return false;
 	}
 
-	
 	public void touch(boolean modified, boolean touchParents) {
 		PwDate now = new PwDate();
 		setLastAccessTime(now);

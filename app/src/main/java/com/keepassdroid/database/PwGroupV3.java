@@ -28,7 +28,6 @@ package com.keepassdroid.database;
  */
 public class PwGroupV3 extends PwGroup {
 
-    // TODO Same as PwEntryV3
 	// for tree traversing
 	private PwGroupV3 parent = null;
 	private int groupId;
@@ -75,16 +74,6 @@ public class PwGroupV3 extends PwGroup {
 		PwGroupIdV3 id3 = (PwGroupIdV3) id;
 		groupId = id3.getId();
 	}
-	
-	public void populateBlankFields(PwDatabaseV3 db) {
-		if (icon == null) {
-			icon = db.iconFactory.getIcon(1);
-		}
-		
-		if (name == null) {
-			name = "";
-		}
-	}
 
 	public int getFlags() {
 	    return flags;
@@ -97,5 +86,15 @@ public class PwGroupV3 extends PwGroup {
 	@Override
     public String toString() {
         return getName();
+    }
+
+    public void populateBlankFields(PwDatabaseV3 db) {
+        if (icon == null) {
+            icon = db.iconFactory.getIcon(1);
+        }
+
+        if (name == null) {
+            name = "";
+        }
     }
 }

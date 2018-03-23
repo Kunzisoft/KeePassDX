@@ -583,13 +583,13 @@ public class ImporterV4 extends Importer {
                 return SwitchContext(ctx, KdbContext.GroupCustomData, xpp);
 			} else if ( name.equalsIgnoreCase(ElemGroup) ) {
 				ctxGroup = new PwGroupV4();
-				ctxGroups.peek().AddGroup(ctxGroup, true);
+				ctxGroups.peek().AddGroup(ctxGroup);
 				ctxGroups.push(ctxGroup);
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
 			} else if ( name.equalsIgnoreCase(ElemEntry) ) {
 				ctxEntry = new PwEntryV4();
-				ctxGroup.AddEntry(ctxEntry, true);
+				ctxGroup.AddEntry(ctxEntry);
 				
 				entryInHistory = false;
 				return SwitchContext(ctx, KdbContext.Entry, xpp);
@@ -839,7 +839,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Group;
 		} else if ( ctx == KdbContext.GroupCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
 			if (groupCustomDataKey != null && groupCustomDataValue != null) {
-				ctxGroup.getCustomData().put(groupCustomDataKey, groupCustomDataKey);
+				ctxGroup.putCustomData(groupCustomDataKey, groupCustomDataKey);
 			} else {
 				assert(false);
 			}
@@ -886,7 +886,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
 			if (entryCustomDataKey != null && entryCustomDataValue != null) {
-				ctxEntry.getCustomData().put(entryCustomDataKey, entryCustomDataValue);
+				ctxEntry.putCustomData(entryCustomDataKey, entryCustomDataValue);
 			} else {
 				assert(false);
 			}

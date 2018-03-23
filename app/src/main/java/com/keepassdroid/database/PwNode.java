@@ -21,7 +21,6 @@
 package com.keepassdroid.database;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import static com.keepassdroid.database.PwDate.NEVER_EXPIRE;
 import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
@@ -29,7 +28,7 @@ import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode implements Serializable {
+public abstract class PwNode implements ISmallTimeLogger, Serializable {
 
     private PwDate creation = new PwDate();
     private PwDate lastMod = new PwDate();
