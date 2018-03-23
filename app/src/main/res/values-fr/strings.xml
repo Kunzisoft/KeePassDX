@@ -35,6 +35,7 @@
     <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="brackets">Crochets</string>
+    <string name="extended_ASCII">ASCII étendu</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Permettre</string>
