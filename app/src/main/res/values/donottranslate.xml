@@ -130,7 +130,7 @@
     <string name="visual_space" translatable="false"> </string>
     <string name="visual_special" translatable="false">&amp;\/,^@.#&quot;:%\\='$!*`;+</string>
     <string name="visual_brackets" translatable="false">[](){}&lt;&gt;</string>
-    <string name="visual_extended" translatable="false">Extended ASCII</string>
+    <string name="visual_extended" translatable="false">¡-ÿ</string>
     <string-array name="list_password_generator_options_default_values">
         <item translatable="false">@string/value_password_uppercase</item>
         <item translatable="false">@string/value_password_lowercase</item>
