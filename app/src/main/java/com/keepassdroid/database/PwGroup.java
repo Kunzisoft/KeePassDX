@@ -35,7 +35,6 @@ public abstract class PwGroup extends PwNode {
 
 	protected List<PwGroup> childGroups = new ArrayList<>();
 	protected List<PwEntry> childEntries = new ArrayList<>();
-	private transient List<PwNode> children = new ArrayList<>();
 
     public void initNewGroup(String nm, PwGroupId newId) {
         setId(newId);
@@ -101,21 +100,13 @@ public abstract class PwGroup extends PwNode {
      * @return List of direct children (one level below) as PwNode
      */
     public List<PwNode> getDirectChildren() {
-        children.clear();
+        List<PwNode> children = new ArrayList<>();
         children.addAll(childGroups);
         for(PwEntry child : childEntries) {
             if (!child.isMetaStream())
             children.add(child);
         }
         return children;
-    }
-
-    /**
-     * Number of direct elements in Node (one level below)
-     * @return Size of child elements, default is 0
-     */
-    public int numberOfDirectChildren() {
-        return childGroups.size() + childEntries.size();
     }
 
     public boolean isContainedIn(PwGroup container) {

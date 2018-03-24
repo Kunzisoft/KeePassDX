@@ -44,22 +44,23 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 			throw new RuntimeException("Unknown PwGroup instance.");
 		}
 	}
-	
+
 	@Override
-	public Object clone() {
+	public PwEntry clone() {
 		PwEntry newEntry;
 		try {
 			newEntry = (PwEntry) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException("Clone should be supported");
 		}
-		
 		return newEntry;
 	}
 
-	public PwEntry clone(boolean deepStrings) {
-		return (PwEntry) clone();
-	}
+	@Override
+    protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
+	    super.addCloneAttributesToNewEntry(newEntry);
+        newEntry.icon = new PwIconStandard(this.icon);
+    }
 
 	@Override
 	public Type getType() {
@@ -170,6 +171,11 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	public boolean isMetaStream() {
 		return false;
 	}
+
+    /**
+     * Create a backup of entry
+     */
+    public void createBackup(PwDatabase db) {}
 
 	public EntrySearchStringIterator stringIterator() {
 		return EntrySearchStringIterator.getInstance(this);

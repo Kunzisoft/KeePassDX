@@ -23,17 +23,16 @@ import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.SprEngineV4;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
+
 	public static final String STR_TITLE = "Title";
 	public static final String STR_USERNAME = "UserName";
 	public static final String STR_PASSWORD = "Password";
@@ -45,7 +44,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
     private transient boolean mDecodeRef = false;
 	
 	private PwGroupV4 parent;
-	private UUID uuid = PwDatabaseV4.UUID_ZERO;
+	private UUID uuid = PwDatabaseV4.UUID_ZERO; // TODO move to parent
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
@@ -63,41 +62,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private String additional = "";
 	private String tags = "";
 
-	public class AutoType implements Cloneable, Serializable {
-		private static final long OBF_OPT_NONE = 0;
-		
-		public boolean enabled = true;
-		public long obfuscationOptions = OBF_OPT_NONE;
-		public String defaultSequence = "";
-		
-		private HashMap<String, String> windowSeqPairs = new HashMap<>();
-		
-		@SuppressWarnings("unchecked")
-		public Object clone() {
-			AutoType auto;
-			try {
-				auto = (AutoType) super.clone();
-			} 
-			catch (CloneNotSupportedException e) {
-				throw new RuntimeException(e);
-			}
-			
-			auto.windowSeqPairs = (HashMap<String, String>) windowSeqPairs.clone();
-			
-			return auto;
-			
-		}
-		
-		public void put(String key, String value) {
-			windowSeqPairs.put(key, value);
-		}
-		
-		public Set<Entry<String, String>> entrySet() {
-			return windowSeqPairs.entrySet();
-		}
-
-	}
-	
 	public PwEntryV4() {
 	}
 	
@@ -106,55 +70,63 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		uuid = UUID.randomUUID();
 	}
 
+    @Override
+    public void assign(PwEntry source) {
+        if ( ! (source instanceof PwEntryV4) ) {
+            throw new RuntimeException("DB version mix.");
+        }
+        super.assign(source);
+        PwEntryV4 src = (PwEntryV4) source;
+        parent = src.parent;
+        uuid = src.uuid;
+        customIcon = src.customIcon;
+        usageCount = src.usageCount;
+        parentGroupLastMod = src.parentGroupLastMod;
+        // TODO customData
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public PwEntry clone(boolean deepStrings) {
-		PwEntryV4 entry = (PwEntryV4) super.clone(deepStrings);
-		
-		if (deepStrings) {
-			entry.fields = (HashMap<String, ProtectedString>) fields.clone();
-		}
-		
-		return entry;
-	}
+        fields = src.fields;
+        binaries = src.binaries;
+        foregroundColor = src.foregroundColor;
+        backgroupColor = src.backgroupColor;
+        overrideURL = src.overrideURL;
+        autoType = src.autoType;
+        history = src.history;
 
-	@Override
-	public Object clone() {
-		PwEntryV4 newEntry = (PwEntryV4) super.clone();
-		return newEntry;
-	}
+        url = src.url;
+        additional = src.additional;
+        tags = src.tags;
+    }
 
-	@Override
-	public void assign(PwEntry source) {
-		
-		if ( ! (source instanceof PwEntryV4) ) {
-			throw new RuntimeException("DB version mix.");
-		}
-		
-		super.assign(source);
-		
-		PwEntryV4 src = (PwEntryV4) source;
-		assign(src);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public PwEntryV4 clone() {
+        PwEntryV4 newEntry = (PwEntryV4) super.clone();
 
-	private void assign(PwEntryV4 source) {
-		super.assign(source);
-		parent = source.parent;
-		uuid = source.uuid;
-		fields = source.fields;
-		binaries = source.binaries;
-		customIcon = source.customIcon;
-		foregroundColor = source.foregroundColor;
-		backgroupColor = source.backgroupColor;
-		overrideURL = source.overrideURL;
-		autoType = source.autoType;
-		history = source.history;
-		parentGroupLastMod = source.parentGroupLastMod;
-		usageCount = source.usageCount;
-		url = source.url;
-		additional = source.additional;
-	}
+        // Attributes in parent
+        addCloneAttributesToNewEntry(newEntry);
+
+        // Attributes here
+        // newEntry.parent stay the same in copy
+        // newEntry.uuid stay the same in copy
+        newEntry.customIcon = new PwIconCustom(this.customIcon);
+        // newEntry.usageCount stay the same in copy
+        newEntry.parentGroupLastMod = this.parentGroupLastMod.clone();
+        // TODO customData make copy from hashmap
+
+        newEntry.fields = (HashMap<String, ProtectedString>) this.fields.clone();
+        newEntry.binaries = (HashMap<String, ProtectedBinary>) this.binaries.clone();
+        // newEntry.foregroundColor stay the same in copy
+        // newEntry.backgroupColor stay the same in copy
+        // newEntry.overrideURL stay the same in copy
+        newEntry.autoType = autoType.clone();
+        newEntry.history = (ArrayList<PwEntryV4>) this.history.clone();
+
+        // newEntry.url stay the same in copy
+        // newEntry.additional stay the same in copy
+        // newEntry.tags stay the same in copy
+
+        return newEntry;
+    }
 
 	@Override
 	public void startToDecodeReference(PwDatabase db) {
@@ -312,74 +284,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			return customIcon;
 		}
 	}
-	
-	public void createBackup(PwDatabaseV4 db) {
-		PwEntryV4 copy = cloneDeep();
-		copy.history = new ArrayList<>();
-		history.add(copy);
-		
-		if (db != null) maintainBackups(db);
-	}
-
-    @SuppressWarnings("unchecked")
-    public PwEntryV4 cloneDeep() {
-        PwEntryV4 entry = (PwEntryV4) clone(true);
-
-        entry.binaries = (HashMap<String, ProtectedBinary>) binaries.clone();
-        entry.history = (ArrayList<PwEntryV4>) history.clone();
-        entry.autoType = (AutoType) autoType.clone();
-
-        return entry;
-    }
-	
-	private boolean maintainBackups(PwDatabaseV4 db) {
-		boolean deleted = false;
-		
-		int maxItems = db.historyMaxItems;
-		if (maxItems >= 0) {
-			while (history.size() > maxItems) {
-				removeOldestBackup();
-				deleted = true;
-			}
-		}
-		
-		long maxSize = db.historyMaxSize;
-		if (maxSize >= 0) {
-			while(true) {
-				long histSize = 0;
-				for (PwEntryV4 entry : history) {
-					histSize += entry.getSize();
-				}
-				
-				if (histSize > maxSize) {
-					removeOldestBackup();
-					deleted = true;
-				} else {
-					break;
-				}
-			}
-		}
-		
-		return deleted;
-	}
-	
-	private void removeOldestBackup() {
-		Date min = null;
-		int index = -1;
-		
-		for (int i = 0; i < history.size(); i++) {
-			PwEntry entry = history.get(i);
-			Date lastMod = entry.getLastModificationTime().getDate();
-			if ((min == null) || lastMod.before(min)) {
-				index = i;
-				min = lastMod;
-			}
-		}
-		
-		if (index != -1) {
-			history.remove(index);
-		}
-	}
 
 	@Override
 	public boolean allowExtraFields() {
@@ -396,7 +300,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
         if (fields.size() > 0) {
             for (Map.Entry<String, ProtectedString> pair : fields.entrySet()) {
                 String key = pair.getKey();
-                if (!PwEntryV4.IsStandardField(key)) {
+                if (!PwEntryV4.isStandardField(key)) {
                     protectedFields.put(key, pair.getValue());
                 }
             }
@@ -413,7 +317,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			for (Map.Entry<String, ProtectedString> pair : fields.entrySet()) {
 				String key = pair.getKey();
                 // TODO Add hidden style for protection field
-				if (!PwEntryV4.IsStandardField(key)) {
+				if (!PwEntryV4.isStandardField(key)) {
                     extraFields.put(key, spr.compile(pair.getValue().toString(), this, mDatabase));
 				}
 			}
@@ -421,7 +325,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		return extraFields;
 	}
 
-    public static boolean IsStandardField(String key) {
+    private static boolean isStandardField(String key) {
         return key.equals(STR_TITLE) || key.equals(STR_USERNAME)
                 || key.equals(STR_PASSWORD) || key.equals(STR_URL)
                 || key.equals(STR_NOTES);
@@ -436,7 +340,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
         Iterator<Entry<String, ProtectedString>> iter = fields.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<String, ProtectedString> pair = iter.next();
-            if (!PwEntryV4.IsStandardField(pair.getKey())) {
+            if (!PwEntryV4.isStandardField(pair.getKey())) {
                 iter.remove();
             }
         }
@@ -498,10 +402,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	    return history.size();
     }
 
-    public static String getStrTitle() {
-        return STR_TITLE;
-    }
-
     public String getAdditional() {
         return additional;
     }
@@ -557,6 +457,68 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 
 	@Override
+	public void createBackup(PwDatabase db) {
+	    super.createBackup(db);
+
+        PwEntryV4 copy = clone();
+        copy.history = new ArrayList<>();
+        history.add(copy);
+
+        if (db != null)
+	        if (db instanceof PwDatabaseV4)
+                maintainBackups((PwDatabaseV4) db);
+	}
+
+	private boolean maintainBackups(PwDatabaseV4 db) {
+		boolean deleted = false;
+
+		int maxItems = db.historyMaxItems;
+		if (maxItems >= 0) {
+			while (history.size() > maxItems) {
+				removeOldestBackup();
+				deleted = true;
+			}
+		}
+
+		long maxSize = db.historyMaxSize;
+		if (maxSize >= 0) {
+			while(true) {
+				long histSize = 0;
+				for (PwEntryV4 entry : history) {
+					histSize += entry.getSize();
+				}
+
+				if (histSize > maxSize) {
+					removeOldestBackup();
+					deleted = true;
+				} else {
+					break;
+				}
+			}
+		}
+
+		return deleted;
+	}
+
+	private void removeOldestBackup() {
+		Date min = null;
+		int index = -1;
+
+		for (int i = 0; i < history.size(); i++) {
+			PwEntry entry = history.get(i);
+			Date lastMod = entry.getLastModificationTime().getDate();
+			if ((min == null) || lastMod.before(min)) {
+				index = i;
+				min = lastMod;
+			}
+		}
+
+		if (index != -1) {
+			history.remove(index);
+		}
+	}
+
+	@Override
 	public void touch(boolean modified, boolean touchParents) {
 		super.touch(modified, touchParents);
 		
@@ -572,7 +534,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		if (parent != null) {
 			return parent.isSearchEnabled();
 		}
-		
 		return PwGroupV4.DEFAULT_SEARCHING_ENABLED;
 	}
 }

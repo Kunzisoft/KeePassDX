@@ -42,10 +42,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.keepassdroid.database;
 
-import com.keepassdroid.utils.Types;
-
 import java.io.UnsupportedEncodingException;
-import java.util.Random;
 import java.util.UUID;
 
 
@@ -68,6 +65,7 @@ import java.util.UUID;
  * @author Naomaru Itoi <nao@phoneid.org>
  * @author Bill Zwicky <wrzwicky@pobox.com>
  * @author Dominik Reichl <dominik.reichl@t-online.de>
+ * @author Jeremy Jamet <jeremy.jamet@kunzisoft.com>
  */
 public class PwEntryV3 extends PwEntry {
 
@@ -81,10 +79,10 @@ public class PwEntryV3 extends PwEntry {
     private PwGroupV3 parent = null;
     private int groupId;
 
-    private byte[] uuid;
+    private UUID uuid;
+    private String title;
 	private	String username;
 	private byte[] password;
-	private String title;
 	private String url;
 	private String additional;
 
@@ -98,14 +96,73 @@ public class PwEntryV3 extends PwEntry {
 	}
 	
 	public PwEntryV3(PwGroupV3 p) {
-
 		parent = p;
-		groupId = ((PwGroupIdV3)parent.getId()).getId();
-
-        Random random = new Random();
-        uuid = new byte[16];
-        random.nextBytes(uuid);
+		groupId = ((PwGroupIdV3)parent.getId()).getId(); // TODO remove
+        uuid = UUID.randomUUID();
 	}
+
+    @Override
+    public void assign(PwEntry source) {
+        if ( ! (source instanceof PwEntryV3) ) {
+            throw new RuntimeException("DB version mix");
+        }
+        super.assign(source);
+        PwEntryV3 src = (PwEntryV3) source;
+        assign(src);
+    }
+
+    private void assign(PwEntryV3 source) {
+
+        parent = source.parent;
+        groupId = source.groupId;
+
+        uuid = source.uuid;
+        title = source.title;
+        username = source.username;
+        int passLen = source.password.length;
+        password = new byte[passLen];
+        System.arraycopy(source.password, 0, password, 0, passLen);
+        url = source.url;
+        additional = source.additional;
+
+        binaryDesc = source.binaryDesc;
+        if ( source.binaryData != null ) {
+            int descLen = source.binaryData.length;
+            binaryData = new byte[descLen];
+            System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
+        }
+    }
+
+    @Override
+    public PwEntryV3 clone() {
+        PwEntryV3 newEntry = (PwEntryV3) super.clone();
+
+        // Attributes in parent
+        addCloneAttributesToNewEntry(newEntry);
+
+        // Attributes here
+        // newEntry.parent stay the same in copy
+        // newEntry.groupId stay the same in copy
+        // newEntry.uuid stay the same in copy
+        // newEntry.title stay the same in copy
+        // newEntry.username stay the same in copy
+        if (password != null) {
+            int passLen = password.length;
+            password = new byte[passLen];
+            System.arraycopy(password, 0, newEntry.password, 0, passLen);
+        }
+        // newEntry.url stay the same in copy
+        // newEntry.additional stay the same in copy
+
+        // newEntry.binaryDesc stay the same in copy
+        if ( binaryData != null ) {
+            int descLen = binaryData.length;
+            newEntry.binaryData = new byte[descLen];
+            System.arraycopy(binaryData, 0, newEntry.binaryData, 0, descLen);
+        }
+
+        return newEntry;
+    }
 
     @Override
     public PwGroupV3 getParent() {
@@ -127,12 +184,12 @@ public class PwEntryV3 extends PwEntry {
 
     @Override
     public UUID getUUID() {
-        return Types.bytestoUUID(uuid);
+        return uuid;
     }
 
     @Override
-    public void setUUID(UUID u) {
-        uuid = Types.UUIDtoBytes(u);
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 
     @Override
@@ -192,7 +249,7 @@ public class PwEntryV3 extends PwEntry {
         }
 
         if (uuid == null) {
-            uuid = Types.UUIDtoBytes(UUID.randomUUID());
+            uuid = UUID.randomUUID();
         }
 
         if (title == null) {
@@ -304,75 +361,5 @@ public class PwEntryV3 extends PwEntry {
 		if ( !icon.isMetaStreamIcon() ) return false;
 
 		return true;
-	}
-	
-	@Override
-	public void assign(PwEntry source) {
-		
-		if ( ! (source instanceof PwEntryV3) ) {
-			throw new RuntimeException("DB version mix");
-		}
-		
-		super.assign(source);
-		
-		PwEntryV3 src = (PwEntryV3) source;
-		assign(src);
-	}
-
-	private void assign(PwEntryV3 source) {
-		title = source.title;
-		url = source.url;
-		groupId = source.groupId;
-		username = source.username;
-		additional = source.additional;
-		uuid = source.uuid;
-
-		int passLen = source.password.length;
-		password = new byte[passLen]; 
-		System.arraycopy(source.password, 0, password, 0, passLen);
-
-		setCreationTime( (PwDate) source.getCreationTime().clone() );
-		setLastModificationTime( (PwDate) source.getLastModificationTime().clone() );
-		setLastAccessTime( (PwDate) source.getLastAccessTime().clone() );
-		setExpiryTime( (PwDate) source.getExpiryTime().clone() );
-
-		binaryDesc = source.binaryDesc;
-
-		if ( source.binaryData != null ) {
-			int descLen = source.binaryData.length;
-			binaryData = new byte[descLen]; 
-			System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
-		}
-
-		parent = source.parent;
-
-	}
-	
-	@Override
-	public Object clone() {
-		PwEntryV3 newEntry = (PwEntryV3) super.clone();
-		
-		if (password != null) {
-			int passLen = password.length;
-			password = new byte[passLen]; 
-			System.arraycopy(password, 0, newEntry.password, 0, passLen);
-		}
-
-        newEntry.setCreationTime( (PwDate) getCreationTime().clone() );
-        newEntry.setLastModificationTime( (PwDate) getLastModificationTime().clone() );
-        newEntry.setLastAccessTime( (PwDate) getLastAccessTime().clone() );
-        newEntry.setExpiryTime( (PwDate) getExpiryTime().clone() );
-		
-		newEntry.binaryDesc = binaryDesc;
-
-		if ( binaryData != null ) {
-			int descLen = binaryData.length;
-			newEntry.binaryData = new byte[descLen]; 
-			System.arraycopy(binaryData, 0, newEntry.binaryData, 0, descLen);
-		}
-
-		newEntry.parent = parent;
-
-		return newEntry;
 	}
 }

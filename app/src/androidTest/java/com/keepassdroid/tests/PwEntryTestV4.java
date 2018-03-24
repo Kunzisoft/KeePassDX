@@ -19,10 +19,7 @@
  */
 package com.keepassdroid.tests;
 
-import java.util.UUID;
-
-import junit.framework.TestCase;
-
+import com.keepassdroid.database.AutoType;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
@@ -30,13 +27,17 @@ import com.keepassdroid.database.PwIconStandard;
 import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
 
+import junit.framework.TestCase;
+
+import java.util.UUID;
+
 public class PwEntryTestV4 extends TestCase {
 	public void testAssign() {
 		PwEntryV4 entry = new PwEntryV4();
 		
 		entry.setAdditional("test223");
 		
-		entry.setAutoType(entry.new AutoType());
+		entry.setAutoType(new AutoType());
 		entry.getAutoType().defaultSequence = "1324";
 		entry.getAutoType().enabled = true;
 		entry.getAutoType().obfuscationOptions = 123412432109L;

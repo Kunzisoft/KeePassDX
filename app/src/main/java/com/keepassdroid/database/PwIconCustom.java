@@ -32,6 +32,11 @@ public class PwIconCustom extends PwIcon {
 		imageData = data;
 	}
 
+    public PwIconCustom(PwIconCustom icon) {
+        uuid = icon.uuid;
+        imageData = icon.imageData;
+    }
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -19,13 +19,13 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.app.App;
+import com.keepassdroid.utils.Types;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.keepassdroid.app.App;
-import com.keepassdroid.utils.Types;
 
 /** Converting from the C Date format to the Java data format is
  *  expensive when done for every record at once.  I use this class to
@@ -115,7 +115,7 @@ public class PwDate implements Cloneable, Serializable {
 	}
 	
 	@Override
-	public Object clone() {
+	public PwDate clone() {
 		PwDate copy = new PwDate();
 		
 		if ( cDateBuilt ) {

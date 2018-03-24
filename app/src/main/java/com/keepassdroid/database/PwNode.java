@@ -30,10 +30,17 @@ import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
  */
 public abstract class PwNode implements ISmallTimeLogger, Serializable {
 
-    private PwDate creation = new PwDate();
-    private PwDate lastMod = new PwDate();
-    private PwDate lastAccess = new PwDate();
-    private PwDate expireDate = new PwDate(NEVER_EXPIRE);
+    protected PwDate creation = new PwDate();
+    protected PwDate lastMod = new PwDate();
+    protected PwDate lastAccess = new PwDate();
+    protected PwDate expireDate = new PwDate(NEVER_EXPIRE);
+
+    protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
+        newEntry.creation = creation.clone();
+        newEntry.lastMod = lastMod.clone();
+        newEntry.lastAccess = lastAccess.clone();
+        newEntry.expireDate = expireDate.clone();
+    }
 
     /**
      * Type of available Nodes

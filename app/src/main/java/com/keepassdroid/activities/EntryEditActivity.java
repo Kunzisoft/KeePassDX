@@ -38,10 +38,8 @@ import android.widget.Toast;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwIconStandard;
@@ -61,9 +59,6 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditNewField;
 import com.kunzisoft.keepass.R;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -246,21 +241,16 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 	
 	protected PwEntry populateNewEntry() {
-	    if (mEntry instanceof PwEntryV4) {
-	        // TODO backup
-            PwEntryV4 newEntry = (PwEntryV4) mEntry.clone(true);
-            newEntry.setHistory((ArrayList<PwEntryV4>) newEntry.getHistory().clone());
-            newEntry.createBackup((PwDatabaseV4) App.getDB().pm);
-        }
+        PwDatabase db = App.getDB().pm;
 
-        PwEntry newEntry = mEntry.clone(true);
+        PwEntry newEntry = mEntry.clone();
+
+        newEntry.startToDecodeReference(db);
+
+        newEntry.createBackup(db);
 
         newEntry.setLastAccessTime(new PwDate());
         newEntry.setLastModificationTime(new PwDate());
-
-        PwDatabase db = App.getDB().pm;
-
-        newEntry.startToDecodeReference(db);
 
         newEntry.setTitle(entryTitleView.getText().toString());
         if(mSelectedIconID != -1)

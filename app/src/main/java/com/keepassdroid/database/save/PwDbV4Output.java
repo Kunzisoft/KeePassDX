@@ -40,7 +40,7 @@ import com.keepassdroid.database.PwDefsV4;
 import com.keepassdroid.database.PwDeletedObject;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
-import com.keepassdroid.database.PwEntryV4.AutoType;
+import com.keepassdroid.database.AutoType;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
