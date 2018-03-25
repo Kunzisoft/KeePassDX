@@ -47,14 +47,6 @@ public enum SortNodeEnum {
         boolean ascending;
         boolean groupsBefore;
 
-        NodeComparator() {
-            this(true, true);
-        }
-
-        NodeComparator(boolean groupsBefore) {
-            this(true, groupsBefore);
-        }
-
         NodeComparator(boolean ascending, boolean groupsBefore) {
             this.ascending = ascending;
             this.groupsBefore = groupsBefore;
@@ -66,14 +58,6 @@ public enum SortNodeEnum {
      */
     public static class NodeTitleComparator extends NodeComparator {
 
-        public NodeTitleComparator() {
-            super();
-        }
-
-        public NodeTitleComparator(boolean groupsBefore) {
-            super(groupsBefore);
-        }
-
         public NodeTitleComparator(boolean ascending, boolean groupsBefore) {
             super(ascending, groupsBefore);
         }
@@ -84,7 +68,7 @@ public enum SortNodeEnum {
 
             if (object1 instanceof PwGroup) {
                 if (object2 instanceof PwGroup) {
-                    return new PwGroup.GroupNameComparator(ascending)
+                    return new GroupNameComparator(ascending)
                             .compare((PwGroup) object1, (PwGroup) object2);
                 } else if (object2 instanceof PwEntry) {
                     if(groupsBefore)
@@ -96,7 +80,7 @@ public enum SortNodeEnum {
                 }
             } else if (object1 instanceof PwEntry) {
                 if(object2 instanceof PwEntry) {
-                    return new PwEntry.EntryNameComparator(ascending)
+                    return new EntryNameComparator(ascending)
                             .compare((PwEntry) object1, (PwEntry) object2);
                 } else if (object2 instanceof PwGroup) {
                     if(groupsBefore)
@@ -121,14 +105,6 @@ public enum SortNodeEnum {
      */
     public static class NodeCreationComparator extends NodeComparator {
 
-        public NodeCreationComparator() {
-            super();
-        }
-
-        public NodeCreationComparator(boolean groupsBefore) {
-            super(groupsBefore);
-        }
-
 
         public NodeCreationComparator(boolean ascending, boolean groupsBefore) {
             super(ascending, groupsBefore);
@@ -141,7 +117,7 @@ public enum SortNodeEnum {
 
             if (object1 instanceof PwGroup) {
                 if (object2 instanceof PwGroup) {
-                    return new PwGroup.GroupCreationComparator(ascending)
+                    return new GroupCreationComparator(ascending)
                             .compare((PwGroup) object1, (PwGroup) object2);
                 } else if (object2 instanceof PwEntry) {
                     if(groupsBefore)
@@ -153,7 +129,7 @@ public enum SortNodeEnum {
                 }
             } else if (object1 instanceof PwEntry) {
                 if(object2 instanceof PwEntry) {
-                    return new PwEntry.EntryCreationComparator(ascending)
+                    return new EntryCreationComparator(ascending)
                             .compare((PwEntry) object1, (PwEntry) object2);
                 } else if (object2 instanceof PwGroup) {
                     if(groupsBefore)
@@ -171,6 +147,120 @@ public enum SortNodeEnum {
                 return object1.hashCode() - object2.hashCode();
             }
             return nodeCreationComp;
+        }
+    }
+
+    /**
+     * Group comparator by name
+     */
+    public static class GroupNameComparator implements Comparator<PwGroup> {
+
+        private boolean ascending;
+
+        public GroupNameComparator(boolean ascending) {
+            this.ascending = ascending;
+        }
+
+        public int compare(PwGroup object1, PwGroup object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int groupNameComp = object1.getName().compareToIgnoreCase(object2.getName());
+            // If same name, can be different
+            if (groupNameComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            // If descending
+            if (!ascending)
+                groupNameComp = -groupNameComp;
+
+            return groupNameComp;
+        }
+    }
+
+    /**
+     * Group comparator by name
+     */
+    public static class GroupCreationComparator implements Comparator<PwGroup> {
+
+        private boolean ascending;
+
+        public GroupCreationComparator(boolean ascending) {
+            this.ascending = ascending;
+        }
+
+        public int compare(PwGroup object1, PwGroup object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int groupCreationComp = object1.getCreationTime().getDate()
+                    .compareTo(object2.getCreationTime().getDate());
+            // If same creation, can be different
+            if (groupCreationComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            // If descending
+            if (!ascending)
+                groupCreationComp = -groupCreationComp;
+
+            return groupCreationComp;
+        }
+    }
+
+    /**
+     * Comparator of Entry by Name
+     */
+    public static class EntryNameComparator implements Comparator<PwEntry> {
+
+        private boolean ascending;
+
+        public EntryNameComparator(boolean ascending) {
+            this.ascending = ascending;
+        }
+
+        public int compare(PwEntry object1, PwEntry object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int entryTitleComp = object1.getTitle().compareToIgnoreCase(object2.getTitle());
+            // If same title, can be different
+            if (entryTitleComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            // If descending
+            if (!ascending)
+                entryTitleComp = -entryTitleComp;
+
+            return entryTitleComp;
+        }
+    }
+
+    /**
+     * Comparator of Entry by Creation
+     */
+    public static class EntryCreationComparator implements Comparator<PwEntry> {
+
+        private boolean ascending;
+
+        public EntryCreationComparator(boolean ascending) {
+            this.ascending = ascending;
+        }
+
+        public int compare(PwEntry object1, PwEntry object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int entryCreationComp = object1.getCreationTime().getDate()
+                    .compareTo(object2.getCreationTime().getDate());
+            // If same creation, can be different
+            if (entryCreationComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+            // If descending
+            if (!ascending)
+                entryCreationComp = -entryCreationComp;
+
+            return entryCreationComp;
         }
     }
 }

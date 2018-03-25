@@ -22,7 +22,6 @@ package com.keepassdroid.database;
 import com.keepassdroid.database.iterator.EntrySearchStringIterator;
 import com.keepassdroid.database.security.ProtectedString;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -215,70 +214,4 @@ public abstract class PwEntry extends PwNode implements Cloneable {
     public int hashCode() {
         return getUUID() != null ? getUUID().hashCode() : 0;
     }
-
-    /**
-     * Comparator of Entry by Name
-     */
-    public static class EntryNameComparator implements Comparator<PwEntry> {
-
-		private boolean ascending;
-
-		public EntryNameComparator() {
-			this(true);
-		}
-
-		public EntryNameComparator(boolean ascending) {
-			this.ascending = ascending;
-		}
-
-        public int compare(PwEntry object1, PwEntry object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            int entryTitleComp = object1.getTitle().compareToIgnoreCase(object2.getTitle());
-            // If same title, can be different
-            if (entryTitleComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-			// If descending
-			if (!ascending)
-				entryTitleComp = -entryTitleComp;
-
-            return entryTitleComp;
-        }
-    }
-
-    /**
-     * Comparator of Entry by Creation
-     */
-    public static class EntryCreationComparator implements Comparator<PwEntry> {
-
-		private boolean ascending;
-
-		public EntryCreationComparator() {
-			this(true);
-		}
-
-		public EntryCreationComparator(boolean ascending) {
-			this.ascending = ascending;
-		}
-
-        public int compare(PwEntry object1, PwEntry object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            int entryCreationComp = object1.getCreationTime().getDate()
-					.compareTo(object2.getCreationTime().getDate());
-            // If same creation, can be different
-            if (entryCreationComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-			// If descending
-			if (!ascending)
-				entryCreationComp = -entryCreationComp;
-
-            return entryCreationComp;
-        }
-    }
-
 }
