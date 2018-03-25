@@ -28,20 +28,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwIconStandard;
@@ -50,8 +48,8 @@ import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.RunnableOnFinish;
 import com.keepassdroid.database.edit.UpdateEntry;
 import com.keepassdroid.database.security.ProtectedString;
-import com.keepassdroid.fragments.GeneratePasswordDialogFragment;
-import com.keepassdroid.fragments.IconPickerDialogFragment;
+import com.keepassdroid.dialogs.GeneratePasswordDialogFragment;
+import com.keepassdroid.dialogs.IconPickerDialogFragment;
 import com.keepassdroid.icons.Icons;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.ProgressTask;
@@ -61,9 +59,6 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditNewField;
 import com.kunzisoft.keepass.R;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -88,12 +83,12 @@ public class EntryEditActivity extends LockingHideActivity
 
     // Views
     private ScrollView scrollView;
-    private TextView entryTitleView;
-    private TextView entryUserNameView;
-    private TextView entryUrlView;
-    private TextView entryPasswordView;
-    private TextView entryConfirmationPasswordView;
-    private TextView entryCommentView;
+    private EditText entryTitleView;
+    private EditText entryUserNameView;
+    private EditText entryUrlView;
+    private EditText entryPasswordView;
+    private EditText entryConfirmationPasswordView;
+    private EditText entryCommentView;
     private ViewGroup entryExtraFieldsContainer;
 
 	/**
@@ -102,9 +97,11 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param pw Entry to update
 	 */
 	public static void Launch(Activity act, PwEntry pw) {
-		Intent intent = new Intent(act, EntryEditActivity.class);
-        intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-		act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, EntryEditActivity.class);
+            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        }
 	}
 
 	/**
@@ -113,9 +110,11 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param pwGroup Group who will contains new entry
 	 */
 	public static void Launch(Activity act, PwGroup pwGroup) {
-		Intent intent = new Intent(act, EntryEditActivity.class);
-        intent.putExtra(KEY_PARENT, pwGroup.getId());
-        act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, EntryEditActivity.class);
+            intent.putExtra(KEY_PARENT, pwGroup.getId());
+            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        }
 	}
 	
 	@Override
@@ -123,23 +122,23 @@ public class EntryEditActivity extends LockingHideActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entry_edit);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        scrollView = (ScrollView) findViewById(R.id.entry_scroll);
+        scrollView = findViewById(R.id.entry_scroll);
         scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 
-        entryTitleView = (TextView) findViewById(R.id.entry_title);
-        entryUserNameView = (TextView) findViewById(R.id.entry_user_name);
-        entryUrlView = (TextView) findViewById(R.id.entry_url);
-        entryPasswordView = (TextView) findViewById(R.id.entry_password);
-        entryConfirmationPasswordView = (TextView) findViewById(R.id.entry_confpassword);
-        entryCommentView = (TextView) findViewById(R.id.entry_comment);
-        entryExtraFieldsContainer = (ViewGroup) findViewById(R.id.advanced_container);
+        entryTitleView = findViewById(R.id.entry_title);
+        entryUserNameView = findViewById(R.id.entry_user_name);
+        entryUrlView = findViewById(R.id.entry_url);
+        entryPasswordView = findViewById(R.id.entry_password);
+        entryConfirmationPasswordView = findViewById(R.id.entry_confpassword);
+        entryCommentView = findViewById(R.id.entry_comment);
+        entryExtraFieldsContainer = findViewById(R.id.advanced_container);
 		
 		// Likely the app has been killed exit the activity
 		Database db = App.getDB();
@@ -165,67 +164,47 @@ public class EntryEditActivity extends LockingHideActivity
 		}
 
 		View iconButton = findViewById(R.id.icon_button);
-		iconButton.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				IconPickerDialogFragment.launch(EntryEditActivity.this);
-			}
-		});
+		iconButton.setOnClickListener(v ->
+                IconPickerDialogFragment.launch(EntryEditActivity.this));
 
 		// Generate password button
 		View generatePassword = findViewById(R.id.generate_button);
-		generatePassword.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				GeneratePasswordDialogFragment generatePasswordDialogFragment = new GeneratePasswordDialogFragment();
-				generatePasswordDialogFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
-			}
-		});
+		generatePassword.setOnClickListener(v -> {
+            GeneratePasswordDialogFragment generatePasswordDialogFragment = new GeneratePasswordDialogFragment();
+            generatePasswordDialogFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
+        });
 		
 		// Save button
 		View save = findViewById(R.id.entry_save);
-		save.setOnClickListener(new View.OnClickListener() {
+		save.setOnClickListener(v -> {
+            if (!validateBeforeSaving()) {
+                return;
+            }
+            mCallbackNewEntry = populateNewEntry();
 
-			public void onClick(View v) {
-				if (!validateBeforeSaving()) {
-					return;
-				}
-                mCallbackNewEntry = populateNewEntry();
-
-				OnFinish onFinish = new AfterSave();
-                EntryEditActivity act = EntryEditActivity.this;
-                RunnableOnFinish task;
-				if ( mIsNew ) {
-					task = new AddEntry(act, App.getDB(), mCallbackNewEntry, onFinish);
-				} else {
-					task = new UpdateEntry(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
-				}
-				ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
-				pt.run();
-			}
-			
-		});
+            OnFinish onFinish = new AfterSave();
+            EntryEditActivity act = EntryEditActivity.this;
+            RunnableOnFinish task;
+            if ( mIsNew ) {
+                task = new AddEntry(act, App.getDB(), mCallbackNewEntry, onFinish);
+            } else {
+                task = new UpdateEntry(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
+            }
+            ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
+            pt.run();
+        });
 
 
 		if (mEntry.allowExtraFields()) {
             View add = findViewById(R.id.add_new_field);
             add.setVisibility(View.VISIBLE);
-            add.setOnClickListener(new View.OnClickListener() {
+            add.setOnClickListener(v -> {
+                EntryEditNewField ees = new EntryEditNewField(EntryEditActivity.this);
+                ees.setData("", new ProtectedString(false, ""));
+                entryExtraFieldsContainer.addView(ees);
 
-                @Override
-                public void onClick(View v) {
-                    EntryEditNewField ees = new EntryEditNewField(EntryEditActivity.this);
-                    ees.setData("", new ProtectedString(false, ""));
-                    entryExtraFieldsContainer.addView(ees);
-
-                    // Scroll bottom
-                    scrollView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                        }
-                    });
-                }
+                // Scroll bottom
+                scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
             });
         }
 	}
@@ -262,21 +241,18 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 	
 	protected PwEntry populateNewEntry() {
-	    if (mEntry instanceof PwEntryV4) {
-	        // TODO backup
-            PwEntryV4 newEntry = (PwEntryV4) mEntry.clone(true);
-            newEntry.history = (ArrayList<PwEntryV4>) newEntry.history.clone();
-            newEntry.createBackup((PwDatabaseV4) App.getDB().pm);
-        }
-
-        PwEntry newEntry = mEntry.clone(true);
-
-        Date now = Calendar.getInstance().getTime();
-        newEntry.setLastAccessTime(now);
-        newEntry.setLastModificationTime(now);
-
         PwDatabase db = App.getDB().pm;
-        newEntry.setTitle(entryTitleView.getText().toString(), db);
+
+        PwEntry newEntry = mEntry.clone();
+
+        newEntry.startToDecodeReference(db);
+
+        newEntry.createBackup(db);
+
+        newEntry.setLastAccessTime(new PwDate());
+        newEntry.setLastModificationTime(new PwDate());
+
+        newEntry.setTitle(entryTitleView.getText().toString());
         if(mSelectedIconID != -1)
             // or TODO icon factory newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(mSelectedIconID));
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
@@ -286,13 +262,13 @@ public class EntryEditActivity extends LockingHideActivity
             }
             else {
                 // Keep previous icon, if no new one was selected
-                newEntry.setIcon(mEntry.icon);
+                newEntry.setIcon(mEntry.getIconStandard());
             }
         }
-        newEntry.setUrl(entryUrlView.getText().toString(), db);
-        newEntry.setUsername(entryUserNameView.getText().toString(), db);
-        newEntry.setNotes(entryCommentView.getText().toString(), db);
-        newEntry.setPassword(entryPasswordView.getText().toString(), db);
+        newEntry.setUrl(entryUrlView.getText().toString());
+        newEntry.setUsername(entryUserNameView.getText().toString());
+        newEntry.setNotes(entryCommentView.getText().toString());
+        newEntry.setPassword(entryPasswordView.getText().toString());
 
         if (newEntry.allowExtraFields()) {
             // Delete all new standard strings
@@ -306,6 +282,8 @@ public class EntryEditActivity extends LockingHideActivity
                 newEntry.addField(key, new ProtectedString(protect, value));
             }
         }
+
+        newEntry.endToDecodeReference(db);
 
         return newEntry;
 	}
@@ -334,10 +312,8 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 
 	protected void fillData() {
-		ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
+		ImageButton currIconButton = findViewById(R.id.icon_button);
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
-
-		boolean visibilityFont = PreferencesUtil.fieldFontIsInVisibility(this);
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());
@@ -346,14 +322,21 @@ public class EntryEditActivity extends LockingHideActivity
         entryPasswordView.setText(password);
         entryConfirmationPasswordView.setText(password);
         entryCommentView.setText(mEntry.getNotes());
-        Util.applyFontVisibilityToTextView(visibilityFont, entryCommentView);
+
+        boolean visibilityFontActivated = PreferencesUtil.fieldFontIsInVisibility(this);
+        if (visibilityFontActivated) {
+            Util.applyFontVisibilityTo(entryUserNameView);
+            Util.applyFontVisibilityTo(entryPasswordView);
+            Util.applyFontVisibilityTo(entryConfirmationPasswordView);
+            Util.applyFontVisibilityTo(entryCommentView);
+        }
 
 		if (mEntry.allowExtraFields()) {
-            LinearLayout container = (LinearLayout) findViewById(R.id.advanced_container);
+            LinearLayout container = findViewById(R.id.advanced_container);
             for (Map.Entry<String, ProtectedString> pair : mEntry.getExtraProtectedFields().entrySet()) {
                 EntryEditNewField entryEditNewField = new EntryEditNewField(EntryEditActivity.this);
                 entryEditNewField.setData(pair.getKey(), pair.getValue());
-                entryEditNewField.setFontVisibility(visibilityFont);
+                entryEditNewField.setFontVisibility(visibilityFontActivated);
                 container.addView(entryEditNewField);
             }
         }
@@ -362,7 +345,7 @@ public class EntryEditActivity extends LockingHideActivity
     @Override
     public void iconPicked(Bundle bundle) {
         mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
-        ImageButton currIconButton = (ImageButton) findViewById(R.id.icon_button);
+        ImageButton currIconButton = findViewById(R.id.icon_button);
         currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
     }
 
@@ -382,12 +365,13 @@ public class EntryEditActivity extends LockingHideActivity
 	public void finish() {
 	    // Assign entry callback as a result in all case
 		if (mCallbackNewEntry != null) {
+            Bundle bundle = new Bundle();
 			Intent intentEntry = new Intent();
+            bundle.putSerializable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+            intentEntry.putExtras(bundle);
 			if (mIsNew) {
-				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
 				setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
 			} else {
-				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
 				setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
 			}
 		}

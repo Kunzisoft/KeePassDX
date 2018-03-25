@@ -21,26 +21,12 @@
 package com.keepassdroid.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,15 +36,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keepassdroid.app.App;
-import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.exception.SamsungClipboardException;
-import com.keepassdroid.intents.Intents;
+import com.keepassdroid.notifications.NotificationCopyingService;
+import com.keepassdroid.notifications.NotificationField;
 import com.keepassdroid.settings.PreferencesUtil;
-import com.keepassdroid.password.PasswordActivity;
-import com.keepassdroid.tasks.UIToastTask;
+import com.keepassdroid.timeout.ClipboardHelper;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
@@ -66,35 +50,35 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryContentsView;
 import com.kunzisoft.keepass.R;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import static com.keepassdroid.settings.PreferencesUtil.isClipboardNotificationsEnable;
 
 public class EntryActivity extends LockingHideActivity {
-	public static final String KEY_ENTRY = "entry";
+    private final static String TAG = EntryActivity.class.getName();
 
-	public static final int NOTIFY_USERNAME = 1;
-	public static final int NOTIFY_PASSWORD = 2;
+	public static final String KEY_ENTRY = "entry";
 
 	private ImageView titleIconView;
     private TextView titleView;
 	private EntryContentsView entryContentsView;
 	
 	protected PwEntry mEntry;
-	private Timer mTimer = new Timer();
 	private boolean mShowPassword;
-	private NotificationManager mNM;
-	private BroadcastReceiver mIntentReceiver;
 	protected boolean readOnly = false;
 
+	private ClipboardHelper clipboardHelper;
+	private boolean firstLaunchOfActivity;
+
     public static void launch(Activity act, PwEntry pw) {
-        Intent intent = new Intent(act, EntryActivity.class);
-        intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-        act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, EntryActivity.class);
+            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+            act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+        }
     }
 
 	@Override
@@ -103,7 +87,7 @@ public class EntryActivity extends LockingHideActivity {
 
         setContentView(R.layout.entry_view);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
@@ -131,112 +115,95 @@ public class EntryActivity extends LockingHideActivity {
 		}
 		
 		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
-		ActivityCompat.invalidateOptionsMenu(this);
+		invalidateOptionsMenu();
 		
 		// Update last access time.
 		mEntry.touch(false, false);
 
         // Get views
-        titleIconView = (ImageView) findViewById(R.id.entry_icon);
-        titleView = (TextView) findViewById(R.id.entry_title);
-        entryContentsView = (EntryContentsView) findViewById(R.id.entry_contents);
+        titleIconView = findViewById(R.id.entry_icon);
+        titleView = findViewById(R.id.entry_title);
+        entryContentsView = findViewById(R.id.entry_contents);
         entryContentsView.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this));
-
-		fillData();
 
 		// Setup Edit Buttons
         View edit = findViewById(R.id.entry_edit);
-        edit.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                EntryEditActivity.Launch(EntryActivity.this, mEntry);
-            }
-
-        });
+        edit.setOnClickListener(v -> EntryEditActivity.Launch(EntryActivity.this, mEntry));
         if (readOnly) {
             edit.setVisibility(View.GONE);
         }
 
-		// If notifications enabled in settings
-		if (isClipboardNotificationsEnable(getApplicationContext())) {
-            // Notification Manager
-            mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Init the clipboard helper
+        clipboardHelper = new ClipboardHelper(this);
+        firstLaunchOfActivity = true;
+	}
 
-            if (mEntry.getPassword().length() > 0) {
-                // only show notification if password is available
-                Notification password = getNotification(Intents.COPY_PASSWORD, R.string.copy_password);
-                mNM.notify(NOTIFY_PASSWORD, password);
-            }
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-            if (mEntry.getUsername().length() > 0) {
-                // only show notification if username is available
-                Notification username = getNotification(Intents.COPY_USERNAME, R.string.copy_username);
-                mNM.notify(NOTIFY_USERNAME, username);
+        // Fill data in resume to update from EntryEditActivity
+        fillData();
+        invalidateOptionsMenu();
+
+        // TODO Start decode
+
+        // If notifications enabled in settings
+        // Don't if application timeout
+        if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
+            if (mEntry.getUsername().length() > 0
+                    || (mEntry.getPassword().length() > 0 && PreferencesUtil.allowCopyPassword(this))
+                    || mEntry.containsExtraFields()) {
+                // username already copied, waiting for user's action before copy password.
+                Intent intent = new Intent(this, NotificationCopyingService.class);
+                intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
+                if (mEntry.getTitle() != null)
+                    intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
+                // Construct notification fields
+                ArrayList<NotificationField> notificationFields = new ArrayList<>();
+                // Add username if exists to notifications
+                if (mEntry.getUsername().length() > 0)
+                    notificationFields.add(
+                            new NotificationField(
+                                    NotificationField.NotificationFieldId.USERNAME,
+                                    mEntry.getUsername(),
+                                    getResources()));
+                // Add password to notifications
+                if (PreferencesUtil.allowCopyPassword(this)) {
+                    if (mEntry.getPassword().length() > 0)
+                        notificationFields.add(
+                                new NotificationField(
+                                        NotificationField.NotificationFieldId.PASSWORD,
+                                        mEntry.getPassword(),
+                                        getResources()));
+                }
+                // Add extra fields
+                if (mEntry.allowExtraFields()) {
+                    try {
+                        int anonymousFieldNumber = 0;
+                        for (Map.Entry<String, String> entry : mEntry.getExtraFields().entrySet()) {
+                            notificationFields.add(
+                                    new NotificationField(
+                                            NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
+                                            entry.getValue(),
+                                            entry.getKey(),
+                                            getResources()));
+                            anonymousFieldNumber++;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Log.w(TAG, "Only " + NotificationField.NotificationFieldId.getAnonymousFieldId().length +
+                                " anonymous notifications are available");
+                    }
+                }
+                // Add notifications
+                intent.putParcelableArrayListExtra(NotificationCopyingService.EXTRA_FIELDS, notificationFields);
+
+                startService(intent);
             }
+            // TODO end decode
         }
-			
-		mIntentReceiver = new BroadcastReceiver() {
-			
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String action = intent.getAction();
-				if ( action != null) {
-					if (action.equals(Intents.COPY_USERNAME)) {
-						String username = mEntry.getUsername();
-						if (username.length() > 0) {
-							timeoutCopyToClipboard(username);
-						}
-					} else if (action.equals(Intents.COPY_PASSWORD)) {
-						String password = mEntry.getPassword();
-						if (password.length() > 0) {
-							timeoutCopyToClipboard(password);
-						}
-					}
-				}
-			}
-		};
-		
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(Intents.COPY_USERNAME);
-		filter.addAction(Intents.COPY_PASSWORD);
-		registerReceiver(mIntentReceiver, filter);
-	}
-	
-	@Override
-	protected void onDestroy() {
-		// These members might never get initialized if the app timed out
-		if ( mIntentReceiver != null ) {
-			unregisterReceiver(mIntentReceiver);
-		}
-		
-		if ( mNM != null ) {
-			try {
-			    mNM.cancelAll();
-			} catch (SecurityException e) {
-				// Some android devices give a SecurityException when trying to cancel notifications without the WAKE_LOCK permission,
-				// we'll ignore these.
-			}
-		}
-		
-		super.onDestroy();
-	}
-
-	private Notification getNotification(String intentText, int descResId) {
-
-		String desc = getString(descResId);
-
-		Intent intent = new Intent(intentText);
-		PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-		// no longer supported for api level >22
-		// notify.setLatestEventInfo(this, getString(R.string.app_name), desc, pending);
-		// so instead using compat builder and create new notification
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-		Notification notify = builder.setContentIntent(pending).setContentText(desc).setContentTitle(getString(R.string.app_name))
-				.setSmallIcon(R.drawable.notify).setTicker(desc).setWhen(System.currentTimeMillis()).build();
-
-		return notify;
-	}
+        firstLaunchOfActivity = false;
+    }
 
     private void populateTitle(Drawable drawIcon, String text) {
         titleIconView.setImageDrawable(drawIcon);
@@ -247,59 +214,55 @@ public class EntryActivity extends LockingHideActivity {
 		Database db = App.getDB();
 		PwDatabase pm = db.pm;
 
+		mEntry.startToDecodeReference(pm);
+
 		// Assign title
         populateTitle(db.drawFactory.getIconDrawable(getResources(), mEntry.getIcon()),
-                mEntry.getTitle(true, pm));
+                mEntry.getTitle());
 
         // Assign basic fields
-        entryContentsView.assignUserName(mEntry.getUsername(true, pm));
-        entryContentsView.assignUserNameCopyListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				timeoutCopyToClipboard(mEntry.getUsername(true, App.getDB().pm),
-                        getString(R.string.copy_field, getString(R.string.entry_user_name)));
-			}
-		});
+        entryContentsView.assignUserName(mEntry.getUsername());
+        entryContentsView.assignUserNameCopyListener(view ->
+                clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),
+                getString(R.string.copy_field, getString(R.string.entry_user_name)))
+        );
 
-		entryContentsView.assignPassword(mEntry.getPassword(true, pm));
-		entryContentsView.assignPasswordCopyListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				timeoutCopyToClipboard(mEntry.getPassword(true, App.getDB().pm),
-                        getString(R.string.copy_field, getString(R.string.entry_password)));
-			}
-		});
+		entryContentsView.assignPassword(mEntry.getPassword());
+		if (PreferencesUtil.allowCopyPassword(this)) {
+            entryContentsView.assignPasswordCopyListener(view ->
+                    clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(),
+                            getString(R.string.copy_field, getString(R.string.entry_password)))
+            );
+        }
 
-        entryContentsView.assignURL(mEntry.getUrl(true, pm));
+        entryContentsView.assignURL(mEntry.getUrl());
 
         entryContentsView.setHiddenPasswordStyle(!mShowPassword);
-        entryContentsView.assignComment(mEntry.getNotes(true, pm));
+        entryContentsView.assignComment(mEntry.getNotes());
 
         // Assign custom fields
 		if (mEntry.allowExtraFields()) {
 			entryContentsView.clearExtraFields();
-			for (Map.Entry<String, String> field : mEntry.getExtraFields(pm).entrySet()) {
+			for (Map.Entry<String, String> field : mEntry.getExtraFields().entrySet()) {
                 final String label = field.getKey();
                 final String value = field.getValue();
-				entryContentsView.addExtraField(label, value, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        timeoutCopyToClipboard(value, getString(R.string.copy_field, label));
-                    }
-                });
+				entryContentsView.addExtraField(label, value, view ->
+                        clipboardHelper.timeoutCopyToClipboard(value, getString(R.string.copy_field, label)));
 			}
 		}
 
         // Assign dates
-        entryContentsView.assignCreationDate(mEntry.getCreationTime());
-        entryContentsView.assignModificationDate(mEntry.getLastModificationTime());
-        entryContentsView.assignLastAccessDate(mEntry.getLastAccessTime());
-		Date expires = mEntry.getExpiryTime();
+        entryContentsView.assignCreationDate(mEntry.getCreationTime().getDate());
+        entryContentsView.assignModificationDate(mEntry.getLastModificationTime().getDate());
+        entryContentsView.assignLastAccessDate(mEntry.getLastAccessTime().getDate());
+		Date expires = mEntry.getExpiryTime().getDate();
 		if ( mEntry.expires() ) {
 			entryContentsView.assignExpiresDate(expires);
 		} else {
             entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
+
+        mEntry.endToDecodeReference(pm);
 	}
 
 	@Override
@@ -332,26 +295,28 @@ public class EntryActivity extends LockingHideActivity {
 		inflater.inflate(R.menu.database_lock, menu);
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
-		if (!entryContentsView.isPasswordPresent()) {
-		    togglePassword.setVisible(false);
-        } else {
-            changeShowPasswordIcon(togglePassword);
+		if (entryContentsView != null && togglePassword != null) {
+            if (!entryContentsView.isPasswordPresent()) {
+                togglePassword.setVisible(false);
+            } else {
+                changeShowPasswordIcon(togglePassword);
+            }
         }
 		
 		MenuItem gotoUrl = menu.findItem(R.id.menu_goto_url);
-		
-		// In API >= 11 onCreateOptionsMenu may be called before onCreate completes
-		// so mEntry may not be set
-		if (mEntry == null) {
-			gotoUrl.setVisible(false);
-		}
-		else {
-			String url = mEntry.getUrl();
-			if (EmptyUtils.isNullOrEmpty(url)) {
-				// disable button if url is not available
-				gotoUrl.setVisible(false);
-			}
-		}
+		if (gotoUrl != null) {
+            // In API >= 11 onCreateOptionsMenu may be called before onCreate completes
+            // so mEntry may not be set
+            if (mEntry == null) {
+                gotoUrl.setVisible(false);
+            } else {
+                String url = mEntry.getUrl();
+                if (EmptyUtils.isNullOrEmpty(url)) {
+                    // disable button if url is not available
+                    gotoUrl.setVisible(false);
+                }
+            }
+        }
 		
 		return true;
 	}
@@ -385,9 +350,7 @@ public class EntryActivity extends LockingHideActivity {
                 return true;
 			
             case R.id.menu_lock:
-                App.setShutdown();
-                setResult(PasswordActivity.RESULT_EXIT_LOCK);
-                finish();
+                lockAndExit();
                 return true;
 
             case android.R.id.home :
@@ -397,30 +360,6 @@ public class EntryActivity extends LockingHideActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void timeoutCopyToClipboard(String text) {
-        timeoutCopyToClipboard(text, "");
-    }
-
-	private void timeoutCopyToClipboard(String text, String toastString) {
-        if (!toastString.isEmpty())
-            Toast.makeText(EntryActivity.this, toastString, Toast.LENGTH_LONG).show();
-
-		try {
-			Util.copyToClipboard(this, text);
-		} catch (SamsungClipboardException e) {
-			showSamsungDialog();
-			return;
-		}
-		
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String sClipClear = prefs.getString(getString(R.string.clipboard_timeout_key), getString(R.string.clipboard_timeout_default));
-		
-		long clipClearTime = Long.parseLong(sClipClear);
-		
-		if ( clipClearTime > 0 ) {
-			mTimer.schedule(new ClearClipboardTask(this, text), clipClearTime);
-		}
-	}
 
     @Override
     public void finish() {
@@ -433,55 +372,4 @@ public class EntryActivity extends LockingHideActivity {
         */
         super.finish();
     }
-
-    // Setup to allow the toast to happen in the foreground
-	final Handler uiThreadCallback = new Handler();
-
-	// Task which clears the clipboard, and sends a toast to the foreground.
-	private class ClearClipboardTask extends TimerTask {
-		
-		private final String mClearText;
-		private final Context mCtx;
-		
-		ClearClipboardTask(Context ctx, String clearText) {
-			mClearText = clearText;
-			mCtx = ctx;
-		}
-		
-		@Override
-		public void run() {
-			String currentClip = Util.getClipboard(mCtx);
-			
-			if ( currentClip.equals(mClearText) ) {
-				try {
-					Util.copyToClipboard(mCtx, "");
-					uiThreadCallback.post(new UIToastTask(mCtx, R.string.ClearClipboard));
-				} catch (SamsungClipboardException e) {
-					uiThreadCallback.post(new UIToastTask(mCtx, R.string.clipboard_error_clear));
-				}
-			}
-		}
-	}
-	
-	private void showSamsungDialog() {
-		String text = getString(R.string.clipboard_error).concat(System.getProperty("line.separator")).concat(getString(R.string.clipboard_error_url));
-		SpannableString s = new SpannableString(text);
-		TextView tv = new TextView(this);
-		tv.setText(s);
-		tv.setAutoLinkMask(RESULT_OK);
-		tv.setMovementMethod(LinkMovementMethod.getInstance());
-		Linkify.addLinks(s, Linkify.WEB_URLS);
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.clipboard_error_title)
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.setView(tv)
-			.show();
-		
-	}
 }

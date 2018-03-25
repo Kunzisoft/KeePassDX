@@ -20,69 +20,42 @@
 package com.keepassdroid.fileselect;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.utils.Util;
+import com.kunzisoft.keepass.R;
 
-public class BrowserDialog extends Dialog {
+public class BrowserDialog extends DialogFragment {
 
-	public BrowserDialog(Context context) {
-		super(context);
-	}
-
+	@NonNull
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.browser_install);
-		setTitle(R.string.file_browser);
-		
-		Button cancel = (Button) findViewById(R.id.cancel);
-		cancel.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				BrowserDialog.this.cancel();
-			}
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		// Get the layout inflater
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		View root = inflater.inflate(R.layout.browser_install, null);
+		builder.setView(root)
+				.setNegativeButton(R.string.cancel, (dialog, id) -> { });
+
+		Button market = root.findViewById(R.id.install_market);
+		market.setOnClickListener((view) -> {
+			Util.gotoUrl(getContext(), R.string.filemanager_play_store);
+			dismiss();
 		});
-		
-		Button market = (Button) findViewById(R.id.install_market);
-		market.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				Util.gotoUrl(getContext(), R.string.oi_filemanager_market);
-				BrowserDialog.this.cancel();
-			}
-		});
-		if (!isMarketInstalled()) {
-			market.setVisibility(View.GONE);
-		}
-		
-		Button web = (Button) findViewById(R.id.install_web);
-		web.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				Util.gotoUrl(getContext(), R.string.oi_filemanager_web);
-				BrowserDialog.this.cancel();
-			}
-		});
-	}
-	
-	private boolean isMarketInstalled() {
-		PackageManager pm = getContext().getPackageManager();
-		
-		try {
-			pm.getPackageInfo("com.android.vending", 0);
-		} catch (NameNotFoundException e) {
-			return false;
-		}
-		
-		return true;
-		
+
+		Button web = root.findViewById(R.id.install_web);
+		web.setOnClickListener(view -> {
+            Util.gotoUrl(getContext(), R.string.filemanager_f_droid);
+            dismiss();
+        });
+
+		return builder.create();
 	}
 
 }

@@ -27,32 +27,24 @@
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
-    <string name="add_group_title">Adicionar Grupo</string>
     <string name="algorithm">Algoritmo</string>
-    <string name="algorithm_colon">Algoritmo:</string>
     <string name="app_timeout">Tempo limite para o aplicativo</string>
     <string name="app_timeout_summary">Tempo até que o banco de dados seja travado quando o aplicativo estiver inativo.</string>
     <string name="application">Aplicação</string>
     <string name="menu_app_settings">Configurações</string>
     <string name="brackets">Parênteses</string>
     <string name="browser_intall_text">Navegação em arquivos requer o gerenciador de arquivos Open Intents, clique abaixo para instalar. Devido a algumas peculiaridades no gerenciador de arquivos, a navegação pode não funcionar na primeira vez.</string>
-    <string name="building_search_idx">Construindo índice de buscas&#8230;</string>
     <string name="cancel">Cancelar</string>
     <string name="ClearClipboard">Clipboard limpo.</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
     <string name="clipboard_timeout_summary">Tempo até limpar o clipboard após copiar usuário ou senha.</string>
-    <string name="copy_username">Copiar usuário para o clipboard</string>
-    <string name="copy_password">Copiar senha para o clipboard</string>
+    <string name="select_to_copy">Copiar %1$s para o clipboard</string>
     <string name="creating_db_key">Criando a chave do banco de dados&#8230;</string>
-    <string name="current_group">Grupo atual: </string>
-    <string name="current_group_root">Grupo atual: Raiz</string>
     <string name="database">Banco de Dados</string>
     <string name="decrypting_db">Decifrando conteúdo do banco de dados&#8230;</string>
-    <string name="decrypting_entry">Decifrando entrada</string>
     <string name="default_checkbox">Usar este banco de dados como padrão</string>
     <string name="digits">Digitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 2 ou posterior.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="select_database_file">Digite o nome do arquivo de banco de dados:</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_and_or">Digite uma senha e/ ou entre com o caminho para o arquivo de chaves do banco de dados:</string>
@@ -70,10 +62,8 @@
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo ArcFour não é suportada.</string>
     <string name="error_can_not_handle_uri">KeePass DX não pôde tratar esta uri.</string>
-    <string name="error_could_not_create_group">Erro ao criar grupo.</string>
     <string name="error_could_not_create_parent">Não foi possível criar o diretório pai.</string>
     <string name="error_database_exists">Este arquivo já existe.</string>
-    <string name="error_database_settings">Falha ao determinar as configurações do banco de dados.</string>
     <string name="error_failed_to_launch_link">Falha ao executar link.</string>
     <string name="error_filename_required">É necessário um nome de arquivo.</string>
     <string name="error_file_not_create">Não foi possível criar o arquivo:</string>
@@ -91,8 +81,6 @@
     <string name="file_not_found">Arquivo não encontrado.</string>
     <string name="file_browser">Localizador de Arquivos</string>
     <string name="generate_password">Gerar Senha</string>
-    <string name="group">Grupo</string>
-    <string name="hint_comment">comentário</string>
     <string name="hint_conf_pass">confirmar senha</string>
     <string name="hint_generated_password">senha gerada</string>
     <string name="hint_group_name">Nome do Grupo</string>
@@ -100,11 +88,8 @@
     <string name="hint_length">tamanho</string>
     <string name="password">Senha</string>
     <string name="hint_pass">senha</string>
-    <string name="hint_title">nome</string>
-    <string name="hint_url">url</string>
-    <string name="hint_username">nome de usuário</string>
-    <string name="install_from_market">Instalar a partir do Google Play</string>
-    <string name="install_from_website">Instalar a partir da Web</string>
+    <string name="install_from_play_store">Instalar a partir do Google Play</string>
+    <string name="install_from_f_droid">Instalar a partir do F-Droid</string>
     <string name="InvalidPassword">Senha ou arquivo de chaves inválidos.</string>
     <string name="invalid_db_sig">O formato do banco de dados não foi reconhecido.</string>
     <string name="length">Tamanho</string>
@@ -112,35 +97,28 @@
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
     <string name="loading_database">Carregando banco de dados&#8230;</string>
     <string name="lowercase">Letras minúsculas</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Esconder senha</string>
     <string name="maskpass_summary">Esconder senha por padrão</string>
     <string name="menu_about">Sobre</string>
     <string name="menu_change_key">Modificar Senha Mestre</string>
-    <string name="menu_create">Criar</string>
     <string name="settings">Configurações</string>
     <string name="menu_db_settings">Configurações do banco de dados</string>
     <string name="menu_delete">Deletar</string>
     <string name="menu_donate">Doaçoes</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Esconder Senha</string>
-    <string name="menu_homepage">Ir para a página inicial</string>
     <string name="menu_lock">Trancar banco de dados</string>
     <string name="menu_open">Abrir</string>
-    <string name="menu_rename">Renomear</string>
     <string name="menu_search">Procurar</string>
     <string name="menu_showpass">Mostrar senha</string>
     <string name="menu_url">Ir para URL</string>
     <string name="minus">Menos</string>
     <string name="never">Nunca</string>
-    <string name="no_keys">Nenhuma entrada no grupo.</string>
     <string name="no_results">Sem resultados na busca.</string>
     <string name="no_url_handler">Erro ao tratar url.</string>
     <string name="open_recent">Abrir banco de dados recente :</string>
     <string name="omitbackup_title">Não procurar entradas no backup ou na lixeira.</string>
     <string name="omitbackup_summary">Omitir os grupos \'Backup\' e \'Lixeira\' dos resultados da busca</string>
-    <string name="pass_filename">Arquivo de banco de dados do KeePass:</string>
-    <string name="password_title">Digite a senha do banco de dados</string>
     <string name="progress_create">Criando novo banco de dados&#8230;</string>
     <string name="progress_title">Trabalhando&#8230;</string>
     <string name="remember_keyfile_summary">Lembrar o local dos arquivos de chave</string>
@@ -154,11 +132,9 @@
     <string name="saving_database">Salvando banco de dados&#8230;</string>
     <string name="space">Spaço</string>
     <string name="search_label">Busca</string>
-    <string name="show_password">Mostrar senha</string>
-    <string name="sort_name">Ordenar por nome</string>
     <string name="sort_db">Ordenação do banco de dados</string>
     <string name="special">Caracteres Especiais</string>
-    <string name="search_hint">Título/Descrição da entrada</string>
+    <string name="search">Título/Descrição da entrada</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Versão de banco de dados não suportada.</string>
@@ -175,6 +151,7 @@
     	<item>1 minuto</item>
     	<item>5 minutos</item>
     	<item>15 minutos</item>
+    	<item>30 minutos</item>
     	<item>Nunca</item>
     </string-array>
     <string-array name="list_size_options">

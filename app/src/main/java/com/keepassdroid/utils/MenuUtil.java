@@ -7,11 +7,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.BuildConfig;
-import com.kunzisoft.keepass.R;
 import com.keepassdroid.activities.AboutActivity;
 import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.stylish.StylishActivity;
+import com.kunzisoft.keepass.BuildConfig;
+import com.kunzisoft.keepass.R;
 
 
 public class MenuUtil {
@@ -37,13 +37,20 @@ public class MenuUtil {
     }
 
     public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item) {
+        return onDefaultMenuOptionsItemSelected(activity, item, false);
+    }
+
+    /*
+     * @param checkLock Check the time lock before launch settings in LockingActivity
+     */
+    public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item, boolean checkLock) {
         switch (item.getItemId()) {
             case R.id.menu_donate:
                 return onDonationItemSelected(activity);
 
             case R.id.menu_app_settings:
-                Intent i = new Intent(activity, SettingsActivity.class);
-                activity.startActivity(i);
+                // To avoid flickering when launch settings in a LockingActivity
+                SettingsActivity.launch(activity, checkLock);
                 return true;
 
             case R.id.menu_about:

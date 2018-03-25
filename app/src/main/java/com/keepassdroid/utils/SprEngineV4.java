@@ -30,7 +30,7 @@ import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.SearchParametersV4;
 
-public class SprEngineV4 extends SprEngine {
+public class SprEngineV4 {
 	private final int MAX_RECURSION_DEPTH = 12;
 	private final String STR_REF_START = "{REF:";
 	private final String STR_REF_END = "}";
@@ -45,7 +45,6 @@ public class SprEngineV4 extends SprEngine {
 		}
 	}
 
-	@Override
 	public String compile(String text, PwEntry entry, PwDatabase database) {
 		SprContextV4 ctx = new SprContextV4((PwDatabaseV4)database, (PwEntryV4)entry);
 		

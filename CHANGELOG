@@ -1,3 +1,15 @@
+KeepassDX (2.5.0.0beta7)
+ * Rebuild Notifications
+ * Change links to https
+ * Add extended Ascii (ñæËÌÂÝÜ...)
+ * Upgrade custom visibility font
+ * Best fingerprint error management
+ * Add setting to prevent the password copy
+ * Fix bugs
+
+KeepassDX (2.5.0.0beta6)
+ * Fix crash
+
 KeepassDX (2.5.0.0beta5)
  * Autofill (Android O)
  * Deletion for group

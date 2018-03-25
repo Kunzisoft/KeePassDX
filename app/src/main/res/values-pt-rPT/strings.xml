@@ -26,19 +26,15 @@
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
-    <string name="add_group_title">Adicionar grupo</string>
     <string name="add_string">Adicionar linha</string>
     <string name="algorithm">Algoritmo</string>
-    <string name="algorithm_colon">Algoritmo:</string>
     <string name="app_timeout">Tempo de espera da aplicação</string>
     <string name="app_timeout_summary">Tempo antes do bloqueio da base de dados quando a aplicação está inativa.</string>
     <string name="application">Aplicação</string>
     <string name="menu_app_settings">Definições da aplicação</string>
     <string name="beta_dontask">Não mostrar novamente</string>
-    <string name="beta_warning">O suporte para guardar alterações para ficheiros kdbx é EXPERIMENTAL. Faça cópias de segurança da sua base de dados antes de guardar as alterações.</string>
     <string name="brackets">Parênteses</string>
     <string name="browser_intall_text">A exploração de ficheiros requer o gestor de ficheiros Open Itents, clique em baixo para instalar. Devido a algumas particularidades no gestor de ficheiros, a exploração pode não funcionar corretamente na primeira vez.</string>
-    <string name="building_search_idx">A construír o indíce de pesquisa&#8230;</string>
     <string name="cancel">Cancelar</string>
     <string name="ClearClipboard">Área de transferência limpa.</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
@@ -46,18 +42,13 @@
     <string name="clipboard_error_clear">A limpeza da área de transferência falhou</string>
     <string name="clipboard_timeout">Tempo de espera da área de transferência</string>
     <string name="clipboard_timeout_summary">Tempo antes da limpeza da área de transferência depois de copiado o nome de utilizador ou a palavra-passe.</string>
-    <string name="copy_username">Selecione para copiar o nome de utilizador para a área de transferência</string>
-    <string name="copy_password">Selecione para copiar a palavra-passe para a área de transferência</string>
+    <string name="select_to_copy">Selecione para copiar %1$s para a área de transferência</string>
     <string name="creating_db_key">A criar a chave da base de dados&#8230;</string>
-    <string name="current_group">Grupo atual: </string>
-    <string name="current_group_root">Grupo atual: Raiz</string>
     <string name="database">Base de dados</string>
     <string name="decrypting_db">A desencriptar conteúdo da base de dados&#8230;</string>
-    <string name="decrypting_entry">A desencriptar entrada</string>
     <string name="default_checkbox">Utilizar esta base de dados como predefinida</string>
     <string name="digits">Dígitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 2 ou superior.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="select_database_file">Introduza o nome do ficheiro da base de dados:</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_and_or">Introduza a palavra-passe e/ou o ficheiro chave para desbloquear a base de dados:</string>
@@ -76,10 +67,8 @@
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="error_arc4">A cifra de fluxo ArcFour não é suportada.</string>
     <string name="error_can_not_handle_uri">O KeePass DX não suporta esta URI.</string>
-    <string name="error_could_not_create_group">Erro ao criar grupo.</string>
     <string name="error_could_not_create_parent">Não foi possível criar diretório pai.</string>
     <string name="error_database_exists">Este ficheiro já existe.</string>
-    <string name="error_database_settings">Falha ao determinar as definições da base de dados.</string>
     <string name="error_failed_to_launch_link">Falha ao abrir hiperligação.</string>
     <string name="error_filename_required">É obrigatório introduzir um nome para o ficheiro.</string>
     <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
@@ -101,8 +90,6 @@
     <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir do seu fornecedor de conteúdo.</string>
     <string name="file_browser">Explorador de ficheiros</string>
     <string name="generate_password">Gerar palavra-passe</string>
-    <string name="group">Grupo</string>
-    <string name="hint_comment">comentário</string>
     <string name="hint_conf_pass">confirmar palavra-passe</string>
     <string name="hint_generated_password">palavra-passe gerada</string>
     <string name="hint_group_name">Nome do grupo</string>
@@ -110,11 +97,8 @@
     <string name="hint_length">comprimento</string>
     <string name="hint_pass">palavra-passe</string>
     <string name="password">Palavra-passe</string>
-    <string name="hint_title">nome</string>
-    <string name="hint_url">url</string>
-    <string name="hint_username">nome de utilizador</string>
-    <string name="install_from_market">Instalar pela Play Store</string>
-    <string name="install_from_website">Instalar pela Web</string>
+    <string name="install_from_play_store">Instalar pela Play Store</string>
+    <string name="install_from_f_droid">Instalar pela F-Droid</string>
     <string name="InvalidPassword">Palavra-passe ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo inválido.</string>
     <string name="invalid_db_sig">Formato da base de dados não reconhecido.</string>
@@ -125,35 +109,28 @@
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
     <string name="loading_database">A carregar base de dados&#8230;</string>
     <string name="lowercase">Minúsculas</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Mascarar palavra-passe</string>
     <string name="maskpass_summary">Ocultar as palavras-passe por predefinição</string>
     <string name="menu_about">Sobre</string>
     <string name="menu_change_key">Alterar chave mestre</string>
-    <string name="menu_create">Criar</string>
     <string name="settings">Definições</string>
     <string name="menu_db_settings">Definições da base de dados</string>
     <string name="menu_delete">Eliminar</string>
     <string name="menu_donate">Fazer donativo</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Ocultar palavra-passe</string>
-    <string name="menu_homepage">Ir para a página inicial</string>
     <string name="menu_lock">Bloquear base de dados</string>
     <string name="menu_open">Abrir</string>
-    <string name="menu_rename">Renomear</string>
     <string name="menu_search">Pesquisar</string>
     <string name="menu_showpass">Mostrar palavra-passe</string>
     <string name="menu_url">Ir para o URL</string>
     <string name="minus">Menos</string>
     <string name="never">Nunca</string>
-    <string name="no_keys">Sem entradas na base de dados ou grupo.</string>
     <string name="no_results">A pesquisa não obteve resultados</string>
     <string name="no_url_handler">Sem suporte para este URL.</string>
     <string name="open_recent">Abrir base de dados recente :</string>
     <string name="omitbackup_title">Não pesquisar entradas nas cópias de segurança</string>
     <string name="omitbackup_summary">Omitir o grupo \"Backup\" dos resultados da pesquisa (aplica-se apenas a ficheiros .kdb)</string>
-    <string name="pass_filename">Nome do ficheiro da base de dados KeePass:</string>
-    <string name="password_title">Introduza a palavra-passe da base de dados</string>
     <string name="progress_create">A criar nova base de dados&#8230;</string>
     <string name="progress_title">Em funcionamento&#8230;</string>
     <string name="protection">Proteção</string>
@@ -173,11 +150,9 @@
     <string name="saving_database">A guardar base de dados&#8230;</string>
     <string name="space">Espaço</string>
     <string name="search_label">Pesquisar</string>
-    <string name="show_password">Mostrar palavra-passe</string>
-    <string name="sort_name">Ordenar por nome</string>
     <string name="sort_db">Ordenação da BD</string>
     <string name="special">Especiais</string>
-    <string name="search_hint">Título/descrição da entrada</string>
+    <string name="search">Título/descrição da entrada</string>
     <string name="search_results">Resultados da pesquisa</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Sublinhado</string>
@@ -199,6 +174,7 @@
     	<item>1 minuto</item>
     	<item>5 minutos</item>
     	<item>15 minutos</item>
+    	<item>30 minutos</item>
     	<item>Nunca</item>
     </string-array>
     <string-array name="list_size_options">

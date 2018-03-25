@@ -52,7 +52,7 @@ public abstract class EntrySearchHandler extends EntryHandler<PwEntry> {
 			return true;
 		}
 		
-		if (sp.excludeExpired && entry.expires() && now.after(entry.getExpiryTime())) {
+		if (sp.excludeExpired && entry.expires() && now.after(entry.getExpiryTime().getDate())) {
 			return true;
 		}
 		

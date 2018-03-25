@@ -27,18 +27,14 @@
     <string name="accept">Přijat</string>
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>
-    <string name="add_group_title">Přidat skupinu</string>
     <string name="algorithm">Algoritmus</string>
-    <string name="algorithm_colon">Algoritmus:</string>
     <string name="app_timeout">Časový limit aplikace</string>
     <string name="app_timeout_summary">Čas před zamknutím databáze, když je aplikace neaktivní.</string>
     <string name="application">Aplikace</string>
     <string name="menu_app_settings">Nastavení aplikace</string>
     <string name="beta_dontask">Znovu nezobrazovat</string>
-    <string name="beta_warning">Podpora pro ukládání změn do kdbx souborů je EXPERIMENTÁLNÍ. Vytvořte si zálohy databází před ukládáním změn.</string>
     <string name="brackets">Závorky</string>
     <string name="browser_intall_text">Procházení souborů vyžaduje Open Intents File Manager, klikněte níže pro jeho nainstalování. Kvůli zvláštnostem ve správci souborů, nemusí procházení správně fungovat při prvním spuštění.</string>
-    <string name="building_search_idx">Vytvářím vyhledávací index&#8230;</string>
     <string name="cancel">Storno</string>
     <string name="ClearClipboard">Schránka vyčištěna.</string>
     <string name="clipboard_error_title">Chyba schránkyr</string>
@@ -46,18 +42,13 @@
     <string name="clipboard_error_clear">Vyčištění schránky selhalo</string>
     <string name="clipboard_timeout">Časový limit schránky</string>
     <string name="clipboard_timeout_summary">Čas před vyčištěním schránky po zkopírování jména nebo hesla</string>
-    <string name="copy_username">Kopírovat uživatelské jméno do schránky</string>
-    <string name="copy_password">Kopírovat heslo do schránky</string>
+    <string name="select_to_copy">Kopírovat %1$s do schránky</string>
     <string name="creating_db_key">Vytvářím databázový klíč&#8230;</string>
-    <string name="current_group">Aktuální skupina: </string>
-    <string name="current_group_root">Aktuální skupina: Kořen</string>
     <string name="database">Databáze</string>
     <string name="decrypting_db">Dešifruji obsah databáze&#8230;</string>
-    <string name="decrypting_entry">Dešifruji záznam</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Čísla</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="select_database_file">Zadejte názvev souboru databáze:</string>
     <string name="entry_accessed">Poslední přístup</string>
     <string name="entry_and_or">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze:</string>
@@ -76,10 +67,8 @@
     <string name="entry_user_name">Uživatelské jméno</string>
     <string name="error_arc4">ArcFour stream šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePass DX nemůže zpracovat tuto uri.</string>
-    <string name="error_could_not_create_group">Chyba při vytváření skupiny.</string>
     <string name="error_could_not_create_parent">Nelze vyvořit nadřazený adresář.</string>
     <string name="error_database_exists">Tento soubor již existuje.</string>
-    <string name="error_database_settings">Chyba při zjišťování nastavení databáze.</string>
     <string name="error_failed_to_launch_link">Nelze spustit odkaz.</string>
     <string name="error_filename_required">Je požadováno jméno souboru.</string>
     <string name="error_file_not_create">Nelze vytvořit soubor:</string>
@@ -100,8 +89,6 @@
     <string name="file_not_found">Soubor nenalezen.</string>
     <string name="file_browser">Správce souborů</string>
     <string name="generate_password">Generovat heslo</string>
-    <string name="group">Skupina</string>
-    <string name="hint_comment">poznámka</string>
     <string name="hint_conf_pass">potvrdit heslo</string>
     <string name="hint_generated_password">generované heslo</string>
     <string name="hint_group_name">Název skupiny</string>
@@ -109,11 +96,8 @@
     <string name="hint_length">délka</string>
     <string name="hint_pass">heslo</string>
     <string name="password">Heslo</string>
-    <string name="hint_title">název</string>
-    <string name="hint_url">url</string>
-    <string name="hint_username">uživatelské jméno</string>
-    <string name="install_from_market">Instalovat z Play</string>
-    <string name="install_from_website">Instalovat z webu</string>
+    <string name="install_from_play_store">Instalovat z Play</string>
+    <string name="install_from_f_droid">Instalovat z F-Droid</string>
     <string name="InvalidPassword">Chybné heslo nebo klíčový soubor.</string>
     <string name="invalid_algorithm">Chybný algoritmus.</string>
     <string name="invalid_db_sig">Databázový formát nelze rozpoznat.</string>
@@ -124,35 +108,28 @@
     <string name="list_size_summary">Velikost textu v seznamu skupin</string>
     <string name="loading_database">Načítám databázi&#8230;</string>
     <string name="lowercase">Malá písmena</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Skrýt heslo</string>
     <string name="maskpass_summary">Skrýt heslo jako výchozí</string>
     <string name="menu_about">O aplikaci</string>
     <string name="menu_change_key">Změnit hlavní klíč</string>
-    <string name="menu_create">Vytvořit</string>
     <string name="settings">Nastavení</string>
     <string name="menu_db_settings">Nastavení databáze</string>
     <string name="menu_delete">Smazat</string>
     <string name="menu_donate">Přispět</string>
     <string name="menu_edit">Změnit</string>
     <string name="menu_hide_password">Skrýt heslo</string>
-    <string name="menu_homepage">Jít na domovskou stránku</string>
     <string name="menu_lock">Zamknout databázi</string>
     <string name="menu_open">Otevřít</string>
-    <string name="menu_rename">Přejmenovat</string>
     <string name="menu_search">Hledat</string>
     <string name="menu_showpass">Zobrazit heslo</string>
     <string name="menu_url">Jdi na URL</string>
     <string name="minus">Mínus</string>
     <string name="never">Nikdy</string>
-    <string name="no_keys">Žádný záznam v databázi nebo ve skupině.</string>
     <string name="no_results">žádný výsledek hledání</string>
     <string name="no_url_handler">Žádný handler pro toto url.</string>
     <string name="open_recent">Otevřít poslední databázi :</string>
     <string name="omitbackup_title">Neprohledávat zálohy a koš</string>
     <string name="omitbackup_summary">Vynechat skupiny Záloha a Koš ve výsledcích hledání</string>
-    <string name="pass_filename">Název souboru KeePass databáze:</string>
-    <string name="password_title">Zadejte heslo do databáze</string>
     <string name="progress_create">Vytvářím novou databázi&#8230;</string>
     <string name="progress_title">Zpracovávám&#8230;</string>
     <string name="protection">Protection</string>
@@ -171,11 +148,9 @@
     <string name="saving_database">Ukládám databázi&#8230;</string>
     <string name="space">Místo</string>
     <string name="search_label">Hledat</string>
-    <string name="show_password">Zobrazit heslo</string>
-    <string name="sort_name">Seřadit podle jména</string>
     <string name="sort_db">Seřadit podle DB</string>
     <string name="special">Speciální</string>
-    <string name="search_hint">Zadejte název/popis</string>
+    <string name="search">Zadejte název/popis</string>
     <string name="search_results">Výsledky hledání</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Podtrženo</string>
@@ -193,6 +168,7 @@
     	<item>1 minuta</item>
     	<item>5 minut</item>
     	<item>15 minut</item>
+    	<item>30 minut</item>
     	<item>Nikdy</item>
     </string-array>
     <string-array name="list_size_options">

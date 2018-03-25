@@ -26,18 +26,14 @@
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>
-    <string name="add_group_title">Taldea gehitu</string>
     <string name="algorithm">Algoritmoa</string>
-    <string name="algorithm_colon">Algoritmoa:</string>
     <string name="app_timeout">Aplikazioa itzaltzeko denbora</string>
     <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
     <string name="application">Aplikazioa</string>
     <string name="menu_app_settings">Aplikazioaren ezarpenak</string>
     <string name="beta_dontask">Ez erakutsi berriro</string>
-    <string name="beta_warning">kdbx fitxategietan aldatzeko euskarria ESPERIMENTALA da. Egin zure datubasearen segurtasun kopiak aldaketak gorde baino lehenago.</string>
     <string name="brackets">Brackets</string>
     <string name="browser_intall_text">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
-    <string name="building_search_idx">Bilatzeko aurkibidea sortzen&#8230;</string>
     <string name="cancel">Utzi</string>
     <string name="ClearClipboard">Arbela ezabatuta.</string>
     <string name="clipboard_error_title">Arbelean errorea</string>
@@ -45,18 +41,13 @@
     <string name="clipboard_error_clear">Arbela ezabatzen errorea</string>
     <string name="clipboard_timeout">Arbela denbora pasatu da</string>
     <string name="clipboard_timeout_summary">Erabiltzaile izena edo pasahitza kopiatu ondoren arbela ezabatzeko igaro beharreko denbora</string>
-    <string name="copy_username">Aukeratu erabiltzaile izena edo pasahitza kopiatzeko</string>
-    <string name="copy_password">Aukeratu pasahitza arbelera kopiatzeko</string>
+    <string name="select_to_copy">Aukeratu %1$s arbelera kopiatzeko</string>
     <string name="creating_db_key">Datubasearen gakoa sortzen&#8230;</string>
-    <string name="current_group">Oraingo taldea: </string>
-    <string name="current_group_root">Oraingo taldea: Root</string>
     <string name="database">Datubasea</string>
     <string name="decrypting_db">Datubasearen datuak desenkriptatzen&#8230;</string>
-    <string name="decrypting_entry">Sarrera desenkriptatzen</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu:</string>
     <string name="entry_accessed">Akzesoa</string>
     <string name="entry_and_or">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko:</string>
@@ -75,10 +66,8 @@
     <string name="entry_user_name">Erabiltzaile izena</string>
     <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
     <string name="error_can_not_handle_uri">KeePass DX-ek ezin dut uri hau kudeatu.</string>
-    <string name="error_could_not_create_group">Errorea taldea sortzerakoan.</string>
     <string name="error_could_not_create_parent">Ezin izan da aita-direktorioa sortu.</string>
     <string name="error_database_exists">Fitxategia esistitzen da.</string>
-    <string name="error_database_settings">Ezin izan dira zehaztu datubasearen ezarpenak.</string>
     <string name="error_failed_to_launch_link">Ezin izan da esteka ireki.</string>
     <string name="error_filename_required">Fitxategi izen bat beharrezkoa da.</string>
     <string name="error_file_not_create">Ezin izan da fitxategia sortu:</string>
@@ -99,8 +88,6 @@
     <string name="file_not_found">Fitxategi ez aurkitua.</string>
     <string name="file_browser">Fitxategien nabigatzailea</string>
     <string name="generate_password">Pasahitza sortu</string>
-    <string name="group">Taldea</string>
-    <string name="hint_comment">iruzkina</string>
     <string name="hint_conf_pass">pasahitza berretsi</string>
     <string name="hint_generated_password">sortutako pasahitza</string>
     <string name="hint_group_name">Taldearen izena</string>
@@ -108,11 +95,8 @@
     <string name="hint_length">luzera</string>
     <string name="hint_pass">pasahitza</string>
     <string name="password">Pasahitza</string>
-    <string name="hint_title">izena</string>
-    <string name="hint_url">url</string>
-    <string name="hint_username">erabiltzaile izena</string>
-    <string name="install_from_market">Play store-etik Instalatu</string>
-    <string name="install_from_website">Web-etik Instalatu</string>
+    <string name="install_from_play_store">Play store-etik Instalatu</string>
+    <string name="install_from_f_droid">F-Droid-etik Instalatu</string>
     <string name="InvalidPassword">Pasahitz edo gako fitxategi baliogabea.</string>
     <string name="invalid_algorithm">Algoritmo baliogabea.</string>
     <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>
@@ -123,35 +107,28 @@
     <string name="list_size_summary">Testuaren tamaina taldearen listan</string>
     <string name="loading_database">Datubasea kargatzen&#8230;</string>
     <string name="lowercase">minuskulak</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Pasahitza estali</string>
     <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
     <string name="menu_about">Honi buruz</string>
     <string name="menu_change_key">Gako Maisua Aldatu</string>
-    <string name="menu_create">Sortu</string>
     <string name="settings">Ezarpenak</string>
     <string name="menu_db_settings">Datubasearen ezarpenak</string>
     <string name="menu_delete">Ezabatu</string>
     <string name="menu_donate">Dirua eman</string>
     <string name="menu_edit">Editatu</string>
     <string name="menu_hide_password">Pasahitza Ezkutatu</string>
-    <string name="menu_homepage">Hasierako orrira joan</string>
     <string name="menu_lock">Datubasea Blokeatu</string>
     <string name="menu_open">Ireki</string>
-    <string name="menu_rename">Izena aldatu</string>
     <string name="menu_search">Bilatu</string>
     <string name="menu_showpass">Pasahitza erakutsi</string>
     <string name="menu_url">URLra joan</string>
     <string name="minus">Minus</string>
     <string name="never">Inoiz ez</string>
-    <string name="no_keys">Sarrerarik ez datubasean edo taldean.</string>
     <string name="no_results">Emaitzarik gabeko bilaketa</string>
     <string name="no_url_handler">URL kudatzeko euskarririk ez.</string>
     <string name="open_recent">Duela gutxiko datubasea ireki :</string>
     <string name="omitbackup_title">Ez bilatu segurtasun kopiaren sarreretan</string>
     <string name="omitbackup_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
-    <string name="pass_filename">Keepass datubasearen izena:</string>
-    <string name="password_title">Sartu datubasearen pasahitza</string>
     <string name="progress_create">Datubase berria sortzen&#8230;</string>
     <string name="progress_title">Lanean&#8230;</string>
     <string name="protection">Babesa</string>
@@ -168,11 +145,9 @@
     <string name="saving_database">Datubasea gordetzen&#8230;</string>
     <string name="space">Lekua</string>
     <string name="search_label">Bilatu</string>
-    <string name="show_password">Pasahitza erakutsi</string>
-    <string name="sort_name">Izenaren arabera ordenatu</string>
     <string name="sort_db">DB-a antolatzeko ordena</string>
     <string name="special">Berezia</string>
-    <string name="search_hint">Sarreraren Izena / Deskribapena</string>
+    <string name="search">Sarreraren Izena / Deskribapena</string>
     <string name="search_results">Bilaketaren emaitzak</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Azpimarratu</string>
@@ -190,6 +165,7 @@
     	<item>minutu 1</item>
     	<item>5 minutu</item>
     	<item>15 minutu</item>
+    	<item>30 minutu</item>
     	<item>Inoiz ez</item>
     </string-array>
     <string-array name="list_size_options">

@@ -24,36 +24,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.text.ClipboardManager;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.text.style.StrikethroughSpan;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import com.keepassdroid.database.exception.SamsungClipboardException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class Util {
-	public static String getClipboard(Context context) {
-		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-		CharSequence csText = clipboard.getText();
-		if (csText == null) {
-			return "";
-		}
 
-		return csText.toString();
-	}
-
-	public static void copyToClipboard(Context context, String text) throws SamsungClipboardException {
-		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-
-		try {
-			clipboard.setText(text);
-		} catch (NullPointerException e) {
-			throw new SamsungClipboardException(e);
-		}
-	}
-	
 	public static void gotoUrl(Context context, String url) throws ActivityNotFoundException {
 		if ( url != null && url.length() > 0 ) {
 			Uri uri = Uri.parse(url);
@@ -73,9 +57,66 @@ public class Util {
 		}
 	}
 
-	public static void applyFontVisibilityToTextView(boolean applyMonospace, TextView textView) {
-	    if (applyMonospace)
-		    textView.setTypeface(Typeface.MONOSPACE);
+	private final static String stringToStrikeThrough = "0";
+
+    /**
+     * Replace font by monospace and strike through all zeros, must be called after seText()
+     */
+    public static void applyFontVisibilityTo(final TextView textView) {
+        textView.setText(strikeThroughToZero(textView.getText()));
+        textView.setTypeface(Typeface.MONOSPACE);
+    }
+
+    /**
+     * Replace font by monospace and strike through all zeros, must be called after seText()
+     */
+	public static void applyFontVisibilityTo(final EditText editText) {
+        // Assign spans to default text
+        editText.setText(strikeThroughToZero(editText.getText()));
+        // Add spans for each new 0 character
+        class TextWatcherCustomFont implements TextWatcher {
+
+            private boolean applySpannable;
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                applySpannable = count < after;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (applySpannable) {
+                    String text = charSequence.toString();
+                    if (text.contains(stringToStrikeThrough)) {
+                        for (int index = text.indexOf(stringToStrikeThrough);
+                                index >= 0; index = text.indexOf(stringToStrikeThrough,
+                                index + 1)) {
+                            editText.getText().setSpan(new StrikethroughSpan(),
+                                    index,
+                                    index + stringToStrikeThrough.length(),
+                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        };
+        TextWatcher textWatcher = new TextWatcherCustomFont();
+        editText.addTextChangedListener(textWatcher);
+        editText.setTypeface(Typeface.MONOSPACE);
 	}
 
+	private static CharSequence strikeThroughToZero(final CharSequence text) {
+	    if (text.toString().contains(stringToStrikeThrough)) {
+            SpannableString spannable = new SpannableString(stringToStrikeThrough);
+            spannable.setSpan(new StrikethroughSpan(),
+                    0,
+                    stringToStrikeThrough.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return SpannableReplacer.replace(text, stringToStrikeThrough, spannable);
+        }
+        return text;
+    }
 }

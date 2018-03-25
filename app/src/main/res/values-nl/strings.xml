@@ -26,32 +26,24 @@
     <string name="accept">Aanvaarden</string>
     <string name="add_entry">Record toevoegen</string>
     <string name="add_group">Groep toevoegen</string>
-    <string name="add_group_title">Groep toevoegen</string>
     <string name="algorithm">Algoritme</string>
-    <string name="algorithm_colon">Algoritme:</string>
     <string name="app_timeout">Applicatietimeout</string>
     <string name="app_timeout_summary">Tijd tot het vergrendelen van de database bij inactiviteit.</string>
     <string name="application">Applicatie</string>
     <string name="menu_app_settings">Applicatieinstellingen</string>
     <string name="brackets">Haakjes</string>
     <string name="browser_intall_text">Een bestand opzoeken kan alleen met de Open Intents File Manager, klik hieronder om die te installeren. Door gebreken in deze file manager kan het opzoeken van een bestand echter de eerste keer mislukken.</string>
-    <string name="building_search_idx">Zoekindex wordt opgebouwd&#8230;</string>
     <string name="cancel">Annuleren</string>
     <string name="ClearClipboard">Klembord gewist.</string>
     <string name="clipboard_timeout">Klembordtimeout</string>
     <string name="clipboard_timeout_summary">Tijd tussen het kopiëren van gebruikersnaam of wachtwoord en het wissen van het klembord</string>
-    <string name="copy_username">Selecteer om gebruikersnaam naar klembord te kopiëren</string>
-    <string name="copy_password">Selecteer om wachtwoord naar klembord te kopiëren</string>
+    <string name="select_to_copy">Selecteer om %1$s naar klembord te kopiëren</string>
     <string name="creating_db_key">Databasesleutel wordt aangemaakt&#8230;</string>
-    <string name="current_group">Huidige groep: </string>
-    <string name="current_group_root">Huidige groep: Top</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Databaseinhoud wordt ontcijferd&#8230;</string>
-    <string name="decrypting_entry">Record wordt ontcijferd</string>
     <string name="default_checkbox">Gebruik dit als mijn standaard database</string>
     <string name="digits">Cijfers</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft biedt GEEN ENKELE GARANTIE; Dit is vrije software, u mag deze software verspreiden onder de voorwaarden van de GPL versie 2 of recenter.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="select_database_file">Geef de databasebestandsnaam:</string>
     <string name="entry_accessed">Laatst benaderd</string>
     <string name="entry_and_or">Geef het wachtwoord en/of het sleutelbestand om uw database te ontgrendelen:</string>
@@ -69,10 +61,8 @@
     <string name="entry_user_name">Gebruikersnaam</string>
     <string name="error_arc4">De ArcFour stream-versleuteling wordt niet ondersteund.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan deze uri niet verwerken.</string>
-    <string name="error_could_not_create_group">Fout bij het aanmaken van de groep.</string>
     <string name="error_could_not_create_parent">Kan de hogerliggende map niet aanmaken.</string>
     <string name="error_database_exists">Dit bestand bestaat reeds.</string>
-    <string name="error_database_settings">Kon de instellingen van de database niet bepalen.</string>
     <string name="error_failed_to_launch_link">Kon de koppeling niet opstarten.</string>
     <string name="error_filename_required">Een bestandsnaam ontbreekt.</string>
     <string name="error_file_not_create">Kon het bestand niet aanmaken:</string>
@@ -90,8 +80,6 @@
     <string name="file_not_found">Bestand niet gevonden.</string>
     <string name="file_browser">Verkenner</string>
     <string name="generate_password">Genereer wachtwoord</string>
-    <string name="group">Groep</string>
-    <string name="hint_comment">commentaar</string>
     <string name="hint_conf_pass">bevestig wachtwoord</string>
     <string name="hint_generated_password">gegenereerd wachtwoord</string>
     <string name="hint_group_name">Groepnaam</string>
@@ -99,11 +87,8 @@
     <string name="hint_length">lengte</string>
     <string name="password">Wachtwoord</string>
     <string name="hint_pass">wachtwoord</string>
-    <string name="hint_title">naam</string>
-    <string name="hint_url">url</string>
-    <string name="hint_username">gebruikersnaam</string>
-    <string name="install_from_market">Installeer van Market</string>
-    <string name="install_from_website">Installeer van Web</string>
+    <string name="install_from_play_store">Installeer van Play Store</string>
+    <string name="install_from_f_droid">Installeer van F-Droid</string>
     <string name="InvalidPassword">Ongeldig wachtwoord of sleutelbestand.</string>
     <string name="invalid_db_sig">Databaseformaat niet herkend.</string>
     <string name="length">Lengte</string>
@@ -111,35 +96,28 @@
     <string name="list_size_summary">Grootte van de tekst in de groepslijst</string>
     <string name="loading_database">Database wordt geladen&#8230;</string>
     <string name="lowercase">Kleine letters</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Maskeer wachtwoord</string>
     <string name="maskpass_summary">Verberg wachtwoorden standaardmatig</string>
     <string name="menu_about">Over</string>
     <string name="menu_change_key">Wijzig hoofdsleutel</string>
-    <string name="menu_create">Aanmaken</string>
     <string name="settings">Instellingen</string>
     <string name="menu_db_settings">Database-instellingen</string>
     <string name="menu_delete">Wissen</string>
     <string name="menu_donate">Doneren</string>
     <string name="menu_edit">Bewerken</string>
     <string name="menu_hide_password">Wachtwoord verbergen</string>
-    <string name="menu_homepage">Ga naar homepage</string>
     <string name="menu_lock">Vergrendel database</string>
     <string name="menu_open">Openen</string>
-    <string name="menu_rename">Hernoemen</string>
     <string name="menu_search">Zoeken</string>
     <string name="menu_showpass">Toon wachtwoord</string>
     <string name="menu_url">Ga naar URL</string>
     <string name="minus">Minus</string>
     <string name="never">Nooit</string>
-    <string name="no_keys">Geen records in de database of groep.</string>
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Geen afhandeling voor deze url mogelijk.</string>
     <string name="open_recent">Recente database openen :</string>
     <string name="omitbackup_title">Niet in backup en prullenbak zoeken</string>
     <string name="omitbackup_summary">Laat \'Backup\' en Prullenbak-groep weg uit zoekresultaten</string>
-    <string name="pass_filename">KeePass databasebestandsnaam:</string>
-    <string name="password_title">Geef databasewachtwoord</string>
     <string name="progress_create">Nieuwe database wordt aangemaakt&#8230;</string>
     <string name="progress_title">Bezig&#8230;</string>
     <string name="remember_keyfile_summary">Onthoudt de locatie van de sleutelbestanden</string>
@@ -153,11 +131,9 @@
     <string name="saving_database">Database wordt opgeslagen&#8230;</string>
     <string name="space">Ruimte</string>
     <string name="search_label">Zoeken</string>
-    <string name="show_password">Toon wachtwoord</string>
-    <string name="sort_name">Sorteren op naam</string>
     <string name="sort_db">Sorteringsvolgorde DB</string>
     <string name="special">Speciaal</string>
-    <string name="search_hint">Record titel/beschrijving</string>
+    <string name="search">Record titel/beschrijving</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Onderlijnen</string>
     <string name="unsupported_db_version">Niet-ondersteunde databaseversie.</string>
@@ -174,6 +150,7 @@
     	<item>1 minuut</item>
     	<item>5 minuten</item>
     	<item>15 minuten</item>
+    	<item>30 minuten</item>
     	<item>Nooit</item>
     </string-array>
     <string-array name="list_size_options">

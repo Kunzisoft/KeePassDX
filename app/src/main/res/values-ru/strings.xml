@@ -24,18 +24,14 @@
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
-    <string name="add_group_title">Новая группа</string>
     <string name="algorithm">Алгоритм</string>
-    <string name="algorithm_colon">Алгоритм:</string>
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
     <string name="application">Программа</string>
     <string name="menu_app_settings">Настройки KeePass DX</string>
     <string name="beta_dontask">Не показывать снова</string>
-    <string name="beta_warning">Поддержка сохранения баз kdbx ЭКСПЕРИМЕНТАЛЬНАЯ. Сделайте резервную копию базы перед сохранением</string>
     <string name="brackets">{[(Скобки)]}</string>
     <string name="browser_intall_text">Для функции обзора необходим менеджер файлов – например, OI File Manager</string>
-    <string name="building_search_idx">Индексирование…</string>
     <string name="cancel">Отмена</string>
     <string name="ClearClipboard">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
@@ -43,18 +39,13 @@
     <string name="clipboard_error_clear">Очистка буфера обмена не удалась</string>
     <string name="clipboard_timeout">Очистка буфера</string>
     <string name="clipboard_timeout_summary">Задержка очистки после копирования в буфер</string>
-    <string name="copy_username">Логин – в буфер</string>
-    <string name="copy_password">Пароль – в буфер</string>
+    <string name="select_to_copy">%1$s – в буфер</string>
     <string name="creating_db_key">Создание ключа…</string>
-    <string name="current_group">Текущая группа:</string>
-    <string name="current_group_root">Текущая группа: корневая</string>
     <string name="database">База</string>
     <string name="decrypting_db">Расшифровка базы…</string>
-    <string name="decrypting_entry">Расшифровка записи…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
-    <string name="ellipsis">…</string>
     <string name="select_database_file">Путь к базе KeePass:</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_and_or">Введите пароль или путь к файлу-ключу:</string>
@@ -73,10 +64,8 @@
     <string name="entry_user_name">Логин</string>
     <string name="error_arc4">Потоковый шифр ARC4 не поддерживается</string>
     <string name="error_can_not_handle_uri">Не удалось перейти по указанному адресу</string>
-    <string name="error_could_not_create_group">Не удалось создать группу</string>
     <string name="error_could_not_create_parent">Не удалось создать родительскую папку</string>
     <string name="error_database_exists">Такой файл уже существует</string>
-    <string name="error_database_settings">Неверные настройки базы</string>
     <string name="error_failed_to_launch_link">Не удалось открыть ссылку</string>
     <string name="error_filename_required">Введите имя файла</string>
     <string name="error_file_not_create">Не удалось создать файл:</string>
@@ -97,8 +86,6 @@
     <string name="file_not_found">Файл не найден</string>
     <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Создать пароль</string>
-    <string name="group">Группа</string>
-    <string name="hint_comment">комментарий</string>
     <string name="hint_conf_pass">подтверждение</string>
     <string name="hint_generated_password">созданный пароль</string>
     <string name="hint_group_name">название</string>
@@ -106,11 +93,8 @@
     <string name="hint_length">длина</string>
     <string name="hint_pass">пароль</string>
     <string name="password">пароль</string>
-    <string name="hint_title">название</string>
-    <string name="hint_url">ссылка</string>
-    <string name="hint_username">логин</string>
-    <string name="install_from_market">Google Play</string>
-    <string name="install_from_website">OpenIntents</string>
+    <string name="install_from_play_store">Google Play</string>
+    <string name="install_from_f_droid">F-Droid</string>
     <string name="InvalidPassword">Неверный пароль или файл-ключ</string>
     <string name="invalid_algorithm">Неверный криптоалгоритм</string>
     <string name="invalid_db_sig">Формат базы не определён</string>
@@ -121,35 +105,28 @@
     <string name="list_size_summary">Размер шрифта в списке групп и записей</string>
     <string name="loading_database">Загрузка…</string>
     <string name="lowercase">строчные</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Скрыть пароли</string>
     <string name="maskpass_summary">Скрыть пароли маской *****</string>
     <string name="menu_about">Сведения</string>
     <string name="menu_change_key">Пароль базы</string>
-    <string name="menu_create">Создать</string>
     <string name="settings">Настройки</string>
     <string name="menu_db_settings">Настройки базы KeePass</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_donate">Помочь</string>
     <string name="menu_edit">Правка</string>
     <string name="menu_hide_password">Скрыть</string>
-    <string name="menu_homepage">Сайт</string>
     <string name="menu_lock">Блокировка</string>
     <string name="menu_open">Открыть</string>
-    <string name="menu_rename">Новое имя</string>
     <string name="menu_search">Поиск</string>
     <string name="menu_showpass">Показать</string>
     <string name="menu_url">Ссылка</string>
     <string name="minus">-Дефис-</string>
     <string name="never">Никогда</string>
-    <string name="no_keys">Нет записей в базе или группе</string>
     <string name="no_results">Совпадения не найдены</string>
     <string name="no_url_handler">Не удалось открыть ссылку</string>
     <string name="open_recent">Недавно открытые:</string>
     <string name="omitbackup_title">Искать в актуальных</string>
     <string name="omitbackup_summary">Не искать в Резервировании (.kdb)</string>
-    <string name="pass_filename">База KeePass:</string>
-    <string name="password_title">Изменение пароля базы</string>
     <string name="progress_create">Создание базы…</string>
     <string name="progress_title">Обработка</string>
     <string name="protection">Защита</string>
@@ -170,11 +147,9 @@
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>
     <string name="search_label">Поиск</string>
-    <string name="show_password">Показать</string>
-    <string name="sort_name">А–Я</string>
     <string name="sort_db">Исходный</string>
     <string name="special">$пеци@льные</string>
-    <string name="search_hint">название, комментарий</string>
+    <string name="search">название, комментарий</string>
     <string name="search_results">Результаты поиска</string>
     <string name="twofish">Twofish</string>
     <string name="underline">_Подчёркивание_</string>
@@ -196,6 +171,7 @@
        <item>1 мин.</item>
        <item>5 мин.</item>
        <item>15 мин.</item>
+       <item>30 мин.</item>
        <item>Никогда</item>
     </string-array>
     <string-array name="list_size_options">

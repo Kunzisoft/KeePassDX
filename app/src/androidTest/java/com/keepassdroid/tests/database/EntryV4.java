@@ -32,19 +32,21 @@ public class EntryV4 extends TestCase {
 		db.historyMaxItems = 2;
 		
 		PwEntryV4 entry = new PwEntryV4();
-		entry.setTitle("Title1", db);
-		entry.setUsername("User1", db);
+		entry.startToDecodeReference(db);
+		entry.setTitle("Title1");
+		entry.setUsername("User1");
 		entry.createBackup(db);
 		
-		entry.setTitle("Title2", db);
-		entry.setUsername("User2", db);
+		entry.setTitle("Title2");
+		entry.setUsername("User2");
 		entry.createBackup(db);
 		
-		entry.setTitle("Title3", db);
-		entry.setUsername("User3", db);
+		entry.setTitle("Title3");
+		entry.setUsername("User3");
 		entry.createBackup(db);
 		
-		PwEntryV4 backup = entry.history.get(0);
+		PwEntryV4 backup = entry.getHistory().get(0);
+		entry.endToDecodeReference(db);
 		assertEquals("Title2", backup.getTitle());
 		assertEquals("User2", backup.getUsername());
 	}

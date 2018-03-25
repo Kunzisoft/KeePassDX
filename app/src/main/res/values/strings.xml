@@ -26,18 +26,15 @@
     <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
     <string name="add_group">Add group</string>
-    <string name="add_group_title">Add Group</string>
     <string name="add_string">Add string</string>
     <string name="algorithm">Algorithm</string>
-    <string name="algorithm_colon">Algorithm:</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
     <string name="beta_dontask">Don\'t show again</string>
-    <string name="beta_warning">Support for saving changes to kdbx files is EXPERIMENTAL. Make backups of your database before saving changes.</string>
     <string name="brackets">Brackets</string>
+    <string name="extended_ASCII">Extended ASCII</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
-    <string name="building_search_idx">Building search index&#8230;</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
     <string name="ClearClipboard">Clipboard cleared.</string>
@@ -46,18 +43,14 @@
     <string name="clipboard_error_clear">Clearing the clipboard failed</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Time before clearing clipboard after copying username or password</string>
-    <string name="copy_username">Select to copy username to clipboard</string>
-    <string name="copy_password">Select to copy password to clipboard</string>
+    <string name="clipboard_swipe_clean">Swipe to clean clipboard now</string>
+    <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="creating_db_key">Creating database key&#8230;</string>
-    <string name="current_group">Current Group: </string>
-    <string name="current_group_root">Current Group: Root</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Decrypting database contents&#8230;</string>
-    <string name="decrypting_entry">Decrypting entry</string>
     <string name="default_checkbox">Use this as my default database</string>
     <string name="digits">Digits</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
     <string name="entry_cancel">Cancel</string>
@@ -75,10 +68,8 @@
     <string name="entry_user_name">User Name</string>
     <string name="error_arc4">The ArcFour stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">KeePass DX cannot handle this uri.</string>
-    <string name="error_could_not_create_group">Error creating group.</string>
     <string name="error_could_not_create_parent">Could not create parent directory.</string>
     <string name="error_database_exists">This file already exists.</string>
-    <string name="error_database_settings">Failed to determine database settings.</string>
     <string name="error_failed_to_launch_link">Failed to launch link.</string>
     <string name="error_filename_required">A filename is required.</string>
     <string name="error_file_not_create">Could not create file:</string>
@@ -94,14 +85,13 @@
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">A title is required.</string>
     <string name="error_wrong_length">Enter a positive integer on length field</string>
+    <string name="error_autofill_enable_service">Autofill service can\'t be enabled.</string>
     <string name="field_name">Field Name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found">File not found.</string>
     <string name="file_not_found_content">File not found. Try reopening from your content provider.</string>
     <string name="file_browser">File Browser</string>
     <string name="generate_password">Generate Password</string>
-    <string name="group">Group</string>
-    <string name="hint_comment">comment</string>
     <string name="hint_conf_pass">confirm password</string>
     <string name="hint_generated_password">generated password</string>
     <string name="hint_group_name">Group name</string>
@@ -109,11 +99,8 @@
     <string name="hint_length">length</string>
     <string name="hint_pass">password</string>
     <string name="password">Password</string>
-    <string name="hint_title">name</string>
-    <string name="hint_url">url</string>
-    <string name="hint_username">username</string>
-    <string name="install_from_market">Install from Play Store</string>
-    <string name="install_from_website">Install from Web</string>
+    <string name="install_from_play_store">Install from Play Store</string>
+    <string name="install_from_f_droid">Install from F-Droid</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
     <string name="invalid_algorithm">Invalid algorithm.</string>
     <string name="invalid_db_sig">Database format not recognized.</string>
@@ -124,13 +111,11 @@
     <string name="list_size_summary">Text size in the element list</string>
     <string name="loading_database">Loading database&#8230;</string>
     <string name="lowercase">Lower-case</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Mask password</string>
     <string name="maskpass_summary">Hide passwords by default</string>
     <string name="menu_about">About</string>
     <string name="menu_change_key">Change Master Key</string>
     <string name="copy_field">Copy of %1$s</string>
-    <string name="menu_create">Create</string>
     <string name="settings">Settings</string>
     <string name="menu_app_settings">Application settings</string>
     <string name="menu_form_filling_settings">Form filling</string>
@@ -139,25 +124,20 @@
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_hide_password">Hide Pass</string>
-    <string name="menu_homepage">Go to Homepage</string>
     <string name="menu_lock">Lock Database</string>
     <string name="menu_open">Open</string>
-    <string name="menu_rename">Rename</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show pass</string>
     <string name="menu_fingerprint_remove_key">Remove the fingerprint key</string>
     <string name="menu_url">Go to URL</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
-    <string name="no_keys">No entries in the database or group.</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
     <string name="select_database_file">Select an existing database :</string>
     <string name="open_recent">Open a recent database :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
-    <string name="pass_filename">KeePass database filename:</string>
-    <string name="password_title">Enter database password</string>
     <string name="progress_create">Creating new database&#8230;</string>
     <string name="progress_title">Working&#8230;</string>
     <string name="protection">Protection</string>
@@ -180,20 +160,18 @@
     <string name="saving_database">Saving database&#8230;</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
-    <string name="show_password">Show password</string>
     <string name="sort_menu">Sort</string>
     <string name="sort_ascending">Ascending</string>
     <string name="sort_groups_before">Groups before</string>
     <string name="sort_recycle_bin_bottom">Recycle bin at the bottom</string>
     <string name="sort_db">DB sort order</string>
     <string name="sort_title">Sort by Title</string>
-    <string name="sort_name">Sort by Name</string>
     <string name="sort_username">Sort by Username</string>
     <string name="sort_creation_time">Sort by Creation Time</string>
     <string name="sort_last_modify_time">Sort by Last Modify Time</string>
     <string name="sort_last_access_time">Sort by Last Access Time</string>
     <string name="special">Special</string>
-    <string name="search_hint">Search</string>
+    <string name="search">Search</string>
     <string name="search_results">Search results</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Underline</string>
@@ -211,9 +189,9 @@
     <string name="configure_fingerprint">Fingerprint supported but not configured for device</string>
     <string name="scanning_fingerprint">Listening for fingerprints</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="fingerprint_invalid_key">Invalid Key problem</string>
+    <string name="fingerprint_invalid_key">Invalid fingerprint key problem. Restore your password.</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
-    <string name="fingerprint_error">Fingerprint problem</string>
+    <string name="fingerprint_error">Fingerprint problem : %1$s</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
     <string name="no_password_stored">No password stored yet for this database</string>
     <string name="history">History</string>
@@ -224,7 +202,6 @@
     <string name="autofill_sign_in_prompt">Sign in with KeePass DX</string>
     <string name="set_autofill_service_title">Set default Autofill service</string>
     <string name="set_autofill_service_summary">Enable the service to easily fill out forms from other applications</string>
-    <string name="invalid_link_association">Could not associate web domain %1$s with app %2$s</string>
     <string name="password_size_title">Password size</string>
     <string name="password_size_summary">Set the default size of the generated password</string>
     <string name="list_password_generator_options_title">Password characters</string>
@@ -249,7 +226,7 @@
     <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
     <string name="fingerprint_delete_all_warning">Are you sure you want to delete all the keys related to fingerprints?</string>
     <string name="unavailable_feature_text">Can not start this feature.</string>
-    <string name="unavailable_feature_version">Your Android version %1$d is not the minimum version %2$d required.</string>
+    <string name="unavailable_feature_version">Your Android version %1$s is not the minimum version %2$s required.</string>
     <string name="unavailable_feature_hardware">The hardware is not detected.</string>
     <string name="file_name">File name</string>
     <string name="path">Path</string>
@@ -266,6 +243,10 @@
     <string name="permission_external_storage_never_ask">Can\'t perform the action without external storage permission</string>
     <string name="monospace_font_fields_enable_title">Fields Font</string>
     <string name="monospace_font_fields_enable_summary">Change the font of the fields for better character visibility</string>
+    <string name="auto_open_file_uri_title">Auto open selected file</string>
+    <string name="auto_open_file_uri_summary">Automatically open a file from the selection screen after a selection in the file browser</string>
+    <string name="allow_copy_password_title">Copy of password</string>
+    <string name="allow_copy_password_summary">Allow the copy of the password to the clipboard. Warning: this is known as a security defect</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 seconds</item>
@@ -275,6 +256,7 @@
     	<item>1 minute</item>
     	<item>5 minutes</item>
     	<item>15 minutes</item>
+    	<item>30 minutes</item>
     	<item>Never</item>
     </string-array>
     <string-array name="list_size_options">

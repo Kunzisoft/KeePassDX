@@ -32,7 +32,6 @@ public class PwGroupIdV3 extends PwGroupId {
 		if ( ! (compare instanceof PwGroupIdV3) ) {
 			return false;
 		}
-		
 		PwGroupIdV3 cmp = (PwGroupIdV3) compare;
 		return id == cmp.id;
 	}
@@ -46,6 +45,4 @@ public class PwGroupIdV3 extends PwGroupId {
 	public int getId() {
 		return id;
 	}
-	
-
 }

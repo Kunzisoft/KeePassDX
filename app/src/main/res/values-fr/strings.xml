@@ -26,20 +26,17 @@
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
-    <string name="add_group_title">Ajouter un groupe</string>
     <string name="add_string">Ajouter une chaîne</string>
     <string name="algorithm">Algorithme</string>
-    <string name="algorithm_colon">Algorithme :</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
     <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
-    <string name="beta_warning">Enregistrer des modifications dans les fichiers kdbx est EXPÉRIMENTAL. Faites des sauvegardes de votre base de données avant toute modification.</string>
     <string name="brackets">Crochets</string>
+    <string name="extended_ASCII">ASCII étendu</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
-    <string name="building_search_idx">Reconstruction de l\'index de recherche…</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Permettre</string>
     <string name="ClearClipboard">Presse-papier vidé</string>
@@ -48,18 +45,14 @@
     <string name="clipboard_error_clear">Le vidage du presse-papier a échoué</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Temps avant le vidage du presse-papier après copie du nom d\'utilisateur ou du mot de passe</string>
-    <string name="copy_username">Copier le nom d\'utilisateur dans le presse-papier</string>
-    <string name="copy_password">Copier le mot de passe dans le presse-papier</string>
+    <string name="clipboard_swipe_clean">Balayez pour effacer le presse-papiers maintenant</string>
+    <string name="select_to_copy">Copier %1$s dans le presse-papier</string>
     <string name="creating_db_key">Création de la clé de base de données…</string>
-    <string name="current_group">Groupe actuel :</string>
-    <string name="current_group_root">Groupe actuel : Racine</string>
     <string name="database">Base de données</string>
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
-    <string name="decrypting_entry">Déchiffrement de l\'entrée</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Nombres</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données :</string>
     <string name="entry_cancel">Annuler</string>
@@ -77,10 +70,8 @@
     <string name="entry_user_name">Nom d\'utilisateur</string>
     <string name="error_arc4">Le chiffrement de flux ArcFour n\'est pas supporté.</string>
     <string name="error_can_not_handle_uri">KeePass DX ne peut pas gérer cette URI.</string>
-    <string name="error_could_not_create_group">La création de groupe a échoué.</string>
     <string name="error_could_not_create_parent">La création du groupe parent a échoué.</string>
     <string name="error_database_exists">Le fichier existe déjà.</string>
-    <string name="error_database_settings">Impossible de déterminer les paramètres de la base de données.</string>
     <string name="error_failed_to_launch_link">Échec lors de l\'ouverture du lien.</string>
     <string name="error_filename_required">Le nom de fichier est obligatoire.</string>
     <string name="error_file_not_create">Impossible de créer le fichier :</string>
@@ -96,14 +87,13 @@
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">Le titre est obligatoire.</string>
     <string name="error_wrong_length">Entrez un entier positif pour la longueur du champ</string>
+    <string name="error_autofill_enable_service">Le service de remplissage automatique ne peut être activé.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur</string>
     <string name="file_not_found">Fichier non trouvé.</string>
     <string name="file_not_found_content">Fichier non trouvé. Essayer de l\'ouvrir à nouveau à partir de votre fournisseur de contenu.</string>
     <string name="file_browser">Navigateur de fichiers</string>
     <string name="generate_password">Générer mot de passe</string>
-    <string name="group">Groupe</string>
-    <string name="hint_comment">commentaire</string>
     <string name="hint_conf_pass">confirmez mot de passe</string>
     <string name="hint_generated_password">mot de passe généré</string>
     <string name="hint_group_name">Nom de groupe</string>
@@ -111,11 +101,8 @@
     <string name="hint_length">longueur</string>
     <string name="hint_pass">mot de passe</string>
     <string name="password">Mot de passe</string>
-    <string name="hint_title">nom</string>
-    <string name="hint_url">URL</string>
-    <string name="hint_username">nom d\'utilisateur</string>
-    <string name="install_from_market">Installer depuis Google Play</string>
-    <string name="install_from_website">Installer depuis le site web</string>
+    <string name="install_from_play_store">Installer depuis Google Play</string>
+    <string name="install_from_f_droid">Installer depuis F-Droid</string>
     <string name="InvalidPassword">Mot de passe ou fichier de clé invalide.</string>
     <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Format de base de données non reconnu.</string>
@@ -126,38 +113,31 @@
     <string name="list_size_summary">Taille de la police de caractères utilisée pour les éléments de liste</string>
     <string name="loading_database">Ouverture de la base de données…</string>
     <string name="lowercase">Minuscule</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Afficher le mot de passe</string>
     <string name="maskpass_summary">Par défaut, masquer le mot de passe</string>
     <string name="menu_about">À propos</string>
     <string name="menu_change_key">Modifier la clé maître</string>
     <string name="copy_field">Copie de %1$s</string>
-    <string name="menu_create">Créer</string>
     <string name="settings">Préférences</string>
     <string name="menu_db_settings">Préférences de la base de données</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_donate">Faire un don</string>
     <string name="menu_edit">Modifier</string>
     <string name="menu_hide_password">Masquer le mot de passe</string>
-    <string name="menu_homepage">Aller à la page d\'accueil</string>
     <string name="menu_lock">Verrouiller la base de données</string>
     <string name="menu_open">Ouvrir</string>
-    <string name="menu_rename">Renommer</string>
     <string name="menu_search">Rechercher</string>
     <string name="menu_showpass">Afficher le mot de passe</string>
     <string name="menu_fingerprint_remove_key">Supprimer la clé de l\'empreinte</string>
     <string name="menu_url">Ouvrir l\'URL</string>
     <string name="minus">Moins</string>
     <string name="never">Jamais</string>
-    <string name="no_keys">Aucun élément.</string>
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
     <string name="select_database_file">Sélectionner une base de données existante :</string>
     <string name="open_recent">Ouvrir une base de données récente :</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
-    <string name="pass_filename">Fichier de base de données KeePass</string>
-    <string name="password_title">Entrez le mot de passe de la base de données</string>
     <string name="progress_create">Création d\'une nouvelle base de données…</string>
     <string name="progress_title">Veuillez patienter…</string>
     <string name="protection">Protection</string>
@@ -180,20 +160,18 @@
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
     <string name="search_label">Rechercher</string>
-    <string name="show_password">Afficher le mot de passe</string>
     <string name="sort_menu">Trier</string>
     <string name="sort_ascending">Ascendant</string>
     <string name="sort_groups_before">Groupes avant</string>
     <string name="sort_recycle_bin_bottom">Corbeille à la fin</string>
     <string name="sort_db">Tri par défaut (base de données)</string>
     <string name="sort_title">Tri par Titre</string>
-    <string name="sort_name">Tri par nom</string>
     <string name="sort_username">Tri par Nom d\'utilisateur</string>
     <string name="sort_creation_time">Tri par Date de Création</string>
     <string name="sort_last_modify_time">Tri par Date de Dernière Modification</string>
     <string name="sort_last_access_time">Tri par Date de Dernier Accès</string>
     <string name="special">Spécial</string>
-    <string name="search_hint">Nom/description</string>
+    <string name="search">Nom/description</string>
     <string name="search_results">Résultats</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Souligné</string>
@@ -211,9 +189,9 @@
     <string name="configure_fingerprint">Reconnaissance d\'empreinte digitale non configuré pour cet appareil</string>
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
     <string name="encrypted_value_stored">Mot de passe encrypté stocké</string>
-    <string name="fingerprint_invalid_key">Problème de clé invalide</string>
+    <string name="fingerprint_invalid_key">Problème de clé invalide. Restaurez votre mot de passe.</string>
     <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
-    <string name="fingerprint_error">Problème d\'empreinte digitale</string>
+    <string name="fingerprint_error">Problème d\'empreinte digitale : %1$s</string>
     <string name="store_with_fingerprint">Utiliser l\'empreinte digitale pour stocker le mot de passe</string>
     <string name="no_password_stored">Pas de mot de passe encore stocké pour cette base de données</string>
     <string name="history">Historique</string>
@@ -247,7 +225,7 @@
     <string name="fingerprint_delete_all_summary">Supprimer toutes les clés de chiffrement liées à la reconnaissance des empreintes digitales</string>
     <string name="fingerprint_delete_all_warning">Êtes-vous sûr de vouloir supprimer toutes les clés liées aux empreintes digitales?</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
-    <string name="unavailable_feature_version">Votre version Android %1$d n\'est pas la version minimale %2$d requise.</string>
+    <string name="unavailable_feature_version">Votre version Android %1$s n\'est pas la version minimale %2$s requise.</string>
     <string name="unavailable_feature_hardware">Le matériel n\'est pas détecté.</string>
     <string name="file_name">Nom de fichier</string>
     <string name="path">Chemin</string>
@@ -264,6 +242,10 @@
     <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
     <string name="monospace_font_fields_enable_title">Police des champs</string>
     <string name="monospace_font_fields_enable_summary">Change la police de caractères des champs pour une meilleure visibilité</string>
+    <string name="auto_open_file_uri_title">Ouvrir le fichier sélectionné automatiquement</string>
+    <string name="auto_open_file_uri_summary">Ouvrir automatiquement un fichier à partir de l\'écran de sélection après une sélection dans le navigateur de fichiers</string>
+    <string name="allow_copy_password_title">Copie de mot de passe</string>
+    <string name="allow_copy_password_summary">Autoriser la copie du mot de passe dans le presse-papiers. Attention: ceci est connu comme un défaut de sécurité</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 secondes</item>
@@ -273,6 +255,7 @@
     	<item>1 minute</item>
     	<item>5 minutes</item>
     	<item>15 minutes</item>
+    	<item>30 minutes</item>
     	<item>Jamais</item>
     </string-array>
     <string-array name="list_size_options">

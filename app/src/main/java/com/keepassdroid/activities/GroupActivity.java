@@ -39,7 +39,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.keepassdroid.adapters.NodeAdapter;
@@ -54,25 +53,27 @@ import com.keepassdroid.database.SortNodeEnum;
 import com.keepassdroid.database.edit.AddGroup;
 import com.keepassdroid.database.edit.DeleteEntry;
 import com.keepassdroid.database.edit.DeleteGroup;
-import com.keepassdroid.dialog.ReadOnlyDialog;
-import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
-import com.keepassdroid.fragments.GroupEditDialogFragment;
-import com.keepassdroid.fragments.IconPickerDialogFragment;
-import com.keepassdroid.password.PasswordActivity;
+import com.keepassdroid.dialogs.AssignMasterKeyDialogFragment;
+import com.keepassdroid.dialogs.GroupEditDialogFragment;
+import com.keepassdroid.dialogs.IconPickerDialogFragment;
+import com.keepassdroid.dialogs.ReadOnlyDialog;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.ProgressTask;
-import com.keepassdroid.view.ListNodesWithAddButtonView;
+import com.keepassdroid.view.AddNodeButtonView;
 import com.kunzisoft.keepass.R;
 
 public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
+
+    private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
+
+    private AddNodeButtonView addNodeButtonView;
 
 	protected boolean addGroupEnabled = false;
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
 	protected boolean readOnly = false;
 	protected EditGroupDialogAction editGroupDialogAction = EditGroupDialogAction.NONE;
-	private ListNodesWithAddButtonView rootView;
 
     private AutofillHelper autofillHelper;
 
@@ -83,31 +84,41 @@ public class GroupActivity extends ListNodesActivity
 	private static final String TAG = "Group Activity:";
 	
 	public static void launch(Activity act) {
-		launch(act, (PwGroup) null);
+        LockingActivity.recordFirstTimeBeforeLaunch(act);
+        launch(act, (PwGroup) null);
 	}
 
     public static void launch(Activity act, PwGroup group) {
-        Intent intent = new Intent(act, GroupActivity.class);
-        if ( group != null ) {
-            intent.putExtra(KEY_ENTRY, group.getId());
+        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, GroupActivity.class);
+            if (group != null) {
+                intent.putExtra(GROUP_ID_KEY, group.getId());
+            }
+            act.startActivityForResult(intent, 0);
         }
-        act.startActivityForResult(intent, 0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, AssistStructure assistStructure) {
-        launch(act, null, assistStructure);
+        if ( assistStructure != null ) {
+            LockingActivity.recordFirstTimeBeforeLaunch(act);
+            launch(act, null, assistStructure);
+        } else {
+            launch(act);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, PwGroup group, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
-            Intent intent = new Intent(act, GroupActivity.class);
-            if ( group != null ) {
-                intent.putExtra(KEY_ENTRY, group.getId());
+            if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+                Intent intent = new Intent(act, GroupActivity.class);
+                if (group != null) {
+                    intent.putExtra(GROUP_ID_KEY, group.getId());
+                }
+                AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+                act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
             }
-            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
         } else {
             launch(act, group);
         }
@@ -124,31 +135,30 @@ public class GroupActivity extends ListNodesActivity
 		}
 
 		// Construct main view
-        rootView = new ListNodesWithAddButtonView(this);
-        rootView.enableAddGroup(addGroupEnabled);
-        rootView.enableAddEntry(addEntryEnabled);
-		setContentView(rootView);
+        setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        addNodeButtonView = findViewById(R.id.add_node_button);
+        addNodeButtonView.enableAddGroup(addGroupEnabled);
+        addNodeButtonView.enableAddEntry(addEntryEnabled);
+        // Hide when scroll
+        RecyclerView recyclerView = findViewById(R.id.nodes_list);
+        recyclerView.addOnScrollListener(addNodeButtonView.hideButtonOnScrollListener());
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         if ( mCurrentGroup.getParent() != null )
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
-        rootView.setAddGroupClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                editGroupDialogAction = EditGroupDialogAction.CREATION;
-                GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
-                groupEditDialogFragment.show(getSupportFragmentManager(),
-                        GroupEditDialogFragment.TAG_CREATE_GROUP);
-            }
+        addNodeButtonView.setAddGroupClickListener(v -> {
+            editGroupDialogAction = EditGroupDialogAction.CREATION;
+            GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
+            groupEditDialogFragment.show(getSupportFragmentManager(),
+                    GroupEditDialogFragment.TAG_CREATE_GROUP);
         });
-        rootView.setAddEntryClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup);
-            }
-        });
+        addNodeButtonView.setAddEntryClickListener(v ->
+                EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
 		setGroupIcon();
@@ -172,19 +182,20 @@ public class GroupActivity extends ListNodesActivity
         PwGroup root = db.pm.rootGroup;
 
         Log.w(TAG, "Creating tree view");
-        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(KEY_ENTRY);
+        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
         if ( pwGroupId == null ) {
             currentGroup = root;
         } else {
             currentGroup = db.pm.groups.get(pwGroupId);
         }
 
-        addGroupEnabled = !readOnly;
-        addEntryEnabled = !readOnly;
-
-        isRoot = (currentGroup == root);
-        if ( !currentGroup.allowAddEntryIfIsRoot() )
-            addEntryEnabled = !isRoot && addEntryEnabled;
+        if (currentGroup != null) {
+            addGroupEnabled = !readOnly;
+            addEntryEnabled = !readOnly; // TODO ReadOnly
+            isRoot = (currentGroup == root);
+            if (!currentGroup.allowAddEntryIfIsRoot())
+                addEntryEnabled = !isRoot && addEntryEnabled;
+        }
 
         return currentGroup;
     }
@@ -276,7 +287,14 @@ public class GroupActivity extends ListNodesActivity
     protected void onResume() {
         super.onResume();
         // Show button on resume
-        rootView.showButton();
+        addNodeButtonView.showButton();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Hide button
+        addNodeButtonView.hideButton();
     }
 
     @Override
@@ -291,9 +309,8 @@ public class GroupActivity extends ListNodesActivity
     @Override
     public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
         super.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
-
         // Show button if hide after sort
-        rootView.showButton();
+        addNodeButtonView.showButton();
     }
 
     protected void setGroupIcon() {
@@ -339,6 +356,7 @@ public class GroupActivity extends ListNodesActivity
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
+            // TODO Flickering when locking, will be better with content provider
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
         }
@@ -359,9 +377,7 @@ public class GroupActivity extends ListNodesActivity
                 return true;
 
             case R.id.menu_lock:
-                App.setShutdown();
-                setResult(PasswordActivity.RESULT_EXIT_LOCK);
-                finish();
+                lockAndExit();
                 return true;
 
             case R.id.menu_change_master_key:

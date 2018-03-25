@@ -21,11 +21,11 @@
     <string name="app_name" translatable="false">KeePass DX</string>
 
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="donate_url" translatable="false">http://www.kunzisoft.com/donation.html</string>
-    <string name="homepage" translatable="false">http://www.kunzisoft.com/KeepassDX</string>
+    <string name="donate_url" translatable="false">https://www.kunzisoft.com/donation</string>
+    <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
-    <string name="oi_filemanager_market" translatable="false">market://details?id=org.openintents.filemanager</string>
-    <string name="oi_filemanager_web" translatable="false">https://openintents.googlecode.com/files/FileManager-2.0.2.apk</string>
+    <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
+    <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
     
     <!--  Password generator -->
     <string name="password_length_key" translatable="false">password_length_key</string>
@@ -65,6 +65,8 @@
     <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>
     <string name="recycle_bin_key" translatable="true">recycle_bin_key</string>
     <string name="monospace_font_fields_enable_key" translatable="true">monospace_font_extra_fields_enable_key</string>
+    <string name="auto_open_file_uri_key" translatable="true">auto_open_file_uri_key</string>
+    <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -79,7 +81,9 @@
     <bool name="sort_group_before_default" translatable="true">true</bool>
     <bool name="sort_ascending_default" translatable="true">true</bool>
     <bool name="sort_recycle_bin_bottom_default" translatable="true">true</bool>
-    <bool name="monospace_font_fields_enable_default" translatable="true">false</bool>
+    <bool name="monospace_font_fields_enable_default" translatable="true">true</bool>
+    <bool name="auto_open_file_uri_default" translatable="true">true</bool>
+    <bool name="allow_copy_password_default" translatable="true">true</bool> <!-- TODO To change after implementing the way to enter password < O -->
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">
@@ -90,6 +94,7 @@
     	<item translatable="false">60000</item>
     	<item translatable="false">300000</item>
         <item translatable="false">900000</item>
+        <item translatable="false">1800000</item>
     	<item translatable="false">-1</item>
     </string-array>
 
@@ -116,6 +121,7 @@
     <string name="value_password_space" translatable="false">value_password_space</string>
     <string name="value_password_special" translatable="false">value_password_special</string>
     <string name="value_password_brackets" translatable="false">value_password_brackets</string>
+    <string name="value_password_extended" translatable="false">value_password_extended</string>
     <string name="visual_uppercase" translatable="false">A-Z</string>
     <string name="visual_lowercase" translatable="false">a-z</string>
     <string name="visual_digits" translatable="false">0-9</string>
@@ -124,6 +130,7 @@
     <string name="visual_space" translatable="false"> </string>
     <string name="visual_special" translatable="false">&amp;\/,^@.#&quot;:%\\='$!*`;+</string>
     <string name="visual_brackets" translatable="false">[](){}&lt;&gt;</string>
+    <string name="visual_extended" translatable="false">ñæËÌÂÝÜ...</string>
     <string-array name="list_password_generator_options_default_values">
         <item translatable="false">@string/value_password_uppercase</item>
         <item translatable="false">@string/value_password_lowercase</item>

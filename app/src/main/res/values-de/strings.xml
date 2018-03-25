@@ -29,19 +29,15 @@
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
-    <string name="add_group_title">Gruppe hinzufügen</string>
     <string name="add_string">Text hinzufügen</string>
     <string name="algorithm">Algorithmus</string>
-    <string name="algorithm_colon">Algorithmus:</string>
     <string name="app_timeout">Anwendungssperre</string>
     <string name="app_timeout_summary">Bei inaktiver Anwendung wird die Datenbank nach Ablauf der eingestellten Zeit automatisch gesperrt.</string>
     <string name="application">Anwendung</string>
     <string name="menu_app_settings">Einstellungen</string>
     <string name="beta_dontask">Nicht mehr anzeigen</string>
-    <string name="beta_warning">Das Speichern von Änderungen in kdbx Dateien wird zur Zeit nur experimentell unterstützt. Erstellen Sie Backups Ihrer Datenbank vor etwaigen Änderungen.</string>
     <string name="brackets">Klammern</string>
     <string name="browser_intall_text">Um diese Funktion nutzen zu können, benötigen Sie den OI File Manager, den Sie über Google Play bzw. direkt von der Entwicklerwebseite herunterladen können. Aufgrund einiger Eigenheiten des Dateimanagers, kann es bei der ersten Benutzung zu Einschränkungen kommen.</string>
-    <string name="building_search_idx">Erstelle den Suchindex\u2026</string>
     <string name="cancel">Abbrechen</string>
     <string name="ClearClipboard">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
@@ -49,18 +45,13 @@
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
     <string name="clipboard_timeout">Zwischenablagesperre</string>
     <string name="clipboard_timeout_summary">Bei inaktiver Anwendung wird die Zwischenablage nach Ablauf der eingestellten Zeit automatisch geleert.</string>
-    <string name="copy_username">Benutzername in die Zwischenablage kopieren</string>
-    <string name="copy_password">Passwort in die Zwischenablage kopieren</string>
+    <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
     <string name="creating_db_key">Datenbank-Schlüsseldatei erzeugen\u2026</string>
-    <string name="current_group">Aktuelle Gruppe:</string>
-    <string name="current_group_root">Start</string>
     <string name="database">Datenbank</string>
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte\u2026</string>
-    <string name="decrypting_entry">Eintrag entschlüsselt</string>
     <string name="default_checkbox">Als Standard-Datenbank benutzen</string>
     <string name="digits">Zahlen</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist kostenlos und wird unter den Bedingungen der GNU GPL Version 2 (oder später) verbreitet und lizenziert.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="select_database_file">Dateinamen der Datenbank eingeben:</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_and_or">Passwort und/oder Schlüsseldatei zum Entschlüsseln Ihrer Datenbank eingeben:</string>
@@ -79,10 +70,8 @@
     <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/ARC4-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePass DX kann diese URI-Adresse nicht verarbeiten.</string>
-    <string name="error_could_not_create_group">Fehler beim Erstellen der Gruppe.</string>
     <string name="error_could_not_create_parent">Verzeichnis konnte nicht erstellt werden.</string>
     <string name="error_database_exists">Die Datei existiert bereits.</string>
-    <string name="error_database_settings">Fehler beim Ermitteln der Datenbankeinstellungen.</string>
     <string name="error_failed_to_launch_link">Fehler beim Öffnen der Verknüpfung.</string>
     <string name="error_filename_required">Ein Dateiname wird benötigt.</string>
     <string name="error_file_not_create">Konnte Datei nicht erstellen:</string>
@@ -104,8 +93,6 @@
     <string name="file_not_found_content">Datei nicht gefunden. Versuche es von ihrem Dienstanbieter erneut zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
-    <string name="group">Gruppe</string>
-    <string name="hint_comment">Kommentar</string>
     <string name="hint_conf_pass">Passwort wiederholen</string>
     <string name="hint_generated_password">Generiertes Passwort</string>
     <string name="hint_group_name">Name der Gruppe</string>
@@ -113,11 +100,8 @@
     <string name="hint_length">Länge</string>
     <string name="hint_pass">Passwort</string>
     <string name="password">Passwort</string>
-    <string name="hint_title">Name</string>
-    <string name="hint_url">URL-Adresse</string>
-    <string name="hint_username">Benutzername</string>
-    <string name="install_from_market">Google Play</string>
-    <string name="install_from_website">Webseite</string>
+    <string name="install_from_play_store">Google Play</string>
+    <string name="install_from_f_droid">F-Droid</string>
     <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
     <string name="invalid_algorithm">Ungültiger Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat wurde nicht erkannt.</string>
@@ -128,35 +112,28 @@
     <string name="list_size_summary">Schriftgröße der Gruppenliste</string>
     <string name="loading_database">Datenbank wird geladen\u2026</string>
     <string name="lowercase">Kleinbuchstaben</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Passwort verstecken</string>
     <string name="maskpass_summary">Passwörter standardmäßig verstecken</string>
     <string name="menu_about">Über</string>
     <string name="menu_change_key">Master-Schlüssel ändern</string>
-    <string name="menu_create">Erstellen</string>
     <string name="settings">Einstellungen</string>
     <string name="menu_db_settings">Datenbank-Einstellungen</string>
     <string name="menu_delete">Löschen</string>
     <string name="menu_donate">Spenden</string>
     <string name="menu_edit">Ändern</string>
     <string name="menu_hide_password">Passwort verstecken</string>
-    <string name="menu_homepage">Webseite</string>
     <string name="menu_lock">Datenbank sperren</string>
     <string name="menu_open">Öffnen</string>
-    <string name="menu_rename">Umbenennen</string>
     <string name="menu_search">Suchen</string>
     <string name="menu_showpass">Passwort anzeigen</string>
     <string name="menu_url">URL öffnen</string>
     <string name="minus">Bindestrich</string>
     <string name="never">Nie</string>
-    <string name="no_keys">Keine Einträge in dieser Datenbank oder Gruppe.</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Kein Handler zum Öffnen der URL vorhanden.</string>
     <string name="open_recent">Zuletzt geöffnete Datenbank :</string>
     <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
     <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei kdb Dateien).</string>
-    <string name="pass_filename">KeePass Datenbankdatei:</string>
-    <string name="password_title">Datenbank-Passwort eingeben</string>
     <string name="progress_create">Neue Datenbank anlegen\u2026</string>
     <string name="progress_title">Ausführen\u2026</string>
     <string name="protection">Sicherheit</string>
@@ -179,11 +156,9 @@
     <string name="saving_database">Speichere Datenbank\u2026</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
-    <string name="show_password">Passwort anzeigen</string>
-    <string name="sort_name">Sortieren nach Name</string>
     <string name="sort_db">Sortieren nach Erstellung</string>
     <string name="special">Spezialsymbole</string>
-    <string name="search_hint">Titel/Beschreibung des Eintrags</string>
+    <string name="search">Titel/Beschreibung des Eintrags</string>
     <string name="search_results">Suchergebnisse</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Unterstrichen</string>
@@ -205,6 +180,7 @@
       <item>1 Minute</item>
       <item>5 Minuten</item>
       <item>15 Minuten</item>
+      <item>30 Minuten</item>
       <item>Nie</item>
     </string-array>
     <string-array name="list_size_options">

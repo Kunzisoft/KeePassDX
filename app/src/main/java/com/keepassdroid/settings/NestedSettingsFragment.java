@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.settings;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -39,7 +40,7 @@ import android.view.autofill.AutofillManager;
 import android.widget.Toast;
 
 import com.keepassdroid.database.Database;
-import com.keepassdroid.fragments.UnavailableFeatureDialogFragment;
+import com.keepassdroid.dialogs.UnavailableFeatureDialogFragment;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
@@ -130,16 +131,13 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 if (!fingerprintSupported) {
                     // False if under Marshmallow
                     fingerprintEnablePreference.setChecked(false);
-                    fingerprintEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        @Override
-                        public boolean onPreferenceClick(Preference preference) {
-                            FragmentManager fragmentManager = getFragmentManager();
-                            assert fragmentManager != null;
-                            ((SwitchPreference) preference).setChecked(false);
-                            UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
-                                    .show(getFragmentManager(), "unavailableFeatureDialog");
-                            return false;
-                        }
+                    fingerprintEnablePreference.setOnPreferenceClickListener(preference -> {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        assert fragmentManager != null;
+                        ((SwitchPreference) preference).setChecked(false);
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
+                                .show(getFragmentManager(), "unavailableFeatureDialog");
+                        return false;
                     });
                 }
 
@@ -147,45 +145,39 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 if (!fingerprintSupported) {
                     deleteKeysFingerprints.setEnabled(false);
                 } else {
-                    deleteKeysFingerprints.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        @Override
-                        public boolean onPreferenceClick(Preference preference) {
-                            new AlertDialog.Builder(getContext())
-                                    .setMessage(getResources().getString(R.string.fingerprint_delete_all_warning))
-                                    .setIcon(getResources().getDrawable(
-                                            android.R.drawable.ic_dialog_alert))
-                                    .setPositiveButton(
-                                            getResources().getString(android.R.string.yes),
-                                            new DialogInterface.OnClickListener() {
-                                                @RequiresApi(api = Build.VERSION_CODES.M)
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
-                                                            getContext(),
-                                                            new FingerPrintHelper.FingerPrintErrorCallback() {
-                                                                @Override
-                                                                public void onInvalidKeyException(Exception e) {
-                                                                }
+                    deleteKeysFingerprints.setOnPreferenceClickListener(preference -> {
+                        new AlertDialog.Builder(getContext())
+                                .setMessage(getResources().getString(R.string.fingerprint_delete_all_warning))
+                                .setIcon(getResources().getDrawable(
+                                        android.R.drawable.ic_dialog_alert))
+                                .setPositiveButton(
+                                        getResources().getString(android.R.string.yes),
+                                        new DialogInterface.OnClickListener() {
+                                            @RequiresApi(api = Build.VERSION_CODES.M)
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
+                                                        getContext(),
+                                                        new FingerPrintHelper.FingerPrintErrorCallback() {
+                                                            @Override
+                                                            public void onInvalidKeyException(Exception e) {}
 
-                                                                @Override
-                                                                public void onFingerPrintException(Exception e) {
-                                                                    Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                    PreferencesUtil.deleteAllValuesFromNoBackupPreferences(getContext());
-                                                }
-                                            })
-                                    .setNegativeButton(
-                                            getResources().getString(android.R.string.no),
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                }
-                                            }).show();
-                            return false;
-                        }
+                                                            @Override
+                                                            public void onFingerPrintException(Exception e) {
+                                                                Toast.makeText(getContext(),
+                                                                        getString(R.string.fingerprint_error, e.getLocalizedMessage()),
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                PreferencesUtil.deleteAllValuesFromNoBackupPreferences(getContext());
+                                            }
+                                        })
+                                .setNegativeButton(
+                                        getResources().getString(android.R.string.no),
+                                        (dialog, which) -> {
+                                        }).show();
+                        return false;
                     });
                 }
                 break;
@@ -204,7 +196,14 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
                             if (((SwitchPreference) preference).isChecked()) {
-                                startEnableService();
+                                try {
+                                    startEnableService();
+                                } catch (ActivityNotFoundException e) {
+                                    String error = getString(R.string.error_autofill_enable_service);
+                                    ((SwitchPreference) preference).setChecked(false);
+                                    Log.d(getClass().getName(), error, e);
+                                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 disableService();
                             }
@@ -221,11 +220,11 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         }
 
                         @RequiresApi(api = Build.VERSION_CODES.O)
-                        private void startEnableService() {
+                        private void startEnableService() throws ActivityNotFoundException{
                             if (autofillManager != null && !autofillManager.hasEnabledAutofillServices()) {
                                 Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
                                 intent.setData(Uri.parse("package:com.example.android.autofill.service"));
-                                Log.d(getClass().getName(), "enableService(): intent="+ intent);
+                                Log.d(getClass().getName(), "enableService(): intent=" + intent);
                                 startActivityForResult(intent, REQUEST_CODE_AUTOFILL);
                             } else {
                                 Log.d(getClass().getName(), "Sample service already enabled.");

@@ -17,93 +17,63 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.design.widget.CoordinatorLayout
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="4dp"
-            android:fitsSystemWindows="true">
-
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:titleEnabled="false"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-                <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/toolbar"
-                    android:title="@string/app_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:theme="?attr/toolbarAppearance"
-                    app:popupTheme="?attr/toolbarPopupAppearance"
-                    android:elevation="4dp"
-                    tools:targetApi="lollipop">
-                    <com.keepassdroid.view.GroupHeaderView
-                        android:id="@+id/group_header"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/toolbar" />
-                </android.support.v7.widget.Toolbar>
-
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.RecyclerView android:id="@+id/nodes_list"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar" />
-    </android.support.design.widget.CoordinatorLayout>
+            app:titleEnabled="false"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_button"
+            <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/toolbar"
+                android:title="@string/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:theme="?attr/toolbarAppearance"
+                app:popupTheme="?attr/toolbarPopupAppearance"
+                android:elevation="4dp"
+                tools:targetApi="lollipop">
+                <com.keepassdroid.view.GroupHeaderView
+                    android:id="@+id/group_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/toolbar" />
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/nodes_list"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar" />
+
+    <com.keepassdroid.view.AddNodeButtonView
+        android:id="@+id/add_node_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_white_24dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        app:useCompatPadding="true"
-        style="@style/KeepassDXStyle.Fab" />
-
-    <TextView android:id="@+id/add_entry"
-        android:layout_margin="12dp"
-        android:layout_above="@+id/add_button"
-        android:layout_alignRight="@+id/add_button"
-        android:layout_alignEnd="@+id/add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_entry"
-        style="@style/KeepassDXStyle.FabMenu"
-        android:visibility="gone"
-        tools:ignore="UnusedAttribute" />
-
-    <TextView android:id="@+id/add_group"
-        android:layout_margin="12dp"
-        android:layout_above="@+id/add_entry"
-        android:layout_alignRight="@+id/add_button"
-        android:layout_alignEnd="@+id/add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_group"
-        style="@style/KeepassDXStyle.FabMenu"
-        android:visibility="gone"
-        tools:ignore="UnusedAttribute" />
-</RelativeLayout>
+        app:layout_anchor="@+id/nodes_list"
+        app:layout_anchorGravity="right|bottom" />
+</android.support.design.widget.CoordinatorLayout>

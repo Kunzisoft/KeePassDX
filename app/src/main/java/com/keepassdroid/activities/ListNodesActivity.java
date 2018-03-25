@@ -38,7 +38,6 @@ import android.widget.TextView;
 
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
-import com.keepassdroid.compat.ActivityCompat;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
@@ -46,21 +45,19 @@ import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
 import com.keepassdroid.database.edit.AfterAddNodeOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
-import com.keepassdroid.fragments.AssignMasterKeyDialogFragment;
-import com.keepassdroid.fragments.SortDialogFragment;
+import com.keepassdroid.dialogs.AssignMasterKeyDialogFragment;
+import com.keepassdroid.dialogs.SortDialogFragment;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.database.SortNodeEnum;
-import com.keepassdroid.view.AssignPasswordHelper;
+import com.keepassdroid.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.R;
 
 public abstract class ListNodesActivity extends LockingActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
 		NodeAdapter.OnNodeClickCallback,
         SortDialogFragment.SortSelectionListener {
-
-    public static final String KEY_ENTRY = "entry";
 
     protected PwGroup mCurrentGroup;
 	protected NodeAdapter mAdapter;
@@ -83,8 +80,9 @@ public abstract class ListNodesActivity extends LockingActivity
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		ActivityCompat.invalidateOptionsMenu(this);
+		invalidateOptionsMenu();
 
+		// TODO Move in search
 		setContentView(R.layout.list_nodes);
 
         mCurrentGroup = initCurrentGroup();
@@ -202,7 +200,8 @@ public abstract class ListNodesActivity extends LockingActivity
                 return true;
 
             default:
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item);
+                // Check the time lock before launching settings
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true);
                 return super.onOptionsItemSelected(item);
 		}
 	}
@@ -262,6 +261,7 @@ public abstract class ListNodesActivity extends LockingActivity
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+		    // TODO BUG HERE
 			super.startActivityForResult(intent, requestCode, options);
 		}
 	}
@@ -299,6 +299,7 @@ public abstract class ListNodesActivity extends LockingActivity
                     PwGroup recycleBin = database.getRecycleBin();
                     // Add trash if it doesn't exists
                     if (parent.equals(recycleBin)
+                            && mCurrentGroup != null
                             && mCurrentGroup.getParent() == null
                             && !mCurrentGroup.equals(recycleBin)) {
                         mAdapter.addNode(parent);

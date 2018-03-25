@@ -84,25 +84,25 @@ public class EntryContentsView extends LinearLayout {
 		inflater.inflate(R.layout.entry_view_contents, this);
 
         userNameContainerView = findViewById(R.id.entry_user_name_container);
-        userNameView = (TextView) findViewById(R.id.entry_user_name);
-        userNameActionView = (ImageView) findViewById(R.id.entry_user_name_action_image);
+        userNameView = findViewById(R.id.entry_user_name);
+        userNameActionView = findViewById(R.id.entry_user_name_action_image);
 
         passwordContainerView = findViewById(R.id.entry_password_container);
-        passwordView = (TextView) findViewById(R.id.entry_password);
-        passwordActionView = (ImageView) findViewById(R.id.entry_password_action_image);
+        passwordView = findViewById(R.id.entry_password);
+        passwordActionView = findViewById(R.id.entry_password_action_image);
 
         urlContainerView = findViewById(R.id.entry_url_container);
-        urlView = (TextView) findViewById(R.id.entry_url);
+        urlView = findViewById(R.id.entry_url);
 
         commentContainerView = findViewById(R.id.entry_comment_container);
-        commentView = (TextView) findViewById(R.id.entry_comment);
+        commentView = findViewById(R.id.entry_comment);
 
-        extrasView = (ViewGroup) findViewById(R.id.extra_strings);
+        extrasView = findViewById(R.id.extra_strings);
 
-        creationDateView = (TextView) findViewById(R.id.entry_created);
-        modificationDateView = (TextView) findViewById(R.id.entry_modified);
-        lastAccessDateView = (TextView) findViewById(R.id.entry_accessed);
-        expiresDateView = (TextView) findViewById(R.id.entry_expires);
+        creationDateView = findViewById(R.id.entry_created);
+        modificationDateView = findViewById(R.id.entry_modified);
+        lastAccessDateView = findViewById(R.id.entry_accessed);
+        expiresDateView = findViewById(R.id.entry_expires);
 	}
 
     public void applyFontVisibilityToFields(boolean fontInVisibility) {
@@ -113,6 +113,10 @@ public class EntryContentsView extends LinearLayout {
         if (userName != null && !userName.isEmpty()) {
             userNameContainerView.setVisibility(VISIBLE);
             userNameView.setText(userName);
+            if (fontInVisibility)
+                Util.applyFontVisibilityTo(userNameView);
+        } else {
+            userNameContainerView.setVisibility(GONE);
         }
     }
 
@@ -124,11 +128,17 @@ public class EntryContentsView extends LinearLayout {
         if (password != null && !password.isEmpty()) {
             passwordContainerView.setVisibility(VISIBLE);
             passwordView.setText(password);
+            if (fontInVisibility)
+                Util.applyFontVisibilityTo(passwordView);
+            passwordActionView.setVisibility(GONE);
+        } else {
+            passwordContainerView.setVisibility(GONE);
         }
     }
 
     public void assignPasswordCopyListener(OnClickListener onClickListener) {
         passwordActionView.setOnClickListener(onClickListener);
+        passwordActionView.setVisibility(VISIBLE);
     }
 
     public boolean isPasswordPresent() {
@@ -147,21 +157,25 @@ public class EntryContentsView extends LinearLayout {
         if (url != null && !url.isEmpty()) {
             urlContainerView.setVisibility(VISIBLE);
             urlView.setText(url);
+        } else {
+            urlContainerView.setVisibility(GONE);
         }
     }
-
 
     public void assignComment(String comment) {
         if (comment != null && !comment.isEmpty()) {
             commentContainerView.setVisibility(VISIBLE);
-            Util.applyFontVisibilityToTextView(fontInVisibility, commentView);
             commentView.setText(comment);
+            if (fontInVisibility)
+                Util.applyFontVisibilityTo(commentView);
+        } else {
+            commentContainerView.setVisibility(GONE);
         }
     }
 
     public void addExtraField(String title, String value, OnClickListener onActionClickListener) {
         EntryNewField entryNewField = new EntryNewField(getContext(), null, title, value, onActionClickListener);
-        entryNewField.applyFontVisibilityToValue(fontInVisibility);
+        entryNewField.applyFontVisibility(fontInVisibility);
         extrasView.addView(entryNewField);
     }
 

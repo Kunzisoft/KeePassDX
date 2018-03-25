@@ -31,12 +31,16 @@ public class FileSelectBean implements Serializable {
 
     private static final String EXTERNAL_STORAGE_AUTHORITY = "com.android.externalstorage.documents";
 
-    private String fileName = "";
+    private String fileName;
     private Uri fileUri;
-    private Date lastModification = new Date();
-    private long size = 0;
+    private Date lastModification;
+    private long size;
 
     public FileSelectBean(Context context, String pathFile) {
+        fileName = "";
+        lastModification = new Date();
+        size = 0;
+
         fileUri = Uri.parse(pathFile);
         if (EXTERNAL_STORAGE_AUTHORITY.equals(fileUri.getAuthority())) {
             DocumentFile file = DocumentFile.fromSingleUri(context, fileUri);
@@ -48,6 +52,10 @@ public class FileSelectBean implements Serializable {
             size = file.length();
             fileName = file.getName();
             lastModification = new Date(file.lastModified());
+        }
+
+        if (fileName == null || fileName.isEmpty()) {
+            fileName = fileUri.getPath();
         }
     }
 

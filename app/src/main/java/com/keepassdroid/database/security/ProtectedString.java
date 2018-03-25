@@ -40,7 +40,6 @@ public class ProtectedString implements Serializable {
 	
 	public ProtectedString() {
 		this(false, "");
-		
 	}
 	
 	public ProtectedString(boolean enableProtection, String string) {

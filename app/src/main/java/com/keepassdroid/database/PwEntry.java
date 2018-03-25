@@ -22,18 +22,22 @@ package com.keepassdroid.database;
 import com.keepassdroid.database.iterator.EntrySearchStringIterator;
 import com.keepassdroid.database.security.ProtectedString;
 
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public abstract class PwEntry extends PwNode implements Cloneable {
 
-	protected static final String PMS_TAN_ENTRY = "<TAN>";
-	
-	public PwIconStandard icon = PwIconStandard.FIRST;
-	
+	private static final String PMS_TAN_ENTRY = "<TAN>";
+
+	protected UUID uuid = PwDatabase.UUID_ZERO;
+
+	@Override
+	protected void construct() {
+	    super.construct();
+        uuid = UUID.randomUUID();
+    }
+
 	public static PwEntry getInstance(PwGroup parent) {
 		if (parent instanceof PwGroupV3) {
 			return new PwEntryV3((PwGroupV3)parent);
@@ -45,23 +49,23 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 			throw new RuntimeException("Unknown PwGroup instance.");
 		}
 	}
-	
+
 	@Override
-	public Object clone() {
+	public PwEntry clone() {
 		PwEntry newEntry;
 		try {
 			newEntry = (PwEntry) super.clone();
 		} catch (CloneNotSupportedException e) {
-			assert(false);
 			throw new RuntimeException("Clone should be supported");
 		}
-		
 		return newEntry;
 	}
 
-	public PwEntry clone(boolean deepStrings) {
-		return (PwEntry) clone();
-	}
+	@Override
+    protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
+	    super.addCloneAttributesToNewEntry(newEntry);
+	    // uuid is clone automatically (IMMUTABLE)
+    }
 
 	@Override
 	public Type getType() {
@@ -69,65 +73,41 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	}
 
     public void assign(PwEntry source) {
-		icon = source.icon;
-	}
-	
-	public abstract UUID getUUID();
-	public abstract void setUUID(UUID u);
-	
-	public String getTitle() {
-		return getTitle(false, null);
-	}
-	
-	public String getUsername() {
-		return getUsername(false, null);
+	    super.assign(source);
+        uuid = source.uuid;
 	}
 
-	public String getPassword() {
-		return getPassword(false, null);
-	}
-	
-	public String getUrl() {
-		return getUrl(false, null);
-	}
-
-	public String getNotes() {
-		return getNotes(false, null);
-	}
-
-	public abstract String getTitle(boolean decodeRef, PwDatabase db);
-	public abstract String getUsername(boolean decodeRef, PwDatabase db);
-	public abstract String getPassword(boolean decodeRef, PwDatabase db);
-	public abstract String getUrl(boolean decodeRef, PwDatabase db);
-	public abstract String getNotes(boolean decodeRef, PwDatabase db);
-	public abstract Date getLastModificationTime();
-	public abstract Date getLastAccessTime();
-	public abstract Date getExpiryTime();
-	public abstract boolean expires();
-	
-	public abstract void setTitle(String title, PwDatabase db);
-	public abstract void setUsername(String user, PwDatabase db);
-	public abstract void setPassword(String pass, PwDatabase db);
-	public abstract void setUrl(String url, PwDatabase db);
-	public abstract void setNotes(String notes, PwDatabase db);
-	public abstract void setCreationTime(Date create);
-	public abstract void setLastModificationTime(Date mod);
-	public abstract void setLastAccessTime(Date access);
-	public abstract void setExpires(boolean exp);
-	public abstract void setExpiryTime(Date expires);
-
-	public PwIcon getIcon() {
-		return icon;
-	}
-
-    public void setIcon(PwIconStandard icon) {
-        this.icon = icon;
+    public UUID getUUID() {
+        return uuid;
     }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+	public void startToDecodeReference(PwDatabase db) {}
+	public void endToDecodeReference(PwDatabase db) {}
+
+	public abstract String getTitle();
+    public abstract void setTitle(String title);
+
+	public abstract String getUsername();
+    public abstract void setUsername(String user);
+
+	public abstract String getPassword();
+    public abstract void setPassword(String pass);
+
+	public abstract String getUrl();
+    public abstract void setUrl(String url);
+
+	public abstract String getNotes();
+	public abstract void setNotes(String notes);
 	
-	public boolean isTan() {
+	private boolean isTan() {
 		return getTitle().equals(PMS_TAN_ENTRY) && (getUsername().length() > 0);
 	}
 
+	@Override
 	public String getDisplayTitle() {
 		if ( isTan() ) {
 			return PMS_TAN_ENTRY + " " + getUsername();
@@ -148,10 +128,9 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 
     /**
      * Retrieve extra fields to show, key is the label, value is the value of field
-     * @param pm Database
      * @return Map of label/value
      */
-	public Map<String, String> getExtraFields(PwDatabase pm) {
+	public Map<String, String> getExtraFields() {
 		return new HashMap<>();
 	}
 
@@ -162,6 +141,14 @@ public abstract class PwEntry extends PwNode implements Cloneable {
     public Map<String, ProtectedString> getExtraProtectedFields() {
         return new HashMap<>();
     }
+
+	/**
+	 * If entry contains extra fields
+	 * @return true if there is extra fields
+	 */
+	public boolean containsExtraFields() {
+		return !getExtraProtectedFields().keySet().isEmpty();
+	}
 
     /**
      * Add an extra field to the list
@@ -183,13 +170,18 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		return false;
 	}
 
+    /**
+     * Create a backup of entry
+     */
+    public void createBackup(PwDatabase db) {}
+
 	public EntrySearchStringIterator stringIterator() {
 		return EntrySearchStringIterator.getInstance(this);
 	}
 	
 	public void touch(boolean modified, boolean touchParents) {
-		Date now = new Date();
-		
+		PwDate now = new PwDate();
+
 		setLastAccessTime(now);
 		
 		if (modified) {
@@ -222,69 +214,4 @@ public abstract class PwEntry extends PwNode implements Cloneable {
     public int hashCode() {
         return getUUID() != null ? getUUID().hashCode() : 0;
     }
-
-    /**
-     * Comparator of Entry by Name
-     */
-    public static class EntryNameComparator implements Comparator<PwEntry> {
-
-		private boolean ascending;
-
-		public EntryNameComparator() {
-			this(true);
-		}
-
-		public EntryNameComparator(boolean ascending) {
-			this.ascending = ascending;
-		}
-
-        public int compare(PwEntry object1, PwEntry object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            int entryTitleComp = object1.getTitle().compareToIgnoreCase(object2.getTitle());
-            // If same title, can be different
-            if (entryTitleComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-			// If descending
-			if (!ascending)
-				entryTitleComp = -entryTitleComp;
-
-            return entryTitleComp;
-        }
-    }
-
-    /**
-     * Comparator of Entry by Creation
-     */
-    public static class EntryCreationComparator implements Comparator<PwEntry> {
-
-		private boolean ascending;
-
-		public EntryCreationComparator() {
-			this(true);
-		}
-
-		public EntryCreationComparator(boolean ascending) {
-			this.ascending = ascending;
-		}
-
-        public int compare(PwEntry object1, PwEntry object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            int entryCreationComp = object1.getCreationTime().compareTo(object2.getCreationTime());
-            // If same creation, can be different
-            if (entryCreationComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-			// If descending
-			if (!ascending)
-				entryCreationComp = -entryCreationComp;
-
-            return entryCreationComp;
-        }
-    }
-
 }

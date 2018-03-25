@@ -41,13 +41,14 @@ import com.keepassdroid.utils.Util;
 
 public abstract class PwDatabase {
 
+    public static final UUID UUID_ZERO = new UUID(0,0);
     public byte masterKey[] = new byte[32];
     public byte[] finalKey;
     public String name = "KeePass database";
     public PwGroup rootGroup;
     public PwIconFactory iconFactory = new PwIconFactory();
-    public Map<PwGroupId, PwGroup> groups = new HashMap<PwGroupId, PwGroup>();
-    public Map<UUID, PwEntry> entries = new HashMap<UUID, PwEntry>();
+    public Map<PwGroupId, PwGroup> groups = new HashMap<>();
+    public Map<UUID, PwEntry> entries = new HashMap<>();
 
 
     private static boolean isKDBExtension(String filename) {
@@ -317,8 +318,8 @@ public abstract class PwDatabase {
 
     public void populateGlobals(PwGroup currentGroup) {
 
-        List<PwGroup> childGroups = currentGroup.childGroups;
-        List<PwEntry> childEntries = currentGroup.childEntries;
+        List<PwGroup> childGroups = currentGroup.getChildGroups();
+        List<PwEntry> childEntries = currentGroup.getChildEntries();
 
         for (int i = 0; i < childEntries.size(); i++ ) {
             PwEntry cur = childEntries.get(i);

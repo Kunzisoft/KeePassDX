@@ -22,7 +22,8 @@ package com.keepassdroid.utils;
 import android.net.Uri;
 
 import com.keepassdroid.database.PwDate;
-import com.keepassdroid.database.PwEntryV3;
+
+import static com.keepassdroid.database.PwDate.DEFAULT_PWDATE;
 
 public class EmptyUtils {
 	public static boolean isNullOrEmpty(String str) {
@@ -34,7 +35,7 @@ public class EmptyUtils {
 	}
 	
 	public static boolean isNullOrEmpty(PwDate date) {
-		return (date == null) || date.equals(PwEntryV3.DEFAULT_PWDATE);
+		return (date == null) || date.equals(DEFAULT_PWDATE);
 	}
 
 	public static boolean isNullOrEmpty(Uri uri) {

@@ -19,46 +19,37 @@
  */
 package com.keepassdroid.database;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
-	//public static final int FOLDER_ICON = 48;
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
-	
-	public PwGroupV4 parent = null;
-	public UUID uuid = PwDatabaseV4.UUID_ZERO;
-	public String notes = "";
-	public PwIconCustom customIcon = PwIconCustom.ZERO;
-	public boolean isExpanded = true;
-	public String defaultAutoTypeSequence = "";
-	public Boolean enableAutoType = null;
-	public Boolean enableSearching = null;
-	public UUID lastTopVisibleEntry = PwDatabaseV4.UUID_ZERO;
-	private Date parentGroupLastMod = PwDatabaseV4.DEFAULT_NOW;
-	private Date creation = PwDatabaseV4.DEFAULT_NOW;
-	private Date lastMod = PwDatabaseV4.DEFAULT_NOW;
-	private Date lastAccess = PwDatabaseV4.DEFAULT_NOW;
-	private Date expireDate = PwDatabaseV4.DEFAULT_NOW;
-	private boolean expires = false;
-	private long usageCount = 0;
-	public Map<String, String> customData = new HashMap<String, String>();
 
-	public PwGroupV4() {}
+	private PwGroupV4 parent = null;
+	private UUID uuid = PwDatabase.UUID_ZERO;
+	private PwIconCustom customIcon = PwIconCustom.ZERO;
+    private long usageCount = 0;
+    private PwDate parentGroupLastMod = new PwDate();
+    private Map<String, String> customData = new HashMap<>();
+
+    private boolean expires = false;
+
+    private String notes = "";
+	private boolean isExpanded = true;
+	private String defaultAutoTypeSequence = "";
+	private Boolean enableAutoType = null;
+	private Boolean enableSearching = null;
+	private UUID lastTopVisibleEntry = PwDatabase.UUID_ZERO;
+
+	public PwGroupV4() {
+	    super();
+    }
 	
-	public PwGroupV4(boolean createUUID, boolean setTimes, String name, PwIconStandard icon) {
-		if (createUUID) {
-			uuid = UUID.randomUUID();
-		}
-		
-		if (setTimes) {
-			creation = lastMod = lastAccess = new Date();
-		}
-		
+	public PwGroupV4(String name, PwIconStandard icon) {
+		super.construct();
+		this.uuid = UUID.randomUUID();
 		this.name = name;
 		this.icon = icon;
 	}
@@ -66,65 +57,46 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
     @Override
     public void initNewGroup(String nm, PwGroupId newId) {
         super.initNewGroup(nm, newId);
-
-        lastAccess = lastMod = creation = parentGroupLastMod = new Date();
+        parentGroupLastMod = new PwDate();
     }
-
-	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership) {
-		AddGroup(subGroup, takeOwnership, false);
-	}
 	
-	public void AddGroup(PwGroupV4 subGroup, boolean takeOwnership, boolean updateLocationChanged) {
+	public void AddGroup(PwGroupV4 subGroup) {
 		if ( subGroup == null ) throw new RuntimeException("subGroup");
-		
 		childGroups.add(subGroup);
-		
-		if ( takeOwnership ) subGroup.parent = this;
-		
-		if ( updateLocationChanged ) subGroup.parentGroupLastMod = new Date(System.currentTimeMillis());
-		
-	}
+        subGroup.parent = this;
+    }
 	
-	public void AddEntry(PwEntryV4 pe, boolean takeOwnership) {
-		AddEntry(pe, takeOwnership, false);
-	}
-	
-	public void AddEntry(PwEntryV4 pe, boolean takeOwnership, boolean updateLocationChanged) {
+	public void AddEntry(PwEntryV4 pe) {
 		assert(pe != null);
-
 		addChildEntry(pe);
-		
-		if ( takeOwnership ) pe.parent = this;
-		
-		if ( updateLocationChanged ) pe.setLocationChanged(new Date(System.currentTimeMillis()));
-	}
+        pe.setParent(this);
+    }
 	
 	@Override
 	public PwGroup getParent() {
 		return parent;
 	}
-	
-	public void buildChildGroupsRecursive(List<PwGroup> list) {
-		list.add(this);
-		
-		for ( int i = 0; i < numbersOfChildGroups(); i++) {
-			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
-			child.buildChildGroupsRecursive(list);
-			
-		}
-	}
 
-	public void buildChildEntriesRecursive(List<PwEntry> list) {
-		for ( int i = 0; i < numbersOfChildEntries(); i++ ) {
-			list.add(childEntries.get(i));
-		}
-		
-		for ( int i = 0; i < numbersOfChildGroups(); i++ ) {
-			PwGroupV4 child = (PwGroupV4) childGroups.get(i);
-			child.buildChildEntriesRecursive(list);
-		}
-		
-	}
+    @Override
+    public void setParent(PwGroup prt) {
+        parent = (PwGroupV4) prt;
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public PwIconCustom getCustomIcon() {
+        return customIcon;
+    }
+
+    public void setCustomIcon(PwIconCustom icon) {
+        this.customIcon = icon;
+    }
 
 	@Override
 	public PwGroupId getId() {
@@ -138,76 +110,33 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	}
 
 	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public Date getLastMod() {
+	public PwDate getLocationChanged() {
 		return parentGroupLastMod;
 	}
 
-	public Date getCreationTime() {
-		return creation;
-	}
-
-	public Date getExpiryTime() {
-		return expireDate;
-	}
-
-	public Date getLastAccessTime() {
-		return lastAccess;
-	}
-
-	public Date getLastModificationTime() {
-		return lastMod;
-	}
-
-	public Date getLocationChanged() {
-		return parentGroupLastMod;
-	}
-
-	public long getUsageCount() {
-		return usageCount;
-	}
-
-	public void setCreationTime(Date date) {
-		creation = date;
-	}
-
-	public void setExpiryTime(Date date) {
-		expireDate = date;
-	}
-
 	@Override
-	public void setLastAccessTime(Date date) {
-		lastAccess = date;
-	}
-
-	@Override
-	public void setLastModificationTime(Date date) {
-		lastMod = date;
-	}
-
-	public void setLocationChanged(Date date) {
+	public void setLocationChanged(PwDate date) {
 		parentGroupLastMod = date;
 	}
 
+    @Override
+    public long getUsageCount() {
+        return usageCount;
+    }
+
+	@Override
 	public void setUsageCount(long count) {
 		usageCount = count;
 	}
 
+	@Override
 	public boolean expires() {
 		return expires;
 	}
 
+	@Override
 	public void setExpires(boolean exp) {
 		expires = exp;
-	}
-
-	@Override
-	public void setParent(PwGroup prt) {
-		parent = (PwGroupV4) prt;
 	}
 
 	@Override
@@ -217,14 +146,70 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 	@Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.uuid.equals(PwDatabaseV4.UUID_ZERO)) {
+		if (customIcon == null || customIcon.uuid.equals(PwDatabase.UUID_ZERO)) {
 			return super.getIcon();
 		} else {
 			return customIcon;
 		}
 	}
-	
-	public boolean isSearchEnabled() {
+
+    public void putCustomData(String key, String value) {
+        customData.put(key, value);
+    }
+
+    public boolean containsCustomData() {
+	    return customData.size() > 0;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        isExpanded = expanded;
+    }
+
+    public String getDefaultAutoTypeSequence() {
+        return defaultAutoTypeSequence;
+    }
+
+    public void setDefaultAutoTypeSequence(String defaultAutoTypeSequence) {
+        this.defaultAutoTypeSequence = defaultAutoTypeSequence;
+    }
+
+    public Boolean getEnableAutoType() {
+        return enableAutoType;
+    }
+
+    public void setEnableAutoType(Boolean enableAutoType) {
+        this.enableAutoType = enableAutoType;
+    }
+
+    public Boolean getEnableSearching() {
+        return enableSearching;
+    }
+
+    public void setEnableSearching(Boolean enableSearching) {
+        this.enableSearching = enableSearching;
+    }
+
+    public UUID getLastTopVisibleEntry() {
+        return lastTopVisibleEntry;
+    }
+
+    public void setLastTopVisibleEntry(UUID lastTopVisibleEntry) {
+        this.lastTopVisibleEntry = lastTopVisibleEntry;
+    }
+
+    public boolean isSearchEnabled() {
 		PwGroupV4 group = this;
 		while (group != null) {
 			Boolean search = group.enableSearching;

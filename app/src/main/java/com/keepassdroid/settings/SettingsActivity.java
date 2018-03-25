@@ -19,12 +19,14 @@
  */
 package com.keepassdroid.settings;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.keepassdroid.activities.LockingActivity;
-import com.keepassdroid.app.App;
 import com.keepassdroid.compat.BackupManagerCompat;
 import com.kunzisoft.keepass.R;
 
@@ -37,15 +39,28 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
     private Toolbar toolbar;
 
-    @Override
-    protected void onResume() {
-
-        // Clear the shutdown flag
-        App.clearShutdown();
-
-        super.onResume();
+    public static void launch(Activity activity) {
+        Intent i = new Intent(activity, SettingsActivity.class);
+        activity.startActivity(i);
     }
-	
+
+    public static void launch(Activity activity, boolean checkLock) {
+        // To avoid flickering when launch settings in a LockingActivity
+        if (!checkLock)
+            launch(activity);
+        else if (LockingActivity.checkTimeIsAllowedOrFinish(activity)) {
+            launch(activity);
+        }
+    }
+
+    /**
+     * Retrieve the main fragment to show in first
+     * @return The main fragment
+     */
+    protected Fragment retrieveMainFragment() {
+        return new MainPreferenceFragment();
+    }
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,7 +74,7 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new MainPreferenceFragment())
+                    .add(R.id.fragment_container, retrieveMainFragment())
                     .commit();
         }
 
@@ -80,7 +95,6 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 	@Override
 	protected void onStop() {
 		backupManager.dataChanged();
-		
 		super.onStop();
 	}
 

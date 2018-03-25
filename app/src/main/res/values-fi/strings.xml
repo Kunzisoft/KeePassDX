@@ -24,18 +24,14 @@
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
-    <string name="add_group_title">Lisää ryhmä</string>
     <string name="algorithm">Algoritmi</string>
-    <string name="algorithm_colon">Algoritmi:</string>
     <string name="app_timeout">Ohjelman aikakatkaisu</string>
     <string name="app_timeout_summary">Aika, jonka jälkeen KeePass lukitaan jos se on ollut toimeton.</string>
     <string name="application">Ohjelma</string>
     <string name="menu_app_settings">Ohjelman asetukset</string>
     <string name="beta_dontask">Älä näytä enää uudelleen</string>
-    <string name="beta_warning">Tuki kdbx-tiedostojen muuttamiselle on KOKEELLINEN. Ota varmuuskopioita ennen muutosten tallentamista!</string>
     <string name="brackets">Hakasulkeet</string>
     <string name="browser_intall_text">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
-    <string name="building_search_idx">Rakennetaan hakuindeksiä&#8230;</string>
     <string name="cancel">Peruuta</string>
     <string name="ClearClipboard">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
@@ -43,18 +39,13 @@
     <string name="clipboard_error_clear">Leikepöydän tyhjennys epäonnistui</string>
     <string name="clipboard_timeout">Leikepöydän aikakatkaisu</string>
     <string name="clipboard_timeout_summary">Aika, jonka jälkeen leikepöytä tyhjennetään käyttäjätunnuksen tai salasanan kopioinnin jälkeen</string>
-    <string name="copy_username">Valitse kopioidaksesi käyttäjänimi</string>
-    <string name="copy_password">Valitse kopioidaksesi salasana</string>
+    <string name="select_to_copy">Valitse kopioidaksesi %1$s</string>
     <string name="creating_db_key">Luodaan tietokanta-avainta&#8230;</string>
-    <string name="current_group">Nykyinen ryhmä: </string>
-    <string name="current_group_root">Nykyinen ryhmä: Juuri</string>
     <string name="database">Tietokanta</string>
     <string name="decrypting_db">Puretaan tietokannan salausta&#8230;</string>
-    <string name="decrypting_entry">Puretaan salasanatietuetta</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
-    <string name="ellipsis">\u2026</string>
     <string name="select_database_file">Anna tietokannan tiedostonimi:</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_and_or">Syötä salasana ja/tai avaintiedosto avataksesi tietokantasi:</string>
@@ -73,10 +64,8 @@
     <string name="entry_user_name">Käyttäjänimi</string>
     <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
     <string name="error_can_not_handle_uri">KeePass DX ei osaa käsitellä tätä osoitetta.</string>
-    <string name="error_could_not_create_group">Virhe ryhmän luonnissa.</string>
     <string name="error_could_not_create_parent">Virhe aliryhmän luonnissa.</string>
     <string name="error_database_exists">Tiedosto on jo olemassa.</string>
-    <string name="error_database_settings">Salasanatietokannan asetuksia ei tunnistettu.</string>
     <string name="error_failed_to_launch_link">Linkin avaus epäonnistui.</string>
     <string name="error_filename_required">Tiedostonimi on pakollinen.</string>
     <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
@@ -97,8 +86,6 @@
     <string name="file_not_found">Tiedostoa ei löydetty.</string>
     <string name="file_browser">Tiedostoselain</string>
     <string name="generate_password">Generoi salasana</string>
-    <string name="group">Ryhmä</string>
-    <string name="hint_comment">kommentti</string>
     <string name="hint_conf_pass">vahvista salasana</string>
     <string name="hint_generated_password">generoidut salasanat</string>
     <string name="hint_group_name">Ryhmän nimi</string>
@@ -106,11 +93,8 @@
     <string name="hint_length">pituus</string>
     <string name="hint_pass">salasana</string>
     <string name="password">Salasana</string>
-    <string name="hint_title">nimi</string>
-    <string name="hint_url">url-osoite</string>
-    <string name="hint_username">käyttäjänimi</string>
-    <string name="install_from_market">Asenna Play Storesta</string>
-    <string name="install_from_website">Asenna Internetistä</string>
+    <string name="install_from_play_store">Asenna Play Storesta</string>
+    <string name="install_from_f_droid">Asenna F-Droid</string>
     <string name="InvalidPassword">Väärä salasana tai avaintiedosto.</string>
     <string name="invalid_algorithm">Epäkelpo algoritmi.</string>
     <string name="invalid_db_sig">Salasanatietokannan tyyppiä ei tunnistettu.</string>
@@ -121,35 +105,28 @@
     <string name="list_size_summary">Tekstin koko ryhmälistauksessa</string>
     <string name="loading_database">Ladataan salasanatietokantaa&#8230;</string>
     <string name="lowercase">pienet kirjaimet</string>
-    <string name="MaskedPassword">*****</string>
     <string name="maskpass_title">Piilota salasaan</string>
     <string name="maskpass_summary">Piilota salasanat oletuksena</string>
     <string name="menu_about">Tietoa</string>
     <string name="menu_change_key">Vaihda pääsalasanaa</string>
-    <string name="menu_create">Luo</string>
     <string name="settings">Asetukset</string>
     <string name="menu_db_settings">Salasanatietokannan asetukset</string>
     <string name="menu_delete">Poista</string>
     <string name="menu_donate">Lahjoita</string>
     <string name="menu_edit">Muokkaa</string>
     <string name="menu_hide_password">Piilota salasana</string>
-    <string name="menu_homepage">Mene kotisivulle</string>
     <string name="menu_lock">Lukitse salasanatietokanta</string>
     <string name="menu_open">Avaa</string>
-    <string name="menu_rename">Nimeä uudelleen</string>
     <string name="menu_search">Etsi</string>
     <string name="menu_showpass">Näytä salasana</string>
     <string name="menu_url">Mene URL-osoitteeseen</string>
     <string name="minus">Miinus</string>
     <string name="never">Ei koskaan</string>
-    <string name="no_keys">Ei tietueita tietokannassa tai ryhmässä.</string>
     <string name="no_results">Ei hakutuloksia</string>
     <string name="no_url_handler">Tälle URL:lle ei ole käsittelijää.</string>
     <string name="open_recent">Avaa viimeisin salasanatietokanta :</string>
     <string name="omitbackup_title">Älä etsi varmuuskopioista eikä roskakorista</string>
     <string name="omitbackup_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
-    <string name="pass_filename">KeePass salasanatietokannan tiedostonimi:</string>
-    <string name="password_title">Syötä salasanatietokannan salasana</string>
     <string name="progress_create">Luodaan uutta tietokantaa&#8230;</string>
     <string name="progress_title">Työskennellään&#8230;</string>
     <string name="protection">Suojaus</string>
@@ -166,11 +143,9 @@
     <string name="saving_database">Tallennetaan tietokantaa&#8230;</string>
     <string name="space">Tila</string>
     <string name="search_label">Etsi</string>
-    <string name="show_password">Näytä salasana</string>
-    <string name="sort_name">Lajittele nimen mukaan</string>
     <string name="sort_db">Tietokannan lajittelujärjestys</string>
     <string name="special">Erityistä</string>
-    <string name="search_hint">Tietueen otsikko/kuvaus</string>
+    <string name="search">Tietueen otsikko/kuvaus</string>
     <string name="search_results">Hakutulokset</string>
     <string name="twofish">Twofish</string>
     <string name="underline">Alleviivattu</string>
@@ -188,6 +163,7 @@
     	<item>1 minuutti</item>
     	<item>5 minuttia</item>
     	<item>15 minuttia</item>
+    	<item>30 minuttia</item>
     	<item>Ei koskaan</item>
     </string-array>
     <string-array name="list_size_options">

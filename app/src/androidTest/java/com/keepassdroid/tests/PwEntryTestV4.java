@@ -19,10 +19,7 @@
  */
 package com.keepassdroid.tests;
 
-import java.util.UUID;
-
-import junit.framework.TestCase;
-
+import com.keepassdroid.database.AutoType;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
@@ -30,29 +27,33 @@ import com.keepassdroid.database.PwIconStandard;
 import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.database.security.ProtectedString;
 
+import junit.framework.TestCase;
+
+import java.util.UUID;
+
 public class PwEntryTestV4 extends TestCase {
 	public void testAssign() {
 		PwEntryV4 entry = new PwEntryV4();
 		
-		entry.additional = "test223";
+		entry.setAdditional("test223");
 		
-		entry.autoType = entry.new AutoType();
-		entry.autoType.defaultSequence = "1324";
-		entry.autoType.enabled = true;
-		entry.autoType.obfuscationOptions = 123412432109L;
-		entry.autoType.put("key", "value");
+		entry.setAutoType(new AutoType());
+		entry.getAutoType().defaultSequence = "1324";
+		entry.getAutoType().enabled = true;
+		entry.getAutoType().obfuscationOptions = 123412432109L;
+		entry.getAutoType().put("key", "value");
 		
-		entry.backgroupColor = "blue";
-		entry.binaries.put("key1", new ProtectedBinary(false, new byte[] {0,1}));
-		entry.customIcon = new PwIconCustom(UUID.randomUUID(), new byte[0]);
-		entry.foregroundColor = "red";
-		entry.history.add(new PwEntryV4());
-		entry.icon = new PwIconStandard(5);
-		entry.overrideURL = "override";
-		entry.parent = new PwGroupV4();
+		entry.setBackgroupColor("blue");
+		entry.putProtectedBinary("key1", new ProtectedBinary(false, new byte[] {0,1}));
+		entry.setCustomIcon(new PwIconCustom(UUID.randomUUID(), new byte[0]));
+		entry.setForegroundColor("red");
+		entry.addToHistory(new PwEntryV4());
+		entry.setIcon(new PwIconStandard(5));
+		entry.setOverrideURL("override");
+		entry.setParent(new PwGroupV4());
 		entry.addField("key2", new ProtectedString(false, "value2"));
-		entry.url = "http://localhost";
-		entry.uuid = UUID.randomUUID();
+		entry.setUrl("http://localhost");
+		entry.setUUID(UUID.randomUUID());
 
 		PwEntryV4 target = new PwEntryV4();
 		target.assign(entry);

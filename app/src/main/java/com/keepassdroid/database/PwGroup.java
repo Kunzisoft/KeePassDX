@@ -24,22 +24,34 @@ import com.keepassdroid.utils.StrUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public abstract class PwGroup extends PwNode {
 
-    // TODO Change dependency and make private
-	public List<PwGroup> childGroups = new ArrayList<>();
-	public List<PwEntry> childEntries = new ArrayList<>();
-	public String name = "";
-	public PwIconStandard icon;
+    protected String name = "";
 
-	private List<PwNode> children = new ArrayList<>();
+	protected List<PwGroup> childGroups = new ArrayList<>();
+	protected List<PwEntry> childEntries = new ArrayList<>();
 
     public void initNewGroup(String nm, PwGroupId newId) {
         setId(newId);
         name = nm;
+    }
+
+    public List<PwGroup> getChildGroups() {
+        return childGroups;
+    }
+
+    public List<PwEntry> getChildEntries() {
+        return childEntries;
+    }
+
+    public void setGroups(List<PwGroup> groups) {
+        childGroups = groups;
+    }
+
+    public void setEntries(List<PwEntry> entries) {
+        childEntries = entries;
     }
 
     public void addChildGroup(PwGroup group) {
@@ -48,6 +60,15 @@ public abstract class PwGroup extends PwNode {
 
     public void addChildEntry(PwEntry entry) {
         this.childEntries.add(entry);
+    }
+
+    // Todo parameter type
+    public PwGroup getChildGroupAt(int number) {
+        return this.childGroups.get(number);
+    }
+
+    public PwEntry getChildEntryAt(int number) {
+        return this.childEntries.get(number);
     }
 
     public void removeChildGroup(PwGroup group) {
@@ -76,21 +97,13 @@ public abstract class PwGroup extends PwNode {
      * @return List of direct children (one level below) as PwNode
      */
     public List<PwNode> getDirectChildren() {
-        children.clear();
+        List<PwNode> children = new ArrayList<>();
         children.addAll(childGroups);
         for(PwEntry child : childEntries) {
             if (!child.isMetaStream())
             children.add(child);
         }
         return children;
-    }
-
-    /**
-     * Number of direct elements in Node (one level below)
-     * @return Size of child elements, default is 0
-     */
-    public int numberOfDirectChildren() {
-        return childGroups.size() + childEntries.size();
     }
 
     public boolean isContainedIn(PwGroup container) {
@@ -112,24 +125,20 @@ public abstract class PwGroup extends PwNode {
         return getName();
     }
 
-    public abstract String getName();
-	
-	public abstract Date getLastMod();
-	
-	public PwIcon getIcon() {
-		return icon;
-	}
-	
-	public abstract void setLastAccessTime(Date date);
+    public String getName() {
+        return name;
+    }
 
-	public abstract void setLastModificationTime(Date date);
+    public void setName(String name) {
+        this.name = name;
+    }
 
 	public boolean allowAddEntryIfIsRoot() {
 		return false;
 	}
-	
+
 	public void touch(boolean modified, boolean touchParents) {
-		Date now = new Date();
+		PwDate now = new PwDate();
 		setLastAccessTime(now);
 		
 		if (modified) {
@@ -246,69 +255,5 @@ public abstract class PwGroup extends PwNode {
     public int hashCode() {
         PwGroupId groupId = getId();
         return groupId != null ? groupId.hashCode() : 0;
-    }
-
-    /**
-     * Group comparator by name
-     */
-    public static class GroupNameComparator implements Comparator<PwGroup> {
-
-		private boolean ascending;
-
-        public GroupNameComparator() {
-            this(true);
-        }
-
-		public GroupNameComparator(boolean ascending) {
-			this.ascending = ascending;
-		}
-
-        public int compare(PwGroup object1, PwGroup object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            int groupNameComp = object1.getName().compareToIgnoreCase(object2.getName());
-            // If same name, can be different
-            if (groupNameComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-			// If descending
-			if (!ascending)
-				groupNameComp = -groupNameComp;
-
-            return groupNameComp;
-        }
-    }
-
-    /**
-     * Group comparator by name
-     */
-    public static class GroupCreationComparator implements Comparator<PwGroup> {
-
-    	private boolean ascending;
-
-        public GroupCreationComparator() {
-            this(true);
-        }
-
-    	public GroupCreationComparator(boolean ascending) {
-    		this.ascending = ascending;
-		}
-
-        public int compare(PwGroup object1, PwGroup object2) {
-            if (object1.equals(object2))
-                return 0;
-
-            int groupCreationComp = object1.getCreationTime().compareTo(object2.getCreationTime());
-            // If same creation, can be different
-            if (groupCreationComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-            // If descending
-            if (!ascending)
-            	groupCreationComp = -groupCreationComp;
-
-            return groupCreationComp;
-        }
     }
 }

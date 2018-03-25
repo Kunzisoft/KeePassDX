@@ -37,7 +37,7 @@ public class EntrySearchHandlerV4 extends EntrySearchHandler {
 	protected boolean searchID(PwEntry e) {
 		PwEntryV4 entry = (PwEntryV4) e;
 		if (sp.searchInUUIDs) {
-			String hex = UuidUtil.toHexString(entry.uuid);
+			String hex = UuidUtil.toHexString(entry.getUUID());
 			return StrUtil.indexOfIgnoreCase(hex, sp.searchString, Locale.ENGLISH) >= 0;
 		}
 		
