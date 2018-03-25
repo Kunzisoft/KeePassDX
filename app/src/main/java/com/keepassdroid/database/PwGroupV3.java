@@ -36,7 +36,11 @@ public class PwGroupV3 extends PwGroup {
 
 	/** Used by KeePass internally, don't use */
 	private int flags;
-	
+
+    public PwGroupV3() {
+        super();
+    }
+
 	@Override
 	public PwGroup getParent() {
 		return parent;

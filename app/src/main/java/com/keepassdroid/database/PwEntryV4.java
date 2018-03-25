@@ -61,6 +61,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private String tags = "";
 
 	public PwEntryV4() {
+	    super();
 	}
 	
 	public PwEntryV4(PwGroupV4 p) {

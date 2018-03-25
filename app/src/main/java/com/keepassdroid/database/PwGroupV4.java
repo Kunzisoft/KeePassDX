@@ -43,7 +43,9 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	private Boolean enableSearching = null;
 	private UUID lastTopVisibleEntry = PwDatabase.UUID_ZERO;
 
-	public PwGroupV4() {}
+	public PwGroupV4() {
+	    super();
+    }
 	
 	public PwGroupV4(String name, PwIconStandard icon) {
 		super.construct();

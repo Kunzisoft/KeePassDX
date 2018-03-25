@@ -89,7 +89,6 @@ public class PwEntryV3 extends PwEntry {
 	private String           binaryDesc;
 	private byte[]          binaryData;
 
-
 	public PwEntryV3() {
 		super();
 	}
