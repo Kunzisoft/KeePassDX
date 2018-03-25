@@ -32,6 +32,10 @@ public class PwIconStandard extends PwIcon {
 		this.iconId = iconId;
 	}
 
+    public PwIconStandard(PwIconStandard icon) {
+        this.iconId = icon.iconId;
+    }
+
 	@Override
 	public boolean isMetaStreamIcon() {
 		return iconId == 0;

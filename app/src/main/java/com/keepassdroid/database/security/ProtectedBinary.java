@@ -19,9 +19,10 @@
  */
 package com.keepassdroid.database.security;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class ProtectedBinary {
+public class ProtectedBinary implements Serializable {
 	
 	public final static ProtectedBinary EMPTY = new ProtectedBinary();
 	

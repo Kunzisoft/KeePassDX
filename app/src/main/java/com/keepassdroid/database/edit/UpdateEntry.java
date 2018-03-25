@@ -40,7 +40,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		
 		// Keep backup of original values in case save fails
 		PwEntry backup;
-		backup = (PwEntry) mOldE.clone();
+		backup = mOldE.clone();
 		
 		mFinish = new AfterUpdate(backup, finish);
 	}

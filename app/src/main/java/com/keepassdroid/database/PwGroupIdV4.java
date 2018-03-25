@@ -14,9 +14,7 @@ public class PwGroupIdV4 extends PwGroupId {
 		if ( ! (id instanceof PwGroupIdV4) ) {
 			return false;
 		}
-		
 		PwGroupIdV4 v4 = (PwGroupIdV4) id;
-		
 		return uuid.equals(v4.uuid);
 	}
 	
@@ -28,5 +26,4 @@ public class PwGroupIdV4 extends PwGroupId {
 	public UUID getId() {
 		return uuid;
 	}
-
 }

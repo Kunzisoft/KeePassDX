@@ -27,15 +27,16 @@ import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 import biz.source_code.base64Coder.Base64Coder;
 
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.load.ImporterV4;
-import com.keepassdroid.utils.SprEngine;
+import com.keepassdroid.utils.SprEngineV4;
 import com.keepassdroid.utils.Types;
 
 public class SprEngineTest extends AndroidTestCase {
 	private PwDatabaseV4 db;
-	private SprEngine spr;
+	private SprEngineV4 spr;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -51,7 +52,7 @@ public class SprEngineTest extends AndroidTestCase {
 		
 		is.close();
 		
-		spr = SprEngine.getInstance(db);
+		spr = new SprEngineV4();
 	}
 	
 	private final String REF = "{REF:P@I:2B1D56590D961F48A8CE8C392CE6CD35}";
@@ -69,7 +70,7 @@ public class SprEngineTest extends AndroidTestCase {
 	
 	private UUID decodeUUID(String encoded) {
 		if (encoded == null || encoded.length() == 0 ) {
-			return PwDatabaseV4.UUID_ZERO;
+			return PwDatabase.UUID_ZERO;
 		}
 		
 		byte[] buf = Base64Coder.decode(encoded);

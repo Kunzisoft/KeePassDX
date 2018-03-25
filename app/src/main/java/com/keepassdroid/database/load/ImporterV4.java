@@ -46,6 +46,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import biz.source_code.base64Coder.Base64Coder;
 
+import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwDate;
 import com.keepassdroid.tasks.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
@@ -308,7 +310,7 @@ public class ImporterV4 extends Importer {
 	private boolean entryInHistory = false;
 	private PwEntryV4 ctxHistoryBase = null;
 	private PwDeletedObject ctxDeletedObject = null;
-	private UUID customIconID = PwDatabaseV4.UUID_ZERO;
+	private UUID customIconID = PwDatabase.UUID_ZERO;
 	private byte[] customIconData;
 	private String customDataKey = null;
 	private String customDataValue = null;
@@ -557,38 +559,38 @@ public class ImporterV4 extends Importer {
 			
 		case Group:
 			if ( name.equalsIgnoreCase(ElemUuid) ) {
-				ctxGroup.uuid = ReadUuid(xpp);
+				ctxGroup.setUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemName) ) {
-				ctxGroup.name = ReadString(xpp);
+				ctxGroup.setName(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemNotes) ) {
-				ctxGroup.notes = ReadString(xpp);
+				ctxGroup.setNotes(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxGroup.icon = db.iconFactory.getIcon((int)ReadUInt(xpp, 0));
+				ctxGroup.setIcon(db.iconFactory.getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxGroup.customIcon = db.iconFactory.getIcon(ReadUuid(xpp));
+				ctxGroup.setCustomIcon(db.iconFactory.getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.GroupTimes, xpp);
 			} else if ( name.equalsIgnoreCase(ElemIsExpanded) ) {
-				ctxGroup.isExpanded = ReadBool(xpp, true);
+				ctxGroup.setExpanded(ReadBool(xpp, true));
 			} else if ( name.equalsIgnoreCase(ElemGroupDefaultAutoTypeSeq) ) {
-				ctxGroup.defaultAutoTypeSequence = ReadString(xpp);
+				ctxGroup.setDefaultAutoTypeSequence(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemEnableAutoType) ) {
-				ctxGroup.enableAutoType = StringToBoolean(ReadString(xpp));
+				ctxGroup.setEnableAutoType(StringToBoolean(ReadString(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemEnableSearching) ) {
-				ctxGroup.enableSearching = StringToBoolean(ReadString(xpp));
+				ctxGroup.setEnableSearching(StringToBoolean(ReadString(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemLastTopVisibleEntry) ) {
-				ctxGroup.lastTopVisibleEntry = ReadUuid(xpp);
+				ctxGroup.setLastTopVisibleEntry(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemCustomData) ) {
                 return SwitchContext(ctx, KdbContext.GroupCustomData, xpp);
 			} else if ( name.equalsIgnoreCase(ElemGroup) ) {
 				ctxGroup = new PwGroupV4();
-				ctxGroups.peek().AddGroup(ctxGroup, true);
+				ctxGroups.peek().AddGroup(ctxGroup);
 				ctxGroups.push(ctxGroup);
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
 			} else if ( name.equalsIgnoreCase(ElemEntry) ) {
 				ctxEntry = new PwEntryV4();
-				ctxGroup.AddEntry(ctxEntry, true);
+				ctxGroup.AddEntry(ctxEntry);
 				
 				entryInHistory = false;
 				return SwitchContext(ctx, KdbContext.Entry, xpp);
@@ -618,17 +620,17 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(ElemUuid) ) {
 				ctxEntry.setUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxEntry.icon = db.iconFactory.getIcon((int)ReadUInt(xpp, 0));
+				ctxEntry.setIcon(db.iconFactory.getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxEntry.customIcon = db.iconFactory.getIcon(ReadUuid(xpp));
+				ctxEntry.setCustomIcon(db.iconFactory.getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemFgColor) ) {
-				ctxEntry.foregroundColor = ReadString(xpp);
+				ctxEntry.setForegroundColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemBgColor) ) {
-				ctxEntry.backgroupColor = ReadString(xpp);
+				ctxEntry.setBackgroupColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemOverrideUrl) ) {
-				ctxEntry.overrideURL = ReadString(xpp);
+				ctxEntry.setOverrideURL(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemTags) ) {
-				ctxEntry.tags = ReadString(xpp);
+				ctxEntry.setTags(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.EntryTimes, xpp);
 			} else if ( name.equalsIgnoreCase(ElemString) ) {
@@ -679,19 +681,19 @@ public class ImporterV4 extends Importer {
 			}
 			
 			if ( name.equalsIgnoreCase(ElemLastModTime) ) {
-				tl.setLastModificationTime(ReadTime(xpp));
+				tl.setLastModificationTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemCreationTime) ) {
-				tl.setCreationTime(ReadTime(xpp));
+				tl.setCreationTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemLastAccessTime) ) {
-				tl.setLastAccessTime(ReadTime(xpp));
+				tl.setLastAccessTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemExpiryTime) ) {
-				tl.setExpiryTime(ReadTime(xpp));
+				tl.setExpiryTime(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemExpires) ) {
 				tl.setExpires(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(ElemUsageCount) ) {
 				tl.setUsageCount(ReadULong(xpp, 0));
 			} else if ( name.equalsIgnoreCase(ElemLocationChanged) ) {
-				tl.setLocationChanged(ReadTime(xpp));
+				tl.setLocationChanged(ReadPwTime(xpp));
 			} else {
 				ReadUnknown(xpp);
 			}
@@ -717,11 +719,11 @@ public class ImporterV4 extends Importer {
 			
 		case EntryAutoType:
 			if ( name.equalsIgnoreCase(ElemAutoTypeEnabled) ) {
-				ctxEntry.autoType.enabled = ReadBool(xpp, true);
+				ctxEntry.getAutoType().enabled = ReadBool(xpp, true);
 			} else if ( name.equalsIgnoreCase(ElemAutoTypeObfuscation) ) {
-				ctxEntry.autoType.obfuscationOptions = ReadUInt(xpp, 0);
+				ctxEntry.getAutoType().obfuscationOptions = ReadUInt(xpp, 0);
 			} else if ( name.equalsIgnoreCase(ElemAutoTypeDefaultSeq) ) {
-				ctxEntry.autoType.defaultSequence = ReadString(xpp);
+				ctxEntry.getAutoType().defaultSequence = ReadString(xpp);
 			} else if ( name.equalsIgnoreCase(ElemAutoTypeItem) ) {
 				return SwitchContext(ctx, KdbContext.EntryAutoTypeItem, xpp);
 			} else {
@@ -742,7 +744,7 @@ public class ImporterV4 extends Importer {
 		case EntryHistory:
 			if ( name.equalsIgnoreCase(ElemEntry) ) {
 				ctxEntry = new PwEntryV4();
-				ctxHistoryBase.history.add(ctxEntry);
+				ctxHistoryBase.addToHistory(ctxEntry);
 				
 				entryInHistory = true;
 				return SwitchContext(ctx, KdbContext.Entry, xpp);
@@ -795,13 +797,13 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.CustomIcons && name.equalsIgnoreCase(ElemCustomIcons) ) {
 			return KdbContext.Meta;
 		} else if ( ctx == KdbContext.CustomIcon && name.equalsIgnoreCase(ElemCustomIconItem) ) {
-			if ( ! customIconID.equals(PwDatabaseV4.UUID_ZERO) ) {
+			if ( ! customIconID.equals(PwDatabase.UUID_ZERO) ) {
 				PwIconCustom icon = new PwIconCustom(customIconID, customIconData);
 				db.customIcons.add(icon);
 				db.iconFactory.put(icon);
 			} else assert(false);
 			
-			customIconID = PwDatabaseV4.UUID_ZERO;
+			customIconID = PwDatabase.UUID_ZERO;
 			customIconData = null;
 			
 			return KdbContext.CustomIcons;
@@ -819,8 +821,8 @@ public class ImporterV4 extends Importer {
 			
 			return KdbContext.CustomData;
 		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(ElemGroup) ) {
-			if ( ctxGroup.uuid == null || ctxGroup.uuid.equals(PwDatabaseV4.UUID_ZERO) ) {
-				ctxGroup.uuid = UUID.randomUUID();
+			if ( ctxGroup.getUUID() == null || ctxGroup.getUUID().equals(PwDatabase.UUID_ZERO) ) {
+				ctxGroup.setUUID(UUID.randomUUID());
 			}
 			
 			ctxGroups.pop();
@@ -838,7 +840,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Group;
 		} else if ( ctx == KdbContext.GroupCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
 			if (groupCustomDataKey != null && groupCustomDataValue != null) {
-				ctxGroup.customData.put(groupCustomDataKey, groupCustomDataKey);
+				ctxGroup.putCustomData(groupCustomDataKey, groupCustomDataKey);
 			} else {
 				assert(false);
 			}
@@ -849,8 +851,8 @@ public class ImporterV4 extends Importer {
 			return KdbContext.GroupCustomData;
 
 		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(ElemEntry) ) {
-			if ( ctxEntry.uuid == null || ctxEntry.uuid.equals(PwDatabaseV4.UUID_ZERO) ) {
-				ctxEntry.uuid = UUID.randomUUID();
+			if ( ctxEntry.getUUID() == null || ctxEntry.getUUID().equals(PwDatabase.UUID_ZERO) ) {
+				ctxEntry.setUUID(UUID.randomUUID());
 			}
 			
 			if ( entryInHistory ) {
@@ -868,7 +870,7 @@ public class ImporterV4 extends Importer {
 			
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryBinary && name.equalsIgnoreCase(ElemBinary) ) {
-			ctxEntry.binaries.put(ctxBinaryName, ctxBinaryValue);
+			ctxEntry.putProtectedBinary(ctxBinaryName, ctxBinaryValue);
 			ctxBinaryName = null;
 			ctxBinaryValue = null;
 			
@@ -876,7 +878,7 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.EntryAutoType && name.equalsIgnoreCase(ElemAutoType) ) {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryAutoTypeItem && name.equalsIgnoreCase(ElemAutoTypeItem) ) {
-			ctxEntry.autoType.put(ctxATName, ctxATSeq);
+			ctxEntry.getAutoType().put(ctxATName, ctxATSeq);
 			ctxATName = null;
 			ctxATSeq = null;
 
@@ -885,7 +887,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
 			if (entryCustomDataKey != null && entryCustomDataValue != null) {
-				ctxEntry.customData.put(entryCustomDataKey, entryCustomDataValue);
+				ctxEntry.putCustomData(entryCustomDataKey, entryCustomDataValue);
 			} else {
 				assert(false);
 			}
@@ -911,6 +913,10 @@ public class ImporterV4 extends Importer {
 			}
 			throw new RuntimeException("Invalid end element: Context " +  contextName + "End element: " + name);
 		}
+	}
+
+	private PwDate ReadPwTime(XmlPullParser xpp) throws IOException, XmlPullParserException {
+		return new PwDate(ReadTime(xpp));
 	}
 	
 	private Date ReadTime(XmlPullParser xpp) throws IOException, XmlPullParserException {
@@ -980,7 +986,7 @@ public class ImporterV4 extends Importer {
 		String encoded = ReadString(xpp);
 		
 		if (encoded == null || encoded.length() == 0 ) {
-			return PwDatabaseV4.UUID_ZERO;
+			return PwDatabase.UUID_ZERO;
 		}
 		
 		// TODO: Switch to framework Base64 once API level 8 is the minimum

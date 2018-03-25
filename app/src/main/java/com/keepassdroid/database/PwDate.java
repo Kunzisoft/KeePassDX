@@ -19,13 +19,13 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.app.App;
+import com.keepassdroid.utils.Types;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.keepassdroid.app.App;
-import com.keepassdroid.utils.Types;
 
 /** Converting from the C Date format to the Java data format is
  *  expensive when done for every record at once.  I use this class to
@@ -34,7 +34,7 @@ import com.keepassdroid.utils.Types;
  *
  */
 public class PwDate implements Cloneable, Serializable {
-	
+
 	private static final int DATE_SIZE = 5; 
 	
 	private boolean cDateBuilt = false;
@@ -42,6 +42,56 @@ public class PwDate implements Cloneable, Serializable {
 	
 	private Date jDate;
 	private byte[] cDate;
+
+    public static final Date NEVER_EXPIRE = getNeverExpire();
+    public static final Date NEVER_EXPIRE_BUG = getNeverExpireBug();
+
+    public static final Date DEFAULT_DATE = getDefaultDate();
+    public static final PwDate PW_NEVER_EXPIRE = new PwDate(NEVER_EXPIRE);
+    public static final PwDate PW_NEVER_EXPIRE_BUG = new PwDate(NEVER_EXPIRE_BUG);
+    public static final PwDate DEFAULT_PWDATE = new PwDate(DEFAULT_DATE);
+
+    private static Date getDefaultDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2004);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+
+        return cal.getTime();
+    }
+
+    private static Date getNeverExpire() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2999);
+        cal.set(Calendar.MONTH, 11);
+        cal.set(Calendar.DAY_OF_MONTH, 28);
+        cal.set(Calendar.HOUR, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+
+        return cal.getTime();
+    }
+
+    /** This date was was accidentally being written
+     *  out when an entry was supposed to be marked as
+     *  expired. We'll use this to silently correct those
+     *  entries.
+     * @return
+     */
+    private static Date getNeverExpireBug() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2999);
+        cal.set(Calendar.MONTH, 11);
+        cal.set(Calendar.DAY_OF_MONTH, 30);
+        cal.set(Calendar.HOUR, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+
+        return cal.getTime();
+    }
 	
 	public PwDate(byte[] buf, int offset) {
 		cDate = new byte[DATE_SIZE];
@@ -59,12 +109,13 @@ public class PwDate implements Cloneable, Serializable {
 		jDateBuilt = true;
 	}
 	
-	private PwDate() {
-		
+	public PwDate() {
+		jDate = new Date();
+		jDateBuilt = true;
 	}
 	
 	@Override
-	public Object clone() {
+	public PwDate clone() {
 		PwDate copy = new PwDate();
 		
 		if ( cDateBuilt ) {
@@ -82,9 +133,7 @@ public class PwDate implements Cloneable, Serializable {
 		return copy;
 	}
 
-
-	
-	public Date getJDate() {
+	public Date getDate() {
 		if ( ! jDateBuilt ) {
 			jDate = readTime(cDate, 0, App.getCalendar());
 			jDateBuilt = true;
@@ -101,7 +150,6 @@ public class PwDate implements Cloneable, Serializable {
 		
 		return cDate;
 	}
-	
 	
 	/**
 	 * Unpack date from 5 byte format. The five bytes at 'offset' are unpacked
@@ -189,7 +237,7 @@ public class PwDate implements Cloneable, Serializable {
 		} else if ( cDateBuilt && date.jDateBuilt ) {
 			return Arrays.equals(date.getCDate(), cDate);
 		} else {
-			return IsSameDate(date.getJDate(), jDate);
+			return IsSameDate(date.getDate(), jDate);
 		}
 	}
 

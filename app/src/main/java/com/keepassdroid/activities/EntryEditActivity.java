@@ -38,9 +38,8 @@ import android.widget.Toast;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwDate;
 import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupId;
 import com.keepassdroid.database.PwIconStandard;
@@ -60,9 +59,6 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditNewField;
 import com.kunzisoft.keepass.R;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -245,21 +241,18 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 	
 	protected PwEntry populateNewEntry() {
-	    if (mEntry instanceof PwEntryV4) {
-	        // TODO backup
-            PwEntryV4 newEntry = (PwEntryV4) mEntry.clone(true);
-            newEntry.history = (ArrayList<PwEntryV4>) newEntry.history.clone();
-            newEntry.createBackup((PwDatabaseV4) App.getDB().pm);
-        }
-
-        PwEntry newEntry = mEntry.clone(true);
-
-        Date now = Calendar.getInstance().getTime();
-        newEntry.setLastAccessTime(now);
-        newEntry.setLastModificationTime(now);
-
         PwDatabase db = App.getDB().pm;
-        newEntry.setTitle(entryTitleView.getText().toString(), db);
+
+        PwEntry newEntry = mEntry.clone();
+
+        newEntry.startToDecodeReference(db);
+
+        newEntry.createBackup(db);
+
+        newEntry.setLastAccessTime(new PwDate());
+        newEntry.setLastModificationTime(new PwDate());
+
+        newEntry.setTitle(entryTitleView.getText().toString());
         if(mSelectedIconID != -1)
             // or TODO icon factory newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(mSelectedIconID));
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
@@ -269,13 +262,13 @@ public class EntryEditActivity extends LockingHideActivity
             }
             else {
                 // Keep previous icon, if no new one was selected
-                newEntry.setIcon(mEntry.icon);
+                newEntry.setIcon(mEntry.getIconStandard());
             }
         }
-        newEntry.setUrl(entryUrlView.getText().toString(), db);
-        newEntry.setUsername(entryUserNameView.getText().toString(), db);
-        newEntry.setNotes(entryCommentView.getText().toString(), db);
-        newEntry.setPassword(entryPasswordView.getText().toString(), db);
+        newEntry.setUrl(entryUrlView.getText().toString());
+        newEntry.setUsername(entryUserNameView.getText().toString());
+        newEntry.setNotes(entryCommentView.getText().toString());
+        newEntry.setPassword(entryPasswordView.getText().toString());
 
         if (newEntry.allowExtraFields()) {
             // Delete all new standard strings
@@ -289,6 +282,8 @@ public class EntryEditActivity extends LockingHideActivity
                 newEntry.addField(key, new ProtectedString(protect, value));
             }
         }
+
+        newEntry.endToDecodeReference(db);
 
         return newEntry;
 	}
@@ -370,12 +365,13 @@ public class EntryEditActivity extends LockingHideActivity
 	public void finish() {
 	    // Assign entry callback as a result in all case
 		if (mCallbackNewEntry != null) {
+            Bundle bundle = new Bundle();
 			Intent intentEntry = new Intent();
+            bundle.putSerializable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+            intentEntry.putExtras(bundle);
 			if (mIsNew) {
-				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
 				setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
 			} else {
-				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
 				setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
 			}
 		}

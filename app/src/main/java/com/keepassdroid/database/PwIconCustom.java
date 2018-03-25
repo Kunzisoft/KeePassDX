@@ -22,7 +22,7 @@ package com.keepassdroid.database;
 import java.util.UUID;
 
 public class PwIconCustom extends PwIcon {
-	public static final PwIconCustom ZERO = new PwIconCustom(PwDatabaseV4.UUID_ZERO, new byte[0]);
+	public static final PwIconCustom ZERO = new PwIconCustom(PwDatabase.UUID_ZERO, new byte[0]);
 	
 	public final UUID uuid;
 	public byte[] imageData;
@@ -31,6 +31,11 @@ public class PwIconCustom extends PwIcon {
 		uuid = u;
 		imageData = data;
 	}
+
+    public PwIconCustom(PwIconCustom icon) {
+        uuid = icon.uuid;
+        imageData = icon.imageData;
+    }
 
 	@Override
 	public int hashCode() {

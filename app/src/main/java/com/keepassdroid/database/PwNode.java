@@ -21,12 +21,42 @@
 package com.keepassdroid.database;
 
 import java.io.Serializable;
-import java.util.Date;
+
+import static com.keepassdroid.database.PwDate.NEVER_EXPIRE;
+import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
 
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode implements Serializable {
+public abstract class PwNode implements ISmallTimeLogger, Serializable {
+
+    protected PwIconStandard icon = PwIconStandard.FIRST;
+
+    protected PwDate creation = new PwDate();
+    protected PwDate lastMod = new PwDate();
+    protected PwDate lastAccess = new PwDate();
+    protected PwDate expireDate = new PwDate(NEVER_EXPIRE);
+
+    protected void construct() {
+    }
+
+    public void assign(PwNode source) {
+        this.icon = source.icon;
+
+        this.creation = source.creation;
+        this.lastMod = source.lastMod;
+        this.lastAccess = source.lastAccess;
+        this.expireDate = source.expireDate;
+    }
+
+    protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
+        newEntry.icon = new PwIconStandard(this.icon);
+
+        newEntry.creation = creation.clone();
+        newEntry.lastMod = lastMod.clone();
+        newEntry.lastAccess = lastAccess.clone();
+        newEntry.expireDate = expireDate.clone();
+    }
 
     /**
      * Type of available Nodes
@@ -48,12 +78,17 @@ public abstract class PwNode implements Serializable {
     /**
      * @return Visual icon
      */
-    public abstract PwIcon getIcon();
+    public PwIcon getIcon() {
+        return icon;
+    }
 
-    /**
-     * @return Creation date and time of the node
-     */
-    public abstract Date getCreationTime();
+    public PwIconStandard getIconStandard() {
+        return icon;
+    }
+
+    public void setIcon(PwIconStandard icon) {
+        this.icon = icon;
+    }
 
     /**
      * Retrieve the parent node
@@ -65,6 +100,48 @@ public abstract class PwNode implements Serializable {
      * Assign a parent to this node
      */
     public abstract void setParent(PwGroup parent);
+
+    public PwDate getCreationTime() {
+        return creation;
+    }
+
+    public void setCreationTime(PwDate date) {
+        creation = date;
+    }
+
+    public PwDate getLastModificationTime() {
+        return lastMod;
+    }
+
+    public void setLastModificationTime(PwDate date) {
+        lastMod = date;
+    }
+
+    public PwDate getLastAccessTime() {
+        return lastAccess;
+    }
+
+    public void setLastAccessTime(PwDate date) {
+        lastAccess = date;
+    }
+
+    public PwDate getExpiryTime() {
+        return expireDate;
+    }
+
+    public void setExpiryTime(PwDate date) {
+        expireDate = date;
+    }
+
+    public void setExpires(boolean expires) {
+        if (!expires) {
+            expireDate = PW_NEVER_EXPIRE;
+        }
+    }
+
+    public boolean expires() {
+        return ! PwDate.IsSameDate(NEVER_EXPIRE, expireDate.getDate());
+    }
 
     /**
      * If the content (type, title, icon) is visually the same

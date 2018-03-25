@@ -79,27 +79,27 @@ public class PwEntryOutputV3 {
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.groupId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getGroupId()));
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.icon.iconId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getIconStandard().iconId));
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");
 		mOS.write(TITLE_FIELD_TYPE);
-		int titleLen = Types.writeCString(mPE.title, mOS);
+		int titleLen = Types.writeCString(mPE.getTitle(), mOS);
 		outputBytes += titleLen;
 
 		// URL
 		mOS.write(URL_FIELD_TYPE);
-		int urlLen = Types.writeCString(mPE.url, mOS);
+		int urlLen = Types.writeCString(mPE.getUrl(), mOS);
 		outputBytes += urlLen;
 		
 		// Username
 		mOS.write(USERNAME_FIELD_TYPE);
-		int userLen = Types.writeCString(mPE.username, mOS);
+		int userLen = Types.writeCString(mPE.getUsername(), mOS);
 		outputBytes += userLen;
 		
 		// Password
@@ -112,24 +112,24 @@ public class PwEntryOutputV3 {
 
 		// Additional
 		mOS.write(ADDITIONAL_FIELD_TYPE);
-		int addlLen = Types.writeCString(mPE.additional, mOS);
+		int addlLen = Types.writeCString(mPE.getNotes(), mOS);
 		outputBytes += addlLen;
 
 		// Create date
-		writeDate(CREATE_FIELD_TYPE, mPE.tCreation.getCDate());
+		writeDate(CREATE_FIELD_TYPE, mPE.getCreationTime().getCDate());
 		
 		// Modification date
-		writeDate(MOD_FIELD_TYPE, mPE.tLastMod.getCDate());
+		writeDate(MOD_FIELD_TYPE, mPE.getLastModificationTime().getCDate());
 
 		// Access date
-		writeDate(ACCESS_FIELD_TYPE, mPE.tLastAccess.getCDate());
+		writeDate(ACCESS_FIELD_TYPE, mPE.getLastAccessTime().getCDate());
 
 		// Expiration date
-		writeDate(EXPIRE_FIELD_TYPE, mPE.tExpire.getCDate());
+		writeDate(EXPIRE_FIELD_TYPE, mPE.getExpiryTime().getCDate());
 	
 		// Binary desc
 		mOS.write(BINARY_DESC_FIELD_TYPE);
-		int descLen = Types.writeCString(mPE.binaryDesc, mOS);
+		int descLen = Types.writeCString(mPE.getBinaryDesc(), mOS);
 		outputBytes += descLen;
 	
 		// Binary data

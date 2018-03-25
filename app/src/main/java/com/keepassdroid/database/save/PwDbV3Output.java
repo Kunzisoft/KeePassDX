@@ -261,7 +261,7 @@ public class PwDbV3Output extends PwDbOutput {
 		
 		// Recurse over children
 		for ( int i = 0; i < group.numbersOfChildGroups(); i++ ) {
-			sortGroup((PwGroupV3) group.childGroups.get(i), groupList);
+			sortGroup((PwGroupV3) group.getChildGroupAt(i), groupList);
 		}
 	}
 	
