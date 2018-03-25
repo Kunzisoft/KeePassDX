@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
@@ -44,7 +43,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
     private transient boolean mDecodeRef = false;
 	
 	private PwGroupV4 parent;
-	private UUID uuid = PwDatabaseV4.UUID_ZERO; // TODO move to parent
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
@@ -66,8 +64,8 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 	
 	public PwEntryV4(PwGroupV4 p) {
+		construct();
 		parent = p;
-		uuid = UUID.randomUUID();
 	}
 
     @Override
@@ -78,7 +76,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
         super.assign(source);
         PwEntryV4 src = (PwEntryV4) source;
         parent = src.parent;
-        uuid = src.uuid;
         customIcon = src.customIcon;
         usageCount = src.usageCount;
         parentGroupLastMod = src.parentGroupLastMod;
@@ -107,7 +104,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
         // Attributes here
         // newEntry.parent stay the same in copy
-        // newEntry.uuid stay the same in copy
         newEntry.customIcon = new PwIconCustom(this.customIcon);
         // newEntry.usageCount stay the same in copy
         newEntry.parentGroupLastMod = this.parentGroupLastMod.clone();
@@ -219,16 +215,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
         this.parent = (PwGroupV4) parent;
     }
 
-    @Override
-	public UUID getUUID() {
-		return uuid;
-	}
-
-	@Override
-	public void setUUID(UUID u) {
-		uuid = u;
-	}
-
 	public String getString(String key) {
 		ProtectedString value = fields.get(key);
 		
@@ -278,7 +264,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.uuid.equals(PwDatabaseV4.UUID_ZERO)) {
+		if (customIcon == null || customIcon.uuid.equals(PwDatabase.UUID_ZERO)) {
 			return super.getIcon();
 		} else {
 			return customIcon;

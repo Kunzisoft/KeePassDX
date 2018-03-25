@@ -30,12 +30,28 @@ import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
  */
 public abstract class PwNode implements ISmallTimeLogger, Serializable {
 
+    protected PwIconStandard icon = PwIconStandard.FIRST;
+
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();
     protected PwDate lastAccess = new PwDate();
     protected PwDate expireDate = new PwDate(NEVER_EXPIRE);
 
+    protected void construct() {
+    }
+
+    public void assign(PwNode source) {
+        this.icon = source.icon;
+
+        this.creation = source.creation;
+        this.lastMod = source.lastMod;
+        this.lastAccess = source.lastAccess;
+        this.expireDate = source.expireDate;
+    }
+
     protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
+        newEntry.icon = new PwIconStandard(this.icon);
+
         newEntry.creation = creation.clone();
         newEntry.lastMod = lastMod.clone();
         newEntry.lastAccess = lastAccess.clone();
@@ -62,7 +78,17 @@ public abstract class PwNode implements ISmallTimeLogger, Serializable {
     /**
      * @return Visual icon
      */
-    public abstract PwIcon getIcon();
+    public PwIcon getIcon() {
+        return icon;
+    }
+
+    public PwIconStandard getIconStandard() {
+        return icon;
+    }
+
+    public void setIcon(PwIconStandard icon) {
+        this.icon = icon;
+    }
 
     /**
      * Retrieve the parent node
@@ -74,33 +100,6 @@ public abstract class PwNode implements ISmallTimeLogger, Serializable {
      * Assign a parent to this node
      */
     public abstract void setParent(PwGroup parent);
-
-    /**
-     * If the content (type, title, icon) is visually the same
-     * @param o Node to compare
-     * @return True if visually as o
-     */
-    public boolean isContentVisuallyTheSame(PwNode o) {
-        return getType().equals(o.getType())
-                && getDisplayTitle().equals(o.getDisplayTitle())
-                && getIcon().equals(o.getIcon());
-    }
-
-    /**
-     * Define if it's the same type of another node
-     * @param otherNode The other node to test
-     * @return true if both have the same type
-     */
-    boolean isSameType(PwNode otherNode) {
-        return getType() != null ? getType().equals(otherNode.getType()) : otherNode.getType() == null;
-    }
-
-    public void assign(PwNode source) {
-        this.creation = source.creation;
-        this.lastMod = source.lastMod;
-        this.lastAccess = source.lastAccess;
-        this.expireDate = source.expireDate;
-    }
 
     public PwDate getCreationTime() {
         return creation;
@@ -142,5 +141,25 @@ public abstract class PwNode implements ISmallTimeLogger, Serializable {
 
     public boolean expires() {
         return ! PwDate.IsSameDate(NEVER_EXPIRE, expireDate.getDate());
+    }
+
+    /**
+     * If the content (type, title, icon) is visually the same
+     * @param o Node to compare
+     * @return True if visually as o
+     */
+    public boolean isContentVisuallyTheSame(PwNode o) {
+        return getType().equals(o.getType())
+                && getDisplayTitle().equals(o.getDisplayTitle())
+                && getIcon().equals(o.getIcon());
+    }
+
+    /**
+     * Define if it's the same type of another node
+     * @param otherNode The other node to test
+     * @return true if both have the same type
+     */
+    boolean isSameType(PwNode otherNode) {
+        return getType() != null ? getType().equals(otherNode.getType()) : otherNode.getType() == null;
     }
 }

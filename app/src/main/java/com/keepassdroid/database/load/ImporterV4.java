@@ -46,6 +46,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import biz.source_code.base64Coder.Base64Coder;
 
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDate;
 import com.keepassdroid.tasks.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
@@ -309,7 +310,7 @@ public class ImporterV4 extends Importer {
 	private boolean entryInHistory = false;
 	private PwEntryV4 ctxHistoryBase = null;
 	private PwDeletedObject ctxDeletedObject = null;
-	private UUID customIconID = PwDatabaseV4.UUID_ZERO;
+	private UUID customIconID = PwDatabase.UUID_ZERO;
 	private byte[] customIconData;
 	private String customDataKey = null;
 	private String customDataValue = null;
@@ -796,13 +797,13 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.CustomIcons && name.equalsIgnoreCase(ElemCustomIcons) ) {
 			return KdbContext.Meta;
 		} else if ( ctx == KdbContext.CustomIcon && name.equalsIgnoreCase(ElemCustomIconItem) ) {
-			if ( ! customIconID.equals(PwDatabaseV4.UUID_ZERO) ) {
+			if ( ! customIconID.equals(PwDatabase.UUID_ZERO) ) {
 				PwIconCustom icon = new PwIconCustom(customIconID, customIconData);
 				db.customIcons.add(icon);
 				db.iconFactory.put(icon);
 			} else assert(false);
 			
-			customIconID = PwDatabaseV4.UUID_ZERO;
+			customIconID = PwDatabase.UUID_ZERO;
 			customIconData = null;
 			
 			return KdbContext.CustomIcons;
@@ -820,7 +821,7 @@ public class ImporterV4 extends Importer {
 			
 			return KdbContext.CustomData;
 		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(ElemGroup) ) {
-			if ( ctxGroup.getUUID() == null || ctxGroup.getUUID().equals(PwDatabaseV4.UUID_ZERO) ) {
+			if ( ctxGroup.getUUID() == null || ctxGroup.getUUID().equals(PwDatabase.UUID_ZERO) ) {
 				ctxGroup.setUUID(UUID.randomUUID());
 			}
 			
@@ -850,7 +851,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.GroupCustomData;
 
 		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(ElemEntry) ) {
-			if ( ctxEntry.getUUID() == null || ctxEntry.getUUID().equals(PwDatabaseV4.UUID_ZERO) ) {
+			if ( ctxEntry.getUUID() == null || ctxEntry.getUUID().equals(PwDatabase.UUID_ZERO) ) {
 				ctxEntry.setUUID(UUID.randomUUID());
 			}
 			
@@ -985,7 +986,7 @@ public class ImporterV4 extends Importer {
 		String encoded = ReadString(xpp);
 		
 		if (encoded == null || encoded.length() == 0 ) {
-			return PwDatabaseV4.UUID_ZERO;
+			return PwDatabase.UUID_ZERO;
 		}
 		
 		// TODO: Switch to framework Base64 once API level 8 is the minimum

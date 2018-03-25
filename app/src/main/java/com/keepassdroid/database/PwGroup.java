@@ -28,10 +28,7 @@ import java.util.List;
 
 public abstract class PwGroup extends PwNode {
 
-    // TODO Change dependency and make private
-
     protected String name = "";
-    protected PwIconStandard icon;
 
 	protected List<PwGroup> childGroups = new ArrayList<>();
 	protected List<PwEntry> childEntries = new ArrayList<>();
@@ -134,18 +131,6 @@ public abstract class PwGroup extends PwNode {
 
     public void setName(String name) {
         this.name = name;
-    }
-	
-	public PwIcon getIcon() {
-		return icon;
-	}
-
-	public PwIconStandard getIconStandard() {
-        return icon;
-    }
-
-	public void setIcon(PwIconStandard icon) {
-        this.icon = icon;
     }
 
 	public boolean allowAddEntryIfIsRoot() {

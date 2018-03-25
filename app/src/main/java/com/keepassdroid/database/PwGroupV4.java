@@ -28,7 +28,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
 	private PwGroupV4 parent = null;
-	private UUID uuid = PwDatabaseV4.UUID_ZERO;
+	private UUID uuid = PwDatabase.UUID_ZERO;
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
@@ -41,11 +41,12 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 	private String defaultAutoTypeSequence = "";
 	private Boolean enableAutoType = null;
 	private Boolean enableSearching = null;
-	private UUID lastTopVisibleEntry = PwDatabaseV4.UUID_ZERO;
+	private UUID lastTopVisibleEntry = PwDatabase.UUID_ZERO;
 
 	public PwGroupV4() {}
 	
 	public PwGroupV4(String name, PwIconStandard icon) {
+		super.construct();
 		this.uuid = UUID.randomUUID();
 		this.name = name;
 		this.icon = icon;
@@ -83,8 +84,8 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
         return uuid;
     }
 
-    public void setUUID(UUID u) {
-        uuid = u;
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public PwIconCustom getCustomIcon() {
@@ -143,7 +144,7 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
 
 	@Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.uuid.equals(PwDatabaseV4.UUID_ZERO)) {
+		if (customIcon == null || customIcon.uuid.equals(PwDatabase.UUID_ZERO)) {
 			return super.getIcon();
 		} else {
 			return customIcon;

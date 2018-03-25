@@ -89,6 +89,7 @@ public class PwGroupV3 extends PwGroup {
     }
 
     public void populateBlankFields(PwDatabaseV3 db) {
+	    // TODO populate blanck field
         if (icon == null) {
             icon = db.iconFactory.getIcon(1);
         }

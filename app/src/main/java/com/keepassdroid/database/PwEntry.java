@@ -30,9 +30,15 @@ import java.util.UUID;
 public abstract class PwEntry extends PwNode implements Cloneable {
 
 	private static final String PMS_TAN_ENTRY = "<TAN>";
-	
-	protected PwIconStandard icon = PwIconStandard.FIRST;
-	
+
+	protected UUID uuid = PwDatabase.UUID_ZERO;
+
+	@Override
+	protected void construct() {
+	    super.construct();
+        uuid = UUID.randomUUID();
+    }
+
 	public static PwEntry getInstance(PwGroup parent) {
 		if (parent instanceof PwGroupV3) {
 			return new PwEntryV3((PwGroupV3)parent);
@@ -59,7 +65,7 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	@Override
     protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
 	    super.addCloneAttributesToNewEntry(newEntry);
-        newEntry.icon = new PwIconStandard(this.icon);
+	    // uuid is clone automatically (IMMUTABLE)
     }
 
 	@Override
@@ -69,11 +75,16 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 
     public void assign(PwEntry source) {
 	    super.assign(source);
-		icon = source.icon;
+        uuid = source.uuid;
 	}
-	
-	public abstract UUID getUUID();
-	public abstract void setUUID(UUID u);
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
+    }
 
 	public void startToDecodeReference(PwDatabase db) {}
 	public void endToDecodeReference(PwDatabase db) {}
@@ -92,18 +103,6 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 
 	public abstract String getNotes();
 	public abstract void setNotes(String notes);
-
-	public PwIcon getIcon() {
-		return icon;
-	}
-
-	public PwIconStandard getStandardIcon() {
-		return icon;
-	}
-
-    public void setIcon(PwIconStandard icon) {
-        this.icon = icon;
-    }
 	
 	private boolean isTan() {
 		return getTitle().equals(PMS_TAN_ENTRY) && (getUsername().length() > 0);

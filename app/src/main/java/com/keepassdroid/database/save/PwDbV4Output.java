@@ -462,7 +462,7 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.startTag(null, ElemEntry);
 		
 		writeObject(ElemUuid, entry.getUUID());
-		writeObject(ElemIcon, entry.getStandardIcon().iconId);
+		writeObject(ElemIcon, entry.getIconStandard().iconId);
 		
 		if (!entry.getCustomIcon().equals(PwIconCustom.ZERO)) {
 			writeObject(ElemCustomIconID, entry.getCustomIcon().uuid);

@@ -262,7 +262,7 @@ public class EntryEditActivity extends LockingHideActivity
             }
             else {
                 // Keep previous icon, if no new one was selected
-                newEntry.setIcon(mEntry.getStandardIcon());
+                newEntry.setIcon(mEntry.getIconStandard());
             }
         }
         newEntry.setUrl(entryUrlView.getText().toString());
@@ -365,12 +365,13 @@ public class EntryEditActivity extends LockingHideActivity
 	public void finish() {
 	    // Assign entry callback as a result in all case
 		if (mCallbackNewEntry != null) {
+            Bundle bundle = new Bundle();
 			Intent intentEntry = new Intent();
+            bundle.putSerializable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+            intentEntry.putExtras(bundle);
 			if (mIsNew) {
-				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
 				setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
 			} else {
-				intentEntry.putExtra(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
 				setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
 			}
 		}

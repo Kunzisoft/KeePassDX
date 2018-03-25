@@ -79,7 +79,6 @@ public class PwEntryV3 extends PwEntry {
     private PwGroupV3 parent = null;
     private int groupId;
 
-    private UUID uuid;
     private String title;
 	private	String username;
 	private byte[] password;
@@ -96,9 +95,9 @@ public class PwEntryV3 extends PwEntry {
 	}
 	
 	public PwEntryV3(PwGroupV3 p) {
+	    construct();
 		parent = p;
 		groupId = ((PwGroupIdV3)parent.getId()).getId(); // TODO remove
-        uuid = UUID.randomUUID();
 	}
 
     @Override
@@ -108,28 +107,22 @@ public class PwEntryV3 extends PwEntry {
         }
         super.assign(source);
         PwEntryV3 src = (PwEntryV3) source;
-        assign(src);
-    }
+        parent = src.parent;
+        groupId = src.groupId;
 
-    private void assign(PwEntryV3 source) {
-
-        parent = source.parent;
-        groupId = source.groupId;
-
-        uuid = source.uuid;
-        title = source.title;
-        username = source.username;
-        int passLen = source.password.length;
+        title = src.title;
+        username = src.username;
+        int passLen = src.password.length;
         password = new byte[passLen];
-        System.arraycopy(source.password, 0, password, 0, passLen);
-        url = source.url;
-        additional = source.additional;
+        System.arraycopy(src.password, 0, password, 0, passLen);
+        url = src.url;
+        additional = src.additional;
 
-        binaryDesc = source.binaryDesc;
-        if ( source.binaryData != null ) {
-            int descLen = source.binaryData.length;
+        binaryDesc = src.binaryDesc;
+        if ( src.binaryData != null ) {
+            int descLen = src.binaryData.length;
             binaryData = new byte[descLen];
-            System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
+            System.arraycopy(src.binaryData, 0, binaryData, 0, descLen);
         }
     }
 
@@ -143,7 +136,6 @@ public class PwEntryV3 extends PwEntry {
         // Attributes here
         // newEntry.parent stay the same in copy
         // newEntry.groupId stay the same in copy
-        // newEntry.uuid stay the same in copy
         // newEntry.title stay the same in copy
         // newEntry.username stay the same in copy
         if (password != null) {
@@ -180,16 +172,6 @@ public class PwEntryV3 extends PwEntry {
 
     public void setGroupId(int groupId) {
 	    this.groupId = groupId;
-    }
-
-    @Override
-    public UUID getUUID() {
-        return uuid;
-    }
-
-    @Override
-    public void setUUID(UUID uuid) {
-        this.uuid = uuid;
     }
 
     @Override
@@ -236,6 +218,7 @@ public class PwEntryV3 extends PwEntry {
     }
 
     public void populateBlankFields(PwDatabaseV3 db) {
+	    // TODO verify and remove
         if (icon == null) {
             icon = db.iconFactory.getIcon(1);
         }

@@ -41,6 +41,7 @@ import com.keepassdroid.utils.Util;
 
 public abstract class PwDatabase {
 
+    public static final UUID UUID_ZERO = new UUID(0,0);
     public byte masterKey[] = new byte[32];
     public byte[] finalKey;
     public String name = "KeePass database";

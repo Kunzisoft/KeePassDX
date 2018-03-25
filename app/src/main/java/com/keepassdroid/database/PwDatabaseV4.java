@@ -58,7 +58,6 @@ import biz.source_code.base64Coder.Base64Coder;
 
 public class PwDatabaseV4 extends PwDatabase {
 
-    public static final UUID UUID_ZERO = new UUID(0,0);
 	public static final int DEFAULT_ROUNDS = 6000;
 	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
 	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
