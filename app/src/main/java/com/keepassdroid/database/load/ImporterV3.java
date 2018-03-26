@@ -160,9 +160,9 @@ public class ImporterV3 extends Importer {
 
 		// Select algorithm
 		if( (hdr.flags & PwDbHeaderV3.FLAG_RIJNDAEL) != 0 ) {
-			newManager.algorithm = PwEncryptionAlgorithm.Rjindal;
+			newManager.setEncryptionAlgorithm(PwEncryptionAlgorithm.Rjindal);
 		} else if( (hdr.flags & PwDbHeaderV3.FLAG_TWOFISH) != 0 ) {
-			newManager.algorithm = PwEncryptionAlgorithm.Twofish;
+			newManager.setEncryptionAlgorithm(PwEncryptionAlgorithm.Twofish);
 		} else {
 			throw new InvalidAlgorithmException();
 		}
@@ -170,20 +170,20 @@ public class ImporterV3 extends Importer {
 		// Copy for testing
 		newManager.copyHeader(hdr);
 		
-		newManager.numKeyEncRounds = hdr.numKeyEncRounds;
+		newManager.setNumKeyEncRounds(hdr.numKeyEncRounds);
 
-		newManager.name = "KeePass Password Manager";
+		newManager.setName("KeePass Password Manager"); // TODO as resource;
 
 		// Generate transformedMasterKey from masterKey
-		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.numKeyEncRounds);
+		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumKeyEncRounds());
 
 		status.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm
 		Cipher cipher;
 		try {
-			if ( newManager.algorithm == PwEncryptionAlgorithm.Rjindal ) {
+			if ( newManager.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
-			} else if ( newManager.algorithm == PwEncryptionAlgorithm.Twofish ) {
+			} else if ( newManager.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
 			} else {
 				throw new IOException( "Encryption algorithm is not supported" );
@@ -196,7 +196,7 @@ public class ImporterV3 extends Importer {
 		}
 
 		try {
-			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( newManager.finalKey, "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
+			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( newManager.getFinalKey(), "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
 		} catch (InvalidKeyException e1) {
 			throw new IOException("Invalid key");
 		} catch (InvalidAlgorithmParameterException e1) {
@@ -250,7 +250,7 @@ public class ImporterV3 extends Importer {
 
 				// End-Group record.  Save group and count it.
 				newGrp.populateBlankFields(newManager);
-				newManager.groups.add(newGrp);
+				newManager.addGroup(newGrp);
 				newGrp = new PwGroupV3();
 				i++;
 			}
@@ -269,7 +269,7 @@ public class ImporterV3 extends Importer {
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
 				newEnt.populateBlankFields(newManager);
-				newManager.entries.add(newEnt);
+				newManager.addEntry(newEnt);
 				newEnt = new PwEntryV3();
 				i++;
 			}
@@ -358,7 +358,7 @@ public class ImporterV3 extends Importer {
 			grp.setExpiryTime(new PwDate(buf, offset));
 			break;
 		case 0x0007 :
-			grp.setIcon(db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset)));
+			grp.setIcon(db.getIconFactory().getIcon(LEDataInputStream.readInt(buf, offset)));
 			break;
 		case 0x0008 :
 			grp.setLevel(LEDataInputStream.readUShort(buf, offset));
@@ -397,7 +397,7 @@ public class ImporterV3 extends Importer {
 				iconId = 0;
 			}
 			
-			ent.setIcon(db.iconFactory.getIcon(iconId));
+			ent.setIcon(db.getIconFactory().getIcon(iconId));
 			break;
 		case 0x0004 :
 			ent.setTitle(Types.readCString(buf, offset));

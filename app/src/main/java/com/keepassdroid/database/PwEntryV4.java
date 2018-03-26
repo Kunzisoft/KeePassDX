@@ -169,7 +169,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void setTitle(String title) {
 		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectTitle;
+		boolean protect = db.getMemoryProtection().protectTitle;
 		
 		setString(STR_TITLE, title, protect);
 	}
@@ -177,7 +177,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void setUsername(String user) {
 		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectUserName;
+		boolean protect = db.getMemoryProtection().protectUserName;
 		
 		setString(STR_USERNAME, user, protect);
 	}
@@ -185,7 +185,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void setPassword(String pass) {
 		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectPassword;
+		boolean protect = db.getMemoryProtection().protectPassword;
 		
 		setString(STR_PASSWORD, pass, protect);
 	}
@@ -193,7 +193,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void setUrl(String url) {
 		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectUrl;
+		boolean protect = db.getMemoryProtection().protectUrl;
 		
 		setString(STR_URL, url, protect);
 	}
@@ -201,7 +201,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void setNotes(String notes) {
 		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectNotes;
+		boolean protect = db.getMemoryProtection().protectNotes;
 		
 		setString(STR_NOTES, notes, protect);
 	}
@@ -459,7 +459,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private boolean maintainBackups(PwDatabaseV4 db) {
 		boolean deleted = false;
 
-		int maxItems = db.historyMaxItems;
+		int maxItems = db.getHistoryMaxItems();
 		if (maxItems >= 0) {
 			while (history.size() > maxItems) {
 				removeOldestBackup();
@@ -467,7 +467,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			}
 		}
 
-		long maxSize = db.historyMaxSize;
+		long maxSize = db.getHistoryMaxSize();
 		if (maxSize >= 0) {
 			while(true) {
 				long histSize = 0;

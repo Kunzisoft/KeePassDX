@@ -60,44 +60,87 @@ import com.keepassdroid.database.exception.InvalidKeyFileException;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
 public class PwDatabaseV3 extends PwDatabase {
-	// Constants
-	// private static final int PWM_SESSION_KEY_SIZE = 12;
 
-	private final int DEFAULT_ENCRYPTION_ROUNDS = 300;
-
-	// Special entry for settings
-	public PwEntry metaInfo;
+	private static final int DEFAULT_ENCRYPTION_ROUNDS = 300;
 
 	// all entries
-	public List<PwEntry> entries = new ArrayList<>();
+	private List<PwEntry> entries = new ArrayList<>();
 	// all groups
-	public List<PwGroup> groups = new ArrayList<>();
+	private List<PwGroup> groups = new ArrayList<>();
 	// Algorithm used to encrypt the database
-	public PwEncryptionAlgorithm algorithm;
-	public int numKeyEncRounds;
+	private PwEncryptionAlgorithm algorithm;
+	private int numKeyEncRounds;
+
+    private void initAndAddGroup(String name, int iconId, PwGroup parent) {
+        PwGroup group = createGroup();
+        group.initNewGroup(name, newGroupId());
+        group.setIcon(iconFactory.getIcon(iconId));
+        addGroupTo(group, parent);
+    }
+
+    @Override
+    public void initNew(String dbPath) {
+        algorithm = PwEncryptionAlgorithm.Rjindal;
+        numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
+        name = "KeePass Password Manager"; // TODO as resource
+        // Build the root tree
+        constructTree(null);
+
+        // Add a couple default groups
+        initAndAddGroup("Internet", 1, rootGroup);
+        initAndAddGroup("eMail", 19, rootGroup);
+    }
 
 	@Override
-	public PwEncryptionAlgorithm getEncAlgorithm() {
+	public PwEncryptionAlgorithm getEncryptionAlgorithm() {
 		return algorithm;
 	}
 
-	public int getNumKeyEncRecords() {
+	public void setEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
+        this.algorithm = algorithm;
+    }
+
+	public int getNumKeyEncRounds() {
 		return numKeyEncRounds;
 	}
+
+	public void setNumKeyEncRounds(int numKeyEncRounds) {
+        this.numKeyEncRounds = numKeyEncRounds;
+    }
 
 	@Override
 	public List<PwGroup> getGroups() {
 		return groups;
 	}
 
+    public void setGroups(List<PwGroup> grp) {
+        groups = grp;
+    }
+
+    public void addGroup(PwGroup group) {
+	    this.groups.add(group);
+    }
+
+	public int numberOfGroups() {
+	    return groups.size();
+    }
+
 	@Override
 	public List<PwEntry> getEntries() {
 		return entries;
 	}
 
-	public void setGroups(List<PwGroup> grp) {
-		groups = grp;
-	}
+	public PwEntry getEntryAt(int position) {
+	    return entries.get(position);
+    }
+
+    public void addEntry(PwEntry entry) {
+        this.entries.add(entry);
+    }
+
+	public int numberOfEntries() {
+	    return entries.size();
+    }
 
 	@Override
 	public List<PwGroup> getGrpRoots() {
@@ -109,17 +152,6 @@ public class PwDatabaseV3 extends PwDatabase {
 				kids.add(grp);
 		}
 		return kids;
-	}
-
-	public int getRootGroupId() {
-		for (int i = 0; i < groups.size(); i++) {
-			PwGroupV3 grp = (PwGroupV3) groups.get(i);
-			if (grp.getLevel() == 0) {
-				return grp.getGroupId();
-			}
-		}
-
-		return -1;
 	}
 
 	public List<PwGroup> getGrpChildren(PwGroupV3 parent) {
@@ -206,13 +238,10 @@ public class PwDatabaseV3 extends PwDatabase {
 	 */
 	@Override
 	public PwGroupIdV3 newGroupId() {
-		PwGroupIdV3 newId = new PwGroupIdV3(0);
-
+		PwGroupIdV3 newId;
 		Random random = new Random();
-
 		while (true) {
 			newId = new PwGroupIdV3(random.nextInt());
-
 			if (!isGroupIdUsed(newId)) break;
 		}
 
@@ -244,7 +273,6 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 
-
 	@Override
 	public long getNumRounds() {
 		return numKeyEncRounds;
@@ -255,7 +283,6 @@ public class PwDatabaseV3 extends PwDatabase {
 		if (rounds > Integer.MAX_VALUE || rounds < Integer.MIN_VALUE) {
 			throw new NumberFormatException();
 		}
-
 		numKeyEncRounds = (int) rounds;
 	}
 
@@ -270,7 +297,6 @@ public class PwDatabaseV3 extends PwDatabase {
 		
 		// Add entry to root entries
 		entries.add(newEntry);
-		
 	}
 
 	@Override
@@ -333,25 +359,5 @@ public class PwDatabaseV3 extends PwDatabase {
 		}
 		
 		return !(omitBackup && isBackup(group));
-	}
-	
-	private void initAndAddGroup(String name, int iconId, PwGroup parent) {
-		PwGroup group = createGroup();
-		group.initNewGroup(name, newGroupId());
-		group.setIcon(iconFactory.getIcon(iconId));
-		addGroupTo(group, parent);
-	}
-
-	@Override
-	public void initNew(String dbPath) {
-		algorithm = PwEncryptionAlgorithm.Rjindal;
-		numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
-		name = "KeePass Password Manager";
-		// Build the root tree
-		constructTree(null);
-		
-		// Add a couple default groups
-		initAndAddGroup("Internet", 1, rootGroup);
-		initAndAddGroup("eMail", 19, rootGroup);
 	}
 }

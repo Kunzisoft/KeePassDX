@@ -180,7 +180,7 @@ public abstract class ListNodesActivity extends LockingActivity
                 PwDatabase database = App.getDB().pm;
                 /*
                 // TODO Recycle bin bottom
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnable()) {
+                if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
                     sortDialogFragment =
                             SortDialogFragment.getInstance(
                                     PrefsUtil.getListSort(this),
@@ -295,7 +295,7 @@ public abstract class ListNodesActivity extends LockingActivity
                 mAdapter.removeNode(pwNode);
                 PwGroup parent = pwNode.getParent();
                 PwDatabase database = App.getDB().pm;
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnable()) {
+                if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
                     PwGroup recycleBin = database.getRecycleBin();
                     // Add trash if it doesn't exists
                     if (parent.equals(recycleBin)

@@ -150,7 +150,7 @@ public class Database {
 
         pm = imp.openDatabase(bis, password, kfIs, status, roundsFix);
         if ( pm != null ) {
-            PwGroup root = pm.rootGroup;
+            PwGroup root = pm.getRootGroup();
             pm.populateGlobals(root);
             LoadData(ctx, pm, password, kfIs, status);
         }

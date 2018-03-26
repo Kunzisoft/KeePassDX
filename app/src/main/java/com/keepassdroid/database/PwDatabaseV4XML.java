@@ -19,7 +19,6 @@
  */
 package com.keepassdroid.database;
 
-import android.annotation.SuppressLint;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 

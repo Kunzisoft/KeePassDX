@@ -42,14 +42,16 @@ import com.keepassdroid.utils.Util;
 public abstract class PwDatabase {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
-    public byte masterKey[] = new byte[32];
-    public byte[] finalKey;
-    public String name = "KeePass database";
-    public PwGroup rootGroup;
-    public PwIconFactory iconFactory = new PwIconFactory();
-    public Map<PwGroupId, PwGroup> groups = new HashMap<>();
-    public Map<UUID, PwEntry> entries = new HashMap<>();
 
+    protected byte masterKey[] = new byte[32];
+    protected byte[] finalKey;
+
+    protected String name = "KeePass database";
+    protected PwGroup rootGroup;
+    protected PwIconFactory iconFactory = new PwIconFactory();
+
+    protected Map<PwGroupId, PwGroup> groups = new HashMap<>();
+    protected Map<UUID, PwEntry> entries = new HashMap<>();
 
     private static boolean isKDBExtension(String filename) {
         if (filename == null) { return false; }
@@ -68,10 +70,42 @@ public abstract class PwDatabase {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public PwGroup getRootGroup() {
+        return rootGroup;
+    }
+
+    public void setRootGroup(PwGroup rootGroup) {
+        this.rootGroup = rootGroup;
+    }
+
+    public PwIconFactory getIconFactory() {
+        return iconFactory;
+    }
+
+    public byte[] getMasterKey() {
+        return masterKey;
+    }
+
+    public void setMasterKey(byte[] masterKey) {
+        this.masterKey = masterKey;
+    }
+
+    public byte[] getFinalKey() {
+        return finalKey;
+    }
+
     public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
 
         // Write checksum Checksum
-        MessageDigest md = null;
+        MessageDigest md;
         try {
             md = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
@@ -87,13 +121,11 @@ public abstract class PwDatabase {
         finalKey = md.digest();
     }
 
-
     /**
      * Encrypt the master key a few times to make brute-force key-search harder
      * @throws IOException
      */
-    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
-    {
+    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException {
         FinalKey key = FinalKeyFactory.createFinalKey();
 
         return key.transformMasterKey(pKeySeed, pKey, rounds);
@@ -237,19 +269,17 @@ public abstract class PwDatabase {
         return md.digest();
     }
 
-    public abstract List<PwGroup> getGrpRoots();
-
-    public abstract List<PwGroup> getGroups();
-
-    public abstract List<PwEntry> getEntries();
-
     public abstract long getNumRounds();
 
     public abstract void setNumRounds(long rounds) throws NumberFormatException;
 
     public abstract boolean algorithmSettingsEnabled();
 
-    public abstract PwEncryptionAlgorithm getEncAlgorithm();
+    public abstract PwEncryptionAlgorithm getEncryptionAlgorithm();
+
+    public abstract List<PwGroup> getGrpRoots();
+
+    public abstract List<PwGroup> getGroups();
 
     public void addGroupTo(PwGroup newGroup, PwGroup parent) {
         // Add tree to parent tree
@@ -272,25 +302,11 @@ public abstract class PwDatabase {
         groups.remove(remove.getId());
     }
 
-    public void addEntryTo(PwEntry newEntry, PwGroup parent) {
-        // Add entry to parent
-        if (parent != null) {
-            parent.addChildEntry(newEntry);
-        }
-        newEntry.setParent(parent);
-
-        entries.put(newEntry.getUUID(), newEntry);
-    }
-
-    public void removeEntryFrom(PwEntry remove, PwGroup parent) {
-        // Remove entry for parent
-        if (parent != null) {
-            parent.removeChildEntry(remove);
-        }
-        entries.remove(remove.getUUID());
-    }
-
     public abstract PwGroupId newGroupId();
+
+    public PwGroup getGroupByGroupId(PwGroupId id) {
+        return this.groups.get(id);
+    }
 
     /**
      * Determine if an id number is already in use
@@ -313,6 +329,30 @@ public abstract class PwDatabase {
     }
 
     public abstract PwGroup createGroup();
+
+    public abstract List<PwEntry> getEntries();
+
+    public PwEntry getEntryByUUIDId(UUID id) {
+        return this.entries.get(id);
+    }
+
+    public void addEntryTo(PwEntry newEntry, PwGroup parent) {
+        // Add entry to parent
+        if (parent != null) {
+            parent.addChildEntry(newEntry);
+        }
+        newEntry.setParent(parent);
+
+        entries.put(newEntry.getUUID(), newEntry);
+    }
+
+    public void removeEntryFrom(PwEntry remove, PwGroup parent) {
+        // Remove entry for parent
+        if (parent != null) {
+            parent.removeChildEntry(remove);
+        }
+        entries.remove(remove.getUUID());
+    }
 
     public abstract boolean isBackup(PwGroup group);
 
@@ -345,7 +385,7 @@ public abstract class PwDatabase {
      * Determine if RecycleBin is enable or not
      * @return true if RecycleBin enable, false if is not available or not enable
      */
-    public boolean isRecycleBinEnable() {
+    public boolean isRecycleBinEnabled() {
         return false;
     }
 

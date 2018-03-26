@@ -109,7 +109,7 @@ public class ImporterV4 extends Importer {
 		db = createDB();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
-        db.binPool.clear();
+        db.getBinPool().clear();
 
 		PwDbHeaderV4.HeaderAndHash hh = header.loadFromFile(inStream);
         version = header.version;
@@ -118,14 +118,14 @@ public class ImporterV4 extends Importer {
 		pbHeader = hh.header;
 			
 		db.setMasterKey(password, keyInputStream);
-		db.makeFinalKey(header.masterSeed, db.kdfParameters, roundsFix);
+		db.makeFinalKey(header.masterSeed, db.getKdfParameters(), roundsFix);
 
 		CipherEngine engine;
 		Cipher cipher;
 		try {
-			engine = CipherFactory.getInstance(db.dataCipher);
-			db.dataEngine = engine;
-			cipher = engine.getCipher(Cipher.DECRYPT_MODE, db.finalKey, header.encryptionIV);
+			engine = CipherFactory.getInstance(db.getDataCipher());
+			db.setDataEngine(engine);
+			cipher = engine.getCipher(Cipher.DECRYPT_MODE, db.getFinalKey(), header.encryptionIV);
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException("Invalid algorithm.");
 		} catch (NoSuchPaddingException e) {
@@ -164,7 +164,7 @@ public class ImporterV4 extends Importer {
 				throw new InvalidDBException();
 			}
 
-			byte[] hmacKey = db.hmacKey;
+			byte[] hmacKey = db.getHmacKey();
 			byte[] headerHmac = PwDbHeaderV4.computeHeaderHmac(pbHeader, hmacKey);
 			byte[] storedHmac = isData.readBytes(32);
 			if (storedHmac == null || storedHmac.length != 32) {
@@ -181,7 +181,7 @@ public class ImporterV4 extends Importer {
 		}
 
 		InputStream isXml;
-		if ( db.compressionAlgorithm == PwCompressionAlgorithm.Gzip ) {
+		if ( db.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip ) {
 			isXml = new GZIPInputStream(isPlain);
 		} else {
 			isXml = isPlain;
@@ -253,7 +253,7 @@ public class ImporterV4 extends Importer {
 				byte[] bin = new byte[data.length - 1];
 				System.arraycopy(data, 1, bin, 0, data.length-1);
 				ProtectedBinary pb = new ProtectedBinary(prot, bin);
-				db.binPool.poolAdd(pb);
+				db.getBinPool().poolAdd(pb);
 
 				if (prot) {
 					Arrays.fill(data, (byte)0);
@@ -408,56 +408,54 @@ public class ImporterV4 extends Importer {
 					}
 				}
 			} else if (name.equalsIgnoreCase(ElemSettingsChanged)) {
-				db.settingsChanged = ReadTime(xpp);
+				db.setSettingsChanged(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbName) ) {
-				db.name = ReadString(xpp);
+				db.setName(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbNameChanged) ) {
-				db.nameChanged = ReadTime(xpp);
+				db.setNameChanged(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbDesc) ) {
-				db.description = ReadString(xpp);
+				db.setDescription(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbDescChanged) ) {
-				db.descriptionChanged = ReadTime(xpp);
+				db.setDescriptionChanged(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbDefaultUser) ) {
-				db.defaultUserName = ReadString(xpp);
+				db.setDefaultUserName(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbDefaultUserChanged) ) {
-				db.defaultUserNameChanged = ReadTime(xpp);
+				db.setDefaultUserNameChanged(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbColor)) {
 				// TODO: Add support to interpret the color if we want to allow changing the database color
-				db.color = ReadString(xpp);
+				db.setColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbMntncHistoryDays) ) {
-				db.maintenanceHistoryDays = ReadUInt(xpp, DEFAULT_HISTORY_DAYS);
+				db.setMaintenanceHistoryDays(ReadUInt(xpp, DEFAULT_HISTORY_DAYS));
 			} else if ( name.equalsIgnoreCase(ElemDbKeyChanged) ) {
-				db.keyLastChanged = ReadTime(xpp);
+				db.setKeyLastChanged(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeRec) ) {
-				db.keyChangeRecDays = ReadLong(xpp, -1);
+				db.setKeyChangeRecDays(ReadLong(xpp, -1));
 			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeForce) ) {
-				db.keyChangeForceDays = ReadLong(xpp, -1);
+				db.setKeyChangeForceDays(ReadLong(xpp, -1));
 			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeForceOnce) ) {
-				db.keyChangeForceOnce = ReadBool(xpp, false);
+				db.setKeyChangeForceOnce(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(ElemMemoryProt) ) {
 				return SwitchContext(ctx, KdbContext.MemoryProtection, xpp);
 			} else if ( name.equalsIgnoreCase(ElemCustomIcons) ) {
 				return SwitchContext(ctx, KdbContext.CustomIcons, xpp);
 			} else if ( name.equalsIgnoreCase(ElemRecycleBinEnabled) ) {
-				db.recycleBinEnabled = ReadBool(xpp, true);
+				db.setRecycleBinEnabled(ReadBool(xpp, true));
 			} else if ( name.equalsIgnoreCase(ElemRecycleBinUuid) ) {
-				db.recycleBinUUID = ReadUuid(xpp);
+				db.setRecycleBinUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemRecycleBinChanged) ) {
-				db.recycleBinChanged = ReadTime(xpp);
+				db.setRecycleBinChanged(ReadTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemEntryTemplatesGroup) ) {
-				db.entryTemplatesGroup = ReadUuid(xpp);
+				db.setEntryTemplatesGroup(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemEntryTemplatesGroupChanged) ) {
-				db.entryTemplatesGroupChanged = ReadTime(xpp);
+				db.setEntryTemplatesGroupChanged(ReadPwTime(xpp));
 			} else if ( name.equalsIgnoreCase(ElemHistoryMaxItems) ) {
-				db.historyMaxItems = ReadInt(xpp, -1);
+				db.setHistoryMaxItems(ReadInt(xpp, -1));
 			} else if ( name.equalsIgnoreCase(ElemHistoryMaxSize) ) {
-				db.historyMaxSize = ReadLong(xpp, -1);
-			} else if ( name.equalsIgnoreCase(ElemEntryTemplatesGroupChanged) ) {
-				db.entryTemplatesGroupChanged = ReadTime(xpp);
+				db.setHistoryMaxSize(ReadLong(xpp, -1));
 			} else if ( name.equalsIgnoreCase(ElemLastSelectedGroup) ) {
-				db.lastSelectedGroup = ReadUuid(xpp);
+				db.setLastSelectedGroup(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemLastTopVisibleGroup) ) {
-				db.lastTopVisibleGroup = ReadUuid(xpp);
+				db.setLastTopVisibleGroup(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemBinaries) ) {
 				return SwitchContext(ctx, KdbContext.Binaries, xpp);
 			} else if ( name.equalsIgnoreCase(ElemCustomData) ) {
@@ -467,17 +465,17 @@ public class ImporterV4 extends Importer {
 			
 		case MemoryProtection:
 			if ( name.equalsIgnoreCase(ElemProtTitle) ) {
-				db.memoryProtection.protectTitle = ReadBool(xpp, false);
+				db.getMemoryProtection().protectTitle = ReadBool(xpp, false);
 			} else if ( name.equalsIgnoreCase(ElemProtUserName) ) {
-				db.memoryProtection.protectUserName = ReadBool(xpp, false);
+				db.getMemoryProtection().protectUserName = ReadBool(xpp, false);
 			} else if ( name.equalsIgnoreCase(ElemProtPassword) ) {
-				db.memoryProtection.protectPassword = ReadBool(xpp, false);
+				db.getMemoryProtection().protectPassword = ReadBool(xpp, false);
 			} else if ( name.equalsIgnoreCase(ElemProtURL) ) {
-				db.memoryProtection.protectUrl = ReadBool(xpp, false);
+				db.getMemoryProtection().protectUrl = ReadBool(xpp, false);
 			} else if ( name.equalsIgnoreCase(ElemProtNotes) ) {
-				db.memoryProtection.protectNotes = ReadBool(xpp, false);
+				db.getMemoryProtection().protectNotes = ReadBool(xpp, false);
 			} else if ( name.equalsIgnoreCase(ElemProtAutoHide) ) {
-				db.memoryProtection.autoEnableVisualHiding = ReadBool(xpp, false);
+				db.getMemoryProtection().autoEnableVisualHiding = ReadBool(xpp, false);
 			} else {
 				ReadUnknown(xpp);
 			}
@@ -512,7 +510,7 @@ public class ImporterV4 extends Importer {
 				if ( key != null ) {
 					ProtectedBinary pbData = ReadProtectedBinary(xpp);
 					int id = Integer.parseInt(key);
-					db.binPool.put(id, pbData);
+					db.getBinPool().put(id, pbData);
 				} else {
 					ReadUnknown(xpp);
 				}
@@ -545,8 +543,8 @@ public class ImporterV4 extends Importer {
 				assert(ctxGroups.size() == 0);
 				if ( ctxGroups.size() != 0 ) throw new IOException("Group list should be empty.");
 				
-				db.rootGroup = new PwGroupV4();
-				ctxGroups.push((PwGroupV4)db.rootGroup);
+				db.setRootGroup(new PwGroupV4());
+				ctxGroups.push((PwGroupV4)db.getRootGroup());
 				ctxGroup = ctxGroups.peek();
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
@@ -565,9 +563,9 @@ public class ImporterV4 extends Importer {
 			} else if ( name.equalsIgnoreCase(ElemNotes) ) {
 				ctxGroup.setNotes(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxGroup.setIcon(db.iconFactory.getIcon((int)ReadUInt(xpp, 0)));
+				ctxGroup.setIcon(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxGroup.setCustomIcon(db.iconFactory.getIcon(ReadUuid(xpp)));
+				ctxGroup.setCustomIcon(db.getIconFactory().getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.GroupTimes, xpp);
 			} else if ( name.equalsIgnoreCase(ElemIsExpanded) ) {
@@ -620,9 +618,9 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(ElemUuid) ) {
 				ctxEntry.setUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
-				ctxEntry.setIcon(db.iconFactory.getIcon((int)ReadUInt(xpp, 0)));
+				ctxEntry.setIcon(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
-				ctxEntry.setCustomIcon(db.iconFactory.getIcon(ReadUuid(xpp)));
+				ctxEntry.setCustomIcon(db.getIconFactory().getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(ElemFgColor) ) {
 				ctxEntry.setForegroundColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(ElemBgColor) ) {
@@ -756,7 +754,7 @@ public class ImporterV4 extends Importer {
 		case RootDeletedObjects:
 			if ( name.equalsIgnoreCase(ElemDeletedObject) ) {
 				ctxDeletedObject = new PwDeletedObject();
-				db.deletedObjects.add(ctxDeletedObject);
+				db.addDeletedObject(ctxDeletedObject);
 				
 				return SwitchContext(ctx, KdbContext.DeletedObject, xpp);
 			} else {
@@ -799,8 +797,8 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.CustomIcon && name.equalsIgnoreCase(ElemCustomIconItem) ) {
 			if ( ! customIconID.equals(PwDatabase.UUID_ZERO) ) {
 				PwIconCustom icon = new PwIconCustom(customIconID, customIconData);
-				db.customIcons.add(icon);
-				db.iconFactory.put(icon);
+				db.addCustomIcon(icon);
+				db.getIconFactory().put(icon);
 			} else assert(false);
 			
 			customIconID = PwDatabase.UUID_ZERO;
@@ -813,7 +811,7 @@ public class ImporterV4 extends Importer {
 			return KdbContext.Meta;
 		} else if ( ctx == KdbContext.CustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem) ) {
 			if ( customDataKey != null && customDataValue != null) {
-				db.customData.put(customDataKey, customDataValue);
+				db.putCustomData(customDataKey, customDataValue);
 			} else assert(false);
 			
 			customDataKey = null;
@@ -1066,7 +1064,7 @@ public class ImporterV4 extends Importer {
 			xpp.next(); // Consume end tag
 
 			int id = Integer.parseInt(ref);
-			return db.binPool.get(id);
+			return db.getBinPool().get(id);
 		} 
 		
 		boolean compressed = false;

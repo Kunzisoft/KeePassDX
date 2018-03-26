@@ -29,7 +29,7 @@ public class EntryV4 extends TestCase {
 	public void testBackup() {
 		PwDatabaseV4 db = new PwDatabaseV4();
 		
-		db.historyMaxItems = 2;
+		db.setHistoryMaxItems(2);
 		
 		PwEntryV4 entry = new PwEntryV4();
 		entry.startToDecodeReference(db);

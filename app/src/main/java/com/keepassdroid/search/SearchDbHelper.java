@@ -74,9 +74,9 @@ public class SearchDbHelper {
 		qStr = qStr.toLowerCase(loc);
 		boolean isOmitBackup = omitBackup();
 		
-		Queue<PwGroup> worklist = new LinkedList<PwGroup>();
-		if (pm.rootGroup != null) {
-			worklist.add(pm.rootGroup);
+		Queue<PwGroup> worklist = new LinkedList<>();
+		if (pm.getRootGroup() != null) {
+			worklist.add(pm.getRootGroup());
 		}
 		
 		while (worklist.size() != 0) {

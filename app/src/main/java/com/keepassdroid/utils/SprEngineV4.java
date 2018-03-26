@@ -154,8 +154,8 @@ public class SprEngineV4 {
 		else if (scan == 'O') { sp.searchInOther = true; }
 		else { return null; }
 		
-		List<PwEntry> list = new ArrayList<PwEntry>();
-		ctx.db.rootGroup.searchEntries(sp, list);
+		List<PwEntry> list = new ArrayList<>();
+		ctx.db.getRootGroup().searchEntries(sp, list);
 		
 		if (list.size() > 0) { 
 			return new TargetResult((PwEntryV4)list.get(0), wanted); 

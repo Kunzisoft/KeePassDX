@@ -48,7 +48,7 @@ public class PwDbV3OutputDebug extends PwDbV3Output {
 		
 		
 		// Reuse random values to test equivalence in debug mode
-		PwDbHeaderV3 origHeader = debugDb.dbHeader;
+		PwDbHeaderV3 origHeader = debugDb.getDbHeader();
 		System.arraycopy(origHeader.encryptionIV, 0, header.encryptionIV, 0, origHeader.encryptionIV.length);
 		System.arraycopy(origHeader.masterSeed, 0, header.masterSeed, 0, origHeader.masterSeed.length);
 		System.arraycopy(origHeader.transformSeed, 0, header.transformSeed, 0, origHeader.transformSeed.length);

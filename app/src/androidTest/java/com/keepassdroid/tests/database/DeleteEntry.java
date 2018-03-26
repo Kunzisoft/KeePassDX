@@ -80,13 +80,11 @@ public class DeleteEntry extends AndroidTestCase {
 		// Verify the group was deleted
 		group1 = getGroup(pm, GROUP1_NAME);
 		assertNull("Group 1 was not removed.", group1);
-		
-		
-		
+
 	}
 	
 	private PwEntry getEntry(PwDatabaseV3 pm, String name) {
-		List<PwEntry> entries = pm.entries;
+		List<PwEntry> entries = pm.getEntries();
 		for ( int i = 0; i < entries.size(); i++ ) {
 			PwEntry entry = entries.get(i);
 			if ( entry.getTitle().equals(name) ) {

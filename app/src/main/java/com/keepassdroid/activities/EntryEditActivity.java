@@ -153,12 +153,12 @@ public class EntryEditActivity extends LockingHideActivity
 		PwDatabase pm = db.pm;
 		if ( uuidBytes == null ) {
             PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
-			PwGroup parent = pm.groups.get(parentId);
+			PwGroup parent = pm.getGroupByGroupId(parentId);
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
-			mEntry = pm.entries.get(uuid);
+			mEntry = pm.getEntryByUUIDId(uuid);
 			mIsNew = false;
 			fillData();
 		}
@@ -258,7 +258,7 @@ public class EntryEditActivity extends LockingHideActivity
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
         else {
             if (mIsNew) {
-                newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(0));
+                newEntry.setIcon(App.getDB().pm.getIconFactory().getFirstIcon());
             }
             else {
                 // Keep previous icon, if no new one was selected

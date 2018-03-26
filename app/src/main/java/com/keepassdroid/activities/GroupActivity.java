@@ -179,14 +179,14 @@ public class GroupActivity extends ListNodesActivity
 	    PwGroup currentGroup;
         Database db = App.getDB();
         readOnly = db.readOnly;
-        PwGroup root = db.pm.rootGroup;
+        PwGroup root = db.pm.getRootGroup();
 
         Log.w(TAG, "Creating tree view");
         PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
         if ( pwGroupId == null ) {
             currentGroup = root;
         } else {
-            currentGroup = db.pm.groups.get(pwGroupId);
+            currentGroup = db.pm.getGroupByGroupId(pwGroupId);
         }
 
         if (currentGroup != null) {

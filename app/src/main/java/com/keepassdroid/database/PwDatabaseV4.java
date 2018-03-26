@@ -63,66 +63,248 @@ public class PwDatabaseV4 extends PwDatabase {
 	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
 	private static final String RECYCLEBIN_NAME = "RecycleBin";
 
-	public byte[] hmacKey;
-	public UUID dataCipher = AesEngine.CIPHER_UUID;
-	public CipherEngine dataEngine = new AesEngine();
-	public PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
-	// TODO: Refactor me away to get directly from kdfParameters
-    public long numKeyEncRounds = 6000;
-    public Date nameChanged = new Date();
-    public Date settingsChanged = new Date();
-    public String description = "";
-    public Date descriptionChanged = new Date();
-    public String defaultUserName = "";
-    public Date defaultUserNameChanged = new Date();
-    
-    public Date keyLastChanged = new Date();
-    public long keyChangeRecDays = -1;
-    public long keyChangeForceDays = 1;
-	public boolean keyChangeForceOnce = false;
-    
-    public long maintenanceHistoryDays = 365;
-    public String color = "";
-    public boolean recycleBinEnabled = true;
-    public UUID recycleBinUUID = UUID_ZERO;
-    public Date recycleBinChanged = new Date();
-    public UUID entryTemplatesGroup = UUID_ZERO;
-    public Date entryTemplatesGroupChanged = new Date();
-    public int historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS;
-    public long historyMaxSize = DEFAULT_HISTORY_MAX_SIZE;
-    public UUID lastSelectedGroup = UUID_ZERO;
-    public UUID lastTopVisibleGroup = UUID_ZERO;
-    public MemoryProtectionConfig memoryProtection = new MemoryProtectionConfig();
-    public List<PwDeletedObject> deletedObjects = new ArrayList<>();
-    public List<PwIconCustom> customIcons = new ArrayList<>();
-    public Map<String, String> customData = new HashMap<>();
-	public KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
-	public VariantDictionary publicCustomData = new VariantDictionary();
-	public BinaryPool binPool = new BinaryPool();
+	private byte[] hmacKey;
+	private UUID dataCipher = AesEngine.CIPHER_UUID;
+	private CipherEngine dataEngine = new AesEngine();
+	private PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
 
-    public String localizedAppName = "KeePassDroid";
+	// TODO: Refactor me away to get directly from kdfParameters
+    private long numKeyEncRounds = 6000;
+    private PwDate nameChanged = new PwDate();
+    private PwDate settingsChanged = new PwDate();
+    private String description = "";
+    private PwDate descriptionChanged = new PwDate();
+    private String defaultUserName = "";
+    private PwDate defaultUserNameChanged = new PwDate();
     
-    public class MemoryProtectionConfig {
-    	public boolean protectTitle = false;
-    	public boolean protectUserName = false;
-    	public boolean protectPassword = false;
-    	public boolean protectUrl = false;
-    	public boolean protectNotes = false;
-    	
-    	public boolean autoEnableVisualHiding = false;
-    	
-    	public boolean GetProtection(String field) {
-    		if ( field.equalsIgnoreCase(PwDefsV4.TITLE_FIELD)) return protectTitle;
-    		if ( field.equalsIgnoreCase(PwDefsV4.USERNAME_FIELD)) return protectUserName;
-    		if ( field.equalsIgnoreCase(PwDefsV4.PASSWORD_FIELD)) return protectPassword;
-    		if ( field.equalsIgnoreCase(PwDefsV4.URL_FIELD)) return protectUrl;
-    		if ( field.equalsIgnoreCase(PwDefsV4.NOTES_FIELD)) return protectNotes;
-    		
-    		return false;
-    	}
+    private PwDate keyLastChanged = new PwDate();
+    private long keyChangeRecDays = -1;
+    private long keyChangeForceDays = 1;
+	private boolean keyChangeForceOnce = false;
+    
+    private long maintenanceHistoryDays = 365;
+    private String color = "";
+    private boolean recycleBinEnabled = true;
+    private UUID recycleBinUUID = UUID_ZERO;
+    private Date recycleBinChanged = new Date();
+    private UUID entryTemplatesGroup = UUID_ZERO;
+    private PwDate entryTemplatesGroupChanged = new PwDate();
+    private int historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS;
+    private long historyMaxSize = DEFAULT_HISTORY_MAX_SIZE;
+    private UUID lastSelectedGroup = UUID_ZERO;
+    private UUID lastTopVisibleGroup = UUID_ZERO;
+    private MemoryProtectionConfig memoryProtection = new MemoryProtectionConfig();
+    private List<PwDeletedObject> deletedObjects = new ArrayList<>();
+    private List<PwIconCustom> customIcons = new ArrayList<>();
+    private Map<String, String> customData = new HashMap<>();
+
+	private KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
+	private VariantDictionary publicCustomData = new VariantDictionary();
+	private BinaryPool binPool = new BinaryPool();
+
+    public String localizedAppName = "KeePassDX"; // TODO resource
+
+    public byte[] getHmacKey() {
+        return hmacKey;
     }
-    
-	@Override
+
+    public UUID getDataCipher() {
+        return dataCipher;
+    }
+
+    public void setDataCipher(UUID dataCipher) {
+        this.dataCipher = dataCipher;
+    }
+
+    public void setDataEngine(CipherEngine dataEngine) {
+        this.dataEngine = dataEngine;
+    }
+
+    public PwCompressionAlgorithm getCompressionAlgorithm() {
+        return compressionAlgorithm;
+    }
+
+    public void setCompressionAlgorithm(PwCompressionAlgorithm compressionAlgorithm) {
+        this.compressionAlgorithm = compressionAlgorithm;
+    }
+
+    public long getNumKeyEncRounds() {
+        return numKeyEncRounds;
+    }
+
+    public void setNumKeyEncRounds(long numKeyEncRounds) {
+        this.numKeyEncRounds = numKeyEncRounds;
+    }
+
+    public PwDate getNameChanged() {
+        return nameChanged;
+    }
+
+    public void setNameChanged(PwDate nameChanged) {
+        this.nameChanged = nameChanged;
+    }
+
+    public PwDate getSettingsChanged() {
+        return settingsChanged; // TODO change setting date
+    }
+
+    public void setSettingsChanged(PwDate settingsChanged) {
+        this.settingsChanged = settingsChanged;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public PwDate getDescriptionChanged() {
+        return descriptionChanged;
+    }
+
+    public void setDescriptionChanged(PwDate descriptionChanged) {
+        this.descriptionChanged = descriptionChanged;
+    }
+
+    public String getDefaultUserName() {
+        return defaultUserName;
+    }
+
+    public void setDefaultUserName(String defaultUserName) {
+        this.defaultUserName = defaultUserName;
+    }
+
+    public PwDate getDefaultUserNameChanged() {
+        return defaultUserNameChanged;
+    }
+
+    public void setDefaultUserNameChanged(PwDate defaultUserNameChanged) {
+        this.defaultUserNameChanged = defaultUserNameChanged;
+    }
+
+    public PwDate getKeyLastChanged() {
+        return keyLastChanged;
+    }
+
+    public void setKeyLastChanged(PwDate keyLastChanged) {
+        this.keyLastChanged = keyLastChanged;
+    }
+
+    public long getKeyChangeRecDays() {
+        return keyChangeRecDays;
+    }
+
+    public void setKeyChangeRecDays(long keyChangeRecDays) {
+        this.keyChangeRecDays = keyChangeRecDays;
+    }
+
+    public long getKeyChangeForceDays() {
+        return keyChangeForceDays;
+    }
+
+    public void setKeyChangeForceDays(long keyChangeForceDays) {
+        this.keyChangeForceDays = keyChangeForceDays;
+    }
+
+    public boolean isKeyChangeForceOnce() {
+        return keyChangeForceOnce;
+    }
+
+    public void setKeyChangeForceOnce(boolean keyChangeForceOnce) {
+        this.keyChangeForceOnce = keyChangeForceOnce;
+    }
+
+    public long getMaintenanceHistoryDays() {
+        return maintenanceHistoryDays;
+    }
+
+    public void setMaintenanceHistoryDays(long maintenanceHistoryDays) {
+        this.maintenanceHistoryDays = maintenanceHistoryDays;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public UUID getEntryTemplatesGroup() {
+        return entryTemplatesGroup;
+    }
+
+    public void setEntryTemplatesGroup(UUID entryTemplatesGroup) {
+        this.entryTemplatesGroup = entryTemplatesGroup;
+    }
+
+    public PwDate getEntryTemplatesGroupChanged() {
+        return entryTemplatesGroupChanged;
+    }
+
+    public void setEntryTemplatesGroupChanged(PwDate entryTemplatesGroupChanged) {
+        this.entryTemplatesGroupChanged = entryTemplatesGroupChanged;
+    }
+
+    public int getHistoryMaxItems() {
+        return historyMaxItems;
+    }
+
+    public void setHistoryMaxItems(int historyMaxItems) {
+        this.historyMaxItems = historyMaxItems;
+    }
+
+    public long getHistoryMaxSize() {
+        return historyMaxSize;
+    }
+
+    public void setHistoryMaxSize(long historyMaxSize) {
+        this.historyMaxSize = historyMaxSize;
+    }
+
+    public UUID getLastSelectedGroup() {
+        return lastSelectedGroup;
+    }
+
+    public void setLastSelectedGroup(UUID lastSelectedGroup) {
+        this.lastSelectedGroup = lastSelectedGroup;
+    }
+
+    public UUID getLastTopVisibleGroup() {
+        return lastTopVisibleGroup;
+    }
+
+    public void setLastTopVisibleGroup(UUID lastTopVisibleGroup) {
+        this.lastTopVisibleGroup = lastTopVisibleGroup;
+    }
+
+    public MemoryProtectionConfig getMemoryProtection() {
+        return memoryProtection;
+    }
+
+    public void setMemoryProtection(MemoryProtectionConfig memoryProtection) {
+        this.memoryProtection = memoryProtection;
+    }
+
+    public List<PwIconCustom> getCustomIcons() {
+        return customIcons;
+    }
+
+    public void addCustomIcon(PwIconCustom customIcon) {
+        this.customIcons.add(customIcon);
+    }
+
+    public Map<String, String> getCustomData() {
+        return customData;
+    }
+
+    public void putCustomData(String label, String value) {
+        this.customData.put(label, value);
+    }
+
+    @Override
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
 		assert(key != null);
@@ -265,7 +447,7 @@ public class PwDatabaseV4 extends PwDatabase {
 
 	@Override
 	public List<PwGroup> getGroups() {
-		List<PwGroup> list = new ArrayList<PwGroup>();
+		List<PwGroup> list = new ArrayList<>();
 		PwGroupV4 root = (PwGroupV4) rootGroup;
         buildChildGroupsRecursive(root, list);
 		
@@ -287,7 +469,7 @@ public class PwDatabaseV4 extends PwDatabase {
 
 	@Override
 	public List<PwEntry> getEntries() {
-		List<PwEntry> list = new ArrayList<PwEntry>();
+		List<PwEntry> list = new ArrayList<>();
 		PwGroupV4 root = (PwGroupV4) rootGroup;
 		buildChildEntriesRecursive(root, list);
 		return list;
@@ -320,7 +502,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public PwEncryptionAlgorithm getEncAlgorithm() {
+	public PwEncryptionAlgorithm getEncryptionAlgorithm() {
 		return PwEncryptionAlgorithm.Rjindal;
 	}
 
@@ -376,17 +558,37 @@ public class PwDatabaseV4 extends PwDatabase {
 		}
 	}
 
+    public UUID getRecycleBinUUID() {
+        return recycleBinUUID;
+    }
+
+    public void setRecycleBinUUID(UUID recycleBinUUID) {
+        this.recycleBinUUID = recycleBinUUID;
+    }
+
     @Override
     public boolean isRecycleBinAvailable() {
         return true;
     }
 
     @Override
-	public boolean isRecycleBinEnable() {
+	public boolean isRecycleBinEnabled() {
 		return recycleBinEnabled;
 	}
-	
-	@Override
+
+	public void setRecycleBinEnabled(boolean recycleBinEnabled) {
+	    this.recycleBinEnabled = recycleBinEnabled;
+    }
+
+    public Date getRecycleBinChanged() {
+        return recycleBinChanged;
+    }
+
+    public void setRecycleBinChanged(Date recycleBinChanged) {
+        this.recycleBinChanged = recycleBinChanged;
+    }
+
+    @Override
 	public boolean canRecycle(PwGroup group) {
 		if (!recycleBinEnabled) {
 			return false;
@@ -452,7 +654,15 @@ public class PwDatabaseV4 extends PwDatabase {
 		addEntryTo(entry, origParent);
 	}
 
-	@Override
+    public List<PwDeletedObject> getDeletedObjects() {
+        return deletedObjects;
+    }
+
+    public void addDeletedObject(PwDeletedObject deletedObject) {
+        this.deletedObjects.add(deletedObject);
+    }
+
+    @Override
 	public void deleteEntry(PwEntry entry) {
 		super.deleteEntry(entry);
 		deletedObjects.add(new PwDeletedObject(entry.getUUID()));
@@ -466,7 +676,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public PwGroupV4 getRecycleBin() {
+	public PwGroupV4 getRecycleBin() { // TODO delete recycle bin preference
 		if (recycleBinUUID == null) {
 			return null;
 		}
@@ -475,7 +685,35 @@ public class PwDatabaseV4 extends PwDatabase {
 		return (PwGroupV4) groups.get(recycleId);
 	}
 
-	@Override
+    public KdfParameters getKdfParameters() {
+        return kdfParameters;
+    }
+
+    public void setKdfParameters(KdfParameters kdfParameters) {
+        this.kdfParameters = kdfParameters;
+    }
+
+    public VariantDictionary getPublicCustomData() {
+        return publicCustomData;
+    }
+
+    public boolean containsPublicCustomData() {
+	    return publicCustomData.size() > 0;
+    }
+
+    public void setPublicCustomData(VariantDictionary publicCustomData) {
+        this.publicCustomData = publicCustomData;
+    }
+
+    public BinaryPool getBinPool() {
+        return binPool;
+    }
+
+    public void setBinPool(BinaryPool binPool) {
+        this.binPool = binPool;
+    }
+
+    @Override
 	public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
 		if (!super.isGroupSearchable(group, omitBackup)) {
 			return false;

@@ -284,7 +284,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
                         // TODO Recycle
                         //recycleBinPref.setEnabled(true);
-                        recycleBinPref.setChecked(db.pm.isRecycleBinEnable());
+                        recycleBinPref.setChecked(db.pm.isRecycleBinEnabled());
                     }
 
                 } else {
@@ -318,7 +318,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
     private void setAlgorithm(Database db, Preference algorithm) {
         int resId;
-        if ( db.pm.getEncAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+        if ( db.pm.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
             resId = R.string.rijndael;
         } else  {
             resId = R.string.twofish;

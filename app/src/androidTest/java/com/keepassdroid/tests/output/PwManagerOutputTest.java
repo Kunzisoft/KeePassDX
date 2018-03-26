@@ -60,7 +60,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
     pos.outputPlanGroupAndEntries(bos);
     
     assertTrue("No output", bos.toByteArray().length > 0);
-    assertArrayEquals("Group and entry output doesn't match.", mPM.postHeader, bos.toByteArray());
+    assertArrayEquals("Group and entry output doesn't match.", mPM.getPostHeader(), bos.toByteArray());
  
   }
  
@@ -77,7 +77,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
     
     byte[] digest = md.digest();
     assertTrue("No output", digest.length > 0);
-    assertArrayEquals("Hash of groups and entries failed.", mPM.dbHeader.contentsHash, digest);
+    assertArrayEquals("Hash of groups and entries failed.", mPM.getDbHeader().contentsHash, digest);
   }
  
   private void assertHeadersEquals(PwDbHeaderV3 expected, PwDbHeaderV3 actual) {
@@ -100,10 +100,10 @@ public class PwManagerOutputTest extends AndroidTestCase {
     PwDbHeaderV3 header = pActual.outputHeader(bActual);
     
     ByteArrayOutputStream bExpected = new ByteArrayOutputStream();
-    PwDbHeaderOutputV3 outExpected = new PwDbHeaderOutputV3(mPM.dbHeader, bExpected);
+    PwDbHeaderOutputV3 outExpected = new PwDbHeaderOutputV3(mPM.getDbHeader(), bExpected);
     outExpected.output();
     
-    assertHeadersEquals(mPM.dbHeader, header);    
+    assertHeadersEquals(mPM.getDbHeader(), header);
     assertTrue("No output", bActual.toByteArray().length > 0);
     assertArrayEquals("Header does not match.", bExpected.toByteArray(), bActual.toByteArray()); 
   }
@@ -114,7 +114,7 @@ public class PwManagerOutputTest extends AndroidTestCase {
     PwDbHeader hActual = pActual.outputHeader(bActual);
     byte[] finalKey = pActual.getFinalKey(hActual);
     
-    assertArrayEquals("Keys mismatched", mPM.finalKey, finalKey);
+    assertArrayEquals("Keys mismatched", mPM.getFinalKey(), finalKey);
 	  
   }
   

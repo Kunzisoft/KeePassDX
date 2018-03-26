@@ -107,7 +107,7 @@ public class EntryActivity extends LockingHideActivity {
 		// Get Entry from UUID
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
-		mEntry = db.pm.entries.get(uuid);
+		mEntry = db.pm.getEntryByUUIDId(uuid);
 		if (mEntry == null) {
 			Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
 			finish();

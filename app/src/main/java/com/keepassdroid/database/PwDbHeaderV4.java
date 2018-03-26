@@ -180,22 +180,22 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			case PwDbHeaderV4Fields.TransformSeed:
 				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
 				AesKdf kdfS = new AesKdf();
-				if (!db.kdfParameters.kdfUUID.equals(kdfS.uuid)) {
-					db.kdfParameters = kdfS.getDefaultParameters();
+				if (!db.getKdfParameters().kdfUUID.equals(kdfS.uuid)) {
+					db.setKdfParameters(kdfS.getDefaultParameters());
 				}
 
-				db.kdfParameters.setByteArray(AesKdf.ParamSeed, fieldData);
+				db.getKdfParameters().setByteArray(AesKdf.ParamSeed, fieldData);
 				break;
 				
 			case PwDbHeaderV4Fields.TransformRounds:
 				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
 				AesKdf kdfR = new AesKdf();
-				if (!db.kdfParameters.kdfUUID.equals(kdfR.uuid)) {
-					db.kdfParameters = kdfR.getDefaultParameters();
+				if (!db.getKdfParameters().kdfUUID.equals(kdfR.uuid)) {
+					db.setKdfParameters(kdfR.getDefaultParameters());
 				}
 				long rounds = LEDataInputStream.readLong(fieldData, 0);
-				db.kdfParameters.setUInt64(AesKdf.ParamRounds, rounds);
-				db.numKeyEncRounds = rounds;
+				db.getKdfParameters().setUInt64(AesKdf.ParamRounds, rounds);
+				db.setNumKeyEncRounds(rounds);
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:
@@ -217,11 +217,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 
 			case PwDbHeaderV4Fields.KdfParameters:
-				db.kdfParameters = KdfParameters.deserialize(fieldData);
+				db.setKdfParameters(KdfParameters.deserialize(fieldData));
 				break;
 
 			case PwDbHeaderV4Fields.PublicCustomData:
-				db.publicCustomData =  KdfParameters.deserialize(fieldData);
+				db.setPublicCustomData(KdfParameters.deserialize(fieldData)); // TODO verify
 			default:
 				throw new IOException("Invalid header type: " + fieldID);
 			
@@ -235,7 +235,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Invalid cipher ID.");
 		}
 		
-		db.dataCipher = Types.bytestoUUID(pbId);
+		db.setDataCipher(Types.bytestoUUID(pbId));
 	}
 	
 	private void setCompressionFlags(byte[] pbFlags) throws IOException {
@@ -248,7 +248,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Unrecognized compression flag.");
 		}
 		
-		db.compressionAlgorithm = PwCompressionAlgorithm.fromId(flag);
+		db.setCompressionAlgorithm(PwCompressionAlgorithm.fromId(flag));
 		
 	}
 	
@@ -264,7 +264,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Rounds higher than " + Integer.MAX_VALUE + " are not currently supported.");
 		}
 		
-		db.numKeyEncRounds = rnd;
+		db.setNumKeyEncRounds(rnd);
 		
 	}
 	
@@ -319,6 +319,6 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	public byte[] getTransformSeed() {
 		assert(version < FILE_VERSION_32_4);
 
-		return db.kdfParameters.getByteArray(AesKdf.ParamSeed);
+		return db.getKdfParameters().getByteArray(AesKdf.ParamSeed);
 	}
 }

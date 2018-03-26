@@ -55,16 +55,14 @@ public class PwDbV3Output extends PwDbOutput {
 	
 	public PwDbV3Output(PwDatabaseV3 pm, OutputStream os) {
 		super(os);
-		
 		mPM = pm;
-
 	}
 
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
 			PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
-			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.numKeyEncRounds);
-			return mPM.finalKey;
+			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumKeyEncRounds());
+			return mPM.getFinalKey();
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
 		}
@@ -80,9 +78,9 @@ public class PwDbV3Output extends PwDbOutput {
 		
 		Cipher cipher;
 		try {
-			if (mPM.algorithm == PwEncryptionAlgorithm.Rjindal) {
+			if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
-			} else if (mPM.algorithm == PwEncryptionAlgorithm.Twofish){
+			} else if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish){
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
 			} else {
 				throw new Exception();
@@ -130,18 +128,18 @@ public class PwDbV3Output extends PwDbOutput {
 		header.signature2 = PwDbHeaderV3.DBSIG_2;
 		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
-		if ( mPM.getEncAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+		if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
 			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
-		} else if ( mPM.getEncAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
+		} else if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;
 		} else {
 			throw new PwDbOutputException("Unsupported algorithm.");
 		}
 		
 		header.version = PwDbHeaderV3.DBVER_DW;
-		header.numGroups = mPM.getGroups().size();
-		header.numEntries = mPM.entries.size();
-		header.numKeyEncRounds = mPM.getNumKeyEncRecords();
+		header.numGroups = mPM.numberOfGroups();
+		header.numEntries = mPM.numberOfEntries();
+		header.numKeyEncRounds = mPM.getNumKeyEncRounds();
 		
 		setIVs(header);
 		
@@ -232,8 +230,8 @@ public class PwDbV3Output extends PwDbOutput {
 		}
 		
 		// Entries
-		for (int i = 0; i < mPM.entries.size(); i++ ) {
-			PwEntryV3 pe = (PwEntryV3) mPM.entries.get(i);
+		for (int i = 0; i < mPM.numberOfEntries(); i++ ) {
+			PwEntryV3 pe = (PwEntryV3) mPM.getEntryAt(i);
 			PwEntryOutputV3 peo = new PwEntryOutputV3(pe, os);
 			try {
 				peo.output();

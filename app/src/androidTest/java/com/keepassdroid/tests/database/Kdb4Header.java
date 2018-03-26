@@ -41,9 +41,9 @@ public class Kdb4Header extends AndroidTestCase {
 
 		PwDatabaseV4 db = importer.openDatabase(is, "12345", null);
 		
-		assertEquals(6000, db.numKeyEncRounds);
+		assertEquals(6000, db.getNumKeyEncRounds());
 		
-		assertTrue(db.dataCipher.equals(AesEngine.CIPHER_UUID));
+		assertTrue(db.getDataCipher().equals(AesEngine.CIPHER_UUID));
 		
 		is.close();
 
