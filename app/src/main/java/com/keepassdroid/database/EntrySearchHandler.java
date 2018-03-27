@@ -19,10 +19,10 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.database.iterator.EntrySearchStringIterator;
+
 import java.util.Date;
 import java.util.List;
-
-import com.keepassdroid.database.iterator.EntrySearchStringIterator;
 
 public abstract class EntrySearchHandler extends EntryHandler<PwEntry> {
 	private List<PwEntry> listStorage;
@@ -30,14 +30,13 @@ public abstract class EntrySearchHandler extends EntryHandler<PwEntry> {
 	private Date now;
 	
 	public static EntrySearchHandler getInstance(PwGroup group, SearchParameters sp, List<PwEntry> listStorage) {
-		if (group instanceof PwGroupV3) {
-            return new EntrySearchHandlerV4(sp, listStorage); 
+		if (group instanceof PwGroupV3) { // TODO WTF ?
+            return new EntrySearchHandlerV4(sp, listStorage);
 		} else if (group instanceof PwGroupV4) {
 			return new EntrySearchHandlerV4(sp, listStorage);
 		} else {
 			throw new RuntimeException("Not implemented.");
 		}
-		
 	}
 
 	protected EntrySearchHandler(SearchParameters sp, List<PwEntry> listStorage) {
@@ -75,7 +74,7 @@ public abstract class EntrySearchHandler extends EntryHandler<PwEntry> {
                 		groupName = groupName.toLowerCase();
                 	}
 
-                	if (groupName.indexOf(term) >= 0) {
+                	if (groupName.contains(term)) {
                         listStorage.add(entry);
                         return true;
                 	}
@@ -99,12 +98,12 @@ public abstract class EntrySearchHandler extends EntryHandler<PwEntry> {
 		EntrySearchStringIterator iter = EntrySearchStringIterator.getInstance(entry, sp);
 		while (iter.hasNext()) {
 			String str = iter.next();
-			if (str != null & str.length() > 0) {
+			if (str != null && str.length() > 0) {
 				if (sp.ignoreCase) {
 					str = str.toLowerCase();
 				}
 				
-				if (str.indexOf(term) >= 0) {
+				if (str.contains(term)) {
 					return true;
 				}
 			}

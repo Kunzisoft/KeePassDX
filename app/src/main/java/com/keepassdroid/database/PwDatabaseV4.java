@@ -721,7 +721,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		
 		PwGroupV4 g = (PwGroupV4) group;
 		
-		return g.isSearchEnabled();
+		return g.isSearchingEnabled();
 	}
 
 	@Override

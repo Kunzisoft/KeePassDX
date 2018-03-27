@@ -508,7 +508,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void touch(boolean modified, boolean touchParents) {
 		super.touch(modified, touchParents);
-		
 		++usageCount;
 	}
 
@@ -519,7 +518,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	
 	public boolean isSearchingEnabled() {
 		if (parent != null) {
-			return parent.isSearchEnabled();
+			return parent.isSearchingEnabled();
 		}
 		return PwGroupV4.DEFAULT_SEARCHING_ENABLED;
 	}

@@ -209,14 +209,13 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
         this.lastTopVisibleEntry = lastTopVisibleEntry;
     }
 
-    public boolean isSearchEnabled() {
+    public boolean isSearchingEnabled() {
 		PwGroupV4 group = this;
 		while (group != null) {
 			Boolean search = group.enableSearching;
 			if (search != null) {
 				return search;
 			}
-			
 			group = group.parent;
 		}
 		

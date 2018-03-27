@@ -295,7 +295,8 @@ public class PwDbV4Output extends PwDbOutput {
 		Stack<PwGroupV4> groupStack = new Stack<PwGroupV4>();
 		groupStack.push(root);
 		
-		if (!root.preOrderTraverseTree(new GroupWriter(groupStack), new EntryWriter())) throw new RuntimeException("Writing groups failed");
+		if (!root.preOrderTraverseTree(new GroupWriter(groupStack), new EntryWriter()))
+			throw new RuntimeException("Writing groups failed");
 		
 		while (groupStack.size() > 1) {
 			xml.endTag(null, ElemGroup);

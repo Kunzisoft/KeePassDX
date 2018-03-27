@@ -195,7 +195,7 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 	}
 	
 	public void touchLocation() { }
-	
+
 	public boolean isSearchingEnabled() {
 		return false;
 	}
