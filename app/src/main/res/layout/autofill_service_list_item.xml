@@ -19,7 +19,7 @@
     android:background="@android:color/white"
     android:orientation="horizontal">
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,9 +29,9 @@
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:src="@drawable/ic_key_white_24dp"
-        android:tint="?android:attr/textColorPrimary"/>
+        android:tint="@color/green"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
