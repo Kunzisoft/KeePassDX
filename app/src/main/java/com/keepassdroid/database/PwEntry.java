@@ -26,15 +26,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class PwEntry extends PwNode implements Cloneable {
+public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> implements Cloneable {
 
 	private static final String PMS_TAN_ENTRY = "<TAN>";
 
 	protected UUID uuid = PwDatabase.UUID_ZERO;
 
 	@Override
-	protected void construct() {
-	    super.construct();
+	protected void construct(Parent parent) {
+	    super.construct(parent);
         uuid = UUID.randomUUID();
     }
 
@@ -72,7 +72,7 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 		return Type.ENTRY;
 	}
 
-    public void assign(PwEntry source) {
+    protected void assign(PwEntry<Parent> source) {
 	    super.assign(source);
         uuid = source.uuid;
 	}
@@ -177,21 +177,6 @@ public abstract class PwEntry extends PwNode implements Cloneable {
 
 	public EntrySearchStringIterator stringIterator() {
 		return EntrySearchStringIterator.getInstance(this);
-	}
-	
-	public void touch(boolean modified, boolean touchParents) {
-		PwDate now = new PwDate();
-
-		setLastAccessTime(now);
-		
-		if (modified) {
-			setLastModificationTime(now);
-		}
-		
-		PwGroup parent = getParent();
-		if (touchParents && parent != null) {
-			parent.touch(modified, true);
-		}
 	}
 	
 	public void touchLocation() { }

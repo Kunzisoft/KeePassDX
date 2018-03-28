@@ -104,6 +104,11 @@ public class PwDatabaseV4 extends PwDatabase {
 
     public String localizedAppName = "KeePassDX"; // TODO resource
 
+	@Override
+	public PwVersion getVersion() {
+		return PwVersion.V4;
+	}
+
     public byte[] getHmacKey() {
         return hmacKey;
     }
@@ -520,7 +525,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public PwGroup createGroup() {
+	public PwGroupV4 createGroup() {
 		return new PwGroupV4();
 	}
 

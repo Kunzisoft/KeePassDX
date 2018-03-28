@@ -26,22 +26,20 @@ import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.crypto.keyDerivation.KdfEngine;
 import com.keepassdroid.crypto.keyDerivation.KdfFactory;
+import com.keepassdroid.database.AutoType;
 import com.keepassdroid.database.CrsAlgorithm;
 import com.keepassdroid.database.EntryHandler;
 import com.keepassdroid.database.GroupHandler;
 import com.keepassdroid.database.ITimeLogger;
+import com.keepassdroid.database.MemoryProtectionConfig;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
-import com.keepassdroid.database.MemoryProtectionConfig;
 import com.keepassdroid.database.PwDatabaseV4XML;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDefsV4;
 import com.keepassdroid.database.PwDeletedObject;
-import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
-import com.keepassdroid.database.AutoType;
-import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.exception.PwDbOutputException;
@@ -228,7 +226,7 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 	}
 	
-	private class GroupWriter extends GroupHandler<PwGroup> {
+	private class GroupWriter extends GroupHandler<PwGroupV4> {
 		private Stack<PwGroupV4> groupStack;
 		
 		public GroupWriter(Stack<PwGroupV4> gs) {
@@ -236,8 +234,7 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 
 		@Override
-		public boolean operate(PwGroup g) {
-			PwGroupV4 group = (PwGroupV4) g;
+		public boolean operate(PwGroupV4 group) {
 			assert(group != null);
 			
 			while(true) {
@@ -260,11 +257,10 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 	}
 	
-	private class EntryWriter extends EntryHandler<PwEntry> {
+	private class EntryWriter extends EntryHandler<PwEntryV4> {
 
 		@Override
-		public boolean operate(PwEntry e) {
-			PwEntryV4 entry = (PwEntryV4) e;
+		public boolean operate(PwEntryV4 entry) {
 			assert(entry != null);
 			
 			try {

@@ -39,6 +39,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.notifications.NotificationCopyingService;
 import com.keepassdroid.notifications.NotificationField;
 import com.keepassdroid.settings.PreferencesUtil;
@@ -179,6 +180,7 @@ public class EntryActivity extends LockingHideActivity {
                 if (mEntry.allowExtraFields()) {
                     try {
                         int anonymousFieldNumber = 0;
+                        Map<String, String> map = mEntry.getExtraFields();
                         for (Map.Entry<String, String> entry : mEntry.getExtraFields().entrySet()) {
                             notificationFields.add(
                                     new NotificationField(

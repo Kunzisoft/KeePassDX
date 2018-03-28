@@ -48,7 +48,7 @@ public class UpdateEntry extends RunnableOnFinish {
 	@Override
 	public void run() {
 		// Update entry with new values
-		mOldE.assign(mNewE);
+		mOldE = mNewE; // TODO Verify
 		mOldE.touch(true, true);
 		
 		
@@ -69,7 +69,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		public void run() {
 			if ( !mSuccess ) {
 				// If we fail to save, back out changes to global structure
-				mOldE.assign(mBackup);
+				mOldE = mBackup; // TODO Verify
 			}
 			// TODO Callback for update entry
 			super.run();

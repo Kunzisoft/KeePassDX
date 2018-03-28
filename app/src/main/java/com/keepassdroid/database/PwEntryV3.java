@@ -67,7 +67,7 @@ import java.util.UUID;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  * @author Jeremy Jamet <jeremy.jamet@kunzisoft.com>
  */
-public class PwEntryV3 extends PwEntry {
+public class PwEntryV3 extends PwEntry<PwGroupV3> {
 
 	/** Size of byte buffer needed to hold this struct. */
 	private static final String PMS_ID_BINDESC = "bin-stream";
@@ -75,8 +75,7 @@ public class PwEntryV3 extends PwEntry {
 	private static final String PMS_ID_USER    = "SYSTEM";
 	private static final String PMS_ID_URL     = "$";
 
-    // for tree traversing
-    private PwGroupV3 parent = null;
+    // TODO Parent ID to remove
     private int groupId;
 
     private String title;
@@ -94,34 +93,26 @@ public class PwEntryV3 extends PwEntry {
 	}
 	
 	public PwEntryV3(PwGroupV3 p) {
-	    construct();
-		parent = p;
-		groupId = ((PwGroupIdV3)parent.getId()).getId(); // TODO remove
+	    construct(p);
+		groupId = ((PwGroupIdV3) this.parent.getId()).getId(); // TODO remove
 	}
 
-    @Override
-    public void assign(PwEntry source) {
-        if ( ! (source instanceof PwEntryV3) ) {
-            throw new RuntimeException("DB version mix");
-        }
-        super.assign(source);
-        PwEntryV3 src = (PwEntryV3) source;
-        parent = src.parent;
-        groupId = src.groupId;
+    protected void assignData(PwEntryV3 source) {
+        groupId = source.groupId;
 
-        title = src.title;
-        username = src.username;
-        int passLen = src.password.length;
+        title = source.title;
+        username = source.username;
+        int passLen = source.password.length;
         password = new byte[passLen];
-        System.arraycopy(src.password, 0, password, 0, passLen);
-        url = src.url;
-        additional = src.additional;
+        System.arraycopy(source.password, 0, password, 0, passLen);
+        url = source.url;
+        additional = source.additional;
 
-        binaryDesc = src.binaryDesc;
-        if ( src.binaryData != null ) {
-            int descLen = src.binaryData.length;
+        binaryDesc = source.binaryDesc;
+        if ( source.binaryData != null ) {
+            int descLen = source.binaryData.length;
             binaryData = new byte[descLen];
-            System.arraycopy(src.binaryData, 0, binaryData, 0, descLen);
+            System.arraycopy(source.binaryData, 0, binaryData, 0, descLen);
         }
     }
 
@@ -153,16 +144,6 @@ public class PwEntryV3 extends PwEntry {
         }
 
         return newEntry;
-    }
-
-    @Override
-    public PwGroupV3 getParent() {
-        return parent;
-    }
-
-    @Override
-    public void setParent(PwGroup parent) {
-        this.parent = (PwGroupV3) parent;
     }
 
     public int getGroupId() {

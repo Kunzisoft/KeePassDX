@@ -19,6 +19,17 @@
  */
 package com.keepassdroid.database.save;
 
+import com.keepassdroid.crypto.CipherFactory;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDbHeader;
+import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.exception.PwDbOutputException;
+import com.keepassdroid.stream.LEDataOutputStream;
+import com.keepassdroid.stream.NullOutputStream;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,18 +47,6 @@ import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import com.keepassdroid.crypto.CipherFactory;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDbHeader;
-import com.keepassdroid.database.PwDbHeaderV3;
-import com.keepassdroid.database.PwEncryptionAlgorithm;
-import com.keepassdroid.database.PwEntryV3;
-import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.database.exception.PwDbOutputException;
-import com.keepassdroid.stream.LEDataOutputStream;
-import com.keepassdroid.stream.NullOutputStream;
 
 public class PwDbV3Output extends PwDbOutput {
 	private PwDatabaseV3 mPM;
@@ -218,9 +217,9 @@ public class PwDbV3Output extends PwDbOutput {
 		}
 		
 		// Groups
-		List<PwGroup> groups = mPM.getGroups();
+		List<PwGroupV3> groups = mPM.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
-			PwGroupV3 pg = (PwGroupV3) groups.get(i);
+			PwGroupV3 pg = groups.get(i);
 			PwGroupOutputV3 pgo = new PwGroupOutputV3(pg, os);
 			try {
 				pgo.output();
@@ -242,24 +241,24 @@ public class PwDbV3Output extends PwDbOutput {
 	}
 	
 	private void sortGroupsForOutput() {
-		List<PwGroup> groupList = new ArrayList<PwGroup>();
+		List<PwGroupV3> groupList = new ArrayList<>();
 		
 		// Rebuild list according to coalation sorting order removing any orphaned groups
-		List<PwGroup> roots = mPM.getGrpRoots();
+		List<PwGroupV3> roots = mPM.getGrpRoots();
 		for ( int i = 0; i < roots.size(); i++ ) {
-			sortGroup((PwGroupV3) roots.get(i), groupList);
+			sortGroup(roots.get(i), groupList);
 		}
 		
 		mPM.setGroups(groupList);
 	}
 	
-	private void sortGroup(PwGroupV3 group, List<PwGroup> groupList) {
+	private void sortGroup(PwGroupV3 group, List<PwGroupV3> groupList) {
 		// Add current tree
 		groupList.add(group);
 		
 		// Recurse over children
 		for ( int i = 0; i < group.numbersOfChildGroups(); i++ ) {
-			sortGroup((PwGroupV3) group.getChildGroupAt(i), groupList);
+			sortGroup(group.getChildGroupAt(i), groupList);
 		}
 	}
 	

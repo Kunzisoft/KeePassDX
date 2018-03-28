@@ -22,17 +22,17 @@ package com.keepassdroid.search;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.kunzisoft.keepass.R;
-import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwDatabaseV3;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.PwGroupV4;
+import com.kunzisoft.keepass.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,11 +41,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 
-public class SearchDbHelper {
+public class SearchDbHelper<PwDatabaseVersion extends PwDatabase,
+		PwGroupSearch extends PwGroup<PwGroupSearch, PwGroupSearch, PwEntrySearch>,
+		PwEntrySearch extends PwEntry<PwGroupSearch>> {
+	
 	private final Context mCtx;
 	
-	public SearchDbHelper(Context ctx) {
-		mCtx = ctx;
+	private SearchDbHelper(Context ctx) {
+		this.mCtx = ctx;
 	}
 	
 	private boolean omitBackup() {
@@ -54,18 +57,9 @@ public class SearchDbHelper {
 		
 	}
 	
-	public PwGroup search(Database db, String qStr) {
-		PwDatabase pm = db.pm;
+	public PwGroupSearch search(PwDatabaseVersion pm, String qStr) {
 
-		PwGroup group;
-		if ( pm instanceof PwDatabaseV3 ) {
-			group = new PwGroupV3();
-		} else if ( pm instanceof PwDatabaseV4 ) {
-			group = new PwGroupV4();
-		} else {
-			Log.d("SearchDbHelper", "Tried to search with unknown db");
-			return null;
-		}
+		PwGroupSearch group = (PwGroupSearch) pm.createGroup();
 		group.setName(mCtx.getString(R.string.search_results));
 		group.setEntries(new ArrayList<>());
 		
@@ -74,20 +68,20 @@ public class SearchDbHelper {
 		qStr = qStr.toLowerCase(loc);
 		boolean isOmitBackup = omitBackup();
 		
-		Queue<PwGroup> worklist = new LinkedList<>();
+		Queue<PwGroupSearch> worklist = new LinkedList<>();
 		if (pm.getRootGroup() != null) {
-			worklist.add(pm.getRootGroup());
+			worklist.add((PwGroupSearch) pm.getRootGroup());
 		}
 		
 		while (worklist.size() != 0) {
-			PwGroup top = worklist.remove();
+			PwGroupSearch top = worklist.remove();
 			
 			if (pm.isGroupSearchable(top, isOmitBackup)) {
-				for (PwEntry entry : top.getChildEntries()) {
+				for (PwEntrySearch entry : top.getChildEntries()) {
 					processEntries(entry, group.getChildEntries(), qStr, loc);
 				}
 				
-				for (PwGroup childGroup : top.getChildGroups()) {
+				for (PwGroupSearch childGroup : top.getChildGroups()) {
 					if (childGroup != null) {
 						worklist.add(childGroup);
 					}
@@ -98,7 +92,7 @@ public class SearchDbHelper {
 		return group;
 	}
 	
-	public void processEntries(PwEntry entry, List<PwEntry> results, String qStr, Locale loc) {
+	public void processEntries(PwEntrySearch entry, List<PwEntrySearch> results, String qStr, Locale loc) {
 		// Search all strings in the entry
 		Iterator<String> iter = entry.stringIterator();
 		while (iter.hasNext()) {
@@ -110,6 +104,20 @@ public class SearchDbHelper {
 					break;
 				}
 			}
+		}
+	}
+
+	public static class SearchDbHelperV3 extends SearchDbHelper<PwDatabaseV3, PwGroupV3, PwEntryV3>{
+
+		public SearchDbHelperV3(Context ctx) {
+			super(ctx);
+		}
+	}
+
+	public static class SearchDbHelperV4 extends SearchDbHelper<PwDatabaseV4, PwGroupV4, PwEntryV4>{
+
+		public SearchDbHelperV4(Context ctx) {
+			super(ctx);
 		}
 	}
 	

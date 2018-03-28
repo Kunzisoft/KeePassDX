@@ -19,6 +19,13 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.crypto.finalkey.FinalKey;
+import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.KeyFileEmptyException;
+import com.keepassdroid.stream.NullOutputStream;
+import com.keepassdroid.utils.Util;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,14 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.keepassdroid.crypto.finalkey.FinalKey;
-import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
-import com.keepassdroid.database.exception.InvalidKeyFileException;
-import com.keepassdroid.database.exception.KeyFileEmptyException;
-import com.keepassdroid.stream.NullOutputStream;
-import com.keepassdroid.utils.Util;
-
-public abstract class PwDatabase {
+public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB, PwEntryDB>,
+        PwEntryDB extends PwEntry<PwGroupDB>> {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
 
@@ -47,11 +48,11 @@ public abstract class PwDatabase {
     protected byte[] finalKey;
 
     protected String name = "KeePass database";
-    protected PwGroup rootGroup;
+    protected PwGroupDB rootGroup;
     protected PwIconFactory iconFactory = new PwIconFactory();
 
-    protected Map<PwGroupId, PwGroup> groups = new HashMap<>();
-    protected Map<UUID, PwEntry> entries = new HashMap<>();
+    protected Map<PwGroupId, PwGroupDB> groups = new HashMap<>();
+    protected Map<UUID, PwEntryDB> entries = new HashMap<>();
 
     private static boolean isKDBExtension(String filename) {
         if (filename == null) { return false; }
@@ -70,6 +71,8 @@ public abstract class PwDatabase {
         }
     }
 
+    public abstract PwVersion getVersion();
+
     public String getName() {
         return name;
     }
@@ -78,11 +81,11 @@ public abstract class PwDatabase {
         this.name = name;
     }
 
-    public PwGroup getRootGroup() {
+    public PwGroupDB getRootGroup() {
         return rootGroup;
     }
 
-    public void setRootGroup(PwGroup rootGroup) {
+    public void setRootGroup(PwGroupDB rootGroup) {
         this.rootGroup = rootGroup;
     }
 
@@ -277,11 +280,11 @@ public abstract class PwDatabase {
 
     public abstract PwEncryptionAlgorithm getEncryptionAlgorithm();
 
-    public abstract List<PwGroup> getGrpRoots();
+    public abstract List<PwGroupDB> getGrpRoots();
 
-    public abstract List<PwGroup> getGroups();
+    public abstract List<PwGroupDB> getGroups();
 
-    public void addGroupTo(PwGroup newGroup, PwGroup parent) {
+    public void addGroupTo(PwGroupDB newGroup, PwGroupDB parent) {
         // Add tree to parent tree
         if ( parent == null ) {
             parent = rootGroup;
@@ -294,7 +297,7 @@ public abstract class PwDatabase {
         parent.touch(true, true);
     }
 
-    public void removeGroupFrom(PwGroup remove, PwGroup parent) {
+    public void removeGroupFrom(PwGroupDB remove, PwGroupDB parent) {
         // Remove tree from parent tree
         if (parent != null) {
             parent.removeChildGroup(remove);
@@ -304,7 +307,7 @@ public abstract class PwDatabase {
 
     public abstract PwGroupId newGroupId();
 
-    public PwGroup getGroupByGroupId(PwGroupId id) {
+    public PwGroupDB getGroupByGroupId(PwGroupId id) {
         return this.groups.get(id);
     }
 
@@ -316,10 +319,10 @@ public abstract class PwDatabase {
      * @return True if the ID is used, false otherwise
      */
     protected boolean isGroupIdUsed(PwGroupId id) {
-        List<PwGroup> groups = getGroups();
+        List<PwGroupDB> groups = getGroups();
 
         for (int i = 0; i < groups.size(); i++) {
-            PwGroup group =groups.get(i);
+            PwGroupDB group =groups.get(i);
             if (group.getId().equals(id)) {
                 return true;
             }
@@ -328,15 +331,15 @@ public abstract class PwDatabase {
         return false;
     }
 
-    public abstract PwGroup createGroup();
+    public abstract PwGroupDB createGroup();
 
-    public abstract List<PwEntry> getEntries();
+    public abstract List<PwEntryDB> getEntries();
 
-    public PwEntry getEntryByUUIDId(UUID id) {
+    public PwEntryDB getEntryByUUIDId(UUID id) {
         return this.entries.get(id);
     }
 
-    public void addEntryTo(PwEntry newEntry, PwGroup parent) {
+    public void addEntryTo(PwEntryDB newEntry, PwGroupDB parent) {
         // Add entry to parent
         if (parent != null) {
             parent.addChildEntry(newEntry);
@@ -346,7 +349,7 @@ public abstract class PwDatabase {
         entries.put(newEntry.getUUID(), newEntry);
     }
 
-    public void removeEntryFrom(PwEntry remove, PwGroup parent) {
+    public void removeEntryFrom(PwEntryDB remove, PwGroupDB parent) {
         // Remove entry for parent
         if (parent != null) {
             parent.removeChildEntry(remove);
@@ -354,20 +357,20 @@ public abstract class PwDatabase {
         entries.remove(remove.getUUID());
     }
 
-    public abstract boolean isBackup(PwGroup group);
+    public abstract boolean isBackup(PwGroupDB group);
 
-    public void populateGlobals(PwGroup currentGroup) {
+    public void populateGlobals(PwGroupDB currentGroup) {
 
-        List<PwGroup> childGroups = currentGroup.getChildGroups();
-        List<PwEntry> childEntries = currentGroup.getChildEntries();
+        List<PwGroupDB> childGroups = currentGroup.getChildGroups();
+        List<PwEntryDB> childEntries = currentGroup.getChildEntries();
 
         for (int i = 0; i < childEntries.size(); i++ ) {
-            PwEntry cur = childEntries.get(i);
+            PwEntryDB cur = childEntries.get(i);
             entries.put(cur.getUUID(), cur);
         }
 
         for (int i = 0; i < childGroups.size(); i++ ) {
-            PwGroup cur = childGroups.get(i);
+            PwGroupDB cur = childGroups.get(i);
             groups.put(cur.getId(), cur);
             populateGlobals(cur);
         }
@@ -394,7 +397,7 @@ public abstract class PwDatabase {
      * @param group Group to remove
      * @return true if group can be recycle, false elsewhere
      */
-    public boolean canRecycle(PwGroup group) {
+    public boolean canRecycle(PwGroupDB group) {
         return false;
     }
 
@@ -403,54 +406,54 @@ public abstract class PwDatabase {
      * @param entry Entry to remove
      * @return true if entry can be recycle, false elsewhere
      */
-    public boolean canRecycle(PwEntry entry) {
+    public boolean canRecycle(PwEntryDB entry) {
         return false;
     }
 
-    public void recycle(PwGroup group) {
+    public void recycle(PwGroupDB group) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void recycle(PwEntry entry) {
+    public void recycle(PwEntryDB entry) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void undoRecycle(PwGroup group, PwGroup origParent) {
+    public void undoRecycle(PwGroupDB group, PwGroupDB origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void undoRecycle(PwEntry entry, PwGroup origParent) {
+    public void undoRecycle(PwEntryDB entry, PwGroupDB origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void deleteGroup(PwGroup group) {
-        PwGroup parent = group.getParent();
+    public void deleteGroup(PwGroupDB group) {
+        PwGroupDB parent = (PwGroupDB) group.getParent(); // TODO inference
         removeGroupFrom(group, parent);
         parent.touch(false, true);
     }
 
-    public void deleteEntry(PwEntry entry) {
-        PwGroup parent = entry.getParent();
+    public void deleteEntry(PwEntryDB entry) {
+        PwGroupDB parent = (PwGroupDB) entry.getParent(); // TODO inference
         removeEntryFrom(entry, parent);
         parent.touch(false, true);
     }
 
     // TODO Delete group
-    public void undoDeleteGroup(PwGroup group, PwGroup origParent) {
+    public void undoDeleteGroup(PwGroupDB group, PwGroupDB origParent) {
         addGroupTo(group, origParent);
     }
 
-    public void undoDeleteEntry(PwEntry entry, PwGroup origParent) {
+    public void undoDeleteEntry(PwEntryDB entry, PwGroupDB origParent) {
         addEntryTo(entry, origParent);
     }
 
-    public PwGroup getRecycleBin() {
+    public PwGroupDB getRecycleBin() {
         return null;
     }
 
-    public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
+    public boolean isGroupSearchable(PwGroupDB group, boolean omitBackup) {
         return group != null;
     }
 

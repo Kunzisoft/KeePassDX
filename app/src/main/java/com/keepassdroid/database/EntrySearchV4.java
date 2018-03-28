@@ -15,7 +15,7 @@ public class EntrySearchV4 {
         this.root = root;
     }
 
-    public void searchEntries(SearchParameters sp, List<PwEntry> listStorage) {
+    public void searchEntries(SearchParameters sp, List<PwEntryV4> listStorage) {
         if (sp == null)  { return; }
         if (listStorage == null) { return; }
 
@@ -30,9 +30,9 @@ public class EntrySearchV4 {
         Collections.sort(terms, stringLengthComparator);
 
         String fullSearch = sp.searchString;
-        List<PwEntry> pg = root.getChildEntries();
+        List<PwEntryV4> pg = root.getChildEntries();
         for (int i = 0; i < terms.size(); i ++) {
-            List<PwEntry> pgNew = new ArrayList<>();
+            List<PwEntryV4> pgNew = new ArrayList<>();
 
             sp.searchString = terms.get(i);
 
@@ -47,9 +47,9 @@ public class EntrySearchV4 {
                 break;
             }
 
-            List<PwEntry> complement = new ArrayList<>();
+            List<PwEntryV4> complement = new ArrayList<>();
             if (negate) {
-                for (PwEntry entry: pg) {
+                for (PwEntryV4 entry: pg) {
                     if (!pgNew.contains(entry)) {
                         complement.add(entry);
                     }
@@ -68,13 +68,13 @@ public class EntrySearchV4 {
 
     }
 
-    private boolean searchEntriesSingle(SearchParameters spIn, List<PwEntry> listStorage) {
+    private boolean searchEntriesSingle(SearchParameters spIn, List<PwEntryV4> listStorage) {
         SearchParameters sp = (SearchParameters) spIn.clone();
-        EntryHandler<PwEntry> eh;
+        EntryHandler<PwEntryV4> eh;
         if (sp.searchString.length() <= 0) {
-            eh = new EntrySearchHandlerAll(sp, listStorage);
+            eh = new EntrySearchHandlerAll<>(sp, listStorage);
         } else {
-            eh = EntrySearchHandler.getInstance(root, sp, listStorage);
+            eh = new EntrySearchHandlerV4(sp, listStorage);
         }
         return root.preOrderTraverseTree(null, eh);
     }

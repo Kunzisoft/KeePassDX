@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class PwEntryV4 extends PwEntry implements ITimeLogger {
+public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 
 	public static final String STR_TITLE = "Title";
 	public static final String STR_USERNAME = "UserName";
@@ -41,8 +41,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	// To decode each field not serializable
     private transient PwDatabase mDatabase = null;
     private transient boolean mDecodeRef = false;
-	
-	private PwGroupV4 parent;
+
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
@@ -65,34 +64,27 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 	
 	public PwEntryV4(PwGroupV4 p) {
-		construct();
-		parent = p;
+		construct(p);
 	}
 
-    @Override
-    public void assign(PwEntry source) {
-        if ( ! (source instanceof PwEntryV4) ) {
-            throw new RuntimeException("DB version mix.");
-        }
+    public void assign(PwEntryV4 source) {
         super.assign(source);
-        PwEntryV4 src = (PwEntryV4) source;
-        parent = src.parent;
-        customIcon = src.customIcon;
-        usageCount = src.usageCount;
-        parentGroupLastMod = src.parentGroupLastMod;
+        customIcon = source.customIcon;
+        usageCount = source.usageCount;
+        parentGroupLastMod = source.parentGroupLastMod;
         // TODO customData
 
-        fields = src.fields;
-        binaries = src.binaries;
-        foregroundColor = src.foregroundColor;
-        backgroupColor = src.backgroupColor;
-        overrideURL = src.overrideURL;
-        autoType = src.autoType;
-        history = src.history;
+        fields = source.fields;
+        binaries = source.binaries;
+        foregroundColor = source.foregroundColor;
+        backgroupColor = source.backgroupColor;
+        overrideURL = source.overrideURL;
+        autoType = source.autoType;
+        history = source.history;
 
-        url = src.url;
-        additional = src.additional;
-        tags = src.tags;
+        url = source.url;
+        additional = source.additional;
+        tags = source.tags;
     }
 
     @SuppressWarnings("unchecked")
@@ -104,7 +96,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
         addCloneAttributesToNewEntry(newEntry);
 
         // Attributes here
-        // newEntry.parent stay the same in copy
         newEntry.customIcon = new PwIconCustom(this.customIcon);
         // newEntry.usageCount stay the same in copy
         newEntry.parentGroupLastMod = this.parentGroupLastMod.clone();
@@ -205,16 +196,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		
 		setString(STR_NOTES, notes, protect);
 	}
-
-	@Override
-	public PwGroupV4 getParent() {
-		return parent;
-	}
-
-    @Override
-    public void setParent(PwGroup parent) {
-        this.parent = (PwGroupV4) parent;
-    }
 
 	public String getString(String key) {
 		ProtectedString value = fields.get(key);

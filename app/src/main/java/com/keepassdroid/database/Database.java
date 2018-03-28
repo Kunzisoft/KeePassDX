@@ -51,6 +51,7 @@ import java.io.SyncFailedException;
  * @author bpellin
  */
 public class Database {
+
     public PwDatabase pm;
     public Uri mUri;
     public SearchDbHelper searchHelper;
@@ -152,22 +153,27 @@ public class Database {
         if ( pm != null ) {
             PwGroup root = pm.getRootGroup();
             pm.populateGlobals(root);
-            LoadData(ctx, pm, password, kfIs, status);
+            loadData(ctx, pm, password);
         }
         loaded = true;
     }
 
-    public void LoadData(Context ctx, PwDatabase pm, String password, InputStream keyInputStream, UpdateStatus status) {
-        if ( pm != null ) {
-            passwordEncodingError = !pm.validatePasswordEncoding(password);
+    public void loadData(Context ctx, PwDatabase pm, String password) {
+        passwordEncodingError = !pm.validatePasswordEncoding(password);
+        switch (pm.getVersion()) {
+            case V3:
+                searchHelper = new SearchDbHelper.SearchDbHelperV3(ctx);
+                break;
+            case V4:
+                searchHelper = new SearchDbHelper.SearchDbHelperV4(ctx);
+                break;
         }
-        searchHelper = new SearchDbHelper(ctx);
         loaded = true;
     }
 
     public PwGroup Search(String str) {
         if (searchHelper == null) { return null; }
-        return searchHelper.search(this, str);
+        return searchHelper.search(this.pm, str);
     }
 
     public void SaveData(Context ctx) throws IOException, PwDbOutputException {

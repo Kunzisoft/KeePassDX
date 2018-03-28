@@ -23,11 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PwGroupV4 extends PwGroup implements ITimeLogger {
+public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implements ITimeLogger {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
-	private PwGroupV4 parent = null;
 	private UUID uuid = PwDatabase.UUID_ZERO;
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
@@ -48,7 +47,6 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
     }
 	
 	public PwGroupV4(String name, PwIconStandard icon) {
-		super.construct();
 		this.uuid = UUID.randomUUID();
 		this.name = name;
 		this.icon = icon;
@@ -60,26 +58,16 @@ public class PwGroupV4 extends PwGroup implements ITimeLogger {
         parentGroupLastMod = new PwDate();
     }
 	
-	public void AddGroup(PwGroupV4 subGroup) {
+	public void addGroup(PwGroupV4 subGroup) {
 		if ( subGroup == null ) throw new RuntimeException("subGroup");
 		childGroups.add(subGroup);
         subGroup.parent = this;
     }
 	
-	public void AddEntry(PwEntryV4 pe) {
+	public void addEntry(PwEntryV4 pe) {
 		assert(pe != null);
 		addChildEntry(pe);
         pe.setParent(this);
-    }
-	
-	@Override
-	public PwGroup getParent() {
-		return parent;
-	}
-
-    @Override
-    public void setParent(PwGroup prt) {
-        parent = (PwGroupV4) prt;
     }
 
     public UUID getUUID() {

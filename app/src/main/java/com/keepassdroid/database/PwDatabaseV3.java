@@ -46,33 +46,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.keepassdroid.database;
 
 // Java
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.keepassdroid.database.exception.InvalidKeyFileException;
-
 /**
  * @author Naomaru Itoi <nao@phoneid.org>
  * @author Bill Zwicky <wrzwicky@pobox.com>
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
-public class PwDatabaseV3 extends PwDatabase {
+public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
 	private static final int DEFAULT_ENCRYPTION_ROUNDS = 300;
 
 	// all entries
-	private List<PwEntry> entries = new ArrayList<>();
+	private List<PwEntryV3> entries = new ArrayList<>();
 	// all groups
-	private List<PwGroup> groups = new ArrayList<>();
+	private List<PwGroupV3> groups = new ArrayList<>();
 	// Algorithm used to encrypt the database
 	private PwEncryptionAlgorithm algorithm;
 	private int numKeyEncRounds;
 
-    private void initAndAddGroup(String name, int iconId, PwGroup parent) {
-        PwGroup group = createGroup();
+    private void initAndAddGroup(String name, int iconId, PwGroupV3 parent) {
+        PwGroupV3 group = createGroup();
         group.initNewGroup(name, newGroupId());
         group.setIcon(iconFactory.getIcon(iconId));
         addGroupTo(group, parent);
@@ -92,6 +92,11 @@ public class PwDatabaseV3 extends PwDatabase {
     }
 
 	@Override
+	public PwVersion getVersion() {
+		return PwVersion.V3;
+	}
+
+	@Override
 	public PwEncryptionAlgorithm getEncryptionAlgorithm() {
 		return algorithm;
 	}
@@ -109,15 +114,15 @@ public class PwDatabaseV3 extends PwDatabase {
     }
 
 	@Override
-	public List<PwGroup> getGroups() {
+	public List<PwGroupV3> getGroups() {
 		return groups;
 	}
 
-    public void setGroups(List<PwGroup> grp) {
+    public void setGroups(List<PwGroupV3> grp) {
         groups = grp;
     }
 
-    public void addGroup(PwGroup group) {
+    public void addGroup(PwGroupV3 group) {
 	    this.groups.add(group);
     }
 
@@ -126,7 +131,7 @@ public class PwDatabaseV3 extends PwDatabase {
     }
 
 	@Override
-	public List<PwEntry> getEntries() {
+	public List<PwEntryV3> getEntries() {
 		return entries;
 	}
 
@@ -134,7 +139,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	    return entries.get(position);
     }
 
-    public void addEntry(PwEntry entry) {
+    public void addEntry(PwEntryV3 entry) {
         this.entries.add(entry);
     }
 
@@ -143,23 +148,23 @@ public class PwDatabaseV3 extends PwDatabase {
     }
 
 	@Override
-	public List<PwGroup> getGrpRoots() {
+	public List<PwGroupV3> getGrpRoots() {
 		int target = 0;
-		List<PwGroup> kids = new ArrayList<PwGroup>();
+		List<PwGroupV3> kids = new ArrayList<>();
 		for (int i = 0; i < groups.size(); i++) {
-			PwGroupV3 grp = (PwGroupV3) groups.get(i);
+			PwGroupV3 grp = groups.get(i);
 			if (grp.getLevel() == target)
 				kids.add(grp);
 		}
 		return kids;
 	}
 
-	public List<PwGroup> getGrpChildren(PwGroupV3 parent) {
+	public List<PwGroupV3> getGrpChildren(PwGroupV3 parent) {
 		int idx = groups.indexOf(parent);
 		int target = parent.getLevel() + 1;
-		List<PwGroup> kids = new ArrayList<PwGroup>();
+		List<PwGroupV3> kids = new ArrayList<>();
 		while (++idx < groups.size()) {
-			PwGroupV3 grp = (PwGroupV3) groups.get(idx);
+			PwGroupV3 grp = groups.get(idx);
 			if (grp.getLevel() < target)
 				break;
 			else if (grp.getLevel() == target)
@@ -168,15 +173,15 @@ public class PwDatabaseV3 extends PwDatabase {
 		return kids;
 	}
 
-	public List<PwEntry> getEntries(PwGroupV3 parent) {
-		List<PwEntry> kids = new ArrayList<PwEntry>();
+	public List<PwEntryV3> getEntries(PwGroupV3 parent) {
+		List<PwEntryV3> kids = new ArrayList<>();
 		/*
 		 * for( Iterator i = entries.iterator(); i.hasNext(); ) { PwEntryV3 ent
 		 * = (PwEntryV3)i.next(); if( ent.groupId == parent.groupId ) kids.add(
 		 * ent ); }
 		 */
 		for (int i = 0; i < entries.size(); i++) {
-			PwEntryV3 ent = (PwEntryV3) entries.get(i);
+			PwEntryV3 ent = entries.get(i);
 			if (ent.getGroupId() == parent.getGroupId())
 				kids.add(ent);
 		}
@@ -193,12 +198,12 @@ public class PwDatabaseV3 extends PwDatabase {
 			PwGroupV3 root = new PwGroupV3();
 			rootGroup = root;
 
-			List<PwGroup> rootChildGroups = getGrpRoots();
+			List<PwGroupV3> rootChildGroups = getGrpRoots();
 			root.setGroups(rootChildGroups);
 			root.setEntries(new ArrayList<>());
 			root.setLevel(-1);
 			for (int i = 0; i < rootChildGroups.size(); i++) {
-				PwGroupV3 grp = (PwGroupV3) rootChildGroups.get(i);
+				PwGroupV3 grp = rootChildGroups.get(i);
 				grp.setParent(root);
 				constructTree(grp);
 			}
@@ -212,14 +217,14 @@ public class PwDatabaseV3 extends PwDatabase {
 
 		// set parent in child entries
 		for (int i = 0; i < currentGroup.numbersOfChildEntries(); i++) {
-			PwEntryV3 entry = (PwEntryV3) currentGroup.getChildEntryAt(i);
+			PwEntryV3 entry = currentGroup.getChildEntryAt(i);
 			entry.setParent(currentGroup);
 		}
 		// recursively construct child groups
 		for (int i = 0; i < currentGroup.numbersOfChildGroups(); i++) {
-			PwGroupV3 grp = (PwGroupV3) currentGroup.getChildGroupAt(i);
+			PwGroupV3 grp = currentGroup.getChildGroupAt(i);
 			grp.setParent(currentGroup);
-			constructTree((PwGroupV3) currentGroup.getChildGroupAt(i));
+			constructTree(currentGroup.getChildGroupAt(i));
 		}
 		return;
 	}
@@ -292,7 +297,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public void addEntryTo(PwEntry newEntry, PwGroup parent) {
+	public void addEntryTo(PwEntryV3 newEntry, PwGroupV3 parent) {
 		super.addEntryTo(newEntry, parent);
 		
 		// Add entry to root entries
@@ -300,7 +305,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public void addGroupTo(PwGroup newGroup, PwGroup parent) {
+	public void addGroupTo(PwGroupV3 newGroup, PwGroupV3 parent) {
 		super.addGroupTo(newGroup, parent);
 		
 		// Add tree to root groups
@@ -309,7 +314,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public void removeEntryFrom(PwEntry remove, PwGroup parent) {
+	public void removeEntryFrom(PwEntryV3 remove, PwGroupV3 parent) {
 		super.removeEntryFrom(remove, parent);
 		
 		// Remove entry from root entry
@@ -317,7 +322,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public void removeGroupFrom(PwGroup remove, PwGroup parent) {
+	public void removeGroupFrom(PwGroupV3 remove, PwGroupV3 parent) {
 		super.removeGroupFrom(remove, parent);
 		
 		// Remove tree from root entry
@@ -325,7 +330,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public PwGroup createGroup() {
+	public PwGroupV3 createGroup() {
 		return new PwGroupV3();
 	}
 	
@@ -339,21 +344,19 @@ public class PwDatabaseV3 extends PwDatabase {
 		// No-op
 	}
 	@Override
-	public boolean isBackup(PwGroup group) {
-		PwGroupV3 g = (PwGroupV3) group;
-		while (g != null) {
-			if (g.getLevel() == 0 && g.getName().equalsIgnoreCase("Backup")) {
+	public boolean isBackup(PwGroupV3 group) {
+		while (group != null) {
+			if (group.getLevel() == 0 && group.getName().equalsIgnoreCase("Backup")) {
 				return true;
 			}
-			
-			g = (PwGroupV3) g.getParent();
+			group = group.getParent();
 		}
 		
 		return false;
 	}
 
 	@Override
-	public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
+	public boolean isGroupSearchable(PwGroupV3 group, boolean omitBackup) {
 		if (!super.isGroupSearchable(group, omitBackup)) {
 			return false;
 		}

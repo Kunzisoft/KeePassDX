@@ -156,13 +156,13 @@ public class SprEngineV4 {
 		else if (scan == 'O') { sp.searchInOther = true; }
 		else { return null; }
 		
-		List<PwEntry> list = new ArrayList<>();
+		List<PwEntryV4> list = new ArrayList<>();
 		// TODO type parameter
         EntrySearchV4 entrySearchV4 = new EntrySearchV4((PwGroupV4) ctx.db.getRootGroup());
         entrySearchV4.searchEntries(sp, list);
 		
 		if (list.size() > 0) { 
-			return new TargetResult((PwEntryV4)list.get(0), wanted); 
+			return new TargetResult(list.get(0), wanted);
         }
 		
 		return null;

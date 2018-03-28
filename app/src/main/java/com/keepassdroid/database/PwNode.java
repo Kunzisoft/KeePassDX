@@ -28,7 +28,9 @@ import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode implements ISmallTimeLogger, Serializable {
+public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger, Serializable {
+
+    protected Parent parent = null;
 
     protected PwIconStandard icon = PwIconStandard.FIRST;
 
@@ -37,10 +39,13 @@ public abstract class PwNode implements ISmallTimeLogger, Serializable {
     protected PwDate lastAccess = new PwDate();
     protected PwDate expireDate = new PwDate(NEVER_EXPIRE);
 
-    protected void construct() {
+    protected void construct(Parent parent) {
+        this.parent = parent;
     }
 
-    public void assign(PwNode source) {
+    protected void assign(PwNode<Parent> source) {
+        this.parent = source.parent;
+
         this.icon = source.icon;
 
         this.creation = source.creation;
@@ -50,6 +55,8 @@ public abstract class PwNode implements ISmallTimeLogger, Serializable {
     }
 
     protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
+        // newEntry.parent stay the same in copy
+
         newEntry.icon = new PwIconStandard(this.icon);
 
         newEntry.creation = creation.clone();
@@ -94,12 +101,16 @@ public abstract class PwNode implements ISmallTimeLogger, Serializable {
      * Retrieve the parent node
      * @return PwGroup parent as group
      */
-    public abstract PwGroup getParent();
+    public Parent getParent() {
+        return parent;
+    }
 
     /**
      * Assign a parent to this node
      */
-    public abstract void setParent(PwGroup parent);
+    public void setParent(Parent prt) {
+        parent = prt;
+    }
 
     public PwDate getCreationTime() {
         return creation;
@@ -161,5 +172,30 @@ public abstract class PwNode implements ISmallTimeLogger, Serializable {
      */
     boolean isSameType(PwNode otherNode) {
         return getType() != null ? getType().equals(otherNode.getType()) : otherNode.getType() == null;
+    }
+
+    public boolean isContainedIn(PwGroup container) {
+        PwGroup cur = this.getParent();
+        while (cur != null) {
+            if (cur.equals(container)) {
+                return true;
+            }
+            cur = cur.getParent();
+        }
+        return false;
+    }
+
+    public void touch(boolean modified, boolean touchParents) {
+        PwDate now = new PwDate();
+        setLastAccessTime(now);
+
+        if (modified) {
+            setLastModificationTime(now);
+        }
+
+        Parent parent = getParent();
+        if (touchParents && parent != null) {
+            parent.touch(modified, true);
+        }
     }
 }

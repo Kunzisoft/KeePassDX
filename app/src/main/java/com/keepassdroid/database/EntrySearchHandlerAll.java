@@ -22,19 +22,20 @@ package com.keepassdroid.database;
 import java.util.Date;
 import java.util.List;
 
-public class EntrySearchHandlerAll extends EntryHandler<PwEntry> {
-	private List<PwEntry> listStorage;
+public class EntrySearchHandlerAll<T extends PwEntry> extends EntryHandler<T> {
+
+	private List<T> listStorage;
 	private SearchParameters sp;
 	private Date now;
 	
-	public EntrySearchHandlerAll(SearchParameters sp, List<PwEntry> listStorage) {
+	public EntrySearchHandlerAll(SearchParameters sp, List<T> listStorage) {
 		this.sp = sp;
 		this.listStorage = listStorage;
 		now = new Date();
 	}
 
 	@Override
-	public boolean operate(PwEntry entry) {
+	public boolean operate(T entry) {
 		if (sp.respectEntrySearchingDisabled && !entry.isSearchingEnabled()) {
 			return true;
 		}

@@ -76,7 +76,7 @@ public class EntryEditActivity extends LockingHideActivity
 	public static final int ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129;
 	public static final String ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY";
 
-	protected PwEntry mEntry;
+	protected PwEntry<PwGroup> mEntry;
 	protected PwEntry mCallbackNewEntry;
 	protected boolean mIsNew;
 	protected int mSelectedIconID = -1;
