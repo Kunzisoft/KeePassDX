@@ -33,6 +33,7 @@
     <string name="application">Application</string>
     <string name="beta_dontask">Don\'t show again</string>
     <string name="brackets">Brackets</string>
+    <string name="extended_ASCII">Extended ASCII</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
@@ -188,9 +189,9 @@
     <string name="configure_fingerprint">Fingerprint supported but not configured for device</string>
     <string name="scanning_fingerprint">Listening for fingerprints</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="fingerprint_invalid_key">Invalid Key problem</string>
+    <string name="fingerprint_invalid_key">Invalid fingerprint key problem. Restore your password.</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
-    <string name="fingerprint_error">Fingerprint problem</string>
+    <string name="fingerprint_error">Fingerprint problem : %1$s</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
     <string name="no_password_stored">No password stored yet for this database</string>
     <string name="history">History</string>
@@ -225,7 +226,7 @@
     <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
     <string name="fingerprint_delete_all_warning">Are you sure you want to delete all the keys related to fingerprints?</string>
     <string name="unavailable_feature_text">Can not start this feature.</string>
-    <string name="unavailable_feature_version">Your Android version %1$d is not the minimum version %2$d required.</string>
+    <string name="unavailable_feature_version">Your Android version %1$s is not the minimum version %2$s required.</string>
     <string name="unavailable_feature_hardware">The hardware is not detected.</string>
     <string name="file_name">File name</string>
     <string name="path">Path</string>

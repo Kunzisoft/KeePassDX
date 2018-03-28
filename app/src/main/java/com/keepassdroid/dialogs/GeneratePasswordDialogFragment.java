@@ -21,14 +21,12 @@ package com.keepassdroid.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -57,6 +55,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 	private CompoundButton spaceBox;
 	private CompoundButton specialsBox;
 	private CompoundButton bracketsBox;
+	private CompoundButton extendedBox;
 
     @Override
     public void onAttach(Context context) {
@@ -76,20 +75,21 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
         root = inflater.inflate(R.layout.generate_password, null);
 
-        lengthTextView = (EditText) root.findViewById(R.id.length);
+        lengthTextView = root.findViewById(R.id.length);
 
-        uppercaseBox = (CompoundButton) root.findViewById(R.id.cb_uppercase);
-        lowercaseBox = (CompoundButton) root.findViewById(R.id.cb_lowercase);
-        digitsBox = (CompoundButton) root.findViewById(R.id.cb_digits);
-        minusBox = (CompoundButton) root.findViewById(R.id.cb_minus);
-        underlineBox = (CompoundButton) root.findViewById(R.id.cb_underline);
-        spaceBox = (CompoundButton) root.findViewById(R.id.cb_space);
-        specialsBox = (CompoundButton) root.findViewById(R.id.cb_specials);
-        bracketsBox = (CompoundButton) root.findViewById(R.id.cb_brackets);
+        uppercaseBox = root.findViewById(R.id.cb_uppercase);
+        lowercaseBox = root.findViewById(R.id.cb_lowercase);
+        digitsBox = root.findViewById(R.id.cb_digits);
+        minusBox = root.findViewById(R.id.cb_minus);
+        underlineBox = root.findViewById(R.id.cb_underline);
+        spaceBox = root.findViewById(R.id.cb_space);
+        specialsBox = root.findViewById(R.id.cb_specials);
+        bracketsBox = root.findViewById(R.id.cb_brackets);
+        extendedBox = root.findViewById(R.id.cb_extended);
 
         assignDefaultCharacters();
 
-        SeekBar seekBar = (SeekBar) root.findViewById(R.id.seekbar_length);
+        SeekBar seekBar = root.findViewById(R.id.seekbar_length);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -102,34 +102,25 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        seekBar.setProgress(PreferencesUtil.getDefaultPasswordLength(getContext().getApplicationContext()));
+        seekBar.setProgress(PreferencesUtil.getDefaultPasswordLength(getContext()));
 
-        Button genPassButton = (Button) root.findViewById(R.id.generate_password_button);
-        genPassButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                fillPassword();
-            }
-        });
+        Button genPassButton = root.findViewById(R.id.generate_password_button);
+        genPassButton.setOnClickListener(v -> fillPassword());
 
         builder.setView(root)
-                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        EditText password = (EditText) root.findViewById(R.id.password);
-                        Bundle bundle = new Bundle();
-                        bundle.putString(KEY_PASSWORD_ID, password.getText().toString());
-                        mListener.acceptPassword(bundle);
+                .setPositiveButton(R.string.accept, (dialog, id) -> {
+                    EditText password = root.findViewById(R.id.password);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(KEY_PASSWORD_ID, password.getText().toString());
+                    mListener.acceptPassword(bundle);
 
-                        dismiss();
-                    }
+                    dismiss();
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Bundle bundle = new Bundle();
-                        mListener.cancelPassword(bundle);
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                    Bundle bundle = new Bundle();
+                    mListener.cancelPassword(bundle);
 
-                        dismiss();
-                    }
+                    dismiss();
                 });
 
         // Pre-populate a password to possibly save the user a few clicks
@@ -147,9 +138,10 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         spaceBox.setChecked(false);
         specialsBox.setChecked(false);
         bracketsBox.setChecked(false);
+        extendedBox.setChecked(false);
 
         Set<String> defaultPasswordChars =
-                PreferencesUtil.getDefaultPasswordCharacters(getContext().getApplicationContext());
+                PreferencesUtil.getDefaultPasswordCharacters(getContext());
         for(String passwordChar : defaultPasswordChars) {
             if (passwordChar.equals(getString(R.string.value_password_uppercase))) {
                 uppercaseBox.setChecked(true);
@@ -175,11 +167,14 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
             else if (passwordChar.equals(getString(R.string.value_password_brackets))) {
                 bracketsBox.setChecked(true);
             }
+            else if (passwordChar.equals(getString(R.string.value_password_extended))) {
+                extendedBox.setChecked(true);
+            }
         }
     }
 	
 	private void fillPassword() {
-		EditText txtPassword = (EditText) root.findViewById(R.id.password);
+		EditText txtPassword = root.findViewById(R.id.password);
 		txtPassword.setText(generatePassword());
 	}
 	
@@ -197,7 +192,8 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
                     underlineBox.isChecked(),
                     spaceBox.isChecked(),
                     specialsBox.isChecked(),
-                    bracketsBox.isChecked());
+                    bracketsBox.isChecked(),
+                    extendedBox.isChecked());
     	} catch (NumberFormatException e) {
     		Toast.makeText(getContext(), R.string.error_wrong_length, Toast.LENGTH_LONG).show();
 		} catch (IllegalArgumentException e) {

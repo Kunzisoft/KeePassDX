@@ -131,16 +131,13 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 if (!fingerprintSupported) {
                     // False if under Marshmallow
                     fingerprintEnablePreference.setChecked(false);
-                    fingerprintEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        @Override
-                        public boolean onPreferenceClick(Preference preference) {
-                            FragmentManager fragmentManager = getFragmentManager();
-                            assert fragmentManager != null;
-                            ((SwitchPreference) preference).setChecked(false);
-                            UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
-                                    .show(getFragmentManager(), "unavailableFeatureDialog");
-                            return false;
-                        }
+                    fingerprintEnablePreference.setOnPreferenceClickListener(preference -> {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        assert fragmentManager != null;
+                        ((SwitchPreference) preference).setChecked(false);
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
+                                .show(getFragmentManager(), "unavailableFeatureDialog");
+                        return false;
                     });
                 }
 
@@ -148,45 +145,39 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 if (!fingerprintSupported) {
                     deleteKeysFingerprints.setEnabled(false);
                 } else {
-                    deleteKeysFingerprints.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        @Override
-                        public boolean onPreferenceClick(Preference preference) {
-                            new AlertDialog.Builder(getContext())
-                                    .setMessage(getResources().getString(R.string.fingerprint_delete_all_warning))
-                                    .setIcon(getResources().getDrawable(
-                                            android.R.drawable.ic_dialog_alert))
-                                    .setPositiveButton(
-                                            getResources().getString(android.R.string.yes),
-                                            new DialogInterface.OnClickListener() {
-                                                @RequiresApi(api = Build.VERSION_CODES.M)
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
-                                                            getContext(),
-                                                            new FingerPrintHelper.FingerPrintErrorCallback() {
-                                                                @Override
-                                                                public void onInvalidKeyException(Exception e) {
-                                                                }
+                    deleteKeysFingerprints.setOnPreferenceClickListener(preference -> {
+                        new AlertDialog.Builder(getContext())
+                                .setMessage(getResources().getString(R.string.fingerprint_delete_all_warning))
+                                .setIcon(getResources().getDrawable(
+                                        android.R.drawable.ic_dialog_alert))
+                                .setPositiveButton(
+                                        getResources().getString(android.R.string.yes),
+                                        new DialogInterface.OnClickListener() {
+                                            @RequiresApi(api = Build.VERSION_CODES.M)
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
+                                                        getContext(),
+                                                        new FingerPrintHelper.FingerPrintErrorCallback() {
+                                                            @Override
+                                                            public void onInvalidKeyException(Exception e) {}
 
-                                                                @Override
-                                                                public void onFingerPrintException(Exception e) {
-                                                                    Toast.makeText(getContext(), R.string.fingerprint_error, Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                    PreferencesUtil.deleteAllValuesFromNoBackupPreferences(getContext());
-                                                }
-                                            })
-                                    .setNegativeButton(
-                                            getResources().getString(android.R.string.no),
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                }
-                                            }).show();
-                            return false;
-                        }
+                                                            @Override
+                                                            public void onFingerPrintException(Exception e) {
+                                                                Toast.makeText(getContext(),
+                                                                        getString(R.string.fingerprint_error, e.getLocalizedMessage()),
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                PreferencesUtil.deleteAllValuesFromNoBackupPreferences(getContext());
+                                            }
+                                        })
+                                .setNegativeButton(
+                                        getResources().getString(android.R.string.no),
+                                        (dialog, which) -> {
+                                        }).show();
+                        return false;
                     });
                 }
                 break;

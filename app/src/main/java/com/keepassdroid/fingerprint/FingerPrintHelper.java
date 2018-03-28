@@ -30,6 +30,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -47,7 +48,9 @@ import javax.crypto.spec.IvParameterSpec;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class FingerPrintHelper {
 
-    private static final String FINGERPRINT_KEYSTORE_KEY = "example-key";
+    private static final String TAG = FingerPrintHelper.class.getName();
+
+    private static final String FINGERPRINT_KEYSTORE_KEY = "com.kunzisoft.keepass.fingerprint.key";
 
     private FingerprintManagerCompat fingerprintManager;
     private KeyStore keyStore = null;
@@ -65,8 +68,7 @@ public class FingerPrintHelper {
         this.authenticationCallback = authenticationCallback;
     }
 
-    public void startListening() {
-
+    public synchronized void startListening() {
         // starts listening for fingerprints with the initialised crypto object
         cancellationSignal = new CancellationSignal();
         fingerprintManager.authenticate(
@@ -77,7 +79,7 @@ public class FingerPrintHelper {
                 null);
     }
 
-    public void stopListening() {
+    public synchronized void stopListening() {
         if (!isFingerprintInitialized(false)) {
             return;
         }
@@ -113,6 +115,7 @@ public class FingerPrintHelper {
                 this.cryptoObject = new FingerprintManagerCompat.CryptoObject(cipher);
                 setInitOk(true);
             } catch (final Exception e) {
+                Log.e(TAG, "Unable to initialize the keystore", e);
                 setInitOk(false);
                 fingerPrintCallback.onFingerPrintException(e);
             }
@@ -142,6 +145,8 @@ public class FingerPrintHelper {
             return;
         }
         try {
+            stopListening();
+
             createNewKeyIfNeeded(false); // no need to keep deleting existing keys
             keyStore.load(null);
             final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
@@ -149,10 +154,13 @@ public class FingerPrintHelper {
 
             startListening();
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
+            Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException);
             deleteEntryKey();
         } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
+            Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException);
             fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final Exception e) {
+            Log.e(TAG, "Unable to initialize encrypt data", e);
             fingerPrintCallback.onFingerPrintException(e);
         }
     }
@@ -164,14 +172,15 @@ public class FingerPrintHelper {
         try {
             // actual do encryption here
             byte[] encrypted = cipher.doFinal(value.getBytes());
-            final String encryptedValue = Base64.encodeToString(encrypted, Base64.DEFAULT);
+            final String encryptedValue = Base64.encodeToString(encrypted, Base64.NO_WRAP);
 
             // passes updated iv spec on to callback so this can be stored for decryption
             final IvParameterSpec spec = cipher.getParameters().getParameterSpec(IvParameterSpec.class);
-            final String ivSpecValue = Base64.encodeToString(spec.getIV(), Base64.DEFAULT);
+            final String ivSpecValue = Base64.encodeToString(spec.getIV(), Base64.NO_WRAP);
             fingerPrintCallback.handleEncryptedResult(encryptedValue, ivSpecValue);
 
         } catch (final Exception e) {
+            Log.e(TAG, "Unable to encrypt data", e);
             fingerPrintCallback.onFingerPrintException(e);
         }
     }
@@ -181,21 +190,26 @@ public class FingerPrintHelper {
             return;
         }
         try {
+            stopListening();
+
             createNewKeyIfNeeded(false);
             keyStore.load(null);
             final SecretKey key = (SecretKey) keyStore.getKey(FINGERPRINT_KEYSTORE_KEY, null);
 
             // important to restore spec here that was used for decryption
-            final byte[] iv = Base64.decode(ivSpecValue, Base64.DEFAULT);
+            final byte[] iv = Base64.decode(ivSpecValue, Base64.NO_WRAP);
             final IvParameterSpec spec = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
             startListening();
-        } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
-            fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final UnrecoverableKeyException unrecoverableKeyException) {
+            Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException);
             deleteEntryKey();
+        } catch (final KeyPermanentlyInvalidatedException invalidKeyException) {
+            Log.e(TAG, "Unable to initialize decrypt data", invalidKeyException);
+            fingerPrintCallback.onInvalidKeyException(invalidKeyException);
         } catch (final Exception e) {
+            Log.e(TAG, "Unable to initialize decrypt data", e);
             fingerPrintCallback.onFingerPrintException(e);
         }
     }
@@ -206,15 +220,17 @@ public class FingerPrintHelper {
         }
         try {
             // actual decryption here
-            final byte[] encrypted = Base64.decode(encryptedValue, Base64.DEFAULT);
+            final byte[] encrypted = Base64.decode(encryptedValue, Base64.NO_WRAP);
             byte[] decrypted = cipher.doFinal(encrypted);
             final String decryptedString = new String(decrypted);
 
             //final String encryptedString = Base64.encodeToString(encrypted, 0 /* flags */);
             fingerPrintCallback.handleDecryptedResult(decryptedString);
         } catch (final BadPaddingException badPaddingException) {
+            Log.e(TAG, "Unable to decrypt data", badPaddingException);
             fingerPrintCallback.onInvalidKeyException(badPaddingException);
         } catch (final Exception e) {
+            Log.e(TAG, "Unable to decrypt data", e);
             fingerPrintCallback.onFingerPrintException(e);
         }
     }
@@ -249,6 +265,7 @@ public class FingerPrintHelper {
                 keyGenerator.generateKey();
             }
         } catch (final Exception e) {
+            Log.e(TAG, "Unable to create a key in keystore", e);
             fingerPrintCallback.onFingerPrintException(e);
         }
     }
@@ -262,6 +279,7 @@ public class FingerPrintHelper {
                     | NoSuchAlgorithmException
                     | IOException
                     | NullPointerException e) {
+            Log.e(TAG, "Unable to delete entry key in keystore", e);
             if (fingerPrintCallback != null)
                 fingerPrintCallback.onFingerPrintException(e);
         }

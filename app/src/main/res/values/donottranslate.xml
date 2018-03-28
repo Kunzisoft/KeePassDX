@@ -121,6 +121,7 @@
     <string name="value_password_space" translatable="false">value_password_space</string>
     <string name="value_password_special" translatable="false">value_password_special</string>
     <string name="value_password_brackets" translatable="false">value_password_brackets</string>
+    <string name="value_password_extended" translatable="false">value_password_extended</string>
     <string name="visual_uppercase" translatable="false">A-Z</string>
     <string name="visual_lowercase" translatable="false">a-z</string>
     <string name="visual_digits" translatable="false">0-9</string>
@@ -129,6 +130,7 @@
     <string name="visual_space" translatable="false"> </string>
     <string name="visual_special" translatable="false">&amp;\/,^@.#&quot;:%\\='$!*`;+</string>
     <string name="visual_brackets" translatable="false">[](){}&lt;&gt;</string>
+    <string name="visual_extended" translatable="false">ñæËÌÂÝÜ...</string>
     <string-array name="list_password_generator_options_default_values">
         <item translatable="false">@string/value_password_uppercase</item>
         <item translatable="false">@string/value_password_lowercase</item>

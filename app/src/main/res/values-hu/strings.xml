@@ -161,8 +161,8 @@
     <string name="configure_fingerprint">Az ujjlenyomat használat nincs még beállítva az eszközön</string>
     <string name="scanning_fingerprint">Várakozás az ujjelnyomat megadására</string>
     <string name="encrypted_value_stored">Titkosított jelszó elmentve</string>
-    <string name="fingerprint_invalid_key">Érvénytelen kulcs</string>
-    <string name="fingerprint_error">Érvénytelen ujjlenyomat</string>
+    <string name="fingerprint_invalid_key">Érvénytelen kulcs. Helyezze vissza jelszavát.</string>
+    <string name="fingerprint_error">Érvénytelen ujjlenyomat : %1$s</string>
     <string name="store_with_fingerprint">Használjon ujjlenyomatot a jelszó elmentéséhez</string>
     <string name="no_password_stored">Nincs még jelszó beállítva ehhez az adatbázishoz</string>
 

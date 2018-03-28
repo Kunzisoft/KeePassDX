@@ -7,13 +7,16 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.keepassdroid.database.exception.SamsungClipboardException;
+import com.keepassdroid.stylish.Stylish;
 import com.keepassdroid.timeout.ClipboardHelper;
 import com.kunzisoft.keepass.R;
 
@@ -40,6 +43,8 @@ public class NotificationCopyingService extends Service {
     private int notificationId = 1;
     private long notificationTimeoutMilliSecs;
 
+    private int colorNotificationAccent;
+
     public NotificationCopyingService() {
     }
 
@@ -61,6 +66,13 @@ public class NotificationCopyingService extends Service {
                     NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(channel);
         }
+
+        // Get the color
+        setTheme(Stylish.getThemeId(this));
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        colorNotificationAccent = typedValue.data;
     }
 
     @Override
@@ -125,7 +137,8 @@ public class NotificationCopyingService extends Service {
         stopTask(countingDownTask);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
-                .setSmallIcon(R.drawable.ic_key_white_24dp);
+                .setSmallIcon(R.drawable.ic_key_white_24dp)
+                .setColor(colorNotificationAccent);
         if (title != null)
             builder.setContentTitle(title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -172,6 +185,7 @@ public class NotificationCopyingService extends Service {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
                     .setSmallIcon(R.drawable.ic_key_white_24dp)
+                    .setColor(colorNotificationAccent)
                     .setContentTitle(fieldToCopy.label);
 
             // New action with next field if click

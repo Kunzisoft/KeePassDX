@@ -144,7 +144,6 @@
     <string name="search_label">חיפוש</string>
     <string name="sort_db">סדר מיון מסד נתונים</string>
     <string name="special">מיוחד</string>
-    <string name="search_hint">כותרת/תיאור ערך</string>
     <string name="search_results">תוצאות חיפוש</string>
     <string name="underline">קו תחתון</string>
     <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>

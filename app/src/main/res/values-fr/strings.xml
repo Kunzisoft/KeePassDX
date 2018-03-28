@@ -35,6 +35,7 @@
     <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="brackets">Crochets</string>
+    <string name="extended_ASCII">ASCII étendu</string>
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Permettre</string>
@@ -188,9 +189,9 @@
     <string name="configure_fingerprint">Reconnaissance d\'empreinte digitale non configuré pour cet appareil</string>
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
     <string name="encrypted_value_stored">Mot de passe encrypté stocké</string>
-    <string name="fingerprint_invalid_key">Problème de clé invalide</string>
+    <string name="fingerprint_invalid_key">Problème de clé invalide. Restaurez votre mot de passe.</string>
     <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
-    <string name="fingerprint_error">Problème d\'empreinte digitale</string>
+    <string name="fingerprint_error">Problème d\'empreinte digitale : %1$s</string>
     <string name="store_with_fingerprint">Utiliser l\'empreinte digitale pour stocker le mot de passe</string>
     <string name="no_password_stored">Pas de mot de passe encore stocké pour cette base de données</string>
     <string name="history">Historique</string>
@@ -224,7 +225,7 @@
     <string name="fingerprint_delete_all_summary">Supprimer toutes les clés de chiffrement liées à la reconnaissance des empreintes digitales</string>
     <string name="fingerprint_delete_all_warning">Êtes-vous sûr de vouloir supprimer toutes les clés liées aux empreintes digitales?</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
-    <string name="unavailable_feature_version">Votre version Android %1$d n\'est pas la version minimale %2$d requise.</string>
+    <string name="unavailable_feature_version">Votre version Android %1$s n\'est pas la version minimale %2$s requise.</string>
     <string name="unavailable_feature_hardware">Le matériel n\'est pas détecté.</string>
     <string name="file_name">Nom de fichier</string>
     <string name="path">Chemin</string>

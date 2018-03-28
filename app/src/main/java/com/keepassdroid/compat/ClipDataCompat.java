@@ -61,17 +61,17 @@ public class ClipDataCompat {
         boolean clipDataSucceeded = false;
         if (initSucceded) {
             try {
-                Object clip = getClipDataFromIntent.invoke(i, null);
+                Object clip = getClipDataFromIntent.invoke(i);
 
                 if (clip != null) {
-                    Object clipDescription = getDescription.invoke(clip, null);
-                    CharSequence label = (CharSequence)getLabel.invoke(clipDescription, null);
+                    Object clipDescription = getDescription.invoke(clip);
+                    CharSequence label = (CharSequence)getLabel.invoke(clipDescription);
                     if (label.equals(key)) {
-                        int itemCount = (int) getItemCount.invoke(clip, null);
+                        int itemCount = (int) getItemCount.invoke(clip);
                         if (itemCount == 1) {
                             Object clipItem = getItemAt.invoke(clip,0);
                             if (clipItem != null) {
-                                return (Uri)getUri.invoke(clipItem, null);
+                                return (Uri)getUri.invoke(clipItem);
                             }
                         }
                     }
