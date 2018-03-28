@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -65,6 +66,8 @@ import java.util.UUID;
 public class EntryEditActivity extends LockingHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener {
+
+    private static final String TAG = EntryEditActivity.class.getName();
 
     // Keys for current Activity
 	public static final String KEY_ENTRY = "entry";
@@ -364,18 +367,23 @@ public class EntryEditActivity extends LockingHideActivity
 	@Override
 	public void finish() {
 	    // Assign entry callback as a result in all case
-		if (mCallbackNewEntry != null) {
-            Bundle bundle = new Bundle();
-			Intent intentEntry = new Intent();
-            bundle.putSerializable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
-            intentEntry.putExtras(bundle);
-			if (mIsNew) {
-				setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
-			} else {
-				setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
-			}
-		}
-		super.finish();
+        try {
+            if (mCallbackNewEntry != null) {
+                Bundle bundle = new Bundle();
+                Intent intentEntry = new Intent();
+                bundle.putSerializable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+                intentEntry.putExtras(bundle);
+                if (mIsNew) {
+                    setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
+                } else {
+                    setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry);
+                }
+            }
+            super.finish();
+        } catch (Exception e) {
+            // Exception when parcelable can't be done
+            Log.e(TAG, "Cant add entry as result", e);
+        }
 	}
 
 	private final class AfterSave extends OnFinish {
