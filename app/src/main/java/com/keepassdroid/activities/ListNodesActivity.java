@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
@@ -177,7 +178,7 @@ public abstract class ListNodesActivity extends LockingActivity
             case R.id.menu_sort:
                 SortDialogFragment sortDialogFragment;
 
-                PwDatabase database = App.getDB().pm;
+                PwDatabase database = App.getDB().getPm();
                 /*
                 // TODO Recycle bin bottom
                 if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
@@ -294,8 +295,9 @@ public abstract class ListNodesActivity extends LockingActivity
             if ( mSuccess) {
                 mAdapter.removeNode(pwNode);
                 PwGroup parent = pwNode.getParent();
-                PwDatabase database = App.getDB().pm;
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
+                Database db = App.getDB();
+                PwDatabase database = db.getPm();
+                if (db.isRecycleBinAvailabledAndEnabled()) {
                     PwGroup recycleBin = database.getRecycleBin();
                     // Add trash if it doesn't exists
                     if (parent.equals(recycleBin)

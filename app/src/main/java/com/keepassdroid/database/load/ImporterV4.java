@@ -628,7 +628,7 @@ public class ImporterV4 extends Importer {
 				if ( ctxGroups.size() != 0 ) throw new IOException("Group list should be empty.");
 				
 				db.setRootGroup(new PwGroupV4());
-				ctxGroups.push((PwGroupV4)db.getRootGroup());
+				ctxGroups.push(db.getRootGroup());
 				ctxGroup = ctxGroups.peek();
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
@@ -946,7 +946,7 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.EntryTimes && name.equalsIgnoreCase(ElemTimes) ) {
 			return KdbContext.Entry;
 		} else if ( ctx == KdbContext.EntryString && name.equalsIgnoreCase(ElemString) ) {
-			ctxEntry.addField(ctxStringName, ctxStringValue);
+			ctxEntry.addExtraField(ctxStringName, ctxStringValue);
 			ctxStringName = null;
 			ctxStringValue = null;
 			

@@ -25,6 +25,7 @@ import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwEntry;
 
 public class UpdateEntry extends RunnableOnFinish {
+
 	private Database mDb;
 	private PwEntry mOldE;
 	private PwEntry mNewE;
@@ -48,10 +49,9 @@ public class UpdateEntry extends RunnableOnFinish {
 	@Override
 	public void run() {
 		// Update entry with new values
-		mOldE = mNewE; // TODO Verify
+        mDb.updateEntry(mOldE, mNewE);
 		mOldE.touch(true, true);
-		
-		
+
 		// Commit to disk
 		SaveDB save = new SaveDB(ctx, mDb, mFinish);
 		save.run();
@@ -69,7 +69,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		public void run() {
 			if ( !mSuccess ) {
 				// If we fail to save, back out changes to global structure
-				mOldE = mBackup; // TODO Verify
+                mDb.updateEntry(mOldE, mBackup);
 			}
 			// TODO Callback for update entry
 			super.run();

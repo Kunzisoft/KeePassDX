@@ -22,7 +22,6 @@ package com.keepassdroid.database.edit;
 import android.content.Context;
 
 import com.keepassdroid.database.Database;
-import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 
@@ -44,25 +43,24 @@ public class DeleteEntry extends RunnableOnFinish {
 	public DeleteEntry(Context ctx, Database db, PwEntry entry, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
-		mDb = db;
-		mEntry = entry;
-		mDontSave = dontSave;
+		this.mDb = db;
+		this.mEntry = entry;
+		this.mDontSave = dontSave;
 		this.ctx = ctx;
 		
 	}
 	
 	@Override
 	public void run() {
-		PwDatabase pm = mDb.pm;
 		PwGroup parent = mEntry.getParent();
 
 		// Remove Entry from parent
-		boolean recycle = pm.canRecycle(mEntry);
+		boolean recycle = mDb.canRecycle(mEntry);
 		if (recycle) {
-			pm.recycle(mEntry);
+			mDb.recycle(mEntry);
 		}
 		else {
-			pm.deleteEntry(mEntry);
+			mDb.deleteEntry(mEntry);
 		}
 		
 		// Save
@@ -89,13 +87,12 @@ public class DeleteEntry extends RunnableOnFinish {
 		
 		@Override
 		public void run() {
-			PwDatabase pm = mDb.pm;
 			if ( !mSuccess ) {
 				if (recycled) {
-					pm.undoRecycle(mEntry, mParent);
+					mDb.undoRecycle(mEntry, mParent);
 				}
 				else {
-					pm.undoDeleteEntry(mEntry, mParent);
+					mDb.undoDeleteEntry(mEntry, mParent);
 				}
 			}
 			// TODO Callback after delete entry

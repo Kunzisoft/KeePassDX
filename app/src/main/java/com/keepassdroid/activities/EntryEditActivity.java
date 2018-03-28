@@ -60,7 +60,6 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditNewField;
 import com.kunzisoft.keepass.R;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class EntryEditActivity extends LockingHideActivity
@@ -79,7 +78,7 @@ public class EntryEditActivity extends LockingHideActivity
 	public static final int ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129;
 	public static final String ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY";
 
-	protected PwEntry<PwGroup> mEntry;
+	protected PwEntry mEntry;
 	protected PwEntry mCallbackNewEntry;
 	protected boolean mIsNew;
 	protected int mSelectedIconID = -1;
@@ -153,7 +152,7 @@ public class EntryEditActivity extends LockingHideActivity
 		Intent intent = getIntent();
 		byte[] uuidBytes = intent.getByteArrayExtra(KEY_ENTRY);
 
-		PwDatabase pm = db.pm;
+		PwDatabase pm = db.getPm();
 		if ( uuidBytes == null ) {
             PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
 			PwGroup parent = pm.getGroupByGroupId(parentId);
@@ -244,11 +243,11 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 	
 	protected PwEntry populateNewEntry() {
-        PwDatabase db = App.getDB().pm;
+        PwDatabase db = App.getDB().getPm();
 
         PwEntry newEntry = mEntry.clone();
 
-        newEntry.startToDecodeReference(db);
+        newEntry.startToManageFieldReferences(db);
 
         newEntry.createBackup(db);
 
@@ -261,7 +260,7 @@ public class EntryEditActivity extends LockingHideActivity
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
         else {
             if (mIsNew) {
-                newEntry.setIcon(App.getDB().pm.getIconFactory().getFirstIcon());
+                newEntry.setIcon(App.getDB().getPm().getIconFactory().getFirstIcon());
             }
             else {
                 // Keep previous icon, if no new one was selected
@@ -274,19 +273,19 @@ public class EntryEditActivity extends LockingHideActivity
         newEntry.setPassword(entryPasswordView.getText().toString());
 
         if (newEntry.allowExtraFields()) {
-            // Delete all new standard strings
-            newEntry.removeExtraFields();
+            // Delete all extra strings
+            newEntry.removeAllCustomFields();
             // Add extra fields from views
             for (int i = 0; i < entryExtraFieldsContainer.getChildCount(); i++) {
                 EntryEditNewField view = (EntryEditNewField) entryExtraFieldsContainer.getChildAt(i);
                 String key = view.getLabel();
                 String value = view.getValue();
                 boolean protect = view.isProtected();
-                newEntry.addField(key, new ProtectedString(protect, value));
+                newEntry.addExtraField(key, new ProtectedString(protect, value));
             }
         }
 
-        newEntry.endToDecodeReference(db);
+        newEntry.endToManageFieldReferences();
 
         return newEntry;
 	}
@@ -318,6 +317,8 @@ public class EntryEditActivity extends LockingHideActivity
 		ImageButton currIconButton = findViewById(R.id.icon_button);
 		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 
+        mEntry.startToManageFieldReferences(App.getDB().getPm());
+
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());
         entryUrlView.setText(mEntry.getUrl());
@@ -336,13 +337,15 @@ public class EntryEditActivity extends LockingHideActivity
 
 		if (mEntry.allowExtraFields()) {
             LinearLayout container = findViewById(R.id.advanced_container);
-            for (Map.Entry<String, ProtectedString> pair : mEntry.getExtraProtectedFields().entrySet()) {
+            mEntry.getFields().doActionToAllCustomProtectedField((key, value) -> {
                 EntryEditNewField entryEditNewField = new EntryEditNewField(EntryEditActivity.this);
-                entryEditNewField.setData(pair.getKey(), pair.getValue());
+                entryEditNewField.setData(key, value);
                 entryEditNewField.setFontVisibility(visibilityFontActivated);
                 container.addView(entryEditNewField);
-            }
+            });
         }
+
+        mEntry.endToManageFieldReferences();
 	}
 
     @Override

@@ -97,7 +97,7 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 		groupId = ((PwGroupIdV3) this.parent.getId()).getId(); // TODO remove
 	}
 
-    protected void assignData(PwEntryV3 source) {
+    protected void updateWith(PwEntryV3 source) {
         groupId = source.groupId;
 
         title = source.title;
@@ -254,11 +254,9 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 	/**
 	 * fill byte array
 	 */
-	private static void fill(byte[] array, byte value)
-	{
+	private static void fill(byte[] array, byte value) {
 		for (int i=0; i<array.length; i++)
 			array[i] = value;
-		return;
 	}
 
 	/** Securely erase old password before copying new. */

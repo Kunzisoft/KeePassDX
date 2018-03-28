@@ -51,12 +51,12 @@ public class PwEntryTestV4 extends TestCase {
 		entry.setIcon(new PwIconStandard(5));
 		entry.setOverrideURL("override");
 		entry.setParent(new PwGroupV4());
-		entry.addField("key2", new ProtectedString(false, "value2"));
+		entry.addExtraField("key2", new ProtectedString(false, "value2"));
 		entry.setUrl("http://localhost");
 		entry.setUUID(UUID.randomUUID());
 
 		PwEntryV4 target = new PwEntryV4();
-		target.assign(entry);
+		target.updateWith(entry);
 		
 		/* This test is not so useful now that I am not implementing value equality for Entries
 		assertTrue("Entries do not match.", entry.equals(target));

@@ -64,6 +64,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     }
 
     public static PwDatabase getNewDBInstance(String filename) {
+        // TODO other condition to create a database
         if (isKDBExtension(filename)) {
             return new PwDatabaseV3();
         } else {
@@ -284,7 +285,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
 
     public abstract List<PwGroupDB> getGroups();
 
-    public void addGroupTo(PwGroupDB newGroup, PwGroupDB parent) {
+    protected void addGroupTo(PwGroupDB newGroup, PwGroupDB parent) {
         // Add tree to parent tree
         if ( parent == null ) {
             parent = rootGroup;
@@ -297,7 +298,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         parent.touch(true, true);
     }
 
-    public void removeGroupFrom(PwGroupDB remove, PwGroupDB parent) {
+    protected void removeGroupFrom(PwGroupDB remove, PwGroupDB parent) {
         // Remove tree from parent tree
         if (parent != null) {
             parent.removeChildGroup(remove);
@@ -339,7 +340,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         return this.entries.get(id);
     }
 
-    public void addEntryTo(PwEntryDB newEntry, PwGroupDB parent) {
+    protected void addEntryTo(PwEntryDB newEntry, PwGroupDB parent) {
         // Add entry to parent
         if (parent != null) {
             parent.addChildEntry(newEntry);
@@ -349,7 +350,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         entries.put(newEntry.getUUID(), newEntry);
     }
 
-    public void removeEntryFrom(PwEntryDB remove, PwGroupDB parent) {
+    protected void removeEntryFrom(PwEntryDB remove, PwGroupDB parent) {
         // Remove entry for parent
         if (parent != null) {
             parent.removeChildEntry(remove);
@@ -359,7 +360,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
 
     public abstract boolean isBackup(PwGroupDB group);
 
-    public void populateGlobals(PwGroupDB currentGroup) {
+    protected void populateGlobals(PwGroupDB currentGroup) {
 
         List<PwGroupDB> childGroups = currentGroup.getChildGroups();
         List<PwEntryDB> childEntries = currentGroup.getChildEntries();
@@ -380,7 +381,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
      * Determine if RecycleBin is available or not for this version of database
      * @return true if RecycleBin enable
      */
-    public boolean isRecycleBinAvailable() {
+    protected boolean isRecycleBinAvailable() {
         return false;
     }
 
@@ -388,7 +389,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
      * Determine if RecycleBin is enable or not
      * @return true if RecycleBin enable, false if is not available or not enable
      */
-    public boolean isRecycleBinEnabled() {
+    protected boolean isRecycleBinEnabled() {
         return false;
     }
 
@@ -397,7 +398,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
      * @param group Group to remove
      * @return true if group can be recycle, false elsewhere
      */
-    public boolean canRecycle(PwGroupDB group) {
+    protected boolean canRecycle(PwGroupDB group) {
         return false;
     }
 
@@ -406,36 +407,36 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
      * @param entry Entry to remove
      * @return true if entry can be recycle, false elsewhere
      */
-    public boolean canRecycle(PwEntryDB entry) {
+    protected boolean canRecycle(PwEntryDB entry) {
         return false;
     }
 
-    public void recycle(PwGroupDB group) {
+    protected void recycle(PwGroupDB group) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void recycle(PwEntryDB entry) {
+    protected void recycle(PwEntryDB entry) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void undoRecycle(PwGroupDB group, PwGroupDB origParent) {
+    protected void undoRecycle(PwGroupDB group, PwGroupDB origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void undoRecycle(PwEntryDB entry, PwGroupDB origParent) {
+    protected void undoRecycle(PwEntryDB entry, PwGroupDB origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void deleteGroup(PwGroupDB group) {
-        PwGroupDB parent = (PwGroupDB) group.getParent(); // TODO inference
+    protected void deleteGroup(PwGroupDB group) {
+        PwGroupDB parent = group.getParent(); // TODO inference
         removeGroupFrom(group, parent);
         parent.touch(false, true);
     }
 
-    public void deleteEntry(PwEntryDB entry) {
-        PwGroupDB parent = (PwGroupDB) entry.getParent(); // TODO inference
+    protected void deleteEntry(PwEntryDB entry) {
+        PwGroupDB parent = entry.getParent(); // TODO inference
         removeEntryFrom(entry, parent);
         parent.touch(false, true);
     }

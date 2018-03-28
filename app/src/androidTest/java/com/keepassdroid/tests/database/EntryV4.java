@@ -32,7 +32,7 @@ public class EntryV4 extends TestCase {
 		db.setHistoryMaxItems(2);
 		
 		PwEntryV4 entry = new PwEntryV4();
-		entry.startToDecodeReference(db);
+		entry.startToManageFieldReferences(db);
 		entry.setTitle("Title1");
 		entry.setUsername("User1");
 		entry.createBackup(db);
@@ -46,7 +46,7 @@ public class EntryV4 extends TestCase {
 		entry.createBackup(db);
 		
 		PwEntryV4 backup = entry.getHistory().get(0);
-		entry.endToDecodeReference(db);
+		entry.endToManageFieldReferences();
 		assertEquals("Title2", backup.getTitle());
 		assertEquals("User2", backup.getUsername());
 	}

@@ -56,7 +56,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import biz.source_code.base64Coder.Base64Coder;
 
 
-public class PwDatabaseV4 extends PwDatabase {
+public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
 	public static final int DEFAULT_ROUNDS = 6000;
 	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
@@ -451,41 +451,41 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public List<PwGroup> getGroups() {
-		List<PwGroup> list = new ArrayList<>();
-		PwGroupV4 root = (PwGroupV4) rootGroup;
+	public List<PwGroupV4> getGroups() {
+		List<PwGroupV4> list = new ArrayList<>();
+		PwGroupV4 root = rootGroup;
         buildChildGroupsRecursive(root, list);
 		
 		return list;
 	}
 
-	private static void buildChildGroupsRecursive(PwGroupV4 root, List<PwGroup> list) {
+	private static void buildChildGroupsRecursive(PwGroupV4 root, List<PwGroupV4> list) {
 		list.add(root);
 		for ( int i = 0; i < root.numbersOfChildGroups(); i++) {
-			PwGroupV4 child = (PwGroupV4) root.getChildGroupAt(i);
+			PwGroupV4 child = root.getChildGroupAt(i);
 			buildChildGroupsRecursive(child, list);
 		}
 	}
 
 	@Override
-	public List<PwGroup> getGrpRoots() {
+	public List<PwGroupV4> getGrpRoots() {
 		return rootGroup.getChildGroups();
 	}
 
 	@Override
-	public List<PwEntry> getEntries() {
-		List<PwEntry> list = new ArrayList<>();
-		PwGroupV4 root = (PwGroupV4) rootGroup;
+	public List<PwEntryV4> getEntries() {
+		List<PwEntryV4> list = new ArrayList<>();
+		PwGroupV4 root = rootGroup;
 		buildChildEntriesRecursive(root, list);
 		return list;
 	}
 
-    private static void buildChildEntriesRecursive(PwGroupV4 root, List<PwEntry> list) {
+    private static void buildChildEntriesRecursive(PwGroupV4 root, List<PwEntryV4> list) {
         for ( int i = 0; i < root.numbersOfChildEntries(); i++ ) {
             list.add(root.getChildEntryAt(i));
         }
         for ( int i = 0; i < root.numbersOfChildGroups(); i++ ) {
-            PwGroupV4 child = (PwGroupV4) root.getChildGroupAt(i);
+            PwGroupV4 child = root.getChildGroupAt(i);
             buildChildEntriesRecursive(child, list);
         }
     }
@@ -513,7 +513,7 @@ public class PwDatabaseV4 extends PwDatabase {
 
 	@Override
 	public PwGroupIdV4 newGroupId() {
-		PwGroupIdV4 id = new PwGroupIdV4(UUID_ZERO);
+		PwGroupIdV4 id;
 		
 		while (true) {
 			id = new PwGroupIdV4(UUID.randomUUID());
@@ -530,7 +530,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public boolean isBackup(PwGroup group) {
+	public boolean isBackup(PwGroupV4 group) {
 		if (!recycleBinEnabled) {
 			return false;
 		}
@@ -539,7 +539,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public void populateGlobals(PwGroup currentGroup) {
+	public void populateGlobals(PwGroupV4 currentGroup) {
 		groups.put(rootGroup.getId(), rootGroup);
 		
 		super.populateGlobals(currentGroup);
@@ -594,7 +594,7 @@ public class PwDatabaseV4 extends PwDatabase {
     }
 
     @Override
-	public boolean canRecycle(PwGroup group) {
+	public boolean canRecycle(PwGroupV4 group) {
 		if (!recycleBinEnabled) {
 			return false;
 		}
@@ -603,23 +603,23 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public boolean canRecycle(PwEntry entry) {
+	public boolean canRecycle(PwEntryV4 entry) {
 		if (!recycleBinEnabled) {
 			return false;
 		}
-		PwGroup parent = entry.getParent();
+		PwGroupV4 parent = entry.getParent();
 		return (parent != null) && canRecycle(parent);
 	}
 
 	@Override
-	public void recycle(PwGroup group) {
+	public void recycle(PwGroupV4 group) {
 		ensureRecycleBin();
 
-		PwGroup parent = group.getParent();
+		PwGroupV4 parent = group.getParent();
 		removeGroupFrom(group, parent);
 		parent.touch(false, true);
 
-		PwGroup recycleBin = getRecycleBin();
+		PwGroupV4 recycleBin = getRecycleBin();
 		addGroupTo(group, recycleBin);
 
         group.touch(false, true);
@@ -627,14 +627,14 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public void recycle(PwEntry entry) {
+	public void recycle(PwEntryV4 entry) {
 		ensureRecycleBin();
 		
-		PwGroup parent = entry.getParent();
+		PwGroupV4 parent = entry.getParent();
 		removeEntryFrom(entry, parent);
 		parent.touch(false, true);
 		
-		PwGroup recycleBin = getRecycleBin();
+		PwGroupV4 recycleBin = getRecycleBin();
 		addEntryTo(entry, recycleBin);
 		
 		entry.touch(false, true);
@@ -642,18 +642,18 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
     @Override
-    public void undoRecycle(PwGroup group, PwGroup origParent) {
+    public void undoRecycle(PwGroupV4 group, PwGroupV4 origParent) {
 
-        PwGroup recycleBin = getRecycleBin();
+        PwGroupV4 recycleBin = getRecycleBin();
         removeGroupFrom(group, recycleBin);
 
         addGroupTo(group, origParent);
     }
 
 	@Override
-	public void undoRecycle(PwEntry entry, PwGroup origParent) {
+	public void undoRecycle(PwEntryV4 entry, PwGroupV4 origParent) {
 		
-		PwGroup recycleBin = getRecycleBin();
+		PwGroupV4 recycleBin = getRecycleBin();
 		removeEntryFrom(entry, recycleBin);
 		
 		addEntryTo(entry, origParent);
@@ -668,13 +668,13 @@ public class PwDatabaseV4 extends PwDatabase {
     }
 
     @Override
-	public void deleteEntry(PwEntry entry) {
+	public void deleteEntry(PwEntryV4 entry) {
 		super.deleteEntry(entry);
 		deletedObjects.add(new PwDeletedObject(entry.getUUID()));
 	}
 
 	@Override
-	public void undoDeleteEntry(PwEntry entry, PwGroup origParent) {
+	public void undoDeleteEntry(PwEntryV4 entry, PwGroupV4 origParent) {
 		super.undoDeleteEntry(entry, origParent);
 		// TODO undo delete entry
         deletedObjects.remove(entry);
@@ -687,7 +687,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		}
 		
 		PwGroupId recycleId = new PwGroupIdV4(recycleBinUUID);
-		return (PwGroupV4) groups.get(recycleId);
+		return groups.get(recycleId);
 	}
 
     public KdfParameters getKdfParameters() {
@@ -719,14 +719,12 @@ public class PwDatabaseV4 extends PwDatabase {
     }
 
     @Override
-	public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
+	public boolean isGroupSearchable(PwGroupV4 group, boolean omitBackup) {
 		if (!super.isGroupSearchable(group, omitBackup)) {
 			return false;
 		}
 		
-		PwGroupV4 g = (PwGroupV4) group;
-		
-		return g.isSearchingEnabled();
+		return group.isSearchingEnabled();
 	}
 
 	@Override
@@ -756,17 +754,16 @@ public class PwDatabaseV4 extends PwDatabase {
 		return filename.substring(0, lastExtDot);
 	}
 
-	private class GroupHasCustomData extends GroupHandler<PwGroup> {
+	private class GroupHasCustomData extends GroupHandler<PwGroupV4> {
 
 		public boolean hasCustomData = false;
 
 		@Override
-		public boolean operate(PwGroup group) {
+		public boolean operate(PwGroupV4 group) {
             if (group == null) {
 				return true;
 			}
-			PwGroupV4 g4 = (PwGroupV4) group;
-			if (g4.containsCustomData()) {
+            if (group.containsCustomData()) {
 				hasCustomData = true;
 				return false;
 			}
@@ -775,18 +772,17 @@ public class PwDatabaseV4 extends PwDatabase {
 		}
 	}
 
-	private class EntryHasCustomData extends EntryHandler<PwEntry> {
+	private class EntryHasCustomData extends EntryHandler<PwEntryV4> {
 
         public boolean hasCustomData = false;
 
 		@Override
-		public boolean operate(PwEntry entry) {
+		public boolean operate(PwEntryV4 entry) {
             if (entry == null) {
 				return true;
 			}
 
-			PwEntryV4 e4 = (PwEntryV4)entry;
-			if (e4.containsCustomData()) {
+            if (entry.containsCustomData()) {
 				hasCustomData = true;
 				return false;
 			}

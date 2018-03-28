@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SprContextV4 implements Cloneable {
+
 	public PwDatabaseV4 db;
 	public PwEntryV4 entry;
 	public Map<String, String> refsCache = new HashMap<>();

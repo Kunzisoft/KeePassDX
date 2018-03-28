@@ -22,8 +22,6 @@ package com.keepassdroid.database;
 import com.keepassdroid.database.iterator.EntrySearchStringIterator;
 import com.keepassdroid.database.security.ProtectedString;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> implements Cloneable {
@@ -85,8 +83,8 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> imp
         this.uuid = uuid;
     }
 
-	public void startToDecodeReference(PwDatabase db) {}
-	public void endToDecodeReference(PwDatabase db) {}
+	public void startToManageFieldReferences(PwDatabase db) {}
+	public void endToManageFieldReferences() {}
 
 	public abstract String getTitle();
     public abstract void setTitle(String title);
@@ -130,37 +128,29 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> imp
      * Retrieve extra fields to show, key is the label, value is the value of field
      * @return Map of label/value
      */
-	public Map<String, String> getExtraFields() {
-		return new HashMap<>();
+	public ExtraFields getFields() {
+		return new ExtraFields();
 	}
-
-    /**
-     * Retrieve extra protected fields to show, key is the label, value is the value protected of field
-     * @return Map of label/value
-     */
-    public Map<String, ProtectedString> getExtraProtectedFields() {
-        return new HashMap<>();
-    }
 
 	/**
 	 * If entry contains extra fields
 	 * @return true if there is extra fields
 	 */
-	public boolean containsExtraFields() {
-		return !getExtraProtectedFields().keySet().isEmpty();
+	public boolean containsCustomFields() {
+		return getFields().containsCustomFields();
 	}
 
     /**
-     * Add an extra field to the list
+     * Add an extra field to the list (standard or custom)
      * @param label Label of field, must be unique
      * @param value Value of field
      */
-    public void addField(String label, ProtectedString value) {}
+    public void addExtraField(String label, ProtectedString value) {}
 
     /**
-     * Delete all extra fields
+     * Delete all custom fields
      */
-    public void removeExtraFields() {}
+    public void removeAllCustomFields() {}
 
 	/**
 	 * If it's a node with only meta information like Meta-info SYSTEM Database Color

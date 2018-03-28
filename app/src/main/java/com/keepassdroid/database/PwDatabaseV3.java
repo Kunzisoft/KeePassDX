@@ -226,7 +226,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 			grp.setParent(currentGroup);
 			constructTree(currentGroup.getChildGroupAt(i));
 		}
-		return;
 	}
 
 	/*

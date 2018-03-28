@@ -52,7 +52,9 @@ import java.io.SyncFailedException;
  */
 public class Database {
 
-    public PwDatabase pm;
+    private static final String TAG = Database.class.getName();
+
+    private PwDatabase pm;
     public Uri mUri;
     public SearchDbHelper searchHelper;
     public boolean readOnly = false;
@@ -61,6 +63,14 @@ public class Database {
     public DrawableFactory drawFactory = new DrawableFactory();
 
     private boolean loaded = false;
+
+    public PwDatabase getPm() {
+        return pm;
+    }
+
+    public void setPm(PwDatabase pm) {
+        this.pm = pm;
+    }
 
     public boolean Loaded() {
         return loaded;
@@ -100,6 +110,245 @@ public class Database {
                 // Rethrow original exception
                 throw e;
             }
+        }
+    }
+
+    public void addEntryTo(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).addEntryTo((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).addEntryTo((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be added in this version of PwGroup", e);
+        }
+    }
+
+    public void removeEntryFrom(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).removeEntryFrom((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).removeEntryFrom((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be removed from this version of PwGroup", e);
+        }
+    }
+
+    public void addGroupTo(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).addGroupTo((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).addGroupTo((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be added in this version of PwGroup", e);
+        }
+    }
+
+    public void removeGroupFrom(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).removeGroupFrom((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).removeGroupFrom((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be removed from this version of PwGroup", e);
+        }
+    }
+
+    public boolean canRecycle(PwEntry entry) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    return ((PwDatabaseV3) getPm()).canRecycle((PwEntryV3) entry);
+                case V4:
+                    return ((PwDatabaseV4) getPm()).canRecycle((PwEntryV4) entry);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be recycled", e);
+        }
+        return false;
+    }
+
+    public boolean canRecycle(PwGroup group) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    return ((PwDatabaseV3) getPm()).canRecycle((PwGroupV3) group);
+                case V4:
+                    return ((PwDatabaseV4) getPm()).canRecycle((PwGroupV4) group);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be recycled", e);
+        }
+        return false;
+    }
+
+    public void recycle(PwEntry entry) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).recycle((PwEntryV3) entry);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).recycle((PwEntryV4) entry);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be recycled", e);
+        }
+    }
+
+    public void recycle(PwGroup group) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).recycle((PwGroupV3) group);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).recycle((PwGroupV4) group);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be recycled", e);
+        }
+    }
+
+    public void updateEntry(PwEntry oldEntry, PwEntry newEntry) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwEntryV3) oldEntry).updateWith((PwEntryV3) newEntry);
+                    break;
+                case V4:
+                    ((PwEntryV4) oldEntry).updateWith((PwEntryV4) newEntry);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be updated", e);
+        }
+    }
+
+    public void deleteEntry(PwEntry entry) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).deleteEntry((PwEntryV3) entry);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).deleteEntry((PwEntryV4) entry);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be deleted", e);
+        }
+    }
+
+    public void deleteGroup(PwGroup group) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).deleteGroup((PwGroupV3) group);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).deleteGroup((PwGroupV4) group);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be deleted", e);
+        }
+    }
+
+    public boolean isRecycleBinAvailabledAndEnabled() {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    return ((PwDatabaseV3) getPm()).isRecycleBinAvailable() &&
+                            ((PwDatabaseV3) getPm()).isRecycleBinEnabled();
+                case V4:
+                    return ((PwDatabaseV4) getPm()).isRecycleBinAvailable() &&
+                            ((PwDatabaseV4) getPm()).isRecycleBinEnabled();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database don't know if the Recyclebin is available", e);
+        }
+        return false;
+    }
+
+    public void undoRecycle(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).undoRecycle((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).undoRecycle((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo Recycle of this version of PwEntry", e);
+        }
+    }
+
+    public void undoRecycle(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).undoRecycle((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).undoRecycle((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo Recycle of this version of PwGroup", e);
+        }
+    }
+
+    public void undoDeleteEntry(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).undoDeleteEntry((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).undoDeleteEntry((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo the deletion of this version of PwEntry", e);
+        }
+    }
+
+    public void undoDeleteGroup(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPm().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPm()).undoDeleteGroup((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPm()).undoDeleteGroup((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo the deletion of this version of PwGroup", e);
         }
     }
 
