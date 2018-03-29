@@ -20,7 +20,13 @@
  */
 package com.keepassdroid.database;
 
+import android.util.Log;
+
+import org.joda.time.LocalDate;
+
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.temporal.ChronoUnit;
 
 import static com.keepassdroid.database.PwDate.NEVER_EXPIRE;
 import static com.keepassdroid.database.PwDate.PW_NEVER_EXPIRE;
@@ -150,9 +156,9 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
         }
     }
 
-    public boolean expires() {
-        return expireDate.getDate().equals(NEVER_EXPIRE)
-                || expireDate.getDate().after(NEVER_EXPIRE);
+    public boolean isExpires() {
+        // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
+        return expireDate.getDate().before(LocalDate.fromDateFields(NEVER_EXPIRE).minusMonths(1).toDate());
     }
 
     /**

@@ -752,7 +752,7 @@ public class PwDbV4Output extends PwDbOutput {
 		writeObject(ElemCreationTime, it.getCreationTime().getDate());
 		writeObject(ElemLastAccessTime, it.getLastAccessTime().getDate());
 		writeObject(ElemExpiryTime, it.getExpiryTime().getDate());
-		writeObject(ElemExpires, it.expires());
+		writeObject(ElemExpires, it.isExpires());
 		writeObject(ElemUsageCount, it.getUsageCount());
 		writeObject(ElemLocationChanged, it.getLocationChanged().getDate());
 		

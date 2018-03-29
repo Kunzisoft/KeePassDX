@@ -40,7 +40,7 @@ public class EntrySearchHandlerV4 extends EntrySearchHandler<PwEntryV4> {
 			return true;
 		}
 
-		if (sp.excludeExpired && entry.expires() && now.after(entry.getExpiryTime().getDate())) {
+		if (sp.excludeExpired && entry.isExpires() && now.after(entry.getExpiryTime().getDate())) {
 			return true;
 		}
 

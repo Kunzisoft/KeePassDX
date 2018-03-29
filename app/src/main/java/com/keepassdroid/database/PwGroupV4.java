@@ -118,7 +118,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
 	}
 
 	@Override
-	public boolean expires() {
+	public boolean isExpires() {
 		return expires;
 	}
 

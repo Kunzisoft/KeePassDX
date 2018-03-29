@@ -221,7 +221,7 @@ public class PwDate implements Cloneable, Serializable {
 		}
 	}
 
-	public static boolean IsSameDate(Date d1, Date d2) {
+	private static boolean IsSameDate(Date d1, Date d2) {
 		Calendar cal1 = Calendar.getInstance();
 		cal1.setTime(d1);
 		cal1.set(Calendar.MILLISECOND, 0);

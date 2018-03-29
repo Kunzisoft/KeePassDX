@@ -263,7 +263,7 @@ public class EntryActivity extends LockingHideActivity {
         entryContentsView.assignModificationDate(mEntry.getLastModificationTime().getDate());
         entryContentsView.assignLastAccessDate(mEntry.getLastAccessTime().getDate());
 		Date expires = mEntry.getExpiryTime().getDate();
-		if ( mEntry.expires() ) {
+		if ( mEntry.isExpires() ) {
 			entryContentsView.assignExpiresDate(expires);
 		} else {
             entryContentsView.assignExpiresDate(getString(R.string.never));
