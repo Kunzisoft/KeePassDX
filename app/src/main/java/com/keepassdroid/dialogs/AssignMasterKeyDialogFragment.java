@@ -86,18 +86,13 @@ public class AssignMasterKeyDialogFragment extends DialogFragment {
         builder.setView(rootView)
                 .setTitle(R.string.assign_master_key)
                 // Add action buttons
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
                 });
 
-        passwordCheckBox = (CompoundButton) rootView.findViewById(R.id.password_checkbox);
-        passView = (TextView) rootView.findViewById(R.id.pass_password);
+        passwordCheckBox = rootView.findViewById(R.id.password_checkbox);
+        passView = rootView.findViewById(R.id.pass_password);
         passView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -110,10 +105,10 @@ public class AssignMasterKeyDialogFragment extends DialogFragment {
                 passwordCheckBox.setChecked(true);
             }
         });
-        passConfView = (TextView) rootView.findViewById(R.id.pass_conf_password);
+        passConfView = rootView.findViewById(R.id.pass_conf_password);
 
-        keyfileCheckBox = (CompoundButton) rootView.findViewById(R.id.keyfile_checkox);
-        keyfileView = (TextView) rootView.findViewById(R.id.pass_keyfile);
+        keyfileCheckBox = rootView.findViewById(R.id.keyfile_checkox);
+        keyfileView = rootView.findViewById(R.id.pass_keyfile);
         keyfileView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -129,52 +124,38 @@ public class AssignMasterKeyDialogFragment extends DialogFragment {
 
         keyFileHelper = new KeyFileHelper(this);
         rootView.findViewById(R.id.browse_button)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
-                    }
-                });
+                .setOnClickListener(view -> keyFileHelper.getOpenFileOnClickViewListener().onClick(view));
 
         AlertDialog dialog = builder.create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(final DialogInterface dialog) {
-                Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
-                positiveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
+        dialog.setOnShowListener(dialog1 -> {
+            Button positiveButton = ((AlertDialog) dialog1).getButton(DialogInterface.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(v -> {
 
-                        masterPassword = "";
-                        mKeyfile = null;
+                masterPassword = "";
+                mKeyfile = null;
 
-                        boolean error = verifyPassword() || verifyFile();
+                boolean error = verifyPassword() || verifyFile();
 
-                        if (!passwordCheckBox.isChecked() && !keyfileCheckBox.isChecked()) {
-                            error = true;
-                            showNoKeyConfirmationDialog();
-                        }
+                if (!passwordCheckBox.isChecked() && !keyfileCheckBox.isChecked()) {
+                    error = true;
+                    showNoKeyConfirmationDialog();
+                }
 
-                        if (!error) {
-                            mListener.onAssignKeyDialogPositiveClick(
-                                    passwordCheckBox.isChecked(), masterPassword,
-                                    keyfileCheckBox.isChecked(), mKeyfile);
-                            dismiss();
-                        }
-                    }
-                });
-                Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
-                negativeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        mListener.onAssignKeyDialogNegativeClick(
-                                passwordCheckBox.isChecked(), masterPassword,
-                                keyfileCheckBox.isChecked(), mKeyfile);
-                        dismiss();
-                    }
-                });
-            }
+                if (!error) {
+                    mListener.onAssignKeyDialogPositiveClick(
+                            passwordCheckBox.isChecked(), masterPassword,
+                            keyfileCheckBox.isChecked(), mKeyfile);
+                    dismiss();
+                }
+            });
+            Button negativeButton = ((AlertDialog) dialog1).getButton(DialogInterface.BUTTON_NEGATIVE);
+            negativeButton.setOnClickListener(v -> {
+                mListener.onAssignKeyDialogNegativeClick(
+                        passwordCheckBox.isChecked(), masterPassword,
+                        keyfileCheckBox.isChecked(), mKeyfile);
+                dismiss();
+            });
         });
 
 
@@ -220,36 +201,28 @@ public class AssignMasterKeyDialogFragment extends DialogFragment {
 	private void showEmptyPasswordConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.warning_empty_password)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (!verifyFile()) {
-                            mListener.onAssignKeyDialogPositiveClick(
-                                    passwordCheckBox.isChecked(), masterPassword,
-                                    keyfileCheckBox.isChecked(), mKeyfile);
-                            AssignMasterKeyDialogFragment.this.dismiss();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
-                });
-        builder.create().show();
-    }
-
-    private void showNoKeyConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.warning_no_encryption_key)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {
+                    if (!verifyFile()) {
                         mListener.onAssignKeyDialogPositiveClick(
                                 passwordCheckBox.isChecked(), masterPassword,
                                 keyfileCheckBox.isChecked(), mKeyfile);
                         AssignMasterKeyDialogFragment.this.dismiss();
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
-                });
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {});
+        builder.create().show();
+    }
+
+    private void showNoKeyConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_no_encryption_key)
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {
+                    mListener.onAssignKeyDialogPositiveClick(
+                            passwordCheckBox.isChecked(), masterPassword,
+                            keyfileCheckBox.isChecked(), mKeyfile);
+                    AssignMasterKeyDialogFragment.this.dismiss();
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {});
         builder.create().show();
     }
 
@@ -258,17 +231,14 @@ public class AssignMasterKeyDialogFragment extends DialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
-                new KeyFileHelper.KeyFileCallback() {
-            @Override
-            public void onKeyFileResultCallback(Uri uri) {
-                if(uri != null) {
-                    Uri pathString = UriUtil.parseDefaultFile(uri.toString());
-                    if (pathString != null) {
-                        keyfileCheckBox.setChecked(true);
-                        keyfileView.setText(pathString.toString());
+                uri -> {
+                    if(uri != null) {
+                        Uri pathString = UriUtil.parseDefaultFile(uri.toString());
+                        if (pathString != null) {
+                            keyfileCheckBox.setChecked(true);
+                            keyfileView.setText(pathString.toString());
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 }

@@ -30,6 +30,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -76,6 +77,7 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        assert getActivity() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -83,32 +85,24 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
         builder.setView(rootView)
                 .setTitle(R.string.create_keepass_file)
                 // Add action buttons
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {}
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
-                });
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {})
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {});
 
         // Folder selection
         View browseView = rootView.findViewById(R.id.browse_button);
-        folderPathView = (EditText) rootView.findViewById(R.id.folder_path);
-        fileNameView = (EditText) rootView.findViewById(R.id.filename);
+        folderPathView = rootView.findViewById(R.id.folder_path);
+        fileNameView = rootView.findViewById(R.id.filename);
         String defaultPath = Environment.getExternalStorageDirectory().getPath()
                 + getString(R.string.database_file_path_default);
         folderPathView.setText(defaultPath);
-        browseView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), FilePickerStylishActivity.class);
-                i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
-                i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
-                i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH,
-                        Environment.getExternalStorageDirectory().getPath());
-                startActivityForResult(i, FILE_CODE);
-            }
+        browseView.setOnClickListener(v -> {
+            Intent i = new Intent(getContext(), FilePickerStylishActivity.class);
+            i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+            i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
+            i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+            i.putExtra(FilePickerActivity.EXTRA_START_PATH,
+                    Environment.getExternalStorageDirectory().getPath());
+            startActivityForResult(i, FILE_CODE);
         });
 
         // Init path
@@ -116,37 +110,30 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
 
         // Extension
         extension = getString(R.string.database_file_extension_default);
-        Spinner spinner = (Spinner) rootView.findViewById(R.id.file_types);
+        Spinner spinner = rootView.findViewById(R.id.file_types);
         spinner.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
         String[] fileTypes = getResources().getStringArray(R.array.file_types);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, fileTypes);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, fileTypes);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
 
         AlertDialog dialog = builder.create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(final DialogInterface dialog) {
-                Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
-                positiveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        if(mListener.onDefinePathDialogPositiveClick(buildPath()))
-                            CreateFileDialogFragment.this.dismiss();
-                    }
-                });
-                Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
-                negativeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        if(mListener.onDefinePathDialogNegativeClick(buildPath()))
-                            CreateFileDialogFragment.this.dismiss();
-                    }
-                });
-            }
+        dialog.setOnShowListener(dialog1 -> {
+            Button positiveButton = ((AlertDialog) dialog1).getButton(DialogInterface.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(v -> {
+                if(mListener.onDefinePathDialogPositiveClick(buildPath()))
+                    dismiss();
+            });
+            Button negativeButton = ((AlertDialog) dialog1).getButton(DialogInterface.BUTTON_NEGATIVE);
+            negativeButton.setOnClickListener(v -> {
+                if(mListener.onDefinePathDialogNegativeClick(buildPath())) {
+                    // issue #69 https://github.com/Kunzisoft/KeePassDX/issues/69
+                    dismiss();
+                }
+            });
         });
 
         return dialog;
