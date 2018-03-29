@@ -52,7 +52,7 @@ public class AddGroup extends RunnableOnFinish {
 	
 	@Override
 	public void run() {
-		PwDatabase pm = mDb.getPm();
+		PwDatabase pm = mDb.getPwDatabase();
 
 		// Generate new group
 		mGroup = pm.createGroup();

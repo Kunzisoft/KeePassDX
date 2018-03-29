@@ -252,8 +252,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 setPreferencesFromResource(R.xml.db_preferences, rootKey);
 
                 Database db = App.getDB();
-                if (db.Loaded()) {
-                    if (db.getPm().algorithmSettingsEnabled()) {
+                if (db.getLoaded()) {
+                    if (db.getPwDatabase().algorithmSettingsEnabled()) {
 
                         Preference roundPref = findPreference(getString(R.string.rounds_key));
                         roundPref.setEnabled(true);
@@ -304,12 +304,12 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
     }
 
     private void setRounds(Database db, Preference rounds) {
-        rounds.setSummary(Long.toString(db.getPm().getNumRounds()));
+        rounds.setSummary(Long.toString(db.getPwDatabase().getNumRounds()));
     }
 
     private void setAlgorithm(Database db, Preference algorithm) {
         int resId;
-        if ( db.getPm().getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+        if ( db.getPwDatabase().getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
             resId = R.string.rijndael;
         } else  {
             resId = R.string.twofish;

@@ -74,7 +74,7 @@ public abstract class ListNodesActivity extends LockingActivity
         }
 		
 		// Likely the app has been killed exit the activity 
-		if ( ! App.getDB().Loaded() ) {
+		if ( ! App.getDB().getLoaded() ) {
 			finish();
 			return;
 		}
@@ -178,7 +178,7 @@ public abstract class ListNodesActivity extends LockingActivity
             case R.id.menu_sort:
                 SortDialogFragment sortDialogFragment;
 
-                PwDatabase database = App.getDB().getPm();
+                PwDatabase database = App.getDB().getPwDatabase();
                 /*
                 // TODO Recycle bin bottom
                 if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
@@ -296,7 +296,7 @@ public abstract class ListNodesActivity extends LockingActivity
                 mAdapter.removeNode(pwNode);
                 PwGroup parent = pwNode.getParent();
                 Database db = App.getDB();
-                PwDatabase database = db.getPm();
+                PwDatabase database = db.getPwDatabase();
                 if (db.isRecycleBinAvailabledAndEnabled()) {
                     PwGroup recycleBin = database.getRecycleBin();
                     // Add trash if it doesn't exists

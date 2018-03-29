@@ -176,7 +176,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public void onBindViewHolder(BasicViewHolder holder, int position) {
         PwNode subNode = nodeSortedList.get(position);
         // Assign image
-        App.getDB().drawFactory.assignDrawableTo(holder.icon,
+        App.getDB().getDrawFactory().assignDrawableTo(holder.icon,
                 context.getResources(), subNode.getIcon());
         // Assign text
         holder.text.setText(subNode.getDisplayTitle());
@@ -265,7 +265,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             MenuItem clearMenu = contextMenu.add(Menu.NONE, MENU_OPEN, Menu.NONE, R.string.menu_open);
             clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
-            if (!App.getDB().readOnly && !node.equals(App.getDB().getPm().getRecycleBin())) {
+            if (!App.getDB().isReadOnly() && !node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
                 // TODO make edit for group
                 // clearMenu = contextMenu.add(Menu.NONE, MENU_EDIT, Menu.NONE, R.string.menu_edit);
                 // clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);

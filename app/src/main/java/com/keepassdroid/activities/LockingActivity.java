@@ -68,7 +68,7 @@ public abstract class LockingActivity extends StylishActivity {
     }
 
     public static void checkShutdown(Activity act) {
-        if (App.isShutdown() && App.getDB().Loaded()) {
+        if (App.isShutdown() && App.getDB().getLoaded()) {
             Log.i(TAG, "Shutdown " + act.getLocalClassName() +
                     " after inactivity or manual lock");
             act.setResult(RESULT_EXIT_LOCK);

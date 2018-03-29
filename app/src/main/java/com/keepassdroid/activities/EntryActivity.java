@@ -97,18 +97,18 @@ public class EntryActivity extends LockingHideActivity {
 
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
-		if ( ! db.Loaded() ) {
+		if ( ! db.getLoaded() ) {
 			finish();
 			return;
 		}
-		readOnly = db.readOnly;
+		readOnly = db.isReadOnly();
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this);
 
 		// Get Entry from UUID
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
-		mEntry = db.getPm().getEntryByUUIDId(uuid);
+		mEntry = db.getPwDatabase().getEntryByUUIDId(uuid);
 		if (mEntry == null) {
 			Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
 			finish();
@@ -147,7 +147,7 @@ public class EntryActivity extends LockingHideActivity {
         fillData();
         invalidateOptionsMenu();
 
-        mEntry.startToManageFieldReferences(App.getDB().getPm());
+        mEntry.startToManageFieldReferences(App.getDB().getPwDatabase());
 
         // If notifications enabled in settings
         // Don't if application timeout
@@ -216,12 +216,12 @@ public class EntryActivity extends LockingHideActivity {
 
 	protected void fillData() {
 		Database db = App.getDB();
-		PwDatabase pm = db.getPm();
+		PwDatabase pm = db.getPwDatabase();
 
 		mEntry.startToManageFieldReferences(pm);
 
 		// Assign title
-        populateTitle(db.drawFactory.getIconDrawable(getResources(), mEntry.getIcon()),
+        populateTitle(db.getDrawFactory().getIconDrawable(getResources(), mEntry.getIcon()),
                 mEntry.getTitle());
 
         // Assign basic fields

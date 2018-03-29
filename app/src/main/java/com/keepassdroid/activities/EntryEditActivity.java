@@ -144,7 +144,7 @@ public class EntryEditActivity extends LockingHideActivity
 		
 		// Likely the app has been killed exit the activity
 		Database db = App.getDB();
-		if ( ! db.Loaded() ) {
+		if ( ! db.getLoaded() ) {
 			finish();
 			return;
 		}
@@ -152,7 +152,7 @@ public class EntryEditActivity extends LockingHideActivity
 		Intent intent = getIntent();
 		byte[] uuidBytes = intent.getByteArrayExtra(KEY_ENTRY);
 
-		PwDatabase pm = db.getPm();
+		PwDatabase pm = db.getPwDatabase();
 		if ( uuidBytes == null ) {
             PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
 			PwGroup parent = pm.getGroupByGroupId(parentId);
@@ -243,7 +243,7 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 	
 	protected PwEntry populateNewEntry() {
-        PwDatabase db = App.getDB().getPm();
+        PwDatabase db = App.getDB().getPwDatabase();
 
         PwEntry newEntry = mEntry.clone();
 
@@ -260,7 +260,7 @@ public class EntryEditActivity extends LockingHideActivity
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
         else {
             if (mIsNew) {
-                newEntry.setIcon(App.getDB().getPm().getIconFactory().getFirstIcon());
+                newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getFirstIcon());
             }
             else {
                 // Keep previous icon, if no new one was selected
@@ -315,9 +315,9 @@ public class EntryEditActivity extends LockingHideActivity
 
 	protected void fillData() {
 		ImageButton currIconButton = findViewById(R.id.icon_button);
-		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
+		App.getDB().getDrawFactory().assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 
-        mEntry.startToManageFieldReferences(App.getDB().getPm());
+        mEntry.startToManageFieldReferences(App.getDB().getPwDatabase());
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());

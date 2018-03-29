@@ -45,7 +45,7 @@ public class GroupHeaderView extends RelativeLayout {
 		assert inflater != null;
 		inflater.inflate(R.layout.group_header, this);
 		
-		if (App.getDB().readOnly) {
+		if (App.getDB().isReadOnly()) {
 			View readOnlyIndicator = findViewById(R.id.read_only);
 			readOnlyIndicator.setVisibility(VISIBLE);
 		}

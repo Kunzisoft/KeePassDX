@@ -86,7 +86,7 @@ public class DeleteGroup extends RunnableOnFinish {
 
             // Remove from PwDatabaseV3
             // TODO ENcapsulate
-            mDb.getPm().getGroups().remove(mGroup);
+            mDb.getPwDatabase().getGroups().remove(mGroup);
         }
 
         // Save

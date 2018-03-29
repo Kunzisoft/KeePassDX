@@ -74,7 +74,7 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
 
         // Get the time from the related Preference
         Database db = App.getDB();
-        mPM = db.getPm();
+        mPM = db.getPwDatabase();
         long numRounds = mPM.getNumRounds();
 
         DialogPreference preference = getPreference();

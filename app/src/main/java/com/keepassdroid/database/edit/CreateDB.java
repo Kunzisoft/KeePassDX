@@ -50,8 +50,8 @@ public class CreateDB extends RunnableOnFinish {
 		pm.initNew(mFilename);
 		
 		// Set Database state
-		db.setPm(pm);
-		db.mUri = UriUtil.parseDefaultFile(mFilename);
+		db.setPwDatabase(pm);
+		db.setUri(UriUtil.parseDefaultFile(mFilename));
 		db.setLoaded();
 		App.clearShutdown();
 

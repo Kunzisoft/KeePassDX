@@ -47,32 +47,50 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.SyncFailedException;
 
-/**
- * @author bpellin
- */
+
 public class Database {
 
     private static final String TAG = Database.class.getName();
 
     private PwDatabase pm;
-    public Uri mUri;
-    public SearchDbHelper searchHelper;
-    public boolean readOnly = false;
-    public boolean passwordEncodingError = false;
+    private Uri mUri;
+    private SearchDbHelper searchHelper;
+    private boolean readOnly = false;
+    private boolean passwordEncodingError = false;
 
-    public DrawableFactory drawFactory = new DrawableFactory();
+    private DrawableFactory drawFactory = new DrawableFactory();
 
     private boolean loaded = false;
 
-    public PwDatabase getPm() {
+    public PwDatabase getPwDatabase() {
         return pm;
     }
 
-    public void setPm(PwDatabase pm) {
+    public void setPwDatabase(PwDatabase pm) {
         this.pm = pm;
     }
 
-    public boolean Loaded() {
+    public void setUri(Uri mUri) {
+        this.mUri = mUri;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    public boolean isPasswordEncodingError() {
+        return passwordEncodingError;
+    }
+
+    public DrawableFactory getDrawFactory() {
+        return drawFactory;
+    }
+
+    public boolean getLoaded() {
         return loaded;
     }
 
@@ -80,19 +98,19 @@ public class Database {
         loaded = true;
     }
 
-    public void LoadData(Context ctx, InputStream is, String password, InputStream keyInputStream) throws IOException, InvalidDBException {
-        LoadData(ctx, is, password, keyInputStream, new UpdateStatus(), !Importer.DEBUG);
+    public void loadData(Context ctx, InputStream is, String password, InputStream keyInputStream) throws IOException, InvalidDBException {
+        loadData(ctx, is, password, keyInputStream, new UpdateStatus(), !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, Uri uri, String password, Uri keyfile) throws IOException, FileNotFoundException, InvalidDBException {
-        LoadData(ctx, uri, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
+    public void loadData(Context ctx, Uri uri, String password, Uri keyfile) throws IOException, FileNotFoundException, InvalidDBException {
+        loadData(ctx, uri, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
-        LoadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
+    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
+        loadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
     }
 
-    public void LoadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
+    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
         mUri = uri;
         readOnly = false;
         if (uri.getScheme().equals("file")) {
@@ -113,245 +131,6 @@ public class Database {
         }
     }
 
-    public void addEntryTo(PwEntry entry, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).addEntryTo((PwEntryV3) entry, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).addEntryTo((PwEntryV4) entry, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwEntry can't be added in this version of PwGroup", e);
-        }
-    }
-
-    public void removeEntryFrom(PwEntry entry, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).removeEntryFrom((PwEntryV3) entry, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).removeEntryFrom((PwEntryV4) entry, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwEntry can't be removed from this version of PwGroup", e);
-        }
-    }
-
-    public void addGroupTo(PwGroup group, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).addGroupTo((PwGroupV3) group, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).addGroupTo((PwGroupV4) group, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwGroup can't be added in this version of PwGroup", e);
-        }
-    }
-
-    public void removeGroupFrom(PwGroup group, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).removeGroupFrom((PwGroupV3) group, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).removeGroupFrom((PwGroupV4) group, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwGroup can't be removed from this version of PwGroup", e);
-        }
-    }
-
-    public boolean canRecycle(PwEntry entry) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    return ((PwDatabaseV3) getPm()).canRecycle((PwEntryV3) entry);
-                case V4:
-                    return ((PwDatabaseV4) getPm()).canRecycle((PwEntryV4) entry);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwEntry can't be recycled", e);
-        }
-        return false;
-    }
-
-    public boolean canRecycle(PwGroup group) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    return ((PwDatabaseV3) getPm()).canRecycle((PwGroupV3) group);
-                case V4:
-                    return ((PwDatabaseV4) getPm()).canRecycle((PwGroupV4) group);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwGroup can't be recycled", e);
-        }
-        return false;
-    }
-
-    public void recycle(PwEntry entry) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).recycle((PwEntryV3) entry);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).recycle((PwEntryV4) entry);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwEntry can't be recycled", e);
-        }
-    }
-
-    public void recycle(PwGroup group) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).recycle((PwGroupV3) group);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).recycle((PwGroupV4) group);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwGroup can't be recycled", e);
-        }
-    }
-
-    public void updateEntry(PwEntry oldEntry, PwEntry newEntry) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwEntryV3) oldEntry).updateWith((PwEntryV3) newEntry);
-                    break;
-                case V4:
-                    ((PwEntryV4) oldEntry).updateWith((PwEntryV4) newEntry);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwEntry can't be updated", e);
-        }
-    }
-
-    public void deleteEntry(PwEntry entry) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).deleteEntry((PwEntryV3) entry);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).deleteEntry((PwEntryV4) entry);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwEntry can't be deleted", e);
-        }
-    }
-
-    public void deleteGroup(PwGroup group) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).deleteGroup((PwGroupV3) group);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).deleteGroup((PwGroupV4) group);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwGroup can't be deleted", e);
-        }
-    }
-
-    public boolean isRecycleBinAvailabledAndEnabled() {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    return ((PwDatabaseV3) getPm()).isRecycleBinAvailable() &&
-                            ((PwDatabaseV3) getPm()).isRecycleBinEnabled();
-                case V4:
-                    return ((PwDatabaseV4) getPm()).isRecycleBinAvailable() &&
-                            ((PwDatabaseV4) getPm()).isRecycleBinEnabled();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of database don't know if the Recyclebin is available", e);
-        }
-        return false;
-    }
-
-    public void undoRecycle(PwEntry entry, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).undoRecycle((PwEntryV3) entry, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).undoRecycle((PwEntryV4) entry, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of database can't undo Recycle of this version of PwEntry", e);
-        }
-    }
-
-    public void undoRecycle(PwGroup group, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).undoRecycle((PwGroupV3) group, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).undoRecycle((PwGroupV4) group, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of database can't undo Recycle of this version of PwGroup", e);
-        }
-    }
-
-    public void undoDeleteEntry(PwEntry entry, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).undoDeleteEntry((PwEntryV3) entry, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).undoDeleteEntry((PwEntryV4) entry, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of database can't undo the deletion of this version of PwEntry", e);
-        }
-    }
-
-    public void undoDeleteGroup(PwGroup group, PwGroup parent) {
-        try {
-            switch (getPm().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPm()).undoDeleteGroup((PwGroupV3) group, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPm()).undoDeleteGroup((PwGroupV4) group, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of database can't undo the deletion of this version of PwGroup", e);
-        }
-    }
-
     private long getFixRounds(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getLong(ctx.getString(R.string.roundsFix_key), ctx.getResources().getInteger(R.integer.roundsFix_default));
@@ -363,28 +142,28 @@ public class Database {
         try {
             is = UriUtil.getUriInputStream(ctx, uri);
         } catch (Exception e) {
-            Log.e("KPD", "Database::LoadData", e);
+            Log.e("KPD", "Database::loadData", e);
             throw ContentFileNotFoundException.getInstance(uri);
         }
 
         try {
             kfIs = UriUtil.getUriInputStream(ctx, keyfile);
         } catch (Exception e) {
-            Log.e("KPD", "Database::LoadData", e);
+            Log.e("KPD", "Database::loadData", e);
             throw ContentFileNotFoundException.getInstance(keyfile);
         }
-        LoadData(ctx, is, password, kfIs, status, debug, roundsFix);
+        loadData(ctx, is, password, kfIs, status, debug, roundsFix);
     }
 
-    public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
-        LoadData(ctx, is, password, kfIs, new UpdateStatus(), debug);
+    public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
+        loadData(ctx, is, password, kfIs, new UpdateStatus(), debug);
     }
 
-    public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
-        LoadData(ctx, is, password, kfIs, status, debug, 0);
+    public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
+        loadData(ctx, is, password, kfIs, status, debug, 0);
     }
 
-    public void LoadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug, long roundsFix) throws IOException, InvalidDBException {
+    public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug, long roundsFix) throws IOException, InvalidDBException {
         BufferedInputStream bis = new BufferedInputStream(is);
 
         if ( ! bis.markSupported() ) {
@@ -478,5 +257,244 @@ public class Database {
         mUri = null;
         loaded = false;
         passwordEncodingError = false;
+    }
+
+    public void addEntryTo(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).addEntryTo((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).addEntryTo((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be added in this version of PwGroup", e);
+        }
+    }
+
+    public void removeEntryFrom(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).removeEntryFrom((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).removeEntryFrom((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be removed from this version of PwGroup", e);
+        }
+    }
+
+    public void addGroupTo(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).addGroupTo((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).addGroupTo((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be added in this version of PwGroup", e);
+        }
+    }
+
+    public void removeGroupFrom(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).removeGroupFrom((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).removeGroupFrom((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be removed from this version of PwGroup", e);
+        }
+    }
+
+    public boolean canRecycle(PwEntry entry) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    return ((PwDatabaseV3) getPwDatabase()).canRecycle((PwEntryV3) entry);
+                case V4:
+                    return ((PwDatabaseV4) getPwDatabase()).canRecycle((PwEntryV4) entry);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be recycled", e);
+        }
+        return false;
+    }
+
+    public boolean canRecycle(PwGroup group) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    return ((PwDatabaseV3) getPwDatabase()).canRecycle((PwGroupV3) group);
+                case V4:
+                    return ((PwDatabaseV4) getPwDatabase()).canRecycle((PwGroupV4) group);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be recycled", e);
+        }
+        return false;
+    }
+
+    public void recycle(PwEntry entry) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).recycle((PwEntryV3) entry);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).recycle((PwEntryV4) entry);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be recycled", e);
+        }
+    }
+
+    public void recycle(PwGroup group) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).recycle((PwGroupV3) group);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).recycle((PwGroupV4) group);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be recycled", e);
+        }
+    }
+
+    public void updateEntry(PwEntry oldEntry, PwEntry newEntry) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwEntryV3) oldEntry).updateWith((PwEntryV3) newEntry);
+                    break;
+                case V4:
+                    ((PwEntryV4) oldEntry).updateWith((PwEntryV4) newEntry);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be updated", e);
+        }
+    }
+
+    public void deleteEntry(PwEntry entry) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).deleteEntry((PwEntryV3) entry);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).deleteEntry((PwEntryV4) entry);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be deleted", e);
+        }
+    }
+
+    public void deleteGroup(PwGroup group) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).deleteGroup((PwGroupV3) group);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).deleteGroup((PwGroupV4) group);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be deleted", e);
+        }
+    }
+
+    public boolean isRecycleBinAvailabledAndEnabled() {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    return ((PwDatabaseV3) getPwDatabase()).isRecycleBinAvailable() &&
+                            ((PwDatabaseV3) getPwDatabase()).isRecycleBinEnabled();
+                case V4:
+                    return ((PwDatabaseV4) getPwDatabase()).isRecycleBinAvailable() &&
+                            ((PwDatabaseV4) getPwDatabase()).isRecycleBinEnabled();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database don't know if the Recyclebin is available", e);
+        }
+        return false;
+    }
+
+    public void undoRecycle(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).undoRecycle((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).undoRecycle((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo Recycle of this version of PwEntry", e);
+        }
+    }
+
+    public void undoRecycle(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).undoRecycle((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).undoRecycle((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo Recycle of this version of PwGroup", e);
+        }
+    }
+
+    public void undoDeleteEntry(PwEntry entry, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).undoDeleteEntry((PwEntryV3) entry, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).undoDeleteEntry((PwEntryV4) entry, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo the deletion of this version of PwEntry", e);
+        }
+    }
+
+    public void undoDeleteGroup(PwGroup group, PwGroup parent) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwDatabaseV3) getPwDatabase()).undoDeleteGroup((PwGroupV3) group, (PwGroupV3) parent);
+                    break;
+                case V4:
+                    ((PwDatabaseV4) getPwDatabase()).undoDeleteGroup((PwGroupV4) group, (PwGroupV4) parent);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of database can't undo the deletion of this version of PwGroup", e);
+        }
     }
 }

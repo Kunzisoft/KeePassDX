@@ -71,7 +71,7 @@ public class SearchResultsActivity extends ListNodesActivity {
     protected PwGroup initCurrentGroup() {
         Database mDb = App.getDB();
         // Likely the app has been killed exit the activity
-        if ( ! mDb.Loaded() ) {
+        if ( ! mDb.getLoaded() ) {
             finish();
         }
         return mDb.Search(getSearchStr(getIntent()).trim());

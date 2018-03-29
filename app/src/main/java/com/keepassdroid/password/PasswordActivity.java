@@ -820,7 +820,7 @@ public class PasswordActivity extends StylishActivity
                 reInitWithFingerprintMode();
             }
 
-            if (db.passwordEncodingError) {
+            if (db.isPasswordEncodingError()) {
                 PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
                 dialog.show(PasswordActivity.this, (dialog1, which) -> launchGroupActivity());
             } else if (mSuccess) {
