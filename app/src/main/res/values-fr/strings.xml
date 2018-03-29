@@ -245,7 +245,7 @@
     <string name="auto_open_file_uri_title">Ouvrir le fichier sélectionné automatiquement</string>
     <string name="auto_open_file_uri_summary">Ouvrir automatiquement un fichier à partir de l\'écran de sélection après une sélection dans le navigateur de fichiers</string>
     <string name="allow_copy_password_title">Copie de mot de passe</string>
-    <string name="allow_copy_password_summary">Autoriser la copie du mot de passe dans le presse-papiers. Attention: ceci est connu comme un défaut de sécurité</string>
+    <string name="allow_copy_password_summary">Autoriser la copie du mot de passe dans le presse-papiers.</string>
 
     <string-array name="clipboard_timeout_options">
     	<item>5 secondes</item>
