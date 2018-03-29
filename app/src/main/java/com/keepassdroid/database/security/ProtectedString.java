@@ -41,13 +41,19 @@ public class ProtectedString implements Serializable {
 	public ProtectedString() {
 		this(false, "");
 	}
+
+    public ProtectedString(ProtectedString toCopy) {
+        this.string = toCopy.string;
+        this.protect = toCopy.protect;
+    }
 	
 	public ProtectedString(boolean enableProtection, String string) {
 		protect = enableProtection;
 		this.string = string;
 		
 	}
-	
+
+	@Override
 	public String toString() {
 		return string;
 	}

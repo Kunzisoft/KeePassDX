@@ -37,8 +37,10 @@ import android.widget.Toast;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
+import com.keepassdroid.database.ExtraFields;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.notifications.NotificationCopyingService;
 import com.keepassdroid.notifications.NotificationField;
 import com.keepassdroid.settings.PreferencesUtil;
@@ -52,7 +54,6 @@ import com.kunzisoft.keepass.R;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.keepassdroid.settings.PreferencesUtil.isClipboardNotificationsEnable;
@@ -96,18 +97,18 @@ public class EntryActivity extends LockingHideActivity {
 
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
-		if ( ! db.Loaded() ) {
+		if ( ! db.getLoaded() ) {
 			finish();
 			return;
 		}
-		readOnly = db.readOnly;
+		readOnly = db.isReadOnly();
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this);
 
 		// Get Entry from UUID
 		Intent i = getIntent();
 		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
-		mEntry = db.pm.entries.get(uuid);
+		mEntry = db.getPwDatabase().getEntryByUUIDId(uuid);
 		if (mEntry == null) {
 			Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
 			finish();
@@ -146,14 +147,15 @@ public class EntryActivity extends LockingHideActivity {
         fillData();
         invalidateOptionsMenu();
 
-        // TODO Start decode
+        // Start to manage field reference to copy a value from ref
+        mEntry.startToManageFieldReferences(App.getDB().getPwDatabase());
 
         // If notifications enabled in settings
         // Don't if application timeout
         if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
             if (mEntry.getUsername().length() > 0
                     || (mEntry.getPassword().length() > 0 && PreferencesUtil.allowCopyPassword(this))
-                    || mEntry.containsExtraFields()) {
+                    || mEntry.containsCustomFields()) {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
                 intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
@@ -180,16 +182,19 @@ public class EntryActivity extends LockingHideActivity {
                 // Add extra fields
                 if (mEntry.allowExtraFields()) {
                     try {
-                        int anonymousFieldNumber = 0;
-                        for (Map.Entry<String, String> entry : mEntry.getExtraFields().entrySet()) {
-                            notificationFields.add(
-                                    new NotificationField(
-                                            NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
-                                            entry.getValue(),
-                                            entry.getKey(),
-                                            getResources()));
-                            anonymousFieldNumber++;
-                        }
+                        mEntry.getFields().doActionToAllCustomProtectedField(new ExtraFields.ActionProtected() {
+                            private int anonymousFieldNumber = 0;
+                            @Override
+                            public void doAction(String key, ProtectedString value) {
+                                notificationFields.add(
+                                        new NotificationField(
+                                                NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
+                                                value.toString(),
+                                                key,
+                                                getResources()));
+                                anonymousFieldNumber++;
+                            }
+                        });
                     } catch (ArrayIndexOutOfBoundsException e) {
                         Log.w(TAG, "Only " + NotificationField.NotificationFieldId.getAnonymousFieldId().length +
                                 " anonymous notifications are available");
@@ -200,7 +205,7 @@ public class EntryActivity extends LockingHideActivity {
 
                 startService(intent);
             }
-            // TODO end decode
+            mEntry.endToManageFieldReferences();
         }
         firstLaunchOfActivity = false;
     }
@@ -212,12 +217,12 @@ public class EntryActivity extends LockingHideActivity {
 
 	protected void fillData() {
 		Database db = App.getDB();
-		PwDatabase pm = db.pm;
+		PwDatabase pm = db.getPwDatabase();
 
-		mEntry.startToDecodeReference(pm);
+		mEntry.startToManageFieldReferences(pm);
 
 		// Assign title
-        populateTitle(db.drawFactory.getIconDrawable(getResources(), mEntry.getIcon()),
+        populateTitle(db.getDrawFactory().getIconDrawable(getResources(), mEntry.getIcon()),
                 mEntry.getTitle());
 
         // Assign basic fields
@@ -243,12 +248,15 @@ public class EntryActivity extends LockingHideActivity {
         // Assign custom fields
 		if (mEntry.allowExtraFields()) {
 			entryContentsView.clearExtraFields();
-			for (Map.Entry<String, String> field : mEntry.getExtraFields().entrySet()) {
-                final String label = field.getKey();
-                final String value = field.getValue();
-				entryContentsView.addExtraField(label, value, view ->
-                        clipboardHelper.timeoutCopyToClipboard(value, getString(R.string.copy_field, label)));
-			}
+
+			mEntry.getFields().doActionToAllCustomProtectedField((label, value) ->
+
+                    entryContentsView.addExtraField(label, value.toString(), view ->
+                        clipboardHelper.timeoutCopyToClipboard(
+                                value.toString(),
+                                getString(R.string.copy_field, label)
+                        )
+            ));
 		}
 
         // Assign dates
@@ -256,13 +264,13 @@ public class EntryActivity extends LockingHideActivity {
         entryContentsView.assignModificationDate(mEntry.getLastModificationTime().getDate());
         entryContentsView.assignLastAccessDate(mEntry.getLastAccessTime().getDate());
 		Date expires = mEntry.getExpiryTime().getDate();
-		if ( mEntry.expires() ) {
+		if ( mEntry.isExpires() ) {
 			entryContentsView.assignExpiresDate(expires);
 		} else {
             entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
 
-        mEntry.endToDecodeReference(pm);
+        mEntry.endToManageFieldReferences();
 	}
 
 	@Override

@@ -22,10 +22,10 @@ package com.keepassdroid.database.edit;
 import android.content.Context;
 
 import com.keepassdroid.database.Database;
-import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 
 public class AddEntry extends RunnableOnFinish {
+
 	protected Database mDb;
 	private PwEntry mEntry;
 	private Context ctx;
@@ -33,16 +33,16 @@ public class AddEntry extends RunnableOnFinish {
 	public AddEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
 		super(finish);
 		
-		mDb = db;
-		mEntry = entry;
+		this.mDb = db;
+		this.mEntry = entry;
 		this.ctx = ctx;
 		
-		mFinish = new AfterAdd(mFinish);
+		this.mFinish = new AfterAdd(mFinish);
 	}
 	
 	@Override
 	public void run() {
-		mDb.pm.addEntryTo(mEntry, mEntry.getParent());
+		mDb.addEntryTo(mEntry, mEntry.getParent());
 		
 		// Commit to disk
 		SaveDB save = new SaveDB(ctx, mDb, mFinish);
@@ -57,9 +57,8 @@ public class AddEntry extends RunnableOnFinish {
 
 		@Override
 		public void run() {
-			PwDatabase pm = mDb.pm;
 			if ( !mSuccess ) {
-				pm.removeEntryFrom(mEntry, mEntry.getParent());
+                mDb.removeEntryFrom(mEntry, mEntry.getParent());
 			}
 			// TODO if add entry callback
 			super.run();

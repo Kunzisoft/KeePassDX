@@ -56,7 +56,7 @@ public class SetPassword extends RunnableOnFinish {
 	}
 	
 	public boolean validatePassword(Context ctx, DialogInterface.OnClickListener onclick) {
-		if (!mDb.pm.validatePasswordEncoding(mPassword)) {
+		if (!mDb.getPwDatabase().validatePasswordEncoding(mPassword)) {
 			PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
 			dialog.show(ctx, onclick, true);
 			return false;
@@ -67,10 +67,10 @@ public class SetPassword extends RunnableOnFinish {
 	
 	@Override
 	public void run() {
-		PwDatabase pm = mDb.pm;
+		PwDatabase pm = mDb.getPwDatabase();
 		
-		byte[] backupKey = new byte[pm.masterKey.length];
-		System.arraycopy(pm.masterKey, 0, backupKey, 0, backupKey.length);
+		byte[] backupKey = new byte[pm.getMasterKey().length];
+		System.arraycopy(pm.getMasterKey(), 0, backupKey, 0, backupKey.length);
 
 		// Set key
 		try {
@@ -105,8 +105,8 @@ public class SetPassword extends RunnableOnFinish {
 		public void run() {
 			if ( ! mSuccess ) {
 				// Erase the current master key
-				erase(mDb.pm.masterKey);
-				mDb.pm.masterKey = mBackup;
+				erase(mDb.getPwDatabase().getMasterKey());
+				mDb.getPwDatabase().setMasterKey(mBackup);
 			}
 			
 			super.run();

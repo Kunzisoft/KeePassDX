@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.EditorCompat;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
@@ -73,7 +74,7 @@ public abstract class ListNodesActivity extends LockingActivity
         }
 		
 		// Likely the app has been killed exit the activity 
-		if ( ! App.getDB().Loaded() ) {
+		if ( ! App.getDB().getLoaded() ) {
 			finish();
 			return;
 		}
@@ -177,10 +178,10 @@ public abstract class ListNodesActivity extends LockingActivity
             case R.id.menu_sort:
                 SortDialogFragment sortDialogFragment;
 
-                PwDatabase database = App.getDB().pm;
+                PwDatabase database = App.getDB().getPwDatabase();
                 /*
                 // TODO Recycle bin bottom
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnable()) {
+                if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
                     sortDialogFragment =
                             SortDialogFragment.getInstance(
                                     PrefsUtil.getListSort(this),
@@ -294,8 +295,9 @@ public abstract class ListNodesActivity extends LockingActivity
             if ( mSuccess) {
                 mAdapter.removeNode(pwNode);
                 PwGroup parent = pwNode.getParent();
-                PwDatabase database = App.getDB().pm;
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnable()) {
+                Database db = App.getDB();
+                PwDatabase database = db.getPwDatabase();
+                if (db.isRecycleBinAvailabledAndEnabled()) {
                     PwGroup recycleBin = database.getRecycleBin();
                     // Add trash if it doesn't exists
                     if (parent.equals(recycleBin)

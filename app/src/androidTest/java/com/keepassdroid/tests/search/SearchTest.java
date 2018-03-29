@@ -41,21 +41,21 @@ public class SearchTest extends AndroidTestCase {
 	}
 	
 	public void testSearch() {
-		PwGroup results = mDb.Search("Amazon");
+		PwGroup results = mDb.search("Amazon");
 		assertTrue("Search result not found.", results.numbersOfChildEntries() > 0);
 		
 	}
 	
 	public void testBackupIncluded() {
 		updateOmitSetting(false);
-		PwGroup results = mDb.Search("BackupOnly");
+		PwGroup results = mDb.search("BackupOnly");
 		
 		assertTrue("Search result not found.", results.numbersOfChildEntries() > 0);
 	}
 	
 	public void testBackupExcluded() {
 		updateOmitSetting(true);
-		PwGroup results = mDb.Search("BackupOnly");
+		PwGroup results = mDb.search("BackupOnly");
 		
 		assertFalse("Search result found, but should not have been.", results.numbersOfChildEntries() > 0);
 	}

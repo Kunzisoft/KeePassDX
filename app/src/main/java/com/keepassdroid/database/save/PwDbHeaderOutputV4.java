@@ -64,7 +64,7 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 		}
 
 		try {
-			d.makeFinalKey(header.masterSeed, d.kdfParameters);
+			d.makeFinalKey(header.masterSeed, d.getKdfParameters());
 		} catch (IOException e) {
 		    throw new PwDbOutputException(e);
 		}
@@ -72,7 +72,7 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 		Mac hmac;
 		try {
 			hmac = Mac.getInstance("HmacSHA256");
-			SecretKeySpec signingKey = new SecretKeySpec(HmacBlockStream.GetHmacKey64(db.hmacKey, Types.ULONG_MAX_VALUE), "HmacSHA256");
+			SecretKeySpec signingKey = new SecretKeySpec(HmacBlockStream.GetHmacKey64(db.getHmacKey(), Types.ULONG_MAX_VALUE), "HmacSHA256");
 			hmac.init(signingKey);
 		} catch (NoSuchAlgorithmException e) {
             throw new PwDbOutputException(e);
@@ -92,15 +92,15 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
         los.writeUInt(header.version);
 
 
-		writeHeaderField(PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.dataCipher));
-		writeHeaderField(PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.compressionAlgorithm.id));
+		writeHeaderField(PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.getDataCipher()));
+		writeHeaderField(PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.getCompressionAlgorithm().id));
 		writeHeaderField(PwDbHeaderV4Fields.MasterSeed, header.masterSeed);
 
 		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeHeaderField(PwDbHeaderV4Fields.TransformSeed, header.getTransformSeed());
-			writeHeaderField(PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.numKeyEncRounds));
+			writeHeaderField(PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.getNumKeyEncRounds()));
 		} else {
-            writeHeaderField(PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.kdfParameters));
+            writeHeaderField(PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.getKdfParameters()));
 		}
 
 		if (header.encryptionIV.length > 0) {
@@ -113,10 +113,10 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 			writeHeaderField(PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream.id));
 		}
 
-		if (db.publicCustomData.size() > 0) {
+		if (db.containsPublicCustomData()) {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			LEDataOutputStream los = new LEDataOutputStream(bos);
-			VariantDictionary.serialize(db.publicCustomData, los);
+			VariantDictionary.serialize(db.getPublicCustomData(), los);
 			writeHeaderField(PwDbHeaderV4Fields.PublicCustomData, bos.toByteArray());
 		}
 

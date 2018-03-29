@@ -46,14 +46,14 @@ public class SearchResultsActivity extends ListNodesActivity {
 
         setContentView(getLayoutInflater().inflate(R.layout.search_results, null));
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.search_label));
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        listView = (RecyclerView) findViewById(R.id.nodes_list);
+        listView = findViewById(R.id.nodes_list);
         View notFoundView = findViewById(R.id.not_found_container);
 
         if ( mCurrentGroup == null || mCurrentGroup.numbersOfChildEntries() < 1 ) {
@@ -71,10 +71,10 @@ public class SearchResultsActivity extends ListNodesActivity {
     protected PwGroup initCurrentGroup() {
         Database mDb = App.getDB();
         // Likely the app has been killed exit the activity
-        if ( ! mDb.Loaded() ) {
+        if ( ! mDb.getLoaded() ) {
             finish();
         }
-        return mDb.Search(getSearchStr(getIntent()).trim());
+        return mDb.search(getSearchStr(getIntent()).trim());
     }
 
     @Override

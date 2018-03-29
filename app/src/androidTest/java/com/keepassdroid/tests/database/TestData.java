@@ -58,10 +58,10 @@ public class TestData {
 
 		InputStream keyIs = TestUtil.getKeyFileInputStream(ctx, keyfile);
 
-		Db.LoadData(ctx, is, password, keyIs, Importer.DEBUG);
+		Db.loadData(ctx, is, password, keyIs, Importer.DEBUG);
 		Uri.Builder b = new Uri.Builder();
 
-		Db.mUri = b.scheme("file").path(filename).build();
+		Db.setUri(b.scheme("file").path(filename).build());
 		
 		return Db;
 		
@@ -72,6 +72,6 @@ public class TestData {
 			GetDb1(ctx);
 		}
 		
-		return (PwDatabaseV3Debug) mDb1.pm;
+		return (PwDatabaseV3Debug) mDb1.getPwDatabase();
 	}
 }

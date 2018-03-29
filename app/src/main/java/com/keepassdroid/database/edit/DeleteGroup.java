@@ -23,7 +23,6 @@ import android.content.Context;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
-import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 
@@ -34,25 +33,25 @@ public class DeleteGroup extends RunnableOnFinish {
 
     private Context mContext;
 	private Database mDb;
-	private PwGroup mGroup;
+	private PwGroup<PwGroup, PwGroup, PwEntry> mGroup;
 	private boolean mDontSave;
 	
-	public DeleteGroup(Context ctx, Database db, PwGroup group, OnFinish finish) {
+	public DeleteGroup(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinish finish) {
 		super(finish);
 		setMembers(ctx, db, group, false);
 	}
 
-	public DeleteGroup(Context ctx, Database db, PwGroup group, OnFinish finish, boolean dontSave) {
+	public DeleteGroup(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinish finish, boolean dontSave) {
 		super(finish);
 		setMembers(ctx, db, group, dontSave);
 	}
 	
-	public DeleteGroup(Database db, PwGroup group, OnFinish finish, boolean dontSave) {
+	public DeleteGroup(Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinish finish, boolean dontSave) {
 		super(finish);
 		setMembers(null, db, group, dontSave);
 	}
 
-	private void setMembers(Context ctx, Database db, PwGroup group, boolean dontSave) {
+	private void setMembers(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, boolean dontSave) {
 		mDb = db;
 		mGroup = group;
         mContext = ctx;
@@ -61,18 +60,17 @@ public class DeleteGroup extends RunnableOnFinish {
 	
 	@Override
 	public void run() {
-        PwDatabase pm = mDb.pm;
         PwGroup parent = mGroup.getParent();
 
         // Remove Group from parent
-        boolean recycle = pm.canRecycle(mGroup);
+        boolean recycle = mDb.canRecycle(mGroup);
         if (recycle) {
-            pm.recycle(mGroup);
+            mDb.recycle(mGroup);
         }
         else {
             // TODO tests
             // Remove child entries
-            List<PwEntry> childEnt = new ArrayList<>(mGroup.getChildEntries());
+            List<PwEntry> childEnt = new ArrayList<>(mGroup.getChildEntries()); // TODO new Methods
             for ( int i = 0; i < childEnt.size(); i++ ) {
                 DeleteEntry task = new DeleteEntry(mContext, mDb, childEnt.get(i), null, true);
                 task.run();
@@ -84,11 +82,11 @@ public class DeleteGroup extends RunnableOnFinish {
                 DeleteGroup task = new DeleteGroup(mContext, mDb, childGrp.get(i), null, true);
                 task.run();
             }
-            pm.deleteGroup(mGroup);
+            mDb.deleteGroup(mGroup);
 
             // Remove from PwDatabaseV3
             // TODO ENcapsulate
-            mDb.pm.getGroups().remove(mGroup);
+            mDb.getPwDatabase().getGroups().remove(mGroup);
         }
 
         // Save
@@ -114,10 +112,9 @@ public class DeleteGroup extends RunnableOnFinish {
 		}
 
 		public void run() {
-            PwDatabase pm = mDb.pm;
             if ( !mSuccess ) {
                 if (recycled) {
-                    pm.undoRecycle(mGroup, mParent);
+                    mDb.undoRecycle(mGroup, mParent);
                 }
                 else {
                     // Let's not bother recovering from a failure to save a deleted tree.  It is too much work.

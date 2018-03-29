@@ -60,7 +60,6 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditNewField;
 import com.kunzisoft.keepass.R;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class EntryEditActivity extends LockingHideActivity
@@ -145,7 +144,7 @@ public class EntryEditActivity extends LockingHideActivity
 		
 		// Likely the app has been killed exit the activity
 		Database db = App.getDB();
-		if ( ! db.Loaded() ) {
+		if ( ! db.getLoaded() ) {
 			finish();
 			return;
 		}
@@ -153,15 +152,15 @@ public class EntryEditActivity extends LockingHideActivity
 		Intent intent = getIntent();
 		byte[] uuidBytes = intent.getByteArrayExtra(KEY_ENTRY);
 
-		PwDatabase pm = db.pm;
+		PwDatabase pm = db.getPwDatabase();
 		if ( uuidBytes == null ) {
             PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
-			PwGroup parent = pm.groups.get(parentId);
+			PwGroup parent = pm.getGroupByGroupId(parentId);
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
-			mEntry = pm.entries.get(uuid);
+			mEntry = pm.getEntryByUUIDId(uuid);
 			mIsNew = false;
 			fillData();
 		}
@@ -244,11 +243,11 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 	
 	protected PwEntry populateNewEntry() {
-        PwDatabase db = App.getDB().pm;
+        PwDatabase db = App.getDB().getPwDatabase();
 
         PwEntry newEntry = mEntry.clone();
 
-        newEntry.startToDecodeReference(db);
+        newEntry.startToManageFieldReferences(db);
 
         newEntry.createBackup(db);
 
@@ -261,7 +260,7 @@ public class EntryEditActivity extends LockingHideActivity
             newEntry.setIcon(new PwIconStandard(mSelectedIconID));
         else {
             if (mIsNew) {
-                newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(0));
+                newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getFirstIcon());
             }
             else {
                 // Keep previous icon, if no new one was selected
@@ -274,19 +273,19 @@ public class EntryEditActivity extends LockingHideActivity
         newEntry.setPassword(entryPasswordView.getText().toString());
 
         if (newEntry.allowExtraFields()) {
-            // Delete all new standard strings
-            newEntry.removeExtraFields();
+            // Delete all extra strings
+            newEntry.removeAllCustomFields();
             // Add extra fields from views
             for (int i = 0; i < entryExtraFieldsContainer.getChildCount(); i++) {
                 EntryEditNewField view = (EntryEditNewField) entryExtraFieldsContainer.getChildAt(i);
                 String key = view.getLabel();
                 String value = view.getValue();
                 boolean protect = view.isProtected();
-                newEntry.addField(key, new ProtectedString(protect, value));
+                newEntry.addExtraField(key, new ProtectedString(protect, value));
             }
         }
 
-        newEntry.endToDecodeReference(db);
+        newEntry.endToManageFieldReferences();
 
         return newEntry;
 	}
@@ -316,7 +315,10 @@ public class EntryEditActivity extends LockingHideActivity
 
 	protected void fillData() {
 		ImageButton currIconButton = findViewById(R.id.icon_button);
-		App.getDB().drawFactory.assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
+		App.getDB().getDrawFactory().assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
+
+		// Don't start the field reference manager, we want to see the raw ref
+        mEntry.endToManageFieldReferences();
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());
@@ -336,12 +338,12 @@ public class EntryEditActivity extends LockingHideActivity
 
 		if (mEntry.allowExtraFields()) {
             LinearLayout container = findViewById(R.id.advanced_container);
-            for (Map.Entry<String, ProtectedString> pair : mEntry.getExtraProtectedFields().entrySet()) {
+            mEntry.getFields().doActionToAllCustomProtectedField((key, value) -> {
                 EntryEditNewField entryEditNewField = new EntryEditNewField(EntryEditActivity.this);
-                entryEditNewField.setData(pair.getKey(), pair.getValue());
+                entryEditNewField.setData(key, value);
                 entryEditNewField.setFontVisibility(visibilityFontActivated);
                 container.addView(entryEditNewField);
-            }
+            });
         }
 	}
 

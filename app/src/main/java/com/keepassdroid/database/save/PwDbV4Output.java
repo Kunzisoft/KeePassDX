@@ -26,22 +26,20 @@ import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.crypto.keyDerivation.KdfEngine;
 import com.keepassdroid.crypto.keyDerivation.KdfFactory;
+import com.keepassdroid.database.AutoType;
 import com.keepassdroid.database.CrsAlgorithm;
 import com.keepassdroid.database.EntryHandler;
 import com.keepassdroid.database.GroupHandler;
 import com.keepassdroid.database.ITimeLogger;
+import com.keepassdroid.database.MemoryProtectionConfig;
 import com.keepassdroid.database.PwCompressionAlgorithm;
 import com.keepassdroid.database.PwDatabaseV4;
-import com.keepassdroid.database.PwDatabaseV4.MemoryProtectionConfig;
 import com.keepassdroid.database.PwDatabaseV4XML;
 import com.keepassdroid.database.PwDbHeader;
 import com.keepassdroid.database.PwDbHeaderV4;
 import com.keepassdroid.database.PwDefsV4;
 import com.keepassdroid.database.PwDeletedObject;
-import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwEntryV4;
-import com.keepassdroid.database.AutoType;
-import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV4;
 import com.keepassdroid.database.PwIconCustom;
 import com.keepassdroid.database.exception.PwDbOutputException;
@@ -181,7 +179,7 @@ public class PwDbV4Output extends PwDbOutput {
 
         try {
 			try {
-				engine = CipherFactory.getInstance(mPM.dataCipher);
+				engine = CipherFactory.getInstance(mPM.getDataCipher());
 			} catch (NoSuchAlgorithmException e) {
 				throw new PwDbOutputException("No such cipher", e);
 			}
@@ -199,15 +197,13 @@ public class PwDbV4Output extends PwDbOutput {
 				mOS.write(hashOfHeader);
 				mOS.write(headerHmac);
 
-				HmacBlockOutputStream hbos = new HmacBlockOutputStream(mOS, mPM.hmacKey);
+				HmacBlockOutputStream hbos = new HmacBlockOutputStream(mOS, mPM.getHmacKey());
 				osPlain = attachStreamEncryptor(header, hbos);
 			}
 
 			OutputStream osXml;
 			try {
-
-
-				if (mPM.compressionAlgorithm == PwCompressionAlgorithm.Gzip) {
+				if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
 					osXml = new GZIPOutputStream(osPlain);
 				} else {
 					osXml = osPlain;
@@ -217,7 +213,6 @@ public class PwDbV4Output extends PwDbOutput {
 					PwDbInnerHeaderOutputV4 ihOut =  new PwDbInnerHeaderOutputV4((PwDatabaseV4)mPM, header, osXml);
                     ihOut.output();
 				}
-
 
 				outputDatabase(osXml);
 				osXml.close();
@@ -231,7 +226,7 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 	}
 	
-	private class GroupWriter extends GroupHandler<PwGroup> {
+	private class GroupWriter extends GroupHandler<PwGroupV4> {
 		private Stack<PwGroupV4> groupStack;
 		
 		public GroupWriter(Stack<PwGroupV4> gs) {
@@ -239,8 +234,7 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 
 		@Override
-		public boolean operate(PwGroup g) {
-			PwGroupV4 group = (PwGroupV4) g;
+		public boolean operate(PwGroupV4 group) {
 			assert(group != null);
 			
 			while(true) {
@@ -263,11 +257,10 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 	}
 	
-	private class EntryWriter extends EntryHandler<PwEntry> {
+	private class EntryWriter extends EntryHandler<PwEntryV4> {
 
 		@Override
-		public boolean operate(PwEntry e) {
-			PwEntryV4 entry = (PwEntryV4) e;
+		public boolean operate(PwEntryV4 entry) {
 			assert(entry != null);
 			
 			try {
@@ -292,13 +285,14 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		writeMeta();
 		
-		PwGroupV4 root = (PwGroupV4) mPM.rootGroup;
+		PwGroupV4 root = (PwGroupV4) mPM.getRootGroup();
 		xml.startTag(null, ElemRoot);
 		startGroup(root);
 		Stack<PwGroupV4> groupStack = new Stack<PwGroupV4>();
 		groupStack.push(root);
 		
-		if (!root.preOrderTraverseTree(new GroupWriter(groupStack), new EntryWriter())) throw new RuntimeException("Writing groups failed");
+		if (!root.preOrderTraverseTree(new GroupWriter(groupStack), new EntryWriter()))
+			throw new RuntimeException("Writing groups failed");
 		
 		while (groupStack.size() > 1) {
 			xml.endTag(null, ElemGroup);
@@ -307,7 +301,7 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		endGroup();
 		
-		writeList(ElemDeletedObjects, mPM.deletedObjects);
+		writeList(ElemDeletedObjects, mPM.getDeletedObjects());
 		
 		xml.endTag(null, ElemRoot);
 		
@@ -325,37 +319,36 @@ public class PwDbV4Output extends PwDbOutput {
 			writeObject(ElemHeaderHash, String.valueOf(Base64Coder.encode(hashOfHeader)));
 		}
 		
-		writeObject(ElemDbName, mPM.name, true);
-		writeObject(ElemDbNameChanged, mPM.nameChanged);
-		writeObject(ElemDbDesc, mPM.description, true);
-		writeObject(ElemDbDescChanged, mPM.descriptionChanged);
-		writeObject(ElemDbDefaultUser, mPM.defaultUserName, true);
-		writeObject(ElemDbDefaultUserChanged, mPM.defaultUserNameChanged);
-		writeObject(ElemDbMntncHistoryDays, mPM.maintenanceHistoryDays);
-		writeObject(ElemDbColor, mPM.color);
-		writeObject(ElemDbKeyChanged, mPM.keyLastChanged);
-		writeObject(ElemDbKeyChangeRec, mPM.keyChangeRecDays);
-		writeObject(ElemDbKeyChangeForce, mPM.keyChangeForceDays);
+		writeObject(ElemDbName, mPM.getName(), true);
+		writeObject(ElemDbNameChanged, mPM.getNameChanged().getDate());
+		writeObject(ElemDbDesc, mPM.getDescription(), true);
+		writeObject(ElemDbDescChanged, mPM.getDescriptionChanged().getDate());
+		writeObject(ElemDbDefaultUser, mPM.getDefaultUserName(), true);
+		writeObject(ElemDbDefaultUserChanged, mPM.getDefaultUserNameChanged().getDate());
+		writeObject(ElemDbMntncHistoryDays, mPM.getMaintenanceHistoryDays());
+		writeObject(ElemDbColor, mPM.getColor());
+		writeObject(ElemDbKeyChanged, mPM.getKeyLastChanged().getDate());
+		writeObject(ElemDbKeyChangeRec, mPM.getKeyChangeRecDays());
+		writeObject(ElemDbKeyChangeForce, mPM.getKeyChangeForceDays());
 		
-		
-		writeList(ElemMemoryProt, mPM.memoryProtection);
+		writeList(ElemMemoryProt, mPM.getMemoryProtection());
 		
 		writeCustomIconList();
 		
-		writeObject(ElemRecycleBinEnabled, mPM.recycleBinEnabled);
-		writeObject(ElemRecycleBinUuid, mPM.recycleBinUUID);
-		writeObject(ElemRecycleBinChanged, mPM.recycleBinChanged);
-		writeObject(ElemEntryTemplatesGroup, mPM.entryTemplatesGroup);
-		writeObject(ElemEntryTemplatesGroupChanged, mPM.entryTemplatesGroupChanged);
-		writeObject(ElemHistoryMaxItems, mPM.historyMaxItems);
-		writeObject(ElemHistoryMaxSize, mPM.historyMaxSize);
-		writeObject(ElemLastSelectedGroup, mPM.lastSelectedGroup);
-		writeObject(ElemLastTopVisibleGroup, mPM.lastTopVisibleGroup);
+		writeObject(ElemRecycleBinEnabled, mPM.isRecycleBinEnabled());
+		writeObject(ElemRecycleBinUuid, mPM.getRecycleBinUUID());
+		writeObject(ElemRecycleBinChanged, mPM.getRecycleBinChanged());
+		writeObject(ElemEntryTemplatesGroup, mPM.getEntryTemplatesGroup());
+		writeObject(ElemEntryTemplatesGroupChanged, mPM.getEntryTemplatesGroupChanged().getDate());
+		writeObject(ElemHistoryMaxItems, mPM.getHistoryMaxItems());
+		writeObject(ElemHistoryMaxSize, mPM.getHistoryMaxSize());
+		writeObject(ElemLastSelectedGroup, mPM.getLastSelectedGroup());
+		writeObject(ElemLastTopVisibleGroup, mPM.getLastTopVisibleGroup());
 
 		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeBinPool();
 		}
-		writeList(ElemCustomData, mPM.customData);
+		writeList(ElemCustomData, mPM.getCustomData());
 		
 		xml.endTag(null, ElemMeta);
 		
@@ -366,7 +359,7 @@ public class PwDbV4Output extends PwDbOutput {
 		try {
 			//mPM.makeFinalKey(header.masterSeed, mPM.kdfParameters);
 
-			cipher = engine.getCipher(Cipher.ENCRYPT_MODE, mPM.finalKey, header.encryptionIV);
+			cipher = engine.getCipher(Cipher.ENCRYPT_MODE, mPM.getFinalKey(), header.encryptionIV);
 		} catch (Exception e) {
 			throw new PwDbOutputException("Invalid algorithm.", e);
 		}
@@ -389,9 +382,9 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 		random.nextBytes(h.encryptionIV);
 
-		UUID kdfUUID = mPM.kdfParameters.kdfUUID;
+		UUID kdfUUID = mPM.getKdfParameters().kdfUUID;
 		KdfEngine kdf = KdfFactory.get(kdfUUID);
-		kdf.randomize(mPM.kdfParameters);
+		kdf.randomize(mPM.getKdfParameters());
 
 		if (h.version < PwDbHeaderV4.FILE_VERSION_32_4) {
 			h.innerRandomStream = CrsAlgorithm.Salsa20;
@@ -475,7 +468,7 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		writeList(ElemTimes, entry);
 		
-		writeList(entry.getFields(), true);
+		writeList(entry.getFields().getListOfAllFields(), true);
 		writeList(entry.getBinaries());
 		writeList(ElemAutoType, entry.getAutoType());
 		
@@ -500,7 +493,7 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.startTag(null, ElemValue);
 		String strRef = null;
 		if (allowRef) {
-			int ref = mPM.binPool.poolFind(value);
+			int ref = mPM.getBinPool().poolFind(value);
 			strRef = Integer.toString(ref);
 		}
 		
@@ -528,7 +521,7 @@ public class PwDbV4Output extends PwDbOutput {
 			}
 			
 		} else {
-			if (mPM.compressionAlgorithm == PwCompressionAlgorithm.Gzip) {
+			if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
 				xml.attribute(null, AttrCompressed, ValTrue);
 				byte[] raw = value.getData();
 				byte[] compressed = MemUtil.compress(raw);
@@ -651,19 +644,19 @@ public class PwDbV4Output extends PwDbOutput {
 		boolean protect = value.isProtected();
 		if (isEntryString) {
 			if (key.equals(PwDefsV4.TITLE_FIELD)) {
-				protect = mPM.memoryProtection.protectTitle;
+				protect = mPM.getMemoryProtection().protectTitle;
 			}
 			else if (key.equals(PwDefsV4.USERNAME_FIELD)) {
-				protect = mPM.memoryProtection.protectUserName;
+				protect = mPM.getMemoryProtection().protectUserName;
 			}
 			else if (key.equals(PwDefsV4.PASSWORD_FIELD)) {
-				protect = mPM.memoryProtection.protectPassword;
+				protect = mPM.getMemoryProtection().protectPassword;
 			}
 			else if (key.equals(PwDefsV4.URL_FIELD)) {
-				protect = mPM.memoryProtection.protectUrl;
+				protect = mPM.getMemoryProtection().protectUrl;
 			}
 			else if (key.equals(PwDefsV4.NOTES_FIELD)) {
-				protect = mPM.memoryProtection.protectNotes;
+				protect = mPM.getMemoryProtection().protectNotes;
 			}
 		}
 		
@@ -759,7 +752,7 @@ public class PwDbV4Output extends PwDbOutput {
 		writeObject(ElemCreationTime, it.getCreationTime().getDate());
 		writeObject(ElemLastAccessTime, it.getLastAccessTime().getDate());
 		writeObject(ElemExpiryTime, it.getExpiryTime().getDate());
-		writeObject(ElemExpires, it.expires());
+		writeObject(ElemExpires, it.isExpires());
 		writeObject(ElemUsageCount, it.getUsageCount());
 		writeObject(ElemLocationChanged, it.getLocationChanged().getDate());
 		
@@ -780,7 +773,7 @@ public class PwDbV4Output extends PwDbOutput {
 	}
 
 	private void writeCustomIconList() throws IllegalArgumentException, IllegalStateException, IOException {
-		List<PwIconCustom> customIcons = mPM.customIcons;
+		List<PwIconCustom> customIcons = mPM.getCustomIcons();
 		if (customIcons.size() == 0) return;
 		
 		xml.startTag(null, ElemCustomIcons);
@@ -800,7 +793,7 @@ public class PwDbV4Output extends PwDbOutput {
 	private void writeBinPool() throws IllegalArgumentException, IllegalStateException, IOException {
 		xml.startTag(null, ElemBinaries);
 		
-		for (Entry<Integer, ProtectedBinary> pair : mPM.binPool.entrySet()) {
+		for (Entry<Integer, ProtectedBinary> pair : mPM.getBinPool().entrySet()) {
 			xml.startTag(null, ElemBinary);
 			xml.attribute(null, AttrId, Integer.toString(pair.getKey()));
 			

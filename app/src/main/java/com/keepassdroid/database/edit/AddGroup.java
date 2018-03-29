@@ -26,6 +26,7 @@ import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.PwGroup;
 
 public class AddGroup extends RunnableOnFinish {
+
 	protected Database mDb;
 	private String mName;
 	private int mIconID;
@@ -39,25 +40,25 @@ public class AddGroup extends RunnableOnFinish {
                     boolean dontSave) {
 		super(afterAddNode);
 
-		mDb = db;
-		mName = name;
-		mIconID = iconid;
-		mParent = parent;
-		mDontSave = dontSave;
+		this.mDb = db;
+        this.mName = name;
+        this.mIconID = iconid;
+        this.mParent = parent;
+        this.mDontSave = dontSave;
 		this.ctx = ctx;
 
-		mFinish = new AfterAdd(mFinish);
+        this.mFinish = new AfterAdd(mFinish);
 	}
 	
 	@Override
 	public void run() {
-		PwDatabase pm = mDb.pm;
-		
+		PwDatabase pm = mDb.getPwDatabase();
+
 		// Generate new group
 		mGroup = pm.createGroup();
 		mGroup.initNewGroup(mName, pm.newGroupId());
-		mGroup.setIcon(mDb.pm.iconFactory.getIcon(mIconID));
-		pm.addGroupTo(mGroup, mParent);
+		mGroup.setIcon(pm.getIconFactory().getIcon(mIconID));
+        mDb.addGroupTo(mGroup, mParent);
 
 		// Commit to disk
 		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
@@ -72,9 +73,8 @@ public class AddGroup extends RunnableOnFinish {
 
 		@Override
 		public void run() {
-			PwDatabase pm = mDb.pm;
 			if ( !mSuccess ) {
-                pm.removeGroupFrom(mGroup, mParent);
+                mDb.removeGroupFrom(mGroup, mParent);
 			}
 
             // TODO Better callback

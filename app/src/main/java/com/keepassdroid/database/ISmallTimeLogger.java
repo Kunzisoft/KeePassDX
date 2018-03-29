@@ -14,6 +14,6 @@ public interface ISmallTimeLogger {
     PwDate getExpiryTime();
     void setExpiryTime(PwDate date);
 
-    boolean expires();
+    boolean isExpires();
     void setExpires(boolean exp);
 }

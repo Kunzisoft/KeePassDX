@@ -31,7 +31,6 @@ public class BinaryPool {
 	private HashMap<Integer, ProtectedBinary> pool = new HashMap<>();
 	
 	public BinaryPool() {
-		
 	}
 	
 	public BinaryPool(PwGroupV4 rootGroup) {

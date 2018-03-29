@@ -26,11 +26,10 @@ import com.keepassdroid.utils.SprEngineV4;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class PwEntryV4 extends PwEntry implements ITimeLogger {
+public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 
 	public static final String STR_TITLE = "Title";
 	public static final String STR_USERNAME = "UserName";
@@ -39,16 +38,15 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	public static final String STR_NOTES = "Notes";
 
 	// To decode each field not serializable
-    private transient PwDatabase mDatabase = null;
+    private transient PwDatabaseV4 mDatabase = null;
     private transient boolean mDecodeRef = false;
-	
-	private PwGroupV4 parent;
+
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
     private Map<String, String> customData = new HashMap<>();
 
-    private HashMap<String, ProtectedString> fields = new HashMap<>();
+    private ExtraFields fields = new ExtraFields();
     private HashMap<String, ProtectedBinary> binaries = new HashMap<>();
 	private String foregroundColor = "";
 	private String backgroupColor = "";
@@ -65,34 +63,27 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	}
 	
 	public PwEntryV4(PwGroupV4 p) {
-		construct();
-		parent = p;
+		construct(p);
 	}
 
-    @Override
-    public void assign(PwEntry source) {
-        if ( ! (source instanceof PwEntryV4) ) {
-            throw new RuntimeException("DB version mix.");
-        }
+    public void updateWith(PwEntryV4 source) {
         super.assign(source);
-        PwEntryV4 src = (PwEntryV4) source;
-        parent = src.parent;
-        customIcon = src.customIcon;
-        usageCount = src.usageCount;
-        parentGroupLastMod = src.parentGroupLastMod;
+        customIcon = source.customIcon;
+        usageCount = source.usageCount;
+        parentGroupLastMod = source.parentGroupLastMod;
         // TODO customData
 
-        fields = src.fields;
-        binaries = src.binaries;
-        foregroundColor = src.foregroundColor;
-        backgroupColor = src.backgroupColor;
-        overrideURL = src.overrideURL;
-        autoType = src.autoType;
-        history = src.history;
+        fields = source.fields;
+        binaries = source.binaries;
+        foregroundColor = source.foregroundColor;
+        backgroupColor = source.backgroupColor;
+        overrideURL = source.overrideURL;
+        autoType = source.autoType;
+        history = source.history;
 
-        url = src.url;
-        additional = src.additional;
-        tags = src.tags;
+        url = source.url;
+        additional = source.additional;
+        tags = source.tags;
     }
 
     @SuppressWarnings("unchecked")
@@ -104,13 +95,12 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
         addCloneAttributesToNewEntry(newEntry);
 
         // Attributes here
-        // newEntry.parent stay the same in copy
         newEntry.customIcon = new PwIconCustom(this.customIcon);
         // newEntry.usageCount stay the same in copy
         newEntry.parentGroupLastMod = this.parentGroupLastMod.clone();
-        // TODO customData make copy from hashmap
 
-        newEntry.fields = (HashMap<String, ProtectedString>) this.fields.clone();
+        newEntry.fields = this.fields.clone();
+        // TODO customData make copy from hashmap
         newEntry.binaries = (HashMap<String, ProtectedBinary>) this.binaries.clone();
         // newEntry.foregroundColor stay the same in copy
         // newEntry.backgroupColor stay the same in copy
@@ -126,19 +116,19 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
     }
 
 	@Override
-	public void startToDecodeReference(PwDatabase db) {
-        this.mDatabase = db;
+	public void startToManageFieldReferences(PwDatabase db) {
+        this.mDatabase = (PwDatabaseV4) db;
         this.mDecodeRef = true;
 	}
 
 	@Override
-	public void endToDecodeReference(PwDatabase db) {
+	public void endToManageFieldReferences() {
         this.mDatabase = null;
         this.mDecodeRef = false;
 	}
 	
 	private String decodeRefKey(boolean decodeRef, String key) {
-		String text = getString(key);
+		String text = getProtectedStringValue(key);
 		if (decodeRef) {
 			text = decodeRef(text, mDatabase);
 		}
@@ -168,65 +158,50 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 
 	@Override
 	public void setTitle(String title) {
-		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectTitle;
+		PwDatabaseV4 db = mDatabase;
+		boolean protect = db.getMemoryProtection().protectTitle;
 		
-		setString(STR_TITLE, title, protect);
+		setProtectedString(STR_TITLE, title, protect);
 	}
 
 	@Override
 	public void setUsername(String user) {
-		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectUserName;
+		PwDatabaseV4 db = mDatabase;
+		boolean protect = db.getMemoryProtection().protectUserName;
 		
-		setString(STR_USERNAME, user, protect);
+		setProtectedString(STR_USERNAME, user, protect);
 	}
 
 	@Override
 	public void setPassword(String pass) {
-		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectPassword;
+		PwDatabaseV4 db = mDatabase;
+		boolean protect = db.getMemoryProtection().protectPassword;
 		
-		setString(STR_PASSWORD, pass, protect);
+		setProtectedString(STR_PASSWORD, pass, protect);
 	}
 
 	@Override
 	public void setUrl(String url) {
-		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectUrl;
+		PwDatabaseV4 db = mDatabase;
+		boolean protect = db.getMemoryProtection().protectUrl;
 		
-		setString(STR_URL, url, protect);
+		setProtectedString(STR_URL, url, protect);
 	}
 
 	@Override
 	public void setNotes(String notes) {
-		PwDatabaseV4 db = (PwDatabaseV4) mDatabase;
-		boolean protect = db.memoryProtection.protectNotes;
+		PwDatabaseV4 db = mDatabase;
+		boolean protect = db.getMemoryProtection().protectNotes;
 		
-		setString(STR_NOTES, notes, protect);
+		setProtectedString(STR_NOTES, notes, protect);
 	}
 
-	@Override
-	public PwGroupV4 getParent() {
-		return parent;
+	public String getProtectedStringValue(String key) {
+		return fields.getProtectedStringValue(key);
 	}
 
-    @Override
-    public void setParent(PwGroup parent) {
-        this.parent = (PwGroupV4) parent;
-    }
-
-	public String getString(String key) {
-		ProtectedString value = fields.get(key);
-		
-		if ( value == null ) return "";
-		
-		return value.toString();
-	}
-
-	public void setString(String key, String value, boolean protect) {
-		ProtectedString ps = new ProtectedString(protect, value);
-		fields.put(key, ps);
+	public void setProtectedString(String key, String value, boolean protect) {
+		fields.putProtectedString(key, value, protect);
 	}
 
 	public PwIconCustom getCustomIcon() {
@@ -277,60 +252,17 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 		return true;
 	}
 
-	public Map<String, ProtectedString> getFields() {
+	public ExtraFields getFields() {
 	    return fields;
     }
 
-    @Override
-    public Map<String, ProtectedString> getExtraProtectedFields() {
-        Map<String, ProtectedString> protectedFields = super.getExtraProtectedFields();
-        if (fields.size() > 0) {
-            for (Map.Entry<String, ProtectedString> pair : fields.entrySet()) {
-                String key = pair.getKey();
-                if (!PwEntryV4.isStandardField(key)) {
-                    protectedFields.put(key, pair.getValue());
-                }
-            }
-        }
-        return protectedFields;
+	public void addExtraField(String label, ProtectedString value) {
+	    fields.putProtectedString(label, value);
     }
 
     @Override
-	public Map<String, String> getExtraFields() {
-		Map<String, String> extraFields = super.getExtraFields();
-		SprEngineV4 spr = new SprEngineV4();
-		// Display custom fields
-		if (fields.size() > 0) {
-			for (Map.Entry<String, ProtectedString> pair : fields.entrySet()) {
-				String key = pair.getKey();
-                // TODO Add hidden style for protection field
-				if (!PwEntryV4.isStandardField(key)) {
-                    extraFields.put(key, spr.compile(pair.getValue().toString(), this, mDatabase));
-				}
-			}
-		}
-		return extraFields;
-	}
-
-    private static boolean isStandardField(String key) {
-        return key.equals(STR_TITLE) || key.equals(STR_USERNAME)
-                || key.equals(STR_PASSWORD) || key.equals(STR_URL)
-                || key.equals(STR_NOTES);
-    }
-
-	public void addField(String label, ProtectedString value) {
-	    fields.put(label, value);
-    }
-
-    @Override
-    public void removeExtraFields() {
-        Iterator<Entry<String, ProtectedString>> iter = fields.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry<String, ProtectedString> pair = iter.next();
-            if (!PwEntryV4.isStandardField(pair.getKey())) {
-                iter.remove();
-            }
-        }
+    public void removeAllCustomFields() {
+        fields.removeAllCustomFields();
     }
 
     public HashMap<String, ProtectedBinary> getBinaries() {
@@ -416,8 +348,8 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
     private static final long FIXED_LENGTH_SIZE = 128; // Approximate fixed length size
 	public long getSize() {
 		long size = FIXED_LENGTH_SIZE;
-		
-		for (Entry<String, ProtectedString> pair : fields.entrySet()) {
+
+		for (Entry<String, ProtectedString> pair : fields.getListOfAllFields().entrySet()) {
 			size += pair.getKey().length();
 			size += pair.getValue().length();
 		}
@@ -459,7 +391,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	private boolean maintainBackups(PwDatabaseV4 db) {
 		boolean deleted = false;
 
-		int maxItems = db.historyMaxItems;
+		int maxItems = db.getHistoryMaxItems();
 		if (maxItems >= 0) {
 			while (history.size() > maxItems) {
 				removeOldestBackup();
@@ -467,7 +399,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 			}
 		}
 
-		long maxSize = db.historyMaxSize;
+		long maxSize = db.getHistoryMaxSize();
 		if (maxSize >= 0) {
 			while(true) {
 				long histSize = 0;
@@ -508,7 +440,6 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	@Override
 	public void touch(boolean modified, boolean touchParents) {
 		super.touch(modified, touchParents);
-		
 		++usageCount;
 	}
 
@@ -519,7 +450,7 @@ public class PwEntryV4 extends PwEntry implements ITimeLogger {
 	
 	public boolean isSearchingEnabled() {
 		if (parent != null) {
-			return parent.isSearchEnabled();
+			return parent.isSearchingEnabled();
 		}
 		return PwGroupV4.DEFAULT_SEARCHING_ENABLED;
 	}

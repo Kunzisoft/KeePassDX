@@ -25,12 +25,58 @@ import com.keepassdroid.utils.UuidUtil;
 import java.util.List;
 import java.util.Locale;
 
-public class EntrySearchHandlerV4 extends EntrySearchHandler {
+public class EntrySearchHandlerV4 extends EntrySearchHandler<PwEntryV4> {
+
 	private SearchParametersV4 sp;
 
-	protected EntrySearchHandlerV4(SearchParameters sp, List<PwEntry> listStorage) {
+	protected EntrySearchHandlerV4(SearchParameters sp, List<PwEntryV4> listStorage) {
 		super(sp, listStorage);
 		this.sp = (SearchParametersV4) sp;
+	}
+
+	@Override
+	public boolean operate(PwEntryV4 entry) {
+		if (sp.respectEntrySearchingDisabled && !entry.isSearchingEnabled()) {
+			return true;
+		}
+
+		if (sp.excludeExpired && entry.isExpires() && now.after(entry.getExpiryTime().getDate())) {
+			return true;
+		}
+
+		String term = sp.searchString;
+		if (sp.ignoreCase) {
+			term = term.toLowerCase();
+		}
+
+		if (searchStrings(entry, term)) {
+			listStorage.add(entry);
+			return true;
+		}
+
+		if (sp.searchInGroupNames) {
+			PwGroup parent = entry.getParent();
+			if (parent != null) {
+				String groupName = parent.getName();
+				if (groupName != null) {
+					if (sp.ignoreCase) {
+						groupName = groupName.toLowerCase();
+					}
+
+					if (groupName.contains(term)) {
+						listStorage.add(entry);
+						return true;
+					}
+				}
+			}
+		}
+
+		if (searchID(entry)) {
+			listStorage.add(entry);
+			return true;
+		}
+
+		return true;
 	}
 
 	@Override

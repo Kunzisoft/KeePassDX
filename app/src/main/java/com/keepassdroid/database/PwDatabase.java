@@ -19,6 +19,13 @@
  */
 package com.keepassdroid.database;
 
+import com.keepassdroid.crypto.finalkey.FinalKey;
+import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
+import com.keepassdroid.database.exception.InvalidKeyFileException;
+import com.keepassdroid.database.exception.KeyFileEmptyException;
+import com.keepassdroid.stream.NullOutputStream;
+import com.keepassdroid.utils.Util;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,24 +39,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.keepassdroid.crypto.finalkey.FinalKey;
-import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
-import com.keepassdroid.database.exception.InvalidKeyFileException;
-import com.keepassdroid.database.exception.KeyFileEmptyException;
-import com.keepassdroid.stream.NullOutputStream;
-import com.keepassdroid.utils.Util;
-
-public abstract class PwDatabase {
+public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB, PwEntryDB>,
+        PwEntryDB extends PwEntry<PwGroupDB>> {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
-    public byte masterKey[] = new byte[32];
-    public byte[] finalKey;
-    public String name = "KeePass database";
-    public PwGroup rootGroup;
-    public PwIconFactory iconFactory = new PwIconFactory();
-    public Map<PwGroupId, PwGroup> groups = new HashMap<>();
-    public Map<UUID, PwEntry> entries = new HashMap<>();
 
+    protected byte masterKey[] = new byte[32];
+    protected byte[] finalKey;
+
+    protected String name = "KeePass database";
+    protected PwGroupDB rootGroup;
+    protected PwIconFactory iconFactory = new PwIconFactory();
+
+    protected Map<PwGroupId, PwGroupDB> groups = new HashMap<>();
+    protected Map<UUID, PwEntryDB> entries = new HashMap<>();
 
     private static boolean isKDBExtension(String filename) {
         if (filename == null) { return false; }
@@ -61,6 +64,7 @@ public abstract class PwDatabase {
     }
 
     public static PwDatabase getNewDBInstance(String filename) {
+        // TODO other condition to create a database
         if (isKDBExtension(filename)) {
             return new PwDatabaseV3();
         } else {
@@ -68,10 +72,44 @@ public abstract class PwDatabase {
         }
     }
 
+    public abstract PwVersion getVersion();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public PwGroupDB getRootGroup() {
+        return rootGroup;
+    }
+
+    public void setRootGroup(PwGroupDB rootGroup) {
+        this.rootGroup = rootGroup;
+    }
+
+    public PwIconFactory getIconFactory() {
+        return iconFactory;
+    }
+
+    public byte[] getMasterKey() {
+        return masterKey;
+    }
+
+    public void setMasterKey(byte[] masterKey) {
+        this.masterKey = masterKey;
+    }
+
+    public byte[] getFinalKey() {
+        return finalKey;
+    }
+
     public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
 
         // Write checksum Checksum
-        MessageDigest md = null;
+        MessageDigest md;
         try {
             md = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
@@ -87,13 +125,11 @@ public abstract class PwDatabase {
         finalKey = md.digest();
     }
 
-
     /**
      * Encrypt the master key a few times to make brute-force key-search harder
      * @throws IOException
      */
-    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException
-    {
+    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException {
         FinalKey key = FinalKeyFactory.createFinalKey();
 
         return key.transformMasterKey(pKeySeed, pKey, rounds);
@@ -237,21 +273,19 @@ public abstract class PwDatabase {
         return md.digest();
     }
 
-    public abstract List<PwGroup> getGrpRoots();
-
-    public abstract List<PwGroup> getGroups();
-
-    public abstract List<PwEntry> getEntries();
-
     public abstract long getNumRounds();
 
     public abstract void setNumRounds(long rounds) throws NumberFormatException;
 
     public abstract boolean algorithmSettingsEnabled();
 
-    public abstract PwEncryptionAlgorithm getEncAlgorithm();
+    public abstract PwEncryptionAlgorithm getEncryptionAlgorithm();
 
-    public void addGroupTo(PwGroup newGroup, PwGroup parent) {
+    public abstract List<PwGroupDB> getGrpRoots();
+
+    public abstract List<PwGroupDB> getGroups();
+
+    protected void addGroupTo(PwGroupDB newGroup, PwGroupDB parent) {
         // Add tree to parent tree
         if ( parent == null ) {
             parent = rootGroup;
@@ -264,7 +298,7 @@ public abstract class PwDatabase {
         parent.touch(true, true);
     }
 
-    public void removeGroupFrom(PwGroup remove, PwGroup parent) {
+    protected void removeGroupFrom(PwGroupDB remove, PwGroupDB parent) {
         // Remove tree from parent tree
         if (parent != null) {
             parent.removeChildGroup(remove);
@@ -272,25 +306,11 @@ public abstract class PwDatabase {
         groups.remove(remove.getId());
     }
 
-    public void addEntryTo(PwEntry newEntry, PwGroup parent) {
-        // Add entry to parent
-        if (parent != null) {
-            parent.addChildEntry(newEntry);
-        }
-        newEntry.setParent(parent);
-
-        entries.put(newEntry.getUUID(), newEntry);
-    }
-
-    public void removeEntryFrom(PwEntry remove, PwGroup parent) {
-        // Remove entry for parent
-        if (parent != null) {
-            parent.removeChildEntry(remove);
-        }
-        entries.remove(remove.getUUID());
-    }
-
     public abstract PwGroupId newGroupId();
+
+    public PwGroupDB getGroupByGroupId(PwGroupId id) {
+        return this.groups.get(id);
+    }
 
     /**
      * Determine if an id number is already in use
@@ -300,10 +320,10 @@ public abstract class PwDatabase {
      * @return True if the ID is used, false otherwise
      */
     protected boolean isGroupIdUsed(PwGroupId id) {
-        List<PwGroup> groups = getGroups();
+        List<PwGroupDB> groups = getGroups();
 
         for (int i = 0; i < groups.size(); i++) {
-            PwGroup group =groups.get(i);
+            PwGroupDB group =groups.get(i);
             if (group.getId().equals(id)) {
                 return true;
             }
@@ -312,22 +332,46 @@ public abstract class PwDatabase {
         return false;
     }
 
-    public abstract PwGroup createGroup();
+    public abstract PwGroupDB createGroup();
 
-    public abstract boolean isBackup(PwGroup group);
+    public abstract List<PwEntryDB> getEntries();
 
-    public void populateGlobals(PwGroup currentGroup) {
+    public PwEntryDB getEntryByUUIDId(UUID id) {
+        return this.entries.get(id);
+    }
 
-        List<PwGroup> childGroups = currentGroup.getChildGroups();
-        List<PwEntry> childEntries = currentGroup.getChildEntries();
+    protected void addEntryTo(PwEntryDB newEntry, PwGroupDB parent) {
+        // Add entry to parent
+        if (parent != null) {
+            parent.addChildEntry(newEntry);
+        }
+        newEntry.setParent(parent);
+
+        entries.put(newEntry.getUUID(), newEntry);
+    }
+
+    protected void removeEntryFrom(PwEntryDB remove, PwGroupDB parent) {
+        // Remove entry for parent
+        if (parent != null) {
+            parent.removeChildEntry(remove);
+        }
+        entries.remove(remove.getUUID());
+    }
+
+    public abstract boolean isBackup(PwGroupDB group);
+
+    protected void populateGlobals(PwGroupDB currentGroup) {
+
+        List<PwGroupDB> childGroups = currentGroup.getChildGroups();
+        List<PwEntryDB> childEntries = currentGroup.getChildEntries();
 
         for (int i = 0; i < childEntries.size(); i++ ) {
-            PwEntry cur = childEntries.get(i);
+            PwEntryDB cur = childEntries.get(i);
             entries.put(cur.getUUID(), cur);
         }
 
         for (int i = 0; i < childGroups.size(); i++ ) {
-            PwGroup cur = childGroups.get(i);
+            PwGroupDB cur = childGroups.get(i);
             groups.put(cur.getId(), cur);
             populateGlobals(cur);
         }
@@ -337,7 +381,7 @@ public abstract class PwDatabase {
      * Determine if RecycleBin is available or not for this version of database
      * @return true if RecycleBin enable
      */
-    public boolean isRecycleBinAvailable() {
+    protected boolean isRecycleBinAvailable() {
         return false;
     }
 
@@ -345,7 +389,7 @@ public abstract class PwDatabase {
      * Determine if RecycleBin is enable or not
      * @return true if RecycleBin enable, false if is not available or not enable
      */
-    public boolean isRecycleBinEnable() {
+    protected boolean isRecycleBinEnabled() {
         return false;
     }
 
@@ -354,7 +398,7 @@ public abstract class PwDatabase {
      * @param group Group to remove
      * @return true if group can be recycle, false elsewhere
      */
-    public boolean canRecycle(PwGroup group) {
+    protected boolean canRecycle(PwGroupDB group) {
         return false;
     }
 
@@ -363,54 +407,54 @@ public abstract class PwDatabase {
      * @param entry Entry to remove
      * @return true if entry can be recycle, false elsewhere
      */
-    public boolean canRecycle(PwEntry entry) {
+    protected boolean canRecycle(PwEntryDB entry) {
         return false;
     }
 
-    public void recycle(PwGroup group) {
+    protected void recycle(PwGroupDB group) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void recycle(PwEntry entry) {
+    protected void recycle(PwEntryDB entry) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void undoRecycle(PwGroup group, PwGroup origParent) {
+    protected void undoRecycle(PwGroupDB group, PwGroupDB origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void undoRecycle(PwEntry entry, PwGroup origParent) {
+    protected void undoRecycle(PwEntryDB entry, PwGroupDB origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    public void deleteGroup(PwGroup group) {
-        PwGroup parent = group.getParent();
+    protected void deleteGroup(PwGroupDB group) {
+        PwGroupDB parent = group.getParent(); // TODO inference
         removeGroupFrom(group, parent);
         parent.touch(false, true);
     }
 
-    public void deleteEntry(PwEntry entry) {
-        PwGroup parent = entry.getParent();
+    protected void deleteEntry(PwEntryDB entry) {
+        PwGroupDB parent = entry.getParent(); // TODO inference
         removeEntryFrom(entry, parent);
         parent.touch(false, true);
     }
 
     // TODO Delete group
-    public void undoDeleteGroup(PwGroup group, PwGroup origParent) {
+    public void undoDeleteGroup(PwGroupDB group, PwGroupDB origParent) {
         addGroupTo(group, origParent);
     }
 
-    public void undoDeleteEntry(PwEntry entry, PwGroup origParent) {
+    public void undoDeleteEntry(PwEntryDB entry, PwGroupDB origParent) {
         addEntryTo(entry, origParent);
     }
 
-    public PwGroup getRecycleBin() {
+    public PwGroupDB getRecycleBin() {
         return null;
     }
 
-    public boolean isGroupSearchable(PwGroup group, boolean omitBackup) {
+    public boolean isGroupSearchable(PwGroupDB group, boolean omitBackup) {
         return group != null;
     }
 

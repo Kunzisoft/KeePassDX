@@ -19,21 +19,23 @@
  */
 package com.keepassdroid.utils;
 
+import com.keepassdroid.database.PwDatabase;
+import com.keepassdroid.database.PwDatabaseV4;
+import com.keepassdroid.database.PwEntry;
+import com.keepassdroid.database.PwEntryV4;
+import com.keepassdroid.database.PwGroupV4;
+import com.keepassdroid.database.EntrySearchV4;
+import com.keepassdroid.database.SearchParametersV4;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 
-import com.keepassdroid.database.PwDatabase;
-import com.keepassdroid.database.PwDatabaseV4;
-import com.keepassdroid.database.PwEntry;
-import com.keepassdroid.database.PwEntryV4;
-import com.keepassdroid.database.SearchParametersV4;
-
 public class SprEngineV4 {
-	private final int MAX_RECURSION_DEPTH = 12;
-	private final String STR_REF_START = "{REF:";
-	private final String STR_REF_END = "}";
+	private static final int MAX_RECURSION_DEPTH = 12;
+	private static final String STR_REF_START = "{REF:";
+	private static final String STR_REF_END = "}";
 
 	public class TargetResult {
 		public PwEntryV4 entry;
@@ -154,11 +156,13 @@ public class SprEngineV4 {
 		else if (scan == 'O') { sp.searchInOther = true; }
 		else { return null; }
 		
-		List<PwEntry> list = new ArrayList<PwEntry>();
-		ctx.db.rootGroup.searchEntries(sp, list);
+		List<PwEntryV4> list = new ArrayList<>();
+		// TODO type parameter
+        EntrySearchV4 entrySearchV4 = new EntrySearchV4((PwGroupV4) ctx.db.getRootGroup());
+        entrySearchV4.searchEntries(sp, list);
 		
 		if (list.size() > 0) { 
-			return new TargetResult((PwEntryV4)list.get(0), wanted); 
+			return new TargetResult(list.get(0), wanted);
         }
 		
 		return null;

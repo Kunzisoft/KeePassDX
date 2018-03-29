@@ -36,7 +36,11 @@ public class PwIconFactory {
 	 *  Keys: UUID, Values: PwIconCustom
 	 */
 	private ReferenceMap customCache = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
-	
+
+	public PwIconStandard getFirstIcon() {
+		return getIcon(0);
+	}
+
 	public PwIconStandard getIcon(int iconId) {
 		PwIconStandard icon = (PwIconStandard) cache.get(iconId);
 		

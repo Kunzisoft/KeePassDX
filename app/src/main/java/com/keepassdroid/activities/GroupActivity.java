@@ -178,15 +178,15 @@ public class GroupActivity extends ListNodesActivity
 	protected PwGroup initCurrentGroup() {
 	    PwGroup currentGroup;
         Database db = App.getDB();
-        readOnly = db.readOnly;
-        PwGroup root = db.pm.rootGroup;
+        readOnly = db.isReadOnly();
+        PwGroup root = db.getPwDatabase().getRootGroup();
 
         Log.w(TAG, "Creating tree view");
         PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
         if ( pwGroupId == null ) {
             currentGroup = root;
         } else {
-            currentGroup = db.pm.groups.get(pwGroupId);
+            currentGroup = db.getPwDatabase().getGroupByGroupId(pwGroupId);
         }
 
         if (currentGroup != null) {
@@ -315,8 +315,8 @@ public class GroupActivity extends ListNodesActivity
 
     protected void setGroupIcon() {
 		if (mCurrentGroup != null) {
-			ImageView iv = (ImageView) findViewById(R.id.icon);
-			App.getDB().drawFactory.assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
+			ImageView iv = findViewById(R.id.icon);
+			App.getDB().getDrawFactory().assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
 		}
 	}
 
@@ -430,7 +430,7 @@ public class GroupActivity extends ListNodesActivity
     }
 	
 	protected void showWarnings() {
-		if (App.getDB().readOnly) {
+		if (App.getDB().isReadOnly()) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		    
 		    if (prefs.getBoolean(getString(R.string.show_read_only_warning), true)) {

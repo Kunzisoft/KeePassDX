@@ -44,13 +44,13 @@ public class TimeoutHelper {
 		
 		EditorCompat.apply(edit);
 		
-		if ( App.getDB().Loaded() ) {
+		if ( App.getDB().getLoaded() ) {
 	        Timeout.start(act);
 		}
 	}
 	
 	public static boolean checkTime(Activity act) {
-		if ( App.getDB().Loaded() ) {
+		if ( App.getDB().getLoaded() ) {
 	        Timeout.cancel(act);
 		}
 		
@@ -80,7 +80,7 @@ public class TimeoutHelper {
 		long diff = cur_time - timeout_start;
 		if (diff >= timeout) {
 			// We have timed out
-            if ( App.getDB().Loaded() ) {
+            if ( App.getDB().getLoaded() ) {
                 App.setShutdown(act.getString(R.string.app_timeout));
 				LockingActivity.checkShutdown(act);
                 return false;

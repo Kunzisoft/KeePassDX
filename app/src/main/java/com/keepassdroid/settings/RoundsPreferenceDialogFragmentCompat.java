@@ -70,11 +70,11 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        mRoundsView = (TextView) view.findViewById(R.id.rounds);
+        mRoundsView = view.findViewById(R.id.rounds);
 
         // Get the time from the related Preference
         Database db = App.getDB();
-        mPM = db.pm;
+        mPM = db.getPwDatabase();
         long numRounds = mPM.getNumRounds();
 
         DialogPreference preference = getPreference();
@@ -98,9 +98,7 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
 
         @Override
         public void run() {
-            if ( mSuccess ) {
-
-            } else {
+            if (!mSuccess) {
                 displayMessage(mCtx);
                 mPM.setNumRounds(mOldRounds);
             }

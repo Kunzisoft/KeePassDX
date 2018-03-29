@@ -19,6 +19,17 @@
  */
 package com.keepassdroid.database.save;
 
+import com.keepassdroid.crypto.CipherFactory;
+import com.keepassdroid.database.PwDatabaseV3;
+import com.keepassdroid.database.PwDbHeader;
+import com.keepassdroid.database.PwDbHeaderV3;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
+import com.keepassdroid.database.PwEntryV3;
+import com.keepassdroid.database.PwGroupV3;
+import com.keepassdroid.database.exception.PwDbOutputException;
+import com.keepassdroid.stream.LEDataOutputStream;
+import com.keepassdroid.stream.NullOutputStream;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -37,34 +48,20 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.keepassdroid.crypto.CipherFactory;
-import com.keepassdroid.database.PwDatabaseV3;
-import com.keepassdroid.database.PwDbHeader;
-import com.keepassdroid.database.PwDbHeaderV3;
-import com.keepassdroid.database.PwEncryptionAlgorithm;
-import com.keepassdroid.database.PwEntryV3;
-import com.keepassdroid.database.PwGroup;
-import com.keepassdroid.database.PwGroupV3;
-import com.keepassdroid.database.exception.PwDbOutputException;
-import com.keepassdroid.stream.LEDataOutputStream;
-import com.keepassdroid.stream.NullOutputStream;
-
 public class PwDbV3Output extends PwDbOutput {
 	private PwDatabaseV3 mPM;
 	private byte[] headerHashBlock;
 	
 	public PwDbV3Output(PwDatabaseV3 pm, OutputStream os) {
 		super(os);
-		
 		mPM = pm;
-
 	}
 
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
 			PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
-			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.numKeyEncRounds);
-			return mPM.finalKey;
+			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumKeyEncRounds());
+			return mPM.getFinalKey();
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
 		}
@@ -80,9 +77,9 @@ public class PwDbV3Output extends PwDbOutput {
 		
 		Cipher cipher;
 		try {
-			if (mPM.algorithm == PwEncryptionAlgorithm.Rjindal) {
+			if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
-			} else if (mPM.algorithm == PwEncryptionAlgorithm.Twofish){
+			} else if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish){
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
 			} else {
 				throw new Exception();
@@ -130,18 +127,18 @@ public class PwDbV3Output extends PwDbOutput {
 		header.signature2 = PwDbHeaderV3.DBSIG_2;
 		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
-		if ( mPM.getEncAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+		if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
 			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
-		} else if ( mPM.getEncAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
+		} else if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;
 		} else {
 			throw new PwDbOutputException("Unsupported algorithm.");
 		}
 		
 		header.version = PwDbHeaderV3.DBVER_DW;
-		header.numGroups = mPM.getGroups().size();
-		header.numEntries = mPM.entries.size();
-		header.numKeyEncRounds = mPM.getNumKeyEncRecords();
+		header.numGroups = mPM.numberOfGroups();
+		header.numEntries = mPM.numberOfEntries();
+		header.numKeyEncRounds = mPM.getNumKeyEncRounds();
 		
 		setIVs(header);
 		
@@ -220,9 +217,9 @@ public class PwDbV3Output extends PwDbOutput {
 		}
 		
 		// Groups
-		List<PwGroup> groups = mPM.getGroups();
+		List<PwGroupV3> groups = mPM.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
-			PwGroupV3 pg = (PwGroupV3) groups.get(i);
+			PwGroupV3 pg = groups.get(i);
 			PwGroupOutputV3 pgo = new PwGroupOutputV3(pg, os);
 			try {
 				pgo.output();
@@ -232,8 +229,8 @@ public class PwDbV3Output extends PwDbOutput {
 		}
 		
 		// Entries
-		for (int i = 0; i < mPM.entries.size(); i++ ) {
-			PwEntryV3 pe = (PwEntryV3) mPM.entries.get(i);
+		for (int i = 0; i < mPM.numberOfEntries(); i++ ) {
+			PwEntryV3 pe = (PwEntryV3) mPM.getEntryAt(i);
 			PwEntryOutputV3 peo = new PwEntryOutputV3(pe, os);
 			try {
 				peo.output();
@@ -244,24 +241,24 @@ public class PwDbV3Output extends PwDbOutput {
 	}
 	
 	private void sortGroupsForOutput() {
-		List<PwGroup> groupList = new ArrayList<PwGroup>();
+		List<PwGroupV3> groupList = new ArrayList<>();
 		
 		// Rebuild list according to coalation sorting order removing any orphaned groups
-		List<PwGroup> roots = mPM.getGrpRoots();
+		List<PwGroupV3> roots = mPM.getGrpRoots();
 		for ( int i = 0; i < roots.size(); i++ ) {
-			sortGroup((PwGroupV3) roots.get(i), groupList);
+			sortGroup(roots.get(i), groupList);
 		}
 		
 		mPM.setGroups(groupList);
 	}
 	
-	private void sortGroup(PwGroupV3 group, List<PwGroup> groupList) {
+	private void sortGroup(PwGroupV3 group, List<PwGroupV3> groupList) {
 		// Add current tree
 		groupList.add(group);
 		
 		// Recurse over children
 		for ( int i = 0; i < group.numbersOfChildGroups(); i++ ) {
-			sortGroup((PwGroupV3) group.getChildGroupAt(i), groupList);
+			sortGroup(group.getChildGroupAt(i), groupList);
 		}
 	}
 	

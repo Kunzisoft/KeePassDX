@@ -1,7 +1,6 @@
 package com.keepassdroid.settings;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.Preference;
@@ -40,7 +39,7 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         preference = findPreference(getString(R.string.db_key));
         preference.setOnPreferenceClickListener(this);
         Database db = App.getDB();
-        if (!(db.Loaded())) {
+        if (!(db.getLoaded())) {
             preference.setEnabled(false);
         }
     }

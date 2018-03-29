@@ -272,8 +272,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 setPreferencesFromResource(R.xml.db_preferences, rootKey);
 
                 Database db = App.getDB();
-                if (db.Loaded()) {
-                    if (db.pm.algorithmSettingsEnabled()) {
+                if (db.getLoaded()) {
+                    if (db.getPwDatabase().algorithmSettingsEnabled()) {
 
                         Preference roundPref = findPreference(getString(R.string.rounds_key));
                         roundPref.setEnabled(true);
@@ -291,11 +291,11 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         setAlgorithm(db, algorithmPref);
                     }
 
-                    if (db.pm.isRecycleBinAvailable()) {
+                    if (db.isRecycleBinAvailabledAndEnabled()) {
                         SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
                         // TODO Recycle
                         //recycleBinPref.setEnabled(true);
-                        recycleBinPref.setChecked(db.pm.isRecycleBinEnable());
+                        recycleBinPref.setChecked(db.isRecycleBinAvailabledAndEnabled());
                     }
 
                 } else {
@@ -324,12 +324,12 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
     }
 
     private void setRounds(Database db, Preference rounds) {
-        rounds.setSummary(Long.toString(db.pm.getNumRounds()));
+        rounds.setSummary(Long.toString(db.getPwDatabase().getNumRounds()));
     }
 
     private void setAlgorithm(Database db, Preference algorithm) {
         int resId;
-        if ( db.pm.getEncAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+        if ( db.getPwDatabase().getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
             resId = R.string.rijndael;
         } else  {
             resId = R.string.twofish;
