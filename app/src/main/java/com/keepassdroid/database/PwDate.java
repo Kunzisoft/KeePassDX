@@ -44,11 +44,9 @@ public class PwDate implements Cloneable, Serializable {
 	private byte[] cDate;
 
     public static final Date NEVER_EXPIRE = getNeverExpire();
-    public static final Date NEVER_EXPIRE_BUG = getNeverExpireBug();
-
     public static final Date DEFAULT_DATE = getDefaultDate();
+
     public static final PwDate PW_NEVER_EXPIRE = new PwDate(NEVER_EXPIRE);
-    public static final PwDate PW_NEVER_EXPIRE_BUG = new PwDate(NEVER_EXPIRE_BUG);
     public static final PwDate DEFAULT_PWDATE = new PwDate(DEFAULT_DATE);
 
     private static Date getDefaultDate() {
@@ -68,24 +66,6 @@ public class PwDate implements Cloneable, Serializable {
         cal.set(Calendar.YEAR, 2999);
         cal.set(Calendar.MONTH, 11);
         cal.set(Calendar.DAY_OF_MONTH, 28);
-        cal.set(Calendar.HOUR, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-
-        return cal.getTime();
-    }
-
-    /** This date was was accidentally being written
-     *  out when an entry was supposed to be marked as
-     *  expired. We'll use this to silently correct those
-     *  entries.
-     * @return
-     */
-    private static Date getNeverExpireBug() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2999);
-        cal.set(Calendar.MONTH, 11);
-        cal.set(Calendar.DAY_OF_MONTH, 30);
         cal.set(Calendar.HOUR, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);

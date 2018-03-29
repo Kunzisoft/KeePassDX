@@ -37,7 +37,7 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();
     protected PwDate lastAccess = new PwDate();
-    protected PwDate expireDate = new PwDate(NEVER_EXPIRE);
+    protected PwDate expireDate = PW_NEVER_EXPIRE;
 
     protected void construct(Parent parent) {
         this.parent = parent;
@@ -151,7 +151,8 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
     }
 
     public boolean expires() {
-        return ! PwDate.IsSameDate(NEVER_EXPIRE, expireDate.getDate());
+        return expireDate.getDate().equals(NEVER_EXPIRE)
+                || expireDate.getDate().after(NEVER_EXPIRE);
     }
 
     /**
