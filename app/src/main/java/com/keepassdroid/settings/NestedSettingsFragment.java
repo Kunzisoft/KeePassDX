@@ -20,8 +20,8 @@
 package com.keepassdroid.settings;
 
 import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
@@ -39,10 +39,11 @@ import android.util.Log;
 import android.view.autofill.AutofillManager;
 import android.widget.Toast;
 
-import com.keepassdroid.database.Database;
-import com.keepassdroid.dialogs.UnavailableFeatureDialogFragment;
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwEncryptionAlgorithm;
+import com.keepassdroid.dialogs.StorageAccessFrameworkDialog;
+import com.keepassdroid.dialogs.UnavailableFeatureDialogFragment;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
 import com.keepassdroid.stylish.Stylish;
 import com.kunzisoft.keepass.R;
@@ -109,6 +110,25 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     }
                     if (!value) {
                         App.getFileHistory().deleteAll();
+                    }
+                    return true;
+                });
+
+                SwitchPreference storageAccessFramework = (SwitchPreference) findPreference(getString(R.string.saf_key));
+                storageAccessFramework.setOnPreferenceChangeListener((preference, newValue) -> {
+                    Boolean value = (Boolean) newValue;
+                    if (!value && getContext() != null) {
+                        StorageAccessFrameworkDialog safDialog = new StorageAccessFrameworkDialog(getContext());
+                        safDialog.setButton(AlertDialog.BUTTON1, getText(android.R.string.ok),
+                                (dialog, which) -> {
+                                    dialog.dismiss();
+                                });
+                        safDialog.setButton(AlertDialog.BUTTON2, getText(android.R.string.cancel),
+                                (dialog, which) -> {
+                                    storageAccessFramework.setChecked(true);
+                                    dialog.dismiss();
+                                });
+                        safDialog.show();
                     }
                     return true;
                 });
