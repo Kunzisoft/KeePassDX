@@ -317,7 +317,8 @@ public class EntryEditActivity extends LockingHideActivity
 		ImageButton currIconButton = findViewById(R.id.icon_button);
 		App.getDB().getDrawFactory().assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
 
-        mEntry.startToManageFieldReferences(App.getDB().getPwDatabase());
+		// Don't start the field reference manager, we want to see the raw ref
+        mEntry.endToManageFieldReferences();
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());
@@ -344,8 +345,6 @@ public class EntryEditActivity extends LockingHideActivity
                 container.addView(entryEditNewField);
             });
         }
-
-        mEntry.endToManageFieldReferences();
 	}
 
     @Override

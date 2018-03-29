@@ -147,6 +147,7 @@ public class EntryActivity extends LockingHideActivity {
         fillData();
         invalidateOptionsMenu();
 
+        // Start to manage field reference to copy a value from ref
         mEntry.startToManageFieldReferences(App.getDB().getPwDatabase());
 
         // If notifications enabled in settings
