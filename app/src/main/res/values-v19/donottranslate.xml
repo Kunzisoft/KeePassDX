@@ -18,5 +18,5 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <bool name="settings_saf_default">true</bool>
+    <bool name="settings_saf_default" translatable="false">true</bool>
 </resources>

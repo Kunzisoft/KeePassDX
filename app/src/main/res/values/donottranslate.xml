@@ -58,32 +58,32 @@
     <string name="setting_style_key" translatable="false">setting_style_key</string>
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
-    <string name="fingerprint_enable_key" translatable="true">fingerprint_enable_key</string>
+    <string name="fingerprint_enable_key" translatable="false">fingerprint_enable_key</string>
     <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
     <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
-    <string name="full_file_path_enable_key" translatable="true">full_file_path_enable_key</string>
-    <string name="fingerprint_delete_all_key" translatable="true">fingerprint_delete_all_key</string>
-    <string name="recycle_bin_key" translatable="true">recycle_bin_key</string>
-    <string name="monospace_font_fields_enable_key" translatable="true">monospace_font_extra_fields_enable_key</string>
-    <string name="auto_open_file_uri_key" translatable="true">auto_open_file_uri_key</string>
+    <string name="full_file_path_enable_key" translatable="false">full_file_path_enable_key</string>
+    <string name="fingerprint_delete_all_key" translatable="false">fingerprint_delete_all_key</string>
+    <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
+    <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
+    <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
     <bool name="omitbackup_default" translatable="false">true</bool>
     <bool name="recentfile_default" translatable="false">true</bool>
-    <bool name="saf_default" translatable="false">false</bool>
+    <bool name="settings_saf_default" translatable="false">false</bool>
     <bool name="clipboard_notifications_default" translatable="false">true</bool>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
-    <bool name="fingerprint_enable_default" translatable="true">false</bool>
+    <bool name="fingerprint_enable_default" translatable="false">false</bool>
     <bool name="settings_autofill_enable_default" translatable="false">false</bool>
-    <bool name="full_file_path_enable_default" translatable="true">false</bool>
-    <bool name="sort_group_before_default" translatable="true">true</bool>
-    <bool name="sort_ascending_default" translatable="true">true</bool>
-    <bool name="sort_recycle_bin_bottom_default" translatable="true">true</bool>
-    <bool name="monospace_font_fields_enable_default" translatable="true">true</bool>
-    <bool name="auto_open_file_uri_default" translatable="true">true</bool>
-    <bool name="allow_copy_password_default" translatable="true">true</bool> <!-- TODO To change after implementing the way to enter password < O -->
+    <bool name="full_file_path_enable_default" translatable="false">false</bool>
+    <bool name="sort_group_before_default" translatable="false">true</bool>
+    <bool name="sort_ascending_default" translatable="false">true</bool>
+    <bool name="sort_recycle_bin_bottom_default" translatable="false">true</bool>
+    <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
+    <bool name="auto_open_file_uri_default" translatable="false">true</bool>
+    <bool name="allow_copy_password_default" translatable="false">true</bool> <!-- TODO To change after implementing the way to enter password < O -->
 
     <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string-array name="clipboard_timeout_values">
