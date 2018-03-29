@@ -30,8 +30,10 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -57,6 +59,9 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
     private String extension;
 
     private Uri uriPath;
+
+    private Button positiveButton;
+    private Button negativeButton;
 
     public interface DefinePathDialogListener {
         boolean onDefinePathDialogPositiveClick(Uri pathFile);
@@ -88,10 +93,40 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
                 .setPositiveButton(android.R.string.ok, (dialog, id) -> {})
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {});
 
+        // To prevent crash issue #69 https://github.com/Kunzisoft/KeePassDX/issues/69
+        ActionMode.Callback actionCopyBarCallback = new ActionMode.Callback() {
+
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                if (positiveButton != null && negativeButton != null) {
+                    positiveButton.setEnabled(false);
+                    negativeButton.setEnabled(false);
+                }
+                return true;
+            }
+
+            public void onDestroyActionMode(ActionMode mode) {
+                if (positiveButton != null && negativeButton != null) {
+                    positiveButton.setEnabled(true);
+                    negativeButton.setEnabled(true);
+                }
+            }
+
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                return true;
+            }
+
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return true;
+            }
+        };
+
         // Folder selection
         View browseView = rootView.findViewById(R.id.browse_button);
         folderPathView = rootView.findViewById(R.id.folder_path);
+        folderPathView.setCustomSelectionActionModeCallback(actionCopyBarCallback);
         fileNameView = rootView.findViewById(R.id.filename);
+        fileNameView.setCustomSelectionActionModeCallback(actionCopyBarCallback);
+
         String defaultPath = Environment.getExternalStorageDirectory().getPath()
                 + getString(R.string.database_file_path_default);
         folderPathView.setText(defaultPath);
@@ -122,15 +157,14 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
         AlertDialog dialog = builder.create();
 
         dialog.setOnShowListener(dialog1 -> {
-            Button positiveButton = ((AlertDialog) dialog1).getButton(DialogInterface.BUTTON_POSITIVE);
+            positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
             positiveButton.setOnClickListener(v -> {
                 if(mListener.onDefinePathDialogPositiveClick(buildPath()))
                     dismiss();
             });
-            Button negativeButton = ((AlertDialog) dialog1).getButton(DialogInterface.BUTTON_NEGATIVE);
             negativeButton.setOnClickListener(v -> {
                 if(mListener.onDefinePathDialogNegativeClick(buildPath())) {
-                    // issue #69 https://github.com/Kunzisoft/KeePassDX/issues/69
                     dismiss();
                 }
             });
