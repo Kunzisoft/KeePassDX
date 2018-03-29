@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 
-public class SearchDbHelper<PwDatabaseVersion extends PwDatabase,
+public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, PwEntrySearch>,
 		PwGroupSearch extends PwGroup<PwGroupSearch, PwGroupSearch, PwEntrySearch>,
 		PwEntrySearch extends PwEntry<PwGroupSearch>> {
 	
@@ -59,7 +59,7 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase,
 	
 	public PwGroupSearch search(PwDatabaseVersion pm, String qStr) {
 
-		PwGroupSearch group = (PwGroupSearch) pm.createGroup();
+		PwGroupSearch group = pm.createGroup();
 		group.setName(mCtx.getString(R.string.search_results));
 		group.setEntries(new ArrayList<>());
 		
@@ -70,7 +70,7 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase,
 		
 		Queue<PwGroupSearch> worklist = new LinkedList<>();
 		if (pm.getRootGroup() != null) {
-			worklist.add((PwGroupSearch) pm.getRootGroup());
+			worklist.add(pm.getRootGroup());
 		}
 		
 		while (worklist.size() != 0) {
@@ -92,7 +92,7 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase,
 		return group;
 	}
 	
-	public void processEntries(PwEntrySearch entry, List<PwEntrySearch> results, String qStr, Locale loc) {
+	private void processEntries(PwEntrySearch entry, List<PwEntrySearch> results, String qStr, Locale loc) {
 		// Search all strings in the entry
 		Iterator<String> iter = entry.stringIterator();
 		while (iter.hasNext()) {

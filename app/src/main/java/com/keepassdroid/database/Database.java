@@ -179,29 +179,42 @@ public class Database {
 
         pm = imp.openDatabase(bis, password, kfIs, status, roundsFix);
         if ( pm != null ) {
-            PwGroup root = pm.getRootGroup();
-            pm.populateGlobals(root);
-            loadData(ctx, pm, password);
+            try {
+                switch (pm.getVersion()) {
+                    case V3:
+                        PwGroupV3 rootV3 = ((PwDatabaseV3) pm).getRootGroup();
+                        ((PwDatabaseV3) pm).populateGlobals(rootV3);
+                        passwordEncodingError = !pm.validatePasswordEncoding(password);
+                        searchHelper = new SearchDbHelper.SearchDbHelperV3(ctx);
+                        break;
+                    case V4:
+                        PwGroupV4 rootV4 = ((PwDatabaseV4) pm).getRootGroup();
+                        ((PwDatabaseV4) pm).populateGlobals(rootV4);
+                        passwordEncodingError = !pm.validatePasswordEncoding(password);
+                        searchHelper = new SearchDbHelper.SearchDbHelperV4(ctx);
+                        break;
+                }
+                loaded = true;
+            } catch (Exception e) {
+                Log.e(TAG, "Load can't be performed with this Database version", e);
+                loaded = false;
+            }
         }
-        loaded = true;
     }
 
-    public void loadData(Context ctx, PwDatabase pm, String password) {
-        passwordEncodingError = !pm.validatePasswordEncoding(password);
-        switch (pm.getVersion()) {
-            case V3:
-                searchHelper = new SearchDbHelper.SearchDbHelperV3(ctx);
-                break;
-            case V4:
-                searchHelper = new SearchDbHelper.SearchDbHelperV4(ctx);
-                break;
-        }
-        loaded = true;
-    }
-
-    public PwGroup Search(String str) {
+    public PwGroup search(String str) {
         if (searchHelper == null) { return null; }
-        return searchHelper.search(this.pm, str);
+        try {
+            switch (pm.getVersion()) {
+                case V3:
+                    return ((SearchDbHelper.SearchDbHelperV3) searchHelper).search(((PwDatabaseV3) pm), str);
+                case V4:
+                    return ((SearchDbHelper.SearchDbHelperV4) searchHelper).search(((PwDatabaseV4) pm), str);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Search can't be performed with this SearchHelper", e);
+        }
+        return null;
     }
 
     public void SaveData(Context ctx) throws IOException, PwDbOutputException {
