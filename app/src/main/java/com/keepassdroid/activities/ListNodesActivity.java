@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.activities;
 
+import android.annotation.SuppressLint;
+import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -38,6 +40,7 @@ import android.widget.TextView;
 
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
+import com.keepassdroid.autofill.AutofillHelper;
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
@@ -65,6 +68,8 @@ public abstract class ListNodesActivity extends LockingActivity
 	
 	private SharedPreferences prefs;
 
+    protected AutofillHelper autofillHelper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,6 +95,11 @@ public abstract class ListNodesActivity extends LockingActivity
 
         mAdapter = new NodeAdapter(this);
         addOptionsToAdapter(mAdapter);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            autofillHelper = new AutofillHelper();
+            autofillHelper.retrieveAssistStructure(getIntent());
+        }
 	}
 
     protected abstract PwGroup initCurrentGroup();
@@ -111,7 +121,7 @@ public abstract class ListNodesActivity extends LockingActivity
 	protected void setGroupTitle() {
 		if ( mCurrentGroup != null ) {
 			String name = mCurrentGroup.getName();
-            TextView tv = (TextView) findViewById(R.id.group_name);
+            TextView tv = findViewById(R.id.group_name);
 			if ( name != null && name.length() > 0 ) {
 				if ( tv != null ) {
 					tv.setText(name);
@@ -133,14 +143,35 @@ public abstract class ListNodesActivity extends LockingActivity
 
     @Override
     public void onNodeClick(PwNode node) {
-		mAdapter.registerANodeToUpdate(node);
-        switch (node.getType()) {
-            case GROUP:
-                GroupActivity.launch(this, (PwGroup) node);
-                break;
-            case ENTRY:
-                EntryActivity.launch(this, (PwEntry) node);
-                break;
+
+        mAdapter.registerANodeToUpdate(node);
+
+        // Add event when we have Autofill
+        AssistStructure assistStructure = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            assistStructure = autofillHelper.getAssistStructure();
+            if (assistStructure != null) {
+                switch (node.getType()) {
+                    case GROUP:
+                        GroupActivity.launch(this, (PwGroup) node, assistStructure);
+                        break;
+                    case ENTRY:
+                        // Build response with the entry selected
+                        autofillHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
+                        finish();
+                        break;
+                }
+            }
+        }
+        if ( assistStructure == null ){
+            switch (node.getType()) {
+                case GROUP:
+                    GroupActivity.launch(this, (PwGroup) node);
+                    break;
+                case ENTRY:
+                    EntryActivity.launch(this, (PwEntry) node);
+                    break;
+            }
         }
     }
 
@@ -228,6 +259,7 @@ public abstract class ListNodesActivity extends LockingActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
@@ -246,9 +278,14 @@ public abstract class ListNodesActivity extends LockingActivity
                 }
                 break;
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+        }
     }
 
-	@Override
+	@SuppressLint("RestrictedApi")
+    @Override
 	public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
 		/*
 		 * ACTION_SEARCH automatically forces a new task. This occurs when you open a kdb file in
@@ -262,7 +299,6 @@ public abstract class ListNodesActivity extends LockingActivity
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-		    // TODO BUG HERE
 			super.startActivityForResult(intent, requestCode, options);
 		}
 	}

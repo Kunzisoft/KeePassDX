@@ -75,8 +75,6 @@ public class GroupActivity extends ListNodesActivity
 	protected boolean readOnly = false;
 	protected EditGroupDialogAction editGroupDialogAction = EditGroupDialogAction.NONE;
 
-    private AutofillHelper autofillHelper;
-
     private enum EditGroupDialogAction {
 	    CREATION, UPDATE, NONE
     }
@@ -163,11 +161,6 @@ public class GroupActivity extends ListNodesActivity
 		setGroupTitle();
 		setGroupIcon();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            autofillHelper = new AutofillHelper();
-            autofillHelper.retrieveAssistStructure(getIntent());
-        }
-
         Log.w(TAG, "Finished creating tree");
 
         if (isRoot) {
@@ -203,31 +196,6 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected RecyclerView defineNodeList() {
         return (RecyclerView) findViewById(R.id.nodes_list);
-    }
-
-    @Override
-    public void onNodeClick(PwNode node) {
-        // Add event when we have Autofill
-        AssistStructure assistStructure = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            assistStructure = autofillHelper.getAssistStructure();
-            if (assistStructure != null) {
-                mAdapter.registerANodeToUpdate(node);
-                switch (node.getType()) {
-                    case GROUP:
-                        GroupActivity.launch(this, (PwGroup) node, assistStructure);
-                        break;
-                    case ENTRY:
-                        // Build response with the entry selected
-                        autofillHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
-                        finish();
-                        break;
-                }
-            }
-        }
-        if ( assistStructure == null ){
-            super.onNodeClick(node);
-        }
     }
 
     @Override
@@ -298,15 +266,6 @@ public class GroupActivity extends ListNodesActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
-        }
-    }
-
-    @Override
     public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
         super.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
         // Show button if hide after sort
@@ -362,6 +321,30 @@ public class GroupActivity extends ListNodesActivity
         }
 
         return true;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+	    boolean customSearchQueryExecuted = false;
+
+        // Get the intent, verify the action and get the query
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            // manually launch the real search activity
+            final Intent searchIntent = new Intent(getApplicationContext(), SearchResultsActivity.class);
+            // add query to the Intent Extras
+            searchIntent.putExtra(SearchManager.QUERY, query);
+            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                    && autofillHelper.getAssistStructure() != null ) {
+                AutofillHelper.addAssistStructureExtraInIntent(searchIntent, autofillHelper.getAssistStructure());
+                startActivityForResult(searchIntent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+                customSearchQueryExecuted = true;
+            }
+        }
+
+        if (!customSearchQueryExecuted) {
+            super.startActivity(intent);
+        }
     }
 
 	@Override
