@@ -34,21 +34,21 @@ import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.Util;
 import com.kunzisoft.keepass.R;
 
-public class EntryEditNewField extends RelativeLayout {
+public class EntryEditCustomField extends RelativeLayout {
 
     private TextView labelView;
     private EditText valueView;
     private CompoundButton protectionCheckView;
 
-	public EntryEditNewField(Context context) {
+	public EntryEditCustomField(Context context) {
 		this(context, null);
 	}
 	
-	public EntryEditNewField(Context context, AttributeSet attrs) {
+	public EntryEditCustomField(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 	
-	public EntryEditNewField(Context context, AttributeSet attrs, int defStyle) {
+	public EntryEditCustomField(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

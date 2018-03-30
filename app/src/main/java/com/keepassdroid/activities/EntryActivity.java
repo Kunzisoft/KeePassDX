@@ -251,7 +251,7 @@ public class EntryActivity extends LockingHideActivity {
 
 			mEntry.getFields().doActionToAllCustomProtectedField((label, value) ->
 
-                    entryContentsView.addExtraField(label, value.toString(), view ->
+                    entryContentsView.addExtraField(label, value, view ->
                         clipboardHelper.timeoutCopyToClipboard(
                                 value.toString(),
                                 getString(R.string.copy_field, label)

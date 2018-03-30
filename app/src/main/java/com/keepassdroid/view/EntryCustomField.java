@@ -26,28 +26,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.Util;
 import com.kunzisoft.keepass.R;
 
-public class EntryNewField extends LinearLayout {
+public class EntryCustomField extends LinearLayout {
 
-    private TextView labelView;
-    private TextView valueView;
-    private ImageView actionImageView;
+    protected TextView labelView;
+    protected TextView valueView;
+    protected ImageView actionImageView;
 
-	public EntryNewField(Context context) {
+	public EntryCustomField(Context context) {
 		this(context, null);
 	}
 	
-	public EntryNewField(Context context, AttributeSet attrs) {
+	public EntryCustomField(Context context, AttributeSet attrs) {
 		this(context, attrs, null, null);
 	}
 
-    public EntryNewField(Context context, AttributeSet attrs, String title, String value) {
+    public EntryCustomField(Context context, AttributeSet attrs, String title, ProtectedString value) {
         this(context, attrs, title, value, null);
     }
 
-	public EntryNewField(Context context, AttributeSet attrs, String label, String value, OnClickListener onClickActionListener) {
+	public EntryCustomField(Context context, AttributeSet attrs, String label, ProtectedString value, OnClickListener onClickActionListener) {
 		super(context, attrs);
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -74,9 +75,9 @@ public class EntryNewField extends LinearLayout {
 		}
 	}
 
-    public void setValue(String value) {
+    public void setValue(ProtectedString value) {
         if (value != null) {
-            valueView.setText(value);
+            valueView.setText(value.toString());
         }
     }
 

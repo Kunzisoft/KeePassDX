@@ -64,7 +64,6 @@ public class ExtraFields implements Serializable, Cloneable {
                 String key = pair.getKey();
                 if (isNotStandardField(key)) {
                     protectedFields.put(key, pair.getValue());
-                    // TODO Add hidden style for protection field
                 }
             }
         }

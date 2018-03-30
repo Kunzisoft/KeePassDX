@@ -136,7 +136,6 @@ public abstract class ListNodesActivity extends LockingActivity
 
 	protected void assignListToNodeAdapter(RecyclerView recyclerView) {
         recyclerView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-        // TODO mList.setTextFilterEnabled(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 	}

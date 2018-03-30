@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.Util;
 import com.kunzisoft.keepass.R;
 
@@ -151,6 +152,12 @@ public class EntryContentsView extends LinearLayout {
         } else {
             passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
+        // Hidden style for custom fields
+        for (int i = 0; i < extrasView.getChildCount(); i++) {
+            View childCustomView = extrasView.getChildAt(i);
+            if (childCustomView instanceof EntryCustomFieldProtected)
+                ((EntryCustomFieldProtected) childCustomView).setHiddenPasswordStyle(hiddenStyle);
+        }
     }
 
     public void assignURL(String url) {
@@ -173,10 +180,14 @@ public class EntryContentsView extends LinearLayout {
         }
     }
 
-    public void addExtraField(String title, String value, OnClickListener onActionClickListener) {
-        EntryNewField entryNewField = new EntryNewField(getContext(), null, title, value, onActionClickListener);
-        entryNewField.applyFontVisibility(fontInVisibility);
-        extrasView.addView(entryNewField);
+    public void addExtraField(String title, ProtectedString value, OnClickListener onActionClickListener) {
+        EntryCustomField entryCustomField;
+	    if (value.isProtected())
+	        entryCustomField = new EntryCustomFieldProtected(getContext(), null, title, value, onActionClickListener);
+	    else
+	        entryCustomField = new EntryCustomField(getContext(), null, title, value, onActionClickListener);
+        entryCustomField.applyFontVisibility(fontInVisibility);
+        extrasView.addView(entryCustomField);
     }
 
     public void clearExtraFields() {

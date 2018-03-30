@@ -57,7 +57,7 @@ import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
-import com.keepassdroid.view.EntryEditNewField;
+import com.keepassdroid.view.EntryEditCustomField;
 import com.kunzisoft.keepass.R;
 
 import java.util.UUID;
@@ -201,7 +201,7 @@ public class EntryEditActivity extends LockingHideActivity
             View add = findViewById(R.id.add_new_field);
             add.setVisibility(View.VISIBLE);
             add.setOnClickListener(v -> {
-                EntryEditNewField ees = new EntryEditNewField(EntryEditActivity.this);
+                EntryEditCustomField ees = new EntryEditCustomField(EntryEditActivity.this);
                 ees.setData("", new ProtectedString(false, ""));
                 entryExtraFieldsContainer.addView(ees);
 
@@ -230,8 +230,8 @@ public class EntryEditActivity extends LockingHideActivity
 		// Validate extra fields
         if (mEntry.allowExtraFields()) {
             for (int i = 0; i < entryExtraFieldsContainer.getChildCount(); i++) {
-                EntryEditNewField entryEditNewField = (EntryEditNewField) entryExtraFieldsContainer.getChildAt(i);
-                String key = entryEditNewField.getLabel();
+                EntryEditCustomField entryEditCustomField = (EntryEditCustomField) entryExtraFieldsContainer.getChildAt(i);
+                String key = entryEditCustomField.getLabel();
                 if (key == null || key.length() == 0) {
                     Toast.makeText(this, R.string.error_string_key, Toast.LENGTH_LONG).show();
                     return false;
@@ -277,7 +277,7 @@ public class EntryEditActivity extends LockingHideActivity
             newEntry.removeAllCustomFields();
             // Add extra fields from views
             for (int i = 0; i < entryExtraFieldsContainer.getChildCount(); i++) {
-                EntryEditNewField view = (EntryEditNewField) entryExtraFieldsContainer.getChildAt(i);
+                EntryEditCustomField view = (EntryEditCustomField) entryExtraFieldsContainer.getChildAt(i);
                 String key = view.getLabel();
                 String value = view.getValue();
                 boolean protect = view.isProtected();
@@ -339,10 +339,10 @@ public class EntryEditActivity extends LockingHideActivity
 		if (mEntry.allowExtraFields()) {
             LinearLayout container = findViewById(R.id.advanced_container);
             mEntry.getFields().doActionToAllCustomProtectedField((key, value) -> {
-                EntryEditNewField entryEditNewField = new EntryEditNewField(EntryEditActivity.this);
-                entryEditNewField.setData(key, value);
-                entryEditNewField.setFontVisibility(visibilityFontActivated);
-                container.addView(entryEditNewField);
+                EntryEditCustomField entryEditCustomField = new EntryEditCustomField(EntryEditActivity.this);
+                entryEditCustomField.setData(key, value);
+                entryEditCustomField.setFontVisibility(visibilityFontActivated);
+                container.addView(entryEditCustomField);
             });
         }
 	}
