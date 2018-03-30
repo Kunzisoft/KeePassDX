@@ -157,7 +157,7 @@
     <string name="warning_unmounted">Η κάρτα SD δεν είναι προσαρμοσμένη αυτή τη στιγμή στη συσκευή σας. Δεν θα μπορείτε να φορτώσετε ή να δημιουργήσετε τη βάση δεδομένων σας.</string>
     <string name="version_label">Έκδοση:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 δευτερόλεπτα</item>
     	<item>10 δευτερόλεπτα</item>
     	<item>20 δευτερόλεπτα</item>

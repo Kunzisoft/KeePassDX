@@ -155,7 +155,7 @@
     <string name="warning_unmounted">SD-korttia ei löydy. Et voi ladata tai tallentaa salasanatietokantaa.</string>
     <string name="version_label">Versio:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 sekuntia</item>
     	<item>10 sekuntia</item>
     	<item>20 sekuntia</item>

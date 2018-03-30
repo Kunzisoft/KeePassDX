@@ -154,7 +154,7 @@
     <string name="warning_unmounted">SD-kortet är för närvarande inte monterat på enheten. Du kan inte skapa/ladda databasen.</string>
     <string name="version_label">Version:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 sekunder</item>
     	<item>10 sekunder</item>
     	<item>20 sekunder</item>

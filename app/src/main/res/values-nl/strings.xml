@@ -142,7 +142,7 @@
     <string name="warning_unmounted">Uw sd-card is momenteel ontkoppeld. U zult geen database kunnen openen of aanmaken.</string>
     <string name="version_label">Versie:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
         <item>5 seconden</item>
         <item>10 seconden</item>
         <item>20 seconden</item>

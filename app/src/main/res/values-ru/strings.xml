@@ -163,7 +163,7 @@
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна</string>
     <string name="version_label">Версия:</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
        <item>5 сек.</item>
        <item>10 сек.</item>
        <item>20 сек.</item>

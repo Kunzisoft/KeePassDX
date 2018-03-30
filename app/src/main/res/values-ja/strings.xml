@@ -140,7 +140,7 @@
     <string name="warning_unmounted">SDカードがマウントされていません。データベースの読込や作成ができません。</string>
     <string name="version_label">バージョン:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5秒</item>
     	<item>10秒</item>
     	<item>20秒</item>

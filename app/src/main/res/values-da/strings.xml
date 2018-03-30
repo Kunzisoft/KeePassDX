@@ -159,7 +159,7 @@
     <string name="warning_unmounted">Dit hukommelseskort er ikke monteret i din enhed. Du vil ikke være i stand til at indlæse eller oprette din database.</string>
     <string name="version_label">Version:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 sekunder</item>
     	<item>10 sekunder</item>
     	<item>20 sekunder</item>

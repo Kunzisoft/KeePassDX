@@ -157,7 +157,7 @@
     <string name="warning_unmounted">Une honetan zure sd txartela ez dago montatua zure dispositiboan. Ezingo duzu zure datubasea kargatu edo sortu.</string>
     <string name="version_label">Bertsioa:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 segundu</item>
     	<item>10 segundu</item>
     	<item>20 segundu</item>

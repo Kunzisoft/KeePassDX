@@ -140,7 +140,7 @@
     <string name="warning_unmounted">Ваша карта пам’яті зараз не змонтована на телефоні. Ви не зможете завантажити або створити базу даних.</string>
     <string name="version_label">Версія:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 секунд</item>
     	<item>10 секунд</item>
     	<item>20 секунд</item>

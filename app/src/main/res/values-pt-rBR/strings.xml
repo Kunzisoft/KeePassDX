@@ -143,7 +143,7 @@
     <string name="warning_unmounted">Seu cartão SD não está montado no dispositivo. Não será possível carregar ou criar um banco de dados.</string>
     <string name="version_label">Versão:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 segundos</item>
     	<item>10 segundos</item>
     	<item>20 segundos</item>

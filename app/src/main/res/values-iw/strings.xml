@@ -152,7 +152,7 @@
     <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
     <string name="version_label">גרסה:</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
         <item>5 שניות</item>
         <item>10 שניות</item>
         <item>20 שניות</item>

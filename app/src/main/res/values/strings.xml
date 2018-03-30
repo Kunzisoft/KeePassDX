@@ -249,7 +249,7 @@
     <string name="allow_copy_password_summary">Allow the copy of the password to the clipboard.</string>
     <string name="warning_disabling_storage_access_framework">WARNING : disabling this feature may result in an inability to open or save the databases</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 seconds</item>
     	<item>10 seconds</item>
     	<item>20 seconds</item>

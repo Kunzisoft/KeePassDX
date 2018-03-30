@@ -160,7 +160,7 @@
     <string name="warning_unmounted">Vaše SD karta není momentálně připojena v zařízení. Nebudete moct načíst nebo vytvořit databázi.</string>
     <string name="version_label">Verze:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 sekund</item>
     	<item>10 sekund</item>
     	<item>20 sekund</item>

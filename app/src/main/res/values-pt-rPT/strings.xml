@@ -166,7 +166,7 @@
     <string name="warning_unmounted">O cartão SD não se encontra montado no seu dispositivo. Não será possível abrir ou criar a sua base de dados.</string>
     <string name="version_label">Versão:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 segundos</item>
     	<item>10 segundos</item>
     	<item>20 segundos</item>

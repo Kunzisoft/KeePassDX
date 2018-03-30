@@ -140,7 +140,7 @@
     <string name="warning_unmounted">SD-kortet er ikkje montert i eininga di. Du kan verken henta eller laga databasen din.</string>
     <string name="version_label">Utgåve:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 sekund</item>
     	<item>10 sekund</item>
     	<item>20 sekund</item>

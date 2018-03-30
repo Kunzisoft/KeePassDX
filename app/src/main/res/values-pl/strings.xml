@@ -143,7 +143,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="warning_read_only">Karta SD jest obecnie w trybie tylko do odczytu. Możesz nie być w stanie zapisać zmian w bazie danych.</string>
     <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
      <item>5 sekund</item>
      <item>10 sekund</item>
      <item>20 sekund</item>

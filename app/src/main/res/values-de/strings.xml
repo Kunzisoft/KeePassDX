@@ -172,7 +172,7 @@
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
       <item>5 Sekunden</item>
       <item>10 Sekunden</item>
       <item>20 Sekunden</item>

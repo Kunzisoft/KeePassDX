@@ -144,7 +144,7 @@
     <string name="warning_unmounted">La teva tarja SD no està muntada al teu dispositiu. No podràs carregar ni guardar una base de dades.</string>
     <string name="version_label">Versió:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 segons</item>
     	<item>10 segons</item>
     	<item>20 segons</item>

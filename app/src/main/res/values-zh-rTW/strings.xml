@@ -136,7 +136,7 @@
     <string name="warning_read_only">你的SD卡目前是唯讀狀態。您可能無法將更改保存到資料庫。</string>
     <string name="warning_unmounted">你的SD卡目前尚未安裝在您的設備上。你將無法載入或創建您的資料庫。</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5秒</item>
     	<item>10秒</item>
     	<item>20秒</item>

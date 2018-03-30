@@ -248,7 +248,7 @@
     <string name="allow_copy_password_summary">Autoriser la copie du mot de passe dans le presse-papiers.</string>
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 secondes</item>
     	<item>10 secondes</item>
     	<item>20 secondes</item>

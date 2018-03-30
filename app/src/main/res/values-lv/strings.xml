@@ -135,7 +135,7 @@
     <string name="warning_unmounted">Nav SD kartes. Darbības ar datu bāzi nav iespējamas.</string>
     <string name="version_label">Versija:</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
         <item>5 sekundes</item>
         <item>10 sekundes</item>
         <item>20 sekundes</item>

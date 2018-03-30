@@ -166,7 +166,7 @@
     <string name="store_with_fingerprint">Használjon ujjlenyomatot a jelszó elmentéséhez</string>
     <string name="no_password_stored">Nincs még jelszó beállítva ehhez az adatbázishoz</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
         <item>5 másodperc</item>
         <item>10 másodperc</item>
         <item>20 másodperc</item>
