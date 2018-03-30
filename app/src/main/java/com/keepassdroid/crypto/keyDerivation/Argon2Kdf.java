@@ -63,6 +63,11 @@ public class Argon2Kdf extends KdfEngine {
     }
 
     @Override
+    public String getName() {
+        return "Argon2";
+    }
+
+    @Override
     public KdfParameters getDefaultParameters() {
         KdfParameters p = super.getDefaultParameters();
 

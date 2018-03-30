@@ -21,6 +21,7 @@ package com.keepassdroid.database;
 
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
+import com.keepassdroid.crypto.keyDerivation.KdfEngine;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.KeyFileEmptyException;
 import com.keepassdroid.stream.NullOutputStream;
@@ -43,6 +44,9 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         PwEntryDB extends PwEntry<PwGroupDB>> {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
+
+    // Algorithm used to encrypt the database
+    protected PwEncryptionAlgorithm algorithm;
 
     protected byte masterKey[] = new byte[32];
     protected byte[] finalKey;
@@ -277,9 +281,17 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
 
     public abstract void setNumRounds(long rounds) throws NumberFormatException;
 
-    public abstract boolean algorithmSettingsEnabled();
+    public PwEncryptionAlgorithm getEncryptionAlgorithm() {
+        if (algorithm != null)
+            return algorithm;
+        return PwEncryptionAlgorithm.AES_Rijndael;
+    }
 
-    public abstract PwEncryptionAlgorithm getEncryptionAlgorithm();
+    public void setEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public abstract String getKeyDerivationName();
 
     public abstract List<PwGroupDB> getGrpRoots();
 

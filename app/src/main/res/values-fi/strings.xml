@@ -24,7 +24,7 @@
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
-    <string name="algorithm">Algoritmi</string>
+    <string name="encryption_algorithm">Algoritmi</string>
     <string name="app_timeout">Ohjelman aikakatkaisu</string>
     <string name="app_timeout_summary">Aika, jonka jälkeen KeePass lukitaan jos se on ollut toimeton.</string>
     <string name="application">Ohjelma</string>

@@ -27,7 +27,7 @@
     <string name="accept">Přijat</string>
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>
-    <string name="algorithm">Algoritmus</string>
+    <string name="encryption_algorithm">Algoritmus</string>
     <string name="app_timeout">Časový limit aplikace</string>
     <string name="app_timeout_summary">Čas před zamknutím databáze, když je aplikace neaktivní.</string>
     <string name="application">Aplikace</string>

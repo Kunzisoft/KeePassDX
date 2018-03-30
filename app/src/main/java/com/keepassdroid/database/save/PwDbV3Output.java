@@ -77,7 +77,7 @@ public class PwDbV3Output extends PwDbOutput {
 		
 		Cipher cipher;
 		try {
-			if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal) {
+			if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 			} else if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish){
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
@@ -127,7 +127,7 @@ public class PwDbV3Output extends PwDbOutput {
 		header.signature2 = PwDbHeaderV3.DBSIG_2;
 		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
-		if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+		if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
 		} else if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;

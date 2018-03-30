@@ -67,8 +67,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	private List<PwEntryV3> entries = new ArrayList<>();
 	// all groups
 	private List<PwGroupV3> groups = new ArrayList<>();
-	// Algorithm used to encrypt the database
-	private PwEncryptionAlgorithm algorithm;
+
 	private int numKeyEncRounds;
 
     private void initAndAddGroup(String name, int iconId, PwGroupV3 parent) {
@@ -80,7 +79,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
     @Override
     public void initNew(String dbPath) {
-        algorithm = PwEncryptionAlgorithm.Rjindal;
+        algorithm = PwEncryptionAlgorithm.AES_Rijndael;
         numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
         name = "KeePass Password Manager"; // TODO as resource
         // Build the root tree
@@ -96,21 +95,17 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		return PwVersion.V3;
 	}
 
-	@Override
-	public PwEncryptionAlgorithm getEncryptionAlgorithm() {
-		return algorithm;
-	}
-
-	public void setEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
-        this.algorithm = algorithm;
-    }
-
 	public int getNumKeyEncRounds() {
 		return numKeyEncRounds;
 	}
 
 	public void setNumKeyEncRounds(int numKeyEncRounds) {
         this.numKeyEncRounds = numKeyEncRounds;
+    }
+
+    @Override
+    public String getKeyDerivationName() {
+        return "AES";
     }
 
 	@Override
@@ -288,11 +283,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 			throw new NumberFormatException();
 		}
 		numKeyEncRounds = (int) rounds;
-	}
-
-	@Override
-	public boolean algorithmSettingsEnabled() {
-		return true;
 	}
 
 	@Override

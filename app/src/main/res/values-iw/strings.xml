@@ -25,7 +25,7 @@
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
     <string name="add_group">הוסף קבוצה</string>
-    <string name="algorithm">אלגוריתם</string>
+    <string name="encryption_algorithm">אלגוריתם</string>
     <string name="app_timeout">פסק זמן ליישום</string>
     <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל.</string>
     <string name="application">יישום</string>

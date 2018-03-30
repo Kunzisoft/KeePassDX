@@ -27,7 +27,9 @@
     <string name="add_entry">Add entry</string>
     <string name="add_group">Add group</string>
     <string name="add_string">Add string</string>
-    <string name="algorithm">Algorithm</string>
+    <string name="encryption">Encryption</string>
+    <string name="encryption_algorithm">Encryption Algorithm</string>
+    <string name="key_derivation_function">Key Derivation Function</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
@@ -174,6 +176,7 @@
     <string name="search">Search</string>
     <string name="search_results">Search results</string>
     <string name="twofish">Twofish</string>
+    <string name="chacha20">ChaCha20</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>

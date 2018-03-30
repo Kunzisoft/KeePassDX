@@ -67,9 +67,10 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private UUID dataCipher = AesEngine.CIPHER_UUID;
 	private CipherEngine dataEngine = new AesEngine();
 	private PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
+	private KdfEngine kdfEngine;
 
 	// TODO: Refactor me away to get directly from kdfParameters
-    private long numKeyEncRounds = 6000;
+    private long numKeyEncRounds = DEFAULT_ROUNDS;
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
     private String description = "";
@@ -123,6 +124,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     public void setDataEngine(CipherEngine dataEngine) {
         this.dataEngine = dataEngine;
+        this.algorithm = dataEngine.getPwEncryptionAlgorithm();
     }
 
     public PwCompressionAlgorithm getCompressionAlgorithm() {
@@ -309,6 +311,15 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         this.customData.put(label, value);
     }
 
+    public KdfEngine getKdfEngine() {
+        return kdfEngine;
+    }
+
+    @Override
+    public String getKeyDerivationName() {
+        return kdfEngine.getName();
+    }
+
     @Override
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
@@ -363,7 +374,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP, long roundsFix)
 			throws IOException {
 
-		KdfEngine kdfEngine = KdfFactory.get(kdfP.kdfUUID);
+		kdfEngine = KdfFactory.get(kdfP.kdfUUID);
 		if (kdfEngine == null) {
 			throw new IOException("Unknown key derivation function");
 		}
@@ -499,16 +510,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	public void setNumRounds(long rounds) throws NumberFormatException {
 		numKeyEncRounds = rounds;
 		
-	}
-
-	@Override
-	public boolean algorithmSettingsEnabled() {
-		return false;
-	}
-
-	@Override
-	public PwEncryptionAlgorithm getEncryptionAlgorithm() {
-		return PwEncryptionAlgorithm.Rjindal;
 	}
 
 	@Override

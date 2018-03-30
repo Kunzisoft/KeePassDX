@@ -34,7 +34,8 @@
     <string name="max_password_length" translatable="false">64</string>
 
     <!--  Preference settings -->
-    <string name="algorithm_key" translatable="false">algorithm</string>
+    <string name="encryption_algorithm_key" translatable="false">algorithm</string>
+    <string name="key_derivation_function_key" translatable="false">key_derivation_function_key</string>
     <string name="app_key" translatable="false">app</string>
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>

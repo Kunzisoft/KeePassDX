@@ -24,7 +24,7 @@
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
-    <string name="algorithm">Алгоритм</string>
+    <string name="encryption_algorithm">Алгоритм</string>
     <string name="app_timeout">Тайм-аут програми</string>
     <string name="app_timeout_summary">Час перед закриттям бази даних, коли програма є неактивною.</string>
     <string name="application">Програма</string>

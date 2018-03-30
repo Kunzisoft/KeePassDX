@@ -21,13 +21,16 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory
-		android:title="@string/general">
+		android:title="@string/encryption">
 
 		<Preference
-			android:key="@string/algorithm_key"
+			android:key="@string/encryption_algorithm_key"
             android:persistent="false"
-			android:title="@string/algorithm"
-			android:enabled="false"/>
+			android:title="@string/encryption_algorithm"/>
+		<Preference
+			android:key="@string/key_derivation_function_key"
+			android:persistent="false"
+			android:title="@string/key_derivation_function"/>
 		<com.keepassdroid.settings.RoundsPreference
 			android:key="@string/rounds_key"
 			android:persistent="false"
@@ -35,6 +38,12 @@
 			android:positiveButtonText="@string/entry_save"
 			android:negativeButtonText="@string/entry_cancel"
 			android:enabled="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/general">
+
 		<SwitchPreference
             android:key="@string/recycle_bin_key"
             android:persistent="false"

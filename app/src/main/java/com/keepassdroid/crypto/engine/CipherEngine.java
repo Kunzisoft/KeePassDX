@@ -19,6 +19,8 @@
  */
 package com.keepassdroid.crypto.engine;
 
+import com.keepassdroid.database.PwEncryptionAlgorithm;
+
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -40,5 +42,7 @@ public abstract class CipherEngine {
     public Cipher getCipher(int opmode, byte[] key, byte[] IV) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
         return getCipher(opmode, key, IV, false);
     }
+
+    public abstract PwEncryptionAlgorithm getPwEncryptionAlgorithm();
 
 }

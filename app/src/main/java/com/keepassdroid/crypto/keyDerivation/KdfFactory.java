@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public class KdfFactory {
 
-    public static List<KdfEngine> kdfList = new ArrayList<KdfEngine>();
+    public static List<KdfEngine> kdfList = new ArrayList<>();
 
     static {
         kdfList.add(new AesKdf());

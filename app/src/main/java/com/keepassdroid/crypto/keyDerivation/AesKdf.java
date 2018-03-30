@@ -42,6 +42,10 @@ public class AesKdf extends KdfEngine {
         uuid = CIPHER_UUID;
     }
 
+    public String getName() {
+        return "AES-KDF";
+    }
+
     @Override
     public KdfParameters getDefaultParameters() {
         KdfParameters p = super.getDefaultParameters();

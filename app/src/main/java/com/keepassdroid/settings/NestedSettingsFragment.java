@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
-import com.keepassdroid.database.PwEncryptionAlgorithm;
+import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.dialogs.StorageAccessFrameworkDialog;
 import com.keepassdroid.dialogs.UnavailableFeatureDialogFragment;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
@@ -208,6 +208,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 SwitchPreference autoFillEnablePreference =
                         (SwitchPreference) findPreference(getString(R.string.settings_autofill_enable_key));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    assert getActivity() != null;
                     AutofillManager autofillManager = getActivity().getSystemService(AutofillManager.class);
                     if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
                         autoFillEnablePreference.setChecked(autofillManager.hasEnabledAutofillServices());
@@ -252,18 +253,13 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         }
                     });
                 } else {
-                    autoFillEnablePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        @Override
-                        public boolean onPreferenceClick(Preference preference) {
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                                ((SwitchPreference) preference).setChecked(false);
-                                FragmentManager fragmentManager = getFragmentManager();
-                                assert fragmentManager != null;
-                                UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
-                                        .show(fragmentManager, "unavailableFeatureDialog");
-                            }
-                            return false;
-                        }
+                    autoFillEnablePreference.setOnPreferenceClickListener(preference -> {
+                        ((SwitchPreference) preference).setChecked(false);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        assert fragmentManager != null;
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
+                                .show(fragmentManager, "unavailableFeatureDialog");
+                        return false;
                     });
                 }
                 break;
@@ -273,23 +269,28 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                 Database db = App.getDB();
                 if (db.getLoaded()) {
-                    if (db.getPwDatabase().algorithmSettingsEnabled()) {
 
-                        Preference roundPref = findPreference(getString(R.string.rounds_key));
-                        roundPref.setEnabled(true);
-                        roundPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                                setRounds(App.getDB(), preference);
-                                return true;
-                            }
-                        });
-                        setRounds(db, roundPref);
+                    PwDatabase pwDatabase = db.getPwDatabase(); // Transit methods in db
 
-                        // TODO Algo
-                        Preference algorithmPref = findPreference(getString(R.string.algorithm_key));
-                        // algorithmPref.setEnabled(true);
-                        setAlgorithm(db, algorithmPref);
-                    }
+
+                    // Encryption Algorithme
+                    Preference algorithmPref = findPreference(getString(R.string.encryption_algorithm_key));
+                    algorithmPref.setSummary(pwDatabase
+                            .getEncryptionAlgorithm().getName(getResources()));
+
+                    // Key derivation function
+                    Preference kdfPref = findPreference(getString(R.string.key_derivation_function_key));
+                    kdfPref.setSummary(pwDatabase
+                            .getKeyDerivationName());
+
+                    // Round encryption
+                    Preference roundPref = findPreference(getString(R.string.rounds_key));
+                    roundPref.setSummary(Long.toString(pwDatabase.getNumRounds()));
+                    roundPref.setEnabled(false); //TODO refactor round pref
+                    roundPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                        preference.setSummary(Long.toString(pwDatabase.getNumRounds()));
+                        return true;
+                    });
 
                     if (db.isRecycleBinAvailabledAndEnabled()) {
                         SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
@@ -313,6 +314,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
     public void onDisplayPreferenceDialog(Preference preference) {
         // Try if the preference is one of our custom Preferences
         if (preference instanceof RoundsPreference) {
+            assert getFragmentManager() != null;
             DialogFragment dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
             dialogFragment.setTargetFragment(this, 0);
             dialogFragment.show(getFragmentManager(), null);
@@ -321,21 +323,6 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         else {
             super.onDisplayPreferenceDialog(preference);
         }
-    }
-
-    private void setRounds(Database db, Preference rounds) {
-        rounds.setSummary(Long.toString(db.getPwDatabase().getNumRounds()));
-    }
-
-    private void setAlgorithm(Database db, Preference algorithm) {
-        int resId;
-        if ( db.getPwDatabase().getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
-            resId = R.string.rijndael;
-        } else  {
-            resId = R.string.twofish;
-        }
-
-        algorithm.setSummary(resId);
     }
 
     public static String retrieveTitle(Resources resources, int key) {
