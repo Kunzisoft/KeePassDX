@@ -216,6 +216,11 @@ public class FileSelectActivity extends StylishActivity implements
         }
 
         // For the first time show the tuto
+        checkAndPerformedEducation();
+
+	}
+
+    private void checkAndPerformedEducation() {
         if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
             new TapTargetSequence(this)
                     .targets(
@@ -244,7 +249,7 @@ public class FileSelectActivity extends StylishActivity implements
                 public void onSequenceCanceled(TapTarget lastTarget) {}
             }).continueOnCancel(true).start();
         }
-	}
+    }
 
 	private void saveEducationPreference() {
 	    SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);

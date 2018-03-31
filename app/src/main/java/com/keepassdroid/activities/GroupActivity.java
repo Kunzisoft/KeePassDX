@@ -41,6 +41,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.keepassdroid.adapters.NodeAdapter;
 import com.keepassdroid.app.App;
 import com.keepassdroid.autofill.AutofillHelper;
@@ -58,6 +60,7 @@ import com.keepassdroid.dialogs.GroupEditDialogFragment;
 import com.keepassdroid.dialogs.IconPickerDialogFragment;
 import com.keepassdroid.dialogs.ReadOnlyDialog;
 import com.keepassdroid.search.SearchResultsActivity;
+import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.view.AddNodeButtonView;
 import com.kunzisoft.keepass.R;
@@ -166,6 +169,8 @@ public class GroupActivity extends ListNodesActivity
         if (isRoot) {
             showWarnings();
         }
+
+        checkAndPerformedEducation();
 	}
 
 	protected PwGroup initCurrentGroup() {
@@ -256,6 +261,37 @@ public class GroupActivity extends ListNodesActivity
         super.onResume();
         // Show button on resume
         addNodeButtonView.showButton();
+    }
+
+    private void checkAndPerformedEducation() {
+        // For the first time show the tuto
+        if (!PreferencesUtil.isEducationGroupPerformed(this)) {
+            new TapTargetSequence(this)
+                    .targets(
+                            TapTarget.forView(findViewById(R.id.add_button),
+                                    getString(R.string.education_new_node_title),
+                                    getString(R.string.education_new_node_summary))
+                                    .tintTarget(false)
+                    ).listener(new TapTargetSequence.Listener() {
+                @Override
+                public void onSequenceFinish() {
+                    saveEducationPreference();
+                }
+
+                @Override
+                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+
+                @Override
+                public void onSequenceCanceled(TapTarget lastTarget) {}
+            }).continueOnCancel(true).start();
+        }
+    }
+
+    private void saveEducationPreference() {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.education_group_key), true);
+        editor.apply();
     }
 
     @Override

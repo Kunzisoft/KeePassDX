@@ -150,4 +150,10 @@ public class PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.education_select_db_key),
                 context.getResources().getBoolean(R.bool.education_select_db_default));
     }
+
+    public static boolean isEducationGroupPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_group_key),
+                context.getResources().getBoolean(R.bool.education_group_default));
+    }
 }

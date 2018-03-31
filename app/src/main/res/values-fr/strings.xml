@@ -255,6 +255,10 @@
     <string name="education_select_database_summary">Vous avez déjà utilisé un lecteur KeePass. Ouvrez simplement votre fichier depuis votre navigateur de fichiers.</string>
     <string name="education_open_link_database_title">Un lien vers l\'emplacement de votre fichier suffit</string>
     <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base avec un lien physique, les liens file:// et content:// sont acceptés.</string>
+    <string name="education_new_node_title">Ajoutez de nouveaux éléments à votre base</string>
+    <string name="education_new_node_summary">Ajouter des groupes (l\'équivalent des dossiers) pour organiser votre base.\nAjouter des entrées pour gérer vos identités numériques.</string>
+    <string name="education_search_title">Recherchez facilement vos entrées</string>
+    <string name="education_search_summary">Recherchez des entrées par titre, nom d\'utilisateur ou d\'autres champs pour récupérer facilement vos mots de passes.</string>
 
     <string-array name="timeout_options">
     	<item>5 secondes</item>
