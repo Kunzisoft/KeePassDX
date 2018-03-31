@@ -146,6 +146,15 @@ public class EntryContentsView extends LinearLayout {
 	    return passwordContainerView.getVisibility() == VISIBLE;
     }
 
+    public boolean atLeastOneFieldProtectedPresent() {
+        for (int i = 0; i < extrasView.getChildCount(); i++) {
+            View childCustomView = extrasView.getChildAt(i);
+            if (childCustomView instanceof EntryCustomFieldProtected)
+                return true;
+        }
+        return false;
+    }
+
     public void setHiddenPasswordStyle(boolean hiddenStyle) {
         if ( !hiddenStyle ) {
             passwordView.setTransformationMethod(null);
