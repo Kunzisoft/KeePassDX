@@ -33,10 +33,17 @@ import java.util.Set;
 public class PreferencesUtil {
 
     private static final String NO_BACKUP_PREFERENCE_FILE_NAME = "nobackup";
+    private static final String EDUCATION_PREFERENCE = "kdbxeducation";
 
     public static SharedPreferences getNoBackupSharedPreferences(Context ctx) {
         return ctx.getSharedPreferences(
                 PreferencesUtil.NO_BACKUP_PREFERENCE_FILE_NAME,
+                Context.MODE_PRIVATE);
+    }
+
+    public static SharedPreferences getEducationSharedPreferences(Context ctx) {
+        return ctx.getSharedPreferences(
+                PreferencesUtil.EDUCATION_PREFERENCE,
                 Context.MODE_PRIVATE);
     }
 
@@ -136,5 +143,11 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_key),
                 ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
+    }
+
+    public static boolean isEducationSelectDatabasePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_select_db_key),
+                context.getResources().getBoolean(R.bool.education_select_db_default));
     }
 }

@@ -42,6 +42,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.keepassdroid.activities.GroupActivity;
 import com.keepassdroid.app.App;
 import com.keepassdroid.autofill.AutofillHelper;
@@ -212,7 +214,44 @@ public class FileSelectActivity extends StylishActivity implements
                 }
             }
         }
+
+        // For the first time show the tuto
+        if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
+            new TapTargetSequence(this)
+                    .targets(
+                            TapTarget.forView(findViewById(R.id.create_database),
+                                    getString(R.string.education_create_database_title),
+                                    getString(R.string.education_create_database_summary))
+                                    .tintTarget(false),
+                            TapTarget.forView(findViewById(R.id.browse_button),
+                                    getString(R.string.education_select_database_title),
+                                    getString(R.string.education_select_database_summary))
+                                    .tintTarget(false),
+                            TapTarget.forView(findViewById(R.id.open_database),
+                                    getString(R.string.education_open_link_database_title),
+                                    getString(R.string.education_open_link_database_summary))
+                                    .tintTarget(false)
+                    ).listener(new TapTargetSequence.Listener() {
+                @Override
+                public void onSequenceFinish() {
+                    saveEducationPreference();
+                }
+
+                @Override
+                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+
+                @Override
+                public void onSequenceCanceled(TapTarget lastTarget) {}
+            }).continueOnCancel(true).start();
+        }
 	}
+
+	private void saveEducationPreference() {
+	    SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.education_select_db_key), true);
+        editor.apply();
+    }
 
 	private void launchPasswordActivityWithPath(String path) {
         try {

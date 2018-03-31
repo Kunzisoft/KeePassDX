@@ -249,6 +249,13 @@
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
     <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
 
+    <string name="education_create_database_title">Créez votre fichier de base de données</string>
+    <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créer votre premier fichier de gestion de mots de passe.</string>
+    <string name="education_select_database_title">Ouvrez une base de données existante</string>
+    <string name="education_select_database_summary">Vous avez déjà utilisé un lecteur KeePass. Ouvrez simplement votre fichier depuis votre navigateur de fichiers.</string>
+    <string name="education_open_link_database_title">Un lien vers l\'emplacement de votre fichier suffit</string>
+    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base avec un lien physique, les liens file:// et content:// sont acceptés.</string>
+
     <string-array name="timeout_options">
     	<item>5 secondes</item>
     	<item>10 secondes</item>

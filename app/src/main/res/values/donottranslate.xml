@@ -67,6 +67,7 @@
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
+    <string name="education_select_db_key" translatable="false">education_select_db_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -84,6 +85,7 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <bool name="allow_copy_password_default" translatable="false">true</bool> <!-- TODO To change after implementing the way to enter password < O -->
+    <bool name="education_select_db_default" translatable="false">false</bool>
 
     <string name="app_timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>

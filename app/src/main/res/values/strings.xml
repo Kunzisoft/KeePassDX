@@ -250,6 +250,13 @@
     <string name="warning_disabling_storage_access_framework">WARNING : disabling this feature may result in an inability to open or save the databases</string>
     <string name="open_link_database">Link of the Kdbx file to open</string>
 
+    <string name="education_create_database_title">Create your database file</string>
+    <string name="education_create_database_summary">You don\'t know KeePass DX yet, create your first password management file.</string>
+    <string name="education_select_database_title">Open an existing database</string>
+    <string name="education_select_database_summary">You have already used a KeePass manager. Just open your file from your file browser.</string>
+    <string name="education_open_link_database_title">A link to the location of your file is sufficient</string>
+    <string name="education_open_link_database_summary">You can also open your base with a physical link, the links file:// and content:// are accepted.</string>
+
     <string-array name="timeout_options">
     	<item>5 seconds</item>
     	<item>10 seconds</item>
