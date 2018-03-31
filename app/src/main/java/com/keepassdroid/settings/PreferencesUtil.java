@@ -145,6 +145,9 @@ public class PreferencesUtil {
                 ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
     }
 
+    public static int[] educationResourceKeys = new int[] {
+            R.string.education_select_db_key, R.string.education_group_key};
+
     public static boolean isEducationSelectDatabasePerformed(Context context) {
         SharedPreferences prefs = getEducationSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.education_select_db_key),

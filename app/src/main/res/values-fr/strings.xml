@@ -249,6 +249,9 @@
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
     <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
 
+    <string name="reset_education_screens_title">Réinitialise les écrans d\'éducation</string>
+    <string name="reset_education_screens_summary">Mets en surbrillance les éléments de l\'interface pour apprendre le fonctionnement de l\'application</string>
+    <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés</string>
     <string name="education_create_database_title">Créez votre fichier de base de données</string>
     <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créer votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrez une base de données existante</string>

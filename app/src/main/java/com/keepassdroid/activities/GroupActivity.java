@@ -70,6 +70,8 @@ public class GroupActivity extends ListNodesActivity
 
     private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
+    private Toolbar toolbar;
+
     private AddNodeButtonView addNodeButtonView;
 
 	protected boolean addGroupEnabled = false;
@@ -145,7 +147,7 @@ public class GroupActivity extends ListNodesActivity
         RecyclerView recyclerView = findViewById(R.id.nodes_list);
         recyclerView.addOnScrollListener(addNodeButtonView.hideButtonOnScrollListener());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -169,8 +171,6 @@ public class GroupActivity extends ListNodesActivity
         if (isRoot) {
             showWarnings();
         }
-
-        checkAndPerformedEducation();
 	}
 
 	protected PwGroup initCurrentGroup() {
@@ -261,6 +261,8 @@ public class GroupActivity extends ListNodesActivity
         super.onResume();
         // Show button on resume
         addNodeButtonView.showButton();
+
+        checkAndPerformedEducation();
     }
 
     private void checkAndPerformedEducation() {
@@ -272,6 +274,11 @@ public class GroupActivity extends ListNodesActivity
                                     getString(R.string.education_new_node_title),
                                     getString(R.string.education_new_node_summary))
                                     .tintTarget(false)
+                            /* TODO Search education
+                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
+                                    getString(R.string.education_search_title),
+                                    getString(R.string.education_search_summary))
+                                    */
                     ).listener(new TapTargetSequence.Listener() {
                 @Override
                 public void onSequenceFinish() {

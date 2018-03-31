@@ -250,6 +250,9 @@
     <string name="warning_disabling_storage_access_framework">WARNING : disabling this feature may result in an inability to open or save the databases</string>
     <string name="open_link_database">Link of the Kdbx file to open</string>
 
+    <string name="reset_education_screens_title">Reset education screens</string>
+    <string name="reset_education_screens_summary">Highlight the elements of the interface to learn how the application works</string>
+    <string name="reset_education_screens_text">Education screens reseted</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">You don\'t know KeePass DX yet, create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>

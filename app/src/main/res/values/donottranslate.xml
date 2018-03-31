@@ -67,6 +67,7 @@
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
+    <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
     <string name="education_select_db_key" translatable="false">education_select_db_key</string>
     <string name="education_group_key" translatable="false">education_group_key</string>
 
