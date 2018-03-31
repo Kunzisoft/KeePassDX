@@ -65,6 +65,9 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
+
+        <!-- White FAB -->
+        <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
 
@@ -115,6 +118,9 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
+
+        <!-- White FAB -->
+        <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
 
     <!-- Light Style -->
@@ -223,6 +229,10 @@
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
+    </style>
+    <style name="KeepassDXStyle.Fab.White" parent="KeepassDXStyle.v21.Fab">
+        <item name="colorAccent">@color/white</item>
+        <item name="tint">?attr/colorAccentCompat</item>
     </style>
 
     <!-- Menu FAB -->

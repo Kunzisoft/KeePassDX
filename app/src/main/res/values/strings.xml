@@ -135,7 +135,7 @@
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
     <string name="select_database_file">Select an existing database :</string>
-    <string name="open_recent">Open a recent database :</string>
+    <string name="open_recent">Recent databases :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
     <string name="progress_create">Creating new database&#8230;</string>
@@ -248,6 +248,7 @@
     <string name="allow_copy_password_title">Copy of password</string>
     <string name="allow_copy_password_summary">Allow the copy of the password to the clipboard.</string>
     <string name="warning_disabling_storage_access_framework">WARNING : disabling this feature may result in an inability to open or save the databases</string>
+    <string name="open_link_database">Link of the Kdbx file to open</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>

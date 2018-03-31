@@ -135,21 +135,21 @@ public class FileSelectActivity extends StylishActivity implements
         setContentView(R.layout.file_selection);
         fileListTitle = findViewById(R.id.file_list_title);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
 		setSupportActionBar(toolbar);
 
-        openFileNameView = (EditText) findViewById(R.id.file_filename);
-        fileNameView = (FileNameView) findViewById(R.id.file_select);
+        openFileNameView = findViewById(R.id.file_filename);
+        fileNameView = findViewById(R.id.file_select);
 
         // Set the initial value of the filename
         defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + getString(R.string.database_file_path_default)
                 + getString(R.string.database_file_name_default)
                 + getString(R.string.database_file_extension_default);
-        openFileNameView.setHint(defaultPath);
+        openFileNameView.setHint(R.string.open_link_database);
 
-        RecyclerView mListFiles = (RecyclerView) findViewById(R.id.file_list);
+        RecyclerView mListFiles = findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
 
 		// To retrieve info for AutoFill
