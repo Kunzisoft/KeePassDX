@@ -89,6 +89,9 @@ public class FileSelectActivity extends StylishActivity implements
 
     private FileSelectAdapter mAdapter;
 	private View fileListTitle;
+	private View createButtonView;
+	private View browseButtonView;
+	private View openButtonView;
 
 	private RecentFileHistory fileHistory;
 
@@ -161,8 +164,8 @@ public class FileSelectActivity extends StylishActivity implements
         }
 
 		// Open button
-		View openButton = findViewById(R.id.open_database);
-		openButton.setOnClickListener(v -> {
+		openButtonView = findViewById(R.id.open_database);
+        openButtonView.setOnClickListener(v -> {
 		    String fileName = openFileNameView.getText().toString();
             if (fileName.isEmpty())
                 fileName = defaultPath;
@@ -170,15 +173,15 @@ public class FileSelectActivity extends StylishActivity implements
         });
 
 		// Create button
-		View createButton = findViewById(R.id.create_database);
-		createButton.setOnClickListener(v ->
+		createButtonView = findViewById(R.id.create_database);
+        createButtonView .setOnClickListener(v ->
                 FileSelectActivityPermissionsDispatcher
                         .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this)
 		);
 
         keyFileHelper = new KeyFileHelper(this);
-		View browseButton = findViewById(R.id.browse_button);
-		browseButton.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
+		browseButtonView = findViewById(R.id.browse_button);
+        browseButtonView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
                 () -> Uri.parse("file://" + openFileNameView.getText().toString())));
 
 		// Construct adapter with listeners
@@ -224,15 +227,15 @@ public class FileSelectActivity extends StylishActivity implements
         if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
             new TapTargetSequence(this)
                     .targets(
-                            TapTarget.forView(findViewById(R.id.create_database),
+                            TapTarget.forView(createButtonView,
                                     getString(R.string.education_create_database_title),
                                     getString(R.string.education_create_database_summary))
                                     .tintTarget(false),
-                            TapTarget.forView(findViewById(R.id.browse_button),
+                            TapTarget.forView(browseButtonView,
                                     getString(R.string.education_select_database_title),
                                     getString(R.string.education_select_database_summary))
                                     .tintTarget(false),
-                            TapTarget.forView(findViewById(R.id.open_database),
+                            TapTarget.forView(openButtonView,
                                     getString(R.string.education_open_link_database_title),
                                     getString(R.string.education_open_link_database_summary))
                                     .tintTarget(false)

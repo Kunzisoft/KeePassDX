@@ -263,6 +263,16 @@
     <string name="education_new_node_summary">Add groups (the equivalent of folders) to organize your database.\nAdd entries to manage your digital identities.</string>
     <string name="education_search_title">Easily search your entries</string>
     <string name="education_search_summary">Search for entries by title, username or other fields to easily retrieve your passwords.</string>
+    <string name="education_fingerprint_title">Unlock your database with your fingerprint</string>
+    <string name="education_fingerprint_summary">Make the link between your password and your fingerprint to easily unlock your database.</string>
+    <string name="education_entry_edit_title">Edit the entry</string>
+    <string name="education_entry_edit_summary">Edit your entry with custom fields, you can add references to pool data between fields of different entries.</string>
+    <string name="education_generate_password_title">Create a strong password</string>
+    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily add all the criteria of the form and don\'t forget a hard but secure password.</string>
+    <string name="education_entry_new_field_title">Add custom fields</string>
+    <string name="education_entry_new_field_summary">You want to register a basic non-supplied field, just fill in a new field that you can protect.</string>
+    <string name="education_entry_save_title">Save you entry</string>
+    <string name="education_entry_save_summary">Save your entry here once all the desired fields are filled</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>

@@ -146,7 +146,9 @@ public class PreferencesUtil {
     }
 
     public static int[] educationResourceKeys = new int[] {
-            R.string.education_select_db_key, R.string.education_group_key};
+            R.string.education_select_db_key, R.string.education_group_key, R.string.education_entry_key,
+            R.string.education_password_key, R.string.education_entry_edit_key
+    };
 
     public static boolean isEducationSelectDatabasePerformed(Context context) {
         SharedPreferences prefs = getEducationSharedPreferences(context);
@@ -158,5 +160,23 @@ public class PreferencesUtil {
         SharedPreferences prefs = getEducationSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.education_group_key),
                 context.getResources().getBoolean(R.bool.education_group_default));
+    }
+
+    public static boolean isEducationEntryPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_entry_key),
+                context.getResources().getBoolean(R.bool.education_entry_default));
+    }
+
+    public static boolean isEducationPasswordPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_password_key),
+                context.getResources().getBoolean(R.bool.education_password_default));
+    }
+
+    public static boolean isEducationEntryEditPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_entry_edit_key),
+                context.getResources().getBoolean(R.bool.education_entry_default));
     }
 }

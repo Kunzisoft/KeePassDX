@@ -23,6 +23,7 @@ package com.keepassdroid.activities;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.ExtraFields;
@@ -66,6 +69,7 @@ public class EntryActivity extends LockingHideActivity {
 	private ImageView titleIconView;
     private TextView titleView;
 	private EntryContentsView entryContentsView;
+	private View editView;
 	
 	protected PwEntry mEntry;
 	private boolean mShowPassword;
@@ -128,16 +132,48 @@ public class EntryActivity extends LockingHideActivity {
         entryContentsView.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this));
 
 		// Setup Edit Buttons
-        View edit = findViewById(R.id.entry_edit);
-        edit.setOnClickListener(v -> EntryEditActivity.Launch(EntryActivity.this, mEntry));
+        editView = findViewById(R.id.entry_edit);
+        editView.setOnClickListener(v -> EntryEditActivity.Launch(EntryActivity.this, mEntry));
         if (readOnly) {
-            edit.setVisibility(View.GONE);
+            editView.setVisibility(View.GONE);
         }
 
         // Init the clipboard helper
         clipboardHelper = new ClipboardHelper(this);
         firstLaunchOfActivity = true;
+
+        checkAndPerformedEducation();
 	}
+
+    private void checkAndPerformedEducation() {
+        if (!PreferencesUtil.isEducationEntryPerformed(this)) {
+            new TapTargetSequence(this)
+                    .targets(
+                            TapTarget.forView(editView,
+                                    getString(R.string.education_entry_edit_title),
+                                    getString(R.string.education_entry_edit_summary))
+                                    .tintTarget(false)
+                    ).listener(new TapTargetSequence.Listener() {
+                @Override
+                public void onSequenceFinish() {
+                    saveEducationPreference();
+                }
+
+                @Override
+                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+
+                @Override
+                public void onSequenceCanceled(TapTarget lastTarget) {}
+            }).continueOnCancel(true).start();
+        }
+    }
+
+    private void saveEducationPreference() {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.education_entry_key), true);
+        editor.apply();
+    }
 
     @Override
     protected void onResume() {

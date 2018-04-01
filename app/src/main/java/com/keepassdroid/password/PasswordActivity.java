@@ -45,9 +45,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.keepassdroid.activities.GroupActivity;
 import com.keepassdroid.activities.LockingActivity;
 import com.keepassdroid.app.App;
@@ -73,6 +76,8 @@ import com.kunzisoft.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -111,6 +116,7 @@ public class PasswordActivity extends StylishActivity
     private View fingerprintContainerView;
     private FingerPrintAnimatedVector fingerPrintAnimatedVector;
     private TextView fingerprintTextView;
+    private ImageView fingerprintImageView;
     private TextView filenameView;
     private EditText passwordView;
     private EditText keyFileView;
@@ -285,15 +291,57 @@ public class PasswordActivity extends StylishActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintContainerView = findViewById(R.id.fingerprint_container);
             fingerprintTextView = findViewById(R.id.fingerprint_label);
+            fingerprintImageView = findViewById(R.id.fingerprint_image);
             initForFingerprint();
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
-                    findViewById(R.id.fingerprint_image));
+                    fingerprintImageView);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
         }
+
+        checkAndPerformedEducation();
+    }
+
+    private void checkAndPerformedEducation() {
+        // For the first time show the tuto
+        if (!PreferencesUtil.isEducationPasswordPerformed(this)) {
+
+            List<TapTarget> targets = new ArrayList<>();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                TapTarget fingerprintTapTarget = TapTarget.forView(fingerprintImageView,
+                        getString(R.string.education_fingerprint_title),
+                        getString(R.string.education_fingerprint_summary))
+                        .tintTarget(false);
+                targets.add(fingerprintTapTarget);
+            }
+
+            if (!targets.isEmpty()) {
+                new TapTargetSequence(this)
+                        .targets(targets).listener(new TapTargetSequence.Listener() {
+                    @Override
+                    public void onSequenceFinish() {
+                        saveEducationPreference();
+                    }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) {}
+                }).continueOnCancel(true).start();
+            }
+        }
+    }
+
+    private void saveEducationPreference() {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.education_password_key), true);
+        editor.apply();
     }
 
     @Override

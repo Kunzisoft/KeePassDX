@@ -21,6 +21,7 @@ package com.keepassdroid.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwDatabase;
@@ -60,6 +63,8 @@ import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditCustomField;
 import com.kunzisoft.keepass.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class EntryEditActivity extends LockingHideActivity
@@ -90,8 +95,11 @@ public class EntryEditActivity extends LockingHideActivity
     private EditText entryUrlView;
     private EditText entryPasswordView;
     private EditText entryConfirmationPasswordView;
+    private View generatePasswordView;
     private EditText entryCommentView;
     private ViewGroup entryExtraFieldsContainer;
+    private View addNewFieldView;
+    private View saveView;
 
 	/**
 	 * launch EntryEditActivity to update an existing entry
@@ -170,15 +178,15 @@ public class EntryEditActivity extends LockingHideActivity
                 IconPickerDialogFragment.launch(EntryEditActivity.this));
 
 		// Generate password button
-		View generatePassword = findViewById(R.id.generate_button);
-		generatePassword.setOnClickListener(v -> {
+        generatePasswordView = findViewById(R.id.generate_button);
+        generatePasswordView.setOnClickListener(v -> {
             GeneratePasswordDialogFragment generatePasswordDialogFragment = new GeneratePasswordDialogFragment();
             generatePasswordDialogFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
         });
 		
 		// Save button
-		View save = findViewById(R.id.entry_save);
-		save.setOnClickListener(v -> {
+		saveView = findViewById(R.id.entry_save);
+        saveView.setOnClickListener(v -> {
             if (!validateBeforeSaving()) {
                 return;
             }
@@ -198,9 +206,9 @@ public class EntryEditActivity extends LockingHideActivity
 
 
 		if (mEntry.allowExtraFields()) {
-            View add = findViewById(R.id.add_new_field);
-            add.setVisibility(View.VISIBLE);
-            add.setOnClickListener(v -> {
+            addNewFieldView = findViewById(R.id.add_new_field);
+            addNewFieldView.setVisibility(View.VISIBLE);
+            addNewFieldView.setOnClickListener(v -> {
                 EntryEditCustomField ees = new EntryEditCustomField(EntryEditActivity.this);
                 ees.setData("", new ProtectedString(false, ""));
                 entryExtraFieldsContainer.addView(ees);
@@ -209,7 +217,58 @@ public class EntryEditActivity extends LockingHideActivity
                 scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
             });
         }
+
+        checkAndPerformedEducation();
 	}
+
+    private void checkAndPerformedEducation() {
+        // For the first time show the tuto
+        if (!PreferencesUtil.isEducationEntryEditPerformed(this)) {
+
+            List<TapTarget> tapTargets = new ArrayList<>();
+
+            TapTarget generatePasswordTapTarget = TapTarget.forView(generatePasswordView,
+                    getString(R.string.education_generate_password_title),
+                    getString(R.string.education_generate_password_summary))
+                    .tintTarget(false);
+            tapTargets.add(generatePasswordTapTarget);
+
+            if (mEntry.allowExtraFields()) {
+                TapTarget newCustomFieldTapTarget = TapTarget.forView(addNewFieldView,
+                        getString(R.string.education_entry_new_field_title),
+                        getString(R.string.education_entry_new_field_summary))
+                        .tintTarget(false);
+                tapTargets.add(newCustomFieldTapTarget);
+            }
+
+            TapTarget saveTapTarget = TapTarget.forView(saveView,
+                    getString(R.string.education_entry_save_title),
+                    getString(R.string.education_entry_save_summary))
+                    .tintTarget(false);
+            tapTargets.add(saveTapTarget);
+
+            new TapTargetSequence(this)
+                    .targets(tapTargets).listener(new TapTargetSequence.Listener() {
+                @Override
+                public void onSequenceFinish() {
+                    saveEducationPreference();
+                }
+
+                @Override
+                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+
+                @Override
+                public void onSequenceCanceled(TapTarget lastTarget) {}
+            }).continueOnCancel(true).start();
+        }
+    }
+
+    private void saveEducationPreference() {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.education_entry_edit_key), true);
+        editor.apply();
+    }
 	
 	protected boolean validateBeforeSaving() {
 		// Require title
