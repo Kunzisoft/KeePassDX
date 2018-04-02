@@ -306,12 +306,11 @@ public class PasswordActivity extends StylishActivity
     }
 
     private void checkAndPerformedEducation() {
-        // For the first time show the tuto
         if (!PreferencesUtil.isEducationPasswordPerformed(this)) {
 
             List<TapTarget> targets = new ArrayList<>();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (PreferencesUtil.isFingerprintEnable(getApplicationContext())) {
                 TapTarget fingerprintTapTarget = TapTarget.forView(fingerprintImageView,
                         getString(R.string.education_fingerprint_title),
                         getString(R.string.education_fingerprint_summary))

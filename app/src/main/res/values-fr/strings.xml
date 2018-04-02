@@ -250,26 +250,26 @@
     <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
 
     <string name="reset_education_screens_title">Réinitialise les écrans d\'éducation</string>
-    <string name="reset_education_screens_summary">Mets en surbrillance les éléments de l\'interface pour apprendre le fonctionnement de l\'application</string>
-    <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés</string>
+    <string name="reset_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
+    <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés (redémarrez l\'application pour les montrer)</string>
     <string name="education_create_database_title">Créez votre fichier de base de données</string>
-    <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créer votre premier fichier de gestion de mots de passe.</string>
+    <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créez votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrez une base de données existante</string>
-    <string name="education_select_database_summary">Vous avez déjà utilisé un lecteur KeePass. Ouvrez simplement votre fichier depuis votre navigateur de fichiers.</string>
+    <string name="education_select_database_summary">Vous avez déjà utilisé un lecteur KeePass. Ouvrez simplement votre fichier Kdbx depuis votre navigateur de fichiers.</string>
     <string name="education_open_link_database_title">Un lien vers l\'emplacement de votre fichier suffit</string>
-    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base avec un lien physique, les liens file:// et content:// sont acceptés.</string>
+    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base avec un lien physique. (Avec file:// et content:// par exemple).</string>
     <string name="education_new_node_title">Ajoutez de nouveaux éléments à votre base</string>
-    <string name="education_new_node_summary">Ajouter des groupes (l\'équivalent des dossiers) pour organiser votre base.\nAjouter des entrées pour gérer vos identités numériques.</string>
+    <string name="education_new_node_summary">Ajoutez des entrées pour gérer vos identités numériques.\nAjoutez des groupes (l\'équivalent des dossiers) pour organiser vos entrées et votre base.</string>
     <string name="education_search_title">Recherchez facilement vos entrées</string>
     <string name="education_search_summary">Recherchez des entrées par titre, nom d\'utilisateur ou d\'autres champs pour récupérer facilement vos mots de passes.</string>
     <string name="education_fingerprint_title">Débloquez votre base de données avec votre empreinte digitale</string>
-    <string name="education_fingerprint_summary">Faites le lien entre votre mot de passe et empreinte digitale pour facilement dévérouillez votre base de données.</string>
+    <string name="education_fingerprint_summary">Faites le lien entre votre mot de passe et votre empreinte digitale pour facilement dévérouiller votre base de données.</string>
     <string name="education_entry_edit_title">Editez l\'entrée</string>
     <string name="education_entry_edit_summary">Editez votre entrée avec des champs customisés, vous pouvez ajouter des références pour mutualiser les données entre les champs de différentes entrées.</string>
     <string name="education_generate_password_title">Créez un mot de passe fort</string>
-    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, ajoutez facilement tous les critères du formulaire et n\'oubliez plus un mot de passe difficile mais sécurisé.</string>
+    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez le facilement en fonction des critères du formulaire et n\'oubliez plus un mot de passe difficile mais sécurisé.</string>
     <string name="education_entry_new_field_title">Ajoutez des champs customisés</string>
-    <string name="education_entry_new_field_summary">Vous voulez enregistrer un champ non fourni de base, renseignez simplement un nouveau champ que vous pouvez protéger.</string>
+    <string name="education_entry_new_field_summary">Vous voulez enregistrer un champ non fourni de base, renseignez en simplement un nouveau que vous pouvez aussi protéger visuelement.</string>
     <string name="education_entry_save_title">Sauvegardez votre entrée</string>
     <string name="education_entry_save_summary">Sauvegardez votre entrée ici une fois que tous les champs voulus sont remplis.</string>
 

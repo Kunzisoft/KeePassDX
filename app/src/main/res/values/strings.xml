@@ -251,16 +251,16 @@
     <string name="open_link_database">Link of the Kdbx file to open</string>
 
     <string name="reset_education_screens_title">Reset education screens</string>
-    <string name="reset_education_screens_summary">Highlight the elements of the interface to learn how the application works</string>
-    <string name="reset_education_screens_text">Education screens reseted</string>
+    <string name="reset_education_screens_summary">Highlight the elements to learn how the application works</string>
+    <string name="reset_education_screens_text">Education screens reseted (restart the application to show them)</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">You don\'t know KeePass DX yet, create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
-    <string name="education_select_database_summary">You have already used a KeePass manager. Just open your file from your file browser.</string>
+    <string name="education_select_database_summary">You have already used a KeePass manager. Just open your Kdbx file from your file browser.</string>
     <string name="education_open_link_database_title">A link to the location of your file is sufficient</string>
-    <string name="education_open_link_database_summary">You can also open your base with a physical link, the links file:// and content:// are accepted.</string>
+    <string name="education_open_link_database_summary">You can also open your base with a physical link (With file:// and content:// for example).</string>
     <string name="education_new_node_title">Add new items to your base</string>
-    <string name="education_new_node_summary">Add groups (the equivalent of folders) to organize your database.\nAdd entries to manage your digital identities.</string>
+    <string name="education_new_node_summary">Add entries to manage your digital identities.\nAdd groups (the equivalent of folders) to organize your entries and your database.</string>
     <string name="education_search_title">Easily search your entries</string>
     <string name="education_search_summary">Search for entries by title, username or other fields to easily retrieve your passwords.</string>
     <string name="education_fingerprint_title">Unlock your database with your fingerprint</string>
@@ -268,9 +268,9 @@
     <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields, you can add references to pool data between fields of different entries.</string>
     <string name="education_generate_password_title">Create a strong password</string>
-    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily add all the criteria of the form and don\'t forget a hard but secure password.</string>
+    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget a difficult but secure password.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
-    <string name="education_entry_new_field_summary">You want to register a basic non-supplied field, just fill in a new field that you can protect.</string>
+    <string name="education_entry_new_field_summary">You want to register a basic non-supplied field, simply fill in a new one that you can also protect visually.</string>
     <string name="education_entry_save_title">Save you entry</string>
     <string name="education_entry_save_summary">Save your entry here once all the desired fields are filled</string>
 
