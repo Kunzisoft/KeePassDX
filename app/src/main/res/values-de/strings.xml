@@ -54,7 +54,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist kostenlos und wird unter den Bedingungen der GNU GPL Version 2 (oder später) verbreitet und lizenziert.</string>
     <string name="select_database_file">Dateinamen der Datenbank eingeben:</string>
     <string name="entry_accessed">Letzter Zugriff</string>
-    <string name="entry_and_or">Passwort und/oder Schlüsseldatei zum Entschlüsseln Ihrer Datenbank eingeben:</string>
     <string name="entry_cancel">Abbrechen</string>
     <string name="entry_comment">Kommentare</string>
     <string name="entry_confpassword">Passwort wiederholen</string>
@@ -171,6 +170,8 @@
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
+
+    <string name="education_unlock_summary">Passwort und/oder Schlüsseldatei zum Entschlüsseln Ihrer Datenbank eingeben.</string>
 
     <string-array name="timeout_options">
       <item>5 Sekunden</item>

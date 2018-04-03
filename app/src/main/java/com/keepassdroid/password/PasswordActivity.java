@@ -32,6 +32,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -310,6 +311,13 @@ public class PasswordActivity extends StylishActivity
 
             List<TapTarget> targets = new ArrayList<>();
 
+            targets.add(TapTarget.forView(findViewById(R.id.unlock_container),
+                    getString(R.string.education_unlock_title),
+                    getString(R.string.education_unlock_summary))
+                    .dimColor(R.color.green)
+                    .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                    .tintTarget(false));
+
             if (PreferencesUtil.isFingerprintEnable(getApplicationContext())) {
                 TapTarget fingerprintTapTarget = TapTarget.forView(fingerprintImageView,
                         getString(R.string.education_fingerprint_title),
@@ -317,6 +325,11 @@ public class PasswordActivity extends StylishActivity
                         .tintTarget(false);
                 targets.add(fingerprintTapTarget);
             }
+
+            targets.add(TapTarget.forView(confirmButtonView,
+                    getString(R.string.education_open_and_save_database_title),
+                    getString(R.string.education_open_and_save_database_summary))
+                    .tintTarget(false));
 
             if (!targets.isEmpty()) {
                 new TapTargetSequence(this)

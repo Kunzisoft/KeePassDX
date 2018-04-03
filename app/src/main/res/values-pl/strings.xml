@@ -42,7 +42,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="digits">Cyfry</string>
     <string name="select_database_file">Wprowadź nazwę pliku bazy danych:</string>
     <string name="entry_accessed">Dostęp do pliku</string>
-    <string name="entry_and_or">Wprowadź hasło i/lub plik klucza by uzyskać dostęp do bazy danych:</string>
     <string name="entry_cancel">Anuluj</string>
     <string name="entry_comment">Komentarz</string>
     <string name="entry_confpassword">Potwierdź hasło</string>
@@ -142,7 +141,9 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning_read_only">Karta SD jest obecnie w trybie tylko do odczytu. Możesz nie być w stanie zapisać zmian w bazie danych.</string>
     <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
-    
+
+    <string name="education_unlock_summary">Wprowadź hasło i/lub plik klucza by uzyskać dostęp do bazy danych.</string>
+
     <string-array name="timeout_options">
      <item>5 sekund</item>
      <item>10 sekund</item>

@@ -44,7 +44,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft；软件不带有绝对担保；是自由软件，您可在遵循GPL 2或者更高版本的情况下重新发布。中文简繁体翻译：wangkf@gmail.com</string>
     <string name="select_database_file">输入数据库名：</string>
     <string name="entry_accessed">访问时间</string>
-    <string name="entry_and_or">输入密码和/或一个密钥文件来解锁你的数据库：</string>
     <string name="entry_cancel">取消</string>
     <string name="entry_comment">备注</string>
     <string name="entry_confpassword">确认密码</string>
@@ -135,7 +134,9 @@
     <string name="uppercase">大写</string>
     <string name="warning_read_only">你的SD卡目前是只读状态。您可能无法将更改保存到数据库。</string>
     <string name="warning_unmounted">你的SD卡目前尚未安装在您的设备上。你将无法加载或创建您的数据库。</string>
-    
+
+    <string name="education_unlock_summary">输入密码和/或一个密钥文件来解锁你的数据库 </string>
+
     <string-array name="timeout_options">
     	<item>5秒</item>
     	<item>10秒</item>

@@ -48,7 +48,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft χωρίς ΚΑΜΙΑ ΑΠΟΛΥΤΩΣ ΕΓΓΥΗΣΗ. Το παρόν είναι δωρεάν λογισμικό και είστε ευπρόσδεκτοι να το διαμοιράσετε υπό τις συνθήκες της ΙΕΛ έκδοσης 2 ή μεταγενέστερης.</string>
     <string name="select_database_file">Εισαγωγή ονόματος βάσης δεδομένων:</string>
     <string name="entry_accessed">Προσπελάσθηκε</string>
-    <string name="entry_and_or">Εισάγετε έναν κωδικό πρόσβασης και/ή αρχείο κλειδιού για να ξεκλειδώσετε τη βάση δεδομένων σας:</string>
     <string name="entry_cancel">Ακύρωση</string>
     <string name="entry_comment">Σχόλια</string>
     <string name="entry_confpassword">Επιβεβαίωση κωδικού πρόσβασης</string>
@@ -156,7 +155,9 @@
     <string name="warning_read_only">Η κάρτα SD είναι αυτή τη στιγμή μόνο για ανάγνωση. Είναι πιθανόν να μη μπορείτε ν αποθηκεύσετε τυχόν αλλαγές στη βάση δεδομένων σας.</string>
     <string name="warning_unmounted">Η κάρτα SD δεν είναι προσαρμοσμένη αυτή τη στιγμή στη συσκευή σας. Δεν θα μπορείτε να φορτώσετε ή να δημιουργήσετε τη βάση δεδομένων σας.</string>
     <string name="version_label">Έκδοση:</string>
-    
+
+    <string name="education_unlock_summary">Εισάγετε έναν κωδικό πρόσβασης και/ή αρχείο κλειδιού για να ξεκλειδώσετε τη βάση δεδομένων σας.</string>
+
     <string-array name="timeout_options">
     	<item>5 δευτερόλεπτα</item>
     	<item>10 δευτερόλεπτα</item>

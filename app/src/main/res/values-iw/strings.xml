@@ -48,7 +48,6 @@
     <string name="digits">ספרות</string>
     <string name="select_database_file">הזן שם קובץ למסד נתונים:</string>
     <string name="entry_accessed">ניגש לאחרונה</string>
-    <string name="entry_and_or">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים:</string>
     <string name="entry_cancel">בטל</string>
     <string name="entry_comment">הערות</string>
     <string name="entry_confpassword">אשר סיסמה</string>
@@ -151,6 +150,8 @@
     <string name="warning_read_only">כרטיס ה-SD שלך במצב לקריאה בלבד. אתה לא תוכל לשמור את השינויים למסד הנתונים.</string>
     <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
     <string name="version_label">גרסה:</string>
+
+    <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים.</string>
 
     <string-array name="timeout_options">
         <item>5 שניות</item>

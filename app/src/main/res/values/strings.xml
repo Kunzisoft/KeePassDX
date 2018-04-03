@@ -52,7 +52,6 @@
     <string name="digits">Digits</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="entry_accessed">Accessed</string>
-    <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_comment">Comments</string>
     <string name="entry_confpassword">Confirm password</string>
@@ -146,7 +145,7 @@
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow applications to write to the sdcard.</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recently used file names</string>
-    <string name="remember_keyfile_summary">Remembers the location of keyfiles</string>
+    <string name="remember_keyfile_summary">Remember the location of keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>
     <string name="rijndael">Rijndael (AES)</string>
@@ -252,7 +251,7 @@
 
     <string name="reset_education_screens_title">Reset education screens</string>
     <string name="reset_education_screens_summary">Highlight the elements to learn how the application works</string>
-    <string name="reset_education_screens_text">Education screens reseted (restart the application to show them)</string>
+    <string name="reset_education_screens_text">Education screens reseted (restart the application)</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">You don\'t know KeePass DX yet, create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
@@ -272,7 +271,11 @@
     <string name="education_entry_new_field_title">Add custom fields</string>
     <string name="education_entry_new_field_summary">You want to register a basic non-supplied field, simply fill in a new one that you can also protect visually.</string>
     <string name="education_entry_save_title">Save you entry</string>
-    <string name="education_entry_save_summary">Save your entry here once all the desired fields are filled</string>
+    <string name="education_entry_save_summary">Save your entry here once all the desired fields are filled.</string>
+    <string name="education_unlock_title">Unlock your database</string>
+    <string name="education_unlock_summary">Enter a password and/or a key file to unlock your database.</string>
+    <string name="education_open_and_save_database_title">Open your database</string>
+    <string name="education_open_and_save_database_summary">Open your database once the unlock items are filled. Remember to save a copy of your file in a safe place after each modification.</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>

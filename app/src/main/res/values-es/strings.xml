@@ -46,7 +46,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft NO TIENE TOTAL GARANTÍA; Este es software libre, y puedes redristribuirlo bajo las condiciones de la licencia GPL version 2 o posterior.</string>
     <string name="select_database_file">Introduzca el nombre del archivo de base de datos:</string>
     <string name="entry_accessed">Acceso</string>
-    <string name="entry_and_or">Introduzca una contraseña y/o un archivo de clave para desbloquear su base de datos:</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_comment">Comentario</string>
     <string name="entry_confpassword">Confirmar contraseña</string>
@@ -143,7 +142,9 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="warning_read_only">Actualmente su tarjeta SD es de sólo lectura. No podrá guardar los cambios de su base de datos.</string>
     <string name="warning_unmounted">Actualmente su tarjeta SD no está montada en el dispositivo. No podrá cargar o crear su base de datos.</string>
     <string name="version_label">Versión:</string>
-    
+
+    <string name="education_unlock_summary">Introduzca una contraseña y/o un archivo de clave para desbloquear su base de datos.</string>
+
     <string-array name="timeout_options">
      <item>5 segundos</item>
      <item>10 segundos</item>

@@ -54,7 +54,6 @@
     <string name="digits">Nombres</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft n\'offre ABSOLUMENT AUCUNE GARANTIE; il s\'agit d\'un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v2 ou ultérieure.</string>
     <string name="entry_accessed">Dernier accès</string>
-    <string name="entry_and_or">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données :</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_comment">Commentaires</string>
     <string name="entry_confpassword">Confirmer mot de passe</string>
@@ -177,7 +176,7 @@
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non supportée.</string>
     <string name="uppercase">Majuscule</string>
-    <string name="use_saf_summary">Utilisez l\'Environnement d\'Accès au Stockage d\'Android pour naviguer dans les fichiers (KitKat ou plus récent)</string>
+    <string name="use_saf_summary">Utiliser l\'Environnement d\'Accès au Stockage d\'Android pour naviguer dans les fichiers (KitKat ou plus récent)</string>
     <string name="use_saf_title">Environnement d\'Accès au Stockage</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Le format .kdb ne supporte que le jeu de caractère Latin1. Votre mot de passe doit contenir des caractères en dehors de ce jeu. Tous les caractères non-Latin1 sont convertis en un même caractère, ce qui diminue la sécurité de votre mot de passe. Le changement de votre mot de passe est recommandé.</string>
@@ -241,7 +240,7 @@
     <string name="permission_external_storage_denied">Permission de stockage externe refusée</string>
     <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
     <string name="monospace_font_fields_enable_title">Police des champs</string>
-    <string name="monospace_font_fields_enable_summary">Change la police de caractères des champs pour une meilleure visibilité</string>
+    <string name="monospace_font_fields_enable_summary">Changer la police de caractères des champs pour une meilleure visibilité</string>
     <string name="auto_open_file_uri_title">Ouvrir le fichier sélectionné automatiquement</string>
     <string name="auto_open_file_uri_summary">Ouvrir automatiquement un fichier à partir de l\'écran de sélection après une sélection dans le navigateur de fichiers</string>
     <string name="allow_copy_password_title">Copie de mot de passe</string>
@@ -250,8 +249,8 @@
     <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
 
     <string name="reset_education_screens_title">Réinitialise les écrans d\'éducation</string>
-    <string name="reset_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
-    <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés (redémarrez l\'application pour les montrer)</string>
+    <string name="reset_education_screens_summary">Mettre en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
+    <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés (redémarrez l\'application)</string>
     <string name="education_create_database_title">Créez votre fichier de base de données</string>
     <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créez votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrez une base de données existante</string>
@@ -272,6 +271,10 @@
     <string name="education_entry_new_field_summary">Vous voulez enregistrer un champ non fourni de base, renseignez en simplement un nouveau que vous pouvez aussi protéger visuelement.</string>
     <string name="education_entry_save_title">Sauvegardez votre entrée</string>
     <string name="education_entry_save_summary">Sauvegardez votre entrée ici une fois que tous les champs voulus sont remplis.</string>
+    <string name="education_unlock_title">Débloquez votre base de données</string>
+    <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.</string>
+    <string name="education_open_and_save_database_title">Ouvrez votre base de données</string>
+    <string name="education_open_and_save_database_summary">Ouvrez votre base de données une fois les éléments de déblocage renseignés. Pensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
 
     <string-array name="timeout_options">
     	<item>5 secondes</item>
@@ -291,7 +294,7 @@
     </string-array>
 
     <string name="style_choose_title">Choisir un thème</string>
-    <string name="style_choose_summary">Change le thème de l\'application en modifiant les couleurs</string>
+    <string name="style_choose_summary">Changer le thème de l\'application en modifiant les couleurs</string>
     <string-array name="list_style_names">
         <item>Light Theme</item>
         <item>Night Theme</item>
