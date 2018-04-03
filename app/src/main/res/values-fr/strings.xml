@@ -248,9 +248,9 @@
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
     <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
 
-    <string name="reset_education_screens_title">Réinitialise les écrans d\'éducation</string>
+    <string name="reset_education_screens_title">Réinitialiser les écrans d\'éducation</string>
     <string name="reset_education_screens_summary">Mettre en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
-    <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés (redémarrez l\'application)</string>
+    <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés</string>
     <string name="education_create_database_title">Créez votre fichier de base de données</string>
     <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créez votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrez une base de données existante</string>
@@ -274,7 +274,15 @@
     <string name="education_unlock_title">Débloquez votre base de données</string>
     <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.</string>
     <string name="education_open_and_save_database_title">Ouvrez votre base de données</string>
-    <string name="education_open_and_save_database_summary">Ouvrez votre base de données une fois les éléments de déblocage renseignés. Pensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
+    <string name="education_open_and_save_database_summary">Ouvrez votre base de données une fois les éléments de déblocage renseignés.\nPensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
+    <string name="education_field_copy_title">Copiez un champ</string>
+    <string name="education_field_copy_summary">Copiez un champ facilement dans le presse-papiers pour le coller où vous voulez.</string>
+    <string name="education_lock_title">Vérouillez la base de données</string>
+    <string name="education_lock_summary">Verrouillez votre base de données rapidement, vous pouvez paramétrer l\'application pour qu\'elle se verrouille après un certain temps et lorsqu'un écran est éteint.</string>
+    <string name="education_sort_title">Triez les éléments</string>
+    <string name="education_sort_summary">Triez les entrées et les groupes en fonction de paramètres spécifiques.</string>
+    <string name="education_donation_title">Participez</string>
+    <string name="education_donation_summary">Participer pour augmenter la stabilité, la sécurité et ajouter plus de fonctionnalités.</string>
 
     <string-array name="timeout_options">
     	<item>5 secondes</item>

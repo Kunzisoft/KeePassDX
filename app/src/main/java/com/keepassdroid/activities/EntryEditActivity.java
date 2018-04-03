@@ -217,9 +217,14 @@ public class EntryEditActivity extends LockingHideActivity
                 scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
             });
         }
+	}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         checkAndPerformedEducation();
-	}
+    }
 
     private void checkAndPerformedEducation() {
         // For the first time show the tuto

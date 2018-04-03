@@ -261,24 +261,37 @@ public class GroupActivity extends ListNodesActivity
         super.onResume();
         // Show button on resume
         addNodeButtonView.showButton();
+    }
 
-        checkAndPerformedEducation();
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+	    boolean parentOnPrepareOptionMenu = super.onPrepareOptionsMenu(menu);
+
+        // Launch education screen
+        new Handler().post(this::checkAndPerformedEducation);
+
+        return parentOnPrepareOptionMenu;
     }
 
     private void checkAndPerformedEducation() {
         // For the first time show the tuto
         if (!PreferencesUtil.isEducationGroupPerformed(this)) {
+
             new TapTargetSequence(this)
                     .targets(
+                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
+                                    getString(R.string.education_search_title),
+                                    getString(R.string.education_search_summary)),
+                            //TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
+                            //        getString(R.string.education_lock_title),
+                            //        getString(R.string.education_lock_summary)),
+                            //TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
+                            //        getString(R.string.education_sort_title),
+                            //        getString(R.string.education_sort_summary)),
                             TapTarget.forView(findViewById(R.id.add_button),
                                     getString(R.string.education_new_node_title),
                                     getString(R.string.education_new_node_summary))
                                     .tintTarget(false)
-                            /* TODO Search education
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
-                                    getString(R.string.education_search_title),
-                                    getString(R.string.education_search_summary))
-                                    */
                     ).listener(new TapTargetSequence.Listener() {
                 @Override
                 public void onSequenceFinish() {
@@ -341,7 +354,6 @@ public class GroupActivity extends ListNodesActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
@@ -362,6 +374,8 @@ public class GroupActivity extends ListNodesActivity
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
         }
+
+        super.onCreateOptionsMenu(menu);
 
         return true;
     }

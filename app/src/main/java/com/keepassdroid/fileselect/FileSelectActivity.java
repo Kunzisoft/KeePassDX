@@ -217,49 +217,7 @@ public class FileSelectActivity extends StylishActivity implements
                 }
             }
         }
-
-        // For the first time show the tuto
-        checkAndPerformedEducation();
-
 	}
-
-    private void checkAndPerformedEducation() {
-        if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
-            new TapTargetSequence(this)
-                    .targets(
-                            TapTarget.forView(createButtonView,
-                                    getString(R.string.education_create_database_title),
-                                    getString(R.string.education_create_database_summary))
-                                    .tintTarget(false),
-                            TapTarget.forView(browseButtonView,
-                                    getString(R.string.education_select_database_title),
-                                    getString(R.string.education_select_database_summary))
-                                    .tintTarget(false),
-                            TapTarget.forView(openButtonView,
-                                    getString(R.string.education_open_link_database_title),
-                                    getString(R.string.education_open_link_database_summary))
-                                    .tintTarget(false)
-                    ).listener(new TapTargetSequence.Listener() {
-                @Override
-                public void onSequenceFinish() {
-                    saveEducationPreference();
-                }
-
-                @Override
-                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
-
-                @Override
-                public void onSequenceCanceled(TapTarget lastTarget) {}
-            }).continueOnCancel(true).start();
-        }
-    }
-
-	private void saveEducationPreference() {
-	    SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.education_select_db_key), true);
-        editor.apply();
-    }
 
 	private void launchPasswordActivityWithPath(String path) {
         try {
@@ -300,6 +258,48 @@ public class FileSelectActivity extends StylishActivity implements
         fileNameView.updateExternalStorageWarning();
         updateTitleFileListView();
         mAdapter.notifyDataSetChanged();
+
+
+        // For the first time show the tuto
+        checkAndPerformedEducation();
+    }
+
+    private void checkAndPerformedEducation() {
+        if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
+            new TapTargetSequence(this)
+                    .targets(
+                            TapTarget.forView(createButtonView,
+                                    getString(R.string.education_create_database_title),
+                                    getString(R.string.education_create_database_summary))
+                                    .tintTarget(false),
+                            TapTarget.forView(browseButtonView,
+                                    getString(R.string.education_select_database_title),
+                                    getString(R.string.education_select_database_summary))
+                                    .tintTarget(false),
+                            TapTarget.forView(openButtonView,
+                                    getString(R.string.education_open_link_database_title),
+                                    getString(R.string.education_open_link_database_summary))
+                                    .tintTarget(false)
+                    ).listener(new TapTargetSequence.Listener() {
+                @Override
+                public void onSequenceFinish() {
+                    saveEducationPreference();
+                }
+
+                @Override
+                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+
+                @Override
+                public void onSequenceCanceled(TapTarget lastTarget) {}
+            }).continueOnCancel(true).start();
+        }
+    }
+
+    private void saveEducationPreference() {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.education_select_db_key), true);
+        editor.apply();
     }
 
     @Override

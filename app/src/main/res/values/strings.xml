@@ -251,7 +251,7 @@
 
     <string name="reset_education_screens_title">Reset education screens</string>
     <string name="reset_education_screens_summary">Highlight the elements to learn how the application works</string>
-    <string name="reset_education_screens_text">Education screens reseted (restart the application)</string>
+    <string name="reset_education_screens_text">Education screens reseted</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">You don\'t know KeePass DX yet, create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
@@ -275,7 +275,15 @@
     <string name="education_unlock_title">Unlock your database</string>
     <string name="education_unlock_summary">Enter a password and/or a key file to unlock your database.</string>
     <string name="education_open_and_save_database_title">Open your database</string>
-    <string name="education_open_and_save_database_summary">Open your database once the unlock items are filled. Remember to save a copy of your file in a safe place after each modification.</string>
+    <string name="education_open_and_save_database_summary">Open your database once the unlock items are filled.\nRemember to save a copy of your file in a safe place after each modification.</string>
+    <string name="education_field_copy_title">Copy a field</string>
+    <string name="education_field_copy_summary">Copy a field easily into the clipboard to paste it where you want.</string>
+    <string name="education_lock_title">Lock the database</string>
+    <string name="education_lock_summary">Lock your database quickly, you can parameter the application to lock it after a while and when a screen is off.</string>
+    <string name="education_sort_title">Sort items</string>
+    <string name="education_sort_summary">Sort entries and groups according to specific parameters.</string>
+    <string name="education_donation_title">Participate</string>
+    <string name="education_donation_summary">Participate to increase the stability, the security and to add more features.</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>

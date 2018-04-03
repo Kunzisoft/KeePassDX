@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -141,39 +142,7 @@ public class EntryActivity extends LockingHideActivity {
         // Init the clipboard helper
         clipboardHelper = new ClipboardHelper(this);
         firstLaunchOfActivity = true;
-
-        checkAndPerformedEducation();
 	}
-
-    private void checkAndPerformedEducation() {
-        if (!PreferencesUtil.isEducationEntryPerformed(this)) {
-            new TapTargetSequence(this)
-                    .targets(
-                            TapTarget.forView(editView,
-                                    getString(R.string.education_entry_edit_title),
-                                    getString(R.string.education_entry_edit_summary))
-                                    .tintTarget(false)
-                    ).listener(new TapTargetSequence.Listener() {
-                @Override
-                public void onSequenceFinish() {
-                    saveEducationPreference();
-                }
-
-                @Override
-                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
-
-                @Override
-                public void onSequenceCanceled(TapTarget lastTarget) {}
-            }).continueOnCancel(true).start();
-        }
-    }
-
-    private void saveEducationPreference() {
-        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.education_entry_key), true);
-        editor.apply();
-    }
 
     @Override
     protected void onResume() {
@@ -244,6 +213,48 @@ public class EntryActivity extends LockingHideActivity {
             mEntry.endToManageFieldReferences();
         }
         firstLaunchOfActivity = false;
+
+        checkAndPerformedEducation();
+    }
+
+    private void checkAndPerformedEducation() {
+        if (!PreferencesUtil.isEducationEntryPerformed(this)) {
+
+            TapTarget copyTapTarget = TapTarget.forView(findViewById(R.id.entry_user_name_action_image),
+                    getString(R.string.education_field_copy_title),
+                    getString(R.string.education_field_copy_summary));
+            // Construct the drawable if not visible
+            if (!entryContentsView.isUserNamePresent()) {
+                Drawable copyDrawable = ContextCompat.getDrawable(this, R.drawable.ic_content_copy_black_24dp);
+                copyTapTarget = copyTapTarget.icon(copyDrawable);
+            }
+
+            new TapTargetSequence(this)
+                    .target(copyTapTarget)
+                    .targets(TapTarget.forView(editView,
+                            getString(R.string.education_entry_edit_title),
+                            getString(R.string.education_entry_edit_summary))
+                            .tintTarget(false)
+                    ).listener(new TapTargetSequence.Listener() {
+                @Override
+                public void onSequenceFinish() {
+                    saveEducationPreference();
+                }
+
+                @Override
+                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+
+                @Override
+                public void onSequenceCanceled(TapTarget lastTarget) {}
+            }).continueOnCancel(true).start();
+        }
+    }
+
+    private void saveEducationPreference() {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.education_entry_key), true);
+        editor.apply();
     }
 
     private void populateTitle(Drawable drawIcon, String text) {

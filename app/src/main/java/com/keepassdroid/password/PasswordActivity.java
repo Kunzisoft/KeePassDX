@@ -63,7 +63,9 @@ import com.keepassdroid.database.Database;
 import com.keepassdroid.database.edit.LoadDB;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.dialogs.PasswordEncodingDialogHelper;
+import com.keepassdroid.fileselect.KeyFileHelper;
 import com.keepassdroid.fingerprint.FingerPrintAnimatedVector;
+import com.keepassdroid.fingerprint.FingerPrintDialog;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.stylish.StylishActivity;
@@ -71,8 +73,6 @@ import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
-import com.keepassdroid.fingerprint.FingerPrintDialog;
-import com.keepassdroid.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.R;
 
 import java.io.File;
@@ -114,6 +114,7 @@ public class PasswordActivity extends StylishActivity
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
     private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
 
+    private Toolbar toolbar;
     private View fingerprintContainerView;
     private FingerPrintAnimatedVector fingerPrintAnimatedVector;
     private TextView fingerprintTextView;
@@ -240,7 +241,7 @@ public class PasswordActivity extends StylishActivity
 
         setContentView(R.layout.password);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
@@ -302,8 +303,39 @@ public class PasswordActivity extends StylishActivity
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
         }
+    }
 
-        checkAndPerformedEducation();
+    @Override
+    protected void onResume() {
+        // If the application was shutdown make sure to clear the password field, if it
+        // was saved in the instance state
+        if (App.isShutdown()) {
+            setEmptyViews();
+        }
+
+        // Show message if exists
+        CharSequence appMessage = App.getMessage();
+        if (! appMessage.toString().isEmpty())
+            Toast.makeText(this, appMessage, Toast.LENGTH_SHORT).show();
+
+        // Clear the shutdown flag
+        App.clearShutdown();
+
+        // For check shutdown
+        super.onResume();
+
+        new UriIntentInitTask(this, mRememberKeyfile)
+                .execute(getIntent());
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        boolean parentOnPrepareOptionMenu = super.onPrepareOptionsMenu(menu);
+        // Launch education screen
+        new Handler().post(this::checkAndPerformedEducation);
+
+        return parentOnPrepareOptionMenu;
     }
 
     private void checkAndPerformedEducation() {
@@ -325,6 +357,10 @@ public class PasswordActivity extends StylishActivity
                         .tintTarget(false);
                 targets.add(fingerprintTapTarget);
             }
+
+            MenuUtil.addDonationTapTargetIfAllowed(targets, toolbar,
+                    getString(R.string.education_donation_title),
+                    getString(R.string.education_donation_summary));
 
             targets.add(TapTarget.forView(confirmButtonView,
                     getString(R.string.education_open_and_save_database_title),
@@ -354,29 +390,6 @@ public class PasswordActivity extends StylishActivity
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.education_password_key), true);
         editor.apply();
-    }
-
-    @Override
-    protected void onResume() {
-        // If the application was shutdown make sure to clear the password field, if it
-        // was saved in the instance state
-        if (App.isShutdown()) {
-            setEmptyViews();
-        }
-
-        // Show message if exists
-        CharSequence appMessage = App.getMessage();
-        if (! appMessage.toString().isEmpty())
-            Toast.makeText(this, appMessage, Toast.LENGTH_SHORT).show();
-
-        // Clear the shutdown flag
-        App.clearShutdown();
-
-        // For check shutdown
-        super.onResume();
-
-        new UriIntentInitTask(this, mRememberKeyfile)
-                .execute(getIntent());
     }
 
     @Override
@@ -821,12 +834,14 @@ public class PasswordActivity extends StylishActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         MenuUtil.defaultMenuInflater(inflater, menu);
         if (!fingerprintMustBeConfigured
                 && prefsNoBackup.contains(getPreferenceKeyValue()) )
             inflater.inflate(R.menu.fingerprint, menu);
+
+        super.onCreateOptionsMenu(menu);
+
         return true;
     }
 
