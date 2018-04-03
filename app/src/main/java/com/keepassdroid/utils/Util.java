@@ -52,9 +52,13 @@ public class Util {
 	public static void copyStream(InputStream in, OutputStream out) throws IOException {
 		byte[] buf = new byte[1024];
 		int read;
-		while ((read = in.read(buf)) != -1) {
-			out.write(buf, 0, read);
-		}
+		try {
+            while ((read = in.read(buf)) != -1) {
+                out.write(buf, 0, read);
+            }
+        } catch (OutOfMemoryError error) {
+		    throw new IOException(error);
+        }
 	}
 
 	private final static String stringToStrikeThrough = "0";
