@@ -1,6 +1,6 @@
 /*
  * 
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
  *     
  * This file is part of KeePass DX.
  *
