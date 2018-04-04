@@ -101,7 +101,6 @@
     <string name="settings">设置</string>
     <string name="menu_db_settings">数据库设置</string>
     <string name="menu_delete">删除</string>
-    <string name="menu_donate">捐赠</string>
     <string name="menu_edit">编辑</string>
     <string name="menu_hide_password">隐藏密码</string>
     <string name="menu_lock">锁定数据库</string>

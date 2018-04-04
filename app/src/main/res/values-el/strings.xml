@@ -112,7 +112,6 @@
     <string name="settings">Ρυθμίσεις</string>
     <string name="menu_db_settings">Ρυθμίσεις βάσης δεδομένων</string>
     <string name="menu_delete">Διαγραφή</string>
-    <string name="menu_donate">Δωρεά</string>
     <string name="menu_edit">Επεξεργασία</string>
     <string name="menu_hide_password">Απόκρυψη Κωδικού</string>
     <string name="menu_lock">Κλείδωμα Βάσης Δεδομένων</string>

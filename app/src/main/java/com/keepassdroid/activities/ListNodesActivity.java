@@ -179,7 +179,6 @@ public abstract class ListNodesActivity extends LockingActivity
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-		MenuUtil.donationMenuInflater(inflater, menu);
 		inflater.inflate(R.menu.tree, menu);
 		inflater.inflate(R.menu.default_menu, menu);
 

@@ -33,13 +33,13 @@
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentCompat">@color/orange</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/pink</item>
+        <item name="colorAccentCompat">@color/pink</item>
 
         <item name="colorControlNormal">@color/colorTextSecondary</item>
-        <item name="colorControlActivated">@color/orange</item>
+        <item name="colorControlActivated">@color/pink</item>
 
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
@@ -49,12 +49,12 @@
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:editTextColor">@color/colorText</item>
         <item name="textColorInverse">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
+        <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/blue_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
@@ -83,13 +83,13 @@
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentCompat">@color/orange</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/pink</item>
+        <item name="colorAccentCompat">@color/pink</item>
 
         <item name="colorControlNormal">@color/colorTextSecondary</item>
-        <item name="colorControlActivated">@color/orange</item>
+        <item name="colorControlActivated">@color/pink</item>
 
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
@@ -99,12 +99,12 @@
         <item name="android:textColor">@color/text_color_night</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="textColorInverse">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
+        <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/blue_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
@@ -141,7 +141,7 @@
     <style name="KeepassDXStyle.Toolbar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/colorTextInverse</item>
 
-        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimary">@color/blue</item>
 
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
@@ -149,8 +149,8 @@
 
     <!-- Dialog -->
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="colorAccent">@color/orange</item>
-        <item name="android:textColorPrimary">@color/green</item>
+        <item name="colorAccent">@color/pink</item>
+        <item name="android:textColorPrimary">@color/blue</item>
         <item name="android:background">@color/background_night</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
@@ -263,9 +263,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/pink</item>
     </style>
 
     <style name="KeepassDXStyle.FilePickerStyle.Light" parent="Theme.AppCompat.Light.DialogWhenLarge">
@@ -277,9 +277,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/pink</item>
     </style>
 
 </resources>

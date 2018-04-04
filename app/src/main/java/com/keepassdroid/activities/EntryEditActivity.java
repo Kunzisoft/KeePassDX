@@ -294,18 +294,11 @@ public class EntryEditActivity extends LockingHideActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		
-		MenuInflater inflater = getMenuInflater();
-		MenuUtil.donationMenuInflater(inflater, menu);
-		
 		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-			case R.id.menu_donate:
-				return MenuUtil.onDonationItemSelected(this);
-
 			case android.R.id.home:
 				finish();
 		}

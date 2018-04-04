@@ -112,7 +112,6 @@
     <string name="settings">Asetukset</string>
     <string name="menu_db_settings">Salasanatietokannan asetukset</string>
     <string name="menu_delete">Poista</string>
-    <string name="menu_donate">Lahjoita</string>
     <string name="menu_edit">Muokkaa</string>
     <string name="menu_hide_password">Piilota salasana</string>
     <string name="menu_lock">Lukitse salasanatietokanta</string>

@@ -104,7 +104,6 @@
     <string name="settings">Configurações</string>
     <string name="menu_db_settings">Configurações do banco de dados</string>
     <string name="menu_delete">Deletar</string>
-    <string name="menu_donate">Doaçoes</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Esconder Senha</string>
     <string name="menu_lock">Trancar banco de dados</string>

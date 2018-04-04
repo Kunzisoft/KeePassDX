@@ -15,25 +15,8 @@ import tech.jgross.keepass.R;
 
 
 public class MenuUtil {
-
-    public static void donationMenuInflater(MenuInflater inflater, Menu menu) {
-        if(!(BuildConfig.FULL_VERSION && BuildConfig.GOOGLE_PLAY_VERSION))
-            inflater.inflate(R.menu.donation, menu);
-    }
-
     public static void defaultMenuInflater(MenuInflater inflater, Menu menu) {
-        donationMenuInflater(inflater, menu);
         inflater.inflate(R.menu.default_menu, menu);
-    }
-
-    public static boolean onDonationItemSelected(StylishActivity activity) {
-        try {
-            Util.gotoUrl(activity, R.string.donate_url);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(activity, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
     }
 
     public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item) {
@@ -45,9 +28,6 @@ public class MenuUtil {
      */
     public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item, boolean checkLock) {
         switch (item.getItemId()) {
-            case R.id.menu_donate:
-                return onDonationItemSelected(activity);
-
             case R.id.menu_app_settings:
                 // To avoid flickering when launch settings in a LockingActivity
                 SettingsActivity.launch(activity, checkLock);

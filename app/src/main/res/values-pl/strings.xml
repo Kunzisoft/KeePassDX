@@ -99,7 +99,6 @@ along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
     <string name="settings">Ustawienia</string>
     <string name="menu_db_settings">Ustawienia bazy danych</string>
     <string name="menu_delete">Usuń</string>
-    <string name="menu_donate">Dotuj</string>
     <string name="menu_edit">Edytuj</string>
     <string name="menu_hide_password">Ukryj hasło</string>
     <string name="menu_lock">Zablokuj bazę danych</string>
