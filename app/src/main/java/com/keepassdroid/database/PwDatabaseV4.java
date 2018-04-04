@@ -68,7 +68,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
 	private KdfEngine kdfEngine;
 
-	// TODO: Refactor me away to get directly from kdfParameters
     private long numKeyEncRounds = AesKdf.DEFAULT_ROUNDS; // By default take the AES rounds
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
@@ -143,7 +142,8 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     @Override
     public void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException {
-	    // TODO set kdfParameter
+        if (getKdfEngine() != null && getKdfParameters() != null)
+	        getKdfEngine().setKeyRounds(getKdfParameters(), rounds);
         numKeyEncRounds = rounds;
     }
 

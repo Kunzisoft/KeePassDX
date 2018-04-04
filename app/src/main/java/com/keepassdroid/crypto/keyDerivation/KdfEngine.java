@@ -37,4 +37,6 @@ public abstract class KdfEngine {
 
     public abstract long getKeyRounds(KdfParameters p);
 
+    public abstract void setKeyRounds(KdfParameters p, long keyRounds);
+
 }

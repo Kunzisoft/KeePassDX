@@ -88,4 +88,9 @@ public class AesKdf extends KdfEngine {
     public long getKeyRounds(KdfParameters p) {
         return p.getUInt64(ParamRounds);
     }
+
+    @Override
+    public void setKeyRounds(KdfParameters p, long keyRounds) {
+        p.setUInt64(ParamRounds, keyRounds);
+    }
 }

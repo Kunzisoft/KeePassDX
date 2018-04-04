@@ -107,4 +107,10 @@ public class Argon2Kdf extends KdfEngine {
     public long getKeyRounds(KdfParameters p) {
         return p.getUInt64(ParamIterations);
     }
+
+    @Override
+    public void setKeyRounds(KdfParameters p, long keyRounds) {
+        p.setUInt64(ParamIterations, keyRounds);
+    }
+
 }

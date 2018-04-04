@@ -3,18 +3,16 @@ package com.keepassdroid.settings;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keepassdroid.database.Database;
-import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.SaveDB;
+import com.keepassdroid.tasks.ProgressTask;
 import com.kunzisoft.keepass.R;
 
 public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
@@ -34,8 +32,22 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
     }
 
     @Override
+    protected void onBindDialogView(View view) {
+        super.onBindDialogView(view);
+
+        mRoundsView = view.findViewById(R.id.rounds);
+
+        // Get the number or rounds from the related Preference
+        mPM = App.getDB().getPwDatabase();
+        long numRounds = mPM.getNumberKeyEncryptionRounds();
+
+        mRoundsView.setText(String.valueOf(numRounds));
+    }
+
+    @Override
     public void onDialogClosed(boolean positiveResult) {
         if ( positiveResult ) {
+            assert getContext() != null;
             long rounds;
 
             try {
@@ -59,49 +71,36 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
             }
 
             Handler handler = new Handler();
-            SaveDB save = new SaveDB(getContext(), App.getDB(), new AfterSave(getContext(), handler, oldRounds));
+            SaveDB save = new SaveDB(getContext(), App.getDB(), new AfterSave(getContext(), handler, rounds, oldRounds));
             ProgressTask pt = new ProgressTask(getContext(), save, R.string.saving_database);
             pt.run();
-
         }
-    }
-
-    @Override
-    protected void onBindDialogView(View view) {
-        super.onBindDialogView(view);
-
-        mRoundsView = view.findViewById(R.id.rounds);
-
-        // Get the time from the related Preference
-        Database db = App.getDB();
-        mPM = db.getPwDatabase();
-        long numRounds = mPM.getNumberKeyEncryptionRounds();
-
-        DialogPreference preference = getPreference();
-        if (preference instanceof RoundsPreference) {
-            numRounds = ((RoundsPreference) preference).getRounds();
-        }
-
-        mRoundsView.setText(String.valueOf(numRounds));
     }
 
     private class AfterSave extends OnFinish {
+
+        private long mNewRounds;
         private long mOldRounds;
         private Context mCtx;
 
-        public AfterSave(Context ctx, Handler handler, long oldRounds) {
+        public AfterSave(Context ctx, Handler handler, long newRounds, long oldRounds) {
             super(handler);
 
             mCtx = ctx;
+            mNewRounds = newRounds;
             mOldRounds = oldRounds;
         }
 
         @Override
         public void run() {
+            long roundsToShow = mNewRounds;
+
             if (!mSuccess) {
                 displayMessage(mCtx);
                 mPM.setNumberKeyEncryptionRounds(mOldRounds);
             }
+
+            getPreference().setSummary(String.valueOf(roundsToShow));
 
             super.run();
         }

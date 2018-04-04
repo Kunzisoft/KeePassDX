@@ -45,7 +45,7 @@
 			android:key="@string/roundsFix_key"
             android:title="@string/rounds_fix_title"
 			android:summary="@string/rounds_fix"
-            custom:description="@string/rounds_fix_explanation"
+            custom:explanations="@string/rounds_fix_explanation"
 			android:defaultValue="@integer/roundsFix_default"
             android:icon="@drawable/ic_filter_tilt_shift_pref_24dp" />
 	</PreferenceCategory>

@@ -34,12 +34,15 @@ public class RoundsPreference extends DialogPreference {
     public RoundsPreference(Context context) {
         this(context, null);
     }
+
     public RoundsPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.dialogPreferenceStyle);
     }
+
     public RoundsPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, defStyleAttr);
     }
+
     public RoundsPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -47,7 +50,7 @@ public class RoundsPreference extends DialogPreference {
                 R.styleable.RoundsDialog,
                 0, 0);
         try {
-            explanations = a.getString(R.styleable.RoundsDialog_description);
+            setExplanations(a.getString(R.styleable.RoundsDialog_explanations));
         } finally {
             a.recycle();
         }

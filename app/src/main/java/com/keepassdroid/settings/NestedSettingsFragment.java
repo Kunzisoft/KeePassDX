@@ -274,22 +274,15 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     // Encryption Algorithme
                     Preference algorithmPref = findPreference(getString(R.string.encryption_algorithm_key));
-                    algorithmPref.setSummary(pwDatabase
-                            .getEncryptionAlgorithm().getName(getResources()));
+                    algorithmPref.setSummary(pwDatabase.getEncryptionAlgorithm().getName(getResources()));
 
                     // Key derivation function
                     Preference kdfPref = findPreference(getString(R.string.key_derivation_function_key));
-                    kdfPref.setSummary(pwDatabase
-                            .getKeyDerivationName());
+                    kdfPref.setSummary(pwDatabase.getKeyDerivationName());
 
                     // Round encryption
                     Preference roundPref = findPreference(getString(R.string.transform_rounds_key));
                     roundPref.setSummary(Long.toString(pwDatabase.getNumberKeyEncryptionRounds()));
-                    roundPref.setEnabled(false); //TODO refactor round pref
-                    roundPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                        preference.setSummary(Long.toString(pwDatabase.getNumberKeyEncryptionRounds()));
-                        return true;
-                    });
 
                     if (db.isRecycleBinAvailabledAndEnabled()) {
                         SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));

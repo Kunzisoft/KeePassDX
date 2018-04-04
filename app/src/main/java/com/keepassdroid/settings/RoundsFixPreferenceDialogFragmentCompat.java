@@ -25,6 +25,21 @@ public class RoundsFixPreferenceDialogFragmentCompat extends PreferenceDialogFra
     }
 
     @Override
+    protected void onBindDialogView(View view) {
+        super.onBindDialogView(view);
+
+        TextView textDescriptionView = view.findViewById(R.id.rounds_explanation);
+        mRoundsView = view.findViewById(R.id.rounds);
+
+        DialogPreference preference = getPreference();
+        if (preference instanceof RoundsPreference) {
+            textDescriptionView.setText(((RoundsPreference) preference).getExplanations());
+            long numRounds = ((RoundsPreference) preference).getRounds();
+            mRoundsView.setText(String.valueOf(numRounds));
+        }
+    }
+
+    @Override
     public void onDialogClosed(boolean positiveResult) {
         if ( positiveResult ) {
             long rounds;
@@ -45,21 +60,6 @@ public class RoundsFixPreferenceDialogFragmentCompat extends PreferenceDialogFra
                     roundsPreference.setRounds(rounds);
                 }
             }
-        }
-    }
-
-    @Override
-    protected void onBindDialogView(View view) {
-        super.onBindDialogView(view);
-
-        TextView textDescriptionView = (TextView) view.findViewById(R.id.rounds_explanation);
-        mRoundsView = (TextView) view.findViewById(R.id.rounds);
-
-        DialogPreference preference = getPreference();
-        if (preference instanceof RoundsPreference) {
-            textDescriptionView.setText(((RoundsPreference) preference).getExplanations());
-            long numRounds = ((RoundsPreference) preference).getRounds();
-            mRoundsView.setText(String.valueOf(numRounds));
         }
     }
 }

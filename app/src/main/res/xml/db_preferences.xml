@@ -36,8 +36,7 @@
 			android:persistent="false"
 			android:title="@string/rounds"
 			android:positiveButtonText="@string/entry_save"
-			android:negativeButtonText="@string/entry_cancel"
-			android:enabled="false"/>
+			android:negativeButtonText="@string/entry_cancel"/>
 
     </PreferenceCategory>
 
