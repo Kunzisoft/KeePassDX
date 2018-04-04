@@ -20,6 +20,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include
@@ -42,47 +43,30 @@
             android:paddingTop="16dp"
             android:scrollbars="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/activity_about_icon"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:text="@string/app_name"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/activity_about_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toRightOf="@+id/activity_about_icon"
-                    android:layout_toEndOf="@+id/activity_about_icon">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/app_name"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/activity_about_version"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Small" />
-                </LinearLayout>
-            </RelativeLayout>
-
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    tools:text="2.3.4-abc-free"/>
+            </LinearLayout>
             <TextView android:id="@+id/about_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:text="@string/AboutText"/>
 
             <TextView android:id="@+id/homepage"
@@ -95,8 +79,6 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginStart="18dp"
                 android:autoLink="web"
                 android:text="@string/homepage" />
 
@@ -108,8 +90,6 @@
                 style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginStart="18dp"
                 android:text="@string/issues"
                 android:autoLink="web"/>
 
@@ -120,7 +100,6 @@
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:text="@string/disclaimer_formal"
         style="@style/KeepassDXStyle.TextAppearance.TinyText"/>
