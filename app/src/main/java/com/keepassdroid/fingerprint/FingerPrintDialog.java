@@ -33,7 +33,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.keepassdroid.fingerprint.FingerPrintAnimatedVector;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class FingerPrintDialog extends DialogFragment {

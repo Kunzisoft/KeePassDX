@@ -69,7 +69,7 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.fingerprint.FingerPrintDialog;
 import com.keepassdroid.fileselect.KeyFileHelper;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

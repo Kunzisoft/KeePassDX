@@ -10,8 +10,8 @@ import android.widget.Toast;
 import com.keepassdroid.activities.AboutActivity;
 import com.keepassdroid.settings.SettingsActivity;
 import com.keepassdroid.stylish.StylishActivity;
-import com.kunzisoft.keepass.BuildConfig;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.BuildConfig;
+import tech.jgross.keepass.R;
 
 
 public class MenuUtil {

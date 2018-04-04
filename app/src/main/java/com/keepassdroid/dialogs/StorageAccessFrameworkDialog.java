@@ -25,7 +25,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class StorageAccessFrameworkDialog extends AlertDialog {
 

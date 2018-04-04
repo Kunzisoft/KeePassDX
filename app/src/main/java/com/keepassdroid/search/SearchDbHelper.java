@@ -32,7 +32,7 @@ import com.keepassdroid.database.PwEntryV4;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwGroupV3;
 import com.keepassdroid.database.PwGroupV4;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;

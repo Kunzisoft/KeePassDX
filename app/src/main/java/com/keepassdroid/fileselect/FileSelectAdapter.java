@@ -34,7 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keepassdroid.settings.PreferencesUtil;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.List;
 

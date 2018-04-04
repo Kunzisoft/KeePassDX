@@ -25,7 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.keepassdroid.app.App;
 
 public class GroupHeaderView extends RelativeLayout {

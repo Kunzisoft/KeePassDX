@@ -33,7 +33,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.keepassdroid.database.SortNodeEnum;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class SortDialogFragment extends DialogFragment {
 

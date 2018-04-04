@@ -23,7 +23,7 @@ import java.security.SecureRandom;
 
 import android.content.Context;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class PasswordGenerator {
 	private static final String UPPERCASE_CHARS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

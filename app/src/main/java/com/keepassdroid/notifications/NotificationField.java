@@ -26,7 +26,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.ArrayList;
 import java.util.List;

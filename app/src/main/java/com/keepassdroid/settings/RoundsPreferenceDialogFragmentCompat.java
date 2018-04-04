@@ -15,7 +15,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.SaveDB;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 

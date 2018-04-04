@@ -40,7 +40,7 @@ import android.widget.Toast;
 import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.fileselect.KeyFileHelper;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class AssignMasterKeyDialogFragment extends DialogFragment {
 

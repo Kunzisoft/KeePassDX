@@ -30,7 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.text.DateFormat;
 

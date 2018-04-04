@@ -56,7 +56,7 @@ import com.keepassdroid.tasks.UIToastTask;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.database.SortNodeEnum;
 import com.keepassdroid.password.AssignPasswordHelper;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public abstract class ListNodesActivity extends LockingActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,

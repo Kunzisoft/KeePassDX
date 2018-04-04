@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
  *     
  * This file is part of KeePass DX.
  *
@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass;
+package tech.jgross.keepass;
 
 import android.app.Activity;
 import android.content.Intent;

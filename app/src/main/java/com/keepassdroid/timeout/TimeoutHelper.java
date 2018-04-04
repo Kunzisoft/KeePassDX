@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.keepassdroid.activities.LockingActivity;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.keepassdroid.app.App;
 import com.keepassdroid.compat.EditorCompat;
 

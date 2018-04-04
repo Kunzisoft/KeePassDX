@@ -18,7 +18,7 @@ import android.util.TypedValue;
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.stylish.Stylish;
 import com.keepassdroid.timeout.ClipboardHelper;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.ArrayList;
 import java.util.List;

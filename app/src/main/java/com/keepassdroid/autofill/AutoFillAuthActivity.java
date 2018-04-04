@@ -30,7 +30,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 import com.keepassdroid.fileselect.FileSelectActivity;
-import com.kunzisoft.keepass.KeePass;
+import tech.jgross.keepass.KeePass;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AutoFillAuthActivity extends KeePass {

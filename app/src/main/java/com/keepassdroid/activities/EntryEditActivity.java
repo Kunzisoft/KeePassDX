@@ -58,7 +58,7 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryEditCustomField;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.UUID;
 

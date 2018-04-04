@@ -36,7 +36,7 @@ import android.widget.Toast;
 
 import com.keepassdroid.database.exception.SamsungClipboardException;
 import com.keepassdroid.tasks.UIToastTask;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.Timer;
 import java.util.TimerTask;

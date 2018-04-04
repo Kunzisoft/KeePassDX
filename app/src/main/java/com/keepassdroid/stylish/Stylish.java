@@ -5,7 +5,7 @@ import android.support.annotation.StyleRes;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class Stylish {
 

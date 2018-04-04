@@ -36,7 +36,7 @@ import android.util.Log;
 import android.view.autofill.AutofillId;
 import android.widget.RemoteViews;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.Arrays;
 import java.util.List;

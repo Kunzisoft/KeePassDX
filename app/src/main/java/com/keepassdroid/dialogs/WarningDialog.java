@@ -26,7 +26,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class WarningDialog extends AlertDialog {
 	
