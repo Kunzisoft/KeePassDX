@@ -1,6 +1,6 @@
-# Keepass Libre
+# KeePass Libre
 
-Keepass Libre is a material design Keepass Client for manage keys and passwords in crypt database for your android device.
+KeePass Libre is a material design KeePass Client for manage keys and passwords in crypt database for your android device.
 
 ### Features
 
