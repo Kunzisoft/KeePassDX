@@ -304,10 +304,10 @@ public class EntryActivity extends LockingHideActivity {
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
 		if (entryContentsView != null && togglePassword != null) {
-            if (!entryContentsView.isPasswordPresent()) {
-                togglePassword.setVisible(false);
-            } else {
+            if (entryContentsView.isPasswordPresent() || entryContentsView.atLeastOneFieldProtectedPresent()) {
                 changeShowPasswordIcon(togglePassword);
+            } else {
+                togglePassword.setVisible(false);
             }
         }
 		

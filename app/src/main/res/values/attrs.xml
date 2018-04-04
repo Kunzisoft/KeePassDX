@@ -27,6 +27,8 @@
 
     <attr name="textColorInverse" format="reference|color" />
 
+    <attr name="whiteFab" format="reference" />
+
     <declare-styleable name="RoundsDialog">
         <attr name="description" format="string" />
     </declare-styleable>

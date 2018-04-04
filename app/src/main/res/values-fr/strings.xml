@@ -135,7 +135,7 @@
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
     <string name="select_database_file">Sélectionner une base de données existante :</string>
-    <string name="open_recent">Ouvrir une base de données récente :</string>
+    <string name="open_recent">Bases de données récentes :</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
     <string name="progress_create">Création d\'une nouvelle base de données…</string>
@@ -247,6 +247,7 @@
     <string name="allow_copy_password_title">Copie de mot de passe</string>
     <string name="allow_copy_password_summary">Autoriser la copie du mot de passe dans le presse-papiers.</string>
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
+    <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
 
     <string-array name="timeout_options">
     	<item>5 secondes</item>

@@ -54,19 +54,12 @@ public class FileNameView extends RelativeLayout {
 			warning = R.string.warning_unmounted;
 		}
 		
-		TextView tv = (TextView) findViewById(R.id.label_warning);
-		TextView label = (TextView) findViewById(R.id.label_open_by_filename);
-		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
+		TextView tv = findViewById(R.id.label_warning);
 		if (warning != -1) {
 			tv.setText(warning);
 			tv.setVisibility(VISIBLE);
-			
-			lp.addRule(RelativeLayout.BELOW, R.id.label_warning);
 		} else {
 			tv.setVisibility(INVISIBLE);
 		}
-		
-		label.setLayoutParams(lp);
 	}
 }

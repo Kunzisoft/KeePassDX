@@ -21,7 +21,7 @@ package com.keepassdroid.utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Seconds;
+import org.joda.time.Duration;
 
 import java.util.Date;
 
@@ -32,9 +32,6 @@ public class DateUtil {
     private static final long epochOffset;
 
     static {
-        Date dotNet = dotNetEpoch.toDate();
-        Date java = javaEpoch.toDate();
-
         epochOffset = (javaEpoch.getMillis() - dotNetEpoch.getMillis()) / 1000L;
     }
 
@@ -51,7 +48,8 @@ public class DateUtil {
     }
 
     public static long convertDateToKDBX4Time(DateTime dt) {
-        Seconds secs = Seconds.secondsBetween(javaEpoch, dt);
-        return secs.getSeconds() + epochOffset;
+        Duration duration = new Duration( javaEpoch, dt );
+        long seconds = ( duration.getMillis() / 1000L );
+        return seconds + epochOffset;
     }
 }

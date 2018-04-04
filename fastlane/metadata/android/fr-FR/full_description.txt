@@ -1,12 +1,13 @@
-Si vous voulez un client Keepass material design pour gérer vos clés et mots de passe dans une base de données sécurisée, vous êtes au bon endroit !
+Gestionnaire KeePass multiformats, l'application permet de créer des clés et mots de passe de manière sécurisée en s'intégrant parfaitement aux normes de design Android.
 
 Fonctionnalités :
- * Création de fichiers de base de données / entrées et groupes
- * Support des fichiers .kdb et .kdbx (version 1 à 4)
- * Ouverture de la base de données, copie du nom d'utilisateur / mot de passe, ouverture des URI / URL
- * Empreinte digitale pour déblocage rapide
+ * Création de bases de données / entrées et groupes
+ * Support des fichiers .kdb et .kdbx (version 1 à 4) avec algorithme AES - Twofish - ChaCha20 - Argon2
+ * Compatible avec la majorité des programmes alternatifs (KeePass, KeePassX, KeePass XC...)
+ * Permet la copie rapide de champs et l'ouverture d'URI /URL
+ * Empreintes digitales pour un déblocage rapide des bases
  * Material design avec thèmes
- * AutoFill et Intégration (Développement en cours)
+ * Remplissage automatique de champs
  * Gestion précise des paramètres
 
 Keepass DX est opensource et sans publicité. 
