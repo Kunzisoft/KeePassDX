@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
   
   Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
 -->
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
-    <string name="AboutText">KeePass DX is een Android implementatie van de KeePass wachtwoordmanager.</string>
+    <string name="AboutText">KeePass Libre is een Android implementatie van de KeePass wachtwoordmanager.</string>
     <string name="accept">Aanvaarden</string>
     <string name="add_entry">Record toevoegen</string>
     <string name="add_group">Groep toevoegen</string>
@@ -43,7 +43,7 @@
     <string name="decrypting_db">Databaseinhoud wordt ontcijferd&#8230;</string>
     <string name="default_checkbox">Gebruik dit als mijn standaard database</string>
     <string name="digits">Cijfers</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft biedt GEEN ENKELE GARANTIE; Dit is vrije software, u mag deze software verspreiden onder de voorwaarden van de GPL versie 2 of recenter.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d Kunzisoft biedt GEEN ENKELE GARANTIE; Dit is vrije software, u mag deze software verspreiden onder de voorwaarden van de GPL versie 2 of recenter.</string>
     <string name="select_database_file">Geef de databasebestandsnaam:</string>
     <string name="entry_accessed">Laatst benaderd</string>
     <string name="entry_and_or">Geef het wachtwoord en/of het sleutelbestand om uw database te ontgrendelen:</string>
@@ -60,7 +60,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Gebruikersnaam</string>
     <string name="error_arc4">De ArcFour stream-versleuteling wordt niet ondersteund.</string>
-    <string name="error_can_not_handle_uri">KeePass DX kan deze uri niet verwerken.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre kan deze uri niet verwerken.</string>
     <string name="error_could_not_create_parent">Kan de hogerliggende map niet aanmaken.</string>
     <string name="error_database_exists">Dit bestand bestaat reeds.</string>
     <string name="error_failed_to_launch_link">Kon de koppeling niet opstarten.</string>

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
   
   Basque translation by David García-Abad, released under GPL V2.
 -->
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Hasiera orria:</string>
-    <string name="AboutText">KeePass DX ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
+    <string name="AboutText">KeePass Libre ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Datubasearen datuak desenkriptatzen&#8230;</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu:</string>
     <string name="entry_accessed">Akzesoa</string>
     <string name="entry_and_or">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko:</string>
@@ -65,7 +65,7 @@
     <string name="entry_url">URLa</string>
     <string name="entry_user_name">Erabiltzaile izena</string>
     <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
-    <string name="error_can_not_handle_uri">KeePass DX-ek ezin dut uri hau kudeatu.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre-ek ezin dut uri hau kudeatu.</string>
     <string name="error_could_not_create_parent">Ezin izan da aita-direktorioa sortu.</string>
     <string name="error_database_exists">Fitxategia esistitzen da.</string>
     <string name="error_failed_to_launch_link">Ezin izan da esteka ireki.</string>

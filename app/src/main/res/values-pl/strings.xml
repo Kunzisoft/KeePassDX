@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-This file is part of KeePass DX.
+Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
+This file is part of KeePass Libre.
 
-KeePass DX is free software: you can redistribute it and/or modify
+KeePass Libre is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 (at your option) any later version.
 
-KeePass DX is distributed in the hope that it will be useful,
+KeePass Libre is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
+along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Strona domowa:</string>
-    <string name="AboutText">KeePass DX to Androidowa implementacja menadżera haseł KeePass.</string>
+    <string name="AboutText">KeePass Libre to Androidowa implementacja menadżera haseł KeePass.</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
@@ -56,7 +56,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie ArcFour nie jest wspierane.</string>
-    <string name="error_can_not_handle_uri">KeePass DX nie potrafi obsłużyć tego uri.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre nie potrafi obsłużyć tego uri.</string>
     <string name="error_could_not_create_parent">Nie można utworzyć folderu nadrzędnego.</string>
     <string name="error_database_exists">Plik o podanej nazwie już istnieje.</string>
     <string name="error_failed_to_launch_link">Błąd przy uruchamianiu linku.</string>

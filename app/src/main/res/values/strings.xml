@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 2 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
-    <string name="AboutText">KeePass DX is an Android implementation of the KeePass password manager.</string>
+    <string name="AboutText">KeePass Libre is an Android implementation of the KeePass password manager.</string>
     <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
     <string name="add_group">Add group</string>
@@ -50,7 +50,7 @@
     <string name="decrypting_db">Decrypting database contents&#8230;</string>
     <string name="default_checkbox">Use this as my default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
     <string name="entry_cancel">Cancel</string>
@@ -67,7 +67,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">User Name</string>
     <string name="error_arc4">The ArcFour stream cipher is not supported.</string>
-    <string name="error_can_not_handle_uri">KeePass DX cannot handle this uri.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre cannot handle this uri.</string>
     <string name="error_could_not_create_parent">Could not create parent directory.</string>
     <string name="error_database_exists">This file already exists.</string>
     <string name="error_failed_to_launch_link">Failed to launch link.</string>
@@ -142,7 +142,7 @@
     <string name="progress_title">Working&#8230;</string>
     <string name="protection">Protection</string>
     <string name="read_only">Read-only</string>
-    <string name="read_only_warning">KeePass DX does not have permission to write to the database location, so your database will be opened read-only.</string>
+    <string name="read_only_warning">KeePass Libre does not have permission to write to the database location, so your database will be opened read-only.</string>
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow applications to write to the sdcard.</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recently used file names</string>
@@ -198,8 +198,8 @@
     <string name="appearance">Appearance</string>
     <string name="general">General</string>
     <string name="autofill">Autofill</string>
-    <string name="autofill_service_name">KeePass DX Autofill Service</string>
-    <string name="autofill_sign_in_prompt">Sign in with KeePass DX</string>
+    <string name="autofill_service_name">KeePass Libre Autofill Service</string>
+    <string name="autofill_sign_in_prompt">Sign in with KeePass Libre</string>
     <string name="set_autofill_service_title">Set default Autofill service</string>
     <string name="set_autofill_service_summary">Enable the service to easily fill out forms from other applications</string>
     <string name="password_size_title">Password size</string>
@@ -215,9 +215,9 @@
     <string name="fingerprint_quick_unlock_title">How to configure fingerprint for quick unlocking ?</string>
     <string name="fingerprint_setting_text">Set your personnal fingerprint for your device in </string>
     <string name="fingerprint_setting_way_text">Settings -> Security -> Fingerprint</string>
-    <string name="fingerprint_type_password_text">Type your password in Keepass DX</string>
+    <string name="fingerprint_type_password_text">Type your password in KeePass Libre</string>
     <string name="fingerprint_scan_to_store">Scan your fingerprint to store your master password securely</string>
-    <string name="fingerprint_scan_to_open">Just scan your fingerprint in Keepass DX when the password field is empty to open the database</string>
+    <string name="fingerprint_scan_to_open">Just scan your fingerprint in KeePass Libre when the password field is empty to open the database</string>
     <string name="usage">Usage</string>
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_enable_title">Fingerprint listening</string>
@@ -237,8 +237,8 @@
     <string name="full_file_path_enable_summary">View the full file path</string>
     <string name="recycle_bin_title">Use Recycle Bin</string>
     <string name="recycle_bin_summary">Move a group or entry to the Recycle Bin before deleting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX need external storage permission to write a database</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX need external storage permission to read an URI not provided by a Content Provider</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass Libre need external storage permission to write a database</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass Libre need external storage permission to read an URI not provided by a Content Provider</string>
     <string name="permission_external_storage_denied">External storage permission denied</string>
     <string name="permission_external_storage_never_ask">Can\'t perform the action without external storage permission</string>
     <string name="monospace_font_fields_enable_title">Fields Font</string>
