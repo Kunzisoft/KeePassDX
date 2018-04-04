@@ -8,8 +8,8 @@ android {
         applicationId 'tech.jgross.keepass'
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode = 7
-        versionName = "2.5.0.0beta7"
+        versionCode = 8
+        versionName = "2.5.0.0beta8"
         multiDexEnabled true
 
         testApplicationId = "com.keepassdroid.tests"
