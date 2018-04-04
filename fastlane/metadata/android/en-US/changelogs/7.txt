@@ -1,7 +1,0 @@
- * Rebuilding Notifications
- * Change links to https
- * Add extended Ascii (ñæËÌÂÝÜ...)
- * Upgrade custom visibility font
- * Best fingerprint error management
- * Add setting to prevent the password copy
- * Fix bugs

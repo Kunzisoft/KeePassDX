@@ -1,9 +1,0 @@
- * New database workflow with new screens and folder selection
- * Settings for default password generation
- * Fingerprint dialog for explanations
- * Setting to disable fingerprint
- * Directly opening kdbx file
- * Setting to disable notifications
- * Setting to lock database when screen is shut off
- * Merge KeePassDroid 2.2.0.9
- * Add corruption fix mode

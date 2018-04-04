@@ -1,8 +1,0 @@
- * Autofill (Android O)
- * Fix timeout and other bugs
- * Deletion for group
- * New sorts with (Asc/Dsc, Groups before or after)
- * Setting to change font of field (monospace for a better visibility)
- * Hide empty fields
- * Add copy button for Username / Password and extra field
- * New list to add and delete node with animation
