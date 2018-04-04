@@ -27,7 +27,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.widget.ImageView;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class FingerPrintAnimatedVector {

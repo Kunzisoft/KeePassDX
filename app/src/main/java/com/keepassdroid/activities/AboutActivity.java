@@ -28,7 +28,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.keepassdroid.stylish.StylishActivity;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import org.joda.time.DateTime;
 

@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 import com.keepassdroid.password.PasswordGenerator;
 import com.keepassdroid.settings.PreferencesUtil;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.Set;
 

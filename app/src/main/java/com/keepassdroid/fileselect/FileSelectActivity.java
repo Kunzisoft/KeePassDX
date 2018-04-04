@@ -59,7 +59,7 @@ import com.keepassdroid.utils.EmptyUtils;
 import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.UriUtil;
 import com.keepassdroid.view.FileNameView;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

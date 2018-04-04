@@ -11,7 +11,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.edit.FileOnFinish;
 import com.keepassdroid.database.edit.OnFinish;
 import com.keepassdroid.database.edit.SetPassword;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class AssignPasswordHelper {
 

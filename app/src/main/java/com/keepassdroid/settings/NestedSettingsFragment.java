@@ -46,7 +46,7 @@ import com.keepassdroid.dialogs.StorageAccessFrameworkDialog;
 import com.keepassdroid.dialogs.UnavailableFeatureDialogFragment;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
 import com.keepassdroid.stylish.Stylish;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {

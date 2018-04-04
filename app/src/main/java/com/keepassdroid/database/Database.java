@@ -36,7 +36,7 @@ import com.keepassdroid.icons.DrawableFactory;
 import com.keepassdroid.search.SearchDbHelper;
 import com.keepassdroid.tasks.UpdateStatus;
 import com.keepassdroid.utils.UriUtil;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.io.BufferedInputStream;
 import java.io.File;

@@ -37,7 +37,7 @@ import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
 import com.keepassdroid.settings.PreferencesUtil;
 import com.keepassdroid.database.SortNodeEnum;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 

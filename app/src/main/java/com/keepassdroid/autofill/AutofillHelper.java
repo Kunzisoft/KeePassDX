@@ -35,7 +35,7 @@ import android.view.autofill.AutofillValue;
 import android.widget.RemoteViews;
 
 import com.keepassdroid.database.PwEntry;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.ArrayList;
 import java.util.List;

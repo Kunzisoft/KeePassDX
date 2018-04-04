@@ -43,7 +43,7 @@ import android.widget.Spinner;
 
 import com.keepassdroid.fileselect.FilePickerStylishActivity;
 import com.keepassdroid.utils.UriUtil;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.nononsenseapps.filepicker.Utils;
 

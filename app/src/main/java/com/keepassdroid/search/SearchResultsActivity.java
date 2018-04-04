@@ -34,7 +34,7 @@ import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.utils.MenuUtil;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class SearchResultsActivity extends ListNodesActivity {
 

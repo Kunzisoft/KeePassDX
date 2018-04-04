@@ -23,7 +23,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class PasswordEncodingDialogHelper {
 	private AlertDialog dialog;

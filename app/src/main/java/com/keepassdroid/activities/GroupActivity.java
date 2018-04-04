@@ -60,7 +60,7 @@ import com.keepassdroid.dialogs.ReadOnlyDialog;
 import com.keepassdroid.search.SearchResultsActivity;
 import com.keepassdroid.tasks.ProgressTask;
 import com.keepassdroid.view.AddNodeButtonView;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
@@ -146,9 +146,6 @@ public class GroupActivity extends ListNodesActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        if ( mCurrentGroup.getParent() != null )
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
-
         addNodeButtonView.setAddGroupClickListener(v -> {
             editGroupDialogAction = EditGroupDialogAction.CREATION;
             GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
@@ -159,7 +156,6 @@ public class GroupActivity extends ListNodesActivity
                 EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
-		setGroupIcon();
 
         Log.w(TAG, "Finished creating tree");
 
@@ -271,13 +267,6 @@ public class GroupActivity extends ListNodesActivity
         // Show button if hide after sort
         addNodeButtonView.showButton();
     }
-
-    protected void setGroupIcon() {
-		if (mCurrentGroup != null) {
-			ImageView iv = findViewById(R.id.icon);
-			App.getDB().getDrawFactory().assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
-		}
-	}
 
     private void deleteEntry(PwEntry entry) {
         Handler handler = new Handler();

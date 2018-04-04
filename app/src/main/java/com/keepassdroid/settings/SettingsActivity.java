@@ -28,7 +28,7 @@ import android.view.MenuItem;
 
 import com.keepassdroid.activities.LockingActivity;
 import com.keepassdroid.compat.BackupManagerCompat;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 
 public class SettingsActivity extends LockingActivity implements MainPreferenceFragment.Callback {

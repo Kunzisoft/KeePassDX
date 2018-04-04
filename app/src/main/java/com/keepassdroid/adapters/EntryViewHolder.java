@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 class EntryViewHolder extends BasicViewHolder {
 

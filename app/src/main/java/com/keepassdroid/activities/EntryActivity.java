@@ -50,7 +50,7 @@ import com.keepassdroid.utils.MenuUtil;
 import com.keepassdroid.utils.Types;
 import com.keepassdroid.utils.Util;
 import com.keepassdroid.view.EntryContentsView;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,7 +63,6 @@ public class EntryActivity extends LockingHideActivity {
 
 	public static final String KEY_ENTRY = "entry";
 
-	private ImageView titleIconView;
     private TextView titleView;
 	private EntryContentsView entryContentsView;
 	
@@ -122,7 +121,6 @@ public class EntryActivity extends LockingHideActivity {
 		mEntry.touch(false, false);
 
         // Get views
-        titleIconView = findViewById(R.id.entry_icon);
         titleView = findViewById(R.id.entry_title);
         entryContentsView = findViewById(R.id.entry_contents);
         entryContentsView.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this));
@@ -211,7 +209,6 @@ public class EntryActivity extends LockingHideActivity {
     }
 
     private void populateTitle(Drawable drawIcon, String text) {
-        titleIconView.setImageDrawable(drawIcon);
         titleView.setText(text);
     }
 

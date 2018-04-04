@@ -21,7 +21,7 @@ package com.keepassdroid.dialogs;
 
 import android.content.Context;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.keepassdroid.compat.BuildCompat;
 
 public class ReadOnlyDialog extends WarningDialog {

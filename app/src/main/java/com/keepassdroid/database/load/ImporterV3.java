@@ -65,7 +65,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Log;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.keepassdroid.tasks.UpdateStatus;
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.database.PwDatabaseV3;

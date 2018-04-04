@@ -35,7 +35,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class AddNodeButtonView extends RelativeLayout {
 

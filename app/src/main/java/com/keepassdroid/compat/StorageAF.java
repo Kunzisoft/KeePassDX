@@ -24,7 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.lang.reflect.Field;
 

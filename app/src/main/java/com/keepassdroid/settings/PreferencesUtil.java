@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.keepassdroid.database.SortNodeEnum;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.util.Arrays;
 import java.util.HashSet;

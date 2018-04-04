@@ -29,7 +29,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.keepassdroid.utils.Util;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class BrowserDialog extends DialogFragment {
 

@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.Util;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class EntryEditCustomField extends RelativeLayout {
 

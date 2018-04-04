@@ -28,7 +28,7 @@ import android.preference.PreferenceManager;
 
 import com.keepassdroid.compat.EditorCompat;
 import com.keepassdroid.utils.UriUtil;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 import java.io.File;
 import java.util.ArrayList;

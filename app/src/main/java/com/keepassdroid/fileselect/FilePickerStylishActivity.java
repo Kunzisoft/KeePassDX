@@ -26,7 +26,7 @@ import android.support.annotation.StyleRes;
 import android.util.Log;
 
 import com.keepassdroid.stylish.Stylish;
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
 
