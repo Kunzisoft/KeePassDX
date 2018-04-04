@@ -44,7 +44,7 @@
     <string name="decrypting_db">Decodifica contenuto database&#8230;</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d Kunzisoft viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 2 o superiore.</string>
     <string name="select_database_file">Inserisci il nome file del database:</string>
     <string name="entry_accessed">Ultimo accesso</string>
     <string name="entry_and_or">Inserisci una password e/o file chiave per sbloccare il database:</string>

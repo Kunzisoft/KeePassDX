@@ -29,7 +29,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:src="@drawable/ic_key_white_24dp"
-        android:tint="@color/green"/>
+        android:tint="@color/blue"/>
 
     <TextView
         android:id="@+id/text"

@@ -21,8 +21,8 @@
     <string name="app_name" translatable="false">KeePass Libre</string>
 
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
-    <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
+    <string name="homepage" translatable="false">https://jgross.tech</string>
+    <string name="issues" translatable="false">https://github.com/JustinTime4Tea/KeePassLibre/issues</string>
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
     

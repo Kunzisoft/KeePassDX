@@ -43,7 +43,7 @@
     <string name="decrypting_db">Databaseinhoud wordt ontcijferd&#8230;</string>
     <string name="default_checkbox">Gebruik dit als mijn standaard database</string>
     <string name="digits">Cijfers</string>
-    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d Kunzisoft biedt GEEN ENKELE GARANTIE; Dit is vrije software, u mag deze software verspreiden onder de voorwaarden van de GPL versie 2 of recenter.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d biedt GEEN ENKELE GARANTIE; Dit is vrije software, u mag deze software verspreiden onder de voorwaarden van de GPL versie 2 of recenter.</string>
     <string name="select_database_file">Geef de databasebestandsnaam:</string>
     <string name="entry_accessed">Laatst benaderd</string>
     <string name="entry_and_or">Geef het wachtwoord en/of het sleutelbestand om uw database te ontgrendelen:</string>

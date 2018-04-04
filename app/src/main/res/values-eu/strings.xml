@@ -47,7 +47,7 @@
     <string name="decrypting_db">Datubasearen datuak desenkriptatzen&#8230;</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu:</string>
     <string name="entry_accessed">Akzesoa</string>
     <string name="entry_and_or">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko:</string>
