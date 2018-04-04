@@ -19,16 +19,15 @@
  */
 package com.keepassdroid.tests.database;
 
-import java.io.InputStream;
-
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.engine.AesEngine;
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.load.ImporterV4;
+
+import java.io.InputStream;
 
 public class Kdb4Header extends AndroidTestCase {
 	public void testReadHeader() throws Exception {
@@ -41,7 +40,7 @@ public class Kdb4Header extends AndroidTestCase {
 
 		PwDatabaseV4 db = importer.openDatabase(is, "12345", null);
 		
-		assertEquals(6000, db.getNumKeyEncRounds());
+		assertEquals(6000, db.getNumberKeyEncryptionRounds());
 		
 		assertTrue(db.getDataCipher().equals(AesEngine.CIPHER_UUID));
 		

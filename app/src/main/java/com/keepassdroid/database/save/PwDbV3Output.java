@@ -60,7 +60,7 @@ public class PwDbV3Output extends PwDbOutput {
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
 			PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
-			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumKeyEncRounds());
+			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumberKeyEncryptionRounds());
 			return mPM.getFinalKey();
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
@@ -138,7 +138,7 @@ public class PwDbV3Output extends PwDbOutput {
 		header.version = PwDbHeaderV3.DBVER_DW;
 		header.numGroups = mPM.numberOfGroups();
 		header.numEntries = mPM.numberOfEntries();
-		header.numKeyEncRounds = mPM.getNumKeyEncRounds();
+		header.numKeyEncRounds = (int) mPM.getNumberKeyEncryptionRounds();
 		
 		setIVs(header);
 		

@@ -50,12 +50,12 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
                 rounds = 1;
             }
 
-            long oldRounds = mPM.getNumRounds();
+            long oldRounds = mPM.getNumberKeyEncryptionRounds();
             try {
-                mPM.setNumRounds(rounds);
+                mPM.setNumberKeyEncryptionRounds(rounds);
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), R.string.error_rounds_too_large, Toast.LENGTH_LONG).show();
-                mPM.setNumRounds(Integer.MAX_VALUE);
+                mPM.setNumberKeyEncryptionRounds(Integer.MAX_VALUE);
             }
 
             Handler handler = new Handler();
@@ -75,7 +75,7 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
         // Get the time from the related Preference
         Database db = App.getDB();
         mPM = db.getPwDatabase();
-        long numRounds = mPM.getNumRounds();
+        long numRounds = mPM.getNumberKeyEncryptionRounds();
 
         DialogPreference preference = getPreference();
         if (preference instanceof RoundsPreference) {
@@ -100,7 +100,7 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
         public void run() {
             if (!mSuccess) {
                 displayMessage(mCtx);
-                mPM.setNumRounds(mOldRounds);
+                mPM.setNumberKeyEncryptionRounds(mOldRounds);
             }
 
             super.run();

@@ -272,7 +272,6 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     PwDatabase pwDatabase = db.getPwDatabase(); // Transit methods in db
 
-
                     // Encryption Algorithme
                     Preference algorithmPref = findPreference(getString(R.string.encryption_algorithm_key));
                     algorithmPref.setSummary(pwDatabase
@@ -285,10 +284,10 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     // Round encryption
                     Preference roundPref = findPreference(getString(R.string.rounds_key));
-                    roundPref.setSummary(Long.toString(pwDatabase.getNumRounds()));
+                    roundPref.setSummary(Long.toString(pwDatabase.getNumberKeyEncryptionRounds()));
                     roundPref.setEnabled(false); //TODO refactor round pref
                     roundPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                        preference.setSummary(Long.toString(pwDatabase.getNumRounds()));
+                        preference.setSummary(Long.toString(pwDatabase.getNumberKeyEncryptionRounds()));
                         return true;
                     });
 

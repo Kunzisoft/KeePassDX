@@ -95,14 +95,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		return PwVersion.V3;
 	}
 
-	public int getNumKeyEncRounds() {
-		return numKeyEncRounds;
-	}
-
-	public void setNumKeyEncRounds(int numKeyEncRounds) {
-        this.numKeyEncRounds = numKeyEncRounds;
-    }
-
     @Override
     public String getKeyDerivationName() {
         return "AES";
@@ -273,12 +265,12 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
 
 	@Override
-	public long getNumRounds() {
+	public long getNumberKeyEncryptionRounds() {
 		return numKeyEncRounds;
 	}
 
 	@Override
-	public void setNumRounds(long rounds) throws NumberFormatException {
+	public void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException {
 		if (rounds > Integer.MAX_VALUE || rounds < Integer.MIN_VALUE) {
 			throw new NumberFormatException();
 		}

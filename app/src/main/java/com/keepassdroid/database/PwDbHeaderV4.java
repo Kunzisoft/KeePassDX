@@ -19,25 +19,21 @@
  */
 package com.keepassdroid.database;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.DigestInputStream;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.keepassdroid.crypto.keyDerivation.AesKdf;
 import com.keepassdroid.crypto.keyDerivation.KdfParameters;
 import com.keepassdroid.database.exception.InvalidDBVersionException;
-import com.keepassdroid.database.security.ProtectedBinary;
 import com.keepassdroid.stream.CopyInputStream;
 import com.keepassdroid.stream.HmacBlockStream;
 import com.keepassdroid.stream.LEDataInputStream;
 import com.keepassdroid.utils.Types;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -65,7 +61,6 @@ public class PwDbHeaderV4 extends PwDbHeader {
         public static final byte InnerRandomStreamID = 10;
 		public static final byte KdfParameters = 11;
 		public static final byte PublicCustomData = 12;
-
     }
 
 	public class PwDbInnerHeaderV4Fields {
@@ -178,7 +173,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.TransformSeed:
-				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
+				assert(version < PwDbHeaderV4.FILE_VERSION_32_4); // TODO file > FILEVERSION
 				AesKdf kdfS = new AesKdf();
 				if (!db.getKdfParameters().kdfUUID.equals(kdfS.uuid)) {
 					db.setKdfParameters(kdfS.getDefaultParameters());
@@ -195,7 +190,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				}
 				long rounds = LEDataInputStream.readLong(fieldData, 0);
 				db.getKdfParameters().setUInt64(AesKdf.ParamRounds, rounds);
-				db.setNumKeyEncRounds(rounds);
+				db.setNumberKeyEncryptionRounds(rounds);
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:
@@ -264,7 +259,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new IOException("Rounds higher than " + Integer.MAX_VALUE + " are not currently supported.");
 		}
 		
-		db.setNumKeyEncRounds(rnd);
+		db.setNumberKeyEncryptionRounds(rnd);
 		
 	}
 	

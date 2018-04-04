@@ -135,12 +135,14 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         this.compressionAlgorithm = compressionAlgorithm;
     }
 
-    public long getNumKeyEncRounds() {
+    @Override
+    public long getNumberKeyEncryptionRounds() {
         return numKeyEncRounds;
     }
 
-    public void setNumKeyEncRounds(long numKeyEncRounds) {
-        this.numKeyEncRounds = numKeyEncRounds;
+    @Override
+    public void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException {
+        numKeyEncRounds = rounds;
     }
 
     public PwDate getNameChanged() {
@@ -346,7 +348,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	}
 
 	@Override
-	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
+	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
 
 		byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
 
@@ -500,17 +502,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
             buildChildEntriesRecursive(child, list);
         }
     }
-
-	@Override
-	public long getNumRounds() {
-		return numKeyEncRounds;
-	}
-
-	@Override
-	public void setNumRounds(long rounds) throws NumberFormatException {
-		numKeyEncRounds = rounds;
-		
-	}
 
 	@Override
 	public PwGroupIdV4 newGroupId() {

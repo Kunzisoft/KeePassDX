@@ -170,12 +170,12 @@ public class ImporterV3 extends Importer {
 		// Copy for testing
 		newManager.copyHeader(hdr);
 		
-		newManager.setNumKeyEncRounds(hdr.numKeyEncRounds);
+		newManager.setNumberKeyEncryptionRounds(hdr.numKeyEncRounds);
 
 		newManager.setName("KeePass Password Manager"); // TODO as resource;
 
 		// Generate transformedMasterKey from masterKey
-		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumKeyEncRounds());
+		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumberKeyEncryptionRounds());
 
 		status.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm

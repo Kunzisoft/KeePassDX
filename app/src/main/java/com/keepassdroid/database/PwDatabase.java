@@ -21,7 +21,6 @@ package com.keepassdroid.database;
 
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
-import com.keepassdroid.crypto.keyDerivation.KdfEngine;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 import com.keepassdroid.database.exception.KeyFileEmptyException;
 import com.keepassdroid.stream.NullOutputStream;
@@ -110,7 +109,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         return finalKey;
     }
 
-    public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
+    public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
 
         // Write checksum Checksum
         MessageDigest md;
@@ -133,7 +132,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
      * Encrypt the master key a few times to make brute-force key-search harder
      * @throws IOException
      */
-    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException {
+    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, long rounds ) throws IOException {
         FinalKey key = FinalKeyFactory.createFinalKey();
 
         return key.transformMasterKey(pKeySeed, pKey, rounds);
@@ -277,9 +276,9 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         return md.digest();
     }
 
-    public abstract long getNumRounds();
+    public abstract long getNumberKeyEncryptionRounds();
 
-    public abstract void setNumRounds(long rounds) throws NumberFormatException;
+    public abstract void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException;
 
     public PwEncryptionAlgorithm getEncryptionAlgorithm() {
         if (algorithm != null)
