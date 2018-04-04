@@ -146,6 +146,12 @@ public class GroupActivity extends ListNodesActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+        if ( mCurrentGroup.getParent() != null ) {
+            assert getSupportActionBar() != null;
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         addNodeButtonView.setAddGroupClickListener(v -> {
             editGroupDialogAction = EditGroupDialogAction.CREATION;
             GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
