@@ -47,7 +47,7 @@
     <string name="decrypting_db">Dekrypterar databasinnehåll&#8230;</string>
     <string name="default_checkbox">Använda denna databasen som standard</string>
     <string name="digits">Siffror</string>
-    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 2 eller senare.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
     <string name="select_database_file">Ange databasnamn:</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_and_or">Ange lösenord och/eller nyckelfil för att öppna databasen:</string>
