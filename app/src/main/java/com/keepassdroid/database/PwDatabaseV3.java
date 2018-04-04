@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.keepassdroid.database;
 
 // Java
+import com.keepassdroid.crypto.keyDerivation.AesKdf;
 import com.keepassdroid.database.exception.InvalidKeyFileException;
 
 import java.io.IOException;
@@ -97,7 +98,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
     @Override
     public String getKeyDerivationName() {
-        return "AES";
+        return AesKdf.DEFAULT_NAME;
     }
 
 	@Override

@@ -58,7 +58,6 @@ import biz.source_code.base64Coder.Base64Coder;
 
 public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
-	public static final int DEFAULT_ROUNDS = 6000;
 	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
 	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
 	private static final String RECYCLEBIN_NAME = "RecycleBin";
@@ -70,7 +69,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private KdfEngine kdfEngine;
 
 	// TODO: Refactor me away to get directly from kdfParameters
-    private long numKeyEncRounds = DEFAULT_ROUNDS;
+    private long numKeyEncRounds = AesKdf.DEFAULT_ROUNDS; // By default take the AES rounds
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
     private String description = "";
@@ -137,11 +136,14 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     @Override
     public long getNumberKeyEncryptionRounds() {
+	    if (getKdfEngine() != null && getKdfParameters() != null)
+            numKeyEncRounds = getKdfEngine().getKeyRounds(getKdfParameters());
         return numKeyEncRounds;
     }
 
     @Override
     public void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException {
+	    // TODO set kdfParameter
         numKeyEncRounds = rounds;
     }
 

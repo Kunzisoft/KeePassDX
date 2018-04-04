@@ -35,4 +35,6 @@ public abstract class KdfEngine {
 
     public abstract String getName();
 
+    public abstract long getKeyRounds(KdfParameters p);
+
 }

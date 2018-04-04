@@ -102,4 +102,9 @@ public class Argon2Kdf extends KdfEngine {
 
         p.setByteArray(ParamSalt, salt);
     }
+
+    @Override
+    public long getKeyRounds(KdfParameters p) {
+        return p.getUInt64(ParamIterations);
+    }
 }

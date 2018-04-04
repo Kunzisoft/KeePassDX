@@ -32,7 +32,7 @@
 			android:persistent="false"
 			android:title="@string/key_derivation_function"/>
 		<com.keepassdroid.settings.RoundsPreference
-			android:key="@string/rounds_key"
+			android:key="@string/transform_rounds_key"
 			android:persistent="false"
 			android:title="@string/rounds"
 			android:positiveButtonText="@string/entry_save"

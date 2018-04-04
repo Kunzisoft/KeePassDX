@@ -153,7 +153,7 @@
     <string name="remove_from_filelist">Remove</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
-    <string name="rounds">Encryption Rounds</string>
+    <string name="rounds">Transform Rounds</string>
     <string name="rounds_explaination">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_fix_title">Fix of database</string>
     <string name="rounds_fix">Key encryption rounds before corruption</string>

@@ -283,7 +283,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                             .getKeyDerivationName());
 
                     // Round encryption
-                    Preference roundPref = findPreference(getString(R.string.rounds_key));
+                    Preference roundPref = findPreference(getString(R.string.transform_rounds_key));
                     roundPref.setSummary(Long.toString(pwDatabase.getNumberKeyEncryptionRounds()));
                     roundPref.setEnabled(false); //TODO refactor round pref
                     roundPref.setOnPreferenceChangeListener((preference, newValue) -> {
