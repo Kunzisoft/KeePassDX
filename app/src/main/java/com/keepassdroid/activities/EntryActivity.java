@@ -223,6 +223,7 @@ public class EntryActivity extends LockingHideActivity {
                 mEntry.getTitle());
 
         // Assign basic fields
+        entryContentsView.assignEntryIcon(mEntry.getIcon());
         entryContentsView.assignUserName(mEntry.getUsername());
         entryContentsView.assignUserNameCopyListener(view ->
                 clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),

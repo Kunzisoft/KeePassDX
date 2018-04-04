@@ -24,6 +24,15 @@
 	android:layout_width="match_parent"
 	android:orientation="vertical">
 
+	<!-- Icon -->
+	<android.support.v7.widget.AppCompatImageView
+		android:id="@+id/entry_icon"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="16dp"
+		android:visibility="visible">
+	</android.support.v7.widget.AppCompatImageView>
+
 	<!-- Username -->
 	<RelativeLayout
         android:id="@+id/entry_user_name_container"

@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwIcon;
 import com.keepassdroid.database.security.ProtectedString;
 import com.keepassdroid.utils.Util;
 import tech.jgross.keepass.R;
@@ -40,6 +42,7 @@ public class EntryContentsView extends LinearLayout {
 
     private boolean fontInVisibility;
 
+    private ImageView entryIcon;
     private View userNameContainerView;
     private TextView userNameView;
     private ImageView userNameActionView;
@@ -84,6 +87,7 @@ public class EntryContentsView extends LinearLayout {
 		assert inflater != null;
 		inflater.inflate(R.layout.entry_view_contents, this);
 
+		entryIcon = findViewById(R.id.entry_icon);
         userNameContainerView = findViewById(R.id.entry_user_name_container);
         userNameView = findViewById(R.id.entry_user_name);
         userNameActionView = findViewById(R.id.entry_user_name_action_image);
@@ -232,4 +236,8 @@ public class EntryContentsView extends LinearLayout {
 		return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 	}
 
+    public void assignEntryIcon(PwIcon icon) {
+        // TODO: Set entry icon
+        App.getDB().getDrawFactory().assignDrawableTo(entryIcon, getResources(), icon);
+    }
 }
