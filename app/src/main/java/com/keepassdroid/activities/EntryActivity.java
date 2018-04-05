@@ -125,13 +125,6 @@ public class EntryActivity extends LockingHideActivity {
         entryContentsView = findViewById(R.id.entry_contents);
         entryContentsView.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this));
 
-		// Setup Edit Buttons
-        View edit = findViewById(R.id.entry_edit);
-        edit.setOnClickListener(v -> EntryEditActivity.Launch(EntryActivity.this, mEntry));
-        if (readOnly) {
-            edit.setVisibility(View.GONE);
-        }
-
         // Init the clipboard helper
         clipboardHelper = new ClipboardHelper(this);
         firstLaunchOfActivity = true;
@@ -296,6 +289,9 @@ public class EntryActivity extends LockingHideActivity {
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
+        if (!readOnly) {
+            inflater.inflate(R.menu.edit, menu);
+        }
 		inflater.inflate(R.menu.entry, menu);
 		inflater.inflate(R.menu.database_lock, menu);
 
@@ -329,6 +325,9 @@ public class EntryActivity extends LockingHideActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
+            case R.id.menu_edit_entry:
+                EntryEditActivity.Launch(EntryActivity.this, mEntry);
+                return true;
             case R.id.menu_toggle_pass:
                 mShowPassword = !mShowPassword;
                 changeShowPasswordIcon(item);

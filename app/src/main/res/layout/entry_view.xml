@@ -57,15 +57,4 @@
             android:layout_width="match_parent" />
 
     </ScrollView>
-
-	<android.support.design.widget.FloatingActionButton android:id="@+id/entry_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/ic_mode_edit_white_24dp"
-        app:useCompatPadding="true"
-        style="@style/KeepassDXStyle.Fab" />
-
 </RelativeLayout>
