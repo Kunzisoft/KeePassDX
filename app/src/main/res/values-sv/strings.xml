@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Dekrypterar databasinnehåll&#8230;</string>
     <string name="default_checkbox">Använda denna databasen som standard</string>
     <string name="digits">Siffror</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 2 eller senare.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
     <string name="select_database_file">Ange databasnamn:</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_and_or">Ange lösenord och/eller nyckelfil för att öppna databasen:</string>
