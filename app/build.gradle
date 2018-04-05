@@ -80,8 +80,11 @@ dependencies {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
+
     implementation "com.android.support:support-v4:$supportVersion"
-    implementation 'com.android.support:support-v4:27.1.0'
+
+    // Apache Commons Collections
+    implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'com.google.guava:guava:23.0-android'
