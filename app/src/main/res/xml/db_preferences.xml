@@ -20,36 +20,49 @@
 <PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory
-		android:title="@string/encryption">
-
-		<Preference
-			android:key="@string/encryption_algorithm_key"
-            android:persistent="false"
-			android:title="@string/encryption_algorithm"/>
-		<Preference
-			android:key="@string/key_derivation_function_key"
-			android:persistent="false"
-			android:title="@string/key_derivation_function"/>
-		<com.keepassdroid.settings.RoundsPreference
-			android:key="@string/transform_rounds_key"
-			android:persistent="false"
-			android:title="@string/rounds"
-			android:positiveButtonText="@string/entry_save"
-			android:negativeButtonText="@string/entry_cancel"/>
-
-    </PreferenceCategory>
-
     <PreferenceCategory
+        android:key="@string/database_general_key"
         android:title="@string/general">
 
+		<Preference
+			android:key="@string/database_name_key"
+			android:persistent="false"
+			android:title="@string/database_name_title"/>
+        <Preference
+            android:key="@string/database_description_key"
+            android:persistent="false"
+            android:title="@string/database_description_title"/>
+        <Preference
+            android:key="@string/database_version_key"
+            android:persistent="false"
+            android:title="@string/database_version_title"/>
 		<SwitchPreference
             android:key="@string/recycle_bin_key"
             android:persistent="false"
             android:title="@string/recycle_bin_title"
 			android:summary="@string/recycle_bin_summary"
-            android:enabled="false"
             android:checked="false"/>
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/encryption">
+
+        <Preference
+            android:key="@string/encryption_algorithm_key"
+            android:persistent="false"
+            android:title="@string/encryption_algorithm"/>
+        <Preference
+            android:key="@string/key_derivation_function_key"
+            android:persistent="false"
+            android:title="@string/key_derivation_function"/>
+        <com.keepassdroid.settings.RoundsPreference
+            android:key="@string/transform_rounds_key"
+            android:persistent="false"
+            android:title="@string/rounds"
+            android:positiveButtonText="@string/entry_save"
+            android:negativeButtonText="@string/entry_cancel"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -34,6 +34,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.autofill.AutofillManager;
@@ -41,7 +42,6 @@ import android.widget.Toast;
 
 import com.keepassdroid.app.App;
 import com.keepassdroid.database.Database;
-import com.keepassdroid.database.PwDatabase;
 import com.keepassdroid.dialogs.StorageAccessFrameworkDialog;
 import com.keepassdroid.dialogs.UnavailableFeatureDialogFragment;
 import com.keepassdroid.fingerprint.FingerPrintHelper;
@@ -270,26 +270,45 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Database db = App.getDB();
                 if (db.getLoaded()) {
 
-                    PwDatabase pwDatabase = db.getPwDatabase(); // Transit methods in db
+                    PreferenceCategory dbGeneralPrefCategory = (PreferenceCategory) findPreference(getString(R.string.database_general_key));
 
-                    // Encryption Algorithme
+                    // Db name
+                    Preference dbNamePref = findPreference(getString(R.string.database_name_key));
+                    dbNamePref.setSummary(db.getName());
+
+                    // Db description
+                    Preference dbDescriptionPref = findPreference(getString(R.string.database_description_key));
+                    if ( db.containsDescription() ) {
+                        dbDescriptionPref.setSummary(db.getDescription());
+                    } else {
+                        dbGeneralPrefCategory.removePreference(dbDescriptionPref);
+                    }
+
+                    // Recycle bin
+                    SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
+                    if (db.isRecycleBinAvailable()) {
+                        // TODO Recycle
+                        recycleBinPref.setChecked(db.isRecycleBinEnabled());
+                        recycleBinPref.setEnabled(false);
+                    } else {
+                        dbGeneralPrefCategory.removePreference(recycleBinPref);
+                    }
+
+                    // Version
+                    Preference dbVersionPref = findPreference(getString(R.string.database_version_key));
+                    dbVersionPref.setSummary(db.getVersion());
+
+                    // Encryption Algorithm
                     Preference algorithmPref = findPreference(getString(R.string.encryption_algorithm_key));
-                    algorithmPref.setSummary(pwDatabase.getEncryptionAlgorithm().getName(getResources()));
+                    algorithmPref.setSummary(db.getEncryptionAlgorithmName(getResources()));
 
                     // Key derivation function
                     Preference kdfPref = findPreference(getString(R.string.key_derivation_function_key));
-                    kdfPref.setSummary(pwDatabase.getKeyDerivationName());
+                    kdfPref.setSummary(db.getKeyDerivationName());
 
                     // Round encryption
                     Preference roundPref = findPreference(getString(R.string.transform_rounds_key));
-                    roundPref.setSummary(Long.toString(pwDatabase.getNumberKeyEncryptionRounds()));
-
-                    if (db.isRecycleBinAvailabledAndEnabled()) {
-                        SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
-                        // TODO Recycle
-                        //recycleBinPref.setEnabled(true);
-                        recycleBinPref.setChecked(db.isRecycleBinAvailabledAndEnabled());
-                    }
+                    roundPref.setSummary(db.getNumberKeyEncryptionRounds());
 
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");

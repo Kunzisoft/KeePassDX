@@ -50,7 +50,8 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     protected byte masterKey[] = new byte[32];
     protected byte[] finalKey;
 
-    protected String name = "KeePass database";
+    protected String name = "KeePass DX database";
+
     protected PwGroupDB rootGroup;
     protected PwIconFactory iconFactory = new PwIconFactory();
 

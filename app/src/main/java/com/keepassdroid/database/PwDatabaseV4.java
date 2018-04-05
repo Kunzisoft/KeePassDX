@@ -152,14 +152,16 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setNameChanged(PwDate nameChanged) {
+	    // TODO change name date
         this.nameChanged = nameChanged;
     }
 
     public PwDate getSettingsChanged() {
-        return settingsChanged; // TODO change setting date
+        return settingsChanged;
     }
 
     public void setSettingsChanged(PwDate settingsChanged) {
+        // TODO change setting date
         this.settingsChanged = settingsChanged;
     }
 
@@ -168,6 +170,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setDescription(String description) {
+		// TODO change description date
         this.description = description;
     }
 
@@ -184,6 +187,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setDefaultUserName(String defaultUserName) {
+	    // TODO change default user name date
         this.defaultUserName = defaultUserName;
     }
 
@@ -200,6 +204,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setKeyLastChanged(PwDate keyLastChanged) {
+	    // TODO date
         this.keyLastChanged = keyLastChanged;
     }
 
@@ -584,6 +589,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setRecycleBinChanged(Date recycleBinChanged) {
+	    // TODO recyclebin Date
         this.recycleBinChanged = recycleBinChanged;
     }
 

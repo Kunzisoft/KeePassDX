@@ -82,7 +82,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
     public void initNew(String dbPath) {
         algorithm = PwEncryptionAlgorithm.AES_Rijndael;
         numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
-        name = "KeePass Password Manager"; // TODO as resource
         // Build the root tree
         constructTree(null);
 
