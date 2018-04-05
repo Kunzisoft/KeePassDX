@@ -23,7 +23,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:gravity="center_horizontal|center_vertical"
     android:minWidth="60dp"
     android:minHeight="60dp"
     android:padding="5dp">
@@ -31,13 +31,5 @@
         android:id="@+id/icon_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic99_blank">
-    </android.support.v7.widget.AppCompatImageView>
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/icon_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        style="@style/KeepassDXStyle.TextAppearance">
-    </android.support.v7.widget.AppCompatTextView>
+        android:src="@drawable/ic99_blank"/>
 </LinearLayout>

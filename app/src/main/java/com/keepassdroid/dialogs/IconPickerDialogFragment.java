@@ -129,8 +129,6 @@ public class IconPickerDialogFragment extends DialogFragment {
 				currView = convertView;
 			}
 
-			TextView tv = (TextView) currView.findViewById(R.id.icon_text);
-			tv.setText("" + position);
 			ImageView iv = (ImageView) currView.findViewById(R.id.icon_image);
 			iv.setImageResource(Icons.iconToResId(position));
 
