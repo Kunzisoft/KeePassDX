@@ -85,6 +85,8 @@ dependencies {
 
     // Apache Commons Collections
     implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
+    // Base64
+    compile group: 'biz.source_code', name: 'base64coder', version: '2010-12-19'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'com.google.guava:guava:23.0-android'
