@@ -56,7 +56,7 @@
             android:key="@string/key_derivation_function_key"
             android:persistent="false"
             android:title="@string/key_derivation_function"/>
-        <com.keepassdroid.settings.RoundsPreference
+        <com.kunzisoft.keepass.settings.RoundsPreference
             android:key="@string/transform_rounds_key"
             android:persistent="false"
             android:title="@string/rounds"
