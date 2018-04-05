@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keepassdroid.app.App;
+import com.keepassdroid.database.PwEntry;
 import com.keepassdroid.database.PwGroup;
 import com.keepassdroid.database.PwNode;
 import com.keepassdroid.settings.PreferencesUtil;
@@ -188,8 +189,12 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             holder.container.setOnCreateContextMenuListener(
                     new ContextMenuBuilder(subNode, nodeMenuListener));
         }
-        // Assign text size
-        holder.text.setTextSize(textSize);
+
+        if (holder.username != null) {
+            // TODO: Get username from somewhere? PwNode?
+            PwEntry entry = (PwEntry) subNode;
+            holder.username.setText(entry.getUsername());
+        }
     }
 
     @Override

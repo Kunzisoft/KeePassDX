@@ -13,5 +13,6 @@ class EntryViewHolder extends BasicViewHolder {
         container = itemView.findViewById(R.id.entry_container);
         icon = (ImageView) itemView.findViewById(R.id.entry_icon);
         text = (TextView) itemView.findViewById(R.id.entry_text);
+        username = (TextView) itemView.findViewById(R.id.entry_user_name);
     }
 }
