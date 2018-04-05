@@ -63,6 +63,11 @@ public class Argon2Kdf extends KdfEngine {
     }
 
     @Override
+    public String getName() {
+        return "Argon2";
+    }
+
+    @Override
     public KdfParameters getDefaultParameters() {
         KdfParameters p = super.getDefaultParameters();
 
@@ -97,4 +102,15 @@ public class Argon2Kdf extends KdfEngine {
 
         p.setByteArray(ParamSalt, salt);
     }
+
+    @Override
+    public long getKeyRounds(KdfParameters p) {
+        return p.getUInt64(ParamIterations);
+    }
+
+    @Override
+    public void setKeyRounds(KdfParameters p, long keyRounds) {
+        p.setUInt64(ParamIterations, keyRounds);
+    }
+
 }

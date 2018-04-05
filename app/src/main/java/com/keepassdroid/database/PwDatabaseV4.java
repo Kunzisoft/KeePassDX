@@ -58,7 +58,6 @@ import biz.source_code.base64Coder.Base64Coder;
 
 public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
-	public static final int DEFAULT_ROUNDS = 6000;
 	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
 	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
 	private static final String RECYCLEBIN_NAME = "RecycleBin";
@@ -67,9 +66,9 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private UUID dataCipher = AesEngine.CIPHER_UUID;
 	private CipherEngine dataEngine = new AesEngine();
 	private PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
+	private KdfEngine kdfEngine;
 
-	// TODO: Refactor me away to get directly from kdfParameters
-    private long numKeyEncRounds = 6000;
+    private long numKeyEncRounds = AesKdf.DEFAULT_ROUNDS; // By default take the AES rounds
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
     private String description = "";
@@ -123,6 +122,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     public void setDataEngine(CipherEngine dataEngine) {
         this.dataEngine = dataEngine;
+        this.algorithm = dataEngine.getPwEncryptionAlgorithm();
     }
 
     public PwCompressionAlgorithm getCompressionAlgorithm() {
@@ -133,12 +133,18 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         this.compressionAlgorithm = compressionAlgorithm;
     }
 
-    public long getNumKeyEncRounds() {
+    @Override
+    public long getNumberKeyEncryptionRounds() {
+	    if (getKdfEngine() != null && getKdfParameters() != null)
+            numKeyEncRounds = getKdfEngine().getKeyRounds(getKdfParameters());
         return numKeyEncRounds;
     }
 
-    public void setNumKeyEncRounds(long numKeyEncRounds) {
-        this.numKeyEncRounds = numKeyEncRounds;
+    @Override
+    public void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException {
+        if (getKdfEngine() != null && getKdfParameters() != null)
+	        getKdfEngine().setKeyRounds(getKdfParameters(), rounds);
+        numKeyEncRounds = rounds;
     }
 
     public PwDate getNameChanged() {
@@ -146,14 +152,16 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setNameChanged(PwDate nameChanged) {
+	    // TODO change name date
         this.nameChanged = nameChanged;
     }
 
     public PwDate getSettingsChanged() {
-        return settingsChanged; // TODO change setting date
+        return settingsChanged;
     }
 
     public void setSettingsChanged(PwDate settingsChanged) {
+        // TODO change setting date
         this.settingsChanged = settingsChanged;
     }
 
@@ -162,6 +170,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setDescription(String description) {
+		// TODO change description date
         this.description = description;
     }
 
@@ -178,6 +187,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setDefaultUserName(String defaultUserName) {
+	    // TODO change default user name date
         this.defaultUserName = defaultUserName;
     }
 
@@ -194,6 +204,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setKeyLastChanged(PwDate keyLastChanged) {
+	    // TODO date
         this.keyLastChanged = keyLastChanged;
     }
 
@@ -309,6 +320,15 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         this.customData.put(label, value);
     }
 
+    public KdfEngine getKdfEngine() {
+        return kdfEngine;
+    }
+
+    @Override
+    public String getKeyDerivationName() {
+        return kdfEngine.getName();
+    }
+
     @Override
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
@@ -335,7 +355,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	}
 
 	@Override
-	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
+	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
 
 		byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
 
@@ -363,7 +383,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP, long roundsFix)
 			throws IOException {
 
-		KdfEngine kdfEngine = KdfFactory.get(kdfP.kdfUUID);
+		kdfEngine = KdfFactory.get(kdfP.kdfUUID);
 		if (kdfEngine == null) {
 			throw new IOException("Unknown key derivation function");
 		}
@@ -491,27 +511,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
 	@Override
-	public long getNumRounds() {
-		return numKeyEncRounds;
-	}
-
-	@Override
-	public void setNumRounds(long rounds) throws NumberFormatException {
-		numKeyEncRounds = rounds;
-		
-	}
-
-	@Override
-	public boolean algorithmSettingsEnabled() {
-		return false;
-	}
-
-	@Override
-	public PwEncryptionAlgorithm getEncryptionAlgorithm() {
-		return PwEncryptionAlgorithm.Rjindal;
-	}
-
-	@Override
 	public PwGroupIdV4 newGroupId() {
 		PwGroupIdV4 id;
 		
@@ -590,6 +589,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setRecycleBinChanged(Date recycleBinChanged) {
+	    // TODO recyclebin Date
         this.recycleBinChanged = recycleBinChanged;
     }
 

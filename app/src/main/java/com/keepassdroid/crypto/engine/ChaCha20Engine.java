@@ -19,6 +19,7 @@
  */
 package com.keepassdroid.crypto.engine;
 
+import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.utils.Types;
 
 import org.spongycastle.jce.provider.BouncyCastleProvider;
@@ -34,6 +35,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class ChaCha20Engine extends CipherEngine {
+
     public static final UUID CIPHER_UUID = Types.bytestoUUID(
         new byte[]{(byte)0xD6, (byte)0x03, (byte)0x8A, (byte)0x2B, (byte)0x8B, (byte)0x6F,
                 (byte)0x4C, (byte)0xB5, (byte)0xA5, (byte)0x24, (byte)0x33, (byte)0x9A, (byte)0x31,
@@ -49,5 +51,10 @@ public class ChaCha20Engine extends CipherEngine {
         Cipher cipher = Cipher.getInstance("Chacha7539", new BouncyCastleProvider());
         cipher.init(opmode, new SecretKeySpec(key, "ChaCha7539"), new IvParameterSpec(IV));
         return cipher;
+    }
+
+    @Override
+    public PwEncryptionAlgorithm getPwEncryptionAlgorithm() {
+        return PwEncryptionAlgorithm.ChaCha20;
     }
 }

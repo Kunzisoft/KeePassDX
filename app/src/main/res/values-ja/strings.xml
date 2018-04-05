@@ -24,7 +24,7 @@
     <string name="accept">決定</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="add_group">グループを追加</string>
-    <string name="algorithm">アルゴリズム</string>
+    <string name="encryption_algorithm">アルゴリズム</string>
     <string name="app_timeout">アプリケーション タイムアウト</string>
     <string name="app_timeout_summary">KeePassがこの時間非アクティブだった場合、データベースをロックします。</string>
     <string name="application">アプリケーション</string>

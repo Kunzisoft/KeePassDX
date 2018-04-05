@@ -27,7 +27,7 @@
     <string name="accept">Accetto</string>
     <string name="add_entry">Aggiungi voce</string>
     <string name="add_group">Aggiungi gruppo</string>
-    <string name="algorithm">Algoritmo</string>
+    <string name="encryption_algorithm">Algoritmo</string>
     <string name="app_timeout">Scadenza applicazione</string>
     <string name="app_timeout_summary">Tempo prima che venga bloccato il database quando l\'applicazione è inattiva.</string>
     <string name="application">Applicazione</string>

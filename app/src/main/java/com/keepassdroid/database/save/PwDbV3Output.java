@@ -60,7 +60,7 @@ public class PwDbV3Output extends PwDbOutput {
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
 			PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
-			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumKeyEncRounds());
+			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumberKeyEncryptionRounds());
 			return mPM.getFinalKey();
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
@@ -77,7 +77,7 @@ public class PwDbV3Output extends PwDbOutput {
 		
 		Cipher cipher;
 		try {
-			if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal) {
+			if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 			} else if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish){
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
@@ -127,7 +127,7 @@ public class PwDbV3Output extends PwDbOutput {
 		header.signature2 = PwDbHeaderV3.DBSIG_2;
 		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
-		if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+		if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
 		} else if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;
@@ -138,7 +138,7 @@ public class PwDbV3Output extends PwDbOutput {
 		header.version = PwDbHeaderV3.DBVER_DW;
 		header.numGroups = mPM.numberOfGroups();
 		header.numEntries = mPM.numberOfEntries();
-		header.numKeyEncRounds = mPM.getNumKeyEncRounds();
+		header.numKeyEncRounds = (int) mPM.getNumberKeyEncryptionRounds();
 		
 		setIVs(header);
 		

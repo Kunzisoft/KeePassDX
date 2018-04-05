@@ -26,7 +26,7 @@
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
-    <string name="algorithm">Algoritm</string>
+    <string name="encryption_algorithm">Algoritm</string>
     <string name="app_timeout">Tidsgräns för applikation</string>
     <string name="app_timeout_summary">Tid innan låsning när applikationen är inaktiv.</string>
     <string name="application">Applikation</string>

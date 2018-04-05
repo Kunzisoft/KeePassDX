@@ -22,7 +22,6 @@ package com.keepassdroid.crypto.keyDerivation;
 import com.keepassdroid.crypto.CryptoUtil;
 import com.keepassdroid.crypto.finalkey.FinalKey;
 import com.keepassdroid.crypto.finalkey.FinalKeyFactory;
-import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.utils.Types;
 
 import java.io.IOException;
@@ -30,6 +29,10 @@ import java.security.SecureRandom;
 import java.util.UUID;
 
 public class AesKdf extends KdfEngine {
+
+    public static final int DEFAULT_ROUNDS = 6000;
+    public static final String DEFAULT_NAME = "AES-KDF";
+
     public static final UUID CIPHER_UUID = Types.bytestoUUID(
             new byte[]{(byte) 0xC9, (byte) 0xD9, (byte) 0xF3, (byte) 0x9A, (byte) 0x62, (byte) 0x8A, (byte) 0x44, (byte) 0x60,
                     (byte) 0xBF, (byte) 0x74, (byte) 0x0D, (byte) 0x08, (byte)0xC1, (byte) 0x8A, (byte) 0x4F, (byte) 0xEA
@@ -42,10 +45,14 @@ public class AesKdf extends KdfEngine {
         uuid = CIPHER_UUID;
     }
 
+    public String getName() {
+        return DEFAULT_NAME;
+    }
+
     @Override
     public KdfParameters getDefaultParameters() {
         KdfParameters p = super.getDefaultParameters();
-        p.setUInt32(ParamRounds, PwDatabaseV4.DEFAULT_ROUNDS);
+        p.setUInt32(ParamRounds, DEFAULT_ROUNDS);
 
         return p;
     }
@@ -75,5 +82,15 @@ public class AesKdf extends KdfEngine {
         random.nextBytes(seed);
 
         p.setByteArray(ParamSeed, seed);
+    }
+
+    @Override
+    public long getKeyRounds(KdfParameters p) {
+        return p.getUInt64(ParamRounds);
+    }
+
+    @Override
+    public void setKeyRounds(KdfParameters p, long keyRounds) {
+        p.setUInt64(ParamRounds, keyRounds);
     }
 }

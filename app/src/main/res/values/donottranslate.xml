@@ -34,13 +34,15 @@
     <string name="max_password_length" translatable="false">64</string>
 
     <!--  Preference settings -->
-    <string name="algorithm_key" translatable="false">algorithm</string>
+    <string name="encryption_algorithm_key" translatable="false">algorithm</string>
+    <string name="key_derivation_function_key" translatable="false">key_derivation_function_key</string>
     <string name="app_key" translatable="false">app</string>
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
     <string name="db_key" translatable="false">db</string>
-    <string name="rounds_key" translatable="false">rounds</string>
+    <string name="transform_rounds_key" translatable="false">transform_rounds_key</string>
     <string name="roundsFix_key" translatable="false">roundsFix</string>
+    <integer name="roundsFix_default" translatable="false">100000</integer>
     <string name="keyfile_key" translatable="false">keyfile</string>
     <string name="maskpass_key" translatable="false">maskpass</string>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
@@ -54,7 +56,6 @@
     <string name="sort_recycle_bin_bottom_key" translatable="false">sort_recycle_bin_bottom_key</string>
     <string name="timeout_key" translatable="false">timeout_key</string>
     <string name="saf_key" translatable="false">storage_access_framework_key</string>
-    <integer name="roundsFix_default" translatable="false">100000</integer>
     <string name="setting_style_key" translatable="false">setting_style_key</string>
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
@@ -67,6 +68,10 @@
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
+    <string name="database_general_key" translatable="false">database_general_key</string>
+    <string name="database_name_key" translatable="false">database_name_key</string>
+    <string name="database_description_key" translatable="false">database_description_key</string>
+    <string name="database_version_key" translatable="false">database_version_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>

@@ -30,7 +30,7 @@
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
     <string name="add_string">Text hinzufügen</string>
-    <string name="algorithm">Algorithmus</string>
+    <string name="encryption_algorithm">Algorithmus</string>
     <string name="app_timeout">Anwendungssperre</string>
     <string name="app_timeout_summary">Bei inaktiver Anwendung wird die Datenbank nach Ablauf der eingestellten Zeit automatisch gesperrt.</string>
     <string name="application">Anwendung</string>

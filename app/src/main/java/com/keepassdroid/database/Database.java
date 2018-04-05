@@ -21,6 +21,7 @@ package com.keepassdroid.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -272,6 +273,44 @@ public class Database {
         passwordEncodingError = false;
     }
 
+    public String getVersion() {
+        return getPwDatabase().getVersion().toString();
+    }
+
+    public String getName() {
+        return getPwDatabase().getName();
+    }
+
+    public boolean containsDescription() {
+        switch (getPwDatabase().getVersion()) {
+            default:
+                return false;
+            case V4:
+                return true;
+        }
+    }
+
+    public String getDescription() {
+        switch (getPwDatabase().getVersion()) {
+            default:
+                return "";
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getDescription();
+        }
+    }
+
+    public String getEncryptionAlgorithmName(Resources resources) {
+        return getPwDatabase().getEncryptionAlgorithm().getName(resources);
+    }
+
+    public String getKeyDerivationName() {
+        return getPwDatabase().getKeyDerivationName();
+    }
+
+    public String getNumberKeyEncryptionRounds() {
+        return Long.toString(getPwDatabase().getNumberKeyEncryptionRounds());
+    }
+
     public void addEntryTo(PwEntry entry, PwGroup parent) {
         try {
             switch (getPwDatabase().getVersion()) {
@@ -435,20 +474,12 @@ public class Database {
         }
     }
 
-    public boolean isRecycleBinAvailabledAndEnabled() {
-        try {
-            switch (getPwDatabase().getVersion()) {
-                case V3:
-                    return ((PwDatabaseV3) getPwDatabase()).isRecycleBinAvailable() &&
-                            ((PwDatabaseV3) getPwDatabase()).isRecycleBinEnabled();
-                case V4:
-                    return ((PwDatabaseV4) getPwDatabase()).isRecycleBinAvailable() &&
-                            ((PwDatabaseV4) getPwDatabase()).isRecycleBinEnabled();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of database don't know if the Recyclebin is available", e);
-        }
-        return false;
+    public boolean isRecycleBinAvailable() {
+        return getPwDatabase().isRecycleBinAvailable();
+    }
+
+    public boolean isRecycleBinEnabled() {
+        return getPwDatabase().isRecycleBinEnabled();
     }
 
     public void undoRecycle(PwEntry entry, PwGroup parent) {

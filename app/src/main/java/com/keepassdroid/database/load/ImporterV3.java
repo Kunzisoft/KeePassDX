@@ -160,7 +160,7 @@ public class ImporterV3 extends Importer {
 
 		// Select algorithm
 		if( (hdr.flags & PwDbHeaderV3.FLAG_RIJNDAEL) != 0 ) {
-			newManager.setEncryptionAlgorithm(PwEncryptionAlgorithm.Rjindal);
+			newManager.setEncryptionAlgorithm(PwEncryptionAlgorithm.AES_Rijndael);
 		} else if( (hdr.flags & PwDbHeaderV3.FLAG_TWOFISH) != 0 ) {
 			newManager.setEncryptionAlgorithm(PwEncryptionAlgorithm.Twofish);
 		} else {
@@ -170,18 +170,18 @@ public class ImporterV3 extends Importer {
 		// Copy for testing
 		newManager.copyHeader(hdr);
 		
-		newManager.setNumKeyEncRounds(hdr.numKeyEncRounds);
+		newManager.setNumberKeyEncryptionRounds(hdr.numKeyEncRounds);
 
 		newManager.setName("KeePass Password Manager"); // TODO as resource;
 
 		// Generate transformedMasterKey from masterKey
-		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumKeyEncRounds());
+		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumberKeyEncryptionRounds());
 
 		status.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm
 		Cipher cipher;
 		try {
-			if ( newManager.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Rjindal ) {
+			if ( newManager.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 			} else if ( newManager.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");

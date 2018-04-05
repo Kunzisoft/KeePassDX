@@ -19,8 +19,25 @@
  */
 package com.keepassdroid.database;
 
+import android.content.res.Resources;
+
+import com.kunzisoft.keepass.R;
+
 public enum PwEncryptionAlgorithm {
-	
-	Rjindal,
-	Twofish;
+
+    AES_Rijndael,
+	Twofish,
+	ChaCha20;
+
+    public String getName(Resources resources) {
+        switch (this) {
+            default:
+            case AES_Rijndael:
+                return resources.getString(R.string.rijndael);
+            case Twofish:
+                return resources.getString(R.string.twofish);
+            case ChaCha20:
+                return resources.getString(R.string.chacha20);
+        }
+    }
 }

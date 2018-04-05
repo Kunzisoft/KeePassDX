@@ -44,10 +44,14 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
 
     public static final UUID UUID_ZERO = new UUID(0,0);
 
+    // Algorithm used to encrypt the database
+    protected PwEncryptionAlgorithm algorithm;
+
     protected byte masterKey[] = new byte[32];
     protected byte[] finalKey;
 
-    protected String name = "KeePass database";
+    protected String name = "KeePass DX database";
+
     protected PwGroupDB rootGroup;
     protected PwIconFactory iconFactory = new PwIconFactory();
 
@@ -106,7 +110,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         return finalKey;
     }
 
-    public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, int numRounds) throws IOException {
+    public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
 
         // Write checksum Checksum
         MessageDigest md;
@@ -129,7 +133,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
      * Encrypt the master key a few times to make brute-force key-search harder
      * @throws IOException
      */
-    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, int rounds ) throws IOException {
+    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, long rounds ) throws IOException {
         FinalKey key = FinalKeyFactory.createFinalKey();
 
         return key.transformMasterKey(pKeySeed, pKey, rounds);
@@ -273,13 +277,21 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         return md.digest();
     }
 
-    public abstract long getNumRounds();
+    public abstract long getNumberKeyEncryptionRounds();
 
-    public abstract void setNumRounds(long rounds) throws NumberFormatException;
+    public abstract void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException;
 
-    public abstract boolean algorithmSettingsEnabled();
+    public PwEncryptionAlgorithm getEncryptionAlgorithm() {
+        if (algorithm != null)
+            return algorithm;
+        return PwEncryptionAlgorithm.AES_Rijndael;
+    }
 
-    public abstract PwEncryptionAlgorithm getEncryptionAlgorithm();
+    public void setEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public abstract String getKeyDerivationName();
 
     public abstract List<PwGroupDB> getGrpRoots();
 
