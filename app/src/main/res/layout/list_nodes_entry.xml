@@ -18,33 +18,44 @@
   along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/entry_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="60dp"
     android:layout_gravity="center_vertical"
-    android:background="?android:attr/selectableItemBackground" >
-    <android.support.v7.widget.AppCompatImageView android:id="@+id/entry_icon"
+    android:background="?android:attr/selectableItemBackground">
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/entry_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginRight="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_margin="@dimen/margin_medium"
         android:scaleType="fitXY"
-        android:src="@drawable/ic00"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <TextView
-        android:id="@+id/entry_text"
-        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        tools:src="@drawable/ic00"/>
+    <LinearLayout
         android:layout_width="wrap_content"
-        style="@style/KeepassDXStyle.TextAppearance.Default"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/entry_icon"
-        android:layout_toEndOf="@+id/entry_icon" />
+        android:layout_toEndOf="@+id/entry_icon"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/entry_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/KeepassDXStyle.TextAppearance.DenseListTextTop"
+            tools:text="Password entry title"/>
+        <TextView
+            android:id="@+id/entry_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/KeepassDXStyle.TextAppearance.DenseListTextBottom"
+            tools:text="someone@email.com"/>
+    </LinearLayout>
 </RelativeLayout>

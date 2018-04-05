@@ -18,11 +18,39 @@
   along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/group_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="48dp"
     android:layout_gravity="center_vertical"
-    android:background="?android:attr/selectableItemBackground" >
+    android:background="?android:attr/selectableItemBackground">
+
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/group_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic99_blank"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        tools:src="@drawable/ic48"/>
+
+    <TextView
+        android:id="@+id/group_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        style="@style/KeepassDXStyle.TextAppearance.SmallTitle"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/group_icon"
+        android:layout_toEndOf="@+id/group_icon"
+        tools:text="Some group title"/>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/group_arrow"
@@ -30,35 +58,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_right_white_24dp"
         android:tint="?android:attr/textColorPrimary"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <android.support.v7.widget.AppCompatImageView android:id="@+id/group_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginRight="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic99_blank"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/group_arrow"
-        android:layout_toEndOf="@+id/group_arrow" />
-
-    <TextView android:id="@+id/group_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        style="@style/KeepassDXStyle.TextAppearance.FolderTitle"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/group_icon"
-        android:layout_toEndOf="@+id/group_icon" />
+        android:layout_margin="@dimen/margin_medium"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
 </RelativeLayout>
