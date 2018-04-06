@@ -22,7 +22,7 @@
     <item android:id="@+id/menu_app_settings"
         android:icon="@drawable/ic_settings_white_24dp"
         android:title="@string/settings"
-        android:orderInCategory="89"
+        android:orderInCategory="91"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_about"
         android:icon="@drawable/ic_help_white_24dp"

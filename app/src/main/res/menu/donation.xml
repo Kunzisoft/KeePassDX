@@ -22,6 +22,6 @@
     <item android:id="@+id/menu_donate"
         android:icon="@drawable/ic_heart_white_24dp"
         android:title="@string/menu_donate"
-        android:orderInCategory="11"
+        android:orderInCategory="95"
         app:showAsAction="ifRoom" />
 </menu>
