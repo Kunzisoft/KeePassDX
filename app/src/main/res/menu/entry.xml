@@ -25,7 +25,7 @@
         android:orderInCategory="21"
         app:showAsAction="always" />
     <item android:id="@+id/menu_goto_url"
-        android:icon="@drawable/ic_file_upload_white_24dp"
+        android:icon="@drawable/ic_launch_white_24dp"
         android:title="@string/menu_url"
         android:orderInCategory="22"
         app:showAsAction="ifRoom" />
