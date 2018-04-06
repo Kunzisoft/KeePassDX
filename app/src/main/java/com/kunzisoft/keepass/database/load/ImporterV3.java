@@ -172,8 +172,6 @@ public class ImporterV3 extends Importer {
 		
 		newManager.setNumberKeyEncryptionRounds(hdr.numKeyEncRounds);
 
-		newManager.setName("KeePass Password Manager"); // TODO as resource;
-
 		// Generate transformedMasterKey from masterKey
 		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumberKeyEncryptionRounds());
 

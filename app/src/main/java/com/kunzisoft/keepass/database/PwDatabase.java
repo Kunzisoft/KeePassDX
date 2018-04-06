@@ -50,8 +50,6 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     protected byte masterKey[] = new byte[32];
     protected byte[] finalKey;
 
-    protected String name = "KeePass Libre database";
-
     protected PwGroupDB rootGroup;
     protected PwIconFactory iconFactory = new PwIconFactory();
 
@@ -77,14 +75,6 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     }
 
     public abstract PwVersion getVersion();
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public PwGroupDB getRootGroup() {
         return rootGroup;

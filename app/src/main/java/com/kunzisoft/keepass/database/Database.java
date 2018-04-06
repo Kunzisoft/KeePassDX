@@ -277,18 +277,32 @@ public class Database {
         return getPwDatabase().getVersion().toString();
     }
 
+    public boolean containsName() {
+        switch (getPwDatabase().getVersion()) {
+            default:
+                return false;
+            case V4:
+                return true;
+        }
+    }
+
     public String getName() {
-        return getPwDatabase().getName();
+        switch (getPwDatabase().getVersion()) {
+            default:
+                return "";
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getName();
+        }
     }
 
     public void assignName(String name) {
-        getPwDatabase().setName(name);
         switch (getPwDatabase().getVersion()) {
             case V4:
-                ((PwDatabaseV4) getPwDatabase()).setNameChanged(new PwDate());
+                PwDatabaseV4 databaseV4 = ((PwDatabaseV4) getPwDatabase());
+                databaseV4.setName(name);
+                databaseV4.setNameChanged(new PwDate());
                 break;
         }
-
     }
 
     public boolean containsDescription() {

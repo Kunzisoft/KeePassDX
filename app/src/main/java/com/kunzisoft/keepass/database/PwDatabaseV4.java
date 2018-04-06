@@ -69,6 +69,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private KdfEngine kdfEngine;
 
     private long numKeyEncRounds = AesKdf.DEFAULT_ROUNDS; // By default take the AES rounds
+	protected String name = "KeePass DX database";
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
     private String description = "";
@@ -106,6 +107,14 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	@Override
 	public PwVersion getVersion() {
 		return PwVersion.V4;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
     public byte[] getHmacKey() {
