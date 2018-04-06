@@ -142,7 +142,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Kořen</string>
     <string name="rounds">Počet zašifrování</string>
-    <string name="rounds_explaination">Vyšší počet opakování šifrování zvýší bezpečnost proti hrubému útoku, ale může výrazně zpomalit načítání a ukládání.</string>
+    <string name="rounds_explanation">Vyšší počet opakování šifrování zvýší bezpečnost proti hrubému útoku, ale může výrazně zpomalit načítání a ukládání.</string>
     <string name="rounds_hint">opakování</string>
     <string name="saving_database">Ukládám databázi&#8230;</string>
     <string name="space">Místo</string>

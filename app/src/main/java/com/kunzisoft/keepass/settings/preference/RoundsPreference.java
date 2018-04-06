@@ -17,19 +17,17 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings;
+package com.kunzisoft.keepass.settings.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
 import tech.jgross.keepass.R;
 
-public class RoundsPreference extends DialogPreference {
+public class RoundsPreference extends InputTextExplanationPreference {
 
     private long mRounds;
-    private String explanations;
 
     public RoundsPreference(Context context) {
         this(context, null);
@@ -45,28 +43,11 @@ public class RoundsPreference extends DialogPreference {
 
     public RoundsPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.RoundsDialog,
-                0, 0);
-        try {
-            setExplanations(a.getString(R.styleable.RoundsDialog_explanations));
-        } finally {
-            a.recycle();
-        }
     }
 
     @Override
     public int getDialogLayoutResource() {
         return R.layout.pref_dialog_rounds;
-    }
-
-    public String getExplanations() {
-        return explanations;
-    }
-
-    public void setExplanations(String explanations) {
-        this.explanations = explanations;
     }
 
     public long getRounds() {

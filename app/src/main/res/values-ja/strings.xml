@@ -123,7 +123,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">暗号化レベル</string>
-    <string name="rounds_explaination">暗号化レベルを高く設定するとブルートフォース(総当り)攻撃に強くなりますが、保存や読込に時間が掛かります。</string>
+    <string name="rounds_explanation">暗号化レベルを高く設定するとブルートフォース(総当り)攻撃に強くなりますが、保存や読込に時間が掛かります。</string>
     <string name="rounds_hint">レベル</string>
     <string name="saving_database">データベースを保存中&#8230;</string>
     <string name="space">半角スペース</string>

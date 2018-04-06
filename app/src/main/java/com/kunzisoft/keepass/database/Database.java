@@ -218,11 +218,11 @@ public class Database {
         return null;
     }
 
-    public void SaveData(Context ctx) throws IOException, PwDbOutputException {
-        SaveData(ctx, mUri);
+    public void saveData(Context ctx) throws IOException, PwDbOutputException {
+        saveData(ctx, mUri);
     }
 
-    public void SaveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
+    public void saveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
         if (uri.getScheme().equals("file")) {
             String filename = uri.getPath();
             File tempFile = new File(filename + ".tmp");
@@ -281,6 +281,16 @@ public class Database {
         return getPwDatabase().getName();
     }
 
+    public void assignName(String name) {
+        getPwDatabase().setName(name);
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setNameChanged(new PwDate());
+                break;
+        }
+
+    }
+
     public boolean containsDescription() {
         switch (getPwDatabase().getVersion()) {
             default:
@@ -299,6 +309,31 @@ public class Database {
         }
     }
 
+    public void assignDescription(String description) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setDescription(description);
+                ((PwDatabaseV4) getPwDatabase()).setDescriptionChanged(new PwDate());
+        }
+    }
+
+    public String getDefaultUsername() {
+        switch (getPwDatabase().getVersion()) {
+            default:
+                return "";
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getDefaultUserName();
+        }
+    }
+
+    public void setDefaultUsername(String username) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setDefaultUserName(username);
+                ((PwDatabaseV4) getPwDatabase()).setDefaultUserNameChanged(new PwDate());
+        }
+    }
+
     public String getEncryptionAlgorithmName(Resources resources) {
         return getPwDatabase().getEncryptionAlgorithm().getName(resources);
     }
@@ -307,8 +342,16 @@ public class Database {
         return getPwDatabase().getKeyDerivationName();
     }
 
-    public String getNumberKeyEncryptionRounds() {
+    public String getNumberKeyEncryptionRoundsAsString() {
         return Long.toString(getPwDatabase().getNumberKeyEncryptionRounds());
+    }
+
+    public long getNumberKeyEncryptionRounds() {
+        return getPwDatabase().getNumberKeyEncryptionRounds();
+    }
+
+    public void setNumberKeyEncryptionRounds(long numberRounds) throws NumberFormatException {
+        getPwDatabase().setNumberKeyEncryptionRounds(numberRounds);
     }
 
     public void addEntryTo(PwEntry entry, PwGroup parent) {

@@ -123,7 +123,7 @@ along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Złożoność szyfrowania</string>
-    <string name="rounds_explaination">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
+    <string name="rounds_explanation">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
     <string name="rounds_fix">Kluczowe rundy szyfrowania przed zniszczeniem</string>
     <string name="rounds_fix_explanation">Jeśli twoja baza danych została uszkodzona przez KeePassDroid w wersji 2.2.0.0 do 2.2.0.6, wprowadź liczbę rund użytych poprzednio, a to pozwoli ci otworzyć twoją bazę danych.</string>
     <string name="rounds_hint">złożoność</string>

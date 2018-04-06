@@ -45,6 +45,9 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.dialogs.StorageAccessFrameworkDialog;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseNamePreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
 import tech.jgross.keepass.R;
 
@@ -286,8 +289,10 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     // Recycle bin
                     SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
+                    // TODO Recycle
+                    dbGeneralPrefCategory.removePreference(recycleBinPref); // To delete
                     if (db.isRecycleBinAvailable()) {
-                        // TODO Recycle
+
                         recycleBinPref.setChecked(db.isRecycleBinEnabled());
                         recycleBinPref.setEnabled(false);
                     } else {
@@ -308,7 +313,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     // Round encryption
                     Preference roundPref = findPreference(getString(R.string.transform_rounds_key));
-                    roundPref.setSummary(db.getNumberKeyEncryptionRounds());
+                    roundPref.setSummary(db.getNumberKeyEncryptionRoundsAsString());
 
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
@@ -323,13 +328,26 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
-        // Try if the preference is one of our custom Preferences
-        if (preference instanceof RoundsPreference) {
-            assert getFragmentManager() != null;
-            DialogFragment dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+
+        assert getFragmentManager() != null;
+
+        DialogFragment dialogFragment = null;
+
+        if (preference.getKey().equals(getString(R.string.database_name_key))) {
+            dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+        if (preference.getKey().equals(getString(R.string.database_description_key))) {
+            dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+        if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
+            dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+
+        if (dialogFragment != null) {
             dialogFragment.setTargetFragment(this, 0);
             dialogFragment.show(getFragmentManager(), null);
         }
+
         // Could not be handled here. Try with the super method.
         else {
             super.onDisplayPreferenceDialog(preference);

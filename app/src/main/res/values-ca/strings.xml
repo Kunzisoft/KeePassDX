@@ -126,7 +126,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Arrel</string>
     <string name="rounds">Passades d\'encriptació</string>
-    <string name="rounds_explaination">Més passades d\'encriptació dónen protecció adicional contra atacs de força bruta, però poden alentir molt carregar i guardar la base de dades.</string>
+    <string name="rounds_explanation">Més passades d\'encriptació dónen protecció adicional contra atacs de força bruta, però poden alentir molt carregar i guardar la base de dades.</string>
     <string name="rounds_hint">passades</string>
     <string name="saving_database">Guardant la base de dades&#8230;</string>
     <string name="space">Espai</string>

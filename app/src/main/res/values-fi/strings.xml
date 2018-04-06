@@ -137,7 +137,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Juuri</string>
     <string name="rounds">Salauskierroksia</string>
-    <string name="rounds_explaination">Suurempi kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
+    <string name="rounds_explanation">Suurempi kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
     <string name="rounds_hint">kierroksia</string>
     <string name="saving_database">Tallennetaan tietokantaa&#8230;</string>
     <string name="space">Tila</string>

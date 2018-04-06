@@ -141,7 +141,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Krypterings-gentagelser</string>
-    <string name="rounds_explaination">Højere krypterings-gentagelser giver øget beskyttelse imod brute-force angreb, men kan påvirke læsnings- og skrivehastigheden betydentligt.</string>
+    <string name="rounds_explanation">Højere krypterings-gentagelser giver øget beskyttelse imod brute-force angreb, men kan påvirke læsnings- og skrivehastigheden betydentligt.</string>
     <string name="rounds_hint">gentagelser</string>
     <string name="saving_database">Gemmer database&#8230;</string>
     <string name="space">Mellemrum</string>

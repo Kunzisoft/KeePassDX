@@ -144,7 +144,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rondas de encriptação</string>
-    <string name="rounds_explaination">Rondas de encriptação altas providenciam proteção adicional contra ataques de força bruta, mas podem atrasar o tempo de carregamento e armazenamento.</string>
+    <string name="rounds_explanation">Rondas de encriptação altas providenciam proteção adicional contra ataques de força bruta, mas podem atrasar o tempo de carregamento e armazenamento.</string>
     <string name="rounds_hint">rondas</string>
     <string name="saving_database">A guardar base de dados&#8230;</string>
     <string name="space">Espaço</string>

@@ -28,7 +28,7 @@
 
     <attr name="whiteFab" format="reference" />
 
-    <declare-styleable name="RoundsDialog">
+    <declare-styleable name="explanationDialog">
         <attr name="explanations" format="string" />
     </declare-styleable>
 

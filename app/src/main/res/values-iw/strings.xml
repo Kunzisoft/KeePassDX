@@ -136,7 +136,7 @@
     <string name="remember_keyfile_title">שמור קובץ מפתח</string>
     <string name="remove_from_filelist">הסר</string>
     <string name="rounds">סיבובי הצפנה</string>
-    <string name="rounds_explaination">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
+    <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
     <string name="rounds_hint">סיבובים</string>
     <string name="saving_database">שומר מסד נתונים&#8230;</string>
     <string name="space">גודל</string>
