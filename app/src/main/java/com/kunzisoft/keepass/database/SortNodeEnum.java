@@ -37,9 +37,9 @@ public enum SortNodeEnum {
             case CREATION_TIME:
                 return new NodeCreationComparator(ascending, groupsBefore);
             case LAST_MODIFY_TIME:
-                return new NodeCreationComparator(ascending, groupsBefore); // TODO Sort
+                return new NodeLastModificationComparator(ascending, groupsBefore);
             case LAST_ACCESS_TIME:
-                return new NodeCreationComparator(ascending, groupsBefore); // TODO Sort
+                return new NodeLastAccessComparator(ascending, groupsBefore);
         }
     }
 
@@ -51,24 +51,18 @@ public enum SortNodeEnum {
             this.ascending = ascending;
             this.groupsBefore = groupsBefore;
         }
-    }
 
-    /**
-     * Comparator of Node by Title, Groups first, Entries second
-     */
-    public static class NodeTitleComparator extends NodeComparator {
-
-        public NodeTitleComparator(boolean ascending, boolean groupsBefore) {
-            super(ascending, groupsBefore);
-        }
-
-        public int compare(PwNode object1, PwNode object2) {
+        int compareWith(Comparator<PwGroup> comparatorGroup,
+                                Comparator<PwEntry> comparatorEntry,
+                                PwNode object1,
+                                PwNode object2,
+                                int resultOfNodeMethodCompare) {
             if (object1.equals(object2))
                 return 0;
 
             if (object1 instanceof PwGroup) {
                 if (object2 instanceof PwGroup) {
-                    return new GroupNameComparator(ascending)
+                    return comparatorGroup
                             .compare((PwGroup) object1, (PwGroup) object2);
                 } else if (object2 instanceof PwEntry) {
                     if(groupsBefore)
@@ -80,7 +74,7 @@ public enum SortNodeEnum {
                 }
             } else if (object1 instanceof PwEntry) {
                 if(object2 instanceof PwEntry) {
-                    return new EntryNameComparator(ascending)
+                    return comparatorEntry
                             .compare((PwEntry) object1, (PwEntry) object2);
                 } else if (object2 instanceof PwGroup) {
                     if(groupsBefore)
@@ -91,12 +85,32 @@ public enum SortNodeEnum {
                     return -1;
                 }
             }
-            int nodeNameComp = object1.getDisplayTitle()
-                    .compareToIgnoreCase(object2.getDisplayTitle());
+
             // If same name, can be different
-            if (nodeNameComp == 0)
+            if (resultOfNodeMethodCompare == 0)
                 return object1.hashCode() - object2.hashCode();
-            return nodeNameComp;
+            return resultOfNodeMethodCompare;
+        }
+    }
+
+    /**
+     * Comparator of Node by Title, Groups first, Entries second
+     */
+    public static class NodeTitleComparator extends NodeComparator {
+
+        NodeTitleComparator(boolean ascending, boolean groupsBefore) {
+            super(ascending, groupsBefore);
+        }
+
+        public int compare(PwNode object1, PwNode object2) {
+
+            return compareWith(
+                    new GroupNameComparator(ascending),
+                    new EntryNameComparator(ascending),
+                    object1,
+                    object2,
+                    object1.getDisplayTitle()
+                            .compareToIgnoreCase(object2.getDisplayTitle()));
         }
     }
 
@@ -106,59 +120,91 @@ public enum SortNodeEnum {
     public static class NodeCreationComparator extends NodeComparator {
 
 
-        public NodeCreationComparator(boolean ascending, boolean groupsBefore) {
+        NodeCreationComparator(boolean ascending, boolean groupsBefore) {
             super(ascending, groupsBefore);
         }
 
         @Override
         public int compare(PwNode object1, PwNode object2) {
-            if (object1.equals(object2))
-                return 0;
 
-            if (object1 instanceof PwGroup) {
-                if (object2 instanceof PwGroup) {
-                    return new GroupCreationComparator(ascending)
-                            .compare((PwGroup) object1, (PwGroup) object2);
-                } else if (object2 instanceof PwEntry) {
-                    if(groupsBefore)
-                        return -1;
-                    else
-                        return 1;
-                } else {
-                    return -1;
-                }
-            } else if (object1 instanceof PwEntry) {
-                if(object2 instanceof PwEntry) {
-                    return new EntryCreationComparator(ascending)
-                            .compare((PwEntry) object1, (PwEntry) object2);
-                } else if (object2 instanceof PwGroup) {
-                    if(groupsBefore)
-                        return 1;
-                    else
-                        return -1;
-                } else {
-                    return -1;
-                }
-            }
-            int nodeCreationComp = object1.getCreationTime().getDate()
-                    .compareTo(object2.getCreationTime().getDate());
-            // If same creation, can be different
-            if (nodeCreationComp == 0) {
-                return object1.hashCode() - object2.hashCode();
-            }
-            return nodeCreationComp;
+            return compareWith(
+                    new GroupCreationComparator(ascending),
+                    new EntryCreationComparator(ascending),
+                    object1,
+                    object2,
+                    object1.getCreationTime().getDate()
+                            .compareTo(object2.getCreationTime().getDate()));
+        }
+    }
+
+    /**
+     * Comparator of node by last modification, Groups first, Entries second
+     */
+    public static class NodeLastModificationComparator extends NodeComparator {
+
+        NodeLastModificationComparator(boolean ascending, boolean groupsBefore) {
+            super(ascending, groupsBefore);
+        }
+
+        @Override
+        public int compare(PwNode object1, PwNode object2) {
+
+            return compareWith(
+                    new GroupLastModificationComparator(ascending),
+                    new EntryLastModificationComparator(ascending),
+                    object1,
+                    object2,
+                    object1.getLastModificationTime().getDate()
+                            .compareTo(object2.getLastModificationTime().getDate()));
+        }
+    }
+
+    /**
+     * Comparator of node by last access, Groups first, Entries second
+     */
+    public static class NodeLastAccessComparator extends NodeComparator {
+
+        NodeLastAccessComparator(boolean ascending, boolean groupsBefore) {
+            super(ascending, groupsBefore);
+        }
+
+        @Override
+        public int compare(PwNode object1, PwNode object2) {
+
+            return compareWith(
+                    new GroupLastAccessComparator(ascending),
+                    new EntryLastAccessComparator(ascending),
+                    object1,
+                    object2,
+                    object1.getLastAccessTime().getDate()
+                            .compareTo(object2.getLastAccessTime().getDate()));
+        }
+    }
+
+    private static abstract class AscendingComparator<Node> implements Comparator<Node> {
+
+        private boolean ascending;
+
+        AscendingComparator(boolean ascending) {
+            this.ascending = ascending;
+        }
+
+        int compareWithAscending(int basicCompareResult) {
+            // If descending, revert
+            if (!ascending)
+                return -basicCompareResult;
+
+            return basicCompareResult;
         }
     }
 
     /**
      * Group comparator by name
      */
-    public static class GroupNameComparator implements Comparator<PwGroup> {
+    public static class GroupNameComparator extends AscendingComparator<PwGroup> {
 
-        private boolean ascending;
-
-        public GroupNameComparator(boolean ascending) {
-            this.ascending = ascending;
+        GroupNameComparator(boolean ascending) {
+            super(ascending);
         }
 
         public int compare(PwGroup object1, PwGroup object2) {
@@ -170,23 +216,18 @@ public enum SortNodeEnum {
             if (groupNameComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
-            // If descending
-            if (!ascending)
-                groupNameComp = -groupNameComp;
 
-            return groupNameComp;
+            return compareWithAscending(groupNameComp);
         }
     }
 
     /**
      * Group comparator by name
      */
-    public static class GroupCreationComparator implements Comparator<PwGroup> {
+    public static class GroupCreationComparator extends AscendingComparator<PwGroup> {
 
-        private boolean ascending;
-
-        public GroupCreationComparator(boolean ascending) {
-            this.ascending = ascending;
+        GroupCreationComparator(boolean ascending) {
+            super(ascending);
         }
 
         public int compare(PwGroup object1, PwGroup object2) {
@@ -199,23 +240,66 @@ public enum SortNodeEnum {
             if (groupCreationComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
-            // If descending
-            if (!ascending)
-                groupCreationComp = -groupCreationComp;
 
-            return groupCreationComp;
+            return compareWithAscending(groupCreationComp);
+        }
+    }
+
+    /**
+     * Group comparator by last modification
+     */
+    public static class GroupLastModificationComparator extends AscendingComparator<PwGroup> {
+
+        GroupLastModificationComparator(boolean ascending) {
+            super(ascending);
+        }
+
+        public int compare(PwGroup object1, PwGroup object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int groupLastModificationComp = object1.getLastModificationTime().getDate()
+                    .compareTo(object2.getLastModificationTime().getDate());
+            // If same creation, can be different
+            if (groupLastModificationComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+
+            return compareWithAscending(groupLastModificationComp);
+        }
+    }
+
+    /**
+     * Group comparator by last access
+     */
+    public static class GroupLastAccessComparator extends AscendingComparator<PwGroup> {
+
+        GroupLastAccessComparator(boolean ascending) {
+            super(ascending);
+        }
+
+        public int compare(PwGroup object1, PwGroup object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int groupLastAccessComp = object1.getLastAccessTime().getDate()
+                    .compareTo(object2.getLastAccessTime().getDate());
+            // If same creation, can be different
+            if (groupLastAccessComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+
+            return compareWithAscending(groupLastAccessComp);
         }
     }
 
     /**
      * Comparator of Entry by Name
      */
-    public static class EntryNameComparator implements Comparator<PwEntry> {
+    public static class EntryNameComparator extends AscendingComparator<PwEntry> {
 
-        private boolean ascending;
-
-        public EntryNameComparator(boolean ascending) {
-            this.ascending = ascending;
+        EntryNameComparator(boolean ascending) {
+            super(ascending);
         }
 
         public int compare(PwEntry object1, PwEntry object2) {
@@ -227,23 +311,18 @@ public enum SortNodeEnum {
             if (entryTitleComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
-            // If descending
-            if (!ascending)
-                entryTitleComp = -entryTitleComp;
 
-            return entryTitleComp;
+            return compareWithAscending(entryTitleComp);
         }
     }
 
     /**
      * Comparator of Entry by Creation
      */
-    public static class EntryCreationComparator implements Comparator<PwEntry> {
+    public static class EntryCreationComparator extends AscendingComparator<PwEntry> {
 
-        private boolean ascending;
-
-        public EntryCreationComparator(boolean ascending) {
-            this.ascending = ascending;
+        EntryCreationComparator(boolean ascending) {
+            super(ascending);
         }
 
         public int compare(PwEntry object1, PwEntry object2) {
@@ -256,11 +335,56 @@ public enum SortNodeEnum {
             if (entryCreationComp == 0) {
                 return object1.hashCode() - object2.hashCode();
             }
-            // If descending
-            if (!ascending)
-                entryCreationComp = -entryCreationComp;
 
-            return entryCreationComp;
+            return compareWithAscending(entryCreationComp);
+        }
+    }
+
+    /**
+     * Comparator of Entry by Last Modification
+     */
+    public static class EntryLastModificationComparator extends AscendingComparator<PwEntry> {
+
+        EntryLastModificationComparator(boolean ascending) {
+            super(ascending);
+        }
+
+        public int compare(PwEntry object1, PwEntry object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int entryLastModificationComp = object1.getLastModificationTime().getDate()
+                    .compareTo(object2.getLastModificationTime().getDate());
+            // If same creation, can be different
+            if (entryLastModificationComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+
+            return compareWithAscending(entryLastModificationComp);
+        }
+    }
+
+    /**
+     * Comparator of Entry by Last Access
+     */
+    public static class EntryLastAccessComparator extends AscendingComparator<PwEntry> {
+
+        EntryLastAccessComparator(boolean ascending) {
+            super(ascending);
+        }
+
+        public int compare(PwEntry object1, PwEntry object2) {
+            if (object1.equals(object2))
+                return 0;
+
+            int entryLastAccessComp = object1.getLastAccessTime().getDate()
+                    .compareTo(object2.getLastAccessTime().getDate());
+            // If same creation, can be different
+            if (entryLastAccessComp == 0) {
+                return object1.hashCode() - object2.hashCode();
+            }
+
+            return compareWithAscending(entryLastAccessComp);
         }
     }
 }
