@@ -69,6 +69,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_folder_white_24dp"
             android:theme="?attr/whiteFab"
+            android:tint="?attr/colorAccentCompat"
             app:useCompatPadding="true"
             app:layout_anchor="@+id/app_bar"
             app:layout_anchorGravity="end|bottom" />
