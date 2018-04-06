@@ -30,7 +30,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,13 +125,6 @@ public class EntryActivity extends LockingHideActivity {
         titleView = findViewById(R.id.entry_title);
         entryContentsView = findViewById(R.id.entry_contents);
         entryContentsView.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this));
-
-		// Setup Edit Buttons
-        View edit = findViewById(R.id.entry_edit);
-        edit.setOnClickListener(v -> EntryEditActivity.Launch(EntryActivity.this, mEntry));
-        if (readOnly) {
-            edit.setVisibility(View.GONE);
-        }
 
         // Init the clipboard helper
         clipboardHelper = new ClipboardHelper(this);
@@ -302,6 +294,12 @@ public class EntryActivity extends LockingHideActivity {
 		inflater.inflate(R.menu.entry, menu);
 		inflater.inflate(R.menu.database_lock, menu);
 
+        if (readOnly) {
+            MenuItem edit =  menu.findItem(R.id.menu_edit);
+            if (edit != null)
+                edit.setVisible(false);
+        }
+
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
 		if (entryContentsView != null && togglePassword != null) {
             if (entryContentsView.isPasswordPresent() || entryContentsView.atLeastOneFieldProtectedPresent()) {
@@ -339,6 +337,10 @@ public class EntryActivity extends LockingHideActivity {
                 mShowPassword = !mShowPassword;
                 changeShowPasswordIcon(item);
                 entryContentsView.setHiddenPasswordStyle(!mShowPassword);
+                return true;
+
+            case R.id.menu_edit:
+                EntryEditActivity.launch(EntryActivity.this, mEntry);
                 return true;
 			
             case R.id.menu_goto_url:

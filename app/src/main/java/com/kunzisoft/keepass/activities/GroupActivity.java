@@ -156,7 +156,7 @@ public class GroupActivity extends ListNodesActivity
                     GroupEditDialogFragment.TAG_CREATE_GROUP);
         });
         addNodeButtonView.setAddEntryClickListener(v ->
-                EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup));
+                EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
 		setGroupIcon();
@@ -230,7 +230,7 @@ public class GroupActivity extends ListNodesActivity
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
                         break;
                     case ENTRY:
-                        EntryEditActivity.Launch(GroupActivity.this, (PwEntry) node);
+                        EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
                         break;
                 }
                 return true;
