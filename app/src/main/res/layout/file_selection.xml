@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -45,10 +45,12 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <com.keepassdroid.view.FileNameView android:id="@+id/file_select"
+                <com.kunzisoft.keepass.view.FileNameView
+                    android:id="@+id/file_select"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="?attr/actionBarSize"/>
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:layout_marginBottom="24dp"/>
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -62,17 +64,15 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/open_database"
+            android:id="@+id/browse_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            app:fabSize="mini"
-            app:layout_anchor="@id/app_bar"
-            app:layout_anchorGravity="bottom|end"
-            android:src="@drawable/ic_open_folder_white_24dp" />
+            android:src="@drawable/ic_folder_white_24dp"
+            android:theme="?attr/whiteFab"
+            android:tint="?attr/colorAccentCompat"
+            app:useCompatPadding="true"
+            app:layout_anchor="@+id/app_bar"
+            app:layout_anchorGravity="end|bottom" />
 
         <android.support.v4.widget.NestedScrollView
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -86,11 +86,12 @@
                 android:orientation="vertical">
 
                 <TextView android:id="@+id/file_list_title"
-                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginTop="22dp"
                     android:layout_marginLeft="@dimen/default_margin"
                     android:layout_marginStart="@dimen/default_margin"
-                    android:layout_marginRight="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_marginRight="72dp"
+                    android:layout_marginEnd="72dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/KeepassDXStyle.TextAppearance.Title"

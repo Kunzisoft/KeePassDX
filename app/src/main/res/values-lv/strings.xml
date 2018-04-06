@@ -6,7 +6,7 @@
     <string name="accept">Pieņemt</string>
     <string name="add_entry">Jauns ieraksts</string>
     <string name="add_group">Jauna grupa</string>
-    <string name="algorithm">Algoritms</string>
+    <string name="encryption_algorithm">Algoritms</string>
     <string name="app_timeout">Pielikuma taimauts</string>
     <string name="app_timeout_summary">Bloķēšanas taimauts, kad programma nav aktīva.</string>
     <string name="application">Programma</string>
@@ -118,7 +118,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrēšanas līmeņi</string>
-    <string name="rounds_explaination">Augstākā līmeņa šifrēšana sniedz lielāku aizsardzību, bet palēnina darbības ar datu bāzēm.</string>
+    <string name="rounds_explanation">Augstākā līmeņa šifrēšana sniedz lielāku aizsardzību, bet palēnina darbības ar datu bāzēm.</string>
     <string name="rounds_hint">līmeņi</string>
     <string name="saving_database">Datu bāzes saglabāšana…</string>
     <string name="space">Atstarpe</string>
@@ -135,7 +135,7 @@
     <string name="warning_unmounted">Nav SD kartes. Darbības ar datu bāzi nav iespējamas.</string>
     <string name="version_label">Versija:</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
         <item>5 sekundes</item>
         <item>10 sekundes</item>
         <item>20 sekundes</item>

@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
     <string name="add_group">הוסף קבוצה</string>
-    <string name="algorithm">אלגוריתם</string>
+    <string name="encryption_algorithm">אלגוריתם</string>
     <string name="app_timeout">פסק זמן ליישום</string>
     <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל.</string>
     <string name="application">יישום</string>
@@ -137,7 +137,7 @@
     <string name="remember_keyfile_title">שמור קובץ מפתח</string>
     <string name="remove_from_filelist">הסר</string>
     <string name="rounds">סיבובי הצפנה</string>
-    <string name="rounds_explaination">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
+    <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
     <string name="rounds_hint">סיבובים</string>
     <string name="saving_database">שומר מסד נתונים&#8230;</string>
     <string name="space">גודל</string>
@@ -152,7 +152,7 @@
     <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
     <string name="version_label">גרסה:</string>
 
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
         <item>5 שניות</item>
         <item>10 שניות</item>
         <item>20 שניות</item>

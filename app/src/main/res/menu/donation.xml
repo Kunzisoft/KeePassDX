@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -22,6 +22,6 @@
     <item android:id="@+id/menu_donate"
         android:icon="@drawable/ic_heart_white_24dp"
         android:title="@string/menu_donate"
-        android:orderInCategory="11"
+        android:orderInCategory="95"
         app:showAsAction="ifRoom" />
 </menu>

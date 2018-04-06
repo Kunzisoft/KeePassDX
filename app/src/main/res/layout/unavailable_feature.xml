@@ -8,8 +8,11 @@
     android:paddingStart="20dp"
     android:paddingRight="20dp"
     android:paddingEnd="20dp"
-    android:paddingBottom="0dp" >
+    android:paddingBottom="0dp"
+    style="?alertDialogTheme">
     <TextView android:id="@+id/unavailable_feature_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        style="?android:attr/textAppearanceMedium"
+        android:textColor="?android:attr/textColorPrimary"/>
 </LinearLayout>

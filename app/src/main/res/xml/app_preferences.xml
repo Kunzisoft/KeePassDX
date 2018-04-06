@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -38,18 +38,18 @@
             android:key="@string/clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
             android:summary="@string/clipboard_timeout_summary"
-            android:entries="@array/clipboard_timeout_options"
-            android:entryValues="@array/clipboard_timeout_values"
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/clipboard_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
         <ListPreference
             android:key="@string/app_timeout_key"
             android:title="@string/app_timeout"
             android:summary="@string/app_timeout_summary"
-            android:entries="@array/clipboard_timeout_options"
-            android:entryValues="@array/clipboard_timeout_values"
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/app_timeout"
-            android:defaultValue="@string/clipboard_timeout_default"/>
+            android:defaultValue="@string/app_timeout_default"/>
         <SwitchPreference
             android:key="@string/lock_database_screen_off_key"
             android:title="@string/lock_database_screen_off_title"
@@ -111,7 +111,7 @@
         <SwitchPreference
             android:key="@string/saf_key"
             android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/saf_default"
+            android:defaultValue="@bool/settings_saf_default"
             android:title="@string/use_saf_title"/>
         <SwitchPreference
             android:key="@string/auto_open_file_uri_key"

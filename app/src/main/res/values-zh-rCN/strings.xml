@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加群组</string>
-    <string name="algorithm">算法</string>
+    <string name="encryption_algorithm">算法</string>
     <string name="app_timeout">应用程序超时</string>
     <string name="app_timeout_summary">应用程序处于非活动时锁定数据库。</string>
     <string name="application">应用程序</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">解密数据库内容中&#8230;</string>
     <string name="default_checkbox">使用这做为我的默认数据库</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft；软件不带有绝对担保；是自由软件，您可在遵循GPL 2或者更高版本的情况下重新发布。中文简繁体翻译：wangkf@gmail.com</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft；软件不带有绝对担保；是自由软件，您可在遵循GPL 3或者更高版本的情况下重新发布。中文简繁体翻译：wangkf@gmail.com</string>
     <string name="select_database_file">输入数据库名：</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_and_or">输入密码和/或一个密钥文件来解锁你的数据库：</string>
@@ -121,7 +121,7 @@
     <string name="rijndael">Rijndael加密(AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次数</string>
-    <string name="rounds_explaination">更高级的加密次数对暴力攻击能提供额外保护，但也会增加加载和保存的时间。</string>
+    <string name="rounds_explanation">更高级的加密次数对暴力攻击能提供额外保护，但也会增加加载和保存的时间。</string>
     <string name="rounds_hint">次数</string>
     <string name="saving_database">正在保存数据库&#8230;</string>
     <string name="space">空格</string>
@@ -136,7 +136,7 @@
     <string name="warning_read_only">你的SD卡目前是只读状态。您可能无法将更改保存到数据库。</string>
     <string name="warning_unmounted">你的SD卡目前尚未安装在您的设备上。你将无法加载或创建您的数据库。</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5秒</item>
     	<item>10秒</item>
     	<item>20秒</item>

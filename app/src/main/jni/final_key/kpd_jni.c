@@ -118,7 +118,7 @@ JNIEXPORT void JNICALL JNI_OnUnload( JavaVM *vm, void *reserved ) {
   return;
 }
 
-JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nInit(JNIEnv *env, jobject this, jboolean encrypting, jbyteArray key, jbyteArray iv) {
+JNIEXPORT jlong JNICALL Java_com_kunzisoft_keepass_crypto_NativeAESCipherSpi_nInit(JNIEnv *env, jobject this, jboolean encrypting, jbyteArray key, jbyteArray iv) {
   uint8_t ckey[32];
   aes_state *state;
   jint key_len = (*env)->GetArrayLength(env, key);
@@ -150,7 +150,7 @@ JNIEXPORT jlong JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nInit(JN
   return (jlong)state;
 }
 
-JNIEXPORT void JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nCleanup(JNIEnv *env, jclass this, jlong state) {
+JNIEXPORT void JNICALL Java_com_kunzisoft_keepass_crypto_NativeAESCipherSpi_nCleanup(JNIEnv *env, jclass this, jlong state) {
   free((void *)state);
 }
 
@@ -163,7 +163,7 @@ JNIEXPORT void JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nCleanup(
   not a full block.
 */
 
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nUpdate(JNIEnv *env, jobject this,
+JNIEXPORT jint JNICALL Java_com_kunzisoft_keepass_crypto_NativeAESCipherSpi_nUpdate(JNIEnv *env, jobject this,
 	jlong state, jbyteArray input, jint inputOffset, jint inputLen, jbyteArray output, jint outputOffset, jint outputSize) {
   int aes_ret;
   uint32_t outLen, bytes2cache, cryptLen;
@@ -258,7 +258,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nUpdate(J
   outputSize must be at least 32 for encryption since the buffer may contain >= 1 full block
   outputSize must be at least 16 for decryption
 */
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JNIEnv *env, jobject this,
+JNIEXPORT jint JNICALL Java_com_kunzisoft_keepass_crypto_NativeAESCipherSpi_nFinal(JNIEnv *env, jobject this,
 	jlong state, jboolean doPadding, jbyteArray output, jint outputOffset, jint outputSize) {
   int i;
   uint32_t padValue, paddedCacheLen;
@@ -361,7 +361,7 @@ JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nFinal(JN
   }
 }
 
-JNIEXPORT jint JNICALL Java_com_keepassdroid_crypto_NativeAESCipherSpi_nGetCacheSize(JNIEnv* env, jobject this, jlong state) {
+JNIEXPORT jint JNICALL Java_com_kunzisoft_keepass_crypto_NativeAESCipherSpi_nGetCacheSize(JNIEnv* env, jobject this, jlong state) {
   aes_state *c_state;
 
   c_state = (aes_state *)state;
@@ -438,7 +438,7 @@ void *generate_key_material(void *arg) {
   return (void *)flip;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_com_keepassdroid_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jlong rounds) {
+JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_keepass_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jlong rounds) {
   master_key mk;
   uint32_t flip;
   pthread_t t1, t2;

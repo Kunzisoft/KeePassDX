@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@
     <string name="accept">Přijat</string>
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>
-    <string name="algorithm">Algoritmus</string>
+    <string name="encryption_algorithm">Algoritmus</string>
     <string name="app_timeout">Časový limit aplikace</string>
     <string name="app_timeout_summary">Čas před zamknutím databáze, když je aplikace neaktivní.</string>
     <string name="application">Aplikace</string>
@@ -48,7 +48,7 @@
     <string name="decrypting_db">Dešifruji obsah databáze&#8230;</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Čísla</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 2 nebo novější.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 3 nebo novější.</string>
     <string name="select_database_file">Zadejte názvev souboru databáze:</string>
     <string name="entry_accessed">Poslední přístup</string>
     <string name="entry_and_or">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze:</string>
@@ -143,7 +143,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Kořen</string>
     <string name="rounds">Počet zašifrování</string>
-    <string name="rounds_explaination">Vyšší počet opakování šifrování zvýší bezpečnost proti hrubému útoku, ale může výrazně zpomalit načítání a ukládání.</string>
+    <string name="rounds_explanation">Vyšší počet opakování šifrování zvýší bezpečnost proti hrubému útoku, ale může výrazně zpomalit načítání a ukládání.</string>
     <string name="rounds_hint">opakování</string>
     <string name="saving_database">Ukládám databázi&#8230;</string>
     <string name="space">Místo</string>
@@ -160,7 +160,7 @@
     <string name="warning_unmounted">Vaše SD karta není momentálně připojena v zařízení. Nebudete moct načíst nebo vytvořit databázi.</string>
     <string name="version_label">Verze:</string>
     
-    <string-array name="clipboard_timeout_options">
+    <string-array name="timeout_options">
     	<item>5 sekund</item>
     	<item>10 sekund</item>
     	<item>20 sekund</item>
