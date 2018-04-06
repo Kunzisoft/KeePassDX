@@ -156,7 +156,7 @@
     <string name="rounds_hint">niveaux</string>
     <string name="rounds_fix_title">Résolution de la base de données</string>
     <string name="rounds_fix">Clé de niveau de chiffrement avant corruption</string>
-    <string name="rounds_fix_explanation">Si votre base de données a été corrompue par KeePassDroid version 2.2.0.0 à 2.2.0.6, entrez le niveau de chiffrement utilisé précédemment et cela vous permettra d\'ouvrir votre base.</string>
+    <string name="rounds_fix_explanation">Si votre base de données a été corrompue, entrez le nombre de tours utilisés précédemment pour essayer d\'ouvrir votre base de données.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
     <string name="search_label">Rechercher</string>
