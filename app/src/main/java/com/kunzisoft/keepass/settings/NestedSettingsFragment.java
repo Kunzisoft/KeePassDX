@@ -277,7 +277,11 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     // Db name
                     Preference dbNamePref = findPreference(getString(R.string.database_name_key));
-                    dbNamePref.setSummary(db.getName());
+                    if ( db.containsName() ) {
+                        dbNamePref.setSummary(db.getName());
+                    } else {
+                        dbGeneralPrefCategory.removePreference(dbNamePref);
+                    }
 
                     // Db description
                     Preference dbDescriptionPref = findPreference(getString(R.string.database_description_key));

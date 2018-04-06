@@ -175,10 +175,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		return kids;
 	}
 
-	public String toString() {
-		return name;
-	}
-
 	public void constructTree(PwGroupV3 currentGroup) {
 		// I'm in root
 		if (currentGroup == null) {
