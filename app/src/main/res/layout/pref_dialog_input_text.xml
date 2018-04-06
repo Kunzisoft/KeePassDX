@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -26,18 +26,8 @@
 	android:layout_height="match_parent"
 	android:importantForAutofill="noExcludeDescendants"
 	tools:targetApi="o">
-    <android.support.v7.widget.AppCompatTextView
-		android:id="@+id/explanation_text"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:gravity="center"
-        android:layout_marginBottom="8dp"
-        style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
 	<android.support.v7.widget.AppCompatEditText
         android:id="@+id/input_text"
-	  	android:hint="@string/rounds_hint"
 	  	android:layout_height="wrap_content"
-	  	android:layout_width="match_parent"
-		android:digits="0123456789"
-		android:inputType="number"/>
+	  	android:layout_width="match_parent"/>
 </LinearLayout>

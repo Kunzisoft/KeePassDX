@@ -138,7 +138,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Titkosítási menetek száma</string>
-    <string name="rounds_explaination">A titkosítási menetek számának növelésével extra védelemet kaphat a brute force támadások ellen, ugyanakkor jelentősen lassíthatja az adatbázis betöltését vagy mentését.</string>
+    <string name="rounds_explanation">A titkosítási menetek számának növelésével extra védelemet kaphat a brute force támadások ellen, ugyanakkor jelentősen lassíthatja az adatbázis betöltését vagy mentését.</string>
     <string name="rounds_hint">Menetek száma</string>
     <string name="saving_database">Adatbázis mentése…</string>
     <string name="space">Szóköz</string>

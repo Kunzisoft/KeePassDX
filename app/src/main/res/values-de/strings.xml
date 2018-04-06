@@ -148,7 +148,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
-    <string name="rounds_explaination">Je höher die Anzahl der Schlüsseltransformationen, desto besser ist der Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
+    <string name="rounds_explanation">Je höher die Anzahl der Schlüsseltransformationen, desto besser ist der Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
     <string name="rounds_hint">Schlüsseltransformationen</string>
     <string name="rounds_fix_title">Datenbank reparieren</string>
     <string name="rounds_fix">Schlüsseltransformationen vor Datenbankkorruption</string>

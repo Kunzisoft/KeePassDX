@@ -152,7 +152,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Racine</string>
     <string name="rounds">Tours de transformation</string>
-    <string name="rounds_explaination">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
+    <string name="rounds_explanation">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
     <string name="rounds_hint">niveaux</string>
     <string name="rounds_fix_title">Résolution de la base de données</string>
     <string name="rounds_fix">Clé de niveau de chiffrement avant corruption</string>

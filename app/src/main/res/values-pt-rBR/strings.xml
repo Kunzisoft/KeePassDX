@@ -127,7 +127,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
-    <string name="rounds_explaination">Maior número de rodadas de criptografia adiciona mais proteção contra ataques de força bruta, porém pode tornar o processo de carregar e salvar mais lentos.</string>
+    <string name="rounds_explanation">Maior número de rodadas de criptografia adiciona mais proteção contra ataques de força bruta, porém pode tornar o processo de carregar e salvar mais lentos.</string>
     <string name="rounds_hint">rodadas</string>
     <string name="saving_database">Salvando banco de dados&#8230;</string>
     <string name="space">Spaço</string>

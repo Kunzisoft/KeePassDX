@@ -121,7 +121,7 @@
     <string name="rijndael">Rijndael加密(AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次数</string>
-    <string name="rounds_explaination">更高级的加密次数对暴力攻击能提供额外保护，但也会增加加载和保存的时间。</string>
+    <string name="rounds_explanation">更高级的加密次数对暴力攻击能提供额外保护，但也会增加加载和保存的时间。</string>
     <string name="rounds_hint">次数</string>
     <string name="saving_database">正在保存数据库&#8230;</string>
     <string name="space">空格</string>

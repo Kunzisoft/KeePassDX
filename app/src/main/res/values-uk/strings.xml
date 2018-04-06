@@ -124,7 +124,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
-    <string name="rounds_explaination">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
+    <string name="rounds_explanation">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
     <string name="rounds_hint">цикли</string>
     <string name="saving_database">Збереження бази даних&#8230;</string>
     <string name="space">Пропуск</string>

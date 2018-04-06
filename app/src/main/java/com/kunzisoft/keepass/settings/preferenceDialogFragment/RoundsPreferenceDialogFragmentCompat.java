@@ -17,27 +17,18 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings;
+package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.edit.OnFinish;
-import com.kunzisoft.keepass.database.edit.SaveDB;
-import com.kunzisoft.keepass.tasks.ProgressTask;
 
-public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
-
-    private PwDatabase mPM;
-    private TextView mRoundsView;
+public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
 
     public static RoundsPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -54,13 +45,8 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        mRoundsView = view.findViewById(R.id.rounds);
-
-        // Get the number or rounds from the related Preference
-        mPM = App.getDB().getPwDatabase();
-        long numRounds = mPM.getNumberKeyEncryptionRounds();
-
-        mRoundsView.setText(String.valueOf(numRounds));
+        setExplanationText(getString(R.string.rounds_explanation));
+        setInputText(database.getNumberKeyEncryptionRoundsAsString());
     }
 
     @Override
@@ -70,7 +56,7 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
             long rounds;
 
             try {
-                String strRounds = mRoundsView.getText().toString();
+                String strRounds = getInputText();
                 rounds = Long.parseLong(strRounds);
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show();
@@ -81,28 +67,28 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
                 rounds = 1;
             }
 
-            long oldRounds = mPM.getNumberKeyEncryptionRounds();
+            long oldRounds = database.getNumberKeyEncryptionRounds();
             try {
-                mPM.setNumberKeyEncryptionRounds(rounds);
+                database.setNumberKeyEncryptionRounds(rounds);
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), R.string.error_rounds_too_large, Toast.LENGTH_LONG).show();
-                mPM.setNumberKeyEncryptionRounds(Integer.MAX_VALUE);
+                database.setNumberKeyEncryptionRounds(Integer.MAX_VALUE);
             }
 
             Handler handler = new Handler();
-            SaveDB save = new SaveDB(getContext(), App.getDB(), new AfterSave(getContext(), handler, rounds, oldRounds));
-            ProgressTask pt = new ProgressTask(getContext(), save, R.string.saving_database);
-            pt.run();
+            setAfterSaveDatabase(new AfterRoundSave(getContext(), handler, rounds, oldRounds));
         }
+
+        super.onDialogClosed(positiveResult);
     }
 
-    private class AfterSave extends OnFinish {
+    private class AfterRoundSave extends OnFinish {
 
         private long mNewRounds;
         private long mOldRounds;
         private Context mCtx;
 
-        public AfterSave(Context ctx, Handler handler, long newRounds, long oldRounds) {
+        AfterRoundSave(Context ctx, Handler handler, long newRounds, long oldRounds) {
             super(handler);
 
             mCtx = ctx;
@@ -116,7 +102,7 @@ public class RoundsPreferenceDialogFragmentCompat extends PreferenceDialogFragme
 
             if (!mSuccess) {
                 displayMessage(mCtx);
-                mPM.setNumberKeyEncryptionRounds(mOldRounds);
+                database.setNumberKeyEncryptionRounds(mOldRounds);
             }
 
             getPreference().setSummary(String.valueOf(roundsToShow));

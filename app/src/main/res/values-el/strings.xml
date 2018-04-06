@@ -140,7 +140,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Ριζικός Κατάλογος</string>
     <string name="rounds">Κύκλοι Κρυπτογράφησης</string>
-    <string name="rounds_explaination">Μεγαλύτεροι κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
+    <string name="rounds_explanation">Μεγαλύτεροι κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
     <string name="rounds_hint">κύκλοι</string>
     <string name="saving_database">Αποθήκευση βάσης&#8230;</string>
     <string name="space">Κενό</string>

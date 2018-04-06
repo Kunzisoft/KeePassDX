@@ -126,7 +126,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Top</string>
     <string name="rounds">Encryptie-cycli</string>
-    <string name="rounds_explaination">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
+    <string name="rounds_explanation">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
     <string name="rounds_hint">cycli</string>
     <string name="saving_database">Database wordt opgeslagen&#8230;</string>
     <string name="space">Ruimte</string>

@@ -17,20 +17,17 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings;
+package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
 import android.os.Bundle;
 import android.support.v7.preference.DialogPreference;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.settings.preference.RoundsPreference;
 
-public class RoundsFixPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
-
-    private TextView mRoundsView;
+public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDialogFragmentCompat {
 
     public static RoundsFixPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -47,14 +44,11 @@ public class RoundsFixPreferenceDialogFragmentCompat extends PreferenceDialogFra
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        TextView textDescriptionView = view.findViewById(R.id.rounds_explanation);
-        mRoundsView = view.findViewById(R.id.rounds);
-
         DialogPreference preference = getPreference();
         if (preference instanceof RoundsPreference) {
-            textDescriptionView.setText(((RoundsPreference) preference).getExplanations());
+            setExplanationText(((RoundsPreference) preference).getExplanation());
             long numRounds = ((RoundsPreference) preference).getRounds();
-            mRoundsView.setText(String.valueOf(numRounds));
+            setInputText(String.valueOf(numRounds));
         }
     }
 
@@ -63,7 +57,7 @@ public class RoundsFixPreferenceDialogFragmentCompat extends PreferenceDialogFra
         if ( positiveResult ) {
             long rounds;
             try {
-                String strRounds = mRoundsView.getText().toString();
+                String strRounds = getInputText();
                 rounds = Long.valueOf(strRounds);
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show();

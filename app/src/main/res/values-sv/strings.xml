@@ -137,7 +137,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Krypteringsrundor</string>
-    <string name="rounds_explaination">Högre antal krypteringsrundor ger ytterligare skydd mot "brute force"-attacker, men kan göra att ladda och spara går betydligt långsammare.</string>
+    <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot "brute force"-attacker, men kan göra att ladda och spara går betydligt långsammare.</string>
     <string name="rounds_hint">rundor</string>
     <string name="saving_database">Sparar databas&#8230;</string>
     <string name="space">Mellanslag</string>

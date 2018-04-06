@@ -147,12 +147,11 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         numKeyEncRounds = rounds;
     }
 
-    public PwDate getNameChanged() {
+	public PwDate getNameChanged() {
         return nameChanged;
     }
 
     public void setNameChanged(PwDate nameChanged) {
-	    // TODO change name date
         this.nameChanged = nameChanged;
     }
 
@@ -170,7 +169,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setDescription(String description) {
-		// TODO change description date
         this.description = description;
     }
 
@@ -187,7 +185,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     public void setDefaultUserName(String defaultUserName) {
-	    // TODO change default user name date
         this.defaultUserName = defaultUserName;
     }
 

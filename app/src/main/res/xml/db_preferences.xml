@@ -17,31 +17,35 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:key="@string/database_general_key"
         android:title="@string/general">
 
-		<Preference
+        <com.kunzisoft.keepass.settings.preference.InputTextPreference
 			android:key="@string/database_name_key"
 			android:persistent="false"
-			android:title="@string/database_name_title"/>
-        <Preference
+			android:title="@string/database_name_title"
+            android:positiveButtonText="@string/entry_save"
+            android:negativeButtonText="@string/entry_cancel"/>
+        <com.kunzisoft.keepass.settings.preference.InputTextPreference
             android:key="@string/database_description_key"
             android:persistent="false"
-            android:title="@string/database_description_title"/>
-        <Preference
-            android:key="@string/database_version_key"
-            android:persistent="false"
-            android:title="@string/database_version_title"/>
+            android:title="@string/database_description_title"
+            android:positiveButtonText="@string/entry_save"
+            android:negativeButtonText="@string/entry_cancel"/>
 		<SwitchPreference
             android:key="@string/recycle_bin_key"
             android:persistent="false"
             android:title="@string/recycle_bin_title"
 			android:summary="@string/recycle_bin_summary"
             android:checked="false"/>
+        <Preference
+            android:key="@string/database_version_key"
+            android:persistent="false"
+            android:title="@string/database_version_title"/>
 
     </PreferenceCategory>
 
@@ -56,10 +60,11 @@
             android:key="@string/key_derivation_function_key"
             android:persistent="false"
             android:title="@string/key_derivation_function"/>
-        <com.kunzisoft.keepass.settings.RoundsPreference
+        <com.kunzisoft.keepass.settings.preference.RoundsPreference
             android:key="@string/transform_rounds_key"
             android:persistent="false"
             android:title="@string/rounds"
+            custom:explanations="@string/rounds_explanation"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
 

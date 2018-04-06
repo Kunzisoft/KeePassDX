@@ -52,7 +52,7 @@ public class SaveDB extends RunnableOnFinish {
 
 		if ( ! mDontSave ) {
 			try {
-				mDb.SaveData(mCtx);
+				mDb.saveData(mCtx);
 			} catch (IOException e) {
 				finish(false, e.getMessage());
 				return;
