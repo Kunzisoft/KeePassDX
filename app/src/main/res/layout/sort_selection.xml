@@ -30,13 +30,11 @@
         <RadioButton android:id="@+id/sort_selection_last_modify_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sort_last_modify_time"
-            android:visibility="gone"/>
+            android:text="@string/sort_last_modify_time"/>
         <RadioButton android:id="@+id/sort_selection_last_access_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sort_last_access_time"
-            android:visibility="gone"/>
+            android:text="@string/sort_last_access_time"/>
     </RadioGroup>
     <CheckBox android:id="@+id/sort_selection_ascending"
         android:layout_width="wrap_content"

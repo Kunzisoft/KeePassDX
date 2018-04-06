@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -95,6 +94,7 @@ public class SortDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        assert getActivity() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -123,59 +123,37 @@ public class SortDialogFragment extends DialogFragment {
         builder.setTitle(R.string.sort_menu);
         builder.setView(rootView)
                 // Add action buttons
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        mListener.onSortSelected(sortNodeEnum, mAscending, mGroupsBefore, mRecycleBinBottom);
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
-                });
+                .setPositiveButton(android.R.string.ok,
+                        (dialog, id) -> mListener.onSortSelected(sortNodeEnum, mAscending, mGroupsBefore, mRecycleBinBottom))
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {});
 
-        CompoundButton ascendingView = (CompoundButton) rootView.findViewById(R.id.sort_selection_ascending);
+        CompoundButton ascendingView = rootView.findViewById(R.id.sort_selection_ascending);
         // Check if is ascending or descending
         ascendingView.setChecked(mAscending);
-        ascendingView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mAscending = isChecked;
-            }
-        });
+        ascendingView.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> mAscending = isChecked);
 
-        CompoundButton groupsBeforeView = (CompoundButton) rootView.findViewById(R.id.sort_selection_groups_before);
+        CompoundButton groupsBeforeView = rootView.findViewById(R.id.sort_selection_groups_before);
         // Check if groups before
         groupsBeforeView.setChecked(mGroupsBefore);
-        groupsBeforeView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mGroupsBefore = isChecked;
-            }
-        });
+        groupsBeforeView.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> mGroupsBefore = isChecked);
 
-        CompoundButton recycleBinBottomView = (CompoundButton) rootView.findViewById(R.id.sort_selection_recycle_bin_bottom);
+        CompoundButton recycleBinBottomView = rootView.findViewById(R.id.sort_selection_recycle_bin_bottom);
         if (!recycleBinAllowed) {
             recycleBinBottomView.setVisibility(View.GONE);
         } else {
             // Check if recycle bin at the bottom
             recycleBinBottomView.setChecked(mRecycleBinBottom);
-            recycleBinBottomView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mRecycleBinBottom = isChecked;
-                }
-            });
+            recycleBinBottomView.setOnCheckedChangeListener(
+                    (buttonView, isChecked) -> mRecycleBinBottom = isChecked);
         }
 
-        RadioGroup sortSelectionRadioGroupView = (RadioGroup) rootView.findViewById(R.id.sort_selection_radio_group);
+        RadioGroup sortSelectionRadioGroupView = rootView.findViewById(R.id.sort_selection_radio_group);
         // Check value by default
         sortSelectionRadioGroupView.check(mCheckedId);
-        sortSelectionRadioGroupView.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                sortNodeEnum = retrieveSortEnumFromViewId(checkedId);
-            }
-        });
+        sortSelectionRadioGroupView.setOnCheckedChangeListener(
+                (group, checkedId) -> sortNodeEnum = retrieveSortEnumFromViewId(checkedId));
 
         return builder.create();
     }
