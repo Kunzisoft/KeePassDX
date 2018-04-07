@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -27,7 +27,9 @@
     <string name="add_entry">Add entry</string>
     <string name="add_group">Add group</string>
     <string name="add_string">Add string</string>
-    <string name="algorithm">Algorithm</string>
+    <string name="encryption">Encryption</string>
+    <string name="encryption_algorithm">Encryption Algorithm</string>
+    <string name="key_derivation_function">Key Derivation Function</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Time before locking database when the application is inactive.</string>
     <string name="application">Application</string>
@@ -50,7 +52,7 @@
     <string name="decrypting_db">Decrypting database contents&#8230;</string>
     <string name="default_checkbox">Use this as my default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
     <string name="entry_cancel">Cancel</string>
@@ -151,11 +153,11 @@
     <string name="remove_from_filelist">Remove</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
-    <string name="rounds">Encryption Rounds</string>
-    <string name="rounds_explaination">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
+    <string name="rounds">Transform Rounds</string>
+    <string name="rounds_explanation">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_fix_title">Fix of database</string>
     <string name="rounds_fix">Key encryption rounds before corruption</string>
-    <string name="rounds_fix_explanation">If your database was corrupted by KeePassDroid version 2.2.0.0 to 2.2.0.6, enter the number of rounds used previously and this will allow you to open your database.</string>
+    <string name="rounds_fix_explanation">If your database was corrupted, enter the number of rounds used previously to try to open your database.</string>
     <string name="rounds_hint">rounds</string>
     <string name="saving_database">Saving database&#8230;</string>
     <string name="space">Space</string>
@@ -174,6 +176,7 @@
     <string name="search">Search</string>
     <string name="search_results">Search results</string>
     <string name="twofish">Twofish</string>
+    <string name="chacha20">ChaCha20</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
@@ -249,6 +252,9 @@
     <string name="allow_copy_password_summary">Allow the copy of the password to the clipboard.</string>
     <string name="warning_disabling_storage_access_framework">WARNING : disabling this feature may result in an inability to open or save the databases</string>
     <string name="open_link_database">Link of the Kdbx file to open</string>
+    <string name="database_name_title">Database name</string>
+    <string name="database_description_title">Database description</string>
+    <string name="database_version_title">Database version</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>

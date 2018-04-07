@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
-    <string name="algorithm">Алгоритм</string>
+    <string name="encryption_algorithm">Алгоритм</string>
     <string name="app_timeout">Тайм-аут програми</string>
     <string name="app_timeout_summary">Час перед закриттям бази даних, коли програма є неактивною.</string>
     <string name="application">Програма</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Розшифрування змісту бази даних&#8230;</string>
     <string name="default_checkbox">Використовувати як мою типову базу даних</string>
     <string name="digits">Цифри</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Введіть ім’я бази даних:</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_and_or">Введіть пароль і/або файл ключа для відкриття бази даних:</string>
@@ -124,7 +124,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
-    <string name="rounds_explaination">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
+    <string name="rounds_explanation">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
     <string name="rounds_hint">цикли</string>
     <string name="saving_database">Збереження бази даних&#8230;</string>
     <string name="space">Пропуск</string>

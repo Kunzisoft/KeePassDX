@@ -24,7 +24,7 @@
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
-    <string name="algorithm">Алгоритм</string>
+    <string name="encryption_algorithm">Алгоритм</string>
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
     <string name="application">Программа</string>
@@ -45,7 +45,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v2 или новее</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее</string>
     <string name="select_database_file">Путь к базе KeePass:</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_and_or">Введите пароль или путь к файлу-ключу:</string>
@@ -140,7 +140,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Проходы шифрования</string>
-    <string name="rounds_explaination">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
+    <string name="rounds_explanation">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
     <string name="rounds_fix">Проходы до поломки базы</string>
     <string name="rounds_fix_explanation">Если база была повреждена в KeePassDroid 2.2.0.0–2.2.0.6, введите ранее используемое количество проходов шифрования, чтобы открыть её</string>
     <string name="rounds_hint">проходы</string>

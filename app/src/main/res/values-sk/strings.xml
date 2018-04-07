@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
     <string name="add_group">Pridať Skupinu</string>
-    <string name="algorithm">Algoritmus</string>
+    <string name="encryption_algorithm">Algoritmus</string>
     <string name="app_timeout">Časový limit aplikácie.</string>
     <string name="app_timeout_summary">Čas pred uzamknutím databázy, ak je aplikácia neaktívna.</string>
     <string name="application">Applikácia</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Dešifrujem obsah databázy&#8230;</string>
     <string name="default_checkbox">Použiť toto ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 2 alebo vyššie.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
     <string name="select_database_file">Vložte názov Databázy:</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_and_or">Vložte heslo a / alebo keyfile pre odomknutie databázy:</string>
@@ -124,7 +124,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrovacie opakovania</string>
-    <string name="rounds_explaination">Vyššie opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
+    <string name="rounds_explanation">Vyššie opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
     <string name="rounds_hint">opakovania</string>
     <string name="saving_database">Ukladám databázu&#8230;</string>
     <string name="space">Miesto</string>
