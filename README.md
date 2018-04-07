@@ -5,11 +5,12 @@ KeePass Libre is a material design KeePass Client for manage keys and passwords 
 ### Features
 
 * Create database files / entries and groups
-* Support for .kdb and .kdbx files (version 1 to 4)
-* Open database, copy username / password, open URI / URL
+* Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm 
+* Compatible with the majority of alternative programs (KeePass, KeePassX, KeePass XC...) 
+* Allows fast copy of fields and opening of URI / URL 
 * Fingerprint for fast unlocking
 * Material design with themes
-* AutoFill and Integration (Development in progress)
+* AutoFill and Integration 
 * Precise management of settings
 
 ## What is KeePass?
