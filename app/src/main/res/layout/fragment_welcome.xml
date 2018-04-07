@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blue"
+    tools:context="com.keepassdroid.fragments.WelcomeFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="@string/welcome_header"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="165sp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8sp"
+            android:background="@drawable/white_border">
+            <Button
+                android:id="@+id/welcome_new"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="NEW DATABASE"
+                android:src="@drawable/ic_arrow_forward"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="165sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8sp"
+            android:background="@drawable/white_border">
+            <Button
+                android:id="@+id/welcome_existing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="EXISTING DATABASE"
+                android:src="@drawable/ic_arrow_forward"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>
