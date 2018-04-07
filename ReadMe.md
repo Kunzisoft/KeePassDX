@@ -4,13 +4,16 @@
 
 ### Features
 
-* Create database files / entries and groups
-* Support for .kdb and .kdbx files (version 1 to 4)
-* Open database, copy username / password, open URI / URL
-* Fingerprint for fast unlocking
-* Material design with themes
-* AutoFill and Integration (Development in progress)
-* Precise management of settings
+ * Create database files / entries and groups
+ * Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
+ * Compatible with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
+ * Allows fast copy of fields and opening of URI / URL
+ * Fingerprint for fast unlocking
+ * Material design with themes
+ * AutoFill and Integration
+ * Precise management of settings
+
+Keepass DX is opensource and ad-free. 
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen1.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen2.jpg" width="220">
@@ -25,13 +28,13 @@ KeePass is a free open source password manager, which helps you to manage your p
 
 Yes, KeePass is really free, and more than that: it is open source (OSI certified). You can have a look at its full source and check whether the encryption algorithms are implemented correctly.
 
-## Donation
+## Contributions
 
-Even if the application is free, to maintain the application, you can make donations.
+You can contribute in different ways to help us on our work.
 
-[![Donation Paypal](https://4.bp.blogspot.com/-ncaIbUGaHOk/WfhaThYUPGI/AAAAAAAAAVQ/_HidNgdB1q4DaC24ujaKNzH64KUUJiQewCLcBGAs/s1600/pay-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU "Kunzisoft Paypal Donation")
-
-[![Donation Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Kunzisoft/donate "Kunzisoft Liberapay Donation")
+* Add features by a pull request.
+* Help to translate into your language
+* [Donate](https://www.kunzisoft.com/donation)  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen4.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen5.jpg" width="220">
