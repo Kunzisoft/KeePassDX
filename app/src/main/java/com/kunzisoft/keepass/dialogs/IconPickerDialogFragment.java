@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -29,12 +28,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.icons.Icons;
@@ -75,24 +71,18 @@ public class IconPickerDialogFragment extends DialogFragment {
 		View root = inflater.inflate(R.layout.icon_picker, null);
 		builder.setView(root);
 
-		GridView currIconGridView = (GridView) root.findViewById(R.id.IconGridView);
+		GridView currIconGridView = root.findViewById(R.id.IconGridView);
 		currIconGridView.setAdapter(new ImageAdapter(this.getContext()));
 
-		currIconGridView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				Bundle bundle = new Bundle();
-                bundle.putInt(KEY_ICON_ID, position);
-                iconPickerListener.iconPicked(bundle);
-
-				dismiss();
-			}
-		});
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                IconPickerDialogFragment.this.getDialog().cancel();
-            }
+		currIconGridView.setOnItemClickListener((parent, v, position, id) -> {
+            Bundle bundle = new Bundle();
+			bundle.putInt(KEY_ICON_ID, position);
+			iconPickerListener.iconPicked(bundle);
+            dismiss();
         });
+
+        builder.setNegativeButton(R.string.cancel, (dialog, id) ->
+				IconPickerDialogFragment.this.getDialog().cancel());
 
 		return builder.create();
 	}
@@ -100,22 +90,20 @@ public class IconPickerDialogFragment extends DialogFragment {
 	public class ImageAdapter extends BaseAdapter {
 		private Context context;
 
-		public ImageAdapter(Context c)	{
+		ImageAdapter(Context c)	{
 			context = c;
 		}
 
-		public int getCount() 	{
+		public int getCount() {
 			/* Return number of KeePass icons */
 			return Icons.count();
 		}
    	
-   		public Object getItem(int position)
-		{
+   		public Object getItem(int position) {
 			return null;
 		}
 
-		public long getItemId(int position)
-		{
+		public long getItemId(int position)	{
 			return 0;
 		}
    	
@@ -123,15 +111,13 @@ public class IconPickerDialogFragment extends DialogFragment {
 			View currView;
 			if(convertView == null) {
 				LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				currView = li.inflate(R.layout.icon, parent, false);
+                assert li != null;
+                currView = li.inflate(R.layout.icon, parent, false);
 			}
 			else {
 				currView = convertView;
 			}
-
-			TextView tv = (TextView) currView.findViewById(R.id.icon_text);
-			tv.setText("" + position);
-			ImageView iv = (ImageView) currView.findViewById(R.id.icon_image);
+			ImageView iv = currView.findViewById(R.id.icon_image);
 			iv.setImageResource(Icons.iconToResId(position));
 
 			return currView;
