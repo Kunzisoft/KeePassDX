@@ -24,7 +24,7 @@
     <string name="accept">接受</string>
     <string name="add_entry">添加條目</string>
     <string name="add_group">添加群組</string>
-    <string name="algorithm">演算法</string>
+    <string name="encryption_algorithm">演算法</string>
     <string name="app_timeout">應用程式超時</string>
     <string name="app_timeout_summary">應用程式處於非活動時鎖定資料庫。</string>
     <string name="application">應用程式</string>

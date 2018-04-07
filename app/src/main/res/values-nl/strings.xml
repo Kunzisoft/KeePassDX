@@ -26,7 +26,7 @@
     <string name="accept">Aanvaarden</string>
     <string name="add_entry">Record toevoegen</string>
     <string name="add_group">Groep toevoegen</string>
-    <string name="algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Algoritme</string>
     <string name="app_timeout">Applicatietimeout</string>
     <string name="app_timeout_summary">Tijd tot het vergrendelen van de database bij inactiviteit.</string>
     <string name="application">Applicatie</string>

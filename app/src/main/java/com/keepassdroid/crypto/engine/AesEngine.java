@@ -21,6 +21,7 @@ package com.keepassdroid.crypto.engine;
 
 
 import com.keepassdroid.crypto.CipherFactory;
+import com.keepassdroid.database.PwEncryptionAlgorithm;
 import com.keepassdroid.utils.Types;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -34,6 +35,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AesEngine extends CipherEngine {
+
     public static final UUID CIPHER_UUID = Types.bytestoUUID(
             new byte[]{(byte) 0x31, (byte) 0xC1, (byte) 0xF2, (byte) 0xE6, (byte) 0xBF, (byte) 0x71, (byte) 0x43, (byte) 0x50,
             (byte) 0xBE, (byte) 0x58, (byte) 0x05, (byte) 0x21, (byte) 0x6A, (byte) 0xFC, (byte)0x5A, (byte) 0xFF
@@ -46,5 +48,10 @@ public class AesEngine extends CipherEngine {
         cipher.init(opmode, new SecretKeySpec(key, "AES"), new IvParameterSpec(IV));
 
         return cipher;
+    }
+
+    @Override
+    public PwEncryptionAlgorithm getPwEncryptionAlgorithm() {
+        return PwEncryptionAlgorithm.AES_Rijndael;
     }
 }

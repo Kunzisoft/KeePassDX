@@ -210,7 +210,7 @@ public class PwDbV4Output extends PwDbOutput {
 				}
 
 				if (header.version >= PwDbHeaderV4.FILE_VERSION_32_4) {
-					PwDbInnerHeaderOutputV4 ihOut =  new PwDbInnerHeaderOutputV4((PwDatabaseV4)mPM, header, osXml);
+					PwDbInnerHeaderOutputV4 ihOut =  new PwDbInnerHeaderOutputV4(mPM, header, osXml);
                     ihOut.output();
 				}
 
@@ -285,10 +285,10 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		writeMeta();
 		
-		PwGroupV4 root = (PwGroupV4) mPM.getRootGroup();
+		PwGroupV4 root = mPM.getRootGroup();
 		xml.startTag(null, ElemRoot);
 		startGroup(root);
-		Stack<PwGroupV4> groupStack = new Stack<PwGroupV4>();
+		Stack<PwGroupV4> groupStack = new Stack<>();
 		groupStack.push(root);
 		
 		if (!root.preOrderTraverseTree(new GroupWriter(groupStack), new EntryWriter()))

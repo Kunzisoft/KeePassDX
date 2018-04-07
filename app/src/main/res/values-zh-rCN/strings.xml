@@ -24,7 +24,7 @@
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加群组</string>
-    <string name="algorithm">算法</string>
+    <string name="encryption_algorithm">算法</string>
     <string name="app_timeout">应用程序超时</string>
     <string name="app_timeout_summary">应用程序处于非活动时锁定数据库。</string>
     <string name="application">应用程序</string>

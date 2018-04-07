@@ -26,7 +26,7 @@
     <string name="accept">Accepter</string>
     <string name="add_entry">Tilføj post</string>
     <string name="add_group">Tilføj gruppe</string>
-    <string name="algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Algoritme</string>
     <string name="app_timeout">Applikations timeout</string>
     <string name="app_timeout_summary">Tid før databasen låses, når applikationen er inaktiv.</string>
     <string name="application">Applikation</string>

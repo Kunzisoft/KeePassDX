@@ -24,7 +24,7 @@
     <string name="accept">Αποδοχή</string>
     <string name="add_entry">Προσθήκη εγγραφής</string>
     <string name="add_group">Προσθήκη ομάδας</string>
-    <string name="algorithm">Αλγόριθμος</string>
+    <string name="encryption_algorithm">Αλγόριθμος</string>
     <string name="app_timeout">Χρονικό όριο εφαρμογής</string>
     <string name="app_timeout_summary">Ο χρόνος προτού κλειδωθεί η βάση δεδομένων όταν η εφαρμογή είναι ανενεργή.</string>
     <string name="application">Εφαρμογή</string>

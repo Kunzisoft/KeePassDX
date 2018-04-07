@@ -48,6 +48,7 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
     public void onDisplayPreferenceDialog(Preference preference) {
         // Try if the preference is one of our custom Preferences
         if (preference instanceof RoundsPreference) {
+            assert getFragmentManager() != null;
             DialogFragment dialogFragment = RoundsFixPreferenceDialogFragmentCompat.newInstance(preference.getKey());
             dialogFragment.setTargetFragment(this, 0);
             dialogFragment.show(getFragmentManager(), null);

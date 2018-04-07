@@ -331,7 +331,8 @@ public abstract class ListNodesActivity extends LockingActivity
                 PwGroup parent = pwNode.getParent();
                 Database db = App.getDB();
                 PwDatabase database = db.getPwDatabase();
-                if (db.isRecycleBinAvailabledAndEnabled()) {
+                if (db.isRecycleBinAvailable() &&
+                        db.isRecycleBinEnabled()) {
                     PwGroup recycleBin = database.getRecycleBin();
                     // Add trash if it doesn't exists
                     if (parent.equals(recycleBin)

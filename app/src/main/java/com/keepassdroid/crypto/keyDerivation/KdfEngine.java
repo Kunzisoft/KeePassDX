@@ -33,4 +33,10 @@ public abstract class KdfEngine {
 
     public abstract void randomize(KdfParameters p);
 
+    public abstract String getName();
+
+    public abstract long getKeyRounds(KdfParameters p);
+
+    public abstract void setKeyRounds(KdfParameters p, long keyRounds);
+
 }

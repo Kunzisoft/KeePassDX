@@ -27,7 +27,7 @@
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
     <string name="add_string">Ajouter une chaîne</string>
-    <string name="algorithm">Algorithme</string>
+    <string name="encryption_algorithm">Algorithme</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
@@ -150,7 +150,7 @@
     <string name="remove_from_filelist">Effacer</string>
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Racine</string>
-    <string name="rounds">Niveau du chiffrement</string>
+    <string name="rounds">Tours de transformation</string>
     <string name="rounds_explaination">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
     <string name="rounds_hint">niveaux</string>
     <string name="rounds_fix_title">Résolution de la base de données</string>
@@ -247,6 +247,9 @@
     <string name="allow_copy_password_summary">Autoriser la copie du mot de passe dans le presse-papiers.</string>
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
     <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
+    <string name="database_name_title">Nom de la base de données</string>
+    <string name="database_description_title">Description de la base de données</string>
+    <string name="database_version_title">Version de la base de données</string>
 
     <string-array name="timeout_options">
     	<item>5 secondes</item>

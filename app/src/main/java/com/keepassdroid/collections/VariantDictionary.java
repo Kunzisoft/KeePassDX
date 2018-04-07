@@ -24,7 +24,6 @@ import com.keepassdroid.stream.LEDataOutputStream;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class VariantDictionary {
     private static final int VdmCritical = 0xFF00;
     private static final int VdmInfo = 0x00FF;
 
-    private Map<String, VdType> dict = new HashMap<String, VdType>();
+    private Map<String, VdType> dict = new HashMap<>();
 
     private class VdType {
         public static final byte None = 0x00;

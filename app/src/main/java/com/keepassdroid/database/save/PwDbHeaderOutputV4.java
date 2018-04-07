@@ -98,7 +98,7 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 
 		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeHeaderField(PwDbHeaderV4Fields.TransformSeed, header.getTransformSeed());
-			writeHeaderField(PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.getNumKeyEncRounds()));
+			writeHeaderField(PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.getNumberKeyEncryptionRounds()));
 		} else {
             writeHeaderField(PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.getKdfParameters()));
 		}

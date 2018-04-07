@@ -6,7 +6,7 @@
     <string name="accept">Pieņemt</string>
     <string name="add_entry">Jauns ieraksts</string>
     <string name="add_group">Jauna grupa</string>
-    <string name="algorithm">Algoritms</string>
+    <string name="encryption_algorithm">Algoritms</string>
     <string name="app_timeout">Pielikuma taimauts</string>
     <string name="app_timeout_summary">Bloķēšanas taimauts, kad programma nav aktīva.</string>
     <string name="application">Programma</string>

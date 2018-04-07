@@ -24,7 +24,7 @@
     <string name="accept">Godta</string>    
     <string name="add_entry">Legg til post</string>
     <string name="add_group">Legg til gruppe</string>
-    <string name="algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Algoritme</string>
     <string name="app_timeout">Programtidsavbrot</string>
     <string name="app_timeout_summary">Tid før databasen blir låst når programmet ikkje er i bruk.</string>
     <string name="application">Program</string>
