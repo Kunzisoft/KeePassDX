@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
  This file is part of KeePass Libre.
@@ -17,9 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources
-  xmlns:tools="http://schemas.android.com/tools"
-  tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
     <string name="AboutText">KeePass Libre is an Android implementation of the KeePass password manager.</string>
@@ -99,6 +96,7 @@
     <string name="hint_length">length</string>
     <string name="hint_pass">password</string>
     <string name="password">Password</string>
+    <string name="master_password">Master Password</string>
     <string name="install_from_play_store">Install from Play Store</string>
     <string name="install_from_f_droid">Install from F-Droid</string>
     <string name="InvalidPassword">Invalid password or key file.</string>
@@ -227,7 +225,7 @@
     <string name="unavailable_feature_text">Can not start this feature.</string>
     <string name="unavailable_feature_version">Your Android version %1$s is not the minimum version %2$s required.</string>
     <string name="unavailable_feature_hardware">The hardware is not detected.</string>
-    <string name="file_name">File name</string>
+    <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
     <string name="create_keepass_file">Create a keepass file</string>
@@ -250,20 +248,20 @@
     <string name="open_link_database">Link of the Kdbx file to open</string>
 
     <string-array name="timeout_options">
-    	<item>5 seconds</item>
-    	<item>10 seconds</item>
-    	<item>20 seconds</item>
-    	<item>30 seconds</item>
-    	<item>1 minute</item>
-    	<item>5 minutes</item>
-    	<item>15 minutes</item>
-    	<item>30 minutes</item>
-    	<item>Never</item>
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>Never</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Small</item>
-    	<item>Medium</item>
-    	<item>Large</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
     </string-array>
 
     <string name="style_choose_title">Select a theme</string>
@@ -272,5 +270,11 @@
         <item>Light Theme</item>
         <item>Night Theme</item>
     </string-array>
+
+    <string name="title_activity_welcome">Welcome</string>
+    <string name="welcome_header">Welcome</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
  This file is part of KeePass Libre.
@@ -18,20 +17,20 @@
   along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-	<color name="transparent">#00ffffff</color>
-	<color name="white">#ffffff</color>
-	<color name="black">#000000</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 
     <color name="pink_light">#ff4081</color>
     <color name="pink">#f50057</color>
 
-    <color name="blue_lighter">#9fa8da</color>
-    <color name="blue_light">#3f51b5</color>
-    <color name="blue">#3949ab</color>
-    <color name="blue_dark">#303f9f</color>
+    <color name="blue_lighter">#B3E5FC</color>
+    <color name="blue_light">#40C4FF</color>
+    <color name="blue">#0091EA</color>
+    <color name="blue_dark">#0277BD</color>
 
     <color name="background_light">#FAFAFA</color>
-	<color name="background_night">#303030</color>
+    <color name="background_night">#303030</color>
     <color name="background_dark">#000000</color>
 
     <color name="icon_background">#555555</color>
@@ -46,4 +45,6 @@
     <color name="colorTextSecondaryDisable">#c7c7c7</color>
     <color name="colorTextSecondaryInverse">#999999</color>
     <color name="colorTextSecondaryInverseDisable">#565656</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>    

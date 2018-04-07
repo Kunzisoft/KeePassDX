@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.keepassdroid.activities.WelcomeActivity;
 import com.keepassdroid.fileselect.FileSelectActivity;
 
 public class KeePass extends Activity {
@@ -32,7 +33,7 @@ public class KeePass extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startFileSelectActivity();
+        startWelcomeActivity();
         // Delete flickering for kitkat <=
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             overridePendingTransition(0, 0);
@@ -40,6 +41,10 @@ public class KeePass extends Activity {
 
 	protected void startFileSelectActivity() {
         FileSelectActivity.launch(this);
+    }
+
+    protected void startWelcomeActivity() {
+        WelcomeActivity.launch(this);
     }
 
 	@Override

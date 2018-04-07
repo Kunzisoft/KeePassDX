@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2017 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePass Libre.
@@ -69,6 +68,7 @@
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
+
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
@@ -125,6 +125,7 @@
 
     <!-- Light Style -->
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" />
+
     <style name="KeepassDXStyle.Light.Toolbar.Popup" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColor">@color/colorText</item>
         <item name="android:colorBackground">@color/background_light</item>
@@ -132,6 +133,7 @@
 
     <!-- Night Style -->
     <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v21" />
+
     <style name="KeepassDXStyle.Night.Toolbar.Popup" parent="Theme.AppCompat">
         <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:colorBackground">@color/background_night</item>
@@ -155,9 +157,11 @@
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
     </style>
+
     <style name="KeepassDXStyle.Dialog.NegativeButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">?attr/colorAccent</item>
     </style>
+
     <style name="KeepassDXStyle.Dialog.PositiveButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
@@ -171,12 +175,15 @@
     <style name="KeepassDXStyle.TextAppearance" parent="android:style/TextAppearance">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.Inverse" parent="android:style/TextAppearance">
         <item name="android:textColor">?attr/textColorInverse</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary" parent="android:style/TextAppearance">
         <item name="android:textColor">?attr/textColorInverse</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.TitleTextOnPrimary" parent="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -185,49 +192,62 @@
     <style name="KeepassDXStyle.TextAppearance.Default" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.Large" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.FolderTitle">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.Title" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.SmallTitle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.LargeTitle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">20sp</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.SecondaryText" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.DenseListTextTop" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.DenseListTextBottom">
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/colorTextSecondary</item>
     </style>
+
     <style name="KeepassDXStyle.TextAppearance.TinyText" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
     </style>
-	<style name="KeepassDXStyle.TextAppearance.WarningTextStyle" parent="KeepassDXStyle.TextAppearance">
-		<item name="android:textColor">?attr/colorAccent</item>
-	</style>
+
+    <style name="KeepassDXStyle.TextAppearance.WarningTextStyle" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
 
     <!-- Button Style -->
     <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button" />
+
     <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
         <item name="android:textColor">?attr/textColorInverse</item>
         <item name="android:background">@drawable/button_background</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="KeepassDXStyle.v21.ImageButton" parent="Base.Widget.AppCompat.ImageButton" />
+
     <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
         <item name="android:background">@drawable/image_button_background</item>
         <item name="android:gravity">center</item>
@@ -235,8 +255,9 @@
 
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat" />
-    <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
-    </style>
+
+    <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab"></style>
+
     <style name="KeepassDXStyle.Fab.White" parent="KeepassDXStyle.v21.Fab">
         <item name="colorAccent">@color/white</item>
         <item name="tint">?attr/colorAccentCompat</item>
@@ -244,20 +265,22 @@
 
     <!-- Menu FAB -->
     <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary" />
+
     <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.v21.FabMenu">
         <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/button_small_background</item>
     </style>
 
     <!-- Form -->
-	<style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.TextAppearance">
+    <style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?attr/colorAccent</item>
-		<item name="android:textSize">12sp</item>
-	</style>
-	<style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
-		<item name="android:padding">5sp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:padding">5sp</item>
         <item name="android:textSize">16sp</item>
-	</style>
+    </style>
 
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Night" parent="Theme.AppCompat.DialogWhenLarge">
@@ -287,6 +310,18 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/pink</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="KeepassDXStyle.Light">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 
 </resources>
