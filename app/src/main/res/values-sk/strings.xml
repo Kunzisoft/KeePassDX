@@ -6,7 +6,7 @@
 
   KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass Libre is distributed in the hope that it will be useful,
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Dešifrujem obsah databázy&#8230;</string>
     <string name="default_checkbox">Použiť toto ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 2 alebo vyššie.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
     <string name="select_database_file">Vložte názov Databázy:</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_and_or">Vložte heslo a / alebo keyfile pre odomknutie databázy:</string>

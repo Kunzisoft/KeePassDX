@@ -6,7 +6,7 @@
 
   KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass Libre is distributed in the hope that it will be useful,
@@ -41,7 +41,7 @@
     <string name="decrypting_db">解密資料庫內容中&#8230;</string>
     <string name="default_checkbox">使用這做為我的默認資料庫</string>
     <string name="digits">數字</string>
-    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d；軟體不帶有絕對擔保；是自由軟體，您可在遵循GPL 2或者更高版本的情況下重新發佈。中文簡繁體翻譯：wangkf@gmail.com</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d；軟體不帶有絕對擔保；是自由軟體，您可在遵循GPL 3或者更高版本的情況下重新發佈。中文簡繁體翻譯：wangkf@gmail.com</string>
     <string name="select_database_file">輸入資料庫名：</string>
     <string name="entry_accessed">訪問時間</string>
     <string name="entry_and_or">輸入密碼和/或一個密鑰檔來解鎖你的資料庫：</string>
