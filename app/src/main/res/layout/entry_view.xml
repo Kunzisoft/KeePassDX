@@ -52,7 +52,7 @@
         android:fillViewport="true"
         android:scrollbarStyle="insideOverlay">
 
-        <com.keepassdroid.view.EntryContentsView android:id="@+id/entry_contents"
+        <com.kunzisoft.keepass.view.EntryContentsView android:id="@+id/entry_contents"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
 

@@ -16,10 +16,10 @@
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name="com.keepassdroid.app.App"
+        android:name="com.kunzisoft.keepass.app.App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup"
-        android:backupAgent="com.keepassdroid.backup.SettingsBackupAgent"
+        android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
         android:theme="@style/KeepassDXStyle.Light"
         tools:replace="android:theme">
         <!-- TODO backup API Key -->
@@ -38,12 +38,12 @@
                 android:resource="@xml/nnf_provider_paths" />
         </provider>
         <activity
-            android:name="com.keepassdroid.activities.WelcomeActivity"
+            android:name="com.kunzisoft.keepass.activities.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_welcome"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name="com.keepassdroid.fileselect.FilePickerStylishActivity"
+            android:name="com.kunzisoft.keepass.fileselect.FilePickerStylishActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
@@ -59,16 +59,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.keepassdroid.fileselect.FileSelectActivity"
+            android:name="com.kunzisoft.keepass.fileselect.FileSelectActivity"
             android:launchMode="singleInstance"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.keepassdroid.activities.AboutActivity"
+            android:name="com.kunzisoft.keepass.activities.AboutActivity"
             android:launchMode="singleInstance"
             android:label="@string/menu_about" />
         <activity
-            android:name="com.keepassdroid.password.PasswordActivity"
+            android:name="com.kunzisoft.keepass.password.PasswordActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -108,24 +108,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.keepassdroid.activities.GroupActivity"
+            android:name="com.kunzisoft.keepass.activities.GroupActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value="com.keepassdroid.search.SearchResults"
+                android:value="com.kunzisoft.keepass.roid.search.SearchResults"
                 android:exported="false" />
         </activity>
         <activity
-            android:name="com.keepassdroid.activities.EntryActivity"
+            android:name="com.kunzisoft.keepass.activities.EntryActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.keepassdroid.activities.EntryEditActivity"
+            android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.keepassdroid.search.SearchResultsActivity"
+            android:name="com.kunzisoft.keepass.search.SearchResultsActivity"
             android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -135,19 +135,19 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.keepassdroid.settings.SettingsActivity" />
+        <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity
-            android:name="com.keepassdroid.autofill.AutoFillAuthActivity"
+            android:name="com.kunzisoft.keepass.autofill.AutoFillAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
-        <activity android:name="com.keepassdroid.settings.SettingsAutofillActivity" />
+        <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
 
-        <service android:name="com.keepassdroid.timeout.TimeoutService" />
+        <service android:name="com.kunzisoft.keepass.timeout.TimeoutService" />
         <service
-            android:name="com.keepassdroid.notifications.NotificationCopyingService"
+            android:name="com.kunzisoft.keepass.notifications.NotificationCopyingService"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name="com.keepassdroid.autofill.KeeAutofillService"
+            android:name="com.kunzisoft.keepass.autofill.KeeAutofillService"
             android:label="@string/autofill_service_name"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE">
             <meta-data

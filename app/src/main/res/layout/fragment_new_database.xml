@@ -9,7 +9,7 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    tools:context="com.keepassdroid.fragments.NewDatabaseFragment">
+    tools:context="com.kunzisoft.keepass.fragments.NewDatabaseFragment">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/new_db_password_header"

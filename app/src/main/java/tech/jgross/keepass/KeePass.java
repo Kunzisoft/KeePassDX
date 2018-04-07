@@ -25,8 +25,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.keepassdroid.activities.WelcomeActivity;
-import com.keepassdroid.fileselect.FileSelectActivity;
+import com.kunzisoft.keepass.activities.WelcomeActivity;
+import com.kunzisoft.keepass.fileselect.FileSelectActivity;
 
 public class KeePass extends Activity {
 

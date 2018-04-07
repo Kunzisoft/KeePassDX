@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/blue"
-    tools:context="com.keepassdroid.fragments.WelcomeFragment">
+    tools:context="com.kunzisoft.keepass.fragments.WelcomeFragment">
 
     <TextView
         android:layout_width="match_parent"

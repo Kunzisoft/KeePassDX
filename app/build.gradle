@@ -12,7 +12,7 @@ android {
         versionName = "2.5.0.0beta8"
         multiDexEnabled true
 
-        testApplicationId = "com.keepassdroid.tests"
+        testApplicationId = "com.kunzisoft.keepass.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
         ndk {
