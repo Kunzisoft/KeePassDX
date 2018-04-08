@@ -34,7 +34,7 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.icons.Icons;
+import com.kunzisoft.keepass.icon.classic.Icons;
 
 public class GroupEditDialogFragment extends DialogFragment
         implements IconPickerDialogFragment.IconPickerListener {

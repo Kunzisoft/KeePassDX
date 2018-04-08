@@ -33,7 +33,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.icons.Icons;
+import com.kunzisoft.keepass.icon.classic.Icons;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 
 

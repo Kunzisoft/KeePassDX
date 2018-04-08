@@ -17,11 +17,11 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.icons;
+package com.kunzisoft.keepass.icon.classic;
 
 import android.util.SparseIntArray;
 
-import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.icon.classic.R;
 
 import java.lang.reflect.Field;
 
@@ -33,26 +33,26 @@ public class Icons {
 		if (icons == null) {
 			icons = new SparseIntArray();
 			
-			Class<com.kunzisoft.keepass.R.drawable> c = com.kunzisoft.keepass.R.drawable.class;
+			Class<com.kunzisoft.keepass.icon.classic.R.drawable> c = com.kunzisoft.keepass.icon.classic.R.drawable.class;
 			
 			Field[] fields = c.getFields();
-			
-			for (int i = 0; i < fields.length; i++) {
-				String fieldName = fields[i].getName();
+
+			for (Field field : fields) {
+				String fieldName = field.getName();
 				if (fieldName.matches("ic\\d{2}.*")) {
 					String sNum = fieldName.substring(2, 4);
 					int num = Integer.parseInt(sNum);
 					if (num > 69) {
 						continue;
 					}
-					
+
 					int resId;
 					try {
-						resId = fields[i].getInt(null);
+						resId = field.getInt(null);
 					} catch (Exception e) {
 						continue;
 					}
-					
+
 					icons.put(num, resId);
 				}
 			}

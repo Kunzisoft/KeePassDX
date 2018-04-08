@@ -22,6 +22,8 @@ package com.kunzisoft.keepass.icons;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
@@ -30,6 +32,7 @@ import com.kunzisoft.keepass.compat.BitmapDrawableCompat;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconCustom;
 import com.kunzisoft.keepass.database.PwIconStandard;
+import com.kunzisoft.keepass.icon.classic.Icons;
 
 import org.apache.commons.collections.map.AbstractReferenceMap;
 import org.apache.commons.collections.map.ReferenceMap;
@@ -67,9 +70,10 @@ public class DrawableFactory {
 
 	private static void initBlank(Resources res) {
 		if (blank==null) {
-			blank = res.getDrawable(R.drawable.ic99_blank);
-			blankWidth = blank.getIntrinsicWidth();
-			blankHeight = blank.getIntrinsicHeight();
+			blankWidth = (int) res.getDimension(R.dimen.icon_size);
+			blankHeight = (int) res.getDimension(R.dimen.icon_size);
+			blank = new ColorDrawable(Color.TRANSPARENT);
+			blank.setBounds(0, 0, blankWidth, blankHeight);
 		}
 	}
 	

@@ -52,7 +52,7 @@ import com.kunzisoft.keepass.database.edit.UpdateEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
-import com.kunzisoft.keepass.icons.Icons;
+import com.kunzisoft.keepass.icon.classic.Icons;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.utils.MenuUtil;
