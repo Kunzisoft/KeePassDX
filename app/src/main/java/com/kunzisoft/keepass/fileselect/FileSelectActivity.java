@@ -75,8 +75,8 @@ import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class FileSelectActivity extends StylishActivity implements
-		CreateFileDialogFragment.DefinePathDialogListener ,
-		AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
+        CreateFileDialogFragment.DefinePathDialogListener,
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
 		FileSelectAdapter.FileItemOpenListener,
         FileSelectAdapter.FileSelectClearListener,
         FileSelectAdapter.FileInformationShowListener {

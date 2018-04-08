@@ -19,6 +19,17 @@
  */
 package com.kunzisoft.keepass.database.save;
 
+import com.kunzisoft.keepass.collections.VariantDictionary;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
+import com.kunzisoft.keepass.database.PwDatabaseV4;
+import com.kunzisoft.keepass.database.PwDbHeader;
+import com.kunzisoft.keepass.database.PwDbHeaderV4;
+import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+import com.kunzisoft.keepass.stream.HmacBlockStream;
+import com.kunzisoft.keepass.stream.LEDataOutputStream;
+import com.kunzisoft.keepass.stream.MacOutputStream;
+import com.kunzisoft.keepass.utils.Types;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,18 +37,6 @@ import java.security.DigestOutputStream;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import com.kunzisoft.keepass.collections.VariantDictionary;
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
-import com.kunzisoft.keepass.database.PwDatabaseV4;
-import com.kunzisoft.keepass.database.PwDbHeader;
-import com.kunzisoft.keepass.database.PwDbHeaderV4;
-import com.kunzisoft.keepass.database.PwDbHeaderV4.PwDbHeaderV4Fields;
-import com.kunzisoft.keepass.database.exception.PwDbOutputException;
-import com.kunzisoft.keepass.stream.HmacBlockStream;
-import com.kunzisoft.keepass.stream.LEDataOutputStream;
-import com.kunzisoft.keepass.stream.MacOutputStream;
-import com.kunzisoft.keepass.utils.Types;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -92,35 +91,35 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
         los.writeUInt(header.version);
 
 
-		writeHeaderField(PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.getDataCipher()));
-		writeHeaderField(PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.getCompressionAlgorithm().id));
-		writeHeaderField(PwDbHeaderV4Fields.MasterSeed, header.masterSeed);
+		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.getDataCipher()));
+		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.getCompressionAlgorithm().id));
+		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.MasterSeed, header.masterSeed);
 
 		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
-			writeHeaderField(PwDbHeaderV4Fields.TransformSeed, header.getTransformSeed());
-			writeHeaderField(PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.getNumberKeyEncryptionRounds()));
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformSeed, header.getTransformSeed());
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.getNumberKeyEncryptionRounds()));
 		} else {
-            writeHeaderField(PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.getKdfParameters()));
+            writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.getKdfParameters()));
 		}
 
 		if (header.encryptionIV.length > 0) {
-			writeHeaderField(PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV);
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV);
 		}
 
 		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
-			writeHeaderField(PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey);
-			writeHeaderField(PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes);
-			writeHeaderField(PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream.id));
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey);
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes);
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream.id));
 		}
 
 		if (db.containsPublicCustomData()) {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			LEDataOutputStream los = new LEDataOutputStream(bos);
 			VariantDictionary.serialize(db.getPublicCustomData(), los);
-			writeHeaderField(PwDbHeaderV4Fields.PublicCustomData, bos.toByteArray());
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.PublicCustomData, bos.toByteArray());
 		}
 
-		writeHeaderField(PwDbHeaderV4Fields.EndOfHeader, EndHeaderValue);
+		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.EndOfHeader, EndHeaderValue);
 		
 		los.flush();
 		hashOfHeader = dos.getMessageDigest().digest();

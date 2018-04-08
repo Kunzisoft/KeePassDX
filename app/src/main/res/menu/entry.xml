@@ -23,10 +23,15 @@
         android:icon="@drawable/ic_visibility_white_24dp"
         android:title="@string/menu_showpass"
         android:orderInCategory="21"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+    <item android:id="@+id/menu_edit"
+        android:icon="@drawable/ic_mode_edit_white_24dp"
+        android:title="@string/menu_edit"
+        android:orderInCategory="22"
+        app:showAsAction="always" />
     <item android:id="@+id/menu_goto_url"
         android:icon="@drawable/ic_web_launch"
         android:title="@string/menu_url"
-        android:orderInCategory="22"
+        android:orderInCategory="23"
         app:showAsAction="ifRoom" />
 </menu>

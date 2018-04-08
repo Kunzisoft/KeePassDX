@@ -19,12 +19,11 @@
  */
 package com.kunzisoft.keepass.database.save;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
-
 import com.kunzisoft.keepass.database.PwDbHeaderV3;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class PwDbHeaderOutputV3 {
 	private PwDbHeaderV3 mHeader;

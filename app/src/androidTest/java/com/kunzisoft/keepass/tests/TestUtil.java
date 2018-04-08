@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests;
+package com.kunzisoft.keepass.tests;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,8 +29,8 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.keepass.utils.EmptyUtils;
-import com.keepass.utils.UriUtil;
+import com.kunzisoft.keepass.utils.EmptyUtils;
+import com.kunzisoft.keepass.utils.UriUtil;
 
 public class TestUtil {
 	private static final File sdcard = Environment.getExternalStorageDirectory();

@@ -19,6 +19,15 @@
  */
 package com.kunzisoft.keepass.crypto;
 
+import android.os.Build;
+
+import com.kunzisoft.keepass.crypto.engine.AesEngine;
+import com.kunzisoft.keepass.crypto.engine.ChaCha20Engine;
+import com.kunzisoft.keepass.crypto.engine.CipherEngine;
+import com.kunzisoft.keepass.crypto.engine.TwofishEngine;
+
+import org.spongycastle.jce.provider.BouncyCastleProvider;
+
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -27,19 +36,6 @@ import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
-import android.os.Build;
-
-import com.kunzisoft.keepass.crypto.engine.AesEngine;
-import com.kunzisoft.keepass.crypto.engine.ChaCha20Engine;
-import com.kunzisoft.keepass.crypto.engine.CipherEngine;
-import com.kunzisoft.keepass.crypto.engine.TwofishEngine;
-import com.kunzisoft.keepass.utils.Types;
-import com.kunzisoft.keepass.crypto.engine.CipherEngine;
-
-import org.spongycastle.jce.provider.BouncyCastleProvider;
 
 public class CipherFactory {
 	private static boolean blacklistInit = false;

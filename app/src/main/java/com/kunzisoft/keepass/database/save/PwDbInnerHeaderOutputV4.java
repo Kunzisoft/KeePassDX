@@ -1,7 +1,7 @@
 /*
  * Copyright 2017 Brian Pellin.
  *
- * This file is part of KeePassDroid.
+ * This file is part of KeePass DX.
  *
  *  KeePassDroid is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,8 +21,6 @@ package com.kunzisoft.keepass.database.save;
 
 import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwDbHeaderV4;
-import com.kunzisoft.keepass.database.PwDbHeaderV4.PwDbInnerHeaderV4Fields;
-import com.kunzisoft.keepass.database.PwDbHeaderV4.KdbxBinaryFlags;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 
@@ -43,23 +41,23 @@ public class PwDbInnerHeaderOutputV4 {
     }
 
     public void output() throws IOException {
-        los.write(PwDbInnerHeaderV4Fields.InnerRandomStreamID);
+        los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomStreamID);
         los.writeInt(4);
         los.writeInt(header.innerRandomStream.id);
 
         int streamKeySize = header.innerRandomStreamKey.length;
-        los.write(PwDbInnerHeaderV4Fields.InnerRandomstreamKey);
+        los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey);
         los.writeInt(streamKeySize);
         los.write(header.innerRandomStreamKey);
 
         for (ProtectedBinary bin : db.getBinPool().binaries()) {
-            byte flag = KdbxBinaryFlags.None;
+            byte flag = PwDbHeaderV4.KdbxBinaryFlags.None;
             if (bin.isProtected()) {
-                flag |= KdbxBinaryFlags.Protected;
+                flag |= PwDbHeaderV4.KdbxBinaryFlags.Protected;
             }
 
             byte[] binData = bin.getData();
-            los.write(PwDbInnerHeaderV4Fields.Binary);
+            los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary);
             los.writeInt(bin.length() + 1);
             los.write(flag);
             los.write(binData);
@@ -67,7 +65,7 @@ public class PwDbInnerHeaderOutputV4 {
             Arrays.fill(binData, (byte)0);
         }
 
-        los.write(PwDbInnerHeaderV4Fields.EndOfHeader);
+        los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader);
         los.writeInt(0);
     }
 

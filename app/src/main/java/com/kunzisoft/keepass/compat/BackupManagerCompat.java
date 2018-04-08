@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.compat;
 
+import android.content.Context;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-
-import android.content.Context;
 
 
 @SuppressWarnings({"unchecked", "rawtypes"})

@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.database;
 
-import java.util.UUID;
-
 import org.apache.commons.collections.map.AbstractReferenceMap;
 import org.apache.commons.collections.map.ReferenceMap;
+
+import java.util.UUID;
 
 public class PwIconFactory {
 	/** customIconMap

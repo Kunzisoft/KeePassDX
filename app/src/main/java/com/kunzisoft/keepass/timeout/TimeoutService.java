@@ -32,7 +32,8 @@ import android.util.Log;
 import com.kunzisoft.keepass.app.App;
 
 public class TimeoutService extends Service {
-	private static final String TAG = "KeePassDroid Timer"; 
+
+	private static final String TAG = TimeoutService.class.getName();
 	private BroadcastReceiver mIntentReceiver;
 	
 	@Override

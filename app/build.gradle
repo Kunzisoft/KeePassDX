@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion = 27
-    buildToolsVersion = "27.0.3"
+    buildToolsVersion = '27.0.3'
 
     defaultConfig {
         applicationId 'tech.jgross.keepass'
@@ -80,13 +80,11 @@ dependencies {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
-
-    implementation "com.android.support:support-v4:$supportVersion"
-
     // Apache Commons Collections
     implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
     // Base64
     compile group: 'biz.source_code', name: 'base64coder', version: '2010-12-19'
+    implementation "com.android.support:support-v4:$supportVersion"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'com.google.guava:guava:23.0-android'

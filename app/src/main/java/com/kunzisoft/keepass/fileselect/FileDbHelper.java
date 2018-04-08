@@ -19,9 +19,6 @@
  */
 package com.kunzisoft.keepass.fileselect;
 
-import java.io.File;
-import java.io.FileFilter;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,12 +29,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.kunzisoft.keepass.compat.EditorCompat;
 
+import java.io.File;
+import java.io.FileFilter;
+
 public class FileDbHelper {
 	
 	public static final String LAST_FILENAME = "lastFile";
 	public static final String LAST_KEYFILE = "lastKey";
 	
-	public static final String DATABASE_NAME = "kunzisoft.keepass";
+	public static final String DATABASE_NAME = "keepassdroid"; // TODO Change db name
 	private static final String FILE_TABLE = "files";
 	private static final int DATABASE_VERSION = 1;
 	

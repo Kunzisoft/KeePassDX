@@ -23,8 +23,6 @@ import android.net.Uri;
 
 import com.kunzisoft.keepass.database.PwDate;
 
-import static com.kunzisoft.keepass.database.PwDate.DEFAULT_PWDATE;
-
 public class EmptyUtils {
 	public static boolean isNullOrEmpty(String str) {
 		return (str == null) || (str.length() == 0);
@@ -35,7 +33,7 @@ public class EmptyUtils {
 	}
 	
 	public static boolean isNullOrEmpty(PwDate date) {
-		return (date == null) || date.equals(DEFAULT_PWDATE);
+		return (date == null) || date.equals(PwDate.DEFAULT_PWDATE);
 	}
 
 	public static boolean isNullOrEmpty(Uri uri) {

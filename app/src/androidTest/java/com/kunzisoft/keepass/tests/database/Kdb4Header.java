@@ -17,15 +17,15 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.keepass.crypto.engine.AesEngine;
-import com.keepass.database.PwDatabaseV4;
-import com.keepass.database.load.ImporterV4;
+import com.kunzisoft.keepass.crypto.engine.AesEngine;
+import com.kunzisoft.keepass.database.PwDatabaseV4;
+import com.kunzisoft.keepass.database.load.ImporterV4;
 
 import java.io.InputStream;
 

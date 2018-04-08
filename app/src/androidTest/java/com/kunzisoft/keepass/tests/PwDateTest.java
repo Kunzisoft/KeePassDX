@@ -17,11 +17,11 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests;
+package com.kunzisoft.keepass.tests;
 
 import junit.framework.TestCase;
 
-import com.keepass.database.PwDate;
+import com.kunzisoft.keepass.database.PwDate;
 
 public class PwDateTest extends TestCase {
 	public void testDate() {

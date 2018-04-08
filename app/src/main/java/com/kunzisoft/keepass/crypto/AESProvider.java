@@ -30,7 +30,7 @@ public final class AESProvider extends Provider {
 
 	public AESProvider() {
 		super("AESProvider", 1.0, "");
-		put("Cipher.AES",com.kunzisoft.keepass.crypto.NativeAESCipherSpi.class.getName());
+		put("Cipher.AES",NativeAESCipherSpi.class.getName());
 	}
 
 }

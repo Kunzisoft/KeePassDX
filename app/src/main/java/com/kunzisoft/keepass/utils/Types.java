@@ -42,13 +42,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.utils;
 
+import com.kunzisoft.keepass.stream.LEDataOutputStream;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
-
 
 /**
  * Tools for slicing and dicing Java and KeePass data types.

@@ -19,6 +19,10 @@
  */
 package com.kunzisoft.keepass.database.save;
 
+import com.kunzisoft.keepass.database.PwGroupV3;
+import com.kunzisoft.keepass.stream.LEDataOutputStream;
+import com.kunzisoft.keepass.utils.Types;
+
 import java.io.IOException;
 import java.io.OutputStream;
 

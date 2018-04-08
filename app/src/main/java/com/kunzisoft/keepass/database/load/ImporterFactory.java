@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.database.load;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.kunzisoft.keepass.database.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.exception.InvalidDBSignatureException;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ImporterFactory {
 	public static Importer createImporter(InputStream is) throws InvalidDBSignatureException, IOException

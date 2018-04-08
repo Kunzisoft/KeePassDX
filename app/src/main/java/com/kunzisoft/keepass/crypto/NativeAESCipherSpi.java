@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.crypto;
 
+import android.util.Log;
+
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -40,10 +42,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
 
-import android.util.Log;
-
 public class NativeAESCipherSpi extends CipherSpi {
-	
+
+	private static final String TAG = NativeAESCipherSpi.class.getName();
+
 	private static boolean mIsStaticInit = false;
 	private static HashMap<PhantomReference<NativeAESCipherSpi>, Long> mCleanup = new HashMap<PhantomReference<NativeAESCipherSpi>, Long>();
 	private static ReferenceQueue<NativeAESCipherSpi> mQueue = new ReferenceQueue<NativeAESCipherSpi>();
@@ -65,7 +67,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 	}
 	
 	private static void addToCleanupQueue(NativeAESCipherSpi ref, long ptr) {
-		Log.d("KeepassDroid", "queued cipher context: " + ptr);
+		Log.d(TAG, "queued cipher context: " + ptr);
 		mCleanup.put(new PhantomReference<NativeAESCipherSpi>(ref, mQueue), ptr);
 	}
 	
@@ -83,7 +85,7 @@ public class NativeAESCipherSpi extends CipherSpi {
 					
 					long ctx = mCleanup.remove(ref);
 					nCleanup(ctx);
-					Log.d("KeePassDroid", "Cleaned up cipher context: " + ctx);
+					Log.d(TAG, "Cleaned up cipher context: " + ctx);
 					
 				} catch (InterruptedException e) {
 					// Do nothing, but resume looping if mQueue.remove is interrupted

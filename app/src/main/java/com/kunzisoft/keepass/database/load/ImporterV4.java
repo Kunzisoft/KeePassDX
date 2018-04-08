@@ -73,92 +73,6 @@ import javax.crypto.NoSuchPaddingException;
 
 import biz.source_code.base64Coder.Base64Coder;
 
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrCompressed;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrId;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrProtected;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrRef;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoType;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeDefaultSeq;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeEnabled;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeItem;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeObfuscation;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemBgColor;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemBinaries;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemBinary;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCreationTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomData;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconID;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconItem;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconItemData;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconItemID;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIcons;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbColor;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDefaultUser;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDefaultUserChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDesc;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDescChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbKeyChangeForce;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbKeyChangeForceOnce;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbKeyChangeRec;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbKeyChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbMntncHistoryDays;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbName;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbNameChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDeletedObject;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDeletedObjects;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDeletionTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDocNode;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEnableAutoType;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEnableSearching;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEntry;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEntryTemplatesGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEntryTemplatesGroupChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemExpires;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemExpiryTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemFgColor;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemGenerator;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHeaderHash;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHistory;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHistoryMaxItems;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHistoryMaxSize;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemIcon;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemIsExpanded;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemKey;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemKeystrokeSequence;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastAccessTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastModTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastSelectedGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastTopVisibleEntry;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastTopVisibleGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLocationChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemMemoryProt;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemMeta;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemName;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemNotes;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemOverrideUrl;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtAutoHide;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtNotes;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtPassword;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtTitle;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtURL;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtUserName;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRecycleBinChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRecycleBinEnabled;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRecycleBinUuid;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRoot;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemSettingsChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemString;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemStringDictExItem;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemTags;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemTimes;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemUsageCount;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemUuid;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemValue;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemWindow;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ValTrue;
-
 public class ImporterV4 extends Importer {
 	
 	private StreamCipher randomStream;
@@ -465,15 +379,15 @@ public class ImporterV4 extends Importer {
 		String name = xpp.getName();
 		switch (ctx) {
 		case Null:
-			if ( name.equalsIgnoreCase(ElemDocNode) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDocNode) ) {
 				return SwitchContext(ctx, KdbContext.KeePassFile, xpp);
 			} else ReadUnknown(xpp);
 			break;
 			
 		case KeePassFile:
-			if ( name.equalsIgnoreCase(ElemMeta) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemMeta) ) {
 				return SwitchContext(ctx, KdbContext.Meta, xpp);
-			} else if ( name.equalsIgnoreCase(ElemRoot) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemRoot) ) {
 				return SwitchContext(ctx, KdbContext.Root, xpp);
 			} else {
 				ReadUnknown(xpp);
@@ -481,9 +395,9 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case Meta:
-			if ( name.equalsIgnoreCase(ElemGenerator) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemGenerator) ) {
 				ReadString(xpp); // Ignore
-			} else if ( name.equalsIgnoreCase(ElemHeaderHash) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemHeaderHash) ) {
 				String encodedHash = ReadString(xpp);
 				if (!EmptyUtils.isNullOrEmpty(encodedHash) && (hashOfHeader != null)) {
 					byte[] hash = Base64Coder.decode(encodedHash);
@@ -491,74 +405,74 @@ public class ImporterV4 extends Importer {
 						throw new InvalidDBException();
 					}
 				}
-			} else if (name.equalsIgnoreCase(ElemSettingsChanged)) {
+			} else if (name.equalsIgnoreCase(PwDatabaseV4XML.ElemSettingsChanged)) {
 				db.setSettingsChanged(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbName) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbName) ) {
 				db.setName(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbNameChanged) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbNameChanged) ) {
 				db.setNameChanged(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbDesc) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbDesc) ) {
 				db.setDescription(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbDescChanged) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbDescChanged) ) {
 				db.setDescriptionChanged(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbDefaultUser) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbDefaultUser) ) {
 				db.setDefaultUserName(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbDefaultUserChanged) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbDefaultUserChanged) ) {
 				db.setDefaultUserNameChanged(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbColor)) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbColor)) {
 				// TODO: Add support to interpret the color if we want to allow changing the database color
 				db.setColor(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbMntncHistoryDays) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbMntncHistoryDays) ) {
 				db.setMaintenanceHistoryDays(ReadUInt(xpp, DEFAULT_HISTORY_DAYS));
-			} else if ( name.equalsIgnoreCase(ElemDbKeyChanged) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbKeyChanged) ) {
 				db.setKeyLastChanged(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeRec) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbKeyChangeRec) ) {
 				db.setKeyChangeRecDays(ReadLong(xpp, -1));
-			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeForce) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbKeyChangeForce) ) {
 				db.setKeyChangeForceDays(ReadLong(xpp, -1));
-			} else if ( name.equalsIgnoreCase(ElemDbKeyChangeForceOnce) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDbKeyChangeForceOnce) ) {
 				db.setKeyChangeForceOnce(ReadBool(xpp, false));
-			} else if ( name.equalsIgnoreCase(ElemMemoryProt) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemMemoryProt) ) {
 				return SwitchContext(ctx, KdbContext.MemoryProtection, xpp);
-			} else if ( name.equalsIgnoreCase(ElemCustomIcons) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIcons) ) {
 				return SwitchContext(ctx, KdbContext.CustomIcons, xpp);
-			} else if ( name.equalsIgnoreCase(ElemRecycleBinEnabled) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemRecycleBinEnabled) ) {
 				db.setRecycleBinEnabled(ReadBool(xpp, true));
-			} else if ( name.equalsIgnoreCase(ElemRecycleBinUuid) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemRecycleBinUuid) ) {
 				db.setRecycleBinUUID(ReadUuid(xpp));
-			} else if ( name.equalsIgnoreCase(ElemRecycleBinChanged) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemRecycleBinChanged) ) {
 				db.setRecycleBinChanged(ReadTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemEntryTemplatesGroup) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntryTemplatesGroup) ) {
 				db.setEntryTemplatesGroup(ReadUuid(xpp));
-			} else if ( name.equalsIgnoreCase(ElemEntryTemplatesGroupChanged) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntryTemplatesGroupChanged) ) {
 				db.setEntryTemplatesGroupChanged(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemHistoryMaxItems) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemHistoryMaxItems) ) {
 				db.setHistoryMaxItems(ReadInt(xpp, -1));
-			} else if ( name.equalsIgnoreCase(ElemHistoryMaxSize) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemHistoryMaxSize) ) {
 				db.setHistoryMaxSize(ReadLong(xpp, -1));
-			} else if ( name.equalsIgnoreCase(ElemLastSelectedGroup) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemLastSelectedGroup) ) {
 				db.setLastSelectedGroup(ReadUuid(xpp));
-			} else if ( name.equalsIgnoreCase(ElemLastTopVisibleGroup) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemLastTopVisibleGroup) ) {
 				db.setLastTopVisibleGroup(ReadUuid(xpp));
-			} else if ( name.equalsIgnoreCase(ElemBinaries) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemBinaries) ) {
 				return SwitchContext(ctx, KdbContext.Binaries, xpp);
-			} else if ( name.equalsIgnoreCase(ElemCustomData) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData) ) {
 				return SwitchContext(ctx, KdbContext.CustomData, xpp);
 			}
 			break;
 			
 		case MemoryProtection:
-			if ( name.equalsIgnoreCase(ElemProtTitle) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtTitle) ) {
 				db.getMemoryProtection().protectTitle = ReadBool(xpp, false);
-			} else if ( name.equalsIgnoreCase(ElemProtUserName) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtUserName) ) {
 				db.getMemoryProtection().protectUserName = ReadBool(xpp, false);
-			} else if ( name.equalsIgnoreCase(ElemProtPassword) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtPassword) ) {
 				db.getMemoryProtection().protectPassword = ReadBool(xpp, false);
-			} else if ( name.equalsIgnoreCase(ElemProtURL) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtURL) ) {
 				db.getMemoryProtection().protectUrl = ReadBool(xpp, false);
-			} else if ( name.equalsIgnoreCase(ElemProtNotes) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtNotes) ) {
 				db.getMemoryProtection().protectNotes = ReadBool(xpp, false);
-			} else if ( name.equalsIgnoreCase(ElemProtAutoHide) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtAutoHide) ) {
 				db.getMemoryProtection().autoEnableVisualHiding = ReadBool(xpp, false);
 			} else {
 				ReadUnknown(xpp);
@@ -566,7 +480,7 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case CustomIcons:
-			if ( name.equalsIgnoreCase(ElemCustomIconItem) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconItem) ) {
 				return SwitchContext(ctx, KdbContext.CustomIcon, xpp);
 			} else {
 				ReadUnknown(xpp);
@@ -574,9 +488,9 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case CustomIcon:
-			if ( name.equalsIgnoreCase(ElemCustomIconItemID) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconItemID) ) {
 				customIconID = ReadUuid(xpp);
-			} else if ( name.equalsIgnoreCase(ElemCustomIconItemData) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconItemData) ) {
 				String strData = ReadString(xpp);
 				if ( strData != null && strData.length() > 0 ) {
 					customIconData = Base64Coder.decode(strData);
@@ -589,8 +503,8 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case Binaries:
-			if ( name.equalsIgnoreCase(ElemBinary) ) {
-				String key = xpp.getAttributeValue(null, AttrId);
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemBinary) ) {
+				String key = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrId);
 				if ( key != null ) {
 					ProtectedBinary pbData = ReadProtectedBinary(xpp);
 					int id = Integer.parseInt(key);
@@ -605,7 +519,7 @@ public class ImporterV4 extends Importer {
 			break;
 
 		case CustomData:
-			if ( name.equalsIgnoreCase(ElemStringDictExItem) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem) ) {
 				return SwitchContext(ctx, KdbContext.CustomDataItem, xpp);
 			} else {
 				ReadUnknown(xpp);
@@ -613,9 +527,9 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case CustomDataItem:
-			if ( name.equalsIgnoreCase(ElemKey) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemKey) ) {
 				customDataKey = ReadString(xpp);
-			} else if ( name.equalsIgnoreCase(ElemValue) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemValue) ) {
 				customDataValue = ReadString(xpp);
 			} else {
 				ReadUnknown(xpp);
@@ -623,7 +537,7 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case Root:
-			if ( name.equalsIgnoreCase(ElemGroup) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
 				assert(ctxGroups.size() == 0);
 				if ( ctxGroups.size() != 0 ) throw new IOException("Group list should be empty.");
 				
@@ -632,7 +546,7 @@ public class ImporterV4 extends Importer {
 				ctxGroup = ctxGroups.peek();
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
-			} else if ( name.equalsIgnoreCase(ElemDeletedObjects) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDeletedObjects) ) {
 				return SwitchContext(ctx, KdbContext.RootDeletedObjects, xpp);
 			} else {
 				ReadUnknown(xpp);
@@ -640,37 +554,37 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case Group:
-			if ( name.equalsIgnoreCase(ElemUuid) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
 				ctxGroup.setUUID(ReadUuid(xpp));
-			} else if ( name.equalsIgnoreCase(ElemName) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemName) ) {
 				ctxGroup.setName(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemNotes) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemNotes) ) {
 				ctxGroup.setNotes(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
 				ctxGroup.setIcon(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
-			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
 				ctxGroup.setCustomIcon(db.getIconFactory().getIcon(ReadUuid(xpp)));
-			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.GroupTimes, xpp);
-			} else if ( name.equalsIgnoreCase(ElemIsExpanded) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIsExpanded) ) {
 				ctxGroup.setExpanded(ReadBool(xpp, true));
-			} else if ( name.equalsIgnoreCase(ElemGroupDefaultAutoTypeSeq) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq) ) {
 				ctxGroup.setDefaultAutoTypeSequence(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemEnableAutoType) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemEnableAutoType) ) {
 				ctxGroup.setEnableAutoType(StringToBoolean(ReadString(xpp)));
-			} else if ( name.equalsIgnoreCase(ElemEnableSearching) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemEnableSearching) ) {
 				ctxGroup.setEnableSearching(StringToBoolean(ReadString(xpp)));
-			} else if ( name.equalsIgnoreCase(ElemLastTopVisibleEntry) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemLastTopVisibleEntry) ) {
 				ctxGroup.setLastTopVisibleEntry(ReadUuid(xpp));
-			} else if ( name.equalsIgnoreCase(ElemCustomData) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData) ) {
                 return SwitchContext(ctx, KdbContext.GroupCustomData, xpp);
-			} else if ( name.equalsIgnoreCase(ElemGroup) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
 				ctxGroup = new PwGroupV4();
 				ctxGroups.peek().addGroup(ctxGroup);
 				ctxGroups.push(ctxGroup);
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
-			} else if ( name.equalsIgnoreCase(ElemEntry) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
 				ctxEntry = new PwEntryV4();
 				ctxGroup.addEntry(ctxEntry);
 				
@@ -681,16 +595,16 @@ public class ImporterV4 extends Importer {
 			}
 			break;
         case GroupCustomData:
-        	if (name.equalsIgnoreCase(ElemStringDictExItem)) {
+        	if (name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem)) {
 				return SwitchContext(ctx, KdbContext.GroupCustomDataItem, xpp);
 			} else {
 				ReadUnknown(xpp);
 			}
             break;
         case GroupCustomDataItem:
-        	if (name.equalsIgnoreCase(ElemKey)) {
+        	if (name.equalsIgnoreCase(PwDatabaseV4XML.ElemKey)) {
 				groupCustomDataKey = ReadString(xpp);
-			} else if (name.equalsIgnoreCase(ElemValue)) {
+			} else if (name.equalsIgnoreCase(PwDatabaseV4XML.ElemValue)) {
 				groupCustomDataValue = ReadString(xpp);
             } else {
                 ReadUnknown(xpp);
@@ -699,31 +613,31 @@ public class ImporterV4 extends Importer {
 
 			
 		case Entry:
-			if ( name.equalsIgnoreCase(ElemUuid) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
 				ctxEntry.setUUID(ReadUuid(xpp));
-			} else if ( name.equalsIgnoreCase(ElemIcon) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
 				ctxEntry.setIcon(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
-			} else if ( name.equalsIgnoreCase(ElemCustomIconID) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
 				ctxEntry.setCustomIcon(db.getIconFactory().getIcon(ReadUuid(xpp)));
-			} else if ( name.equalsIgnoreCase(ElemFgColor) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemFgColor) ) {
 				ctxEntry.setForegroundColor(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemBgColor) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemBgColor) ) {
 				ctxEntry.setBackgroupColor(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemOverrideUrl) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemOverrideUrl) ) {
 				ctxEntry.setOverrideURL(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemTags) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemTags) ) {
 				ctxEntry.setTags(ReadString(xpp));
-			} else if ( name.equalsIgnoreCase(ElemTimes) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.EntryTimes, xpp);
-			} else if ( name.equalsIgnoreCase(ElemString) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemString) ) {
 				return SwitchContext(ctx, KdbContext.EntryString, xpp);
-			} else if ( name.equalsIgnoreCase(ElemBinary) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemBinary) ) {
 				return SwitchContext(ctx, KdbContext.EntryBinary, xpp);
-			} else if ( name.equalsIgnoreCase(ElemAutoType) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoType) ) {
 				return SwitchContext(ctx, KdbContext.EntryAutoType, xpp);
-			} else if ( name.equalsIgnoreCase(ElemCustomData)) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData)) {
 				return SwitchContext(ctx, KdbContext.EntryCustomData, xpp);
-			} else if ( name.equalsIgnoreCase(ElemHistory) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemHistory) ) {
 				assert(!entryInHistory);
 				
 				if ( ! entryInHistory ) {
@@ -737,16 +651,16 @@ public class ImporterV4 extends Importer {
 			}
 			break;
         case EntryCustomData:
-            if (name.equalsIgnoreCase(ElemStringDictExItem)) {
+            if (name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem)) {
                 return SwitchContext(ctx, KdbContext.EntryCustomDataItem, xpp);
             } else {
                 ReadUnknown(xpp);
             }
             break;
         case EntryCustomDataItem:
-            if (name.equalsIgnoreCase(ElemKey)) {
+            if (name.equalsIgnoreCase(PwDatabaseV4XML.ElemKey)) {
                 entryCustomDataKey = ReadString(xpp);
-            } else if (name.equalsIgnoreCase(ElemValue)) {
+            } else if (name.equalsIgnoreCase(PwDatabaseV4XML.ElemValue)) {
                 entryCustomDataValue = ReadString(xpp);
             } else {
                 ReadUnknown(xpp);
@@ -762,19 +676,19 @@ public class ImporterV4 extends Importer {
 				tl = ctxEntry;
 			}
 			
-			if ( name.equalsIgnoreCase(ElemLastModTime) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemLastModTime) ) {
 				tl.setLastModificationTime(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemCreationTime) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCreationTime) ) {
 				tl.setCreationTime(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemLastAccessTime) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemLastAccessTime) ) {
 				tl.setLastAccessTime(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemExpiryTime) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemExpiryTime) ) {
 				tl.setExpiryTime(ReadPwTime(xpp));
-			} else if ( name.equalsIgnoreCase(ElemExpires) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemExpires) ) {
 				tl.setExpires(ReadBool(xpp, false));
-			} else if ( name.equalsIgnoreCase(ElemUsageCount) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUsageCount) ) {
 				tl.setUsageCount(ReadULong(xpp, 0));
-			} else if ( name.equalsIgnoreCase(ElemLocationChanged) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemLocationChanged) ) {
 				tl.setLocationChanged(ReadPwTime(xpp));
 			} else {
 				ReadUnknown(xpp);
@@ -782,9 +696,9 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case EntryString:
-			if ( name.equalsIgnoreCase(ElemKey) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemKey) ) {
 				ctxStringName = ReadString(xpp);
-			} else if ( name.equalsIgnoreCase(ElemValue) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemValue) ) {
 				ctxStringValue = ReadProtectedString(xpp); 
 			} else {
 				ReadUnknown(xpp);
@@ -792,21 +706,21 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case EntryBinary:
-			if ( name.equalsIgnoreCase(ElemKey) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemKey) ) {
 				ctxBinaryName = ReadString(xpp);
-			} else if ( name.equalsIgnoreCase(ElemValue) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemValue) ) {
 				ctxBinaryValue = ReadProtectedBinary(xpp);
 			}
 			break;
 			
 		case EntryAutoType:
-			if ( name.equalsIgnoreCase(ElemAutoTypeEnabled) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeEnabled) ) {
 				ctxEntry.getAutoType().enabled = ReadBool(xpp, true);
-			} else if ( name.equalsIgnoreCase(ElemAutoTypeObfuscation) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeObfuscation) ) {
 				ctxEntry.getAutoType().obfuscationOptions = ReadUInt(xpp, 0);
-			} else if ( name.equalsIgnoreCase(ElemAutoTypeDefaultSeq) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeDefaultSeq) ) {
 				ctxEntry.getAutoType().defaultSequence = ReadString(xpp);
-			} else if ( name.equalsIgnoreCase(ElemAutoTypeItem) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeItem) ) {
 				return SwitchContext(ctx, KdbContext.EntryAutoTypeItem, xpp);
 			} else {
 				ReadUnknown(xpp);
@@ -814,9 +728,9 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case EntryAutoTypeItem:
-			if ( name.equalsIgnoreCase(ElemWindow) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemWindow) ) {
 				ctxATName = ReadString(xpp);
-			} else if ( name.equalsIgnoreCase(ElemKeystrokeSequence) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemKeystrokeSequence) ) {
 				ctxATSeq = ReadString(xpp);
 			} else {
 				ReadUnknown(xpp);
@@ -824,7 +738,7 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case EntryHistory:
-			if ( name.equalsIgnoreCase(ElemEntry) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
 				ctxEntry = new PwEntryV4();
 				ctxHistoryBase.addToHistory(ctxEntry);
 				
@@ -836,7 +750,7 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case RootDeletedObjects:
-			if ( name.equalsIgnoreCase(ElemDeletedObject) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDeletedObject) ) {
 				ctxDeletedObject = new PwDeletedObject();
 				db.addDeletedObject(ctxDeletedObject);
 				
@@ -847,9 +761,9 @@ public class ImporterV4 extends Importer {
 			break;
 			
 		case DeletedObject:
-			if ( name.equalsIgnoreCase(ElemUuid) ) {
+			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
 				ctxDeletedObject.uuid = ReadUuid(xpp);
-			} else if ( name.equalsIgnoreCase(ElemDeletionTime) ) {
+			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDeletionTime) ) {
 				ctxDeletedObject.setDeletionTime(ReadTime(xpp));
 			} else {
 				ReadUnknown(xpp);
@@ -868,17 +782,17 @@ public class ImporterV4 extends Importer {
 		assert(xpp.getEventType() == XmlPullParser.END_TAG);
 		
 		String name = xpp.getName();
-		if ( ctx == KdbContext.KeePassFile && name.equalsIgnoreCase(ElemDocNode) ) {
+		if ( ctx == KdbContext.KeePassFile && name.equalsIgnoreCase(PwDatabaseV4XML.ElemDocNode) ) {
 			return KdbContext.Null;
-		} else if ( ctx == KdbContext.Meta && name.equalsIgnoreCase(ElemMeta) ) {
+		} else if ( ctx == KdbContext.Meta && name.equalsIgnoreCase(PwDatabaseV4XML.ElemMeta) ) {
 			return KdbContext.KeePassFile;
-		} else if ( ctx == KdbContext.Root && name.equalsIgnoreCase(ElemRoot) ) {
+		} else if ( ctx == KdbContext.Root && name.equalsIgnoreCase(PwDatabaseV4XML.ElemRoot) ) {
 			return KdbContext.KeePassFile;
-		} else if ( ctx == KdbContext.MemoryProtection && name.equalsIgnoreCase(ElemMemoryProt) ) {
+		} else if ( ctx == KdbContext.MemoryProtection && name.equalsIgnoreCase(PwDatabaseV4XML.ElemMemoryProt) ) {
 			return KdbContext.Meta;
-		} else if ( ctx == KdbContext.CustomIcons && name.equalsIgnoreCase(ElemCustomIcons) ) {
+		} else if ( ctx == KdbContext.CustomIcons && name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIcons) ) {
 			return KdbContext.Meta;
-		} else if ( ctx == KdbContext.CustomIcon && name.equalsIgnoreCase(ElemCustomIconItem) ) {
+		} else if ( ctx == KdbContext.CustomIcon && name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconItem) ) {
 			if ( ! customIconID.equals(PwDatabase.UUID_ZERO) ) {
 				PwIconCustom icon = new PwIconCustom(customIconID, customIconData);
 				db.addCustomIcon(icon);
@@ -889,11 +803,11 @@ public class ImporterV4 extends Importer {
 			customIconData = null;
 			
 			return KdbContext.CustomIcons;
-		} else if ( ctx == KdbContext.Binaries && name.equalsIgnoreCase(ElemBinaries) ) {
+		} else if ( ctx == KdbContext.Binaries && name.equalsIgnoreCase(PwDatabaseV4XML.ElemBinaries) ) {
 			return KdbContext.Meta;
-		} else if ( ctx == KdbContext.CustomData && name.equalsIgnoreCase(ElemCustomData) ) {
+		} else if ( ctx == KdbContext.CustomData && name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData) ) {
 			return KdbContext.Meta;
-		} else if ( ctx == KdbContext.CustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem) ) {
+		} else if ( ctx == KdbContext.CustomDataItem && name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem) ) {
 			if ( customDataKey != null && customDataValue != null) {
 				db.putCustomData(customDataKey, customDataValue);
 			} else assert(false);
@@ -902,7 +816,7 @@ public class ImporterV4 extends Importer {
 			customDataValue = null;
 			
 			return KdbContext.CustomData;
-		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(ElemGroup) ) {
+		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
 			if ( ctxGroup.getUUID() == null || ctxGroup.getUUID().equals(PwDatabase.UUID_ZERO) ) {
 				ctxGroup.setUUID(UUID.randomUUID());
 			}
@@ -916,11 +830,11 @@ public class ImporterV4 extends Importer {
 				ctxGroup = ctxGroups.peek();
 				return KdbContext.Group;
 			}
-		} else if ( ctx == KdbContext.GroupTimes && name.equalsIgnoreCase(ElemTimes) ) {
+		} else if ( ctx == KdbContext.GroupTimes && name.equalsIgnoreCase(PwDatabaseV4XML.ElemTimes) ) {
 			return KdbContext.Group;
-		} else if ( ctx == KdbContext.GroupCustomData && name.equalsIgnoreCase(ElemCustomData) ) {
+		} else if ( ctx == KdbContext.GroupCustomData && name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData) ) {
 			return KdbContext.Group;
-		} else if ( ctx == KdbContext.GroupCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
+		} else if ( ctx == KdbContext.GroupCustomDataItem && name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem)) {
 			if (groupCustomDataKey != null && groupCustomDataValue != null) {
 				ctxGroup.putCustomData(groupCustomDataKey, groupCustomDataKey);
 			} else {
@@ -932,7 +846,7 @@ public class ImporterV4 extends Importer {
 
 			return KdbContext.GroupCustomData;
 
-		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(ElemEntry) ) {
+		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
 			if ( ctxEntry.getUUID() == null || ctxEntry.getUUID().equals(PwDatabase.UUID_ZERO) ) {
 				ctxEntry.setUUID(UUID.randomUUID());
 			}
@@ -943,31 +857,31 @@ public class ImporterV4 extends Importer {
 			}
 			
 			return KdbContext.Group;
-		} else if ( ctx == KdbContext.EntryTimes && name.equalsIgnoreCase(ElemTimes) ) {
+		} else if ( ctx == KdbContext.EntryTimes && name.equalsIgnoreCase(PwDatabaseV4XML.ElemTimes) ) {
 			return KdbContext.Entry;
-		} else if ( ctx == KdbContext.EntryString && name.equalsIgnoreCase(ElemString) ) {
+		} else if ( ctx == KdbContext.EntryString && name.equalsIgnoreCase(PwDatabaseV4XML.ElemString) ) {
 			ctxEntry.addExtraField(ctxStringName, ctxStringValue);
 			ctxStringName = null;
 			ctxStringValue = null;
 			
 			return KdbContext.Entry;
-		} else if ( ctx == KdbContext.EntryBinary && name.equalsIgnoreCase(ElemBinary) ) {
+		} else if ( ctx == KdbContext.EntryBinary && name.equalsIgnoreCase(PwDatabaseV4XML.ElemBinary) ) {
 			ctxEntry.putProtectedBinary(ctxBinaryName, ctxBinaryValue);
 			ctxBinaryName = null;
 			ctxBinaryValue = null;
 			
 			return KdbContext.Entry;
-		} else if ( ctx == KdbContext.EntryAutoType && name.equalsIgnoreCase(ElemAutoType) ) {
+		} else if ( ctx == KdbContext.EntryAutoType && name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoType) ) {
 			return KdbContext.Entry;
-		} else if ( ctx == KdbContext.EntryAutoTypeItem && name.equalsIgnoreCase(ElemAutoTypeItem) ) {
+		} else if ( ctx == KdbContext.EntryAutoTypeItem && name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeItem) ) {
 			ctxEntry.getAutoType().put(ctxATName, ctxATSeq);
 			ctxATName = null;
 			ctxATSeq = null;
 
 			return KdbContext.EntryAutoType;
-		} else if ( ctx == KdbContext.EntryCustomData && name.equalsIgnoreCase(ElemCustomData)) {
+		} else if ( ctx == KdbContext.EntryCustomData && name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData)) {
 			return KdbContext.Entry;
-		} else if ( ctx == KdbContext.EntryCustomDataItem && name.equalsIgnoreCase(ElemStringDictExItem)) {
+		} else if ( ctx == KdbContext.EntryCustomDataItem && name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem)) {
 			if (entryCustomDataKey != null && entryCustomDataValue != null) {
 				ctxEntry.putCustomData(entryCustomDataKey, entryCustomDataValue);
 			} else {
@@ -978,12 +892,12 @@ public class ImporterV4 extends Importer {
 			entryCustomDataValue = null;
 
 			return KdbContext.EntryCustomData;
-		} else if ( ctx == KdbContext.EntryHistory && name.equalsIgnoreCase(ElemHistory) ) {
+		} else if ( ctx == KdbContext.EntryHistory && name.equalsIgnoreCase(PwDatabaseV4XML.ElemHistory) ) {
 			entryInHistory = false;
 			return KdbContext.Entry;
-		} else if ( ctx == KdbContext.RootDeletedObjects && name.equalsIgnoreCase(ElemDeletedObjects) ) {
+		} else if ( ctx == KdbContext.RootDeletedObjects && name.equalsIgnoreCase(PwDatabaseV4XML.ElemDeletedObjects) ) {
 			return KdbContext.Root;
-		} else if ( ctx == KdbContext.DeletedObject && name.equalsIgnoreCase(ElemDeletedObject) ) {
+		} else if ( ctx == KdbContext.DeletedObject && name.equalsIgnoreCase(PwDatabaseV4XML.ElemDeletedObject) ) {
 			ctxDeletedObject = null;
 			return KdbContext.RootDeletedObjects;
 		} else {
@@ -1143,7 +1057,7 @@ public class ImporterV4 extends Importer {
 	}
 	
 	private ProtectedBinary ReadProtectedBinary(XmlPullParser xpp) throws XmlPullParserException, IOException {
-		String ref = xpp.getAttributeValue(null, AttrRef);
+		String ref = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrRef);
 		if (ref != null) {
 			xpp.next(); // Consume end tag
 
@@ -1152,9 +1066,9 @@ public class ImporterV4 extends Importer {
 		} 
 		
 		boolean compressed = false;
-		String comp = xpp.getAttributeValue(null, AttrCompressed);
+		String comp = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrCompressed);
 		if (comp != null) {
-			compressed = comp.equalsIgnoreCase(ValTrue);
+			compressed = comp.equalsIgnoreCase(PwDatabaseV4XML.ValTrue);
 		}
 		
 		byte[] buf = ProcessNode(xpp);
@@ -1201,8 +1115,8 @@ public class ImporterV4 extends Importer {
 		byte[] buf = null;
 		
 		if ( xpp.getAttributeCount() > 0 ) {
-			String protect = xpp.getAttributeValue(null, AttrProtected);
-			if ( protect != null && protect.equalsIgnoreCase(ValTrue) ) {
+			String protect = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrProtected);
+			if ( protect != null && protect.equalsIgnoreCase(PwDatabaseV4XML.ValTrue) ) {
 				String encrypted = ReadStringRaw(xpp);
 				
 				if ( encrypted.length() > 0 ) {

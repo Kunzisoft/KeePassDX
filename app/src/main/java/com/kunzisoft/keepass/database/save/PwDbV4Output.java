@@ -74,90 +74,6 @@ import javax.crypto.CipherOutputStream;
 
 import biz.source_code.base64Coder.Base64Coder;
 
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrCompressed;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrId;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrProtected;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.AttrRef;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoType;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeDefaultSeq;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeEnabled;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeItem;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemAutoTypeObfuscation;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemBgColor;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemBinaries;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemBinary;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCreationTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomData;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconID;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconItem;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconItemData;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIconItemID;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemCustomIcons;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbColor;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDefaultUser;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDefaultUserChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDesc;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbDescChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbKeyChangeForce;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbKeyChangeRec;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbKeyChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbMntncHistoryDays;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbName;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDbNameChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDeletedObject;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDeletedObjects;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDeletionTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemDocNode;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEnableAutoType;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEnableSearching;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEntry;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEntryTemplatesGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemEntryTemplatesGroupChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemExpires;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemExpiryTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemFgColor;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemGenerator;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHeaderHash;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHistory;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHistoryMaxItems;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemHistoryMaxSize;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemIcon;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemIsExpanded;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemKey;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemKeystrokeSequence;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastAccessTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastModTime;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastSelectedGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastTopVisibleEntry;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLastTopVisibleGroup;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemLocationChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemMemoryProt;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemMeta;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemName;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemNotes;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemOverrideUrl;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtNotes;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtPassword;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtTitle;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtURL;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemProtUserName;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRecycleBinChanged;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRecycleBinEnabled;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRecycleBinUuid;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemRoot;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemString;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemStringDictExItem;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemTags;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemTimes;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemUsageCount;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemUuid;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemValue;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ElemWindow;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ValFalse;
-import static com.kunzisoft.keepass.database.PwDatabaseV4XML.ValTrue;
-
 public class PwDbV4Output extends PwDbOutput {
 
 	PwDatabaseV4 mPM;
@@ -281,12 +197,12 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.setOutput(os, "UTF-8");
 		xml.startDocument("UTF-8", true);
 		
-		xml.startTag(null, ElemDocNode);
+		xml.startTag(null, PwDatabaseV4XML.ElemDocNode);
 		
 		writeMeta();
 		
 		PwGroupV4 root = mPM.getRootGroup();
-		xml.startTag(null, ElemRoot);
+		xml.startTag(null, PwDatabaseV4XML.ElemRoot);
 		startGroup(root);
 		Stack<PwGroupV4> groupStack = new Stack<>();
 		groupStack.push(root);
@@ -295,62 +211,62 @@ public class PwDbV4Output extends PwDbOutput {
 			throw new RuntimeException("Writing groups failed");
 		
 		while (groupStack.size() > 1) {
-			xml.endTag(null, ElemGroup);
+			xml.endTag(null, PwDatabaseV4XML.ElemGroup);
 			groupStack.pop();
 		}
 		
 		endGroup();
 		
-		writeList(ElemDeletedObjects, mPM.getDeletedObjects());
+		writeList(PwDatabaseV4XML.ElemDeletedObjects, mPM.getDeletedObjects());
 		
-		xml.endTag(null, ElemRoot);
+		xml.endTag(null, PwDatabaseV4XML.ElemRoot);
 		
-		xml.endTag(null, ElemDocNode);
+		xml.endTag(null, PwDatabaseV4XML.ElemDocNode);
 		xml.endDocument();
 		
 	}
 	
 	private void writeMeta() throws IllegalArgumentException, IllegalStateException, IOException {
-		xml.startTag(null, ElemMeta);
+		xml.startTag(null, PwDatabaseV4XML.ElemMeta);
 		
-		writeObject(ElemGenerator, mPM.localizedAppName);
+		writeObject(PwDatabaseV4XML.ElemGenerator, mPM.localizedAppName);
 		
 		if (hashOfHeader != null) {
-			writeObject(ElemHeaderHash, String.valueOf(Base64Coder.encode(hashOfHeader)));
+			writeObject(PwDatabaseV4XML.ElemHeaderHash, String.valueOf(Base64Coder.encode(hashOfHeader)));
 		}
 		
-		writeObject(ElemDbName, mPM.getName(), true);
-		writeObject(ElemDbNameChanged, mPM.getNameChanged().getDate());
-		writeObject(ElemDbDesc, mPM.getDescription(), true);
-		writeObject(ElemDbDescChanged, mPM.getDescriptionChanged().getDate());
-		writeObject(ElemDbDefaultUser, mPM.getDefaultUserName(), true);
-		writeObject(ElemDbDefaultUserChanged, mPM.getDefaultUserNameChanged().getDate());
-		writeObject(ElemDbMntncHistoryDays, mPM.getMaintenanceHistoryDays());
-		writeObject(ElemDbColor, mPM.getColor());
-		writeObject(ElemDbKeyChanged, mPM.getKeyLastChanged().getDate());
-		writeObject(ElemDbKeyChangeRec, mPM.getKeyChangeRecDays());
-		writeObject(ElemDbKeyChangeForce, mPM.getKeyChangeForceDays());
+		writeObject(PwDatabaseV4XML.ElemDbName, mPM.getName(), true);
+		writeObject(PwDatabaseV4XML.ElemDbNameChanged, mPM.getNameChanged().getDate());
+		writeObject(PwDatabaseV4XML.ElemDbDesc, mPM.getDescription(), true);
+		writeObject(PwDatabaseV4XML.ElemDbDescChanged, mPM.getDescriptionChanged().getDate());
+		writeObject(PwDatabaseV4XML.ElemDbDefaultUser, mPM.getDefaultUserName(), true);
+		writeObject(PwDatabaseV4XML.ElemDbDefaultUserChanged, mPM.getDefaultUserNameChanged().getDate());
+		writeObject(PwDatabaseV4XML.ElemDbMntncHistoryDays, mPM.getMaintenanceHistoryDays());
+		writeObject(PwDatabaseV4XML.ElemDbColor, mPM.getColor());
+		writeObject(PwDatabaseV4XML.ElemDbKeyChanged, mPM.getKeyLastChanged().getDate());
+		writeObject(PwDatabaseV4XML.ElemDbKeyChangeRec, mPM.getKeyChangeRecDays());
+		writeObject(PwDatabaseV4XML.ElemDbKeyChangeForce, mPM.getKeyChangeForceDays());
 		
-		writeList(ElemMemoryProt, mPM.getMemoryProtection());
+		writeList(PwDatabaseV4XML.ElemMemoryProt, mPM.getMemoryProtection());
 		
 		writeCustomIconList();
 		
-		writeObject(ElemRecycleBinEnabled, mPM.isRecycleBinEnabled());
-		writeObject(ElemRecycleBinUuid, mPM.getRecycleBinUUID());
-		writeObject(ElemRecycleBinChanged, mPM.getRecycleBinChanged());
-		writeObject(ElemEntryTemplatesGroup, mPM.getEntryTemplatesGroup());
-		writeObject(ElemEntryTemplatesGroupChanged, mPM.getEntryTemplatesGroupChanged().getDate());
-		writeObject(ElemHistoryMaxItems, mPM.getHistoryMaxItems());
-		writeObject(ElemHistoryMaxSize, mPM.getHistoryMaxSize());
-		writeObject(ElemLastSelectedGroup, mPM.getLastSelectedGroup());
-		writeObject(ElemLastTopVisibleGroup, mPM.getLastTopVisibleGroup());
+		writeObject(PwDatabaseV4XML.ElemRecycleBinEnabled, mPM.isRecycleBinEnabled());
+		writeObject(PwDatabaseV4XML.ElemRecycleBinUuid, mPM.getRecycleBinUUID());
+		writeObject(PwDatabaseV4XML.ElemRecycleBinChanged, mPM.getRecycleBinChanged());
+		writeObject(PwDatabaseV4XML.ElemEntryTemplatesGroup, mPM.getEntryTemplatesGroup());
+		writeObject(PwDatabaseV4XML.ElemEntryTemplatesGroupChanged, mPM.getEntryTemplatesGroupChanged().getDate());
+		writeObject(PwDatabaseV4XML.ElemHistoryMaxItems, mPM.getHistoryMaxItems());
+		writeObject(PwDatabaseV4XML.ElemHistoryMaxSize, mPM.getHistoryMaxSize());
+		writeObject(PwDatabaseV4XML.ElemLastSelectedGroup, mPM.getLastSelectedGroup());
+		writeObject(PwDatabaseV4XML.ElemLastTopVisibleGroup, mPM.getLastTopVisibleGroup());
 
 		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeBinPool();
 		}
-		writeList(ElemCustomData, mPM.getCustomData());
+		writeList(PwDatabaseV4XML.ElemCustomData, mPM.getCustomData());
 		
-		xml.endTag(null, ElemMeta);
+		xml.endTag(null, PwDatabaseV4XML.ElemMeta);
 		
 	}
 	
@@ -426,71 +342,71 @@ public class PwDbV4Output extends PwDbOutput {
 	}
 	
 	private void startGroup(PwGroupV4 group) throws IllegalArgumentException, IllegalStateException, IOException {
-		xml.startTag(null, ElemGroup);
-		writeObject(ElemUuid, group.getUUID());
-		writeObject(ElemName, group.getName());
-		writeObject(ElemNotes, group.getNotes());
-		writeObject(ElemIcon, group.getIconStandard().iconId);
+		xml.startTag(null, PwDatabaseV4XML.ElemGroup);
+		writeObject(PwDatabaseV4XML.ElemUuid, group.getUUID());
+		writeObject(PwDatabaseV4XML.ElemName, group.getName());
+		writeObject(PwDatabaseV4XML.ElemNotes, group.getNotes());
+		writeObject(PwDatabaseV4XML.ElemIcon, group.getIconStandard().iconId);
 		
 		if (!group.getCustomIcon().equals(PwIconCustom.ZERO)) {
-			writeObject(ElemCustomIconID, group.getCustomIcon().uuid);
+			writeObject(PwDatabaseV4XML.ElemCustomIconID, group.getCustomIcon().uuid);
 		}
 		
-		writeList(ElemTimes, group);
-		writeObject(ElemIsExpanded, group.isExpanded());
-		writeObject(ElemGroupDefaultAutoTypeSeq, group.getDefaultAutoTypeSequence());
-		writeObject(ElemEnableAutoType, group.getEnableAutoType());
-		writeObject(ElemEnableSearching, group.getEnableSearching());
-		writeObject(ElemLastTopVisibleEntry, group.getLastTopVisibleEntry());
+		writeList(PwDatabaseV4XML.ElemTimes, group);
+		writeObject(PwDatabaseV4XML.ElemIsExpanded, group.isExpanded());
+		writeObject(PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq, group.getDefaultAutoTypeSequence());
+		writeObject(PwDatabaseV4XML.ElemEnableAutoType, group.getEnableAutoType());
+		writeObject(PwDatabaseV4XML.ElemEnableSearching, group.getEnableSearching());
+		writeObject(PwDatabaseV4XML.ElemLastTopVisibleEntry, group.getLastTopVisibleEntry());
 		
 	}
 	
 	private void endGroup() throws IllegalArgumentException, IllegalStateException, IOException {
-		xml.endTag(null, ElemGroup);
+		xml.endTag(null, PwDatabaseV4XML.ElemGroup);
 	}
 	
 	private void writeEntry(PwEntryV4 entry, boolean isHistory) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(entry != null);
 		
-		xml.startTag(null, ElemEntry);
+		xml.startTag(null, PwDatabaseV4XML.ElemEntry);
 		
-		writeObject(ElemUuid, entry.getUUID());
-		writeObject(ElemIcon, entry.getIconStandard().iconId);
+		writeObject(PwDatabaseV4XML.ElemUuid, entry.getUUID());
+		writeObject(PwDatabaseV4XML.ElemIcon, entry.getIconStandard().iconId);
 		
 		if (!entry.getCustomIcon().equals(PwIconCustom.ZERO)) {
-			writeObject(ElemCustomIconID, entry.getCustomIcon().uuid);
+			writeObject(PwDatabaseV4XML.ElemCustomIconID, entry.getCustomIcon().uuid);
 		}
 		
-		writeObject(ElemFgColor, entry.getForegroundColor());
-		writeObject(ElemBgColor, entry.getBackgroupColor());
-		writeObject(ElemOverrideUrl, entry.getOverrideURL());
-		writeObject(ElemTags, entry.getTags());
+		writeObject(PwDatabaseV4XML.ElemFgColor, entry.getForegroundColor());
+		writeObject(PwDatabaseV4XML.ElemBgColor, entry.getBackgroupColor());
+		writeObject(PwDatabaseV4XML.ElemOverrideUrl, entry.getOverrideURL());
+		writeObject(PwDatabaseV4XML.ElemTags, entry.getTags());
 		
-		writeList(ElemTimes, entry);
+		writeList(PwDatabaseV4XML.ElemTimes, entry);
 		
 		writeList(entry.getFields().getListOfAllFields(), true);
 		writeList(entry.getBinaries());
-		writeList(ElemAutoType, entry.getAutoType());
+		writeList(PwDatabaseV4XML.ElemAutoType, entry.getAutoType());
 		
 		if (!isHistory) {
-			writeList(ElemHistory, entry.getHistory(), true);
+			writeList(PwDatabaseV4XML.ElemHistory, entry.getHistory(), true);
 		} else {
 			assert(entry.sizeOfHistory() == 0);
 		}
 		
-		xml.endTag(null, ElemEntry);
+		xml.endTag(null, PwDatabaseV4XML.ElemEntry);
 	}
 	
 
 	private void writeObject(String key, ProtectedBinary value, boolean allowRef) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(key != null && value != null);
 		
-		xml.startTag(null, ElemBinary);
-		xml.startTag(null, ElemKey);
+		xml.startTag(null, PwDatabaseV4XML.ElemBinary);
+		xml.startTag(null, PwDatabaseV4XML.ElemKey);
 		xml.text(safeXmlString(key));
-		xml.endTag(null, ElemKey);
+		xml.endTag(null, PwDatabaseV4XML.ElemKey);
 		
-		xml.startTag(null, ElemValue);
+		xml.startTag(null, PwDatabaseV4XML.ElemValue);
 		String strRef = null;
 		if (allowRef) {
 			int ref = mPM.getBinPool().poolFind(value);
@@ -498,19 +414,19 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 		
 		if (strRef != null) {
-			xml.attribute(null, AttrRef, strRef);
+			xml.attribute(null, PwDatabaseV4XML.AttrRef, strRef);
 		}
 		else {
 			subWriteValue(value);
 		}
-		xml.endTag(null, ElemValue);
+		xml.endTag(null, PwDatabaseV4XML.ElemValue);
 		
-		xml.endTag(null, ElemBinary);
+		xml.endTag(null, PwDatabaseV4XML.ElemBinary);
 	}
 	
 	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
 		if (value.isProtected()) {
-			xml.attribute(null, AttrProtected, ValTrue);
+			xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
 			
 			int valLength = value.length();
 			if (valLength > 0) {
@@ -522,7 +438,7 @@ public class PwDbV4Output extends PwDbOutput {
 			
 		} else {
 			if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
-				xml.attribute(null, AttrCompressed, ValTrue);
+				xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
 				byte[] raw = value.getData();
 				byte[] compressed = MemUtil.compress(raw);
 				xml.text(String.valueOf(Base64Coder.encode(compressed)));
@@ -574,10 +490,10 @@ public class PwDbV4Output extends PwDbOutput {
 			text = "null";
 		}
 		else if (value) {
-			text = ValTrue;
+			text = PwDatabaseV4XML.ValTrue;
 		}
 		else {
-			text = ValFalse;
+			text = PwDatabaseV4XML.ValFalse;
 		}
 		
 		writeObject(name, text);
@@ -607,15 +523,15 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		xml.startTag(null, name);
 		
-		writeObject(ElemAutoTypeEnabled, autoType.enabled);
-		writeObject(ElemAutoTypeObfuscation, autoType.obfuscationOptions);
+		writeObject(PwDatabaseV4XML.ElemAutoTypeEnabled, autoType.enabled);
+		writeObject(PwDatabaseV4XML.ElemAutoTypeObfuscation, autoType.obfuscationOptions);
 		
 		if (autoType.defaultSequence.length() > 0) {
-			writeObject(ElemAutoTypeDefaultSeq, autoType.defaultSequence, true);
+			writeObject(PwDatabaseV4XML.ElemAutoTypeDefaultSeq, autoType.defaultSequence, true);
 		}
 		
 		for (Entry<String, String> pair : autoType.entrySet()) {
-			writeObject(ElemAutoTypeItem, ElemWindow, pair.getKey(), ElemKeystrokeSequence, pair.getValue());
+			writeObject(PwDatabaseV4XML.ElemAutoTypeItem, PwDatabaseV4XML.ElemWindow, pair.getKey(), PwDatabaseV4XML.ElemKeystrokeSequence, pair.getValue());
 		}
 		
 		xml.endTag(null, name);
@@ -635,12 +551,12 @@ public class PwDbV4Output extends PwDbOutput {
 	private void writeObject(String key, ProtectedString value, boolean isEntryString) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(key !=null && value != null);
 		
-		xml.startTag(null, ElemString);
-		xml.startTag(null, ElemKey);
+		xml.startTag(null, PwDatabaseV4XML.ElemString);
+		xml.startTag(null, PwDatabaseV4XML.ElemKey);
 		xml.text(safeXmlString(key));
-		xml.endTag(null, ElemKey);
+		xml.endTag(null, PwDatabaseV4XML.ElemKey);
 		
-		xml.startTag(null, ElemValue);
+		xml.startTag(null, PwDatabaseV4XML.ElemValue);
 		boolean protect = value.isProtected();
 		if (isEntryString) {
 			if (key.equals(PwDefsV4.TITLE_FIELD)) {
@@ -661,7 +577,7 @@ public class PwDbV4Output extends PwDbOutput {
 		}
 		
 		if (protect) {
-			xml.attribute(null, AttrProtected, ValTrue);
+			xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
 			
 			byte[] data = value.toString().getBytes("UTF-8");
 			int valLength = data.length;
@@ -676,8 +592,8 @@ public class PwDbV4Output extends PwDbOutput {
 			xml.text(safeXmlString(value.toString()));
 		}
 		
-		xml.endTag(null, ElemValue);
-		xml.endTag(null, ElemString);
+		xml.endTag(null, PwDatabaseV4XML.ElemValue);
+		xml.endTag(null, PwDatabaseV4XML.ElemString);
 		
 	}
 
@@ -686,8 +602,8 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		xml.startTag(null, name);
 		
-		writeObject(ElemUuid, value.uuid);
-		writeObject(ElemDeletionTime, value.getDeletionTime());
+		writeObject(PwDatabaseV4XML.ElemUuid, value.uuid);
+		writeObject(PwDatabaseV4XML.ElemDeletionTime, value.getDeletionTime());
 		
 		xml.endTag(null, name);
 	}
@@ -707,7 +623,7 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.startTag(null, name);
 		
 		for (PwDeletedObject pdo : value) {
-			writeObject(ElemDeletedObject, pdo);
+			writeObject(PwDatabaseV4XML.ElemDeletedObject, pdo);
 		}
 		
 		xml.endTag(null, name);
@@ -719,11 +635,11 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		xml.startTag(null, name);
 		
-		writeObject(ElemProtTitle, value.protectTitle);
-		writeObject(ElemProtUserName, value.protectUserName);
-		writeObject(ElemProtPassword, value.protectPassword);
-		writeObject(ElemProtURL, value.protectUrl);
-		writeObject(ElemProtNotes, value.protectNotes);
+		writeObject(PwDatabaseV4XML.ElemProtTitle, value.protectTitle);
+		writeObject(PwDatabaseV4XML.ElemProtUserName, value.protectUserName);
+		writeObject(PwDatabaseV4XML.ElemProtPassword, value.protectPassword);
+		writeObject(PwDatabaseV4XML.ElemProtURL, value.protectUrl);
+		writeObject(PwDatabaseV4XML.ElemProtNotes, value.protectNotes);
 		
 		xml.endTag(null, name);
 		
@@ -735,7 +651,7 @@ public class PwDbV4Output extends PwDbOutput {
 		xml.startTag(null, name);
 		
 		for (Entry<String, String> pair : customData.entrySet()) {
-			writeObject(ElemStringDictExItem, ElemKey, pair.getKey(), ElemValue, pair.getValue());
+			writeObject(PwDatabaseV4XML.ElemStringDictExItem, PwDatabaseV4XML.ElemKey, pair.getKey(), PwDatabaseV4XML.ElemValue, pair.getValue());
 			  
 		}
 		
@@ -748,13 +664,13 @@ public class PwDbV4Output extends PwDbOutput {
 		
 		xml.startTag(null, name);
 		
-		writeObject(ElemLastModTime, it.getLastModificationTime().getDate());
-		writeObject(ElemCreationTime, it.getCreationTime().getDate());
-		writeObject(ElemLastAccessTime, it.getLastAccessTime().getDate());
-		writeObject(ElemExpiryTime, it.getExpiryTime().getDate());
-		writeObject(ElemExpires, it.isExpires());
-		writeObject(ElemUsageCount, it.getUsageCount());
-		writeObject(ElemLocationChanged, it.getLocationChanged().getDate());
+		writeObject(PwDatabaseV4XML.ElemLastModTime, it.getLastModificationTime().getDate());
+		writeObject(PwDatabaseV4XML.ElemCreationTime, it.getCreationTime().getDate());
+		writeObject(PwDatabaseV4XML.ElemLastAccessTime, it.getLastAccessTime().getDate());
+		writeObject(PwDatabaseV4XML.ElemExpiryTime, it.getExpiryTime().getDate());
+		writeObject(PwDatabaseV4XML.ElemExpires, it.isExpires());
+		writeObject(PwDatabaseV4XML.ElemUsageCount, it.getUsageCount());
+		writeObject(PwDatabaseV4XML.ElemLocationChanged, it.getLocationChanged().getDate());
 		
 		xml.endTag(null, name);
 	}
@@ -776,34 +692,34 @@ public class PwDbV4Output extends PwDbOutput {
 		List<PwIconCustom> customIcons = mPM.getCustomIcons();
 		if (customIcons.size() == 0) return;
 		
-		xml.startTag(null, ElemCustomIcons);
+		xml.startTag(null, PwDatabaseV4XML.ElemCustomIcons);
 		
 		for (PwIconCustom icon : customIcons) {
-			xml.startTag(null, ElemCustomIconItem);
+			xml.startTag(null, PwDatabaseV4XML.ElemCustomIconItem);
 			
-			writeObject(ElemCustomIconItemID, icon.uuid);
-			writeObject(ElemCustomIconItemData, String.valueOf(Base64Coder.encode(icon.imageData)));
+			writeObject(PwDatabaseV4XML.ElemCustomIconItemID, icon.uuid);
+			writeObject(PwDatabaseV4XML.ElemCustomIconItemData, String.valueOf(Base64Coder.encode(icon.imageData)));
 			
-			xml.endTag(null, ElemCustomIconItem);
+			xml.endTag(null, PwDatabaseV4XML.ElemCustomIconItem);
 		}
 		
-		xml.endTag(null, ElemCustomIcons);
+		xml.endTag(null, PwDatabaseV4XML.ElemCustomIcons);
 	}
 	
 	private void writeBinPool() throws IllegalArgumentException, IllegalStateException, IOException {
-		xml.startTag(null, ElemBinaries);
+		xml.startTag(null, PwDatabaseV4XML.ElemBinaries);
 		
 		for (Entry<Integer, ProtectedBinary> pair : mPM.getBinPool().entrySet()) {
-			xml.startTag(null, ElemBinary);
-			xml.attribute(null, AttrId, Integer.toString(pair.getKey()));
+			xml.startTag(null, PwDatabaseV4XML.ElemBinary);
+			xml.attribute(null, PwDatabaseV4XML.AttrId, Integer.toString(pair.getKey()));
 			
 			subWriteValue(pair.getValue());
 			
-			xml.endTag(null, ElemBinary);
+			xml.endTag(null, PwDatabaseV4XML.ElemBinary);
 			
 		}
 		
-		xml.endTag(null, ElemBinaries);
+		xml.endTag(null, PwDatabaseV4XML.ElemBinaries);
 		
 	}
 

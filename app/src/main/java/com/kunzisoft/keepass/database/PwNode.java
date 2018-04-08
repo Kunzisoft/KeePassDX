@@ -20,16 +20,9 @@
  */
 package com.kunzisoft.keepass.database;
 
-import android.util.Log;
-
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.temporal.ChronoUnit;
-
-import static com.kunzisoft.keepass.database.PwDate.NEVER_EXPIRE;
-import static com.kunzisoft.keepass.database.PwDate.PW_NEVER_EXPIRE;
 
 /**
  * Abstract class who manage Groups and Entries
@@ -43,7 +36,7 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();
     protected PwDate lastAccess = new PwDate();
-    protected PwDate expireDate = PW_NEVER_EXPIRE;
+    protected PwDate expireDate = PwDate.PW_NEVER_EXPIRE;
 
     protected void construct(Parent parent) {
         this.parent = parent;
@@ -152,13 +145,13 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
 
     public void setExpires(boolean expires) {
         if (!expires) {
-            expireDate = PW_NEVER_EXPIRE;
+            expireDate = PwDate.PW_NEVER_EXPIRE;
         }
     }
 
     public boolean isExpires() {
         // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
-        return expireDate.getDate().before(LocalDate.fromDateFields(NEVER_EXPIRE).minusMonths(1).toDate());
+        return expireDate.getDate().before(LocalDate.fromDateFields(PwDate.NEVER_EXPIRE).minusMonths(1).toDate());
     }
 
     /**

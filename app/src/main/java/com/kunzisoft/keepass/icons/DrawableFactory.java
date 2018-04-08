@@ -19,20 +19,20 @@
  */
 package com.kunzisoft.keepass.icons;
 
-import org.apache.commons.collections.map.AbstractReferenceMap;
-import org.apache.commons.collections.map.ReferenceMap;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
-import tech.jgross.keepass.R;
 import com.kunzisoft.keepass.compat.BitmapDrawableCompat;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconCustom;
 import com.kunzisoft.keepass.database.PwIconStandard;
+import tech.jgross.keepass.R;
+
+import org.apache.commons.collections.map.AbstractReferenceMap;
+import org.apache.commons.collections.map.ReferenceMap;
 
 public class DrawableFactory {
 	private static Drawable blank = null;

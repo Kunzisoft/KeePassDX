@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.compat;
 
-import java.lang.reflect.Method;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
+
+import java.lang.reflect.Method;
 
 public class EditorCompat {
 	private static Method apply;

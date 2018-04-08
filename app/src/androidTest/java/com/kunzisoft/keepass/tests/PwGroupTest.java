@@ -17,13 +17,13 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests;
+package com.kunzisoft.keepass.tests;
 
 
 import android.test.AndroidTestCase;
 
-import com.keepass.database.PwGroupV3;
-import com.keepass.tests.database.TestData;
+import com.kunzisoft.keepass.database.PwGroupV3;
+import com.kunzisoft.keepass.tests.database.TestData;
 
 public class PwGroupTest extends AndroidTestCase {
 

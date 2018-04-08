@@ -17,7 +17,7 @@
 * along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.keepass.tests.output;
+package com.kunzisoft.keepass.tests.output;
  
 import static org.junit.Assert.assertArrayEquals;
 
@@ -32,16 +32,16 @@ import java.security.NoSuchAlgorithmException;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.keepass.database.PwDatabaseV3Debug;
-import com.keepass.database.PwDbHeader;
-import com.keepass.database.PwDbHeaderV3;
-import com.keepass.database.exception.PwDbOutputException;
-import com.keepass.database.save.PwDbHeaderOutputV3;
-import com.keepass.database.save.PwDbV3Output;
-import com.keepass.database.save.PwDbV3OutputDebug;
-import com.keepass.stream.NullOutputStream;
-import com.keepass.tests.TestUtil;
-import com.keepass.tests.database.TestData;
+import com.kunzisoft.keepass.database.PwDatabaseV3Debug;
+import com.kunzisoft.keepass.database.PwDbHeader;
+import com.kunzisoft.keepass.database.PwDbHeaderV3;
+import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+import com.kunzisoft.keepass.database.save.PwDbHeaderOutputV3;
+import com.kunzisoft.keepass.database.save.PwDbV3Output;
+import com.kunzisoft.keepass.database.save.PwDbV3OutputDebug;
+import com.kunzisoft.keepass.stream.NullOutputStream;
+import com.kunzisoft.keepass.tests.TestUtil;
+import com.kunzisoft.keepass.tests.database.TestData;
  
 public class PwManagerOutputTest extends AndroidTestCase {
   PwDatabaseV3Debug mPM;

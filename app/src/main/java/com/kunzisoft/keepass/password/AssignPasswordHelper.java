@@ -24,11 +24,11 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.edit.FileOnFinish;
 import com.kunzisoft.keepass.database.edit.OnFinish;
 import com.kunzisoft.keepass.database.edit.SetPassword;
+import com.kunzisoft.keepass.tasks.ProgressTask;
 import tech.jgross.keepass.R;
 
 public class AssignPasswordHelper {

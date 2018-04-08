@@ -17,7 +17,7 @@
 * along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.keepass.tests.crypto;
+package com.kunzisoft.keepass.tests.crypto;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -37,11 +37,11 @@ import javax.crypto.NoSuchPaddingException;
 
 import junit.framework.TestCase;
 
-import com.keepass.crypto.CipherFactory;
-import com.keepass.crypto.engine.AesEngine;
-import com.keepass.crypto.engine.CipherEngine;
-import com.keepass.stream.BetterCipherInputStream;
-import com.keepass.stream.LEDataInputStream;
+import com.kunzisoft.keepass.crypto.CipherFactory;
+import com.kunzisoft.keepass.crypto.engine.AesEngine;
+import com.kunzisoft.keepass.crypto.engine.CipherEngine;
+import com.kunzisoft.keepass.stream.BetterCipherInputStream;
+import com.kunzisoft.keepass.stream.LEDataInputStream;
 
 public class CipherTest extends TestCase {
 	private Random rand = new Random();

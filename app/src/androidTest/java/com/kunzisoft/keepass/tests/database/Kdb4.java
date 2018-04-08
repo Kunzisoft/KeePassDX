@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,16 +29,16 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.keepass.database.PwDatabaseV4;
-import com.keepass.database.exception.InvalidDBException;
-import com.keepass.database.exception.PwDbOutputException;
-import com.keepass.database.load.Importer;
-import com.keepass.database.load.ImporterFactory;
-import com.keepass.database.load.ImporterV4;
-import com.keepass.database.save.PwDbOutput;
-import com.keepass.database.save.PwDbV4Output;
-import com.keepass.stream.CopyInputStream;
-import com.keepass.tests.TestUtil;
+import com.kunzisoft.keepass.database.PwDatabaseV4;
+import com.kunzisoft.keepass.database.exception.InvalidDBException;
+import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+import com.kunzisoft.keepass.database.load.Importer;
+import com.kunzisoft.keepass.database.load.ImporterFactory;
+import com.kunzisoft.keepass.database.load.ImporterV4;
+import com.kunzisoft.keepass.database.save.PwDbOutput;
+import com.kunzisoft.keepass.database.save.PwDbV4Output;
+import com.kunzisoft.keepass.stream.CopyInputStream;
+import com.kunzisoft.keepass.tests.TestUtil;
 
 public class Kdb4 extends AndroidTestCase {
 

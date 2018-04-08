@@ -19,12 +19,12 @@
  */
 package com.kunzisoft.keepass.utils;
 
+import com.kunzisoft.keepass.database.EntrySearchV4;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwEntryV4;
 import com.kunzisoft.keepass.database.PwGroupV4;
-import com.kunzisoft.keepass.database.EntrySearchV4;
 import com.kunzisoft.keepass.database.SearchParametersV4;
 
 import java.util.ArrayList;

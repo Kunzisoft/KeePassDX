@@ -19,14 +19,14 @@
  */
 package com.kunzisoft.keepass.database.save;
 
-import java.io.OutputStream;
-import java.security.SecureRandom;
-
 import com.kunzisoft.keepass.database.PwDatabaseV3;
 import com.kunzisoft.keepass.database.PwDatabaseV3Debug;
 import com.kunzisoft.keepass.database.PwDbHeader;
 import com.kunzisoft.keepass.database.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+
+import java.io.OutputStream;
+import java.security.SecureRandom;
 
 public class PwDbV3OutputDebug extends PwDbV3Output {
 	PwDatabaseV3Debug debugDb;

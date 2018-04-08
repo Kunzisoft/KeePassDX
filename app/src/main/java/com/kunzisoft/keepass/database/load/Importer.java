@@ -19,21 +19,21 @@
  */
 package com.kunzisoft.keepass.database.load;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.kunzisoft.keepass.tasks.UpdateStatus;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
+import com.kunzisoft.keepass.tasks.UpdateStatus;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public abstract class Importer {
 
 	public static final boolean DEBUG = true;
 
-	public abstract PwDatabase openDatabase( InputStream inStream, String password, InputStream keyInputStream)
+	public abstract PwDatabase openDatabase(InputStream inStream, String password, InputStream keyInputStream)
 		throws IOException, InvalidDBException;
 
-	public abstract PwDatabase openDatabase( InputStream inStream, String password, InputStream keyInputStream, UpdateStatus status, long roundsFix)
+	public abstract PwDatabase openDatabase(InputStream inStream, String password, InputStream keyInputStream, UpdateStatus status, long roundsFix)
 		throws IOException, InvalidDBException;
 
 

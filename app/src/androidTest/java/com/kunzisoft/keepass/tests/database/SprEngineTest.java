@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import java.io.InputStream;
 import java.util.UUID;
@@ -27,12 +27,12 @@ import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 import biz.source_code.base64Coder.Base64Coder;
 
-import com.keepass.database.PwDatabase;
-import com.keepass.database.PwDatabaseV4;
-import com.keepass.database.PwEntryV4;
-import com.keepass.database.load.ImporterV4;
-import com.keepass.utils.SprEngineV4;
-import com.keepass.utils.Types;
+import com.kunzisoft.keepass.database.PwDatabase;
+import com.kunzisoft.keepass.database.PwDatabaseV4;
+import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.load.ImporterV4;
+import com.kunzisoft.keepass.utils.SprEngineV4;
+import com.kunzisoft.keepass.utils.Types;
 
 public class SprEngineTest extends AndroidTestCase {
 	private PwDatabaseV4 db;

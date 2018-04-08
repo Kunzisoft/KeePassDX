@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.compat;
 
-import java.lang.reflect.Field;
-
 import android.os.Build;
+
+import java.lang.reflect.Field;
 
 public class BuildCompat {
 	private static Field manufacturer;

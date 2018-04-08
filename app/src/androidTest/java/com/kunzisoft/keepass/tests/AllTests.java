@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests;
+package com.kunzisoft.keepass.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

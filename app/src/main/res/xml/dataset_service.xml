@@ -19,4 +19,4 @@ Attributes for the AutoFill service that tell the framework what will act as the
 Settings Activity. This is pointed to in the service's meta-data in the application's manifest.
 -->
 <autofill-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:settingsActivity="com.kunzisoft.keepass.roid.settings.SettingsAutofillActivity" />
+    android:settingsActivity="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />

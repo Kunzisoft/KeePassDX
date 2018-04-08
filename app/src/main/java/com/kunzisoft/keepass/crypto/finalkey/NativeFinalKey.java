@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.crypto.finalkey;
 
-import java.io.IOException;
-
 import com.kunzisoft.keepass.crypto.NativeLib;
+
+import java.io.IOException;
 
 
 public class NativeFinalKey extends FinalKey {

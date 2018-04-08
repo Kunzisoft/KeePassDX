@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.database.iterator;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-
 import com.kunzisoft.keepass.database.PwEntryV4;
 import com.kunzisoft.keepass.database.SearchParametersV4;
 import com.kunzisoft.keepass.database.security.ProtectedString;
+
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 
 public class EntrySearchStringIteratorV4 extends EntrySearchStringIterator {
 	

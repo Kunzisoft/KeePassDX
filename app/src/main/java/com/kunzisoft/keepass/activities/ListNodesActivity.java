@@ -60,7 +60,7 @@ import tech.jgross.keepass.R;
 
 public abstract class ListNodesActivity extends LockingActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-		NodeAdapter.OnNodeClickCallback,
+        NodeAdapter.OnNodeClickCallback,
         SortDialogFragment.SortSelectionListener {
 
     protected PwGroup mCurrentGroup;

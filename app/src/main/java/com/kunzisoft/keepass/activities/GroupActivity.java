@@ -82,12 +82,12 @@ public class GroupActivity extends ListNodesActivity
 	private static final String TAG = "Group Activity:";
 	
 	public static void launch(Activity act) {
-        LockingActivity.recordFirstTimeBeforeLaunch(act);
+        recordFirstTimeBeforeLaunch(act);
         launch(act, (PwGroup) null);
 	}
 
     public static void launch(Activity act, PwGroup group) {
-        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+        if (checkTimeIsAllowedOrFinish(act)) {
             Intent intent = new Intent(act, GroupActivity.class);
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.getId());
@@ -99,7 +99,7 @@ public class GroupActivity extends ListNodesActivity
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
-            LockingActivity.recordFirstTimeBeforeLaunch(act);
+            recordFirstTimeBeforeLaunch(act);
             launch(act, null, assistStructure);
         } else {
             launch(act);
@@ -109,7 +109,7 @@ public class GroupActivity extends ListNodesActivity
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, PwGroup group, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
-            if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
+            if (checkTimeIsAllowedOrFinish(act)) {
                 Intent intent = new Intent(act, GroupActivity.class);
                 if (group != null) {
                     intent.putExtra(GROUP_ID_KEY, group.getId());
@@ -159,7 +159,7 @@ public class GroupActivity extends ListNodesActivity
                     GroupEditDialogFragment.TAG_CREATE_GROUP);
         });
         addNodeButtonView.setAddEntryClickListener(v ->
-                EntryEditActivity.Launch(GroupActivity.this, mCurrentGroup));
+                EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
 
@@ -232,7 +232,7 @@ public class GroupActivity extends ListNodesActivity
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
                         break;
                     case ENTRY:
-                        EntryEditActivity.Launch(GroupActivity.this, (PwEntry) node);
+                        EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
                         break;
                 }
                 return true;

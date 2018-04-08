@@ -31,7 +31,6 @@ import android.view.View;
 
 import com.kunzisoft.keepass.compat.ContentResolverCompat;
 import com.kunzisoft.keepass.compat.StorageAF;
-import com.kunzisoft.keepass.fileselect.BrowserDialog;
 import com.kunzisoft.keepass.utils.Interaction;
 import com.kunzisoft.keepass.utils.UriUtil;
 

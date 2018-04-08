@@ -45,6 +45,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.database.load;
 
+import android.util.Log;
+
+import tech.jgross.keepass.R;
+import com.kunzisoft.keepass.crypto.CipherFactory;
+import com.kunzisoft.keepass.database.PwDatabaseV3;
+import com.kunzisoft.keepass.database.PwDate;
+import com.kunzisoft.keepass.database.PwDbHeader;
+import com.kunzisoft.keepass.database.PwDbHeaderV3;
+import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.PwEntryV3;
+import com.kunzisoft.keepass.database.PwGroupV3;
+import com.kunzisoft.keepass.database.exception.InvalidAlgorithmException;
+import com.kunzisoft.keepass.database.exception.InvalidDBException;
+import com.kunzisoft.keepass.database.exception.InvalidDBSignatureException;
+import com.kunzisoft.keepass.database.exception.InvalidDBVersionException;
+import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
+import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
+import com.kunzisoft.keepass.stream.LEDataInputStream;
+import com.kunzisoft.keepass.stream.LEDataOutputStream;
+import com.kunzisoft.keepass.stream.NullOutputStream;
+import com.kunzisoft.keepass.tasks.UpdateStatus;
+import com.kunzisoft.keepass.utils.Types;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -63,29 +86,6 @@ import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import android.util.Log;
-
-import tech.jgross.keepass.R;
-import com.kunzisoft.keepass.tasks.UpdateStatus;
-import com.kunzisoft.keepass.crypto.CipherFactory;
-import com.kunzisoft.keepass.database.PwDatabaseV3;
-import com.kunzisoft.keepass.database.PwDate;
-import com.kunzisoft.keepass.database.PwDbHeader;
-import com.kunzisoft.keepass.database.PwDbHeaderV3;
-import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
-import com.kunzisoft.keepass.database.PwEntryV3;
-import com.kunzisoft.keepass.database.PwGroupV3;
-import com.kunzisoft.keepass.database.exception.InvalidAlgorithmException;
-import com.kunzisoft.keepass.database.exception.InvalidDBException;
-import com.kunzisoft.keepass.database.exception.InvalidDBSignatureException;
-import com.kunzisoft.keepass.database.exception.InvalidDBVersionException;
-import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
-import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
-import com.kunzisoft.keepass.stream.LEDataInputStream;
-import com.kunzisoft.keepass.stream.LEDataOutputStream;
-import com.kunzisoft.keepass.stream.NullOutputStream;
-import com.kunzisoft.keepass.utils.Types;
-
 /**
  * Load a v3 database file.
  *
@@ -93,6 +93,8 @@ import com.kunzisoft.keepass.utils.Types;
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
 public class ImporterV3 extends Importer {
+
+	private static final String TAG = ImporterV3.class.getName();
 
 	public ImporterV3() {
 		super();
@@ -110,11 +112,11 @@ public class ImporterV3 extends Importer {
 	 * @return new PwDatabaseV3 container.
 	 * 
 	 * @throws IOException on any file error.
-	 * @throws InvalidKeyFileException 
-	 * @throws InvalidPasswordException 
+	 * @throws InvalidKeyFileException
+	 * @throws InvalidPasswordException
 	 * @throws InvalidPasswordException on a decryption error, or possible internal bug.
-	 * @throws InvalidDBSignatureException 
-	 * @throws InvalidDBVersionException 
+	 * @throws InvalidDBSignatureException
+	 * @throws InvalidDBVersionException
 	 * @throws IllegalBlockSizeException on a decryption error, or possible internal bug.
 	 * @throws BadPaddingException on a decryption error, or possible internal bug.
 	 * @throws NoSuchAlgorithmException on a decryption error, or possible internal bug.
@@ -230,7 +232,7 @@ public class ImporterV3 extends Importer {
 		
 		if( ! Arrays.equals(hash, hdr.contentsHash) ) {
 
-			Log.w("KeePassDroid","Database file did not decrypt correctly. (checksum code is broken)");
+			Log.w(TAG,"Database file did not decrypt correctly. (checksum code is broken)");
 			throw new InvalidPasswordException();
 		}
 

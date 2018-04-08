@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 
 public class InputTextExplanationPreference extends DialogPreference {
 

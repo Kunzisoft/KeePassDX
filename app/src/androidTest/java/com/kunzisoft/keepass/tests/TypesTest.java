@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests;
+package com.kunzisoft.keepass.tests;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -28,10 +28,10 @@ import java.util.UUID;
 
 import junit.framework.TestCase;
 
-import com.keepass.database.PwDate;
-import com.keepass.stream.LEDataInputStream;
-import com.keepass.stream.LEDataOutputStream;
-import com.keepass.utils.Types;
+import com.kunzisoft.keepass.database.PwDate;
+import com.kunzisoft.keepass.stream.LEDataInputStream;
+import com.kunzisoft.keepass.stream.LEDataOutputStream;
+import com.kunzisoft.keepass.utils.Types;
 
 public class TypesTest extends TestCase {
 

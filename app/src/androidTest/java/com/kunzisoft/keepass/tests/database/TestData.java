@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import java.io.InputStream;
 
@@ -25,10 +25,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
 
-import com.keepass.database.Database;
-import com.keepass.database.PwDatabaseV3Debug;
-import com.keepass.database.load.Importer;
-import com.keepass.tests.TestUtil;
+import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.PwDatabaseV3Debug;
+import com.kunzisoft.keepass.database.load.Importer;
+import com.kunzisoft.keepass.tests.TestUtil;
 
 public class TestData {
 	private static final String TEST1_KEYFILE = "";

@@ -113,8 +113,8 @@
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value="com.kunzisoft.keepass.roid.search.SearchResults"
-                android:exported="false" />
+                android:value="com.kunzisoft.keepass.search.SearchResults"
+                android:exported="false"/>
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryActivity"
@@ -136,8 +136,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
-        <activity
-            android:name="com.kunzisoft.keepass.autofill.AutoFillAuthActivity"
+        <activity android:name="com.kunzisoft.keepass.autofill.AutoFillAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
 

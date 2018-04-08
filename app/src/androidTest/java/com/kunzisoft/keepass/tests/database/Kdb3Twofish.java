@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import java.io.InputStream;
 
@@ -25,9 +25,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.keepass.database.PwDatabaseV3;
-import com.keepass.database.PwEncryptionAlgorithm;
-import com.keepass.database.load.ImporterV3;
+import com.kunzisoft.keepass.database.PwDatabaseV3;
+import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.load.ImporterV3;
 
 public class Kdb3Twofish extends AndroidTestCase {
 	public void testReadTwofish() throws Exception {

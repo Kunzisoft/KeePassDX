@@ -17,7 +17,7 @@
 * along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.keepass.tests.search;
+package com.kunzisoft.keepass.tests.search;
 
 
 import android.content.Context;
@@ -25,9 +25,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
-import com.keepass.database.Database;
-import com.keepass.database.PwGroup;
-import com.keepass.tests.database.TestData;
+import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.PwGroup;
+import com.kunzisoft.keepass.tests.database.TestData;
 
 public class SearchTest extends AndroidTestCase {
 	

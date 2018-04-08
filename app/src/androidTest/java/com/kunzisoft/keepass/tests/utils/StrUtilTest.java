@@ -17,11 +17,11 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.utils;
+package com.kunzisoft.keepass.tests.utils;
 
 import java.util.Locale;
 
-import com.keepass.utils.StrUtil;
+import com.kunzisoft.keepass.utils.StrUtil;
 
 import junit.framework.TestCase;
 

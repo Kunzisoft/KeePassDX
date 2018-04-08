@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.stream;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;

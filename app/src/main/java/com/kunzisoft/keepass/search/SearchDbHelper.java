@@ -47,7 +47,7 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, 
 	
 	private final Context mCtx;
 	
-	private SearchDbHelper(Context ctx) {
+	public SearchDbHelper(Context ctx) {
 		this.mCtx = ctx;
 	}
 	

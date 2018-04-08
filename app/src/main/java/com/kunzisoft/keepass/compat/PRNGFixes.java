@@ -10,6 +10,11 @@ package com.kunzisoft.keepass.compat;
  * freely, as long as the origin is not misrepresented.
  */
 
+import android.os.Build;
+import android.os.Process;
+
+import com.kunzisoft.keepass.utils.StrUtil;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -27,11 +32,6 @@ import java.security.SecureRandom;
 import java.security.SecureRandomSpi;
 import java.security.Security;
 import java.util.Locale;
-
-import com.kunzisoft.keepass.utils.StrUtil;
-
-import android.os.Process;
-import android.os.Build;
 
 /**
  * Fixes for the output of the default PRNG having low entropy.

@@ -17,20 +17,21 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import java.util.List;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
 
-import com.keepass.database.Database;
-import com.keepass.database.PwDatabase;
-import com.keepass.database.PwDatabaseV3;
-import com.keepass.database.PwEntry;
-import com.keepass.database.PwGroup;
-import com.keepass.database.edit.DeleteGroup;
-import com.keepass.search.SearchDbHelper;
+import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.PwDatabase;
+import com.kunzisoft.keepass.database.PwDatabaseV3;
+import com.kunzisoft.keepass.database.PwEntry;
+import com.kunzisoft.keepass.database.PwEntryV3;
+import com.kunzisoft.keepass.database.PwGroup;
+import com.kunzisoft.keepass.database.edit.DeleteGroup;
+import com.kunzisoft.keepass.search.SearchDbHelper;
 
 public class DeleteEntry extends AndroidTestCase {
 	private static final String GROUP1_NAME = "Group1";
@@ -54,7 +55,7 @@ public class DeleteEntry extends AndroidTestCase {
 			return;
 		}
 		
-		PwDatabaseV3 pm = (PwDatabaseV3) db.pm;
+		PwDatabaseV3 pm = (PwDatabaseV3) db.getPwDatabase();
 		PwGroup group1 = getGroup(pm, GROUP1_NAME);
 		assertNotNull("Could not find group1", group1);
 		
@@ -71,8 +72,8 @@ public class DeleteEntry extends AndroidTestCase {
 		
 		// Verify the entries were removed from the search index
 		SearchDbHelper dbHelp = new SearchDbHelper(ctx);
-		PwGroup results1 = dbHelp.search(db, ENTRY1_NAME);
-		PwGroup results2 = dbHelp.search(db, ENTRY2_NAME);
+		PwGroup results1 = dbHelp.search(db.getPwDatabase(), ENTRY1_NAME);
+		PwGroup results2 = dbHelp.search(db.getPwDatabase(), ENTRY2_NAME);
 		
 		assertEquals("Entry1 was not removed from the search results", 0, results1.numbersOfChildEntries());
 		assertEquals("Entry2 was not removed from the search results", 0, results2.numbersOfChildEntries());
@@ -83,10 +84,10 @@ public class DeleteEntry extends AndroidTestCase {
 
 	}
 	
-	private PwEntry getEntry(PwDatabaseV3 pm, String name) {
-		List<PwEntry> entries = pm.getEntries();
+	private PwEntryV3 getEntry(PwDatabaseV3 pm, String name) {
+		List<PwEntryV3> entries = pm.getEntries();
 		for ( int i = 0; i < entries.size(); i++ ) {
-			PwEntry entry = entries.get(i);
+			PwEntryV3 entry = entries.get(i);
 			if ( entry.getTitle().equals(name) ) {
 				return entry;
 			}

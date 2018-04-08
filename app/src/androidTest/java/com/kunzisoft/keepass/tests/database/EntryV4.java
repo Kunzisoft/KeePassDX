@@ -17,12 +17,12 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import junit.framework.TestCase;
 
-import com.keepass.database.PwDatabaseV4;
-import com.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.PwDatabaseV4;
+import com.kunzisoft.keepass.database.PwEntryV4;
 
 public class EntryV4 extends TestCase {
 

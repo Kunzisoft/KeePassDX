@@ -19,24 +19,24 @@
  */
 package com.kunzisoft.keepass.database.save;
 
-import java.io.OutputStream;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwDatabaseV3;
 import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwDbHeader;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 
+import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 public abstract class PwDbOutput {
 	
 	protected OutputStream mOS;
 	
 	public static PwDbOutput getInstance(PwDatabase pm, OutputStream os) {
-		if ( pm instanceof PwDatabaseV3 ) {
+		if ( pm instanceof PwDatabaseV3) {
 			return new PwDbV3Output((PwDatabaseV3)pm, os);
-		} else if ( pm instanceof PwDatabaseV4 ) {
+		} else if ( pm instanceof PwDatabaseV4) {
 			return new PwDbV4Output((PwDatabaseV4)pm, os);
 		}
 		
@@ -47,7 +47,7 @@ public abstract class PwDbOutput {
 		mOS = os;
 	}
 	
-	protected SecureRandom setIVs(PwDbHeader header) throws PwDbOutputException  {
+	protected SecureRandom setIVs(PwDbHeader header) throws PwDbOutputException {
 		SecureRandom random;
 		try {
 			random = SecureRandom.getInstance("SHA1PRNG");

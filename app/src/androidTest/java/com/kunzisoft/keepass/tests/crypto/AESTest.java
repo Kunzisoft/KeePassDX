@@ -17,9 +17,11 @@
 * along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.keepass.tests.crypto;
+package com.kunzisoft.keepass.tests.crypto;
 
-import static org.junit.Assert.assertArrayEquals;
+import com.kunzisoft.keepass.crypto.CipherFactory;
+
+import junit.framework.TestCase;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -33,9 +35,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import junit.framework.TestCase;
-
-import com.keepass.crypto.CipherFactory;
+import static org.junit.Assert.assertArrayEquals;
 
 public class AESTest extends TestCase {
 	

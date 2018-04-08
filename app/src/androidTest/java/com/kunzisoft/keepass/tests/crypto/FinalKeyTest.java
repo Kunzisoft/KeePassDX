@@ -17,7 +17,7 @@
 * along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.keepass.tests.crypto;
+package com.kunzisoft.keepass.tests.crypto;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -26,8 +26,8 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import com.keepass.crypto.finalkey.AndroidFinalKey;
-import com.keepass.crypto.finalkey.NativeFinalKey;
+import com.kunzisoft.keepass.crypto.finalkey.AndroidFinalKey;
+import com.kunzisoft.keepass.crypto.finalkey.NativeFinalKey;
 
 public class FinalKeyTest extends TestCase {
 	private Random mRand;

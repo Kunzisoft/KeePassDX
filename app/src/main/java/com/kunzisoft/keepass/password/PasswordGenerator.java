@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.password;
 
-import java.security.SecureRandom;
-
 import android.content.Context;
 
 import tech.jgross.keepass.R;
+
+import java.security.SecureRandom;
 
 public class PasswordGenerator {
 	private static final String UPPERCASE_CHARS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

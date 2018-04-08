@@ -32,7 +32,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
 import tech.jgross.keepass.R;
 
 @RequiresApi(api = Build.VERSION_CODES.M)

@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.database;
 
+import com.kunzisoft.keepass.database.security.ProtectedBinary;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import com.kunzisoft.keepass.database.security.ProtectedBinary;
 
 public class BinaryPool {
 	private HashMap<Integer, ProtectedBinary> pool = new HashMap<>();

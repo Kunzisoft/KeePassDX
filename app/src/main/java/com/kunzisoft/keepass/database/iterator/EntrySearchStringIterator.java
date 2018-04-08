@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.database.iterator;
 
-import java.util.Iterator;
-
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwEntryV3;
 import com.kunzisoft.keepass.database.PwEntryV4;
 import com.kunzisoft.keepass.database.SearchParameters;
 import com.kunzisoft.keepass.database.SearchParametersV4;
+
+import java.util.Iterator;
 
 public abstract class EntrySearchStringIterator implements Iterator<String> {
 	

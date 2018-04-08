@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.crypto;
 
+import com.kunzisoft.keepass.database.CrsAlgorithm;
+
 import org.spongycastle.crypto.StreamCipher;
 import org.spongycastle.crypto.engines.ChaCha7539Engine;
 import org.spongycastle.crypto.engines.Salsa20Engine;
 import org.spongycastle.crypto.params.KeyParameter;
 import org.spongycastle.crypto.params.ParametersWithIV;
-
-import com.kunzisoft.keepass.database.CrsAlgorithm;
 
 public class PwStreamCipherFactory {
 	public static StreamCipher getInstance(CrsAlgorithm alg, byte[] key) {

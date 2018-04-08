@@ -30,7 +30,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -289,11 +288,14 @@ public class EntryActivity extends LockingHideActivity {
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-        if (!readOnly) {
-            inflater.inflate(R.menu.edit, menu);
-        }
 		inflater.inflate(R.menu.entry, menu);
 		inflater.inflate(R.menu.database_lock, menu);
+
+        if (readOnly) {
+            MenuItem edit =  menu.findItem(R.id.menu_edit);
+            if (edit != null)
+                edit.setVisible(false);
+        }
 
 		MenuItem togglePassword = menu.findItem(R.id.menu_toggle_pass);
 		if (entryContentsView != null && togglePassword != null) {
@@ -325,13 +327,14 @@ public class EntryActivity extends LockingHideActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-            case R.id.menu_edit_entry:
-                EntryEditActivity.Launch(EntryActivity.this, mEntry);
-                return true;
             case R.id.menu_toggle_pass:
                 mShowPassword = !mShowPassword;
                 changeShowPasswordIcon(item);
                 entryContentsView.setHiddenPasswordStyle(!mShowPassword);
+                return true;
+
+            case R.id.menu_edit:
+                EntryEditActivity.launch(EntryActivity.this, mEntry);
                 return true;
 			
             case R.id.menu_goto_url:

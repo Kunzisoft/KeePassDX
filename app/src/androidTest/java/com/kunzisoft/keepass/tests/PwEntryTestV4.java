@@ -17,15 +17,15 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests;
+package com.kunzisoft.keepass.tests;
 
-import com.keepass.database.AutoType;
-import com.keepass.database.PwEntryV4;
-import com.keepass.database.PwGroupV4;
-import com.keepass.database.PwIconCustom;
-import com.keepass.database.PwIconStandard;
-import com.keepass.database.security.ProtectedBinary;
-import com.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.database.AutoType;
+import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.PwGroupV4;
+import com.kunzisoft.keepass.database.PwIconCustom;
+import com.kunzisoft.keepass.database.PwIconStandard;
+import com.kunzisoft.keepass.database.security.ProtectedBinary;
+import com.kunzisoft.keepass.database.security.ProtectedString;
 
 import junit.framework.TestCase;
 

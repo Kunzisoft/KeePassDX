@@ -19,14 +19,14 @@
  */
 package com.kunzisoft.keepass.database.iterator;
 
-import java.util.NoSuchElementException;
-
 import com.kunzisoft.keepass.database.PwEntryV3;
 import com.kunzisoft.keepass.database.SearchParameters;
 
+import java.util.NoSuchElementException;
+
 public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
 	
-	private PwEntryV3 entry; 
+	private PwEntryV3 entry;
 	private SearchParameters sp;
 	
 	public EntrySearchStringIteratorV3(PwEntryV3 entry) {

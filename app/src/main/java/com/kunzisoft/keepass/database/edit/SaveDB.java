@@ -21,10 +21,10 @@ package com.kunzisoft.keepass.database.edit;
 
 import android.content.Context;
 
-import java.io.IOException;
-
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+
+import java.io.IOException;
 
 public class SaveDB extends RunnableOnFinish {
 	private Database mDb;

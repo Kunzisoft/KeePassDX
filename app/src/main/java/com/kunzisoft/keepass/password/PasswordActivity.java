@@ -59,7 +59,9 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.edit.LoadDB;
 import com.kunzisoft.keepass.database.edit.OnFinish;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
+import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
+import com.kunzisoft.keepass.fingerprint.FingerPrintDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
@@ -67,8 +69,6 @@ import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
-import com.kunzisoft.keepass.fingerprint.FingerPrintDialog;
-import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import tech.jgross.keepass.R;
 
 import java.io.File;
@@ -80,10 +80,6 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
-
-import static com.kunzisoft.keepass.fingerprint.FingerPrintHelper.Mode.NOT_CONFIGURED_MODE;
-import static com.kunzisoft.keepass.fingerprint.FingerPrintHelper.Mode.OPEN_MODE;
-import static com.kunzisoft.keepass.fingerprint.FingerPrintHelper.Mode.STORE_MODE;
 
 @RuntimePermissions
 public class PasswordActivity extends StylishActivity
@@ -417,7 +413,7 @@ public class PasswordActivity extends StylishActivity
     // fingerprint related code here
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initForFingerprint() {
-        fingerPrintMode = NOT_CONFIGURED_MODE;
+        fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE;
 
         fingerPrintHelper = new FingerPrintHelper(this, this);
 
@@ -444,9 +440,9 @@ public class PasswordActivity extends StylishActivity
                     // encrypt or decrypt mode based on how much input or not
                     setFingerPrintView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
                     if (validInput)
-                        toggleFingerprintMode(STORE_MODE);
+                        toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE);
                     else
-                        toggleFingerprintMode(OPEN_MODE);
+                        toggleFingerprintMode(FingerPrintHelper.Mode.OPEN_MODE);
                 }
             }
         });
@@ -515,7 +511,7 @@ public class PasswordActivity extends StylishActivity
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initEncryptData() {
         setFingerPrintView(R.string.store_with_fingerprint);
-        fingerPrintMode = STORE_MODE;
+        fingerPrintMode = FingerPrintHelper.Mode.STORE_MODE;
         if (fingerPrintHelper != null)
             fingerPrintHelper.initEncryptData();
     }
@@ -523,7 +519,7 @@ public class PasswordActivity extends StylishActivity
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initDecryptData() {
         setFingerPrintView(R.string.scanning_fingerprint);
-        fingerPrintMode = OPEN_MODE;
+        fingerPrintMode = FingerPrintHelper.Mode.OPEN_MODE;
         if (fingerPrintHelper != null) {
             final String ivSpecValue = prefsNoBackup.getString(getPreferenceKeyIvSpec(), null);
             if (ivSpecValue != null)
@@ -560,7 +556,7 @@ public class PasswordActivity extends StylishActivity
                 fingerPrintAnimatedVector.stopScan();
             }
             // stop listening when we go in background
-            fingerPrintMode = NOT_CONFIGURED_MODE;
+            fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE;
             if (fingerPrintHelper != null) {
                 fingerPrintHelper.stopListening();
             }
@@ -680,7 +676,7 @@ public class PasswordActivity extends StylishActivity
     private void deleteEntryKey() {
         fingerPrintHelper.deleteEntryKey();
         removePrefsNoBackupKey();
-        fingerPrintMode = NOT_CONFIGURED_MODE;
+        fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE;
         checkFingerprintAvailability();
     }
 

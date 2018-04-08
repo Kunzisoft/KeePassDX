@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests;
+package com.kunzisoft.keepass.tests;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -27,8 +27,8 @@ import java.util.Calendar;
 
 import android.test.AndroidTestCase;
 
-import com.keepass.database.PwEntryV3;
-import com.keepass.tests.database.TestData;
+import com.kunzisoft.keepass.database.PwEntryV3;
+import com.kunzisoft.keepass.tests.database.TestData;
 
 public class PwEntryTestV3 extends AndroidTestCase {
 	PwEntryV3 mPE;

@@ -17,7 +17,7 @@
 * along with KeePass Libre. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.keepass.tests.stream;
+package com.kunzisoft.keepass.tests.stream;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -30,8 +30,8 @@ import java.util.zip.GZIPOutputStream;
 
 import junit.framework.TestCase;
 
-import com.keepass.stream.HashedBlockInputStream;
-import com.keepass.stream.HashedBlockOutputStream;
+import com.kunzisoft.keepass.stream.HashedBlockInputStream;
+import com.kunzisoft.keepass.stream.HashedBlockOutputStream;
 
 public class HashedBlock extends TestCase {
 	

@@ -17,7 +17,7 @@
  *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.keepass.tests.database;
+package com.kunzisoft.keepass.tests.database;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -25,9 +25,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.test.AndroidTestCase;
 
-import com.keepass.database.load.ImporterV3;
-import com.keepass.tests.TestUtil;
-import com.keepass.utils.UriUtil;
+import com.kunzisoft.keepass.database.load.ImporterV3;
+import com.kunzisoft.keepass.tests.TestUtil;
+import com.kunzisoft.keepass.utils.UriUtil;
 
 import java.io.InputStream;
 import java.io.File;
