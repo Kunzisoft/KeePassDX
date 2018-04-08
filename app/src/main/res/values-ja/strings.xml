@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">フィードバック:</string>
     <string name="about_homepage">WEBサイト:</string>
-    <string name="AboutText">\"KeePass DX\"はパスワードマネージャソフト\"KeePass\"をAndroid上で利用する為のアプリです。</string>
+    <string name="AboutText">\"KeePass Libre\"はパスワードマネージャソフト\"KeePass\"をAndroid上で利用する為のアプリです。</string>
     <string name="accept">決定</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="add_group">グループを追加</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">データベースを解析中&#8230;</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
     <string name="select_database_file">データベースファイル:</string>
     <string name="entry_accessed">最終アクセス日</string>
     <string name="entry_and_or">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
@@ -58,7 +58,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">ArcFour stream cipherには対応していません。</string>
-    <string name="error_can_not_handle_uri">KeePass DXはこのuriを処理できません。</string>
+    <string name="error_can_not_handle_uri">KeePass Libreはこのuriを処理できません。</string>
     <string name="error_could_not_create_parent">親ディレクトリを作成できませんでした。</string>
     <string name="error_database_exists">ファイルが既に存在します。</string>
     <string name="error_failed_to_launch_link">リンクを開けませんでした。</string>
@@ -101,7 +101,6 @@
     <string name="settings">設定</string>
     <string name="menu_db_settings">データベース設定</string>
     <string name="menu_delete">削除</string>
-    <string name="menu_donate">寄付</string>
     <string name="menu_edit">編集</string>
     <string name="menu_hide_password">パスワードを隠す</string>
     <string name="menu_lock">データベースをロック</string>

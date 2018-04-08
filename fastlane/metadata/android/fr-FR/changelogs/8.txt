@@ -1,8 +1,0 @@
- * Cache pour les entrées protégées customisées
- * Meilleure gestion des références de champs (https://keepass.info/help/base/fieldrefs.html)
- * Changement des paramètres de base de données / par defaut
- * Ajout du remplissage automatique pour la recherche
- * Ajout des tris par dernier accès et par temps de création
- * Reconstruction des entrées customisées
- * Refactorisation du vieux code
- * Correction de bugs

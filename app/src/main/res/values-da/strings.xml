@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
   
   Danish translation by Frederik Svarre (fsvarre@gmail.com)
 -->
 <resources>
     <string name="about_feedback">Tilbagemelding:</string>
     <string name="about_homepage">Hjemmeside:</string>
-    <string name="AboutText">KeePass DX er en Android implementering af KeePass password manager.</string>
+    <string name="AboutText">KeePass Libre er en Android implementering af KeePass password manager.</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Tilføj post</string>
     <string name="add_group">Tilføj gruppe</string>
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Dekrypterer databaseindhold&#8230;</string>
     <string name="default_checkbox">Brug denne database som standard</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Angiv navn på databasefil:</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_and_or">Angiv en adgangskode og/eller en nøglefil for at få adgang til din database:</string>
@@ -65,7 +65,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Brugernavn</string>
     <string name="error_arc4">"ArcFour stream cipher" er ikke understøttet.</string>
-    <string name="error_can_not_handle_uri">KeePass DX kan ikke håndtere denne uri.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre kan ikke håndtere denne uri.</string>
     <string name="error_could_not_create_parent">Kunne ikke oprette rodbiblioteket.</string>
     <string name="error_database_exists">Denne fil eksisterer allerede.</string>
     <string name="error_failed_to_launch_link">Det mislykkedes at åbne linket.</string>
@@ -114,7 +114,6 @@
     <string name="settings">Indstillinger</string>
     <string name="menu_db_settings">Database indstillinger</string>
     <string name="menu_delete">Slet</string>
-    <string name="menu_donate">Donér</string>
     <string name="menu_edit">Rediger</string>
     <string name="menu_hide_password">Skjul adgangskode</string>
     <string name="menu_lock">Lås database</string>
@@ -132,7 +131,7 @@
     <string name="progress_create">Opretter ny database&#8230;</string>
     <string name="progress_title">Arbejder&#8230;</string>
     <string name="protection">Beskyttelse</string>
-    <string name="read_only_warning">KeePass DX har ikke rettigheder til at skrive til database-lokalisationen, så din database vil blive åbnet som skrivebeskyttet.</string>
+    <string name="read_only_warning">KeePass Libre har ikke rettigheder til at skrive til database-lokalisationen, så din database vil blive åbnet som skrivebeskyttet.</string>
     <string name="read_only_kitkat_warning">Fra Android KitKat er det på nogle enheder ikke længere muligt for applikationer at skrive til hukommelseskortet.</string>
     <string name="recentfile_title">Seneste filhistorik</string>
     <string name="recentfile_summary">Husk seneste filnavne</string>

@@ -1,20 +1,20 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePass Libre.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePass Libre is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePass Libre is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.activities;
@@ -41,7 +41,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
@@ -61,6 +60,7 @@ import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
 import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
+import tech.jgross.keepass.R;
 
 public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
@@ -146,8 +146,11 @@ public class GroupActivity extends ListNodesActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        if ( mCurrentGroup.getParent() != null )
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
+        if ( mCurrentGroup.getParent() != null ) {
+            assert getSupportActionBar() != null;
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         addNodeButtonView.setAddGroupClickListener(v -> {
             editGroupDialogAction = EditGroupDialogAction.CREATION;
@@ -159,7 +162,6 @@ public class GroupActivity extends ListNodesActivity
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
-		setGroupIcon();
 
         Log.w(TAG, "Finished creating tree");
 
@@ -271,13 +273,6 @@ public class GroupActivity extends ListNodesActivity
         // Show button if hide after sort
         addNodeButtonView.showButton();
     }
-
-    protected void setGroupIcon() {
-		if (mCurrentGroup != null) {
-			ImageView iv = findViewById(R.id.icon);
-			App.getDB().getDrawFactory().assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
-		}
-	}
 
     private void deleteEntry(PwEntry entry) {
         Handler handler = new Handler();

@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
 import android.view.View;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.edit.OnFinish;

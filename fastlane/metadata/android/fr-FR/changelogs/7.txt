@@ -1,7 +1,0 @@
- * Reconstruction des Notifications
- * Changement des liens en https
- * Ajout de l'ASCII étendu (ñæËÌÂÝÜ...)
- * Mise à jour de la police customisée pour la visibilité
- * Meilleure gestion des erreurs pour les empreintes digitales
- * Ajout de paramètre de prévention de copie de mot de passe
- * Correction de bugs

@@ -5,7 +5,7 @@ android {
     buildToolsVersion = '27.0.3'
 
     defaultConfig {
-        applicationId "com.kunzisoft.keepass"
+        applicationId 'tech.jgross.keepass'
         minSdkVersion 14
         targetSdkVersion 27
         versionCode = 8
@@ -46,16 +46,10 @@ android {
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "false"
         }
-        pro_google {
-            applicationIdSuffix = ".pro"
-            versionNameSuffix "-pro"
-            buildConfigField "boolean", "FULL_VERSION", "true"
-            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
-        }
         free_google {
             applicationIdSuffix = ".free"
             versionNameSuffix "-free"
-            buildConfigField "boolean", "FULL_VERSION", "false"
+            buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
         }
     }
@@ -78,19 +72,21 @@ dependencies {
     implementation "com.madgag.spongycastle:core:$spongycastleVersion"
     implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
     // Time
-    implementation "joda-time:joda-time:2.9.9"
-    implementation "org.sufficientlysecure:html-textview:3.5"
-    implementation "com.nononsenseapps:filepicker:4.1.0"
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'org.sufficientlysecure:html-textview:3.5'
+    implementation 'com.nononsenseapps:filepicker:4.1.0'
     // Permissions
-    implementation ("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
+    implementation("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
     // Apache Commons Collections
     implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
     // Base64
-    compile group: 'biz.source_code', name: 'base64coder', version: '2010-12-19'
+    implementation group: 'biz.source_code', name: 'base64coder', version: '2010-12-19'
+    implementation "com.android.support:support-v4:$supportVersion"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
-    implementation group: 'com.google.guava', name: 'guava', version: '23.0-android'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.google.guava:guava:23.0-android'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }

@@ -1,2 +1,0 @@
-json_key_file "./../Integration/Google_Play_Android_Developer.json" # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
-package_name "com.kunzisoft.keepass.free" # e.g. com.krausefx.app

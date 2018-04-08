@@ -50,7 +50,7 @@ public class FingerPrintHelper {
 
     private static final String TAG = FingerPrintHelper.class.getName();
 
-    private static final String FINGERPRINT_KEYSTORE_KEY = "com.kunzisoft.keepass.fingerprint.key";
+    private static final String FINGERPRINT_KEYSTORE_KEY = "tech.jgross.keepass.fingerprint.key";
 
     private FingerprintManagerCompat fingerprintManager;
     private KeyStore keyStore = null;

@@ -1,0 +1,71 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_database_wizard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kunzisoft.keepass.fragments.NewDatabaseWizardFragment">
+
+    <FrameLayout
+        android:id="@+id/new_database_wizard_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/new_db_footer"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#E0E0E0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:id="@+id/new_db_next"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:paddingEnd="56dp"
+            android:paddingRight="56dp"
+            android:text="NEXT"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:paddingLeft="48dp"
+            app:layout_constraintTop_toTopOf="@id/new_db_footer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/new_db_next_arrow"
+            android:layout_width="84dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/transparent"
+            android:tint="@color/black"
+            android:src="@drawable/ic_arrow_right_white_24dp"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/new_db_previous"
+            android:layout_width="84dp"
+            android:layout_height="0dp"
+            android:layout_marginRight="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/transparent"
+            android:tint="@color/black"
+            android:src="@drawable/ic_keyboard_arrow_left_white_24px"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

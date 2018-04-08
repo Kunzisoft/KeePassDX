@@ -25,7 +25,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.kunzisoft.keepass.database.edit.OnFinish;
 
 public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {

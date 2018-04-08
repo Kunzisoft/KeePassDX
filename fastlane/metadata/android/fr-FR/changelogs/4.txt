@@ -1,7 +1,0 @@
- * Affichage uniquement du nom du fichier
- * Paramètre pour le chemin complet
- * Ajout des informations pour chaque fichier de base de données
- * Paramètre pour supprimer les empreintes digitales
- * Résolution des bugs lors du changement d'empreinte digitale
- * Suppression de l'attribution de la vue pour l'ouverture par empreinte digitale
- * Merge KeePassDroid 2.2.1

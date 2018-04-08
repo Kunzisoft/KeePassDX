@@ -17,7 +17,7 @@
 <resources>
     <string name="about_feedback">Visszajelzés:</string>
     <string name="about_homepage">Weboldal:</string>
-    <string name="AboutText">KeePass DX a KeePass jelszókezelő android implementációja.</string>
+    <string name="AboutText">KeePass Libre a KeePass jelszókezelő android implementációja.</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
     <string name="add_group">Csoport hozzáadása</string>
@@ -42,7 +42,7 @@
     <string name="decrypting_db">Adatbázis tartalmának dekódolása…</string>
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v3 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: Eversmann</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v3 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: Eversmann</string>
     <string name="select_database_file">Adja meg az adatbázis fájlnevét:</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_and_or">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist:</string>
@@ -109,7 +109,6 @@
     <string name="settings">Beállítások</string>
     <string name="menu_db_settings">Adatbázis beállítások</string>
     <string name="menu_delete">Törlés</string>
-    <string name="menu_donate">Támogatás</string>
     <string name="menu_edit">Szerkesztés</string>
     <string name="menu_hide_password">Jelszó elrejtése</string>
     <string name="menu_lock">Adatbázis lezárása</string>

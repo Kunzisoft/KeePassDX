@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
   
   Portuguese translation by Carlos Schlyter.
   
@@ -23,7 +23,7 @@
 <resources>
     <string name="about_feedback">Comentários:</string>
     <string name="about_homepage">Página inicial:</string>
-    <string name="AboutText">KeePass DX é uma implementação do gerenciador de senhas KeePass.</string>
+    <string name="AboutText">KeePass Libre é uma implementação do gerenciador de senhas KeePass.</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Decifrando conteúdo do banco de dados&#8230;</string>
     <string name="default_checkbox">Usar este banco de dados como padrão</string>
     <string name="digits">Digitos</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
     <string name="select_database_file">Digite o nome do arquivo de banco de dados:</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_and_or">Digite uma senha e/ ou entre com o caminho para o arquivo de chaves do banco de dados:</string>
@@ -61,7 +61,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo ArcFour não é suportada.</string>
-    <string name="error_can_not_handle_uri">KeePass DX não pôde tratar esta uri.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre não pôde tratar esta uri.</string>
     <string name="error_could_not_create_parent">Não foi possível criar o diretório pai.</string>
     <string name="error_database_exists">Este arquivo já existe.</string>
     <string name="error_failed_to_launch_link">Falha ao executar link.</string>
@@ -104,7 +104,6 @@
     <string name="settings">Configurações</string>
     <string name="menu_db_settings">Configurações do banco de dados</string>
     <string name="menu_delete">Deletar</string>
-    <string name="menu_donate">Doaçoes</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Esconder Senha</string>
     <string name="menu_lock">Trancar banco de dados</string>
