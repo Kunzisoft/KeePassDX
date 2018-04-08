@@ -24,7 +24,7 @@ import android.support.v7.preference.DialogPreference;
 import android.view.View;
 import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
+import tech.jgross.keepass.R;
 import com.kunzisoft.keepass.settings.preference.RoundsPreference;
 
 public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDialogFragmentCompat {

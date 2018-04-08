@@ -1,8 +1,0 @@
- * Remplissage automatique (Android O)
- * Correction du timeout et d'autres bugs
- * Suppression pour les groupes
- * Nouveau tri avec (Asc / Dsc, Groupes avant ou après)
- * Réglage pour changer la police de champ (monospace pour une meilleure visibilité)
- * Masquage des champs vides
- * Ajout d'un bouton de copie pour le nom d'utilisateur / mot de passe et champ supplémentaire
- * Nouvelle liste pour ajouter et supprimer un noeud avec animation

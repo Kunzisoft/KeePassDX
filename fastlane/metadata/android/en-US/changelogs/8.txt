@@ -1,8 +1,0 @@
- * Hide custom entries protected
- * Best management of field references (https://keepass.info/help/base/fieldrefs.html)
- * Change database / default settings
- * Add Autofill for search
- * Add sorting by last access and by creation time
- * Rebuild custom entries
- * Refactor old code
- * Fix bugs

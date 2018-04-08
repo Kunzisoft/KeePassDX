@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Tilbakemelding:</string>
     <string name="about_homepage">Heimeside:</string>
-    <string name="AboutText">KeePass DX er ei android-utgåve av KeePass passordstyrar.</string>
+    <string name="AboutText">KeePass Libre er ei android-utgåve av KeePass passordstyrar.</string>
     <string name="accept">Godta</string>    
     <string name="add_entry">Legg til post</string>
     <string name="add_group">Legg til gruppe</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Dekrypterer databasen …</string>
     <string name="default_checkbox">Standarddatabasen</string>
     <string name="digits">Tal</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL utgåve 3 eller nyare.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL utgåve 3 eller nyare.</string>
     <string name="select_database_file">Skriv filnamnet til databasen:</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_and_or">Skriv inn passordet og/eller nøkkelfil for å låsa opp databasen:</string>
@@ -58,7 +58,7 @@
     <string name="entry_url">Adresse</string>
     <string name="entry_user_name">Brukaramn</string>
     <string name="error_arc4">Kan ikkje bruka ArcFour dataflytkryptering.</string>
-    <string name="error_can_not_handle_uri">KeePass DX kan ikkje bruka denne ressursen.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre kan ikkje bruka denne ressursen.</string>
     <string name="error_could_not_create_parent">Klarte ikkje å laga foreldrekatalogen.</string>
     <string name="error_database_exists">Denne fila finst allereie.</string>
     <string name="error_failed_to_launch_link">Klarte ikkje å lasta lenkja.</string>
@@ -101,7 +101,6 @@
     <string name="settings">Innstillingar</string>
     <string name="menu_db_settings">Databaseinnstillingar</string>
     <string name="menu_delete">Slett</string>
-    <string name="menu_donate">Doner</string>
     <string name="menu_edit">Endra</string>
     <string name="menu_hide_password">Gøym passordet</string>
     <string name="menu_lock">Lås databasen</string>

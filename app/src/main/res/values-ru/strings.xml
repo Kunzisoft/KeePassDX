@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Отзывы:</string>
     <string name="about_homepage">Сайт:</string>
-    <string name="AboutText">KeePass DX является Android-версией программы KeePass Password Safe</string>
+    <string name="AboutText">KeePass Libre является Android-версией программы KeePass Password Safe</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
@@ -28,7 +28,7 @@
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
     <string name="application">Программа</string>
-    <string name="menu_app_settings">Настройки KeePass DX</string>
+    <string name="menu_app_settings">Настройки KeePass Libre</string>
     <string name="beta_dontask">Не показывать снова</string>
     <string name="brackets">{[(Скобки)]}</string>
     <string name="browser_intall_text">Для функции обзора необходим менеджер файлов – например, OI File Manager</string>
@@ -45,7 +45,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее</string>
     <string name="select_database_file">Путь к базе KeePass:</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_and_or">Введите пароль или путь к файлу-ключу:</string>
@@ -112,7 +112,6 @@
     <string name="settings">Настройки</string>
     <string name="menu_db_settings">Настройки базы KeePass</string>
     <string name="menu_delete">Удалить</string>
-    <string name="menu_donate">Помочь</string>
     <string name="menu_edit">Правка</string>
     <string name="menu_hide_password">Скрыть</string>
     <string name="menu_lock">Блокировка</string>
@@ -130,7 +129,7 @@
     <string name="progress_create">Создание базы…</string>
     <string name="progress_title">Обработка</string>
     <string name="protection">Защита</string>
-    <string name="read_only_warning">KeePass DX не имеет разрешений на запись по указанному пути. База будет открыта только для чтения</string>
+    <string name="read_only_warning">KeePass Libre не имеет разрешений на запись по указанному пути. База будет открыта только для чтения</string>
     <string name="read_only_kitkat_warning">Начиная с Android KitKat, на некоторых устройствах приложениям запрещена запись на SD-карту</string>
     <string name="recentfile_title">Недавно открытые</string>
     <string name="recentfile_summary">Хранить имена открытых файлов</string>

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Brian Pellin, Jeremy Jamet / Kunzisoft, Justin Gross.
      
- This file is part of KeePass DX.
+ This file is part of KeePass Libre.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePass Libre is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePass Libre is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
   
   Swedish translation by Niclas Burgren (burgren@gmail.com)
 -->
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Hemsida:</string>
-    <string name="AboutText">KeePass DX är en Android-implementation av KeePass password manager.</string>
+    <string name="AboutText">KeePass Libre är en Android-implementation av KeePass password manager.</string>
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Dekrypterar databasinnehåll&#8230;</string>
     <string name="default_checkbox">Använda denna databasen som standard</string>
     <string name="digits">Siffror</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
+    <string name="disclaimer_formal">KeePass Libre \u00A9 %1$d kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
     <string name="select_database_file">Ange databasnamn:</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_and_or">Ange lösenord och/eller nyckelfil för att öppna databasen:</string>
@@ -64,7 +64,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Användarnamn</string>
     <string name="error_arc4">Strömchiffret ArcFour stöds inte.</string>
-    <string name="error_can_not_handle_uri">KeePass DX kan inte hantera denna URI.</string>
+    <string name="error_can_not_handle_uri">KeePass Libre kan inte hantera denna URI.</string>
     <string name="error_could_not_create_parent">Kunde inte skapa föräldermapp.</string>
     <string name="error_database_exists">Filen existerar redan.</string>
     <string name="error_failed_to_launch_link">Kunde inte öppna länk.</string>
@@ -113,7 +113,6 @@
     <string name="settings">Inställningar</string>
     <string name="menu_db_settings">Databasinställningar</string>
     <string name="menu_delete">Radera</string>
-    <string name="menu_donate">Donera</string>
     <string name="menu_edit">Redigera</string>
     <string name="menu_hide_password">Göm lösenord</string>
     <string name="menu_lock">Lås databas</string>

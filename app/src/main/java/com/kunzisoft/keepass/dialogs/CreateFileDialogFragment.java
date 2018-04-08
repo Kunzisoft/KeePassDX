@@ -1,20 +1,20 @@
 /*
  * Copyright 2017 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePass Libre.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePass Libre is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePass Libre is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePass Libre.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.dialogs;
@@ -41,9 +41,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.fileselect.FilePickerStylishActivity;
 import com.kunzisoft.keepass.utils.UriUtil;
+import tech.jgross.keepass.R;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.nononsenseapps.filepicker.Utils;
 

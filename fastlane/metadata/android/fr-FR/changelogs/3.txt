@@ -1,9 +1,0 @@
- * Nouveau workflow de base de données avec nouveaux écrans et sélection de dossier
- * Paramètres pour la génération de mots de passe
- * Dialogue d'empreinte digitale pour les explications
- * Paramètre pour désactiver l'empreinte digitale
- * Ouverture direct des fichiers kdbx
- * Paramètre de désactivation des notifications
- * Paramètre de fermeture de la base de données quand l'écran s’éteint
- * Merge KeePassDroid 2.2.0.9
- * Ajout de la résolution de corruption
