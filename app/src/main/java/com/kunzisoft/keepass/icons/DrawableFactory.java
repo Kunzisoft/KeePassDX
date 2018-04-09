@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.icons;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,7 +33,6 @@ import com.kunzisoft.keepass.compat.BitmapDrawableCompat;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconCustom;
 import com.kunzisoft.keepass.database.PwIconStandard;
-import com.kunzisoft.keepass.icon.classic.Icons;
 
 import org.apache.commons.collections.map.AbstractReferenceMap;
 import org.apache.commons.collections.map.ReferenceMap;
@@ -54,17 +54,17 @@ public class DrawableFactory {
 	 */
 	private ReferenceMap standardIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
 	
-	public void assignDrawableTo(ImageView iv, Resources res, PwIcon icon) {
-		Drawable draw = getIconDrawable(res, icon);
+	public void assignDrawableTo(Context context, ImageView iv, PwIcon icon) {
+		Drawable draw = getIconDrawable(context, icon);
 		if (iv != null && draw != null)
 			iv.setImageDrawable(draw);
 	}
 	
-	public Drawable getIconDrawable(Resources res, PwIcon icon) {
+	public Drawable getIconDrawable(Context context, PwIcon icon) {
 		if (icon instanceof PwIconStandard) {
-			return getIconDrawable(res, (PwIconStandard) icon);
+			return getIconDrawable(context, (PwIconStandard) icon);
 		} else {
-			return getIconDrawable(res, (PwIconCustom) icon);
+			return getIconDrawable(context, (PwIconCustom) icon);
 		}
 	}
 
@@ -77,20 +77,20 @@ public class DrawableFactory {
 		}
 	}
 	
-	public Drawable getIconDrawable(Resources res, PwIconStandard icon) {
-		int resId = Icons.iconToResId(icon.iconId);
+	private Drawable getIconDrawable(Context context, PwIconStandard icon) {
+		int resId = IconPackChooser.getDefaultIconPack(context).iconToResId(icon.iconId);
 		
 		Drawable draw = (Drawable) standardIconMap.get(resId);
 		if (draw == null) {
-			draw = res.getDrawable(resId);
+			draw = context.getResources().getDrawable(resId);
 			standardIconMap.put(resId, draw);
 		}
 		
 		return draw;
 	}
 
-	public Drawable getIconDrawable(Resources res, PwIconCustom icon) {
-		initBlank(res);
+	private Drawable getIconDrawable(Context context, PwIconCustom icon) {
+		initBlank(context.getResources());
 		if (icon == null) {
 			return blank;
 		}
@@ -111,7 +111,7 @@ public class DrawableFactory {
 			
 			bitmap = resize(bitmap);
 			
-			draw = BitmapDrawableCompat.getBitmapDrawable(res, bitmap);
+			draw = BitmapDrawableCompat.getBitmapDrawable(context.getResources(), bitmap);
 			customIconMap.put(icon.uuid, draw);
 		}
 		

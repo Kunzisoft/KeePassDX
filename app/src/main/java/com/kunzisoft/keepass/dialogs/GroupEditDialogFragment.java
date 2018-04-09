@@ -34,7 +34,7 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.icon.classic.Icons;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 
 public class GroupEditDialogFragment extends DialogFragment
         implements IconPickerDialogFragment.IconPickerListener {
@@ -131,7 +131,7 @@ public class GroupEditDialogFragment extends DialogFragment
     }
 
     private void populateIcon(int iconId) {
-        iconButton.setImageResource(Icons.iconToResId(iconId));
+        iconButton.setImageResource(IconPackChooser.getDefaultIconPack(getContext()).iconToResId(iconId));
     }
 
     @Override

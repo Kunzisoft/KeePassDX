@@ -275,7 +275,7 @@ public class GroupActivity extends ListNodesActivity
     protected void setGroupIcon() {
 		if (mCurrentGroup != null) {
 			ImageView iv = findViewById(R.id.icon);
-			App.getDB().getDrawFactory().assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
+			App.getDB().getDrawFactory().assignDrawableTo(this, iv, mCurrentGroup.getIcon());
 		}
 	}
 

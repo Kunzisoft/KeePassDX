@@ -175,8 +175,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public void onBindViewHolder(BasicViewHolder holder, int position) {
         PwNode subNode = nodeSortedList.get(position);
         // Assign image
-        App.getDB().getDrawFactory().assignDrawableTo(holder.icon,
-                context.getResources(), subNode.getIcon());
+        App.getDB().getDrawFactory().assignDrawableTo(context, holder.icon, subNode.getIcon());
         // Assign text
         holder.text.setText(subNode.getDisplayTitle());
         // Assign click

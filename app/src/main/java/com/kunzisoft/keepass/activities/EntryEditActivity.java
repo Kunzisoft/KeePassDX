@@ -52,7 +52,7 @@ import com.kunzisoft.keepass.database.edit.UpdateEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
-import com.kunzisoft.keepass.icon.classic.Icons;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.utils.MenuUtil;
@@ -315,7 +315,7 @@ public class EntryEditActivity extends LockingHideActivity
 
 	protected void fillData() {
 		ImageButton currIconButton = findViewById(R.id.icon_button);
-		App.getDB().getDrawFactory().assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
+		App.getDB().getDrawFactory().assignDrawableTo(this, currIconButton, mEntry.getIcon());
 
 		// Don't start the field reference manager, we want to see the raw ref
         mEntry.endToManageFieldReferences();
@@ -351,7 +351,7 @@ public class EntryEditActivity extends LockingHideActivity
     public void iconPicked(Bundle bundle) {
         mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
         ImageButton currIconButton = findViewById(R.id.icon_button);
-        currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
+        currIconButton.setImageResource(IconPackChooser.getDefaultIconPack(this).iconToResId(mSelectedIconID));
     }
 
     @Override

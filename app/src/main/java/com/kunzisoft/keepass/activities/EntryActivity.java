@@ -214,7 +214,7 @@ public class EntryActivity extends LockingHideActivity {
 		mEntry.startToManageFieldReferences(pm);
 
 		// Assign title
-        populateTitle(db.getDrawFactory().getIconDrawable(getResources(), mEntry.getIcon()),
+        populateTitle(db.getDrawFactory().getIconDrawable(this, mEntry.getIcon()),
                 mEntry.getTitle());
 
         // Assign basic fields

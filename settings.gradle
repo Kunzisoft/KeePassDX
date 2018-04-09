@@ -1,1 +1,1 @@
-include ':app', ':classiciconpack'
+include ':app', ':icon-pack-classic', ':icon-pack-material'

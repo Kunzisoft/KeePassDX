@@ -33,13 +33,15 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.icon.classic.Icons;
+import com.kunzisoft.keepass.icons.IconPack;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 
 
 public class IconPickerDialogFragment extends DialogFragment {
 	public static final String KEY_ICON_ID = "icon_id";
 	private IconPickerListener iconPickerListener;
+	private IconPack iconPack;
 
 	public static void launch(StylishActivity activity)	{
         // Create an instance of the dialog fragment and show it
@@ -65,6 +67,8 @@ public class IconPickerDialogFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		// Get the layout inflater
 		LayoutInflater inflater = getActivity().getLayoutInflater();
+
+		iconPack = IconPackChooser.getDefaultIconPack(getContext());
 
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout
@@ -96,7 +100,7 @@ public class IconPickerDialogFragment extends DialogFragment {
 
 		public int getCount() {
 			/* Return number of KeePass icons */
-			return Icons.count();
+			return iconPack.numberOfIcons();
 		}
    	
    		public Object getItem(int position) {
@@ -118,7 +122,7 @@ public class IconPickerDialogFragment extends DialogFragment {
 				currView = convertView;
 			}
 			ImageView iv = currView.findViewById(R.id.icon_image);
-			iv.setImageResource(Icons.iconToResId(position));
+			iv.setImageResource(iconPack.iconToResId(position));
 
 			return currView;
 		}
