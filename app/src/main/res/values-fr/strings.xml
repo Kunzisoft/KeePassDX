@@ -277,7 +277,7 @@
     <string name="education_field_copy_title">Copiez un champ</string>
     <string name="education_field_copy_summary">Copiez un champ facilement dans le presse-papiers pour le coller où vous voulez.</string>
     <string name="education_lock_title">Vérouillez la base de données</string>
-    <string name="education_lock_summary">Verrouillez votre base de données rapidement, vous pouvez paramétrer l\'application pour qu\'elle se verrouille après un certain temps et lorsqu\'un écran est éteint.</string>
+    <string name="education_lock_summary">Verrouillez votre base de données rapidement, vous pouvez paramétrer l\'application pour qu\'elle se verrouille après un certain temps et lorsque l\'écran s\'éteint.</string>
     <string name="education_sort_title">Triez les éléments</string>
     <string name="education_sort_summary">Triez les entrées et les groupes en fonction de paramètres spécifiques.</string>
     <string name="education_donation_title">Participez</string>

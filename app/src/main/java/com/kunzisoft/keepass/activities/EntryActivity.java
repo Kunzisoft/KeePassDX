@@ -230,6 +230,7 @@ public class EntryActivity extends LockingHideActivity {
         } else if (!PreferencesUtil.isEducationEntryEditPerformed(this)) {
 
             try {
+                // TODO add a link on reference https://keepass.info/help/base/fieldrefs.html
                 TapTargetView.showFor(this,
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_edit,
                                 getString(R.string.education_entry_edit_title),

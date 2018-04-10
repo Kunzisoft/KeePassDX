@@ -218,9 +218,8 @@ public class FileSelectActivity extends StylishActivity implements
             }
         }
 
-
-        // For the first time show the tuto
-        checkAndPerformedEducation(savedInstanceState);
+        // For the first time show education
+        checkAndPerformedEducation();
 	}
 
 	private void launchPasswordActivityWithPath(String path) {
@@ -264,7 +263,7 @@ public class FileSelectActivity extends StylishActivity implements
         mAdapter.notifyDataSetChanged();
     }
 
-    private void checkAndPerformedEducation(Bundle savedInstanceState) {
+    private void checkAndPerformedEducation() {
 
         // If no recent files
         if ( !fileHistory.hasRecentFiles() ) {
@@ -289,46 +288,59 @@ public class FileSelectActivity extends StylishActivity implements
                             public void onTargetCancel(TapTargetView view) {
                                 super.onTargetCancel(view);
                                 // But if the user cancel, it can also select a database
+                                checkAndPerformedEducationForSelection();
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                        R.string.education_create_db_key);
+            }
+        }
+        else
+            checkAndPerformedEducationForSelection();
+    }
+
+    private void checkAndPerformedEducationForSelection() {
+
+	    if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
+
+            TapTargetView.showFor(FileSelectActivity.this,
+                    TapTarget.forView(browseButtonView,
+                            getString(R.string.education_select_database_title),
+                            getString(R.string.education_select_database_summary))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
+                        }
+
+                        @Override
+                        public void onTargetCancel(TapTargetView view) {
+                            super.onTargetCancel(view);
+
+                            if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileSelectActivity.this)) {
                                 TapTargetView.showFor(FileSelectActivity.this,
-                                        TapTarget.forView(browseButtonView,
-                                                getString(R.string.education_select_database_title),
-                                                getString(R.string.education_select_database_summary))
+                                        TapTarget.forView(openButtonView,
+                                                getString(R.string.education_open_link_database_title),
+                                                getString(R.string.education_open_link_database_summary))
                                                 .tintTarget(false)
                                                 .cancelable(true),
                                         new TapTargetView.Listener() {
                                             @Override
                                             public void onTargetClick(TapTargetView view) {
                                                 super.onTargetClick(view);
-                                                keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
+                                                // Do nothing here
                                             }
                                         });
                                 PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
-                                        R.string.education_select_db_key);
+                                        R.string.education_open_link_db_key);
                             }
-                        });
-                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
-                        R.string.education_create_db_key);
-            }
-        } else {
-
-            if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(this) ) {
-
-                TapTargetView.showFor(FileSelectActivity.this,
-                        TapTarget.forView(openButtonView,
-                                getString(R.string.education_open_link_database_title),
-                                getString(R.string.education_open_link_database_summary))
-                                .tintTarget(false)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                // Do nothing here
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
-                        R.string.education_open_link_db_key);
-            }
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                    R.string.education_select_db_key);
         }
     }
 
