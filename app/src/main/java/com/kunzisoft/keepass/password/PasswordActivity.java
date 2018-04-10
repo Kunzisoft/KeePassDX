@@ -299,6 +299,8 @@ public class PasswordActivity extends StylishActivity
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
         }
+
+        checkAndPerformedEducation(savedInstanceState);
     }
 
     @Override
@@ -324,22 +326,12 @@ public class PasswordActivity extends StylishActivity
                 .execute(getIntent());
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        boolean parentOnPrepareOptionMenu = super.onPrepareOptionsMenu(menu);
-        // Launch education screen
-        new Handler().post(this::checkAndPerformedEducation);
-
-        return parentOnPrepareOptionMenu;
-    }
-
-    private void checkAndPerformedEducation() {
+    private void checkAndPerformedEducation(Bundle savedInstanceState) {
         if (!PreferencesUtil.isEducationPasswordPerformed(this)) {
 
             List<TapTarget> targets = new ArrayList<>();
 
-            targets.add(TapTarget.forView(findViewById(R.id.unlock_container),
+            targets.add(TapTarget.forView(findViewById(R.id.password_input_container),
                     getString(R.string.education_unlock_title),
                     getString(R.string.education_unlock_summary))
                     .dimColor(R.color.green)
@@ -354,41 +346,13 @@ public class PasswordActivity extends StylishActivity
                 targets.add(fingerprintTapTarget);
             }
 
-            /*
-            // TODO crash
-            MenuUtil.addDonationTapTargetIfAllowed(targets, toolbar,
-                    getString(R.string.education_donation_title),
-                    getString(R.string.education_donation_summary));
-                    */
-
-            targets.add(TapTarget.forView(confirmButtonView,
-                    getString(R.string.education_open_and_save_database_title),
-                    getString(R.string.education_open_and_save_database_summary))
-                    .tintTarget(false));
-
             if (!targets.isEmpty()) {
                 new TapTargetSequence(this)
-                        .targets(targets).listener(new TapTargetSequence.Listener() {
-                    @Override
-                    public void onSequenceFinish() {
-                        saveEducationPreference();
-                    }
-
-                    @Override
-                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
-
-                    @Override
-                    public void onSequenceCanceled(TapTarget lastTarget) {}
-                }).continueOnCancel(true).start();
+                        .targets(targets).continueOnCancel(true).start();
             }
-        }
-    }
 
-    private void saveEducationPreference() {
-        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.education_password_key), true);
-        editor.apply();
+            PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_password_key);
+        }
     }
 
     @Override

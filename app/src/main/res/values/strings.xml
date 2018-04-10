@@ -279,9 +279,7 @@
     <string name="education_entry_save_title">Save you entry</string>
     <string name="education_entry_save_summary">Save your entry here once all the desired fields are filled.</string>
     <string name="education_unlock_title">Unlock your database</string>
-    <string name="education_unlock_summary">Enter a password and/or a key file to unlock your database.</string>
-    <string name="education_open_and_save_database_title">Open your database</string>
-    <string name="education_open_and_save_database_summary">Open your database once the unlock items are filled.\nRemember to save a copy of your file in a safe place after each modification.</string>
+    <string name="education_unlock_summary">Enter a password and/or a key file to unlock your database.\n\nRemember to save a copy of your file in a safe place after each modification.</string>
     <string name="education_field_copy_title">Copy a field</string>
     <string name="education_field_copy_summary">Copy a field easily into the clipboard to paste it where you want.</string>
     <string name="education_lock_title">Lock the database</string>

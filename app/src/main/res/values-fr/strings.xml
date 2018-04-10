@@ -275,9 +275,7 @@
     <string name="education_entry_save_title">Sauvegardez votre entrée</string>
     <string name="education_entry_save_summary">Sauvegardez votre entrée ici une fois que tous les champs voulus sont remplis.</string>
     <string name="education_unlock_title">Débloquez votre base de données</string>
-    <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.</string>
-    <string name="education_open_and_save_database_title">Ouvrez votre base de données</string>
-    <string name="education_open_and_save_database_summary">Ouvrez votre base de données une fois les éléments de déblocage renseignés.\nPensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
+    <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.\n\nPensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
     <string name="education_field_copy_title">Copiez un champ</string>
     <string name="education_field_copy_summary">Copiez un champ facilement dans le presse-papiers pour le coller où vous voulez.</string>
     <string name="education_lock_title">Vérouillez la base de données</string>
