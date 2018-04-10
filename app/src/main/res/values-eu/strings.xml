@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>
-    <string name="algorithm">Algoritmoa</string>
+    <string name="encryption_algorithm">Algoritmoa</string>
     <string name="app_timeout">Aplikazioa itzaltzeko denbora</string>
     <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
     <string name="application">Aplikazioa</string>
@@ -139,7 +139,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Enkriptatzeko Rondak</string>
-    <string name="rounds_explaination">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
+    <string name="rounds_explanation">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
     <string name="rounds_hint">rondak</string>
     <string name="saving_database">Datubasea gordetzen&#8230;</string>
     <string name="space">Lekua</string>

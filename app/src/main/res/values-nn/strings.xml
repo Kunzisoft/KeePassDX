@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@
     <string name="accept">Godta</string>    
     <string name="add_entry">Legg til post</string>
     <string name="add_group">Legg til gruppe</string>
-    <string name="algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Algoritme</string>
     <string name="app_timeout">Programtidsavbrot</string>
     <string name="app_timeout_summary">Tid før databasen blir låst når programmet ikkje er i bruk.</string>
     <string name="application">Program</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Dekrypterer databasen …</string>
     <string name="default_checkbox">Standarddatabasen</string>
     <string name="digits">Tal</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL utgåve 2 eller nyare.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kjem med INGEN SOM HELST GARANTI. Dette er eit fritt program. Du er velkomen til å redistribuera det i samsvar med vilkåra til GPL utgåve 3 eller nyare.</string>
     <string name="select_database_file">Skriv filnamnet til databasen:</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
@@ -123,7 +123,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Rot</string>
     <string name="rounds">Krypteringsomgangar</string>
-    <string name="rounds_explaination">Fleire krypteringsomgangar gjev tilleggsvern mot rå makt-åtak, men kan òg gjera lasting og lagring mykje tregare.</string>
+    <string name="rounds_explanation">Fleire krypteringsomgangar gjev tilleggsvern mot rå makt-åtak, men kan òg gjera lasting og lagring mykje tregare.</string>
     <string name="rounds_hint">omgangar</string>
     <string name="saving_database">Lagrar databasen …</string>
     <string name="space">Mellomrom</string>

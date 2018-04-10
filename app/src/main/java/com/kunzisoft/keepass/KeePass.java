@@ -5,7 +5,7 @@
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 2 of the License, or
+ *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  KeePass DX is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.keepassdroid.fileselect.FileSelectActivity;
+import com.kunzisoft.keepass.fileselect.FileSelectActivity;
 
 public class KeePass extends Activity {
 

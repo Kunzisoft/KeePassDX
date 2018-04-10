@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -45,7 +45,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <com.keepassdroid.view.FileNameView
+                <com.kunzisoft.keepass.view.FileNameView
                     android:id="@+id/file_select"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -69,6 +69,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_folder_white_24dp"
             android:theme="?attr/whiteFab"
+            android:tint="?attr/colorAccentCompat"
             app:useCompatPadding="true"
             app:layout_anchor="@+id/app_bar"
             app:layout_anchorGravity="end|bottom" />

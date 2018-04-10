@@ -75,3 +75,4 @@ art/logo_512.png
 # Dir linux
 .directory
 */.directory
+.idea

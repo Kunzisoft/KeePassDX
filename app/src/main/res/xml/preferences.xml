@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -41,11 +41,11 @@
             android:title="@string/menu_db_settings"
             android:icon="@drawable/ic_data_usage_prefs_24dp"
             android:persistent="false" />
-		<com.keepassdroid.settings.RoundsPreference
+		<com.kunzisoft.keepass.settings.preference.RoundsPreference
 			android:key="@string/roundsFix_key"
             android:title="@string/rounds_fix_title"
 			android:summary="@string/rounds_fix"
-            custom:description="@string/rounds_fix_explanation"
+            custom:explanations="@string/rounds_fix_explanation"
 			android:defaultValue="@integer/roundsFix_default"
             android:icon="@drawable/ic_filter_tilt_shift_pref_24dp" />
 	</PreferenceCategory>

@@ -5,7 +5,7 @@
  This file is part of KeePassDroid.
   KeePassDroid is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
   KeePassDroid is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -21,7 +21,7 @@
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
     <string name="add_group">Csoport hozzáadása</string>
-    <string name="algorithm">Algoritmus</string>
+    <string name="encryption_algorithm">Algoritmus</string>
     <string name="app_timeout">Alkalmazás időkorlátja</string>
     <string name="app_timeout_summary">Beállíthatja, mennyi idő után kerüljön lezárásra az adatbázis</string>
     <string name="application">Alkalmazás</string>
@@ -42,7 +42,7 @@
     <string name="decrypting_db">Adatbázis tartalmának dekódolása…</string>
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v2 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: Eversmann</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v3 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: Eversmann</string>
     <string name="select_database_file">Adja meg az adatbázis fájlnevét:</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégsem</string>
@@ -137,7 +137,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Titkosítási menetek száma</string>
-    <string name="rounds_explaination">A titkosítási menetek számának növelésével extra védelemet kaphat a brute force támadások ellen, ugyanakkor jelentősen lassíthatja az adatbázis betöltését vagy mentését.</string>
+    <string name="rounds_explanation">A titkosítási menetek számának növelésével extra védelemet kaphat a brute force támadások ellen, ugyanakkor jelentősen lassíthatja az adatbázis betöltését vagy mentését.</string>
     <string name="rounds_hint">Menetek száma</string>
     <string name="saving_database">Adatbázis mentése…</string>
     <string name="space">Szóköz</string>

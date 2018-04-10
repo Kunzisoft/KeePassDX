@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@
     <string name="accept">接受</string>
     <string name="add_entry">添加條目</string>
     <string name="add_group">添加群組</string>
-    <string name="algorithm">演算法</string>
+    <string name="encryption_algorithm">演算法</string>
     <string name="app_timeout">應用程式超時</string>
     <string name="app_timeout_summary">應用程式處於非活動時鎖定資料庫。</string>
     <string name="application">應用程式</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">解密資料庫內容中&#8230;</string>
     <string name="default_checkbox">使用這做為我的默認資料庫</string>
     <string name="digits">數字</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft；軟體不帶有絕對擔保；是自由軟體，您可在遵循GPL 2或者更高版本的情況下重新發佈。中文簡繁體翻譯：wangkf@gmail.com</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft；軟體不帶有絕對擔保；是自由軟體，您可在遵循GPL 3或者更高版本的情況下重新發佈。中文簡繁體翻譯：wangkf@gmail.com</string>
     <string name="select_database_file">輸入資料庫名：</string>
     <string name="entry_accessed">訪問時間</string>
     <string name="entry_cancel">取消</string>
@@ -120,7 +120,7 @@
     <string name="rijndael">Rijndael加密(AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次數</string>
-    <string name="rounds_explaination">更高級的加密次數對暴力攻擊能提供額外保護，但也會增加載入和保存的時間。</string>
+    <string name="rounds_explanation">更高級的加密次數對暴力攻擊能提供額外保護，但也會增加載入和保存的時間。</string>
     <string name="rounds_hint">次數</string>
     <string name="saving_database">正在保存資料庫&#8230;</string>
     <string name="space">空格</string>

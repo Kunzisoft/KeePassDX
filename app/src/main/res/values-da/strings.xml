@@ -6,7 +6,7 @@
 
   KeePass DX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   KeePass DX is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@
     <string name="accept">Accepter</string>
     <string name="add_entry">Tilføj post</string>
     <string name="add_group">Tilføj gruppe</string>
-    <string name="algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Algoritme</string>
     <string name="app_timeout">Applikations timeout</string>
     <string name="app_timeout_summary">Tid før databasen låses, når applikationen er inaktiv.</string>
     <string name="application">Applikation</string>
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Dekrypterer databaseindhold&#8230;</string>
     <string name="default_checkbox">Brug denne database som standard</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 2 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Angiv navn på databasefil:</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_cancel">Annuller</string>
@@ -141,7 +141,7 @@
     <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Krypterings-gentagelser</string>
-    <string name="rounds_explaination">Højere krypterings-gentagelser giver øget beskyttelse imod brute-force angreb, men kan påvirke læsnings- og skrivehastigheden betydentligt.</string>
+    <string name="rounds_explanation">Højere krypterings-gentagelser giver øget beskyttelse imod brute-force angreb, men kan påvirke læsnings- og skrivehastigheden betydentligt.</string>
     <string name="rounds_hint">gentagelser</string>
     <string name="saving_database">Gemmer database&#8230;</string>
     <string name="space">Mellemrum</string>
