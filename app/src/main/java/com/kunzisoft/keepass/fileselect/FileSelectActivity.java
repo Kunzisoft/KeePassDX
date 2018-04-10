@@ -263,12 +263,16 @@ public class FileSelectActivity extends StylishActivity implements
         mAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database creation then a database selection
+     */
     private void checkAndPerformedEducation() {
 
         // If no recent files
         if ( !fileHistory.hasRecentFiles() ) {
             // Try to open the creation base education
-            if (!PreferencesUtil.isEducationSelectDatabasePerformed(this) ) {
+            if (!PreferencesUtil.isEducationCreateDatabasePerformed(this) ) {
 
                 TapTargetView.showFor(this,
                         TapTarget.forView(createButtonView,
@@ -285,8 +289,9 @@ public class FileSelectActivity extends StylishActivity implements
                             }
 
                             @Override
-                            public void onTargetCancel(TapTargetView view) {
-                                super.onTargetCancel(view);
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
                                 // But if the user cancel, it can also select a database
                                 checkAndPerformedEducationForSelection();
                             }
@@ -299,9 +304,14 @@ public class FileSelectActivity extends StylishActivity implements
             checkAndPerformedEducationForSelection();
     }
 
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database selection
+     */
     private void checkAndPerformedEducationForSelection() {
 
-	    if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
+	    if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)
+                && browseButtonView != null) {
 
             TapTargetView.showFor(FileSelectActivity.this,
                     TapTarget.forView(browseButtonView,
@@ -317,10 +327,12 @@ public class FileSelectActivity extends StylishActivity implements
                         }
 
                         @Override
-                        public void onTargetCancel(TapTargetView view) {
-                            super.onTargetCancel(view);
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
 
                             if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileSelectActivity.this)) {
+
                                 TapTargetView.showFor(FileSelectActivity.this,
                                         TapTarget.forView(openButtonView,
                                                 getString(R.string.education_open_link_database_title),
@@ -332,6 +344,12 @@ public class FileSelectActivity extends StylishActivity implements
                                             public void onTargetClick(TapTargetView view) {
                                                 super.onTargetClick(view);
                                                 // Do nothing here
+                                            }
+
+                                            @Override
+                                            public void onOuterCircleClick(TapTargetView view) {
+                                                super.onOuterCircleClick(view);
+                                                view.dismiss(false);
                                             }
                                         });
                                 PreferencesUtil.saveEducationPreference(FileSelectActivity.this,

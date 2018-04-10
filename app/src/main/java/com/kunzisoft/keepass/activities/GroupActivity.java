@@ -263,6 +263,10 @@ public class GroupActivity extends ListNodesActivity
         addNodeButtonView.showButton();
     }
 
+    /**
+     * Check and display learning views
+     * Displays the explanation for a add, search, sort a new node and lock the database
+     */
     private void checkAndPerformedEducation(Menu menu) {
 
 	    // If no node, show education to add new one
@@ -281,14 +285,20 @@ public class GroupActivity extends ListNodesActivity
                                 super.onTargetClick(view);
                                 addNodeButtonView.openButtonIfClose();
                             }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
                         });
                 PreferencesUtil.saveEducationPreference(this,
                         R.string.education_new_node_key);
 
             }
-
-            // Else show the search education
-        } else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
+        }
+        // Else show the search education
+        else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
 
             try {
                 TapTargetView.showFor(this,
@@ -304,6 +314,12 @@ public class GroupActivity extends ListNodesActivity
                                 MenuItem searchItem = menu.findItem(R.id.menu_search);
                                 searchItem.expandActionView();
                             }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
                         });
                 PreferencesUtil.saveEducationPreference(this,
                         R.string.education_search_key);
@@ -311,9 +327,9 @@ public class GroupActivity extends ListNodesActivity
                 // If icon not visible
                 Log.w(TAG, "Can't performed education for search");
             }
-
-            // Else show the sort education
-        } else if (!PreferencesUtil.isEducationSortPerformed(this)) {
+        }
+        // Else show the sort education
+        else if (!PreferencesUtil.isEducationSortPerformed(this)) {
 
 	        try {
                 TapTargetView.showFor(this,
@@ -329,15 +345,21 @@ public class GroupActivity extends ListNodesActivity
                                 MenuItem sortItem = menu.findItem(R.id.menu_sort);
                                 onOptionsItemSelected(sortItem);
                             }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
                         });
                 PreferencesUtil.saveEducationPreference(this,
                         R.string.education_sort_key);
             } catch (Exception e) {
                 Log.w(TAG, "Can't performed education for sort");
             }
-
-            // Else show the lock education
-        } else if (!PreferencesUtil.isEducationLockPerformed(this)) {
+        }
+        // Else show the lock education
+        else if (!PreferencesUtil.isEducationLockPerformed(this)) {
 
             try {
                 TapTargetView.showFor(this,
@@ -352,6 +374,12 @@ public class GroupActivity extends ListNodesActivity
                                 super.onTargetClick(view);
                                 MenuItem lockItem = menu.findItem(R.id.menu_lock);
                                 onOptionsItemSelected(lockItem);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
                             }
                         });
                 PreferencesUtil.saveEducationPreference(this,

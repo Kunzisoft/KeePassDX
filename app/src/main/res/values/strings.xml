@@ -279,7 +279,7 @@
     <string name="education_unlock_title">Unlock your database</string>
     <string name="education_unlock_summary">Enter a password and/or a key file to unlock your database.\n\nRemember to save a copy of your file in a safe place after each modification.</string>
     <string name="education_field_copy_title">Copy a field</string>
-    <string name="education_field_copy_summary">Copy a field easily into the clipboard to paste it where you want.</string>
+    <string name="education_field_copy_summary">Copy a field easily to paste it where you want\n\nYou can use several forms filling methods. Use the one you prefer!</string>
     <string name="education_lock_title">Lock the database</string>
     <string name="education_lock_summary">Lock your database quickly, you can parameter the application to lock it after a while and when the screen goes off.</string>
     <string name="education_sort_title">Sort items</string>

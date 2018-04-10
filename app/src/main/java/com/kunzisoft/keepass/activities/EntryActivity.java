@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -47,6 +48,7 @@ import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
 import com.kunzisoft.keepass.notifications.NotificationField;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.settings.SettingsAutofillActivity;
 import com.kunzisoft.keepass.timeout.ClipboardHelper;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
@@ -206,6 +208,10 @@ public class EntryActivity extends LockingHideActivity {
         firstLaunchOfActivity = false;
     }
 
+    /**
+     * Check and display learning views
+     * Displays the explanation for copying a field and editing an entry
+     */
     private void checkAndPerformedEducation(Menu menu) {
 
         if (entryContentsView != null && entryContentsView.isUserNamePresent()
@@ -223,6 +229,14 @@ public class EntryActivity extends LockingHideActivity {
                             clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),
                                     getString(R.string.copy_field, getString(R.string.entry_user_name)));
                         }
+
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+                            // Launch autofill settings
+                            startActivity(new Intent(EntryActivity.this, SettingsAutofillActivity.class));
+                        }
                     });
             PreferencesUtil.saveEducationPreference(this,
                     R.string.education_copy_username_key);
@@ -230,7 +244,6 @@ public class EntryActivity extends LockingHideActivity {
         } else if (!PreferencesUtil.isEducationEntryEditPerformed(this)) {
 
             try {
-                // TODO add a link on reference https://keepass.info/help/base/fieldrefs.html
                 TapTargetView.showFor(this,
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_edit,
                                 getString(R.string.education_entry_edit_title),
@@ -243,6 +256,16 @@ public class EntryActivity extends LockingHideActivity {
                                 super.onTargetClick(view);
                                 MenuItem editItem = menu.findItem(R.id.menu_edit);
                                 onOptionsItemSelected(editItem);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                                // Open Keepass doc to create field references
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse(getString(R.string.field_references_url)));
+                                startActivity(browserIntent);
                             }
                         });
                 PreferencesUtil.saveEducationPreference(this,

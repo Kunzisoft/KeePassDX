@@ -99,7 +99,8 @@ public class EntryEditActivity extends LockingHideActivity
     private View saveView;
 
 	/**
-	 * launch EntryEditActivity to update an existing entry
+	 * Launch EntryEditActivity to update an existing entry
+     *
 	 * @param act from activity
 	 * @param pw Entry to update
 	 */
@@ -112,7 +113,8 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 
 	/**
-	 * launch EntryEditActivity to add a new entry
+	 * Launch EntryEditActivity to add a new entry
+     *
 	 * @param act from activity
 	 * @param pwGroup Group who will contains new entry
 	 */
@@ -238,6 +240,10 @@ public class EntryEditActivity extends LockingHideActivity
         pt.run();
     }
 
+    /**
+     * Check and display learning views
+     * Displays the explanation for the icon selection, the password generator and for a new field
+     */
     private void checkAndPerformedEducation() {
 
 	    // TODO Show icon
@@ -254,6 +260,12 @@ public class EntryEditActivity extends LockingHideActivity
                         public void onTargetClick(TapTargetView view) {
                             super.onTargetClick(view);
                             openPasswordGenerator();
+                        }
+
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
                         }
                     });
             PreferencesUtil.saveEducationPreference(this,
@@ -275,12 +287,21 @@ public class EntryEditActivity extends LockingHideActivity
                             super.onTargetClick(view);
                             addNewCustomField();
                         }
+
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+                        }
                     });
             PreferencesUtil.saveEducationPreference(this,
                     R.string.education_entry_new_field_key);
         }
     }
 
+    /**
+     * Utility class to retrieve a validation or an error with a message
+     */
     private class ErrorValidation {
         static final int unknownMessage = -1;
 
@@ -293,6 +314,11 @@ public class EntryEditActivity extends LockingHideActivity
         }
     }
 
+    /**
+     * Validate or not the entry form
+     *
+     * @return ErrorValidation An error with a message or a validation without message
+     */
     protected ErrorValidation validate() {
         ErrorValidation errorValidation = new ErrorValidation();
 
@@ -326,7 +352,12 @@ public class EntryEditActivity extends LockingHideActivity
         errorValidation.isValidate = true;
         return errorValidation;
     }
-	
+
+    /**
+     * Launch a validation with {@link #validate()} and show the error if present
+     *
+     * @return true if the form was validate or false if not
+     */
 	protected boolean validateBeforeSaving() {
         ErrorValidation errorValidation = validate();
         errorValidation.showValidationErrorIfNeeded();

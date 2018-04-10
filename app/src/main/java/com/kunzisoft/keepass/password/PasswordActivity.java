@@ -51,7 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.activities.LockingActivity;
@@ -77,8 +77,6 @@ import com.kunzisoft.keepass.utils.UriUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -300,7 +298,7 @@ public class PasswordActivity extends StylishActivity
             autofillHelper.retrieveAssistStructure(getIntent());
         }
 
-        checkAndPerformedEducation(savedInstanceState);
+        checkAndPerformedEducation();
     }
 
     @Override
@@ -326,33 +324,60 @@ public class PasswordActivity extends StylishActivity
                 .execute(getIntent());
     }
 
-    private void checkAndPerformedEducation(Bundle savedInstanceState) {
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database opening with fingerprints if available
+     */
+    private void checkAndPerformedEducation() {
         if (!PreferencesUtil.isEducationUnlockPerformed(this)) {
 
-            List<TapTarget> targets = new ArrayList<>();
-
-            targets.add(TapTarget.forView(findViewById(R.id.password_input_container),
+            TapTargetView.showFor(this,
+                    TapTarget.forView(findViewById(R.id.password_input_container),
                     getString(R.string.education_unlock_title),
                     getString(R.string.education_unlock_summary))
-                    .dimColor(R.color.green)
-                    .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
-                    .tintTarget(false));
+                            .dimColor(R.color.green)
+                            .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            checkAndPerformedEducationForFingerprint();
+                        }
 
-            if (PreferencesUtil.isFingerprintEnable(getApplicationContext())) {
-                TapTarget fingerprintTapTarget = TapTarget.forView(fingerprintImageView,
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+                            checkAndPerformedEducationForFingerprint();
+
+                        }
+                    });
+            // TODO make a period for donation
+            PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_unlock_key);
+        }
+    }
+
+    /**
+     * Check and display learning views
+     * Displays fingerprints if available
+     */
+    private void checkAndPerformedEducationForFingerprint() {
+        if (PreferencesUtil.isFingerprintEnable(getApplicationContext())) {
+            TapTargetView.showFor(this,
+                TapTarget.forView(fingerprintImageView,
                         getString(R.string.education_fingerprint_title),
                         getString(R.string.education_fingerprint_summary))
-                        .tintTarget(false);
-                targets.add(fingerprintTapTarget);
-            }
-            // TODO make a period for donation
-
-            if (!targets.isEmpty()) {
-                new TapTargetSequence(this)
-                        .targets(targets).continueOnCancel(true).start();
-            }
-
-            PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_unlock_key);
+                        .tintTarget(false)
+                        .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+                        }
+                    });
         }
     }
 

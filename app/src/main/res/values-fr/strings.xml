@@ -275,7 +275,7 @@
     <string name="education_unlock_title">Débloquez votre base de données</string>
     <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.\n\nPensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
     <string name="education_field_copy_title">Copiez un champ</string>
-    <string name="education_field_copy_summary">Copiez un champ facilement dans le presse-papiers pour le coller où vous voulez.</string>
+    <string name="education_field_copy_summary">Copiez un champ facilement pour le coller où vous voulez.\n\n Vous pouvez utilisez plusieurs méthodes de remplissage de formulaire. Utilisez celle que vous préférez!</string>
     <string name="education_lock_title">Vérouillez la base de données</string>
     <string name="education_lock_summary">Verrouillez votre base de données rapidement, vous pouvez paramétrer l\'application pour qu\'elle se verrouille après un certain temps et lorsque l\'écran s\'éteint.</string>
     <string name="education_sort_title">Triez les éléments</string>
