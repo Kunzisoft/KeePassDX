@@ -23,22 +23,20 @@ package com.kunzisoft.keepass.activities;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
@@ -70,7 +68,7 @@ public class EntryActivity extends LockingHideActivity {
 	private ImageView titleIconView;
     private TextView titleView;
 	private EntryContentsView entryContentsView;
-	private View editView;
+    private Toolbar toolbar;
 	
 	protected PwEntry mEntry;
 	private boolean mShowPassword;
@@ -93,7 +91,7 @@ public class EntryActivity extends LockingHideActivity {
 
         setContentView(R.layout.entry_view);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
@@ -206,49 +204,53 @@ public class EntryActivity extends LockingHideActivity {
             mEntry.endToManageFieldReferences();
         }
         firstLaunchOfActivity = false;
-
-        checkAndPerformedEducation();
     }
 
-    private void checkAndPerformedEducation() {
-        if (!PreferencesUtil.isEducationEntryPerformed(this)) {
+    private void checkAndPerformedEducation(Menu menu) {
 
-            TapTarget copyTapTarget = TapTarget.forView(findViewById(R.id.entry_user_name_action_image),
-                    getString(R.string.education_field_copy_title),
-                    getString(R.string.education_field_copy_summary));
-            // Construct the drawable if not visible
-            if (!entryContentsView.isUserNamePresent()) {
-                Drawable copyDrawable = ContextCompat.getDrawable(this, R.drawable.ic_content_copy_black_24dp);
-                copyTapTarget = copyTapTarget.icon(copyDrawable);
+        if (entryContentsView != null && entryContentsView.isUserNamePresent()
+                && !PreferencesUtil.isEducationCopyUsernamePerformed(this)) {
+            TapTargetView.showFor(this,
+                    TapTarget.forView(findViewById(R.id.entry_user_name_action_image),
+                            getString(R.string.education_field_copy_title),
+                            getString(R.string.education_field_copy_summary))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),
+                                    getString(R.string.copy_field, getString(R.string.entry_user_name)));
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(this,
+                    R.string.education_copy_username_key);
+
+        } else if (!PreferencesUtil.isEducationEntryEditPerformed(this)) {
+
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_edit,
+                                getString(R.string.education_entry_edit_title),
+                                getString(R.string.education_entry_edit_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem editItem = menu.findItem(R.id.menu_edit);
+                                onOptionsItemSelected(editItem);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_entry_edit_key);
+            } catch (Exception e) {
+                // If icon not visible
+                Log.w(TAG, "Can't performed education for entry's edition");
             }
-
-            new TapTargetSequence(this)
-                    .target(copyTapTarget)
-                    // TODO .targets(TapTarget.forView(editView,
-                    //        getString(R.string.education_entry_edit_title),
-                    //        getString(R.string.education_entry_edit_summary))
-                    //        .tintTarget(false)
-                    //)
-                    .listener(new TapTargetSequence.Listener() {
-                @Override
-                public void onSequenceFinish() {
-                    saveEducationPreference();
-                }
-
-                @Override
-                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
-
-                @Override
-                public void onSequenceCanceled(TapTarget lastTarget) {}
-            }).continueOnCancel(true).start();
         }
-    }
-
-    private void saveEducationPreference() {
-        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.education_entry_key), true);
-        editor.apply();
     }
 
     private void populateTitle(Drawable drawIcon, String text) {
@@ -372,6 +374,9 @@ public class EntryActivity extends LockingHideActivity {
                 }
             }
         }
+
+        // Show education views
+        new Handler().post(() -> checkAndPerformedEducation(menu));
 		
 		return true;
 	}

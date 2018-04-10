@@ -272,8 +272,6 @@
     <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez le facilement en fonction des critères du formulaire et n\'oubliez plus un mot de passe difficile mais sécurisé.</string>
     <string name="education_entry_new_field_title">Ajoutez des champs customisés</string>
     <string name="education_entry_new_field_summary">Vous voulez enregistrer un champ non fourni de base, renseignez en simplement un nouveau que vous pouvez aussi protéger visuelement.</string>
-    <string name="education_entry_save_title">Sauvegardez votre entrée</string>
-    <string name="education_entry_save_summary">Sauvegardez votre entrée ici une fois que tous les champs voulus sont remplis.</string>
     <string name="education_unlock_title">Débloquez votre base de données</string>
     <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.\n\nPensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
     <string name="education_field_copy_title">Copiez un champ</string>

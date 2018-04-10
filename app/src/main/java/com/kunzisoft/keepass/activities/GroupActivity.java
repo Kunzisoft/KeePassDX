@@ -290,22 +290,27 @@ public class GroupActivity extends ListNodesActivity
             // Else show the search education
         } else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
 
-            TapTargetView.showFor(this,
-                    TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
-                            getString(R.string.education_search_title),
-                            getString(R.string.education_search_summary))
-                            .tintTarget(true)
-                            .cancelable(true),
-                    new TapTargetView.Listener() {
-                        @Override
-                        public void onTargetClick(TapTargetView view) {
-                            super.onTargetClick(view);
-                            MenuItem searchItem = menu.findItem(R.id.menu_search);
-                            searchItem.expandActionView();
-                        }
-                    });
-            PreferencesUtil.saveEducationPreference(this,
-                    R.string.education_search_key);
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
+                                getString(R.string.education_search_title),
+                                getString(R.string.education_search_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem searchItem = menu.findItem(R.id.menu_search);
+                                searchItem.expandActionView();
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_search_key);
+            } catch (Exception e) {
+                // If icon not visible
+                Log.w(TAG, "Can't performed education for search");
+            }
 
             // Else show the sort education
         } else if (!PreferencesUtil.isEducationSortPerformed(this)) {
@@ -328,7 +333,6 @@ public class GroupActivity extends ListNodesActivity
                 PreferencesUtil.saveEducationPreference(this,
                         R.string.education_sort_key);
             } catch (Exception e) {
-	            // If icon not visible
                 Log.w(TAG, "Can't performed education for sort");
             }
 
@@ -353,7 +357,6 @@ public class GroupActivity extends ListNodesActivity
                 PreferencesUtil.saveEducationPreference(this,
                         R.string.education_lock_key);
             } catch (Exception e) {
-                // If icon not visible
                 Log.w(TAG, "Can't performed education for lock");
             }
         }

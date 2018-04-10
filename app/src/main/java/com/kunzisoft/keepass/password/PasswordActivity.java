@@ -327,7 +327,7 @@ public class PasswordActivity extends StylishActivity
     }
 
     private void checkAndPerformedEducation(Bundle savedInstanceState) {
-        if (!PreferencesUtil.isEducationPasswordPerformed(this)) {
+        if (!PreferencesUtil.isEducationUnlockPerformed(this)) {
 
             List<TapTarget> targets = new ArrayList<>();
 
@@ -352,7 +352,7 @@ public class PasswordActivity extends StylishActivity
                         .targets(targets).continueOnCancel(true).start();
             }
 
-            PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_password_key);
+            PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_unlock_key);
         }
     }
 

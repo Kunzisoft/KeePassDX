@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -38,7 +37,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
@@ -63,8 +62,6 @@ import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryEditCustomField;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class EntryEditActivity extends LockingHideActivity
@@ -180,130 +177,160 @@ public class EntryEditActivity extends LockingHideActivity
 		// Generate password button
         generatePasswordView = findViewById(R.id.generate_button);
         generatePasswordView.setOnClickListener(v -> {
-            GeneratePasswordDialogFragment generatePasswordDialogFragment = new GeneratePasswordDialogFragment();
-            generatePasswordDialogFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
+            openPasswordGenerator();
         });
 		
 		// Save button
 		saveView = findViewById(R.id.entry_save);
         saveView.setOnClickListener(v -> {
-            if (!validateBeforeSaving()) {
-                return;
-            }
-            mCallbackNewEntry = populateNewEntry();
-
-            OnFinish onFinish = new AfterSave();
-            EntryEditActivity act = EntryEditActivity.this;
-            RunnableOnFinish task;
-            if ( mIsNew ) {
-                task = new AddEntry(act, App.getDB(), mCallbackNewEntry, onFinish);
-            } else {
-                task = new UpdateEntry(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
-            }
-            ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
-            pt.run();
+            saveEntry();
         });
 
 
 		if (mEntry.allowExtraFields()) {
             addNewFieldView = findViewById(R.id.add_new_field);
             addNewFieldView.setVisibility(View.VISIBLE);
-            addNewFieldView.setOnClickListener(v -> {
-                EntryEditCustomField ees = new EntryEditCustomField(EntryEditActivity.this);
-                ees.setData("", new ProtectedString(false, ""));
-                entryExtraFieldsContainer.addView(ees);
-
-                // Scroll bottom
-                scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
-            });
+            addNewFieldView.setOnClickListener(v -> addNewCustomField());
         }
+
+        // Verify the education views
+        checkAndPerformedEducation();
 	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    /**
+     * Open the password generator fragment
+     */
+	private void openPasswordGenerator() {
+        GeneratePasswordDialogFragment generatePasswordDialogFragment = new GeneratePasswordDialogFragment();
+        generatePasswordDialogFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
+    }
 
-        checkAndPerformedEducation();
+    /**
+     * Add a new view to fill in the information of the customized field
+     */
+    private void addNewCustomField() {
+        EntryEditCustomField ees = new EntryEditCustomField(EntryEditActivity.this);
+        ees.setData("", new ProtectedString(false, ""));
+        entryExtraFieldsContainer.addView(ees);
+
+        // Scroll bottom
+        scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
+    }
+
+    /**
+     * Saves the new entry or update an existing entry in the database
+     */
+    private void saveEntry() {
+        if (!validateBeforeSaving()) {
+            return;
+        }
+        mCallbackNewEntry = populateNewEntry();
+
+        OnFinish onFinish = new AfterSave();
+        EntryEditActivity act = EntryEditActivity.this;
+        RunnableOnFinish task;
+        if ( mIsNew ) {
+            task = new AddEntry(act, App.getDB(), mCallbackNewEntry, onFinish);
+        } else {
+            task = new UpdateEntry(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
+        }
+        ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
+        pt.run();
     }
 
     private void checkAndPerformedEducation() {
-        // For the first time show the tuto
-        if (!PreferencesUtil.isEducationEntryEditPerformed(this)) {
 
-            List<TapTarget> tapTargets = new ArrayList<>();
+	    // TODO Show icon
 
-            TapTarget generatePasswordTapTarget = TapTarget.forView(generatePasswordView,
-                    getString(R.string.education_generate_password_title),
-                    getString(R.string.education_generate_password_summary))
-                    .tintTarget(false);
-            tapTargets.add(generatePasswordTapTarget);
+        if (!PreferencesUtil.isEducationPasswordGeneratorPerformed(this)) {
+            TapTargetView.showFor(this,
+                    TapTarget.forView(generatePasswordView,
+                            getString(R.string.education_generate_password_title),
+                            getString(R.string.education_generate_password_summary))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            openPasswordGenerator();
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(this,
+                    R.string.education_password_generator_key);
+        }
 
-            if (mEntry.allowExtraFields()) {
-                TapTarget newCustomFieldTapTarget = TapTarget.forView(addNewFieldView,
-                        getString(R.string.education_entry_new_field_title),
-                        getString(R.string.education_entry_new_field_summary))
-                        .tintTarget(false);
-                tapTargets.add(newCustomFieldTapTarget);
-            }
-
-            TapTarget saveTapTarget = TapTarget.forView(saveView,
-                    getString(R.string.education_entry_save_title),
-                    getString(R.string.education_entry_save_summary))
-                    .tintTarget(false);
-            tapTargets.add(saveTapTarget);
-
-            new TapTargetSequence(this)
-                    .targets(tapTargets).listener(new TapTargetSequence.Listener() {
-                @Override
-                public void onSequenceFinish() {
-                    saveEducationPreference();
-                }
-
-                @Override
-                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
-
-                @Override
-                public void onSequenceCanceled(TapTarget lastTarget) {}
-            }).continueOnCancel(true).start();
+        else if (mEntry.allowExtraFields()
+                    && !mEntry.containsCustomFields()
+                    && !PreferencesUtil.isEducationEntryNewFieldPerformed(this)) {
+            TapTargetView.showFor(this,
+                    TapTarget.forView(addNewFieldView,
+                            getString(R.string.education_entry_new_field_title),
+                            getString(R.string.education_entry_new_field_summary))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            addNewCustomField();
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(this,
+                    R.string.education_entry_new_field_key);
         }
     }
 
-    private void saveEducationPreference() {
-        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.education_entry_edit_key), true);
-        editor.apply();
-    }
-	
-	protected boolean validateBeforeSaving() {
-		// Require title
-		String title = entryTitleView.getText().toString();
-		if ( title.length() == 0 ) {
-			Toast.makeText(this, R.string.error_title_required, Toast.LENGTH_LONG).show();
-			return false;
-		}
-		
-		// Validate password
-		String pass = entryPasswordView.getText().toString();
-		String conf = entryConfirmationPasswordView.getText().toString();
-		if ( ! pass.equals(conf) ) {
-			Toast.makeText(this, R.string.error_pass_match, Toast.LENGTH_LONG).show();
-			return false;
-		}
+    private class ErrorValidation {
+        static final int unknownMessage = -1;
 
-		// Validate extra fields
+        boolean isValidate = false;
+        int messageId = unknownMessage;
+
+        void showValidationErrorIfNeeded() {
+            if (!isValidate && messageId != unknownMessage)
+                Toast.makeText(EntryEditActivity.this, messageId, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    protected ErrorValidation validate() {
+        ErrorValidation errorValidation = new ErrorValidation();
+
+        // Require title
+        String title = entryTitleView.getText().toString();
+        if ( title.length() == 0 ) {
+            errorValidation.messageId = R.string.error_title_required;
+            return errorValidation;
+        }
+
+        // Validate password
+        String pass = entryPasswordView.getText().toString();
+        String conf = entryConfirmationPasswordView.getText().toString();
+        if ( ! pass.equals(conf) ) {
+            errorValidation.messageId = R.string.error_pass_match;
+            return errorValidation;
+        }
+
+        // Validate extra fields
         if (mEntry.allowExtraFields()) {
             for (int i = 0; i < entryExtraFieldsContainer.getChildCount(); i++) {
                 EntryEditCustomField entryEditCustomField = (EntryEditCustomField) entryExtraFieldsContainer.getChildAt(i);
                 String key = entryEditCustomField.getLabel();
                 if (key == null || key.length() == 0) {
-                    Toast.makeText(this, R.string.error_string_key, Toast.LENGTH_LONG).show();
-                    return false;
+                    errorValidation.messageId = R.string.error_string_key;
+                    return errorValidation;
                 }
             }
         }
 
-        return true;
+        errorValidation.isValidate = true;
+        return errorValidation;
+    }
+	
+	protected boolean validateBeforeSaving() {
+        ErrorValidation errorValidation = validate();
+        errorValidation.showValidationErrorIfNeeded();
+        return errorValidation.isValidate;
 	}
 	
 	protected PwEntry populateNewEntry() {
@@ -423,6 +450,8 @@ public class EntryEditActivity extends LockingHideActivity
         String generatedPassword = bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID);
         entryPasswordView.setText(generatedPassword);
         entryConfirmationPasswordView.setText(generatedPassword);
+
+        checkAndPerformedEducation();
     }
 
     @Override
