@@ -145,15 +145,45 @@ public class PreferencesUtil {
                 ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
     }
 
+    /**
+     * Education Preferences
+     */
+
     public static int[] educationResourceKeys = new int[] {
-            R.string.education_select_db_key, R.string.education_group_key, R.string.education_entry_key,
-            R.string.education_password_key, R.string.education_entry_edit_key
+            R.string.education_create_db_key,
+            R.string.education_select_db_key,
+            R.string.education_open_link_db_key,
+            R.string.education_group_key,
+            R.string.education_entry_key,
+            R.string.education_password_key,
+            R.string.education_entry_edit_key
     };
+
+    public static void saveEducationPreference(Context context, int... educationKeys) {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int key : educationKeys) {
+            editor.putBoolean(context.getString(key), true);
+        }
+        editor.apply();
+    }
+
+    public static boolean isEducationCreateDatabasePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_create_db_key),
+                context.getResources().getBoolean(R.bool.education_create_db_default));
+    }
 
     public static boolean isEducationSelectDatabasePerformed(Context context) {
         SharedPreferences prefs = getEducationSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.education_select_db_key),
                 context.getResources().getBoolean(R.bool.education_select_db_default));
+    }
+
+    public static boolean isEducationOpenLinkDatabasePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_open_link_db_key),
+                context.getResources().getBoolean(R.bool.education_open_link_db_default));
     }
 
     public static boolean isEducationGroupPerformed(Context context) {

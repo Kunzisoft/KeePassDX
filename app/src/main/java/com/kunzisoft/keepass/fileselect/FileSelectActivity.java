@@ -43,7 +43,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.app.App;
@@ -217,6 +217,10 @@ public class FileSelectActivity extends StylishActivity implements
                 }
             }
         }
+
+
+        // For the first time show the tuto
+        checkAndPerformedEducation(savedInstanceState);
 	}
 
 	private void launchPasswordActivityWithPath(String path) {
@@ -258,48 +262,74 @@ public class FileSelectActivity extends StylishActivity implements
         fileNameView.updateExternalStorageWarning();
         updateTitleFileListView();
         mAdapter.notifyDataSetChanged();
-
-
-        // For the first time show the tuto
-        checkAndPerformedEducation();
     }
 
-    private void checkAndPerformedEducation() {
-        if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)) {
-            new TapTargetSequence(this)
-                    .targets(
-                            TapTarget.forView(createButtonView,
-                                    getString(R.string.education_create_database_title),
-                                    getString(R.string.education_create_database_summary))
-                                    .tintTarget(false),
-                            TapTarget.forView(browseButtonView,
-                                    getString(R.string.education_select_database_title),
-                                    getString(R.string.education_select_database_summary))
-                                    .tintTarget(false),
-                            TapTarget.forView(openButtonView,
-                                    getString(R.string.education_open_link_database_title),
-                                    getString(R.string.education_open_link_database_summary))
-                                    .tintTarget(false)
-                    ).listener(new TapTargetSequence.Listener() {
-                @Override
-                public void onSequenceFinish() {
-                    saveEducationPreference();
-                }
+    private void checkAndPerformedEducation(Bundle savedInstanceState) {
 
-                @Override
-                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+        // If no recent files
+        if ( !fileHistory.hasRecentFiles() ) {
+            // Try to open the creation base education
+            if (!PreferencesUtil.isEducationSelectDatabasePerformed(this) ) {
 
-                @Override
-                public void onSequenceCanceled(TapTarget lastTarget) {}
-            }).continueOnCancel(true).start();
+                TapTargetView.showFor(this,
+                        TapTarget.forView(createButtonView,
+                                getString(R.string.education_create_database_title),
+                                getString(R.string.education_create_database_summary))
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                FileSelectActivityPermissionsDispatcher
+                                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this);
+                            }
+
+                            @Override
+                            public void onTargetCancel(TapTargetView view) {
+                                super.onTargetCancel(view);
+                                // But if the user cancel, it can also select a database
+                                TapTargetView.showFor(FileSelectActivity.this,
+                                        TapTarget.forView(browseButtonView,
+                                                getString(R.string.education_select_database_title),
+                                                getString(R.string.education_select_database_summary))
+                                                .tintTarget(false)
+                                                .cancelable(true),
+                                        new TapTargetView.Listener() {
+                                            @Override
+                                            public void onTargetClick(TapTargetView view) {
+                                                super.onTargetClick(view);
+                                                keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
+                                            }
+                                        });
+                                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                                        R.string.education_select_db_key);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                        R.string.education_create_db_key);
+            }
+        } else {
+
+            if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(this) ) {
+
+                TapTargetView.showFor(FileSelectActivity.this,
+                        TapTarget.forView(openButtonView,
+                                getString(R.string.education_open_link_database_title),
+                                getString(R.string.education_open_link_database_summary))
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                // Do nothing here
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                        R.string.education_open_link_db_key);
+            }
         }
-    }
-
-    private void saveEducationPreference() {
-        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.education_select_db_key), true);
-        editor.apply();
     }
 
     @Override
