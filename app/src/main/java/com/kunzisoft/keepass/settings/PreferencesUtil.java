@@ -153,7 +153,10 @@ public class PreferencesUtil {
             R.string.education_create_db_key,
             R.string.education_select_db_key,
             R.string.education_open_link_db_key,
-            R.string.education_group_key,
+            R.string.education_search_key,
+            R.string.education_new_node_key,
+            R.string.education_sort_key,
+            R.string.education_lock_key,
             R.string.education_entry_key,
             R.string.education_password_key,
             R.string.education_entry_edit_key
@@ -186,10 +189,28 @@ public class PreferencesUtil {
                 context.getResources().getBoolean(R.bool.education_open_link_db_default));
     }
 
-    public static boolean isEducationGroupPerformed(Context context) {
+    public static boolean isEducationSearchPerformed(Context context) {
         SharedPreferences prefs = getEducationSharedPreferences(context);
-        return prefs.getBoolean(context.getString(R.string.education_group_key),
-                context.getResources().getBoolean(R.bool.education_group_default));
+        return prefs.getBoolean(context.getString(R.string.education_search_key),
+                context.getResources().getBoolean(R.bool.education_search_default));
+    }
+
+    public static boolean isEducationNewNodePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_new_node_key),
+                context.getResources().getBoolean(R.bool.education_new_node_default));
+    }
+
+    public static boolean isEducationSortPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_sort_key),
+                context.getResources().getBoolean(R.bool.education_sort_default));
+    }
+
+    public static boolean isEducationLockPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_lock_key),
+                context.getResources().getBoolean(R.bool.education_lock_default));
     }
 
     public static boolean isEducationEntryPerformed(Context context) {

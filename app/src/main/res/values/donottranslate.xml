@@ -76,7 +76,10 @@
     <string name="education_create_db_key" translatable="false">education_create_db_key</string>
     <string name="education_select_db_key" translatable="false">education_select_db_key</string>
     <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
-    <string name="education_group_key" translatable="false">education_group_key</string>
+    <string name="education_search_key" translatable="false">education_search_key</string>
+    <string name="education_new_node_key" translatable="false">education_new_node_key</string>
+    <string name="education_sort_key" translatable="false">education_sort_key</string>
+    <string name="education_lock_key" translatable="false">education_lock_key</string>
     <string name="education_entry_key" translatable="false">education_entry_key</string>
     <string name="education_password_key" translatable="false">education_password_key</string>
     <string name="education_entry_edit_key" translatable="false">education_entry_edit_key</string>
@@ -100,7 +103,10 @@
     <bool name="education_create_db_default" translatable="false">false</bool>
     <bool name="education_select_db_default" translatable="false">false</bool>
     <bool name="education_open_link_db_default" translatable="false">false</bool>
-    <bool name="education_group_default" translatable="false">false</bool>
+    <bool name="education_search_default" translatable="false">false</bool>
+    <bool name="education_new_node_default" translatable="false">false</bool>
+    <bool name="education_sort_default" translatable="false">false</bool>
+    <bool name="education_lock_default" translatable="false">false</bool>
     <bool name="education_entry_default" translatable="false">false</bool>
     <bool name="education_password_default" translatable="false">false</bool>
     <bool name="education_entry_edit_default" translatable="false">false</bool>

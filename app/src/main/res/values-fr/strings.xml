@@ -261,9 +261,9 @@
     <string name="education_open_link_database_title">Un lien vers l\'emplacement de votre fichier suffit</string>
     <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base avec un lien physique. (Avec file:// et content:// par exemple).</string>
     <string name="education_new_node_title">Ajoutez de nouveaux éléments à votre base</string>
-    <string name="education_new_node_summary">Ajoutez des entrées pour gérer vos identités numériques.\nAjoutez des groupes (l\'équivalent des dossiers) pour organiser vos entrées et votre base.</string>
+    <string name="education_new_node_summary">Ajoutez des entrées pour gérer vos identités numériques.\n\nAjoutez des groupes (l\'équivalent des dossiers) pour organiser vos entrées et votre base.</string>
     <string name="education_search_title">Recherchez facilement vos entrées</string>
-    <string name="education_search_summary">Recherchez des entrées par titre, nom d\'utilisateur ou d\'autres champs pour récupérer facilement vos mots de passes.</string>
+    <string name="education_search_summary">Recherchez des entrées par titre, nom d\'utilisateur ou par d\'autres champs pour récupérer facilement vos mots de passes.</string>
     <string name="education_fingerprint_title">Débloquez votre base de données avec votre empreinte digitale</string>
     <string name="education_fingerprint_summary">Faites le lien entre votre mot de passe et votre empreinte digitale pour facilement dévérouiller votre base de données.</string>
     <string name="education_entry_edit_title">Editez l\'entrée</string>
@@ -279,7 +279,7 @@
     <string name="education_field_copy_title">Copiez un champ</string>
     <string name="education_field_copy_summary">Copiez un champ facilement dans le presse-papiers pour le coller où vous voulez.</string>
     <string name="education_lock_title">Vérouillez la base de données</string>
-    <string name="education_lock_summary">Verrouillez votre base de données rapidement, vous pouvez paramétrer l\'application pour qu\'elle se verrouille après un certain temps et lorsqu'un écran est éteint.</string>
+    <string name="education_lock_summary">Verrouillez votre base de données rapidement, vous pouvez paramétrer l\'application pour qu\'elle se verrouille après un certain temps et lorsqu\'un écran est éteint.</string>
     <string name="education_sort_title">Triez les éléments</string>
     <string name="education_sort_summary">Triez les entrées et les groupes en fonction de paramètres spécifiques.</string>
     <string name="education_donation_title">Participez</string>

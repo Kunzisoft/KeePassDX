@@ -265,7 +265,7 @@
     <string name="education_open_link_database_title">A link to the location of your file is sufficient</string>
     <string name="education_open_link_database_summary">You can also open your base with a physical link (With file:// and content:// for example).</string>
     <string name="education_new_node_title">Add new items to your base</string>
-    <string name="education_new_node_summary">Add entries to manage your digital identities.\nAdd groups (the equivalent of folders) to organize your entries and your database.</string>
+    <string name="education_new_node_summary">Add entries to manage your digital identities.\n\nAdd groups (the equivalent of folders) to organize your entries and your database.</string>
     <string name="education_search_title">Easily search your entries</string>
     <string name="education_search_summary">Search for entries by title, username or other fields to easily retrieve your passwords.</string>
     <string name="education_fingerprint_title">Unlock your database with your fingerprint</string>

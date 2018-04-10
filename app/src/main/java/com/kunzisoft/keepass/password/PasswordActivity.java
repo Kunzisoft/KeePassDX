@@ -345,6 +345,7 @@ public class PasswordActivity extends StylishActivity
                         .tintTarget(false);
                 targets.add(fingerprintTapTarget);
             }
+            // TODO make a period for donation
 
             if (!targets.isEmpty()) {
                 new TapTargetSequence(this)

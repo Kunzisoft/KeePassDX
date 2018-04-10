@@ -42,7 +42,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
@@ -263,55 +263,100 @@ public class GroupActivity extends ListNodesActivity
         addNodeButtonView.showButton();
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-	    boolean parentOnPrepareOptionMenu = super.onPrepareOptionsMenu(menu);
+    private void checkAndPerformedEducation(Menu menu) {
 
-        // Launch education screen
-        new Handler().post(this::checkAndPerformedEducation);
+	    // If no node, show education to add new one
+	    if (mAdapter.getItemCount() <= 0) {
+            if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
 
-        return parentOnPrepareOptionMenu;
-    }
+                TapTargetView.showFor(this,
+                        TapTarget.forView(findViewById(R.id.add_button),
+                                getString(R.string.education_new_node_title),
+                                getString(R.string.education_new_node_summary))
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                addNodeButtonView.openButtonIfClose();
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_new_node_key);
 
-    private void checkAndPerformedEducation() {
-        // For the first time show the tuto
-        if (!PreferencesUtil.isEducationGroupPerformed(this)) {
+            }
 
-            new TapTargetSequence(this)
-                    .targets(
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
-                                    getString(R.string.education_search_title),
-                                    getString(R.string.education_search_summary)),
-                            //TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
-                            //        getString(R.string.education_lock_title),
-                            //        getString(R.string.education_lock_summary)),
-                            //TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
-                            //        getString(R.string.education_sort_title),
-                            //        getString(R.string.education_sort_summary)),
-                            TapTarget.forView(findViewById(R.id.add_button),
-                                    getString(R.string.education_new_node_title),
-                                    getString(R.string.education_new_node_summary))
-                                    .tintTarget(false)
-                    ).listener(new TapTargetSequence.Listener() {
-                @Override
-                public void onSequenceFinish() {
-                    saveEducationPreference();
-                }
+            // Else show the search education
+        } else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
 
-                @Override
-                public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {}
+            TapTargetView.showFor(this,
+                    TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
+                            getString(R.string.education_search_title),
+                            getString(R.string.education_search_summary))
+                            .tintTarget(true)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            MenuItem searchItem = menu.findItem(R.id.menu_search);
+                            searchItem.expandActionView();
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(this,
+                    R.string.education_search_key);
 
-                @Override
-                public void onSequenceCanceled(TapTarget lastTarget) {}
-            }).continueOnCancel(true).start();
+            // Else show the sort education
+        } else if (!PreferencesUtil.isEducationSortPerformed(this)) {
+
+	        try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
+                                getString(R.string.education_sort_title),
+                                getString(R.string.education_sort_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem sortItem = menu.findItem(R.id.menu_sort);
+                                onOptionsItemSelected(sortItem);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_sort_key);
+            } catch (Exception e) {
+	            // If icon not visible
+                Log.w(TAG, "Can't performed education for sort");
+            }
+
+            // Else show the lock education
+        } else if (!PreferencesUtil.isEducationLockPerformed(this)) {
+
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
+                                getString(R.string.education_lock_title),
+                                getString(R.string.education_lock_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem lockItem = menu.findItem(R.id.menu_lock);
+                                onOptionsItemSelected(lockItem);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_lock_key);
+            } catch (Exception e) {
+                // If icon not visible
+                Log.w(TAG, "Can't performed education for lock");
+            }
         }
-    }
-
-    private void saveEducationPreference() {
-        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.education_group_key), true);
-        editor.apply();
     }
 
     @Override
@@ -376,6 +421,9 @@ public class GroupActivity extends ListNodesActivity
         }
 
         super.onCreateOptionsMenu(menu);
+
+        // Launch education screen
+        new Handler().post(() -> checkAndPerformedEducation(menu));
 
         return true;
     }
