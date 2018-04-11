@@ -48,7 +48,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Anna tietokannan tiedostonimi:</string>
     <string name="entry_accessed">Käytetty</string>
-    <string name="entry_and_or">Syötä salasana ja/tai avaintiedosto avataksesi tietokantasi:</string>
     <string name="entry_cancel">Peruuta</string>
     <string name="entry_comment">Kommentit</string>
     <string name="entry_confpassword">Vahvista salasana</string>
@@ -154,7 +153,9 @@
     <string name="warning_read_only">SD-korttisi on kirjoitussuojattu. Et ehkä voi tallentaa salasanatietokantaan tekemiäsi muutoksia.</string>
     <string name="warning_unmounted">SD-korttia ei löydy. Et voi ladata tai tallentaa salasanatietokantaa.</string>
     <string name="version_label">Versio:</string>
-    
+
+    <string name="education_unlock_summary">Syötä salasana ja/tai avaintiedosto avataksesi tietokantasi.</string>
+
     <string-array name="timeout_options">
     	<item>5 sekuntia</item>
     	<item>10 sekuntia</item>

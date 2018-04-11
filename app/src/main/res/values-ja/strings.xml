@@ -44,7 +44,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
     <string name="select_database_file">データベースファイル:</string>
     <string name="entry_accessed">最終アクセス日</string>
-    <string name="entry_and_or">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
     <string name="entry_cancel">キャンセル</string>
     <string name="entry_comment">備考</string>
     <string name="entry_confpassword">パスワードの確認</string>
@@ -139,7 +138,9 @@
     <string name="warning_read_only">お使いのSDカードは読取専用になっているようです。 データベースへの更新を保存することはできないでしょう。</string>
     <string name="warning_unmounted">SDカードがマウントされていません。データベースの読込や作成ができません。</string>
     <string name="version_label">バージョン:</string>
-    
+
+    <string name="education_unlock_summary">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
+
     <string-array name="timeout_options">
     	<item>5秒</item>
     	<item>10秒</item>

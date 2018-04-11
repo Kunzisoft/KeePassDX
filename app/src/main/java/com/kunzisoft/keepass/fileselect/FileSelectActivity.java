@@ -42,6 +42,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.app.App;
@@ -87,6 +89,9 @@ public class FileSelectActivity extends StylishActivity implements
 
     private FileSelectAdapter mAdapter;
 	private View fileListTitle;
+	private View createButtonView;
+	private View browseButtonView;
+	private View openButtonView;
 
 	private RecentFileHistory fileHistory;
 
@@ -159,8 +164,8 @@ public class FileSelectActivity extends StylishActivity implements
         }
 
 		// Open button
-		View openButton = findViewById(R.id.open_database);
-		openButton.setOnClickListener(v -> {
+		openButtonView = findViewById(R.id.open_database);
+        openButtonView.setOnClickListener(v -> {
 		    String fileName = openFileNameView.getText().toString();
             if (fileName.isEmpty())
                 fileName = defaultPath;
@@ -168,15 +173,15 @@ public class FileSelectActivity extends StylishActivity implements
         });
 
 		// Create button
-		View createButton = findViewById(R.id.create_database);
-		createButton.setOnClickListener(v ->
+		createButtonView = findViewById(R.id.create_database);
+        createButtonView .setOnClickListener(v ->
                 FileSelectActivityPermissionsDispatcher
                         .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this)
 		);
 
         keyFileHelper = new KeyFileHelper(this);
-		View browseButton = findViewById(R.id.browse_button);
-		browseButton.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
+		browseButtonView = findViewById(R.id.browse_button);
+        browseButtonView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
                 () -> Uri.parse("file://" + openFileNameView.getText().toString())));
 
 		// Construct adapter with listeners
@@ -212,6 +217,9 @@ public class FileSelectActivity extends StylishActivity implements
                 }
             }
         }
+
+        // For the first time show education
+        checkAndPerformedEducation();
 	}
 
 	private void launchPasswordActivityWithPath(String path) {
@@ -253,6 +261,105 @@ public class FileSelectActivity extends StylishActivity implements
         fileNameView.updateExternalStorageWarning();
         updateTitleFileListView();
         mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database creation then a database selection
+     */
+    private void checkAndPerformedEducation() {
+
+        // If no recent files
+        if ( !fileHistory.hasRecentFiles() ) {
+            // Try to open the creation base education
+            if (!PreferencesUtil.isEducationCreateDatabasePerformed(this) ) {
+
+                TapTargetView.showFor(this,
+                        TapTarget.forView(createButtonView,
+                                getString(R.string.education_create_database_title),
+                                getString(R.string.education_create_database_summary))
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                FileSelectActivityPermissionsDispatcher
+                                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                                // But if the user cancel, it can also select a database
+                                checkAndPerformedEducationForSelection();
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                        R.string.education_create_db_key);
+            }
+        }
+        else
+            checkAndPerformedEducationForSelection();
+    }
+
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database selection
+     */
+    private void checkAndPerformedEducationForSelection() {
+
+	    if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)
+                && browseButtonView != null) {
+
+            TapTargetView.showFor(FileSelectActivity.this,
+                    TapTarget.forView(browseButtonView,
+                            getString(R.string.education_select_database_title),
+                            getString(R.string.education_select_database_summary))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
+                        }
+
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+
+                            if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileSelectActivity.this)) {
+
+                                TapTargetView.showFor(FileSelectActivity.this,
+                                        TapTarget.forView(openButtonView,
+                                                getString(R.string.education_open_link_database_title),
+                                                getString(R.string.education_open_link_database_summary))
+                                                .tintTarget(false)
+                                                .cancelable(true),
+                                        new TapTargetView.Listener() {
+                                            @Override
+                                            public void onTargetClick(TapTargetView view) {
+                                                super.onTargetClick(view);
+                                                // Do nothing here
+                                            }
+
+                                            @Override
+                                            public void onOuterCircleClick(TapTargetView view) {
+                                                super.onOuterCircleClick(view);
+                                                view.dismiss(false);
+                                            }
+                                        });
+                                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                                        R.string.education_open_link_db_key);
+                            }
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                    R.string.education_select_db_key);
+        }
     }
 
     @Override

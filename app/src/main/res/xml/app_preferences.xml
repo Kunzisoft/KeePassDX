@@ -164,6 +164,11 @@
             android:title="@string/full_file_path_enable_title"
             android:summary="@string/full_file_path_enable_summary"
             android:defaultValue="@bool/full_file_path_enable_default"/>
+        <Preference
+            android:key="@string/reset_education_screens_key"
+            android:title="@string/reset_education_screens_title"
+            android:summary="@string/reset_education_screens_summary"/>
 
     </PreferenceCategory>
+
 </PreferenceScreen>

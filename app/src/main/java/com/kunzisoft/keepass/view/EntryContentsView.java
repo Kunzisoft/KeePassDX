@@ -125,6 +125,10 @@ public class EntryContentsView extends LinearLayout {
         userNameActionView.setOnClickListener(onClickListener);
     }
 
+    public boolean isUserNamePresent() {
+        return userNameContainerView.getVisibility() == VISIBLE;
+    }
+
     public void assignPassword(String password) {
         if (password != null && !password.isEmpty()) {
             passwordContainerView.setVisibility(VISIBLE);

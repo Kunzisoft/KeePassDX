@@ -47,7 +47,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
     <string name="select_database_file">Digite o nome do arquivo de banco de dados:</string>
     <string name="entry_accessed">Acessado</string>
-    <string name="entry_and_or">Digite uma senha e/ ou entre com o caminho para o arquivo de chaves do banco de dados:</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_comment">Comentários</string>
     <string name="entry_confpassword">Confirmar senha</string>
@@ -142,7 +141,9 @@
     <string name="warning_read_only">Seu cartão SD está no modo de somente leitura. Talvez não seja possível salvar modificações ao banco de dados.</string>
     <string name="warning_unmounted">Seu cartão SD não está montado no dispositivo. Não será possível carregar ou criar um banco de dados.</string>
     <string name="version_label">Versão:</string>
-    
+
+    <string name="education_unlock_summary">Digite uma senha e/ ou entre com o caminho para o arquivo de chaves do banco de dados.</string>
+
     <string-array name="timeout_options">
     	<item>5 segundos</item>
     	<item>10 segundos</item>

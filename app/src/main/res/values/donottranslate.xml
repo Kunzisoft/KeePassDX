@@ -26,7 +26,8 @@
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
-    
+    <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
+
     <!--  Password generator -->
     <string name="password_length_key" translatable="false">password_length_key</string>
     <string name="min_password_length" translatable="false">1</string>
@@ -72,6 +73,19 @@
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
     <string name="database_version_key" translatable="false">database_version_key</string>
+    <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
+    <string name="education_create_db_key" translatable="false">education_create_db_key</string>
+    <string name="education_select_db_key" translatable="false">education_select_db_key</string>
+    <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
+    <string name="education_unlock_key" translatable="false">education_unlock_key</string>
+    <string name="education_search_key" translatable="false">education_search_key</string>
+    <string name="education_new_node_key" translatable="false">education_new_node_key</string>
+    <string name="education_sort_key" translatable="false">education_sort_key</string>
+    <string name="education_lock_key" translatable="false">education_lock_key</string>
+    <string name="education_copy_username_key" translatable="false">education_copy_username_key</string>
+    <string name="education_entry_edit_key" translatable="false">education_entry_edit_key</string>
+    <string name="education_password_generator_key" translatable="false">education_password_generator_key</string>
+    <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -89,6 +103,18 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <bool name="allow_copy_password_default" translatable="false">true</bool> <!-- TODO To change after implementing the way to enter password < O -->
+    <bool name="education_create_db_default" translatable="false">false</bool>
+    <bool name="education_select_db_default" translatable="false">false</bool>
+    <bool name="education_open_link_db_default" translatable="false">false</bool>
+    <bool name="education_unlock_default" translatable="false">false</bool>
+    <bool name="education_search_default" translatable="false">false</bool>
+    <bool name="education_new_node_default" translatable="false">false</bool>
+    <bool name="education_sort_default" translatable="false">false</bool>
+    <bool name="education_lock_default" translatable="false">false</bool>
+    <bool name="education_copy_username_key" translatable="false">false</bool>
+    <bool name="education_entry_edit_default" translatable="false">false</bool>
+    <bool name="education_password_generator_default" translatable="false">false</bool>
+    <bool name="education_entry_new_field_default" translatable="false">false</bool>
 
     <string name="app_timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>
