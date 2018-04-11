@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion = 27
-    buildToolsVersion = '27.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
@@ -60,12 +60,12 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
-def supportVersion = "27.1.0"
+def supportVersion = "27.1.1"
 def spongycastleVersion = "1.58.0.0"
 def permissionDispatcherVersion = "3.1.0"
 
@@ -78,16 +78,18 @@ dependencies {
     implementation "com.madgag.spongycastle:core:$spongycastleVersion"
     implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
     // Time
-    implementation "joda-time:joda-time:2.9.9"
-    implementation "org.sufficientlysecure:html-textview:3.5"
-    implementation "com.nononsenseapps:filepicker:4.1.0"
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'org.sufficientlysecure:html-textview:3.5'
+    implementation 'com.nononsenseapps:filepicker:4.1.0'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
     // Permissions
-    implementation ("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
+    implementation("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     // Apache Commons Collections
-    implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
+    implementation 'commons-collections:commons-collections:3.2.1'
     // Base64
     compile group: 'biz.source_code', name: 'base64coder', version: '2010-12-19'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"

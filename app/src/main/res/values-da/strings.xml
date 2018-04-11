@@ -50,7 +50,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Angiv navn på databasefil:</string>
     <string name="entry_accessed">Senest åbnet</string>
-    <string name="entry_and_or">Angiv en adgangskode og/eller en nøglefil for at få adgang til din database:</string>
     <string name="entry_cancel">Annuller</string>
     <string name="entry_comment">Kommentarer</string>
     <string name="entry_confpassword">Bekræft adgangskode</string>
@@ -158,7 +157,9 @@
     <string name="warning_read_only">Dit hukommelseskort er skrivebeskyttet. Du er muligvis ikke i stand til at gemme ændringer til din database.</string>
     <string name="warning_unmounted">Dit hukommelseskort er ikke monteret i din enhed. Du vil ikke være i stand til at indlæse eller oprette din database.</string>
     <string name="version_label">Version:</string>
-    
+
+    <string name="education_unlock_summary">Angiv en adgangskode og/eller en nøglefil for at få adgang til din database.</string>
+
     <string-array name="timeout_options">
     	<item>5 sekunder</item>
     	<item>10 sekunder</item>

@@ -21,16 +21,20 @@ package com.kunzisoft.keepass.utils;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
 import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.AboutActivity;
 import com.kunzisoft.keepass.settings.SettingsActivity;
 import com.kunzisoft.keepass.stylish.StylishActivity;
+
+import java.util.List;
 
 
 public class MenuUtil {
@@ -38,6 +42,18 @@ public class MenuUtil {
     public static void donationMenuInflater(MenuInflater inflater, Menu menu) {
         if(!(BuildConfig.FULL_VERSION && BuildConfig.GOOGLE_PLAY_VERSION))
             inflater.inflate(R.menu.donation, menu);
+    }
+
+    public static void addDonationTapTargetIfAllowed(List<TapTarget> tapTargets,
+                                                     Toolbar toolbar,
+                                                     String title,
+                                                     String summary) {
+        if (!(BuildConfig.FULL_VERSION && BuildConfig.GOOGLE_PLAY_VERSION)) {
+            tapTargets.add(TapTarget.forToolbarMenuItem(toolbar,
+                    R.id.menu_donate,
+                    title,
+                    summary));
+        }
     }
 
     public static void defaultMenuInflater(MenuInflater inflater, Menu menu) {

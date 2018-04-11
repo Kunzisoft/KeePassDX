@@ -41,6 +41,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
@@ -59,6 +61,7 @@ import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
+import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
@@ -66,6 +69,8 @@ public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
 
     private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
+
+    private Toolbar toolbar;
 
     private AddNodeButtonView addNodeButtonView;
 
@@ -142,7 +147,7 @@ public class GroupActivity extends ListNodesActivity
         RecyclerView recyclerView = findViewById(R.id.nodes_list);
         recyclerView.addOnScrollListener(addNodeButtonView.hideButtonOnScrollListener());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -258,6 +263,133 @@ public class GroupActivity extends ListNodesActivity
         addNodeButtonView.showButton();
     }
 
+    /**
+     * Check and display learning views
+     * Displays the explanation for a add, search, sort a new node and lock the database
+     */
+    private void checkAndPerformedEducation(Menu menu) {
+
+	    // If no node, show education to add new one
+	    if (mAdapter.getItemCount() <= 0) {
+            if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
+
+                TapTargetView.showFor(this,
+                        TapTarget.forView(findViewById(R.id.add_button),
+                                getString(R.string.education_new_node_title),
+                                getString(R.string.education_new_node_summary))
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                addNodeButtonView.openButtonIfClose();
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_new_node_key);
+
+            }
+        }
+        // Else show the search education
+        else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
+
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
+                                getString(R.string.education_search_title),
+                                getString(R.string.education_search_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem searchItem = menu.findItem(R.id.menu_search);
+                                searchItem.expandActionView();
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_search_key);
+            } catch (Exception e) {
+                // If icon not visible
+                Log.w(TAG, "Can't performed education for search");
+            }
+        }
+        // Else show the sort education
+        else if (!PreferencesUtil.isEducationSortPerformed(this)) {
+
+	        try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
+                                getString(R.string.education_sort_title),
+                                getString(R.string.education_sort_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem sortItem = menu.findItem(R.id.menu_sort);
+                                onOptionsItemSelected(sortItem);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_sort_key);
+            } catch (Exception e) {
+                Log.w(TAG, "Can't performed education for sort");
+            }
+        }
+        // Else show the lock education
+        else if (!PreferencesUtil.isEducationLockPerformed(this)) {
+
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
+                                getString(R.string.education_lock_title),
+                                getString(R.string.education_lock_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem lockItem = menu.findItem(R.id.menu_lock);
+                                onOptionsItemSelected(lockItem);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_lock_key);
+            } catch (Exception e) {
+                Log.w(TAG, "Can't performed education for lock");
+            }
+        }
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -298,7 +430,6 @@ public class GroupActivity extends ListNodesActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
@@ -319,6 +450,11 @@ public class GroupActivity extends ListNodesActivity
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
         }
+
+        super.onCreateOptionsMenu(menu);
+
+        // Launch education screen
+        new Handler().post(() -> checkAndPerformedEducation(menu));
 
         return true;
     }

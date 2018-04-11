@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.settings;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
@@ -203,6 +204,19 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         return false;
                     });
                 }
+
+                Preference resetEducationScreens = findPreference(getString(R.string.reset_education_screens_key));
+                resetEducationScreens.setOnPreferenceClickListener(preference -> {
+                    SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(getContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    for (int resourceId : PreferencesUtil.educationResourceKeys) {
+                        editor.putBoolean(getString(resourceId), false);
+                    }
+                    editor.apply();
+                    Toast.makeText(getContext(), R.string.reset_education_screens_text, Toast.LENGTH_SHORT).show();
+                    return false;
+                });
+
                 break;
 
             case NESTED_SCREEN_FORM_FILLING_KEY:

@@ -50,7 +50,6 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ez dakar inolako bermerik; Lan hau software librea da; banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu:</string>
     <string name="entry_accessed">Akzesoa</string>
-    <string name="entry_and_or">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko:</string>
     <string name="entry_cancel">Utzi</string>
     <string name="entry_comment">Iruzkinak</string>
     <string name="entry_confpassword">Pasahitza berretsi</string>
@@ -156,7 +155,9 @@
     <string name="warning_read_only">Zure sd txartela bakarrik irakurtzeko moduan dago. Izan daiteke datubasearen aldaketak ezin gordetzea.</string>
     <string name="warning_unmounted">Une honetan zure sd txartela ez dago montatua zure dispositiboan. Ezingo duzu zure datubasea kargatu edo sortu.</string>
     <string name="version_label">Bertsioa:</string>
-    
+
+    <string name="education_unlock_summary">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko.</string>
+
     <string-array name="timeout_options">
     	<item>5 segundu</item>
     	<item>10 segundu</item>

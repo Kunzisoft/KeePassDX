@@ -151,6 +151,15 @@ public class AddNodeButtonView extends RelativeLayout {
     /**
      * Start the animation to close the button
      */
+    public void openButtonIfClose() {
+        if(state.equals(State.CLOSE)) {
+            startGlobalAnimation();
+        }
+    }
+
+    /**
+     * Start the animation to close the button
+     */
     public void closeButtonIfOpen() {
         if(state.equals(State.OPEN)) {
             startGlobalAnimation();
