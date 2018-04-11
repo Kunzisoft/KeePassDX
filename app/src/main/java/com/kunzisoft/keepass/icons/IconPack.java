@@ -95,7 +95,7 @@ public class IconPack {
      * @return int resourceId
      */
     public int iconToResId(int iconId) {
-        return icons.get(iconId, R.drawable.ic_blank_32dp); // TODO change
+        return icons.get(iconId, R.drawable.ic_blank_32dp);
     }
 
     /**

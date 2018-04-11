@@ -19,5 +19,5 @@
 -->
 <resources
   xmlns:tools="http://schemas.android.com/tools">
-    <string name="resource_prefix" tools:ignore="ResourceName">classic_</string>
+    <string name="resource_prefix" tools:ignore="ResourceName">material_</string>
 </resources>
