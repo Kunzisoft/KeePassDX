@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -20,16 +20,25 @@
 package com.kunzisoft.keepass.icons;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.util.SparseIntArray;
 
 import com.kunzisoft.keepass.R;
 
 import java.text.DecimalFormat;
 
+/**
+ * Class who construct dynamically database icons contains in a separate library
+ *
+ * <p>It only supports icons with specific nomenclature <strong>[prefix][%2d]_32dp</strong>
+ * where [prefix] contains in a string xml attribute with id <strong>resource_prefix</strong> and
+ * [%2d] 2 numerical numbers between 00 and 68 included,
+ * </p>
+ * <p>See <i>icon-pack-classic</i> module as sample
+ * </p>
+ *
+ */
 public class IconPack {
 
     private static final int NB_ICONS = 68;
@@ -38,27 +47,63 @@ public class IconPack {
 
     private Resources resources;
 
+    /**
+     * Construct dynamically the icon pack provide by the default string resource "resource_prefix"
+     *
+     * @param context Context of the app to retrieve the resources
+     */
     IconPack(Context context) {
+
+        this(context, context.getResources().getIdentifier("resource_prefix", "string", context.getPackageName()));
+    }
+
+
+    /**
+     * Construct dynamically the icon pack provide by the string resource prefix
+     *
+     * @param context Context of the app to retrieve the resources
+     * @param resourcePrefixId Id of the string prefix of the pack (ex : com.kunzisoft.keepass.icon.classic.R.string.resource_prefix)
+     */
+    IconPack(Context context, int resourcePrefixId) {
 
         resources = context.getResources();
         int num = 0;
         icons = new SparseIntArray();
-        while(num < NB_ICONS) {
-            String drawableId = "ic" + new DecimalFormat("00").format(num);
-            int resId = resources.getIdentifier(drawableId, "drawable", context.getPackageName());
+        while(num <= NB_ICONS) {
+            // To construct the id with prefix_ic_XX_32dp (ex : classic_ic_08_32dp )
+            String drawableIdString = new DecimalFormat("00").format(num) + "_32dp";
+            String drawableIdStringWithPrefix = context.getString(resourcePrefixId) + drawableIdString;
+            int resId = resources.getIdentifier(drawableIdStringWithPrefix,  "drawable", context.getPackageName());
             icons.put(num, resId);
             num++;
         }
-}
+    }
 
+    /**
+     * Get the number of icons in this pack
+     *
+     * @return int Number of database icons
+     */
     public int numberOfIcons() {
         return icons.size();
     }
 
+    /**
+     * Icon as a resourceId
+     *
+     * @param iconId Icon database Id of the icon to retrieve
+     * @return int resourceId
+     */
     public int iconToResId(int iconId) {
-        return icons.get(iconId, com.kunzisoft.keepass.icon.classic.R.drawable.ic99_blank); // TODO change
+        return icons.get(iconId, R.drawable.ic_blank_32dp); // TODO change
     }
 
+    /**
+     * Icon as a drawable
+     *
+     * @param iconId Icon database Id of the icon to retrieve
+     * @return int resourceId
+     */
     public Drawable getDrawable(int iconId) {
         return resources.getDrawable(iconId);
     }

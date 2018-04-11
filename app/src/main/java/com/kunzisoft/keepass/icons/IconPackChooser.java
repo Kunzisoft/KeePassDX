@@ -1,11 +1,7 @@
 package com.kunzisoft.keepass.icons;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.Log;
-
-import com.kunzisoft.keepass.BuildConfig;
-import com.kunzisoft.keepass.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +28,12 @@ public class IconPackChooser {
             synchronized (IconPackChooser.class) {
                 if (sIconPackBuilder == null) {
                     sIconPackBuilder = new IconPackChooser();
-                    if (BuildConfig.FULL_VERSION)
-                        try {
-                            iconPackList.add(new IconPack(context));
-                            // Do something
-                        } catch (Exception e) {
-                            Log.e(TAG, "Icon pack can't be load", e);
-                            System.exit(0);
-                        }
+                    try {
+                        iconPackList.add(new IconPack(context));
+                        // Do something
+                    } catch (Exception e) {
+                        Log.e(TAG, "Icon pack can't be load", e);
+                    }
                 }
             }
         }
