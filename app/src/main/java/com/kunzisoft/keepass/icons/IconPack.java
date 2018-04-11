@@ -99,6 +99,13 @@ public class IconPack {
     }
 
     /**
+     * @return int Get the default icon resource id
+     */
+    public int getDefaultIconId() {
+        return iconToResId(0);
+    }
+
+    /**
      * Icon as a drawable
      *
      * @param iconId Icon database Id of the icon to retrieve

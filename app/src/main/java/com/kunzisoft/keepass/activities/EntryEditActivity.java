@@ -31,7 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -88,6 +88,7 @@ public class EntryEditActivity extends LockingHideActivity
     // Views
     private ScrollView scrollView;
     private EditText entryTitleView;
+    private ImageView entryIconView;
     private EditText entryUserNameView;
     private EditText entryUrlView;
     private EditText entryPasswordView;
@@ -142,6 +143,7 @@ public class EntryEditActivity extends LockingHideActivity
         scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 
         entryTitleView = findViewById(R.id.entry_title);
+        entryIconView = findViewById(R.id.icon_button);
         entryUserNameView = findViewById(R.id.entry_user_name);
         entryUrlView = findViewById(R.id.entry_url);
         entryPasswordView = findViewById(R.id.entry_password);
@@ -165,6 +167,8 @@ public class EntryEditActivity extends LockingHideActivity
 			PwGroup parent = pm.getGroupByGroupId(parentId);
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
+			// Add the default icon
+            entryIconView.setImageResource(IconPackChooser.getDefaultIconPack(this).getDefaultIconId());
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			mEntry = pm.getEntryByUUIDId(uuid);
@@ -172,8 +176,8 @@ public class EntryEditActivity extends LockingHideActivity
 			fillData();
 		}
 
-		View iconButton = findViewById(R.id.icon_button);
-		iconButton.setOnClickListener(v ->
+		// Add listener to the icon
+        entryIconView.setOnClickListener(v ->
                 IconPickerDialogFragment.launch(EntryEditActivity.this));
 
 		// Generate password button
@@ -436,8 +440,7 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 
 	protected void fillData() {
-		ImageButton currIconButton = findViewById(R.id.icon_button);
-		App.getDB().getDrawFactory().assignDrawableTo(this, currIconButton, mEntry.getIcon());
+		App.getDB().getDrawFactory().assignDrawableTo(this, entryIconView, mEntry.getIcon());
 
 		// Don't start the field reference manager, we want to see the raw ref
         mEntry.endToManageFieldReferences();
@@ -472,8 +475,7 @@ public class EntryEditActivity extends LockingHideActivity
     @Override
     public void iconPicked(Bundle bundle) {
         mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
-        ImageButton currIconButton = findViewById(R.id.icon_button);
-        currIconButton.setImageResource(IconPackChooser.getDefaultIconPack(this).iconToResId(mSelectedIconID));
+        entryIconView.setImageResource(IconPackChooser.getDefaultIconPack(this).iconToResId(mSelectedIconID));
     }
 
     @Override

@@ -29,7 +29,8 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar_default" />
 
-	<ScrollView android:id="@+id/entry_scroll"
+	<ScrollView
+        android:id="@+id/entry_scroll"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
@@ -64,10 +65,12 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.v7.widget.AppCompatImageButton android:id="@+id/icon_button"
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/icon_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
+                    android:src="@drawable/ic_blank_32dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"/>
             </RelativeLayout>
@@ -173,13 +176,15 @@
                     android:hint="@string/entry_comment" />
             </android.support.design.widget.TextInputLayout>
 
-			<LinearLayout android:id="@+id/advanced_container"
+			<LinearLayout
+                android:id="@+id/advanced_container"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
 			</LinearLayout>
 
-			<ImageView android:id="@+id/add_new_field"
+			<ImageView
+                android:id="@+id/add_new_field"
 				android:layout_width="30sp"
 				android:layout_height="30sp"
 				android:contentDescription="@string/add_string"
