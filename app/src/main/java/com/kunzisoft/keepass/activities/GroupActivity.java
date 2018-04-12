@@ -27,6 +27,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,6 +62,7 @@ import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ProgressTask;
@@ -407,7 +410,16 @@ public class GroupActivity extends ListNodesActivity
     protected void setGroupIcon() {
 		if (mCurrentGroup != null) {
 			ImageView iv = findViewById(R.id.icon);
-			App.getDB().getDrawFactory().assignDrawableTo(this, iv, mCurrentGroup.getIcon());
+
+            if (IconPackChooser.getDefaultIconPack(this).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {R.attr.textColorInverse};
+                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDrawableTo(this, iv, mCurrentGroup.getIcon(), true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDrawableTo(this, iv, mCurrentGroup.getIcon());
+            }
 		}
 	}
 

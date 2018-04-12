@@ -44,8 +44,10 @@ public class IconPack {
     private static final int NB_ICONS = 68;
 
     private static SparseIntArray icons = null;
+    private boolean tintable = false;
 
     private Resources resources;
+
 
     /**
      * Construct dynamically the icon pack provide by the default string resource "resource_prefix"
@@ -71,12 +73,28 @@ public class IconPack {
         icons = new SparseIntArray();
         while(num <= NB_ICONS) {
             // To construct the id with prefix_ic_XX_32dp (ex : classic_ic_08_32dp )
-            String drawableIdString = new DecimalFormat("00").format(num) + "_32dp";
-            String drawableIdStringWithPrefix = context.getString(resourcePrefixId) + drawableIdString;
-            int resId = resources.getIdentifier(drawableIdStringWithPrefix,  "drawable", context.getPackageName());
+            int resId = resources.getIdentifier(
+                    context.getString(resourcePrefixId) + new DecimalFormat("00").format(num) + "_32dp",
+                    "drawable",
+                    context.getPackageName());
             icons.put(num, resId);
             num++;
         }
+        // If icons are tintable
+        tintable = resources.getBoolean(
+                resources.getIdentifier(
+                        context.getString(resourcePrefixId) + "tintable",
+                        "bool",
+                        context.getPackageName()) );
+    }
+
+    /**
+     * Determine if each icon in the pack can be tint
+     *
+     * @return true if icons are tintable
+     */
+    public boolean tintable() {
+        return tintable;
     }
 
     /**

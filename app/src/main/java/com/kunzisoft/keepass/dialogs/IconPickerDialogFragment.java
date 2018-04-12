@@ -21,9 +21,13 @@ package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,6 +127,16 @@ public class IconPickerDialogFragment extends DialogFragment {
 			}
 			ImageView iv = currView.findViewById(R.id.icon_image);
 			iv.setImageResource(iconPack.iconToResId(position));
+
+			// Assign color if icons are tintable
+			if (iconPack.tintable()) {
+				// Retrieve the textColor to tint the icon
+				int[] attrs = {android.R.attr.textColor};
+				assert getContext() != null;
+				TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+				int iconColor = ta.getColor(0, Color.BLACK);
+                ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(iconColor));
+			}
 
 			return currView;
 		}
