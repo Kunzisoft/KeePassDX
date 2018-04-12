@@ -46,7 +46,7 @@ public class IconPickerDialogFragment extends DialogFragment {
 	public static void launch(StylishActivity activity)	{
         // Create an instance of the dialog fragment and show it
         IconPickerDialogFragment dialog = new IconPickerDialogFragment();
-        dialog.show(activity.getSupportFragmentManager(), "NoticeDialogFragment");
+        dialog.show(activity.getSupportFragmentManager(), "IconPickerDialogFragment");
 	}
 
     @Override
