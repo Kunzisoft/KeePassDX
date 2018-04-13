@@ -310,5 +310,7 @@
         <item>Light Theme</item>
         <item>Night Theme</item>
     </string-array>
+    <string name="icon_pack_choose_title">Select an icon pack</string>
+    <string name="icon_pack_choose_summary">Change the icon pack of the application</string>
 
 </resources>

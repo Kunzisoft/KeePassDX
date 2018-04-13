@@ -286,7 +286,7 @@ public class EntryActivity extends LockingHideActivity {
 		mEntry.startToManageFieldReferences(pm);
 
         // Assign title icon
-        if (IconPackChooser.getDefaultIconPack(this).tintable()) {
+        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
             // Retrieve the textColor to tint the icon
             int[] attrs = {R.attr.textColorInverse};
             TypedArray ta = getTheme().obtainStyledAttributes(attrs);

@@ -167,7 +167,6 @@ public class GroupActivity extends ListNodesActivity
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
-		setGroupIcon();
 
         Log.w(TAG, "Finished creating tree");
 
@@ -262,6 +261,8 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected void onResume() {
         super.onResume();
+        // Refresh the group icon
+        assignGroupIcon();
         // Show button on resume
         addNodeButtonView.showButton();
     }
@@ -407,11 +408,14 @@ public class GroupActivity extends ListNodesActivity
         addNodeButtonView.showButton();
     }
 
-    protected void setGroupIcon() {
+    /**
+     * Assign the group icon depending of IconPack or custom icon
+     */
+    protected void assignGroupIcon() {
 		if (mCurrentGroup != null) {
 			ImageView iv = findViewById(R.id.icon);
 
-            if (IconPackChooser.getDefaultIconPack(this).tintable()) {
+            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
                 // Retrieve the textColor to tint the icon
                 int[] attrs = {R.attr.textColorInverse};
                 TypedArray ta = getTheme().obtainStyledAttributes(attrs);

@@ -90,7 +90,7 @@ public class GroupEditDialogFragment extends DialogFragment
             populateIcon(getArguments().getInt(KEY_ICON_ID));
         } else {
             // populate the icon with the default one
-            iconButton.setImageResource(IconPackChooser.getDefaultIconPack(getContext()).getDefaultIconId());
+            iconButton.setImageResource(IconPackChooser.getSelectedIconPack(getContext()).getDefaultIconId());
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -126,7 +126,7 @@ public class GroupEditDialogFragment extends DialogFragment
     }
 
     private void populateIcon(int iconId) {
-        iconButton.setImageResource(IconPackChooser.getDefaultIconPack(getContext()).iconToResId(iconId));
+        iconButton.setImageResource(IconPackChooser.getSelectedIconPack(getContext()).iconToResId(iconId));
     }
 
     @Override

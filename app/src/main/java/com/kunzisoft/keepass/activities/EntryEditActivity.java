@@ -168,7 +168,7 @@ public class EntryEditActivity extends LockingHideActivity
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
 			// Add the default icon
-            entryIconView.setImageResource(IconPackChooser.getDefaultIconPack(this).getDefaultIconId());
+            entryIconView.setImageResource(IconPackChooser.getSelectedIconPack(this).getDefaultIconId());
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			mEntry = pm.getEntryByUUIDId(uuid);
@@ -475,7 +475,7 @@ public class EntryEditActivity extends LockingHideActivity
     @Override
     public void iconPicked(Bundle bundle) {
         mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
-        entryIconView.setImageResource(IconPackChooser.getDefaultIconPack(this).iconToResId(mSelectedIconID));
+        entryIconView.setImageResource(IconPackChooser.getSelectedIconPack(this).iconToResId(mSelectedIconID));
     }
 
     @Override

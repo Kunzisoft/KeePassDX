@@ -93,7 +93,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         int[] attrs = {android.R.attr.textColorPrimary, android.R.attr.textColor};
         TypedArray ta = context.getTheme().obtainStyledAttributes(attrs);
         this.iconGroupColor = ta.getColor(0, Color.BLACK);
-        this.iconEntryColor = ta.getColor(1, Color.BLACK);
+        this.iconEntryColor = ta.getColor(1, Color.BLACK); // TODO test why an error here ?
     }
 
     public void setActivateContextMenu(boolean activate) {
@@ -188,7 +188,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public void onBindViewHolder(@NonNull BasicViewHolder holder, int position) {
         PwNode subNode = nodeSortedList.get(position);
         // Assign image
-        if (IconPackChooser.getDefaultIconPack(context).tintable()) {
+        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
             int iconColor = Color.BLACK;
             switch (subNode.getType()) {
                 case GROUP:

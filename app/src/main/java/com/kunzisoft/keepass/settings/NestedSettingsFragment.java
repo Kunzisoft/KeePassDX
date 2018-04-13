@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.dialogs.StorageAccessFrameworkDialog;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseNamePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
@@ -142,6 +143,12 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     String styleString = (String) newValue;
                     Stylish.assignStyle(getActivity(), styleString);
                     getActivity().recreate();
+                    return true;
+                });
+
+                Preference iconPackPreference = findPreference(getString(R.string.setting_icon_pack_choose_key));
+                iconPackPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    IconPackChooser.setSelectedIconPack((String) newValue);
                     return true;
                 });
 

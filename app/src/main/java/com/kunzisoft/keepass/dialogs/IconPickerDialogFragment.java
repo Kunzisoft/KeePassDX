@@ -72,7 +72,7 @@ public class IconPickerDialogFragment extends DialogFragment {
 		// Get the layout inflater
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 
-		iconPack = IconPackChooser.getDefaultIconPack(getContext());
+		iconPack = IconPackChooser.getSelectedIconPack(getContext());
 
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout

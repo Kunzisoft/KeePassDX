@@ -19,6 +19,8 @@
 -->
 <resources
   xmlns:tools="http://schemas.android.com/tools">
-    <string name="resource_prefix" tools:ignore="ResourceName">material_</string>
+    <string name="material_name">Material Icon Pack</string>
+    <string name="material_resource_prefix">material_</string>
+    <string name="resource_prefix" tools:ignore="ResourceName">@string/material_resource_prefix</string>
     <bool name="material_tintable">true</bool>
 </resources>

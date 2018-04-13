@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.database.load.Importer;
 import com.kunzisoft.keepass.database.load.ImporterFactory;
 import com.kunzisoft.keepass.database.save.PwDbOutput;
-import com.kunzisoft.keepass.icons.DrawableFactory;
+import com.kunzisoft.keepass.icons.IconDrawableFactory;
 import com.kunzisoft.keepass.search.SearchDbHelper;
 import com.kunzisoft.keepass.tasks.UpdateStatus;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -59,7 +59,7 @@ public class Database {
     private boolean readOnly = false;
     private boolean passwordEncodingError = false;
 
-    private DrawableFactory drawFactory = new DrawableFactory();
+    private IconDrawableFactory drawFactory = new IconDrawableFactory();
 
     private boolean loaded = false;
 
@@ -87,7 +87,7 @@ public class Database {
         return passwordEncodingError;
     }
 
-    public DrawableFactory getDrawFactory() {
+    public IconDrawableFactory getDrawFactory() {
         return drawFactory;
     }
 
@@ -265,7 +265,7 @@ public class Database {
     }
 
     public void clear() {
-        drawFactory.clear();
+        drawFactory.clearCache();
 
         pm = null;
         mUri = null;

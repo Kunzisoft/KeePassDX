@@ -27,6 +27,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.widget.ImageView;
 
@@ -39,7 +40,10 @@ import com.kunzisoft.keepass.database.PwIconStandard;
 import org.apache.commons.collections.map.AbstractReferenceMap;
 import org.apache.commons.collections.map.ReferenceMap;
 
-public class DrawableFactory {
+/**
+ * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with tint
+ */
+public class IconDrawableFactory {
 	private static Drawable blank = null;
 	private static int blankWidth = -1;
 	private static int blankHeight = -1;
@@ -62,7 +66,7 @@ public class DrawableFactory {
 	}
 
     public void assignDrawableTo(Context context, ImageView iv, PwIcon icon, boolean tint, int tintColor) {
-        Drawable draw = getIconDrawable(context, icon);
+        Drawable draw = getIconDrawable(context, icon, tint);
         if (iv != null && draw != null) {
             iv.setImageDrawable(draw);
             if (iconStandardToTint && tint) {
@@ -71,19 +75,26 @@ public class DrawableFactory {
         }
         iconStandardToTint = false;
     }
-	
+
 	public Drawable getIconDrawable(Context context, PwIcon icon) {
-	    Drawable sharedDrawable;
-		if (icon instanceof PwIconStandard) {
-            iconStandardToTint = true;
-            sharedDrawable = getIconDrawable(context, (PwIconStandard) icon);
-		} else {
-            iconStandardToTint = false;
-            sharedDrawable = getIconDrawable(context, (PwIconCustom) icon);
-		}
-		assert sharedDrawable.getConstantState() != null;
-		return sharedDrawable.getConstantState().newDrawable();
+		return getIconDrawable(context, icon, false);
 	}
+
+    public Drawable getIconDrawable(Context context, PwIcon icon, boolean tint) {
+        if (icon instanceof PwIconStandard) {
+            Drawable sharedDrawable = getIconDrawable(context.getApplicationContext(), (PwIconStandard) icon);
+            if (tint) {
+                iconStandardToTint = true;
+                assert sharedDrawable.getConstantState() != null;
+                return sharedDrawable.getConstantState().newDrawable();
+                // TODO Optimisation for each tint
+            } else
+                return sharedDrawable;
+        } else {
+            iconStandardToTint = false;
+            return getIconDrawable(context, (PwIconCustom) icon);
+        }
+    }
 
 	private static void initBlank(Resources res) {
 		if (blank==null) {
@@ -95,14 +106,15 @@ public class DrawableFactory {
 	}
 	
 	private Drawable getIconDrawable(Context context, PwIconStandard icon) {
-		int resId = IconPackChooser.getDefaultIconPack(context).iconToResId(icon.iconId);
+		int resId = IconPackChooser.getSelectedIconPack(context).iconToResId(icon.iconId);
 		
 		Drawable draw = (Drawable) standardIconMap.get(resId);
 		if (draw == null) {
-			draw = context.getResources().getDrawable(resId);
-			standardIconMap.put(resId, draw);
+            draw = ContextCompat.getDrawable(context, resId);
+            if (draw != null)
+				standardIconMap.put(resId, draw);
 		}
-		
+
 		return draw;
 	}
 
@@ -131,7 +143,7 @@ public class DrawableFactory {
 			draw = BitmapDrawableCompat.getBitmapDrawable(context.getResources(), bitmap);
 			customIconMap.put(icon.uuid, draw);
 		}
-		
+
 		return draw;
 	}
 	
@@ -150,8 +162,11 @@ public class DrawableFactory {
 		
 		return Bitmap.createScaledBitmap(bitmap, blankWidth, blankHeight, true);
 	}
-	
-	public void clear() {
+
+    /**
+     * Clear the cache of icons
+     */
+	public void clearCache() {
 		standardIconMap.clear();
 		customIconMap.clear();
 	}

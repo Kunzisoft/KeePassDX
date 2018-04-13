@@ -43,22 +43,12 @@ public class IconPack {
 
     private static final int NB_ICONS = 68;
 
-    private static SparseIntArray icons = null;
-    private boolean tintable = false;
+    private SparseIntArray icons;
+    private String resourcePrefix;
+    private String name;
+    private boolean tintable;
 
     private Resources resources;
-
-
-    /**
-     * Construct dynamically the icon pack provide by the default string resource "resource_prefix"
-     *
-     * @param context Context of the app to retrieve the resources
-     */
-    IconPack(Context context) {
-
-        this(context, context.getResources().getIdentifier("resource_prefix", "string", context.getPackageName()));
-    }
-
 
     /**
      * Construct dynamically the icon pack provide by the string resource prefix
@@ -69,23 +59,54 @@ public class IconPack {
     IconPack(Context context, int resourcePrefixId) {
 
         resources = context.getResources();
-        int num = 0;
         icons = new SparseIntArray();
+        resourcePrefix = context.getString(resourcePrefixId);
+
+        // Build the list of icons
+        int num = 0;
         while(num <= NB_ICONS) {
             // To construct the id with prefix_ic_XX_32dp (ex : classic_ic_08_32dp )
             int resId = resources.getIdentifier(
-                    context.getString(resourcePrefixId) + new DecimalFormat("00").format(num) + "_32dp",
+                    resourcePrefix + new DecimalFormat("00").format(num) + "_32dp",
                     "drawable",
                     context.getPackageName());
             icons.put(num, resId);
             num++;
         }
+        // Get name
+        name = resources.getString(
+                resources.getIdentifier(
+                        resourcePrefix + "name",
+                        "string",
+                        context.getPackageName()
+                )
+        );
         // If icons are tintable
         tintable = resources.getBoolean(
                 resources.getIdentifier(
-                        context.getString(resourcePrefixId) + "tintable",
+                        resourcePrefix + "tintable",
                         "bool",
-                        context.getPackageName()) );
+                        context.getPackageName()
+                )
+        );
+    }
+
+    /**
+     * Get the name of the IconPack
+     *
+     * @return String visual name of the pack
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get the id of the IconPack
+     *
+     * @return String id of the pack
+     */
+    public String getId() {
+        return resourcePrefix;
     }
 
     /**
@@ -130,6 +151,6 @@ public class IconPack {
      * @return int resourceId
      */
     public Drawable getDrawable(int iconId) {
-        return resources.getDrawable(iconId);
+        return resources.getDrawable(iconToResId(iconId));
     }
 }
