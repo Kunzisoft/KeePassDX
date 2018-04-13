@@ -24,6 +24,7 @@ import android.util.Log;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class IconPackChooser {
     private static final String TAG = IconPackChooser.class.getName();
 
     private static List<IconPack> iconPackList = new ArrayList<>();
-    private static IconPack iconPackSelected;
+    private static IconPack iconPackSelected = null;
 
     private static IconPackChooser sIconPackBuilder;
 
@@ -71,7 +72,6 @@ public class IconPackChooser {
                         Log.e(TAG, "Icon packs can't be load, retry with one by default");
                         addDefaultIconPack(context);
                     }
-                    iconPackSelected = getDefaultIconPack(context);
                 }
             }
         }
@@ -109,17 +109,6 @@ public class IconPackChooser {
     }
 
     /**
-     * Get the default IconPack
-     *
-     * @param context Context to build the icon pack if not already build
-     * @return default IconPack
-     */
-    public static IconPack getDefaultIconPack(Context context) {
-        build(context);
-        return getIconPackList().get(0);
-    }
-
-    /**
      * Get the current IconPack used
      *
      * @param context Context to build the icon pack if not already build
@@ -128,7 +117,7 @@ public class IconPackChooser {
     public static IconPack getSelectedIconPack(Context context) {
         build(context);
         if (iconPackSelected == null)
-            return getDefaultIconPack(context);
+            setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context));
         return iconPackSelected;
     }
 

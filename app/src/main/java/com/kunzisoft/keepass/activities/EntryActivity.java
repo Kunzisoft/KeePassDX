@@ -291,9 +291,9 @@ public class EntryActivity extends LockingHideActivity {
             int[] attrs = {R.attr.textColorInverse};
             TypedArray ta = getTheme().obtainStyledAttributes(attrs);
             int iconColor = ta.getColor(0, Color.WHITE);
-            App.getDB().getDrawFactory().assignDrawableTo(this, titleIconView,  mEntry.getIcon(), true, iconColor);
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon(), true, iconColor);
         } else {
-            App.getDB().getDrawFactory().assignDrawableTo(this, titleIconView,  mEntry.getIcon());
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon());
         }
 
 		// Assign title text

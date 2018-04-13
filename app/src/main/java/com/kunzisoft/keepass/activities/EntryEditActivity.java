@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -46,7 +48,6 @@ import com.kunzisoft.keepass.database.PwDate;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
-import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.edit.AddEntry;
 import com.kunzisoft.keepass.database.edit.OnFinish;
 import com.kunzisoft.keepass.database.edit.RunnableOnFinish;
@@ -168,7 +169,15 @@ public class EntryEditActivity extends LockingHideActivity
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
 			// Add the default icon
-            entryIconView.setImageResource(IconPackChooser.getSelectedIconPack(this).getDefaultIconId());
+            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {R.attr.textColorInverse};
+                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView);
+            }
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			mEntry = pm.getEntryByUUIDId(uuid);
@@ -382,8 +391,7 @@ public class EntryEditActivity extends LockingHideActivity
 
         newEntry.setTitle(entryTitleView.getText().toString());
         if(mSelectedIconID != -1)
-            // or TODO icon factory newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(mSelectedIconID));
-            newEntry.setIcon(new PwIconStandard(mSelectedIconID));
+            newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getIcon(mSelectedIconID));
         else {
             if (mIsNew) {
                 newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getFirstIcon());
@@ -440,7 +448,16 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 
 	protected void fillData() {
-		App.getDB().getDrawFactory().assignDrawableTo(this, entryIconView, mEntry.getIcon());
+
+        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+            // Retrieve the textColor to tint the icon
+            int[] attrs = {R.attr.textColorInverse};
+            TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+            int iconColor = ta.getColor(0, Color.WHITE);
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon(), true, iconColor);
+        } else {
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon());
+        }
 
 		// Don't start the field reference manager, we want to see the raw ref
         mEntry.endToManageFieldReferences();

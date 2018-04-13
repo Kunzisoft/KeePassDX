@@ -145,6 +145,7 @@
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
     </string-array>
+    <string name="setting_icon_pack_choose_default" translatable="false">@string/classic_resource_prefix</string>
 
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>

@@ -41,13 +41,12 @@ import org.apache.commons.collections.map.AbstractReferenceMap;
 import org.apache.commons.collections.map.ReferenceMap;
 
 /**
- * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with tint
+ * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
  */
 public class IconDrawableFactory {
 	private static Drawable blank = null;
 	private static int blankWidth = -1;
 	private static int blankHeight = -1;
-	private boolean iconStandardToTint = false;
 	
 	/** customIconMap
 	 *  Cache for icon drawable. 
@@ -61,41 +60,115 @@ public class IconDrawableFactory {
 	 */
 	private ReferenceMap standardIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
 
-	public void assignDrawableTo(Context context, ImageView iv, PwIcon icon) {
-        assignDrawableTo(context, iv, icon, false, -1);
-	}
-
-    public void assignDrawableTo(Context context, ImageView iv, PwIcon icon, boolean tint, int tintColor) {
-        Drawable draw = getIconDrawable(context, icon, tint);
-        if (iv != null && draw != null) {
-            iv.setImageDrawable(draw);
-            if (iconStandardToTint && tint) {
-                ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(tintColor));
-            }
-        }
-        iconStandardToTint = false;
+    /**
+     * Assign a default database icon to an ImageView
+     *
+     * @param context Context to build the drawable
+     * @param iv ImageView that will host the drawable
+     */
+    public void assignDefaultDatabaseIconTo(Context context, ImageView iv) {
+        assignDefaultDatabaseIconTo(context, iv, false, Color.WHITE);
     }
 
-	public Drawable getIconDrawable(Context context, PwIcon icon) {
-		return getIconDrawable(context, icon, false);
+    /**
+     * Assign a default database icon to an ImageView and tint it
+     *
+     * @param context Context to build the drawable
+     * @param iv ImageView that will host the drawable
+     */
+    public void assignDefaultDatabaseIconTo(Context context, ImageView iv, boolean tint, int tintColor) {
+        assignDrawableTo(context, iv, IconPackChooser.getSelectedIconPack(context).getDefaultIconId(), tint, tintColor);
+    }
+
+    /**
+     * Assign a database icon to an ImageView
+     *
+     * @param context Context to build the drawable
+     * @param iv ImageView that will host the drawable
+     * @param icon The icon from the database
+     */
+	public void assignDatabaseIconTo(Context context, ImageView iv, PwIcon icon) {
+        assignDatabaseIconTo(context, iv, icon, false, Color.WHITE);
 	}
 
-    public Drawable getIconDrawable(Context context, PwIcon icon, boolean tint) {
-        if (icon instanceof PwIconStandard) {
-            Drawable sharedDrawable = getIconDrawable(context.getApplicationContext(), (PwIconStandard) icon);
+    /**
+     *  Assign a database icon to an ImageView and tint it
+     *
+     * @param context Context to build the drawable
+     * @param imageView ImageView that will host the drawable
+     * @param icon The icon from the database
+     * @param tint true will tint the drawable with tintColor
+     * @param tintColor Use this color if tint is true
+     */
+    public void assignDatabaseIconTo(Context context, ImageView imageView, PwIcon icon, boolean tint, int tintColor) {
+        assignDrawableToImageView(getIconDrawable(context, icon, tint, tintColor),
+                imageView,
+                tint,
+                tintColor);
+    }
+
+    /**
+     *  Assign an image by its resourceId to an ImageView and tint it
+     *
+     * @param context Context to build the drawable
+     * @param imageView ImageView that will host the drawable
+     * @param iconId iconId from the resources
+     * @param tint true will tint the drawable with tintColor
+     * @param tintColor Use this color if tint is true
+     */
+    public void assignDrawableTo(Context context, ImageView imageView, int iconId, boolean tint, int tintColor) {
+        assignDrawableToImageView(getIconDrawable(context, iconId, tint, tintColor),
+                imageView,
+                tint,
+                tintColor);
+    }
+
+    /**
+     * Utility method to assign a drawable to an ImageView and tint it
+     */
+    private void assignDrawableToImageView(Drawable drawable, ImageView imageView, boolean tint, int tintColor) {
+        if (imageView != null && drawable != null) {
+            imageView.setImageDrawable(drawable);
             if (tint) {
-                iconStandardToTint = true;
-                assert sharedDrawable.getConstantState() != null;
-                return sharedDrawable.getConstantState().newDrawable();
-                // TODO Optimisation for each tint
-            } else
-                return sharedDrawable;
+                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor));
+            } else {
+                ImageViewCompat.setImageTintList(imageView, null);
+            }
+        }
+    }
+
+    /**
+     * Get the drawable icon from cache or build it and add it to the cache if not exists yet
+     *
+     * @param context Context to build the drawable
+     * @param icon The icon from database
+     * @return The build drawable
+     */
+	public Drawable getIconDrawable(Context context, PwIcon icon) {
+		return getIconDrawable(context, icon, false, Color.WHITE);
+	}
+
+    /**
+     * Get the drawable icon from cache or build it and add it to the cache if not exists yet then tint it if needed
+     *
+     * @param context Context to build the drawable
+     * @param icon The icon from database
+     * @param tint true will tint the drawable with tintColor
+     * @param tintColor Use this color if tint is true
+     * @return The build drawable
+     */
+    public Drawable getIconDrawable(Context context, PwIcon icon, boolean tint, int tintColor) {
+        if (icon instanceof PwIconStandard) {
+            return getIconDrawable(context.getApplicationContext(), (PwIconStandard) icon, tint, tintColor);
         } else {
-            iconStandardToTint = false;
             return getIconDrawable(context, (PwIconCustom) icon);
         }
     }
 
+    /**
+     * Build a blank drawable
+     * @param res Resource to build the drawable
+     */
 	private static void initBlank(Resources res) {
 		if (blank==null) {
 			blankWidth = (int) res.getDimension(R.dimen.icon_size);
@@ -104,20 +177,80 @@ public class IconDrawableFactory {
 			blank.setBounds(0, 0, blankWidth, blankHeight);
 		}
 	}
-	
-	private Drawable getIconDrawable(Context context, PwIconStandard icon) {
-		int resId = IconPackChooser.getSelectedIconPack(context).iconToResId(icon.iconId);
-		
-		Drawable draw = (Drawable) standardIconMap.get(resId);
-		if (draw == null) {
-            draw = ContextCompat.getDrawable(context, resId);
-            if (draw != null)
-				standardIconMap.put(resId, draw);
-		}
 
-		return draw;
+    /**
+     * Key class to retrieve a Drawable in the cache if it's tinted or not
+     */
+	private class CacheKey {
+	    int resId;
+	    boolean isTint;
+	    int color;
+
+	    CacheKey(int resId, boolean isTint, int color) {
+	        this.resId = resId;
+	        this.isTint = isTint;
+	        this.color = color;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CacheKey cacheKey = (CacheKey) o;
+            if (isTint)
+                return resId == cacheKey.resId &&
+                        cacheKey.isTint &&
+                    color == cacheKey.color;
+            else
+                return resId == cacheKey.resId &&
+                        !cacheKey.isTint;
+        }
+    }
+
+    /**
+     * Get the drawable icon from cache or build it and add it to the cache if not exists yet
+     *
+     * @param context Context to make drawable
+     * @param icon Icon from database
+     * @param isTint Tint the drawable if true
+     * @param tintColor Use this color if tint is true
+     * @return The drawable
+     */
+	private Drawable getIconDrawable(Context context, PwIconStandard icon, boolean isTint, int tintColor) {
+		int resId = IconPackChooser.getSelectedIconPack(context).iconToResId(icon.iconId);
+
+		return getIconDrawable(context, resId, isTint, tintColor);
 	}
 
+    /**
+     * Get the drawable icon from cache or build it and add it to the cache if not exists yet
+     *
+     * @param context Context to make drawable
+     * @param iconId iconId from resources
+     * @param isTint Tint the drawable if true
+     * @param tintColor Use this color if tint is true
+     * @return The drawable
+     */
+    private Drawable getIconDrawable(Context context, int iconId, boolean isTint, int tintColor) {
+        CacheKey newCacheKey = new CacheKey(iconId, isTint, tintColor);
+
+        Drawable draw = (Drawable) standardIconMap.get(newCacheKey);
+        if (draw == null) {
+            draw = ContextCompat.getDrawable(context, iconId);
+            if (draw != null) {
+                standardIconMap.put(newCacheKey, draw);
+            }
+        }
+
+        return draw;
+    }
+
+    /**
+     * Build a custom icon from database
+     * @param context Context to build the drawable
+     * @param icon Icon from database
+     * @return The drawable
+     */
 	private Drawable getIconDrawable(Context context, PwIconCustom icon) {
 		initBlank(context.getResources());
 		if (icon == null) {
@@ -147,10 +280,11 @@ public class IconDrawableFactory {
 		return draw;
 	}
 	
-	/** Resize the custom icon to match the built in icons
+	/**
+     * Resize the custom icon to match the built in icons
      *
-	 * @param bitmap
-	 * @return
+	 * @param bitmap Bitmap to resize
+	 * @return Bitmap resized
 	 */
 	private Bitmap resize(Bitmap bitmap) {
 		int width = bitmap.getWidth();

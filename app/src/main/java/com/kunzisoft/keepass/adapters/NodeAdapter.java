@@ -198,9 +198,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                     iconColor = iconEntryColor;
                     break;
             }
-            App.getDB().getDrawFactory().assignDrawableTo(context, holder.icon, subNode.getIcon(), true, iconColor);
+            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), true, iconColor);
         } else {
-            App.getDB().getDrawFactory().assignDrawableTo(context, holder.icon, subNode.getIcon());
+            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
         }
         // Assign text
         holder.text.setText(subNode.getDisplayTitle());

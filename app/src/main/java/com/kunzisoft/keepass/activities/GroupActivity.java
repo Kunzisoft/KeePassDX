@@ -75,6 +75,7 @@ public class GroupActivity extends ListNodesActivity
 
     private Toolbar toolbar;
 
+    private ImageView iconView;
     private AddNodeButtonView addNodeButtonView;
 
 	protected boolean addGroupEnabled = false;
@@ -143,6 +144,7 @@ public class GroupActivity extends ListNodesActivity
 		// Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
 
+        iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
         addNodeButtonView.enableAddGroup(addGroupEnabled);
         addNodeButtonView.enableAddEntry(addEntryEnabled);
@@ -413,16 +415,14 @@ public class GroupActivity extends ListNodesActivity
      */
     protected void assignGroupIcon() {
 		if (mCurrentGroup != null) {
-			ImageView iv = findViewById(R.id.icon);
-
             if (IconPackChooser.getSelectedIconPack(this).tintable()) {
                 // Retrieve the textColor to tint the icon
                 int[] attrs = {R.attr.textColorInverse};
                 TypedArray ta = getTheme().obtainStyledAttributes(attrs);
                 int iconColor = ta.getColor(0, Color.WHITE);
-                App.getDB().getDrawFactory().assignDrawableTo(this, iv, mCurrentGroup.getIcon(), true, iconColor);
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
             } else {
-                App.getDB().getDrawFactory().assignDrawableTo(this, iv, mCurrentGroup.getIcon());
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
             }
 		}
 	}
