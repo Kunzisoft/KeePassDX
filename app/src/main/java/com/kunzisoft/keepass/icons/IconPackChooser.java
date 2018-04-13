@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.icons;
 import android.content.Context;
 import android.util.Log;
 
-import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 
@@ -31,6 +31,8 @@ import java.util.List;
 
 /**
  * Utility class to built and select an IconPack dynamically by libraries importation
+ *
+ * @author J-Jamet
  */
 public class IconPackChooser {
 
@@ -54,7 +56,8 @@ public class IconPackChooser {
      * Built the icon pack chooser based on imports made in <i>build.gradle</i>
      *
      * <p>Dynamic import can be done for each flavor by prefixing the 'implementation' command with the name of the flavor.< br/>
-     * (ex : {@code libreImplementation project(path: ':icon-pack-classic')}</p>
+     * (ex : {@code libreImplementation project(path: ':icon-pack-classic')} <br />
+     * Each name of icon pack must be in {@code ICON_PACK_ARRAY} in the build.gradle file</p>
      *
      * @param context Context to construct each pack with the resources
      * @return An unique instance of {@link IconPackChooser}, recall {@link #build(Context)} provide the same instance
@@ -65,9 +68,10 @@ public class IconPackChooser {
             synchronized (IconPackChooser.class) {
                 if (sIconPackBuilder == null) {
                     sIconPackBuilder = new IconPackChooser();
-                    addOrCatchNewIconPack(context, R.string.classic_resource_prefix);
-                    addOrCatchNewIconPack(context, R.string.material_resource_prefix);
 
+                    for (String iconPackString : BuildConfig.ICON_PACK_ARRAY) {
+                        addOrCatchNewIconPack(context, iconPackString);
+                    }
                     if (iconPackList.isEmpty()) {
                         Log.e(TAG, "Icon packs can't be load, retry with one by default");
                         addDefaultIconPack(context);
@@ -90,11 +94,14 @@ public class IconPackChooser {
     /**
      * Utility method to add new icon pack or catch exception if not retrieve
      */
-    private static void addOrCatchNewIconPack(Context context, int resourcePrefixId) {
+    private static void addOrCatchNewIconPack(Context context, String iconPackString) {
         try {
-            iconPackList.add(new IconPack(context, resourcePrefixId));
+            iconPackList.add(new IconPack(context, context.getResources().getIdentifier(
+                    iconPackString + "_resource_prefix",
+                    "string",
+                    context.getPackageName())));
         } catch (Exception e) {
-            Log.w(TAG, "Icon pack can't be load", e);
+            Log.w(TAG, "Icon pack "+ iconPackString +" can't be load");
         }
     }
 
