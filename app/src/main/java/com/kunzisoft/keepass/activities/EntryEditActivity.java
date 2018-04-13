@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -46,7 +48,6 @@ import com.kunzisoft.keepass.database.PwDate;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
-import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.edit.AddEntry;
 import com.kunzisoft.keepass.database.edit.OnFinish;
 import com.kunzisoft.keepass.database.edit.RunnableOnFinish;
@@ -54,7 +55,7 @@ import com.kunzisoft.keepass.database.edit.UpdateEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
-import com.kunzisoft.keepass.icons.Icons;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.utils.MenuUtil;
@@ -88,6 +89,7 @@ public class EntryEditActivity extends LockingHideActivity
     // Views
     private ScrollView scrollView;
     private EditText entryTitleView;
+    private ImageView entryIconView;
     private EditText entryUserNameView;
     private EditText entryUrlView;
     private EditText entryPasswordView;
@@ -142,6 +144,7 @@ public class EntryEditActivity extends LockingHideActivity
         scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 
         entryTitleView = findViewById(R.id.entry_title);
+        entryIconView = findViewById(R.id.icon_button);
         entryUserNameView = findViewById(R.id.entry_user_name);
         entryUrlView = findViewById(R.id.entry_url);
         entryPasswordView = findViewById(R.id.entry_password);
@@ -165,6 +168,16 @@ public class EntryEditActivity extends LockingHideActivity
 			PwGroup parent = pm.getGroupByGroupId(parentId);
 			mEntry = PwEntry.getInstance(parent);
 			mIsNew = true;
+			// Add the default icon
+            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {R.attr.textColorInverse};
+                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView);
+            }
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			mEntry = pm.getEntryByUUIDId(uuid);
@@ -172,21 +185,22 @@ public class EntryEditActivity extends LockingHideActivity
 			fillData();
 		}
 
-		View iconButton = findViewById(R.id.icon_button);
-		iconButton.setOnClickListener(v ->
+		// Retrieve the icon after an orientation change
+		if (savedInstanceState != null && savedInstanceState.containsKey(IconPickerDialogFragment.KEY_ICON_ID)) {
+            iconPicked(savedInstanceState);
+        }
+
+		// Add listener to the icon
+        entryIconView.setOnClickListener(v ->
                 IconPickerDialogFragment.launch(EntryEditActivity.this));
 
 		// Generate password button
         generatePasswordView = findViewById(R.id.generate_button);
-        generatePasswordView.setOnClickListener(v -> {
-            openPasswordGenerator();
-        });
+        generatePasswordView.setOnClickListener(v -> openPasswordGenerator());
 		
 		// Save button
 		saveView = findViewById(R.id.entry_save);
-        saveView.setOnClickListener(v -> {
-            saveEntry();
-        });
+        saveView.setOnClickListener(v -> saveEntry());
 
 
 		if (mEntry.allowExtraFields()) {
@@ -378,8 +392,7 @@ public class EntryEditActivity extends LockingHideActivity
 
         newEntry.setTitle(entryTitleView.getText().toString());
         if(mSelectedIconID != -1)
-            // or TODO icon factory newEntry.setIcon(App.getDB().pm.iconFactory.getIcon(mSelectedIconID));
-            newEntry.setIcon(new PwIconStandard(mSelectedIconID));
+            newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getIcon(mSelectedIconID));
         else {
             if (mIsNew) {
                 newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getFirstIcon());
@@ -436,8 +449,16 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 
 	protected void fillData() {
-		ImageButton currIconButton = findViewById(R.id.icon_button);
-		App.getDB().getDrawFactory().assignDrawableTo(currIconButton, getResources(), mEntry.getIcon());
+
+        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+            // Retrieve the textColor to tint the icon
+            int[] attrs = {R.attr.textColorInverse};
+            TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+            int iconColor = ta.getColor(0, Color.WHITE);
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon(), true, iconColor);
+        } else {
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon());
+        }
 
 		// Don't start the field reference manager, we want to see the raw ref
         mEntry.endToManageFieldReferences();
@@ -472,8 +493,13 @@ public class EntryEditActivity extends LockingHideActivity
     @Override
     public void iconPicked(Bundle bundle) {
         mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
-        ImageButton currIconButton = findViewById(R.id.icon_button);
-        currIconButton.setImageResource(Icons.iconToResId(mSelectedIconID));
+        entryIconView.setImageResource(IconPackChooser.getSelectedIconPack(this).iconToResId(mSelectedIconID));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+	    outState.putInt(IconPickerDialogFragment.KEY_ICON_ID, mSelectedIconID);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -39,8 +39,7 @@
             android:layout_gravity="end|center_vertical"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic99_blank" />
+            android:scaleType="fitXY" />
         <android.support.v7.widget.AppCompatTextView android:id="@+id/group_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

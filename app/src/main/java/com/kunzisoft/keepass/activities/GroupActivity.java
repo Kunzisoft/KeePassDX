@@ -27,6 +27,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,6 +62,7 @@ import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ProgressTask;
@@ -72,6 +75,7 @@ public class GroupActivity extends ListNodesActivity
 
     private Toolbar toolbar;
 
+    private ImageView iconView;
     private AddNodeButtonView addNodeButtonView;
 
 	protected boolean addGroupEnabled = false;
@@ -140,6 +144,7 @@ public class GroupActivity extends ListNodesActivity
 		// Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
 
+        iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
         addNodeButtonView.enableAddGroup(addGroupEnabled);
         addNodeButtonView.enableAddEntry(addEntryEnabled);
@@ -164,7 +169,6 @@ public class GroupActivity extends ListNodesActivity
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
-		setGroupIcon();
 
         Log.w(TAG, "Finished creating tree");
 
@@ -259,6 +263,8 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected void onResume() {
         super.onResume();
+        // Refresh the group icon
+        assignGroupIcon();
         // Show button on resume
         addNodeButtonView.showButton();
     }
@@ -404,10 +410,20 @@ public class GroupActivity extends ListNodesActivity
         addNodeButtonView.showButton();
     }
 
-    protected void setGroupIcon() {
+    /**
+     * Assign the group icon depending of IconPack or custom icon
+     */
+    protected void assignGroupIcon() {
 		if (mCurrentGroup != null) {
-			ImageView iv = findViewById(R.id.icon);
-			App.getDB().getDrawFactory().assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
+            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {R.attr.textColorInverse};
+                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
+            }
 		}
 	}
 

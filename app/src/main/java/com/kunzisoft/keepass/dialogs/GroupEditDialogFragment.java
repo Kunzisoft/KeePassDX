@@ -21,20 +21,19 @@ package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.icons.Icons;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 
 public class GroupEditDialogFragment extends DialogFragment
         implements IconPickerDialogFragment.IconPickerListener {
@@ -47,7 +46,7 @@ public class GroupEditDialogFragment extends DialogFragment
 	private EditGroupListener editGroupListener;
 
 	private TextView nameField;
-    private ImageButton iconButton;
+    private ImageView iconButton;
 	private int mSelectedIconID;
     private View root;
 
@@ -81,57 +80,53 @@ public class GroupEditDialogFragment extends DialogFragment
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         root = inflater.inflate(R.layout.group_edit, null);
-        nameField = (TextView) root.findViewById(R.id.group_name);
-        iconButton = (ImageButton) root.findViewById(R.id.icon_button);
+        nameField = root.findViewById(R.id.group_name);
+        iconButton = root.findViewById(R.id.icon_button);
 
         if (getArguments() != null
                 && getArguments().containsKey(KEY_NAME)
                 && getArguments().containsKey(KEY_ICON_ID)) {
             nameField.setText(getArguments().getString(KEY_NAME));
             populateIcon(getArguments().getInt(KEY_ICON_ID));
+        } else {
+            // populate the icon with the default one
+            iconButton.setImageResource(IconPackChooser.getSelectedIconPack(getContext()).getDefaultIconId());
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(root)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        String name = nameField.getText().toString();
-                        if ( name.length() > 0 ) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString(KEY_NAME, name);
-                            bundle.putInt(KEY_ICON_ID, mSelectedIconID);
-                            editGroupListener.approveEditGroup(bundle);
-
-                            GroupEditDialogFragment.this.getDialog().cancel();
-                        }
-                        else {
-                            Toast.makeText(getContext(), R.string.error_no_name, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {
+                    String name = nameField.getText().toString();
+                    if ( name.length() > 0 ) {
                         Bundle bundle = new Bundle();
-                        editGroupListener.cancelEditGroup(bundle);
+                        bundle.putString(KEY_NAME, name);
+                        bundle.putInt(KEY_ICON_ID, mSelectedIconID);
+                        editGroupListener.approveEditGroup(bundle);
 
                         GroupEditDialogFragment.this.getDialog().cancel();
                     }
+                    else {
+                        Toast.makeText(getContext(), R.string.error_no_name, Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                    Bundle bundle = new Bundle();
+                    editGroupListener.cancelEditGroup(bundle);
+
+                    GroupEditDialogFragment.this.getDialog().cancel();
                 });
 
-        final ImageButton iconButton = (ImageButton) root.findViewById(R.id.icon_button);
-        iconButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                IconPickerDialogFragment iconPickerDialogFragment = new IconPickerDialogFragment();
-                iconPickerDialogFragment.show(getFragmentManager(), "IconPickerDialogFragment");
-            }
+        final ImageView iconButton = root.findViewById(R.id.icon_button);
+        iconButton.setOnClickListener(v -> {
+            IconPickerDialogFragment iconPickerDialogFragment = new IconPickerDialogFragment();
+            iconPickerDialogFragment.show(getFragmentManager(), "IconPickerDialogFragment");
         });
 
         return builder.create();
     }
 
     private void populateIcon(int iconId) {
-        iconButton.setImageResource(Icons.iconToResId(iconId));
+        iconButton.setImageResource(IconPackChooser.getSelectedIconPack(getContext()).iconToResId(iconId));
     }
 
     @Override

@@ -19,6 +19,8 @@ android {
             abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a',
                     'arm64-v8a', 'mips', 'mips64'
         }
+
+        buildConfigField "String[]", "ICON_PACK_ARRAY", "{\"classic\",\"material\"}"
     }
 
     externalNativeBuild {
@@ -94,4 +96,8 @@ dependencies {
     implementation 'biz.source_code:base64coder:2010-12-19'
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'com.google.guava:guava:23.0-android'
+    // Icon pack, classic for all, material for libre and pro
+    implementation project(path: ':icon-pack-classic')
+    libreImplementation project(path: ':icon-pack-material')
+    pro_googleImplementation project(path: ':icon-pack-material')
 }

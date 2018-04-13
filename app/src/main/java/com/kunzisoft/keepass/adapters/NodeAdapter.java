@@ -20,6 +20,9 @@
 package com.kunzisoft.keepass.adapters;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
@@ -36,6 +39,7 @@ import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
@@ -53,6 +57,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private int nodePositionToUpdate;
     private NodeMenuListener nodeMenuListener;
     private boolean activateContextMenu;
+
+    private int iconGroupColor;
+    private int iconEntryColor;
 
     /**
      * Create node list adapter with contextMenu or not
@@ -81,6 +88,12 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 return item1.equals(item2);
             }
         });
+
+        // Retrieve the color to tint the icon
+        int[] attrs = {android.R.attr.textColorPrimary, android.R.attr.textColor};
+        TypedArray ta = context.getTheme().obtainStyledAttributes(attrs);
+        this.iconGroupColor = ta.getColor(0, Color.BLACK);
+        this.iconEntryColor = ta.getColor(1, Color.BLACK); // TODO test why an error here ?
     }
 
     public void setActivateContextMenu(boolean activate) {
@@ -158,7 +171,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     }
 
     @Override
-    public BasicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BasicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         BasicViewHolder basicViewHolder;
         View view;
         if (viewType == PwNode.Type.GROUP.ordinal()) {
@@ -172,11 +185,23 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(BasicViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BasicViewHolder holder, int position) {
         PwNode subNode = nodeSortedList.get(position);
         // Assign image
-        App.getDB().getDrawFactory().assignDrawableTo(holder.icon,
-                context.getResources(), subNode.getIcon());
+        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
+            int iconColor = Color.BLACK;
+            switch (subNode.getType()) {
+                case GROUP:
+                    iconColor = iconGroupColor;
+                    break;
+                case ENTRY:
+                    iconColor = iconEntryColor;
+                    break;
+            }
+            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), true, iconColor);
+        } else {
+            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
+        }
         // Assign text
         holder.text.setText(subNode.getDisplayTitle());
         // Assign click

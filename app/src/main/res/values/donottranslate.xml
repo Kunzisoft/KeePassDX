@@ -58,6 +58,7 @@
     <string name="timeout_key" translatable="false">timeout_key</string>
     <string name="saf_key" translatable="false">storage_access_framework_key</string>
     <string name="setting_style_key" translatable="false">setting_style_key</string>
+    <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <string name="fingerprint_enable_key" translatable="false">fingerprint_enable_key</string>
@@ -144,6 +145,7 @@
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
     </string-array>
+    <string name="setting_icon_pack_choose_default" translatable="false">@string/classic_resource_prefix</string>
 
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>

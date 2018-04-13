@@ -23,7 +23,8 @@ package com.kunzisoft.keepass.activities;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,6 +46,7 @@ import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
 import com.kunzisoft.keepass.notifications.NotificationField;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -277,20 +279,25 @@ public class EntryActivity extends LockingHideActivity {
         }
     }
 
-    private void populateTitle(Drawable drawIcon, String text) {
-        titleIconView.setImageDrawable(drawIcon);
-        titleView.setText(text);
-    }
-
 	protected void fillData() {
 		Database db = App.getDB();
 		PwDatabase pm = db.getPwDatabase();
 
 		mEntry.startToManageFieldReferences(pm);
 
-		// Assign title
-        populateTitle(db.getDrawFactory().getIconDrawable(getResources(), mEntry.getIcon()),
-                mEntry.getTitle());
+        // Assign title icon
+        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+            // Retrieve the textColor to tint the icon
+            int[] attrs = {R.attr.textColorInverse};
+            TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+            int iconColor = ta.getColor(0, Color.WHITE);
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon(), true, iconColor);
+        } else {
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon());
+        }
+
+		// Assign title text
+        titleView.setText(mEntry.getTitle());
 
         // Assign basic fields
         entryContentsView.assignUserName(mEntry.getUsername());

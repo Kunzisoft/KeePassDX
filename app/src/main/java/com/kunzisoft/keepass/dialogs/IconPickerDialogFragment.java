@@ -21,9 +21,13 @@ package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,18 +37,20 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.icons.Icons;
+import com.kunzisoft.keepass.icons.IconPack;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 
 
 public class IconPickerDialogFragment extends DialogFragment {
 	public static final String KEY_ICON_ID = "icon_id";
 	private IconPickerListener iconPickerListener;
+	private IconPack iconPack;
 
 	public static void launch(StylishActivity activity)	{
         // Create an instance of the dialog fragment and show it
         IconPickerDialogFragment dialog = new IconPickerDialogFragment();
-        dialog.show(activity.getSupportFragmentManager(), "NoticeDialogFragment");
+        dialog.show(activity.getSupportFragmentManager(), "IconPickerDialogFragment");
 	}
 
     @Override
@@ -65,6 +71,8 @@ public class IconPickerDialogFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		// Get the layout inflater
 		LayoutInflater inflater = getActivity().getLayoutInflater();
+
+		iconPack = IconPackChooser.getSelectedIconPack(getContext());
 
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout
@@ -96,7 +104,7 @@ public class IconPickerDialogFragment extends DialogFragment {
 
 		public int getCount() {
 			/* Return number of KeePass icons */
-			return Icons.count();
+			return iconPack.numberOfIcons();
 		}
    	
    		public Object getItem(int position) {
@@ -118,7 +126,17 @@ public class IconPickerDialogFragment extends DialogFragment {
 				currView = convertView;
 			}
 			ImageView iv = currView.findViewById(R.id.icon_image);
-			iv.setImageResource(Icons.iconToResId(position));
+			iv.setImageResource(iconPack.iconToResId(position));
+
+			// Assign color if icons are tintable
+			if (iconPack.tintable()) {
+				// Retrieve the textColor to tint the icon
+				int[] attrs = {android.R.attr.textColor};
+				assert getContext() != null;
+				TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+				int iconColor = ta.getColor(0, Color.BLACK);
+                ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(iconColor));
+			}
 
 			return currView;
 		}

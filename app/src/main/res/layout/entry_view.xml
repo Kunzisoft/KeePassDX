@@ -43,8 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic99_blank"/>
+                android:scaleType="fitXY"/>
             <android.support.v7.widget.AppCompatTextView android:id="@+id/entry_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

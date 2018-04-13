@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.SortNodeEnum;
@@ -143,6 +144,13 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_key),
                 ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
+    }
+
+    public static String getIconPackSelectedId(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(
+                context.getString(R.string.setting_icon_pack_choose_key),
+                context.getString(R.string.setting_icon_pack_choose_default));
     }
 
     /**
