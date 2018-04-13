@@ -185,21 +185,22 @@ public class EntryEditActivity extends LockingHideActivity
 			fillData();
 		}
 
+		// Retrieve the icon after an orientation change
+		if (savedInstanceState != null && savedInstanceState.containsKey(IconPickerDialogFragment.KEY_ICON_ID)) {
+            iconPicked(savedInstanceState);
+        }
+
 		// Add listener to the icon
         entryIconView.setOnClickListener(v ->
                 IconPickerDialogFragment.launch(EntryEditActivity.this));
 
 		// Generate password button
         generatePasswordView = findViewById(R.id.generate_button);
-        generatePasswordView.setOnClickListener(v -> {
-            openPasswordGenerator();
-        });
+        generatePasswordView.setOnClickListener(v -> openPasswordGenerator());
 		
 		// Save button
 		saveView = findViewById(R.id.entry_save);
-        saveView.setOnClickListener(v -> {
-            saveEntry();
-        });
+        saveView.setOnClickListener(v -> saveEntry());
 
 
 		if (mEntry.allowExtraFields()) {
@@ -493,6 +494,12 @@ public class EntryEditActivity extends LockingHideActivity
     public void iconPicked(Bundle bundle) {
         mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
         entryIconView.setImageResource(IconPackChooser.getSelectedIconPack(this).iconToResId(mSelectedIconID));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+	    outState.putInt(IconPickerDialogFragment.KEY_ICON_ID, mSelectedIconID);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
