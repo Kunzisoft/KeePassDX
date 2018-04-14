@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.stylish.StylishActivity;
 
 public class IconPickerDialogFragment extends DialogFragment {
 	public static final String KEY_ICON_ID = "icon_id";
+	public static final int UNDEFINED_ICON_ID = -1;
 	private IconPickerListener iconPickerListener;
 	private IconPack iconPack;
 

@@ -69,7 +69,7 @@
                     android:id="@+id/icon_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
+                    android:layout_margin="4dp"
                     android:src="@drawable/ic_blank_32dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"/>

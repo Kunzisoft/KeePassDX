@@ -29,7 +29,9 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.stylish.Stylish;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
-
+/**
+ * FilePickerActivity class with a style compatibility
+ */
 public class FilePickerStylishActivity extends FilePickerActivity {
 
     private @StyleRes
@@ -51,10 +53,17 @@ public class FilePickerStylishActivity extends FilePickerActivity {
         }
     }
 
+    /**
+     * Derived from the Stylish class, get the specific FilePickerStyle theme
+     */
     public static class FilePickerStylish extends Stylish {
         public static @StyleRes int getThemeId(Context context) {
             if (themeString.equals(context.getString(R.string.list_style_name_night)))
                 return R.style.KeepassDXStyle_FilePickerStyle_Night;
+            else if (themeString.equals(context.getString(R.string.list_style_name_dark)))
+                return R.style.KeepassDXStyle_FilePickerStyle_Dark;
+            else if (themeString.equals(context.getString(R.string.list_style_name_purple)))
+                return R.style.KeepassDXStyle_FilePickerStyle_Purple;
 
             return R.style.KeepassDXStyle_FilePickerStyle_Light;
         }

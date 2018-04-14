@@ -141,8 +141,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference stylePreference = findPreference(getString(R.string.setting_style_key));
                 stylePreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String styleString = (String) newValue;
-                    Stylish.assignStyle(getActivity(), styleString);
-                    getActivity().recreate();
+                    Stylish.assignStyle(styleString);
+                    if (getActivity() != null)
+                        getActivity().recreate();
                     return true;
                 });
 

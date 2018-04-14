@@ -28,8 +28,6 @@
 
         <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
         <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
-        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
@@ -78,8 +76,6 @@
 
         <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
         <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
-        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
@@ -218,11 +214,6 @@
     <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
         <item name="android:textColor">?attr/textColorInverse</item>
         <item name="android:background">@drawable/button_background</item>
-        <item name="android:gravity">center</item>
-    </style>
-    <style name="KeepassDXStyle.v21.ImageButton" parent="Base.Widget.AppCompat.ImageButton" />
-    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
-        <item name="android:background">@drawable/image_button_background</item>
         <item name="android:gravity">center</item>
     </style>
 

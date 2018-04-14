@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 
@@ -90,7 +93,15 @@ public class GroupEditDialogFragment extends DialogFragment
             populateIcon(getArguments().getInt(KEY_ICON_ID));
         } else {
             // populate the icon with the default one
-            iconButton.setImageResource(IconPackChooser.getSelectedIconPack(getContext()).getDefaultIconId());
+            if (IconPackChooser.getSelectedIconPack(getContext()).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {android.R.attr.textColorPrimary};
+                TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(getContext(), iconButton, true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(getContext(), iconButton);
+            }
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -116,7 +127,6 @@ public class GroupEditDialogFragment extends DialogFragment
                     GroupEditDialogFragment.this.getDialog().cancel();
                 });
 
-        final ImageView iconButton = root.findViewById(R.id.icon_button);
         iconButton.setOnClickListener(v -> {
             IconPickerDialogFragment iconPickerDialogFragment = new IconPickerDialogFragment();
             iconPickerDialogFragment.show(getFragmentManager(), "IconPickerDialogFragment");

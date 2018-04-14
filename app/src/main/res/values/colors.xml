@@ -30,9 +30,18 @@
     <color name="green">#43a047</color>
     <color name="green_dark">#388e3c</color>
 
+    <color name="red_light">#f44336</color>
+    <color name="red">#e53935</color>
+
+    <color name="purple_lighter">#ce93d8</color>
+    <color name="purple_light">#8E24AA</color>
+    <color name="purple">#7B1FA2</color>
+    <color name="purple_dark">#6A1B9A</color>
+
     <color name="background_light">#FAFAFA</color>
 	<color name="background_night">#303030</color>
     <color name="background_dark">#000000</color>
+    <color name="background_purple">#e3cfff</color>
 
     <color name="icon_background">#555555</color>
     <color name="icon_text">#000000</color>

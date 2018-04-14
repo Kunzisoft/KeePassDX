@@ -48,6 +48,7 @@ import com.kunzisoft.keepass.database.PwDate;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
+import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.edit.AddEntry;
 import com.kunzisoft.keepass.database.edit.OnFinish;
 import com.kunzisoft.keepass.database.edit.RunnableOnFinish;
@@ -64,6 +65,8 @@ import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryEditCustomField;
 
 import java.util.UUID;
+
+import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.UNDEFINED_ICON_ID;
 
 public class EntryEditActivity extends LockingHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
@@ -84,7 +87,7 @@ public class EntryEditActivity extends LockingHideActivity
 	protected PwEntry mEntry;
 	protected PwEntry mCallbackNewEntry;
 	protected boolean mIsNew;
-	protected int mSelectedIconID = -1;
+	protected int mSelectedIconID = UNDEFINED_ICON_ID;
 
     // Views
     private ScrollView scrollView;
@@ -99,6 +102,7 @@ public class EntryEditActivity extends LockingHideActivity
     private ViewGroup entryExtraFieldsContainer;
     private View addNewFieldView;
     private View saveView;
+    private int iconColor;
 
 	/**
 	 * Launch EntryEditActivity to update an existing entry
@@ -162,6 +166,11 @@ public class EntryEditActivity extends LockingHideActivity
 		Intent intent = getIntent();
 		byte[] uuidBytes = intent.getByteArrayExtra(KEY_ENTRY);
 
+        // Retrieve the textColor to tint the icon
+        int[] attrs = {android.R.attr.textColorPrimary};
+        TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+        iconColor = ta.getColor(0, Color.WHITE);
+
 		PwDatabase pm = db.getPwDatabase();
 		if ( uuidBytes == null ) {
             PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
@@ -170,10 +179,6 @@ public class EntryEditActivity extends LockingHideActivity
 			mIsNew = true;
 			// Add the default icon
             if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-                // Retrieve the textColor to tint the icon
-                int[] attrs = {R.attr.textColorInverse};
-                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-                int iconColor = ta.getColor(0, Color.WHITE);
                 App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, true, iconColor);
             } else {
                 App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView);
@@ -391,17 +396,8 @@ public class EntryEditActivity extends LockingHideActivity
         newEntry.setLastModificationTime(new PwDate());
 
         newEntry.setTitle(entryTitleView.getText().toString());
-        if(mSelectedIconID != -1)
-            newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getIcon(mSelectedIconID));
-        else {
-            if (mIsNew) {
-                newEntry.setIcon(App.getDB().getPwDatabase().getIconFactory().getFirstIcon());
-            }
-            else {
-                // Keep previous icon, if no new one was selected
-                newEntry.setIcon(mEntry.getIconStandard());
-            }
-        }
+        newEntry.setIcon(retrieveIcon());
+
         newEntry.setUrl(entryUrlView.getText().toString());
         newEntry.setUsername(entryUserNameView.getText().toString());
         newEntry.setNotes(entryCommentView.getText().toString());
@@ -424,6 +420,24 @@ public class EntryEditActivity extends LockingHideActivity
 
         return newEntry;
 	}
+
+    /**
+     * Retrieve the icon by the selection, or the first icon in the list if the entry is new or the last one
+     * @return
+     */
+	private PwIconStandard retrieveIcon() {
+        if(mSelectedIconID != UNDEFINED_ICON_ID)
+            return App.getDB().getPwDatabase().getIconFactory().getIcon(mSelectedIconID);
+        else {
+            if (mIsNew) {
+                return App.getDB().getPwDatabase().getIconFactory().getFirstIcon();
+            }
+            else {
+                // Keep previous icon, if no new one was selected
+                return mEntry.getIconStandard();
+            }
+        }
+    }
 
 
 	@Override
@@ -451,10 +465,6 @@ public class EntryEditActivity extends LockingHideActivity
 	protected void fillData() {
 
         if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-            // Retrieve the textColor to tint the icon
-            int[] attrs = {R.attr.textColorInverse};
-            TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-            int iconColor = ta.getColor(0, Color.WHITE);
             App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon(), true, iconColor);
         } else {
             App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon());
@@ -498,8 +508,10 @@ public class EntryEditActivity extends LockingHideActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-	    outState.putInt(IconPickerDialogFragment.KEY_ICON_ID, mSelectedIconID);
-        super.onSaveInstanceState(outState);
+        if (mSelectedIconID != UNDEFINED_ICON_ID) {
+            outState.putInt(IconPickerDialogFragment.KEY_ICON_ID, mSelectedIconID);
+            super.onSaveInstanceState(outState);
+        }
     }
 
     @Override
