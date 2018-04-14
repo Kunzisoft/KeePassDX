@@ -40,7 +40,7 @@ import java.util.List;
 public class MenuUtil {
 
     public static void donationMenuInflater(MenuInflater inflater, Menu menu) {
-        if(!(BuildConfig.FULL_VERSION && BuildConfig.GOOGLE_PLAY_VERSION))
+        if(!(BuildConfig.FULL_VERSION && BuildConfig.CLOSED_STORE))
             inflater.inflate(R.menu.donation, menu);
     }
 
@@ -48,7 +48,7 @@ public class MenuUtil {
                                                      Toolbar toolbar,
                                                      String title,
                                                      String summary) {
-        if (!(BuildConfig.FULL_VERSION && BuildConfig.GOOGLE_PLAY_VERSION)) {
+        if (!(BuildConfig.FULL_VERSION && BuildConfig.CLOSED_STORE)) {
             tapTargets.add(TapTarget.forToolbarMenuItem(toolbar,
                     R.id.menu_donate,
                     title,

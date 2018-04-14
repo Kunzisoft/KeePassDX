@@ -46,19 +46,19 @@ android {
             applicationIdSuffix = ".libre"
             versionNameSuffix "-libre"
             buildConfigField "boolean", "FULL_VERSION", "true"
-            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "false"
+            buildConfigField "boolean", "CLOSED_STORE", "false"
         }
-        pro_google {
+        pro {
             applicationIdSuffix = ".pro"
             versionNameSuffix "-pro"
             buildConfigField "boolean", "FULL_VERSION", "true"
-            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
+            buildConfigField "boolean", "CLOSED_STORE", "true"
         }
-        free_google {
+        free {
             applicationIdSuffix = ".free"
             versionNameSuffix "-free"
             buildConfigField "boolean", "FULL_VERSION", "false"
-            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
+            buildConfigField "boolean", "CLOSED_STORE", "true"
         }
     }
     compileOptions {
@@ -99,5 +99,5 @@ dependencies {
     // Icon pack, classic for all, material for libre and pro
     implementation project(path: ':icon-pack-classic')
     libreImplementation project(path: ':icon-pack-material')
-    pro_googleImplementation project(path: ':icon-pack-material')
+    proImplementation project(path: ':icon-pack-material')
 }
