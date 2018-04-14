@@ -21,8 +21,8 @@
 
     <!-- SplashScreen theme -->
     <style name="KeepassDXStyle.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/green_dark</item>
-        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/background_night</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 

@@ -20,26 +20,25 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup"
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
-        android:theme="@style/KeepassDXStyle.Light"
+        android:theme="@style/KeepassDXStyle.Night"
         tools:replace="android:theme">
         <!-- TODO backup API Key -->
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="" />
 
-        <activity android:name=".activities.StartActivity"
-                  android:theme="@style/KeepassDXStyle.SplashScreen"
-                  android:label="@string/app_name">
+        <activity
+            android:name="com.kunzisoft.keepass.fileselect.FileSelectActivity"
+            android:theme="@style/KeepassDXStyle.SplashScreen"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.kunzisoft.keepass.fileselect.FileSelectActivity"
-            android:launchMode="singleInstance"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
             android:launchMode="singleInstance"

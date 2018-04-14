@@ -117,7 +117,7 @@ public class IconDrawableFactory {
      * @param tintColor Use this color if tint is true
      */
     public void assignDrawableTo(Context context, ImageView imageView, int iconId, boolean tint, int tintColor) {
-        assignDrawableToImageView(getIconDrawable(context, iconId, tint, tintColor),
+        assignDrawableToImageView(new SuperDrawable(getIconDrawable(context, iconId, tint, tintColor)),
                 imageView,
                 tint,
                 tintColor);
@@ -126,10 +126,10 @@ public class IconDrawableFactory {
     /**
      * Utility method to assign a drawable to an ImageView and tint it
      */
-    private void assignDrawableToImageView(Drawable drawable, ImageView imageView, boolean tint, int tintColor) {
-        if (imageView != null && drawable != null) {
-            imageView.setImageDrawable(drawable);
-            if (tint) {
+    private void assignDrawableToImageView(SuperDrawable superDrawable, ImageView imageView, boolean tint, int tintColor) {
+        if (imageView != null && superDrawable.drawable != null) {
+            imageView.setImageDrawable(superDrawable.drawable);
+            if (!superDrawable.custom && tint) {
                 ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor));
             } else {
                 ImageViewCompat.setImageTintList(imageView, null);
@@ -145,7 +145,7 @@ public class IconDrawableFactory {
      * @return The build drawable
      */
 	public Drawable getIconDrawable(Context context, PwIcon icon) {
-		return getIconDrawable(context, icon, false, Color.WHITE);
+		return getIconDrawable(context, icon, false, Color.WHITE).drawable;
 	}
 
     /**
@@ -157,11 +157,11 @@ public class IconDrawableFactory {
      * @param tintColor Use this color if tint is true
      * @return The build drawable
      */
-    public Drawable getIconDrawable(Context context, PwIcon icon, boolean tint, int tintColor) {
+    public SuperDrawable getIconDrawable(Context context, PwIcon icon, boolean tint, int tintColor) {
         if (icon instanceof PwIconStandard) {
-            return getIconDrawable(context.getApplicationContext(), (PwIconStandard) icon, tint, tintColor);
+            return new SuperDrawable(getIconDrawable(context.getApplicationContext(), (PwIconStandard) icon, tint, tintColor));
         } else {
-            return getIconDrawable(context, (PwIconCustom) icon);
+            return new SuperDrawable(getIconDrawable(context, (PwIconCustom) icon), true);
         }
     }
 
@@ -244,6 +244,24 @@ public class IconDrawableFactory {
 
         return draw;
     }
+
+	/**
+	 * Utility class to prevent a custom icon to be tint
+	 */
+	private class SuperDrawable {
+    	Drawable drawable;
+    	boolean custom;
+
+    	SuperDrawable(Drawable drawable) {
+    	    this.drawable = drawable;
+    	    this.custom = false;
+        }
+
+        SuperDrawable(Drawable drawable, boolean custom) {
+            this.drawable = drawable;
+            this.custom = custom;
+        }
+	}
 
     /**
      * Build a custom icon from database

@@ -28,18 +28,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
 
-import com.kunzisoft.keepass.activities.StartActivity;
 import com.kunzisoft.keepass.fileselect.FileSelectActivity;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class AutoFillAuthActivity extends StartActivity {
+public class AutoFillAuthActivity extends AppCompatActivity {
 
     private AutofillHelper autofillHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         autofillHelper = new AutofillHelper();
+        startFileSelectActivity();
         super.onCreate(savedInstanceState);
     }
 
@@ -48,8 +49,7 @@ public class AutoFillAuthActivity extends StartActivity {
         return PendingIntent.getActivity(context, 0,
                 intent, PendingIntent.FLAG_CANCEL_CURRENT).getIntentSender();
     }
-
-    @Override
+    
     protected void startFileSelectActivity() {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         AssistStructure assistStructure = autofillHelper.retrieveAssistStructure(getIntent());

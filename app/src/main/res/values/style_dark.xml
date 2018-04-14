@@ -24,8 +24,8 @@
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#757575</item>
         <item name="colorAccentCompat">#757575</item>
-        <item name="colorControlActivated">#59585a</item>
-        <item name="android:textColorPrimary">#b2dfdb</item>
+        <item name="colorControlActivated">#80cbc4</item>
+        <item name="android:textColorPrimary">#80cbc4</item>
         <item name="android:textColorHintInverse">#b2dfdb</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
@@ -39,7 +39,7 @@
     <!-- Dialog -->
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">#fefefe</item>
-        <item name="android:textColorPrimary">#fefefe</item>
+        <item name="android:textColorPrimary">#80cbc4</item>
     </style>
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Dark" parent="KeepassDXStyle.FilePickerStyle.Night">
