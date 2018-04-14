@@ -29,11 +29,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
-import com.kunzisoft.keepass.KeePass;
+import com.kunzisoft.keepass.activities.StartActivity;
 import com.kunzisoft.keepass.fileselect.FileSelectActivity;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class AutoFillAuthActivity extends KeePass {
+public class AutoFillAuthActivity extends StartActivity {
 
     private AutofillHelper autofillHelper;
 

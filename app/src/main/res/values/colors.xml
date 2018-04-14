@@ -29,6 +29,7 @@
     <color name="green_light">#4caf50</color>
     <color name="green">#43a047</color>
     <color name="green_dark">#388e3c</color>
+    <color name="green_darker">#2e7d32</color>
 
     <color name="red_light">#f44336</color>
     <color name="red">#e53935</color>

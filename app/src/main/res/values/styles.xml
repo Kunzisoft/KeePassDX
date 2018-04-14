@@ -19,6 +19,13 @@
 -->
 <resources>
 
+    <!-- SplashScreen theme -->
+    <style name="KeepassDXStyle.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/green_dark</item>
+        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
     <!-- Base application theme. -->
     <!-- For setting encapsulation -->
     <style name="KeepassDXStyle.Light.v21" parent="Theme.AppCompat.Light">

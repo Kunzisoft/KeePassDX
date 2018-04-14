@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass;
+package com.kunzisoft.keepass.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,7 +27,7 @@ import android.support.annotation.Nullable;
 
 import com.kunzisoft.keepass.fileselect.FileSelectActivity;
 
-public class KeePass extends Activity {
+public class StartActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
