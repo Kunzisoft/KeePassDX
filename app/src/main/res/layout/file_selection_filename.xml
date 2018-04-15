@@ -67,7 +67,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_send_white_24dp"
-                android:tint="?attr/colorAccent" />
+                android:tint="?attr/textColorInverse" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

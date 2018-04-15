@@ -32,9 +32,11 @@
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
     </style>
-    <!-- Toolbar Style Green -->
-    <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Toolbar">
-        <item name="colorPrimary">#212121</item>
+    <!-- Toolbar Style Dark -->
+    <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Dark">
+        <item name="colorControlNormal">@color/colorTextInverse</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">

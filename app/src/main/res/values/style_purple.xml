@@ -24,15 +24,20 @@
         <item name="colorPrimaryDark">@color/purple_dark</item>
         <item name="colorAccent">@color/red</item>
         <item name="colorAccentCompat">@color/red</item>
+        <item name="android:textColor">@color/purple_dark</item>
+        <item name="android:editTextColor">@color/purple</item>
         <item name="colorControlActivated">@color/green</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/background_purple</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
+        <item name="iconPreferenceColor">@color/purple_light</item>
     </style>
     <!-- Toolbar Style Purple -->
-    <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Toolbar">
-        <item name="colorPrimary">@color/purple</item>
+    <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
+        <item name="colorControlNormal">@color/colorTextInverse</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Purple" parent="KeepassDXStyle.FilePickerStyle.Light">

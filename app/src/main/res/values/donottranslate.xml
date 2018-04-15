@@ -142,11 +142,13 @@
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
     <string name="list_style_name_dark" translatable="false">KeepassDXStyle_Dark</string>
+    <string name="list_style_name_blue" translatable="false">KeepassDXStyle_Blue</string>
     <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
         <item translatable="false">@string/list_style_name_dark</item>
+        <item translatable="false">@string/list_style_name_blue</item>
         <item translatable="false">@string/list_style_name_purple</item>
     </string-array>
     <string name="setting_icon_pack_choose_default" translatable="false">@string/classic_resource_prefix</string>

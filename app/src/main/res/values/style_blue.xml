@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Blue Style -->
+    <style name="KeepassDXStyle.Blue" parent="KeepassDXStyle.Light.v21" >
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="colorAccentCompat">@color/blue</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="android:textColorPrimary">@color/blue_light</item>
+        <item name="android:textColorHintInverse">@color/blue_lighter</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
+    </style>
+    <!-- Toolbar Style Blue -->
+    <style name="KeepassDXStyle.Toolbar.Blue" parent="KeepassDXStyle.Blue">
+        <item name="colorControlActivated">@color/blue_lighter</item>
+        <item name="colorControlNormal">@color/colorTextInverse</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+    </style>
+    <!-- File Picker Theme -->
+    <style name="KeepassDXStyle.FilePickerStyle.Blue" parent="KeepassDXStyle.FilePickerStyle.Light">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/blue</item>
+    </style>
+</resources>

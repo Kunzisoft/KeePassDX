@@ -31,6 +31,12 @@
     <color name="green_dark">#388e3c</color>
     <color name="green_darker">#2e7d32</color>
 
+    <color name="blue_lighter">#90CAF9</color>
+    <color name="blue_light">#2196F3</color>
+    <color name="blue">#1E88E5</color>
+    <color name="blue_dark">#1976D2</color>
+    <color name="blue_darker">#1565C0</color>
+
     <color name="red_light">#f44336</color>
     <color name="red">#e53935</color>
 

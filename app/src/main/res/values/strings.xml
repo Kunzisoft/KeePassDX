@@ -310,6 +310,7 @@
         <item>Light Theme</item>
         <item>Night Theme</item>
         <item>Classic Dark Theme</item>
+        <item>Sky and Ocean Theme</item>
         <item>Pro Theme</item>
     </string-array>
     <string name="icon_pack_choose_title">Select an icon pack</string>

@@ -141,11 +141,8 @@
     </style>
 
     <!-- Toolbar Style Green -->
-    <style name="KeepassDXStyle.Toolbar" parent="Theme.AppCompat">
+    <style name="KeepassDXStyle.Toolbar" parent="KeepassDXStyle.Light.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
-
-        <item name="colorPrimary">@color/green</item>
-
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>

@@ -306,6 +306,7 @@
         <item>Thème Jour</item>
         <item>Thème Nuit</item>
         <item>Thème Foncé Classique</item>
+        <item>Thème Ciel et Océan</item>
         <item>Thème Pro</item>
     </string-array>
     <string name="icon_pack_choose_title">Choisir un pack d\'icones</string>
