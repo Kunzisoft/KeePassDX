@@ -61,6 +61,13 @@ android {
             buildConfigField "boolean", "CLOSED_STORE", "true"
         }
     }
+
+    sourceSets {
+        libre.res.srcDir 'src/libre/res'
+        pro.res.srcDir 'src/pro/res'
+        free.res.srcDir 'src/free/res'
+    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
