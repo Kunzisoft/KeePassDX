@@ -57,7 +57,7 @@ public class IconPackChooser {
      *
      * <p>Dynamic import can be done for each flavor by prefixing the 'implementation' command with the name of the flavor.< br/>
      * (ex : {@code libreImplementation project(path: ':icon-pack-classic')} <br />
-     * Each name of icon pack must be in {@code ICON_PACK_ARRAY} in the build.gradle file</p>
+     * Each name of icon pack must be in {@code ICON_PACKS} in the build.gradle file</p>
      *
      * @param context Context to construct each pack with the resources
      * @return An unique instance of {@link IconPackChooser}, recall {@link #build(Context)} provide the same instance
@@ -69,7 +69,7 @@ public class IconPackChooser {
                 if (sIconPackBuilder == null) {
                     sIconPackBuilder = new IconPackChooser();
 
-                    for (String iconPackString : BuildConfig.ICON_PACK_ARRAY) {
+                    for (String iconPackString : BuildConfig.ICON_PACKS) {
                         addOrCatchNewIconPack(context, iconPackString);
                     }
                     if (iconPackList.isEmpty()) {
@@ -84,11 +84,11 @@ public class IconPackChooser {
     }
 
     /**
-     * Construct dynamically the icon pack provide by the default string resource "resource_prefix"
+     * Construct dynamically the icon pack provide by the default string resource "resource_id"
      */
     private static void addDefaultIconPack(Context context) {
-        int resourcePrefixId = context.getResources().getIdentifier("resource_prefix", "string", context.getPackageName());
-        iconPackList.add(new IconPack(context, resourcePrefixId));
+        int resourceId = context.getResources().getIdentifier("resource_id", "string", context.getPackageName());
+        iconPackList.add(new IconPack(context, resourceId));
     }
 
     /**
@@ -97,7 +97,7 @@ public class IconPackChooser {
     private static void addOrCatchNewIconPack(Context context, String iconPackString) {
         try {
             iconPackList.add(new IconPack(context, context.getResources().getIdentifier(
-                    iconPackString + "_resource_prefix",
+                    iconPackString + "_resource_id",
                     "string",
                     context.getPackageName())));
         } catch (Exception e) {
@@ -129,9 +129,13 @@ public class IconPackChooser {
     }
 
     /**
-     * @return Get the list of IconPack available
+     * Get the list of IconPack available
+     *
+     * @param context Context to build the icon pack if not already build
+     * @return IconPack available
      */
-    public static List<IconPack> getIconPackList() {
+    public static List<IconPack> getIconPackList(Context context) {
+        build(context);
         return iconPackList;
     }
 }

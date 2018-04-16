@@ -337,7 +337,7 @@ public class FileSelectActivity extends StylishActivity implements
                                         TapTarget.forView(openButtonView,
                                                 getString(R.string.education_open_link_database_title),
                                                 getString(R.string.education_open_link_database_summary))
-                                                .tintTarget(false)
+                                                .tintTarget(true)
                                                 .cancelable(true),
                                         new TapTargetView.Listener() {
                                             @Override

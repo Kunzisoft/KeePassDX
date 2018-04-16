@@ -30,7 +30,7 @@ public class IconPackListPreference extends ListPreference {
 
         List<String> entries = new ArrayList<>();
         List<String> values = new ArrayList<>();
-        for (IconPack iconPack : IconPackChooser.getIconPackList()) {
+        for (IconPack iconPack : IconPackChooser.getIconPackList(context)) {
             entries.add(iconPack.getName());
             values.add(iconPack.getId());
         }

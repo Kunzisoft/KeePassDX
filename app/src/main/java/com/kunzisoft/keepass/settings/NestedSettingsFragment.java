@@ -41,9 +41,11 @@ import android.util.Log;
 import android.view.autofill.AutofillManager;
 import android.widget.Toast;
 
+import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.StorageAccessFrameworkDialog;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
@@ -140,8 +142,17 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                 Preference stylePreference = findPreference(getString(R.string.setting_style_key));
                 stylePreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                    String styleString = (String) newValue;
-                    Stylish.assignStyle(styleString);
+                    String styleIdString = (String) newValue;
+                    for (String themeIdDisabled : BuildConfig.STYLES_DISABLED) {
+                        if (themeIdDisabled.equals(styleIdString)) {
+                            ProFeatureDialogFragment dialogFragment = new ProFeatureDialogFragment();
+                            if (getFragmentManager() != null)
+                                dialogFragment.show(getFragmentManager(), "pro_feature_dialog");
+                            return false;
+                        }
+                    }
+
+                    Stylish.assignStyle(styleIdString);
                     if (getActivity() != null)
                         getActivity().recreate();
                     return true;
@@ -149,7 +160,17 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                 Preference iconPackPreference = findPreference(getString(R.string.setting_icon_pack_choose_key));
                 iconPackPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                    IconPackChooser.setSelectedIconPack((String) newValue);
+                    String iconPackId = (String) newValue;
+                    for (String iconPackIdDisabled : BuildConfig.ICON_PACKS_DISABLED) {
+                        if (iconPackIdDisabled.equals(iconPackId)) {
+                            ProFeatureDialogFragment dialogFragment = new ProFeatureDialogFragment();
+                            if (getFragmentManager() != null)
+                                dialogFragment.show(getFragmentManager(), "pro_feature_dialog");
+                            return false;
+                        }
+                    }
+
+                    IconPackChooser.setSelectedIconPack(iconPackId);
                     return true;
                 });
 

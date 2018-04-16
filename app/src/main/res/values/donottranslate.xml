@@ -20,6 +20,7 @@
 <resources>
     <string name="app_name" translatable="false">KeePass DX</string>
 
+    <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
     <string name="donate_url" translatable="false">https://www.kunzisoft.com/donation</string>
     <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
@@ -151,7 +152,8 @@
         <item translatable="false">@string/list_style_name_blue</item>
         <item translatable="false">@string/list_style_name_purple</item>
     </string-array>
-    <string name="setting_icon_pack_choose_default" translatable="false">@string/classic_resource_prefix</string>
+    <!-- WARNING ! module icon-pack-classic must be import in gradle -->
+    <string name="setting_icon_pack_choose_default" translatable="false">@string/classic_resource_id</string>
 
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>

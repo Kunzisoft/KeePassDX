@@ -20,7 +20,7 @@ android {
                     'arm64-v8a', 'mips', 'mips64'
         }
 
-        buildConfigField "String[]", "ICON_PACK_ARRAY", "{\"classic\",\"material\"}"
+        buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
     }
 
     externalNativeBuild {
@@ -47,18 +47,25 @@ android {
             versionNameSuffix "-libre"
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "false"
+            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Purple\"}"
+            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
+
         }
         pro {
             applicationIdSuffix = ".pro"
             versionNameSuffix "-pro"
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "true"
+            buildConfigField "String[]", "STYLES_DISABLED", "{}"
+            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
         }
         free {
             applicationIdSuffix = ".free"
             versionNameSuffix "-free"
             buildConfigField "boolean", "FULL_VERSION", "false"
             buildConfigField "boolean", "CLOSED_STORE", "true"
+            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Purple\"}"
+            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{\"material\"}"
         }
     }
 
@@ -105,6 +112,5 @@ dependencies {
     implementation 'com.google.guava:guava:23.0-android'
     // Icon pack, classic for all, material for libre and pro
     implementation project(path: ':icon-pack-classic')
-    libreImplementation project(path: ':icon-pack-material')
-    proImplementation project(path: ':icon-pack-material')
+    implementation project(path: ':icon-pack-material')
 }

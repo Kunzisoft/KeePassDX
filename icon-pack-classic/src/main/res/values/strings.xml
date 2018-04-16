@@ -20,7 +20,7 @@
 <resources
   xmlns:tools="http://schemas.android.com/tools">
     <string name="classic_name">Classic Icon Pack</string>
-    <string name="classic_resource_prefix">classic_</string>
-    <string name="resource_prefix" tools:ignore="ResourceName">@string/classic_resource_prefix</string>
+    <string name="classic_resource_id">classic</string>
+    <string name="resource_id" tools:ignore="ResourceName">@string/classic_resource_id</string>
     <bool name="classic_tintable">false</bool>
 </resources>

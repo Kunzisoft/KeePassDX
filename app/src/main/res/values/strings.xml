@@ -287,6 +287,13 @@
     <string name="education_donation_title">Participate</string>
     <string name="education_donation_summary">Participate to increase the stability, the security and to add more features.</string>
 
+    <string name="html_text_ad_free">Unlike many password management applications, this app is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;open source&lt;/strong&gt; and does not recover personal data on its servers, even in its free version.</string>
+    <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;feature&lt;/strong&gt; and many more and you will help especially to &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">This &lt;strong&gt;feature&lt;/strong&gt; and many more are available thanks to your generosity.</string>
+    <string name="html_text_donation">In order to keep our freedom and to be always active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
+    <string name="download">Download</string>
+    <string name="contribute">Contribute</string>
+
     <string-array name="timeout_options">
     	<item>5 seconds</item>
     	<item>10 seconds</item>
