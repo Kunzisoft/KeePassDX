@@ -77,8 +77,8 @@ public class AddNodeButtonView extends RelativeLayout {
         addGroupEnable = true;
 
         addButtonView = findViewById(R.id.add_button);
-        addEntryView = findViewById(R.id.add_entry);
-        addGroupView = findViewById(R.id.add_group);
+        addEntryView = findViewById(R.id.container_add_entry);
+        addGroupView = findViewById(R.id.container_add_group);
 
         animationDuration = 300L;
 
@@ -195,11 +195,16 @@ public class AddNodeButtonView extends RelativeLayout {
     }
 
     public void setAddEntryClickListener(OnClickListener onClickListener) {
-        if (addEntryEnable)
+        if (addEntryEnable) {
             addEntryView.setOnClickListener(view -> {
                 onClickListener.onClick(view);
                 closeButtonIfOpen();
             });
+            addEntryView.setOnClickListener(view -> {
+                onClickListener.onClick(view);
+                closeButtonIfOpen();
+            });
+        }
     }
 
     private void startGlobalAnimation() {
