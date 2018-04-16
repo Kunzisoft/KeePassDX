@@ -194,7 +194,7 @@
     <string name="warning_no_encryption_key">Sind Sie sicher, dass sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
     <string name="appearance">Aussehen</string>
     <string name="password_size_title">Passwortgröße</string>
-    <string name="password_size_summary">Standartlänge des generierten Passworts ändern</string>
+    <string name="password_size_summary">Standardlänge des generierten Passworts ändern</string>
     <string name="clipboard_notifications_title">Zwischenablagenbenachrichtigungen</string>
     <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen zum kopieren von Benutzername und Passwort einschalten</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
@@ -212,7 +212,7 @@
     <string name="fingerprint_scan_to_store">Fingerabruck scannen, um Masterpasswort zu speichern</string>
     <string name="fingerprint_type_password_text">Geben Sie ihr Passwort in Keepass DX ein</string>
     <string name="lock">Sperre</string>
-    <string name="list_password_generator_options_summary">Standartzeichen für Passwortgenerator setzen</string>
+    <string name="list_password_generator_options_summary">Standardzeichen für Passwortgenerator setzen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
     <string name="configure_fingerprint">Fingerabruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
