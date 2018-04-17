@@ -3,12 +3,12 @@
     <item>
         <shape>
             <corners
-                android:radius="2dp" />
+                android:radius="0dp" />
             <padding
                 android:left="0dp"
                 android:right="0dp"
-                android:top="8dp"
-                android:bottom="8dp"/>
+                android:top="12dp"
+                android:bottom="12dp"/>
             <solid android:color="@color/orange"/>
         </shape>
     </item>
