@@ -35,4 +35,14 @@
             android:defaultValue="@bool/clipboard_notifications_default"
             android:summary="@string/clipboard_notifications_summary" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/keyboard">
+        <SwitchPreference
+            android:key="@string/magic_keyboard_key"
+            android:title="@string/magic_keyboard_title"
+            android:defaultValue="@bool/magic_keyboard_default"
+            android:summary="@string/magic_keyboard_summary" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

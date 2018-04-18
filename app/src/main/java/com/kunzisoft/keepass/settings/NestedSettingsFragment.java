@@ -48,6 +48,7 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.StorageAccessFrameworkDialog;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
+import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
@@ -267,6 +268,16 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         return false;
                     });
                 }
+
+                SwitchPreference keyboardPreference = (SwitchPreference) findPreference(getString(R.string.magic_keyboard_key));
+                keyboardPreference.setOnPreferenceClickListener(preference -> {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    assert fragmentManager != null;
+                    ((SwitchPreference) preference).setChecked(false);
+                    new UnderDevelopmentFeatureDialogFragment().show(getFragmentManager(), "underDevFeatureDialog");
+                    return false;
+                });
+
                 break;
 
             case DATABASE:

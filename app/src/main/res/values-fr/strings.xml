@@ -253,6 +253,9 @@
     <string name="text_appearance">Apparence de texte</string>
     <string name="application_appearance">Apparence de l\'application</string>
     <string name="other">Autres</string>
+    <string name="keyboard">Clavier</string>
+    <string name="magic_keyboard_title">Magikeyboayd</string>
+    <string name="magic_keyboard_summary">Activer un clavier customisé qui permet le renseignement de vos mots de passe et de tous vos champs d\'identité facilement.</string>
 
     <string name="reset_education_screens_title">Réinitialiser les écrans d\'éducation</string>
     <string name="reset_education_screens_summary">Mettre en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
@@ -287,9 +290,15 @@
     <string name="education_donation_summary">Participer pour augmenter la stabilité, la sécurité et ajouter plus de fonctionnalités.</string>
 
     <string name="html_text_ad_free">Contrairement à d\'autres applications de gestion de mots de passe, cette application est &lt;strong&gt;sans publicité&lt;/strong&gt;, &lt;strong&gt;open source&lt;/strong&gt; et ne récupère pas de données personnelles sur ses serveurs, même dans sa version gratuite.</string>
-    <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité&lt;/strong&gt; et bien plus et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité&lt;/strong&gt; &lt;i&gt;(et bien plus)&lt;/i&gt; sont disponibles grâce à votre générosité.</string>
+    <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité&lt;/strong&gt; &lt;i&gt;(et bien d\'autres)&lt;/i&gt; et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité&lt;/strong&gt; &lt;i&gt;(et bien d\'autres)&lt;/i&gt; sont disponibles grâce à votre générosité.</string>
     <string name="html_text_donation">Afin de garder notre liberté et d\'être toujours actif, nous comptons sur votre &lt;strong&gt;contribution.&lt;/strong&gt;</string>
+
+    <string name="html_text_dev_feature">Cette fonctionnalité est &lt;strong&gt;en cours de développement&lt;/strong&gt; et nécessite votre &lt;strong&gt;contribution&lt;/strong&gt; pour être prochainement disponible.</string>
+    <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_contibute">En &lt;strong&gt;contribuant&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">vous encouragez les développeurs à créer de &lt;strong&gt;nouvelles fonctionnalités&lt;/strong&gt; et à &lt;strong&gt;résoudre des bugs&lt;/strong&gt; en fonction de vos remarques.</string>
+
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>
 
