@@ -88,6 +88,8 @@
     <string name="education_entry_edit_key" translatable="false">education_entry_edit_key</string>
     <string name="education_password_generator_key" translatable="false">education_password_generator_key</string>
     <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
+    <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
+    <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -117,6 +119,7 @@
     <bool name="education_entry_edit_default" translatable="false">false</bool>
     <bool name="education_password_generator_default" translatable="false">false</bool>
     <bool name="education_entry_new_field_default" translatable="false">false</bool>
+    <bool name="education_screen_reclicked_default" translatable="false">false</bool>
 
     <string name="app_timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>

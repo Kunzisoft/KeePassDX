@@ -32,6 +32,11 @@
             android:title="@string/menu_form_filling_settings"
             android:icon="@drawable/ic_content_paste_prefs_24dp"
             android:persistent="false" />
+		<Preference
+			android:key="@string/settings_appearance_key"
+			android:title="@string/appearance"
+			android:icon="@drawable/ic_color_lens_prefs_24dp"
+			android:persistent="false" />
 	</PreferenceCategory>
 
 	<PreferenceCategory

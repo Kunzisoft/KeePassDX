@@ -110,7 +110,7 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
     }
 
 	@Override
-	public void onNestedPreferenceSelected(int key) {
+	public void onNestedPreferenceSelected(NestedSettingsFragment.Screen key) {
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)

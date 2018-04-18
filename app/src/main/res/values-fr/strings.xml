@@ -250,6 +250,9 @@
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
+    <string name="text_appearance">Apparence de texte</string>
+    <string name="application_appearance">Apparence de l\'application</string>
+    <string name="other">Autres</string>
 
     <string name="reset_education_screens_title">Réinitialiser les écrans d\'éducation</string>
     <string name="reset_education_screens_summary">Mettre en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
@@ -285,7 +288,7 @@
 
     <string name="html_text_ad_free">Contrairement à d\'autres applications de gestion de mots de passe, cette application est &lt;strong&gt;sans publicité&lt;/strong&gt;, &lt;strong&gt;open source&lt;/strong&gt; et ne récupère pas de données personnelles sur ses serveurs, même dans sa version gratuite.</string>
     <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité&lt;/strong&gt; et bien plus et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité&lt;/strong&gt; et bien plus sont disponlibles grâce à votre générosité.</string>
+    <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité&lt;/strong&gt; &lt;i&gt;(et bien plus)&lt;/i&gt; sont disponibles grâce à votre générosité.</string>
     <string name="html_text_donation">Afin de garder notre liberté et d\'être toujours actif, nous comptons sur votre &lt;strong&gt;contribution.&lt;/strong&gt;</string>
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>

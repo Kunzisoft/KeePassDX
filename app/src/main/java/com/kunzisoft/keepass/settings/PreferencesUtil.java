@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.SortNodeEnum;
@@ -328,5 +327,17 @@ public class PreferencesUtil {
         SharedPreferences prefs = getEducationSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.education_entry_new_field_key),
                 context.getResources().getBoolean(R.bool.education_entry_new_field_default));
+    }
+
+    /**
+     * Defines if the reset education preference has been reclicked
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_screen_reclicked_key key
+     */
+    public static boolean isEducationScreenReclickedPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_screen_reclicked_key),
+                context.getResources().getBoolean(R.bool.education_screen_reclicked_default));
     }
 }

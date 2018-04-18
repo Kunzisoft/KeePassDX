@@ -25,6 +25,6 @@ public class SettingsAutofillActivity extends SettingsActivity {
 
     @Override
     protected Fragment retrieveMainFragment() {
-        return NestedSettingsFragment.newInstance(NestedSettingsFragment.NESTED_SCREEN_FORM_FILLING_KEY);
+        return NestedSettingsFragment.newInstance(NestedSettingsFragment.Screen.FORM_FILLING);
     }
 }

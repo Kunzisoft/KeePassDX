@@ -57,6 +57,9 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         preference = findPreference(getString(R.string.settings_form_filling_key));
         preference.setOnPreferenceClickListener(this);
 
+        preference = findPreference(getString(R.string.settings_appearance_key));
+        preference.setOnPreferenceClickListener(this);
+
         preference = findPreference(getString(R.string.db_key));
         preference.setOnPreferenceClickListener(this);
         Database db = App.getDB();
@@ -84,21 +87,25 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
     public boolean onPreferenceClick(Preference preference) {
         // here you should use the same keys as you used in the xml-file
         if (preference.getKey().equals(getString(R.string.app_key))) {
-            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.NESTED_SCREEN_APP_KEY);
+            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPLICATION);
         }
 
         if (preference.getKey().equals(getString(R.string.settings_form_filling_key))) {
-            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.NESTED_SCREEN_FORM_FILLING_KEY);
+            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.Screen.FORM_FILLING);
         }
 
         if (preference.getKey().equals(getString(R.string.db_key))) {
-            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.NESTED_SCREEN_DB_KEY);
+            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE);
+        }
+
+        if (preference.getKey().equals(getString(R.string.settings_appearance_key))) {
+            mCallback.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPEARANCE);
         }
 
         return false;
     }
 
     public interface Callback {
-        void onNestedPreferenceSelected(int key);
+        void onNestedPreferenceSelected(NestedSettingsFragment.Screen key);
     }
 }
