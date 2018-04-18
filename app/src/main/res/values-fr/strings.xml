@@ -133,7 +133,7 @@
     <string name="never">Jamais</string>
     <string name="no_results">Aucun résultat pour cette recherche.</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
-    <string name="select_database_file">Sélectionner une base de données existante :</string>
+    <string name="select_database_file">Sélectionner une base de données existante</string>
     <string name="open_recent">Bases de données récentes :</string>
     <string name="omitbackup_title">Ignorer les sauvegardes</string>
     <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
@@ -314,7 +314,7 @@
         <item>Thème Nuit</item>
         <item>Thème Foncé Classique</item>
         <item>Thème Ciel et Océan</item>
-        <item>Thème Pro</item>
+        <item>Thème Pro Violet</item>
     </string-array>
     <string name="icon_pack_choose_title">Choisir un pack d\'icones</string>
     <string name="icon_pack_choose_summary">Changer le pack d\'icones de l\'application</string>

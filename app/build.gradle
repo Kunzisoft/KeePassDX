@@ -93,6 +93,8 @@ dependencies {
     implementation "com.android.support:cardview-v7:$supportVersion"
     implementation "com.madgag.spongycastle:core:$spongycastleVersion"
     implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
+    // Expandable view
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     // Time
     implementation 'joda-time:joda-time:2.9.9'
     implementation 'org.sufficientlysecure:html-textview:3.5'

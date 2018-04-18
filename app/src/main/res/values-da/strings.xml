@@ -48,7 +48,7 @@
     <string name="default_checkbox">Brug denne database som standard</string>
     <string name="digits">Cifre</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
-    <string name="select_database_file">Angiv navn på databasefil:</string>
+    <string name="select_database_file">Angiv navn på databasefil</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_cancel">Annuller</string>
     <string name="entry_comment">Kommentarer</string>

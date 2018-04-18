@@ -46,7 +46,7 @@
     <string name="default_checkbox">Χρήση αυτής της βάσης ως προεπιλεγμένη</string>
     <string name="digits">Ψηφία</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft χωρίς ΚΑΜΙΑ ΑΠΟΛΥΤΩΣ ΕΓΓΥΗΣΗ. Το παρόν είναι δωρεάν λογισμικό και είστε ευπρόσδεκτοι να το διαμοιράσετε υπό τις συνθήκες της ΙΕΛ έκδοσης 3 ή μεταγενέστερης.</string>
-    <string name="select_database_file">Εισαγωγή ονόματος βάσης δεδομένων:</string>
+    <string name="select_database_file">Εισαγωγή ονόματος βάσης δεδομένων</string>
     <string name="entry_accessed">Προσπελάσθηκε</string>
     <string name="entry_cancel">Ακύρωση</string>
     <string name="entry_comment">Σχόλια</string>

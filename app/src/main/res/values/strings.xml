@@ -135,7 +135,7 @@
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
-    <string name="select_database_file">Select an existing database :</string>
+    <string name="select_database_file">Select an existing database</string>
     <string name="open_recent">Recent databases :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
@@ -318,7 +318,7 @@
         <item>Night Theme</item>
         <item>Classic Dark Theme</item>
         <item>Sky and Ocean Theme</item>
-        <item>Pro Theme</item>
+        <item>Purple Pro Theme</item>
     </string-array>
     <string name="icon_pack_choose_title">Select an icon pack</string>
     <string name="icon_pack_choose_summary">Change the icon pack of the application</string>

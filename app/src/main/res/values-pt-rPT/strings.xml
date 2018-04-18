@@ -49,7 +49,7 @@
     <string name="default_checkbox">Utilizar esta base de dados como predefinida</string>
     <string name="digits">Dígitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 3 ou superior.</string>
-    <string name="select_database_file">Introduza o nome do ficheiro da base de dados:</string>
+    <string name="select_database_file">Introduza o nome do ficheiro da base de dados</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_comment">Comentários</string>

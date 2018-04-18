@@ -223,6 +223,11 @@
         <item name="android:background">@drawable/button_background</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button">
+        <item name="android:textColor">?attr/textColorInverse</item>
+        <item name="android:background">@drawable/button_background_primary</item>
+        <item name="android:gravity">center</item>
+    </style>
 
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat" />

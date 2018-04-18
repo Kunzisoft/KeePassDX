@@ -40,7 +40,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="decrypting_db">Deszyfracja bazy danych&#8230;</string>
     <string name="default_checkbox">Używaj tej bazy danych jako domyślnej</string>
     <string name="digits">Cyfry</string>
-    <string name="select_database_file">Wprowadź nazwę pliku bazy danych:</string>
+    <string name="select_database_file">Wprowadź nazwę pliku bazy danych</string>
     <string name="entry_accessed">Dostęp do pliku</string>
     <string name="entry_cancel">Anuluj</string>
     <string name="entry_comment">Komentarz</string>

@@ -27,7 +27,7 @@
     <string name="decrypting_db">Datu bāzes atšifrēšana…</string>
     <string name="default_checkbox">Izmantot šo kā manu noklusējuma datu bāzi</string>
     <string name="digits">Cipari</string>
-    <string name="select_database_file">Ievadiet datu bāzes nosaukumu:</string>
+    <string name="select_database_file">Ievadiet datu bāzes nosaukumu</string>
     <string name="entry_accessed">Piekļuve</string>
     <string name="entry_cancel">Atcelt</string>
     <string name="entry_comment">Komentāri</string>

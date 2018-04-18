@@ -2,9 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@color/background_night"/>
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/ic_launcher"/>
-    </item>
+    <item
+        android:drawable="@drawable/background_repeat"/>
 </layer-list>
