@@ -86,7 +86,7 @@ public class EntryEditCustomField extends RelativeLayout {
 
     public void setFontVisibility(boolean applyFontVisibility) {
 	    if (applyFontVisibility)
-            Util.applyFontVisibilityTo(valueView);
+            Util.applyFontVisibilityTo(getContext(), valueView);
     }
 
 	public void deleteViewFromParent() {

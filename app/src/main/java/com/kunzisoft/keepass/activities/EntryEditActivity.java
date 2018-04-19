@@ -230,9 +230,11 @@ public class EntryEditActivity extends LockingHideActivity
      * Add a new view to fill in the information of the customized field
      */
     private void addNewCustomField() {
-        EntryEditCustomField ees = new EntryEditCustomField(EntryEditActivity.this);
-        ees.setData("", new ProtectedString(false, ""));
-        entryExtraFieldsContainer.addView(ees);
+        EntryEditCustomField entryEditCustomField = new EntryEditCustomField(EntryEditActivity.this);
+        entryEditCustomField.setData("", new ProtectedString(false, ""));
+        boolean visibilityFontActivated = PreferencesUtil.fieldFontIsInVisibility(this);
+        entryEditCustomField.setFontVisibility(visibilityFontActivated);
+        entryExtraFieldsContainer.addView(entryEditCustomField);
 
         // Scroll bottom
         scrollView.post(() -> scrollView.fullScroll(ScrollView.FOCUS_DOWN));
@@ -483,10 +485,10 @@ public class EntryEditActivity extends LockingHideActivity
 
         boolean visibilityFontActivated = PreferencesUtil.fieldFontIsInVisibility(this);
         if (visibilityFontActivated) {
-            Util.applyFontVisibilityTo(entryUserNameView);
-            Util.applyFontVisibilityTo(entryPasswordView);
-            Util.applyFontVisibilityTo(entryConfirmationPasswordView);
-            Util.applyFontVisibilityTo(entryCommentView);
+            Util.applyFontVisibilityTo(this, entryUserNameView);
+            Util.applyFontVisibilityTo(this, entryPasswordView);
+            Util.applyFontVisibilityTo(this, entryConfirmationPasswordView);
+            Util.applyFontVisibilityTo(this, entryCommentView);
         }
 
 		if (mEntry.allowExtraFields()) {

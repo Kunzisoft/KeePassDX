@@ -66,7 +66,7 @@ public class EntryCustomField extends LinearLayout {
 
 	public void applyFontVisibility(boolean fontInVisibility) {
         if (fontInVisibility)
-            Util.applyFontVisibilityTo(valueView);
+            Util.applyFontVisibilityTo(getContext(), valueView);
     }
 	
 	public void setLabel(String label) {

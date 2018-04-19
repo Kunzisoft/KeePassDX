@@ -115,7 +115,7 @@ public class EntryContentsView extends LinearLayout {
             userNameContainerView.setVisibility(VISIBLE);
             userNameView.setText(userName);
             if (fontInVisibility)
-                Util.applyFontVisibilityTo(userNameView);
+                Util.applyFontVisibilityTo(getContext(), userNameView);
         } else {
             userNameContainerView.setVisibility(GONE);
         }
@@ -134,7 +134,7 @@ public class EntryContentsView extends LinearLayout {
             passwordContainerView.setVisibility(VISIBLE);
             passwordView.setText(password);
             if (fontInVisibility)
-                Util.applyFontVisibilityTo(passwordView);
+                Util.applyFontVisibilityTo(getContext(), passwordView);
             passwordActionView.setVisibility(GONE);
         } else {
             passwordContainerView.setVisibility(GONE);
@@ -187,7 +187,7 @@ public class EntryContentsView extends LinearLayout {
             commentContainerView.setVisibility(VISIBLE);
             commentView.setText(comment);
             if (fontInVisibility)
-                Util.applyFontVisibilityTo(commentView);
+                Util.applyFontVisibilityTo(getContext(), commentView);
         } else {
             commentContainerView.setVisibility(GONE);
         }
