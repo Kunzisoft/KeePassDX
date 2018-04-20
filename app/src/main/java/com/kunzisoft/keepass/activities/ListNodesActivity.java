@@ -244,7 +244,7 @@ public abstract class ListNodesActivity extends LockingActivity
 
         AssignPasswordHelper assignPasswordHelper =
                 new AssignPasswordHelper(this,
-                        masterPassword, keyFile);
+                        masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
         assignPasswordHelper.assignPasswordInDatabase(null);
     }
 

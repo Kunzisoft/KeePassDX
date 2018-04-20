@@ -338,15 +338,14 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     @Override
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
-		assert(key != null);
 		
 		byte[] fKey = new byte[]{};
 		
-		if ( key.length() > 0 && keyInputStream != null) {
+		if (key != null && keyInputStream != null) {
 			return getCompositeKey(key, keyInputStream);
-		} else if ( key.length() > 0 ) {
+		} else if (key != null) { // key.length() >= 0
 			fKey =  getPasswordKey(key);
-		} else if ( keyInputStream != null) {
+		} else if (keyInputStream != null) { // key == null
 			fKey = getFileKey(keyInputStream);
 		}
 		

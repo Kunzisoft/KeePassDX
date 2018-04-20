@@ -235,17 +235,18 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		return newId;
 	}
 
+	@Override
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
 
-	    if (key != null && key.length() > 0 && keyInputStream != null) {
+	    if (key != null && keyInputStream != null) {
 			return getCompositeKey(key, keyInputStream);
-		} else if (key != null && key.length() > 0) {
+		} else if (key != null) { // key.length() >= 0
 			return getPasswordKey(key);
-		} else if (keyInputStream != null) {
+		} else if (keyInputStream != null) { // key == null
 			return getFileKey(keyInputStream);
 		} else {
-			throw new IllegalArgumentException("Key cannot be empty.");
+			throw new IllegalArgumentException("Key cannot be empty."); // TODO Verify
 		}
 	}
 

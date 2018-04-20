@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.password;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Handler;
 
@@ -35,27 +34,25 @@ public class AssignPasswordHelper {
 
     private Context context;
 
-    private String masterPassword;
-    private Uri keyfile;
+    private String masterPassword = null;
+    private Uri keyfile = null;
 
     public AssignPasswordHelper(Context context,
+                                boolean withMasterPassword,
                                 String masterPassword,
+                                boolean withKeyFile,
                                 Uri keyfile) {
         this.context = context;
-        this.masterPassword = masterPassword;
-        this.keyfile = keyfile;
+        if (withMasterPassword)
+            this.masterPassword = masterPassword;
+        if (withKeyFile)
+            this.keyfile = keyfile;
     }
 
     public void assignPasswordInDatabase(FileOnFinish fileOnFinish) {
         SetPassword sp = new SetPassword(context, App.getDB(), masterPassword, keyfile, new AfterSave(fileOnFinish, new Handler()));
         final ProgressTask pt = new ProgressTask(context, sp, R.string.saving_database);
-        boolean valid = sp.validatePassword(context, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                pt.run();
-            }
-        });
+        boolean valid = sp.validatePassword(context, (dialog, which) -> pt.run());
 
         if (valid) {
             pt.run();

@@ -524,9 +524,10 @@ public class FileSelectActivity extends StylishActivity implements
 					FileSelectActivity.this, create,
 					R.string.progress_create);
 			createTask.run();
-			assignPasswordHelper =
-					new AssignPasswordHelper(this,
-							masterPassword, keyFile);
+
+            assignPasswordHelper = new AssignPasswordHelper(this,
+                    masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
+
 		} catch (Exception e) {
 			String error = "Unable to create database with this password and key file";
 			Toast.makeText(this, error, Toast.LENGTH_LONG).show();

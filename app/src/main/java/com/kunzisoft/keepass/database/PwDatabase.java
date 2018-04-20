@@ -134,8 +134,6 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
 
     public void setMasterKey(String key, InputStream keyInputStream)
             throws InvalidKeyFileException, IOException {
-                assert(key != null);
-
                 masterKey = getMasterKey(key, keyInputStream);
             }
 
@@ -220,6 +218,9 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     }
 
     public boolean validatePasswordEncoding(String key) {
+        if (key == null)
+            return false;
+
         String encoding = getPasswordEncoding();
 
         byte[] bKey;
@@ -243,10 +244,8 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     protected abstract String getPasswordEncoding();
 
     public byte[] getPasswordKey(String key) throws IOException {
-        assert(key!=null);
-
-        if ( key.length() == 0 )
-            throw new IllegalArgumentException( "Key cannot be empty." );
+        if ( key == null)
+            throw new IllegalArgumentException( "Key cannot be empty." ); // TODO
 
         MessageDigest md;
         try {

@@ -788,7 +788,7 @@ public class PasswordActivity extends StylishActivity
 
     private void verifyCheckboxesAndLoadDatabase(String pass, Uri keyfile) {
         if (!checkboxPasswordView.isChecked()) {
-            pass = "";
+            pass = null;
         }
         if (!checkboxKeyfileView.isChecked()) {
             keyfile = null;
