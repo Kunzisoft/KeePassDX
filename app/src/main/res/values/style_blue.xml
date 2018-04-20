@@ -38,7 +38,7 @@
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
     <!-- File Picker Theme -->
-    <style name="KeepassDXStyle.FilePickerStyle.Blue" parent="KeepassDXStyle.FilePickerStyle.Light">
+    <style name="KeepassDXStyle.FilePickerStyle.Blue" parent="KeepassDXStyle.FilePickerStyle">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue</item>

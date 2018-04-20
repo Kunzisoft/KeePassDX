@@ -40,7 +40,7 @@
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
     <!-- File Picker Theme -->
-    <style name="KeepassDXStyle.FilePickerStyle.Purple" parent="KeepassDXStyle.FilePickerStyle.Light">
+    <style name="KeepassDXStyle.FilePickerStyle.Purple" parent="KeepassDXStyle.FilePickerStyle">
         <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryDark">@color/purple_dark</item>
         <item name="colorAccent">@color/red</item>

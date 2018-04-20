@@ -58,16 +58,14 @@ public class FilePickerStylishActivity extends FilePickerActivity {
      */
     public static class FilePickerStylish extends Stylish {
         public static @StyleRes int getThemeId(Context context) {
-            if (themeString.equals(context.getString(R.string.list_style_name_night)))
-                return R.style.KeepassDXStyle_FilePickerStyle_Night;
-            else if (themeString.equals(context.getString(R.string.list_style_name_dark)))
+            if (themeString.equals(context.getString(R.string.list_style_name_dark)))
                 return R.style.KeepassDXStyle_FilePickerStyle_Dark;
             else if (themeString.equals(context.getString(R.string.list_style_name_blue)))
                 return R.style.KeepassDXStyle_FilePickerStyle_Blue;
             else if (themeString.equals(context.getString(R.string.list_style_name_purple)))
                 return R.style.KeepassDXStyle_FilePickerStyle_Purple;
 
-            return R.style.KeepassDXStyle_FilePickerStyle_Light;
+            return R.style.KeepassDXStyle_FilePickerStyle;
         }
     }
 }
