@@ -101,10 +101,10 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
     @Override
     public void onBackPressed() {
         // this if statement is necessary to navigate through nested and main fragments
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             super.onBackPressed();
         } else {
-            getFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
         }
         toolbar.setTitle(R.string.settings);
     }
@@ -112,6 +112,8 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 	@Override
 	public void onNestedPreferenceSelected(NestedSettingsFragment.Screen key) {
 		getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right)
 				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)
                 .commit();
