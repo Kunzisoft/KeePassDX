@@ -30,6 +30,8 @@
     <!-- For setting encapsulation -->
     <style name="KeepassDXStyle.Light.v21" parent="Theme.AppCompat.Light">
 
+        <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
+
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
@@ -75,6 +77,8 @@
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
+
+        <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
@@ -138,6 +142,14 @@
     <style name="KeepassDXStyle.Night.Toolbar.Popup" parent="Theme.AppCompat">
         <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:colorBackground">@color/background_night</item>
+    </style>
+
+    <!-- Activity Animation -->
+    <style name="KeepassDXStyle.ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
     <!-- Toolbar Style Green -->
