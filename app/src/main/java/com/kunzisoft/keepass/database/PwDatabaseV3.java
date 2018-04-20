@@ -246,7 +246,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		} else if (keyInputStream != null) { // key == null
 			return getFileKey(keyInputStream);
 		} else {
-			throw new IllegalArgumentException("Key cannot be empty."); // TODO Verify
+			throw new IllegalArgumentException("Key cannot be empty.");
 		}
 	}
 
