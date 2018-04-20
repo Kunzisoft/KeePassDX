@@ -270,13 +270,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 }
 
                 SwitchPreference keyboardPreference = (SwitchPreference) findPreference(getString(R.string.magic_keyboard_key));
-                keyboardPreference.setOnPreferenceClickListener(preference -> {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    assert fragmentManager != null;
-                    ((SwitchPreference) preference).setChecked(false);
-                    new UnderDevelopmentFeatureDialogFragment().show(getFragmentManager(), "underDevFeatureDialog");
-                    return false;
-                });
+                preferenceInDevelopment(keyboardPreference);
 
                 break;
 
@@ -323,10 +317,12 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     // Encryption Algorithm
                     Preference algorithmPref = findPreference(getString(R.string.encryption_algorithm_key));
                     algorithmPref.setSummary(db.getEncryptionAlgorithmName(getResources()));
+                    preferenceInDevelopment(algorithmPref);
 
                     // Key derivation function
                     Preference kdfPref = findPreference(getString(R.string.key_derivation_function_key));
                     kdfPref.setSummary(db.getKeyDerivationName());
+                    preferenceInDevelopment(kdfPref);
 
                     // Round encryption
                     Preference roundPref = findPreference(getString(R.string.transform_rounds_key));
@@ -398,6 +394,18 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             default:
                 break;
         }
+    }
+
+    private void preferenceInDevelopment(Preference preferenceInDev) {
+        preferenceInDev.setOnPreferenceClickListener(preference -> {
+            FragmentManager fragmentManager = getFragmentManager();
+            assert fragmentManager != null;
+            try { // don't check if we can
+                ((SwitchPreference) preference).setChecked(false);
+            } catch (Exception e) {}
+            new UnderDevelopmentFeatureDialogFragment().show(getFragmentManager(), "underDevFeatureDialog");
+            return false;
+        });
     }
 
     @Override
