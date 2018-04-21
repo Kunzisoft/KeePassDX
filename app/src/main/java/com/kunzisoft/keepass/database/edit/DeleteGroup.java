@@ -45,11 +45,6 @@ public class DeleteGroup extends RunnableOnFinish {
 		super(finish);
 		setMembers(ctx, db, group, dontSave);
 	}
-	
-	public DeleteGroup(Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinish finish, boolean dontSave) {
-		super(finish);
-		setMembers(null, db, group, dontSave);
-	}
 
 	private void setMembers(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, boolean dontSave) {
 		mDb = db;

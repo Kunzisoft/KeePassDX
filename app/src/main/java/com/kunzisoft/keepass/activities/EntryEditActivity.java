@@ -175,7 +175,7 @@ public class EntryEditActivity extends LockingHideActivity
 		if ( uuidBytes == null ) {
             PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
 			PwGroup parent = pm.getGroupByGroupId(parentId);
-			mEntry = PwEntry.getInstance(parent);
+			mEntry = db.createEntry(parent);
 			mIsNew = true;
 			// Add the default icon
             if (IconPackChooser.getSelectedIconPack(this).tintable()) {

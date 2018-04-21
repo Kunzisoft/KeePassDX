@@ -89,10 +89,8 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
     @SuppressWarnings("unchecked")
     @Override
     public PwEntryV4 clone() {
+		// Attributes in parent
         PwEntryV4 newEntry = (PwEntryV4) super.clone();
-
-        // Attributes in parent
-        addCloneAttributesToNewEntry(newEntry);
 
         // Attributes here
         newEntry.customIcon = new PwIconCustom(this.customIcon);

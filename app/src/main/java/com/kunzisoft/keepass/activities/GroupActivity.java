@@ -53,11 +53,13 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
+import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.database.edit.AddGroup;
 import com.kunzisoft.keepass.database.edit.DeleteEntry;
 import com.kunzisoft.keepass.database.edit.DeleteGroup;
+import com.kunzisoft.keepass.database.edit.UpdateGroup;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -82,13 +84,10 @@ public class GroupActivity extends ListNodesActivity
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
 	protected boolean readOnly = false;
-	protected EditGroupDialogAction editGroupDialogAction = EditGroupDialogAction.NONE;
-
-    private enum EditGroupDialogAction {
-	    CREATION, UPDATE, NONE
-    }
 
 	private static final String TAG = "Group Activity:";
+
+	private PwGroup oldGroupToUpdate;
 	
 	public static void launch(Activity act) {
         recordFirstTimeBeforeLaunch(act);
@@ -160,10 +159,9 @@ public class GroupActivity extends ListNodesActivity
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
         addNodeButtonView.setAddGroupClickListener(v -> {
-            editGroupDialogAction = EditGroupDialogAction.CREATION;
-            GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
-            groupEditDialogFragment.show(getSupportFragmentManager(),
-                    GroupEditDialogFragment.TAG_CREATE_GROUP);
+            GroupEditDialogFragment.build()
+                    .show(getSupportFragmentManager(),
+                            GroupEditDialogFragment.TAG_CREATE_GROUP);
         });
         addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
@@ -215,7 +213,6 @@ public class GroupActivity extends ListNodesActivity
         nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
             @Override
             public boolean onOpenMenuClick(PwNode node) {
-                mAdapter.registerANodeToUpdate(node);
                 switch (node.getType()) {
                     case GROUP:
                         GroupActivity.launch(GroupActivity.this, (PwGroup) node);
@@ -229,14 +226,12 @@ public class GroupActivity extends ListNodesActivity
 
             @Override
             public boolean onEditMenuClick(PwNode node) {
-                mAdapter.registerANodeToUpdate(node);
                 switch (node.getType()) {
                     case GROUP:
-                        editGroupDialogAction = EditGroupDialogAction.UPDATE;
-                        GroupEditDialogFragment groupEditDialogFragment =
-                                GroupEditDialogFragment.build(node);
-                        groupEditDialogFragment.show(getSupportFragmentManager(),
-                                GroupEditDialogFragment.TAG_CREATE_GROUP);
+                        oldGroupToUpdate = (PwGroup) node;
+                        GroupEditDialogFragment.build(node)
+                                .show(getSupportFragmentManager(),
+                                        GroupEditDialogFragment.TAG_CREATE_GROUP);
                         break;
                     case ENTRY:
                         EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
@@ -528,28 +523,53 @@ public class GroupActivity extends ListNodesActivity
     }
 
     @Override
-    public void approveEditGroup(Bundle bundle) {
-        String GroupName = bundle.getString(GroupEditDialogFragment.KEY_NAME);
-        int GroupIconID = bundle.getInt(GroupEditDialogFragment.KEY_ICON_ID);
-        switch (editGroupDialogAction) {
+    public void approveEditGroup(GroupEditDialogFragment.EditGroupDialogAction action,
+                                 String name,
+                                 int iconId) {
+        Database database = App.getDB(); // TODO encapsulate iconFactory
+        PwIconStandard icon = database.getPwDatabase().getIconFactory().getIcon(iconId);
+
+        switch (action) {
             case CREATION:
-                // If edit group creation
-                Handler handler = new Handler();
-                AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mCurrentGroup,
-                        new AfterAddNode(handler), false);
-                ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
-                pt.run();
+                // If group creation
+                // Build the group
+                PwGroup newGroup = database.createGroup(mCurrentGroup);
+                newGroup.setName(name);
+                newGroup.setIcon(icon);
+
+                new ProgressTask(this,
+                        new AddGroup(this,
+                                App.getDB(),
+                                newGroup,
+                                new AfterAddNode(new Handler())),
+                        R.string.saving_database)
+                        .run();
                 break;
             case UPDATE:
-                // If edit group update
-                // TODO UpdateGroup
+                // If update add new elements
+                PwGroup updateGroup = oldGroupToUpdate.clone();
+                updateGroup.setName(name);
+                updateGroup.setIcon(icon);
+
+                mAdapter.removeNode(oldGroupToUpdate);
+                // If group update
+                new ProgressTask(this,
+                        new UpdateGroup(this,
+                                App.getDB(),
+                                oldGroupToUpdate,
+                                updateGroup,
+                                new AfterUpdateNode(new Handler())),
+                        R.string.saving_database)
+                        .run();
+
                 break;
         }
-        editGroupDialogAction = EditGroupDialogAction.NONE;
     }
 
     @Override
-    public void cancelEditGroup(Bundle bundle) {
+    public void cancelEditGroup(GroupEditDialogFragment.EditGroupDialogAction action,
+                                String name,
+                                int iconId) {
         // Do nothing here
     }
 

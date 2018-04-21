@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.database.security.ProtectedString;
 
 import java.util.UUID;
 
-public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> implements Cloneable {
+public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
 
 	private static final String PMS_TAN_ENTRY = "<TAN>";
 
@@ -36,34 +36,11 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> imp
         uuid = UUID.randomUUID();
     }
 
-	public static PwEntry getInstance(PwGroup parent) {
-		if (parent instanceof PwGroupV3) {
-			return new PwEntryV3((PwGroupV3)parent);
-		}
-		else if (parent instanceof PwGroupV4) {
-			return new PwEntryV4((PwGroupV4)parent);
-		}
-		else {
-			throw new RuntimeException("Unknown PwGroup instance.");
-		}
-	}
-
 	@Override
 	public PwEntry clone() {
-		PwEntry newEntry;
-		try {
-			newEntry = (PwEntry) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException("Clone should be supported");
-		}
-		return newEntry;
+		// uuid is clone automatically (IMMUTABLE)
+		return (PwEntry) super.clone();
 	}
-
-	@Override
-    protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
-	    super.addCloneAttributesToNewEntry(newEntry);
-	    // uuid is clone automatically (IMMUTABLE)
-    }
 
 	@Override
 	public Type getType() {

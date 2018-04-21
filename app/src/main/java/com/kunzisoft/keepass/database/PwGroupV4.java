@@ -45,6 +45,11 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
 	public PwGroupV4() {
 	    super();
     }
+
+    public PwGroupV4(PwGroupV4 p) {
+        construct(p);
+        parentGroupLastMod = new PwDate();
+    }
 	
 	public PwGroupV4(String name, PwIconStandard icon) {
 		this.uuid = UUID.randomUUID();
@@ -52,10 +57,47 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
 		this.icon = icon;
 	}
 
+    protected void updateWith(PwGroupV4 source) {
+        super.assign(source);
+        uuid = source.uuid;
+        customIcon = source.customIcon;
+        usageCount = source.usageCount;
+        parentGroupLastMod = source.parentGroupLastMod;
+        customData = source.customData;
+
+        expires = source.expires;
+
+        notes = source.notes;
+        isExpanded = source.isExpanded;
+        defaultAutoTypeSequence = source.defaultAutoTypeSequence;
+        enableAutoType = source.enableAutoType;
+        enableSearching = source.enableSearching;
+        lastTopVisibleEntry = source.lastTopVisibleEntry;
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
-    public void initNewGroup(String nm, PwGroupId newId) {
-        super.initNewGroup(nm, newId);
-        parentGroupLastMod = new PwDate();
+    public PwGroupV4 clone() {
+        // Attributes in parent
+        PwGroupV4 newGroup = (PwGroupV4) super.clone();
+
+        // Attributes here
+        // newGroup.uuid stay the same in copy
+        newGroup.customIcon = new PwIconCustom(this.customIcon);
+        // newGroup.usageCount stay the same in copy
+        newGroup.parentGroupLastMod = this.parentGroupLastMod.clone();
+        // TODO customData make copy from hashmap newGroup.customData = (HashMap<String, String>) this.customData.clone();
+
+        // newGroup.expires stay the same in copy
+
+        // newGroup.notes stay the same in copy
+        // newGroup.isExpanded stay the same in copy
+        // newGroup.defaultAutoTypeSequence stay the same in copy
+        // newGroup.enableAutoType stay the same in copy
+        // newGroup.enableSearching stay the same in copy
+        // newGroup.lastTopVisibleEntry stay the same in copy
+
+        return newGroup;
     }
 	
 	public void addGroup(PwGroupV4 subGroup) {

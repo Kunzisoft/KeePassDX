@@ -368,6 +368,37 @@ public class Database {
         getPwDatabase().setNumberKeyEncryptionRounds(numberRounds);
     }
 
+    public PwEntry createEntry(PwGroup parent) {
+        PwEntry newPwEntry = null;
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    newPwEntry = new PwEntryV3((PwGroupV3) parent);
+                case V4:
+                    newPwEntry = new PwEntryV4((PwGroupV4) parent);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be created", e);
+        }
+        return newPwEntry;
+    }
+
+    public PwGroup createGroup(PwGroup parent) {
+        PwGroup newPwGroup = null;
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    newPwGroup = new PwGroupV3((PwGroupV3) parent);
+                case V4:
+                    newPwGroup = new PwGroupV4((PwGroupV4) parent);
+            }
+            newPwGroup.setId(pm.newGroupId());
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be created", e);
+        }
+        return newPwGroup;
+    }
+
     public void addEntryTo(PwEntry entry, PwGroup parent) {
         try {
             switch (getPwDatabase().getVersion()) {
@@ -494,6 +525,21 @@ public class Database {
                     break;
                 case V4:
                     ((PwEntryV4) oldEntry).updateWith((PwEntryV4) newEntry);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwEntry can't be updated", e);
+        }
+    }
+
+    public void updateGroup(PwGroup oldGroup, PwGroup newGroup) {
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    ((PwGroupV3) oldGroup).updateWith((PwGroupV3) newGroup);
+                    break;
+                case V4:
+                    ((PwGroupV4) oldGroup).updateWith((PwGroupV4) newGroup);
                     break;
             }
         } catch (Exception e) {

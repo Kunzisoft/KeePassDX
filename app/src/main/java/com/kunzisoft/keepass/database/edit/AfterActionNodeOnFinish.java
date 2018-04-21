@@ -23,10 +23,10 @@ import android.os.Handler;
 
 import com.kunzisoft.keepass.database.PwNode;
 
-public abstract class AfterAddNodeOnFinish extends OnFinish {
-    public AfterAddNodeOnFinish(Handler handler) {
+public abstract class AfterActionNodeOnFinish extends OnFinish {
+    public AfterActionNodeOnFinish(Handler handler) {
         super(handler);
     }
 
-    public abstract void run(PwNode pwNode);
+    public abstract void run(PwNode oldNode, PwNode newNode);
 }

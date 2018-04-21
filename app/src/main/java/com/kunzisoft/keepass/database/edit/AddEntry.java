@@ -29,13 +29,19 @@ public class AddEntry extends RunnableOnFinish {
 	protected Database mDb;
 	private PwEntry mEntry;
 	private Context ctx;
-	
+	private boolean mDontSave;
+
 	public AddEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
+		this(ctx, db, entry, finish, false);
+	}
+
+	public AddEntry(Context ctx, Database db, PwEntry entry, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		this.mDb = db;
 		this.mEntry = entry;
 		this.ctx = ctx;
+		this.mDontSave = dontSave;
 		
 		this.mFinish = new AfterAdd(mFinish);
 	}
@@ -45,7 +51,7 @@ public class AddEntry extends RunnableOnFinish {
 		mDb.addEntryTo(mEntry, mEntry.getParent());
 		
 		// Commit to disk
-		SaveDB save = new SaveDB(ctx, mDb, mFinish);
+		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	

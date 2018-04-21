@@ -22,51 +22,50 @@ package com.kunzisoft.keepass.database.edit;
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwEntry;
+import com.kunzisoft.keepass.database.PwGroup;
 
-public class UpdateEntry extends RunnableOnFinish {
+public class UpdateGroup extends RunnableOnFinish {
 
 	private Database mDb;
-	private PwEntry mOldE;
-	private PwEntry mNewE;
+	private PwGroup mOldGroup;
+	private PwGroup mNewGroup;
 	private Context ctx;
 	private boolean mDontSave;
 
-	public UpdateEntry(Context ctx, Database db, PwEntry oldE, PwEntry newE, OnFinish finish) {
-		this(ctx, db, oldE, newE, finish, false);
+	public UpdateGroup(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish) {
+		this(ctx, db, oldGroup, newGroup, finish, false);
 	}
 
-	public UpdateEntry(Context ctx, Database db, PwEntry oldE, PwEntry newE, OnFinish finish, boolean dontSave) {
+	public UpdateGroup(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		this.mDb = db;
-		this.mOldE = oldE;
-		this.mNewE = newE;
+		this.mOldGroup = oldGroup;
+		this.mNewGroup = newGroup;
 		this.ctx = ctx;
 		this.mDontSave = dontSave;
 		
 		// Keep backup of original values in case save fails
-		PwEntry backup;
-		backup = mOldE.clone();
+		PwGroup backup;
+		backup = mOldGroup.clone();
 		
-		mFinish = new AfterUpdate(backup, finish);
+		this.mFinish = new AfterUpdate(backup, finish);
 	}
 
 	@Override
 	public void run() {
-		// Update entry with new values
-        mDb.updateEntry(mOldE, mNewE);
-		mOldE.touch(true, true);
+		// Update group with new values
+        mDb.updateGroup(mOldGroup, mNewGroup);
+		mOldGroup.touch(true, true);
 
 		// Commit to disk
-		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
-		save.run();
+		new SaveDB(ctx, mDb, mFinish, mDontSave).run();
 	}
 	
 	private class AfterUpdate extends OnFinish {
-		private PwEntry mBackup;
+		private PwGroup mBackup;
 		
-		AfterUpdate(PwEntry backup, OnFinish finish) {
+		AfterUpdate(PwGroup backup, OnFinish finish) {
 			super(finish);
 			mBackup = backup;
 		}
@@ -75,10 +74,15 @@ public class UpdateEntry extends RunnableOnFinish {
 		public void run() {
 			if ( !mSuccess ) {
 				// If we fail to save, back out changes to global structure
-                mDb.updateEntry(mOldE, mBackup);
+                mDb.updateGroup(mOldGroup, mBackup);
 			}
-			// TODO Callback for update entry
-			super.run();
+
+            // TODO Better callback
+            AfterActionNodeOnFinish afterActionNodeOnFinish =
+                    (AfterActionNodeOnFinish) super.mOnFinish;
+            afterActionNodeOnFinish.mSuccess = mSuccess;
+            afterActionNodeOnFinish.mMessage = mMessage;
+            afterActionNodeOnFinish.run(mOldGroup, mNewGroup);
 		}
 	}
 }
