@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
+import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
@@ -87,6 +88,7 @@ public class GroupActivity extends ListNodesActivity
 
 	private static final String TAG = "Group Activity:";
 
+	private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
 	private PwGroup oldGroupToUpdate;
 	
 	public static void launch(Activity act) {
@@ -139,6 +141,11 @@ public class GroupActivity extends ListNodesActivity
 			Log.w(TAG, "Group was null");
 			return;
 		}
+
+		if (savedInstanceState != null
+                && savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
+            oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
+        }
 
 		// Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
@@ -525,9 +532,9 @@ public class GroupActivity extends ListNodesActivity
     @Override
     public void approveEditGroup(GroupEditDialogFragment.EditGroupDialogAction action,
                                  String name,
-                                 int iconId) {
-        Database database = App.getDB(); // TODO encapsulate iconFactory
-        PwIconStandard icon = database.getPwDatabase().getIconFactory().getIcon(iconId);
+                                 PwIcon icon) {
+        Database database = App.getDB();
+        PwIconStandard iconStandard = database.getPwDatabase().getIconFactory().getFirstIcon();
 
         switch (action) {
             case CREATION:
@@ -535,7 +542,10 @@ public class GroupActivity extends ListNodesActivity
                 // Build the group
                 PwGroup newGroup = database.createGroup(mCurrentGroup);
                 newGroup.setName(name);
-                newGroup.setIcon(icon);
+                try {
+                    iconStandard = (PwIconStandard) icon;
+                } catch (Exception e) {} // TODO custom icon
+                newGroup.setIcon(iconStandard);
 
                 new ProgressTask(this,
                         new AddGroup(this,
@@ -547,29 +557,41 @@ public class GroupActivity extends ListNodesActivity
                 break;
             case UPDATE:
                 // If update add new elements
-                PwGroup updateGroup = oldGroupToUpdate.clone();
-                updateGroup.setName(name);
-                updateGroup.setIcon(icon);
+                if (oldGroupToUpdate != null) {
+                    PwGroup updateGroup = oldGroupToUpdate.clone();
+                    updateGroup.setName(name);
+                    try {
+                        iconStandard = (PwIconStandard) icon;
+                    } catch (Exception e) {} // TODO custom icon
+                    updateGroup.setIcon(iconStandard);
 
-                mAdapter.removeNode(oldGroupToUpdate);
-                // If group update
-                new ProgressTask(this,
-                        new UpdateGroup(this,
-                                App.getDB(),
-                                oldGroupToUpdate,
-                                updateGroup,
-                                new AfterUpdateNode(new Handler())),
-                        R.string.saving_database)
-                        .run();
+                    mAdapter.removeNode(oldGroupToUpdate);
+                    // If group update
+                    new ProgressTask(this,
+                            new UpdateGroup(this,
+                                    App.getDB(),
+                                    oldGroupToUpdate,
+                                    updateGroup,
+                                    new AfterUpdateNode(new Handler())),
+                            R.string.saving_database)
+                            .run();
+
+                }
 
                 break;
         }
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void cancelEditGroup(GroupEditDialogFragment.EditGroupDialogAction action,
                                 String name,
-                                int iconId) {
+                                PwIcon iconId) {
         // Do nothing here
     }
 
