@@ -11,18 +11,29 @@ or alternatively using `brew cask install fastlane`
 # Available Actions
 ## Android
 ```
-fastlane tests
+fastlane android tests
 ```
 Runs all the tests
-
+### android build_beta_free
 ```
-fastlane build_beta_google_free storefile:"" storepass:"" keyalias:"" keypass:""
+fastlane android build_beta_free
 ```
-Build a new Beta version
+Build a new Free Beta version
+### android build_beta_pro
 ```
-fastlane deploy_beta_google_free
+fastlane android build_beta_pro
 ```
-Deploy a new Beta version to the Google Play
+Build a new Pro Beta version
+### android deploy_beta_google_free
+```
+fastlane android deploy_beta_google_free
+```
+Deploy a new Free Beta version to the Google Play
+### android deploy_beta_google_pro
+```
+fastlane android deploy_beta_google_pro
+```
+Deploy a new Pro Beta version to the Google Play
 
 ----
 
