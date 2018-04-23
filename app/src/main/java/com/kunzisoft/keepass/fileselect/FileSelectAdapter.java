@@ -63,7 +63,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(R.attr.colorAccentCompat, typedValue, true);
         warningColor = typedValue.data;
-        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+        theme.resolveAttribute(android.R.attr.textColorHintInverse, typedValue, true);
         defaultColor = typedValue.data;
     }
 
