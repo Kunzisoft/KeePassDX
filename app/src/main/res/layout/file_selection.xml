@@ -25,15 +25,6 @@
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="4dp"
-        android:background="@color/transparent"
-        app:theme="?attr/toolbarAppearance"
-        app:popupTheme="?attr/toolbarPopupAppearance" />
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,7 +47,8 @@
                 android:paddingRight="24dp"
                 android:paddingEnd="24dp"
                 android:paddingTop="48dp"
-                android:paddingBottom="62dp">
+                android:paddingBottom="24dp"
+                android:layout_marginBottom="36dp">
                 <TextView
                     android:id="@+id/file_selection_title"
                     android:layout_width="match_parent"
@@ -73,6 +65,19 @@
                     android:text="@string/app_name"/>
             </FrameLayout>
 
+            <TextView android:id="@+id/label_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:gravity="center"
+                android:textColor="?attr/textColorInverse"
+                android:layout_below="@+id/file_selection_title_container"
+                android:visibility="gone" />
+
             <TextView android:id="@+id/file_list_title"
                 android:layout_marginLeft="@dimen/default_margin"
                 android:layout_marginStart="@dimen/default_margin"
@@ -82,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:layout_below="@+id/file_selection_title_container"
+                android:layout_below="@+id/label_warning"
                 style="@style/KeepassDXStyle.TextAppearance.Title"
                 android:textColor="?attr/colorAccentCompat"
                 android:text="@string/open_recent" />
@@ -96,6 +101,15 @@
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:background="@color/transparent"
+        app:theme="?attr/toolbarAppearance"
+        app:popupTheme="?attr/toolbarPopupAppearance" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/browse_button"
@@ -120,10 +134,13 @@
         android:layout_alignBottom="@+id/browse_button"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
+        android:paddingStart="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingEnd="12dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
+        android:tint="?attr/textColorInverse"
         android:src="@drawable/ic_link_white_24dp" />
 
     <net.cachapa.expandablelayout.ExpandableLayout
@@ -144,12 +161,6 @@
             android:paddingStart="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin">
-
-            <TextView android:id="@+id/label_warning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:visibility="gone" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/file_filename"
