@@ -42,9 +42,9 @@
     <color name="red">#e53935</color>
 
     <color name="purple_lighter">#ce93d8</color>
-    <color name="purple_light">#8E24AA</color>
-    <color name="purple">#7B1FA2</color>
-    <color name="purple_dark">#6A1B9A</color>
+    <color name="purple_light">#9048bc</color>
+    <color name="purple">#743998</color>
+    <color name="purple_dark">#653383</color>
 
     <color name="background_light">#FAFAFA</color>
 	<color name="background_night">#303030</color>
