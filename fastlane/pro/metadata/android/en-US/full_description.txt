@@ -1,5 +1,7 @@
 <b>Multi-format KeePass password manager</b>, the application allows to save and use passwords, keys and digital identities in a secure way by integrating the Android design standards.
 
+This pro version adds <b>new features</b> to the free version but above all, you encourage <b>faster development</b>, <b>better service</b>, and you contribute to the creation of <b>open source softwares without advertising</b>.
+
 <b>Features</b> :
  - Create database files / entries and groups
  - Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
@@ -10,9 +12,11 @@
  - AutoFill and Integration
  - Precise management of settings
 
-Keepass DX is <b>opensource</b> and <b>ad-free</b>. 
+<b>Pro Features</b> :
+ - Access to custom themes (including the classic deep black theme)
+ - Access to material design icon packs
+ - Deleting donation buttons
 
-You can donate or buy the <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">pro version</a>
-for a better service and a quick development of your features.
+Keepass DX is <b>opensource</b> and <b>ad-free</b>.
 
 Any issue : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

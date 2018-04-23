@@ -17,8 +17,8 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Build a new Free Beta version"
-  lane :build_beta_free do |options|
+  desc "Build a new Beta version"
+  lane :build_beta do |options|
     gradle(
       task: "assemble",
       flavor: "free",
@@ -31,10 +31,6 @@ platform :android do
         "android.injected.signing.key.password" => options[:keypass],
       }
     )
-  end
-
-desc "Build a new Pro Beta version"
-  lane :build_beta_pro do |options|
     gradle(
       task: "assemble",
       flavor: "pro",
@@ -49,30 +45,24 @@ desc "Build a new Pro Beta version"
     )
   end
 
-  desc "Deploy a new Free Beta version to the Google Play"
-  lane :deploy_beta_google_free do
-    upload_to_play_store(
-      track: "beta",
-      skip_upload_metadata: "false",
-      skip_upload_images: "true",
-      skip_upload_screenshots: "false",
-      apk: "./app/build/outputs/apk/free_google/release/app-free-release.apk",
-      validate_only: "false",
-    )
-    gradle(
-      task: 'clean'
-    )
-  end
-
   desc "Deploy a new Pro Beta version to the Google Play"
   lane :deploy_beta_google_pro do
     upload_to_play_store(
       track: "beta",
       skip_upload_metadata: "true",
-      skip_upload_images: "true",
+      skip_upload_images: "false",
       skip_upload_screenshots: "true",
-      apk: "./app/build/outputs/apk/free_google/release/app-pro-release.apk",
-      validate_only: "false",
+      apk: "./app/build/outputs/apk/free/release/app-free-release.apk",
+      validate_only: "true",
+    )
+#    sh("cp", "-a", "./pro/.", "./")
+    upload_to_play_store(
+      track: "beta",
+      skip_upload_metadata: "true",
+      skip_upload_images: "false",
+      skip_upload_screenshots: "true",
+      apk: "./app/build/outputs/apk/pro/release/app-pro-release.apk",
+      validate_only: "true",
     )
     gradle(
       task: 'clean'
