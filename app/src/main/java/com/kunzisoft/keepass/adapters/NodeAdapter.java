@@ -87,10 +87,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         });
 
         // Retrieve the color to tint the icon
-        int[] attrs = {android.R.attr.textColorPrimary, android.R.attr.textColor};
-        TypedArray ta = context.getTheme().obtainStyledAttributes(attrs);
-        this.iconGroupColor = ta.getColor(0, Color.BLACK);
-        this.iconEntryColor = ta.getColor(1, Color.BLACK); // TODO test why an error here ?
+        int[] attrTextColorPrimary = {android.R.attr.textColorPrimary};
+        TypedArray taTextColorPrimary = context.getTheme().obtainStyledAttributes(attrTextColorPrimary);
+        this.iconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK);
+        taTextColorPrimary.recycle();
+        int[] attrTextColor = {android.R.attr.textColor}; // In two times to fix bug compilation
+        TypedArray taTextColor = context.getTheme().obtainStyledAttributes(attrTextColor);
+        this.iconEntryColor = taTextColor.getColor(0, Color.BLACK);
+        taTextColor.recycle();
     }
 
     public void setActivateContextMenu(boolean activate) {
