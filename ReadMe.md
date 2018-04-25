@@ -1,37 +1,45 @@
 # Android Keepass DX
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/icon.png"> Keepass DX is a material design Keepass Client for manage keys and passwords in crypt database for your android device.
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> Keepass DX is a multi-format KeePass manager for Android devices. The application allows to create keys and passwords in a secure way by integrating with the Android design standards.
+
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
 
 ### Features
 
-* Create database files / entries and groups
-* Support for .kdb and .kdbx files (version 1 to 4)
-* Open database, copy username / password, open URI / URL
-* Fingerprint for fast unlocking
-* Material design with themes
-* AutoFill and Integration (Development in progress)
-* Precise management of settings
+ * Create database files / entries and groups
+ * Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
+ * Compatible with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
+ * Allows fast copy of fields and opening of URI / URL
+ * Fingerprint for fast unlocking
+ * Material design with themes
+ * AutoFill and Integration
+ * Precise management of settings
+
+Keepass DX is opensource and ad-free. 
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen1.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen2.jpg" width="220">
 
-## What is KeePass?
+## What is KeePass DX?
 
-Today you need to remember many passwords. You need a password for the Windows network logon, your e-mail account, your website's FTP password, online passwords (like website member account), etc. etc. etc. The list is endless. Also, you should use different passwords for each account. Because if you use only one password everywhere and someone gets this password you have a problem... A serious problem. The thief would have access to your e-mail account, website, etc. Unimaginable.
+Today you need to remember many passwords. You need a password for your e-mail account, your website's FTP password, online passwords (like website member account), etc. etc. etc. The list is endless. Also, you should use different passwords for each account. Because if you use only one password everywhere and someone gets this password you have a problem... A serious problem. The thief would have access to your e-mail account, website, etc. Unimaginable.
 
-KeePass is a free open source password manager, which helps you to manage your passwords in a secure way. You can put all your passwords in one database, which is locked with one master key or a key file. So you only have to remember one single master password or select the key file to unlock the whole database. The databases are encrypted using the best and most secure encryption algorithms currently known (AES and Twofish). For more information, see the features page. 
+KeePass DX is a free open source password manager for Android, which helps you to manage your passwords in a secure way. You can put all your passwords in one database, which is locked with one master key or a key file. So you only have to remember one single master password or select the key file to unlock the whole database. The databases are encrypted using the best and most secure encryption algorithms currently known.
 
 ## Is it really free?
 
-Yes, KeePass is really free, and more than that: it is open source (OSI certified). You can have a look at its full source and check whether the encryption algorithms are implemented correctly.
+Yes, KeePass DX is under free license (OSI certified) and without advertising. You can have a look at its full source and check whether the encryption algorithms are implemented correctly.
 
-## Donation
+*Note : If you access the application from a store, visual features may not be available to incentivize the contribution to the work of open source projects. These optional visuals are accessible after a donation (and a small congratulation message :) or the purchase of an extended version, but do not worry, the main features remain completely free.*
 
-Even if the application is free, to maintain the application, you can make donations.
+## Contributions
 
-[![Donation Paypal](https://4.bp.blogspot.com/-ncaIbUGaHOk/WfhaThYUPGI/AAAAAAAAAVQ/_HidNgdB1q4DaC24ujaKNzH64KUUJiQewCLcBGAs/s1600/pay-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KM6QMDAXZM3UU "Kunzisoft Paypal Donation")
+You can contribute in different ways to help us on our work.
 
-[![Donation Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Kunzisoft/donate "Kunzisoft Liberapay Donation")
+* Add features by a **pull request**.
+* Help to **translate** into your language
+* **[Donate](https://www.kunzisoft.com/donation)**  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
+* Buy the **[Pro version](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro)** of KeePass DX
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen4.jpg" width="220">
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen5.jpg" width="220">
@@ -45,6 +53,12 @@ Even if the application is free, to maintain the application, you can make donat
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Get it on Google Play"
 	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
+	
+## Other devices
+
+- [KeePass XC](https://keepassxc.org/) (https://keepassxc.org/) works with **GNU/Linux**, **Mac** and **Windows**, is updated regulary and under the terms of the GNU General Public License. It's the recommended version for computers.
+
+- [KeePass](https://keepass.info/) (https://keepass.info/) is the historical project, with good technical documentation for standardized database files but only running on **Windows**.
 
 ## License
 

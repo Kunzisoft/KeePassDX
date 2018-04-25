@@ -48,9 +48,8 @@
     <string name="default_checkbox">Använda denna databasen som standard</string>
     <string name="digits">Siffror</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
-    <string name="select_database_file">Ange databasnamn:</string>
+    <string name="select_database_file">Ange databasnamn</string>
     <string name="entry_accessed">Senast använd</string>
-    <string name="entry_and_or">Ange lösenord och/eller nyckelfil för att öppna databasen:</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_comment">Kommentarer</string>
     <string name="entry_confpassword">Bekräfta lösenord</string>
@@ -153,7 +152,9 @@
     <string name="warning_read_only">SD-kortet är för närvarande skrivskyddat. Du kanske inte kan spara ändringar i databasen.</string>
     <string name="warning_unmounted">SD-kortet är för närvarande inte monterat på enheten. Du kan inte skapa/ladda databasen.</string>
     <string name="version_label">Version:</string>
-    
+
+    <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.</string>
+
     <string-array name="timeout_options">
     	<item>5 sekunder</item>
     	<item>10 sekunder</item>

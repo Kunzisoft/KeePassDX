@@ -45,9 +45,8 @@
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Cifre</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o superiore.</string>
-    <string name="select_database_file">Inserisci il nome file del database:</string>
+    <string name="select_database_file">Inserisci il nome file del database</string>
     <string name="entry_accessed">Ultimo accesso</string>
-    <string name="entry_and_or">Inserisci una password e/o file chiave per sbloccare il database:</string>
     <string name="entry_cancel">Annulla</string>
     <string name="entry_comment">Commento</string>
     <string name="entry_confpassword">Conferma password</string>
@@ -142,7 +141,9 @@
     <string name="warning_read_only">Attualmente la scheda SD è in sola lettura. Non sei in grado di salvare le modifiche nel database.</string>
     <string name="warning_unmounted">Attualmente la scheda SD non è montata nel dispositivo. Non sarai in grado di caricare o creare un nuovo database.</string>
     <string name="version_label">Versione:</string>
-    
+
+    <string name="education_unlock_summary">Inserisci una password e/o file chiave per sbloccare il database.</string>
+
     <string-array name="timeout_options">
     	<item>5 secondi</item>
     	<item>10 secondi</item>

@@ -18,10 +18,12 @@
 	<dimen name="list_margin">5dp</dimen>
 	<dimen name="default_margin">12dp</dimen>
 	<dimen name="button_margin">5dp</dimen>
-	<dimen name="fab_margin">24dp</dimen>
+	<dimen name="fab_menu_margin">8dp</dimen>
     <dimen name="margin_tiny">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">32dp</dimen>
     <dimen name="margin_huge">64dp</dimen>
+
+    <dimen name="icon_size">32dp</dimen>
 </resources>

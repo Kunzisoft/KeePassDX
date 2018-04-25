@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.password.PasswordGenerator;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.utils.Util;
 
 import java.util.Set;
 
@@ -46,6 +47,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 	private GeneratePasswordListener mListener;
 	private View root;
 	private EditText lengthTextView;
+	private EditText passwordView;
 
 	private CompoundButton uppercaseBox;
 	private CompoundButton lowercaseBox;
@@ -74,6 +76,9 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
         root = inflater.inflate(R.layout.generate_password, null);
+
+        passwordView = root.findViewById(R.id.password);
+        Util.applyFontVisibilityTo(getContext(), passwordView);
 
         lengthTextView = root.findViewById(R.id.length);
 
@@ -109,9 +114,8 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
         builder.setView(root)
                 .setPositiveButton(R.string.accept, (dialog, id) -> {
-                    EditText password = root.findViewById(R.id.password);
                     Bundle bundle = new Bundle();
-                    bundle.putString(KEY_PASSWORD_ID, password.getText().toString());
+                    bundle.putString(KEY_PASSWORD_ID, passwordView.getText().toString());
                     mListener.acceptPassword(bundle);
 
                     dismiss();

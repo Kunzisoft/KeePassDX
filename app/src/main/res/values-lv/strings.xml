@@ -27,9 +27,8 @@
     <string name="decrypting_db">Datu bāzes atšifrēšana…</string>
     <string name="default_checkbox">Izmantot šo kā manu noklusējuma datu bāzi</string>
     <string name="digits">Cipari</string>
-    <string name="select_database_file">Ievadiet datu bāzes nosaukumu:</string>
+    <string name="select_database_file">Ievadiet datu bāzes nosaukumu</string>
     <string name="entry_accessed">Piekļuve</string>
-    <string name="entry_and_or">Ievadiet paroli/atslēgas failu, lai atbloķētu savu datu bāzi:</string>
     <string name="entry_cancel">Atcelt</string>
     <string name="entry_comment">Komentāri</string>
     <string name="entry_confpassword">Apstipriniet paroli</string>
@@ -134,6 +133,8 @@
     <string name="warning_read_only">SD karte ir tikai lasāma. Nevarēsiet saglabāt izmaiņas datu bāzē.</string>
     <string name="warning_unmounted">Nav SD kartes. Darbības ar datu bāzi nav iespējamas.</string>
     <string name="version_label">Versija:</string>
+
+    <string name="education_unlock_summary">Ievadiet paroli/atslēgas failu, lai atbloķētu savu datu bāzi.</string>
 
     <string-array name="timeout_options">
         <item>5 sekundes</item>

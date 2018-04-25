@@ -54,7 +54,6 @@
     <string name="digits">Digits</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
-    <string name="entry_and_or">Enter a password and/or a key file to unlock your database:</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_comment">Comments</string>
     <string name="entry_confpassword">Confirm password</string>
@@ -136,7 +135,7 @@
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">No handler for this url.</string>
-    <string name="select_database_file">Select an existing database :</string>
+    <string name="select_database_file">Select an existing database</string>
     <string name="open_recent">Recent databases :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
@@ -148,7 +147,7 @@
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow applications to write to the sdcard.</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recently used file names</string>
-    <string name="remember_keyfile_summary">Remembers the location of keyfiles</string>
+    <string name="remember_keyfile_summary">Remember the location of keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>
     <string name="rijndael">Rijndael (AES)</string>
@@ -255,6 +254,57 @@
     <string name="database_name_title">Database name</string>
     <string name="database_description_title">Database description</string>
     <string name="database_version_title">Database version</string>
+    <string name="text_appearance">Text appearance</string>
+    <string name="application_appearance">Application appearance</string>
+    <string name="other">Other</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="magic_keyboard_title">Magikeyboayd</string>
+    <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields easily.</string>
+
+    <string name="reset_education_screens_title">Reset education screens</string>
+    <string name="reset_education_screens_summary">Highlight the elements to learn how the application works</string>
+    <string name="reset_education_screens_text">Education screens reseted</string>
+    <string name="education_create_database_title">Create your database file</string>
+    <string name="education_create_database_summary">You don\'t know KeePass DX yet, create your first password management file.</string>
+    <string name="education_select_database_title">Open an existing database</string>
+    <string name="education_select_database_summary">You have already used a KeePass manager. Just open your Kdbx file from your file browser.</string>
+    <string name="education_open_link_database_title">A link to the location of your file is sufficient</string>
+    <string name="education_open_link_database_summary">You can also open your base with a physical link (With file:// and content:// for example).</string>
+    <string name="education_new_node_title">Add new items to your base</string>
+    <string name="education_new_node_summary">Add entries to manage your digital identities.\n\nAdd groups (the equivalent of folders) to organize your entries and your database.</string>
+    <string name="education_search_title">Easily search your entries</string>
+    <string name="education_search_summary">Search for entries by title, username or other fields to easily retrieve your passwords.</string>
+    <string name="education_fingerprint_title">Unlock your database with your fingerprint</string>
+    <string name="education_fingerprint_summary">Make the link between your password and your fingerprint to easily unlock your database.</string>
+    <string name="education_entry_edit_title">Edit the entry</string>
+    <string name="education_entry_edit_summary">Edit your entry with custom fields, you can add references to pool data between fields of different entries.</string>
+    <string name="education_generate_password_title">Create a strong password</string>
+    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget a difficult but secure password.</string>
+    <string name="education_entry_new_field_title">Add custom fields</string>
+    <string name="education_entry_new_field_summary">You want to register a basic non-supplied field, simply fill in a new one that you can also protect visually.</string>
+    <string name="education_unlock_title">Unlock your database</string>
+    <string name="education_unlock_summary">Enter a password and/or a key file to unlock your database.\n\nRemember to save a copy of your file in a safe place after each modification.</string>
+    <string name="education_field_copy_title">Copy a field</string>
+    <string name="education_field_copy_summary">Copy a field easily to paste it where you want\n\nYou can use several forms filling methods. Use the one you prefer!</string>
+    <string name="education_lock_title">Lock the database</string>
+    <string name="education_lock_summary">Lock your database quickly, you can parameter the application to lock it after a while and when the screen goes off.</string>
+    <string name="education_sort_title">Sort items</string>
+    <string name="education_sort_summary">Sort entries and groups according to specific parameters.</string>
+    <string name="education_donation_title">Participate</string>
+    <string name="education_donation_summary">Participate to increase the stability, the security and to add more features.</string>
+
+    <string name="html_text_ad_free">Unlike many password management applications, this app is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;open source&lt;/strong&gt; and does not recover personal data on its servers, even in its free version.</string>
+    <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;feature&lt;/strong&gt; &lt;i&gt;(and many more)&lt;/i&gt; and you will help especially to &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">This &lt;strong&gt;feature&lt;/strong&gt; &lt;i&gt;(and many more)&lt;/i&gt; are available thanks to your generosity.</string>
+    <string name="html_text_donation">In order to keep our freedom and to be always active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
+
+    <string name="html_text_dev_feature">This feature is &lt;strong&gt;under development&lt;/strong&gt; and requires your &lt;strong&gt;contribution&lt;/strong&gt; to be available soon.</string>
+    <string name="html_text_dev_feature_buy_pro">By buying the &lt;strong&gt;pro&lt;/strong&gt; version,</string>
+    <string name="html_text_dev_feature_contibute">By &lt;strong&gt;contributing&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">you\'re encouraging developers to create &lt;strong&gt;new features&lt;/strong&gt; and to &lt;strong&gt;fix bugs&lt;/strong&gt; according to your remarks.</string>
+
+    <string name="download">Download</string>
+    <string name="contribute">Contribute</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>
@@ -278,6 +328,11 @@
     <string-array name="list_style_names">
         <item>Light Theme</item>
         <item>Night Theme</item>
+        <item>Classic Dark Theme</item>
+        <item>Sky and Ocean Theme</item>
+        <item>Purple Pro Theme</item>
     </string-array>
+    <string name="icon_pack_choose_title">Select an icon pack</string>
+    <string name="icon_pack_choose_summary">Change the icon pack of the application</string>
 
 </resources>

@@ -43,9 +43,8 @@
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
     <string name="digits">Számok</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR; Ez egy szabad szoftver, GNU General Public License v3 vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható. Fordította: Eversmann</string>
-    <string name="select_database_file">Adja meg az adatbázis fájlnevét:</string>
+    <string name="select_database_file">Adja meg az adatbázis fájlnevét</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
-    <string name="entry_and_or">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist:</string>
     <string name="entry_cancel">Mégsem</string>
     <string name="entry_comment">Megjegyzés</string>
     <string name="entry_confpassword">Jelszó megerősítése</string>
@@ -165,6 +164,8 @@
     <string name="fingerprint_error">Érvénytelen ujjlenyomat : %1$s</string>
     <string name="store_with_fingerprint">Használjon ujjlenyomatot a jelszó elmentéséhez</string>
     <string name="no_password_stored">Nincs még jelszó beállítva ehhez az adatbázishoz</string>
+
+    <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.</string>
 
     <string-array name="timeout_options">
         <item>5 másodperc</item>

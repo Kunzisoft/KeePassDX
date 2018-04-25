@@ -22,28 +22,25 @@ package com.kunzisoft.keepass.database.edit;
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwGroup;
 
 public class AddGroup extends RunnableOnFinish {
 
 	protected Database mDb;
-	private String mName;
-	private int mIconID;
-	private PwGroup mGroup;
-	private PwGroup mParent;
+	private PwGroup mNewGroup;
 	private Context ctx;
 	private boolean mDontSave;
-	
-	public AddGroup(Context ctx, Database db, String name, int iconid,
-                    PwGroup parent, AfterAddNodeOnFinish afterAddNode,
+
+	public AddGroup(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode) {
+		this(ctx, db, newGroup, afterAddNode, false);
+	}
+
+	public AddGroup(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode,
                     boolean dontSave) {
 		super(afterAddNode);
 
 		this.mDb = db;
-        this.mName = name;
-        this.mIconID = iconid;
-        this.mParent = parent;
+        this.mNewGroup = newGroup;
         this.mDontSave = dontSave;
 		this.ctx = ctx;
 
@@ -52,13 +49,7 @@ public class AddGroup extends RunnableOnFinish {
 	
 	@Override
 	public void run() {
-		PwDatabase pm = mDb.getPwDatabase();
-
-		// Generate new group
-		mGroup = pm.createGroup();
-		mGroup.initNewGroup(mName, pm.newGroupId());
-		mGroup.setIcon(pm.getIconFactory().getIcon(mIconID));
-        mDb.addGroupTo(mGroup, mParent);
+        mDb.addGroupTo(mNewGroup, mNewGroup.getParent());
 
 		// Commit to disk
 		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
@@ -74,15 +65,15 @@ public class AddGroup extends RunnableOnFinish {
 		@Override
 		public void run() {
 			if ( !mSuccess ) {
-                mDb.removeGroupFrom(mGroup, mParent);
+                mDb.removeGroupFrom(mNewGroup, mNewGroup.getParent());
 			}
 
             // TODO Better callback
-            AfterAddNodeOnFinish afterAddNode =
-                    (AfterAddNodeOnFinish) super.mOnFinish;
+            AfterActionNodeOnFinish afterAddNode =
+                    (AfterActionNodeOnFinish) super.mOnFinish;
             afterAddNode.mSuccess = mSuccess;
             afterAddNode.mMessage = mMessage;
-            afterAddNode.run(mGroup);
+            afterAddNode.run(null, mNewGroup);
 		}
 	}
 }

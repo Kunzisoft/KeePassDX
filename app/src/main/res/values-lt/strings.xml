@@ -80,8 +80,6 @@
     <string name="list_size_summary">Teksto dydis grupės sąraše</string>
     <string name="omitbackup_title">Neiškoti atkūrimo įrašuose</string>
     <string name="error_can_not_handle_uri">KeePass DX negali apdoroti šio uri.</string>
-    <string name="error_failed_to_launch_link"></string>
-    <string name="entry_and_or">Įveskite slaptažodį rba raktą, tam kad atidarytumėte duomenų bazę:</string>
     <string name="entry_not_found">Įrašo duomenys nerasti.</string>
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>
     <string name="keyfile_does_not_exist">Rakto failas neegzistuoja.</string>
@@ -101,4 +99,7 @@
     <string name="maskpass_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
     <string name="error_invalid_path">Neteisingas kelias.</string>
+
+    <string name="education_unlock_summary">Įveskite slaptažodį rba raktą, tam kad atidarytumėte duomenų bazę.</string>
+
 </resources>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+     
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/search_label">
+
+        <SwitchPreference
+            android:summary="@string/omitbackup_summary"
+            android:defaultValue="@bool/omitbackup_default"
+            android:title="@string/omitbackup_title"
+            android:key="@string/omitbackup_key"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/lock">
+
+        <ListPreference
+            android:key="@string/clipboard_timeout_key"
+            android:title="@string/clipboard_timeout"
+            android:summary="@string/clipboard_timeout_summary"
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
+            android:dialogTitle="@string/clipboard_timeout"
+            android:defaultValue="@string/clipboard_timeout_default"/>
+        <ListPreference
+            android:key="@string/app_timeout_key"
+            android:title="@string/app_timeout"
+            android:summary="@string/app_timeout_summary"
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
+            android:dialogTitle="@string/app_timeout"
+            android:defaultValue="@string/app_timeout_default"/>
+        <SwitchPreference
+            android:key="@string/lock_database_screen_off_key"
+            android:title="@string/lock_database_screen_off_title"
+            android:summary="@string/lock_database_screen_off_summary"
+            android:defaultValue="@bool/lock_database_screen_off_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/password">
+
+        <SeekBarPreference
+            android:key="@string/password_length_key"
+            android:title="@string/password_size_title"
+            android:summary="@string/password_size_summary"
+            android:defaultValue="@string/default_password_length"
+            app:min="@string/min_password_length"
+            android:max="@string/max_password_length" />
+        <MultiSelectListPreference
+            android:key="@string/list_password_generator_options_key"
+            android:title="@string/list_password_generator_options_title"
+            android:summary="@string/list_password_generator_options_summary"
+            android:entries="@array/list_password_generator_options_entries"
+            android:entryValues="@array/list_password_generator_options_values"
+            android:defaultValue="@array/list_password_generator_options_default_values"/>
+        <SwitchPreference
+            android:key="@string/maskpass_key"
+            android:title="@string/maskpass_title"
+            android:summary="@string/maskpass_summary"
+            android:defaultValue="@bool/maskpass_default"/>
+        <SwitchPreference
+            android:key="@string/allow_copy_password_key"
+            android:title="@string/allow_copy_password_title"
+            android:summary="@string/allow_copy_password_summary"
+            android:defaultValue="@bool/allow_copy_password_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/history">
+
+        <SwitchPreference
+            android:summary="@string/recentfile_summary"
+            android:defaultValue="@bool/recentfile_default"
+            android:title="@string/recentfile_title"
+            android:key="@string/recentfile_key"/>
+        <SwitchPreference
+            android:key="@string/keyfile_key"
+            android:title="@string/remember_keyfile_title"
+            android:summary="@string/remember_keyfile_summary"
+            android:dependency="@string/recentfile_key"
+            android:defaultValue="@bool/keyfile_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/file_browser">
+
+        <SwitchPreference
+            android:key="@string/saf_key"
+            android:summary="@string/use_saf_summary"
+            android:defaultValue="@bool/settings_saf_default"
+            android:title="@string/use_saf_title"/>
+        <SwitchPreference
+            android:key="@string/auto_open_file_uri_key"
+            android:summary="@string/auto_open_file_uri_summary"
+            android:defaultValue="@bool/auto_open_file_uri_default"
+            android:title="@string/auto_open_file_uri_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/fingerprint">
+
+        <SwitchPreference
+            android:key="@string/fingerprint_enable_key"
+            android:title="@string/fingerprint_enable_title"
+            android:summary="@string/fingerprint_enable_summary"
+            android:defaultValue="@bool/fingerprint_enable_default"/>
+        <Preference
+            android:key="@string/fingerprint_delete_all_key"
+            android:title="@string/fingerprint_delete_all_title"
+            android:summary="@string/fingerprint_delete_all_summary" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

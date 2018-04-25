@@ -32,6 +32,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -45,9 +46,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.activities.LockingActivity;
@@ -104,9 +108,11 @@ public class PasswordActivity extends StylishActivity
     private static final String PREF_KEY_VALUE_PREFIX = "valueFor_"; // key is a combination of db file name and this prefix
     private static final String PREF_KEY_IV_PREFIX = "ivFor_"; // key is a combination of db file name and this prefix
 
+    private Toolbar toolbar;
     private View fingerprintContainerView;
     private FingerPrintAnimatedVector fingerPrintAnimatedVector;
     private TextView fingerprintTextView;
+    private ImageView fingerprintImageView;
     private TextView filenameView;
     private EditText passwordView;
     private EditText keyFileView;
@@ -229,7 +235,7 @@ public class PasswordActivity extends StylishActivity
 
         setContentView(R.layout.password);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
@@ -281,15 +287,18 @@ public class PasswordActivity extends StylishActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintContainerView = findViewById(R.id.fingerprint_container);
             fingerprintTextView = findViewById(R.id.fingerprint_label);
+            fingerprintImageView = findViewById(R.id.fingerprint_image);
             initForFingerprint();
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
-                    findViewById(R.id.fingerprint_image));
+                    fingerprintImageView);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
         }
+
+        checkAndPerformedEducation();
     }
 
     @Override
@@ -313,6 +322,63 @@ public class PasswordActivity extends StylishActivity
 
         new UriIntentInitTask(this, mRememberKeyfile)
                 .execute(getIntent());
+    }
+
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database opening with fingerprints if available
+     */
+    private void checkAndPerformedEducation() {
+        if (!PreferencesUtil.isEducationUnlockPerformed(this)) {
+
+            TapTargetView.showFor(this,
+                    TapTarget.forView(findViewById(R.id.password_input_container),
+                    getString(R.string.education_unlock_title),
+                    getString(R.string.education_unlock_summary))
+                            .dimColor(R.color.green)
+                            .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            checkAndPerformedEducationForFingerprint();
+                        }
+
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+                            checkAndPerformedEducationForFingerprint();
+
+                        }
+                    });
+            // TODO make a period for donation
+            PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_unlock_key);
+        }
+    }
+
+    /**
+     * Check and display learning views
+     * Displays fingerprints if available
+     */
+    private void checkAndPerformedEducationForFingerprint() {
+        if (PreferencesUtil.isFingerprintEnable(getApplicationContext())) {
+            TapTargetView.showFor(this,
+                TapTarget.forView(fingerprintImageView,
+                        getString(R.string.education_fingerprint_title),
+                        getString(R.string.education_fingerprint_summary))
+                        .tintTarget(false)
+                        .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+                        }
+                    });
+        }
     }
 
     @Override
@@ -722,7 +788,7 @@ public class PasswordActivity extends StylishActivity
 
     private void verifyCheckboxesAndLoadDatabase(String pass, Uri keyfile) {
         if (!checkboxPasswordView.isChecked()) {
-            pass = "";
+            pass = null;
         }
         if (!checkboxKeyfileView.isChecked()) {
             keyfile = null;
@@ -757,12 +823,14 @@ public class PasswordActivity extends StylishActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         MenuUtil.defaultMenuInflater(inflater, menu);
         if (!fingerprintMustBeConfigured
                 && prefsNoBackup.contains(getPreferenceKeyValue()) )
             inflater.inflate(R.menu.fingerprint, menu);
+
+        super.onCreateOptionsMenu(menu);
+
         return true;
     }
 

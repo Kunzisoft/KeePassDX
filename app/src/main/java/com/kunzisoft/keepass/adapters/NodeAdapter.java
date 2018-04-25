@@ -20,10 +20,12 @@
 package com.kunzisoft.keepass.adapters;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,6 +38,7 @@ import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
@@ -50,9 +53,11 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private boolean ascendingSort;
 
     private OnNodeClickCallback onNodeClickCallback;
-    private int nodePositionToUpdate;
     private NodeMenuListener nodeMenuListener;
     private boolean activateContextMenu;
+
+    private int iconGroupColor;
+    private int iconEntryColor;
 
     /**
      * Create node list adapter with contextMenu or not
@@ -66,7 +71,6 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
         this.ascendingSort = PreferencesUtil.getAscendingSort(context);
         this.activateContextMenu = false;
-        this.nodePositionToUpdate = -1;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
             @Override public int compare(PwNode item1, PwNode item2) {
@@ -81,6 +85,16 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 return item1.equals(item2);
             }
         });
+
+        // Retrieve the color to tint the icon
+        int[] attrTextColorPrimary = {android.R.attr.textColorPrimary};
+        TypedArray taTextColorPrimary = context.getTheme().obtainStyledAttributes(attrTextColorPrimary);
+        this.iconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK);
+        taTextColorPrimary.recycle();
+        int[] attrTextColor = {android.R.attr.textColor}; // In two times to fix bug compilation
+        TypedArray taTextColor = context.getTheme().obtainStyledAttributes(attrTextColor);
+        this.iconEntryColor = taTextColor.getColor(0, Color.BLACK);
+        taTextColor.recycle();
     }
 
     public void setActivateContextMenu(boolean activate) {
@@ -106,41 +120,23 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     }
 
     /**
-     * Register a node to update before an action
-     * Call updateLastNodeRegister() after the action to update the node
-     * @param node Node to register
-     */
-    public void registerANodeToUpdate(PwNode node) {
-        nodePositionToUpdate = nodeSortedList.indexOf(node);
-    }
-
-    /**
-     * Update the last Node register in the list
-     * Work if only registerANodeToUpdate(PwNode node) is called before
-     */
-    public void updateLastNodeRegister(PwNode node) {
-        // Don't really update here, sorted list knows each original ref, so we just notify a change
-        try {
-            if (nodePositionToUpdate != -1) {
-                // Don't know why but there is a bug to remove a node after this update
-                nodeSortedList.updateItemAt(nodePositionToUpdate, node);
-                nodeSortedList.recalculatePositionOfItemAt(nodePositionToUpdate);
-                nodePositionToUpdate = -1;
-            }
-            else {
-                Log.e(NodeAdapter.class.getName(), "registerANodeToUpdate must be called before updateLastNodeRegister");
-            }
-        } catch (IndexOutOfBoundsException e) {
-            Log.e(NodeAdapter.class.getName(), e.getMessage());
-        }
-    }
-
-    /**
-     * Remove node in the list
+     * Remove a node in the list
      * @param node Node to delete
      */
     public void removeNode(PwNode node) {
         nodeSortedList.remove(node);
+    }
+
+    /**
+     * Update a node in the list
+     * @param oldNode Node before the update
+     * @param newNode Node after the update
+     */
+    public void updateNode(PwNode oldNode, PwNode newNode) {
+        nodeSortedList.beginBatchedUpdates();
+        nodeSortedList.remove(oldNode);
+        nodeSortedList.add(newNode);
+        nodeSortedList.endBatchedUpdates();
     }
 
     /**
@@ -157,8 +153,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         return nodeSortedList.get(position).getType().ordinal();
     }
 
+    @NonNull
     @Override
-    public BasicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BasicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         BasicViewHolder basicViewHolder;
         View view;
         if (viewType == PwNode.Type.GROUP.ordinal()) {
@@ -172,11 +169,23 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(BasicViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BasicViewHolder holder, int position) {
         PwNode subNode = nodeSortedList.get(position);
         // Assign image
-        App.getDB().getDrawFactory().assignDrawableTo(holder.icon,
-                context.getResources(), subNode.getIcon());
+        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
+            int iconColor = Color.BLACK;
+            switch (subNode.getType()) {
+                case GROUP:
+                    iconColor = iconGroupColor;
+                    break;
+                case ENTRY:
+                    iconColor = iconEntryColor;
+                    break;
+            }
+            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), true, iconColor);
+        } else {
+            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
+        }
         // Assign text
         holder.text.setText(subNode.getDisplayTitle());
         // Assign click
@@ -265,9 +274,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             MenuItem clearMenu = contextMenu.add(Menu.NONE, MENU_OPEN, Menu.NONE, R.string.menu_open);
             clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
             if (!App.getDB().isReadOnly() && !node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
-                // TODO make edit for group
-                // clearMenu = contextMenu.add(Menu.NONE, MENU_EDIT, Menu.NONE, R.string.menu_edit);
-                // clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                // Edition
+                clearMenu = contextMenu.add(Menu.NONE, MENU_EDIT, Menu.NONE, R.string.menu_edit);
+                clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                // Deletion
                 clearMenu = contextMenu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.menu_delete);
                 clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
             }

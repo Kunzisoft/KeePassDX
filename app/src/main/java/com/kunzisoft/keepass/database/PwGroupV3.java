@@ -40,6 +40,26 @@ public class PwGroupV3 extends PwGroup<PwGroupV3, PwGroupV3, PwEntryV3> {
         super();
     }
 
+    public PwGroupV3(PwGroupV3 p) {
+        construct(p);
+    }
+
+    protected void updateWith(PwGroupV3 source) {
+        super.assign(source);
+        groupId = source.groupId;
+        level = source.level;
+        flags = source.flags;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public PwGroupV3 clone() {
+        // newGroup.groupId stay the same in copy
+        // newGroup.level stay the same in copy
+        // newGroup.flags stay the same in copy
+        return (PwGroupV3) super.clone();
+    }
+
     @Override
     public void setParent(PwGroupV3 parent) {
         super.setParent(parent);

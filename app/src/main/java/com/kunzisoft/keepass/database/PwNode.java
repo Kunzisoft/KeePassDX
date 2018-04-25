@@ -27,7 +27,7 @@ import java.io.Serializable;
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger, Serializable {
+public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger, Serializable, Cloneable {
 
     protected Parent parent = null;
 
@@ -53,15 +53,23 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
         this.expireDate = source.expireDate;
     }
 
-    protected void addCloneAttributesToNewEntry(PwEntry newEntry) {
-        // newEntry.parent stay the same in copy
+    @Override
+    public PwNode clone() {
+        PwNode newNode;
+        try {
+            newNode = (PwNode) super.clone();
+            // newNode.parent stay the same in copy
 
-        newEntry.icon = new PwIconStandard(this.icon);
+            newNode.icon = new PwIconStandard(this.icon);
 
-        newEntry.creation = creation.clone();
-        newEntry.lastMod = lastMod.clone();
-        newEntry.lastAccess = lastAccess.clone();
-        newEntry.expireDate = expireDate.clone();
+            newNode.creation = creation.clone();
+            newNode.lastMod = lastMod.clone();
+            newNode.lastAccess = lastAccess.clone();
+            newNode.expireDate = expireDate.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Clone should be supported");
+        }
+        return newNode;
     }
 
     /**

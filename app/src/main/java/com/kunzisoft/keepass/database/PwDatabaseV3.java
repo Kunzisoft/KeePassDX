@@ -45,7 +45,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.database;
 
-// Java
 import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 
@@ -71,13 +70,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
 	private int numKeyEncRounds;
 
-    private void initAndAddGroup(String name, int iconId, PwGroupV3 parent) {
-        PwGroupV3 group = createGroup();
-        group.initNewGroup(name, newGroupId());
-        group.setIcon(iconFactory.getIcon(iconId));
-        addGroupTo(group, parent);
-    }
-
     @Override
     public void initNew(String dbPath) {
         algorithm = PwEncryptionAlgorithm.AES_Rijndael;
@@ -88,6 +80,14 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
         // Add a couple default groups
         initAndAddGroup("Internet", 1, rootGroup);
         initAndAddGroup("eMail", 19, rootGroup);
+    }
+
+    private void initAndAddGroup(String name, int iconId, PwGroupV3 parent) {
+        PwGroupV3 group = createGroup();
+        group.setId(newGroupId());
+        group.setName(name);
+        group.setIcon(iconFactory.getIcon(iconId));
+        addGroupTo(group, parent);
     }
 
 	@Override
@@ -235,14 +235,15 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		return newId;
 	}
 
+	@Override
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
 
-	    if (key != null && key.length() > 0 && keyInputStream != null) {
+	    if (key != null && keyInputStream != null) {
 			return getCompositeKey(key, keyInputStream);
-		} else if (key != null && key.length() > 0) {
+		} else if (key != null) { // key.length() >= 0
 			return getPasswordKey(key);
-		} else if (keyInputStream != null) {
+		} else if (keyInputStream != null) { // key == null
 			return getFileKey(keyInputStream);
 		} else {
 			throw new IllegalArgumentException("Key cannot be empty.");

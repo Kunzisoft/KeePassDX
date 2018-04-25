@@ -27,6 +27,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +43,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
@@ -49,16 +53,21 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
+import com.kunzisoft.keepass.database.PwIcon;
+import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.database.edit.AddGroup;
 import com.kunzisoft.keepass.database.edit.DeleteEntry;
 import com.kunzisoft.keepass.database.edit.DeleteGroup;
+import com.kunzisoft.keepass.database.edit.UpdateGroup;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
+import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
@@ -67,19 +76,20 @@ public class GroupActivity extends ListNodesActivity
 
     private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
+    private Toolbar toolbar;
+
+    private ImageView iconView;
     private AddNodeButtonView addNodeButtonView;
 
 	protected boolean addGroupEnabled = false;
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
 	protected boolean readOnly = false;
-	protected EditGroupDialogAction editGroupDialogAction = EditGroupDialogAction.NONE;
-
-    private enum EditGroupDialogAction {
-	    CREATION, UPDATE, NONE
-    }
 
 	private static final String TAG = "Group Activity:";
+
+	private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
+	private PwGroup oldGroupToUpdate;
 	
 	public static void launch(Activity act) {
         recordFirstTimeBeforeLaunch(act);
@@ -132,9 +142,15 @@ public class GroupActivity extends ListNodesActivity
 			return;
 		}
 
+		if (savedInstanceState != null
+                && savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
+            oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
+        }
+
 		// Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
 
+        iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
         addNodeButtonView.enableAddGroup(addGroupEnabled);
         addNodeButtonView.enableAddEntry(addEntryEnabled);
@@ -142,7 +158,7 @@ public class GroupActivity extends ListNodesActivity
         RecyclerView recyclerView = findViewById(R.id.nodes_list);
         recyclerView.addOnScrollListener(addNodeButtonView.hideButtonOnScrollListener());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -150,16 +166,14 @@ public class GroupActivity extends ListNodesActivity
             toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
         addNodeButtonView.setAddGroupClickListener(v -> {
-            editGroupDialogAction = EditGroupDialogAction.CREATION;
-            GroupEditDialogFragment groupEditDialogFragment = new GroupEditDialogFragment();
-            groupEditDialogFragment.show(getSupportFragmentManager(),
-                    GroupEditDialogFragment.TAG_CREATE_GROUP);
+            GroupEditDialogFragment.build()
+                    .show(getSupportFragmentManager(),
+                            GroupEditDialogFragment.TAG_CREATE_GROUP);
         });
         addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 		
 		setGroupTitle();
-		setGroupIcon();
 
         Log.w(TAG, "Finished creating tree");
 
@@ -206,7 +220,6 @@ public class GroupActivity extends ListNodesActivity
         nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
             @Override
             public boolean onOpenMenuClick(PwNode node) {
-                mAdapter.registerANodeToUpdate(node);
                 switch (node.getType()) {
                     case GROUP:
                         GroupActivity.launch(GroupActivity.this, (PwGroup) node);
@@ -220,14 +233,12 @@ public class GroupActivity extends ListNodesActivity
 
             @Override
             public boolean onEditMenuClick(PwNode node) {
-                mAdapter.registerANodeToUpdate(node);
                 switch (node.getType()) {
                     case GROUP:
-                        editGroupDialogAction = EditGroupDialogAction.UPDATE;
-                        GroupEditDialogFragment groupEditDialogFragment =
-                                GroupEditDialogFragment.build(node);
-                        groupEditDialogFragment.show(getSupportFragmentManager(),
-                                GroupEditDialogFragment.TAG_CREATE_GROUP);
+                        oldGroupToUpdate = (PwGroup) node;
+                        GroupEditDialogFragment.build(node)
+                                .show(getSupportFragmentManager(),
+                                        GroupEditDialogFragment.TAG_CREATE_GROUP);
                         break;
                     case ENTRY:
                         EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
@@ -254,8 +265,137 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected void onResume() {
         super.onResume();
+        // Refresh the group icon
+        assignGroupIcon();
         // Show button on resume
         addNodeButtonView.showButton();
+    }
+
+    /**
+     * Check and display learning views
+     * Displays the explanation for a add, search, sort a new node and lock the database
+     */
+    private void checkAndPerformedEducation(Menu menu) {
+
+	    // If no node, show education to add new one
+	    if (mAdapter.getItemCount() <= 0) {
+            if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
+
+                TapTargetView.showFor(this,
+                        TapTarget.forView(findViewById(R.id.add_button),
+                                getString(R.string.education_new_node_title),
+                                getString(R.string.education_new_node_summary))
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                addNodeButtonView.openButtonIfClose();
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_new_node_key);
+
+            }
+        }
+        // Else show the search education
+        else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
+
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
+                                getString(R.string.education_search_title),
+                                getString(R.string.education_search_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem searchItem = menu.findItem(R.id.menu_search);
+                                searchItem.expandActionView();
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_search_key);
+            } catch (Exception e) {
+                // If icon not visible
+                Log.w(TAG, "Can't performed education for search");
+            }
+        }
+        // Else show the sort education
+        else if (!PreferencesUtil.isEducationSortPerformed(this)) {
+
+	        try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
+                                getString(R.string.education_sort_title),
+                                getString(R.string.education_sort_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem sortItem = menu.findItem(R.id.menu_sort);
+                                onOptionsItemSelected(sortItem);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_sort_key);
+            } catch (Exception e) {
+                Log.w(TAG, "Can't performed education for sort");
+            }
+        }
+        // Else show the lock education
+        else if (!PreferencesUtil.isEducationLockPerformed(this)) {
+
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
+                                getString(R.string.education_lock_title),
+                                getString(R.string.education_lock_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem lockItem = menu.findItem(R.id.menu_lock);
+                                onOptionsItemSelected(lockItem);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_lock_key);
+            } catch (Exception e) {
+                Log.w(TAG, "Can't performed education for lock");
+            }
+        }
     }
 
     @Override
@@ -272,10 +412,20 @@ public class GroupActivity extends ListNodesActivity
         addNodeButtonView.showButton();
     }
 
-    protected void setGroupIcon() {
+    /**
+     * Assign the group icon depending of IconPack or custom icon
+     */
+    protected void assignGroupIcon() {
 		if (mCurrentGroup != null) {
-			ImageView iv = findViewById(R.id.icon);
-			App.getDB().getDrawFactory().assignDrawableTo(iv, getResources(), mCurrentGroup.getIcon());
+            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {R.attr.textColorInverse};
+                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
+            }
 		}
 	}
 
@@ -298,7 +448,6 @@ public class GroupActivity extends ListNodesActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
@@ -319,6 +468,11 @@ public class GroupActivity extends ListNodesActivity
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
         }
+
+        super.onCreateOptionsMenu(menu);
+
+        // Launch education screen
+        new Handler().post(() -> checkAndPerformedEducation(menu));
 
         return true;
     }
@@ -376,28 +530,68 @@ public class GroupActivity extends ListNodesActivity
     }
 
     @Override
-    public void approveEditGroup(Bundle bundle) {
-        String GroupName = bundle.getString(GroupEditDialogFragment.KEY_NAME);
-        int GroupIconID = bundle.getInt(GroupEditDialogFragment.KEY_ICON_ID);
-        switch (editGroupDialogAction) {
+    public void approveEditGroup(GroupEditDialogFragment.EditGroupDialogAction action,
+                                 String name,
+                                 PwIcon icon) {
+        Database database = App.getDB();
+        PwIconStandard iconStandard = database.getPwDatabase().getIconFactory().getFirstIcon();
+
+        switch (action) {
             case CREATION:
-                // If edit group creation
-                Handler handler = new Handler();
-                AddGroup task = new AddGroup(this, App.getDB(), GroupName, GroupIconID, mCurrentGroup,
-                        new AfterAddNode(handler), false);
-                ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
-                pt.run();
+                // If group creation
+                // Build the group
+                PwGroup newGroup = database.createGroup(mCurrentGroup);
+                newGroup.setName(name);
+                try {
+                    iconStandard = (PwIconStandard) icon;
+                } catch (Exception e) {} // TODO custom icon
+                newGroup.setIcon(iconStandard);
+
+                new ProgressTask(this,
+                        new AddGroup(this,
+                                App.getDB(),
+                                newGroup,
+                                new AfterAddNode(new Handler())),
+                        R.string.saving_database)
+                        .run();
                 break;
             case UPDATE:
-                // If edit group update
-                // TODO UpdateGroup
+                // If update add new elements
+                if (oldGroupToUpdate != null) {
+                    PwGroup updateGroup = oldGroupToUpdate.clone();
+                    updateGroup.setName(name);
+                    try {
+                        iconStandard = (PwIconStandard) icon;
+                    } catch (Exception e) {} // TODO custom icon
+                    updateGroup.setIcon(iconStandard);
+
+                    mAdapter.removeNode(oldGroupToUpdate);
+                    // If group update
+                    new ProgressTask(this,
+                            new UpdateGroup(this,
+                                    App.getDB(),
+                                    oldGroupToUpdate,
+                                    updateGroup,
+                                    new AfterUpdateNode(new Handler())),
+                            R.string.saving_database)
+                            .run();
+
+                }
+
                 break;
         }
-        editGroupDialogAction = EditGroupDialogAction.NONE;
     }
 
     @Override
-    public void cancelEditGroup(Bundle bundle) {
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void cancelEditGroup(GroupEditDialogFragment.EditGroupDialogAction action,
+                                String name,
+                                PwIcon iconId) {
         // Do nothing here
     }
 

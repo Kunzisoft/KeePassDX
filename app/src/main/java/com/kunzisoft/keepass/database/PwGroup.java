@@ -30,9 +30,15 @@ public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup
 	protected List<ChildGroup> childGroups = new ArrayList<>();
 	protected List<ChildEntry> childEntries = new ArrayList<>();
 
-    public void initNewGroup(String nm, PwGroupId newId) {
-        setId(newId);
-        name = nm;
+    @Override
+    public PwGroup clone() {
+        // name is clone automatically (IMMUTABLE)
+        return (PwGroup) super.clone();
+    }
+
+    protected void assign(PwGroup<Parent, ChildGroup, ChildEntry> source) {
+        super.assign(source);
+        name = source.name;
     }
 
     public List<ChildGroup> getChildGroups() {

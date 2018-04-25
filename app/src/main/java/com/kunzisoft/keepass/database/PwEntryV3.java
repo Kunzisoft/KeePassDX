@@ -98,6 +98,7 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 	}
 
     protected void updateWith(PwEntryV3 source) {
+        super.assign(source);
         groupId = source.groupId;
 
         title = source.title;
@@ -118,10 +119,8 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 
     @Override
     public PwEntryV3 clone() {
-        PwEntryV3 newEntry = (PwEntryV3) super.clone();
-
         // Attributes in parent
-        addCloneAttributesToNewEntry(newEntry);
+        PwEntryV3 newEntry = (PwEntryV3) super.clone();
 
         // Attributes here
         // newEntry.parent stay the same in copy

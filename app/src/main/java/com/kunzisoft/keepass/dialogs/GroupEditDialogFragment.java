@@ -21,41 +21,66 @@ package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.icons.Icons;
+import com.kunzisoft.keepass.icons.IconPackChooser;
+
+import static com.kunzisoft.keepass.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION;
+import static com.kunzisoft.keepass.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE;
+import static com.kunzisoft.keepass.dialogs.GroupEditDialogFragment.EditGroupDialogAction.getActionFromOrdinal;
 
 public class GroupEditDialogFragment extends DialogFragment
         implements IconPickerDialogFragment.IconPickerListener {
 
     public static final String TAG_CREATE_GROUP = "TAG_CREATE_GROUP";
 
-	public static final String KEY_NAME = "name";
-	public static final String KEY_ICON_ID = "icon_id";
+	public static final String KEY_NAME = "KEY_NAME";
+	public static final String KEY_ICON_ID = "KEY_ICON_ID";
+	public static final String KEY_ACTION_ID = "KEY_ACTION_ID";
 
 	private EditGroupListener editGroupListener;
 
-	private TextView nameField;
-    private ImageButton iconButton;
-	private int mSelectedIconID;
-    private View root;
+    private EditGroupDialogAction editGroupDialogAction;
+    private String nameGroup;
+    private PwIcon iconGroup;
+
+    private ImageView iconButton;
+
+    public enum EditGroupDialogAction {
+        CREATION, UPDATE, NONE;
+
+        public static EditGroupDialogAction getActionFromOrdinal(int ordinal) {
+            return EditGroupDialogAction.values()[ordinal];
+        }
+    }
+
+    public static GroupEditDialogFragment build() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_ACTION_ID, CREATION.ordinal());
+        GroupEditDialogFragment fragment = new GroupEditDialogFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     public static GroupEditDialogFragment build(PwNode group) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_NAME, group.getDisplayTitle());
-        // TODO Change
-        bundle.putInt(KEY_ICON_ID, group.getIcon().hashCode());
+        bundle.putSerializable(KEY_ICON_ID, group.getIcon());
+        bundle.putInt(KEY_ACTION_ID, UPDATE.ordinal());
         GroupEditDialogFragment fragment = new GroupEditDialogFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -78,70 +103,115 @@ public class GroupEditDialogFragment extends DialogFragment
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        assert getActivity() != null;
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        root = inflater.inflate(R.layout.group_edit, null);
-        nameField = (TextView) root.findViewById(R.id.group_name);
-        iconButton = (ImageButton) root.findViewById(R.id.icon_button);
+        View root = inflater.inflate(R.layout.group_edit, null);
+        TextView nameField = root.findViewById(R.id.group_name);
+        iconButton = root.findViewById(R.id.icon_button);
 
-        if (getArguments() != null
-                && getArguments().containsKey(KEY_NAME)
-                && getArguments().containsKey(KEY_ICON_ID)) {
-            nameField.setText(getArguments().getString(KEY_NAME));
-            populateIcon(getArguments().getInt(KEY_ICON_ID));
+        // Retrieve the textColor to tint the icon
+        int[] attrs = {android.R.attr.textColorPrimary};
+        TypedArray ta = getActivity().getTheme().obtainStyledAttributes(attrs);
+        int iconColor = ta.getColor(0, Color.WHITE);
+
+        // Init elements
+        editGroupDialogAction = EditGroupDialogAction.NONE;
+        nameGroup = "";
+        iconGroup = App.getDB().getPwDatabase().getIconFactory().getFirstIcon();
+
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(KEY_ACTION_ID)
+                && savedInstanceState.containsKey(KEY_NAME)
+                && savedInstanceState.containsKey(KEY_ICON_ID)) {
+            editGroupDialogAction = getActionFromOrdinal(savedInstanceState.getInt(KEY_ACTION_ID));
+            nameGroup = savedInstanceState.getString(KEY_NAME);
+            iconGroup = (PwIcon) savedInstanceState.getSerializable(KEY_ICON_ID);
+
+        } else {
+
+            if (getArguments() != null
+                    && getArguments().containsKey(KEY_ACTION_ID))
+                editGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(getArguments().getInt(KEY_ACTION_ID));
+
+            if (getArguments() != null
+                    && getArguments().containsKey(KEY_NAME)
+                    && getArguments().containsKey(KEY_ICON_ID)) {
+                nameGroup = getArguments().getString(KEY_NAME);
+                iconGroup = (PwIcon) getArguments().getSerializable(KEY_ICON_ID);
+            }
+        }
+
+        // populate the name
+        nameField.setText(nameGroup);
+        // populate the icon
+        if (IconPackChooser.getSelectedIconPack(getContext()).tintable()) {
+            App.getDB().getDrawFactory()
+                    .assignDatabaseIconTo(
+                            getContext(),
+                            iconButton,
+                            iconGroup,
+                            true,
+                            iconColor);
+        } else {
+            App.getDB().getDrawFactory()
+                    .assignDatabaseIconTo(
+                            getContext(),
+                            iconButton,
+                            iconGroup);
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(root)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        String name = nameField.getText().toString();
-                        if ( name.length() > 0 ) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString(KEY_NAME, name);
-                            bundle.putInt(KEY_ICON_ID, mSelectedIconID);
-                            editGroupListener.approveEditGroup(bundle);
-
-                            GroupEditDialogFragment.this.getDialog().cancel();
-                        }
-                        else {
-                            Toast.makeText(getContext(), R.string.error_no_name, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Bundle bundle = new Bundle();
-                        editGroupListener.cancelEditGroup(bundle);
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {
+                    String name = nameField.getText().toString();
+                    if ( name.length() > 0 ) {
+                        editGroupListener.approveEditGroup(
+                                editGroupDialogAction,
+                                name,
+                                iconGroup);
 
                         GroupEditDialogFragment.this.getDialog().cancel();
                     }
+                    else {
+                        Toast.makeText(getContext(), R.string.error_no_name, Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                    String name = nameField.getText().toString();
+                    editGroupListener.cancelEditGroup(
+                            editGroupDialogAction,
+                            name,
+                            iconGroup);
+
+                    GroupEditDialogFragment.this.getDialog().cancel();
                 });
 
-        final ImageButton iconButton = (ImageButton) root.findViewById(R.id.icon_button);
-        iconButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                IconPickerDialogFragment iconPickerDialogFragment = new IconPickerDialogFragment();
+        iconButton.setOnClickListener(v -> {
+            IconPickerDialogFragment iconPickerDialogFragment = new IconPickerDialogFragment();
+            if (getFragmentManager() != null)
                 iconPickerDialogFragment.show(getFragmentManager(), "IconPickerDialogFragment");
-            }
         });
 
         return builder.create();
     }
 
-    private void populateIcon(int iconId) {
-        iconButton.setImageResource(Icons.iconToResId(iconId));
+    @Override
+    public void iconPicked(Bundle bundle) {
+        int selectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
+        iconButton.setImageResource(IconPackChooser.getSelectedIconPack(getContext()).iconToResId(selectedIconID));
+        iconGroup = App.getDB().getPwDatabase().getIconFactory().getIcon(selectedIconID);
     }
 
     @Override
-    public void iconPicked(Bundle bundle) {
-        mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
-        populateIcon(mSelectedIconID);
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_ACTION_ID, editGroupDialogAction.ordinal());
+        outState.putString(KEY_NAME, nameGroup);
+        outState.putSerializable(KEY_ICON_ID, iconGroup);
+        super.onSaveInstanceState(outState);
     }
 
     public interface EditGroupListener {
-        void approveEditGroup(Bundle bundle);
-        void cancelEditGroup(Bundle bundle);
+        void approveEditGroup(EditGroupDialogAction action, String name, PwIcon selectedIcon);
+        void cancelEditGroup(EditGroupDialogAction action, String name, PwIcon selectedIcon);
     }
 }

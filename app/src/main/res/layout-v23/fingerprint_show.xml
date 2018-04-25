@@ -9,8 +9,8 @@
     <!-- added these 2 fingerprint related views -->
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/fingerprint_image"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="4dp"
         android:layout_alignParentEnd="true"
         android:elevation="4dp"
@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="12dp"
         android:layout_toStartOf="@+id/fingerprint_image"
         style="@style/KeepassDXStyle.TextAppearance.DefaultTextOnPrimary"
         android:gravity="center_vertical|end" />

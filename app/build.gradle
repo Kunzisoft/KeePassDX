@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion = 27
-    buildToolsVersion = '27.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode = 8
-        versionName = "2.5.0.0beta8"
+        versionCode = 9
+        versionName = "2.5.0.0beta9"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -19,6 +19,8 @@ android {
             abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a',
                     'arm64-v8a', 'mips', 'mips64'
         }
+
+        buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
     }
 
     externalNativeBuild {
@@ -44,28 +46,42 @@ android {
             applicationIdSuffix = ".libre"
             versionNameSuffix "-libre"
             buildConfigField "boolean", "FULL_VERSION", "true"
-            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "false"
+            buildConfigField "boolean", "CLOSED_STORE", "false"
+            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Purple\"}"
+            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
+
         }
-        pro_google {
+        pro {
             applicationIdSuffix = ".pro"
             versionNameSuffix "-pro"
             buildConfigField "boolean", "FULL_VERSION", "true"
-            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
+            buildConfigField "boolean", "CLOSED_STORE", "true"
+            buildConfigField "String[]", "STYLES_DISABLED", "{}"
+            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
         }
-        free_google {
+        free {
             applicationIdSuffix = ".free"
             versionNameSuffix "-free"
             buildConfigField "boolean", "FULL_VERSION", "false"
-            buildConfigField "boolean", "GOOGLE_PLAY_VERSION", "true"
+            buildConfigField "boolean", "CLOSED_STORE", "true"
+            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Purple\"}"
+            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{\"material\"}"
         }
     }
+
+    sourceSets {
+        libre.res.srcDir 'src/libre/res'
+        pro.res.srcDir 'src/pro/res'
+        free.res.srcDir 'src/free/res'
+    }
+
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
-def supportVersion = "27.1.0"
+def supportVersion = "27.1.1"
 def spongycastleVersion = "1.58.0.0"
 def permissionDispatcherVersion = "3.1.0"
 
@@ -77,20 +93,26 @@ dependencies {
     implementation "com.android.support:cardview-v7:$supportVersion"
     implementation "com.madgag.spongycastle:core:$spongycastleVersion"
     implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
+    // Expandable view
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     // Time
-    implementation "joda-time:joda-time:2.9.9"
-    implementation "org.sufficientlysecure:html-textview:3.5"
-    implementation "com.nononsenseapps:filepicker:4.1.0"
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'org.sufficientlysecure:html-textview:3.5'
+    implementation 'com.nononsenseapps:filepicker:4.1.0'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
     // Permissions
-    implementation ("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
+    implementation("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
-    // Apache Commons Collections
-    implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
-    // Base64
-    compile group: 'biz.source_code', name: 'base64coder', version: '2010-12-19'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
-    implementation group: 'com.google.guava', name: 'guava', version: '23.0-android'
+    // Apache Commons Collections
+    implementation 'commons-collections:commons-collections:3.2.1'
+    // Base64
+    implementation 'biz.source_code:base64coder:2010-12-19'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.google.guava:guava:23.0-android'
+    // Icon pack, classic for all, material for libre and pro
+    implementation project(path: ':icon-pack-classic')
+    implementation project(path: ':icon-pack-material')
 }

@@ -1,16 +1,18 @@
-Multi-format KeePass manager, the application allows to create keys and passwords in a secure way by integrating perfectly with the Android design standards.
+<b>Multi-format KeePass password manager</b>, the application allows to save and use passwords, keys and digital identities in a secure way by integrating the Android design standards.
 
-Features :
- * Create database files / entries and groups
- * Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
- * Compatible with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
- * Allows fast copy of fields and opening of URI / URL
- * Fingerprint for fast unlocking
- * Material design with themes
- * AutoFill and Integration
- * Precise management of settings
+<b>Features</b> :
+ - Create database files / entries and groups
+ - Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
+ - Compatible with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
+ - Allows fast copy of fields and opening of URI / URL
+ - Fingerprint for fast unlocking
+ - Material design with themes
+ - AutoFill and Integration
+ - Precise management of settings
 
-Keepass DX is opensource and ad-free. 
-You can donate for a better service and a quick development of your features.
+Keepass DX is <b>opensource</b> and <b>ad-free</b>. 
 
-Any issue : https://github.com/Kunzisoft/KeePassDX/issues
+You can donate or buy the <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">pro version</a>
+for a better service and a quick development of your features.
+
+Any issue : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

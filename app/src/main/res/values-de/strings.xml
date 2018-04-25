@@ -52,9 +52,8 @@
     <string name="default_checkbox">Als Standard-Datenbank benutzen</string>
     <string name="digits">Zahlen</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist kostenlos und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
-    <string name="select_database_file">Dateinamen der Datenbank eingeben:</string>
+    <string name="select_database_file">Dateinamen der Datenbank eingeben</string>
     <string name="entry_accessed">Letzter Zugriff</string>
-    <string name="entry_and_or">Passwort und/oder Schlüsseldatei zum Entschlüsseln Ihrer Datenbank eingeben:</string>
     <string name="entry_cancel">Abbrechen</string>
     <string name="entry_comment">Kommentare</string>
     <string name="entry_confpassword">Passwort wiederholen</string>
@@ -172,6 +171,8 @@
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
 
+    <string name="education_unlock_summary">Passwort und/oder Schlüsseldatei zum Entschlüsseln Ihrer Datenbank eingeben.</string>
+
     <string-array name="timeout_options">
       <item>5 Sekunden</item>
       <item>10 Sekunden</item>
@@ -193,7 +194,7 @@
     <string name="warning_no_encryption_key">Sind Sie sicher, dass sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
     <string name="appearance">Aussehen</string>
     <string name="password_size_title">Passwortgröße</string>
-    <string name="password_size_summary">Standartlänge des generierten Passworts ändern</string>
+    <string name="password_size_summary">Standardlänge des generierten Passworts ändern</string>
     <string name="clipboard_notifications_title">Zwischenablagenbenachrichtigungen</string>
     <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen zum kopieren von Benutzername und Passwort einschalten</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
@@ -211,7 +212,7 @@
     <string name="fingerprint_scan_to_store">Fingerabruck scannen, um Masterpasswort zu speichern</string>
     <string name="fingerprint_type_password_text">Geben Sie ihr Passwort in Keepass DX ein</string>
     <string name="lock">Sperre</string>
-    <string name="list_password_generator_options_summary">Standartzeichen für Passwortgenerator setzen</string>
+    <string name="list_password_generator_options_summary">Standardzeichen für Passwortgenerator setzen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
     <string name="configure_fingerprint">Fingerabruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>

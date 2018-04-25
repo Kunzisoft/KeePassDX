@@ -41,7 +41,7 @@ public class App extends MultiDexApplication {
 		}
 		return db;
 	}
-	
+
 	public static RecentFileHistory getFileHistory() {
 		return fileHistory;
 	}

@@ -46,7 +46,6 @@
         android:layout_marginRight="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/ic99_blank"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/group_arrow"
         android:layout_toEndOf="@+id/group_arrow" />

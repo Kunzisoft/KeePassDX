@@ -49,9 +49,8 @@
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Čísla</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft dodáván BEZ JAKÉKOLIV ZÁRUKY; Toto je free software zdarma, a je možná jeho redistribuce pod podmínkou licence GPL verze 3 nebo novější.</string>
-    <string name="select_database_file">Zadejte názvev souboru databáze:</string>
+    <string name="select_database_file">Zadejte názvev souboru databáze</string>
     <string name="entry_accessed">Poslední přístup</string>
-    <string name="entry_and_or">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze:</string>
     <string name="entry_cancel">Storno</string>
     <string name="entry_comment">Poznámky</string>
     <string name="entry_confpassword">Potvrďte heslo</string>
@@ -159,7 +158,9 @@
     <string name="warning_read_only">Vaše SD karta je v módu jen pro čtení. Nebudete moct ukládat změny v databázi.</string>
     <string name="warning_unmounted">Vaše SD karta není momentálně připojena v zařízení. Nebudete moct načíst nebo vytvořit databázi.</string>
     <string name="version_label">Verze:</string>
-    
+
+    <string name="education_unlock_summary">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze.</string>
+
     <string-array name="timeout_options">
     	<item>5 sekund</item>
     	<item>10 sekund</item>

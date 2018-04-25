@@ -1,0 +1,7 @@
+ * Education Screens to learn how to use the app
+ * New designs / themes / icon pack
+ * New custom font for character visibility
+ * New sorts (By last accessed / last modification)
+ * Change setting organisation
+ * Pro version
+ * Fix bugs

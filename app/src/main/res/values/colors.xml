@@ -29,10 +29,27 @@
     <color name="green_light">#4caf50</color>
     <color name="green">#43a047</color>
     <color name="green_dark">#388e3c</color>
+    <color name="green_darker">#2e7d32</color>
+
+    <color name="blue_lighter">#90CAF9</color>
+    <color name="blue_white">#42a5f5</color>
+    <color name="blue_light">#2196F3</color>
+    <color name="blue">#1E88E5</color>
+    <color name="blue_dark">#1976D2</color>
+    <color name="blue_darker">#1565C0</color>
+
+    <color name="red_light">#f44336</color>
+    <color name="red">#e53935</color>
+
+    <color name="purple_lighter">#ce93d8</color>
+    <color name="purple_light">#9048bc</color>
+    <color name="purple">#743998</color>
+    <color name="purple_dark">#653383</color>
 
     <color name="background_light">#FAFAFA</color>
 	<color name="background_night">#303030</color>
     <color name="background_dark">#000000</color>
+    <color name="background_purple">#e3cfff</color>
 
     <color name="icon_background">#555555</color>
     <color name="icon_text">#000000</color>

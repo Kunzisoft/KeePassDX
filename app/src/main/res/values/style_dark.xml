@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Dark Style -->
+    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night.v21" >
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#757575</item>
+        <item name="colorAccentCompat">#757575</item>
+        <item name="colorControlActivated">#80cbc4</item>
+        <item name="android:textColorPrimary">#80cbc4</item>
+        <item name="android:textColorHintInverse">#b2dfdb</item>
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
+    </style>
+    <!-- Toolbar Style Dark -->
+    <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Dark">
+        <item name="colorControlNormal">@color/colorTextInverse</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
+        <item name="colorAccent">#fefefe</item>
+        <item name="android:textColorPrimary">#80cbc4</item>
+    </style>
+    <!-- File Picker Theme -->
+    <style name="KeepassDXStyle.FilePickerStyle.Dark" parent="KeepassDXStyle.FilePickerStyle">
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#59585a</item>
+    </style>
+</resources>

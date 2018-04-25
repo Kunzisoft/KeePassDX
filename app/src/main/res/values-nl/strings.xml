@@ -44,9 +44,8 @@
     <string name="default_checkbox">Gebruik dit als mijn standaard database</string>
     <string name="digits">Cijfers</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft biedt GEEN ENKELE GARANTIE; Dit is vrije software, u mag deze software verspreiden onder de voorwaarden van de GPL versie 3 of recenter.</string>
-    <string name="select_database_file">Geef de databasebestandsnaam:</string>
+    <string name="select_database_file">Geef de databasebestandsnaam</string>
     <string name="entry_accessed">Laatst benaderd</string>
-    <string name="entry_and_or">Geef het wachtwoord en/of het sleutelbestand om uw database te ontgrendelen:</string>
     <string name="entry_cancel">Annuleren</string>
     <string name="entry_comment">Commentaar</string>
     <string name="entry_confpassword">Bevestig wachtwoord</string>
@@ -141,7 +140,9 @@
     <string name="warning_read_only">Uw sd-card is mementeel niet beschrijfbaar. U zult wijzigingen in de database niet kunnen opslaan.</string>
     <string name="warning_unmounted">Uw sd-card is momenteel ontkoppeld. U zult geen database kunnen openen of aanmaken.</string>
     <string name="version_label">Versie:</string>
-    
+
+    <string name="education_unlock_summary">Geef het wachtwoord en/of het sleutelbestand om uw database te ontgrendelen.</string>
+
     <string-array name="timeout_options">
         <item>5 seconden</item>
         <item>10 seconden</item>

@@ -14,9 +14,6 @@
     <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button" >
         <item name="android:elevation">4dp</item>
     </style>
-    <style name="KeepassDXStyle.v21.ImageButton" parent="Base.Widget.AppCompat.ImageButton">
-        <item name="android:elevation">4dp</item>
-    </style>
 
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat">

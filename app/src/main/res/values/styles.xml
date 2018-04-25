@@ -19,17 +19,25 @@
 -->
 <resources>
 
+    <!-- SplashScreen theme -->
+    <style name="KeepassDXStyle.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/background_night</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
     <!-- Base application theme. -->
     <!-- For setting encapsulation -->
     <style name="KeepassDXStyle.Light.v21" parent="Theme.AppCompat.Light">
+        <!-- TODO Activate after navigation drawer
+        <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
+        -->
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
         <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
         <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
-        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
@@ -70,6 +78,9 @@
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
+        <!--
+        <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
+        -->
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
@@ -78,8 +89,6 @@
 
         <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
         <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
-        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
@@ -137,12 +146,17 @@
         <item name="android:colorBackground">@color/background_night</item>
     </style>
 
+    <!-- Activity Animation -->
+    <style name="KeepassDXStyle.ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
     <!-- Toolbar Style Green -->
-    <style name="KeepassDXStyle.Toolbar" parent="Theme.AppCompat">
+    <style name="KeepassDXStyle.Toolbar" parent="KeepassDXStyle.Light.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
-
-        <item name="colorPrimary">@color/green</item>
-
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
@@ -185,6 +199,9 @@
     <style name="KeepassDXStyle.TextAppearance.Default" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.Small" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textSize">14sp</item>
+    </style>
     <style name="KeepassDXStyle.TextAppearance.Large" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">18sp</item>
     </style>
@@ -220,9 +237,9 @@
         <item name="android:background">@drawable/button_background</item>
         <item name="android:gravity">center</item>
     </style>
-    <style name="KeepassDXStyle.v21.ImageButton" parent="Base.Widget.AppCompat.ImageButton" />
-    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
-        <item name="android:background">@drawable/image_button_background</item>
+    <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button">
+        <item name="android:textColor">?attr/textColorInverse</item>
+        <item name="android:background">@drawable/button_background_primary</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -253,8 +270,11 @@
 	</style>
 
     <!-- File Picker Theme -->
-    <style name="KeepassDXStyle.FilePickerStyle.Night" parent="Theme.AppCompat.DialogWhenLarge">
-        <!-- You can override this in your sub theme -->
+    <style name="KeepassDXStyle.FilePickerStyle" parent="Theme.AppCompat.DialogWhenLarge">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/orange</item>
+
         <item name="nnf_toolbarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
         <item name="nnf_separator_color">@color/nnf_dark_separator_color</item>
         <item name="nnf_save_icon_color">?attr/colorAccent</item>
@@ -262,24 +282,6 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
-    </style>
-
-    <style name="KeepassDXStyle.FilePickerStyle.Light" parent="Theme.AppCompat.Light.DialogWhenLarge">
-        <item name="nnf_toolbarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
-        <item name="nnf_separator_color">@color/nnf_light_separator_color</item>
-        <item name="nnf_save_icon_color">?attr/colorAccent</item>
-        <item name="nnf_dir_icon_color">?attr/colorAccent</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
     </style>
 
 </resources>

@@ -20,13 +20,15 @@
 <resources>
     <string name="app_name" translatable="false">KeePass DX</string>
 
+    <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
     <string name="donate_url" translatable="false">https://www.kunzisoft.com/donation</string>
     <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
-    
+    <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
+
     <!--  Password generator -->
     <string name="password_length_key" translatable="false">password_length_key</string>
     <string name="min_password_length" translatable="false">1</string>
@@ -57,6 +59,7 @@
     <string name="timeout_key" translatable="false">timeout_key</string>
     <string name="saf_key" translatable="false">storage_access_framework_key</string>
     <string name="setting_style_key" translatable="false">setting_style_key</string>
+    <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <string name="fingerprint_enable_key" translatable="false">fingerprint_enable_key</string>
@@ -72,13 +75,29 @@
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
     <string name="database_version_key" translatable="false">database_version_key</string>
+    <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
+    <string name="education_create_db_key" translatable="false">education_create_db_key</string>
+    <string name="education_select_db_key" translatable="false">education_select_db_key</string>
+    <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
+    <string name="education_unlock_key" translatable="false">education_unlock_key</string>
+    <string name="education_search_key" translatable="false">education_search_key</string>
+    <string name="education_new_node_key" translatable="false">education_new_node_key</string>
+    <string name="education_sort_key" translatable="false">education_sort_key</string>
+    <string name="education_lock_key" translatable="false">education_lock_key</string>
+    <string name="education_copy_username_key" translatable="false">education_copy_username_key</string>
+    <string name="education_entry_edit_key" translatable="false">education_entry_edit_key</string>
+    <string name="education_password_generator_key" translatable="false">education_password_generator_key</string>
+    <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
+    <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
+    <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
+    <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
     <bool name="omitbackup_default" translatable="false">true</bool>
     <bool name="recentfile_default" translatable="false">true</bool>
     <bool name="settings_saf_default" translatable="false">false</bool>
-    <bool name="clipboard_notifications_default" translatable="false">true</bool>
+    <bool name="clipboard_notifications_default" translatable="false">false</bool>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
     <bool name="fingerprint_enable_default" translatable="false">false</bool>
     <bool name="settings_autofill_enable_default" translatable="false">false</bool>
@@ -88,7 +107,21 @@
     <bool name="sort_recycle_bin_bottom_default" translatable="false">true</bool>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
-    <bool name="allow_copy_password_default" translatable="false">true</bool> <!-- TODO To change after implementing the way to enter password < O -->
+    <bool name="allow_copy_password_default" translatable="false">true</bool>
+    <bool name="education_create_db_default" translatable="false">false</bool>
+    <bool name="education_select_db_default" translatable="false">false</bool>
+    <bool name="education_open_link_db_default" translatable="false">false</bool>
+    <bool name="education_unlock_default" translatable="false">false</bool>
+    <bool name="education_search_default" translatable="false">false</bool>
+    <bool name="education_new_node_default" translatable="false">false</bool>
+    <bool name="education_sort_default" translatable="false">false</bool>
+    <bool name="education_lock_default" translatable="false">false</bool>
+    <bool name="education_copy_username_key" translatable="false">false</bool>
+    <bool name="education_entry_edit_default" translatable="false">false</bool>
+    <bool name="education_password_generator_default" translatable="false">false</bool>
+    <bool name="education_entry_new_field_default" translatable="false">false</bool>
+    <bool name="education_screen_reclicked_default" translatable="false">false</bool>
+    <bool name="magic_keyboard_default" translatable="false">false</bool>
 
     <string name="app_timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>
@@ -114,10 +147,18 @@
 
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
+    <string name="list_style_name_dark" translatable="false">KeepassDXStyle_Dark</string>
+    <string name="list_style_name_blue" translatable="false">KeepassDXStyle_Blue</string>
+    <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
+        <item translatable="false">@string/list_style_name_dark</item>
+        <item translatable="false">@string/list_style_name_blue</item>
+        <item translatable="false">@string/list_style_name_purple</item>
     </string-array>
+    <!-- WARNING ! module icon-pack-classic must be import in gradle -->
+    <string name="setting_icon_pack_choose_default" translatable="false">@string/classic_resource_id</string>
 
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>

@@ -33,10 +33,17 @@ import java.util.Set;
 public class PreferencesUtil {
 
     private static final String NO_BACKUP_PREFERENCE_FILE_NAME = "nobackup";
+    private static final String EDUCATION_PREFERENCE = "kdbxeducation";
 
     public static SharedPreferences getNoBackupSharedPreferences(Context ctx) {
         return ctx.getSharedPreferences(
                 PreferencesUtil.NO_BACKUP_PREFERENCE_FILE_NAME,
+                Context.MODE_PRIVATE);
+    }
+
+    public static SharedPreferences getEducationSharedPreferences(Context ctx) {
+        return ctx.getSharedPreferences(
+                PreferencesUtil.EDUCATION_PREFERENCE,
                 Context.MODE_PRIVATE);
     }
 
@@ -136,5 +143,201 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_key),
                 ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
+    }
+
+    public static String getIconPackSelectedId(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(
+                context.getString(R.string.setting_icon_pack_choose_key),
+                context.getString(R.string.setting_icon_pack_choose_default));
+    }
+
+    /**
+     * All preference keys associated with education
+     */
+    public static int[] educationResourceKeys = new int[] {
+            R.string.education_create_db_key,
+            R.string.education_select_db_key,
+            R.string.education_open_link_db_key,
+            R.string.education_unlock_key,
+            R.string.education_search_key,
+            R.string.education_new_node_key,
+            R.string.education_sort_key,
+            R.string.education_lock_key,
+            R.string.education_copy_username_key,
+            R.string.education_entry_edit_key,
+            R.string.education_password_generator_key,
+            R.string.education_entry_new_field_key
+    };
+
+    /**
+     * Register education preferences as true in EDUCATION_PREFERENCE SharedPreferences
+     *
+     * @param context The context to retrieve the key string in XML
+     * @param educationKeys Keys to save as boolean 'true'
+     */
+    public static void saveEducationPreference(Context context, int... educationKeys) {
+        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int key : educationKeys) {
+            editor.putBoolean(context.getString(key), true);
+        }
+        editor.apply();
+    }
+
+    /**
+     * Determines whether the explanatory view of the database creation has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_create_db_key key
+     */
+    public static boolean isEducationCreateDatabasePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_create_db_key),
+                context.getResources().getBoolean(R.bool.education_create_db_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the database selection has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_select_db_key key
+     */
+    public static boolean isEducationSelectDatabasePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_select_db_key),
+                context.getResources().getBoolean(R.bool.education_select_db_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the database selection has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_select_db_key key
+     */
+    public static boolean isEducationOpenLinkDatabasePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_open_link_db_key),
+                context.getResources().getBoolean(R.bool.education_open_link_db_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the database unlock has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_unlock_key key
+     */
+    public static boolean isEducationUnlockPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_unlock_key),
+                context.getResources().getBoolean(R.bool.education_unlock_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of search has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_search_key key
+     */
+    public static boolean isEducationSearchPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_search_key),
+                context.getResources().getBoolean(R.bool.education_search_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of add new node has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_new_node_key key
+     */
+    public static boolean isEducationNewNodePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_new_node_key),
+                context.getResources().getBoolean(R.bool.education_new_node_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the sort has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_sort_key key
+     */
+    public static boolean isEducationSortPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_sort_key),
+                context.getResources().getBoolean(R.bool.education_sort_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the database lock has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_lock_key key
+     */
+    public static boolean isEducationLockPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_lock_key),
+                context.getResources().getBoolean(R.bool.education_lock_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the username copy has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_copy_username_key key
+     */
+    public static boolean isEducationCopyUsernamePerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_copy_username_key),
+                context.getResources().getBoolean(R.bool.education_copy_username_key));
+    }
+
+    /**
+     * Determines whether the explanatory view of the entry edition has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_entry_edit_key key
+     */
+    public static boolean isEducationEntryEditPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_entry_edit_key),
+                context.getResources().getBoolean(R.bool.education_entry_edit_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the password generator has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_password_generator_key key
+     */
+    public static boolean isEducationPasswordGeneratorPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_password_generator_key),
+                context.getResources().getBoolean(R.bool.education_password_generator_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the new fields button in an entry has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_entry_new_field_key key
+     */
+    public static boolean isEducationEntryNewFieldPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_entry_new_field_key),
+                context.getResources().getBoolean(R.bool.education_entry_new_field_default));
+    }
+
+    /**
+     * Defines if the reset education preference has been reclicked
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_screen_reclicked_key key
+     */
+    public static boolean isEducationScreenReclickedPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_screen_reclicked_key),
+                context.getResources().getBoolean(R.bool.education_screen_reclicked_default));
     }
 }

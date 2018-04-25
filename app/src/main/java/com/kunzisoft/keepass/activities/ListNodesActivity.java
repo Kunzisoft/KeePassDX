@@ -49,7 +49,7 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.edit.AfterAddNodeOnFinish;
+import com.kunzisoft.keepass.database.edit.AfterActionNodeOnFinish;
 import com.kunzisoft.keepass.database.edit.OnFinish;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
@@ -142,8 +142,6 @@ public abstract class ListNodesActivity extends LockingActivity
 
     @Override
     public void onNodeClick(PwNode node) {
-
-        mAdapter.registerANodeToUpdate(node);
 
         // Add event when we have Autofill
         AssistStructure assistStructure = null;
@@ -244,7 +242,7 @@ public abstract class ListNodesActivity extends LockingActivity
 
         AssignPasswordHelper assignPasswordHelper =
                 new AssignPasswordHelper(this,
-                        masterPassword, keyFile);
+                        masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
         assignPasswordHelper.assignPasswordInDatabase(null);
     }
 
@@ -302,15 +300,30 @@ public abstract class ListNodesActivity extends LockingActivity
 		}
 	}
 
-    class AfterAddNode extends AfterAddNodeOnFinish {
+    class AfterAddNode extends AfterActionNodeOnFinish {
         AfterAddNode(Handler handler) {
             super(handler);
         }
 
-        public void run(PwNode pwNode) {
+        public void run(PwNode oldNode, PwNode newNode) {
             super.run();
             if (mSuccess) {
-                mAdapter.addNode(pwNode);
+                mAdapter.addNode(newNode);
+            } else {
+                displayMessage(ListNodesActivity.this);
+            }
+        }
+    }
+
+    class AfterUpdateNode extends AfterActionNodeOnFinish {
+        AfterUpdateNode(Handler handler) {
+            super(handler);
+        }
+
+        public void run(PwNode oldNode, PwNode newNode) {
+            super.run();
+            if (mSuccess) {
+                mAdapter.updateNode(oldNode, newNode);
             } else {
                 displayMessage(ListNodesActivity.this);
             }

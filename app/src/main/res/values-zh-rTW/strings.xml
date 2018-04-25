@@ -42,9 +42,8 @@
     <string name="default_checkbox">使用這做為我的默認資料庫</string>
     <string name="digits">數字</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft；軟體不帶有絕對擔保；是自由軟體，您可在遵循GPL 3或者更高版本的情況下重新發佈。中文簡繁體翻譯：wangkf@gmail.com</string>
-    <string name="select_database_file">輸入資料庫名：</string>
+    <string name="select_database_file">輸入資料庫名</string>
     <string name="entry_accessed">訪問時間</string>
-    <string name="entry_and_or">輸入密碼和/或一個密鑰檔來解鎖你的資料庫：</string>
     <string name="entry_cancel">取消</string>
     <string name="entry_comment">備註</string>
     <string name="entry_confpassword">確認密碼</string>
@@ -135,7 +134,9 @@
     <string name="uppercase">大寫</string>
     <string name="warning_read_only">你的SD卡目前是唯讀狀態。您可能無法將更改保存到資料庫。</string>
     <string name="warning_unmounted">你的SD卡目前尚未安裝在您的設備上。你將無法載入或創建您的資料庫。</string>
-    
+
+    <string name="education_unlock_summary">輸入密碼和/或一個密鑰檔來解鎖你的資料庫 </string>
+
     <string-array name="timeout_options">
     	<item>5秒</item>
     	<item>10秒</item>

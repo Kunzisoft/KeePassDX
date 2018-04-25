@@ -25,95 +25,185 @@
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="4dp"
-            android:fitsSystemWindows="true">
-
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:titleEnabled="false"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-                <com.kunzisoft.keepass.view.FileNameView
-                    android:id="@+id/file_select"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="?attr/actionBarSize"
-                    android:layout_marginBottom="24dp"/>
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:theme="?attr/toolbarAppearance"
-                    app:popupTheme="?attr/toolbarPopupAppearance"
-                    app:layout_collapseMode="pin"/>
-
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/browse_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_folder_white_24dp"
-            android:theme="?attr/whiteFab"
-            android:tint="?attr/colorAccentCompat"
-            app:useCompatPadding="true"
-            app:layout_anchor="@+id/app_bar"
-            app:layout_anchorGravity="end|bottom" />
-
-        <android.support.v4.widget.NestedScrollView
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/browse_button"
+        android:background="?attr/colorPrimaryDark"
+        android:layout_gravity="fill_vertical"
+        android:fillViewport="true">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
-            android:fillViewport="true">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            android:background="@drawable/background_repeat"
+            android:orientation="vertical">
 
-                <TextView android:id="@+id/file_list_title"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginLeft="@dimen/default_margin"
-                    android:layout_marginStart="@dimen/default_margin"
-                    android:layout_marginRight="72dp"
-                    android:layout_marginEnd="72dp"
-                    android:layout_marginBottom="8dp"
+            <FrameLayout
+                android:id="@+id/file_selection_title_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24dp"
+                android:paddingStart="24dp"
+                android:paddingRight="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="48dp"
+                android:paddingBottom="24dp"
+                android:layout_marginBottom="36dp">
+                <TextView
+                    android:id="@+id/file_selection_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/KeepassDXStyle.TextAppearance.Title"
-                    android:text="@string/open_recent" />
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#393939"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="4"
+                    android:paddingTop="?attr/actionBarSize"
+                    android:textColor="?attr/textColorInverse"
+                    android:gravity="center"
+                    android:text="@string/app_name"/>
+            </FrameLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/file_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+            <TextView android:id="@+id/label_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:gravity="center"
+                android:textColor="?attr/textColorInverse"
+                android:layout_below="@+id/file_selection_title_container"
+                android:visibility="gone" />
 
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.design.widget.CoordinatorLayout>
+            <TextView android:id="@+id/file_list_title"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_below="@+id/label_warning"
+                style="@style/KeepassDXStyle.TextAppearance.Title"
+                android:textColor="?attr/colorAccentCompat"
+                android:text="@string/open_recent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/create_database"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/file_list"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/file_list_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:background="@color/transparent"
+        app:theme="?attr/toolbarAppearance"
+        app:popupTheme="?attr/toolbarPopupAppearance" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/browse_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_database_file"
+        android:drawableRight="@drawable/ic_folder_white_24dp"
+        android:drawableEnd="@drawable/ic_folder_white_24dp"
+        style="@style/KeepassDXStyle.Button.Primary"
+        android:paddingLeft="32dp"
+        android:paddingStart="32dp"
+        android:paddingRight="24dp"
+        android:paddingEnd="24dp"
+        android:layout_above="@+id/file_select_expandable"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/file_select_expandable_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:elevation="8dp"
+        android:layout_alignTop="@+id/browse_button"
+        android:layout_alignBottom="@+id/browse_button"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:paddingStart="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:tint="?attr/textColorInverse"
+        android:src="@drawable/ic_link_white_24dp" />
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/file_select_expandable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/create_database"
+        app:el_duration="300"
+        app:el_expanded="false"
+        app:el_parallax="0.5">
+
+        <RelativeLayout
+            android:id="@+id/file_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimaryDark"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/file_filename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:textColor="?attr/textColorInverse"
+                android:textColorHint="?attr/android:textColorHintInverse"
+                android:layout_toLeftOf="@+id/open_database"
+                android:layout_toStartOf="@+id/open_database"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:maxLines="1" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/open_database"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/file_filename"
+                android:layout_alignBottom="@+id/file_filename"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_send_white_24dp"
+                android:tint="?attr/textColorInverse" />
+        </RelativeLayout>
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/create_database"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/ic_database_plus_white_24dp"
-        app:useCompatPadding="true"
-        style="@style/KeepassDXStyle.Fab"/>
+        android:drawableRight="@drawable/ic_database_plus_white_24dp"
+        android:drawableEnd="@drawable/ic_database_plus_white_24dp"
+        android:paddingLeft="24dp"
+        android:paddingStart="24dp"
+        android:paddingRight="24dp"
+        android:paddingEnd="24dp"
+        android:text="@string/create_keepass_file"/>
+
 </RelativeLayout>

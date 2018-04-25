@@ -46,9 +46,8 @@
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее</string>
-    <string name="select_database_file">Путь к базе KeePass:</string>
+    <string name="select_database_file">Путь к базе KeePass</string>
     <string name="entry_accessed">Доступ</string>
-    <string name="entry_and_or">Введите пароль или путь к файлу-ключу:</string>
     <string name="entry_cancel">Отмена</string>
     <string name="entry_comment">Комментарий</string>
     <string name="entry_confpassword">Подтверждение</string>
@@ -162,6 +161,8 @@
     <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна</string>
     <string name="version_label">Версия:</string>
+
+    <string name="education_unlock_summary">Введите пароль или путь к файлу-ключу.</string>
 
     <string-array name="timeout_options">
        <item>5 сек.</item>

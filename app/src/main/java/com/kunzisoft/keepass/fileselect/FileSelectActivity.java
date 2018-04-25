@@ -31,6 +31,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,8 +41,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.app.App;
@@ -59,7 +63,8 @@ import com.kunzisoft.keepass.tasks.ProgressTask;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
-import com.kunzisoft.keepass.view.FileNameView;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -87,6 +92,9 @@ public class FileSelectActivity extends StylishActivity implements
 
     private FileSelectAdapter mAdapter;
 	private View fileListTitle;
+	private View createButtonView;
+	private View browseButtonView;
+	private View openButtonView;
 
 	private RecentFileHistory fileHistory;
 
@@ -94,8 +102,9 @@ public class FileSelectActivity extends StylishActivity implements
 	private boolean consultationMode = false;
     private AutofillHelper autofillHelper;
 
+    private View fileSelectExpandableButton;
+    private ExpandableLayout fileSelectExpandable;
 	private EditText openFileNameView;
-	private FileNameView fileNameView;
 
 	private AssignPasswordHelper assignPasswordHelper;
 	private Uri databaseUri;
@@ -136,11 +145,10 @@ public class FileSelectActivity extends StylishActivity implements
         fileListTitle = findViewById(R.id.file_list_title);
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
-		toolbar.setTitle(getString(R.string.app_name));
+		toolbar.setTitle("");
 		setSupportActionBar(toolbar);
 
         openFileNameView = findViewById(R.id.file_filename);
-        fileNameView = findViewById(R.id.file_select);
 
         // Set the initial value of the filename
         defaultPath = Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -149,6 +157,17 @@ public class FileSelectActivity extends StylishActivity implements
                 + getString(R.string.database_file_extension_default);
         openFileNameView.setHint(R.string.open_link_database);
 
+        // Button to expand file selection
+        fileSelectExpandableButton = findViewById(R.id.file_select_expandable_button);
+        fileSelectExpandable = findViewById(R.id.file_select_expandable);
+        fileSelectExpandableButton.setOnClickListener(view -> {
+            if (fileSelectExpandable.isExpanded())
+                fileSelectExpandable.collapse();
+            else
+                fileSelectExpandable.expand();
+        });
+
+        // History list
         RecyclerView mListFiles = findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
 
@@ -159,8 +178,8 @@ public class FileSelectActivity extends StylishActivity implements
         }
 
 		// Open button
-		View openButton = findViewById(R.id.open_database);
-		openButton.setOnClickListener(v -> {
+		openButtonView = findViewById(R.id.open_database);
+        openButtonView.setOnClickListener(v -> {
 		    String fileName = openFileNameView.getText().toString();
             if (fileName.isEmpty())
                 fileName = defaultPath;
@@ -168,15 +187,15 @@ public class FileSelectActivity extends StylishActivity implements
         });
 
 		// Create button
-		View createButton = findViewById(R.id.create_database);
-		createButton.setOnClickListener(v ->
+		createButtonView = findViewById(R.id.create_database);
+        createButtonView .setOnClickListener(v ->
                 FileSelectActivityPermissionsDispatcher
                         .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this)
 		);
 
         keyFileHelper = new KeyFileHelper(this);
-		View browseButton = findViewById(R.id.browse_button);
-		browseButton.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
+		browseButtonView = findViewById(R.id.browse_button);
+        browseButtonView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener(
                 () -> Uri.parse("file://" + openFileNameView.getText().toString())));
 
 		// Construct adapter with listeners
@@ -212,6 +231,9 @@ public class FileSelectActivity extends StylishActivity implements
                 }
             }
         }
+
+        // For the first time show education
+        checkAndPerformedEducation();
 	}
 
 	private void launchPasswordActivityWithPath(String path) {
@@ -246,13 +268,134 @@ public class FileSelectActivity extends StylishActivity implements
         }
     }
 
+    private void updateExternalStorageWarning() {
+        // To show errors
+        int warning = -1;
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
+            warning = R.string.warning_read_only;
+        } else if (!state.equals(Environment.MEDIA_MOUNTED)) {
+            warning = R.string.warning_unmounted;
+        }
+
+        TextView labelWarningView = findViewById(R.id.label_warning);
+        if (warning != -1) {
+            labelWarningView.setText(warning);
+            labelWarningView.setVisibility(View.VISIBLE);
+        } else {
+            labelWarningView.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        fileNameView.updateExternalStorageWarning();
+        updateExternalStorageWarning();
         updateTitleFileListView();
         mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database creation then a database selection
+     */
+    private void checkAndPerformedEducation() {
+
+        // If no recent files
+        if ( !fileHistory.hasRecentFiles() ) {
+            // Try to open the creation base education
+            if (!PreferencesUtil.isEducationCreateDatabasePerformed(this) ) {
+
+                TapTargetView.showFor(this,
+                        TapTarget.forView(createButtonView,
+                                getString(R.string.education_create_database_title),
+                                getString(R.string.education_create_database_summary))
+                                .icon(ContextCompat.getDrawable(this, R.drawable.ic_database_plus_white_24dp))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                FileSelectActivityPermissionsDispatcher
+                                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                                // But if the user cancel, it can also select a database
+                                checkAndPerformedEducationForSelection();
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                        R.string.education_create_db_key);
+            }
+        }
+        else
+            checkAndPerformedEducationForSelection();
+    }
+
+    /**
+     * Check and display learning views
+     * Displays the explanation for a database selection
+     */
+    private void checkAndPerformedEducationForSelection() {
+
+	    if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)
+                && browseButtonView != null) {
+
+            TapTargetView.showFor(FileSelectActivity.this,
+                    TapTarget.forView(browseButtonView,
+                            getString(R.string.education_select_database_title),
+                            getString(R.string.education_select_database_summary))
+                            .icon(ContextCompat.getDrawable(this, R.drawable.ic_folder_white_24dp))
+                            .tintTarget(true)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
+                        }
+
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+
+                            if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileSelectActivity.this)) {
+
+                                TapTargetView.showFor(FileSelectActivity.this,
+                                        TapTarget.forView(fileSelectExpandableButton,
+                                                getString(R.string.education_open_link_database_title),
+                                                getString(R.string.education_open_link_database_summary))
+                                                .icon(ContextCompat.getDrawable(FileSelectActivity.this, R.drawable.ic_link_white_24dp))
+                                                .tintTarget(true)
+                                                .cancelable(true),
+                                        new TapTargetView.Listener() {
+                                            @Override
+                                            public void onTargetClick(TapTargetView view) {
+                                                super.onTargetClick(view);
+                                                // Do nothing here
+                                            }
+
+                                            @Override
+                                            public void onOuterCircleClick(TapTargetView view) {
+                                                super.onOuterCircleClick(view);
+                                                view.dismiss(false);
+                                            }
+                                        });
+                                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                                        R.string.education_open_link_db_key);
+                            }
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                    R.string.education_select_db_key);
+        }
     }
 
     @Override
@@ -381,9 +524,10 @@ public class FileSelectActivity extends StylishActivity implements
 					FileSelectActivity.this, create,
 					R.string.progress_create);
 			createTask.run();
-			assignPasswordHelper =
-					new AssignPasswordHelper(this,
-							masterPassword, keyFile);
+
+            assignPasswordHelper = new AssignPasswordHelper(this,
+                    masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
+
 		} catch (Exception e) {
 			String error = "Unable to create database with this password and key file";
 			Toast.makeText(this, error, Toast.LENGTH_LONG).show();
@@ -494,6 +638,7 @@ public class FileSelectActivity extends StylishActivity implements
                         if (PreferencesUtil.autoOpenSelectedFile(FileSelectActivity.this)) {
                             launchPasswordActivityWithPath(uri.toString());
                         } else {
+                            fileSelectExpandable.expand(false);
                             openFileNameView.setText(uri.toString());
                         }
                     }

@@ -22,6 +22,6 @@
     <item android:id="@+id/menu_fingerprint_remove_key"
         android:icon="@drawable/ic_remove_circle_white_24dp"
         android:title="@string/menu_fingerprint_remove_key"
-        android:orderInCategory="71"
+        android:orderInCategory="93"
         app:showAsAction="ifRoom" />
 </menu>

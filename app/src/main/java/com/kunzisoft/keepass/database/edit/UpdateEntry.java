@@ -30,14 +30,20 @@ public class UpdateEntry extends RunnableOnFinish {
 	private PwEntry mOldE;
 	private PwEntry mNewE;
 	private Context ctx;
-	
+	private boolean mDontSave;
+
 	public UpdateEntry(Context ctx, Database db, PwEntry oldE, PwEntry newE, OnFinish finish) {
+		this(ctx, db, oldE, newE, finish, false);
+	}
+
+	public UpdateEntry(Context ctx, Database db, PwEntry oldE, PwEntry newE, OnFinish finish, boolean dontSave) {
 		super(finish);
 		
-		mDb = db;
-		mOldE = oldE;
-		mNewE = newE;
+		this.mDb = db;
+		this.mOldE = oldE;
+		this.mNewE = newE;
 		this.ctx = ctx;
+		this.mDontSave = dontSave;
 		
 		// Keep backup of original values in case save fails
 		PwEntry backup;
@@ -53,7 +59,7 @@ public class UpdateEntry extends RunnableOnFinish {
 		mOldE.touch(true, true);
 
 		// Commit to disk
-		SaveDB save = new SaveDB(ctx, mDb, mFinish);
+		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	

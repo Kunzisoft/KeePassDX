@@ -23,8 +23,11 @@ package com.kunzisoft.keepass.activities;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +37,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
@@ -41,9 +46,11 @@ import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
 import com.kunzisoft.keepass.notifications.NotificationField;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.settings.SettingsAutofillActivity;
 import com.kunzisoft.keepass.timeout.ClipboardHelper;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
@@ -65,6 +72,7 @@ public class EntryActivity extends LockingHideActivity {
 	private ImageView titleIconView;
     private TextView titleView;
 	private EntryContentsView entryContentsView;
+    private Toolbar toolbar;
 	
 	protected PwEntry mEntry;
 	private boolean mShowPassword;
@@ -87,7 +95,7 @@ public class EntryActivity extends LockingHideActivity {
 
         setContentView(R.layout.entry_view);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
@@ -202,9 +210,73 @@ public class EntryActivity extends LockingHideActivity {
         firstLaunchOfActivity = false;
     }
 
-    private void populateTitle(Drawable drawIcon, String text) {
-        titleIconView.setImageDrawable(drawIcon);
-        titleView.setText(text);
+    /**
+     * Check and display learning views
+     * Displays the explanation for copying a field and editing an entry
+     */
+    private void checkAndPerformedEducation(Menu menu) {
+
+        if (entryContentsView != null && entryContentsView.isUserNamePresent()
+                && !PreferencesUtil.isEducationCopyUsernamePerformed(this)) {
+            TapTargetView.showFor(this,
+                    TapTarget.forView(findViewById(R.id.entry_user_name_action_image),
+                            getString(R.string.education_field_copy_title),
+                            getString(R.string.education_field_copy_summary))
+                            .tintTarget(false)
+                            .cancelable(true),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),
+                                    getString(R.string.copy_field, getString(R.string.entry_user_name)));
+                        }
+
+                        @Override
+                        public void onOuterCircleClick(TapTargetView view) {
+                            super.onOuterCircleClick(view);
+                            view.dismiss(false);
+                            // Launch autofill settings
+                            startActivity(new Intent(EntryActivity.this, SettingsAutofillActivity.class));
+                        }
+                    });
+            PreferencesUtil.saveEducationPreference(this,
+                    R.string.education_copy_username_key);
+
+        } else if (!PreferencesUtil.isEducationEntryEditPerformed(this)) {
+
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_edit,
+                                getString(R.string.education_entry_edit_title),
+                                getString(R.string.education_entry_edit_summary))
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem editItem = menu.findItem(R.id.menu_edit);
+                                onOptionsItemSelected(editItem);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                                // Open Keepass doc to create field references
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse(getString(R.string.field_references_url)));
+                                startActivity(browserIntent);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_entry_edit_key);
+            } catch (Exception e) {
+                // If icon not visible
+                Log.w(TAG, "Can't performed education for entry's edition");
+            }
+        }
     }
 
 	protected void fillData() {
@@ -213,9 +285,19 @@ public class EntryActivity extends LockingHideActivity {
 
 		mEntry.startToManageFieldReferences(pm);
 
-		// Assign title
-        populateTitle(db.getDrawFactory().getIconDrawable(getResources(), mEntry.getIcon()),
-                mEntry.getTitle());
+        // Assign title icon
+        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+            // Retrieve the textColor to tint the icon
+            int[] attrs = {R.attr.textColorInverse};
+            TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+            int iconColor = ta.getColor(0, Color.WHITE);
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon(), true, iconColor);
+        } else {
+            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon());
+        }
+
+		// Assign title text
+        titleView.setText(mEntry.getTitle());
 
         // Assign basic fields
         entryContentsView.assignUserName(mEntry.getUsername());
@@ -323,6 +405,9 @@ public class EntryActivity extends LockingHideActivity {
                 }
             }
         }
+
+        // Show education views
+        new Handler().post(() -> checkAndPerformedEducation(menu));
 		
 		return true;
 	}
