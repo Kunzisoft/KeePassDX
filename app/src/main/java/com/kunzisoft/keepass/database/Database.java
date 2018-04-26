@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
@@ -345,6 +346,20 @@ public class Database {
             case V4:
                 ((PwDatabaseV4) getPwDatabase()).setDefaultUserName(username);
                 ((PwDatabaseV4) getPwDatabase()).setDefaultUserNameChanged(new PwDate());
+        }
+    }
+
+    public PwEncryptionAlgorithm getEncryptionAlgorithm() {
+        return getPwDatabase().getEncryptionAlgorithm();
+    }
+
+    public void assignEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setEncryptionAlgorithm(algorithm);
+                // TODO Simplify
+                ((PwDatabaseV4) getPwDatabase()).setDataEngine(algorithm.getCipherEngine());
+                ((PwDatabaseV4) getPwDatabase()).setDataCipher(algorithm.getDataCipher());
         }
     }
 

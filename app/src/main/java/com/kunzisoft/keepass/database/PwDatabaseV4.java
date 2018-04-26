@@ -131,7 +131,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     public void setDataEngine(CipherEngine dataEngine) {
         this.dataEngine = dataEngine;
-        this.algorithm = dataEngine.getPwEncryptionAlgorithm();
     }
 
     public PwCompressionAlgorithm getCompressionAlgorithm() {

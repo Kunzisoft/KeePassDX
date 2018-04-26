@@ -402,7 +402,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             assert fragmentManager != null;
             try { // don't check if we can
                 ((SwitchPreference) preference).setChecked(false);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
             new UnderDevelopmentFeatureDialogFragment().show(getFragmentManager(), "underDevFeatureDialog");
             return false;
         });

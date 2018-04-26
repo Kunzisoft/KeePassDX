@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.kunzisoft.keepass.database.edit.OnFinish;
 
-public class DatabaseDescriptionPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
+public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
     public static DatabaseDescriptionPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -32,12 +32,12 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends DatabaseS
         if ( positiveResult ) {
             assert getContext() != null;
 
-            String dbDescription = getInputText();
+            String newDescription = getInputText();
             String oldDescription = database.getDescription();
-            database.assignDescription(dbDescription);
+            database.assignDescription(newDescription);
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterDescriptionSave(getContext(), handler, dbDescription, oldDescription));
+            setAfterSaveDatabase(new AfterDescriptionSave(getContext(), handler, newDescription, oldDescription));
         }
 
         super.onDialogClosed(positiveResult);
@@ -63,7 +63,6 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends DatabaseS
 
             if (!mSuccess) {
                 displayMessage(mCtx);
-                database.assignDescription(mOldDescription);
                 database.assignDescription(mOldDescription);
             }
 

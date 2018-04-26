@@ -123,6 +123,7 @@ public class ImporterV4 extends Importer {
 		try {
 			engine = CipherFactory.getInstance(db.getDataCipher());
 			db.setDataEngine(engine);
+			db.setEncryptionAlgorithm(engine.getPwEncryptionAlgorithm());
 			cipher = engine.getCipher(Cipher.DECRYPT_MODE, db.getFinalKey(), header.encryptionIV);
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException("Invalid algorithm.");

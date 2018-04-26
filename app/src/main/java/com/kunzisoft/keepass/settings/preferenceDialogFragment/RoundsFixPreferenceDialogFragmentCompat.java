@@ -22,12 +22,15 @@ package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 import android.os.Bundle;
 import android.support.v7.preference.DialogPreference;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.settings.preference.RoundsPreference;
 
 public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDialogFragmentCompat {
+
+    private EditText inputTextView;
 
     public static RoundsFixPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -43,6 +46,8 @@ public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDial
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
+
+        inputTextView = view.findViewById(R.id.input_text);
 
         DialogPreference preference = getPreference();
         if (preference instanceof RoundsPreference) {
@@ -74,5 +79,14 @@ public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDial
                 }
             }
         }
+    }
+
+    public String getInputText() {
+        return this.inputTextView.getText().toString();
+    }
+
+    public void setInputText(String inputText) {
+        this.inputTextView.setText(inputText);
+        this.inputTextView.setSelection(this.inputTextView.getText().length());
     }
 }
