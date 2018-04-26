@@ -34,6 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -279,6 +280,8 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     public void setEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
         this.algorithm = algorithm;
     }
+
+    public abstract List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms();
 
     public abstract String getKeyDerivationName();
 

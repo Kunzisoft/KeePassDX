@@ -48,6 +48,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.SyncFailedException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Database {
@@ -351,6 +353,16 @@ public class Database {
 
     public PwEncryptionAlgorithm getEncryptionAlgorithm() {
         return getPwDatabase().getEncryptionAlgorithm();
+    }
+
+    public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithm() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getAvailableEncryptionAlgorithms();
+            case V3:
+                return ((PwDatabaseV3) getPwDatabase()).getAvailableEncryptionAlgorithms();
+        }
+        return new ArrayList<>();
     }
 
     public void assignEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {

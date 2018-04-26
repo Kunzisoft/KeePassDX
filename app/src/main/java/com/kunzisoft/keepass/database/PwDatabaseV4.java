@@ -133,6 +133,15 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         this.dataEngine = dataEngine;
     }
 
+	@Override
+	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
+		List<PwEncryptionAlgorithm> list = new ArrayList<>();
+		list.add(PwEncryptionAlgorithm.AES_Rijndael);
+		list.add(PwEncryptionAlgorithm.Twofish);
+		list.add(PwEncryptionAlgorithm.ChaCha20);
+		return list;
+	}
+
     public PwCompressionAlgorithm getCompressionAlgorithm() {
         return compressionAlgorithm;
     }

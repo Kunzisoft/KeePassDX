@@ -101,6 +101,13 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
     }
 
 	@Override
+	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
+		List<PwEncryptionAlgorithm> list = new ArrayList<>();
+		list.add(PwEncryptionAlgorithm.AES_Rijndael);
+		return list;
+	}
+
+	@Override
 	public List<PwGroupV3> getGroups() {
 		return groups;
 	}

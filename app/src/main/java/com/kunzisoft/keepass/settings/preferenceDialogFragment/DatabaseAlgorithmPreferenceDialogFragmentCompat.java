@@ -23,7 +23,6 @@ public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSav
 
     private RecyclerView recyclerView;
     private AlgorithmAdapter algorithmAdapter;
-    private OnAlgorithmClickCallback onAlgorithmClickCallback;
     private PwEncryptionAlgorithm algorithmSelected;
 
     public static DatabaseAlgorithmPreferenceDialogFragmentCompat newInstance(
@@ -45,6 +44,8 @@ public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSav
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         algorithmAdapter = new AlgorithmAdapter();
         recyclerView.setAdapter(algorithmAdapter);
+
+        setAlgorithm(database.getAvailableEncryptionAlgorithm(), database.getEncryptionAlgorithm());
     }
 
     public void setAlgorithm(List<PwEncryptionAlgorithm> algorithmList, PwEncryptionAlgorithm algorithm) {
@@ -59,32 +60,29 @@ public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSav
 
         private List<PwEncryptionAlgorithm> algorithms;
         private PwEncryptionAlgorithm algorithmUsed;
-        private OnAlgorithmClickListener onAlgorithmClickListener;
 
         public AlgorithmAdapter() {
             this.inflater = LayoutInflater.from(getContext());
             this.algorithms = new ArrayList<>();
             this.algorithmUsed = null;
-            this.onAlgorithmClickListener = new OnAlgorithmClickListener();
         }
 
         @NonNull
         @Override
         public AlgorithmViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.list_nodes_group, parent, false);
+            View view = inflater.inflate(R.layout.pref_dialog_list_radio_item, parent, false);
             return new AlgorithmViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull AlgorithmViewHolder holder, int position) {
             PwEncryptionAlgorithm algorithm = this.algorithms.get(position);
-            holder.nameView.setText(algorithm.getName(getResources()));
+            holder.radioButton.setText(algorithm.getName(getResources()));
             if (algorithmUsed != null && algorithmUsed.equals(algorithm))
                 holder.radioButton.setChecked(true);
             else
                 holder.radioButton.setChecked(false);
-            onAlgorithmClickListener.setAlgorithm(algorithm);
-            holder.container.setOnClickListener(onAlgorithmClickListener);
+            holder.radioButton.setOnClickListener(new OnAlgorithmClickListener(algorithm));
         }
 
         @Override
@@ -97,50 +95,39 @@ public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSav
             this.algorithms.addAll(algorithms);
             this.algorithmUsed = algorithmUsed;
         }
+
+        void setAlgorithmUsed(PwEncryptionAlgorithm algorithmUsed) {
+            this.algorithmUsed = algorithmUsed;
+        }
     }
 
     private class AlgorithmViewHolder extends RecyclerView.ViewHolder {
 
-        View container;
         RadioButton radioButton;
-        TextView nameView;
 
         public AlgorithmViewHolder(View itemView) {
             super(itemView);
 
-            container = itemView.findViewById(R.id.pref_dialog_list_container);
             radioButton = itemView.findViewById(R.id.pref_dialog_list_radio);
-            nameView = itemView.findViewById(R.id.pref_dialog_list_name);
         }
-    }
-
-    private interface OnAlgorithmClickCallback {
-        void onAlgorithmClick(PwEncryptionAlgorithm algorithm);
     }
 
     private class OnAlgorithmClickListener implements View.OnClickListener {
 
         private PwEncryptionAlgorithm algorithmClicked;
 
-        public void setAlgorithm(PwEncryptionAlgorithm algorithm) {
+        public OnAlgorithmClickListener(PwEncryptionAlgorithm algorithm) {
             this.algorithmClicked = algorithm;
         }
 
         @Override
         public void onClick(View view) {
-            if (onAlgorithmClickCallback != null)
-                onAlgorithmClickCallback.onAlgorithmClick(algorithmClicked);
             algorithmSelected = algorithmClicked;
-
-            // Close the dialog when an element is clicked
-            onDialogClosed(true);
-            dismiss();
+            algorithmAdapter.setAlgorithmUsed(algorithmSelected);
+            algorithmAdapter.notifyDataSetChanged();
         }
     }
 
-    public void setOnAlgorithmClickCallback(OnAlgorithmClickCallback onAlgorithmClickCallback) {
-        this.onAlgorithmClickCallback = onAlgorithmClickCallback;
-    }
 
     public PwEncryptionAlgorithm getAlgorithmSelected() {
         return algorithmSelected;

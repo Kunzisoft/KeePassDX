@@ -52,7 +52,7 @@
     <PreferenceCategory
         android:title="@string/encryption">
 
-        <Preference
+        <com.kunzisoft.keepass.settings.preference.AlgorithmListPreference
             android:key="@string/encryption_algorithm_key"
             android:persistent="false"
             android:title="@string/encryption_algorithm"/>

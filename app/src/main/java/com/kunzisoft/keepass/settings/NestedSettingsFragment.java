@@ -51,6 +51,7 @@ import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseNamePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
@@ -317,7 +318,6 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     // Encryption Algorithm
                     Preference algorithmPref = findPreference(getString(R.string.encryption_algorithm_key));
                     algorithmPref.setSummary(db.getEncryptionAlgorithmName(getResources()));
-                    preferenceInDevelopment(algorithmPref);
 
                     // Key derivation function
                     Preference kdfPref = findPreference(getString(R.string.key_derivation_function_key));
@@ -428,10 +428,13 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         if (preference.getKey().equals(getString(R.string.database_name_key))) {
             dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.getKey());
         }
-        if (preference.getKey().equals(getString(R.string.database_description_key))) {
+        else if (preference.getKey().equals(getString(R.string.database_description_key))) {
             dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.getKey());
         }
-        if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
+        else if (preference.getKey().equals(getString(R.string.encryption_algorithm_key))) {
+            dialogFragment = DatabaseAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+        else if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
             dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
         }
 
