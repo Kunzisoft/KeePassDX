@@ -21,49 +21,33 @@ package com.kunzisoft.keepass.utils;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.getkeepsafe.taptargetview.TapTarget;
 import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.AboutActivity;
 import com.kunzisoft.keepass.settings.SettingsActivity;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 
-import java.util.List;
-
 
 public class MenuUtil {
 
-    public static void donationMenuInflater(MenuInflater inflater, Menu menu) {
+    public static void contributionMenuInflater(MenuInflater inflater, Menu menu) {
         if(!(BuildConfig.FULL_VERSION && BuildConfig.CLOSED_STORE))
-            inflater.inflate(R.menu.donation, menu);
-    }
-
-    public static void addDonationTapTargetIfAllowed(List<TapTarget> tapTargets,
-                                                     Toolbar toolbar,
-                                                     String title,
-                                                     String summary) {
-        if (!(BuildConfig.FULL_VERSION && BuildConfig.CLOSED_STORE)) {
-            tapTargets.add(TapTarget.forToolbarMenuItem(toolbar,
-                    R.id.menu_donate,
-                    title,
-                    summary));
-        }
+            inflater.inflate(R.menu.contribution, menu);
     }
 
     public static void defaultMenuInflater(MenuInflater inflater, Menu menu) {
-        donationMenuInflater(inflater, menu);
+        contributionMenuInflater(inflater, menu);
         inflater.inflate(R.menu.default_menu, menu);
     }
 
-    public static boolean onDonationItemSelected(StylishActivity activity) {
+    public static boolean onContributionItemSelected(StylishActivity activity) {
         try {
-            Util.gotoUrl(activity, R.string.donate_url);
+            Util.gotoUrl(activity, R.string.contribution_url);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(activity, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
             return false;
@@ -80,8 +64,8 @@ public class MenuUtil {
      */
     public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item, boolean checkLock) {
         switch (item.getItemId()) {
-            case R.id.menu_donate:
-                return onDonationItemSelected(activity);
+            case R.id.menu_contribute:
+                return onContributionItemSelected(activity);
 
             case R.id.menu_app_settings:
                 // To avoid flickering when launch settings in a LockingActivity

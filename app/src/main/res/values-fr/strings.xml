@@ -298,6 +298,9 @@
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">En &lt;strong&gt;contribuant&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">vous encouragez les développeurs à créer de &lt;strong&gt;nouvelles fonctionnalités&lt;/strong&gt; et à &lt;strong&gt;résoudre des bugs&lt;/strong&gt; en fonction de vos remarques.</string>
+    <string name="html_text_dev_feature_thanks">Merci beaucoup pour votre contribution.</string>
+    <string name="html_text_dev_feature_work_hard">Nous travaillons dur pour sortir cette fonctionnalité rapidement.</string>
+    <string name="html_text_dev_feature_upgrade">N\'oubliez pas de garder votre application à jour.</string>
 
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>

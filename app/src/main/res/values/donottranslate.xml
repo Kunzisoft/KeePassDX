@@ -22,12 +22,14 @@
 
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="donate_url" translatable="false">https://www.kunzisoft.com/donation</string>
+    <string name="contribution_url" translatable="false">https://www.kunzisoft.com/donation?project=keepassdx</string>
     <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
     <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
+
+    <string name="html_rose">--,--`--,{@</string>
 
     <!--  Password generator -->
     <string name="password_length_key" translatable="false">password_length_key</string>

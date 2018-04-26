@@ -447,15 +447,15 @@ public class EntryEditActivity extends LockingHideActivity
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-		MenuUtil.donationMenuInflater(inflater, menu);
+		MenuUtil.contributionMenuInflater(inflater, menu);
 		
 		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-			case R.id.menu_donate:
-				return MenuUtil.onDonationItemSelected(this);
+			case R.id.menu_contribute:
+				return MenuUtil.onContributionItemSelected(this);
 
 			case android.R.id.home:
 				finish();

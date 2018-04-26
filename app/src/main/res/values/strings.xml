@@ -302,6 +302,9 @@
     <string name="html_text_dev_feature_buy_pro">By buying the &lt;strong&gt;pro&lt;/strong&gt; version,</string>
     <string name="html_text_dev_feature_contibute">By &lt;strong&gt;contributing&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">you\'re encouraging developers to create &lt;strong&gt;new features&lt;/strong&gt; and to &lt;strong&gt;fix bugs&lt;/strong&gt; according to your remarks.</string>
+    <string name="html_text_dev_feature_thanks">Thanks a lot for your contribution.</string>
+    <string name="html_text_dev_feature_work_hard">We are working hard to release this feature quickly.</string>
+    <string name="html_text_dev_feature_upgrade">Do not forget to keep your application up to date.</string>
 
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
