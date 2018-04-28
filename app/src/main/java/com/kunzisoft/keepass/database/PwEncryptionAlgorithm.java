@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.crypto.engine.TwofishEngine;
 
 import java.util.UUID;
 
-public enum PwEncryptionAlgorithm {
+public enum PwEncryptionAlgorithm implements ObjectNameResource {
 
     AES_Rijndael,
 	Twofish,
@@ -39,11 +39,11 @@ public enum PwEncryptionAlgorithm {
         switch (this) {
             default:
             case AES_Rijndael:
-                return resources.getString(R.string.rijndael);
+                return resources.getString(R.string.encryption_rijndael);
             case Twofish:
-                return resources.getString(R.string.twofish);
+                return resources.getString(R.string.encryption_twofish);
             case ChaCha20:
-                return resources.getString(R.string.chacha20);
+                return resources.getString(R.string.encryption_chacha20);
         }
     }
 

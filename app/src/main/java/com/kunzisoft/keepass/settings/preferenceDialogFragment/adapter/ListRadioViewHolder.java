@@ -17,32 +17,21 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings.preferenceDialogFragment;
+package com.kunzisoft.keepass.settings.preferenceDialogFragment.adapter;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.kunzisoft.keepass.R;
 
-public class InputDatabaseSavePreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
+public class ListRadioViewHolder extends RecyclerView.ViewHolder {
 
-    private EditText inputTextView;
+    public RadioButton radioButton;
 
-    @Override
-    protected void onBindDialogView(View view) {
-        super.onBindDialogView(view);
+    public ListRadioViewHolder(View itemView) {
+        super(itemView);
 
-        inputTextView = view.findViewById(R.id.input_text);
-    }
-
-    public String getInputText() {
-        return this.inputTextView.getText().toString();
-    }
-
-    public void setInputText(String inputText) {
-        if (inputTextView != null && inputText != null) {
-            this.inputTextView.setText(inputText);
-            this.inputTextView.setSelection(this.inputTextView.getText().length());
-        }
+        radioButton = itemView.findViewById(R.id.pref_dialog_list_radio);
     }
 }

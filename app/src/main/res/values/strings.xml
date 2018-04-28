@@ -150,7 +150,6 @@
     <string name="remember_keyfile_summary">Remember the location of keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>
-    <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Transform Rounds</string>
     <string name="rounds_explanation">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
@@ -174,8 +173,6 @@
     <string name="special">Special</string>
     <string name="search">Search</string>
     <string name="search_results">Search results</string>
-    <string name="twofish">Twofish</string>
-    <string name="chacha20">ChaCha20</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
@@ -308,6 +305,15 @@
 
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
+
+    <!-- Algorithms -->
+    <string name="encryption_rijndael">Rijndael (AES)</string>
+    <string name="encryption_twofish">Twofish</string>
+    <string name="encryption_chacha20">ChaCha20</string>
+
+    <!-- Key Derivation Functions -->
+    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>

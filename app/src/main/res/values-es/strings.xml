@@ -124,7 +124,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="remember_keyfile_summary">Recordar la ubicación de archivos de clave</string>
     <string name="remember_keyfile_title">Guardando archivo de clave</string>
     <string name="remove_from_filelist">Borrar</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raíz</string>
     <string name="rounds">Pasadas de Cifrado</string>
     <string name="rounds_explanation">Un alto número de pasadas de cifrado proporciona protección adicional contra ataques de fuerza bruta, pero puede ralentizar mucho el cargado y el guardado.</string>
@@ -135,7 +135,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="sort_db">Orden de BD</string>
     <string name="special">Especial</string>
     <string name="search">Título/descripción de entrada</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Subrayado</string>
     <string name="unsupported_db_version">Versión de base de datos no soportada.</string>
     <string name="uppercase">Mayúsculas</string>

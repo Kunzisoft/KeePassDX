@@ -45,7 +45,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.database;
 
+import android.content.res.Resources;
+
 import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 
 import java.io.IOException;
@@ -62,6 +65,7 @@ import java.util.Random;
 public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
 	private static final int DEFAULT_ENCRYPTION_ROUNDS = 300;
+    private KdfEngine kdfEngine = new AesKdf(); // Always the same
 
 	// all entries
 	private List<PwEntryV3> entries = new ArrayList<>();
@@ -96,8 +100,20 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	}
 
     @Override
-    public String getKeyDerivationName() {
-        return AesKdf.DEFAULT_NAME;
+    public KdfEngine getKdfEngine() {
+        return kdfEngine;
+    }
+
+	@Override
+	public List<KdfEngine> getAvailableKdfEngines() {
+        List<KdfEngine> list = new ArrayList<>();
+        list.add(kdfEngine);
+        return list;
+	}
+
+	@Override
+    public String getKeyDerivationName(Resources resources) {
+        return kdfEngine.getName(resources);
     }
 
 	@Override

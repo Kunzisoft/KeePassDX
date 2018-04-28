@@ -123,7 +123,7 @@
     <string name="remember_keyfile_summary">Lembrar o local dos arquivos de chave</string>
     <string name="remember_keyfile_title">Salvar arquivo de chave</string>
     <string name="remove_from_filelist">Remover</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
     <string name="rounds_explanation">Maior número de rodadas de criptografia adiciona mais proteção contra ataques de força bruta, porém pode tornar o processo de carregar e salvar mais lentos.</string>
@@ -134,7 +134,7 @@
     <string name="sort_db">Ordenação do banco de dados</string>
     <string name="special">Caracteres Especiais</string>
     <string name="search">Título/Descrição da entrada</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Versão de banco de dados não suportada.</string>
     <string name="uppercase">Letras maiúsculas</string>

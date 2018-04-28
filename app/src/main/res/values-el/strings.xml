@@ -136,7 +136,7 @@
     <string name="remember_keyfile_summary">Να θυμάσαι την τοποθεσία των αρχείων κλειδιών</string>
     <string name="remember_keyfile_title">Αποθήκευση αρχείου κλειδιού</string>
     <string name="remove_from_filelist">Απομάκρυνση</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Ριζικός Κατάλογος</string>
     <string name="rounds">Κύκλοι Κρυπτογράφησης</string>
     <string name="rounds_explanation">Μεγαλύτεροι κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
@@ -148,7 +148,7 @@
     <string name="special">Ειδικοί</string>
     <string name="search">Τίτλος/περιγραφή εγγραφής</string>
     <string name="search_results">Αποτελέσματα αναζήτησης</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Υπογράμμιση</string>
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>

@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
@@ -354,7 +355,7 @@ public class Database {
         return getPwDatabase().getEncryptionAlgorithm();
     }
 
-    public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithm() {
+    public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
         switch (getPwDatabase().getVersion()) {
             case V4:
                 return ((PwDatabaseV4) getPwDatabase()).getAvailableEncryptionAlgorithms();
@@ -378,8 +379,31 @@ public class Database {
         return getPwDatabase().getEncryptionAlgorithm().getName(resources);
     }
 
-    public String getKeyDerivationName() {
-        return getPwDatabase().getKeyDerivationName();
+    public List<KdfEngine> getAvailableKdfEngines() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getAvailableKdfEngines();
+            case V3:
+                return ((PwDatabaseV3) getPwDatabase()).getAvailableKdfEngines();
+        }
+        return new ArrayList<>();
+    }
+
+    public KdfEngine getKdfEngine() {
+        return getPwDatabase().getKdfEngine();
+    }
+
+    public void assignKdfEngine(KdfEngine kdfEngine) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setKdfEngine(kdfEngine);
+                ((PwDatabaseV4) getPwDatabase()).setKdfParameters(kdfEngine.getDefaultParameters());
+                ((PwDatabaseV4) getPwDatabase()).setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
+        }
+    }
+
+    public String getKeyDerivationName(Resources resources) {
+        return getPwDatabase().getKeyDerivationName(resources);
     }
 
     public String getNumberKeyEncryptionRoundsAsString() {

@@ -141,7 +141,7 @@
     <string name="remember_keyfile_summary">Relembra a localização dos ficheiros chave</string>
     <string name="remember_keyfile_title">Guardar ficheiro chave</string>
     <string name="remove_from_filelist">Remover</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rondas de encriptação</string>
     <string name="rounds_explanation">Rondas de encriptação altas providenciam proteção adicional contra ataques de força bruta, mas podem atrasar o tempo de carregamento e armazenamento.</string>
@@ -153,7 +153,7 @@
     <string name="special">Especiais</string>
     <string name="search">Título/descrição da entrada</string>
     <string name="search_results">Resultados da pesquisa</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão da base de dados não suportada.</string>
     <string name="uppercase">Maiúsculas</string>

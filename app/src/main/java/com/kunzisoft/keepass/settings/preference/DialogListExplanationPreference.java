@@ -6,21 +6,21 @@ import android.util.AttributeSet;
 
 import com.kunzisoft.keepass.R;
 
-public class AlgorithmListPreference extends DialogPreference {
+public class DialogListExplanationPreference extends DialogPreference {
 
-    public AlgorithmListPreference(Context context) {
+    public DialogListExplanationPreference(Context context) {
         this(context, null);
     }
 
-    public AlgorithmListPreference(Context context, AttributeSet attrs) {
+    public DialogListExplanationPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.dialogPreferenceStyle);
     }
 
-    public AlgorithmListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DialogListExplanationPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, defStyleAttr);
     }
 
-    public AlgorithmListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DialogListExplanationPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

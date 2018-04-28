@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.content.res.Resources;
 import android.webkit.URLUtil;
 
 import com.kunzisoft.keepass.collections.VariantDictionary;
@@ -148,6 +149,33 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     public void setCompressionAlgorithm(PwCompressionAlgorithm compressionAlgorithm) {
         this.compressionAlgorithm = compressionAlgorithm;
+    }
+
+    @Override
+	public KdfEngine getKdfEngine() {
+		return kdfEngine;
+	}
+
+    public void setKdfEngine(KdfEngine kdfEngine) {
+        this.kdfEngine = kdfEngine;
+    }
+
+    @Override
+	public String getKeyDerivationName(Resources resources) {
+		return kdfEngine.getName(resources);
+	}
+
+    @Override
+    public List<KdfEngine> getAvailableKdfEngines() {
+        return KdfFactory.kdfList;
+    }
+
+    public KdfParameters getKdfParameters() {
+        return kdfParameters;
+    }
+
+    public void setKdfParameters(KdfParameters kdfParameters) {
+        this.kdfParameters = kdfParameters;
     }
 
     @Override
@@ -332,15 +360,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     public void putCustomData(String label, String value) {
         this.customData.put(label, value);
-    }
-
-    public KdfEngine getKdfEngine() {
-        return kdfEngine;
-    }
-
-    @Override
-    public String getKeyDerivationName() {
-        return kdfEngine.getName();
     }
 
     @Override
@@ -702,14 +721,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		PwGroupId recycleId = new PwGroupIdV4(recycleBinUUID);
 		return groups.get(recycleId);
 	}
-
-    public KdfParameters getKdfParameters() {
-        return kdfParameters;
-    }
-
-    public void setKdfParameters(KdfParameters kdfParameters) {
-        this.kdfParameters = kdfParameters;
-    }
 
     public VariantDictionary getPublicCustomData() {
         return publicCustomData;

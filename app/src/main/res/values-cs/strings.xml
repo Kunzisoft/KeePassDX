@@ -139,7 +139,7 @@
     <string name="remember_keyfile_summary">Pamatovat si umístění klíčového souboru</string>
     <string name="remember_keyfile_title">Uložit klíčový soubor</string>
     <string name="remove_from_filelist">Odstranit</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Kořen</string>
     <string name="rounds">Počet zašifrování</string>
     <string name="rounds_explanation">Vyšší počet opakování šifrování zvýší bezpečnost proti hrubému útoku, ale může výrazně zpomalit načítání a ukládání.</string>
@@ -151,7 +151,7 @@
     <string name="special">Speciální</string>
     <string name="search">Zadejte název/popis</string>
     <string name="search_results">Výsledky hledání</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Podtrženo</string>
     <string name="unsupported_db_version">Nepodporovaná verze databáze.</string>
     <string name="uppercase">Velká písmena</string>

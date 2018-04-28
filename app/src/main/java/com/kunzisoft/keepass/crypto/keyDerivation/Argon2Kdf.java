@@ -19,6 +19,9 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation;
 
+import android.content.res.Resources;
+
+import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.utils.Types;
 
 import java.io.IOException;
@@ -26,6 +29,7 @@ import java.security.SecureRandom;
 import java.util.UUID;
 
 public class Argon2Kdf extends KdfEngine {
+
     public static final UUID CIPHER_UUID = Types.bytestoUUID(
             new byte[]{(byte) 0xEF, (byte) 0x63, (byte) 0x6D, (byte) 0xDF, (byte) 0x8C, (byte) 0x29, (byte) 0x44, (byte) 0x4B,
                     (byte) 0x91, (byte) 0xF7, (byte) 0xA9, (byte) 0xA4, (byte)0x03, (byte) 0xE3, (byte) 0x0A, (byte) 0x0C
@@ -58,13 +62,17 @@ public class Argon2Kdf extends KdfEngine {
     private static final long DefaultMemory = 1024 * 1024;
     private static final long DefaultParallelism = 2;
 
+    private static final String DEFAULT_NAME = "Argon2";
+
     public Argon2Kdf() {
         uuid = CIPHER_UUID;
     }
 
     @Override
-    public String getName() {
-        return "Argon2";
+    public String getName(Resources resources) {
+        if (resources == null)
+            return DEFAULT_NAME;
+        return resources.getString(R.string.kdf_Argon2);
     }
 
     @Override
@@ -111,6 +119,11 @@ public class Argon2Kdf extends KdfEngine {
     @Override
     public void setKeyRounds(KdfParameters p, long keyRounds) {
         p.setUInt64(ParamIterations, keyRounds);
+    }
+
+    @Override
+    public long getDefaultKeyRounds() {
+        return DefaultIterations;
     }
 
 }

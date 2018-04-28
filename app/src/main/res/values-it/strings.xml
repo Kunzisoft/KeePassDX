@@ -123,7 +123,7 @@
     <string name="remember_keyfile_summary">Ricorda la posizione dei file chiave</string>
     <string name="remember_keyfile_title">Salva il file chiave</string>
     <string name="remove_from_filelist">Elimina</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Principale</string>
     <string name="rounds">Livello cifratura</string>
     <string name="rounds_explanation">Un livello di cifratura elevato fornisce una protezione maggiore contro attacchi di tipo "forza brutta", ma può veramente rallentare il caricamento e il salvataggio.</string>
@@ -134,7 +134,7 @@
     <string name="sort_db">Ordinamento DB</string>
     <string name="special">Speciale</string>
     <string name="search">Titolo/descrizione voce</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Sottolinea</string>
     <string name="unsupported_db_version">Versione database non supportata.</string>
     <string name="uppercase">Maiuscolo</string>

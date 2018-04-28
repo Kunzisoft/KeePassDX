@@ -19,8 +19,11 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.content.res.Resources;
+
 import com.kunzisoft.keepass.crypto.finalkey.FinalKey;
 import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
 import com.kunzisoft.keepass.stream.NullOutputStream;
@@ -34,7 +37,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -283,7 +285,11 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
 
     public abstract List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms();
 
-    public abstract String getKeyDerivationName();
+    public abstract List<KdfEngine> getAvailableKdfEngines();
+
+    public abstract KdfEngine getKdfEngine();
+
+    public abstract String getKeyDerivationName(Resources resources);
 
     public abstract List<PwGroupDB> getGrpRoots();
 

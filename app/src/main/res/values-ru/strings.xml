@@ -136,7 +136,7 @@
     <string name="remember_keyfile_summary">Хранить пути к файлам-ключам</string>
     <string name="remember_keyfile_title">Предлагать ключи</string>
     <string name="remove_from_filelist">Убрать из списка</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Проходы шифрования</string>
     <string name="rounds_explanation">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
@@ -150,7 +150,7 @@
     <string name="special">$пеци@льные</string>
     <string name="search">название, комментарий</string>
     <string name="search_results">Результаты поиска</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>

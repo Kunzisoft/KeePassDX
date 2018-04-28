@@ -51,8 +51,9 @@ import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseAlgorithmPreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseNamePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
@@ -69,6 +70,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
     private static final int REQUEST_CODE_AUTOFILL = 5201;
 
     private int count = 0;
+
+    private Preference roundPref;
 
     public static NestedSettingsFragment newInstance(Screen key) {
         NestedSettingsFragment fragment = new NestedSettingsFragment();
@@ -321,11 +324,10 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     // Key derivation function
                     Preference kdfPref = findPreference(getString(R.string.key_derivation_function_key));
-                    kdfPref.setSummary(db.getKeyDerivationName());
-                    preferenceInDevelopment(kdfPref);
+                    kdfPref.setSummary(db.getKeyDerivationName(getResources()));
 
                     // Round encryption
-                    Preference roundPref = findPreference(getString(R.string.transform_rounds_key));
+                    roundPref = findPreference(getString(R.string.transform_rounds_key));
                     roundPref.setSummary(db.getNumberKeyEncryptionRoundsAsString());
 
                 } else {
@@ -432,7 +434,13 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.getKey());
         }
         else if (preference.getKey().equals(getString(R.string.encryption_algorithm_key))) {
-            dialogFragment = DatabaseAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+        else if (preference.getKey().equals(getString(R.string.key_derivation_function_key))) {
+            DatabaseKeyDerivationPreferenceDialogFragmentCompat keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            if (roundPref != null)
+                keyDerivationDialogFragment.setRoundPreference(roundPref);
+            dialogFragment = keyDerivationDialogFragment;
         }
         else if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
             dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());

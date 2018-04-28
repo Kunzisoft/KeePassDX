@@ -144,7 +144,7 @@
     <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken.</string>
     <string name="remember_keyfile_title">Schlüsselquelle merken</string>
     <string name="remove_from_filelist">Löschen</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Je höher die Anzahl der Schlüsseltransformationen, desto besser ist der Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
@@ -159,7 +159,7 @@
     <string name="special">Spezialsymbole</string>
     <string name="search">Titel/Beschreibung des Eintrags</string>
     <string name="search_results">Suchergebnisse</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Unterstrichen</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>

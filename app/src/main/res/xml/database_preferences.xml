@@ -52,11 +52,11 @@
     <PreferenceCategory
         android:title="@string/encryption">
 
-        <com.kunzisoft.keepass.settings.preference.AlgorithmListPreference
+        <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
             android:key="@string/encryption_algorithm_key"
             android:persistent="false"
             android:title="@string/encryption_algorithm"/>
-        <Preference
+        <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
             android:key="@string/key_derivation_function_key"
             android:persistent="false"
             android:title="@string/key_derivation_function"/>

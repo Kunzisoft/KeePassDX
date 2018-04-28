@@ -19,6 +19,9 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation;
 
+import android.content.res.Resources;
+
+import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CryptoUtil;
 import com.kunzisoft.keepass.crypto.finalkey.FinalKey;
 import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory;
@@ -45,8 +48,11 @@ public class AesKdf extends KdfEngine {
         uuid = CIPHER_UUID;
     }
 
-    public String getName() {
-        return DEFAULT_NAME;
+    @Override
+    public String getName(Resources resources) {
+        if (resources == null)
+            return DEFAULT_NAME;
+        return resources.getString(R.string.kdf_AES);
     }
 
     @Override
@@ -92,5 +98,10 @@ public class AesKdf extends KdfEngine {
     @Override
     public void setKeyRounds(KdfParameters p, long keyRounds) {
         p.setUInt64(ParamRounds, keyRounds);
+    }
+
+    @Override
+    public long getDefaultKeyRounds() {
+        return DEFAULT_ROUNDS;
     }
 }

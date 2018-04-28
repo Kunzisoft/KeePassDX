@@ -134,7 +134,7 @@
     <string name="remember_keyfile_summary">Jegyezze meg a kulcsfájlok helyét</string>
     <string name="remember_keyfile_title">Kulcsfájl mentése</string>
     <string name="remove_from_filelist">Eltávolítás</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Titkosítási menetek száma</string>
     <string name="rounds_explanation">A titkosítási menetek számának növelésével extra védelemet kaphat a brute force támadások ellen, ugyanakkor jelentősen lassíthatja az adatbázis betöltését vagy mentését.</string>
@@ -146,7 +146,7 @@
     <string name="special">Speciális</string>
     <string name="search">Bejegyzés név/leírás</string>
     <string name="search_results">Keresés eredménye</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis.</string>
     <string name="uppercase">Nagybetűk</string>

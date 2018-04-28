@@ -19,10 +19,12 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation;
 
+import com.kunzisoft.keepass.database.ObjectNameResource;
+
 import java.io.IOException;
 import java.util.UUID;
 
-public abstract class KdfEngine {
+public abstract class KdfEngine implements ObjectNameResource{
     public UUID uuid;
 
     public KdfParameters getDefaultParameters() {
@@ -33,10 +35,10 @@ public abstract class KdfEngine {
 
     public abstract void randomize(KdfParameters p);
 
-    public abstract String getName();
-
     public abstract long getKeyRounds(KdfParameters p);
 
     public abstract void setKeyRounds(KdfParameters p, long keyRounds);
+
+    public abstract long getDefaultKeyRounds();
 
 }

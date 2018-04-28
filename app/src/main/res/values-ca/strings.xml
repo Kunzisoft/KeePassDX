@@ -123,7 +123,7 @@
     <string name="remember_keyfile_summary">Recorda la localització d\'arxius clau</string>
     <string name="remember_keyfile_title">Guarda arxiu clau</string>
     <string name="remove_from_filelist">Elimina</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Arrel</string>
     <string name="rounds">Passades d\'encriptació</string>
     <string name="rounds_explanation">Més passades d\'encriptació dónen protecció adicional contra atacs de força bruta, però poden alentir molt carregar i guardar la base de dades.</string>
@@ -135,7 +135,7 @@
     <string name="special">Especial</string>
     <string name="search">Títol/descripció d\'entrada</string>
     <string name="search_results">Resultats de cerca</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Subratllat</string>
     <string name="unsupported_db_version">Versió de la base de dades no suportada.</string>
     <string name="uppercase">Majúscules</string>
