@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
@@ -21,7 +20,6 @@ import java.util.List;
 
 public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
 
-    private RecyclerView recyclerView;
     private AlgorithmAdapter algorithmAdapter;
     private PwEncryptionAlgorithm algorithmSelected;
 
@@ -40,7 +38,7 @@ public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSav
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        recyclerView = view.findViewById(R.id.pref_dialog_list);
+        RecyclerView recyclerView = view.findViewById(R.id.pref_dialog_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         algorithmAdapter = new AlgorithmAdapter();
         recyclerView.setAdapter(algorithmAdapter);
@@ -61,7 +59,7 @@ public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSav
         private List<PwEncryptionAlgorithm> algorithms;
         private PwEncryptionAlgorithm algorithmUsed;
 
-        public AlgorithmAdapter() {
+        AlgorithmAdapter() {
             this.inflater = LayoutInflater.from(getContext());
             this.algorithms = new ArrayList<>();
             this.algorithmUsed = null;
@@ -141,7 +139,7 @@ public class DatabaseAlgorithmPreferenceDialogFragmentCompat extends DatabaseSav
             if (getAlgorithmSelected() != null) {
                 PwEncryptionAlgorithm newAlgorithm = getAlgorithmSelected();
                 PwEncryptionAlgorithm oldAlgorithm = database.getEncryptionAlgorithm();
-                database.assignDescription(newAlgorithm.getName(getResources()));
+                database.assignEncryptionAlgorithm(newAlgorithm);
 
                 Handler handler = new Handler();
                 setAfterSaveDatabase(new AfterDescriptionSave(getContext(), handler, newAlgorithm, oldAlgorithm));

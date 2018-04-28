@@ -25,7 +25,13 @@ public abstract class InputPreferenceDialogFragmentCompat extends PreferenceDial
     }
 
     public void setExplanationText(String explanationText) {
-        if (textExplanationView != null && explanationText != null)
-            this.textExplanationView.setText(explanationText);
+        if (textExplanationView != null)
+            if (explanationText != null && !explanationText.isEmpty()) {
+                textExplanationView.setText(explanationText);
+                textExplanationView.setVisibility(View.VISIBLE);
+            } else {
+                textExplanationView.setText(explanationText);
+                textExplanationView.setVisibility(View.VISIBLE);
+            }
     }
 }

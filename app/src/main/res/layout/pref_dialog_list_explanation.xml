@@ -31,6 +31,7 @@
 		android:layout_width="wrap_content"
         android:gravity="center"
 		android:layout_marginBottom="8dp"
+		android:visibility="gone"
         style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
 	<android.support.v7.widget.RecyclerView
         android:id="@+id/pref_dialog_list"

@@ -27,7 +27,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
@@ -226,17 +225,15 @@ public class Database {
     }
 
     public void saveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
+
         if (uri.getScheme().equals("file")) {
             String filename = uri.getPath();
             File tempFile = new File(filename + ".tmp");
             FileOutputStream fos = new FileOutputStream(tempFile);
-            //BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-            //PwDbV3Output pmo = new PwDbV3Output(pm, bos, App.getCalendar());
             PwDbOutput pmo = PwDbOutput.getInstance(pm, fos);
-            pmo.output();
-            //bos.flush();
-            //bos.close();
+            if (pmo != null)
+                pmo.output();
             fos.close();
 
             // Force data to disk before continuing
@@ -253,16 +250,18 @@ public class Database {
             }
         }
         else {
-            OutputStream os;
+            OutputStream os = null;
             try {
                 os = ctx.getContentResolver().openOutputStream(uri);
+                PwDbOutput pmo = PwDbOutput.getInstance(pm, os);
+                if (pmo != null)
+                    pmo.output();
             } catch (Exception e) {
                 throw new IOException("Failed to store database.");
+            } finally {
+                if (os != null)
+                    os.close();
             }
-
-            PwDbOutput pmo = PwDbOutput.getInstance(pm, os);
-            pmo.output();
-            os.close();
         }
         mUri = uri;
     }
