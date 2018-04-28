@@ -25,11 +25,10 @@ import java.io.IOException;
 import java.util.UUID;
 
 public abstract class KdfEngine implements ObjectNameResource{
+
     public UUID uuid;
 
-    public KdfParameters getDefaultParameters() {
-        return new KdfParameters(uuid);
-    }
+    public abstract KdfParameters getDefaultParameters();
 
     public abstract byte[] transform(byte[] masterKey, KdfParameters p) throws IOException;
 

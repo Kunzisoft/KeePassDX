@@ -57,7 +57,7 @@ public class AesKdf extends KdfEngine {
 
     @Override
     public KdfParameters getDefaultParameters() {
-        KdfParameters p = super.getDefaultParameters();
+        KdfParameters p = new KdfParameters(uuid);
         p.setUInt32(ParamRounds, DEFAULT_ROUNDS);
 
         return p;

@@ -396,9 +396,10 @@ public class Database {
     public void assignKdfEngine(KdfEngine kdfEngine) {
         switch (getPwDatabase().getVersion()) {
             case V4:
-                ((PwDatabaseV4) getPwDatabase()).setKdfEngine(kdfEngine);
-                ((PwDatabaseV4) getPwDatabase()).setKdfParameters(kdfEngine.getDefaultParameters());
-                ((PwDatabaseV4) getPwDatabase()).setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
+                PwDatabaseV4 db = ((PwDatabaseV4) getPwDatabase());
+                db.setKdfEngine(kdfEngine);
+                db.setKdfParameters(kdfEngine.getDefaultParameters());
+                db.setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
         }
     }
 

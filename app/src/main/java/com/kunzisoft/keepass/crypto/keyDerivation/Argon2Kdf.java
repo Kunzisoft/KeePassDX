@@ -77,11 +77,12 @@ public class Argon2Kdf extends KdfEngine {
 
     @Override
     public KdfParameters getDefaultParameters() {
-        KdfParameters p = super.getDefaultParameters();
+        KdfParameters p = new KdfParameters(uuid);
 
         p.setUInt32(ParamVersion, MaxVersion);
         p.setUInt64(ParamMemory, DefaultMemory);
         p.setUInt32(ParamParallelism, DefaultParallelism);
+        p.setUInt64(ParamIterations, DefaultIterations);
 
         return p;
     }

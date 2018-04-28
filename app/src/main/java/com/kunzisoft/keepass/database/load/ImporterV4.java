@@ -115,7 +115,7 @@ public class ImporterV4 extends Importer {
 		hashOfHeader = hh.hash;
 		pbHeader = hh.header;
 			
-		db.setMasterKey(password, keyInputStream);
+		db.retrieveMasterKey(password, keyInputStream);
 		db.makeFinalKey(header.masterSeed, db.getKdfParameters(), roundsFix);
 
 		CipherEngine engine;

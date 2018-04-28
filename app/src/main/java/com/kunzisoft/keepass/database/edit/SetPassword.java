@@ -75,7 +75,7 @@ public class SetPassword extends RunnableOnFinish {
 		// Set key
 		try {
 			InputStream is = UriUtil.getUriInputStream(ctx, mKeyfile);
-			pm.setMasterKey(mPassword, is);
+			pm.retrieveMasterKey(mPassword, is);
 		} catch (InvalidKeyFileException e) {
 			erase(backupKey);
 			finish(false, e.getMessage());

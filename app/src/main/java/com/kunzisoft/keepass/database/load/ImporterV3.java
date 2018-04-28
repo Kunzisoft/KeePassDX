@@ -158,7 +158,7 @@ public class ImporterV3 extends Importer {
 
 		status.updateMessage(R.string.creating_db_key);
 		newManager = createDB();
-		newManager.setMasterKey(password, kfIs);
+		newManager.retrieveMasterKey(password, kfIs);
 
 		// Select algorithm
 		if( (hdr.flags & PwDbHeaderV3.FLAG_RIJNDAEL) != 0 ) {
