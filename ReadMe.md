@@ -17,9 +17,6 @@
 
 Keepass DX is opensource and ad-free. 
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen1.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen2.jpg" width="220">
-
 ## What is KeePass DX?
 
 Today you need to remember many passwords. You need a password for your e-mail account, your website's FTP password, online passwords (like website member account), etc. etc. etc. The list is endless. Also, you should use different passwords for each account. Because if you use only one password everywhere and someone gets this password you have a problem... A serious problem. The thief would have access to your e-mail account, website, etc. Unimaginable.
@@ -40,9 +37,6 @@ You can contribute in different ways to help us on our work.
 * Help to **translate** into your language
 * **[Donate](https://www.kunzisoft.com/donation)**  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
 * Buy the **[Pro version](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro)** of KeePass DX
-
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen4.jpg" width="220">
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/fastlane/metadata/android/en-US/images/phoneScreenshots/screen5.jpg" width="220">
 
 ## Download
 
