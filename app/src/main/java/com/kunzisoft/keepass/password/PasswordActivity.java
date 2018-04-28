@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -337,6 +338,7 @@ public class PasswordActivity extends StylishActivity
                     getString(R.string.education_unlock_summary))
                             .dimColor(R.color.green)
                             .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -369,6 +371,7 @@ public class PasswordActivity extends StylishActivity
                 TapTarget.forView(fingerprintImageView,
                         getString(R.string.education_fingerprint_title),
                         getString(R.string.education_fingerprint_summary))
+                        .textColorInt(Color.WHITE)
                         .tintTarget(false)
                         .cancelable(true),
                     new TapTargetView.Listener() {

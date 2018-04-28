@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -312,6 +313,7 @@ public class FileSelectActivity extends StylishActivity implements
                                 getString(R.string.education_create_database_title),
                                 getString(R.string.education_create_database_summary))
                                 .icon(ContextCompat.getDrawable(this, R.drawable.ic_database_plus_white_24dp))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -352,6 +354,7 @@ public class FileSelectActivity extends StylishActivity implements
                             getString(R.string.education_select_database_title),
                             getString(R.string.education_select_database_summary))
                             .icon(ContextCompat.getDrawable(this, R.drawable.ic_folder_white_24dp))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(true)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -373,6 +376,7 @@ public class FileSelectActivity extends StylishActivity implements
                                                 getString(R.string.education_open_link_database_title),
                                                 getString(R.string.education_open_link_database_summary))
                                                 .icon(ContextCompat.getDrawable(FileSelectActivity.this, R.drawable.ic_link_white_24dp))
+                                                .textColorInt(Color.WHITE)
                                                 .tintTarget(true)
                                                 .cancelable(true),
                                         new TapTargetView.Listener() {

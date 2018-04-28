@@ -274,6 +274,7 @@ public class EntryEditActivity extends LockingHideActivity
                     TapTarget.forView(generatePasswordView,
                             getString(R.string.education_generate_password_title),
                             getString(R.string.education_generate_password_summary))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -300,6 +301,7 @@ public class EntryEditActivity extends LockingHideActivity
                     TapTarget.forView(addNewFieldView,
                             getString(R.string.education_entry_new_field_title),
                             getString(R.string.education_entry_new_field_summary))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {

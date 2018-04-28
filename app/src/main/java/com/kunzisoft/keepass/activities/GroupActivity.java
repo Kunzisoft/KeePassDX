@@ -285,6 +285,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forView(findViewById(R.id.add_button),
                                 getString(R.string.education_new_node_title),
                                 getString(R.string.education_new_node_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(false)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -313,6 +314,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
                                 getString(R.string.education_search_title),
                                 getString(R.string.education_search_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -344,6 +346,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
                                 getString(R.string.education_sort_title),
                                 getString(R.string.education_sort_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -374,6 +377,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
                                 getString(R.string.education_lock_title),
                                 getString(R.string.education_lock_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
