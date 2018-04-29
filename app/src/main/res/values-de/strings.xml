@@ -218,7 +218,7 @@
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="fingerprint_invalid_key">Ungültiger Schlüssel</string>
-    <string name="fingerprint_error">Probleme mit dem Fingerabdruck</string>
+    <string name="fingerprint_error">Probleme mit dem Fingerabdruck : %1$s</string>
     <string name="history">Verlauf</string>
     <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner ein ?</string>
     <string name="fingerprint_setting_text">Speichern sie ihren persönlichen Fingerabruck in</string>
