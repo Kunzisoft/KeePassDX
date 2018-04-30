@@ -62,8 +62,8 @@ import com.kunzisoft.keepass.compat.BackupManagerCompat;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
 import com.kunzisoft.keepass.compat.EditorCompat;
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.edit.LoadDB;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.LoadDBRunnable;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
@@ -819,7 +819,7 @@ public class PasswordActivity extends StylishActivity
         Handler handler = new Handler();
         AfterLoad afterLoad = new AfterLoad(handler, db);
 
-        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, afterLoad);
+        LoadDBRunnable task = new LoadDBRunnable(db, PasswordActivity.this, mDbUri, pass, keyfile, afterLoad);
         ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
         pt.run();
     }
@@ -866,7 +866,7 @@ public class PasswordActivity extends StylishActivity
     /**
      * Called after verify and try to opening the database
      */
-    private final class AfterLoad extends OnFinish {
+    private final class AfterLoad extends OnFinishRunnable {
 
         protected Database db;
 

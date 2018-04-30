@@ -49,8 +49,8 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.edit.AfterActionNodeOnFinish;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
@@ -330,7 +330,7 @@ public abstract class ListNodesActivity extends LockingActivity
         }
     }
 
-    class AfterDeleteNode extends OnFinish {
+    class AfterDeleteNode extends OnFinishRunnable {
         private PwNode pwNode;
 
         AfterDeleteNode(Handler handler, PwNode pwNode) {

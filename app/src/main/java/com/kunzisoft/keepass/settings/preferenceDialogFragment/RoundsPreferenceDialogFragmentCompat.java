@@ -26,7 +26,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 
 public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
 
@@ -82,7 +82,7 @@ public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreference
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterRoundSave extends OnFinish {
+    private class AfterRoundSave extends OnFinishRunnable {
 
         private long mNewRounds;
         private long mOldRounds;

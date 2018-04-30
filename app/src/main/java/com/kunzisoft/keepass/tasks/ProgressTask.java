@@ -19,45 +19,47 @@
  */
 package com.kunzisoft.keepass.tasks;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Handler;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.edit.OnFinish;
-import com.kunzisoft.keepass.database.edit.RunnableOnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.database.action.RunnableOnFinish;
 
 /** Designed to Pop up a progress dialog, run a thread in the background, 
  *  run cleanup in the current thread, close the dialog.  Without blocking 
  *  the current thread.
- *  
- * @author bpellin
- *
  */
 public class ProgressTask implements Runnable {
-	private Context mCtx;
-	private Handler mHandler;
+
+    private Activity activity;
 	private RunnableOnFinish mTask;
 	private ProgressDialog mPd;
 	
-	public ProgressTask(Context ctx, RunnableOnFinish task, int messageId) {
-		mCtx = ctx;
-		mTask = task;
-		mHandler = new Handler();
+	public ProgressTask(Activity activity, RunnableOnFinish task, int messageId) {
+	    this.activity = activity;
+		this.mTask = task;
+		Handler mHandler = new Handler();
 		
 		// Show process dialog
-		mPd = new ProgressDialog(mCtx);
-		mPd.setCanceledOnTouchOutside(false);
-		mPd.setTitle(ctx.getText(R.string.progress_title));
-		mPd.setMessage(ctx.getText(messageId));
+        // TODO Move in activity
+        this.mPd = new ProgressDialog(activity);
+        this.mPd.setCanceledOnTouchOutside(false);
+        this.mPd.setTitle(activity.getText(R.string.progress_title));
+        this.mPd.setMessage(activity.getText(messageId));
 
 		// Set code to run when this is finished
-		mTask.setStatus(new UpdateStatus(ctx, mHandler, mPd));
-		mTask.mFinish = new AfterTask(task.mFinish, mHandler);
+        this.mTask.setStatus(new UpdateStatus(activity, mHandler, mPd));
+        this.mTask.mFinish = new AfterTask(task.mFinish, mHandler);
 		
 	}
 	
 	public void run() {
+	    lockScreenOrientation();
+
 		// Show process dialog
 		mPd.show();
 		
@@ -66,9 +68,9 @@ public class ProgressTask implements Runnable {
 		t.start();
 	}
 	
-	private class AfterTask extends OnFinish {
+	private class AfterTask extends OnFinishRunnable {
 		
-		public AfterTask(OnFinish finish, Handler handler) {
+		AfterTask(OnFinishRunnable finish, Handler handler) {
 			super(finish, handler);
 		}
 
@@ -86,7 +88,21 @@ public class ProgressTask implements Runnable {
             if (mPd != null && mPd.isShowing()) {
 				mPd.dismiss();
 			}
+			unlockScreenOrientation();
 		}
 	}
+
+    private void lockScreenOrientation() {
+        int currentOrientation = activity.getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
+
+    private void unlockScreenOrientation() {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }
 	
 }

@@ -57,10 +57,10 @@ import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.edit.AddGroup;
-import com.kunzisoft.keepass.database.edit.DeleteEntry;
-import com.kunzisoft.keepass.database.edit.DeleteGroup;
-import com.kunzisoft.keepass.database.edit.UpdateGroup;
+import com.kunzisoft.keepass.database.action.AddGroupRunnable;
+import com.kunzisoft.keepass.database.action.DeleteEntryRunnable;
+import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.action.UpdateGroupRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -435,7 +435,7 @@ public class GroupActivity extends ListNodesActivity
 
     private void deleteEntry(PwEntry entry) {
         Handler handler = new Handler();
-        DeleteEntry task = new DeleteEntry(this, App.getDB(), entry,
+        DeleteEntryRunnable task = new DeleteEntryRunnable(this, App.getDB(), entry,
                 new AfterDeleteNode(handler, entry));
         ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
         pt.run();
@@ -444,7 +444,7 @@ public class GroupActivity extends ListNodesActivity
     private void deleteGroup(PwGroup group) {
 		//TODO Verify trash recycle bin
         Handler handler = new Handler();
-        DeleteGroup task = new DeleteGroup(this, App.getDB(), group,
+        DeleteGroupRunnable task = new DeleteGroupRunnable(this, App.getDB(), group,
 				new AfterDeleteNode(handler, group));
         ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
         pt.run();
@@ -552,7 +552,7 @@ public class GroupActivity extends ListNodesActivity
                 newGroup.setIcon(iconStandard);
 
                 new ProgressTask(this,
-                        new AddGroup(this,
+                        new AddGroupRunnable(this,
                                 App.getDB(),
                                 newGroup,
                                 new AfterAddNode(new Handler())),
@@ -572,7 +572,7 @@ public class GroupActivity extends ListNodesActivity
                     mAdapter.removeNode(oldGroupToUpdate);
                     // If group update
                     new ProgressTask(this,
-                            new UpdateGroup(this,
+                            new UpdateGroupRunnable(this,
                                     App.getDB(),
                                     oldGroupToUpdate,
                                     updateGroup,

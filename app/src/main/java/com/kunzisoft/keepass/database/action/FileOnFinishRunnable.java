@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,16 +17,28 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
-import android.os.Handler;
+import android.net.Uri;
 
-import com.kunzisoft.keepass.database.PwNode;
+import java.io.Serializable;
 
-public abstract class AfterActionNodeOnFinish extends OnFinish {
-    public AfterActionNodeOnFinish(Handler handler) {
-        super(handler);
-    }
+public class FileOnFinishRunnable extends OnFinishRunnable implements Serializable {
+	private Uri mFilename = null;
+	protected FileOnFinishRunnable mOnFinish;
+	
+	public FileOnFinishRunnable(FileOnFinishRunnable finish) {
+		super(finish);
+		
+		mOnFinish = finish;
+	}
+	
+	public void setFilename(Uri filename) {
+		mFilename = filename;
+	}
+	
+	public Uri getFilename() {
+		return mFilename;
+	}
 
-    public abstract void run(PwNode oldNode, PwNode newNode);
 }

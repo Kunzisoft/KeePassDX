@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 
 public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
 
@@ -43,7 +43,7 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePref
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterNameSave extends OnFinish {
+    private class AfterNameSave extends OnFinishRunnable {
 
         private String mNewName;
         private String mOldName;

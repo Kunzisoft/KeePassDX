@@ -51,8 +51,8 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.database.edit.CreateDB;
-import com.kunzisoft.keepass.database.edit.FileOnFinish;
+import com.kunzisoft.keepass.database.action.CreateDBRunnable;
+import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
@@ -515,13 +515,13 @@ public class FileSelectActivity extends StylishActivity implements
 
 			// Prep an object to collect a password once the database has
 			// been created
-			FileOnFinish launchActivityOnFinish = new FileOnFinish(
+			FileOnFinishRunnable launchActivityOnFinish = new FileOnFinishRunnable(
 					new LaunchGroupActivity(databaseFilename));
 			AssignPasswordOnFinish assignPasswordOnFinish =
 					new AssignPasswordOnFinish(launchActivityOnFinish);
 
 			// Create the new database
-			CreateDB create = new CreateDB(FileSelectActivity.this,
+			CreateDBRunnable create = new CreateDBRunnable(FileSelectActivity.this,
 					databaseFilename, assignPasswordOnFinish, true);
 
 			ProgressTask createTask = new ProgressTask(
@@ -546,9 +546,9 @@ public class FileSelectActivity extends StylishActivity implements
 
 	}
 
-	private class AssignPasswordOnFinish extends FileOnFinish {
+	private class AssignPasswordOnFinish extends FileOnFinishRunnable {
 
-        AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
+        AssignPasswordOnFinish(FileOnFinishRunnable fileOnFinish) {
             super(fileOnFinish);
         }
 
@@ -560,7 +560,7 @@ public class FileSelectActivity extends StylishActivity implements
         }
     }
 
-	private class LaunchGroupActivity extends FileOnFinish {
+	private class LaunchGroupActivity extends FileOnFinishRunnable {
 		private Uri mUri;
 
 		LaunchGroupActivity(String filename) {

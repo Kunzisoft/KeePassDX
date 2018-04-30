@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 
 public class DatabaseDescriptionPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
 
@@ -43,7 +43,7 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends DatabaseS
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterDescriptionSave extends OnFinish {
+    private class AfterDescriptionSave extends OnFinishRunnable {
 
         private String mNewDescription;
         private String mOldDescription;

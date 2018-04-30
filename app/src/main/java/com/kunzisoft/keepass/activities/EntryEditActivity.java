@@ -49,10 +49,10 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwIconStandard;
-import com.kunzisoft.keepass.database.edit.AddEntry;
-import com.kunzisoft.keepass.database.edit.OnFinish;
-import com.kunzisoft.keepass.database.edit.RunnableOnFinish;
-import com.kunzisoft.keepass.database.edit.UpdateEntry;
+import com.kunzisoft.keepass.database.action.AddEntryRunnable;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.database.action.RunnableOnFinish;
+import com.kunzisoft.keepass.database.action.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -249,13 +249,13 @@ public class EntryEditActivity extends LockingHideActivity
         }
         mCallbackNewEntry = populateNewEntry();
 
-        OnFinish onFinish = new AfterSave();
+        OnFinishRunnable onFinish = new AfterSave();
         EntryEditActivity act = EntryEditActivity.this;
         RunnableOnFinish task;
         if ( mIsNew ) {
-            task = new AddEntry(act, App.getDB(), mCallbackNewEntry, onFinish);
+            task = new AddEntryRunnable(act, App.getDB(), mCallbackNewEntry, onFinish);
         } else {
-            task = new UpdateEntry(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
+            task = new UpdateEntryRunnable(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
         }
         ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
         pt.run();
@@ -554,7 +554,7 @@ public class EntryEditActivity extends LockingHideActivity
         }
 	}
 
-	private final class AfterSave extends OnFinish {
+	private final class AfterSave extends OnFinishRunnable {
 
 		AfterSave() {
 			super(new Handler());
