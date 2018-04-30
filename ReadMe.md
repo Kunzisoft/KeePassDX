@@ -40,6 +40,8 @@ You can contribute in different ways to help us on our work.
 
 ## Download
 
+*We recommend the installation from [F-Droid](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/) which verifies that all libraries and application code are open source.*
+
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/)
