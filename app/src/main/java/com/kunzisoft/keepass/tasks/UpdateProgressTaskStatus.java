@@ -19,23 +19,23 @@
  */
 package com.kunzisoft.keepass.tasks;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
-public class UpdateStatus implements ProgressTaskUpdater {
-	private ProgressDialog mPD;
-	private Context mCtx;
+public class UpdateProgressTaskStatus implements ProgressTaskUpdater {
+	private Context mContext;
+	private ProgressTaskUpdater mProgressTaskUpdater;
 	private Handler mHandler;
-	
-	UpdateStatus(Context ctx, Handler handler, ProgressDialog pd) {
-		mCtx = ctx;
-		mPD = pd;
-		mHandler = handler;
+
+	public UpdateProgressTaskStatus(Context context, Handler handler, ProgressTaskUpdater progressTaskUpdater) {
+		this.mContext = context;
+		this.mProgressTaskUpdater = progressTaskUpdater;
+		this.mHandler = handler;
 	}
-	
+
+	@Override
 	public void updateMessage(int resId) {
-		if ( mCtx != null && mPD != null && mHandler != null ) {
+		if ( mContext != null && mProgressTaskUpdater != null && mHandler != null ) {
 			mHandler.post(new UpdateMessage(resId));
 		}
 	}
@@ -48,8 +48,7 @@ public class UpdateStatus implements ProgressTaskUpdater {
 		}
 		
 		public void run() {
-			mPD.setMessage(mCtx.getString(mResId));
+            mProgressTaskUpdater.updateMessage(mResId);
 		}
-		
 	}
 }

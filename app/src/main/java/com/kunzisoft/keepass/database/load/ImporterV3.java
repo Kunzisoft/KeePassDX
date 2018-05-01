@@ -65,7 +65,7 @@ import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.stream.NullOutputStream;
-import com.kunzisoft.keepass.tasks.UpdateStatus;
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.Types;
 
 import java.io.IOException;
@@ -124,15 +124,15 @@ public class ImporterV3 extends Importer {
 	 * @throws InvalidAlgorithmParameterException if error decrypting main file body. 
 	 * @throws ShortBufferException if error decrypting main file body.
 	 */
+	@Override
 	public PwDatabaseV3 openDatabase( InputStream inStream, String password, InputStream kfIs)
-	throws IOException, InvalidDBException
-	{
-		return openDatabase(inStream, password, kfIs, new UpdateStatus(), 0);
+	throws IOException, InvalidDBException {
+		return openDatabase(inStream, password, kfIs, null, 0);
 	}
 
-	public PwDatabaseV3 openDatabase( InputStream inStream, String password, InputStream kfIs, UpdateStatus status, long roundsFix)
-	throws IOException, InvalidDBException
-	{
+	@Override
+	public PwDatabaseV3 openDatabase(InputStream inStream, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater, long roundsFix)
+	throws IOException, InvalidDBException {
 		PwDatabaseV3        newManager;
 
 
@@ -156,7 +156,8 @@ public class ImporterV3 extends Importer {
 			throw new InvalidDBVersionException();
 		}
 
-		status.updateMessage(R.string.creating_db_key);
+		if (progressTaskUpdater != null)
+            progressTaskUpdater.updateMessage(R.string.creating_db_key);
 		newManager = createDB();
 		newManager.setMasterKey(password, kfIs);
 
@@ -177,7 +178,8 @@ public class ImporterV3 extends Importer {
 		// Generate transformedMasterKey from masterKey
 		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumberKeyEncryptionRounds());
 
-		status.updateMessage(R.string.decrypting_db);
+        if (progressTaskUpdater != null)
+            progressTaskUpdater.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm
 		Cipher cipher;
 		try {
