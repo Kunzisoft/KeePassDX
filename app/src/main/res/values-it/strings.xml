@@ -17,25 +17,29 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
-  Italian translation by Diego Pierotto
+  Italian translation by Diego Pierotto. Updated by anthologist on April 2018.
 
 -->
 <resources>
     <string name="about_feedback">Commenti:</string>
     <string name="about_homepage">Pagina web:</string>
-    <string name="AboutText">KeePass DX è un\'implementazione del gestore password KeePass.</string>
+    <string name="AboutText">KeePass DX è un\'implementazione Android del gestore password KeePass.</string>
     <string name="accept">Accetto</string>
     <string name="add_entry">Aggiungi voce</string>
     <string name="add_group">Aggiungi gruppo</string>
+    <string name="add_string">Aggiungi stringa</string>
     <string name="encryption_algorithm">Algoritmo</string>
     <string name="app_timeout">Scadenza applicazione</string>
     <string name="app_timeout_summary">Tempo prima che venga bloccato il database quando l\'applicazione è inattiva.</string>
     <string name="application">Applicazione</string>
-    <string name="menu_app_settings">Impostazioni Applicazione</string>
+    <string name="menu_app_settings">Impostazioni applicazione</string>
     <string name="brackets">Parentesi</string>
     <string name="browser_intall_text">Sfogliare i file richiede l\'applicazione Gestore File di Open Intents, clicca sotto per installarlo. A causa di alcune stranezze nel gestore file, la prima volta la navigazione potrebbe non funzionare correttamente.</string>
     <string name="cancel">Annulla</string>
     <string name="ClearClipboard">Appunti eliminati.</string>
+    <string name="clipboard_error_title">Errore negli appunti</string>
+    <string name="clipboard_error">Alcuni telefoni Android di Samsung hanno un bug nell\'implementazione degli appunti che causa errori nella copia degli appunti da applicazioni. Per maggiori dettagli:</string>
+    <string name="clipboard_error_clear">Eliminazione degli appunti fallita</string>
     <string name="clipboard_timeout">Scadenza appunti</string>
     <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti dopo la copia del nome file o password</string>
     <string name="select_to_copy">Copia %1$s negli appunti</string>
@@ -44,7 +48,7 @@
     <string name="decrypting_db">Decodifica contenuto database&#8230;</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero, e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o superiore.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o superiore.</string>
     <string name="select_database_file">Inserisci il nome file del database</string>
     <string name="entry_accessed">Ultimo accesso</string>
     <string name="entry_cancel">Annulla</string>
@@ -54,6 +58,7 @@
     <string name="entry_expires">Scade</string>
     <string name="entry_keyfile">File chiave</string>
     <string name="entry_modified">Modificato</string>
+    <string name="entry_not_found">Dati non trovati.</string>
     <string name="entry_password">Password</string>
     <string name="entry_save">Salva</string>
     <string name="entry_title">Nome</string>
@@ -64,20 +69,24 @@
     <string name="error_could_not_create_parent">Impossibile creare la directory principale.</string>
     <string name="error_database_exists">File già esistente.</string>
     <string name="error_failed_to_launch_link">Impossibile aprire il collegamento.</string>
-    <string name="error_filename_required">E\' necessario un nome file.</string>
+    <string name="error_filename_required">È necessario un nome file.</string>
     <string name="error_file_not_create">Impossibile creare il file:</string>
     <string name="error_invalid_db">Database non valido.</string>
     <string name="error_invalid_path">Percorso non valido.</string>
-    <string name="error_no_name">E\' necessario un nome.</string>
-    <string name="error_nokeyfile">E\' necessaria una password o un file chiave.</string>
+    <string name="error_no_name">È necessario un nome.</string>
+    <string name="error_nopass">È necessaria una password o un file chiave.</string>
     <string name="error_out_of_memory">Il telefono ha esaurito la memoria durante l\'elaborazione del database. Potrebbe essere troppo grande per il tuo telefono.</string>
-    <string name="error_pass_gen_type">Almeno un tipo di generazione password deve essere selezionato</string>
+    <string name="error_pass_gen_type">Deve essere selezionato almeno un tipo di generazione password</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
     <string name="error_rounds_not_number">Il livello deve essere un numero.</string>
     <string name="error_rounds_too_large">Livello troppo grande.  Impostato a 2147483648.</string>
-    <string name="error_title_required">E\' necessario un titolo.</string>
-    <string name="error_wrong_length">Inserisci un valore positivo nella lunghezza campo</string>
+    <string name="error_string_key">È richiesto un nome per ogni stringa.</string>
+    <string name="error_title_required">È necessario un titolo.</string>
+    <string name="error_wrong_length">Inserisci un valore positivo nel campo lunghezza</string>
+    <string name="field_name">Nome campo</string>
+    <string name="field_value">Valore campo</string>
     <string name="file_not_found">File non trovato.</string>
+    <string name="file_not_found_content">File non trovato. Prova a riaprire dal tuo fornitore di contenuti.</string>
     <string name="file_browser">Sfoglia file</string>
     <string name="generate_password">Genera password</string>
     <string name="hint_conf_pass">conferma password</string>
@@ -90,7 +99,10 @@
     <string name="install_from_play_store">Installa dal Play Store</string>
     <string name="install_from_f_droid">Installa dal F-Droid</string>
     <string name="InvalidPassword">Password o file chiave non validi.</string>
+    <string name="invalid_algorithm">Algoritmo non valido.</string>
     <string name="invalid_db_sig">Formato database non riconosciuto.</string>
+    <string name="keyfile_does_not_exist">Il file chiave non esiste.</string>
+    <string name="keyfile_is_empty">Il file chiave è vuoto.</string>
     <string name="length">Lunghezza</string>
     <string name="list_size_title">Dimensione elenco gruppo</string>
     <string name="list_size_summary">Dimensione del testo nell\'elenco del gruppo</string>
@@ -99,34 +111,41 @@
     <string name="maskpass_title">Maschera password</string>
     <string name="maskpass_summary">Nascondi le password in modo predefinito</string>
     <string name="menu_about">Info</string>
-    <string name="menu_change_key">Modifica chiave Principale</string>
+    <string name="menu_change_key">Modifica chiave principale</string>
     <string name="settings">Impostazioni</string>
-    <string name="menu_db_settings">Impostazioni Database</string>
+    <string name="menu_db_settings">Impostazioni database</string>
     <string name="menu_delete">Elimina</string>
     <string name="menu_donate">Dona</string>
     <string name="menu_edit">Modifica</string>
-    <string name="menu_hide_password">Nascondi Password</string>
-    <string name="menu_lock">Blocca Database</string>
+    <string name="menu_hide_password">Nascondi password</string>
+    <string name="menu_lock">Blocca database</string>
     <string name="menu_open">Apri</string>
     <string name="menu_search">Cerca</string>
-    <string name="menu_showpass">Mostra Password</string>
+    <string name="menu_showpass">Mostra password</string>
     <string name="menu_url">Vai all\'URL</string>
     <string name="minus">Meno</string>
     <string name="never">Mai</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Nessun gestore per questo URL.</string>
     <string name="open_recent">Apri un database recente :</string>
-    <string name="omitbackup_title">Non cercare voci di backup e nel Cestino</string>
-    <string name="omitbackup_summary">Ometti i gruppi \'Backup\' e Cestino dai risultati di ricerca</string>
+    <string name="omitbackup_title">Non cercare voci di backup</string>
+    <string name="omitbackup_summary">Ometti il gruppo \'Backup\' dai risultati di ricerca (si applica solo ai .kdb)</string>
     <string name="progress_create">Creazione nuovo database&#8230;</string>
     <string name="progress_title">In corso&#8230;</string>
+    <string name="protection">Protezione</string>
+    <string name="read_only">Sola lettura</string>
+    <string name="read_only_warning">KeePassDroid non ha i permessi di scrittura nel percorso del database, quindi il database verrà aperto in sola lettura.</string>
+    <string name="read_only_kitkat_warning">A partire da Android KitKat, alcuni dispositivi non permettono più alle applicazioni di scrivere nella scheda SD.</string>
+    <string name="recentfile_title">Cronologia file recenti</string>
+    <string name="recentfile_summary">Ricorda i file usati recentemente</string>
     <string name="remember_keyfile_summary">Ricorda la posizione dei file chiave</string>
     <string name="remember_keyfile_title">Salva il file chiave</string>
     <string name="remove_from_filelist">Elimina</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
-    <string name="root">Principale</string>
+    <string name="root">Root</string>
     <string name="rounds">Livello cifratura</string>
     <string name="rounds_explanation">Un livello di cifratura elevato fornisce una protezione maggiore contro attacchi di tipo "forza brutta", ma può veramente rallentare il caricamento e il salvataggio.</string>
+    <string name="rounds_fix">Livello di cifratura prima della malformazione</string>
+    <string name="rounds_fix_explaination">Se il database si è rovinato, inserisci il numero di livello usato precedentemente e il database potrà essere aperto.</string>
     <string name="rounds_hint">livello</string>
     <string name="saving_database">Salvataggio database&#8230;</string>
     <string name="space">Spazio</string>
@@ -134,13 +153,24 @@
     <string name="sort_db">Ordinamento DB</string>
     <string name="special">Speciale</string>
     <string name="search">Titolo/descrizione voce</string>
-    <string name="encryption_twofish">Twofish</string>
+    <string name="search_results">Risultati ricerca</string>
     <string name="underline">Sottolinea</string>
     <string name="unsupported_db_version">Versione database non supportata.</string>
     <string name="uppercase">Maiuscolo</string>
+    <string name="use_saf_summary">Usa l\'Android Storage Access Framework per sfogliare i file (KitKat e successivi)</string>
+    <string name="use_saf_title">Storage Access Framework</string>
+    <string name="warning">Attenzione</string>
+    <string name="warning_password_encoding">Il formato .kdb supporta solo il set di caratteri Latin1. La tua password potrebbe contenere caratteri fuori da questo set. Tutti i caratteri non Latin1 vengono convertiti nello stesso carattere, il che riduce la sicurezza della password. Si consiglia di modificare la password.</string>
     <string name="warning_read_only">Attualmente la scheda SD è in sola lettura. Non sei in grado di salvare le modifiche nel database.</string>
     <string name="warning_unmounted">Attualmente la scheda SD non è montata nel dispositivo. Non sarai in grado di caricare o creare un nuovo database.</string>
     <string name="version_label">Versione:</string>
+    <string name="configure_fingerprint">Impronte supportate ma non configurate nel dispositivo</string>
+    <string name="scanning_fingerprint">In attesa di impronte</string>
+    <string name="encrypted_value_stored">Password criptata salvata</string>
+    <string name="fingerprint_invalid_key">Problema chiave non valida</string>
+    <string name="fingerprint_error">Problema impronta : %1$s</string>
+    <string name="store_with_fingerprint">Usa l\'impronta per salvare questa password</string>
+    <string name="no_password_stored">Nessuna password salvata per questo database</string>
 
     <string name="education_unlock_summary">Inserisci una password e/o file chiave per sbloccare il database.</string>
 

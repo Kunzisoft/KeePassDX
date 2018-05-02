@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 
@@ -26,13 +26,13 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.utils.UriUtil;
 
-public class CreateDB extends RunnableOnFinish {
+public class CreateDBRunnable extends RunnableOnFinish {
 	
 	private String mFilename;
 	private boolean mDontSave;
 	private Context ctx;
 
-	public CreateDB(Context ctx, String filename, OnFinish finish, boolean dontSave) {
+	public CreateDBRunnable(Context ctx, String filename, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 
 		mFilename = filename;
@@ -56,7 +56,7 @@ public class CreateDB extends RunnableOnFinish {
 		App.clearShutdown();
 
 		// Commit changes
-		SaveDB save = new SaveDB(ctx, db, mFinish, mDontSave);
+		SaveDBRunnable save = new SaveDBRunnable(ctx, db, mFinish, mDontSave);
 		mFinish = null;
 		save.run();
 	}

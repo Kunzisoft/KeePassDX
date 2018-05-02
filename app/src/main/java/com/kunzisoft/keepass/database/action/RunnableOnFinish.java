@@ -17,17 +17,17 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
-import com.kunzisoft.keepass.tasks.UpdateStatus;
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 
 
 public abstract class RunnableOnFinish implements Runnable {
 	
-	public OnFinish mFinish;
-	public UpdateStatus mStatus;
+	public OnFinishRunnable mFinish;
+	public ProgressTaskUpdater mStatus;
 	
-	public RunnableOnFinish(OnFinish finish) {
+	public RunnableOnFinish(OnFinishRunnable finish) {
 		mFinish = finish;
 	}
 	
@@ -45,7 +45,7 @@ public abstract class RunnableOnFinish implements Runnable {
 		}
 	}
 	
-	public void setStatus(UpdateStatus status) {
+	public void setUpdateProgressTaskStatus(ProgressTaskUpdater status) {
 		mStatus = status;
 	}
 	

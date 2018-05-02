@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.load;
 
+import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
@@ -42,7 +43,7 @@ import com.kunzisoft.keepass.stream.BetterCipherInputStream;
 import com.kunzisoft.keepass.stream.HashedBlockInputStream;
 import com.kunzisoft.keepass.stream.HmacBlockInputStream;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
-import com.kunzisoft.keepass.tasks.UpdateStatus;
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.DateUtil;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MemUtil;
@@ -97,13 +98,16 @@ public class ImporterV4 extends Importer {
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
 			InputStream keyInputStream) throws IOException, InvalidDBException {
 
-		return openDatabase(inStream, password, keyInputStream, new UpdateStatus(), 0);
+		return openDatabase(inStream, password, keyInputStream, null, 0);
 	}
 	
 	@Override
     public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-            InputStream keyInputStream, UpdateStatus status, long roundsFix) throws IOException,
+									 InputStream keyInputStream, ProgressTaskUpdater progressTaskUpdater, long roundsFix) throws IOException,
             InvalidDBException {
+
+		if (progressTaskUpdater != null)
+			progressTaskUpdater.updateMessage(R.string.creating_db_key);
 		db = createDB();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
@@ -118,6 +122,8 @@ public class ImporterV4 extends Importer {
 		db.retrieveMasterKey(password, keyInputStream);
 		db.makeFinalKey(header.masterSeed, db.getKdfParameters(), roundsFix);
 
+		if (progressTaskUpdater != null)
+			progressTaskUpdater.updateMessage(R.string.decrypting_db);
 		CipherEngine engine;
 		Cipher cipher;
 		try {

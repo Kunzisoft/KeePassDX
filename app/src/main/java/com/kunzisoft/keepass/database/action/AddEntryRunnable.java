@@ -17,67 +17,56 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 
-public class UpdateEntry extends RunnableOnFinish {
+public class AddEntryRunnable extends RunnableOnFinish {
 
-	private Database mDb;
-	private PwEntry mOldE;
-	private PwEntry mNewE;
+	protected Database mDb;
+	private PwEntry mEntry;
 	private Context ctx;
 	private boolean mDontSave;
 
-	public UpdateEntry(Context ctx, Database db, PwEntry oldE, PwEntry newE, OnFinish finish) {
-		this(ctx, db, oldE, newE, finish, false);
+	public AddEntryRunnable(Context ctx, Database db, PwEntry entry, OnFinishRunnable finish) {
+		this(ctx, db, entry, finish, false);
 	}
 
-	public UpdateEntry(Context ctx, Database db, PwEntry oldE, PwEntry newE, OnFinish finish, boolean dontSave) {
+	public AddEntryRunnable(Context ctx, Database db, PwEntry entry, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 		
 		this.mDb = db;
-		this.mOldE = oldE;
-		this.mNewE = newE;
+		this.mEntry = entry;
 		this.ctx = ctx;
 		this.mDontSave = dontSave;
 		
-		// Keep backup of original values in case save fails
-		PwEntry backup;
-		backup = mOldE.clone();
-		
-		mFinish = new AfterUpdate(backup, finish);
+		this.mFinish = new AfterAdd(mFinish);
 	}
-
+	
 	@Override
 	public void run() {
-		// Update entry with new values
-        mDb.updateEntry(mOldE, mNewE);
-		mOldE.touch(true, true);
-
+		mDb.addEntryTo(mEntry, mEntry.getParent());
+		
 		// Commit to disk
-		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
+		SaveDBRunnable save = new SaveDBRunnable(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	
-	private class AfterUpdate extends OnFinish {
-		private PwEntry mBackup;
-		
-		AfterUpdate(PwEntry backup, OnFinish finish) {
+	private class AfterAdd extends OnFinishRunnable {
+
+		AfterAdd(OnFinishRunnable finish) {
 			super(finish);
-			mBackup = backup;
 		}
-		
+
 		@Override
 		public void run() {
 			if ( !mSuccess ) {
-				// If we fail to save, back out changes to global structure
-                mDb.updateEntry(mOldE, mBackup);
+                mDb.removeEntryFrom(mEntry, mEntry.getParent());
 			}
-			// TODO Callback for update entry
+			// TODO if add entry callback
 			super.run();
 		}
 	}

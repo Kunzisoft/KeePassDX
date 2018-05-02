@@ -222,6 +222,7 @@ public class EntryActivity extends LockingHideActivity {
                     TapTarget.forView(findViewById(R.id.entry_user_name_action_image),
                             getString(R.string.education_field_copy_title),
                             getString(R.string.education_field_copy_summary))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -250,6 +251,7 @@ public class EntryActivity extends LockingHideActivity {
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_edit,
                                 getString(R.string.education_entry_edit_title),
                                 getString(R.string.education_entry_edit_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {

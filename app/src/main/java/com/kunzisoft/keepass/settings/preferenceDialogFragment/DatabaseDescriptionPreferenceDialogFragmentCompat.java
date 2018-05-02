@@ -19,12 +19,13 @@
  */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
 public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
@@ -56,22 +57,22 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputData
             database.assignDescription(newDescription);
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterDescriptionSave(getContext(), handler, newDescription, oldDescription));
+            setAfterSaveDatabase(new AfterDescriptionSave((AppCompatActivity) getActivity(), handler, newDescription, oldDescription));
         }
 
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterDescriptionSave extends OnFinish {
+    private class AfterDescriptionSave extends OnFinishRunnable {
 
+        private AppCompatActivity mActivity;
         private String mNewDescription;
         private String mOldDescription;
-        private Context mCtx;
 
-        AfterDescriptionSave(Context ctx, Handler handler, String newDescription, String oldDescription) {
+        AfterDescriptionSave(AppCompatActivity ctx, Handler handler, String newDescription, String oldDescription) {
             super(handler);
 
-            mCtx = ctx;
+            mActivity = ctx;
             mNewDescription = newDescription;
             mOldDescription = oldDescription;
         }
@@ -81,11 +82,16 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputData
             String descriptionToShow = mNewDescription;
 
             if (!mSuccess) {
-                displayMessage(mCtx);
+                displayMessage(mActivity);
                 database.assignDescription(mOldDescription);
             }
 
-            getPreference().setSummary(descriptionToShow);
+            if (mActivity != null) {
+                mActivity.runOnUiThread(() -> {
+                    getPreference().setSummary(descriptionToShow);
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
+                });
+            }
 
             super.run();
         }

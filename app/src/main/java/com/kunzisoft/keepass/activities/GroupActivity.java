@@ -57,10 +57,10 @@ import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.edit.AddGroup;
-import com.kunzisoft.keepass.database.edit.DeleteEntry;
-import com.kunzisoft.keepass.database.edit.DeleteGroup;
-import com.kunzisoft.keepass.database.edit.UpdateGroup;
+import com.kunzisoft.keepass.database.action.AddGroupRunnable;
+import com.kunzisoft.keepass.database.action.DeleteEntryRunnable;
+import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.action.UpdateGroupRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -68,7 +68,8 @@ import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
 public class GroupActivity extends ListNodesActivity
@@ -285,6 +286,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forView(findViewById(R.id.add_button),
                                 getString(R.string.education_new_node_title),
                                 getString(R.string.education_new_node_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(false)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -313,6 +315,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
                                 getString(R.string.education_search_title),
                                 getString(R.string.education_search_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -344,6 +347,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
                                 getString(R.string.education_sort_title),
                                 getString(R.string.education_sort_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -374,6 +378,7 @@ public class GroupActivity extends ListNodesActivity
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
                                 getString(R.string.education_lock_title),
                                 getString(R.string.education_lock_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -431,19 +436,27 @@ public class GroupActivity extends ListNodesActivity
 
     private void deleteEntry(PwEntry entry) {
         Handler handler = new Handler();
-        DeleteEntry task = new DeleteEntry(this, App.getDB(), entry,
+        DeleteEntryRunnable task = new DeleteEntryRunnable(this, App.getDB(), entry,
                 new AfterDeleteNode(handler, entry));
-        ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
-        pt.run();
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
     }
 
     private void deleteGroup(PwGroup group) {
 		//TODO Verify trash recycle bin
         Handler handler = new Handler();
-        DeleteGroup task = new DeleteGroup(this, App.getDB(), group,
+        DeleteGroupRunnable task = new DeleteGroupRunnable(this, App.getDB(), group,
 				new AfterDeleteNode(handler, group));
-        ProgressTask pt = new ProgressTask(this, task, R.string.saving_database);
-        pt.run();
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
     }
 
     @Override
@@ -544,16 +557,21 @@ public class GroupActivity extends ListNodesActivity
                 newGroup.setName(name);
                 try {
                     iconStandard = (PwIconStandard) icon;
-                } catch (Exception e) {} // TODO custom icon
+                } catch (Exception ignored) {} // TODO custom icon
                 newGroup.setIcon(iconStandard);
 
-                new ProgressTask(this,
-                        new AddGroup(this,
-                                App.getDB(),
-                                newGroup,
-                                new AfterAddNode(new Handler())),
-                        R.string.saving_database)
-                        .run();
+                // If group created save it in the database
+                AddGroupRunnable addGroupRunnable = new AddGroupRunnable(this,
+                        App.getDB(),
+                        newGroup,
+                        new AfterAddNode(new Handler()));
+                addGroupRunnable.setUpdateProgressTaskStatus(
+                        new UpdateProgressTaskStatus(this,
+                                SaveDatabaseProgressTaskDialogFragment.start(
+                                        getSupportFragmentManager())
+                        ));
+                new Thread(addGroupRunnable).start();
+
                 break;
             case UPDATE:
                 // If update add new elements
@@ -562,20 +580,23 @@ public class GroupActivity extends ListNodesActivity
                     updateGroup.setName(name);
                     try {
                         iconStandard = (PwIconStandard) icon;
-                    } catch (Exception e) {} // TODO custom icon
+                    } catch (Exception ignored) {} // TODO custom icon
                     updateGroup.setIcon(iconStandard);
 
                     mAdapter.removeNode(oldGroupToUpdate);
-                    // If group update
-                    new ProgressTask(this,
-                            new UpdateGroup(this,
-                                    App.getDB(),
-                                    oldGroupToUpdate,
-                                    updateGroup,
-                                    new AfterUpdateNode(new Handler())),
-                            R.string.saving_database)
-                            .run();
 
+                    // If group updated save it in the database
+                    UpdateGroupRunnable updateGroupRunnable = new UpdateGroupRunnable(this,
+                            App.getDB(),
+                            oldGroupToUpdate,
+                            updateGroup,
+                            new AfterUpdateNode(new Handler()));
+                    updateGroupRunnable.setUpdateProgressTaskStatus(
+                            new UpdateProgressTaskStatus(this,
+                                    SaveDatabaseProgressTaskDialogFragment.start(
+                                            getSupportFragmentManager())
+                            ));
+                    new Thread(updateGroupRunnable).start();
                 }
 
                 break;

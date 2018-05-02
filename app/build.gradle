@@ -8,8 +8,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode = 9
-        versionName = "2.5.0.0beta9"
+        versionCode = 10
+        versionName = "2.5.0.0beta10"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -65,7 +65,7 @@ android {
             buildConfigField "boolean", "FULL_VERSION", "false"
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Purple\"}"
-            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{\"material\"}"
+            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
         }
     }
 

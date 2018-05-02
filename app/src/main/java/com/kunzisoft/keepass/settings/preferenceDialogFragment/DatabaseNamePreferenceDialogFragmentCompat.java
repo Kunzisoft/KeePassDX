@@ -19,12 +19,13 @@
  */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
 public class DatabaseNamePreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
@@ -56,22 +57,22 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends InputDatabaseSav
             database.assignName(newName);
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterNameSave(getContext(), handler, newName, oldName));
+            setAfterSaveDatabase(new AfterNameSave((AppCompatActivity) getActivity(), handler, newName, oldName));
         }
 
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterNameSave extends OnFinish {
+    private class AfterNameSave extends OnFinishRunnable {
 
         private String mNewName;
         private String mOldName;
-        private Context mCtx;
+        private AppCompatActivity mActivity;
 
-        AfterNameSave(Context ctx, Handler handler, String newName, String oldName) {
+        AfterNameSave(AppCompatActivity ctx, Handler handler, String newName, String oldName) {
             super(handler);
 
-            mCtx = ctx;
+            mActivity = ctx;
             mNewName = newName;
             mOldName = oldName;
         }
@@ -81,11 +82,17 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends InputDatabaseSav
             String nameToShow = mNewName;
 
             if (!mSuccess) {
-                displayMessage(mCtx);
+                displayMessage(mActivity);
                 database.assignName(mOldName);
             }
 
-            getPreference().setSummary(nameToShow);
+
+            if (mActivity != null) {
+                mActivity.runOnUiThread(() -> {
+                    getPreference().setSummary(nameToShow);
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
+                });
+            }
 
             super.run();
         }

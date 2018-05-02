@@ -37,7 +37,7 @@ import com.kunzisoft.keepass.database.load.ImporterFactory;
 import com.kunzisoft.keepass.database.save.PwDbOutput;
 import com.kunzisoft.keepass.icons.IconDrawableFactory;
 import com.kunzisoft.keepass.search.SearchDbHelper;
-import com.kunzisoft.keepass.tasks.UpdateStatus;
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.UriUtil;
 
 import java.io.BufferedInputStream;
@@ -102,19 +102,11 @@ public class Database {
         loaded = true;
     }
 
-    public void loadData(Context ctx, InputStream is, String password, InputStream keyInputStream) throws IOException, InvalidDBException {
-        loadData(ctx, is, password, keyInputStream, new UpdateStatus(), !Importer.DEBUG);
-    }
-
-    public void loadData(Context ctx, Uri uri, String password, Uri keyfile) throws IOException, FileNotFoundException, InvalidDBException {
-        loadData(ctx, uri, password, keyfile, new UpdateStatus(), !Importer.DEBUG);
-    }
-
-    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status) throws IOException, FileNotFoundException, InvalidDBException {
+    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status) throws IOException, FileNotFoundException, InvalidDBException {
         loadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
     }
 
-    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
+    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
         mUri = uri;
         readOnly = false;
         if (uri.getScheme().equals("file")) {
@@ -141,7 +133,7 @@ public class Database {
     }
 
 
-    private void passUrisAsInputStreams(Context ctx, Uri uri, String password, Uri keyfile, UpdateStatus status, boolean debug, long roundsFix) throws IOException, FileNotFoundException, InvalidDBException {
+    private void passUrisAsInputStreams(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug, long roundsFix) throws IOException, FileNotFoundException, InvalidDBException {
         InputStream is, kfIs;
         try {
             is = UriUtil.getUriInputStream(ctx, uri);
@@ -160,14 +152,10 @@ public class Database {
     }
 
     public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
-        loadData(ctx, is, password, kfIs, new UpdateStatus(), debug);
+        loadData(ctx, is, password, kfIs, null, debug, 0);
     }
 
-    public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug) throws IOException, InvalidDBException {
-        loadData(ctx, is, password, kfIs, status, debug, 0);
-    }
-
-    public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, UpdateStatus status, boolean debug, long roundsFix) throws IOException, InvalidDBException {
+    private void loadData(Context ctx, InputStream is, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater, boolean debug, long roundsFix) throws IOException, InvalidDBException {
         BufferedInputStream bis = new BufferedInputStream(is);
 
         if ( ! bis.markSupported() ) {
@@ -181,7 +169,7 @@ public class Database {
 
         bis.reset();  // Return to the start
 
-        pm = imp.openDatabase(bis, password, kfIs, status, roundsFix);
+        pm = imp.openDatabase(bis, password, kfIs, progressTaskUpdater, roundsFix);
         if ( pm != null ) {
             try {
                 switch (pm.getVersion()) {
@@ -225,17 +213,23 @@ public class Database {
         saveData(ctx, mUri);
     }
 
-    public void saveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
-
+    private void saveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
         if (uri.getScheme().equals("file")) {
             String filename = uri.getPath();
             File tempFile = new File(filename + ".tmp");
-            FileOutputStream fos = new FileOutputStream(tempFile);
 
-            PwDbOutput pmo = PwDbOutput.getInstance(pm, fos);
-            if (pmo != null)
-                pmo.output();
-            fos.close();
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(tempFile);
+                PwDbOutput pmo = PwDbOutput.getInstance(pm, fos);
+                if (pmo != null)
+                    pmo.output();
+            } catch (Exception e) {
+                throw new IOException("Failed to store database.");
+            } finally {
+                if (fos != null)
+                    fos.close();
+            }
 
             // Force data to disk before continuing
             try {

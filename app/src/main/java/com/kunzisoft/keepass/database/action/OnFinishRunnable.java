@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 import android.os.Handler;
@@ -29,27 +29,27 @@ import android.widget.Toast;
  * @author bpellin
  *
  */
-public class OnFinish implements Runnable {
+public class OnFinishRunnable implements Runnable {
 	protected boolean mSuccess;
 	protected String mMessage;
 	
-	protected OnFinish mOnFinish;
+	protected OnFinishRunnable mOnFinish;
 	protected Handler mHandler;
 
-	public OnFinish() {
+	public OnFinishRunnable() {
 	}
 	
-	public OnFinish(Handler handler) {
+	public OnFinishRunnable(Handler handler) {
 		mOnFinish = null;
 		mHandler = handler;
 	}
 	
-	public OnFinish(OnFinish finish, Handler handler) {
+	public OnFinishRunnable(OnFinishRunnable finish, Handler handler) {
 		mOnFinish = finish;
 		mHandler = handler;
 	}
 	
-	public OnFinish(OnFinish finish) {
+	public OnFinishRunnable(OnFinishRunnable finish) {
 		mOnFinish = finish;
 		mHandler = null;
 	}
@@ -75,7 +75,8 @@ public class OnFinish implements Runnable {
 			}
 		}
 	}
-	
+
+	// TODO Move
 	protected void displayMessage(Context ctx) {
 		if ( mMessage != null && mMessage.length() > 0 ) {
 			Toast.makeText(ctx, mMessage, Toast.LENGTH_LONG).show();

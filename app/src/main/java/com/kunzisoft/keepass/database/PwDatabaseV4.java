@@ -162,7 +162,10 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     @Override
 	public String getKeyDerivationName(Resources resources) {
-		return kdfEngine.getName(resources);
+        if (kdfEngine!=null)
+            return kdfEngine.getName(resources);
+        else
+            return "";
 	}
 
     @Override
