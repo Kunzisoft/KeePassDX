@@ -52,7 +52,7 @@ You can contribute in different ways to help us on our work.
 	
 ## Other devices
 
-- [KeePass XC](https://keepassxc.org/) (https://keepassxc.org/) works with **GNU/Linux**, **Mac** and **Windows**, is updated regulary and under the terms of the GNU General Public License. It's the recommended version for computers.
+- [KeePass XC](https://keepassxc.org/) (https://keepassxc.org/) works with **GNU/Linux**, **Mac** and **Windows**, is updated regularly and under the terms of the GNU General Public License. This is the recommended version for computers.
 
 - [KeePass](https://keepass.info/) (https://keepass.info/) is the historical project, with good technical documentation for standardized database files but only running on **Windows**.
 
