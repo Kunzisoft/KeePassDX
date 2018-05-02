@@ -47,13 +47,14 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
     private @StringRes int title = UNDEFINED;
     private @StringRes int message = UNDEFINED;
 
+    private TextView titleView;
     private TextView messageView;
     private ProgressBar progressView;
 
     public static ProgressTaskDialogFragment start(FragmentManager fragmentManager, @StringRes int titleId)	{
         // Create an instance of the dialog fragment and show it
         ProgressTaskDialogFragment dialog = new ProgressTaskDialogFragment();
-        dialog.setTitle(titleId);
+        dialog.updateTitle(titleId);
         dialog.show(fragmentManager, PROGRESS_TASK_DIALOG_TAG);
         return dialog;
     }
@@ -71,12 +72,12 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
         @SuppressLint("InflateParams")
         View root = inflater.inflate(R.layout.progress_dialog, null);
         builder.setView(root);
-        if (title != UNDEFINED)
-            builder.setTitle(title);
 
+        titleView = root.findViewById(R.id.progress_dialog_title);
         messageView = root.findViewById(R.id.progress_dialog_message);
         progressView = root.findViewById(R.id.progress_dialog_bar);
 
+        updateTitle(title);
         updateMessage(message);
 
         setCancelable(false);
@@ -119,16 +120,25 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
         this.title = titleId;
     }
 
+    private void updateView(TextView textView, @StringRes int resId) {
+        if (textView != null) {
+            if (resId == UNDEFINED) {
+                textView.setVisibility(View.GONE);
+            } else {
+                textView.setText(resId);
+                textView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public void updateTitle(int resId) {
+        this.title = resId;
+        updateView(titleView, title);
+    }
+
     @Override
     public void updateMessage(int resId) {
         this.message = resId;
-        if (messageView != null) {
-            if (message == UNDEFINED) {
-                messageView.setVisibility(View.GONE);
-            } else {
-                messageView.setText(message);
-                messageView.setVisibility(View.VISIBLE);
-            }
-        }
+        updateView(messageView, message);
     }
 }

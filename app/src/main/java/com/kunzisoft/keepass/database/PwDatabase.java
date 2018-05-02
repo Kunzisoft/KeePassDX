@@ -100,25 +100,6 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         return finalKey;
     }
 
-    public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
-
-        // Write checksum Checksum
-        MessageDigest md;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IOException("SHA-256 not implemented here.");
-        }
-        NullOutputStream nos = new NullOutputStream();
-        DigestOutputStream dos = new DigestOutputStream(nos, md);
-
-        byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
-        dos.write(masterSeed);
-        dos.write(transformedMasterKey);
-
-        finalKey = md.digest();
-    }
-
     /**
      * Encrypt the master key a few times to make brute-force key-search harder
      * @throws IOException
