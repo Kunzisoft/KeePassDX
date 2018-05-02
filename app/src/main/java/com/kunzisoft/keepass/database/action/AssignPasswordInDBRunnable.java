@@ -20,19 +20,17 @@
 package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
-import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.utils.UriUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class SetPasswordRunnable extends RunnableOnFinish {
+public class AssignPasswordInDBRunnable extends RunnableOnFinish {
 	
 	private String mPassword;
 	private Uri mKeyfile;
@@ -40,12 +38,12 @@ public class SetPasswordRunnable extends RunnableOnFinish {
 	private boolean mDontSave;
 	private Context ctx;
 	
-	public SetPasswordRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish) {
+	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish) {
 		this(ctx, db, password, keyfile, finish, false);
 		
 	}
 
-	public SetPasswordRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish, boolean dontSave) {
+	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;

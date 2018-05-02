@@ -811,21 +811,29 @@ public class PasswordActivity extends StylishActivity
         loadDatabase(password, keyUri);
     }
 
-    private void loadDatabase(String pass, Uri keyfile) {
+    private void loadDatabase(String password, Uri keyfile) {
         // Clear before we load
-        Database db = App.getDB();
-        db.clear();
+        Database database = App.getDB();
+        database.clear();
         // Clear the shutdown flag
         App.clearShutdown();
 
         // Show the progress dialog
         Handler handler = new Handler();
-        AfterLoadingDatabase afterLoad = new AfterLoadingDatabase(handler, db);
-        LoadDBRunnable databaseLoadingTask = new LoadDBRunnable(db, PasswordActivity.this, mDbUri, pass, keyfile, afterLoad);
-        databaseLoadingTask.setStatus(
+        AfterLoadingDatabase afterLoad = new AfterLoadingDatabase(handler, database);
+        LoadDBRunnable databaseLoadingTask = new LoadDBRunnable(
+                database,
+                PasswordActivity.this,
+                mDbUri,
+                password,
+                keyfile,
+                afterLoad);
+        databaseLoadingTask.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
                         handler,
-                        ProgressTaskDialogFragment.start(getSupportFragmentManager(), R.string.loading_database)
+                        ProgressTaskDialogFragment.start(
+                                getSupportFragmentManager(),
+                                R.string.loading_database)
                 ));
         Thread t = new Thread(databaseLoadingTask);
         t.start();

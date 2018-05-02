@@ -60,7 +60,8 @@ import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -520,17 +521,21 @@ public class FileSelectActivity extends StylishActivity implements
 			AssignPasswordOnFinish assignPasswordOnFinish =
 					new AssignPasswordOnFinish(launchActivityOnFinish);
 
-			// Create the new database
-			CreateDBRunnable create = new CreateDBRunnable(FileSelectActivity.this,
-					databaseFilename, assignPasswordOnFinish, true);
-
-			ProgressTask createTask = new ProgressTask(
-					FileSelectActivity.this, create,
-					R.string.progress_create);
-			createTask.run();
-
+            // Initialize the password helper assigner to set the password after the database creation
             assignPasswordHelper = new AssignPasswordHelper(this,
                     masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
+            assignPasswordHelper.setCreateProgressDialog(false);
+
+			// Create the new database
+			CreateDBRunnable createDBTask = new CreateDBRunnable(FileSelectActivity.this,
+					databaseFilename, assignPasswordOnFinish, true);
+            createDBTask.setUpdateProgressTaskStatus(
+                    new UpdateProgressTaskStatus(this,
+                            ProgressTaskDialogFragment.start(
+                                    getSupportFragmentManager(),
+                                    R.string.progress_create)
+                    ));
+            new Thread(createDBTask).start();
 
 		} catch (Exception e) {
 			String error = "Unable to create database with this password and key file";
@@ -555,7 +560,9 @@ public class FileSelectActivity extends StylishActivity implements
         @Override
         public void run() {
             if (mSuccess) {
-                assignPasswordHelper.assignPasswordInDatabase(mOnFinish);
+                // Dont use ProgressTaskDialogFragment.stop(getSupportFragmentManager());
+                // assignPasswordHelper do it
+                runOnUiThread(() -> assignPasswordHelper.assignPasswordInDatabase(mOnFinish));
             }
         }
     }

@@ -77,8 +77,7 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
         messageView = root.findViewById(R.id.progress_dialog_message);
         progressView = root.findViewById(R.id.progress_dialog_bar);
 
-        if (message != UNDEFINED)
-            messageView.setText(message);
+        updateMessage(message);
 
         setCancelable(false);
         lockScreenOrientation();
@@ -123,7 +122,13 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
     @Override
     public void updateMessage(int resId) {
         this.message = resId;
-        if (messageView != null)
-            this.messageView.setText(message);
+        if (messageView != null) {
+            if (message == UNDEFINED) {
+                messageView.setVisibility(View.GONE);
+            } else {
+                messageView.setText(message);
+                messageView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

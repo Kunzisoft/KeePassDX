@@ -58,7 +58,8 @@ import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
@@ -249,6 +250,7 @@ public class EntryEditActivity extends LockingHideActivity
         }
         mCallbackNewEntry = populateNewEntry();
 
+        // Open a progress dialog and save entry
         OnFinishRunnable onFinish = new AfterSave();
         EntryEditActivity act = EntryEditActivity.this;
         RunnableOnFinish task;
@@ -257,8 +259,12 @@ public class EntryEditActivity extends LockingHideActivity
         } else {
             task = new UpdateEntryRunnable(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
         }
-        ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
-        pt.run();
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
     }
 
     /**
@@ -562,11 +568,15 @@ public class EntryEditActivity extends LockingHideActivity
 
 		@Override
 		public void run() {
-			if ( mSuccess ) {
-				finish();
-			} else {
-				displayMessage(EntryEditActivity.this);
-			}
+		    runOnUiThread(() -> {
+                if ( mSuccess ) {
+                    finish();
+                } else {
+                    displayMessage(EntryEditActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(getSupportFragmentManager());
+            });
 		}
 	}
 

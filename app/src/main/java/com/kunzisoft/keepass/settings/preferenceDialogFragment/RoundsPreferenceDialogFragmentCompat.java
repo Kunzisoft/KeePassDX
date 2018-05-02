@@ -19,14 +19,15 @@
  */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
 public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
 
@@ -76,7 +77,7 @@ public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreference
             }
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterRoundSave(getContext(), handler, rounds, oldRounds));
+            setAfterSaveDatabase(new AfterRoundSave((AppCompatActivity) getActivity(), handler, rounds, oldRounds));
         }
 
         super.onDialogClosed(positiveResult);
@@ -86,12 +87,12 @@ public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreference
 
         private long mNewRounds;
         private long mOldRounds;
-        private Context mCtx;
+        private AppCompatActivity mActivity;
 
-        AfterRoundSave(Context ctx, Handler handler, long newRounds, long oldRounds) {
+        AfterRoundSave(AppCompatActivity ctx, Handler handler, long newRounds, long oldRounds) {
             super(handler);
 
-            mCtx = ctx;
+            mActivity = ctx;
             mNewRounds = newRounds;
             mOldRounds = oldRounds;
         }
@@ -101,11 +102,17 @@ public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreference
             long roundsToShow = mNewRounds;
 
             if (!mSuccess) {
-                displayMessage(mCtx);
+                displayMessage(mActivity);
                 database.setNumberKeyEncryptionRounds(mOldRounds);
             }
 
-            getPreference().setSummary(String.valueOf(roundsToShow));
+            if (mActivity != null) {
+                mActivity.runOnUiThread(() -> {
+                    getPreference().setSummary(String.valueOf(roundsToShow));
+                    SaveDatabaseProgressTaskDialogFragment.stop(
+                            mActivity.getSupportFragmentManager());
+                });
+            }
 
             super.run();
         }

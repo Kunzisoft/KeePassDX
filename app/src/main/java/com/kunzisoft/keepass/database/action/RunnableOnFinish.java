@@ -45,7 +45,7 @@ public abstract class RunnableOnFinish implements Runnable {
 		}
 	}
 	
-	public void setStatus(ProgressTaskUpdater status) {
+	public void setUpdateProgressTaskStatus(ProgressTaskUpdater status) {
 		mStatus = status;
 	}
 	

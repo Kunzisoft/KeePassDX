@@ -1,11 +1,12 @@
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
 public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
 
@@ -37,7 +38,7 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePref
             database.assignName(dbName);
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterNameSave(getContext(), handler, dbName, oldName));
+            setAfterSaveDatabase(new AfterNameSave((AppCompatActivity) getActivity(), handler, dbName, oldName));
         }
 
         super.onDialogClosed(positiveResult);
@@ -47,12 +48,12 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePref
 
         private String mNewName;
         private String mOldName;
-        private Context mCtx;
+        private AppCompatActivity mActivity;
 
-        AfterNameSave(Context ctx, Handler handler, String newName, String oldName) {
+        AfterNameSave(AppCompatActivity ctx, Handler handler, String newName, String oldName) {
             super(handler);
 
-            mCtx = ctx;
+            mActivity = ctx;
             mNewName = newName;
             mOldName = oldName;
         }
@@ -62,11 +63,18 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePref
             String nameToShow = mNewName;
 
             if (!mSuccess) {
-                displayMessage(mCtx);
+                displayMessage(mActivity);
                 database.assignName(mOldName);
             }
 
-            getPreference().setSummary(nameToShow);
+
+            if (mActivity != null) {
+                mActivity.runOnUiThread(() -> {
+                    getPreference().setSummary(nameToShow);
+                    SaveDatabaseProgressTaskDialogFragment.stop(
+                            mActivity.getSupportFragmentManager());
+                });
+            }
 
             super.run();
         }

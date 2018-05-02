@@ -19,28 +19,30 @@
  */
 package com.kunzisoft.keepass.password;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
-import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.database.action.AssignPasswordInDBRunnable;
 import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
-import com.kunzisoft.keepass.database.action.SetPasswordRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 
 public class AssignPasswordHelper {
 
-    private Activity context;
+    private AppCompatActivity context;
 
     private String masterPassword = null;
     private Uri keyfile = null;
 
-    public AssignPasswordHelper(Activity context,
+    private boolean createProgressDialog;
+
+    public AssignPasswordHelper(AppCompatActivity context,
                                 boolean withMasterPassword,
                                 String masterPassword,
                                 boolean withKeyFile,
@@ -50,38 +52,66 @@ public class AssignPasswordHelper {
             this.masterPassword = masterPassword;
         if (withKeyFile)
             this.keyfile = keyfile;
+
+        createProgressDialog = true;
+    }
+
+    public void setCreateProgressDialog(boolean createProgressDialog) {
+        this.createProgressDialog = createProgressDialog;
     }
 
     public void assignPasswordInDatabase(FileOnFinishRunnable fileOnFinish) {
-        SetPasswordRunnable sp = new SetPasswordRunnable(context, App.getDB(), masterPassword, keyfile, new AfterSave(fileOnFinish, new Handler()));
-        final ProgressTask pt = new ProgressTask(context, sp, R.string.saving_database);
+        AssignPasswordInDBRunnable assignPasswordInDBRunnable = new AssignPasswordInDBRunnable(
+                context,
+                App.getDB(),
+                masterPassword,
+                keyfile,
+                new AfterSave(fileOnFinish, new Handler())
+        );
+        if (createProgressDialog) {
+            assignPasswordInDBRunnable.setUpdateProgressTaskStatus(
+                    new UpdateProgressTaskStatus(context,
+                            SaveDatabaseProgressTaskDialogFragment.start(
+                                    context.getSupportFragmentManager())
+                    ));
+        }
+        Thread taskThread = new Thread(assignPasswordInDBRunnable);
 
+        // Show the progress dialog now or after dialog confirmation
         if (App.getDB().getPwDatabase().validatePasswordEncoding(masterPassword)) {
-            pt.run();
+            taskThread.start();
         } else {
             PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
-            dialog.show(context, (newDialog, which) -> pt.run(), true);
+            dialog.show(context, (newDialog, which) -> taskThread.start(), true);
         }
     }
 
     private class AfterSave extends OnFinishRunnable {
         private FileOnFinishRunnable mFinish;
 
-        public AfterSave(FileOnFinishRunnable finish, Handler handler) {
+        AfterSave(FileOnFinishRunnable finish, Handler handler) {
             super(finish, handler);
             mFinish = finish;
         }
 
         @Override
         public void run() {
-            if ( mSuccess ) {
-                if ( mFinish != null ) {
-                    mFinish.setFilename(keyfile);
-                }
-            } else {
-                displayMessage(context);
-            }
             super.run();
+
+            context.runOnUiThread(() -> {
+                if ( mSuccess ) {
+                    if ( mFinish != null ) {
+                        mFinish.setFilename(keyfile);
+                    }
+                } else {
+                    if ( mMessage != null && mMessage.length() > 0 ) {
+                        Toast.makeText(context, mMessage, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                // To remove progress task
+                ProgressTaskDialogFragment.stop(context.getSupportFragmentManager());
+            });
         }
     }
 }

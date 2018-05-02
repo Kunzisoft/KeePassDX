@@ -27,6 +27,10 @@ public class UpdateProgressTaskStatus implements ProgressTaskUpdater {
 	private ProgressTaskUpdater mProgressTaskUpdater;
 	private Handler mHandler;
 
+	public UpdateProgressTaskStatus(Context context, ProgressTaskUpdater progressTaskUpdater) {
+		this(context, new Handler(), progressTaskUpdater);
+	}
+
 	public UpdateProgressTaskStatus(Context context, Handler handler, ProgressTaskUpdater progressTaskUpdater) {
 		this.mContext = context;
 		this.mProgressTaskUpdater = progressTaskUpdater;
