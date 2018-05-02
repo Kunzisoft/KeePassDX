@@ -158,7 +158,9 @@
     <style name="KeepassDXStyle.Toolbar" parent="KeepassDXStyle.Light.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondary">@color/colorTextInverse</item>
+        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="android:textColorHint">@color/green_lighter</item>
     </style>
 
     <!-- Dialog -->
