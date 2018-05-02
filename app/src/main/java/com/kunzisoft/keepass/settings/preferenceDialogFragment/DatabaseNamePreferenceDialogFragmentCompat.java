@@ -79,16 +79,15 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends InputDatabaseSav
 
         @Override
         public void run() {
-            String nameToShow = mNewName;
-
-            if (!mSuccess) {
-                displayMessage(mActivity);
-                database.assignName(mOldName);
-            }
-
-
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
+                    String nameToShow = mNewName;
+
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.assignName(mOldName);
+                    }
+
                     getPreference().setSummary(nameToShow);
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });

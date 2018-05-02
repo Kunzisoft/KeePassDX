@@ -99,15 +99,15 @@ public class RoundsPreferenceDialogFragmentCompat extends InputDatabaseSavePrefe
 
         @Override
         public void run() {
-            long roundsToShow = mNewRounds;
-
-            if (!mSuccess) {
-                displayMessage(mActivity);
-                database.setNumberKeyEncryptionRounds(mOldRounds);
-            }
-
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
+                    long roundsToShow = mNewRounds;
+
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.setNumberKeyEncryptionRounds(mOldRounds);
+                    }
+
                     getPreference().setSummary(String.valueOf(roundsToShow));
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });

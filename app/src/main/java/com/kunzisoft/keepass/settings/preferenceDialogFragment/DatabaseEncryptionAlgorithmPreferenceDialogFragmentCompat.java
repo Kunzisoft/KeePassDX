@@ -19,17 +19,18 @@
  */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.adapter.ListRadioItemAdapter;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
 public class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat
         implements ListRadioItemAdapter.RadioItemSelectedCallback<PwEncryptionAlgorithm> {
@@ -72,7 +73,7 @@ public class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat extends D
                 database.assignEncryptionAlgorithm(newAlgorithm);
 
                 Handler handler = new Handler();
-                setAfterSaveDatabase(new AfterDescriptionSave(getContext(), handler, newAlgorithm, oldAlgorithm));
+                setAfterSaveDatabase(new AfterDescriptionSave((AppCompatActivity) getActivity(), handler, newAlgorithm, oldAlgorithm));
             }
         }
 
@@ -84,30 +85,34 @@ public class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat extends D
         this.algorithmSelected = item;
     }
 
-    private class AfterDescriptionSave extends OnFinish {
+    private class AfterDescriptionSave extends OnFinishRunnable {
 
         private PwEncryptionAlgorithm mNewAlgorithm;
         private PwEncryptionAlgorithm mOldAlgorithm;
-        private Context mCtx;
+        private AppCompatActivity mActivity;
 
-        AfterDescriptionSave(Context ctx, Handler handler, PwEncryptionAlgorithm newAlgorithm, PwEncryptionAlgorithm oldAlgorithm) {
+        AfterDescriptionSave(AppCompatActivity activity, Handler handler, PwEncryptionAlgorithm newAlgorithm, PwEncryptionAlgorithm oldAlgorithm) {
             super(handler);
 
-            mCtx = ctx;
+            mActivity = activity;
             mNewAlgorithm = newAlgorithm;
             mOldAlgorithm = oldAlgorithm;
         }
 
         @Override
         public void run() {
-            PwEncryptionAlgorithm algorithmToShow = mNewAlgorithm;
+            if (mActivity != null) {
+                mActivity.runOnUiThread(() -> {
+                    PwEncryptionAlgorithm algorithmToShow = mNewAlgorithm;
 
-            if (!mSuccess) {
-                displayMessage(mCtx);
-                database.assignEncryptionAlgorithm(mOldAlgorithm);
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.assignEncryptionAlgorithm(mOldAlgorithm);
+                    }
+                    getPreference().setSummary(algorithmToShow.getName(mActivity.getResources()));
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
+                });
             }
-
-            getPreference().setSummary(algorithmToShow.getName(mCtx.getResources()));
 
             super.run();
         }

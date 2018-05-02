@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,8 +29,9 @@ import android.view.View;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.adapter.ListRadioItemAdapter;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
 public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat
         implements ListRadioItemAdapter.RadioItemSelectedCallback<KdfEngine> {
@@ -74,7 +75,7 @@ public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends Databas
                 database.assignKdfEngine(newKdfEngine);
 
                 Handler handler = new Handler();
-                setAfterSaveDatabase(new AfterDescriptionSave(getContext(), handler, newKdfEngine, oldKdfEngine));
+                setAfterSaveDatabase(new AfterDescriptionSave((AppCompatActivity) getActivity(), handler, newKdfEngine, oldKdfEngine));
             }
         }
 
@@ -90,31 +91,36 @@ public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends Databas
         kdfEngineSelected = item;
     }
 
-    private class AfterDescriptionSave extends OnFinish {
+    private class AfterDescriptionSave extends OnFinishRunnable {
 
         private KdfEngine mNewKdfEngine;
         private KdfEngine mOldKdfEngine;
-        private Context mCtx;
+        private AppCompatActivity mActivity;
 
-        AfterDescriptionSave(Context ctx, Handler handler, KdfEngine newKdfEngine, KdfEngine oldKdfEngine) {
+        AfterDescriptionSave(AppCompatActivity activity, Handler handler, KdfEngine newKdfEngine, KdfEngine oldKdfEngine) {
             super(handler);
 
-            this.mCtx = ctx;
+            this.mActivity = activity;
             this.mNewKdfEngine = newKdfEngine;
             this.mOldKdfEngine = oldKdfEngine;
         }
 
         @Override
         public void run() {
-            KdfEngine kdfEngineToShow = mNewKdfEngine;
+            if (mActivity != null) {
+                mActivity.runOnUiThread(() -> {
+                    KdfEngine kdfEngineToShow = mNewKdfEngine;
 
-            if (!mSuccess) {
-                displayMessage(mCtx);
-                database.assignKdfEngine(mOldKdfEngine);
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.assignKdfEngine(mOldKdfEngine);
+                    }
+
+                    getPreference().setSummary(kdfEngineToShow.getName(mActivity.getResources()));
+                    roundPreference.setSummary(String.valueOf(kdfEngineToShow.getDefaultKeyRounds()));
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
+                });
             }
-
-            getPreference().setSummary(kdfEngineToShow.getName(mCtx.getResources()));
-            roundPreference.setSummary(String.valueOf(kdfEngineToShow.getDefaultKeyRounds()));
 
             super.run();
         }

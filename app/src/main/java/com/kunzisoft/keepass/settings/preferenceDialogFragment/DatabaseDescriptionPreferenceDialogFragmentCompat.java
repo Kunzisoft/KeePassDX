@@ -79,15 +79,15 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputData
 
         @Override
         public void run() {
-            String descriptionToShow = mNewDescription;
-
-            if (!mSuccess) {
-                displayMessage(mActivity);
-                database.assignDescription(mOldDescription);
-            }
-
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
+                    String descriptionToShow = mNewDescription;
+
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.assignDescription(mOldDescription);
+                    }
+
                     getPreference().setSummary(descriptionToShow);
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });
