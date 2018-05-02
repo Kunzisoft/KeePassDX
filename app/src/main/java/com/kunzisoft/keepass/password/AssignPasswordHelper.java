@@ -110,7 +110,7 @@ public class AssignPasswordHelper {
                 }
 
                 // To remove progress task
-                ProgressTaskDialogFragment.stop(context.getSupportFragmentManager());
+                ProgressTaskDialogFragment.stop(context);
             });
         }
     }

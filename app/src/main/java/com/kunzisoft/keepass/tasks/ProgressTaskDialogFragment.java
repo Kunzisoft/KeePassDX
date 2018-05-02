@@ -22,8 +22,6 @@ package com.kunzisoft.keepass.tasks;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -31,12 +29,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.utils.Util;
 
 public class ProgressTaskDialogFragment extends DialogFragment implements ProgressTaskUpdater{
 
@@ -81,7 +81,7 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
         updateMessage(message);
 
         setCancelable(false);
-        lockScreenOrientation();
+        Util.lockScreenOrientation(getActivity());
 
         return builder.create();
     }
@@ -89,31 +89,16 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        unlockScreenOrientation();
+        Util.unlockScreenOrientation(getActivity());
     }
 
-    public static void stop(FragmentManager fragmentManager) {
-        Fragment fragmentTask = fragmentManager.findFragmentByTag(PROGRESS_TASK_DIALOG_TAG);
+    public static void stop(AppCompatActivity activity) {
+        Fragment fragmentTask = activity.getSupportFragmentManager().findFragmentByTag(PROGRESS_TASK_DIALOG_TAG);
         if (fragmentTask != null) {
             ProgressTaskDialogFragment loadingDatabaseDialog = (ProgressTaskDialogFragment) fragmentTask;
             loadingDatabaseDialog.dismissAllowingStateLoss();
+            Util.unlockScreenOrientation(activity);
         }
-    }
-
-    private void lockScreenOrientation() {
-        if (getActivity() != null) {
-            int currentOrientation = getResources().getConfiguration().orientation;
-            if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else {
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            }
-        }
-    }
-
-    private void unlockScreenOrientation() {
-        if (getActivity() != null)
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
     public void setTitle(@StringRes int titleId) {

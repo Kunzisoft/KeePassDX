@@ -575,7 +575,7 @@ public class EntryEditActivity extends LockingHideActivity
                     displayMessage(EntryEditActivity.this);
                 }
 
-                SaveDatabaseProgressTaskDialogFragment.stop(getSupportFragmentManager());
+                SaveDatabaseProgressTaskDialogFragment.stop(EntryEditActivity.this);
             });
 		}
 	}

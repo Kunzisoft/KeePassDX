@@ -109,8 +109,7 @@ public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreference
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
                     getPreference().setSummary(String.valueOf(roundsToShow));
-                    SaveDatabaseProgressTaskDialogFragment.stop(
-                            mActivity.getSupportFragmentManager());
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });
             }
 

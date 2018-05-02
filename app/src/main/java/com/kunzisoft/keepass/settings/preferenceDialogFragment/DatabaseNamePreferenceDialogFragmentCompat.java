@@ -71,8 +71,7 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePref
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
                     getPreference().setSummary(nameToShow);
-                    SaveDatabaseProgressTaskDialogFragment.stop(
-                            mActivity.getSupportFragmentManager());
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });
             }
 

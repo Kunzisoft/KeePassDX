@@ -55,6 +55,7 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
+import com.kunzisoft.keepass.activities.ListNodesActivity;
 import com.kunzisoft.keepass.activities.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
@@ -875,7 +876,7 @@ public class PasswordActivity extends StylishActivity
                 }
 
                 // To remove progress task
-                ProgressTaskDialogFragment.stop(getSupportFragmentManager());
+                ProgressTaskDialogFragment.stop(PasswordActivity.this);
             });
         }
     }

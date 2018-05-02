@@ -71,8 +71,7 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends DatabaseS
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
                     getPreference().setSummary(descriptionToShow);
-                    SaveDatabaseProgressTaskDialogFragment.stop(
-                            mActivity.getSupportFragmentManager());
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });
             }
 

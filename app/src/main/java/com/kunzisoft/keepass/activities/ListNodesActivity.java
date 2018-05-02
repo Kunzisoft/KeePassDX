@@ -316,7 +316,7 @@ public abstract class ListNodesActivity extends LockingActivity
                     displayMessage(ListNodesActivity.this);
                 }
 
-                SaveDatabaseProgressTaskDialogFragment.stop(getSupportFragmentManager());
+                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
             });
         }
     }
@@ -336,7 +336,7 @@ public abstract class ListNodesActivity extends LockingActivity
                     displayMessage(ListNodesActivity.this);
                 }
 
-                SaveDatabaseProgressTaskDialogFragment.stop(getSupportFragmentManager());
+                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
             });
         }
     }
@@ -376,7 +376,7 @@ public abstract class ListNodesActivity extends LockingActivity
                     finish();
                 }
 
-                SaveDatabaseProgressTaskDialogFragment.stop(getSupportFragmentManager());
+                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
             });
         }
     }
