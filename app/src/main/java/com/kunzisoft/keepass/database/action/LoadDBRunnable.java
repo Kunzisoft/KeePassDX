@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -40,7 +40,7 @@ import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class LoadDB extends RunnableOnFinish {
+public class LoadDBRunnable extends RunnableOnFinish {
     private Uri mUri;
     private String mPass;
     private Uri mKey;
@@ -48,7 +48,7 @@ public class LoadDB extends RunnableOnFinish {
     private Context mCtx;
     private boolean mRememberKeyfile;
 
-    public LoadDB(Database db, Context ctx, Uri uri, String pass, Uri key, OnFinish finish) {
+    public LoadDBRunnable(Database db, Context ctx, Uri uri, String pass, Uri key, OnFinishRunnable finish) {
         super(finish);
 
         mDb = db;

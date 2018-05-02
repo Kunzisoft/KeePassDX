@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.database.PwDatabaseV3;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwEntryV3;
 import com.kunzisoft.keepass.database.PwGroup;
-import com.kunzisoft.keepass.database.edit.DeleteGroup;
+import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
 import com.kunzisoft.keepass.search.SearchDbHelper;
 
 public class DeleteEntry extends AndroidTestCase {
@@ -60,7 +60,7 @@ public class DeleteEntry extends AndroidTestCase {
 		assertNotNull("Could not find group1", group1);
 		
 		// Delete the group
-		DeleteGroup task = new DeleteGroup(null, db, group1, null, true);
+		DeleteGroupRunnable task = new DeleteGroupRunnable(null, db, group1, null, true);
 		task.run();
 		
 		// Verify the entries were deleted

@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 
@@ -26,12 +26,12 @@ import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 
 import java.io.IOException;
 
-public class SaveDB extends RunnableOnFinish {
+public class SaveDBRunnable extends RunnableOnFinish {
 	private Database mDb;
 	private boolean mDontSave;
 	private Context mCtx;
 
-	public SaveDB(Context ctx, Database db, OnFinish finish, boolean dontSave) {
+	public SaveDBRunnable(Context ctx, Database db, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
@@ -39,7 +39,7 @@ public class SaveDB extends RunnableOnFinish {
 		mCtx = ctx;
 	}
 
-	public SaveDB(Context ctx, Database db, OnFinish finish) {
+	public SaveDBRunnable(Context ctx, Database db, OnFinishRunnable finish) {
 		super(finish);
 		
 		mDb = db;

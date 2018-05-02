@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 
@@ -29,18 +29,18 @@ import com.kunzisoft.keepass.database.PwGroup;
  * @author bpellin
  *
  */
-public class DeleteEntry extends RunnableOnFinish {
+public class DeleteEntryRunnable extends RunnableOnFinish {
 
 	private Database mDb;
 	private PwEntry mEntry;
 	private boolean mDontSave;
 	private Context ctx;
 	
-	public DeleteEntry(Context ctx, Database db, PwEntry entry, OnFinish finish) {
+	public DeleteEntryRunnable(Context ctx, Database db, PwEntry entry, OnFinishRunnable finish) {
 		this(ctx, db, entry, finish, false);
 	}
 	
-	public DeleteEntry(Context ctx, Database db, PwEntry entry, OnFinish finish, boolean dontSave) {
+	public DeleteEntryRunnable(Context ctx, Database db, PwEntry entry, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 		
 		this.mDb = db;
@@ -67,17 +67,17 @@ public class DeleteEntry extends RunnableOnFinish {
 		mFinish = new AfterDelete(mFinish, parent, mEntry, recycle);
 		
 		// Commit database
-		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
+		SaveDBRunnable save = new SaveDBRunnable(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 
-	private class AfterDelete extends OnFinish {
+	private class AfterDelete extends OnFinishRunnable {
 
 		private PwGroup mParent;
 		private PwEntry mEntry;
 		private boolean recycled;
 		
-		AfterDelete(OnFinish finish, PwGroup parent, PwEntry entry, boolean r) {
+		AfterDelete(OnFinishRunnable finish, PwGroup parent, PwEntry entry, boolean r) {
 			super(finish);
 			
 			mParent = parent;

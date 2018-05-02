@@ -51,8 +51,8 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.database.edit.CreateDB;
-import com.kunzisoft.keepass.database.edit.FileOnFinish;
+import com.kunzisoft.keepass.database.action.CreateDBRunnable;
+import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
@@ -60,7 +60,8 @@ import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -515,22 +516,26 @@ public class FileSelectActivity extends StylishActivity implements
 
 			// Prep an object to collect a password once the database has
 			// been created
-			FileOnFinish launchActivityOnFinish = new FileOnFinish(
+			FileOnFinishRunnable launchActivityOnFinish = new FileOnFinishRunnable(
 					new LaunchGroupActivity(databaseFilename));
 			AssignPasswordOnFinish assignPasswordOnFinish =
 					new AssignPasswordOnFinish(launchActivityOnFinish);
 
-			// Create the new database
-			CreateDB create = new CreateDB(FileSelectActivity.this,
-					databaseFilename, assignPasswordOnFinish, true);
-
-			ProgressTask createTask = new ProgressTask(
-					FileSelectActivity.this, create,
-					R.string.progress_create);
-			createTask.run();
-
+            // Initialize the password helper assigner to set the password after the database creation
             assignPasswordHelper = new AssignPasswordHelper(this,
                     masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
+            assignPasswordHelper.setCreateProgressDialog(false);
+
+			// Create the new database
+			CreateDBRunnable createDBTask = new CreateDBRunnable(FileSelectActivity.this,
+					databaseFilename, assignPasswordOnFinish, true);
+            createDBTask.setUpdateProgressTaskStatus(
+                    new UpdateProgressTaskStatus(this,
+                            ProgressTaskDialogFragment.start(
+                                    getSupportFragmentManager(),
+                                    R.string.progress_create)
+                    ));
+            new Thread(createDBTask).start();
 
 		} catch (Exception e) {
 			String error = "Unable to create database with this password and key file";
@@ -546,21 +551,23 @@ public class FileSelectActivity extends StylishActivity implements
 
 	}
 
-	private class AssignPasswordOnFinish extends FileOnFinish {
+	private class AssignPasswordOnFinish extends FileOnFinishRunnable {
 
-        AssignPasswordOnFinish(FileOnFinish fileOnFinish) {
+        AssignPasswordOnFinish(FileOnFinishRunnable fileOnFinish) {
             super(fileOnFinish);
         }
 
         @Override
         public void run() {
             if (mSuccess) {
-                assignPasswordHelper.assignPasswordInDatabase(mOnFinish);
+                // Dont use ProgressTaskDialogFragment.stop(getSupportFragmentManager());
+                // assignPasswordHelper do it
+                runOnUiThread(() -> assignPasswordHelper.assignPasswordInDatabase(mOnFinish));
             }
         }
     }
 
-	private class LaunchGroupActivity extends FileOnFinish {
+	private class LaunchGroupActivity extends FileOnFinishRunnable {
 		private Uri mUri;
 
 		LaunchGroupActivity(String filename) {

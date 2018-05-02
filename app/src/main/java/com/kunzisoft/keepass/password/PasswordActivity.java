@@ -62,8 +62,8 @@ import com.kunzisoft.keepass.compat.BackupManagerCompat;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
 import com.kunzisoft.keepass.compat.EditorCompat;
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.edit.LoadDB;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.LoadDBRunnable;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
@@ -71,7 +71,8 @@ import com.kunzisoft.keepass.fingerprint.FingerPrintDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -121,6 +122,8 @@ public class PasswordActivity extends StylishActivity
     private CompoundButton checkboxPasswordView;
     private CompoundButton checkboxKeyfileView;
     private CompoundButton checkboxDefaultDatabaseView;
+
+    private ProgressTaskDialogFragment loadingDatabaseDialog;
 
     private DefaultCheckChange defaultCheckChange;
     private ValidateButtonViewClickListener validateButtonViewClickListener;
@@ -808,20 +811,86 @@ public class PasswordActivity extends StylishActivity
         loadDatabase(password, keyUri);
     }
 
-    private void loadDatabase(String pass, Uri keyfile) {
+    private void loadDatabase(String password, Uri keyfile) {
         // Clear before we load
-        Database db = App.getDB();
-        db.clear();
-
+        Database database = App.getDB();
+        database.clear();
         // Clear the shutdown flag
         App.clearShutdown();
 
+        // Show the progress dialog
         Handler handler = new Handler();
-        AfterLoad afterLoad = new AfterLoad(handler, db);
+        AfterLoadingDatabase afterLoad = new AfterLoadingDatabase(handler, database);
+        LoadDBRunnable databaseLoadingTask = new LoadDBRunnable(
+                database,
+                PasswordActivity.this,
+                mDbUri,
+                password,
+                keyfile,
+                afterLoad);
+        databaseLoadingTask.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        handler,
+                        ProgressTaskDialogFragment.start(
+                                getSupportFragmentManager(),
+                                R.string.loading_database)
+                ));
+        Thread t = new Thread(databaseLoadingTask);
+        t.start();
+    }
 
-        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, afterLoad);
-        ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
-        pt.run();
+    /**
+     * Called after verify and try to opening the database
+     */
+    private final class AfterLoadingDatabase extends OnFinishRunnable {
+
+        protected Database db;
+
+        AfterLoadingDatabase(
+                Handler handler,
+                Database db) {
+            super(handler);
+
+            this.db = db;
+        }
+
+        @Override
+        public void run() {
+            runOnUiThread(() -> {
+                // Recheck fingerprint if error
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // Stay with the same mode
+                    reInitWithFingerprintMode();
+                }
+
+                if (db.isPasswordEncodingError()) {
+                    PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
+                    dialog.show(PasswordActivity.this, (dialog1, which) -> launchGroupActivity());
+                } else if (mSuccess) {
+                    launchGroupActivity();
+                } else {
+                    if ( mMessage != null && mMessage.length() > 0 ) {
+                        Toast.makeText(PasswordActivity.this, mMessage, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                // To remove progress task
+                ProgressTaskDialogFragment.stop(getSupportFragmentManager());
+            });
+        }
+    }
+
+    private void launchGroupActivity() {
+        AssistStructure assistStructure = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            assistStructure = autofillHelper.getAssistStructure();
+            if (assistStructure != null) {
+                GroupActivity.launch(PasswordActivity.this, assistStructure);
+            }
+        }
+        if (assistStructure == null) {
+            GroupActivity.launch(PasswordActivity.this);
+        }
     }
 
     @Override
@@ -861,54 +930,6 @@ public class PasswordActivity extends StylishActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // NOTE: delegate the permission handling to generated method
         PasswordActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
-
-    /**
-     * Called after verify and try to opening the database
-     */
-    private final class AfterLoad extends OnFinish {
-
-        protected Database db;
-
-        AfterLoad(
-                Handler handler,
-                Database db) {
-            super(handler);
-
-            this.db = db;
-        }
-
-        @Override
-        public void run() {
-
-            // Recheck fingerprint if error
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Stay with the same mode
-                reInitWithFingerprintMode();
-            }
-
-            if (db.isPasswordEncodingError()) {
-                PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
-                dialog.show(PasswordActivity.this, (dialog1, which) -> launchGroupActivity());
-            } else if (mSuccess) {
-                launchGroupActivity();
-            } else {
-                displayMessage(PasswordActivity.this);
-            }
-        }
-    }
-
-    private void launchGroupActivity() {
-        AssistStructure assistStructure = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            assistStructure = autofillHelper.getAssistStructure();
-            if (assistStructure != null) {
-                GroupActivity.launch(PasswordActivity.this, assistStructure);
-            }
-        }
-        if (assistStructure == null) {
-            GroupActivity.launch(PasswordActivity.this);
-        }
     }
 
     private static class UriIntentInitTask extends AsyncTask<Intent, Void, Integer> {

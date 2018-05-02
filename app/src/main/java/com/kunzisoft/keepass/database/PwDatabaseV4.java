@@ -362,28 +362,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		return md.digest(fKey);
 	}
 
-	@Override
-	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
-
-		byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
-
-
-		byte[] cmpKey = new byte[65];
-		System.arraycopy(masterSeed, 0, cmpKey, 0, 32);
-		System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32);
-		finalKey = CryptoUtil.resizeKey(cmpKey, 0, 64, dataEngine.keyLength());
-
-		MessageDigest md;
-		try {
-			md = MessageDigest.getInstance("SHA-512");
-			cmpKey[64] = 1;
-			hmacKey = md.digest(cmpKey);
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("No SHA-512 implementation");
-		} finally {
-			Arrays.fill(cmpKey, (byte)0);
-		}
-	}
 	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP) throws IOException {
     	makeFinalKey(masterSeed, kdfP, 0);
 	}

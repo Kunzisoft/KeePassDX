@@ -2,18 +2,18 @@ package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
 import android.view.View;
 
-import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.edit.OnFinish;
-import com.kunzisoft.keepass.database.edit.SaveDB;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.database.action.SaveDBRunnable;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 
 public abstract class DatabaseSavePreferenceDialogFragmentCompat  extends InputPreferenceDialogFragmentCompat {
 
     protected Database database;
 
-    private OnFinish afterSaveDatabase;
+    private OnFinishRunnable afterSaveDatabase;
 
     @Override
     protected void onBindDialogView(View view) {
@@ -25,17 +25,21 @@ public abstract class DatabaseSavePreferenceDialogFragmentCompat  extends InputP
     @Override
     public void onDialogClosed(boolean positiveResult) {
         if ( positiveResult ) {
-            assert getContext() != null;
+            assert getActivity() != null;
 
             if (database != null && afterSaveDatabase != null) {
-                SaveDB save = new SaveDB(getContext(), database, afterSaveDatabase);
-                ProgressTask pt = new ProgressTask(getContext(), save, R.string.saving_database);
-                pt.run();
+                SaveDBRunnable saveDBRunnable = new SaveDBRunnable(getContext(), database, afterSaveDatabase);
+                saveDBRunnable.setUpdateProgressTaskStatus(
+                        new UpdateProgressTaskStatus(getContext(),
+                                SaveDatabaseProgressTaskDialogFragment.start(
+                                        getActivity().getSupportFragmentManager())
+                        ));
+                new Thread(saveDBRunnable).start();
             }
         }
     }
 
-    public void setAfterSaveDatabase(OnFinish afterSaveDatabase) {
+    public void setAfterSaveDatabase(OnFinishRunnable afterSaveDatabase) {
         this.afterSaveDatabase = afterSaveDatabase;
     }
 }

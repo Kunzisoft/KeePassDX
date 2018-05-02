@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 
@@ -29,19 +29,19 @@ import com.kunzisoft.keepass.database.PwGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteGroup extends RunnableOnFinish {
+public class DeleteGroupRunnable extends RunnableOnFinish {
 
     private Context mContext;
 	private Database mDb;
 	private PwGroup<PwGroup, PwGroup, PwEntry> mGroup;
 	private boolean mDontSave;
 	
-	public DeleteGroup(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinish finish) {
+	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinishRunnable finish) {
 		super(finish);
 		setMembers(ctx, db, group, false);
 	}
 
-	public DeleteGroup(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinish finish, boolean dontSave) {
+	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 		setMembers(ctx, db, group, dontSave);
 	}
@@ -67,14 +67,14 @@ public class DeleteGroup extends RunnableOnFinish {
             // Remove child entries
             List<PwEntry> childEnt = new ArrayList<>(mGroup.getChildEntries()); // TODO new Methods
             for ( int i = 0; i < childEnt.size(); i++ ) {
-                DeleteEntry task = new DeleteEntry(mContext, mDb, childEnt.get(i), null, true);
+                DeleteEntryRunnable task = new DeleteEntryRunnable(mContext, mDb, childEnt.get(i), null, true);
                 task.run();
             }
 
             // Remove child groups
             List<PwGroup> childGrp = new ArrayList<>(mGroup.getChildGroups());
             for ( int i = 0; i < childGrp.size(); i++ ) {
-                DeleteGroup task = new DeleteGroup(mContext, mDb, childGrp.get(i), null, true);
+                DeleteGroupRunnable task = new DeleteGroupRunnable(mContext, mDb, childGrp.get(i), null, true);
                 task.run();
             }
             mDb.deleteGroup(mGroup);
@@ -88,17 +88,17 @@ public class DeleteGroup extends RunnableOnFinish {
         mFinish = new AfterDelete(mFinish, parent, mGroup, recycle);
 		
 		// Commit Database
-		SaveDB save = new SaveDB(mContext, mDb, mFinish, mDontSave);
+		SaveDBRunnable save = new SaveDBRunnable(mContext, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	
-	private class AfterDelete extends OnFinish {
+	private class AfterDelete extends OnFinishRunnable {
 
         private PwGroup mParent;
         private PwGroup mGroup;
         private boolean recycled;
 
-		AfterDelete(OnFinish finish, PwGroup parent, PwGroup mGroup, boolean recycle) {
+		AfterDelete(OnFinishRunnable finish, PwGroup parent, PwGroup mGroup, boolean recycle) {
 			super(finish);
 
             this.mParent = parent;
