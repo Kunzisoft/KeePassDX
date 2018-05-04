@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
@@ -490,32 +491,18 @@ public class PasswordActivity extends StylishActivity
 
         fingerPrintHelper = new FingerPrintHelper(this, this);
 
-        // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
-        passwordView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(
-                    final CharSequence s,
-                    final int start,
-                    final int count,
-                    final int after) {}
-
-            @Override
-            public void onTextChanged(
-                    final CharSequence s,
-                    final int start,
-                    final int before,
-                    final int count) {}
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                if ( !fingerprintMustBeConfigured ) {
-                    final boolean validInput = s.length() > 0;
-                    // encrypt or decrypt mode based on how much input or not
-                    setFingerPrintView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
-                    if (validInput)
-                        toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE);
-                    else
+        checkboxPasswordView.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if ( !fingerprintMustBeConfigured ) {
+                // encrypt or decrypt mode based on how much input or not
+                if (checked) {
+                    toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE);
+                } else {
+                    if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
+                        // This happens when no fingerprints are registered.
+                        toggleFingerprintMode(FingerPrintHelper.Mode.WAITING_PASSWORD_MODE);
+                    } else {
                         toggleFingerprintMode(FingerPrintHelper.Mode.OPEN_MODE);
+                    }
                 }
             }
         });
@@ -601,7 +588,24 @@ public class PasswordActivity extends StylishActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
+    private void initWaitData() {
+        setFingerPrintView(R.string.no_password_stored, true);
+        fingerPrintMode = FingerPrintHelper.Mode.WAITING_PASSWORD_MODE;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private synchronized void toggleFingerprintMode(final FingerPrintHelper.Mode newMode) {
+        switch (newMode) {
+            case WAITING_PASSWORD_MODE:
+                setFingerPrintView(R.string.no_password_stored, true);
+                break;
+            case STORE_MODE:
+                setFingerPrintView(R.string.store_with_fingerprint);
+                break;
+            case OPEN_MODE:
+                setFingerPrintView(R.string.scanning_fingerprint);
+                break;
+        }
         if( !newMode.equals(fingerPrintMode) ) {
             fingerPrintMode = newMode;
             reInitWithFingerprintMode();
@@ -613,6 +617,9 @@ public class PasswordActivity extends StylishActivity
         switch (fingerPrintMode) {
             case STORE_MODE:
                 initEncryptData();
+                break;
+            case WAITING_PASSWORD_MODE:
+                initWaitData();
                 break;
             case OPEN_MODE:
                 initDecryptData();
@@ -643,10 +650,6 @@ public class PasswordActivity extends StylishActivity
 
     private void setFingerPrintView(final int textId) {
         setFingerPrintView(textId, false);
-    }
-
-    private void setFingerPrintView(final CharSequence text) {
-        setFingerPrintView(text, false);
     }
 
     private void setFingerPrintView(final int textId, boolean lock) {
@@ -690,9 +693,13 @@ public class PasswordActivity extends StylishActivity
 
                 // fingerprint available but no stored password found yet for this DB so show info don't listen
                 if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
-                    setFingerPrintView(R.string.no_password_stored);
-                    // listen for encryption
-                    initEncryptData();
+                    if (checkboxPasswordView.isChecked()) {
+                        // listen for encryption
+                        initEncryptData();
+                    } else {
+                        // wait for typing
+                        initWaitData();
+                    }
                 }
                 // all is set here so we can confirm to user and start listening for fingerprints
                 else {

@@ -1,4 +1,5 @@
  * Upgrade translations
  * Fix classic dark theme
  * Add Material Icon Pack to the Free version
+ * Update fingerprint state with checkbox
  * Fix bugs

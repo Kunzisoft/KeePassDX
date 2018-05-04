@@ -336,7 +336,7 @@ public class FingerPrintHelper {
     }
 
     public enum Mode {
-        NOT_CONFIGURED_MODE, STORE_MODE, OPEN_MODE
+        NOT_CONFIGURED_MODE, WAITING_PASSWORD_MODE, STORE_MODE, OPEN_MODE
     }
 
 }
