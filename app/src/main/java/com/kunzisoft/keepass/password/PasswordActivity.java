@@ -666,7 +666,7 @@ public class PasswordActivity extends StylishActivity
     private void setFingerPrintView(final CharSequence text, boolean lock) {
         runOnUiThread(() -> {
             if (lock) {
-                fingerprintContainerView.setAlpha(0.6f);
+                fingerprintContainerView.setAlpha(0.8f);
             } else
                 fingerprintContainerView.setAlpha(1f);
             fingerprintTextView.setText(text);

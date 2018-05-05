@@ -71,7 +71,7 @@
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
 
         <!-- Toolbar -->
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
 
         <!-- White FAB -->
@@ -125,7 +125,7 @@
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
 
         <!-- Toolbar -->
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
 
         <!-- White FAB -->
@@ -154,8 +154,17 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
-    <!-- Toolbar Style Green -->
-    <style name="KeepassDXStyle.Toolbar" parent="KeepassDXStyle.Light.v21">
+    <!-- Toolbar Style Light Green -->
+    <style name="KeepassDXStyle.Toolbar.Light" parent="KeepassDXStyle.Light.v21">
+        <item name="colorControlNormal">@color/colorTextInverse</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
+        <item name="android:textColorSecondary">@color/colorTextInverse</item>
+        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="android:textColorHint">@color/green_lighter</item>
+    </style>
+
+    <!-- Toolbar Style Night Green -->
+    <style name="KeepassDXStyle.Toolbar.Night" parent="KeepassDXStyle.Night.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
