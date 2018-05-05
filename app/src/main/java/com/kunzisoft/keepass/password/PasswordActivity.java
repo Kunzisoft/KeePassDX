@@ -33,7 +33,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
@@ -56,7 +55,6 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
-import com.kunzisoft.keepass.activities.ListNodesActivity;
 import com.kunzisoft.keepass.activities.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
@@ -124,8 +122,6 @@ public class PasswordActivity extends StylishActivity
     private CompoundButton checkboxPasswordView;
     private CompoundButton checkboxKeyfileView;
     private CompoundButton checkboxDefaultDatabaseView;
-
-    private ProgressTaskDialogFragment loadingDatabaseDialog;
 
     private DefaultCheckChange defaultCheckChange;
     private ValidateButtonViewClickListener validateButtonViewClickListener;
@@ -295,6 +291,7 @@ public class PasswordActivity extends StylishActivity
             fingerprintTextView = findViewById(R.id.fingerprint_label);
             fingerprintImageView = findViewById(R.id.fingerprint_image);
             initForFingerprint();
+            // Init the fingerprint animation
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                     fingerprintImageView);
         }
@@ -325,6 +322,19 @@ public class PasswordActivity extends StylishActivity
 
         // For check shutdown
         super.onResume();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Check if fingerprint well init (be called the first time the fingerprint is configured
+            // and the activity still active)
+            if (fingerPrintHelper == null || !fingerPrintHelper.isFingerprintInitialized()) {
+                initForFingerprint();
+            }
+
+            // Start the animation in all cases
+            if (fingerPrintAnimatedVector != null) {
+                fingerPrintAnimatedVector.startScan();
+            }
+        }
 
         new UriIntentInitTask(this, mRememberKeyfile)
                 .execute(getIntent());
@@ -435,9 +445,6 @@ public class PasswordActivity extends StylishActivity
         // checks if fingerprint is available, will also start listening for fingerprints when available
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkFingerprintAvailability();
-            if (fingerPrintAnimatedVector != null) {
-                fingerPrintAnimatedVector.startScan();
-            }
         }
 
         // If Activity is launch with a password and want to open directly
@@ -748,7 +755,9 @@ public class PasswordActivity extends StylishActivity
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onFingerPrintException(Exception e) {
-        showError(getString(R.string.fingerprint_error, e.getMessage()));
+        // Don't show error here;
+        // showError(getString(R.string.fingerprint_error, e.getMessage()));
+        // Can be uninit in Activity and init in fragment
         setFingerPrintView(e.getLocalizedMessage(), true);
     }
 

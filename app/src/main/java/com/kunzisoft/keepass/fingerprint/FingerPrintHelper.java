@@ -131,7 +131,7 @@ public class FingerPrintHelper {
         return isFingerprintInitialized(true);
     }
 
-    public boolean isFingerprintInitialized(boolean throwException) {
+    private boolean isFingerprintInitialized(boolean throwException) {
         boolean isFingerprintInit = hasEnrolledFingerprints() && initOk;
         if (!isFingerprintInit && fingerPrintCallback != null) {
             if(throwException)
