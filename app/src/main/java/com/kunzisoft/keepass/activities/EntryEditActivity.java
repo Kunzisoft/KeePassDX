@@ -1,5 +1,6 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft,
+ * Pacharapol Withayasakpunt
  *     
  * This file is part of KeePass DX.
  *
@@ -26,6 +27,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +57,7 @@ import com.kunzisoft.keepass.database.edit.RunnableOnFinish;
 import com.kunzisoft.keepass.database.edit.UpdateEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
+import com.kunzisoft.keepass.dialogs.GeneratePinDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -70,7 +73,8 @@ import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.UNDEFINED_I
 
 public class EntryEditActivity extends LockingHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
-        GeneratePasswordDialogFragment.GeneratePasswordListener {
+        GeneratePasswordDialogFragment.GeneratePasswordListener,
+        GeneratePinDialogFragment.GeneratePinListener {
 
     private static final String TAG = EntryEditActivity.class.getName();
 
@@ -103,6 +107,9 @@ public class EntryEditActivity extends LockingHideActivity
     private View addNewFieldView;
     private View saveView;
     private int iconColor;
+
+    // Additional Views
+    private View generatePinView;
 
 	/**
 	 * Launch EntryEditActivity to update an existing entry
@@ -155,6 +162,8 @@ public class EntryEditActivity extends LockingHideActivity
         entryConfirmationPasswordView = findViewById(R.id.entry_confpassword);
         entryCommentView = findViewById(R.id.entry_comment);
         entryExtraFieldsContainer = findViewById(R.id.advanced_container);
+
+//        entryCommentView.setTransformationMethod(new PasswordTransformationMethod());
 		
 		// Likely the app has been killed exit the activity
 		Database db = App.getDB();
@@ -202,6 +211,10 @@ public class EntryEditActivity extends LockingHideActivity
 		// Generate password button
         generatePasswordView = findViewById(R.id.generate_button);
         generatePasswordView.setOnClickListener(v -> openPasswordGenerator());
+
+        // Generate PIN button
+        generatePinView = findViewById(R.id.generate_pin_button);
+        generatePinView.setOnClickListener(v -> openPinGenerator());
 		
 		// Save button
 		saveView = findViewById(R.id.entry_save);
@@ -224,6 +237,14 @@ public class EntryEditActivity extends LockingHideActivity
 	private void openPasswordGenerator() {
         GeneratePasswordDialogFragment generatePasswordDialogFragment = new GeneratePasswordDialogFragment();
         generatePasswordDialogFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
+    }
+
+    /**
+     * Open the pin generator fragment
+     */
+    private void openPinGenerator() {
+        GeneratePinDialogFragment generatePinDialogFragment = new GeneratePinDialogFragment();
+        generatePinDialogFragment.show(getSupportFragmentManager(), "PinGeneratorFragment");
     }
 
     /**
@@ -519,8 +540,11 @@ public class EntryEditActivity extends LockingHideActivity
     @Override
     public void acceptPassword(Bundle bundle) {
         String generatedPassword = bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID);
+        String generatedMnemonic = bundle.getString(GeneratePasswordDialogFragment.KEY_MNEMONIC_ID);
+
         entryPasswordView.setText(generatedPassword);
         entryConfirmationPasswordView.setText(generatedPassword);
+        entryCommentView.setText(generatedMnemonic);
 
         checkAndPerformedEducation();
     }

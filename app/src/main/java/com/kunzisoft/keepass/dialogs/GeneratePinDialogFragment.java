@@ -1,7 +1,7 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft,
  * Pacharapol Withayasakpunt
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -44,44 +44,38 @@ import com.patarapolw.diceware_utils.Policy;
 
 import java.util.Set;
 
-public class GeneratePasswordDialogFragment extends DialogFragment {
+public class GeneratePinDialogFragment extends DialogFragment {
 
     public static final String KEY_PASSWORD_ID = "KEY_PASSWORD_ID";
     public static final String KEY_MNEMONIC_ID = "KEY_MNEMONIC_ID";
 
-	private GeneratePasswordListener mListener;
-    private EditText lengthMinView;
-	private EditText lengthMaxView;
-	private EditText numberOfKeywordsView;
-	private EditText punctuationCountMinView;
-	private EditText digitCountMinView;
+    private GeneratePinListener mListener;
+    private EditText lengthView;
 
-	private EditText passwordView;
-	private EditText mnemonicView;
+    private EditText passwordView;
+    private EditText mnemonicView;
 
-	private DicewarePassword dicewarePassword;
-	private Policy policy;
+    private DicewarePassword dicewarePassword;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (GeneratePasswordListener) context;
+            mListener = (GeneratePinListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement " + GeneratePasswordListener.class.getName());
+                    + " must implement " + GeneratePinListener.class.getName());
         }
     }
 
-	@NonNull
+    @NonNull
     @Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-        View root = inflater.inflate(R.layout.generate_password, null);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View root = inflater.inflate(R.layout.generate_pin, null);
 
         dicewarePassword = new DicewarePassword(getContext());
-        policy = new Policy(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -89,11 +83,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         mnemonicView = root.findViewById(R.id.mnemonic);
         Util.applyFontVisibilityTo(getContext(), mnemonicView);
 
-        lengthMinView = root.findViewById(R.id.length_min);
-        lengthMaxView = root.findViewById(R.id.length_max);
-        numberOfKeywordsView = root.findViewById(R.id.number_of_keywords);
-        punctuationCountMinView = root.findViewById(R.id.punctuation_count_min);
-        digitCountMinView = root.findViewById(R.id.number_count_min);
+        lengthView = root.findViewById(R.id.length);
 
 //        assignDefaultCharacters();
 
@@ -119,24 +109,18 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         // Pre-populate a password to possibly save the user a few clicks
         fillPassword();
 
-		return builder.create();
-	}
-	
-	private void fillPassword() {
-		policy.setLength_min(Integer.parseInt(lengthMinView.getText().toString()));
-		policy.setLength_max(Integer.parseInt(lengthMaxView.getText().toString()));
-		policy.setPunctuation_count(Integer.parseInt(punctuationCountMinView.getText().toString()));
-		policy.setDigit_count(Integer.parseInt(digitCountMinView.getText().toString()));
+        return builder.create();
+    }
 
-		dicewarePassword.setPolicy(policy);
-		dicewarePassword.generatePassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+    private void fillPassword() {
+        dicewarePassword.generatePin(Integer.parseInt(lengthView.getText().toString()));
 
-		passwordView.setText(dicewarePassword.getPassword());
-		mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
-	}
+        passwordView.setText(dicewarePassword.getPin());
+        mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
+    }
 
-    public interface GeneratePasswordListener {
+    public interface GeneratePinListener {
         void acceptPassword(Bundle bundle);
-	    void cancelPassword(Bundle bundle);
+        void cancelPassword(Bundle bundle);
     }
 }
