@@ -4,14 +4,11 @@ WHAT IS KEEPASS DX?
 KeePass DX is an Android password manager implemented from Keepass password manager. 
 
 WHAT MAKES KEEPASS DX STAND OUT FROM OTHER PASSWORD MANAGERS? 
-- Create database files / entries and groups
-- Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
-- Compatible with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
-- Allows fast copy of fields and opening of URI / URL
-- Fingerprint for fast unlocking
-- Material design with themes
-- AutoFill and Integration
-- Precise management of settings
+- We do not recover your sensitive data on a private server, you have control of your passwords
+- The code is open source, which implies increased security, you can check how the encryption algorithms are implemented
+- We respect KeePass file standards to maintain compatibility and data porting on different devices
+- We remain attentive to your needs and we can even integrate the features that you have defined
+ 
 
 HOW AM I SURE MY PASSWORDS ARE SAFELY STORED ON THE APPLICATION? 
 - We have integrated a security option of fingerprint for android devices that support fingerprint so no one can access the application without scanning his/her fingerprint. 
