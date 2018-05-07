@@ -36,7 +36,7 @@ public class Policy extends Activity {
 
         String json = null;
         try {
-            InputStream is = context.getAssets().open("policy.json");
+            InputStream is = context.getAssets().open("diceware_utils/policy.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

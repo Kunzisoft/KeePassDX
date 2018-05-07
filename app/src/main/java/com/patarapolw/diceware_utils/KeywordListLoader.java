@@ -26,7 +26,7 @@ public class KeywordListLoader extends Activity {
     public KeywordListLoader(Context context){
         byte[] buffer;
         try {
-            InputStream is = context.getAssets().open("eff-long.txt");
+            InputStream is = context.getAssets().open("diceware_utils/eff-long.txt");
             int size = is.available();
             buffer = new byte[size];
             is.read(buffer);
@@ -41,7 +41,7 @@ public class KeywordListLoader extends Activity {
 
         String json;
         try {
-            InputStream is = context.getAssets().open("major_system.json");
+            InputStream is = context.getAssets().open("diceware_utils/major_system.json");
             int size = is.available();
             buffer = new byte[size];
             is.read(buffer);

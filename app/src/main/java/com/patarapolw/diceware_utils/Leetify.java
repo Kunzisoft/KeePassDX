@@ -27,7 +27,7 @@ public class Leetify extends Activity {
         String json = null;
 
         try {
-            InputStream is = context.getAssets().open("leetspeak.json");
+            InputStream is = context.getAssets().open("diceware_utils/leetspeak.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
