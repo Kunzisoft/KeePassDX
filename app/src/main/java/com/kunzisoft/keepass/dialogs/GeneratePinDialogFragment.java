@@ -57,7 +57,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
     private EditText passwordView;
     private EditText mnemonicView;
-    private EditText sentenceView;
+//    private EditText sentenceView;
 
     private DicewarePassword dicewarePassword;
 //    private SentenceMaker sentenceMaker;
@@ -89,8 +89,8 @@ public class GeneratePinDialogFragment extends DialogFragment {
         mnemonicView = root.findViewById(R.id.mnemonic);
         Util.applyFontVisibilityTo(getContext(), mnemonicView);
 
-        sentenceView = root.findViewById(R.id.generated_sentence);
-        Util.applyFontVisibilityTo(getContext(), sentenceView);
+//        sentenceView = root.findViewById(R.id.generated_sentence);
+//        Util.applyFontVisibilityTo(getContext(), sentenceView);
 
         lengthView = root.findViewById(R.id.length);
 

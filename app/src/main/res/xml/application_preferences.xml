@@ -61,20 +61,20 @@
     <PreferenceCategory
         android:title="@string/password">
 
-        <SeekBarPreference
-            android:key="@string/password_length_key"
-            android:title="@string/password_size_title"
-            android:summary="@string/password_size_summary"
-            android:defaultValue="@string/default_password_length"
-            app:min="@string/min_password_length"
-            android:max="@string/max_password_length" />
-        <MultiSelectListPreference
-            android:key="@string/list_password_generator_options_key"
-            android:title="@string/list_password_generator_options_title"
-            android:summary="@string/list_password_generator_options_summary"
-            android:entries="@array/list_password_generator_options_entries"
-            android:entryValues="@array/list_password_generator_options_values"
-            android:defaultValue="@array/list_password_generator_options_default_values"/>
+        <!--<SeekBarPreference-->
+            <!--android:key="@string/password_length_key"-->
+            <!--android:title="@string/password_size_title"-->
+            <!--android:summary="@string/password_size_summary"-->
+            <!--android:defaultValue="@string/default_password_length"-->
+            <!--app:min="@string/min_password_length"-->
+            <!--android:max="@string/max_password_length" />-->
+        <!--<MultiSelectListPreference-->
+            <!--android:key="@string/list_password_generator_options_key"-->
+            <!--android:title="@string/list_password_generator_options_title"-->
+            <!--android:summary="@string/list_password_generator_options_summary"-->
+            <!--android:entries="@array/list_password_generator_options_entries"-->
+            <!--android:entryValues="@array/list_password_generator_options_values"-->
+            <!--android:defaultValue="@array/list_password_generator_options_default_values"/>-->
         <SwitchPreference
             android:key="@string/maskpass_key"
             android:title="@string/maskpass_title"
