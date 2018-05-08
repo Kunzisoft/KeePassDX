@@ -23,6 +23,7 @@ package com.kunzisoft.keepass.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -33,6 +34,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
@@ -41,6 +43,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
 import com.patarapolw.diceware_utils.Policy;
+import com.patarapolw.randomsentence.SentenceMaker;
 
 import java.util.Set;
 
@@ -54,8 +57,10 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
     private EditText passwordView;
     private EditText mnemonicView;
+    private EditText sentenceView;
 
     private DicewarePassword dicewarePassword;
+//    private SentenceMaker sentenceMaker;
 
     @Override
     public void onAttach(Context context) {
@@ -76,12 +81,16 @@ public class GeneratePinDialogFragment extends DialogFragment {
         View root = inflater.inflate(R.layout.generate_pin, null);
 
         dicewarePassword = new DicewarePassword(getContext());
+//        sentenceMaker = new SentenceMaker(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
 
         mnemonicView = root.findViewById(R.id.mnemonic);
         Util.applyFontVisibilityTo(getContext(), mnemonicView);
+
+        sentenceView = root.findViewById(R.id.generated_sentence);
+        Util.applyFontVisibilityTo(getContext(), sentenceView);
 
         lengthView = root.findViewById(R.id.length);
 
@@ -92,9 +101,15 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
         builder.setView(root)
                 .setPositiveButton(R.string.accept, (dialog, id) -> {
+                    String mnemonic = "";
+
+                    mnemonic += mnemonicView.getText().toString();
+//                    mnemonic += "\n\n";
+//                    mnemonic += sentenceView.getText().toString();
+
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_PASSWORD_ID, passwordView.getText().toString());
-                    bundle.putString(KEY_MNEMONIC_ID, mnemonicView.getText().toString());
+                    bundle.putString(KEY_MNEMONIC_ID, mnemonic);
                     mListener.acceptPassword(bundle);
 
                     dismiss();
@@ -117,6 +132,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
         passwordView.setText(dicewarePassword.getPin());
         mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
+//        sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
     }
 
     public interface GeneratePinListener {

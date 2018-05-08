@@ -353,5 +353,6 @@
     <string name="hint_generated_pin">generated pin</string>
     <string name="generate_pin_icon">123</string>
     <string name="entry_notes">Notes</string>
+    <string name="hint_generated_sentece">generated sentence</string>
 
 </resources>

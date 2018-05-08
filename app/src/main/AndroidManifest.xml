@@ -158,5 +158,8 @@
         <activity android:name="com.patarapolw.diceware_utils.DicewarePassword"/>
         <activity android:name="com.patarapolw.diceware_utils.KeywordListLoader"/>
 
+        <activity android:name="com.patarapolw.randomsentence.SentenceMaker"/>
+        <activity android:name="com.patarapolw.randomsentence.POSTaggerPreExported"/>
+
     </application>
 </manifest> 
