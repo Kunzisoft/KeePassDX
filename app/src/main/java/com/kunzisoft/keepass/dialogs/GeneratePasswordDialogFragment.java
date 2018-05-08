@@ -53,11 +53,11 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
 	private EditText passwordView;
 	private EditText mnemonicView;
-//	private EditText sentenceView;
+	private EditText sentenceView;
 
 	private DicewarePassword dicewarePassword;
 	private Policy policy;
-//	private SentenceMaker sentenceMaker;
+	private SentenceMaker sentenceMaker;
 
     @Override
     public void onAttach(Context context) {
@@ -79,7 +79,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
         dicewarePassword = new DicewarePassword(getContext());
         policy = new Policy(getContext());
-//        sentenceMaker = new SentenceMaker(getContext());
+        sentenceMaker = new SentenceMaker(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -87,8 +87,8 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         mnemonicView = root.findViewById(R.id.mnemonic);
         Util.applyFontVisibilityTo(getContext(), mnemonicView);
 
-//        sentenceView = root.findViewById(R.id.generated_sentence);
-//        Util.applyFontVisibilityTo(getContext(), sentenceView);
+        sentenceView = root.findViewById(R.id.generated_sentence);
+        Util.applyFontVisibilityTo(getContext(), sentenceView);
 
         lengthMinView = root.findViewById(R.id.length_min);
         lengthMaxView = root.findViewById(R.id.length_max);
@@ -106,8 +106,8 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
                     String mnemonic = "";
 
                     mnemonic += mnemonicView.getText().toString();
-//                    mnemonic += "\n\n";
-//                    mnemonic += sentenceView.getText().toString();
+                    mnemonic += "\n\n";
+                    mnemonic += sentenceView.getText().toString();
 
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_PASSWORD_ID, passwordView.getText().toString());
@@ -140,7 +140,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
 		passwordView.setText(dicewarePassword.getPassword());
 		mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
-//		sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+		sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
 	}
 
     public interface GeneratePasswordListener {

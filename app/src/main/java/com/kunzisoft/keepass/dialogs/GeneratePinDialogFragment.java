@@ -57,10 +57,10 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
     private EditText passwordView;
     private EditText mnemonicView;
-//    private EditText sentenceView;
+    private EditText sentenceView;
 
     private DicewarePassword dicewarePassword;
-//    private SentenceMaker sentenceMaker;
+    private SentenceMaker sentenceMaker;
 
     @Override
     public void onAttach(Context context) {
@@ -81,7 +81,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
         View root = inflater.inflate(R.layout.generate_pin, null);
 
         dicewarePassword = new DicewarePassword(getContext());
-//        sentenceMaker = new SentenceMaker(getContext());
+        sentenceMaker = new SentenceMaker(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -89,8 +89,8 @@ public class GeneratePinDialogFragment extends DialogFragment {
         mnemonicView = root.findViewById(R.id.mnemonic);
         Util.applyFontVisibilityTo(getContext(), mnemonicView);
 
-//        sentenceView = root.findViewById(R.id.generated_sentence);
-//        Util.applyFontVisibilityTo(getContext(), sentenceView);
+        sentenceView = root.findViewById(R.id.generated_sentence);
+        Util.applyFontVisibilityTo(getContext(), sentenceView);
 
         lengthView = root.findViewById(R.id.length);
 
@@ -104,8 +104,8 @@ public class GeneratePinDialogFragment extends DialogFragment {
                     String mnemonic = "";
 
                     mnemonic += mnemonicView.getText().toString();
-//                    mnemonic += "\n\n";
-//                    mnemonic += sentenceView.getText().toString();
+                    mnemonic += "\n\n";
+                    mnemonic += sentenceView.getText().toString();
 
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_PASSWORD_ID, passwordView.getText().toString());
@@ -132,7 +132,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
         passwordView.setText(dicewarePassword.getPin());
         mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
-//        sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+        sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
     }
 
     public interface GeneratePinListener {

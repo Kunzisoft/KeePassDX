@@ -3,14 +3,15 @@ package com.patarapolw.randomsentence;
 import android.app.Activity;
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.security.SecureRandom;
 
 public class SentenceMaker extends Activity {
-    private String[][][] taggedSents;
-    private POSTaggerPreExported posTagger;
+    private String[] taggedSents;
+    private POSTagger posTagger;
 
     private SecureRandom random = new SecureRandom();
 
@@ -18,16 +19,19 @@ public class SentenceMaker extends Activity {
 
     public SentenceMaker(Context context) {
         try {
-            InputStream is = context.getAssets().open("randomsentence/brownTaggedSents.ser");
-            ObjectInputStream objectInputStream = new ObjectInputStream(is);
-            taggedSents = (String[][][]) objectInputStream.readObject();
+            InputStream is = context.getAssets().open("randomsentence/brown-tagged-sents.txt");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
             is.close();
+
+            taggedSents = new String(buffer).trim().split("\n");
         }
-        catch (IOException | ClassNotFoundException ex) {
+        catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        posTagger = new POSTaggerPreExported(context);
+        posTagger = new POSTagger(context);
     }
 
     public String makeSentence(String[] keywordList) {
@@ -35,13 +39,15 @@ public class SentenceMaker extends Activity {
         String[] resultSentence;
         String[] tagged_token;
 
+        Gson gson = new Gson();
+
         String[] keywordTags = posTagger.tag(keywordList);
         long start = System.currentTimeMillis();
         int timeoutMillis = 3000;
         while(System.currentTimeMillis() - start < timeoutMillis){
             int keywordTagsIndex = 0;
 
-            sampleSentence = taggedSents[random.nextInt(taggedSents.length)];
+            sampleSentence = gson.fromJson(taggedSents[random.nextInt(taggedSents.length)], String[][].class);
             resultSentence = new String[sampleSentence.length];
 
             for(int token_i=0; token_i < sampleSentence.length; token_i++){

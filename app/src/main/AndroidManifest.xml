@@ -159,7 +159,7 @@
         <activity android:name="com.patarapolw.diceware_utils.KeywordListLoader"/>
 
         <activity android:name="com.patarapolw.randomsentence.SentenceMaker"/>
-        <activity android:name="com.patarapolw.randomsentence.POSTaggerPreExported"/>
+        <activity android:name="com.patarapolw.randomsentence.POSTagger"/>
 
     </application>
 </manifest> 
