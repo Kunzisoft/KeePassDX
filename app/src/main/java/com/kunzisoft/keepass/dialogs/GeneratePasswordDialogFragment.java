@@ -20,9 +20,13 @@
  */
 package com.kunzisoft.keepass.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -38,6 +42,8 @@ import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
 import com.patarapolw.diceware_utils.Policy;
 import com.patarapolw.randomsentence.SentenceMaker;
+
+import java.util.Objects;
 
 public class GeneratePasswordDialogFragment extends DialogFragment {
 
@@ -57,7 +63,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
 	private DicewarePassword dicewarePassword;
 	private Policy policy;
-	private SentenceMaker sentenceMaker;
+	private SentenceMaker sentenceMaker = null;
 
     @Override
     public void onAttach(Context context) {
@@ -79,7 +85,6 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
         dicewarePassword = new DicewarePassword(getContext());
         policy = new Policy(getContext());
-        sentenceMaker = new SentenceMaker(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -95,6 +100,12 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         numberOfKeywordsView = root.findViewById(R.id.number_of_keywords);
         punctuationCountMinView = root.findViewById(R.id.punctuation_count_min);
         digitCountMinView = root.findViewById(R.id.number_count_min);
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(() -> {
+            sentenceMaker = new SentenceMaker(getContext());
+            sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+        });
 
 //        assignDefaultCharacters();
 
@@ -140,7 +151,9 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
 		passwordView.setText(dicewarePassword.getPassword());
 		mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
-		sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+		if(sentenceMaker != null) {
+            sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+        }
 	}
 
     public interface GeneratePasswordListener {

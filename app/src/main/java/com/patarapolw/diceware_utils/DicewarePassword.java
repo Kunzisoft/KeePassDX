@@ -51,7 +51,7 @@ public class DicewarePassword extends Activity {
         for(int i=0; i<numberOfKeywords; i++){
             keywordResource[i] = keywordListLoader.getKeyword();
         }
-        keywordList = keywordResource;
+        keywordList = keywordResource.clone();
 
         String prePassword;
 

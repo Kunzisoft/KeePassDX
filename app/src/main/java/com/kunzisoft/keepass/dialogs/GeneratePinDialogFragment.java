@@ -23,6 +23,8 @@ package com.kunzisoft.keepass.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -60,7 +62,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
     private EditText sentenceView;
 
     private DicewarePassword dicewarePassword;
-    private SentenceMaker sentenceMaker;
+    private SentenceMaker sentenceMaker = null;
 
     @Override
     public void onAttach(Context context) {
@@ -81,7 +83,6 @@ public class GeneratePinDialogFragment extends DialogFragment {
         View root = inflater.inflate(R.layout.generate_pin, null);
 
         dicewarePassword = new DicewarePassword(getContext());
-        sentenceMaker = new SentenceMaker(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -93,6 +94,12 @@ public class GeneratePinDialogFragment extends DialogFragment {
         Util.applyFontVisibilityTo(getContext(), sentenceView);
 
         lengthView = root.findViewById(R.id.length);
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(() -> {
+            sentenceMaker = new SentenceMaker(getContext());
+            sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+        });
 
 //        assignDefaultCharacters();
 
@@ -132,7 +139,9 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
         passwordView.setText(dicewarePassword.getPin());
         mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
-        sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+        if(sentenceMaker != null) {
+            sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+        }
     }
 
     public interface GeneratePinListener {

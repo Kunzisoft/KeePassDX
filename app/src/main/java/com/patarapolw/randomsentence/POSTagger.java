@@ -3,8 +3,10 @@ package com.patarapolw.randomsentence;
 import android.app.Activity;
 import android.content.Context;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,15 +19,15 @@ public class POSTagger extends Activity {
     public POSTagger(Context context) {
         try {
             InputStream is = context.getAssets().open("randomsentence/dictionary-tagged.txt");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-            for(String dictEntry: new String(buffer).trim().split("\n")){
-                String[] entry = dictEntry.split("\t");
+            String line;
+            while((line = reader.readLine()) != null){
+                String[] entry = line.split("\t");
                 taggedDictionary.put(entry[0], entry[1]);
             }
+            reader.close();
+            is.close();
         }
         catch (IOException ex) {
             ex.printStackTrace();
