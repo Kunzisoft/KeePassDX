@@ -10,6 +10,7 @@
 
 - A password generator based on Diceware passphrase, default ot at least 6 keywords, with some modifications
 - "Note/Comment" section of the password entry is also a sensitive information, so it has been edited to be masked. This section will contain the mnemonic for the password to make memorable.
+- Sentences according to the word in the passphrase are automatically generated. Can be disabled if your Android hangs.
 
 ## Fork origins
 
