@@ -20,10 +20,8 @@
  */
 package com.kunzisoft.keepass.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,15 +33,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
 import com.patarapolw.diceware_utils.Policy;
 import com.patarapolw.randomsentence.SentenceMaker;
-
-import java.util.Objects;
 
 public class GeneratePasswordDialogFragment extends DialogFragment {
 
@@ -101,11 +97,15 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         punctuationCountMinView = root.findViewById(R.id.punctuation_count_min);
         digitCountMinView = root.findViewById(R.id.number_count_min);
 
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(() -> {
-            sentenceMaker = new SentenceMaker(getContext());
-            sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
-        });
+        if(PreferencesUtil.isGenerateSentence(getContext())) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                sentenceMaker = new SentenceMaker(getContext());
+                sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+            });
+        } else {
+            sentenceView.setVisibility(View.GONE);
+        }
 
 //        assignDefaultCharacters();
 
@@ -117,8 +117,10 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
                     String mnemonic = "";
 
                     mnemonic += mnemonicView.getText().toString();
-                    mnemonic += "\n\n";
-                    mnemonic += sentenceView.getText().toString();
+                    if(sentenceMaker != null) {
+                        mnemonic += "\n\n";
+                        mnemonic += sentenceView.getText().toString();
+                    }
 
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_PASSWORD_ID, passwordView.getText().toString());

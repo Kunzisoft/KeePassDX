@@ -122,11 +122,7 @@ public class Policy extends Activity {
         if(actualDigitCount < digit_count){
             return false;
         }
-        if(actualPunctuationCount < punctuation_count){
-            return false;
-        }
-
-        return true;
+        return actualPunctuationCount >= punctuation_count;
     }
 
     public int getLength_max(){
