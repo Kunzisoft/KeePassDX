@@ -23,6 +23,7 @@ package com.kunzisoft.keepass.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -37,7 +38,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
 import com.patarapolw.diceware_utils.Policy;
-import com.patarapolw.randomsentence.SentenceMaker;
+import com.patarapolw.randomsentence.SentenceMakerSQLite;
 
 public class GeneratePasswordDialogFragment extends DialogFragment {
 
@@ -57,7 +58,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
 	private DicewarePassword dicewarePassword;
 	private Policy policy;
-	private SentenceMaker sentenceMaker = null;
+	private SentenceMakerSQLite sentenceMaker = null;
 
     @Override
     public void onAttach(Context context) {
@@ -96,7 +97,11 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         digitCountMinView = root.findViewById(R.id.number_count_min);
 
         if(PreferencesUtil.isGenerateSentence(getContext())) {
-            sentenceMaker = new SentenceMaker(getContext());
+            Handler handler = new Handler();
+            handler.post(() -> {
+                sentenceMaker = new SentenceMakerSQLite(getContext());
+                sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+            });
         } else {
             sentenceView.setVisibility(View.GONE);
         }

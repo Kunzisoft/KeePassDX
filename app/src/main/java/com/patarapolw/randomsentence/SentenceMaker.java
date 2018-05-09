@@ -1,23 +1,53 @@
 package com.patarapolw.randomsentence;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
-import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SentenceMaker extends SQLiteAssetHelper {
-    private static final String DATABASE_NAME = "SentenceMaker.db";
-    private static final int DATABASE_VERSION = 1;
+public class SentenceMaker {
+    private ArrayList<String> taggedSents = new ArrayList<>();
+    private Map<String, String> taggedDictionary = new HashMap<>();
 
     private SecureRandom random = new SecureRandom();
 
-    public SentenceMaker (Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public SentenceMaker(Context context) {
+        try {
+            InputStream is = context.getAssets().open("randomsentence/sentences-tagged.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                taggedSents.add(line);
+            }
+            reader.close();
+            is.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            InputStream is = context.getAssets().open("randomsentence/dictionary-tagged.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+            String line;
+            while((line = reader.readLine()) != null){
+                String[] entry = line.split("\t");
+                taggedDictionary.put(entry[0], entry[1]);
+            }
+            reader.close();
+            is.close();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public String makeSentence(String[] keywordList) {
@@ -59,48 +89,18 @@ public class SentenceMaker extends SQLiteAssetHelper {
     }
 
     private String randomSentence () {
-        SQLiteDatabase db = getReadableDatabase();
-
-        String tableName = "tagged_sents";
-        long count = DatabaseUtils.queryNumEntries(db, tableName);
-        String[] columns = { "tagged_sentence" };
-        String where = String.format("%s=?", "id");
-        String[] whereArgs = { Integer.toString(random.nextInt((int) count)) };
-
-        Cursor cursor = db.query(tableName, columns, where, whereArgs, null, null, null);
-        String sentence;
-        if(cursor.moveToFirst()){
-            sentence = cursor.getString(0);
-        } else {
-            sentence = "";
-        }
-
-        cursor.close();
-
-        return sentence;
+        return taggedSents.get(random.nextInt(taggedSents.size()));
     }
 
     private String[] getPOS (String[] wordList) {
-        SQLiteDatabase db = getReadableDatabase();
-
         String[] result = new String[wordList.length];
 
-        String tableName = "dictionary";
-        String[] columns = { "pos" };
-        String where = String.format("%s=?", "word");
-
-        Cursor cursor;
         for(int i=0; i<wordList.length; i++) {
-            String[] whereArgs = {wordList[i]};
+            result[i] = taggedDictionary.get(wordList[i]);
 
-            cursor = db.query(tableName, columns, where, whereArgs, null, null, null);
-
-            if(cursor.moveToFirst()) {
-                result[i] = cursor.getString(0);
-            } else {
+            if(result[i] == null){
                 result[i] = "NN";
             }
-            cursor.close();
         }
 
         return result;
