@@ -27,24 +27,21 @@ import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import java.io.IOException;
 
 public class SaveDBRunnable extends RunnableOnFinish {
+
+	private Context mCtx;
 	private Database mDb;
 	private boolean mDontSave;
-	private Context mCtx;
 
 	public SaveDBRunnable(Context ctx, Database db, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
-		
-		mDb = db;
-		mDontSave = dontSave;
-		mCtx = ctx;
+
+		this.mDb = db;
+		this.mDontSave = dontSave;
+		this.mCtx = ctx;
 	}
 
 	public SaveDBRunnable(Context ctx, Database db, OnFinishRunnable finish) {
-		super(finish);
-		
-		mDb = db;
-		mDontSave = false;
-		mCtx = ctx;
+		this(ctx, db, finish, false);
 	}
 
 	@Override

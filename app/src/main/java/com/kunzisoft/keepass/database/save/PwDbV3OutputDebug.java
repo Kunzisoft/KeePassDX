@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.save;
 
 import com.kunzisoft.keepass.database.PwDatabaseV3;
 import com.kunzisoft.keepass.database.PwDatabaseV3Debug;
-import com.kunzisoft.keepass.database.PwDbHeader;
 import com.kunzisoft.keepass.database.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 
@@ -32,10 +31,6 @@ public class PwDbV3OutputDebug extends PwDbV3Output {
 	PwDatabaseV3Debug debugDb;
 	private boolean noHeaderHash;
 
-	public PwDbV3OutputDebug(PwDatabaseV3 pm, OutputStream os) {
-		this(pm, os, false);
-	}
-
 	public PwDbV3OutputDebug(PwDatabaseV3 pm, OutputStream os, boolean noHeaderHash) {
 		super(pm, os);
 		debugDb = (PwDatabaseV3Debug) pm;
@@ -43,10 +38,7 @@ public class PwDbV3OutputDebug extends PwDbV3Output {
 	}
 
 	@Override
-	protected SecureRandom setIVs(PwDbHeader h) throws PwDbOutputException {
-		PwDbHeaderV3 header = (PwDbHeaderV3) h;
-		
-		
+	protected SecureRandom setIVs(PwDbHeaderV3 header) throws PwDbOutputException {
 		// Reuse random values to test equivalence in debug mode
 		PwDbHeaderV3 origHeader = debugDb.getDbHeader();
 		System.arraycopy(origHeader.encryptionIV, 0, header.encryptionIV, 0, origHeader.encryptionIV.length);

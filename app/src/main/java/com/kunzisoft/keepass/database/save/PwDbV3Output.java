@@ -48,7 +48,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class PwDbV3Output extends PwDbOutput {
+public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 	private PwDatabaseV3 mPM;
 	private byte[] headerHashBlock;
 	
@@ -111,15 +111,13 @@ public class PwDbV3Output extends PwDbOutput {
 	}
 
 	@Override
-	protected SecureRandom setIVs(PwDbHeader header) throws PwDbOutputException {
+	protected SecureRandom setIVs(PwDbHeaderV3 header) throws PwDbOutputException {
 		SecureRandom random = super.setIVs(header);
-
-		PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
-		random.nextBytes(h3.transformSeed);
-
+		random.nextBytes(header.transformSeed);
 		return random;
 	}
 
+	@Override
 	public PwDbHeaderV3 outputHeader(OutputStream os) throws PwDbOutputException {
 		// Build header
 		PwDbHeaderV3 header = new PwDbHeaderV3();

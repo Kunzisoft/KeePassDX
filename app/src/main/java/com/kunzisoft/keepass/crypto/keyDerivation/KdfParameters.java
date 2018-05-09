@@ -35,7 +35,7 @@ public class KdfParameters extends VariantDictionary {
 
     private static final String ParamUUID = "$UUID";
 
-    public KdfParameters(UUID uuid) {
+    KdfParameters(UUID uuid) {
         kdfUUID = uuid;
     }
 
@@ -45,20 +45,14 @@ public class KdfParameters extends VariantDictionary {
 
         VariantDictionary d = VariantDictionary.deserialize(lis);
         if (d == null) {
-            assert(false);
             return null;
         }
 
         UUID uuid = Types.bytestoUUID(d.getByteArray(ParamUUID));
-        if (uuid == null) {
-            assert(false);
-            return null;
-        }
 
         KdfParameters kdfP = new KdfParameters(uuid);
         kdfP.copyTo(d);
         return kdfP;
-
     }
 
     public static byte[] serialize(KdfParameters kdf) throws IOException {

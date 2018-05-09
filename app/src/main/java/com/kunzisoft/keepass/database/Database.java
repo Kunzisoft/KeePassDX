@@ -28,6 +28,7 @@ import android.util.Log;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
@@ -376,9 +377,9 @@ public class Database {
     public List<KdfEngine> getAvailableKdfEngines() {
         switch (getPwDatabase().getVersion()) {
             case V4:
-                return ((PwDatabaseV4) getPwDatabase()).getAvailableKdfEngines();
+                return KdfFactory.kdfList;
             case V3:
-                return ((PwDatabaseV3) getPwDatabase()).getAvailableKdfEngines();
+                return KdfFactory.kdfListV3;
         }
         return new ArrayList<>();
     }
@@ -391,14 +392,18 @@ public class Database {
         switch (getPwDatabase().getVersion()) {
             case V4:
                 PwDatabaseV4 db = ((PwDatabaseV4) getPwDatabase());
-                db.setKdfEngine(kdfEngine);
                 db.setKdfParameters(kdfEngine.getDefaultParameters());
-                db.setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
+                setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
+                break;
         }
     }
 
     public String getKeyDerivationName(Resources resources) {
-        return getPwDatabase().getKeyDerivationName(resources);
+        KdfEngine kdfEngine = getPwDatabase().getKdfEngine();
+        if (kdfEngine != null) {
+            return kdfEngine.getName(resources);
+        }
+        return "";
     }
 
     public String getNumberKeyEncryptionRoundsAsString() {

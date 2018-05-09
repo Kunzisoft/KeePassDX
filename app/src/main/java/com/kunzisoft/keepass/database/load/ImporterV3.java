@@ -63,7 +63,6 @@ import com.kunzisoft.keepass.database.exception.InvalidDBVersionException;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
-import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.stream.NullOutputStream;
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.Types;
@@ -133,13 +132,13 @@ public class ImporterV3 extends Importer {
 	@Override
 	public PwDatabaseV3 openDatabase(InputStream inStream, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater, long roundsFix)
 	throws IOException, InvalidDBException {
-		PwDatabaseV3        newManager;
 
+		PwDatabaseV3 databaseToOpen;
 
 		// Load entire file, most of it's encrypted.
 		int fileSize = inStream.available();
 		byte[] filebuf = new byte[fileSize + 16]; // Pad with a blocksize (Twofish uses 128 bits), since Android 4.3 tries to write more to the buffer
-		inStream.read(filebuf, 0, fileSize);
+		inStream.read(filebuf, 0, fileSize); // TODO remove
 		inStream.close();
 
 		// Parse header (unencrypted)
@@ -158,34 +157,34 @@ public class ImporterV3 extends Importer {
 
 		if (progressTaskUpdater != null)
             progressTaskUpdater.updateMessage(R.string.creating_db_key);
-		newManager = createDB();
-		newManager.retrieveMasterKey(password, kfIs);
+		databaseToOpen = createDB();
+		databaseToOpen.retrieveMasterKey(password, kfIs);
 
 		// Select algorithm
 		if( (hdr.flags & PwDbHeaderV3.FLAG_RIJNDAEL) != 0 ) {
-			newManager.setEncryptionAlgorithm(PwEncryptionAlgorithm.AES_Rijndael);
+			databaseToOpen.setEncryptionAlgorithm(PwEncryptionAlgorithm.AES_Rijndael);
 		} else if( (hdr.flags & PwDbHeaderV3.FLAG_TWOFISH) != 0 ) {
-			newManager.setEncryptionAlgorithm(PwEncryptionAlgorithm.Twofish);
+			databaseToOpen.setEncryptionAlgorithm(PwEncryptionAlgorithm.Twofish);
 		} else {
 			throw new InvalidAlgorithmException();
 		}
 
 		// Copy for testing
-		newManager.copyHeader(hdr);
+		databaseToOpen.copyHeader(hdr);
 		
-		newManager.setNumberKeyEncryptionRounds(hdr.numKeyEncRounds);
+		databaseToOpen.setNumberKeyEncryptionRounds(hdr.numKeyEncRounds);
 
 		// Generate transformedMasterKey from masterKey
-		newManager.makeFinalKey(hdr.masterSeed, hdr.transformSeed, newManager.getNumberKeyEncryptionRounds());
+		databaseToOpen.makeFinalKey(hdr.masterSeed, hdr.transformSeed, databaseToOpen.getNumberKeyEncryptionRounds());
 
         if (progressTaskUpdater != null)
             progressTaskUpdater.updateMessage(R.string.decrypting_db);
 		// Initialize Rijndael algorithm
 		Cipher cipher;
 		try {
-			if ( newManager.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
+			if ( databaseToOpen.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
-			} else if ( newManager.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
+			} else if ( databaseToOpen.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
 			} else {
 				throw new IOException( "Encryption algorithm is not supported" );
@@ -198,7 +197,7 @@ public class ImporterV3 extends Importer {
 		}
 
 		try {
-			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( newManager.getFinalKey(), "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
+			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( databaseToOpen.getFinalKey(), "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
 		} catch (InvalidKeyException e1) {
 			throw new IOException("Invalid key");
 		} catch (InvalidAlgorithmParameterException e1) {
@@ -218,7 +217,7 @@ public class ImporterV3 extends Importer {
 		}
 
 		// Copy decrypted data for testing
-		newManager.copyEncrypted(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize);
+		databaseToOpen.copyEncrypted(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize);
 
 		MessageDigest md = null;
 		try {
@@ -251,13 +250,13 @@ public class ImporterV3 extends Importer {
 			if( fieldType == 0xFFFF ) {
 
 				// End-Group record.  Save group and count it.
-				newGrp.populateBlankFields(newManager);
-				newManager.addGroup(newGrp);
+				newGrp.populateBlankFields(databaseToOpen);
+				databaseToOpen.addGroup(newGrp);
 				newGrp = new PwGroupV3();
 				i++;
 			}
 			else {
-				readGroupField(newManager, newGrp, fieldType, filebuf, pos);
+				readGroupField(databaseToOpen, newGrp, fieldType, filebuf, pos);
 			}
 			pos += fieldSize;
 		}
@@ -270,64 +269,21 @@ public class ImporterV3 extends Importer {
 
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
-				newEnt.populateBlankFields(newManager);
-				newManager.addEntry(newEnt);
+				newEnt.populateBlankFields(databaseToOpen);
+				databaseToOpen.addEntry(newEnt);
 				newEnt = new PwEntryV3();
 				i++;
 			}
 			else {
-				readEntryField(newManager, newEnt, filebuf, pos);
+				readEntryField(databaseToOpen, newEnt, filebuf, pos);
 			}
 			pos += 2 + 4 + fieldSize;
 		}
 
-		newManager.constructTree(null);
+		databaseToOpen.constructTree(null);
 		
-		return newManager;
+		return databaseToOpen;
 	}
-
-	/**
-	 * KeePass's custom pad style.
-	 * 
-	 * @param data buffer to pad.
-	 * @return addtional bytes to append to data[] to make
-	 *    a properly padded array.
-	 */
-	public static byte[] makePad( byte[] data ) {
-		//custom pad method
-
-		// append 0x80 plus zeros to a multiple of 4 bytes
-		int thisblk = 32 - data.length % 32;  // bytes needed to finish blk
-		int nextblk = 0;                      // 32 if we need another block
-		// need 9 bytes; add new block if no room
-		if( thisblk < 9 ) {
-			nextblk = 32;
-		}
-
-		// all bytes are zeroed for free
-		byte[] pad = new byte[ thisblk + nextblk ];
-		pad[0] = (byte)0x80;
-
-		// write length*8 to end of final block
-		int ix = thisblk + nextblk - 8;
-		LEDataOutputStream.writeInt( data.length>>29, pad, ix );
-		bsw32( pad, ix );
-		ix += 4;
-		LEDataOutputStream.writeInt( data.length<<3, pad, ix );
-		bsw32( pad, ix );
-
-		return pad;
-	}
-
-	public static void bsw32( byte[] ary, int offset ) {
-		byte t = ary[offset];
-		ary[offset] = ary[offset+3];
-		ary[offset+3] = t;
-		t = ary[offset+1];
-		ary[offset+1] = ary[offset+2];
-		ary[offset+2] = t;
-	}
-
 
 	/**
 	 * Parse and save one record from binary file.
@@ -336,7 +292,7 @@ public class ImporterV3 extends Importer {
 	 * @return If >0, 
 	 * @throws UnsupportedEncodingException 
 	 */
-	void readGroupField(PwDatabaseV3 db, PwGroupV3 grp, int fieldType, byte[] buf, int offset) throws UnsupportedEncodingException {
+	private void readGroupField(PwDatabaseV3 db, PwGroupV3 grp, int fieldType, byte[] buf, int offset) throws UnsupportedEncodingException {
 		switch( fieldType ) {
 		case 0x0000 :
 			// Ignore field
@@ -373,9 +329,7 @@ public class ImporterV3 extends Importer {
 
 
 
-	void readEntryField(PwDatabaseV3 db, PwEntryV3 ent, byte[] buf, int offset)
-	throws UnsupportedEncodingException
-	{
+	private void readEntryField(PwDatabaseV3 db, PwEntryV3 ent, byte[] buf, int offset) throws UnsupportedEncodingException {
 		int fieldType = LEDataInputStream.readUShort(buf, offset);
 		offset += 2;
 		int fieldSize = LEDataInputStream.readInt(buf, offset);

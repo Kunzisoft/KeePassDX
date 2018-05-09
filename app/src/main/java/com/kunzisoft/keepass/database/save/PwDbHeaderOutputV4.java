@@ -55,7 +55,7 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 		db = d;
 		header = h;
 
-		MessageDigest md = null;
+		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
@@ -63,7 +63,7 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 		}
 
 		try {
-			d.makeFinalKey(header.masterSeed, d.getKdfParameters());
+			d.makeFinalKey(header.masterSeed);
 		} catch (IOException e) {
 		    throw new PwDbOutputException(e);
 		}

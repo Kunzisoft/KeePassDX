@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database;
 
 import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
 import com.kunzisoft.keepass.database.exception.InvalidDBVersionException;
 import com.kunzisoft.keepass.stream.CopyInputStream;
@@ -92,9 +93,9 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	public long version;
 
     public PwDbHeaderV4(PwDatabaseV4 d) {
-    	db = d;
-		version = d.getMinKdbxVersion();
-    	masterSeed = new byte[32];
+        this.db = d;
+        this.version = d.getMinKdbxVersion();
+        this.masterSeed = new byte[32];
     }
 
 	/** Assumes the input stream is at the beginning of the .kdbx file
@@ -155,7 +156,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				throw new IOException("Header ended early.");
 			}
 		}
-		
+
 		switch ( fieldID ) {
 			case PwDbHeaderV4Fields.EndOfHeader:
 				return true;
@@ -173,24 +174,13 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.TransformSeed:
-				assert(version < PwDbHeaderV4.FILE_VERSION_32_4); // TODO file > FILEVERSION
-				AesKdf kdfS = new AesKdf();
-				if (!db.getKdfParameters().kdfUUID.equals(kdfS.uuid)) {
-					db.setKdfParameters(kdfS.getDefaultParameters());
-				}
-
-				db.getKdfParameters().setByteArray(AesKdf.ParamSeed, fieldData);
+                if(version < PwDbHeaderV4.FILE_VERSION_32_4)
+				    setTransformSeed(fieldData);
 				break;
 				
 			case PwDbHeaderV4Fields.TransformRounds:
-				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
-				AesKdf kdfR = new AesKdf();
-				if (!db.getKdfParameters().kdfUUID.equals(kdfR.uuid)) {
-					db.setKdfParameters(kdfR.getDefaultParameters());
-				}
-				long rounds = LEDataInputStream.readLong(fieldData, 0);
-				db.getKdfParameters().setUInt64(AesKdf.ParamRounds, rounds);
-				db.setNumberKeyEncryptionRounds(rounds);
+                if(version < PwDbHeaderV4.FILE_VERSION_32_4)
+				    setTransformRound(fieldData);
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:
@@ -198,8 +188,8 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.InnerRandomstreamKey:
-			    assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
-				innerRandomStreamKey = fieldData;
+			    if(version < PwDbHeaderV4.FILE_VERSION_32_4)
+				    innerRandomStreamKey = fieldData;
 				break;
 				
 			case PwDbHeaderV4Fields.StreamStartBytes:
@@ -207,8 +197,8 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 			
 			case PwDbHeaderV4Fields.InnerRandomStreamID:
-				assert(version < PwDbHeaderV4.FILE_VERSION_32_4);
-				setRandomStreamID(fieldData);
+				if(version < PwDbHeaderV4.FILE_VERSION_32_4)
+				    setRandomStreamID(fieldData);
 				break;
 
 			case PwDbHeaderV4Fields.KdfParameters:
@@ -224,6 +214,12 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		
 		return false;
 	}
+
+	private void assignAesKdfEngineIfNotExists() {
+        if (db.getKdfParameters() == null || !db.getKdfParameters().kdfUUID.equals(KdfFactory.aesKdf.uuid)) {
+            db.setKdfParameters(KdfFactory.aesKdf.getDefaultParameters());
+        }
+    }
 	
 	private void setCipher(byte[] pbId) throws IOException {
 		if ( pbId == null || pbId.length != 16 ) {
@@ -232,6 +228,18 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		
 		db.setDataCipher(Types.bytestoUUID(pbId));
 	}
+
+	private void setTransformSeed(byte[] seed) {
+        assignAesKdfEngineIfNotExists();
+        db.getKdfParameters().setByteArray(AesKdf.ParamSeed, seed);
+    }
+
+    private void setTransformRound(byte[] roundsByte) {
+        assignAesKdfEngineIfNotExists();
+        long rounds = LEDataInputStream.readLong(roundsByte, 0);
+        db.getKdfParameters().setUInt64(AesKdf.ParamRounds, rounds);
+        db.setNumberKeyEncryptionRounds(rounds);
+    }
 	
 	private void setCompressionFlags(byte[] pbFlags) throws IOException {
 		if ( pbFlags == null || pbFlags.length != 4 ) {
@@ -244,23 +252,6 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 		
 		db.setCompressionAlgorithm(PwCompressionAlgorithm.fromId(flag));
-		
-	}
-	
-	private void setTransformRounds(byte[] rounds) throws IOException {
-		if ( rounds == null || rounds.length != 8 ) {
-			throw new IOException("Invalid rounds.");
-		}
-		
-		long rnd = LEDataInputStream.readLong(rounds, 0);
-		
-		if ( rnd < 0 || rnd > Integer.MAX_VALUE ) {
-			//TODO: Actually support really large numbers
-			throw new IOException("Rounds higher than " + Integer.MAX_VALUE + " are not currently supported.");
-		}
-		
-		db.setNumberKeyEncryptionRounds(rnd);
-		
 	}
 	
 	public void setRandomStreamID(byte[] streamID) throws IOException {
@@ -276,25 +267,23 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		innerRandomStream = CrsAlgorithm.fromId(id);
 	}
 	
-	/** Determines if this is a supported version.
+	/**
+     * Determines if this is a supported version.
 	 * 
-	 *  A long is needed here to represent the unsigned int since we perform
-	 *  arithmetic on it.
-	 * @param version
-	 * @return
+	 * A long is needed here to represent the unsigned int since we perform arithmetic on it.
+	 * @param version Database version
+	 * @return true if it's a supported version
 	 */
 	private boolean validVersion(long version) {
-		
 		return ! ((version & FILE_VERSION_CRITICAL_MASK) > (FILE_VERSION_32 & FILE_VERSION_CRITICAL_MASK));
-		
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {
-		return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_2) || (sig2 == DBSIG_2) );
+		return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_2) );
+		//return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_PRE2) || (sig2 == DBSIG_2) ); // TODO verify add DBSIG_PRE2
 	}
 
 	public static byte[] computeHeaderHmac(byte[] header, byte[] key) throws IOException{
-		byte[] headerHmac;
 		byte[] blockKey = HmacBlockStream.GetHmacKey64(key, Types.ULONG_MAX_VALUE);
 
 		Mac hmac;
@@ -312,8 +301,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	}
 
 	public byte[] getTransformSeed() {
-		assert(version < FILE_VERSION_32_4);
-
-		return db.getKdfParameters().getByteArray(AesKdf.ParamSeed);
+		// version < FILE_VERSION_32_4)
+        return db.getKdfParameters().getByteArray(AesKdf.ParamSeed);
 	}
 }

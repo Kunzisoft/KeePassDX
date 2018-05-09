@@ -38,7 +38,7 @@ public abstract class DatabaseSavePreferenceDialogFragmentCompat  extends InputP
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        database = App.getDB();
+        this.database = App.getDB();
     }
 
     @Override
@@ -47,7 +47,9 @@ public abstract class DatabaseSavePreferenceDialogFragmentCompat  extends InputP
             assert getActivity() != null;
 
             if (database != null && afterSaveDatabase != null) {
-                SaveDBRunnable saveDBRunnable = new SaveDBRunnable(getContext(), database, afterSaveDatabase);
+                SaveDBRunnable saveDBRunnable = new SaveDBRunnable(getContext(),
+                        database,
+                        afterSaveDatabase);
                 saveDBRunnable.setUpdateProgressTaskStatus(
                         new UpdateProgressTaskStatus(getContext(),
                                 SaveDatabaseProgressTaskDialogFragment.start(

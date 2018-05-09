@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database;
 
-import android.content.res.Resources;
 import android.webkit.URLUtil;
 
 import com.kunzisoft.keepass.collections.VariantDictionary;
@@ -67,9 +66,10 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private UUID dataCipher = AesEngine.CIPHER_UUID;
 	private CipherEngine dataEngine = new AesEngine();
 	private PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
-	private KdfEngine kdfEngine;
+    private KdfParameters kdfParameters;
+	private long numKeyEncRounds;
+    private VariantDictionary publicCustomData = new VariantDictionary();
 
-    private long numKeyEncRounds = AesKdf.DEFAULT_ROUNDS; // By default take the AES rounds
 	protected String name = "KeePass DX database";
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
@@ -99,9 +99,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     private List<PwIconCustom> customIcons = new ArrayList<>();
     private Map<String, String> customData = new HashMap<>();
 
-	private KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
-	private VariantDictionary publicCustomData = new VariantDictionary();
-	private BinaryPool binPool = new BinaryPool();
+    private BinaryPool binPool = new BinaryPool();
 
     public String localizedAppName = "KeePassDX"; // TODO resource
 
@@ -153,28 +151,11 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     @Override
 	public KdfEngine getKdfEngine() {
-		return kdfEngine;
+		return KdfFactory.get(getKdfParameters());
 	}
-
-    public void setKdfEngine(KdfEngine kdfEngine) {
-        this.kdfEngine = kdfEngine;
-    }
-
-    @Override
-	public String getKeyDerivationName(Resources resources) {
-        if (kdfEngine!=null)
-            return kdfEngine.getName(resources);
-        else
-            return "";
-	}
-
-    @Override
-    public List<KdfEngine> getAvailableKdfEngines() {
-        return KdfFactory.kdfList;
-    }
 
     public KdfParameters getKdfParameters() {
-        return kdfParameters;
+	    return kdfParameters;
     }
 
     public void setKdfParameters(KdfParameters kdfParameters) {
@@ -389,25 +370,25 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		return md.digest(fKey);
 	}
 
-	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP) throws IOException {
-    	makeFinalKey(masterSeed, kdfP, 0);
+	public void makeFinalKey(byte[] masterSeed) throws IOException {
+    	makeFinalKey(masterSeed, 0);
 	}
 
-	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP, long roundsFix)
+	public void makeFinalKey(byte[] masterSeed, long roundsFix)
 			throws IOException {
 
-		kdfEngine = KdfFactory.get(kdfP.kdfUUID);
+        KdfEngine kdfEngine = KdfFactory.get(kdfParameters);
 		if (kdfEngine == null) {
 			throw new IOException("Unknown key derivation function");
 		}
 
 		// Set to 6000 rounds to open corrupted database
-		if (roundsFix > 0 && kdfP.kdfUUID.equals(AesKdf.CIPHER_UUID)) {
-			kdfP.setUInt32(AesKdf.ParamRounds, roundsFix);
+		if (roundsFix > 0 && kdfParameters.kdfUUID.equals(AesKdf.CIPHER_UUID)) {
+            kdfParameters.setUInt32(AesKdf.ParamRounds, roundsFix);
 			numKeyEncRounds = roundsFix;
 		}
 
-		byte[] transformedMasterKey = kdfEngine.transform(masterKey, kdfP);
+		byte[] transformedMasterKey = kdfEngine.transform(masterKey, kdfParameters);
 		if (transformedMasterKey.length != 32) {
 			transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey);
 		}
@@ -795,7 +776,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	}
 
 	public int getMinKdbxVersion() {
-		if (!AesKdf.CIPHER_UUID.equals(kdfParameters.kdfUUID)) {
+		if (kdfParameters != null && !AesKdf.CIPHER_UUID.equals(kdfParameters.kdfUUID)) {
 			return PwDbHeaderV4.FILE_VERSION_32;
 		}
 

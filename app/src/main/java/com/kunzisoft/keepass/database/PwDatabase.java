@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database;
 
-import android.content.res.Resources;
-
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
@@ -251,11 +249,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
 
     public abstract List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms();
 
-    public abstract List<KdfEngine> getAvailableKdfEngines();
-
     public abstract KdfEngine getKdfEngine();
-
-    public abstract String getKeyDerivationName(Resources resources);
 
     public abstract List<PwGroupDB> getGrpRoots();
 

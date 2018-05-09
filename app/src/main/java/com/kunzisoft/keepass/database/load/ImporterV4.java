@@ -82,16 +82,10 @@ public class ImporterV4 extends Importer {
     private byte[] hashOfHeader = null;
 	private byte[] pbHeader = null;
 	private long version;
-	private int binNum = 0;
 	Calendar utcCal;
 
 	public ImporterV4() {
 		utcCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-	}
-	
-	protected PwDatabaseV4 createDB() {
-		return new PwDatabaseV4();
-
 	}
 
 	@Override
@@ -108,7 +102,7 @@ public class ImporterV4 extends Importer {
 
 		if (progressTaskUpdater != null)
 			progressTaskUpdater.updateMessage(R.string.creating_db_key);
-		db = createDB();
+		db = new PwDatabaseV4();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
         db.getBinPool().clear();
@@ -118,9 +112,9 @@ public class ImporterV4 extends Importer {
 
 		hashOfHeader = hh.hash;
 		pbHeader = hh.header;
-			
+
 		db.retrieveMasterKey(password, keyInputStream);
-		db.makeFinalKey(header.masterSeed, db.getKdfParameters(), roundsFix);
+		db.makeFinalKey(header.masterSeed, roundsFix);
 
 		if (progressTaskUpdater != null)
 			progressTaskUpdater.updateMessage(R.string.decrypting_db);
@@ -192,7 +186,7 @@ public class ImporterV4 extends Importer {
 			isXml = isPlain;
 		}
 
-		if (version >= header.FILE_VERSION_32_4) {
+		if (version >= PwDbHeaderV4.FILE_VERSION_32_4) {
 			LoadInnerHeader(isXml, header);
 		}
 		
