@@ -1,6 +1,5 @@
 package com.patarapolw.diceware_utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -18,18 +17,16 @@ import java.util.ArrayList;
  * Policy conformization of the password.
  */
 
-public class Policy extends Activity {
-    int digit_count;
-    int punctuation_count;
-    int length_min;
-    int length_max;
+public class Policy {
+    private int digit_count;
+    private int punctuation_count;
+    private int length_min;
+    private int length_max;
 
-    SecureRandom random = new SecureRandom();
-    Leetify leetify;
-    final String punctuations = "!\"#$%&\\'()*+,-./:;<=>?@[\\\\]^_`{|}~";
-    final String numbers = "0123456789";
-
-    public Policy(){}
+    private SecureRandom random = new SecureRandom();
+    private Leetify leetify;
+    private static final String punctuations = "!\"#$%&\\'()*+,-./:;<=>?@[\\\\]^_`{|}~";
+    private static final String numbers = "0123456789";
 
     public Policy(Context context) {
         leetify = new Leetify(context);

@@ -1,6 +1,5 @@
 package com.patarapolw.diceware_utils;
 
-import android.app.Activity;
 import android.content.Context;
 
 import org.json.JSONException;
@@ -16,12 +15,10 @@ import java.util.ArrayList;
  * Load KeywordList from file (eff-long.txt), and make it available for PIN mnemonics
  */
 
-public class KeywordListLoader extends Activity {
-    String[] allKeywords;
-    String[][] allKeywordsNumber = new String[10][];
-    SecureRandom random = new SecureRandom();
-
-    public KeywordListLoader(){}
+public class KeywordListLoader {
+    private String[] allKeywords;
+    private String[][] allKeywordsNumber = new String[10][];
+    private SecureRandom random = new SecureRandom();
 
     public KeywordListLoader(Context context){
         byte[] buffer;

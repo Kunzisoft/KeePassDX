@@ -154,10 +154,5 @@
         </service>
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 
-        <activity android:name="com.patarapolw.diceware_utils.Leetify"/>
-        <activity android:name="com.patarapolw.diceware_utils.Policy"/>
-        <activity android:name="com.patarapolw.diceware_utils.DicewarePassword"/>
-        <activity android:name="com.patarapolw.diceware_utils.KeywordListLoader"/>
-
     </application>
 </manifest> 

@@ -18,10 +18,8 @@ import java.security.SecureRandom;
  * but simply to conform to password policy.
  */
 
-public class Leetify extends Activity {
-    JSONObject leet;
-
-    public Leetify(){}
+public class Leetify {
+    private JSONObject leet;
 
     public Leetify(Context context){
         String json = null;

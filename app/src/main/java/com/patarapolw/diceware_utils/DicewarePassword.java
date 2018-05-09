@@ -1,6 +1,5 @@
 package com.patarapolw.diceware_utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -13,16 +12,14 @@ import java.security.SecureRandom;
  * is truncated to 10 - 20 character, while inserting some symbols.
  */
 
-public class DicewarePassword extends Activity {
-    String password = "";
-    String pin = "";
-    String[] keywordList;
+public class DicewarePassword {
+    private String password = "";
+    private String pin = "";
+    private String[] keywordList;
 
-    SecureRandom random = new SecureRandom();
-    Policy policy;
-    KeywordListLoader keywordListLoader;
-
-    public DicewarePassword(){}
+    private SecureRandom random = new SecureRandom();
+    private Policy policy;
+    private KeywordListLoader keywordListLoader;
 
     public DicewarePassword(Context context){
         policy = new Policy(context);
