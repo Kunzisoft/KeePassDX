@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode = 9
         versionName = "2.5.0.0beta9"
@@ -115,4 +115,6 @@ dependencies {
     // Icon pack, classic for all, material for libre and pro
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
+
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
 }

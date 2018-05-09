@@ -1,42 +1,23 @@
 package com.patarapolw.randomsentence;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 
-public class SentenceMaker extends Activity {
-    private ArrayList<String> taggedSents = new ArrayList<>();
-    private POSTagger posTagger;
+public class SentenceMaker extends SQLiteAssetHelper {
+    private static final String DATABASE_NAME = "SentenceMaker.db";
+    private static final int DATABASE_VERSION = 1;
 
     private SecureRandom random = new SecureRandom();
 
-    public SentenceMaker() {}
-
-    public SentenceMaker(Context context) {
-        try {
-            InputStream is = context.getAssets().open("randomsentence/brown-tagged-sents.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                taggedSents.add(line);
-            }
-            reader.close();
-            is.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        posTagger = new POSTagger(context);
+    public SentenceMaker (Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public String makeSentence(String[] keywordList) {
@@ -46,13 +27,13 @@ public class SentenceMaker extends Activity {
 
         Gson gson = new Gson();
 
-        String[] keywordTags = posTagger.tag(keywordList);
+        String[] keywordTags = getPOS(keywordList);
         long start = System.currentTimeMillis();
         int timeoutMillis = 3000;
         while (System.currentTimeMillis() - start < timeoutMillis) {
             int keywordTagsIndex = 0;
 
-            sampleSentence = gson.fromJson(taggedSents.get(random.nextInt(taggedSents.size())), String[][].class);
+            sampleSentence = gson.fromJson(randomSentence(), String[][].class);
             resultSentence = new String[sampleSentence.length];
 
             for (int token_i = 0; token_i < sampleSentence.length; token_i++) {
@@ -75,5 +56,53 @@ public class SentenceMaker extends Activity {
         }
 
         return "";
+    }
+
+    private String randomSentence () {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String tableName = "tagged_sents";
+        long count = DatabaseUtils.queryNumEntries(db, tableName);
+        String[] columns = { "tagged_sentence" };
+        String where = String.format("%s=?", "id");
+        String[] whereArgs = { Integer.toString(random.nextInt((int) count)) };
+
+        Cursor cursor = db.query(tableName, columns, where, whereArgs, null, null, null);
+        String sentence;
+        if(cursor.moveToFirst()){
+            sentence = cursor.getString(0);
+        } else {
+            sentence = "";
+        }
+
+        cursor.close();
+
+        return sentence;
+    }
+
+    private String[] getPOS (String[] wordList) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] result = new String[wordList.length];
+
+        String tableName = "dictionary";
+        String[] columns = { "pos" };
+        String where = String.format("%s=?", "word");
+
+        Cursor cursor;
+        for(int i=0; i<wordList.length; i++) {
+            String[] whereArgs = {wordList[i]};
+
+            cursor = db.query(tableName, columns, where, whereArgs, null, null, null);
+
+            if(cursor.moveToFirst()) {
+                result[i] = cursor.getString(0);
+            } else {
+                result[i] = "NN";
+            }
+            cursor.close();
+        }
+
+        return result;
     }
 }

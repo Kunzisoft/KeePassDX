@@ -116,7 +116,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="sensorPortrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.kunzisoft.keepass.search.SearchResultsActivity"
@@ -157,9 +158,6 @@
         <activity android:name="com.patarapolw.diceware_utils.Policy"/>
         <activity android:name="com.patarapolw.diceware_utils.DicewarePassword"/>
         <activity android:name="com.patarapolw.diceware_utils.KeywordListLoader"/>
-
-        <activity android:name="com.patarapolw.randomsentence.SentenceMaker"/>
-        <activity android:name="com.patarapolw.randomsentence.POSTagger"/>
 
     </application>
 </manifest> 

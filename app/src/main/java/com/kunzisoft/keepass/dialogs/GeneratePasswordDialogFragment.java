@@ -23,8 +23,6 @@ package com.kunzisoft.keepass.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -98,11 +96,7 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         digitCountMinView = root.findViewById(R.id.number_count_min);
 
         if(PreferencesUtil.isGenerateSentence(getContext())) {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(() -> {
-                sentenceMaker = new SentenceMaker(getContext());
-                sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
-            });
+            sentenceMaker = new SentenceMaker(getContext());
         } else {
             sentenceView.setVisibility(View.GONE);
         }
