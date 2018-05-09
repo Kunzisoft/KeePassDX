@@ -35,7 +35,9 @@
         <item name="colorControlActivated">@color/blue_lighter</item>
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondary">@color/colorTextInverse</item>
+        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="android:textColorHint">@color/blue_lighter</item>
     </style>
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Blue" parent="KeepassDXStyle.FilePickerStyle">

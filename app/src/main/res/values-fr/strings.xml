@@ -215,7 +215,7 @@
     <string name="fingerprint_setting_way_text">Paramètres -> Sécurité -> Empreinte digitale</string>
     <string name="fingerprint_type_password_text">Tapez votre mot de passe dans Keepass DX</string>
     <string name="fingerprint_scan_to_store">Scannez votre empreinte digitale pour stocker votre mot de passe maître en toute sécurité</string>
-    <string name="fingerprint_scan_to_open">Il suffit de scanner votre empreinte digitale dans Keepass DX lorsque le champ mot de passe est vide pour ouvrir la base de données</string>
+    <string name="fingerprint_scan_to_open">Scanner votre empreinte digitale lorsque la case à cocher du mot de passe n\'est pas cochée pour ouvrir la base de données</string>
     <string name="usage">Usage</string>
     <string name="fingerprint">Empreinte digitale</string>
     <string name="fingerprint_enable_title">Écoute d\'empreintes digitales</string>

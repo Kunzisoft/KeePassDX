@@ -216,7 +216,7 @@
     <string name="fingerprint_setting_way_text">Settings -> Security -> Fingerprint</string>
     <string name="fingerprint_type_password_text">Type your password in Keepass DX</string>
     <string name="fingerprint_scan_to_store">Scan your fingerprint to store your master password securely</string>
-    <string name="fingerprint_scan_to_open">Just scan your fingerprint in Keepass DX when the password field is empty to open the database</string>
+    <string name="fingerprint_scan_to_open">Scan your fingerprint when the password checkbox is unchecked to open the database</string>
     <string name="usage">Usage</string>
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_enable_title">Fingerprint listening</string>
