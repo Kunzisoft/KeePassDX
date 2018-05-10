@@ -39,7 +39,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/hint_generated_pin"
-            tools:ignore="TextFields" />
+            tools:ignore="TextFields"
+            android:focusable="false"/>
 
         <EditText android:id="@+id/mnemonic"
             android:layout_width="match_parent"
@@ -47,7 +48,8 @@
             android:ems="10"
             android:maxLines="3"
             android:hint="@string/hint_generated_mnemonic"
-            tools:ignore="TextFields" />
+            tools:ignore="TextFields"
+            android:focusable="false"/>
 
         <Button android:id="@+id/generate_password_button"
             android:layout_margin="@dimen/button_margin"
