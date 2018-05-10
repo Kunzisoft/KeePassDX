@@ -20,8 +20,10 @@
  */
 package com.kunzisoft.keepass.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -38,7 +40,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
 import com.patarapolw.randomsentence.SentenceMaker;
-import com.patarapolw.randomsentence.SentenceMakerSQLite;
 
 public class GeneratePinDialogFragment extends DialogFragment {
 
@@ -53,7 +54,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
     private EditText sentenceView;
 
     private DicewarePassword dicewarePassword;
-    private SentenceMakerSQLite sentenceMaker = null;
+    private SentenceMaker sentenceMaker = null;
 
     @Override
     public void onAttach(Context context) {
@@ -87,11 +88,8 @@ public class GeneratePinDialogFragment extends DialogFragment {
         lengthView = root.findViewById(R.id.length);
 
         if(PreferencesUtil.isGenerateSentence(getContext())) {
-            Handler handler = new Handler();
-            handler.post(() -> {
-                sentenceMaker = new SentenceMakerSQLite(getContext());
-                sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
-            });
+            SentenceMakerLoader loader = new SentenceMakerLoader();
+            loader.execute(getContext());
         } else {
             sentenceView.setVisibility(View.GONE);
         }
@@ -144,5 +142,18 @@ public class GeneratePinDialogFragment extends DialogFragment {
     public interface GeneratePinListener {
         void acceptPassword(Bundle bundle);
         void cancelPassword(Bundle bundle);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class SentenceMakerLoader extends AsyncTask<Context, Void, SentenceMaker> {
+        protected SentenceMaker doInBackground(Context... contexts){
+
+            return new SentenceMaker(contexts[0]);
+        }
+
+        protected void onPostExecute(SentenceMaker maker){
+            sentenceMaker = maker;
+            sentenceView.setText(maker.makeSentence(dicewarePassword.getKeywordList()));
+        }
     }
 }

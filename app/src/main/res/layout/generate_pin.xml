@@ -98,7 +98,8 @@
                 android:textSize="15sp"
                 android:maxLines="3"
                 android:hint="@string/hint_generated_sentece"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:focusable="false"/>
 
         </LinearLayout>
     </ScrollView>
