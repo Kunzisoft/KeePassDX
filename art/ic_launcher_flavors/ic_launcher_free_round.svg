@@ -33,9 +33,9 @@
      inkscape:window-height="1023"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="1"
-     inkscape:cx="-239.38231"
-     inkscape:cy="61.236316"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="59.038625"
+     inkscape:cy="87.474423"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -583,7 +583,7 @@
        fy="56"
        r="88"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-3.3258891e-8,1.4545456,-1.4545455,-3.3258888e-8,277.45455,-25.454546)" /></defs><g
+       gradientTransform="matrix(-3.3258891e-8,1.4545456,-1.4545455,-3.3258888e-8,137.45455,-25.454546)" /></defs><g
      transform="matrix(1.25,0,0,-1.25,0,192)"
      inkscape:label="Icon Template"
      inkscape:groupmode="layer"
@@ -1883,6 +1883,6 @@
        style="fill:#000000;fill-opacity:1;stroke:none;opacity:0.2" /><circle
        r="88"
        cy="96"
-       cx="236"
+       cx="96"
        id="circle5049"
        style="fill:url(#radialGradient5057);fill-opacity:1;stroke:none" /></g></svg>
