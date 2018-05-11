@@ -108,7 +108,7 @@ public class ImporterV4 extends Importer {
         db.getBinPool().clear();
 
 		PwDbHeaderV4.HeaderAndHash hh = header.loadFromFile(inStream);
-        version = header.version;
+        version = header.getVersion();
 
 		hashOfHeader = hh.hash;
 		pbHeader = hh.header;

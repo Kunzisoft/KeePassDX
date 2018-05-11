@@ -152,11 +152,11 @@ public class Database {
         loadData(ctx, is, password, kfIs, status, debug, roundsFix);
     }
 
-    public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
-        loadData(ctx, is, password, kfIs, null, debug, 0);
+    public void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, boolean debug) throws IOException, InvalidDBException {
+        loadData(ctx, is, password, keyFileInputStream, null, debug, 0);
     }
 
-    private void loadData(Context ctx, InputStream is, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater, boolean debug, long roundsFix) throws IOException, InvalidDBException {
+    private void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, ProgressTaskUpdater progressTaskUpdater, boolean debug, long roundsFix) throws IOException, InvalidDBException {
         BufferedInputStream bis = new BufferedInputStream(is);
 
         if ( ! bis.markSupported() ) {
@@ -166,11 +166,11 @@ public class Database {
         // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
         bis.mark(10);
 
-        Importer imp = ImporterFactory.createImporter(bis, debug);
+        Importer databaseImporter = ImporterFactory.createImporter(bis, debug);
 
         bis.reset();  // Return to the start
 
-        pm = imp.openDatabase(bis, password, kfIs, progressTaskUpdater, roundsFix);
+        pm = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater, roundsFix);
         if ( pm != null ) {
             try {
                 switch (pm.getVersion()) {
@@ -392,7 +392,8 @@ public class Database {
         switch (getPwDatabase().getVersion()) {
             case V4:
                 PwDatabaseV4 db = ((PwDatabaseV4) getPwDatabase());
-                db.setKdfParameters(kdfEngine.getDefaultParameters());
+                if (!db.getKdfParameters().kdfUUID.equals(kdfEngine.getDefaultParameters().kdfUUID))
+                    db.setKdfParameters(kdfEngine.getDefaultParameters());
                 setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
                 break;
         }

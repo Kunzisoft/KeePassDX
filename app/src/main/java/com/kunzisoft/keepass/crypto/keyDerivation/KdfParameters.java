@@ -39,6 +39,10 @@ public class KdfParameters extends VariantDictionary {
         kdfUUID = uuid;
     }
 
+    protected void setParamUUID() {
+        setByteArray(ParamUUID, Types.UUIDtoBytes(kdfUUID));
+    }
+
     public static KdfParameters deserialize(byte[] data) throws IOException {
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         LEDataInputStream lis = new LEDataInputStream(bis);

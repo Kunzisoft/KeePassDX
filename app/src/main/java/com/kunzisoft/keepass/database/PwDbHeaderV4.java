@@ -42,7 +42,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class PwDbHeaderV4 extends PwDbHeader {
 	public static final int DBSIG_PRE2            = 0xB54BFB66;
     public static final int DBSIG_2               = 0xB54BFB67;
-    
+
     private static final int FILE_VERSION_CRITICAL_MASK = 0xFFFF0000;
     public static final int FILE_VERSION_32_3 =           0x00030001;
 	public static final int FILE_VERSION_32_4 =           0x00040000;
@@ -92,11 +92,81 @@ public class PwDbHeaderV4 extends PwDbHeader {
     public CrsAlgorithm innerRandomStream;
 	public long version;
 
-    public PwDbHeaderV4(PwDatabaseV4 d) {
-        this.db = d;
-        this.version = d.getMinKdbxVersion();
+    public PwDbHeaderV4(PwDatabaseV4 databaseV4) {
+        this.db = databaseV4;
+        this.version = getMinKdbxVersion(databaseV4); // TODO move Only for writing
         this.masterSeed = new byte[32];
     }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
+    private class GroupHasCustomData extends GroupHandler<PwGroupV4> {
+
+        boolean hasCustomData = false;
+
+        @Override
+        public boolean operate(PwGroupV4 group) {
+            if (group == null) {
+                return true;
+            }
+            if (group.containsCustomData()) {
+                hasCustomData = true;
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    private class EntryHasCustomData extends EntryHandler<PwEntryV4> {
+
+        boolean hasCustomData = false;
+
+        @Override
+        public boolean operate(PwEntryV4 entry) {
+            if (entry == null) {
+                return true;
+            }
+
+            if (entry.containsCustomData()) {
+                hasCustomData = true;
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+	private int getMinKdbxVersion(PwDatabaseV4 databaseV4) {
+		// Return v4 if AES is not use
+		if (databaseV4.getKdfParameters() != null) {
+			return PwDbHeaderV4.FILE_VERSION_32;
+		}
+
+		// Return V4 if custom data are present
+		if (databaseV4.containsPublicCustomData()) {
+			return PwDbHeaderV4.FILE_VERSION_32;
+		}
+
+		EntryHasCustomData entryHandler = new EntryHasCustomData();
+		GroupHasCustomData groupHandler = new GroupHasCustomData();
+
+		if (databaseV4.getRootGroup() == null ) {
+			return PwDbHeaderV4.FILE_VERSION_32_3;
+		}
+        databaseV4.getRootGroup().preOrderTraverseTree(groupHandler, entryHandler);
+		if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
+			return PwDbHeaderV4.FILE_VERSION_32;
+		}
+
+		return PwDbHeaderV4.FILE_VERSION_32_3;
+	}
 
 	/** Assumes the input stream is at the beginning of the .kdbx file
 	 * @param is
@@ -123,7 +193,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 			throw new InvalidDBVersionException();
 		}
 		
-		version = lis.readUInt();
+		version = lis.readUInt(); // Erase previous value
 		if ( ! validVersion(version) ) {
 			throw new InvalidDBVersionException();
 		}
@@ -279,8 +349,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {
-		return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_2) );
-		//return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_PRE2) || (sig2 == DBSIG_2) ); // TODO verify add DBSIG_PRE2
+	    return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_PRE2) || (sig2 == DBSIG_2) ); // TODO verify add DBSIG_PRE2
 	}
 
 	public static byte[] computeHeaderHmac(byte[] header, byte[] key) throws IOException{

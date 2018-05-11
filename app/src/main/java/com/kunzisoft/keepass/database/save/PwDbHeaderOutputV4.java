@@ -88,25 +88,26 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 
 		los.writeUInt(PwDbHeader.PWM_DBSIG_1);
 		los.writeUInt(PwDbHeaderV4.DBSIG_2);
-        los.writeUInt(header.version);
+        los.writeUInt(header.getVersion());
 
 
 		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.getDataCipher()));
 		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.getCompressionAlgorithm().id));
 		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.MasterSeed, header.masterSeed);
 
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformSeed, header.getTransformSeed());
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.getNumberKeyEncryptionRounds()));
 		} else {
             writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.getKdfParameters()));
+            // TODO verify serialize in all cases
 		}
 
 		if (header.encryptionIV.length > 0) {
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV);
 		}
 
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey);
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes);
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream.id));
@@ -139,7 +140,7 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 	}
 
 	private void writeHeaderFieldSize(int size) throws IOException {
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			los.writeUShort(size);
 		} else {
 			los.writeInt(size);

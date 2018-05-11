@@ -101,7 +101,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 			header = outputHeader(mOS);
 
 			OutputStream osPlain;
-			if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+			if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 				CipherOutputStream cos = attachStreamEncryptor(header, mOS);
 				cos.write(header.streamStartBytes);
 
@@ -122,7 +122,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 					osXml = osPlain;
 				}
 
-				if (header.version >= PwDbHeaderV4.FILE_VERSION_32_4) {
+				if (header.getVersion() >= PwDbHeaderV4.FILE_VERSION_32_4) {
 					PwDbInnerHeaderOutputV4 ihOut =  new PwDbInnerHeaderOutputV4(mPM, header, osXml);
                     ihOut.output();
 				}
@@ -258,7 +258,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		writeObject(PwDatabaseV4XML.ElemLastSelectedGroup, mPM.getLastSelectedGroup());
 		writeObject(PwDatabaseV4XML.ElemLastTopVisibleGroup, mPM.getLastTopVisibleGroup());
 
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeBinPool();
 		}
 		writeList(PwDatabaseV4XML.ElemCustomData, mPM.getCustomData());
@@ -296,7 +296,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		KdfEngine kdf = KdfFactory.get(mPM.getKdfParameters());
 		kdf.randomize(mPM.getKdfParameters());
 
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			header.innerRandomStream = CrsAlgorithm.Salsa20;
 			header.innerRandomStreamKey = new byte[32];
 		} else {
@@ -310,7 +310,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 			throw new PwDbOutputException("Invalid random cipher");
 		}
 
-		if ( header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if ( header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			random.nextBytes(header.streamStartBytes);
 		}
 		
@@ -463,7 +463,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	}
 	
 	private void writeObject(String name, Date value) throws IllegalArgumentException, IllegalStateException, IOException {
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeObject(name, PwDatabaseV4XML.dateFormatter.get().format(value));
 		} else {
 			DateTime dt = new DateTime(value);
