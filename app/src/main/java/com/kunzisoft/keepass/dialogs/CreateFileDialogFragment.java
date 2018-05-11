@@ -35,11 +35,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.fileselect.FilePickerStylishActivity;
@@ -153,6 +155,16 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, fileTypes);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+        // Or text if only one item https://github.com/Kunzisoft/KeePassDX/issues/105
+        if (fileTypes.length == 1) {
+            ViewGroup.LayoutParams params = spinner.getLayoutParams();
+            spinner.setVisibility(View.GONE);
+            TextView extensionTextView = new TextView(getContext());
+            extensionTextView.setText(extension);
+            extensionTextView.setLayoutParams(params);
+            ViewGroup parentView = (ViewGroup) spinner.getParent();
+            parentView.addView(extensionTextView);
+        }
 
         AlertDialog dialog = builder.create();
 
