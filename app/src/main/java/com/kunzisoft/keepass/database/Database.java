@@ -395,6 +395,8 @@ public class Database {
                 if (!db.getKdfParameters().kdfUUID.equals(kdfEngine.getDefaultParameters().kdfUUID))
                     db.setKdfParameters(kdfEngine.getDefaultParameters());
                 setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
+                setMemoryUsage(kdfEngine.getDefaultMemoryUsage());
+                setParallelism(kdfEngine.getDefaultParallelism());
                 break;
         }
     }
@@ -408,7 +410,7 @@ public class Database {
     }
 
     public String getNumberKeyEncryptionRoundsAsString() {
-        return Long.toString(getPwDatabase().getNumberKeyEncryptionRounds());
+        return Long.toString(getNumberKeyEncryptionRounds());
     }
 
     public long getNumberKeyEncryptionRounds() {
@@ -417,6 +419,44 @@ public class Database {
 
     public void setNumberKeyEncryptionRounds(long numberRounds) throws NumberFormatException {
         getPwDatabase().setNumberKeyEncryptionRounds(numberRounds);
+    }
+
+    public String getMemoryUsageAsString() {
+        return Long.toString(getMemoryUsage());
+    }
+
+    public long getMemoryUsage() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getMemoryUsage();
+        }
+        return KdfEngine.UNKNOW_VALUE;
+    }
+
+    public void setMemoryUsage(long memory) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setMemoryUsage(memory);
+        }
+    }
+
+    public String getParallelismAsString() {
+        return Integer.toString(getParallelism());
+    }
+
+    public int getParallelism() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getParallelism();
+        }
+        return KdfEngine.UNKNOW_VALUE;
+    }
+
+    public void setParallelism(int parallelism) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setParallelism(parallelism);
+        }
     }
 
     public PwEntry createEntry(PwGroup parent) {

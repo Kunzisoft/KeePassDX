@@ -38,6 +38,8 @@ public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends Databas
 
     private KdfEngine kdfEngineSelected;
     private Preference roundPreference;
+    private Preference memoryPreference;
+    private Preference parallelismPreference;
 
     public static DatabaseKeyDerivationPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -86,6 +88,14 @@ public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends Databas
         this.roundPreference = preference;
     }
 
+    public void setMemoryPreference(Preference preference) {
+        this.memoryPreference = preference;
+    }
+
+    public void setParallelismPreference(Preference preference) {
+        this.parallelismPreference = preference;
+    }
+
     @Override
     public void onItemSelected(KdfEngine item) {
         kdfEngineSelected = item;
@@ -117,7 +127,16 @@ public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends Databas
                     }
 
                     getPreference().setSummary(kdfEngineToShow.getName(mActivity.getResources()));
-                    roundPreference.setSummary(String.valueOf(kdfEngineToShow.getDefaultKeyRounds()));
+                    if (roundPreference != null)
+                        roundPreference.setSummary(String.valueOf(kdfEngineToShow.getDefaultKeyRounds()));
+
+                    // Disable memory and parallelism if not available
+                    if (memoryPreference != null) {
+                        memoryPreference.setSummary(String.valueOf(kdfEngineToShow.getDefaultMemoryUsage()));
+                    }
+                    if (parallelismPreference != null) {
+                        parallelismPreference.setSummary(String.valueOf(kdfEngineToShow.getDefaultParallelism()));
+                    }
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });
             }

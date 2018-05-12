@@ -94,7 +94,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 
     public PwDbHeaderV4(PwDatabaseV4 databaseV4) {
         this.db = databaseV4;
-        this.version = getMinKdbxVersion(databaseV4); // TODO move Only for writing
+        this.version = getMinKdbxVersion(databaseV4); // Only for writing
         this.masterSeed = new byte[32];
     }
 
@@ -145,7 +145,8 @@ public class PwDbHeaderV4 extends PwDbHeader {
 
 	private int getMinKdbxVersion(PwDatabaseV4 databaseV4) {
 		// Return v4 if AES is not use
-		if (databaseV4.getKdfParameters() != null) {
+		if (databaseV4.getKdfParameters() != null
+                && !databaseV4.getKdfParameters().kdfUUID.equals(AesKdf.CIPHER_UUID)) {
 			return PwDbHeaderV4.FILE_VERSION_32;
 		}
 

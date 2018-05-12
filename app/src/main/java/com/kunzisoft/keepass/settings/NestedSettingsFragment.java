@@ -55,6 +55,8 @@ import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptio
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseNamePreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.MemoryUsagePreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
 
@@ -72,6 +74,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
     private int count = 0;
 
     private Preference roundPref;
+    private Preference memoryPref;
+    private Preference parallelismPref;
 
     public static NestedSettingsFragment newInstance(Screen key) {
         NestedSettingsFragment fragment = new NestedSettingsFragment();
@@ -330,6 +334,14 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     roundPref = findPreference(getString(R.string.transform_rounds_key));
                     roundPref.setSummary(db.getNumberKeyEncryptionRoundsAsString());
 
+                    // Memory Usage
+                    memoryPref = findPreference(getString(R.string.memory_usage_key));
+                    memoryPref.setSummary(db.getMemoryUsageAsString());
+
+                    // Parallelism
+                    parallelismPref = findPreference(getString(R.string.parallelism_key));
+                    parallelismPref.setSummary(db.getParallelismAsString());
+
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
                 }
@@ -438,12 +450,23 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         }
         else if (preference.getKey().equals(getString(R.string.key_derivation_function_key))) {
             DatabaseKeyDerivationPreferenceDialogFragmentCompat keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            // Add other prefs to manage
             if (roundPref != null)
                 keyDerivationDialogFragment.setRoundPreference(roundPref);
+            if (memoryPref != null)
+                keyDerivationDialogFragment.setMemoryPreference(memoryPref);
+            if (parallelismPref != null)
+                keyDerivationDialogFragment.setParallelismPreference(parallelismPref);
             dialogFragment = keyDerivationDialogFragment;
         }
         else if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
             dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+        else if (preference.getKey().equals(getString(R.string.memory_usage_key))) {
+            dialogFragment = MemoryUsagePreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+        else if (preference.getKey().equals(getString(R.string.parallelism_key))) {
+            dialogFragment = ParallelismPreferenceDialogFragmentCompat.newInstance(preference.getKey());
         }
 
         if (dialogFragment != null) {

@@ -26,7 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.settings.preference.RoundsPreference;
+import com.kunzisoft.keepass.settings.preference.InputNumberPreference;
 
 public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDialogFragmentCompat {
 
@@ -50,9 +50,9 @@ public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDial
         inputTextView = view.findViewById(R.id.input_text);
 
         DialogPreference preference = getPreference();
-        if (preference instanceof RoundsPreference) {
-            setExplanationText(((RoundsPreference) preference).getExplanation());
-            long numRounds = ((RoundsPreference) preference).getRounds();
+        if (preference instanceof InputNumberPreference) {
+            setExplanationText(((InputNumberPreference) preference).getExplanation());
+            long numRounds = ((InputNumberPreference) preference).getNumber();
             setInputText(String.valueOf(numRounds));
         }
     }
@@ -70,12 +70,12 @@ public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDial
             }
 
             DialogPreference preference = getPreference();
-            if (preference instanceof RoundsPreference) {
-                RoundsPreference roundsPreference = (RoundsPreference) preference;
+            if (preference instanceof InputNumberPreference) {
+                InputNumberPreference roundsPreference = (InputNumberPreference) preference;
                 // This allows the client to ignore the user value.
                 if (roundsPreference.callChangeListener(rounds)) {
                     // Save the value
-                    roundsPreference.setRounds(rounds);
+                    roundsPreference.setNumber(rounds);
                 }
             }
         }

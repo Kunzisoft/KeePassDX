@@ -157,6 +157,10 @@
     <string name="rounds_fix">Key encryption rounds before corruption</string>
     <string name="rounds_fix_explanation">If your database was corrupted, enter the number of rounds used previously to try to open your database.</string>
     <string name="rounds_hint">rounds</string>
+    <string name="memory_usage">Memory Usage</string>
+    <string name="memory_usage_explanation">Memory Usage Explanation TODO</string> <!-- TODO -->
+    <string name="parallelism">Parallelism</string>
+    <string name="parallelism_explanation">Parallelism Explanation</string> <!-- TODO -->
     <string name="saving_database">Saving database&#8230;</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>

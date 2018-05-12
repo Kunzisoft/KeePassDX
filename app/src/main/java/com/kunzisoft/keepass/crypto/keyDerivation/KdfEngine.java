@@ -26,6 +26,9 @@ import java.util.UUID;
 
 public abstract class KdfEngine implements ObjectNameResource{
 
+    public static final int UNKNOW_VALUE = -1;
+    public static final String UNKNOW_VALUE_STRING = String.valueOf(-1);
+
     public UUID uuid;
 
     public abstract KdfParameters getDefaultParameters();
@@ -40,4 +43,27 @@ public abstract class KdfEngine implements ObjectNameResource{
 
     public abstract long getDefaultKeyRounds();
 
+    public long getMemoryUsage(KdfParameters p) {
+        return UNKNOW_VALUE;
+    }
+
+    public void setMemoryUsage(KdfParameters p, long memory) {
+        // Do nothing by default
+    }
+
+    public long getDefaultMemoryUsage() {
+        return UNKNOW_VALUE;
+    }
+
+    public int getParallelism(KdfParameters p) {
+        return UNKNOW_VALUE;
+    }
+
+    public void setParallelism(KdfParameters p, int parallelism) {
+        // Do nothing by default
+    }
+
+    public int getDefaultParallelism() {
+        return UNKNOW_VALUE;
+    }
 }

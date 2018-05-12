@@ -176,7 +176,31 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         numKeyEncRounds = rounds;
     }
 
-	public PwDate getNameChanged() {
+	public long getMemoryUsage() {
+        if (getKdfEngine() != null && getKdfParameters() != null) {
+            return getKdfEngine().getMemoryUsage(getKdfParameters());
+        }
+        return KdfEngine.UNKNOW_VALUE;
+	}
+
+	public void setMemoryUsage(long memory) {
+        if (getKdfEngine() != null && getKdfParameters() != null)
+            getKdfEngine().setMemoryUsage(getKdfParameters(), memory);
+    }
+
+	public int getParallelism() {
+        if (getKdfEngine() != null && getKdfParameters() != null) {
+            return getKdfEngine().getParallelism(getKdfParameters());
+        }
+        return KdfEngine.UNKNOW_VALUE;
+	}
+
+    public void setParallelism(int parallelism) {
+        if (getKdfEngine() != null && getKdfParameters() != null)
+            getKdfEngine().setParallelism(getKdfParameters(), parallelism);
+    }
+
+    public PwDate getNameChanged() {
         return nameChanged;
     }
 

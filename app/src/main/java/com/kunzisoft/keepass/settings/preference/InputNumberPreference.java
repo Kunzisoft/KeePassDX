@@ -24,40 +24,54 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 
-public class RoundsPreference extends InputTextExplanationPreference {
+public class InputNumberPreference extends InputTextExplanationPreference {
 
-    private long mRounds;
+    private long mNumber;
 
-    public RoundsPreference(Context context) {
+    public InputNumberPreference(Context context) {
         this(context, null);
     }
 
-    public RoundsPreference(Context context, AttributeSet attrs) {
+    public InputNumberPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.dialogPreferenceStyle);
     }
 
-    public RoundsPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public InputNumberPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, defStyleAttr);
     }
 
-    public RoundsPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public InputNumberPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
     public int getDialogLayoutResource() {
-        return R.layout.pref_dialog_rounds;
+        return R.layout.pref_dialog_numbers;
     }
 
-    public long getRounds() {
-        return mRounds;
+    public long getNumber() {
+        return mNumber;
     }
 
-    public void setRounds(long rounds) {
-        this.mRounds = rounds;
+    public void setNumber(long number) {
+        this.mNumber = number;
         // Save to Shared Preferences
-        persistLong(rounds);
+        persistLong(number);
+    }
+
+    @Override
+    public void setSummary(CharSequence summary) {
+
+        if (summary.equals(KdfEngine.UNKNOW_VALUE_STRING)) {
+            setEnabled(false);
+            super.setSummary("");
+        }
+        else {
+            setEnabled(true);
+            super.setSummary(summary);
+        }
     }
 
     @Override
@@ -69,25 +83,25 @@ public class RoundsPreference extends InputTextExplanationPreference {
     protected void onSetInitialValue(boolean restorePersistedValue,
                                      Object defaultValue) {
         // Read the value. Use the default value if it is not possible.
-        long rounds;
+        long number;
         if (!restorePersistedValue) {
-            rounds = 100000;
+            number = 100000;
             if (defaultValue instanceof String) {
-                rounds = Long.parseLong((String) defaultValue);
+                number = Long.parseLong((String) defaultValue);
             }
             if (defaultValue instanceof Integer) {
-                rounds = (Integer) defaultValue;
+                number = (Integer) defaultValue;
             }
             try {
-                rounds = (long) defaultValue;
+                number = (long) defaultValue;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-            rounds = getPersistedLong(mRounds);
+            number = getPersistedLong(mNumber);
         }
 
-        setRounds(rounds);
+        setNumber(number);
     }
 
 }

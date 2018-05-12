@@ -60,11 +60,25 @@
             android:key="@string/key_derivation_function_key"
             android:persistent="false"
             android:title="@string/key_derivation_function"/>
-        <com.kunzisoft.keepass.settings.preference.RoundsPreference
+        <com.kunzisoft.keepass.settings.preference.InputNumberPreference
             android:key="@string/transform_rounds_key"
             android:persistent="false"
             android:title="@string/rounds"
             custom:explanations="@string/rounds_explanation"
+            android:positiveButtonText="@string/entry_save"
+            android:negativeButtonText="@string/entry_cancel"/>
+        <com.kunzisoft.keepass.settings.preference.InputNumberPreference
+            android:key="@string/memory_usage_key"
+            android:persistent="false"
+            android:title="@string/memory_usage"
+            custom:explanations="@string/memory_usage_explanation"
+            android:positiveButtonText="@string/entry_save"
+            android:negativeButtonText="@string/entry_cancel"/>
+        <com.kunzisoft.keepass.settings.preference.InputNumberPreference
+            android:key="@string/parallelism_key"
+            android:persistent="false"
+            android:title="@string/parallelism"
+            custom:explanations="@string/parallelism_explanation"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
 

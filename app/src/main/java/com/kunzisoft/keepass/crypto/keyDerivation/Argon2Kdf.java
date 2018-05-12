@@ -128,4 +128,30 @@ public class Argon2Kdf extends KdfEngine {
         return DefaultIterations;
     }
 
+
+    @Override
+    public long getMemoryUsage(KdfParameters p) {
+        return p.getUInt64(ParamMemory);
+    }
+
+    public void setMemoryUsage(KdfParameters p, long memory) {
+        p.setUInt64(ParamMemory, memory);
+    }
+
+    public long getDefaultMemoryUsage() {
+        return DefaultMemory;
+    }
+
+    @Override
+    public int getParallelism(KdfParameters p) {
+        return (int) p.getUInt32(ParamParallelism); // TODO Verify
+    }
+
+    public void setParallelism(KdfParameters p, int parallelism) {
+        p.setUInt32(ParamParallelism, parallelism);
+    }
+
+    public int getDefaultParallelism() {
+        return (int) DefaultParallelism; // TODO Verify
+    }
 }
