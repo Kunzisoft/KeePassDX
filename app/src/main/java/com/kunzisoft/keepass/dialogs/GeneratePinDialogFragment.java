@@ -39,7 +39,9 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
+import com.patarapolw.password_generator.PasswordGenerator;
 import com.patarapolw.randomsentence.SentenceMaker;
+import com.patarapolw.wordify.Wordify;
 
 public class GeneratePinDialogFragment extends DialogFragment {
 
@@ -53,8 +55,10 @@ public class GeneratePinDialogFragment extends DialogFragment {
     private EditText mnemonicView;
     private EditText sentenceView;
 
-    private DicewarePassword dicewarePassword;
+    private PasswordGenerator passwordGenerator = new PasswordGenerator();
+    private Wordify wordify;
     private SentenceMaker sentenceMaker = null;
+    private String[] keywords = new String[]{""};
 
     @Override
     public void onAttach(Context context) {
@@ -74,7 +78,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View root = inflater.inflate(R.layout.generate_pin, null);
 
-        dicewarePassword = new DicewarePassword(getContext());
+        wordify = new Wordify(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -130,12 +134,13 @@ public class GeneratePinDialogFragment extends DialogFragment {
     }
 
     private void fillPassword() {
-        dicewarePassword.generatePin(Integer.parseInt(lengthView.getText().toString()));
+        String pin = passwordGenerator.generatePin(Integer.parseInt(lengthView.getText().toString()));
+        keywords = wordify.wordify(pin);
 
-        passwordView.setText(dicewarePassword.getPin());
-        mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
+        passwordView.setText(pin);
+        mnemonicView.setText(TextUtils.join(" ", keywords));
         if(sentenceMaker != null) {
-            sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+            sentenceView.setText(sentenceMaker.makeSentence(keywords));
         }
     }
 
@@ -153,7 +158,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
         protected void onPostExecute(SentenceMaker maker){
             sentenceMaker = maker;
-            sentenceView.setText(maker.makeSentence(dicewarePassword.getKeywordList()));
+            sentenceView.setText(maker.makeSentence(keywords));
         }
     }
 }
