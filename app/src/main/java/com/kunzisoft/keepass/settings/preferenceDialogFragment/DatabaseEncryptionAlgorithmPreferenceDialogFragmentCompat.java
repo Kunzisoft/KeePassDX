@@ -52,6 +52,8 @@ public class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat extends D
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
+        setExplanationText(R.string.encryption_explanation);
+
         RecyclerView recyclerView = view.findViewById(R.id.pref_dialog_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ListRadioItemAdapter<PwEncryptionAlgorithm> encryptionAlgorithmAdapter = new ListRadioItemAdapter<>(getActivity());

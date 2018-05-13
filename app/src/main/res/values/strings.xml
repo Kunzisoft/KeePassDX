@@ -74,7 +74,7 @@
     <string name="error_failed_to_launch_link">Failed to launch link.</string>
     <string name="error_filename_required">A filename is required.</string>
     <string name="error_file_not_create">Could not create file:</string>
-    <string name="error_invalid_db">Invalid database.</string>
+    <string name="error_invalid_db">Invalid database or unrecognized master key.</string>
     <string name="error_invalid_path">Invalid path.</string>
     <string name="error_no_name">A name is required.</string>
     <string name="error_nokeyfile">A keyfile is required.</string>
@@ -151,6 +151,8 @@
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>
     <string name="root">Root</string>
+    <string name="encryption_explanation">Algorithm to encrypt the whole database. (Passwords, usernames, notes and all data in the database are encrypted with the selected algorithm)</string>
+    <string name="kdf_explanation">In order to generate the key for the encryption algorithm, the compressed master key (SHA-256) is transformed using a key derivation function (with a random salt).</string>
     <string name="rounds">Transform Rounds</string>
     <string name="rounds_explanation">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_fix_title">Fix of database</string>
@@ -158,9 +160,9 @@
     <string name="rounds_fix_explanation">If your database was corrupted, enter the number of rounds used previously to try to open your database.</string>
     <string name="rounds_hint">rounds</string>
     <string name="memory_usage">Memory Usage</string>
-    <string name="memory_usage_explanation">Memory Usage Explanation TODO</string> <!-- TODO -->
+    <string name="memory_usage_explanation">Amount of memory (in bytes) to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
-    <string name="parallelism_explanation">Parallelism Explanation</string> <!-- TODO -->
+    <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database&#8230;</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>

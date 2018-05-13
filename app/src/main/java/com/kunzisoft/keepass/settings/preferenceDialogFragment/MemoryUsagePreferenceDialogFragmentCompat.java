@@ -46,6 +46,7 @@ public class MemoryUsagePreferenceDialogFragmentCompat extends InputDatabaseSave
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
+        setExplanationText(R.string.memory_usage_explanation);
         setInputText(database.getMemoryUsageAsString());
     }
 

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
+import android.support.annotation.StringRes;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 import android.widget.TextView;
@@ -52,5 +53,9 @@ public abstract class InputPreferenceDialogFragmentCompat extends PreferenceDial
                 textExplanationView.setText(explanationText);
                 textExplanationView.setVisibility(View.VISIBLE);
             }
+    }
+
+    public void setExplanationText(@StringRes int explanationTextId) {
+        setExplanationText(getString(explanationTextId));
     }
 }

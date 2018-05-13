@@ -46,6 +46,7 @@ public class ParallelismPreferenceDialogFragmentCompat extends InputDatabaseSave
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
+        setExplanationText(R.string.parallelism_explanation);
         setInputText(database.getParallelismAsString());
     }
 

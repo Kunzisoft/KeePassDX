@@ -56,6 +56,8 @@ public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends Databas
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
+        setExplanationText(R.string.kdf_explanation);
+
         RecyclerView recyclerView = view.findViewById(R.id.pref_dialog_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ListRadioItemAdapter<KdfEngine> kdfAdapter = new ListRadioItemAdapter<>(getActivity());
