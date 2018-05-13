@@ -70,7 +70,8 @@ public class DatabaseKeyDerivationPreferenceDialogFragmentCompat extends Databas
 
     @Override
     public void onDialogClosed(boolean positiveResult) {
-        if ( positiveResult ) {
+        if ( positiveResult
+                && database.allowKdfModification()) {
             assert getContext() != null;
 
             if (kdfEngineSelected != null) {

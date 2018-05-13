@@ -66,7 +66,8 @@ public class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat extends D
 
     @Override
     public void onDialogClosed(boolean positiveResult) {
-        if ( positiveResult ) {
+        if ( positiveResult
+                && database.allowEncryptionAlgorithmModification()) {
             assert getContext() != null;
 
             if (algorithmSelected != null) {

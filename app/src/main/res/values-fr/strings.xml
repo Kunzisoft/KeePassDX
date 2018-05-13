@@ -27,7 +27,9 @@
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
     <string name="add_string">Ajouter une chaîne</string>
-    <string name="encryption_algorithm">Algorithme</string>
+    <string name="encryption">Chiffrement</string>
+    <string name="encryption_algorithm">Algorithme de Chiffrement</string>
+    <string name="key_derivation_function">Fonction de dérivation de clé</string>
     <string name="app_timeout">Application timeout</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>

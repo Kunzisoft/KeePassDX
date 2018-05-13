@@ -360,11 +360,14 @@ public class Database {
         return new ArrayList<>();
     }
 
+    public boolean allowEncryptionAlgorithmModification() {
+        return getAvailableEncryptionAlgorithms().size() > 1;
+    }
+
     public void assignEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
         switch (getPwDatabase().getVersion()) {
             case V4:
                 ((PwDatabaseV4) getPwDatabase()).setEncryptionAlgorithm(algorithm);
-                // TODO Simplify
                 ((PwDatabaseV4) getPwDatabase()).setDataEngine(algorithm.getCipherEngine());
                 ((PwDatabaseV4) getPwDatabase()).setDataCipher(algorithm.getDataCipher());
         }
@@ -382,6 +385,10 @@ public class Database {
                 return KdfFactory.kdfListV3;
         }
         return new ArrayList<>();
+    }
+
+    public boolean allowKdfModification() {
+        return getAvailableKdfEngines().size() > 1;
     }
 
     public KdfEngine getKdfEngine() {
