@@ -41,7 +41,7 @@ The offline and online client concepts only exists with Keepass2Android because 
 
 **Yes**, we have integrated a secure openning option of fingerprint for android devices that support this feature, so no one can access the application without scanning his/her fingerprint or fill a master key.
 
-## Can I open my database without my master key (master password and/or key file)?
+## Can I open my database without my master key (master password and/or key file)?
 
 **No**, you can not open a database file without the master password (and / or) the associated key file. Be sure to remember your master password and save the key file in a safe place.
 
