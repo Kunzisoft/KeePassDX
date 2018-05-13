@@ -46,7 +46,7 @@ android {
             versionNameSuffix "-libre"
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "false"
-            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Purple\"}"
+            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Red\",\"KeepassDXStyle_Purple\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
 
         }
@@ -63,7 +63,7 @@ android {
             versionNameSuffix "-free"
             buildConfigField "boolean", "FULL_VERSION", "false"
             buildConfigField "boolean", "CLOSED_STORE", "true"
-            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Purple\"}"
+            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Red\",\"KeepassDXStyle_Purple\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
         }
     }

@@ -1,7 +1,7 @@
 KeepassDX (2.5.0.0beta10)
  * Dynamically change Algorithm and Key Derivation Function in settings
  * Upgrade translations
- * Fix classic dark theme
+ * New red volcano theme, fix classic dark theme
  * Add Material Icon Pack to the Free version
  * Update fingerprint state with checkbox
  * Fix bugs
