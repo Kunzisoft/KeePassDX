@@ -215,6 +215,8 @@ public class Database {
     }
 
     private void saveData(Context ctx, Uri uri) throws IOException, PwDbOutputException {
+        String errorMessage = "Failed to store database.";
+
         if (uri.getScheme().equals("file")) {
             String filename = uri.getPath();
             File tempFile = new File(filename + ".tmp");
@@ -226,7 +228,8 @@ public class Database {
                 if (pmo != null)
                     pmo.output();
             } catch (Exception e) {
-                throw new IOException("Failed to store database.");
+                Log.e(TAG, errorMessage, e);
+                throw new IOException(errorMessage, e);
             } finally {
                 if (fos != null)
                     fos.close();
@@ -242,7 +245,7 @@ public class Database {
             File orig = new File(filename);
 
             if (!tempFile.renameTo(orig)) {
-                throw new IOException("Failed to store database.");
+                throw new IOException(errorMessage);
             }
         }
         else {
@@ -253,7 +256,8 @@ public class Database {
                 if (pmo != null)
                     pmo.output();
             } catch (Exception e) {
-                throw new IOException("Failed to store database.");
+                Log.e(TAG, errorMessage, e);
+                throw new IOException(errorMessage, e);
             } finally {
                 if (os != null)
                     os.close();
