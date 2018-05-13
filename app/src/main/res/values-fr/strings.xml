@@ -161,7 +161,7 @@
     <string name="rounds_fix">Clé de niveau de chiffrement avant corruption</string>
     <string name="rounds_fix_explanation">Si votre base de données a été corrompue, entrez le nombre de tours utilisés précédemment pour essayer d\'ouvrir votre base de données.</string>
     <string name="memory_usage">Utilisation de la Mémoire</string>
-    <string name="memory_usage_explanation">Quantité de mémoire (en octets) à utiliser par la fonction de dérivation de clé.</string>
+    <string name="memory_usage_explanation">Quantité de mémoire (en octets binaires) à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>
     <string name="parallelism_explanation">Degré de parallélisme (nombre de threads) utilisé par la fonction de dérivation de clé.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>

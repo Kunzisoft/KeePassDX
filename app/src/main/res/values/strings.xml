@@ -160,7 +160,7 @@
     <string name="rounds_fix_explanation">If your database was corrupted, enter the number of rounds used previously to try to open your database.</string>
     <string name="rounds_hint">rounds</string>
     <string name="memory_usage">Memory Usage</string>
-    <string name="memory_usage_explanation">Amount of memory (in bytes) to be used by the key derivation function.</string>
+    <string name="memory_usage_explanation">Amount of memory (in binary bytes) to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database&#8230;</string>
