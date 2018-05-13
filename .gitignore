@@ -71,6 +71,7 @@ app/app.iml
 # Art
 art/screen*.png
 art/logo_512.png
+art/store_screens/
 
 # Dir linux
 .directory
