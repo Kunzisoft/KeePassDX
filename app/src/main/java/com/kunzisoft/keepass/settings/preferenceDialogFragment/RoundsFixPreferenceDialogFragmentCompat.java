@@ -22,12 +22,15 @@ package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 import android.os.Bundle;
 import android.support.v7.preference.DialogPreference;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.settings.preference.RoundsPreference;
+import com.kunzisoft.keepass.settings.preference.InputNumberPreference;
 
 public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDialogFragmentCompat {
+
+    private EditText inputTextView;
 
     public static RoundsFixPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -44,10 +47,12 @@ public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDial
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
+        inputTextView = view.findViewById(R.id.input_text);
+
         DialogPreference preference = getPreference();
-        if (preference instanceof RoundsPreference) {
-            setExplanationText(((RoundsPreference) preference).getExplanation());
-            long numRounds = ((RoundsPreference) preference).getRounds();
+        if (preference instanceof InputNumberPreference) {
+            setExplanationText(((InputNumberPreference) preference).getExplanation());
+            long numRounds = ((InputNumberPreference) preference).getNumber();
             setInputText(String.valueOf(numRounds));
         }
     }
@@ -65,14 +70,23 @@ public class RoundsFixPreferenceDialogFragmentCompat extends InputPreferenceDial
             }
 
             DialogPreference preference = getPreference();
-            if (preference instanceof RoundsPreference) {
-                RoundsPreference roundsPreference = (RoundsPreference) preference;
+            if (preference instanceof InputNumberPreference) {
+                InputNumberPreference roundsPreference = (InputNumberPreference) preference;
                 // This allows the client to ignore the user value.
                 if (roundsPreference.callChangeListener(rounds)) {
                     // Save the value
-                    roundsPreference.setRounds(rounds);
+                    roundsPreference.setNumber(rounds);
                 }
             }
         }
+    }
+
+    public String getInputText() {
+        return this.inputTextView.getText().toString();
+    }
+
+    public void setInputText(String inputText) {
+        this.inputTextView.setText(inputText);
+        this.inputTextView.setSelection(this.inputTextView.getText().length());
     }
 }

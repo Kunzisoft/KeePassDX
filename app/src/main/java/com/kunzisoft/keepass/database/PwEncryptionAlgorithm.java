@@ -22,8 +22,14 @@ package com.kunzisoft.keepass.database;
 import android.content.res.Resources;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.crypto.engine.AesEngine;
+import com.kunzisoft.keepass.crypto.engine.ChaCha20Engine;
+import com.kunzisoft.keepass.crypto.engine.CipherEngine;
+import com.kunzisoft.keepass.crypto.engine.TwofishEngine;
 
-public enum PwEncryptionAlgorithm {
+import java.util.UUID;
+
+public enum PwEncryptionAlgorithm implements ObjectNameResource {
 
     AES_Rijndael,
 	Twofish,
@@ -33,11 +39,35 @@ public enum PwEncryptionAlgorithm {
         switch (this) {
             default:
             case AES_Rijndael:
-                return resources.getString(R.string.rijndael);
+                return resources.getString(R.string.encryption_rijndael);
             case Twofish:
-                return resources.getString(R.string.twofish);
+                return resources.getString(R.string.encryption_twofish);
             case ChaCha20:
-                return resources.getString(R.string.chacha20);
+                return resources.getString(R.string.encryption_chacha20);
+        }
+    }
+
+    public CipherEngine getCipherEngine() {
+        switch (this) {
+            default:
+            case AES_Rijndael:
+                return new AesEngine();
+            case Twofish:
+                return new TwofishEngine();
+            case ChaCha20:
+                return new ChaCha20Engine();
+        }
+    }
+
+    public UUID getDataCipher() {
+        switch (this) {
+            default:
+            case AES_Rijndael:
+                return AesEngine.CIPHER_UUID;
+            case Twofish:
+                return TwofishEngine.CIPHER_UUID;
+            case ChaCha20:
+                return ChaCha20Engine.CIPHER_UUID;
         }
     }
 }

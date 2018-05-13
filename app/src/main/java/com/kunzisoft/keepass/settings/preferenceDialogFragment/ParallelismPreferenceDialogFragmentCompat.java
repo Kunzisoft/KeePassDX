@@ -23,16 +23,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
+import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
-public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
+public class ParallelismPreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
-    public static DatabaseDescriptionPreferenceDialogFragmentCompat newInstance(
+    public static ParallelismPreferenceDialogFragmentCompat newInstance(
             String key) {
-        final DatabaseDescriptionPreferenceDialogFragmentCompat
-                fragment = new DatabaseDescriptionPreferenceDialogFragmentCompat();
+        final ParallelismPreferenceDialogFragmentCompat
+                fragment = new ParallelismPreferenceDialogFragmentCompat();
         final Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
         fragment.setArguments(b);
@@ -44,51 +46,64 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputData
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        setInputText(database.getDescription());
+        setExplanationText(R.string.parallelism_explanation);
+        setInputText(database.getParallelismAsString());
     }
 
     @Override
     public void onDialogClosed(boolean positiveResult) {
         if ( positiveResult ) {
             assert getContext() != null;
+            int parallelism;
 
-            String newDescription = getInputText();
-            String oldDescription = database.getDescription();
-            database.assignDescription(newDescription);
+            try {
+                String stringParallelism = getInputText();
+                parallelism = Integer.parseInt(stringParallelism);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show(); // TODO change error
+                return;
+            }
+
+            if ( parallelism < 1 ) {
+                parallelism = 1;
+            }
+
+            int oldParallelism = database.getParallelism();
+            database.setParallelism(parallelism);
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterDescriptionSave((AppCompatActivity) getActivity(), handler, newDescription, oldDescription));
+            setAfterSaveDatabase(new AfterParallelismSave((AppCompatActivity) getActivity(), handler, parallelism, oldParallelism));
         }
 
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterDescriptionSave extends OnFinishRunnable {
+    private class AfterParallelismSave extends OnFinishRunnable {
 
+        private int mNewParallelism;
+        private int mOldParallelism;
         private AppCompatActivity mActivity;
-        private String mNewDescription;
-        private String mOldDescription;
 
-        AfterDescriptionSave(AppCompatActivity ctx, Handler handler, String newDescription, String oldDescription) {
+        AfterParallelismSave(AppCompatActivity ctx, Handler handler, int newParallelism, int oldParallelism) {
             super(handler);
 
             mActivity = ctx;
-            mNewDescription = newDescription;
-            mOldDescription = oldDescription;
+            mNewParallelism = newParallelism;
+            mOldParallelism = oldParallelism;
         }
 
         @Override
         public void run() {
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
-                    String descriptionToShow = mNewDescription;
+                    int parallelismToShow = mNewParallelism;
 
                     if (!mSuccess) {
                         displayMessage(mActivity);
-                        database.assignDescription(mOldDescription);
+                        database.setParallelism(mOldParallelism);
                     }
 
-                    getPreference().setSummary(descriptionToShow);
+                    getPreference().setSummary(String.valueOf(parallelismToShow));
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });
             }

@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
-public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
+public class RoundsPreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
     public static RoundsPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -99,15 +99,15 @@ public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreference
 
         @Override
         public void run() {
-            long roundsToShow = mNewRounds;
-
-            if (!mSuccess) {
-                displayMessage(mActivity);
-                database.setNumberKeyEncryptionRounds(mOldRounds);
-            }
-
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
+                    long roundsToShow = mNewRounds;
+
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.setNumberKeyEncryptionRounds(mOldRounds);
+                    }
+
                     getPreference().setSummary(String.valueOf(roundsToShow));
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });

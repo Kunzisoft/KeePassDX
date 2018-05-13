@@ -74,7 +74,7 @@
     <string name="error_failed_to_launch_link">Failed to launch link.</string>
     <string name="error_filename_required">A filename is required.</string>
     <string name="error_file_not_create">Could not create file:</string>
-    <string name="error_invalid_db">Invalid database.</string>
+    <string name="error_invalid_db">Invalid database or unrecognized master key.</string>
     <string name="error_invalid_path">Invalid path.</string>
     <string name="error_no_name">A name is required.</string>
     <string name="error_nokeyfile">A keyfile is required.</string>
@@ -150,14 +150,19 @@
     <string name="remember_keyfile_summary">Remember the location of keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>
-    <string name="rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
+    <string name="encryption_explanation">Algorithm to encrypt the whole database. (Passwords, usernames, notes and all data in the database are encrypted with the selected algorithm)</string>
+    <string name="kdf_explanation">In order to generate the key for the encryption algorithm, the compressed master key (SHA-256) is transformed using a key derivation function (with a random salt).</string>
     <string name="rounds">Transform Rounds</string>
     <string name="rounds_explanation">Higher encryption rounds provide additional protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_fix_title">Fix of database</string>
     <string name="rounds_fix">Key encryption rounds before corruption</string>
     <string name="rounds_fix_explanation">If your database was corrupted, enter the number of rounds used previously to try to open your database.</string>
     <string name="rounds_hint">rounds</string>
+    <string name="memory_usage">Memory Usage</string>
+    <string name="memory_usage_explanation">Amount of memory (in binary bytes) to be used by the key derivation function.</string>
+    <string name="parallelism">Parallelism</string>
+    <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database&#8230;</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
@@ -174,8 +179,6 @@
     <string name="special">Special</string>
     <string name="search">Search</string>
     <string name="search_results">Search results</string>
-    <string name="twofish">Twofish</string>
-    <string name="chacha20">ChaCha20</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
@@ -308,6 +311,15 @@
 
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
+
+    <!-- Algorithms -->
+    <string name="encryption_rijndael">Rijndael (AES)</string>
+    <string name="encryption_twofish">Twofish</string>
+    <string name="encryption_chacha20">ChaCha20</string>
+
+    <!-- Key Derivation Functions -->
+    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
 
     <string-array name="timeout_options">
     	<item>5 seconds</item>

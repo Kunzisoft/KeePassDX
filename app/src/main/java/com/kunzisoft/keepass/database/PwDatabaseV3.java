@@ -45,7 +45,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.database;
 
-import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
+import com.kunzisoft.keepass.crypto.finalkey.FinalKey;
+import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.stream.NullOutputStream;
 
@@ -100,9 +103,16 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	}
 
     @Override
-    public String getKeyDerivationName() {
-        return AesKdf.DEFAULT_NAME;
+    public KdfEngine getKdfEngine() {
+        return KdfFactory.aesKdf;
     }
+
+	@Override
+	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
+		List<PwEncryptionAlgorithm> list = new ArrayList<>();
+		list.add(PwEncryptionAlgorithm.AES_Rijndael);
+		return list;
+	}
 
 	@Override
 	public List<PwGroupV3> getGroups() {
@@ -254,6 +264,16 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		}
 	}
 
+    /**
+     * Encrypt the master key a few times to make brute-force key-search harder
+     * @throws IOException
+     */
+    private static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, long rounds ) throws IOException {
+        FinalKey key = FinalKeyFactory.createFinalKey();
+
+        return key.transformMasterKey(pKeySeed, pKey, rounds);
+    }
+
 	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
 
 		// Write checksum Checksum
@@ -311,7 +331,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		
 		// Add tree to root groups
 		groups.add(newGroup);
-		
 	}
 
 	@Override

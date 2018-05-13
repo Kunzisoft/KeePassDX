@@ -29,7 +29,7 @@ import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public abstract class PwDbOutput {
+public abstract class PwDbOutput<Header extends PwDbHeader> {
 	
 	protected OutputStream mOS;
 	
@@ -47,7 +47,7 @@ public abstract class PwDbOutput {
 		mOS = os;
 	}
 	
-	protected SecureRandom setIVs(PwDbHeader header) throws PwDbOutputException {
+	protected SecureRandom setIVs(Header header) throws PwDbOutputException {
 		SecureRandom random;
 		try {
 			random = SecureRandom.getInstance("SHA1PRNG");
@@ -62,6 +62,6 @@ public abstract class PwDbOutput {
 	
 	public abstract void output() throws PwDbOutputException;
 	
-	public abstract PwDbHeader outputHeader(OutputStream os) throws PwDbOutputException;
+	public abstract Header outputHeader(OutputStream os) throws PwDbOutputException;
 	
 }

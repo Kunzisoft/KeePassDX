@@ -134,7 +134,7 @@
     <string name="remember_keyfile_summary">Muista avaintiedostojen sijainti</string>
     <string name="remember_keyfile_title">Tallenna avaintiedosto</string>
     <string name="remove_from_filelist">Poista</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Juuri</string>
     <string name="rounds">Salauskierroksia</string>
     <string name="rounds_explanation">Suurempi kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
@@ -146,7 +146,7 @@
     <string name="special">Erityistä</string>
     <string name="search">Tietueen otsikko/kuvaus</string>
     <string name="search_results">Hakutulokset</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Alleviivattu</string>
     <string name="unsupported_db_version">Ei-tuettu salasanatietokannan versio.</string>
     <string name="uppercase">Isot kirjaimet</string>

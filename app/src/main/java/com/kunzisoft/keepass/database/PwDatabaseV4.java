@@ -66,9 +66,10 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private UUID dataCipher = AesEngine.CIPHER_UUID;
 	private CipherEngine dataEngine = new AesEngine();
 	private PwCompressionAlgorithm compressionAlgorithm = PwCompressionAlgorithm.Gzip;
-	private KdfEngine kdfEngine;
+    private KdfParameters kdfParameters;
+	private long numKeyEncRounds;
+    private VariantDictionary publicCustomData = new VariantDictionary();
 
-    private long numKeyEncRounds = AesKdf.DEFAULT_ROUNDS; // By default take the AES rounds
 	protected String name = "KeePass DX database";
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
@@ -98,9 +99,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     private List<PwIconCustom> customIcons = new ArrayList<>();
     private Map<String, String> customData = new HashMap<>();
 
-	private KdfParameters kdfParameters = KdfFactory.getDefaultParameters();
-	private VariantDictionary publicCustomData = new VariantDictionary();
-	private BinaryPool binPool = new BinaryPool();
+    private BinaryPool binPool = new BinaryPool();
 
     public String localizedAppName = "KeePassDX"; // TODO resource
 
@@ -131,8 +130,16 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     public void setDataEngine(CipherEngine dataEngine) {
         this.dataEngine = dataEngine;
-        this.algorithm = dataEngine.getPwEncryptionAlgorithm();
     }
+
+	@Override
+	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
+		List<PwEncryptionAlgorithm> list = new ArrayList<>();
+		list.add(PwEncryptionAlgorithm.AES_Rijndael);
+		list.add(PwEncryptionAlgorithm.Twofish);
+		list.add(PwEncryptionAlgorithm.ChaCha20);
+		return list;
+	}
 
     public PwCompressionAlgorithm getCompressionAlgorithm() {
         return compressionAlgorithm;
@@ -140,6 +147,19 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     public void setCompressionAlgorithm(PwCompressionAlgorithm compressionAlgorithm) {
         this.compressionAlgorithm = compressionAlgorithm;
+    }
+
+    @Override
+	public KdfEngine getKdfEngine() {
+		return KdfFactory.get(getKdfParameters());
+	}
+
+    public KdfParameters getKdfParameters() {
+	    return kdfParameters;
+    }
+
+    public void setKdfParameters(KdfParameters kdfParameters) {
+        this.kdfParameters = kdfParameters;
     }
 
     @Override
@@ -156,7 +176,31 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         numKeyEncRounds = rounds;
     }
 
-	public PwDate getNameChanged() {
+	public long getMemoryUsage() {
+        if (getKdfEngine() != null && getKdfParameters() != null) {
+            return getKdfEngine().getMemoryUsage(getKdfParameters());
+        }
+        return KdfEngine.UNKNOW_VALUE;
+	}
+
+	public void setMemoryUsage(long memory) {
+        if (getKdfEngine() != null && getKdfParameters() != null)
+            getKdfEngine().setMemoryUsage(getKdfParameters(), memory);
+    }
+
+	public int getParallelism() {
+        if (getKdfEngine() != null && getKdfParameters() != null) {
+            return getKdfEngine().getParallelism(getKdfParameters());
+        }
+        return KdfEngine.UNKNOW_VALUE;
+	}
+
+    public void setParallelism(int parallelism) {
+        if (getKdfEngine() != null && getKdfParameters() != null)
+            getKdfEngine().setParallelism(getKdfParameters(), parallelism);
+    }
+
+    public PwDate getNameChanged() {
         return nameChanged;
     }
 
@@ -326,18 +370,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         this.customData.put(label, value);
     }
 
-    public KdfEngine getKdfEngine() {
-        return kdfEngine;
-    }
-
-    @Override
-    public String getKeyDerivationName() {
-		if (kdfEngine!=null)
-        	return kdfEngine.getName();
-		else
-			return "";
-    }
-
     @Override
 	public byte[] getMasterKey(String key, InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
@@ -362,25 +394,25 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		return md.digest(fKey);
 	}
 
-	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP) throws IOException {
-    	makeFinalKey(masterSeed, kdfP, 0);
+	public void makeFinalKey(byte[] masterSeed) throws IOException {
+    	makeFinalKey(masterSeed, 0);
 	}
 
-	public void makeFinalKey(byte[] masterSeed, KdfParameters kdfP, long roundsFix)
+	public void makeFinalKey(byte[] masterSeed, long roundsFix)
 			throws IOException {
 
-		kdfEngine = KdfFactory.get(kdfP.kdfUUID);
+        KdfEngine kdfEngine = KdfFactory.get(kdfParameters);
 		if (kdfEngine == null) {
 			throw new IOException("Unknown key derivation function");
 		}
 
 		// Set to 6000 rounds to open corrupted database
-		if (roundsFix > 0 && kdfP.kdfUUID.equals(AesKdf.CIPHER_UUID)) {
-			kdfP.setUInt32(AesKdf.ParamRounds, roundsFix);
+		if (roundsFix > 0 && kdfParameters.kdfUUID.equals(AesKdf.CIPHER_UUID)) {
+            kdfParameters.setUInt32(AesKdf.ParamRounds, roundsFix);
 			numKeyEncRounds = roundsFix;
 		}
 
-		byte[] transformedMasterKey = kdfEngine.transform(masterKey, kdfP);
+		byte[] transformedMasterKey = kdfEngine.transform(masterKey, kdfParameters);
 		if (transformedMasterKey.length != 32) {
 			transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey);
 		}
@@ -676,14 +708,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		return groups.get(recycleId);
 	}
 
-    public KdfParameters getKdfParameters() {
-        return kdfParameters;
-    }
-
-    public void setKdfParameters(KdfParameters kdfParameters) {
-        this.kdfParameters = kdfParameters;
-    }
-
     public VariantDictionary getPublicCustomData() {
         return publicCustomData;
     }
@@ -720,8 +744,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
 	@Override
 	public void initNew(String dbPath) {
-		String filename = URLUtil.guessFileName(dbPath, null, null);
-		
 		rootGroup = new PwGroupV4(dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
 		groups.put(rootGroup.getId(), rootGroup);
 	}
@@ -738,66 +760,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		}
 		
 		return filename.substring(0, lastExtDot);
-	}
-
-	private class GroupHasCustomData extends GroupHandler<PwGroupV4> {
-
-		public boolean hasCustomData = false;
-
-		@Override
-		public boolean operate(PwGroupV4 group) {
-            if (group == null) {
-				return true;
-			}
-            if (group.containsCustomData()) {
-				hasCustomData = true;
-				return false;
-			}
-
-			return true;
-		}
-	}
-
-	private class EntryHasCustomData extends EntryHandler<PwEntryV4> {
-
-        public boolean hasCustomData = false;
-
-		@Override
-		public boolean operate(PwEntryV4 entry) {
-            if (entry == null) {
-				return true;
-			}
-
-            if (entry.containsCustomData()) {
-				hasCustomData = true;
-				return false;
-			}
-
-			return true;
-		}
-	}
-
-	public int getMinKdbxVersion() {
-		if (!AesKdf.CIPHER_UUID.equals(kdfParameters.kdfUUID)) {
-			return PwDbHeaderV4.FILE_VERSION_32;
-		}
-
-		if (publicCustomData.size() > 0) {
-			return PwDbHeaderV4.FILE_VERSION_32;
-		}
-
-		EntryHasCustomData entryHandler = new EntryHasCustomData();
-		GroupHasCustomData groupHandler = new GroupHasCustomData();
-
-		if (rootGroup == null ) {
-			return PwDbHeaderV4.FILE_VERSION_32_3;
-		}
-        rootGroup.preOrderTraverseTree(groupHandler, entryHandler);
-        if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
-			return PwDbHeaderV4.FILE_VERSION_32;
-		}
-
-		return PwDbHeaderV4.FILE_VERSION_32_3;
 	}
 
 }

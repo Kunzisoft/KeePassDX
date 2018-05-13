@@ -1,3 +1,22 @@
+/*
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePass DX.
+ *
+ *  KeePass DX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePass DX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
 import android.os.Bundle;
@@ -8,7 +27,7 @@ import android.view.View;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
-public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
+public class DatabaseNamePreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
     public static DatabaseNamePreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -33,12 +52,12 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePref
         if ( positiveResult ) {
             assert getContext() != null;
 
-            String dbName = getInputText();
+            String newName = getInputText();
             String oldName = database.getName();
-            database.assignName(dbName);
+            database.assignName(newName);
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterNameSave((AppCompatActivity) getActivity(), handler, dbName, oldName));
+            setAfterSaveDatabase(new AfterNameSave((AppCompatActivity) getActivity(), handler, newName, oldName));
         }
 
         super.onDialogClosed(positiveResult);
@@ -60,16 +79,15 @@ public class DatabaseNamePreferenceDialogFragmentCompat extends DatabaseSavePref
 
         @Override
         public void run() {
-            String nameToShow = mNewName;
-
-            if (!mSuccess) {
-                displayMessage(mActivity);
-                database.assignName(mOldName);
-            }
-
-
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
+                    String nameToShow = mNewName;
+
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.assignName(mOldName);
+                    }
+
                     getPreference().setSummary(nameToShow);
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });

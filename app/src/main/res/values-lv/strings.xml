@@ -114,7 +114,7 @@
     <string name="remember_keyfile_summary">Atcerēties šo atslēgas faila vietu</string>
     <string name="remember_keyfile_title">Saglabāt atslēgas failu</string>
     <string name="remove_from_filelist">Noņemt</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrēšanas līmeņi</string>
     <string name="rounds_explanation">Augstākā līmeņa šifrēšana sniedz lielāku aizsardzību, bet palēnina darbības ar datu bāzēm.</string>
@@ -126,7 +126,7 @@
     <string name="special">Speciālie</string>
     <string name="search">Ieraksta nosaukums/apraksts</string>
     <string name="search_results">Meklēšanas rezultāti</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Pasvītrojums</string>
     <string name="unsupported_db_version">Neatbalstīta datu bāzes versija.</string>
     <string name="uppercase">Lielie burti</string>

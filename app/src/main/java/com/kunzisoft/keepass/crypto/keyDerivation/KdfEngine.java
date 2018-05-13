@@ -19,24 +19,51 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation;
 
+import com.kunzisoft.keepass.database.ObjectNameResource;
+
 import java.io.IOException;
 import java.util.UUID;
 
-public abstract class KdfEngine {
+public abstract class KdfEngine implements ObjectNameResource{
+
+    public static final int UNKNOW_VALUE = -1;
+    public static final String UNKNOW_VALUE_STRING = String.valueOf(-1);
+
     public UUID uuid;
 
-    public KdfParameters getDefaultParameters() {
-        return new KdfParameters(uuid);
-    }
+    public abstract KdfParameters getDefaultParameters();
 
     public abstract byte[] transform(byte[] masterKey, KdfParameters p) throws IOException;
 
     public abstract void randomize(KdfParameters p);
 
-    public abstract String getName();
-
     public abstract long getKeyRounds(KdfParameters p);
 
     public abstract void setKeyRounds(KdfParameters p, long keyRounds);
 
+    public abstract long getDefaultKeyRounds();
+
+    public long getMemoryUsage(KdfParameters p) {
+        return UNKNOW_VALUE;
+    }
+
+    public void setMemoryUsage(KdfParameters p, long memory) {
+        // Do nothing by default
+    }
+
+    public long getDefaultMemoryUsage() {
+        return UNKNOW_VALUE;
+    }
+
+    public int getParallelism(KdfParameters p) {
+        return UNKNOW_VALUE;
+    }
+
+    public void setParallelism(KdfParameters p, int parallelism) {
+        // Do nothing by default
+    }
+
+    public int getDefaultParallelism() {
+        return UNKNOW_VALUE;
+    }
 }

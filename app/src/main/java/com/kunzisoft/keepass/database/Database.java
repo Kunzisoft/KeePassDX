@@ -27,6 +27,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
@@ -47,6 +49,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.SyncFailedException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Database {
@@ -148,11 +152,11 @@ public class Database {
         loadData(ctx, is, password, kfIs, status, debug, roundsFix);
     }
 
-    public void loadData(Context ctx, InputStream is, String password, InputStream kfIs, boolean debug) throws IOException, InvalidDBException {
-        loadData(ctx, is, password, kfIs, null, debug, 0);
+    public void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, boolean debug) throws IOException, InvalidDBException {
+        loadData(ctx, is, password, keyFileInputStream, null, debug, 0);
     }
 
-    private void loadData(Context ctx, InputStream is, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater, boolean debug, long roundsFix) throws IOException, InvalidDBException {
+    private void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, ProgressTaskUpdater progressTaskUpdater, boolean debug, long roundsFix) throws IOException, InvalidDBException {
         BufferedInputStream bis = new BufferedInputStream(is);
 
         if ( ! bis.markSupported() ) {
@@ -162,11 +166,11 @@ public class Database {
         // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
         bis.mark(10);
 
-        Importer imp = ImporterFactory.createImporter(bis, debug);
+        Importer databaseImporter = ImporterFactory.createImporter(bis, debug);
 
         bis.reset();  // Return to the start
 
-        pm = imp.openDatabase(bis, password, kfIs, progressTaskUpdater, roundsFix);
+        pm = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater, roundsFix);
         if ( pm != null ) {
             try {
                 switch (pm.getVersion()) {
@@ -252,7 +256,7 @@ public class Database {
                 throw new IOException("Failed to store database.");
             } finally {
                 if (os != null)
-                os.close();
+                    os.close();
             }
         }
         mUri = uri;
@@ -342,16 +346,78 @@ public class Database {
         }
     }
 
+    public PwEncryptionAlgorithm getEncryptionAlgorithm() {
+        return getPwDatabase().getEncryptionAlgorithm();
+    }
+
+    public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getAvailableEncryptionAlgorithms();
+            case V3:
+                return ((PwDatabaseV3) getPwDatabase()).getAvailableEncryptionAlgorithms();
+        }
+        return new ArrayList<>();
+    }
+
+    public boolean allowEncryptionAlgorithmModification() {
+        return getAvailableEncryptionAlgorithms().size() > 1;
+    }
+
+    public void assignEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setEncryptionAlgorithm(algorithm);
+                ((PwDatabaseV4) getPwDatabase()).setDataEngine(algorithm.getCipherEngine());
+                ((PwDatabaseV4) getPwDatabase()).setDataCipher(algorithm.getDataCipher());
+        }
+    }
+
     public String getEncryptionAlgorithmName(Resources resources) {
         return getPwDatabase().getEncryptionAlgorithm().getName(resources);
     }
 
-    public String getKeyDerivationName() {
-        return getPwDatabase().getKeyDerivationName();
+    public List<KdfEngine> getAvailableKdfEngines() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return KdfFactory.kdfList;
+            case V3:
+                return KdfFactory.kdfListV3;
+        }
+        return new ArrayList<>();
+    }
+
+    public boolean allowKdfModification() {
+        return getAvailableKdfEngines().size() > 1;
+    }
+
+    public KdfEngine getKdfEngine() {
+        return getPwDatabase().getKdfEngine();
+    }
+
+    public void assignKdfEngine(KdfEngine kdfEngine) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                PwDatabaseV4 db = ((PwDatabaseV4) getPwDatabase());
+                if (!db.getKdfParameters().kdfUUID.equals(kdfEngine.getDefaultParameters().kdfUUID))
+                    db.setKdfParameters(kdfEngine.getDefaultParameters());
+                setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
+                setMemoryUsage(kdfEngine.getDefaultMemoryUsage());
+                setParallelism(kdfEngine.getDefaultParallelism());
+                break;
+        }
+    }
+
+    public String getKeyDerivationName(Resources resources) {
+        KdfEngine kdfEngine = getPwDatabase().getKdfEngine();
+        if (kdfEngine != null) {
+            return kdfEngine.getName(resources);
+        }
+        return "";
     }
 
     public String getNumberKeyEncryptionRoundsAsString() {
-        return Long.toString(getPwDatabase().getNumberKeyEncryptionRounds());
+        return Long.toString(getNumberKeyEncryptionRounds());
     }
 
     public long getNumberKeyEncryptionRounds() {
@@ -360,6 +426,44 @@ public class Database {
 
     public void setNumberKeyEncryptionRounds(long numberRounds) throws NumberFormatException {
         getPwDatabase().setNumberKeyEncryptionRounds(numberRounds);
+    }
+
+    public String getMemoryUsageAsString() {
+        return Long.toString(getMemoryUsage());
+    }
+
+    public long getMemoryUsage() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getMemoryUsage();
+        }
+        return KdfEngine.UNKNOW_VALUE;
+    }
+
+    public void setMemoryUsage(long memory) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setMemoryUsage(memory);
+        }
+    }
+
+    public String getParallelismAsString() {
+        return Integer.toString(getParallelism());
+    }
+
+    public int getParallelism() {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                return ((PwDatabaseV4) getPwDatabase()).getParallelism();
+        }
+        return KdfEngine.UNKNOW_VALUE;
+    }
+
+    public void setParallelism(int parallelism) {
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                ((PwDatabaseV4) getPwDatabase()).setParallelism(parallelism);
+        }
     }
 
     public PwEntry createEntry(PwGroup parent) {

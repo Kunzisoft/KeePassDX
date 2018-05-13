@@ -133,7 +133,7 @@
     <string name="remember_keyfile_summary">Sparar sökvägar till nyckelfiler</string>
     <string name="remember_keyfile_title">Spara nyckelfil</string>
     <string name="remove_from_filelist">Ta bort</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Krypteringsrundor</string>
     <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot "brute force"-attacker, men kan göra att ladda och spara går betydligt långsammare.</string>
@@ -145,7 +145,7 @@
     <string name="special">Specialtecken</string>
     <string name="search">Postens titel/beskrivning</string>
     <string name="search_results">Sökresultat</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Understreck</string>
     <string name="unsupported_db_version">Databasversionen stöds ej.</string>
     <string name="uppercase">Versaler</string>

@@ -23,16 +23,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
+import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
-public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
+public class MemoryUsagePreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
-    public static DatabaseDescriptionPreferenceDialogFragmentCompat newInstance(
+    public static MemoryUsagePreferenceDialogFragmentCompat newInstance(
             String key) {
-        final DatabaseDescriptionPreferenceDialogFragmentCompat
-                fragment = new DatabaseDescriptionPreferenceDialogFragmentCompat();
+        final MemoryUsagePreferenceDialogFragmentCompat
+                fragment = new MemoryUsagePreferenceDialogFragmentCompat();
         final Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
         fragment.setArguments(b);
@@ -44,51 +46,64 @@ public class DatabaseDescriptionPreferenceDialogFragmentCompat extends InputData
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        setInputText(database.getDescription());
+        setExplanationText(R.string.memory_usage_explanation);
+        setInputText(database.getMemoryUsageAsString());
     }
 
     @Override
     public void onDialogClosed(boolean positiveResult) {
         if ( positiveResult ) {
             assert getContext() != null;
+            long memoryUsage;
 
-            String newDescription = getInputText();
-            String oldDescription = database.getDescription();
-            database.assignDescription(newDescription);
+            try {
+                String stringMemory = getInputText();
+                memoryUsage = Long.parseLong(stringMemory);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), R.string.error_rounds_not_number, Toast.LENGTH_LONG).show(); // TODO change error
+                return;
+            }
+
+            if ( memoryUsage < 1 ) {
+                memoryUsage = 1;
+            }
+
+            long oldMemoryUsage = database.getMemoryUsage();
+            database.setMemoryUsage(memoryUsage);
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterDescriptionSave((AppCompatActivity) getActivity(), handler, newDescription, oldDescription));
+            setAfterSaveDatabase(new AfterMemorySave((AppCompatActivity) getActivity(), handler, memoryUsage, oldMemoryUsage));
         }
 
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterDescriptionSave extends OnFinishRunnable {
+    private class AfterMemorySave extends OnFinishRunnable {
 
+        private long mNewMemory;
+        private long mOldMemory;
         private AppCompatActivity mActivity;
-        private String mNewDescription;
-        private String mOldDescription;
 
-        AfterDescriptionSave(AppCompatActivity ctx, Handler handler, String newDescription, String oldDescription) {
+        AfterMemorySave(AppCompatActivity ctx, Handler handler, long newMemory, long oldMemory) {
             super(handler);
 
             mActivity = ctx;
-            mNewDescription = newDescription;
-            mOldDescription = oldDescription;
+            mNewMemory = newMemory;
+            mOldMemory = oldMemory;
         }
 
         @Override
         public void run() {
             if (mActivity != null) {
                 mActivity.runOnUiThread(() -> {
-                    String descriptionToShow = mNewDescription;
+                    long memoryToShow = mNewMemory;
 
                     if (!mSuccess) {
                         displayMessage(mActivity);
-                        database.assignDescription(mOldDescription);
+                        database.setMemoryUsage(mOldMemory);
                     }
 
-                    getPreference().setSummary(descriptionToShow);
+                    getPreference().setSummary(String.valueOf(memoryToShow));
                     SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
                 });
             }

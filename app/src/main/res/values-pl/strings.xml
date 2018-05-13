@@ -120,7 +120,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="remember_keyfile_summary">Zapamiętaj lokację plików kluczy</string>
     <string name="remember_keyfile_title">Zapisz plik klucza</string>
     <string name="remove_from_filelist">Usuń</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Złożoność szyfrowania</string>
     <string name="rounds_explanation">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
@@ -133,7 +133,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="sort_db">Sortuj wg daty</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Tytuł/opis wpisu</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>

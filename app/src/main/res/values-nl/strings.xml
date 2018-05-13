@@ -122,7 +122,7 @@
     <string name="remember_keyfile_summary">Onthoudt de locatie van de sleutelbestanden</string>
     <string name="remember_keyfile_title">Sleutelbestand opslaan</string>
     <string name="remove_from_filelist">Verwijder</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Top</string>
     <string name="rounds">Encryptie-cycli</string>
     <string name="rounds_explanation">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
@@ -133,7 +133,7 @@
     <string name="sort_db">Sorteringsvolgorde DB</string>
     <string name="special">Speciaal</string>
     <string name="search">Record titel/beschrijving</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Onderlijnen</string>
     <string name="unsupported_db_version">Niet-ondersteunde databaseversie.</string>
     <string name="uppercase">Hoofdletters</string>
