@@ -1,0 +1,6 @@
+ * Modification dynamique de l'algorithme et de la fonction de dérivation de clé dans les paramètres
+ * Mise à jour des traductions
+ * Nouveau thème red volcano, correction du thème sombre classic
+ * Ajout du Pack d'Icones Material à la version gratuite
+ * Mise à jour de l'état de l'empreinte digitale avec la boite à cocher
+ * Corrections de bugs / crash dans la version beta10

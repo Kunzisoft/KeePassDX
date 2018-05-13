@@ -396,14 +396,18 @@ public class Database {
     }
 
     public KdfEngine getKdfEngine() {
-        return getPwDatabase().getKdfEngine();
+        KdfEngine kdfEngine = getPwDatabase().getKdfEngine();
+        if (kdfEngine == null)
+            return KdfFactory.aesKdf;
+        return kdfEngine;
     }
 
     public void assignKdfEngine(KdfEngine kdfEngine) {
         switch (getPwDatabase().getVersion()) {
             case V4:
                 PwDatabaseV4 db = ((PwDatabaseV4) getPwDatabase());
-                if (!db.getKdfParameters().kdfUUID.equals(kdfEngine.getDefaultParameters().kdfUUID))
+                if (db.getKdfParameters() == null
+                        || !db.getKdfParameters().kdfUUID.equals(kdfEngine.getDefaultParameters().kdfUUID))
                     db.setKdfParameters(kdfEngine.getDefaultParameters());
                 setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
                 setMemoryUsage(kdfEngine.getDefaultMemoryUsage());
