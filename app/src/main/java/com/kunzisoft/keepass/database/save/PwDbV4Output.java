@@ -293,6 +293,9 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		}
 		random.nextBytes(header.encryptionIV);
 
+		if (mPM.getKdfParameters() == null) {
+			mPM.setKdfParameters(KdfFactory.aesKdf.getDefaultParameters());
+		}
 		KdfEngine kdf = KdfFactory.get(mPM.getKdfParameters());
 		kdf.randomize(mPM.getKdfParameters());
 

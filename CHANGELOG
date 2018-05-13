@@ -1,3 +1,6 @@
+KeepassDX (2.5.0.0beta11)
+ * Fix crash in beta10 version
+
 KeepassDX (2.5.0.0beta10)
  * Dynamically change Algorithm and Key Derivation Function in settings
  * Upgrade translations

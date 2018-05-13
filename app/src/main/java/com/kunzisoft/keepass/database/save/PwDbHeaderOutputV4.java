@@ -100,7 +100,6 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.getNumberKeyEncryptionRounds()));
 		} else {
             writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.getKdfParameters()));
-            // TODO verify serialize in all cases
 		}
 
 		if (header.encryptionIV.length > 0) {
