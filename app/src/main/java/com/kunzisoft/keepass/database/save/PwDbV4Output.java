@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.database.MemoryProtectionConfig;
 import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwDatabaseV4XML;
-import com.kunzisoft.keepass.database.PwDbHeader;
 import com.kunzisoft.keepass.database.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.PwDefsV4;
 import com.kunzisoft.keepass.database.PwDeletedObject;
@@ -74,9 +73,9 @@ import javax.crypto.CipherOutputStream;
 
 import biz.source_code.base64Coder.Base64Coder;
 
-public class PwDbV4Output extends PwDbOutput {
+public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 
-	PwDatabaseV4 mPM;
+	private PwDatabaseV4 mPM;
 	private StreamCipher randomStream;
 	private XmlSerializer xml;
 	private PwDbHeaderV4 header;
@@ -86,8 +85,7 @@ public class PwDbV4Output extends PwDbOutput {
 
 	protected PwDbV4Output(PwDatabaseV4 pm, OutputStream os) {
 		super(os);
-		
-		mPM = pm;
+		this.mPM = pm;
 	}
 
 	@Override
@@ -100,15 +98,14 @@ public class PwDbV4Output extends PwDbOutput {
 				throw new PwDbOutputException("No such cipher", e);
 			}
 
-			header = (PwDbHeaderV4) outputHeader(mOS);
+			header = outputHeader(mOS);
 
 			OutputStream osPlain;
-			if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+			if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 				CipherOutputStream cos = attachStreamEncryptor(header, mOS);
 				cos.write(header.streamStartBytes);
 
-				HashedBlockOutputStream hashed = new HashedBlockOutputStream(cos);
-				osPlain = hashed;
+				osPlain = new HashedBlockOutputStream(cos);
 			} else {
 				mOS.write(hashOfHeader);
 				mOS.write(headerHmac);
@@ -125,7 +122,7 @@ public class PwDbV4Output extends PwDbOutput {
 					osXml = osPlain;
 				}
 
-				if (header.version >= PwDbHeaderV4.FILE_VERSION_32_4) {
+				if (header.getVersion() >= PwDbHeaderV4.FILE_VERSION_32_4) {
 					PwDbInnerHeaderOutputV4 ihOut =  new PwDbInnerHeaderOutputV4(mPM, header, osXml);
                     ihOut.output();
 				}
@@ -261,7 +258,7 @@ public class PwDbV4Output extends PwDbOutput {
 		writeObject(PwDatabaseV4XML.ElemLastSelectedGroup, mPM.getLastSelectedGroup());
 		writeObject(PwDatabaseV4XML.ElemLastTopVisibleGroup, mPM.getLastTopVisibleGroup());
 
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeBinPool();
 		}
 		writeList(PwDatabaseV4XML.ElemCustomData, mPM.getCustomData());
@@ -286,46 +283,44 @@ public class PwDbV4Output extends PwDbOutput {
 	}
 
 	@Override
-	protected SecureRandom setIVs(PwDbHeader header) throws PwDbOutputException {
+	protected SecureRandom setIVs(PwDbHeaderV4 header) throws PwDbOutputException {
 		SecureRandom random = super.setIVs(header);
-		
-		PwDbHeaderV4 h = (PwDbHeaderV4) header;
-		random.nextBytes(h.masterSeed);
+		random.nextBytes(header.masterSeed);
 
 		int ivLength = engine.ivLength();
-		if (ivLength != h.encryptionIV.length) {
-			h.encryptionIV = new byte[ivLength];
+		if (ivLength != header.encryptionIV.length) {
+			header.encryptionIV = new byte[ivLength];
 		}
-		random.nextBytes(h.encryptionIV);
+		random.nextBytes(header.encryptionIV);
 
-		UUID kdfUUID = mPM.getKdfParameters().kdfUUID;
-		KdfEngine kdf = KdfFactory.get(kdfUUID);
+		KdfEngine kdf = KdfFactory.get(mPM.getKdfParameters());
 		kdf.randomize(mPM.getKdfParameters());
 
-		if (h.version < PwDbHeaderV4.FILE_VERSION_32_4) {
-			h.innerRandomStream = CrsAlgorithm.Salsa20;
-            h.innerRandomStreamKey = new byte[32];
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
+			header.innerRandomStream = CrsAlgorithm.Salsa20;
+			header.innerRandomStreamKey = new byte[32];
 		} else {
-			h.innerRandomStream = CrsAlgorithm.ChaCha20;
-			h.innerRandomStreamKey = new byte[64];
+			header.innerRandomStream = CrsAlgorithm.ChaCha20;
+			header.innerRandomStreamKey = new byte[64];
 		}
-		random.nextBytes(h.innerRandomStreamKey);
+		random.nextBytes(header.innerRandomStreamKey);
 
-		randomStream = PwStreamCipherFactory.getInstance(h.innerRandomStream, h.innerRandomStreamKey);
+		randomStream = PwStreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey);
 		if (randomStream == null) {
 			throw new PwDbOutputException("Invalid random cipher");
 		}
 
-		if ( h.version < PwDbHeaderV4.FILE_VERSION_32_4) {
-			random.nextBytes(h.streamStartBytes);
+		if ( header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
+			random.nextBytes(header.streamStartBytes);
 		}
 		
 		return random;
 	}
 	
 	@Override
-	public PwDbHeader outputHeader(OutputStream os) throws PwDbOutputException {
-		PwDbHeaderV4 header = new PwDbHeaderV4(mPM);
+	public PwDbHeaderV4 outputHeader(OutputStream os) throws PwDbOutputException {
+
+        PwDbHeaderV4 header = new PwDbHeaderV4(mPM);
 		setIVs(header);
 
 		PwDbHeaderOutputV4 pho = new PwDbHeaderOutputV4(mPM, header, os);
@@ -468,7 +463,7 @@ public class PwDbV4Output extends PwDbOutput {
 	}
 	
 	private void writeObject(String name, Date value) throws IllegalArgumentException, IllegalStateException, IOException {
-		if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeObject(name, PwDatabaseV4XML.dateFormatter.get().format(value));
 		} else {
 			DateTime dt = new DateTime(value);

@@ -19,9 +19,12 @@
  */
 package com.kunzisoft.keepass.utils;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.widget.EditText;
@@ -69,5 +72,21 @@ public class Util {
      */
 	public static void applyFontVisibilityTo(final Context context, final EditText editText) {
         applyFontVisibilityTo(context, (TextView) editText);
+	}
+
+    public static void lockScreenOrientation(Activity activity) {
+		if (activity != null) {
+			int currentOrientation = activity.getResources().getConfiguration().orientation;
+			if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			} else {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			}
+		}
+	}
+
+    public static void unlockScreenOrientation(Activity activity) {
+		if (activity != null)
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 	}
 }

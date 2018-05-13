@@ -19,16 +19,17 @@
  */
 package com.kunzisoft.keepass.settings.preferenceDialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 
-public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreferenceDialogFragmentCompat {
+public class RoundsPreferenceDialogFragmentCompat extends InputDatabaseSavePreferenceDialogFragmentCompat {
 
     public static RoundsPreferenceDialogFragmentCompat newInstance(
             String key) {
@@ -76,36 +77,41 @@ public class RoundsPreferenceDialogFragmentCompat extends DatabaseSavePreference
             }
 
             Handler handler = new Handler();
-            setAfterSaveDatabase(new AfterRoundSave(getContext(), handler, rounds, oldRounds));
+            setAfterSaveDatabase(new AfterRoundSave((AppCompatActivity) getActivity(), handler, rounds, oldRounds));
         }
 
         super.onDialogClosed(positiveResult);
     }
 
-    private class AfterRoundSave extends OnFinish {
+    private class AfterRoundSave extends OnFinishRunnable {
 
         private long mNewRounds;
         private long mOldRounds;
-        private Context mCtx;
+        private AppCompatActivity mActivity;
 
-        AfterRoundSave(Context ctx, Handler handler, long newRounds, long oldRounds) {
+        AfterRoundSave(AppCompatActivity ctx, Handler handler, long newRounds, long oldRounds) {
             super(handler);
 
-            mCtx = ctx;
+            mActivity = ctx;
             mNewRounds = newRounds;
             mOldRounds = oldRounds;
         }
 
         @Override
         public void run() {
-            long roundsToShow = mNewRounds;
+            if (mActivity != null) {
+                mActivity.runOnUiThread(() -> {
+                    long roundsToShow = mNewRounds;
 
-            if (!mSuccess) {
-                displayMessage(mCtx);
-                database.setNumberKeyEncryptionRounds(mOldRounds);
+                    if (!mSuccess) {
+                        displayMessage(mActivity);
+                        database.setNumberKeyEncryptionRounds(mOldRounds);
+                    }
+
+                    getPreference().setSummary(String.valueOf(roundsToShow));
+                    SaveDatabaseProgressTaskDialogFragment.stop(mActivity);
+                });
             }
-
-            getPreference().setSummary(String.valueOf(roundsToShow));
 
             super.run();
         }

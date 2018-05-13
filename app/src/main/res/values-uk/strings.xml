@@ -120,7 +120,7 @@
     <string name="remember_keyfile_summary">Запам’ятати розташування файла ключа</string>
     <string name="remember_keyfile_title">Збережіть файл ключа</string>
     <string name="remove_from_filelist">Вилучити</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
     <string name="rounds_explanation">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
@@ -131,7 +131,7 @@
     <string name="sort_db">Упорядкування БД</string>
     <string name="special">Спеціальний</string>
     <string name="search">Введіть заголовок/опис</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Підкреслення</string>
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Верхній регістр</string>

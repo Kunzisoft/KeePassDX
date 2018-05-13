@@ -37,7 +37,9 @@
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondary">@color/colorTextInverse</item>
+        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="android:textColorHint">@color/purple_lighter</item>
     </style>
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Purple" parent="KeepassDXStyle.FilePickerStyle">

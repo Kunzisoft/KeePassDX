@@ -17,14 +17,14 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 
-public class UpdateGroup extends RunnableOnFinish {
+public class UpdateGroupRunnable extends RunnableOnFinish {
 
 	private Database mDb;
 	private PwGroup mOldGroup;
@@ -32,11 +32,11 @@ public class UpdateGroup extends RunnableOnFinish {
 	private Context ctx;
 	private boolean mDontSave;
 
-	public UpdateGroup(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish) {
+	public UpdateGroupRunnable(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish) {
 		this(ctx, db, oldGroup, newGroup, finish, false);
 	}
 
-	public UpdateGroup(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish, boolean dontSave) {
+	public UpdateGroupRunnable(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish, boolean dontSave) {
 		super(finish);
 		
 		this.mDb = db;
@@ -59,13 +59,13 @@ public class UpdateGroup extends RunnableOnFinish {
 		mOldGroup.touch(true, true);
 
 		// Commit to disk
-		new SaveDB(ctx, mDb, mFinish, mDontSave).run();
+		new SaveDBRunnable(ctx, mDb, mFinish, mDontSave).run();
 	}
 	
-	private class AfterUpdate extends OnFinish {
+	private class AfterUpdate extends OnFinishRunnable {
 		private PwGroup mBackup;
 		
-		AfterUpdate(PwGroup backup, OnFinish finish) {
+		AfterUpdate(PwGroup backup, OnFinishRunnable finish) {
 			super(finish);
 			mBackup = backup;
 		}

@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -61,8 +62,8 @@ import com.kunzisoft.keepass.compat.BackupManagerCompat;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
 import com.kunzisoft.keepass.compat.EditorCompat;
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.edit.LoadDB;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.LoadDBRunnable;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
@@ -70,7 +71,8 @@ import com.kunzisoft.keepass.fingerprint.FingerPrintDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -289,6 +291,7 @@ public class PasswordActivity extends StylishActivity
             fingerprintTextView = findViewById(R.id.fingerprint_label);
             fingerprintImageView = findViewById(R.id.fingerprint_image);
             initForFingerprint();
+            // Init the fingerprint animation
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                     fingerprintImageView);
         }
@@ -320,6 +323,19 @@ public class PasswordActivity extends StylishActivity
         // For check shutdown
         super.onResume();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Check if fingerprint well init (be called the first time the fingerprint is configured
+            // and the activity still active)
+            if (fingerPrintHelper == null || !fingerPrintHelper.isFingerprintInitialized()) {
+                initForFingerprint();
+            }
+
+            // Start the animation in all cases
+            if (fingerPrintAnimatedVector != null) {
+                fingerPrintAnimatedVector.startScan();
+            }
+        }
+
         new UriIntentInitTask(this, mRememberKeyfile)
                 .execute(getIntent());
     }
@@ -337,6 +353,7 @@ public class PasswordActivity extends StylishActivity
                     getString(R.string.education_unlock_summary))
                             .dimColor(R.color.green)
                             .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -369,6 +386,7 @@ public class PasswordActivity extends StylishActivity
                 TapTarget.forView(fingerprintImageView,
                         getString(R.string.education_fingerprint_title),
                         getString(R.string.education_fingerprint_summary))
+                        .textColorInt(Color.WHITE)
                         .tintTarget(false)
                         .cancelable(true),
                     new TapTargetView.Listener() {
@@ -427,9 +445,6 @@ public class PasswordActivity extends StylishActivity
         // checks if fingerprint is available, will also start listening for fingerprints when available
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkFingerprintAvailability();
-            if (fingerPrintAnimatedVector != null) {
-                fingerPrintAnimatedVector.startScan();
-            }
         }
 
         // If Activity is launch with a password and want to open directly
@@ -483,32 +498,18 @@ public class PasswordActivity extends StylishActivity
 
         fingerPrintHelper = new FingerPrintHelper(this, this);
 
-        // when text entered we can enable the logon/purchase button and if required update encryption/decryption mode
-        passwordView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(
-                    final CharSequence s,
-                    final int start,
-                    final int count,
-                    final int after) {}
-
-            @Override
-            public void onTextChanged(
-                    final CharSequence s,
-                    final int start,
-                    final int before,
-                    final int count) {}
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                if ( !fingerprintMustBeConfigured ) {
-                    final boolean validInput = s.length() > 0;
-                    // encrypt or decrypt mode based on how much input or not
-                    setFingerPrintView(validInput ? R.string.store_with_fingerprint : R.string.scanning_fingerprint);
-                    if (validInput)
-                        toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE);
-                    else
+        checkboxPasswordView.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if ( !fingerprintMustBeConfigured ) {
+                // encrypt or decrypt mode based on how much input or not
+                if (checked) {
+                    toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE);
+                } else {
+                    if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
+                        // This happens when no fingerprints are registered.
+                        toggleFingerprintMode(FingerPrintHelper.Mode.WAITING_PASSWORD_MODE);
+                    } else {
                         toggleFingerprintMode(FingerPrintHelper.Mode.OPEN_MODE);
+                    }
                 }
             }
         });
@@ -594,7 +595,24 @@ public class PasswordActivity extends StylishActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
+    private void initWaitData() {
+        setFingerPrintView(R.string.no_password_stored, true);
+        fingerPrintMode = FingerPrintHelper.Mode.WAITING_PASSWORD_MODE;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private synchronized void toggleFingerprintMode(final FingerPrintHelper.Mode newMode) {
+        switch (newMode) {
+            case WAITING_PASSWORD_MODE:
+                setFingerPrintView(R.string.no_password_stored, true);
+                break;
+            case STORE_MODE:
+                setFingerPrintView(R.string.store_with_fingerprint);
+                break;
+            case OPEN_MODE:
+                setFingerPrintView(R.string.scanning_fingerprint);
+                break;
+        }
         if( !newMode.equals(fingerPrintMode) ) {
             fingerPrintMode = newMode;
             reInitWithFingerprintMode();
@@ -606,6 +624,9 @@ public class PasswordActivity extends StylishActivity
         switch (fingerPrintMode) {
             case STORE_MODE:
                 initEncryptData();
+                break;
+            case WAITING_PASSWORD_MODE:
+                initWaitData();
                 break;
             case OPEN_MODE:
                 initDecryptData();
@@ -638,10 +659,6 @@ public class PasswordActivity extends StylishActivity
         setFingerPrintView(textId, false);
     }
 
-    private void setFingerPrintView(final CharSequence text) {
-        setFingerPrintView(text, false);
-    }
-
     private void setFingerPrintView(final int textId, boolean lock) {
         setFingerPrintView(getString(textId), lock);
     }
@@ -649,7 +666,7 @@ public class PasswordActivity extends StylishActivity
     private void setFingerPrintView(final CharSequence text, boolean lock) {
         runOnUiThread(() -> {
             if (lock) {
-                fingerprintContainerView.setAlpha(0.6f);
+                fingerprintContainerView.setAlpha(0.8f);
             } else
                 fingerprintContainerView.setAlpha(1f);
             fingerprintTextView.setText(text);
@@ -683,9 +700,13 @@ public class PasswordActivity extends StylishActivity
 
                 // fingerprint available but no stored password found yet for this DB so show info don't listen
                 if (!prefsNoBackup.contains(getPreferenceKeyValue())) {
-                    setFingerPrintView(R.string.no_password_stored);
-                    // listen for encryption
-                    initEncryptData();
+                    if (checkboxPasswordView.isChecked()) {
+                        // listen for encryption
+                        initEncryptData();
+                    } else {
+                        // wait for typing
+                        initWaitData();
+                    }
                 }
                 // all is set here so we can confirm to user and start listening for fingerprints
                 else {
@@ -734,7 +755,9 @@ public class PasswordActivity extends StylishActivity
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onFingerPrintException(Exception e) {
-        showError(getString(R.string.fingerprint_error, e.getMessage()));
+        // Don't show error here;
+        // showError(getString(R.string.fingerprint_error, e.getMessage()));
+        // Can be uninit in Activity and init in fragment
         setFingerPrintView(e.getLocalizedMessage(), true);
     }
 
@@ -805,20 +828,86 @@ public class PasswordActivity extends StylishActivity
         loadDatabase(password, keyUri);
     }
 
-    private void loadDatabase(String pass, Uri keyfile) {
+    private void loadDatabase(String password, Uri keyfile) {
         // Clear before we load
-        Database db = App.getDB();
-        db.clear();
-
+        Database database = App.getDB();
+        database.clear();
         // Clear the shutdown flag
         App.clearShutdown();
 
+        // Show the progress dialog
         Handler handler = new Handler();
-        AfterLoad afterLoad = new AfterLoad(handler, db);
+        AfterLoadingDatabase afterLoad = new AfterLoadingDatabase(handler, database);
+        LoadDBRunnable databaseLoadingTask = new LoadDBRunnable(
+                database,
+                PasswordActivity.this,
+                mDbUri,
+                password,
+                keyfile,
+                afterLoad);
+        databaseLoadingTask.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        handler,
+                        ProgressTaskDialogFragment.start(
+                                getSupportFragmentManager(),
+                                R.string.loading_database)
+                ));
+        Thread t = new Thread(databaseLoadingTask);
+        t.start();
+    }
 
-        LoadDB task = new LoadDB(db, PasswordActivity.this, mDbUri, pass, keyfile, afterLoad);
-        ProgressTask pt = new ProgressTask(PasswordActivity.this, task, R.string.loading_database);
-        pt.run();
+    /**
+     * Called after verify and try to opening the database
+     */
+    private final class AfterLoadingDatabase extends OnFinishRunnable {
+
+        protected Database db;
+
+        AfterLoadingDatabase(
+                Handler handler,
+                Database db) {
+            super(handler);
+
+            this.db = db;
+        }
+
+        @Override
+        public void run() {
+            runOnUiThread(() -> {
+                // Recheck fingerprint if error
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // Stay with the same mode
+                    reInitWithFingerprintMode();
+                }
+
+                if (db.isPasswordEncodingError()) {
+                    PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
+                    dialog.show(PasswordActivity.this, (dialog1, which) -> launchGroupActivity());
+                } else if (mSuccess) {
+                    launchGroupActivity();
+                } else {
+                    if ( mMessage != null && mMessage.length() > 0 ) {
+                        Toast.makeText(PasswordActivity.this, mMessage, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                // To remove progress task
+                ProgressTaskDialogFragment.stop(PasswordActivity.this);
+            });
+        }
+    }
+
+    private void launchGroupActivity() {
+        AssistStructure assistStructure = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            assistStructure = autofillHelper.getAssistStructure();
+            if (assistStructure != null) {
+                GroupActivity.launch(PasswordActivity.this, assistStructure);
+            }
+        }
+        if (assistStructure == null) {
+            GroupActivity.launch(PasswordActivity.this);
+        }
     }
 
     @Override
@@ -858,54 +947,6 @@ public class PasswordActivity extends StylishActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // NOTE: delegate the permission handling to generated method
         PasswordActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
-
-    /**
-     * Called after verify and try to opening the database
-     */
-    private final class AfterLoad extends OnFinish {
-
-        protected Database db;
-
-        AfterLoad(
-                Handler handler,
-                Database db) {
-            super(handler);
-
-            this.db = db;
-        }
-
-        @Override
-        public void run() {
-
-            // Recheck fingerprint if error
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Stay with the same mode
-                reInitWithFingerprintMode();
-            }
-
-            if (db.isPasswordEncodingError()) {
-                PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
-                dialog.show(PasswordActivity.this, (dialog1, which) -> launchGroupActivity());
-            } else if (mSuccess) {
-                launchGroupActivity();
-            } else {
-                displayMessage(PasswordActivity.this);
-            }
-        }
-    }
-
-    private void launchGroupActivity() {
-        AssistStructure assistStructure = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            assistStructure = autofillHelper.getAssistStructure();
-            if (assistStructure != null) {
-                GroupActivity.launch(PasswordActivity.this, assistStructure);
-            }
-        }
-        if (assistStructure == null) {
-            GroupActivity.launch(PasswordActivity.this);
-        }
     }
 
     private static class UriIntentInitTask extends AsyncTask<Intent, Void, Integer> {

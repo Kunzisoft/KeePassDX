@@ -17,12 +17,14 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
@@ -40,7 +42,9 @@ import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class LoadDB extends RunnableOnFinish {
+public class LoadDBRunnable extends RunnableOnFinish {
+    private static final String TAG = LoadDBRunnable.class.getName();
+
     private Uri mUri;
     private String mPass;
     private Uri mKey;
@@ -48,7 +52,7 @@ public class LoadDB extends RunnableOnFinish {
     private Context mCtx;
     private boolean mRememberKeyfile;
 
-    public LoadDB(Database db, Context ctx, Uri uri, String pass, Uri key, OnFinish finish) {
+    public LoadDBRunnable(Database db, Context ctx, Uri uri, String pass, Uri key, OnFinishRunnable finish) {
         super(finish);
 
         mDb = db;
@@ -69,47 +73,57 @@ public class LoadDB extends RunnableOnFinish {
             saveFileData(mUri, mKey);
 
         } catch (ArcFourException e) {
-            finish(false, mCtx.getString(R.string.error_arc4));
+            catchError(e, R.string.error_arc4);
             return;
         } catch (InvalidPasswordException e) {
-            finish(false, mCtx.getString(R.string.InvalidPassword));
+            catchError(e, R.string.InvalidPassword);
             return;
         } catch (ContentFileNotFoundException e) {
-            finish(false, mCtx.getString(R.string.file_not_found_content));
+            catchError(e, R.string.file_not_found_content);
             return;
         } catch (FileNotFoundException e) {
-            finish(false, mCtx.getString(R.string.file_not_found));
+            catchError(e, R.string.file_not_found);
             return;
         } catch (IOException e) {
+            Log.e(TAG, "Database can't be read", e);
             finish(false, e.getMessage());
             return;
         } catch (KeyFileEmptyException e) {
-            finish(false, mCtx.getString(R.string.keyfile_is_empty));
+            catchError(e, R.string.keyfile_is_empty);
             return;
         } catch (InvalidAlgorithmException e) {
-            finish(false, mCtx.getString(R.string.invalid_algorithm));
+            catchError(e, R.string.invalid_algorithm);
             return;
         } catch (InvalidKeyFileException e) {
-            finish(false, mCtx.getString(R.string.keyfile_does_not_exist));
+            catchError(e, R.string.keyfile_does_not_exist);
             return;
         } catch (InvalidDBSignatureException e) {
-            finish(false, mCtx.getString(R.string.invalid_db_sig));
+            catchError(e, R.string.invalid_db_sig);
             return;
         } catch (InvalidDBVersionException e) {
-            finish(false, mCtx.getString(R.string.unsupported_db_version));
+            catchError(e, R.string.unsupported_db_version);
             return;
         } catch (InvalidDBException e) {
-            finish(false, mCtx.getString(R.string.error_invalid_db));
+            catchError(e, R.string.error_invalid_db);
             return;
         } catch (OutOfMemoryError e) {
-            finish(false, mCtx.getString(R.string.error_out_of_memory));
+            String errorMessage = mCtx.getString(R.string.error_out_of_memory);
+            Log.e(TAG, errorMessage, e);
+            finish(false, errorMessage);
             return;
         } catch (Exception e) {
+            Log.e(TAG, "Database can't be load", e);
             finish(false, e.getMessage());
             return;
         }
 
         finish(true);
+    }
+
+    private void catchError(Exception e, @StringRes int messageId) {
+        String errorMessage = mCtx.getString(messageId);
+        Log.e(TAG, errorMessage, e);
+        finish(false, errorMessage);
     }
 
     private void saveFileData(Uri uri, Uri key) {

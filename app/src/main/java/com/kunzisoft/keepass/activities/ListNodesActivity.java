@@ -49,12 +49,13 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.edit.AfterActionNodeOnFinish;
-import com.kunzisoft.keepass.database.edit.OnFinish;
+import com.kunzisoft.keepass.database.action.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.utils.MenuUtil;
 
@@ -177,7 +178,7 @@ public abstract class ListNodesActivity extends LockingActivity
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-		MenuUtil.donationMenuInflater(inflater, menu);
+		MenuUtil.contributionMenuInflater(inflater, menu);
 		inflater.inflate(R.menu.tree, menu);
 		inflater.inflate(R.menu.default_menu, menu);
 
@@ -307,11 +308,16 @@ public abstract class ListNodesActivity extends LockingActivity
 
         public void run(PwNode oldNode, PwNode newNode) {
             super.run();
-            if (mSuccess) {
-                mAdapter.addNode(newNode);
-            } else {
-                displayMessage(ListNodesActivity.this);
-            }
+
+            runOnUiThread(() -> {
+                if (mSuccess) {
+                    mAdapter.addNode(newNode);
+                } else {
+                    displayMessage(ListNodesActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
+            });
         }
     }
 
@@ -322,15 +328,20 @@ public abstract class ListNodesActivity extends LockingActivity
 
         public void run(PwNode oldNode, PwNode newNode) {
             super.run();
-            if (mSuccess) {
-                mAdapter.updateNode(oldNode, newNode);
-            } else {
-                displayMessage(ListNodesActivity.this);
-            }
+
+            runOnUiThread(() -> {
+                if (mSuccess) {
+                    mAdapter.updateNode(oldNode, newNode);
+                } else {
+                    displayMessage(ListNodesActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
+            });
         }
     }
 
-    class AfterDeleteNode extends OnFinish {
+    class AfterDeleteNode extends OnFinishRunnable {
         private PwNode pwNode;
 
         AfterDeleteNode(Handler handler, PwNode pwNode) {
@@ -340,27 +351,33 @@ public abstract class ListNodesActivity extends LockingActivity
 
         @Override
         public void run() {
-            if ( mSuccess) {
-                mAdapter.removeNode(pwNode);
-                PwGroup parent = pwNode.getParent();
-                Database db = App.getDB();
-                PwDatabase database = db.getPwDatabase();
-                if (db.isRecycleBinAvailable() &&
-                        db.isRecycleBinEnabled()) {
-                    PwGroup recycleBin = database.getRecycleBin();
-                    // Add trash if it doesn't exists
-                    if (parent.equals(recycleBin)
-                            && mCurrentGroup != null
-                            && mCurrentGroup.getParent() == null
-                            && !mCurrentGroup.equals(recycleBin)) {
-                        mAdapter.addNode(parent);
+            super.run();
+
+            runOnUiThread(() -> {
+                if ( mSuccess) {
+                    mAdapter.removeNode(pwNode);
+                    PwGroup parent = pwNode.getParent();
+                    Database db = App.getDB();
+                    PwDatabase database = db.getPwDatabase();
+                    if (db.isRecycleBinAvailable() &&
+                            db.isRecycleBinEnabled()) {
+                        PwGroup recycleBin = database.getRecycleBin();
+                        // Add trash if it doesn't exists
+                        if (parent.equals(recycleBin)
+                                && mCurrentGroup != null
+                                && mCurrentGroup.getParent() == null
+                                && !mCurrentGroup.equals(recycleBin)) {
+                            mAdapter.addNode(parent);
+                        }
                     }
+                } else {
+                    mHandler.post(new UIToastTask(ListNodesActivity.this, "Unrecoverable error: " + mMessage));
+                    App.setShutdown();
+                    finish();
                 }
-            } else {
-                mHandler.post(new UIToastTask(ListNodesActivity.this, "Unrecoverable error: " + mMessage));
-                App.setShutdown();
-                finish();
-            }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
+            });
         }
     }
 }

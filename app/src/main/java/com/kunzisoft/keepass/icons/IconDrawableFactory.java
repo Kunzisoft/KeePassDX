@@ -29,6 +29,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
@@ -44,6 +45,9 @@ import org.apache.commons.collections.map.ReferenceMap;
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
  */
 public class IconDrawableFactory {
+
+    private static final String TAG = IconDrawableFactory.class.getName();
+
 	private static Drawable blank = null;
 	private static int blankWidth = -1;
 	private static int blankHeight = -1;
@@ -236,10 +240,20 @@ public class IconDrawableFactory {
 
         Drawable draw = (Drawable) standardIconMap.get(newCacheKey);
         if (draw == null) {
-            draw = ContextCompat.getDrawable(context, iconId);
+            try {
+                draw = ContextCompat.getDrawable(context, iconId);
+            } catch (Exception e) {
+                Log.e(TAG, "Can't get icon", e);
+            }
             if (draw != null) {
                 standardIconMap.put(newCacheKey, draw);
             }
+        }
+
+        if (draw == null) {
+            if (blank == null)
+                initBlank(context.getResources());
+            draw = blank;
         }
 
         return draw;

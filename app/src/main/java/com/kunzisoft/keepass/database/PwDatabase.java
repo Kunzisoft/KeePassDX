@@ -19,11 +19,9 @@
  */
 package com.kunzisoft.keepass.database;
 
-import com.kunzisoft.keepass.crypto.finalkey.FinalKey;
-import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
-import com.kunzisoft.keepass.stream.NullOutputStream;
 import com.kunzisoft.keepass.utils.Util;
 
 import java.io.ByteArrayInputStream;
@@ -31,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -100,39 +97,9 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         return finalKey;
     }
 
-    public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
-
-        // Write checksum Checksum
-        MessageDigest md;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IOException("SHA-256 not implemented here.");
-        }
-        NullOutputStream nos = new NullOutputStream();
-        DigestOutputStream dos = new DigestOutputStream(nos, md);
-
-        byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
-        dos.write(masterSeed);
-        dos.write(transformedMasterKey);
-
-        finalKey = md.digest();
-    }
-
-    /**
-     * Encrypt the master key a few times to make brute-force key-search harder
-     * @throws IOException
-     */
-    protected static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, long rounds ) throws IOException {
-        FinalKey key = FinalKeyFactory.createFinalKey();
-
-        return key.transformMasterKey(pKeySeed, pKey, rounds);
-    }
-
-
     public abstract byte[] getMasterKey(String key, InputStream keyInputStream) throws InvalidKeyFileException, IOException;
 
-    public void setMasterKey(String key, InputStream keyInputStream)
+    public void retrieveMasterKey(String key, InputStream keyInputStream)
             throws InvalidKeyFileException, IOException {
                 masterKey = getMasterKey(key, keyInputStream);
             }
@@ -280,7 +247,9 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
         this.algorithm = algorithm;
     }
 
-    public abstract String getKeyDerivationName();
+    public abstract List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms();
+
+    public abstract KdfEngine getKdfEngine();
 
     public abstract List<PwGroupDB> getGrpRoots();
 

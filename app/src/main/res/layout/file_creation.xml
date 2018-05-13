@@ -49,8 +49,8 @@
             android:id="@+id/filename_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/file_types"
-            android:layout_toStartOf="@+id/file_types">
+            android:layout_toLeftOf="@+id/container_file_type"
+            android:layout_toStartOf="@+id/container_file_type">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/filename"
@@ -63,14 +63,21 @@
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/file_types"
+        <!-- To add text view for one item -->
+        <FrameLayout
+            android:id="@+id/container_file_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/filename_input_layout"
-            android:layout_marginBottom="8dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true" >
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/file_types"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"/>
+        </FrameLayout>
+
     </RelativeLayout>
 
     <TextView

@@ -26,9 +26,14 @@ Runs all the tests
 fastlane android build_beta
 ```
 Build a new Beta version
-### android deploy_beta_google_pro
+### android deploy_beta_free
 ```
-fastlane android deploy_beta_google_pro
+fastlane android deploy_beta_free
+```
+Deploy a new Pro Beta version to the Google Play
+### android deploy_beta_pro
+```
+fastlane android deploy_beta_pro
 ```
 Deploy a new Pro Beta version to the Google Play
 

@@ -44,31 +44,41 @@ public class UnderDevelopmentFeatureDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature))).append("\n\n");
         if (BuildConfig.CLOSED_STORE) {
-            stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature_buy_pro))).append(" ")
-            .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)));
-            builder.setPositiveButton(R.string.download, (dialog, id) -> {
-                try {
-                    Util.gotoUrl(getContext(), R.string.app_pro_url);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getContext(), R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
-                }
-            });
+            if (BuildConfig.FULL_VERSION) {
+                stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature_thanks))).append("\n\n")
+                        .append(Html.fromHtml(getString(R.string.html_rose))).append("\n\n")
+                        .append(Html.fromHtml(getString(R.string.html_text_dev_feature_work_hard))).append("\n")
+                        .append(Html.fromHtml(getString(R.string.html_text_dev_feature_upgrade))).append(" ");
+                builder.setPositiveButton(android.R.string.ok, (dialog, id) -> dismiss());
+            } else {
+                stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature))).append("\n\n")
+                        .append(Html.fromHtml(getString(R.string.html_text_dev_feature_buy_pro))).append("\n")
+                        .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)));
+                builder.setPositiveButton(R.string.download, (dialog, id) -> {
+                    try {
+                        Util.gotoUrl(getContext(), R.string.app_pro_url);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(getContext(), R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> dismiss());
+            }
         }
         else {
-            stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature_contibute))).append(" ")
-            .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)));
+            stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature))).append("\n\n")
+                    .append(Html.fromHtml(getString(R.string.html_text_dev_feature_contibute))).append(" ")
+                    .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)));
             builder.setPositiveButton(R.string.contribute, (dialog, id) -> {
                 try {
-                    Util.gotoUrl(getContext(), R.string.donate_url);
+                    Util.gotoUrl(getContext(), R.string.contribution_url);
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getContext(), R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
                 }
             });
+            builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> dismiss());
         }
         builder.setMessage(stringBuilder);
-        builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> dismiss());
         // Create the AlertDialog object and return it
         return builder.create();
     }

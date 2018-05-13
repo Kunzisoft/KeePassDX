@@ -86,7 +86,7 @@ public class SearchResultsActivity extends ListNodesActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        MenuUtil.donationMenuInflater(inflater, menu);
+        MenuUtil.contributionMenuInflater(inflater, menu);
         inflater.inflate(R.menu.tree, menu);
         inflater.inflate(R.menu.default_menu, menu);
 

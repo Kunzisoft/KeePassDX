@@ -136,7 +136,7 @@
     <string name="remember_keyfile_summary">Gogoratu gako fitxategien kokapenak</string>
     <string name="remember_keyfile_title">Gako fitxategia gorde</string>
     <string name="remove_from_filelist">Ezabatu</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Enkriptatzeko Rondak</string>
     <string name="rounds_explanation">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
@@ -148,7 +148,7 @@
     <string name="special">Berezia</string>
     <string name="search">Sarreraren Izena / Deskribapena</string>
     <string name="search_results">Bilaketaren emaitzak</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Azpimarratu</string>
     <string name="unsupported_db_version">Euskarririk gabeko datubase bertsioa.</string>
     <string name="uppercase">Maiuskulak</string>

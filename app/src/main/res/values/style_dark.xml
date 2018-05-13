@@ -21,12 +21,12 @@
     <!-- Dark Style -->
     <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">#212121</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="colorAccent">#757575</item>
-        <item name="colorAccentCompat">#757575</item>
+        <item name="colorPrimaryDark">#0e0e0e</item>
+        <item name="colorAccent">#26a69a</item>
+        <item name="colorAccentCompat">#26a69a</item>
         <item name="colorControlActivated">#80cbc4</item>
         <item name="android:textColorPrimary">#80cbc4</item>
-        <item name="android:textColorHintInverse">#b2dfdb</item>
+        <item name="android:textColorHintInverse">#80cbc4</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>

@@ -19,9 +19,9 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_donate"
+    <item android:id="@+id/menu_contribute"
         android:icon="@drawable/ic_heart_white_24dp"
-        android:title="@string/menu_donate"
+        android:title="@string/contribute"
         android:orderInCategory="95"
         app:showAsAction="ifRoom" />
 </menu>

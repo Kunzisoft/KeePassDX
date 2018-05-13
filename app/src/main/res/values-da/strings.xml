@@ -138,7 +138,7 @@
     <string name="remember_keyfile_summary">Husker placeringen af nøglefiler</string>
     <string name="remember_keyfile_title">Gem nøglefil</string>
     <string name="remove_from_filelist">Fjern</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Krypterings-gentagelser</string>
     <string name="rounds_explanation">Højere krypterings-gentagelser giver øget beskyttelse imod brute-force angreb, men kan påvirke læsnings- og skrivehastigheden betydentligt.</string>
@@ -150,7 +150,7 @@
     <string name="special">Speciel</string>
     <string name="search">Post titel/beskrivelse</string>
     <string name="search_results">Søgeresultater</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Understreget</string>
     <string name="unsupported_db_version">Database-versionen er ikke understøttet.</string>
     <string name="uppercase">Store bogstaver</string>

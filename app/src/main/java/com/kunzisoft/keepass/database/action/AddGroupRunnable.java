@@ -17,26 +17,26 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 
-public class AddGroup extends RunnableOnFinish {
+public class AddGroupRunnable extends RunnableOnFinish {
 
 	protected Database mDb;
 	private PwGroup mNewGroup;
 	private Context ctx;
 	private boolean mDontSave;
 
-	public AddGroup(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode) {
+	public AddGroupRunnable(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode) {
 		this(ctx, db, newGroup, afterAddNode, false);
 	}
 
-	public AddGroup(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode,
-                    boolean dontSave) {
+	public AddGroupRunnable(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode,
+							boolean dontSave) {
 		super(afterAddNode);
 
 		this.mDb = db;
@@ -52,13 +52,13 @@ public class AddGroup extends RunnableOnFinish {
         mDb.addGroupTo(mNewGroup, mNewGroup.getParent());
 
 		// Commit to disk
-		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
+		SaveDBRunnable save = new SaveDBRunnable(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	
-	private class AfterAdd extends OnFinish {
+	private class AfterAdd extends OnFinishRunnable {
 
-		AfterAdd(OnFinish finish) {
+		AfterAdd(OnFinishRunnable finish) {
 			super(finish);
 		}
 

@@ -222,6 +222,7 @@ public class EntryActivity extends LockingHideActivity {
                     TapTarget.forView(findViewById(R.id.entry_user_name_action_image),
                             getString(R.string.education_field_copy_title),
                             getString(R.string.education_field_copy_summary))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -250,6 +251,7 @@ public class EntryActivity extends LockingHideActivity {
                         TapTarget.forToolbarMenuItem(toolbar, R.id.menu_edit,
                                 getString(R.string.education_entry_edit_title),
                                 getString(R.string.education_entry_edit_summary))
+                                .textColorInt(Color.WHITE)
                                 .tintTarget(true)
                                 .cancelable(true),
                         new TapTargetView.Listener() {
@@ -372,7 +374,7 @@ public class EntryActivity extends LockingHideActivity {
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-        MenuUtil.donationMenuInflater(inflater, menu);
+        MenuUtil.contributionMenuInflater(inflater, menu);
 		inflater.inflate(R.menu.entry, menu);
 		inflater.inflate(R.menu.database_lock, menu);
 
@@ -415,8 +417,8 @@ public class EntryActivity extends LockingHideActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-            case R.id.menu_donate:
-                return MenuUtil.onDonationItemSelected(this);
+            case R.id.menu_contribute:
+                return MenuUtil.onContributionItemSelected(this);
 
             case R.id.menu_toggle_pass:
                 mShowPassword = !mShowPassword;

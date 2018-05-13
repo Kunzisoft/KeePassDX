@@ -49,16 +49,17 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwIconStandard;
-import com.kunzisoft.keepass.database.edit.AddEntry;
-import com.kunzisoft.keepass.database.edit.OnFinish;
-import com.kunzisoft.keepass.database.edit.RunnableOnFinish;
-import com.kunzisoft.keepass.database.edit.UpdateEntry;
+import com.kunzisoft.keepass.database.action.AddEntryRunnable;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.database.action.RunnableOnFinish;
+import com.kunzisoft.keepass.database.action.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
-import com.kunzisoft.keepass.tasks.ProgressTask;
+import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
@@ -249,16 +250,21 @@ public class EntryEditActivity extends LockingHideActivity
         }
         mCallbackNewEntry = populateNewEntry();
 
-        OnFinish onFinish = new AfterSave();
+        // Open a progress dialog and save entry
+        OnFinishRunnable onFinish = new AfterSave();
         EntryEditActivity act = EntryEditActivity.this;
         RunnableOnFinish task;
         if ( mIsNew ) {
-            task = new AddEntry(act, App.getDB(), mCallbackNewEntry, onFinish);
+            task = new AddEntryRunnable(act, App.getDB(), mCallbackNewEntry, onFinish);
         } else {
-            task = new UpdateEntry(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
+            task = new UpdateEntryRunnable(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
         }
-        ProgressTask pt = new ProgressTask(act, task, R.string.saving_database);
-        pt.run();
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
     }
 
     /**
@@ -274,6 +280,7 @@ public class EntryEditActivity extends LockingHideActivity
                     TapTarget.forView(generatePasswordView,
                             getString(R.string.education_generate_password_title),
                             getString(R.string.education_generate_password_summary))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -300,6 +307,7 @@ public class EntryEditActivity extends LockingHideActivity
                     TapTarget.forView(addNewFieldView,
                             getString(R.string.education_entry_new_field_title),
                             getString(R.string.education_entry_new_field_summary))
+                            .textColorInt(Color.WHITE)
                             .tintTarget(false)
                             .cancelable(true),
                     new TapTargetView.Listener() {
@@ -447,15 +455,15 @@ public class EntryEditActivity extends LockingHideActivity
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-		MenuUtil.donationMenuInflater(inflater, menu);
+		MenuUtil.contributionMenuInflater(inflater, menu);
 		
 		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
-			case R.id.menu_donate:
-				return MenuUtil.onDonationItemSelected(this);
+			case R.id.menu_contribute:
+				return MenuUtil.onContributionItemSelected(this);
 
 			case android.R.id.home:
 				finish();
@@ -552,7 +560,7 @@ public class EntryEditActivity extends LockingHideActivity
         }
 	}
 
-	private final class AfterSave extends OnFinish {
+	private final class AfterSave extends OnFinishRunnable {
 
 		AfterSave() {
 			super(new Handler());
@@ -560,11 +568,15 @@ public class EntryEditActivity extends LockingHideActivity
 
 		@Override
 		public void run() {
-			if ( mSuccess ) {
-				finish();
-			} else {
-				displayMessage(EntryEditActivity.this);
-			}
+		    runOnUiThread(() -> {
+                if ( mSuccess ) {
+                    finish();
+                } else {
+                    displayMessage(EntryEditActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(EntryEditActivity.this);
+            });
 		}
 	}
 

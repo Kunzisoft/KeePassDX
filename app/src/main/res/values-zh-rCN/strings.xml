@@ -117,7 +117,7 @@
     <string name="remember_keyfile_summary">记住密钥文件的位置</string>
     <string name="remember_keyfile_title">保存密钥文件</string>
     <string name="remove_from_filelist">移除</string>
-    <string name="rijndael">Rijndael加密(AES)</string>
+    <string name="encryption_rijndael">Rijndael加密(AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次数</string>
     <string name="rounds_explanation">更高级的加密次数对暴力攻击能提供额外保护，但也会增加加载和保存的时间。</string>
@@ -128,7 +128,7 @@
     <string name="sort_db">数据库的排序顺序</string>
     <string name="special">特别</string>
     <string name="search">条目名称/说明</string>
-    <string name="twofish">Twofish算法</string>
+    <string name="encryption_twofish">Twofish算法</string>
     <string name="underline">强调</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>

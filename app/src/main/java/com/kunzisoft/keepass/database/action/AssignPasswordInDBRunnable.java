@@ -17,22 +17,20 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.edit;
+package com.kunzisoft.keepass.database.action;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
-import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.utils.UriUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class SetPassword extends RunnableOnFinish {
+public class AssignPasswordInDBRunnable extends RunnableOnFinish {
 	
 	private String mPassword;
 	private Uri mKeyfile;
@@ -40,12 +38,12 @@ public class SetPassword extends RunnableOnFinish {
 	private boolean mDontSave;
 	private Context ctx;
 	
-	public SetPassword(Context ctx, Database db, String password, Uri keyfile, OnFinish finish) {
+	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish) {
 		this(ctx, db, password, keyfile, finish, false);
 		
 	}
 
-	public SetPassword(Context ctx, Database db, String password, Uri keyfile, OnFinish finish, boolean dontSave) {
+	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 		
 		mDb = db;
@@ -53,16 +51,6 @@ public class SetPassword extends RunnableOnFinish {
 		mKeyfile = keyfile;
 		mDontSave = dontSave;
 		this.ctx = ctx;
-	}
-	
-	public boolean validatePassword(Context ctx, DialogInterface.OnClickListener onclick) {
-		if (!mDb.getPwDatabase().validatePasswordEncoding(mPassword)) {
-			PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
-			dialog.show(ctx, onclick, true);
-			return false;
-		}
-		
-		return true;
 	}
 	
 	@Override
@@ -75,7 +63,7 @@ public class SetPassword extends RunnableOnFinish {
 		// Set key
 		try {
 			InputStream is = UriUtil.getUriInputStream(ctx, mKeyfile);
-			pm.setMasterKey(mPassword, is);
+			pm.retrieveMasterKey(mPassword, is);
 		} catch (InvalidKeyFileException e) {
 			erase(backupKey);
 			finish(false, e.getMessage());
@@ -88,14 +76,14 @@ public class SetPassword extends RunnableOnFinish {
 		
 		// Save Database
 		mFinish = new AfterSave(backupKey, mFinish);
-		SaveDB save = new SaveDB(ctx, mDb, mFinish, mDontSave);
+		SaveDBRunnable save = new SaveDBRunnable(ctx, mDb, mFinish, mDontSave);
 		save.run();
 	}
 	
-	private class AfterSave extends OnFinish {
+	private class AfterSave extends OnFinishRunnable {
 		private byte[] mBackup;
 		
-		public AfterSave(byte[] backup, OnFinish finish) {
+		public AfterSave(byte[] backup, OnFinishRunnable finish) {
 			super(finish);
 			
 			mBackup = backup;

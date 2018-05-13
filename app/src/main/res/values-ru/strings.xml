@@ -24,6 +24,7 @@
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
+    <string name="add_string">Новая строка</string>
     <string name="encryption_algorithm">Алгоритм</string>
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
@@ -45,7 +46,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">По умолчанию</string>
     <string name="digits">Цифры 0…9</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее.</string>
     <string name="select_database_file">Путь к базе KeePass</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
@@ -83,6 +84,7 @@
     <string name="field_name">Имя поля</string>
     <string name="field_value">Значение поля</string>
     <string name="file_not_found">Файл не найден</string>
+    <string name="file_not_found_content">Файл не найден. Попробуйте повторно открыть через встроенный поставщик содержимого.</string>
     <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Создать пароль</string>
     <string name="hint_conf_pass">подтверждение</string>
@@ -129,14 +131,15 @@
     <string name="progress_create">Создание базы…</string>
     <string name="progress_title">Обработка</string>
     <string name="protection">Защита</string>
-    <string name="read_only_warning">KeePass DX не имеет разрешений на запись по указанному пути. База будет открыта только для чтения</string>
+    <string name="read_only">Только чтение</string>
+    <string name="read_only_warning">KeePass DX не имеет разрешений на запись по указанному пути. База будет открыта только для чтения.</string>
     <string name="read_only_kitkat_warning">Начиная с Android KitKat, на некоторых устройствах приложениям запрещена запись на SD-карту</string>
     <string name="recentfile_title">Недавно открытые</string>
     <string name="recentfile_summary">Хранить имена открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам-ключам</string>
     <string name="remember_keyfile_title">Предлагать ключи</string>
     <string name="remove_from_filelist">Убрать из списка</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Проходы шифрования</string>
     <string name="rounds_explanation">Больше проходов – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение</string>
@@ -150,29 +153,36 @@
     <string name="special">$пеци@льные</string>
     <string name="search">название, комментарий</string>
     <string name="search_results">Результаты поиска</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
-    <string name="use_saf_summary">Storage Access Framework для обзора файлов (KK+)</string>
+    <string name="use_saf_summary">Storage Access Framework для обзора файлов (KitKat+)</string>
     <string name="use_saf_title">Обзор через SAF</string>
     <string name="warning">Внимание</string>
-    <string name="warning_password_encoding">Пароль содержит символы вне кодировки Latin1, поддерживаемой форматом .kdb! ВСЕ не-Latin1 символы будут преобразованы в одинаковый символ. Рекомендуется изменить пароль</string>
-    <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены</string>
-    <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна</string>
+    <string name="warning_password_encoding">Пароль содержит символы вне кодировки Latin1, поддерживаемой форматом .kdb! ВСЕ не-Latin1 символы будут преобразованы в одинаковый символ. Рекомендуется изменить пароль.</string>
+    <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены.</string>
+    <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна.</string>
     <string name="version_label">Версия:</string>
+    <string name="configure_fingerprint">Отпечатки пальцев поддерживаются, но не настроены на устройстве</string>
+    <string name="scanning_fingerprint">Ожидание отпечатка пальца</string>
+    <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
+    <string name="fingerprint_invalid_key">Проблема из-за неверного ключа</string>
+    <string name="fingerprint_error">Проблема с отпечатком пальца : %1$s</string>
+    <string name="store_with_fingerprint">Используйте отпечаток пальца, чтобы сохранить пароль</string>
+    <string name="no_password_stored">Для этой базы пароль ещё не сохранён</string>
 
     <string name="education_unlock_summary">Введите пароль или путь к файлу-ключу.</string>
 
     <string-array name="timeout_options">
-       <item>5 сек.</item>
-       <item>10 сек.</item>
-       <item>20 сек.</item>
-       <item>30 сек.</item>
-       <item>1 мин.</item>
-       <item>5 мин.</item>
-       <item>15 мин.</item>
-       <item>30 мин.</item>
+       <item>5 секунд</item>
+       <item>10 секунд</item>
+       <item>20 секунд</item>
+       <item>30 секунд</item>
+       <item>1 минута</item>
+       <item>5 минут</item>
+       <item>15 минут</item>
+       <item>30 минут</item>
        <item>Никогда</item>
     </string-array>
     <string-array name="list_size_options">

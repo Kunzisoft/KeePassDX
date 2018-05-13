@@ -144,7 +144,7 @@
     <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken.</string>
     <string name="remember_keyfile_title">Schlüsselquelle merken</string>
     <string name="remove_from_filelist">Löschen</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Je höher die Anzahl der Schlüsseltransformationen, desto besser ist der Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
@@ -159,14 +159,14 @@
     <string name="special">Spezialsymbole</string>
     <string name="search">Titel/Beschreibung des Eintrags</string>
     <string name="search_results">Suchergebnisse</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Unterstrichen</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
     <string name="use_saf_summary">Storage Access Framework als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1 Zeichensatz. Ihr Passwort enthällt andere Zeichen. Diese Zeichen werden umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohen ihr Passwort zu ändern.</string>
+    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1 Zeichensatz. Ihr Passwort enthält andere Zeichen. Diese Zeichen werden umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen ihr Passwort zu ändern.</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
@@ -217,6 +217,8 @@
     <string name="configure_fingerprint">Fingerabruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
+    <string name="fingerprint_invalid_key">Ungültiger Schlüssel</string>
+    <string name="fingerprint_error">Probleme mit dem Fingerabdruck : %1$s</string>
     <string name="history">Verlauf</string>
     <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner ein ?</string>
     <string name="fingerprint_setting_text">Speichern sie ihren persönlichen Fingerabruck in</string>

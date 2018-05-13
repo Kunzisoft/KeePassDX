@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.load;
 
+import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
@@ -42,7 +43,7 @@ import com.kunzisoft.keepass.stream.BetterCipherInputStream;
 import com.kunzisoft.keepass.stream.HashedBlockInputStream;
 import com.kunzisoft.keepass.stream.HmacBlockInputStream;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
-import com.kunzisoft.keepass.tasks.UpdateStatus;
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.DateUtil;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MemUtil;
@@ -81,48 +82,48 @@ public class ImporterV4 extends Importer {
     private byte[] hashOfHeader = null;
 	private byte[] pbHeader = null;
 	private long version;
-	private int binNum = 0;
 	Calendar utcCal;
 
 	public ImporterV4() {
 		utcCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-	}
-	
-	protected PwDatabaseV4 createDB() {
-		return new PwDatabaseV4();
-
 	}
 
 	@Override
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
 			InputStream keyInputStream) throws IOException, InvalidDBException {
 
-		return openDatabase(inStream, password, keyInputStream, new UpdateStatus(), 0);
+		return openDatabase(inStream, password, keyInputStream, null, 0);
 	}
 	
 	@Override
     public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-            InputStream keyInputStream, UpdateStatus status, long roundsFix) throws IOException,
+									 InputStream keyInputStream, ProgressTaskUpdater progressTaskUpdater, long roundsFix) throws IOException,
             InvalidDBException {
-		db = createDB();
+
+		if (progressTaskUpdater != null)
+			progressTaskUpdater.updateMessage(R.string.creating_db_key);
+		db = new PwDatabaseV4();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
         db.getBinPool().clear();
 
 		PwDbHeaderV4.HeaderAndHash hh = header.loadFromFile(inStream);
-        version = header.version;
+        version = header.getVersion();
 
 		hashOfHeader = hh.hash;
 		pbHeader = hh.header;
-			
-		db.setMasterKey(password, keyInputStream);
-		db.makeFinalKey(header.masterSeed, db.getKdfParameters(), roundsFix);
 
+		db.retrieveMasterKey(password, keyInputStream);
+		db.makeFinalKey(header.masterSeed, roundsFix);
+
+		if (progressTaskUpdater != null)
+			progressTaskUpdater.updateMessage(R.string.decrypting_db);
 		CipherEngine engine;
 		Cipher cipher;
 		try {
 			engine = CipherFactory.getInstance(db.getDataCipher());
 			db.setDataEngine(engine);
+			db.setEncryptionAlgorithm(engine.getPwEncryptionAlgorithm());
 			cipher = engine.getCipher(Cipher.DECRYPT_MODE, db.getFinalKey(), header.encryptionIV);
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException("Invalid algorithm.");
@@ -185,7 +186,7 @@ public class ImporterV4 extends Importer {
 			isXml = isPlain;
 		}
 
-		if (version >= header.FILE_VERSION_32_4) {
+		if (version >= PwDbHeaderV4.FILE_VERSION_32_4) {
 			LoadInnerHeader(isXml, header);
 		}
 		

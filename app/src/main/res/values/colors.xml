@@ -38,8 +38,10 @@
     <color name="blue_dark">#1976D2</color>
     <color name="blue_darker">#1565C0</color>
 
+    <color name="red_lighter">#ef9a9a</color>
     <color name="red_light">#f44336</color>
     <color name="red">#e53935</color>
+    <color name="red_dark">#d32f2f</color>
 
     <color name="purple_lighter">#ce93d8</color>
     <color name="purple_light">#9048bc</color>

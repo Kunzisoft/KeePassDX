@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.load;
 
 import com.kunzisoft.keepass.database.PwDatabaseV3Debug;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
-import com.kunzisoft.keepass.tasks.UpdateStatus;
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +35,7 @@ public class ImporterV3Debug extends ImporterV3 {
 	
 	@Override
 	public PwDatabaseV3Debug openDatabase(InputStream inStream, String password,
-                                          InputStream keyInputStream, UpdateStatus status, long roundsFix) throws IOException,
+										  InputStream keyInputStream, ProgressTaskUpdater status, long roundsFix) throws IOException,
             InvalidDBException {
 		return (PwDatabaseV3Debug) super.openDatabase(inStream, password, keyInputStream, status,
 				roundsFix);

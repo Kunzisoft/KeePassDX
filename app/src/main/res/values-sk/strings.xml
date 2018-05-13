@@ -120,7 +120,7 @@
     <string name="remember_keyfile_summary">Zapamätať si umiestnenie keyfile</string>
     <string name="remember_keyfile_title">Uložiť keyfile</string>
     <string name="remove_from_filelist">Odstrániť</string>
-    <string name="rijndael">Rijndael (AES)</string>
+    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrovacie opakovania</string>
     <string name="rounds_explanation">Vyššie opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
@@ -131,7 +131,7 @@
     <string name="sort_db">DB zoradenie poradia</string>
     <string name="special">Špeciálne</string>
     <string name="search">Záznam názov/popis</string>
-    <string name="twofish">Twofish</string>
+    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Podčiarknuté</string>
     <string name="unsupported_db_version">Nepodporovaná verzia databázy.</string>
     <string name="uppercase">Veľké písmená</string>

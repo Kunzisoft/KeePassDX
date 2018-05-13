@@ -60,7 +60,7 @@ public class ProFeatureDialogFragment extends DialogFragment {
             stringBuilder.append(Html.fromHtml(getString(R.string.html_text_donation)));
             builder.setPositiveButton(R.string.contribute, (dialog, id) -> {
                 try {
-                    Util.gotoUrl(getContext(), R.string.donate_url);
+                    Util.gotoUrl(getContext(), R.string.contribution_url);
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getContext(), R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show();
                 }

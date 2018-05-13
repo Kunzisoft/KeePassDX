@@ -45,11 +45,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.database;
 
-import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
+import com.kunzisoft.keepass.crypto.finalkey.FinalKey;
+import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
+import com.kunzisoft.keepass.stream.NullOutputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.DigestOutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -96,9 +103,16 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	}
 
     @Override
-    public String getKeyDerivationName() {
-        return AesKdf.DEFAULT_NAME;
+    public KdfEngine getKdfEngine() {
+        return KdfFactory.aesKdf;
     }
+
+	@Override
+	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
+		List<PwEncryptionAlgorithm> list = new ArrayList<>();
+		list.add(PwEncryptionAlgorithm.AES_Rijndael);
+		return list;
+	}
 
 	@Override
 	public List<PwGroupV3> getGroups() {
@@ -250,6 +264,35 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		}
 	}
 
+    /**
+     * Encrypt the master key a few times to make brute-force key-search harder
+     * @throws IOException
+     */
+    private static byte[] transformMasterKey( byte[] pKeySeed, byte[] pKey, long rounds ) throws IOException {
+        FinalKey key = FinalKeyFactory.createFinalKey();
+
+        return key.transformMasterKey(pKeySeed, pKey, rounds);
+    }
+
+	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
+
+		// Write checksum Checksum
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("SHA-256 not implemented here.");
+		}
+		NullOutputStream nos = new NullOutputStream();
+		DigestOutputStream dos = new DigestOutputStream(nos, md);
+
+		byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
+		dos.write(masterSeed);
+		dos.write(transformedMasterKey);
+
+		finalKey = md.digest();
+	}
+
 	@Override
 	protected String getPasswordEncoding() {
 		return "ISO-8859-1";
@@ -288,7 +331,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		
 		// Add tree to root groups
 		groups.add(newGroup);
-		
 	}
 
 	@Override

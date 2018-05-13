@@ -21,28 +21,28 @@ package com.kunzisoft.keepass.crypto.keyDerivation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class KdfFactory {
 
+    public static AesKdf aesKdf = new AesKdf();
+    public static Argon2Kdf argon2Kdf = new Argon2Kdf();
+
+    public static List<KdfEngine> kdfListV3 = new ArrayList<>();
     public static List<KdfEngine> kdfList = new ArrayList<>();
 
     static {
-        kdfList.add(new AesKdf());
-        kdfList.add(new Argon2Kdf());
+        kdfListV3.add(aesKdf);
+
+        kdfList.add(aesKdf);
+        kdfList.add(argon2Kdf);
     }
 
-    public static KdfParameters getDefaultParameters() {
-        return kdfList.get(0).getDefaultParameters();
-    }
-
-    public static KdfEngine get(UUID uuid) {
+    public static KdfEngine get(KdfParameters kdfParameters) {
         for (KdfEngine engine: kdfList) {
-            if (engine.uuid.equals(uuid)) {
+            if (engine.uuid.equals(kdfParameters.kdfUUID)) {
                 return engine;
             }
         }
-
         return null;
     }
 

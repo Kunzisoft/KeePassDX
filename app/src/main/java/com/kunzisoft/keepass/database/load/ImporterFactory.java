@@ -28,13 +28,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImporterFactory {
-	public static Importer createImporter(InputStream is) throws InvalidDBSignatureException, IOException
-	{
+	public static Importer createImporter(InputStream is) throws InvalidDBSignatureException, IOException {
 		return createImporter(is, false);
 	}
 
-	public static Importer createImporter(InputStream is, boolean debug) throws InvalidDBSignatureException, IOException
-	{
+	public static Importer createImporter(InputStream is, boolean debug) throws InvalidDBSignatureException, IOException {
 		int sig1 = LEDataInputStream.readInt(is);
 		int sig2 = LEDataInputStream.readInt(is);
 		
@@ -49,6 +47,5 @@ public class ImporterFactory {
 		}
 
 		throw new InvalidDBSignatureException();
-		
 	}
 }

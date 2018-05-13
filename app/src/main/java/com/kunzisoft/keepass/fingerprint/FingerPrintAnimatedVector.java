@@ -42,13 +42,17 @@ public class FingerPrintAnimatedVector {
     public void startScan() {
         scanFingerprint.registerAnimationCallback(new Animatable2.AnimationCallback() {
             public void onAnimationEnd(Drawable drawable) {
-                scanFingerprint.start();
+                if (!scanFingerprint.isRunning())
+                    scanFingerprint.start();
             }
         });
-        scanFingerprint.start();
+
+        if (!scanFingerprint.isRunning())
+            scanFingerprint.start();
     }
 
     public void stopScan() {
-        scanFingerprint.stop();
+        if (scanFingerprint.isRunning())
+            scanFingerprint.stop();
     }
 }

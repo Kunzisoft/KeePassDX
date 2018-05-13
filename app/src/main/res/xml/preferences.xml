@@ -46,7 +46,7 @@
             android:title="@string/menu_db_settings"
             android:icon="@drawable/ic_data_usage_prefs_24dp"
             android:persistent="false" />
-		<com.kunzisoft.keepass.settings.preference.RoundsPreference
+		<com.kunzisoft.keepass.settings.preference.InputNumberPreference
 			android:key="@string/roundsFix_key"
             android:title="@string/rounds_fix_title"
 			android:summary="@string/rounds_fix"

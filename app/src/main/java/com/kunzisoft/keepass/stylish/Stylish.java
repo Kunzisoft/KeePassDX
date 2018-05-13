@@ -64,6 +64,8 @@ public class Stylish {
             return R.style.KeepassDXStyle_Dark;
         else if (themeString.equals(context.getString(R.string.list_style_name_blue)))
             return R.style.KeepassDXStyle_Blue;
+        else if (themeString.equals(context.getString(R.string.list_style_name_red)))
+            return R.style.KeepassDXStyle_Red;
         else if (themeString.equals(context.getString(R.string.list_style_name_purple)))
             return R.style.KeepassDXStyle_Purple;
 

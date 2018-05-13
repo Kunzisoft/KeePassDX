@@ -22,12 +22,14 @@
 
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="donate_url" translatable="false">https://www.kunzisoft.com/donation</string>
+    <string name="contribution_url" translatable="false">https://www.kunzisoft.com/donation?project=keepassdx</string>
     <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
     <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
+
+    <string name="html_rose">--,--`--,{@</string>
 
     <!--  Password generator -->
     <string name="password_length_key" translatable="false">password_length_key</string>
@@ -44,7 +46,8 @@
     <string name="db_key" translatable="false">db</string>
     <string name="transform_rounds_key" translatable="false">transform_rounds_key</string>
     <string name="roundsFix_key" translatable="false">roundsFix</string>
-    <integer name="roundsFix_default" translatable="false">100000</integer>
+    <string name="memory_usage_key" translatable="false">memory_usage_key</string>
+    <string name="parallelism_key" translatable="false">parallelism_key</string>
     <string name="keyfile_key" translatable="false">keyfile</string>
     <string name="maskpass_key" translatable="false">maskpass</string>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
@@ -92,6 +95,8 @@
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
 
+
+    <integer name="roundsFix_default" translatable="false">100000</integer>
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
     <bool name="omitbackup_default" translatable="false">true</bool>
@@ -149,12 +154,14 @@
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
     <string name="list_style_name_dark" translatable="false">KeepassDXStyle_Dark</string>
     <string name="list_style_name_blue" translatable="false">KeepassDXStyle_Blue</string>
+    <string name="list_style_name_red" translatable="false">KeepassDXStyle_Red</string>
     <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
         <item translatable="false">@string/list_style_name_dark</item>
         <item translatable="false">@string/list_style_name_blue</item>
+        <item translatable="false">@string/list_style_name_red</item>
         <item translatable="false">@string/list_style_name_purple</item>
     </string-array>
     <!-- WARNING ! module icon-pack-classic must be import in gradle -->
