@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
 import com.patarapolw.password_generator.PasswordGenerator;
 import com.patarapolw.randomsentence.SentenceMaker;
+import com.patarapolw.wordify.MajorSystemPeg;
 import com.patarapolw.wordify.Wordify;
 
 public class GeneratePinDialogFragment extends DialogFragment {
@@ -56,7 +57,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
     private EditText sentenceView;
 
     private PasswordGenerator passwordGenerator = new PasswordGenerator();
-    private Wordify wordify;
+    private MajorSystemPeg majorSystemPeg;
     private SentenceMaker sentenceMaker = null;
     private String[] keywords = new String[]{""};
 
@@ -78,7 +79,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View root = inflater.inflate(R.layout.generate_pin, null);
 
-        wordify = new Wordify(getContext());
+        majorSystemPeg = new MajorSystemPeg(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -135,7 +136,7 @@ public class GeneratePinDialogFragment extends DialogFragment {
 
     private void fillPassword() {
         String pin = passwordGenerator.generatePin(Integer.parseInt(lengthView.getText().toString()));
-        keywords = wordify.wordify(pin);
+        keywords = majorSystemPeg.toWords(pin);
 
         passwordView.setText(pin);
         mnemonicView.setText(TextUtils.join(" ", keywords));
