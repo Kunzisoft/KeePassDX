@@ -104,7 +104,8 @@ public class DicewarePassword {
 
     private String[] shorten_one(String[] listOfKeywords){
         int maxLength = 3;
-        int length = random.nextInt(maxLength - 1) + 1;
+        int minLength = 2;
+        int length = random.nextInt(maxLength - minLength) + minLength;
         int index = random.nextInt(listOfKeywords.length);
         for(int i=0; i<listOfKeywords.length; i++){
             if(i == index){

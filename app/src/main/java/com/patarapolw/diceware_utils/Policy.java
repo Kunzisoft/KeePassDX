@@ -127,7 +127,7 @@ public class Policy {
     }
 
     public String[] conformize(String[] listOfKeywords){
-        int numberOfPossibleChoices = 4;
+        int numberOfPossibleChoices = 3;
         int index = random.nextInt(numberOfPossibleChoices);
         switch (index) {
             case 0:
@@ -136,8 +136,8 @@ public class Policy {
                 return insert_symbol_one(listOfKeywords);
             case 2:
                 return insert_number_one(listOfKeywords);
-            case 3:
-                return switch_case_one(listOfKeywords);
+//            case 3:
+//                return switch_case_one(listOfKeywords);
         }
         return null;
     }
