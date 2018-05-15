@@ -27,7 +27,6 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.compat.EditorCompat;
 import com.kunzisoft.keepass.utils.UriUtil;
 
 import java.io.File;
@@ -190,7 +189,7 @@ public class RecentFileHistory {
         for (int i = 0; i < size; i++) {
             edit.putString(keyprefix + "_" + i, list.get(i));
         }
-        EditorCompat.apply(edit);
+        edit.apply();
     }
 
     public void deleteFile(Uri uri) {

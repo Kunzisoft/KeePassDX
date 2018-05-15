@@ -29,7 +29,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.kunzisoft.keepass.compat.ContentResolverCompat;
 import com.kunzisoft.keepass.compat.StorageAF;
 import com.kunzisoft.keepass.utils.Interaction;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -200,9 +199,11 @@ public class KeyFileHelper {
                             if (StorageAF.useStorageFramework(activity)) {
                                 try {
                                     // try to persist read and write permissions
-                                    ContentResolver resolver = activity.getContentResolver();
-                                    ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    ContentResolverCompat.takePersistableUriPermission(resolver, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        ContentResolver resolver = activity.getContentResolver();
+                                        resolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        resolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                    }
                                 } catch (Exception e) {
                                     // nop
                                 }

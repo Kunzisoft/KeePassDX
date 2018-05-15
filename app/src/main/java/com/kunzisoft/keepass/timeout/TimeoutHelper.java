@@ -26,7 +26,6 @@ import android.preference.PreferenceManager;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.LockingActivity;
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.compat.EditorCompat;
 
 public class TimeoutHelper {
 
@@ -41,8 +40,7 @@ public class TimeoutHelper {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.putLong(act.getString(R.string.timeout_key), time);
-		
-		EditorCompat.apply(edit);
+		edit.apply();
 		
 		if ( App.getDB().getLoaded() ) {
 	        Timeout.start(act);

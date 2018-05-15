@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.compat;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import com.kunzisoft.keepass.R;
@@ -45,7 +46,7 @@ public class StorageAF {
         }
     }
 
-    public static boolean supportsStorageFramework() { return BuildCompat.getSdkVersion() >= BuildCompat.VERSION_KITKAT; }
+    public static boolean supportsStorageFramework() { return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT; }
 
     public static boolean useStorageFramework(Context ctx) {
         if (!supportsStorageFramework()) { return false; }

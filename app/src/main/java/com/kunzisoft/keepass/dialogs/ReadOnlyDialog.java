@@ -20,9 +20,9 @@
 package com.kunzisoft.keepass.dialogs;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.compat.BuildCompat;
 
 public class ReadOnlyDialog extends WarningDialog {
 	
@@ -31,7 +31,7 @@ public class ReadOnlyDialog extends WarningDialog {
 		
 		warning = context.getString(R.string.read_only_warning);
 		
-		if (BuildCompat.getSdkVersion() >= BuildCompat.VERSION_KITKAT) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			warning = warning.concat("\n\n").concat(context.getString(R.string.read_only_kitkat_warning));
 		}
 	}

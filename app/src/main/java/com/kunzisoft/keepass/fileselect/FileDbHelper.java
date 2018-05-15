@@ -26,13 +26,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.kunzisoft.keepass.compat.EditorCompat;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileFilter;
 
 public class FileDbHelper {
+
+    private static final String TAG = FileDbHelper.class.getName();
 	
 	public static final String LAST_FILENAME = "lastFile";
 	public static final String LAST_KEYFILE = "lastKey";
@@ -102,9 +103,9 @@ public class FileDbHelper {
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.remove(LAST_FILENAME);
 				editor.remove(LAST_KEYFILE);
-				EditorCompat.apply(editor);
+				editor.apply();
 			} catch (Exception e) {
-				assert(true);
+				Log.e(TAG, "Unable to delete database preference", e);
 			}
 		}
 	}
@@ -252,7 +253,7 @@ public class FileDbHelper {
      * Deletes a database including its journal file and other auxiliary files
      * that may have been created by the database engine.
      *
-     * @param file The database file path.
+     * @param ctx Context to get database path
      * @return True if the database was successfully deleted.
      */
     public static boolean deleteDatabase(Context ctx) {

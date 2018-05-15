@@ -25,9 +25,6 @@ import android.net.Uri;
 import java.lang.reflect.Method;
 
 public class ClipDataCompat {
-    private static Class clipData;
-    private static Class clipDataItem;
-    private static Class clipDescription;
     private static Method getClipDataFromIntent;
     private static Method getDescription;
     private static Method getItemCount;
@@ -39,14 +36,14 @@ public class ClipDataCompat {
 
     static {
         try {
-            clipData = Class.forName("android.content.ClipData");
+            Class clipData = Class.forName("android.content.ClipData");
             getDescription = clipData.getMethod("getDescription", (Class[])null);
             getItemCount = clipData.getMethod("getItemCount", (Class[])null);
             getItemAt = clipData.getMethod("getItemAt", new Class[]{int.class});
-            clipDescription = Class.forName("android.content.ClipDescription");
+            Class clipDescription = Class.forName("android.content.ClipDescription");
             getLabel = clipDescription.getMethod("getLabel", (Class[])null);
 
-            clipDataItem = Class.forName("android.content.ClipData$Item");
+            Class clipDataItem = Class.forName("android.content.ClipData$Item");
             getUri = clipDataItem.getMethod("getUri", (Class[])null);
 
             getClipDataFromIntent = Intent.class.getMethod("getClipData", (Class[])null);
@@ -58,7 +55,6 @@ public class ClipDataCompat {
     }
 
     public static Uri getUriFromIntent(Intent i, String key) {
-        boolean clipDataSucceeded = false;
         if (initSucceded) {
             try {
                 Object clip = getClipDataFromIntent.invoke(i);

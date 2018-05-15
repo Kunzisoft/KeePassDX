@@ -42,7 +42,6 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.compat.EditorCompat;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
@@ -193,7 +192,7 @@ public abstract class ListNodesActivity extends LockingActivity
         editor.putBoolean(getString(R.string.sort_ascending_key), ascending);
         editor.putBoolean(getString(R.string.sort_group_before_key), groupsBefore);
         editor.putBoolean(getString(R.string.sort_recycle_bin_bottom_key), recycleBinBottom);
-        EditorCompat.apply(editor);
+        editor.apply();
 
         // Tell the adapter to refresh it's list
         mAdapter.notifyChangeSort(sortNodeEnum, ascending, groupsBefore);

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.password;
 import android.Manifest;
 import android.app.Activity;
 import android.app.assist.AssistStructure;
+import android.app.backup.BackupManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -58,9 +59,7 @@ import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.activities.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.compat.BackupManagerCompat;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
-import com.kunzisoft.keepass.compat.EditorCompat;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.action.LoadDBRunnable;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
@@ -790,9 +789,9 @@ public class PasswordActivity extends StylishActivity
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(KEY_DEFAULT_FILENAME, newDefaultFileName);
-            EditorCompat.apply(editor);
+            editor.apply();
 
-            BackupManagerCompat backupManager = new BackupManagerCompat(PasswordActivity.this);
+            BackupManager backupManager = new BackupManager(PasswordActivity.this);
             backupManager.dataChanged();
         }
     }

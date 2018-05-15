@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -33,7 +34,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.compat.BitmapDrawableCompat;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconCustom;
 import com.kunzisoft.keepass.database.PwIconStandard;
@@ -305,7 +305,7 @@ public class IconDrawableFactory {
 			
 			bitmap = resize(bitmap);
 			
-			draw = BitmapDrawableCompat.getBitmapDrawable(context.getResources(), bitmap);
+			draw = new BitmapDrawable(context.getResources(), bitmap);
 			customIconMap.put(icon.uuid, draw);
 		}
 
