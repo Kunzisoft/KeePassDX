@@ -33,6 +33,11 @@ KeePass DX was created to meet the security and usability needs of a KeePass app
 **Yes** you can, but you **must first save the .kdb or .kdbx file from your database to an external storage** *(like a hardrive or a cloud)*.
 We recommend you save your data after each modification so incase you loose your android device you could retrieve the data and import it into the new KeePass DX installed on the new android device. 
 
+## Why are updates not available at the same time on all stores?
+
+- **PlayStore** only needs an APK generated and manually signed to be available on the store, it usually takes **20 minutes** to be available because it is deployed with fastlane. But the management of the APK and its data by the google servers is obscure.
+- **F-Droid**, to **ensure that the code is open source**, checks the sources directly on git repository (by checking the presence of new tags) and builds itself the APK that the server signs during the compilation of code and dependencies. Updating the project will take **1-10 days** for F-Droid to analyze all available repositories, build sources and deploy the generated APK. So F-Droid is slower for deployment but it is run by **volunteers** and guaranteed a **clean APK**. :)
+
 ## Why not an online version?
 
 The offline and online client concepts only exists with Keepass2Android because the file access network tools are directly integrated into the code of the main application. Which is a very dubious choice knowing that **it is not normally the purpose of a password management application to take care of external file synchronization on clouds** (which can be under closed licensed and recover your data base), it is rather the purpose of the [file management application](https://developer.android.com/guide/topics/providers/document-provider).
