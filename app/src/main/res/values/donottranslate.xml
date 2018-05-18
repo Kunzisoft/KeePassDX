@@ -200,6 +200,7 @@
         <item translatable="false">@string/value_password_space</item>
         <item translatable="false">@string/value_password_special</item>
         <item translatable="false">@string/value_password_brackets</item>
+        <item translatable="false">@string/value_password_extended</item>
     </string-array>
     <string-array name="list_password_generator_options_entries">
         <item translatable="false">@string/uppercase</item>
@@ -210,6 +211,7 @@
         <item translatable="false">@string/space</item>
         <item translatable="false">@string/special</item>
         <item translatable="false">@string/brackets</item>
+        <item translatable="false">@string/extended_ASCII</item>
     </string-array>
 
     <string name="chapter_1">I</string>
