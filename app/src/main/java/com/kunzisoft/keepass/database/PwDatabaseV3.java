@@ -47,8 +47,6 @@ package com.kunzisoft.keepass.database;
 
 import com.kunzisoft.keepass.crypto.finalkey.FinalKey;
 import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory;
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.stream.NullOutputStream;
 
@@ -101,11 +99,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	public PwVersion getVersion() {
 		return PwVersion.V3;
 	}
-
-    @Override
-    public KdfEngine getKdfEngine() {
-        return KdfFactory.aesKdf;
-    }
 
 	@Override
 	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {

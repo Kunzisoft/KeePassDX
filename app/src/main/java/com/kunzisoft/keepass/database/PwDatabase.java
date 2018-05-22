@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database;
 
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
 import com.kunzisoft.keepass.utils.Util;
@@ -248,8 +247,6 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB,
     }
 
     public abstract List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms();
-
-    public abstract KdfEngine getKdfEngine();
 
     public abstract List<PwGroupDB> getGrpRoots();
 

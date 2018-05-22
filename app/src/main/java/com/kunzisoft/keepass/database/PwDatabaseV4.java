@@ -153,7 +153,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         this.compressionAlgorithm = compressionAlgorithm;
     }
 
-    @Override
 	public @Nullable KdfEngine getKdfEngine() {
         try {
             return KdfFactory.getEngineV4(kdfParameters);

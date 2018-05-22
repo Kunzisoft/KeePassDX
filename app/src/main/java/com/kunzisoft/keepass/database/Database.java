@@ -396,10 +396,16 @@ public class Database {
     }
 
     public KdfEngine getKdfEngine() {
-        KdfEngine kdfEngine = getPwDatabase().getKdfEngine();
-        if (kdfEngine == null)
-            return KdfFactory.aesKdf;
-        return kdfEngine;
+        switch (getPwDatabase().getVersion()) {
+            case V4:
+                KdfEngine kdfEngine = ((PwDatabaseV4) getPwDatabase()).getKdfEngine();
+                if (kdfEngine == null)
+                    return KdfFactory.aesKdf;
+                return kdfEngine;
+            default:
+            case V3:
+                return KdfFactory.aesKdf;
+        }
     }
 
     public void assignKdfEngine(KdfEngine kdfEngine) {
@@ -417,7 +423,7 @@ public class Database {
     }
 
     public String getKeyDerivationName(Resources resources) {
-        KdfEngine kdfEngine = getPwDatabase().getKdfEngine();
+        KdfEngine kdfEngine = getKdfEngine();
         if (kdfEngine != null) {
             return kdfEngine.getName(resources);
         }
