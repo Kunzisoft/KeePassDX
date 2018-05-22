@@ -146,7 +146,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	private int getMinKdbxVersion(PwDatabaseV4 databaseV4) {
 		// Return v4 if AES is not use
 		if (databaseV4.getKdfParameters() != null
-                && !databaseV4.getKdfParameters().kdfUUID.equals(AesKdf.CIPHER_UUID)) {
+                && !databaseV4.getKdfParameters().getUUID().equals(AesKdf.CIPHER_UUID)) {
 			return PwDbHeaderV4.FILE_VERSION_32;
 		}
 
@@ -287,7 +287,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	}
 
 	private void assignAesKdfEngineIfNotExists() {
-        if (db.getKdfParameters() == null || !db.getKdfParameters().kdfUUID.equals(KdfFactory.aesKdf.uuid)) {
+        if (db.getKdfParameters() == null || !db.getKdfParameters().getUUID().equals(KdfFactory.aesKdf.getUUID())) {
             db.setKdfParameters(KdfFactory.aesKdf.getDefaultParameters());
         }
     }

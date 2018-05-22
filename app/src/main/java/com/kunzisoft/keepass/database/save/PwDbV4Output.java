@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.save;
 
+import android.util.Log;
 import android.util.Xml;
 
 import com.kunzisoft.keepass.crypto.CipherFactory;
@@ -42,6 +43,7 @@ import com.kunzisoft.keepass.database.PwEntryV4;
 import com.kunzisoft.keepass.database.PwGroupV4;
 import com.kunzisoft.keepass.database.PwIconCustom;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+import com.kunzisoft.keepass.database.exception.UnknownKDF;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream;
@@ -74,6 +76,7 @@ import javax.crypto.CipherOutputStream;
 import biz.source_code.base64Coder.Base64Coder;
 
 public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
+    private static final String TAG = PwDbV4Output.class.getName();
 
 	private PwDatabaseV4 mPM;
 	private StreamCipher randomStream;
@@ -276,10 +279,8 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		} catch (Exception e) {
 			throw new PwDbOutputException("Invalid algorithm.", e);
 		}
-		
-		CipherOutputStream cos = new CipherOutputStream(os, cipher);
-		
-		return cos;
+
+        return new CipherOutputStream(os, cipher);
 	}
 
 	@Override
@@ -296,8 +297,13 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		if (mPM.getKdfParameters() == null) {
 			mPM.setKdfParameters(KdfFactory.aesKdf.getDefaultParameters());
 		}
-		KdfEngine kdf = KdfFactory.get(mPM.getKdfParameters());
-		kdf.randomize(mPM.getKdfParameters());
+
+		try {
+			KdfEngine kdf = KdfFactory.getEngineV4(mPM.getKdfParameters());
+			kdf.randomize(mPM.getKdfParameters());
+		} catch (UnknownKDF unknownKDF) {
+            Log.e(TAG, "Unable to retrieve header", unknownKDF);
+		}
 
 		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			header.innerRandomStream = CrsAlgorithm.Salsa20;

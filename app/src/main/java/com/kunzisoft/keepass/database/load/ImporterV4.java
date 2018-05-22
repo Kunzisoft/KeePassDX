@@ -125,14 +125,8 @@ public class ImporterV4 extends Importer {
 			db.setDataEngine(engine);
 			db.setEncryptionAlgorithm(engine.getPwEncryptionAlgorithm());
 			cipher = engine.getCipher(Cipher.DECRYPT_MODE, db.getFinalKey(), header.encryptionIV);
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("Invalid algorithm.");
-		} catch (NoSuchPaddingException e) {
-			throw new IOException("Invalid algorithm.");
-		} catch (InvalidKeyException e) {
-			throw new IOException("Invalid algorithm.");
-		} catch (InvalidAlgorithmParameterException e) {
-			throw new IOException("Invalid algorithm.");
+		} catch (NoSuchAlgorithmException|NoSuchPaddingException|InvalidKeyException|InvalidAlgorithmParameterException e) {
+			throw new IOException("Invalid algorithm.", e);
 		}
 
 		InputStream isPlain;

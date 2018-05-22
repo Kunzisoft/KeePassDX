@@ -29,7 +29,15 @@ public abstract class KdfEngine implements ObjectNameResource{
     public static final int UNKNOW_VALUE = -1;
     public static final String UNKNOW_VALUE_STRING = String.valueOf(-1);
 
-    public UUID uuid;
+    protected UUID uuid;
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
+    }
 
     public abstract KdfParameters getDefaultParameters();
 

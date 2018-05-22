@@ -107,7 +107,7 @@ public class Database {
         loadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
     }
 
-    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
+    private void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
         mUri = uri;
         readOnly = false;
         if (uri.getScheme().equals("file")) {
@@ -384,7 +384,7 @@ public class Database {
     public List<KdfEngine> getAvailableKdfEngines() {
         switch (getPwDatabase().getVersion()) {
             case V4:
-                return KdfFactory.kdfList;
+                return KdfFactory.kdfListV4;
             case V3:
                 return KdfFactory.kdfListV3;
         }
@@ -407,7 +407,7 @@ public class Database {
             case V4:
                 PwDatabaseV4 db = ((PwDatabaseV4) getPwDatabase());
                 if (db.getKdfParameters() == null
-                        || !db.getKdfParameters().kdfUUID.equals(kdfEngine.getDefaultParameters().kdfUUID))
+                        || !db.getKdfParameters().getUUID().equals(kdfEngine.getDefaultParameters().getUUID()))
                     db.setKdfParameters(kdfEngine.getDefaultParameters());
                 setNumberKeyEncryptionRounds(kdfEngine.getDefaultKeyRounds());
                 setMemoryUsage(kdfEngine.getDefaultMemoryUsage());

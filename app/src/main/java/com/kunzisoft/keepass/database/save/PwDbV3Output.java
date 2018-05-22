@@ -63,7 +63,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumberKeyEncryptionRounds());
 			return mPM.getFinalKey();
 		} catch (IOException e) {
-			throw new PwDbOutputException("Key creation failed: " + e.getMessage());
+			throw new PwDbOutputException("Key creation failed.", e);
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 				throw new Exception();
 			}
 		} catch (Exception e) {
-			throw new PwDbOutputException("Algorithm not supported.");
+			throw new PwDbOutputException("Algorithm not supported.", e);
 		}
 
 		try {
@@ -97,11 +97,11 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 			bos.close();
 
 		} catch (InvalidKeyException e) {
-			throw new PwDbOutputException("Invalid key");
+			throw new PwDbOutputException("Invalid key", e);
 		} catch (InvalidAlgorithmParameterException e) {
-			throw new PwDbOutputException("Invalid algorithm parameter.");
+			throw new PwDbOutputException("Invalid algorithm parameter.", e);
 		} catch (IOException e) {
-			throw new PwDbOutputException("Failed to output final encrypted part.");
+			throw new PwDbOutputException("Failed to output final encrypted part.", e);
 		}
 	}
 	
@@ -145,7 +145,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		try {
 			md = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
-			throw new PwDbOutputException("SHA-256 not implemented here.");
+			throw new PwDbOutputException("SHA-256 not implemented here.", e);
 		}
 		
 		// Header checksum
@@ -153,7 +153,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		try {
 			headerDigest = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
-			throw new PwDbOutputException("SHA-256 not implemented here.");
+			throw new PwDbOutputException("SHA-256 not implemented here.", e);
 		}
 		NullOutputStream nos;
 		nos = new NullOutputStream();
@@ -180,7 +180,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 			bos.flush();
 			bos.close();
 		} catch (IOException e) {
-			throw new PwDbOutputException("Failed to generate checksum.");
+			throw new PwDbOutputException("Failed to generate checksum.", e);
 		}
 
 		header.contentsHash = md.digest();
@@ -210,7 +210,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 			    los.writeInt(headerHashBlock.length);
 			    los.write(headerHashBlock);
 		    } catch (IOException e) {
-			    throw new PwDbOutputException("Failed to output header hash: " + e.getMessage());
+			    throw new PwDbOutputException("Failed to output header hash.", e);
 		    }
 		}
 		
@@ -222,7 +222,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 			try {
 				pgo.output();
 			} catch (IOException e) {
-				throw new PwDbOutputException("Failed to output a tree: " + e.getMessage());
+				throw new PwDbOutputException("Failed to output a tree", e);
 			}
 		}
 		
@@ -233,7 +233,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 			try {
 				peo.output();
 			} catch (IOException e) {
-				throw new PwDbOutputException("Failed to output an entry.");
+				throw new PwDbOutputException("Failed to output an entry.", e);
 			}
 		}
 	}

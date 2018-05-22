@@ -33,8 +33,8 @@ import java.util.UUID;
 
 public class AesKdf extends KdfEngine {
 
-    public static final int DEFAULT_ROUNDS = 6000;
-    public static final String DEFAULT_NAME = "AES-KDF";
+    private static final int DEFAULT_ROUNDS = 6000;
+    private static final String DEFAULT_NAME = "AES-KDF";
 
     public static final UUID CIPHER_UUID = Types.bytestoUUID(
             new byte[]{(byte) 0xC9, (byte) 0xD9, (byte) 0xF3, (byte) 0x9A, (byte) 0x62, (byte) 0x8A, (byte) 0x44, (byte) 0x60,
@@ -44,8 +44,8 @@ public class AesKdf extends KdfEngine {
     public static final String ParamRounds = "R";
     public static final String ParamSeed = "S";
 
-    public AesKdf() {
-        uuid = CIPHER_UUID;
+    AesKdf() {
+        setUUID(CIPHER_UUID);
     }
 
     @Override

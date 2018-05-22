@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.util.Log;
 import android.webkit.URLUtil;
 
 import com.kunzisoft.keepass.collections.VariantDictionary;
@@ -30,6 +31,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
+import com.kunzisoft.keepass.database.exception.UnknownKDF;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 
 import org.w3c.dom.Document;
@@ -50,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -57,6 +60,7 @@ import biz.source_code.base64Coder.Base64Coder;
 
 
 public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
+    private static final String TAG = PwDatabaseV4.class.getName();
 
 	private static final int DEFAULT_HISTORY_MAX_ITEMS = 10; // -1 unlimited
 	private static final long DEFAULT_HISTORY_MAX_SIZE = 6 * 1024 * 1024; // -1 unlimited
@@ -150,9 +154,14 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     @Override
-	public KdfEngine getKdfEngine() {
-		return KdfFactory.get(getKdfParameters());
-	}
+	public @Nullable KdfEngine getKdfEngine() {
+        try {
+            return KdfFactory.getEngineV4(kdfParameters);
+        } catch (UnknownKDF unknownKDF) {
+            Log.i(TAG, "Unable to retrieve KDF engine", unknownKDF);
+            return null;
+        }
+    }
 
     public KdfParameters getKdfParameters() {
 	    return kdfParameters;
@@ -398,16 +407,12 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     	makeFinalKey(masterSeed, 0);
 	}
 
-	public void makeFinalKey(byte[] masterSeed, long roundsFix)
-			throws IOException {
+	public void makeFinalKey(byte[] masterSeed, long roundsFix) throws IOException {
 
-        KdfEngine kdfEngine = KdfFactory.get(kdfParameters);
-		if (kdfEngine == null) {
-			throw new IOException("Unknown key derivation function");
-		}
+        KdfEngine kdfEngine = KdfFactory.getEngineV4(kdfParameters);
 
 		// Set to 6000 rounds to open corrupted database
-		if (roundsFix > 0 && kdfParameters.kdfUUID.equals(AesKdf.CIPHER_UUID)) {
+		if (roundsFix > 0 && kdfParameters.getUUID().equals(AesKdf.CIPHER_UUID)) {
             kdfParameters.setUInt32(AesKdf.ParamRounds, roundsFix);
 			numKeyEncRounds = roundsFix;
 		}

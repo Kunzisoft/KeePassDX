@@ -31,12 +31,16 @@ import java.util.UUID;
 
 public class KdfParameters extends VariantDictionary {
 
-    public UUID kdfUUID;
+    private UUID kdfUUID;
 
     private static final String ParamUUID = "$UUID";
 
     KdfParameters(UUID uuid) {
         kdfUUID = uuid;
+    }
+
+    public UUID getUUID() {
+        return kdfUUID;
     }
 
     protected void setParamUUID() {

@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation;
 
+import com.kunzisoft.keepass.database.exception.UnknownKDF;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,22 +30,26 @@ public class KdfFactory {
     public static Argon2Kdf argon2Kdf = new Argon2Kdf();
 
     public static List<KdfEngine> kdfListV3 = new ArrayList<>();
-    public static List<KdfEngine> kdfList = new ArrayList<>();
+    public static List<KdfEngine> kdfListV4 = new ArrayList<>();
 
     static {
         kdfListV3.add(aesKdf);
 
-        kdfList.add(aesKdf);
-        kdfList.add(argon2Kdf);
+        kdfListV4.add(aesKdf);
+        kdfListV4.add(argon2Kdf);
     }
 
-    public static KdfEngine get(KdfParameters kdfParameters) {
-        for (KdfEngine engine: kdfList) {
-            if (engine.uuid.equals(kdfParameters.kdfUUID)) {
+    public static KdfEngine getEngineV4(KdfParameters kdfParameters) throws UnknownKDF {
+        UnknownKDF unknownKDFException = new UnknownKDF();
+        if (kdfParameters == null) {
+            throw unknownKDFException;
+        }
+        for (KdfEngine engine: kdfListV4) {
+            if (engine.getUUID().equals(kdfParameters.getUUID())) {
                 return engine;
             }
         }
-        return null;
+        throw unknownKDFException;
     }
 
 }

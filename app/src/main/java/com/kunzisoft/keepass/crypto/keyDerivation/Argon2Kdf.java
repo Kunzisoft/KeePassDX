@@ -35,16 +35,16 @@ public class Argon2Kdf extends KdfEngine {
                     (byte) 0x91, (byte) 0xF7, (byte) 0xA9, (byte) 0xA4, (byte)0x03, (byte) 0xE3, (byte) 0x0A, (byte) 0x0C
             });
 
-    public static final String ParamSalt = "S"; // byte[]
-    public static final String ParamParallelism = "P"; // UInt32
-    public static final String ParamMemory = "M"; // UInt64
-    public static final String ParamIterations = "I"; // UInt64
-    public static final String ParamVersion = "V"; // UInt32
-    public static final String ParamSecretKey = "K"; // byte[]
-    public static final String ParamAssocData = "A"; // byte[]
+    private static final String ParamSalt = "S"; // byte[]
+    private static final String ParamParallelism = "P"; // UInt32
+    private static final String ParamMemory = "M"; // UInt64
+    private static final String ParamIterations = "I"; // UInt64
+    private static final String ParamVersion = "V"; // UInt32
+    private static final String ParamSecretKey = "K"; // byte[]
+    private static final String ParamAssocData = "A"; // byte[]
 
-    public static final long MinVersion = 0x10;
-    public static final long MaxVersion = 0x13;
+    private static final long MinVersion = 0x10;
+    private static final long MaxVersion = 0x13;
 
     private static final int MinSalt = 8;
     private static final int MaxSalt = Integer.MAX_VALUE;
@@ -64,8 +64,8 @@ public class Argon2Kdf extends KdfEngine {
 
     private static final String DEFAULT_NAME = "Argon2";
 
-    public Argon2Kdf() {
-        uuid = CIPHER_UUID;
+    Argon2Kdf() {
+        setUUID(CIPHER_UUID);
     }
 
     @Override
