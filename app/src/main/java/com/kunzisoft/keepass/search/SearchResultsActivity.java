@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.search;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,14 +30,13 @@ import android.view.View;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ListNodesActivity;
+import com.kunzisoft.keepass.activities.ListNodesFragment;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.utils.MenuUtil;
 
 public class SearchResultsActivity extends ListNodesActivity {
-
-    private RecyclerView listView;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,33 +51,30 @@ public class SearchResultsActivity extends ListNodesActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        listView = findViewById(R.id.nodes_list);
+        attachFragmentToContentView();
+
         View notFoundView = findViewById(R.id.not_found_container);
+        View listContainer = findViewById(R.id.nodes_list_fragment_container);
 
         if ( mCurrentGroup == null || mCurrentGroup.numbersOfChildEntries() < 1 ) {
-            listView.setVisibility(View.GONE);
+            listContainer.setVisibility(View.GONE);
             notFoundView.setVisibility(View.VISIBLE);
         } else {
-            listView.setVisibility(View.VISIBLE);
+            listContainer.setVisibility(View.VISIBLE);
             notFoundView.setVisibility(View.GONE);
         }
-
-        setGroupTitle();
 	}
 
     @Override
-    protected PwGroup initCurrentGroup() {
+    protected PwGroup initializeListNodesFragment() {
         Database mDb = App.getDB();
         // Likely the app has been killed exit the activity
         if ( ! mDb.getLoaded() ) {
             finish();
         }
-        return mDb.search(getSearchStr(getIntent()).trim());
-    }
-
-    @Override
-    protected RecyclerView defineNodeList() {
-        return listView;
+        PwGroup group = mDb.search(getSearchStr(getIntent()).trim());
+        listNodesFragment = ListNodesFragment.newInstance(group);
+        return group;
     }
 
     @Override
@@ -87,7 +82,6 @@ public class SearchResultsActivity extends ListNodesActivity {
 
         MenuInflater inflater = getMenuInflater();
         MenuUtil.contributionMenuInflater(inflater, menu);
-        inflater.inflate(R.menu.tree, menu);
         inflater.inflate(R.menu.default_menu, menu);
 
         return true;

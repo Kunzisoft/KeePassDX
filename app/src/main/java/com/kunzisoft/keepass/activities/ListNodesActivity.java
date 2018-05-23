@@ -22,20 +22,13 @@ package com.kunzisoft.keepass.activities;
 import android.annotation.SuppressLint;
 import android.app.assist.AssistStructure;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
@@ -53,20 +46,19 @@ import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
-import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.utils.MenuUtil;
 
 public abstract class ListNodesActivity extends LockingActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-        NodeAdapter.OnNodeClickCallback,
+        NodeAdapter.NodeClickCallback,
         SortDialogFragment.SortSelectionListener {
 
-    protected PwGroup mCurrentGroup;
-	protected NodeAdapter mAdapter;
-	
-	private SharedPreferences prefs;
+	protected static final String LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG";
+	protected ListNodesFragment listNodesFragment;
+
+	protected PwGroup mCurrentGroup;
 
     protected AutofillHelper autofillHelper;
 
@@ -83,18 +75,10 @@ public abstract class ListNodesActivity extends LockingActivity
 			finish();
 			return;
 		}
-		
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		invalidateOptionsMenu();
+        invalidateOptionsMenu();
 
-		// TODO Move in search
-		setContentView(R.layout.list_nodes);
-
-        mCurrentGroup = initCurrentGroup();
-
-        mAdapter = new NodeAdapter(this);
-        addOptionsToAdapter(mAdapter);
+        mCurrentGroup = initializeListNodesFragment();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
@@ -102,42 +86,58 @@ public abstract class ListNodesActivity extends LockingActivity
         }
 	}
 
-    protected abstract PwGroup initCurrentGroup();
+	protected abstract PwGroup initializeListNodesFragment();
 
-    protected abstract RecyclerView defineNodeList();
+    /**
+     * Attach the fragment's list of node.
+     * <br />
+     * <strong>R.id.nodes_list_fragment_container</strong> must be the id of the container
+     */
+	protected void attachFragmentToContentView() {
+        getSupportFragmentManager().beginTransaction().replace(
+                R.id.nodes_list_fragment_container,
+                listNodesFragment,
+                LIST_NODES_FRAGMENT_TAG)
+                .commit();
+    }
 
-    protected void addOptionsToAdapter(NodeAdapter nodeAdapter) {
-        mAdapter.setOnNodeClickListener(this);
+    public void assignToolbarElements() {
+        if (mCurrentGroup != null) {
+            String title = mCurrentGroup.getName();
+            TextView tv = findViewById(R.id.group_name);
+            if (title != null && title.length() > 0) {
+                if (tv != null) {
+                    tv.setText(title);
+                    tv.invalidate();
+                }
+            } else {
+                if (tv != null) {
+                    tv.setText(getText(R.string.root));
+                    tv.invalidate();
+                }
+            }
+        }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        // Add elements to the list
-        mAdapter.rebuildList(mCurrentGroup);
-        assignListToNodeAdapter(defineNodeList());
-    }
-	
-	protected void setGroupTitle() {
-		if ( mCurrentGroup != null ) {
-			String name = mCurrentGroup.getName();
-            TextView tv = findViewById(R.id.group_name);
-			if ( name != null && name.length() > 0 ) {
-				if ( tv != null ) {
-					tv.setText(name);
-				}
-			} else {
-				if ( tv != null ) {
-					tv.setText(getText(R.string.root));
-				}
-			}
-		}
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		
+		MenuInflater inflater = getMenuInflater();
+		MenuUtil.contributionMenuInflater(inflater, menu);
+		inflater.inflate(R.menu.default_menu, menu);
+
+		return true;
 	}
 
-	protected void assignListToNodeAdapter(RecyclerView recyclerView) {
-        recyclerView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mAdapter);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch ( item.getItemId() ) {
+            default:
+                // Check the time lock before launching settings
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true);
+                return super.onOptionsItemSelected(item);
+		}
 	}
 
     @Override
@@ -150,7 +150,7 @@ public abstract class ListNodesActivity extends LockingActivity
             if (assistStructure != null) {
                 switch (node.getType()) {
                     case GROUP:
-                        GroupActivity.launch(this, (PwGroup) node, assistStructure);
+                        openGroup((PwGroup) node);
                         break;
                     case ENTRY:
                         // Build response with the entry selected
@@ -163,7 +163,7 @@ public abstract class ListNodesActivity extends LockingActivity
         if ( assistStructure == null ){
             switch (node.getType()) {
                 case GROUP:
-                    GroupActivity.launch(this, (PwGroup) node);
+                    openGroup((PwGroup) node);
                     break;
                 case ENTRY:
                     EntryActivity.launch(this, (PwEntry) node);
@@ -172,68 +172,20 @@ public abstract class ListNodesActivity extends LockingActivity
         }
     }
 
-    @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		
-		MenuInflater inflater = getMenuInflater();
-		MenuUtil.contributionMenuInflater(inflater, menu);
-		inflater.inflate(R.menu.tree, menu);
-		inflater.inflate(R.menu.default_menu, menu);
-
-		return true;
-	}
-
-    @Override
-    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
-        // Toggle setting
-        Editor editor = prefs.edit();
-        editor.putString(getString(R.string.sort_node_key), sortNodeEnum.name());
-        editor.putBoolean(getString(R.string.sort_ascending_key), ascending);
-        editor.putBoolean(getString(R.string.sort_group_before_key), groupsBefore);
-        editor.putBoolean(getString(R.string.sort_recycle_bin_bottom_key), recycleBinBottom);
-        editor.apply();
-
-        // Tell the adapter to refresh it's list
-        mAdapter.notifyChangeSort(sortNodeEnum, ascending, groupsBefore);
-        mAdapter.rebuildList(mCurrentGroup);
+    private void openGroup(PwGroup group) {
+        ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group.getId());
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(R.id.nodes_list_fragment_container,
+                        newListNodeFragment,
+                        LIST_NODES_FRAGMENT_TAG)
+                .addToBackStack(LIST_NODES_FRAGMENT_TAG)
+                .commit();
+        listNodesFragment = newListNodeFragment;
+        mCurrentGroup = group;
+        assignToolbarElements();
     }
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch ( item.getItemId() ) {
-
-            case R.id.menu_sort:
-                SortDialogFragment sortDialogFragment;
-
-                PwDatabase database = App.getDB().getPwDatabase();
-                /*
-                // TODO Recycle bin bottom
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
-                    sortDialogFragment =
-                            SortDialogFragment.getInstance(
-                                    PrefsUtil.getListSort(this),
-                                    PrefsUtil.getAscendingSort(this),
-                                    PrefsUtil.getGroupsBeforeSort(this),
-                                    PrefsUtil.getRecycleBinBottomSort(this));
-                } else {
-                */
-                    sortDialogFragment =
-                            SortDialogFragment.getInstance(
-                                    PreferencesUtil.getListSort(this),
-                                    PreferencesUtil.getAscendingSort(this),
-                                    PreferencesUtil.getGroupsBeforeSort(this));
-                //}
-
-                sortDialogFragment.show(getSupportFragmentManager(), "sortDialog");
-                return true;
-
-            default:
-                // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true);
-                return super.onOptionsItemSelected(item);
-		}
-	}
 
     @Override
     public void onAssignKeyDialogPositiveClick(
@@ -254,27 +206,14 @@ public abstract class ListNodesActivity extends LockingActivity
     }
 
     @Override
+    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
+        if (listNodesFragment != null)
+            listNodesFragment.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
-                if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
-                        resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    PwNode newNode = (PwNode) data.getSerializableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
-                    if (newNode != null) {
-						if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
-							mAdapter.addNode(newNode);
-						if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-							//mAdapter.updateLastNodeRegister(newNode);
-							mAdapter.rebuildList(mCurrentGroup);
-						}
-					} else {
-                        Log.e(this.getClass().getName(), "New node can be retrieve in Activity Result");
-                    }
-                }
-                break;
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
@@ -310,7 +249,8 @@ public abstract class ListNodesActivity extends LockingActivity
 
             runOnUiThread(() -> {
                 if (mSuccess) {
-                    mAdapter.addNode(newNode);
+                	if (listNodesFragment != null)
+						listNodesFragment.addNode(newNode);
                 } else {
                     displayMessage(ListNodesActivity.this);
                 }
@@ -330,7 +270,8 @@ public abstract class ListNodesActivity extends LockingActivity
 
             runOnUiThread(() -> {
                 if (mSuccess) {
-                    mAdapter.updateNode(oldNode, newNode);
+					if (listNodesFragment != null)
+						listNodesFragment.updateNode(oldNode, newNode);
                 } else {
                     displayMessage(ListNodesActivity.this);
                 }
@@ -354,7 +295,10 @@ public abstract class ListNodesActivity extends LockingActivity
 
             runOnUiThread(() -> {
                 if ( mSuccess) {
-                    mAdapter.removeNode(pwNode);
+
+					if (listNodesFragment != null)
+						listNodesFragment.removeNode(pwNode);
+
                     PwGroup parent = pwNode.getParent();
                     Database db = App.getDB();
                     PwDatabase database = db.getPwDatabase();
@@ -366,7 +310,9 @@ public abstract class ListNodesActivity extends LockingActivity
                                 && mCurrentGroup != null
                                 && mCurrentGroup.getParent() == null
                                 && !mCurrentGroup.equals(recycleBin)) {
-                            mAdapter.addNode(parent);
+
+							if (listNodesFragment != null)
+								listNodesFragment.addNode(parent);
                         }
                     }
                 } else {
@@ -378,5 +324,16 @@ public abstract class ListNodesActivity extends LockingActivity
                 SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+        // to refresh fragment
+        listNodesFragment.onResume();
+        mCurrentGroup = listNodesFragment.getMainGroup();
+        assignToolbarElements();
     }
 }

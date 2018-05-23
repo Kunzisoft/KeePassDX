@@ -52,7 +52,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private boolean groupsBeforeSort;
     private boolean ascendingSort;
 
-    private OnNodeClickCallback onNodeClickCallback;
+    private NodeClickCallback nodeClickCallback;
     private NodeMenuListener nodeMenuListener;
     private boolean activateContextMenu;
 
@@ -66,10 +66,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public NodeAdapter(final Context context) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-        this.textSize = PreferencesUtil.getListTextSize(context);
-        this.listSort = PreferencesUtil.getListSort(context);
-        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
-        this.ascendingSort = PreferencesUtil.getAscendingSort(context);
+        assignPreferences();
         this.activateContextMenu = false;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
@@ -101,11 +98,19 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         this.activateContextMenu = activate;
     }
 
+    private void assignPreferences() {
+        this.textSize = PreferencesUtil.getListTextSize(context);
+        this.listSort = PreferencesUtil.getListSort(context);
+        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
+        this.ascendingSort = PreferencesUtil.getAscendingSort(context);
+    }
+
     /**
      * Rebuild the list by clear and build children from the group
      */
     public void rebuildList(PwGroup group) {
         this.nodeSortedList.clear();
+        assignPreferences();
         if (group != null) {
             this.nodeSortedList.addAll(group.getDirectChildren());
         }
@@ -208,8 +213,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Assign a listener when a node is clicked
      */
-    public void setOnNodeClickListener(OnNodeClickCallback onNodeClickCallback) {
-        this.onNodeClickCallback = onNodeClickCallback;
+    public void setOnNodeClickListener(NodeClickCallback nodeClickCallback) {
+        this.nodeClickCallback = nodeClickCallback;
     }
 
     /**
@@ -222,7 +227,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Callback listener to redefine to do an action when a node is click
      */
-    public interface OnNodeClickCallback {
+    public interface NodeClickCallback {
         void onNodeClick(PwNode node);
     }
 
@@ -247,8 +252,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (onNodeClickCallback != null)
-                onNodeClickCallback.onNodeClick(node);
+            if (nodeClickCallback != null)
+                nodeClickCallback.onNodeClick(node);
         }
     }
 

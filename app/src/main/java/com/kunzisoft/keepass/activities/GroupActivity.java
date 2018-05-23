@@ -34,7 +34,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -56,7 +55,6 @@ import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.database.action.AddGroupRunnable;
 import com.kunzisoft.keepass.database.action.DeleteEntryRunnable;
 import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
@@ -73,7 +71,12 @@ import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
 public class GroupActivity extends ListNodesActivity
-        implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
+        implements GroupEditDialogFragment.EditGroupListener,
+        IconPickerDialogFragment.IconPickerListener,
+        NodeAdapter.NodeMenuListener,
+        ListNodesFragment.OnScrollListener {
+
+    private static final String TAG = GroupActivity.class.getName();
 
     private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
@@ -86,8 +89,6 @@ public class GroupActivity extends ListNodesActivity
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
 	protected boolean readOnly = false;
-
-	private static final String TAG = "Group Activity:";
 
 	private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
 	private PwGroup oldGroupToUpdate;
@@ -136,35 +137,31 @@ public class GroupActivity extends ListNodesActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Log.w(TAG, "Retrieved tree");
+
+        Log.i(TAG, "Started creating tree");
 		if ( mCurrentGroup == null ) {
 			Log.w(TAG, "Group was null");
 			return;
 		}
+
+        // Construct main view
+        setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
+
+        attachFragmentToContentView();
 
 		if (savedInstanceState != null
                 && savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
             oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
         }
 
-		// Construct main view
-        setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
-
         iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
         addNodeButtonView.enableAddGroup(addGroupEnabled);
         addNodeButtonView.enableAddEntry(addEntryEnabled);
-        // Hide when scroll
-        RecyclerView recyclerView = findViewById(R.id.nodes_list);
-        recyclerView.addOnScrollListener(addNodeButtonView.hideButtonOnScrollListener());
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
-        if ( mCurrentGroup.getParent() != null )
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
 
         addNodeButtonView.setAddGroupClickListener(v -> {
             GroupEditDialogFragment.build()
@@ -173,17 +170,15 @@ public class GroupActivity extends ListNodesActivity
         });
         addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
-		
-		setGroupTitle();
 
-        Log.w(TAG, "Finished creating tree");
+        Log.i(TAG, "Finished creating tree");
 
         if (isRoot) {
             showWarnings();
         }
 	}
 
-	protected PwGroup initCurrentGroup() {
+	protected PwGroup initializeListNodesFragment() {
 	    PwGroup currentGroup;
         Database db = App.getDB();
         readOnly = db.isReadOnly();
@@ -205,71 +200,84 @@ public class GroupActivity extends ListNodesActivity
                 addEntryEnabled = !isRoot && addEntryEnabled;
         }
 
+        listNodesFragment = ListNodesFragment.newInstance(currentGroup);
+
         return currentGroup;
     }
 
     @Override
-    protected RecyclerView defineNodeList() {
-        return (RecyclerView) findViewById(R.id.nodes_list);
+    public void assignToolbarElements() {
+        super.assignToolbarElements();
+
+        // Assign the group icon depending of IconPack or custom icon
+        if ( mCurrentGroup != null ) {
+            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {R.attr.textColorInverse};
+                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
+            }
+
+            if ( mCurrentGroup.getParent() != null )
+                toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
+            else {
+                toolbar.setNavigationIcon(null);
+            }
+        }
     }
 
     @Override
-    protected void addOptionsToAdapter(NodeAdapter nodeAdapter) {
-	    super.addOptionsToAdapter(nodeAdapter);
+    public void onScrolled(int dy) {
+	    if (addNodeButtonView != null)
+            addNodeButtonView.hideButtonOnScrollListener(dy);
+    }
 
-        nodeAdapter.setActivateContextMenu(true);
-        nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
-            @Override
-            public boolean onOpenMenuClick(PwNode node) {
-                switch (node.getType()) {
-                    case GROUP:
-                        GroupActivity.launch(GroupActivity.this, (PwGroup) node);
-                        break;
-                    case ENTRY:
-                        EntryActivity.launch(GroupActivity.this, (PwEntry) node);
-                        break;
-                }
-                return true;
-            }
+    @Override
+    public boolean onOpenMenuClick(PwNode node) {
+        onNodeClick(node);
+        return true;
+    }
 
-            @Override
-            public boolean onEditMenuClick(PwNode node) {
-                switch (node.getType()) {
-                    case GROUP:
-                        oldGroupToUpdate = (PwGroup) node;
-                        GroupEditDialogFragment.build(node)
-                                .show(getSupportFragmentManager(),
-                                        GroupEditDialogFragment.TAG_CREATE_GROUP);
-                        break;
-                    case ENTRY:
-                        EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
-                        break;
-                }
-                return true;
-            }
+    @Override
+    public boolean onEditMenuClick(PwNode node) {
+        switch (node.getType()) {
+            case GROUP:
+                oldGroupToUpdate = (PwGroup) node;
+                GroupEditDialogFragment.build(node)
+                        .show(getSupportFragmentManager(),
+                                GroupEditDialogFragment.TAG_CREATE_GROUP);
+                break;
+            case ENTRY:
+                EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
+                break;
+        }
+        return true;
+    }
 
-            @Override
-            public boolean onDeleteMenuClick(PwNode node) {
-                switch (node.getType()) {
-                    case GROUP:
-                        deleteGroup((PwGroup) node);
-                        break;
-                    case ENTRY:
-                        deleteEntry((PwEntry) node);
-                        break;
-                }
-                return true;
-            }
-        });
+    @Override
+    public boolean onDeleteMenuClick(PwNode node) {
+        switch (node.getType()) {
+            case GROUP:
+                deleteGroup((PwGroup) node);
+                break;
+            case ENTRY:
+                deleteEntry((PwEntry) node);
+                break;
+        }
+        return true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // Refresh the group icon
-        assignGroupIcon();
+        assignToolbarElements();
         // Show button on resume
-        addNodeButtonView.showButton();
+        if (addNodeButtonView != null)
+            addNodeButtonView.showButton();
     }
 
     /**
@@ -279,7 +287,8 @@ public class GroupActivity extends ListNodesActivity
     private void checkAndPerformedEducation(Menu menu) {
 
 	    // If no node, show education to add new one
-	    if (mAdapter.getItemCount() <= 0) {
+	    if (listNodesFragment != null
+                && listNodesFragment.isEmpty()) {
             if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
 
                 TapTargetView.showFor(this,
@@ -407,32 +416,9 @@ public class GroupActivity extends ListNodesActivity
     protected void onStop() {
         super.onStop();
         // Hide button
-        addNodeButtonView.hideButton();
+        if (addNodeButtonView != null)
+            addNodeButtonView.hideButton();
     }
-
-    @Override
-    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
-        super.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
-        // Show button if hide after sort
-        addNodeButtonView.showButton();
-    }
-
-    /**
-     * Assign the group icon depending of IconPack or custom icon
-     */
-    protected void assignGroupIcon() {
-		if (mCurrentGroup != null) {
-            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-                // Retrieve the textColor to tint the icon
-                int[] attrs = {R.attr.textColorInverse};
-                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-                int iconColor = ta.getColor(0, Color.WHITE);
-                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
-            } else {
-                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
-            }
-		}
-	}
 
     private void deleteEntry(PwEntry entry) {
         Handler handler = new Handler();
@@ -583,7 +569,8 @@ public class GroupActivity extends ListNodesActivity
                     } catch (Exception ignored) {} // TODO custom icon
                     updateGroup.setIcon(iconStandard);
 
-                    mAdapter.removeNode(oldGroupToUpdate);
+                    if (listNodesFragment != null)
+                        listNodesFragment.removeNode(oldGroupToUpdate);
 
                     // If group updated save it in the database
                     UpdateGroupRunnable updateGroupRunnable = new UpdateGroupRunnable(this,
