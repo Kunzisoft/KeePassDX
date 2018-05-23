@@ -26,7 +26,6 @@ public class Policy {
     private SecureRandom random = new SecureRandom();
     private Leetify leetify;
     private static final String punctuations = "!\"#$%&\\'()*+,-./:;<=>?@[\\\\]^_`{|}~";
-    private static final String numbers = "0123456789";
 
     public Policy(Context context) {
         leetify = new Leetify(context);
@@ -126,6 +125,14 @@ public class Policy {
         return length_max;
     }
 
+    public int getDigit_count() {
+        return digit_count;
+    }
+
+    public int getPunctuation_count() {
+        return punctuation_count;
+    }
+
     public String[] conformize(String[] listOfKeywords){
         int numberOfPossibleChoices = 3;
         int index = random.nextInt(numberOfPossibleChoices);
@@ -135,7 +142,7 @@ public class Policy {
             case 1:
                 return insert_symbol_one(listOfKeywords);
             case 2:
-                return insert_number_one(listOfKeywords);
+                return insert_number(listOfKeywords, 10);
 //            case 3:
 //                return switch_case_one(listOfKeywords);
         }
@@ -150,21 +157,21 @@ public class Policy {
     }
 
     @NonNull
-    private String[] insert_number_one(String[] listOfKeywords){
+    public String[] insert_number(String[] listOfKeywords, int limit){
         ArrayList<String> result = new ArrayList<>();
         int index = random.nextInt(listOfKeywords.length + 1);
 
         for(int i=0; i<listOfKeywords.length; i++){
             result.add(listOfKeywords[i]);
             if(i == index){
-                int numberIndex = random.nextInt(numbers.length());
-                result.add(Character.toString(numbers.charAt(numberIndex)));
+                int number = random.nextInt(limit);
+                result.add(Integer.toString(number));
             }
         }
 
         if(index > listOfKeywords.length){
-            int numberIndex = random.nextInt(numbers.length());
-            result.add(Character.toString(numbers.charAt(numberIndex)));
+            int number = random.nextInt(limit);
+            result.add(Integer.toString(number));
         }
 
         return result.toArray(new String[0]);

@@ -65,6 +65,12 @@ public class PreferencesUtil {
                         Integer.parseInt(ctx.getString(R.string.default_password_length)));
     }
 
+    public static int getDefaultPasswordGenerator(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return Integer.parseInt(prefs.getString(ctx.getString(R.string.list_password_generator_choice_key),
+                ctx.getString(R.string.list_password_generator_choice_key)));
+    }
+
     public static Set<String> getDefaultPasswordCharacters(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getStringSet(ctx.getString(R.string.list_password_generator_options_key),

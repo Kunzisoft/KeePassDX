@@ -105,6 +105,10 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
             sentenceView.setVisibility(View.GONE);
         }
 
+        if(PreferencesUtil.getDefaultPasswordGenerator(getContext()) == 2){
+            numberOfKeywordsView.setText("3");
+        }
+
 //        assignDefaultCharacters();
 
         Button genPassButton = root.findViewById(R.id.generate_password_button);
@@ -147,7 +151,12 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 		policy.setDigit_count(Integer.parseInt(digitCountMinView.getText().toString()));
 
 		dicewarePassword.setPolicy(policy);
-		dicewarePassword.generatePassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+
+		if(PreferencesUtil.getDefaultPasswordGenerator(getContext()) == 2){
+		    dicewarePassword.generateWeakPassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+        } else {
+            dicewarePassword.generatePassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+        }
 
 		passwordView.setText(dicewarePassword.getPassword());
 		mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));

@@ -85,6 +85,13 @@
             android:title="@string/allow_copy_password_title"
             android:summary="@string/allow_copy_password_summary"
             android:defaultValue="@bool/allow_copy_password_default"/>
+        <ListPreference
+            android:key="@string/list_password_generator_choice_key"
+            android:title="@string/list_password_generator_choice_title"
+            android:summary="@string/list_password_generator_choice_summary"
+            android:entries="@array/list_password_generator_choice_entries"
+            android:entryValues="@array/list_password_generator_choice_values"
+            android:defaultValue="@string/list_password_generator_choice_default_value"/>
         <SwitchPreference
             android:key="@string/generate_sentence_key"
             android:title="@string/generate_sentence_tile"

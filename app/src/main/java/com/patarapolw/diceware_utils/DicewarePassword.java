@@ -53,17 +53,19 @@ public class DicewarePassword {
         String prePassword;
 
         keywordResource = title_case_all(keywordResource);
-        keywordResource = policy.insert_symbol_one(keywordResource);
         prePassword = toPassword(keywordResource);
         while (prePassword.length() > policy.getLength_max()) {
             keywordResource = shorten_one(keywordResource);
             prePassword = toPassword(keywordResource);
         }
 
-        int timeout = 3000;  // In milliseconds
+        int timeout = 1000;  // In milliseconds
         long start = System.currentTimeMillis();
         while (System.currentTimeMillis() - start < timeout){
-            if(!policy.isConform(keywordResource)){
+            if (prePassword.length() > policy.getLength_max()) {
+                keywordResource = shorten_one(keywordResource);
+                prePassword = toPassword(keywordResource);
+            } else if(!policy.isConform(keywordResource)){
                 keywordResource = policy.conformize(keywordResource);
             } else {
                 prePassword = toPassword(keywordResource);
@@ -73,22 +75,41 @@ public class DicewarePassword {
         }
     }
 
-    public void generatePin(int length) {
-        int[] numberPin = new int[length];
-        StringBuilder builder = new StringBuilder();
-
-        for(int i=0; i<length; i++){
-            int number = random.nextInt(10);
-            numberPin[i] = number;
-            builder.append(number);
+    public void generateWeakPassword(int numberOfKeywords) {
+        String[] keywordResource = new String[numberOfKeywords];
+        for(int i=0; i<numberOfKeywords; i++){
+            keywordResource[i] = keywordListLoader.getKeyword();
         }
-        pin = builder.toString();
+        keywordList = keywordResource.clone();
 
-        String[] keywordResource = new String[length];
-        for(int i=0; i<length; i++){
-            keywordResource[i] = keywordListLoader.getKeywordForInt(numberPin[i]);
+        String prePassword;
+
+        keywordResource = title_case_all(keywordResource);
+        keywordResource = policy.insert_number(keywordResource, (int) Math.pow(10, policy.getDigit_count()));
+        for(int i=0; i<policy.getPunctuation_count(); i++){
+            keywordResource = policy.insert_symbol_one(keywordResource);
         }
-        keywordList = keywordResource;
+
+        prePassword = toPassword(keywordResource);
+        while (prePassword.length() > policy.getLength_max()) {
+            keywordResource = shorten_one(keywordResource);
+            prePassword = toPassword(keywordResource);
+        }
+
+        int timeout = 1000;  // In milliseconds
+        long start = System.currentTimeMillis();
+        while (System.currentTimeMillis() - start < timeout){
+            if (prePassword.length() > policy.getLength_max()) {
+                keywordResource = shorten_one(keywordResource);
+                prePassword = toPassword(keywordResource);
+            } else if(!policy.isConform(keywordResource)){
+                keywordResource = policy.insert_symbol_one(keywordResource);
+            } else {
+                prePassword = toPassword(keywordResource);
+                password = prePassword;
+                return;
+            }
+        }
     }
 
     @NonNull
@@ -106,15 +127,17 @@ public class DicewarePassword {
         int maxLength = 3;
         int minLength = 2;
         int length = random.nextInt(maxLength - minLength) + minLength;
-        int index = random.nextInt(listOfKeywords.length);
-        for(int i=0; i<listOfKeywords.length; i++){
-            if(i == index){
-                if(listOfKeywords[i].length() >= length) {
-                    listOfKeywords[i] = listOfKeywords[i].substring(0, length);
+        while (true) {
+            int index = random.nextInt(listOfKeywords.length);
+            for (int i = 0; i < listOfKeywords.length; i++) {
+                if (i == index) {
+                    if (listOfKeywords[i].length() >= length) {
+                        listOfKeywords[i] = listOfKeywords[i].substring(0, length);
+                        return listOfKeywords;
+                    }
                 }
             }
         }
-        return listOfKeywords;
     }
 
     private String[] title_case_all(String[] listOfKeywords){

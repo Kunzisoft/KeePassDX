@@ -357,5 +357,19 @@
     <string name="generate_sentence_key">generate_sentence_key</string>
     <string name="generate_sentence_tile">Generate sentence</string>
     <string name="generate_sentence_summary">Generate sentence via part-of-speech matching (experimental)</string>
+    <string name="list_password_generator_choice_key">list_password_generator_choice_key</string>
+    <string name="list_password_generator_choice_title">Default password generator</string>
+    <string name="list_password_generator_choice_summary">Choose a default password generator</string>
+    <string name="list_password_generator_choice_default_value">1</string>
+    <string-array name="list_password_generator_choice_entries">
+        <item>Diceware Password Generator</item>
+        <item>Weak Diceware Password Generator</item>
+        <item>Traditional Password Generator</item>
+    </string-array>
+    <string-array name="list_password_generator_choice_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 
 </resources>
