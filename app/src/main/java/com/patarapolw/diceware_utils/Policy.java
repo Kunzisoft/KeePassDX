@@ -81,9 +81,33 @@ public class Policy {
             }
         }
 
-        if(index > listOfKeywords.length){
+        if(index == listOfKeywords.length){
             int punctuationIndex = random.nextInt(punctuations.length());
             result.add(Character.toString(punctuations.charAt(punctuationIndex)));
+        }
+
+        return result.toArray(new String[0]);
+    }
+
+    @NonNull
+    public String[] insert_number(String[] listOfKeywords, int digitCount){
+        ArrayList<String> result = new ArrayList<>();
+        int index = random.nextInt(listOfKeywords.length + 1);
+
+        StringBuilder number = new StringBuilder();
+        for(int i=0; i<digitCount; i++){
+            number.append(random.nextInt(10));
+        }
+
+        for(int i=0; i<listOfKeywords.length; i++){
+            result.add(listOfKeywords[i]);
+            if(i == index){
+                result.add(number.toString());
+            }
+        }
+
+        if(index == listOfKeywords.length){
+            result.add(number.toString());
         }
 
         return result.toArray(new String[0]);
@@ -142,7 +166,7 @@ public class Policy {
             case 1:
                 return insert_symbol_one(listOfKeywords);
             case 2:
-                return insert_number(listOfKeywords, 10);
+                return insert_number(listOfKeywords, 1);
 //            case 3:
 //                return switch_case_one(listOfKeywords);
         }
@@ -154,27 +178,6 @@ public class Policy {
         listOfKeywords[index] = leetify.doLeetify(listOfKeywords[index]);
 
         return listOfKeywords;
-    }
-
-    @NonNull
-    public String[] insert_number(String[] listOfKeywords, int limit){
-        ArrayList<String> result = new ArrayList<>();
-        int index = random.nextInt(listOfKeywords.length + 1);
-
-        for(int i=0; i<listOfKeywords.length; i++){
-            result.add(listOfKeywords[i]);
-            if(i == index){
-                int number = random.nextInt(limit);
-                result.add(Integer.toString(number));
-            }
-        }
-
-        if(index > listOfKeywords.length){
-            int number = random.nextInt(limit);
-            result.add(Integer.toString(number));
-        }
-
-        return result.toArray(new String[0]);
     }
 
     private String[] switch_case_one(String[] listOfKeywords){

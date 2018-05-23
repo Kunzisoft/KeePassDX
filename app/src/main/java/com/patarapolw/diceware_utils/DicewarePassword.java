@@ -85,7 +85,7 @@ public class DicewarePassword {
         String prePassword;
 
         keywordResource = title_case_all(keywordResource);
-        keywordResource = policy.insert_number(keywordResource, (int) Math.pow(10, policy.getDigit_count()));
+        keywordResource = policy.insert_number(keywordResource, policy.getDigit_count());
         for(int i=0; i<policy.getPunctuation_count(); i++){
             keywordResource = policy.insert_symbol_one(keywordResource);
         }
@@ -96,20 +96,7 @@ public class DicewarePassword {
             prePassword = toPassword(keywordResource);
         }
 
-        int timeout = 1000;  // In milliseconds
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < timeout){
-            if (prePassword.length() > policy.getLength_max()) {
-                keywordResource = shorten_one(keywordResource);
-                prePassword = toPassword(keywordResource);
-            } else if(!policy.isConform(keywordResource)){
-                keywordResource = policy.insert_symbol_one(keywordResource);
-            } else {
-                prePassword = toPassword(keywordResource);
-                password = prePassword;
-                return;
-            }
-        }
+        password = prePassword;
     }
 
     @NonNull
