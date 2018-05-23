@@ -20,7 +20,7 @@
 <resources>
     <string name="about_feedback">Отзывы:</string>
     <string name="about_homepage">Сайт:</string>
-    <string name="AboutText">KeePass DX является Android-версией программы KeePass Password Safe</string>
+    <string name="about_description">KeePass DX является Android-версией программы KeePass Password Safe</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>

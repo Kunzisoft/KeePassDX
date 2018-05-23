@@ -22,7 +22,7 @@
   tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
-    <string name="AboutText">KeePass DX is an Android implementation of the KeePass password manager.</string>
+    <string name="about_description">KeePass DX is an Android implementation of the KeePass password manager.</string>
     <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
     <string name="add_group">Add group</string>

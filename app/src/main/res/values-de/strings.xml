@@ -25,7 +25,7 @@
   tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Webseite:</string>
-    <string name="AboutText">KeePass DX ist die Implementierung des KeePass Password Managers für die Android-Plattform.</string>
+    <string name="about_description">KeePass DX ist die Implementierung des KeePass Password Managers für die Android-Plattform.</string>
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>

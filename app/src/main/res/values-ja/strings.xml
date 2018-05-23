@@ -20,7 +20,7 @@
 <resources>
     <string name="about_feedback">フィードバック:</string>
     <string name="about_homepage">WEBサイト:</string>
-    <string name="AboutText">\"KeePass DX\"はパスワードマネージャソフト\"KeePass\"をAndroid上で利用する為のアプリです。</string>
+    <string name="about_description">\"KeePass DX\"はパスワードマネージャソフト\"KeePass\"をAndroid上で利用する為のアプリです。</string>
     <string name="accept">決定</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="add_group">グループを追加</string>

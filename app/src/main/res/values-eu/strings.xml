@@ -22,7 +22,7 @@
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Hasiera orria:</string>
-    <string name="AboutText">KeePass DX ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
+    <string name="about_description">KeePass DX ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>

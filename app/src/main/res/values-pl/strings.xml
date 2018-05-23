@@ -19,7 +19,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Strona domowa:</string>
-    <string name="AboutText">KeePass DX to Androidowa implementacja menadżera haseł KeePass.</string>
+    <string name="about_description">KeePass DX to Androidowa implementacja menadżera haseł KeePass.</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>

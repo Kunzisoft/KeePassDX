@@ -17,7 +17,7 @@
 <resources>
     <string name="about_feedback">Visszajelzés:</string>
     <string name="about_homepage">Weboldal:</string>
-    <string name="AboutText">KeePass DX a KeePass jelszókezelő android implementációja.</string>
+    <string name="about_description">KeePass DX a KeePass jelszókezelő android implementációja.</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
     <string name="add_group">Csoport hozzáadása</string>

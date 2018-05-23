@@ -21,7 +21,7 @@
 <resources>
     <string name="about_feedback">משוב:</string>
     <string name="about_homepage">דף הבית:</string>
-    <string name="AboutText">KeePass DX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
+    <string name="about_description">KeePass DX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
     <string name="add_group">הוסף קבוצה</string>

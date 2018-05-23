@@ -20,7 +20,7 @@
 <resources>
     <string name="about_feedback">Spätná Väzba:</string>
     <string name="about_homepage">Domovská Stránka:</string>
-    <string name="AboutText">KeePass DX je Android verzia KeePass password manažéra.</string>
+    <string name="about_description">KeePass DX je Android verzia KeePass password manažéra.</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
     <string name="add_group">Pridať Skupinu</string>

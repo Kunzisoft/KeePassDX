@@ -20,7 +20,7 @@
 <resources>
     <string name="about_feedback">Tilbakemelding:</string>
     <string name="about_homepage">Heimeside:</string>
-    <string name="AboutText">KeePass DX er ei android-utgåve av KeePass passordstyrar.</string>
+    <string name="about_description">KeePass DX er ei android-utgåve av KeePass passordstyrar.</string>
     <string name="accept">Godta</string>    
     <string name="add_entry">Legg til post</string>
     <string name="add_group">Legg til gruppe</string>

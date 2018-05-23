@@ -20,7 +20,7 @@
 <resources>
     <string name="about_feedback">回饋：</string>
     <string name="about_homepage">主頁：</string>
-    <string name="AboutText">KeePass DX是KeePass密碼管理軟體的Android版本。</string>
+    <string name="about_description">KeePass DX是KeePass密碼管理軟體的Android版本。</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加條目</string>
     <string name="add_group">添加群組</string>

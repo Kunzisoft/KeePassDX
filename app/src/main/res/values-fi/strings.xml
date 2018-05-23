@@ -20,7 +20,7 @@
 <resources>
     <string name="about_feedback">Palaute:</string>
     <string name="about_homepage">Kotisivu:</string>
-    <string name="AboutText">KeePass DX on KeePass-salasanahallintaohjelman Android-versio</string>
+    <string name="about_description">KeePass DX on KeePass-salasanahallintaohjelman Android-versio</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>

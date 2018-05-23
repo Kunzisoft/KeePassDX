@@ -22,7 +22,7 @@
 <resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
-    <string name="AboutText">KeePass DX is een Android implementatie van de KeePass wachtwoordmanager.</string>
+    <string name="about_description">KeePass DX is een Android implementatie van de KeePass wachtwoordmanager.</string>
     <string name="accept">Aanvaarden</string>
     <string name="add_entry">Record toevoegen</string>
     <string name="add_group">Groep toevoegen</string>

@@ -23,7 +23,7 @@
 <resources>
     <string name="about_feedback">Připomínky:</string>
     <string name="about_homepage">Domovská stránka:</string>
-    <string name="AboutText">KeePass DX je Android implementace správce hesel KeePass.</string>
+    <string name="about_description">KeePass DX je Android implementace správce hesel KeePass.</string>
     <string name="accept">Přijat</string>
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>

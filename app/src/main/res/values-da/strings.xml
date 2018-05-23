@@ -22,7 +22,7 @@
 <resources>
     <string name="about_feedback">Tilbagemelding:</string>
     <string name="about_homepage">Hjemmeside:</string>
-    <string name="AboutText">KeePass DX er en Android implementering af KeePass password manager.</string>
+    <string name="about_description">KeePass DX er en Android implementering af KeePass password manager.</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Tilføj post</string>
     <string name="add_group">Tilføj gruppe</string>

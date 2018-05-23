@@ -20,7 +20,7 @@
 <resources>
     <string name="about_feedback">Ανατροφοδότηση:</string>
     <string name="about_homepage">Αρχική Σελίδα:</string>
-    <string name="AboutText">Το KeePass DX είναι μία Android εφαρμογή του διαχειριστή συνθηματικών KeePass</string>
+    <string name="about_description">Το KeePass DX είναι μία Android εφαρμογή του διαχειριστή συνθηματικών KeePass</string>
     <string name="accept">Αποδοχή</string>
     <string name="add_entry">Προσθήκη εγγραφής</string>
     <string name="add_group">Προσθήκη ομάδας</string>

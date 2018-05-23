@@ -23,7 +23,7 @@
 <resources>
     <string name="about_feedback">Comentários:</string>
     <string name="about_homepage">Página inicial:</string>
-    <string name="AboutText">KeePass DX é uma implementação do gerenciador de senhas KeePass.</string>
+    <string name="about_description">KeePass DX é uma implementação do gerenciador de senhas KeePass.</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>

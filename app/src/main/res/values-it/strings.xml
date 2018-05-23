@@ -23,7 +23,7 @@
 <resources>
     <string name="about_feedback">Commenti:</string>
     <string name="about_homepage">Pagina web:</string>
-    <string name="AboutText">KeePass DX è un\'implementazione Android del gestore password KeePass.</string>
+    <string name="about_description">KeePass DX è un\'implementazione Android del gestore password KeePass.</string>
     <string name="accept">Accetto</string>
     <string name="add_entry">Aggiungi voce</string>
     <string name="add_group">Aggiungi gruppo</string>
