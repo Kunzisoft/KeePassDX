@@ -39,7 +39,7 @@
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
-    <string name="ClearClipboard">Clipboard cleared.</string>
+    <string name="clipboard_cleared">Clipboard cleared.</string>
     <string name="clipboard_error_title">Clipboard error</string>
     <string name="clipboard_error">Some Samsung Android phones have a bug in the clipboard implementation that causes copying from applications to fail. For more details go to:</string>
     <string name="clipboard_error_clear">Clearing the clipboard failed</string>

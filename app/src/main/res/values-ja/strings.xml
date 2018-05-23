@@ -32,7 +32,7 @@
     <string name="brackets">カッコ</string>
     <string name="browser_intall_text">ファイルを検索するには OI File Manager が必要です。</string>
     <string name="cancel">キャンセル</string>
-    <string name="ClearClipboard">クリップボードを消去しました。</string>
+    <string name="clipboard_cleared">クリップボードを消去しました。</string>
     <string name="clipboard_timeout">クリップボード タイムアウト</string>
     <string name="clipboard_timeout_summary">コピーした情報をクリップボードから消去する時間</string>
     <string name="select_to_copy">ここをタップすると%1$sをクリップボードにコピーします</string>

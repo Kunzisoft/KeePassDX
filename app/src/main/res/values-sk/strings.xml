@@ -32,7 +32,7 @@
     <string name="brackets">Konzoly</string>
     <string name="browser_intall_text">Prezeranie súborov vyžaduje otvorenie Správcu súborov, kliknite nižšie pre inštalovanie. Kôli chybám v správcovi súborov, prehľadávanie nemusí pracovať správne, ak prehľadávate prvý krát.</string>
     <string name="cancel">Zrušiť</string>
-    <string name="ClearClipboard">Schránka vyčistená.</string>
+    <string name="clipboard_cleared">Schránka vyčistená.</string>
     <string name="clipboard_timeout">Timeout Schránky</string>
     <string name="clipboard_timeout_summary">Čas pred vyčistením schránky po skopírovaní mena alebo hesla</string>
     <string name="select_to_copy">%1$s skopírované do schránky</string>

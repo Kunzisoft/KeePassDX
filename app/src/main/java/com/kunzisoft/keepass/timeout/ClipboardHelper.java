@@ -132,7 +132,7 @@ public class ClipboardHelper {
             if ( currentClip.equals(mClearText) ) {
                 try {
                     cleanClipboard();
-                    uiThreadCallback.post(new UIToastTask(mCtx, R.string.ClearClipboard));
+                    uiThreadCallback.post(new UIToastTask(mCtx, R.string.clipboard_cleared));
                 } catch (SamsungClipboardException e) {
                     uiThreadCallback.post(new UIToastTask(mCtx, R.string.clipboard_error_clear));
                 }

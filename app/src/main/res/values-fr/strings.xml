@@ -41,7 +41,7 @@
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Permettre</string>
-    <string name="ClearClipboard">Presse-papier vidé</string>
+    <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
     <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez :</string>
     <string name="clipboard_error_clear">Le vidage du presse-papier a échoué</string>

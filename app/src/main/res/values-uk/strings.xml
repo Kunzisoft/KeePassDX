@@ -32,7 +32,7 @@
     <string name="brackets">Дужки</string>
     <string name="browser_intall_text">Для перегляду файла необхідно Open Intents File Manager, натисніть нижче для його інсталяції. У зв’язку з деякими недоробками у менеджері файлів перегляд може працювати некоректно при запуску перший раз.</string>
     <string name="cancel">Відміна</string>
-    <string name="ClearClipboard">Буфер обміну очищено.</string>
+    <string name="clipboard_cleared">Буфер обміну очищено.</string>
     <string name="clipboard_timeout">Тайм-аут буфера обміну</string>
     <string name="clipboard_timeout_summary">Час через який буде очищено буфер обміну після копіювання ім’я користувача чи пароля</string>
     <string name="select_to_copy">Копіювати %1$s до буфера обміну</string>

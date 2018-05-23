@@ -35,7 +35,7 @@
     <string name="brackets">Parèntesis</string>
     <string name="browser_intall_text">L\'exploració d\'arxius necessita l\'aplicació Open Intents File Manager, clica a sota per instal·lar-la. Degut a peculiaritats de l\'explorador d\'arxius pot ser que no funcioni correctament la primera execució.</string>
     <string name="cancel">Cancel·la</string>
-    <string name="ClearClipboard">Porta-retalls netejat.</string>
+    <string name="clipboard_cleared">Porta-retalls netejat.</string>
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
     <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls després de copiar un usuari o contrasenya</string>
     <string name="select_to_copy">Selecciona per copiar %1$s al porta-retalls</string>

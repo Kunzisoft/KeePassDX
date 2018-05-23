@@ -36,7 +36,7 @@
     <string name="brackets">Parênteses</string>
     <string name="browser_intall_text">A exploração de ficheiros requer o gestor de ficheiros Open Itents, clique em baixo para instalar. Devido a algumas particularidades no gestor de ficheiros, a exploração pode não funcionar corretamente na primeira vez.</string>
     <string name="cancel">Cancelar</string>
-    <string name="ClearClipboard">Área de transferência limpa.</string>
+    <string name="clipboard_cleared">Área de transferência limpa.</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
     <string name="clipboard_error">Alguns dispositivos Samsung Android têm um erro na implementação da área de transferência que causa falhas na cópia a partir de aplicações. Para mais de detalhes vá a:</string>
     <string name="clipboard_error_clear">A limpeza da área de transferência falhou</string>

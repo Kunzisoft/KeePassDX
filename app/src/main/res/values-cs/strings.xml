@@ -36,7 +36,7 @@
     <string name="brackets">Závorky</string>
     <string name="browser_intall_text">Procházení souborů vyžaduje Open Intents File Manager, klikněte níže pro jeho nainstalování. Kvůli zvláštnostem ve správci souborů, nemusí procházení správně fungovat při prvním spuštění.</string>
     <string name="cancel">Storno</string>
-    <string name="ClearClipboard">Schránka vyčištěna.</string>
+    <string name="clipboard_cleared">Schránka vyčištěna.</string>
     <string name="clipboard_error_title">Chyba schránkyr</string>
     <string name="clipboard_error">Některé Samsung Android telefony mají chybu v implementaci schránky, která způsobuje chybu při kopírování z aplikací. Pro více detailů jdi na:</string>
     <string name="clipboard_error_clear">Vyčištění schránky selhalo</string>

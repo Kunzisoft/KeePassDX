@@ -33,7 +33,7 @@
     <string name="brackets">Hakasulkeet</string>
     <string name="browser_intall_text">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
     <string name="cancel">Peruuta</string>
-    <string name="ClearClipboard">Leikepöytä tyhjennetty.</string>
+    <string name="clipboard_cleared">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
 	<string name="clipboard_error">Joissakin Android-puhelimissa on virhe leikepöydän toteutuksessa, mikä aiheuttaa kopioinnin epäonnistumisen. Lisätietoa:</string>
     <string name="clipboard_error_clear">Leikepöydän tyhjennys epäonnistui</string>

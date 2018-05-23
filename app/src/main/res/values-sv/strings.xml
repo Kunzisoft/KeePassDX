@@ -35,7 +35,7 @@
     <string name="brackets">Parenteser</string>
     <string name="browser_intall_text">Filhantering kräver Open Intents File Manager, klicka nedan för att installera. Filhanteraren kanske inte fungerar korrekt vid första användningen.</string>
     <string name="cancel">Avbryt</string>
-    <string name="ClearClipboard">Urklippet är rensat.</string>
+    <string name="clipboard_cleared">Urklippet är rensat.</string>
     <string name="clipboard_error_title">Urklippsfel</string>
     <string name="clipboard_error">Vissa Samsung-telefoner har en bugg som gör att applikationer inte kan kopiera till urklipp. För mer detaljer, gå till:</string>
     <string name="clipboard_error_clear">Urklippet kunde inte rensas</string>

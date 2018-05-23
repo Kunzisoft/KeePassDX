@@ -39,7 +39,7 @@
     <string name="brackets">Klammern</string>
     <string name="browser_intall_text">Um diese Funktion nutzen zu können, benötigen Sie den OI File Manager, den Sie über Google Play bzw. direkt von der Entwicklerwebseite herunterladen können. Aufgrund einiger Eigenheiten des Dateimanagers, kann es bei der ersten Benutzung zu Einschränkungen kommen.</string>
     <string name="cancel">Abbrechen</string>
-    <string name="ClearClipboard">Zwischenablage geleert</string>
+    <string name="clipboard_cleared">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
     <string name="clipboard_error">Die Implementierung der Zwischenablagefunktion in einigen Samsung Android-Smartphones ist offenbar fehlerhaft, wodurch das Kopieren von Daten aus der Anwendung heraus fehlschlägt. Weitere Informationen dazu finden Sie unter:</string>
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>

@@ -31,7 +31,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="brackets">Nawiasy</string>
     <string name="browser_intall_text">Przeglądanie plików wymaga programu Open Intents File Manager, kliknij poniżej by go zainstalować. Ze względu na pewne, dziwne zachowania menadżera plików przeglądanie może nie działać poprawnie przy pierwszym użyciu.</string>
     <string name="cancel">Anuluj</string>
-    <string name="ClearClipboard">Schowek wyczyszczony.</string>
+    <string name="clipboard_cleared">Schowek wyczyszczony.</string>
     <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
     <string name="clipboard_timeout_summary">Czas do wyczyszczenia zawartości schowka po kopiowaniu nazwy użytkownika i hasła</string>
     <string name="select_to_copy">Kopiuj %1$s do schowka</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about_description">KeePass DX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
-    <string name="ClearClipboard">Iškarpinė išvalyta.</string>
+    <string name="clipboard_cleared">Iškarpinė išvalyta.</string>
     <string name="file_not_found">Failas nerastas.</string>
     <string name="InvalidPassword">Neteisingas slaptažodis arba rakto failas.</string>
     <string name="about_feedback">Atsiliepimai:</string>

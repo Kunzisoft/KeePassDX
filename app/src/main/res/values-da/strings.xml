@@ -35,7 +35,7 @@
     <string name="brackets">Parenteser</string>
     <string name="browser_intall_text">Fil-browsing kræver applikationen "Open Intents File Manager", klik nedenfor for at installere den. Grundet nogle særheder i filmanageren er det ikke sikkert, at fil-browsing virker korrekt forste gang, at du anvender applikationen.</string>
     <string name="cancel">Annuller</string>
-    <string name="ClearClipboard">Udklipsholder ryddet.</string>
+    <string name="clipboard_cleared">Udklipsholder ryddet.</string>
     <string name="clipboard_error_title">Udklipsholder-fejl</string>
     <string name="clipboard_error">Nogle Samsung Android enheder har en fejl i implementeringen af udklipsholderen, som får kopiering fra applikationer til at fejle. For yderligere oplysninger gå til:</string>
     <string name="clipboard_error_clear">Rydningen af udklipsholderen fejlede</string>

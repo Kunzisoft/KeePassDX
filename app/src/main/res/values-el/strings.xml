@@ -33,7 +33,7 @@
     <string name="brackets">Αγκύλες</string>
     <string name="browser_intall_text">Η αναζήτηση αρχείων απαιτεί τον Διαχειριστή Αρχείων Open Intents, πατήστε παρακάτω για να τον εγκαταστήσετε. Λόγω μερικών ιδιορρυθμιών στον διαχειριστή αρχείων, η περιήγηση μπορεί να μην λειτουργεί σωστά την πρώτη φορά που θα περιηγηθείτε.</string>
     <string name="cancel">Ακύρωση</string>
-    <string name="ClearClipboard">Το πρόχειρο καθαρίστηκε.</string>
+    <string name="clipboard_cleared">Το πρόχειρο καθαρίστηκε.</string>
     <string name="clipboard_error_title">Σφάλμα προχείρου</string>
     <string name="clipboard_error">Μερικά Android κινητά τηλέφωνα της Samsung έχουν ένα σφάλμα στην εφαρμογή του προχείρου που προκαλεί την αντιγραφή από εφαρμογές να αποτυγχάνει. Για περισσότερες πληροφορίες πηγαίνετε:</string>
     <string name="clipboard_error_clear">Η εκκαθάριση του προχείρου απέτυχε</string>

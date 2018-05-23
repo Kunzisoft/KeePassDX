@@ -34,7 +34,7 @@
     <string name="brackets">Haakjes</string>
     <string name="browser_intall_text">Een bestand opzoeken kan alleen met de Open Intents File Manager, klik hieronder om die te installeren. Door gebreken in deze file manager kan het opzoeken van een bestand echter de eerste keer mislukken.</string>
     <string name="cancel">Annuleren</string>
-    <string name="ClearClipboard">Klembord gewist.</string>
+    <string name="clipboard_cleared">Klembord gewist.</string>
     <string name="clipboard_timeout">Klembordtimeout</string>
     <string name="clipboard_timeout_summary">Tijd tussen het kopiëren van gebruikersnaam of wachtwoord en het wissen van het klembord</string>
     <string name="select_to_copy">Selecteer om %1$s naar klembord te kopiëren</string>

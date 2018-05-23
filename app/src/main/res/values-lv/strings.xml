@@ -15,7 +15,7 @@
     <string name="brackets">Iekavās</string>
     <string name="browser_intall_text">Failu pārlūkošanai nepieciešams pārlūks.</string>
     <string name="cancel">Atcelt</string>
-    <string name="ClearClipboard">Starpliktuve notīrīta.</string>
+    <string name="clipboard_cleared">Starpliktuve notīrīta.</string>
     <string name="clipboard_error_title">Starpliktuves kļūda</string>
     <string name="clipboard_error">Dažiem Samsung tālruņiem ir problēmas ar starpliktuves lietošanu. Lai saņemtu sīkāku informāciju, dodieties uz:</string>
     <string name="clipboard_error_clear">Starpliktuves tīrīšana neizdevās</string>

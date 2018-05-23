@@ -36,7 +36,7 @@
     <string name="brackets">Parentesi</string>
     <string name="browser_intall_text">Sfogliare i file richiede l\'applicazione Gestore File di Open Intents, clicca sotto per installarlo. A causa di alcune stranezze nel gestore file, la prima volta la navigazione potrebbe non funzionare correttamente.</string>
     <string name="cancel">Annulla</string>
-    <string name="ClearClipboard">Appunti eliminati.</string>
+    <string name="clipboard_cleared">Appunti eliminati.</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
     <string name="clipboard_error">Alcuni telefoni Android di Samsung hanno un bug nell\'implementazione degli appunti che causa errori nella copia degli appunti da applicazioni. Per maggiori dettagli:</string>
     <string name="clipboard_error_clear">Eliminazione degli appunti fallita</string>

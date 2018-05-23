@@ -30,7 +30,7 @@
     <string name="brackets">Zárójelek</string>
     <string name="browser_intall_text">A fájl kiválasztásához önnek egy nyílt forrású fájlkezelő programra lesz szüksége, kattintson a lenti telepítés linkre. Előfordulhat, hogy első használatakor nem fog megfelelően működni a fájlkezelő program.</string>
     <string name="cancel">Mégsem</string>
-    <string name="ClearClipboard">Vágólap törölve.</string>
+    <string name="clipboard_cleared">Vágólap törölve.</string>
     <string name="clipboard_error_title">Vágólap hiba</string>
     <string name="clipboard_error">Hiba történt a vágólap használata során. A további részletekért tekintse meg az alábbi oldalt:</string>
     <string name="clipboard_error_clear">Hiba történt a vágólap törlésekor</string>
