@@ -28,7 +28,7 @@
     <string name="encryption">Chiffrement</string>
     <string name="encryption_algorithm">Algorithme de Chiffrement</string>
     <string name="key_derivation_function">Fonction de dérivation de clé</string>
-    <string name="app_timeout">Application timeout</string>
+    <string name="app_timeout">Délai d\'expiration de l\'application</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
@@ -36,14 +36,14 @@
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
-    <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
+    <string name="browser_intall_text">La navigation dans les fichiers nécessite Open Intents File Manager, cliquez ci-dessous pour l\'installer. En raison de certaines bizarreries dans le gestionnaire de fichiers, la navigation peut ne pas fonctionner correctement, la première fois que vous naviguez.</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Permettre</string>
     <string name="ClearClipboard">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
     <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez :</string>
     <string name="clipboard_error_clear">Le vidage du presse-papier a échoué</string>
-    <string name="clipboard_timeout">Clipboard timeout</string>
+    <string name="clipboard_timeout">Expiration du presse-papier</string>
     <string name="clipboard_timeout_summary">Temps avant le vidage du presse-papier après copie du nom d\'utilisateur ou du mot de passe</string>
     <string name="clipboard_swipe_clean">Balayez pour effacer le presse-papiers maintenant</string>
     <string name="select_to_copy">Copier %1$s dans le presse-papier</string>
