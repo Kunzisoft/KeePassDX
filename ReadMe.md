@@ -33,8 +33,8 @@ Yes, KeePass DX is under **free license (OSI certified)** and **without advertis
 
 You can contribute in different ways to help us on our work.
 
-* Add features by a **pull request**.
-* Help to **translate** into your language
+* Add features by a **[pull request](https://help.github.com/articles/about-pull-requests/)**.
+* Help to **[translate](https://hosted.weblate.org/projects/keepass-dx/strings/)** into your language (By using [Weblate](https://hosted.weblate.org/projects/keepass-dx/) or with a manual [pull request](https://help.github.com/articles/about-pull-requests/))
 * **[Donate](https://www.kunzisoft.com/donation)**  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
 * Buy the **[Pro version](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro)** of KeePass DX
 
