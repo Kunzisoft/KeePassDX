@@ -73,6 +73,7 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
@@ -127,6 +128,7 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
@@ -170,6 +172,11 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
+    </style>
+
+    <!-- Contextual Action Bar -->
+    <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/green_dark</item>
     </style>
 
     <!-- Dialog -->

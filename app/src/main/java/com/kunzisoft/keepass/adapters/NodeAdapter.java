@@ -237,6 +237,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public interface NodeMenuListener {
         boolean onOpenMenuClick(PwNode node);
         boolean onEditMenuClick(PwNode node);
+        boolean onCopyMenuClick(PwNode node);
+        boolean onMoveMenuClick(PwNode node);
         boolean onDeleteMenuClick(PwNode node);
     }
 
@@ -264,7 +266,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
         private static final int MENU_OPEN = Menu.FIRST;
         private static final int MENU_EDIT = MENU_OPEN + 1;
-        private static final int MENU_DELETE = MENU_EDIT + 1;
+        private static final int MENU_COPY = MENU_EDIT + 1;
+        private static final int MENU_MOVE = MENU_COPY + 1;
+        private static final int MENU_DELETE = MENU_MOVE + 1;
 
         private PwNode node;
         private NodeMenuListener menuListener;
@@ -282,6 +286,12 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 // Edition
                 clearMenu = contextMenu.add(Menu.NONE, MENU_EDIT, Menu.NONE, R.string.menu_edit);
                 clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                // Copy
+                clearMenu = contextMenu.add(Menu.NONE, MENU_COPY, Menu.NONE, R.string.menu_copy);
+                clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                // Move
+                clearMenu = contextMenu.add(Menu.NONE, MENU_MOVE, Menu.NONE, R.string.menu_move);
+                clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
                 // Deletion
                 clearMenu = contextMenu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.menu_delete);
                 clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
@@ -298,6 +308,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                         return menuListener.onOpenMenuClick(node);
                     case MENU_EDIT:
                         return menuListener.onEditMenuClick(node);
+                    case MENU_COPY:
+                        return menuListener.onCopyMenuClick(node);
+                    case MENU_MOVE:
+                        return menuListener.onMoveMenuClick(node);
                     case MENU_DELETE:
                         return menuListener.onDeleteMenuClick(node);
                     default:

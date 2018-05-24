@@ -121,9 +121,12 @@
     <string name="menu_app_settings">Application settings</string>
     <string name="menu_form_filling_settings">Form filling</string>
     <string name="menu_db_settings">Database settings</string>
-    <string name="menu_delete">Delete</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
+    <string name="menu_copy">Copy</string>
+    <string name="menu_move">Move</string>
+    <string name="menu_paste">Paste</string>
+    <string name="menu_delete">Delete</string>
     <string name="menu_hide_password">Hide Pass</string>
     <string name="menu_lock">Lock Database</string>
     <string name="menu_open">Open</string>
@@ -131,6 +134,7 @@
     <string name="menu_showpass">Show pass</string>
     <string name="menu_fingerprint_remove_key">Remove the fingerprint key</string>
     <string name="menu_url">Go to URL</string>
+    <string name="where">Where ?</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
