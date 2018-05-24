@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
@@ -17,9 +17,7 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources
-  xmlns:tools="http://schemas.android.com/tools"
-  tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Homepage:</string>
     <string name="AboutText">KeePass DX is an Android implementation of the KeePass password manager.</string>
@@ -39,7 +37,7 @@
     <string name="browser_intall_text">File browsing requires the Open Intents File Manager, click below to install it. Due to some quirks in the file manager, browsing may not work correctly, the first time you browse.</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
-    <string name="ClearClipboard">Clipboard cleared.</string>
+    <string name="ClearClipboard">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
     <string name="clipboard_error">Some Samsung Android phones have a bug in the clipboard implementation that causes copying from applications to fail. For more details go to:</string>
     <string name="clipboard_error_clear">Clearing the clipboard failed</string>
@@ -47,9 +45,9 @@
     <string name="clipboard_timeout_summary">Time before clearing clipboard after copying username or password</string>
     <string name="clipboard_swipe_clean">Swipe to clean clipboard now</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
-    <string name="creating_db_key">Creating database key&#8230;</string>
+    <string name="creating_db_key">Creating database key…</string>
     <string name="database">Database</string>
-    <string name="decrypting_db">Decrypting database contents&#8230;</string>
+    <string name="decrypting_db">Decrypting database contents…</string>
     <string name="default_checkbox">Use this as my default database</string>
     <string name="digits">Digits</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
@@ -110,7 +108,7 @@
     <string name="length">Length</string>
     <string name="list_size_title">Size of list items</string>
     <string name="list_size_summary">Text size in the element list</string>
-    <string name="loading_database">Loading database&#8230;</string>
+    <string name="loading_database">Loading database…</string>
     <string name="lowercase">Lower-case</string>
     <string name="maskpass_title">Mask password</string>
     <string name="maskpass_summary">Hide passwords by default</string>
@@ -139,8 +137,8 @@
     <string name="open_recent">Recent databases :</string>
     <string name="omitbackup_title">Don\'t search backup entries</string>
     <string name="omitbackup_summary">Omit \'Backup\' group from search results (applies to .kdb only)</string>
-    <string name="progress_create">Creating new database&#8230;</string>
-    <string name="progress_title">Working&#8230;</string>
+    <string name="progress_create">Creating new database…</string>
+    <string name="progress_title">Working…</string>
     <string name="protection">Protection</string>
     <string name="read_only">Read-only</string>
     <string name="read_only_warning">KeePass DX does not have permission to write to the database location, so your database will be opened read-only.</string>
@@ -163,7 +161,7 @@
     <string name="memory_usage_explanation">Amount of memory (in binary bytes) to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
-    <string name="saving_database">Saving database&#8230;</string>
+    <string name="saving_database">Saving database…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
     <string name="sort_menu">Sort</string>
@@ -219,7 +217,7 @@
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="fingerprint_quick_unlock_title">How to configure fingerprint for quick unlocking ?</string>
     <string name="fingerprint_setting_text">Set your personnal fingerprint for your device in </string>
-    <string name="fingerprint_setting_way_text">Settings -> Security -> Fingerprint</string>
+    <string name="fingerprint_setting_way_text">Settings -&gt; Security -&gt; Fingerprint</string>
     <string name="fingerprint_type_password_text">Type your password in Keepass DX</string>
     <string name="fingerprint_scan_to_store">Scan your fingerprint to store your master password securely</string>
     <string name="fingerprint_scan_to_open">Scan your fingerprint when the password checkbox is unchecked to open the database</string>
