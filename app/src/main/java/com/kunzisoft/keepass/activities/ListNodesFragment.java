@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,8 +28,9 @@ import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.stylish.StylishFragment;
 
-public class ListNodesFragment extends Fragment implements
+public class ListNodesFragment extends StylishFragment implements
         SortDialogFragment.SortSelectionListener {
 
     private static final String TAG = ListNodesFragment.class.getName();
@@ -104,7 +104,7 @@ public class ListNodesFragment extends Fragment implements
         setHasOptionsMenu(true);
 
         mCurrentGroup = initCurrentGroup();
-        mAdapter = new NodeAdapter(getContext());
+        mAdapter = new NodeAdapter(getContextThemed());
         mAdapter.setOnNodeClickListener(nodeClickCallback);
 
         if (nodeMenuListener != null) {
@@ -115,16 +115,18 @@ public class ListNodesFragment extends Fragment implements
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
-    protected PwGroup initCurrentGroup() {
+    protected PwGroup initCurrentGroup() { // TODO Change by parcelable
 
         Database db = App.getDB();
         PwGroup root = db.getPwDatabase().getRootGroup();
-        PwGroup currentGroup = null;
 
+        PwGroup currentGroup = null;
         if (getArguments() != null) {
+            // Contains all the group in element
             if (getArguments().containsKey(GROUP_KEY)) {
                 currentGroup = (PwGroup) getArguments().getSerializable(GROUP_KEY);
             }
+            // Contains only the group id, so the group must be retrieve
             if (getArguments().containsKey(GROUP_ID_KEY)) {
                 PwGroupId pwGroupId = (PwGroupId) getArguments().getSerializable(GROUP_ID_KEY);
                 if ( pwGroupId != null )
@@ -142,8 +144,11 @@ public class ListNodesFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.list_nodes_fragment, container, false);
+        // To apply theme
+        View rootView = inflater.cloneInContext(getContextThemed())
+                .inflate(R.layout.list_nodes_fragment, container, false);
         listView = rootView.findViewById(R.id.nodes_list);
 
         if (onScrollListener != null) {
@@ -163,6 +168,10 @@ public class ListNodesFragment extends Fragment implements
     public void onResume() {
         super.onResume();
 
+        rebuildList();
+    }
+
+    public void rebuildList() {
         // Add elements to the list
         mAdapter.rebuildList(mCurrentGroup);
         assignListToNodeAdapter(listView);

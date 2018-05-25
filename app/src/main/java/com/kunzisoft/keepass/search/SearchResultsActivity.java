@@ -30,11 +30,12 @@ import android.view.View;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ListNodesActivity;
-import com.kunzisoft.keepass.activities.ListNodesFragment;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.utils.MenuUtil;
+
+import javax.annotation.Nullable;
 
 public class SearchResultsActivity extends ListNodesActivity {
 
@@ -50,6 +51,7 @@ public class SearchResultsActivity extends ListNodesActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        groupNameView = findViewById(R.id.group_name);
 
         attachFragmentToContentView();
 
@@ -66,15 +68,13 @@ public class SearchResultsActivity extends ListNodesActivity {
 	}
 
     @Override
-    protected PwGroup initializeListNodesFragment() {
+    protected PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState) {
         Database mDb = App.getDB();
         // Likely the app has been killed exit the activity
         if ( ! mDb.getLoaded() ) {
             finish();
         }
-        PwGroup group = mDb.search(getSearchStr(getIntent()).trim());
-        listNodesFragment = ListNodesFragment.newInstance(group);
-        return group;
+        return mDb.search(getSearchStr(getIntent()).trim());
     }
 
     @Override

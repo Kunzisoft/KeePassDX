@@ -33,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -49,6 +50,7 @@ import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
@@ -56,8 +58,10 @@ import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.action.AddGroupRunnable;
+import com.kunzisoft.keepass.database.action.AfterActionNodeOnFinish;
 import com.kunzisoft.keepass.database.action.DeleteEntryRunnable;
 import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.database.action.UpdateGroupRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
@@ -67,6 +71,7 @@ import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
@@ -77,8 +82,6 @@ public class GroupActivity extends ListNodesActivity
         ListNodesFragment.OnScrollListener {
 
     private static final String TAG = GroupActivity.class.getName();
-
-    private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
     private Toolbar toolbar;
 
@@ -162,6 +165,7 @@ public class GroupActivity extends ListNodesActivity
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        groupNameView = findViewById(R.id.group_name);
 
         addNodeButtonView.setAddGroupClickListener(v -> {
             GroupEditDialogFragment.build()
@@ -178,14 +182,30 @@ public class GroupActivity extends ListNodesActivity
         }
 	}
 
-	protected PwGroup initializeListNodesFragment() {
-	    PwGroup currentGroup;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(GROUP_ID_KEY, mCurrentGroup.getId());
+        outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
+        super.onSaveInstanceState(outState);
+    }
+
+	protected PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState) {
+
+        PwGroupId pwGroupId = null; // TODO Parcelable
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(GROUP_ID_KEY)) {
+            pwGroupId = (PwGroupId) savedInstanceState.getSerializable(GROUP_ID_KEY);
+        } else {
+            if (getIntent() != null)
+                pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
+        }
+
         Database db = App.getDB();
         readOnly = db.isReadOnly();
         PwGroup root = db.getPwDatabase().getRootGroup();
 
         Log.w(TAG, "Creating tree view");
-        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
+        PwGroup currentGroup;
         if ( pwGroupId == null ) {
             currentGroup = root;
         } else {
@@ -199,8 +219,6 @@ public class GroupActivity extends ListNodesActivity
             if (!currentGroup.allowAddEntryIfIsRoot())
                 addEntryEnabled = !isRoot && addEntryEnabled;
         }
-
-        listNodesFragment = ListNodesFragment.newInstance(currentGroup);
 
         return currentGroup;
     }
@@ -221,10 +239,12 @@ public class GroupActivity extends ListNodesActivity
                 App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
             }
 
-            if ( mCurrentGroup.getParent() != null )
-                toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
-            else {
-                toolbar.setNavigationIcon(null);
+            if (toolbar != null) {
+                if ( mCurrentGroup.containsParent() )
+                    toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
+                else {
+                    toolbar.setNavigationIcon(null);
+                }
             }
         }
     }
@@ -273,8 +293,6 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh the group icon
-        assignToolbarElements();
         // Show button on resume
         if (addNodeButtonView != null)
             addNodeButtonView.showButton();
@@ -590,10 +608,91 @@ public class GroupActivity extends ListNodesActivity
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
-        super.onSaveInstanceState(outState);
+    class AfterAddNode extends AfterActionNodeOnFinish {
+        AfterAddNode(Handler handler) {
+            super(handler);
+        }
+
+        public void run(PwNode oldNode, PwNode newNode) {
+            super.run();
+
+            runOnUiThread(() -> {
+                if (mSuccess) {
+                    if (listNodesFragment != null)
+                        listNodesFragment.addNode(newNode);
+                } else {
+                    displayMessage(GroupActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
+            });
+        }
+    }
+
+    class AfterUpdateNode extends AfterActionNodeOnFinish {
+        AfterUpdateNode(Handler handler) {
+            super(handler);
+        }
+
+        public void run(PwNode oldNode, PwNode newNode) {
+            super.run();
+
+            runOnUiThread(() -> {
+                if (mSuccess) {
+                    if (listNodesFragment != null)
+                        listNodesFragment.updateNode(oldNode, newNode);
+                } else {
+                    displayMessage(GroupActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
+            });
+        }
+    }
+
+    class AfterDeleteNode extends OnFinishRunnable {
+        private PwNode pwNode;
+
+        AfterDeleteNode(Handler handler, PwNode pwNode) {
+            super(handler);
+            this.pwNode = pwNode;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+
+            runOnUiThread(() -> {
+                if ( mSuccess) {
+
+                    if (listNodesFragment != null)
+                        listNodesFragment.removeNode(pwNode);
+
+                    PwGroup parent = pwNode.getParent();
+                    Database db = App.getDB();
+                    PwDatabase database = db.getPwDatabase();
+                    if (db.isRecycleBinAvailable() &&
+                            db.isRecycleBinEnabled()) {
+                        PwGroup recycleBin = database.getRecycleBin();
+                        // Add trash if it doesn't exists
+                        if (parent.equals(recycleBin)
+                                && mCurrentGroup != null
+                                && mCurrentGroup.getParent() == null
+                                && !mCurrentGroup.equals(recycleBin)) {
+
+                            if (listNodesFragment != null)
+                                listNodesFragment.addNode(parent);
+                        }
+                    }
+                } else {
+                    mHandler.post(new UIToastTask(GroupActivity.this, "Unrecoverable error: " + mMessage));
+                    App.setShutdown();
+                    finish();
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
+            });
+        }
     }
 
     @Override

@@ -112,8 +112,8 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 	@Override
 	public void onNestedPreferenceSelected(NestedSettingsFragment.Screen key) {
 		getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                        R.anim.slide_in_left, R.anim.slide_out_right)
+                .setCustomAnimations(R.anim.slide_alpha_in_right, R.anim.slide_alpha_out_left,
+                        R.anim.slide_alpha_in_left, R.anim.slide_alpha_out_right)
 				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)
                 .commit();
