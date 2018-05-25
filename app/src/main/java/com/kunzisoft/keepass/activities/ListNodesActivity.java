@@ -25,7 +25,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,19 +35,13 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.action.AfterActionNodeOnFinish;
-import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
-import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
-import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.utils.MenuUtil;
 
 public abstract class ListNodesActivity extends LockingActivity
@@ -55,10 +49,13 @@ public abstract class ListNodesActivity extends LockingActivity
         NodeAdapter.NodeClickCallback,
         SortDialogFragment.SortSelectionListener {
 
+    protected static final String GROUP_ID_KEY = "GROUP_ID_KEY";
+
 	protected static final String LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG";
 	protected ListNodesFragment listNodesFragment;
 
 	protected PwGroup mCurrentGroup;
+    protected TextView groupNameView;
 
     protected AutofillHelper autofillHelper;
 
@@ -78,7 +75,9 @@ public abstract class ListNodesActivity extends LockingActivity
 
         invalidateOptionsMenu();
 
-        mCurrentGroup = initializeListNodesFragment();
+        mCurrentGroup = retrieveCurrentGroup(savedInstanceState);
+
+        initializeListNodesFragment(mCurrentGroup);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
@@ -86,7 +85,21 @@ public abstract class ListNodesActivity extends LockingActivity
         }
 	}
 
-	protected abstract PwGroup initializeListNodesFragment();
+    protected abstract PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState);
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh the title
+        assignToolbarElements();
+    }
+
+	protected void initializeListNodesFragment(PwGroup currentGroup) {
+        listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
+                .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+        if (listNodesFragment == null)
+            listNodesFragment = ListNodesFragment.newInstance(currentGroup);
+    }
 
     /**
      * Attach the fragment's list of node.
@@ -104,16 +117,15 @@ public abstract class ListNodesActivity extends LockingActivity
     public void assignToolbarElements() {
         if (mCurrentGroup != null) {
             String title = mCurrentGroup.getName();
-            TextView tv = findViewById(R.id.group_name);
             if (title != null && title.length() > 0) {
-                if (tv != null) {
-                    tv.setText(title);
-                    tv.invalidate();
+                if (groupNameView != null) {
+                    groupNameView.setText(title);
+                    groupNameView.invalidate();
                 }
             } else {
-                if (tv != null) {
-                    tv.setText(getText(R.string.root));
-                    tv.invalidate();
+                if (groupNameView != null) {
+                    groupNameView.setText(getText(R.string.root));
+                    groupNameView.invalidate();
                 }
             }
         }
@@ -239,100 +251,13 @@ public abstract class ListNodesActivity extends LockingActivity
 		}
 	}
 
-    class AfterAddNode extends AfterActionNodeOnFinish {
-        AfterAddNode(Handler handler) {
-            super(handler);
-        }
-
-        public void run(PwNode oldNode, PwNode newNode) {
-            super.run();
-
-            runOnUiThread(() -> {
-                if (mSuccess) {
-                	if (listNodesFragment != null)
-						listNodesFragment.addNode(newNode);
-                } else {
-                    displayMessage(ListNodesActivity.this);
-                }
-
-                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
-            });
-        }
-    }
-
-    class AfterUpdateNode extends AfterActionNodeOnFinish {
-        AfterUpdateNode(Handler handler) {
-            super(handler);
-        }
-
-        public void run(PwNode oldNode, PwNode newNode) {
-            super.run();
-
-            runOnUiThread(() -> {
-                if (mSuccess) {
-					if (listNodesFragment != null)
-						listNodesFragment.updateNode(oldNode, newNode);
-                } else {
-                    displayMessage(ListNodesActivity.this);
-                }
-
-                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
-            });
-        }
-    }
-
-    class AfterDeleteNode extends OnFinishRunnable {
-        private PwNode pwNode;
-
-        AfterDeleteNode(Handler handler, PwNode pwNode) {
-            super(handler);
-            this.pwNode = pwNode;
-        }
-
-        @Override
-        public void run() {
-            super.run();
-
-            runOnUiThread(() -> {
-                if ( mSuccess) {
-
-					if (listNodesFragment != null)
-						listNodesFragment.removeNode(pwNode);
-
-                    PwGroup parent = pwNode.getParent();
-                    Database db = App.getDB();
-                    PwDatabase database = db.getPwDatabase();
-                    if (db.isRecycleBinAvailable() &&
-                            db.isRecycleBinEnabled()) {
-                        PwGroup recycleBin = database.getRecycleBin();
-                        // Add trash if it doesn't exists
-                        if (parent.equals(recycleBin)
-                                && mCurrentGroup != null
-                                && mCurrentGroup.getParent() == null
-                                && !mCurrentGroup.equals(recycleBin)) {
-
-							if (listNodesFragment != null)
-								listNodesFragment.addNode(parent);
-                        }
-                    }
-                } else {
-                    mHandler.post(new UIToastTask(ListNodesActivity.this, "Unrecoverable error: " + mMessage));
-                    App.setShutdown();
-                    finish();
-                }
-
-                SaveDatabaseProgressTaskDialogFragment.stop(ListNodesActivity.this);
-            });
-        }
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
         listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
         // to refresh fragment
-        listNodesFragment.onResume();
+        listNodesFragment.rebuildList();
         mCurrentGroup = listNodesFragment.getMainGroup();
         assignToolbarElements();
     }

@@ -119,6 +119,13 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
         parent = prt;
     }
 
+    /**
+     * @return true if parent is present (can be a root or a detach element)
+     */
+    public boolean containsParent() {
+        return getParent() != null;
+    }
+
     public PwDate getCreationTime() {
         return creation;
     }
