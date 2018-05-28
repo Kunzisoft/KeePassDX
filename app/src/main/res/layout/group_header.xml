@@ -47,7 +47,6 @@
             android:layout_weight="1"
             android:text="@string/root"
             android:maxLines="1"
-            android:singleLine="true"
             style="@style/KeepassDXStyle.TextAppearance.TitleTextOnPrimary" />
     </LinearLayout>
 </LinearLayout>
