@@ -185,18 +185,23 @@ public abstract class ListNodesActivity extends LockingActivity
     }
 
     private void openGroup(PwGroup group) {
-        ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group.getId());
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                        R.anim.slide_in_left, R.anim.slide_out_right)
-                .replace(R.id.nodes_list_fragment_container,
-                        newListNodeFragment,
-                        LIST_NODES_FRAGMENT_TAG)
-                .addToBackStack(LIST_NODES_FRAGMENT_TAG)
-                .commit();
-        listNodesFragment = newListNodeFragment;
-        mCurrentGroup = group;
-        assignToolbarElements();
+	    // Check Timeout
+        if (checkTimeIsAllowedOrFinish(this)) {
+            startRecordTime(this);
+
+            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group.getId());
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                            R.anim.slide_in_left, R.anim.slide_out_right)
+                    .replace(R.id.nodes_list_fragment_container,
+                            newListNodeFragment,
+                            LIST_NODES_FRAGMENT_TAG)
+                    .addToBackStack(LIST_NODES_FRAGMENT_TAG)
+                    .commit();
+            listNodesFragment = newListNodeFragment;
+            mCurrentGroup = group;
+            assignToolbarElements();
+        }
     }
 
     @Override
@@ -253,12 +258,16 @@ public abstract class ListNodesActivity extends LockingActivity
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (checkTimeIsAllowedOrFinish(this)) {
+            startRecordTime(this);
 
-        listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
-        // to refresh fragment
-        listNodesFragment.rebuildList();
-        mCurrentGroup = listNodesFragment.getMainGroup();
-        assignToolbarElements();
+            super.onBackPressed();
+
+            listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+            // to refresh fragment
+            listNodesFragment.rebuildList();
+            mCurrentGroup = listNodesFragment.getMainGroup();
+            assignToolbarElements();
+        }
     }
 }

@@ -44,7 +44,12 @@ public abstract class LockingActivity extends StylishActivity {
     private ScreenReceiver screenReceiver;
     private boolean exitLock;
 
-    protected static void recordFirstTimeBeforeLaunch(Activity activity) {
+
+    /**
+     * Called to start a record time,
+     * Generally used for a first launch or for a fragment change
+     */
+    protected static void startRecordTime(Activity activity) {
         TimeoutHelper.recordTime(activity);
     }
 

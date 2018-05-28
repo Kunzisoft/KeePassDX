@@ -99,7 +99,7 @@ public class GroupActivity extends ListNodesActivity
 	private PwGroup oldGroupToUpdate;
 	
 	public static void launch(Activity act) {
-        recordFirstTimeBeforeLaunch(act);
+        startRecordTime(act);
         launch(act, (PwGroup) null);
 	}
 
@@ -116,7 +116,7 @@ public class GroupActivity extends ListNodesActivity
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
-            recordFirstTimeBeforeLaunch(act);
+            startRecordTime(act);
             launch(act, null, assistStructure);
         } else {
             launch(act);
