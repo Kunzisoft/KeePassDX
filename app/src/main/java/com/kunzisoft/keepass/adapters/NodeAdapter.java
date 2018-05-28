@@ -286,9 +286,11 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 // Edition
                 clearMenu = contextMenu.add(Menu.NONE, MENU_EDIT, Menu.NONE, R.string.menu_edit);
                 clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
-                // Copy
-                clearMenu = contextMenu.add(Menu.NONE, MENU_COPY, Menu.NONE, R.string.menu_copy);
-                clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                // Copy (not for group)
+                if (node.getType().equals(PwNode.Type.ENTRY)) {
+                    clearMenu = contextMenu.add(Menu.NONE, MENU_COPY, Menu.NONE, R.string.menu_copy);
+                    clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                }
                 // Move
                 clearMenu = contextMenu.add(Menu.NONE, MENU_MOVE, Menu.NONE, R.string.menu_move);
                 clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);

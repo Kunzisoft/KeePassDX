@@ -662,6 +662,11 @@ public class Database {
         }
     }
 
+    /**
+     * @return A duplicate entry with the same values, a new UUID,
+     * @param entryToCopy
+     * @param newParent
+     */
     public @Nullable PwEntry copyEntry(PwEntry entryToCopy, PwGroup newParent) {
         try {
             // TODO encapsulate
@@ -670,11 +675,13 @@ public class Database {
                     PwEntryV3 entryV3Copied = ((PwEntryV3) entryToCopy).clone();
                     entryV3Copied.setUUID(UUID.randomUUID());
                     entryV3Copied.setParent((PwGroupV3) newParent);
+                    addEntryTo(entryV3Copied, newParent);
                     return entryV3Copied;
                 case V4:
                     PwEntryV4 entryV4Copied = ((PwEntryV4) entryToCopy).clone();
                     entryV4Copied.setUUID(UUID.randomUUID());
                     entryV4Copied.setParent((PwGroupV4) newParent);
+                    addEntryTo(entryV4Copied, newParent);
                     return entryV4Copied;
             }
         } catch (Exception e) {
@@ -683,19 +690,14 @@ public class Database {
         return null;
     }
 
-    // TODO copy group
-    public void copyGroup(PwGroup groupToCopy, PwGroup newParent) {
-
-    }
-
-    // TODO move entry
     public void moveEntry(PwEntry entryToMove, PwGroup newParent) {
-
+        removeEntryFrom(entryToMove, entryToMove.parent);
+        addEntryTo(entryToMove, newParent);
     }
 
-    // TODO move group
     public void moveGroup(PwGroup groupToMove, PwGroup newParent) {
-
+        removeGroupFrom(groupToMove, groupToMove.parent);
+        addGroupTo(groupToMove, newParent);
     }
 
     public void deleteEntry(PwEntry entry) {

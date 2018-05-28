@@ -26,40 +26,42 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 
-public class CopyEntryRunnable extends RunnableOnFinish {
+public class MoveEntryRunnable extends RunnableOnFinish {
 
-	private static final String TAG = CopyEntryRunnable.class.getName();
+	private static final String TAG = MoveEntryRunnable.class.getName();
 
 	private Database mDb;
-	private PwEntry mEntryToCopy;
-	private PwEntry mEntryCopied;
+	private PwEntry mEntryToMove;
+	private PwGroup mOldParent;
 	private PwGroup mNewParent;
 	private Context mContext;
 	private boolean mDontSave;
 
-	public CopyEntryRunnable(Context context, Database db, PwEntry oldE, PwGroup newParent, AfterActionNodeOnFinish afterAddNode) {
+	public MoveEntryRunnable(Context context, Database db, PwEntry oldE, PwGroup newParent, AfterActionNodeOnFinish afterAddNode) {
 		this(context, db, oldE, newParent, afterAddNode, false);
 	}
 
-	public CopyEntryRunnable(Context context, Database db, PwEntry oldE, PwGroup newParent, AfterActionNodeOnFinish afterAddNode, boolean dontSave) {
+	public MoveEntryRunnable(Context context, Database db, PwEntry oldE, PwGroup newParent, AfterActionNodeOnFinish afterAddNode, boolean dontSave) {
 		super(afterAddNode);
 		
 		this.mDb = db;
-		this.mEntryToCopy = oldE;
+		this.mEntryToMove = oldE;
 		this.mNewParent = newParent;
 		this.mContext = context;
 		this.mDontSave = dontSave;
 		
-		this.mFinish = new AfterCopy(afterAddNode);
+		this.mFinish = new AfterMove(afterAddNode);
 	}
 
 	@Override
 	public void run() {
-		// Update entry with new values
-        mEntryCopied = mDb.copyEntry(mEntryToCopy, mNewParent);
+		// Move entry in new parent
 
-        if (mEntryCopied != null) {
-            mEntryCopied.touch(true, true);
+		mOldParent = mEntryToMove.getParent();
+        mDb.moveEntry(mEntryToMove, mNewParent);
+
+        if (mEntryToMove != null) {
+			mEntryToMove.touch(true, true);
 
             // Commit to disk
             SaveDBRunnable save = new SaveDBRunnable(mContext, mDb, mFinish, mDontSave);
@@ -69,20 +71,20 @@ public class CopyEntryRunnable extends RunnableOnFinish {
         }
 	}
 	
-	private class AfterCopy extends OnFinishRunnable {
+	private class AfterMove extends OnFinishRunnable {
 
-		AfterCopy(OnFinishRunnable finish) {
+		AfterMove(OnFinishRunnable finish) {
 			super(finish);
 		}
 		
 		@Override
 		public void run() {
 			if ( !mSuccess ) {
-				// If we fail to save, try to delete the copy
+				// If we fail to save, try to remove in the first place
                 try {
-                	mDb.deleteEntry(mEntryCopied);
+                	mDb.moveEntry(mEntryToMove, mOldParent);
 				} catch (Exception e) {
-					Log.i(TAG, "Unable to delete the copied entry");
+					Log.i(TAG, "Unable to replace the entry");
 				}
 			}
             // TODO Better callback
@@ -90,7 +92,7 @@ public class CopyEntryRunnable extends RunnableOnFinish {
                     (AfterActionNodeOnFinish) super.mOnFinish;
             afterAddNode.mSuccess = mSuccess;
             afterAddNode.mMessage = mMessage;
-            afterAddNode.run(null, mEntryCopied);
+            afterAddNode.run(null, mEntryToMove);
 
 			super.run();
 		}

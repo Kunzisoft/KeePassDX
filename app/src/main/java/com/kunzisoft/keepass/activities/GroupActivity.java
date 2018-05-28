@@ -59,10 +59,12 @@ import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.action.AddGroupRunnable;
-import com.kunzisoft.keepass.database.action.CopyEntryRunnable;
 import com.kunzisoft.keepass.database.action.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.CopyEntryRunnable;
 import com.kunzisoft.keepass.database.action.DeleteEntryRunnable;
 import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.action.MoveEntryRunnable;
+import com.kunzisoft.keepass.database.action.MoveGroupRunnable;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.database.action.UpdateGroupRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
@@ -302,6 +304,7 @@ public class GroupActivity extends ListNodesActivity
                     case R.id.menu_paste:
                         switch (node.getType()) {
                             case GROUP:
+                                Log.e(TAG, "Copy not allowed for group");
                                 break;
                             case ENTRY:
                                 copyNode((PwEntry) node, mCurrentGroup);
@@ -317,7 +320,6 @@ public class GroupActivity extends ListNodesActivity
 
             }
         });
-	    // TODO COPY
         return false;
     }
 
@@ -334,8 +336,66 @@ public class GroupActivity extends ListNodesActivity
 
     @Override
     public boolean onMoveMenuClick(PwNode node) {
-	    // TODO MOVE
+        startActionMode(new ActionMode.Callback() { // TODO Encapsulate
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                actionMode.setTitle(R.string.where);
+                actionMode.getMenuInflater().inflate(R.menu.node_paste_menu, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                actionMode.finish();
+                switch (menuItem.getItemId()) {
+
+                    case R.id.menu_paste:
+                        switch (node.getType()) {
+                            case GROUP:
+                                moveGroup((PwGroup) node, mCurrentGroup);
+                                break;
+                            case ENTRY:
+                                moveEntry((PwEntry) node, mCurrentGroup);
+                                break;
+                        }
+                        return true;
+                }
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+
+            }
+        });
         return false;
+    }
+
+    private void moveGroup(PwGroup groupToMove, PwGroup newParent) {
+        MoveGroupRunnable task = new MoveGroupRunnable(this, App.getDB(), groupToMove, newParent,
+                new AfterAddNode(new Handler()));
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
+    }
+
+    private void moveEntry(PwEntry entryToMove, PwGroup newParent) {
+        MoveEntryRunnable task = new MoveEntryRunnable(this, App.getDB(), entryToMove, newParent,
+                new AfterAddNode(new Handler()));
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
     }
 
     @Override
