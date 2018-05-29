@@ -184,7 +184,7 @@ public abstract class ListNodesActivity extends LockingActivity
         }
     }
 
-    private void openGroup(PwGroup group) {
+    protected void openGroup(PwGroup group) {
 	    // Check Timeout
         if (checkTimeIsAllowedOrFinish(this)) {
             startRecordTime(this);
