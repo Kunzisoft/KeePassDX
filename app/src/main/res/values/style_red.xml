@@ -29,6 +29,7 @@
         <item name="android:textColorHintInverse">@color/red_lighter</item>
         <item name="android:windowBackground">@color/background_night</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Red</item>
     </style>
     <!-- Toolbar Style Red -->

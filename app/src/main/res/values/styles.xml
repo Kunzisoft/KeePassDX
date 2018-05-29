@@ -71,6 +71,7 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
 
         <!-- White FAB -->
@@ -124,6 +125,7 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
 
         <!-- White FAB -->

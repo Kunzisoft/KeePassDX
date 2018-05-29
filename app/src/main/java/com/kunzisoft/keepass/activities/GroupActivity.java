@@ -41,7 +41,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.getkeepsafe.taptargetview.TapTarget;
@@ -102,7 +101,11 @@ public class GroupActivity extends ListNodesActivity
 	protected boolean readOnly = false;
 
 	private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
+	private static final String NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY";
+	private static final String NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY";
 	private PwGroup oldGroupToUpdate;
+    private PwNode nodeToCopy;
+    private PwNode nodeToMove;
 	
 	public static void launch(Activity act) {
         startRecordTime(act);
@@ -160,11 +163,6 @@ public class GroupActivity extends ListNodesActivity
 
         attachFragmentToContentView();
 
-		if (savedInstanceState != null
-                && savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
-            oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
-        }
-
         iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
         addNodeButtonView.enableAddGroup(addGroupEnabled);
@@ -178,18 +176,26 @@ public class GroupActivity extends ListNodesActivity
         toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
         toolbarPaste = findViewById(R.id.toolbar_paste);
         toolbarPaste.inflateMenu(R.menu.node_paste_menu);
-        toolbarPaste.setTitle(R.string.where);
-        toolbarPasteExpandableLayout.setOnExpansionUpdateListener((expansionFraction, state) -> {
-            switch (state) {
-                case ExpandableLayout.State.COLLAPSED:
-                    toolbarPaste.setVisibility(View.GONE);
-                    break;
-                case ExpandableLayout.State.EXPANDING:
-                    toolbarPaste.setVisibility(View.VISIBLE);
-                    break;
-            }
+        toolbarPaste.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        toolbarPaste.setNavigationOnClickListener(view -> {
+            toolbarPasteExpandableLayout.collapse();
+            nodeToCopy = null;
+            nodeToMove = null;
         });
-        toolbarPasteExpandableLayout.collapse(false);
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
+                oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
+
+            if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
+                nodeToCopy = (PwNode) savedInstanceState.getSerializable(NODE_TO_COPY_KEY);
+                toolbarPaste.setOnMenuItemClickListener(new OnCopyMenuItemClickListener());
+            }
+            else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
+                nodeToMove = (PwNode) savedInstanceState.getSerializable(NODE_TO_MOVE_KEY);
+                toolbarPaste.setOnMenuItemClickListener(new OnMoveMenuItemClickListener());
+            }
+        }
 
         addNodeButtonView.setAddGroupClickListener(v -> {
             GroupEditDialogFragment.build()
@@ -210,6 +216,10 @@ public class GroupActivity extends ListNodesActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(GROUP_ID_KEY, mCurrentGroup.getId());
         outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
+        if (nodeToCopy != null)
+            outState.putSerializable(NODE_TO_COPY_KEY, nodeToCopy);
+        if (nodeToMove != null)
+            outState.putSerializable(NODE_TO_MOVE_KEY, nodeToMove);
         super.onSaveInstanceState(outState);
     }
 
@@ -305,25 +315,32 @@ public class GroupActivity extends ListNodesActivity
     public boolean onCopyMenuClick(PwNode node) {
 
         toolbarPasteExpandableLayout.expand();
-        toolbarPaste.setOnMenuItemClickListener(item -> {
+        nodeToCopy = node;
+        toolbarPaste.setOnMenuItemClickListener(new OnCopyMenuItemClickListener());
+        return false;
+    }
+
+    private class OnCopyMenuItemClickListener implements Toolbar.OnMenuItemClickListener{
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
             toolbarPasteExpandableLayout.collapse();
 
             switch (item.getItemId()) {
                 case R.id.menu_paste:
-                    switch (node.getType()) {
+                    switch (nodeToCopy.getType()) {
                         case GROUP:
                             Log.e(TAG, "Copy not allowed for group");
                             break;
                         case ENTRY:
-                            copyNode((PwEntry) node, mCurrentGroup);
+                            copyNode((PwEntry) nodeToCopy, mCurrentGroup);
                             break;
                     }
+                    nodeToCopy = null;
                     return true;
             }
             return true;
-        });
-
-        return false;
+        }
     }
 
     private void copyNode(PwEntry entryToCopy, PwGroup newParent) {
@@ -341,25 +358,32 @@ public class GroupActivity extends ListNodesActivity
     public boolean onMoveMenuClick(PwNode node) {
 
         toolbarPasteExpandableLayout.expand();
-        toolbarPaste.setOnMenuItemClickListener(item -> {
+        nodeToMove = node;
+        toolbarPaste.setOnMenuItemClickListener(new OnMoveMenuItemClickListener());
+        return false;
+    }
+
+    private class OnMoveMenuItemClickListener implements Toolbar.OnMenuItemClickListener{
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
             toolbarPasteExpandableLayout.collapse();
 
             switch (item.getItemId()) {
                 case R.id.menu_paste:
-                    switch (node.getType()) {
+                    switch (nodeToMove.getType()) {
                         case GROUP:
-                            moveGroup((PwGroup) node, mCurrentGroup);
+                            moveGroup((PwGroup) nodeToMove, mCurrentGroup);
                             break;
                         case ENTRY:
-                            moveEntry((PwEntry) node, mCurrentGroup);
+                            moveEntry((PwEntry) nodeToMove, mCurrentGroup);
                             break;
                     }
+                    nodeToMove = null;
                     return true;
             }
             return true;
-        });
-
-        return false;
+        }
     }
 
     private void moveGroup(PwGroup groupToMove, PwGroup newParent) {

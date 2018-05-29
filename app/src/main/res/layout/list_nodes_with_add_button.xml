@@ -88,18 +88,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:el_duration="250"
-        app:el_expanded="true"
+        app:el_duration="300"
+        app:el_expanded="false"
         app:el_parallax="0.5">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_paste"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorAccentCompat"
             android:elevation="4dp"
-            app:theme="?attr/toolbarAppearance"
+            app:theme="?attr/toolbarBottomAppearance"
+            android:background="?attr/colorAccent"
             tools:targetApi="lollipop" />
 
     </net.cachapa.expandablelayout.ExpandableLayout>
