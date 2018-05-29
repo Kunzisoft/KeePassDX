@@ -73,7 +73,7 @@ public class AssignPasswordInDBRunnable extends ActionDatabaseRunnable {
 	}
 
     @Override
-    protected void onFinish(boolean success) {
+    protected void onFinish(boolean success, String message) {
         if (!success) {
             // Erase the current master key
             erase(mDb.getPwDatabase().getMasterKey());

@@ -387,7 +387,11 @@ public class GroupActivity extends ListNodesActivity
     }
 
     private void moveGroup(PwGroup groupToMove, PwGroup newParent) {
-        MoveGroupRunnable task = new MoveGroupRunnable(this, App.getDB(), groupToMove, newParent,
+        MoveGroupRunnable task = new MoveGroupRunnable(
+                this,
+                App.getDB(),
+                groupToMove,
+                newParent,
                 new AfterAddNode());
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
@@ -398,7 +402,11 @@ public class GroupActivity extends ListNodesActivity
     }
 
     private void moveEntry(PwEntry entryToMove, PwGroup newParent) {
-        MoveEntryRunnable task = new MoveEntryRunnable(this, App.getDB(), entryToMove, newParent,
+        MoveEntryRunnable task = new MoveEntryRunnable(
+                this,
+                App.getDB(),
+                entryToMove,
+                newParent,
                 new AfterAddNode());
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,

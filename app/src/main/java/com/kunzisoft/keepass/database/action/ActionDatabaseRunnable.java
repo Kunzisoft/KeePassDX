@@ -26,7 +26,7 @@ public abstract class ActionDatabaseRunnable extends RunnableOnFinish {
         save.run();
     }
 
-    abstract protected void onFinish(boolean success);
+    abstract protected void onFinish(boolean success, String message);
 
     private class AfterActionRunnable extends OnFinishRunnable {
 
@@ -36,7 +36,7 @@ public abstract class ActionDatabaseRunnable extends RunnableOnFinish {
 
         @Override
         public void run() {
-            onFinish(mSuccess);
+            onFinish(mSuccess, mMessage);
         }
     }
 }

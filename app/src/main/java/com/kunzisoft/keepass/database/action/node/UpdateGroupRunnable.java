@@ -54,11 +54,11 @@ public class UpdateGroupRunnable extends ActionNodeDatabaseRunnable {
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
 			// If we fail to save, back out changes to global structure
 			mDb.updateGroup(mOldGroup, mBackupGroup);
 		}
-		callbackNodeAction(success, mOldGroup, mNewGroup);
+		callbackNodeAction(success, message, mOldGroup, mNewGroup);
 	}
 }

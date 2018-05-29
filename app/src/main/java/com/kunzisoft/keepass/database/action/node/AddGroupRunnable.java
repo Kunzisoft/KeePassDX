@@ -47,10 +47,10 @@ public class AddGroupRunnable extends ActionNodeDatabaseRunnable {
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
         if ( !success ) {
             mDb.removeGroupFrom(mNewGroup, mNewGroup.getParent());
         }
-        callbackNodeAction(success, null, mNewGroup);
+        callbackNodeAction(success, message, null, mNewGroup);
 	}
 }

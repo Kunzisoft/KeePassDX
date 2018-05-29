@@ -23,9 +23,10 @@ abstract class ActionNodeDatabaseRunnable extends ActionDatabaseRunnable {
      * - Move : @param oldNode NULL, @param NodeToMove
      * - Update : @param oldNode NodeToUpdate, @param NodeUpdated
      */
-    protected void callbackNodeAction(boolean success, PwNode oldNode, PwNode newNode) {
+    protected void callbackNodeAction(boolean success, String message, PwNode oldNode, PwNode newNode) {
         if (callbackRunnable != null) {
             callbackRunnable.setSuccess(success);
+            callbackRunnable.setMessage(message);
             callbackRunnable.run(oldNode, newNode);
         }
     }

@@ -47,10 +47,10 @@ public class AddEntryRunnable extends ActionNodeDatabaseRunnable {
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
 			mDb.removeEntryFrom(mNewEntry, mNewEntry.getParent());
 		}
-        callbackNodeAction(success, null, mNewEntry);
+        callbackNodeAction(success, message, null, mNewEntry);
 	}
 }

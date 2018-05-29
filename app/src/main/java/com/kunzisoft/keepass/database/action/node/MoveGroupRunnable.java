@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.action.node;
 import android.content.Context;
 import android.util.Log;
 
+import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 
@@ -63,13 +64,15 @@ public class MoveGroupRunnable extends ActionNodeDatabaseRunnable {
 		} else {
 		    // Only finish thread
             mFinish.setResult(false);
+            String message = mContext.getString(R.string.error_move_folder_in_itself);
+			Log.e(TAG, message);
+			mFinish.setMessage(message);
             mFinish.run();
-			Log.e(TAG, "Unable to move a group in itself");
 		}
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
         if ( !success ) {
             // If we fail to save, try to move in the first place
             try {
@@ -78,6 +81,6 @@ public class MoveGroupRunnable extends ActionNodeDatabaseRunnable {
                 Log.i(TAG, "Unable to replace the group");
             }
         }
-        callbackNodeAction(success, null, mGroupToMove);
+        callbackNodeAction(success, message, null, mGroupToMove);
 	}
 }

@@ -59,7 +59,7 @@ public class DeleteEntryRunnable extends ActionNodeDatabaseRunnable {
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
 			if (mRecycle) {
 				mDb.undoRecycle(mEntryToDelete, mParent);
@@ -68,6 +68,6 @@ public class DeleteEntryRunnable extends ActionNodeDatabaseRunnable {
 				mDb.undoDeleteEntry(mEntryToDelete, mParent);
 			}
 		}
-        callbackNodeAction(success, mEntryToDelete, null);
+        callbackNodeAction(success, message, mEntryToDelete, null);
 	}
 }

@@ -63,7 +63,7 @@ public class MoveEntryRunnable extends ActionNodeDatabaseRunnable {
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
 			// If we fail to save, try to remove in the first place
 			try {
@@ -72,6 +72,6 @@ public class MoveEntryRunnable extends ActionNodeDatabaseRunnable {
 				Log.i(TAG, "Unable to replace the entry");
 			}
 		}
-        callbackNodeAction(success, null, mEntryToMove);
+        callbackNodeAction(success, message, null, mEntryToMove);
 	}
 }

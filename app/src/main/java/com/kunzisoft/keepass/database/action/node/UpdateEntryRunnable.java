@@ -53,11 +53,11 @@ public class UpdateEntryRunnable extends ActionNodeDatabaseRunnable {
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
         if ( !success ) {
             // If we fail to save, back out changes to global structure
             mDb.updateEntry(mOldEntry, mBackupEntry);
         }
-        callbackNodeAction(success, mOldEntry, mNewEntry);
+        callbackNodeAction(success, message, mOldEntry, mNewEntry);
     }
 }

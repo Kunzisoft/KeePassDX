@@ -80,7 +80,7 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 	}
 
     @Override
-    protected void onFinish(boolean success) {
+    protected void onFinish(boolean success, String message) {
         if ( !success ) {
             if (mRecycle) {
                 mDb.undoRecycle(mGroupToDelete, mParent);
@@ -91,6 +91,6 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
                 // TODO TEST pm.undoDeleteGroup(mGroup, mParent);
             }
         }
-        callbackNodeAction(success, mGroupToDelete, null);
+        callbackNodeAction(success, message, mGroupToDelete, null);
     }
 }

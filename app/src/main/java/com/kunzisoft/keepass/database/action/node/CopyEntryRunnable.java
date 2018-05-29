@@ -61,7 +61,7 @@ public class CopyEntryRunnable extends ActionNodeDatabaseRunnable {
 	}
 
 	@Override
-	protected void onFinish(boolean success) {
+	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
 			// If we fail to save, try to delete the copy
 			try {
@@ -70,6 +70,6 @@ public class CopyEntryRunnable extends ActionNodeDatabaseRunnable {
 				Log.i(TAG, "Unable to delete the copied entry");
 			}
 		}
-        callbackNodeAction(success, mEntryToCopy, mEntryCopied);
+        callbackNodeAction(success, message, mEntryToCopy, mEntryCopied);
 	}
 }
