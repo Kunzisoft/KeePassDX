@@ -38,10 +38,10 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.getkeepsafe.taptargetview.TapTarget;
@@ -79,6 +79,8 @@ import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener,
         IconPickerDialogFragment.IconPickerListener,
@@ -88,6 +90,9 @@ public class GroupActivity extends ListNodesActivity
     private static final String TAG = GroupActivity.class.getName();
 
     private Toolbar toolbar;
+
+    private ExpandableLayout toolbarPasteExpandableLayout;
+    private Toolbar toolbarPaste;
 
     private ImageView iconView;
     private AddNodeButtonView addNodeButtonView;
@@ -170,6 +175,22 @@ public class GroupActivity extends ListNodesActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         groupNameView = findViewById(R.id.group_name);
+
+        toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
+        toolbarPaste = findViewById(R.id.toolbar_paste);
+        toolbarPaste.inflateMenu(R.menu.node_paste_menu);
+        toolbarPaste.setTitle(R.string.where);
+        toolbarPasteExpandableLayout.setOnExpansionUpdateListener((expansionFraction, state) -> {
+            switch (state) {
+                case ExpandableLayout.State.COLLAPSED:
+                    toolbarPaste.setVisibility(View.GONE);
+                    break;
+                case ExpandableLayout.State.EXPANDING:
+                    toolbarPaste.setVisibility(View.VISIBLE);
+                    break;
+            }
+        });
+        toolbarPasteExpandableLayout.collapse(false);
 
         addNodeButtonView.setAddGroupClickListener(v -> {
             GroupEditDialogFragment.build()
@@ -283,43 +304,26 @@ public class GroupActivity extends ListNodesActivity
 
     @Override
     public boolean onCopyMenuClick(PwNode node) {
-	    startActionMode(new ActionMode.Callback() {
-            @Override
-            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                actionMode.setTitle(R.string.where);
-                actionMode.getMenuInflater().inflate(R.menu.node_paste_menu, menu);
-                return true;
+
+        toolbarPasteExpandableLayout.expand();
+        toolbarPaste.setOnMenuItemClickListener(item -> {
+            toolbarPasteExpandableLayout.collapse();
+
+            switch (item.getItemId()) {
+                case R.id.menu_paste:
+                    switch (node.getType()) {
+                        case GROUP:
+                            Log.e(TAG, "Copy not allowed for group");
+                            break;
+                        case ENTRY:
+                            copyNode((PwEntry) node, mCurrentGroup);
+                            break;
+                    }
+                    return true;
             }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                actionMode.finish();
-                switch (menuItem.getItemId()) {
-
-                    case R.id.menu_paste:
-                        switch (node.getType()) {
-                            case GROUP:
-                                Log.e(TAG, "Copy not allowed for group");
-                                break;
-                            case ENTRY:
-                                copyNode((PwEntry) node, mCurrentGroup);
-                                break;
-                        }
-                        return true;
-                }
-                return true;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode actionMode) {
-
-            }
+            return true;
         });
+
         return false;
     }
 
@@ -336,43 +340,26 @@ public class GroupActivity extends ListNodesActivity
 
     @Override
     public boolean onMoveMenuClick(PwNode node) {
-        startActionMode(new ActionMode.Callback() { // TODO Encapsulate
-            @Override
-            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                actionMode.setTitle(R.string.where);
-                actionMode.getMenuInflater().inflate(R.menu.node_paste_menu, menu);
-                return true;
+
+        toolbarPasteExpandableLayout.expand();
+        toolbarPaste.setOnMenuItemClickListener(item -> {
+            toolbarPasteExpandableLayout.collapse();
+
+            switch (item.getItemId()) {
+                case R.id.menu_paste:
+                    switch (node.getType()) {
+                        case GROUP:
+                            moveGroup((PwGroup) node, mCurrentGroup);
+                            break;
+                        case ENTRY:
+                            moveEntry((PwEntry) node, mCurrentGroup);
+                            break;
+                    }
+                    return true;
             }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                actionMode.finish();
-                switch (menuItem.getItemId()) {
-
-                    case R.id.menu_paste:
-                        switch (node.getType()) {
-                            case GROUP:
-                                moveGroup((PwGroup) node, mCurrentGroup);
-                                break;
-                            case ENTRY:
-                                moveEntry((PwEntry) node, mCurrentGroup);
-                                break;
-                        }
-                        return true;
-                }
-                return true;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode actionMode) {
-
-            }
+            return true;
         });
+
         return false;
     }
 
@@ -842,4 +829,16 @@ public class GroupActivity extends ListNodesActivity
 		    }
 		}
 	}
+
+    @Override
+    protected void openGroup(PwGroup group) {
+        super.openGroup(group);
+        addNodeButtonView.showButton();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        addNodeButtonView.showButton();
+    }
 }
