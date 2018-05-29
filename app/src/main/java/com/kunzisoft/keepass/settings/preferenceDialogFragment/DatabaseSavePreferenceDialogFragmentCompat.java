@@ -24,7 +24,7 @@ import android.view.View;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
-import com.kunzisoft.keepass.database.action.SaveDBRunnable;
+import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 
@@ -47,15 +47,15 @@ public abstract class DatabaseSavePreferenceDialogFragmentCompat  extends InputP
             assert getActivity() != null;
 
             if (database != null && afterSaveDatabase != null) {
-                SaveDBRunnable saveDBRunnable = new SaveDBRunnable(getContext(),
+                SaveDatabaseRunnable saveDatabaseRunnable = new SaveDatabaseRunnable(getContext(),
                         database,
                         afterSaveDatabase);
-                saveDBRunnable.setUpdateProgressTaskStatus(
+                saveDatabaseRunnable.setUpdateProgressTaskStatus(
                         new UpdateProgressTaskStatus(getContext(),
                                 SaveDatabaseProgressTaskDialogFragment.start(
                                         getActivity().getSupportFragmentManager())
                         ));
-                new Thread(saveDBRunnable).start();
+                new Thread(saveDatabaseRunnable).start();
             }
         }
     }

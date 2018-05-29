@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.action;
+package com.kunzisoft.keepass.database.action.node;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,31 +25,23 @@ import android.util.Log;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 
-public class MoveGroupRunnable extends RunnableOnFinish {
+public class MoveGroupRunnable extends ActionNodeDatabaseRunnable {
 
 	private static final String TAG = MoveGroupRunnable.class.getName();
 
-	private Database mDb;
 	private PwGroup mGroupToMove;
 	private PwGroup mOldParent;
 	private PwGroup mNewParent;
-	private Context mContext;
-	private boolean mDontSave;
 
 	public MoveGroupRunnable(Context context, Database db, PwGroup groupToMove, PwGroup newParent, AfterActionNodeOnFinish afterAddNode) {
 		this(context, db, groupToMove, newParent, afterAddNode, false);
 	}
 
 	public MoveGroupRunnable(Context context, Database db, PwGroup groupToMove, PwGroup newParent, AfterActionNodeOnFinish afterAddNode, boolean dontSave) {
-		super(afterAddNode);
+		super(context, db, afterAddNode, dontSave);
 
-		this.mDb = db;
 		this.mGroupToMove = groupToMove;
 		this.mNewParent = newParent;
-		this.mContext = context;
-		this.mDontSave = dontSave;
-
-		this.mFinish = new AfterMove(afterAddNode);
 	}
 
 	@Override
@@ -64,8 +56,7 @@ public class MoveGroupRunnable extends RunnableOnFinish {
 				mGroupToMove.touch(true, true);
 
 				// Commit to disk
-				SaveDBRunnable save = new SaveDBRunnable(mContext, mDb, mFinish, mDontSave);
-				save.run();
+				super.run();
 			} else {
 				Log.e(TAG, "Unable to create a copy of the group");
 			}
@@ -76,31 +67,17 @@ public class MoveGroupRunnable extends RunnableOnFinish {
 			Log.e(TAG, "Unable to move a group in itself");
 		}
 	}
-	
-	private class AfterMove extends OnFinishRunnable {
 
-		AfterMove(OnFinishRunnable finish) {
-			super(finish);
-		}
-		
-		@Override
-		public void run() {
-			if ( !mSuccess ) {
-				// If we fail to save, try to move in the first place
-                try {
-                	mDb.moveGroup(mGroupToMove, mOldParent);
-				} catch (Exception e) {
-					Log.i(TAG, "Unable to replace the group");
-				}
-			}
-            // TODO Better callback
-            AfterActionNodeOnFinish afterAddNode =
-                    (AfterActionNodeOnFinish) super.mOnFinish;
-            afterAddNode.mSuccess = mSuccess;
-            afterAddNode.mMessage = mMessage;
-            afterAddNode.run(null, mGroupToMove);
-
-			super.run();
-		}
+	@Override
+	protected void onFinish(boolean success) {
+        if ( !success ) {
+            // If we fail to save, try to move in the first place
+            try {
+                mDb.moveGroup(mGroupToMove, mOldParent);
+            } catch (Exception e) {
+                Log.i(TAG, "Unable to replace the group");
+            }
+        }
+        callbackNodeAction(success, null, mGroupToMove);
 	}
 }

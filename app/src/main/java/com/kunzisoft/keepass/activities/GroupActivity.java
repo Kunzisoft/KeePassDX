@@ -58,15 +58,14 @@ import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.database.action.AddGroupRunnable;
-import com.kunzisoft.keepass.database.action.AfterActionNodeOnFinish;
-import com.kunzisoft.keepass.database.action.CopyEntryRunnable;
-import com.kunzisoft.keepass.database.action.DeleteEntryRunnable;
-import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
-import com.kunzisoft.keepass.database.action.MoveEntryRunnable;
-import com.kunzisoft.keepass.database.action.MoveGroupRunnable;
-import com.kunzisoft.keepass.database.action.OnFinishRunnable;
-import com.kunzisoft.keepass.database.action.UpdateGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.AddGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.node.CopyEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.DeleteEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -329,7 +328,7 @@ public class GroupActivity extends ListNodesActivity
 
     private void copyNode(PwEntry entryToCopy, PwGroup newParent) {
         CopyEntryRunnable task = new CopyEntryRunnable(this, App.getDB(), entryToCopy, newParent,
-                new AfterAddNode(new Handler()));
+                new AfterAddNode());
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
                         SaveDatabaseProgressTaskDialogFragment.start(
@@ -365,7 +364,7 @@ public class GroupActivity extends ListNodesActivity
 
     private void moveGroup(PwGroup groupToMove, PwGroup newParent) {
         MoveGroupRunnable task = new MoveGroupRunnable(this, App.getDB(), groupToMove, newParent,
-                new AfterAddNode(new Handler()));
+                new AfterAddNode());
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
                         SaveDatabaseProgressTaskDialogFragment.start(
@@ -376,7 +375,7 @@ public class GroupActivity extends ListNodesActivity
 
     private void moveEntry(PwEntry entryToMove, PwGroup newParent) {
         MoveEntryRunnable task = new MoveEntryRunnable(this, App.getDB(), entryToMove, newParent,
-                new AfterAddNode(new Handler()));
+                new AfterAddNode());
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
                         SaveDatabaseProgressTaskDialogFragment.start(
@@ -400,8 +399,11 @@ public class GroupActivity extends ListNodesActivity
 
     private void deleteGroup(PwGroup group) {
         //TODO Verify trash recycle bin
-        DeleteGroupRunnable task = new DeleteGroupRunnable(this, App.getDB(), group,
-                new AfterDeleteNode(new Handler(), group));
+        DeleteGroupRunnable task = new DeleteGroupRunnable(
+                this,
+                App.getDB(),
+                group,
+                new AfterDeleteNode());
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
                         SaveDatabaseProgressTaskDialogFragment.start(
@@ -411,8 +413,11 @@ public class GroupActivity extends ListNodesActivity
     }
 
     private void deleteEntry(PwEntry entry) {
-        DeleteEntryRunnable task = new DeleteEntryRunnable(this, App.getDB(), entry,
-                new AfterDeleteNode(new Handler(), entry));
+        DeleteEntryRunnable task = new DeleteEntryRunnable(
+                this,
+                App.getDB(),
+                entry,
+                new AfterDeleteNode());
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
                         SaveDatabaseProgressTaskDialogFragment.start(
@@ -674,7 +679,7 @@ public class GroupActivity extends ListNodesActivity
                 AddGroupRunnable addGroupRunnable = new AddGroupRunnable(this,
                         App.getDB(),
                         newGroup,
-                        new AfterAddNode(new Handler()));
+                        new AfterAddNode());
                 addGroupRunnable.setUpdateProgressTaskStatus(
                         new UpdateProgressTaskStatus(this,
                                 SaveDatabaseProgressTaskDialogFragment.start(
@@ -701,7 +706,7 @@ public class GroupActivity extends ListNodesActivity
                             App.getDB(),
                             oldGroupToUpdate,
                             updateGroup,
-                            new AfterUpdateNode(new Handler()));
+                            new AfterUpdateNode());
                     updateGroupRunnable.setUpdateProgressTaskStatus(
                             new UpdateProgressTaskStatus(this,
                                     SaveDatabaseProgressTaskDialogFragment.start(
@@ -715,9 +720,6 @@ public class GroupActivity extends ListNodesActivity
     }
 
     class AfterAddNode extends AfterActionNodeOnFinish {
-        AfterAddNode(Handler handler) {
-            super(handler);
-        }
 
         public void run(PwNode oldNode, PwNode newNode) {
             super.run();
@@ -736,9 +738,6 @@ public class GroupActivity extends ListNodesActivity
     }
 
     class AfterUpdateNode extends AfterActionNodeOnFinish {
-        AfterUpdateNode(Handler handler) {
-            super(handler);
-        }
 
         public void run(PwNode oldNode, PwNode newNode) {
             super.run();
@@ -756,25 +755,19 @@ public class GroupActivity extends ListNodesActivity
         }
     }
 
-    class AfterDeleteNode extends OnFinishRunnable {
-        private PwNode pwNode;
-
-        AfterDeleteNode(Handler handler, PwNode pwNode) {
-            super(handler);
-            this.pwNode = pwNode;
-        }
+    class AfterDeleteNode extends AfterActionNodeOnFinish {
 
         @Override
-        public void run() {
+        public void run(PwNode oldNode, PwNode newNode) {
             super.run();
 
             runOnUiThread(() -> {
                 if ( mSuccess) {
 
                     if (listNodesFragment != null)
-                        listNodesFragment.removeNode(pwNode);
+                        listNodesFragment.removeNode(oldNode);
 
-                    PwGroup parent = pwNode.getParent();
+                    PwGroup parent = oldNode.getParent();
                     Database db = App.getDB();
                     PwDatabase database = db.getPwDatabase();
                     if (db.isRecycleBinAvailable() &&

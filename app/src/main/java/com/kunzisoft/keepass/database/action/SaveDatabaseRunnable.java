@@ -22,52 +22,45 @@ package com.kunzisoft.keepass.database.action;
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwEntry;
+import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 
-public class AddEntryRunnable extends RunnableOnFinish {
+import java.io.IOException;
 
-	protected Database mDb;
-	private PwEntry mEntry;
-	private Context ctx;
+public class SaveDatabaseRunnable extends RunnableOnFinish {
+
+	private Context mCtx;
+	private Database mDb;
 	private boolean mDontSave;
 
-	public AddEntryRunnable(Context ctx, Database db, PwEntry entry, OnFinishRunnable finish) {
-		this(ctx, db, entry, finish, false);
+	public SaveDatabaseRunnable(Context ctx, Database db, OnFinishRunnable finish, boolean dontSave) {
+		super(finish);
+
+		this.mDb = db;
+		this.mDontSave = dontSave;
+		this.mCtx = ctx;
 	}
 
-	public AddEntryRunnable(Context ctx, Database db, PwEntry entry, OnFinishRunnable finish, boolean dontSave) {
-		super(finish);
-		
-		this.mDb = db;
-		this.mEntry = entry;
-		this.ctx = ctx;
-		this.mDontSave = dontSave;
-		
-		this.mFinish = new AfterAdd(mFinish);
+	public SaveDatabaseRunnable(Context ctx, Database db, OnFinishRunnable finish) {
+		this(ctx, db, finish, false);
 	}
-	
+
 	@Override
 	public void run() {
-		mDb.addEntryTo(mEntry, mEntry.getParent());
-		
-		// Commit to disk
-		SaveDBRunnable save = new SaveDBRunnable(ctx, mDb, mFinish, mDontSave);
-		save.run();
-	}
-	
-	private class AfterAdd extends OnFinishRunnable {
 
-		AfterAdd(OnFinishRunnable finish) {
-			super(finish);
-		}
-
-		@Override
-		public void run() {
-			if ( !mSuccess ) {
-                mDb.removeEntryFrom(mEntry, mEntry.getParent());
+		if ( ! mDontSave ) {
+			try {
+				mDb.saveData(mCtx);
+			} catch (IOException e) {
+				finish(false, e.getMessage());
+				return;
+			} catch (PwDbOutputException e) {
+				// TODO: Restore
+				finish(false, e.getMessage());
+				return;
 			}
-			// TODO if add entry callback
-			super.run();
 		}
+
+		finish(true);
 	}
+
 }

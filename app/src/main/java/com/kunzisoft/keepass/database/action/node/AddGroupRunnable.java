@@ -17,50 +17,40 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.action;
+package com.kunzisoft.keepass.database.action.node;
 
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+import com.kunzisoft.keepass.database.PwGroup;
 
-import java.io.IOException;
+public class AddGroupRunnable extends ActionNodeDatabaseRunnable {
 
-public class SaveDBRunnable extends RunnableOnFinish {
+	private PwGroup mNewGroup;
 
-	private Context mCtx;
-	private Database mDb;
-	private boolean mDontSave;
-
-	public SaveDBRunnable(Context ctx, Database db, OnFinishRunnable finish, boolean dontSave) {
-		super(finish);
-
-		this.mDb = db;
-		this.mDontSave = dontSave;
-		this.mCtx = ctx;
+	public AddGroupRunnable(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode) {
+		this(ctx, db, newGroup, afterAddNode, false);
 	}
 
-	public SaveDBRunnable(Context ctx, Database db, OnFinishRunnable finish) {
-		this(ctx, db, finish, false);
+	public AddGroupRunnable(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode, boolean dontSave) {
+		super(ctx, db, afterAddNode, dontSave);
+
+        this.mNewGroup = newGroup;
+	}
+	
+	@Override
+	public void run() {
+        mDb.addGroupTo(mNewGroup, mNewGroup.getParent());
+
+		// Commit to disk
+		super.run();
 	}
 
 	@Override
-	public void run() {
-
-		if ( ! mDontSave ) {
-			try {
-				mDb.saveData(mCtx);
-			} catch (IOException e) {
-				finish(false, e.getMessage());
-				return;
-			} catch (PwDbOutputException e) {
-				// TODO: Restore
-				finish(false, e.getMessage());
-				return;
-			}
-		}
-
-		finish(true);
+	protected void onFinish(boolean success) {
+        if ( !success ) {
+            mDb.removeGroupFrom(mNewGroup, mNewGroup.getParent());
+        }
+        callbackNodeAction(success, null, mNewGroup);
 	}
-
 }

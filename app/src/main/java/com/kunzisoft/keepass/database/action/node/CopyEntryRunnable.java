@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.action;
+package com.kunzisoft.keepass.database.action.node;
 
 import android.content.Context;
 import android.util.Log;
@@ -26,31 +26,23 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 
-public class CopyEntryRunnable extends RunnableOnFinish {
+public class CopyEntryRunnable extends ActionNodeDatabaseRunnable {
 
 	private static final String TAG = CopyEntryRunnable.class.getName();
 
-	private Database mDb;
 	private PwEntry mEntryToCopy;
 	private PwEntry mEntryCopied;
 	private PwGroup mNewParent;
-	private Context mContext;
-	private boolean mDontSave;
 
 	public CopyEntryRunnable(Context context, Database db, PwEntry oldE, PwGroup newParent, AfterActionNodeOnFinish afterAddNode) {
 		this(context, db, oldE, newParent, afterAddNode, false);
 	}
 
 	public CopyEntryRunnable(Context context, Database db, PwEntry oldE, PwGroup newParent, AfterActionNodeOnFinish afterAddNode, boolean dontSave) {
-		super(afterAddNode);
-		
-		this.mDb = db;
+		super(context, db, afterAddNode, dontSave);
+
 		this.mEntryToCopy = oldE;
 		this.mNewParent = newParent;
-		this.mContext = context;
-		this.mDontSave = dontSave;
-		
-		this.mFinish = new AfterCopy(afterAddNode);
 	}
 
 	@Override
@@ -62,37 +54,22 @@ public class CopyEntryRunnable extends RunnableOnFinish {
             mEntryCopied.touch(true, true);
 
             // Commit to disk
-            SaveDBRunnable save = new SaveDBRunnable(mContext, mDb, mFinish, mDontSave);
-            save.run();
+            super.run();
         } else {
             Log.e(TAG, "Unable to create a copy of the entry");
         }
 	}
-	
-	private class AfterCopy extends OnFinishRunnable {
 
-		AfterCopy(OnFinishRunnable finish) {
-			super(finish);
-		}
-		
-		@Override
-		public void run() {
-			if ( !mSuccess ) {
-				// If we fail to save, try to delete the copy
-                try {
-                	mDb.deleteEntry(mEntryCopied);
-				} catch (Exception e) {
-					Log.i(TAG, "Unable to delete the copied entry");
-				}
+	@Override
+	protected void onFinish(boolean success) {
+		if ( !success ) {
+			// If we fail to save, try to delete the copy
+			try {
+				mDb.deleteEntry(mEntryCopied);
+			} catch (Exception e) {
+				Log.i(TAG, "Unable to delete the copied entry");
 			}
-            // TODO Better callback
-            AfterActionNodeOnFinish afterAddNode =
-                    (AfterActionNodeOnFinish) super.mOnFinish;
-            afterAddNode.mSuccess = mSuccess;
-            afterAddNode.mMessage = mMessage;
-            afterAddNode.run(null, mEntryCopied);
-
-			super.run();
 		}
+        callbackNodeAction(success, mEntryToCopy, mEntryCopied);
 	}
 }

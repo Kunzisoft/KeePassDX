@@ -56,7 +56,7 @@ public class CreateDBRunnable extends RunnableOnFinish {
 		App.clearShutdown();
 
 		// Commit changes
-		SaveDBRunnable save = new SaveDBRunnable(ctx, db, mFinish, mDontSave);
+		SaveDatabaseRunnable save = new SaveDatabaseRunnable(ctx, db, mFinish, mDontSave);
 		mFinish = null;
 		save.run();
 	}

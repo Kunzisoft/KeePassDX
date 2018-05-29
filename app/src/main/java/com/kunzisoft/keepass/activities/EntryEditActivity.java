@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -49,10 +48,11 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwIconStandard;
-import com.kunzisoft.keepass.database.action.AddEntryRunnable;
-import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.action.RunnableOnFinish;
-import com.kunzisoft.keepass.database.action.UpdateEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -66,6 +66,8 @@ import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryEditCustomField;
 
 import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.UNDEFINED_ICON_ID;
 
@@ -251,7 +253,7 @@ public class EntryEditActivity extends LockingHideActivity
         mCallbackNewEntry = populateNewEntry();
 
         // Open a progress dialog and save entry
-        OnFinishRunnable onFinish = new AfterSave();
+        AfterActionNodeOnFinish onFinish = new AfterSave();
         EntryEditActivity act = EntryEditActivity.this;
         RunnableOnFinish task;
         if ( mIsNew ) {
@@ -560,14 +562,10 @@ public class EntryEditActivity extends LockingHideActivity
         }
 	}
 
-	private final class AfterSave extends OnFinishRunnable {
-
-		AfterSave() {
-			super(new Handler());
-		}
+	private final class AfterSave extends AfterActionNodeOnFinish {
 
 		@Override
-		public void run() {
+        public void run(@Nullable PwNode oldNode, @Nullable PwNode newNode) {
 		    runOnUiThread(() -> {
                 if ( mSuccess ) {
                     finish();
@@ -578,6 +576,6 @@ public class EntryEditActivity extends LockingHideActivity
                 SaveDatabaseProgressTaskDialogFragment.stop(EntryEditActivity.this);
             });
 		}
-	}
+    }
 
 }

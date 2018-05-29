@@ -83,4 +83,19 @@ public class OnFinishRunnable implements Runnable {
 		}
 	}
 
+    public boolean isSuccess() {
+        return mSuccess;
+    }
+
+    public void setSuccess(boolean mSuccess) {
+        this.mSuccess = mSuccess;
+    }
+
+    public String getMessage() {
+        return mMessage;
+    }
+
+    public void setMessage(String mMessage) {
+        this.mMessage = mMessage;
+    }
 }
