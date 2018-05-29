@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
@@ -20,12 +20,12 @@
 <resources>
     <string name="about_feedback">Отзывы:</string>
     <string name="about_homepage">Сайт:</string>
-    <string name="AboutText">KeePass DX является Android-версией программы KeePass Password Safe</string>
+    <string name="AboutText">KeePass DX является Android-версией программы управления паролями KeePass</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
     <string name="add_string">Новая строка</string>
-    <string name="encryption_algorithm">Алгоритм</string>
+    <string name="encryption_algorithm">Алгоритм шифрования</string>
     <string name="app_timeout">Блокировка базы</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
     <string name="application">Программа</string>
@@ -190,4 +190,23 @@
        <item>Обычный</item>
        <item>Крупный</item>
     </string-array>
-</resources>
+<string name="encryption">Шифрование</string>
+    <string name="key_derivation_function">Функция формирования ключа</string>
+    <string name="extended_ASCII">Расширенный набор ASCII</string>
+    <string name="error_autofill_enable_service">"Сервис автозаполнения  не может быть разрешен"</string>
+    <string name="copy_field">Копия %1$s</string>
+    <string name="menu_form_filling_settings">Заполнение формы</string>
+    <string name="encryption_explanation">Алгоритм для шифрования всей базы данных. (Пароли, имена пользователей, заметки и все другие данные в базе данных будут зашифрованы указанным алгоритмом)</string>
+    <string name="kdf_explanation">Для генерации ключа для алгоритма шифрования, сжатый мастер-ключ (SHA-256) преобразуется при помощи функции формирования ключа (со случайной солью).</string>
+    <string name="rounds_fix_title">Исправить базу данных</string>
+    <string name="memory_usage">Использование памяти</string>
+    <string name="memory_usage_explanation">Количество памяти (в байтах), которое будет использоваться функцией формирования ключа.</string>
+    <string name="parallelism">Степень параллелизма</string>
+    <string name="parallelism_explanation">Степень параллелизма (т.е. количество нитей) используемое функцией формирования ключа.</string>
+    <string name="sort_menu">Сортировка</string>
+    <string name="sort_ascending">По возрастанию</string>
+    <string name="sort_username">Сортировать по имени пользователя</string>
+    <string name="sort_creation_time">Сортировать по дате создания</string>
+    <string name="sort_last_modify_time">Сортировать по дате последнего изменения</string>
+    <string name="sort_last_access_time">Сортировать по дате последнего использования</string>
+    </resources>
