@@ -28,7 +28,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,12 +47,13 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
     private Context context;
     private LayoutInflater inflater;
+    private MenuInflater menuInflater;
     private float textSize;
     private SortNodeEnum listSort;
     private boolean groupsBeforeSort;
     private boolean ascendingSort;
 
-    private OnNodeClickCallback onNodeClickCallback;
+    private NodeClickCallback nodeClickCallback;
     private NodeMenuListener nodeMenuListener;
     private boolean activateContextMenu;
 
@@ -63,13 +64,11 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Create node list adapter with contextMenu or not
      * @param context Context to use
      */
-    public NodeAdapter(final Context context) {
+    public NodeAdapter(final Context context, MenuInflater menuInflater) {
         this.inflater = LayoutInflater.from(context);
+        this.menuInflater = menuInflater;
         this.context = context;
-        this.textSize = PreferencesUtil.getListTextSize(context);
-        this.listSort = PreferencesUtil.getListSort(context);
-        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
-        this.ascendingSort = PreferencesUtil.getAscendingSort(context);
+        assignPreferences();
         this.activateContextMenu = false;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
@@ -101,11 +100,19 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         this.activateContextMenu = activate;
     }
 
+    private void assignPreferences() {
+        this.textSize = PreferencesUtil.getListTextSize(context);
+        this.listSort = PreferencesUtil.getListSort(context);
+        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
+        this.ascendingSort = PreferencesUtil.getAscendingSort(context);
+    }
+
     /**
      * Rebuild the list by clear and build children from the group
      */
     public void rebuildList(PwGroup group) {
         this.nodeSortedList.clear();
+        assignPreferences();
         if (group != null) {
             this.nodeSortedList.addAll(group.getDirectChildren());
         }
@@ -208,8 +215,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Assign a listener when a node is clicked
      */
-    public void setOnNodeClickListener(OnNodeClickCallback onNodeClickCallback) {
-        this.onNodeClickCallback = onNodeClickCallback;
+    public void setOnNodeClickListener(NodeClickCallback nodeClickCallback) {
+        this.nodeClickCallback = nodeClickCallback;
     }
 
     /**
@@ -222,7 +229,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Callback listener to redefine to do an action when a node is click
      */
-    public interface OnNodeClickCallback {
+    public interface NodeClickCallback {
         void onNodeClick(PwNode node);
     }
 
@@ -232,6 +239,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public interface NodeMenuListener {
         boolean onOpenMenuClick(PwNode node);
         boolean onEditMenuClick(PwNode node);
+        boolean onCopyMenuClick(PwNode node);
+        boolean onMoveMenuClick(PwNode node);
         boolean onDeleteMenuClick(PwNode node);
     }
 
@@ -247,8 +256,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (onNodeClickCallback != null)
-                onNodeClickCallback.onNodeClick(node);
+            if (nodeClickCallback != null)
+                nodeClickCallback.onNodeClick(node);
         }
     }
 
@@ -256,10 +265,6 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Utility class for menu listener
      */
     private class ContextMenuBuilder implements View.OnCreateContextMenuListener {
-
-        private static final int MENU_OPEN = Menu.FIRST;
-        private static final int MENU_EDIT = MENU_OPEN + 1;
-        private static final int MENU_DELETE = MENU_EDIT + 1;
 
         private PwNode node;
         private NodeMenuListener menuListener;
@@ -271,15 +276,25 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            MenuItem clearMenu = contextMenu.add(Menu.NONE, MENU_OPEN, Menu.NONE, R.string.menu_open);
-            clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+            menuInflater.inflate(R.menu.node_menu, contextMenu);
+
+            MenuItem menuItem = contextMenu.findItem(R.id.menu_open);
+            menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
             if (!App.getDB().isReadOnly() && !node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
                 // Edition
-                clearMenu = contextMenu.add(Menu.NONE, MENU_EDIT, Menu.NONE, R.string.menu_edit);
-                clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                menuItem = contextMenu.findItem(R.id.menu_edit);
+                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
+                // Copy (not for group)
+                if (node.getType().equals(PwNode.Type.ENTRY)) {
+                    menuItem = contextMenu.findItem(R.id.menu_copy);
+                    menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
+                }
+                // Move
+                menuItem = contextMenu.findItem(R.id.menu_move);
+                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
                 // Deletion
-                clearMenu = contextMenu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.menu_delete);
-                clearMenu.setOnMenuItemClickListener(mOnMyActionClickListener);
+                menuItem = contextMenu.findItem(R.id.menu_delete);
+                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
             }
         }
 
@@ -289,11 +304,15 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 if (menuListener == null)
                     return false;
                 switch ( item.getItemId() ) {
-                    case MENU_OPEN:
+                    case R.id.menu_open:
                         return menuListener.onOpenMenuClick(node);
-                    case MENU_EDIT:
+                    case R.id.menu_edit:
                         return menuListener.onEditMenuClick(node);
-                    case MENU_DELETE:
+                    case R.id.menu_copy:
+                        return menuListener.onCopyMenuClick(node);
+                    case R.id.menu_move:
+                        return menuListener.onMoveMenuClick(node);
+                    case R.id.menu_delete:
                         return menuListener.onDeleteMenuClick(node);
                     default:
                         return false;

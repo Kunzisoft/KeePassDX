@@ -29,6 +29,8 @@
         <item name="android:textColorHintInverse">@color/red_lighter</item>
         <item name="android:windowBackground">@color/background_night</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Red</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red" parent="KeepassDXStyle.Red">
@@ -38,6 +40,10 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/red_lighter</item>
+    </style>
+    <!-- Contextual Action Bar Red -->
+    <style name="KeepassDXStyle.ActionMode.Red" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/red_dark</item>
     </style>
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Red" parent="KeepassDXStyle.FilePickerStyle">

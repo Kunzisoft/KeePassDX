@@ -43,6 +43,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/title"
-        android:src="@drawable/ic_content_copy_black_24dp"
+        android:src="@drawable/ic_content_copy_white_24dp"
         android:tint="?attr/colorAccent" />
 </RelativeLayout>

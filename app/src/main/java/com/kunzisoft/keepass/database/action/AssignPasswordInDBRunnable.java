@@ -30,77 +30,56 @@ import com.kunzisoft.keepass.utils.UriUtil;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class AssignPasswordInDBRunnable extends RunnableOnFinish {
+public class AssignPasswordInDBRunnable extends ActionDatabaseRunnable {
 	
 	private String mPassword;
 	private Uri mKeyfile;
-	private Database mDb;
-	private boolean mDontSave;
-	private Context ctx;
+	private byte[] mBackupKey;
 	
 	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish) {
 		this(ctx, db, password, keyfile, finish, false);
-		
 	}
 
 	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish, boolean dontSave) {
-		super(finish);
-		
-		mDb = db;
-		mPassword = password;
-		mKeyfile = keyfile;
-		mDontSave = dontSave;
-		this.ctx = ctx;
+		super(ctx, db, finish, dontSave);
+
+		this.mPassword = password;
+		this.mKeyfile = keyfile;
 	}
 	
 	@Override
 	public void run() {
 		PwDatabase pm = mDb.getPwDatabase();
 		
-		byte[] backupKey = new byte[pm.getMasterKey().length];
-		System.arraycopy(pm.getMasterKey(), 0, backupKey, 0, backupKey.length);
+		mBackupKey = new byte[pm.getMasterKey().length];
+		System.arraycopy(pm.getMasterKey(), 0, mBackupKey, 0, mBackupKey.length);
 
 		// Set key
 		try {
-			InputStream is = UriUtil.getUriInputStream(ctx, mKeyfile);
+			InputStream is = UriUtil.getUriInputStream(mContext, mKeyfile);
 			pm.retrieveMasterKey(mPassword, is);
 		} catch (InvalidKeyFileException e) {
-			erase(backupKey);
+			erase(mBackupKey);
 			finish(false, e.getMessage());
 			return;
 		} catch (IOException e) {
-			erase(backupKey);
+			erase(mBackupKey);
 			finish(false, e.getMessage());
 			return;
 		}
 		
 		// Save Database
-		mFinish = new AfterSave(backupKey, mFinish);
-		SaveDBRunnable save = new SaveDBRunnable(ctx, mDb, mFinish, mDontSave);
-		save.run();
+		super.run();
 	}
-	
-	private class AfterSave extends OnFinishRunnable {
-		private byte[] mBackup;
-		
-		public AfterSave(byte[] backup, OnFinishRunnable finish) {
-			super(finish);
-			
-			mBackup = backup;
-		}
 
-		@Override
-		public void run() {
-			if ( ! mSuccess ) {
-				// Erase the current master key
-				erase(mDb.getPwDatabase().getMasterKey());
-				mDb.getPwDatabase().setMasterKey(mBackup);
-			}
-			
-			super.run();
-		}
-
-	}
+    @Override
+    protected void onFinish(boolean success, String message) {
+        if (!success) {
+            // Erase the current master key
+            erase(mDb.getPwDatabase().getMasterKey());
+            mDb.getPwDatabase().setMasterKey(mBackupKey);
+        }
+    }
 	
 	/** Overwrite the array as soon as we don't need it to avoid keeping the extra data in memory
 	 * @param array

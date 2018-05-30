@@ -17,16 +17,20 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.action;
+package com.kunzisoft.keepass.database.action.node;
 
 import android.os.Handler;
 
 import com.kunzisoft.keepass.database.PwNode;
+import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+
+import javax.annotation.Nullable;
 
 public abstract class AfterActionNodeOnFinish extends OnFinishRunnable {
-    public AfterActionNodeOnFinish(Handler handler) {
-        super(handler);
+
+    public AfterActionNodeOnFinish() {
+        super(new Handler());
     }
 
-    public abstract void run(PwNode oldNode, PwNode newNode);
+    public abstract void run(@Nullable PwNode oldNode, @Nullable PwNode newNode);
 }

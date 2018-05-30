@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.tests.database;
 
-import java.util.List;
-
 import android.content.Context;
 import android.test.AndroidTestCase;
 
@@ -30,8 +28,10 @@ import com.kunzisoft.keepass.database.PwDatabaseV3;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwEntryV3;
 import com.kunzisoft.keepass.database.PwGroup;
-import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
 import com.kunzisoft.keepass.search.SearchDbHelper;
+
+import java.util.List;
 
 public class DeleteEntry extends AndroidTestCase {
 	private static final String GROUP1_NAME = "Group1";

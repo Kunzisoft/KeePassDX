@@ -47,11 +47,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/no_results"/>
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView android:id="@+id/nodes_list"
+        <FrameLayout
+            android:id="@+id/nodes_list_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"
-            android:dividerHeight="0dp"/>
+            android:layout_height="match_parent" />
     </FrameLayout>
 
 </RelativeLayout>

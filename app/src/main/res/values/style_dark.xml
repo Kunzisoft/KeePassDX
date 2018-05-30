@@ -21,7 +21,7 @@
     <!-- Dark Style -->
     <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">#212121</item>
-        <item name="colorPrimaryDark">#0e0e0e</item>
+        <item name="colorPrimaryDark">@color/dark</item>
         <item name="colorAccent">#26a69a</item>
         <item name="colorAccentCompat">#26a69a</item>
         <item name="colorControlActivated">#80cbc4</item>
@@ -29,14 +29,20 @@
         <item name="android:textColorHintInverse">#80cbc4</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Dark</item>
     </style>
     <!-- Toolbar Style Dark -->
     <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Dark">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+    </style>
+    <!-- Contextual Action Bar Dark -->
+    <style name="KeepassDXStyle.ActionMode.Dark" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/dark</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">

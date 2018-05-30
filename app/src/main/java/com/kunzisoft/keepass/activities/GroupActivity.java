@@ -33,8 +33,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -50,17 +50,21 @@ import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.action.AddGroupRunnable;
-import com.kunzisoft.keepass.database.action.DeleteEntryRunnable;
-import com.kunzisoft.keepass.database.action.DeleteGroupRunnable;
-import com.kunzisoft.keepass.database.action.UpdateGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.AddGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.node.CopyEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.DeleteEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
+import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
+import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -69,15 +73,24 @@ import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
+import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
-public class GroupActivity extends ListNodesActivity
-        implements GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener {
+import net.cachapa.expandablelayout.ExpandableLayout;
 
-    private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
+public class GroupActivity extends ListNodesActivity
+        implements GroupEditDialogFragment.EditGroupListener,
+        IconPickerDialogFragment.IconPickerListener,
+        NodeAdapter.NodeMenuListener,
+        ListNodesFragment.OnScrollListener {
+
+    private static final String TAG = GroupActivity.class.getName();
 
     private Toolbar toolbar;
+
+    private ExpandableLayout toolbarPasteExpandableLayout;
+    private Toolbar toolbarPaste;
 
     private ImageView iconView;
     private AddNodeButtonView addNodeButtonView;
@@ -87,13 +100,15 @@ public class GroupActivity extends ListNodesActivity
 	protected boolean isRoot = false;
 	protected boolean readOnly = false;
 
-	private static final String TAG = "Group Activity:";
-
 	private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
+	private static final String NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY";
+	private static final String NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY";
 	private PwGroup oldGroupToUpdate;
+    private PwNode nodeToCopy;
+    private PwNode nodeToMove;
 	
 	public static void launch(Activity act) {
-        recordFirstTimeBeforeLaunch(act);
+        startRecordTime(act);
         launch(act, (PwGroup) null);
 	}
 
@@ -110,7 +125,7 @@ public class GroupActivity extends ListNodesActivity
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launch(Activity act, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
-            recordFirstTimeBeforeLaunch(act);
+            startRecordTime(act);
             launch(act, null, assistStructure);
         } else {
             launch(act);
@@ -136,35 +151,51 @@ public class GroupActivity extends ListNodesActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Log.w(TAG, "Retrieved tree");
+
+        Log.i(TAG, "Started creating tree");
 		if ( mCurrentGroup == null ) {
 			Log.w(TAG, "Group was null");
 			return;
 		}
 
-		if (savedInstanceState != null
-                && savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
-            oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
-        }
-
-		// Construct main view
+        // Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
+
+        attachFragmentToContentView();
 
         iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
         addNodeButtonView.enableAddGroup(addGroupEnabled);
         addNodeButtonView.enableAddEntry(addEntryEnabled);
-        // Hide when scroll
-        RecyclerView recyclerView = findViewById(R.id.nodes_list);
-        recyclerView.addOnScrollListener(addNodeButtonView.hideButtonOnScrollListener());
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        groupNameView = findViewById(R.id.group_name);
 
-        if ( mCurrentGroup.getParent() != null )
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
+        toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
+        toolbarPaste = findViewById(R.id.toolbar_paste);
+        toolbarPaste.inflateMenu(R.menu.node_paste_menu);
+        toolbarPaste.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        toolbarPaste.setNavigationOnClickListener(view -> {
+            toolbarPasteExpandableLayout.collapse();
+            nodeToCopy = null;
+            nodeToMove = null;
+        });
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
+                oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
+
+            if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
+                nodeToCopy = (PwNode) savedInstanceState.getSerializable(NODE_TO_COPY_KEY);
+                toolbarPaste.setOnMenuItemClickListener(new OnCopyMenuItemClickListener());
+            }
+            else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
+                nodeToMove = (PwNode) savedInstanceState.getSerializable(NODE_TO_MOVE_KEY);
+                toolbarPaste.setOnMenuItemClickListener(new OnMoveMenuItemClickListener());
+            }
+        }
 
         addNodeButtonView.setAddGroupClickListener(v -> {
             GroupEditDialogFragment.build()
@@ -173,24 +204,42 @@ public class GroupActivity extends ListNodesActivity
         });
         addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
-		
-		setGroupTitle();
 
-        Log.w(TAG, "Finished creating tree");
+        Log.i(TAG, "Finished creating tree");
 
         if (isRoot) {
             showWarnings();
         }
 	}
 
-	protected PwGroup initCurrentGroup() {
-	    PwGroup currentGroup;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(GROUP_ID_KEY, mCurrentGroup.getId());
+        outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
+        if (nodeToCopy != null)
+            outState.putSerializable(NODE_TO_COPY_KEY, nodeToCopy);
+        if (nodeToMove != null)
+            outState.putSerializable(NODE_TO_MOVE_KEY, nodeToMove);
+        super.onSaveInstanceState(outState);
+    }
+
+	protected PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState) {
+
+        PwGroupId pwGroupId = null; // TODO Parcelable
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(GROUP_ID_KEY)) {
+            pwGroupId = (PwGroupId) savedInstanceState.getSerializable(GROUP_ID_KEY);
+        } else {
+            if (getIntent() != null)
+                pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
+        }
+
         Database db = App.getDB();
         readOnly = db.isReadOnly();
         PwGroup root = db.getPwDatabase().getRootGroup();
 
         Log.w(TAG, "Creating tree view");
-        PwGroupId pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
+        PwGroup currentGroup;
         if ( pwGroupId == null ) {
             currentGroup = root;
         } else {
@@ -209,67 +258,212 @@ public class GroupActivity extends ListNodesActivity
     }
 
     @Override
-    protected RecyclerView defineNodeList() {
-        return (RecyclerView) findViewById(R.id.nodes_list);
+    public void assignToolbarElements() {
+        super.assignToolbarElements();
+
+        // Assign the group icon depending of IconPack or custom icon
+        if ( mCurrentGroup != null ) {
+            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {R.attr.textColorInverse};
+                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.WHITE);
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
+            } else {
+                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
+            }
+
+            if (toolbar != null) {
+                if ( mCurrentGroup.containsParent() )
+                    toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
+                else {
+                    toolbar.setNavigationIcon(null);
+                }
+            }
+        }
     }
 
     @Override
-    protected void addOptionsToAdapter(NodeAdapter nodeAdapter) {
-	    super.addOptionsToAdapter(nodeAdapter);
+    public void onScrolled(int dy) {
+	    if (addNodeButtonView != null)
+            addNodeButtonView.hideButtonOnScrollListener(dy);
+    }
 
-        nodeAdapter.setActivateContextMenu(true);
-        nodeAdapter.setNodeMenuListener(new NodeAdapter.NodeMenuListener() {
-            @Override
-            public boolean onOpenMenuClick(PwNode node) {
-                switch (node.getType()) {
-                    case GROUP:
-                        GroupActivity.launch(GroupActivity.this, (PwGroup) node);
-                        break;
-                    case ENTRY:
-                        EntryActivity.launch(GroupActivity.this, (PwEntry) node);
-                        break;
-                }
-                return true;
-            }
+    @Override
+    public boolean onOpenMenuClick(PwNode node) {
+        onNodeClick(node);
+        return true;
+    }
 
-            @Override
-            public boolean onEditMenuClick(PwNode node) {
-                switch (node.getType()) {
-                    case GROUP:
-                        oldGroupToUpdate = (PwGroup) node;
-                        GroupEditDialogFragment.build(node)
-                                .show(getSupportFragmentManager(),
-                                        GroupEditDialogFragment.TAG_CREATE_GROUP);
-                        break;
-                    case ENTRY:
-                        EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
-                        break;
-                }
-                return true;
-            }
+    @Override
+    public boolean onEditMenuClick(PwNode node) {
+        switch (node.getType()) {
+            case GROUP:
+                oldGroupToUpdate = (PwGroup) node;
+                GroupEditDialogFragment.build(node)
+                        .show(getSupportFragmentManager(),
+                                GroupEditDialogFragment.TAG_CREATE_GROUP);
+                break;
+            case ENTRY:
+                EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
+                break;
+        }
+        return true;
+    }
 
-            @Override
-            public boolean onDeleteMenuClick(PwNode node) {
-                switch (node.getType()) {
-                    case GROUP:
-                        deleteGroup((PwGroup) node);
-                        break;
-                    case ENTRY:
-                        deleteEntry((PwEntry) node);
-                        break;
-                }
-                return true;
+    @Override
+    public boolean onCopyMenuClick(PwNode node) {
+
+        toolbarPasteExpandableLayout.expand();
+        nodeToCopy = node;
+        toolbarPaste.setOnMenuItemClickListener(new OnCopyMenuItemClickListener());
+        return false;
+    }
+
+    private class OnCopyMenuItemClickListener implements Toolbar.OnMenuItemClickListener{
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            toolbarPasteExpandableLayout.collapse();
+
+            switch (item.getItemId()) {
+                case R.id.menu_paste:
+                    switch (nodeToCopy.getType()) {
+                        case GROUP:
+                            Log.e(TAG, "Copy not allowed for group");
+                            break;
+                        case ENTRY:
+                            copyNode((PwEntry) nodeToCopy, mCurrentGroup);
+                            break;
+                    }
+                    nodeToCopy = null;
+                    return true;
             }
-        });
+            return true;
+        }
+    }
+
+    private void copyNode(PwEntry entryToCopy, PwGroup newParent) {
+        CopyEntryRunnable task = new CopyEntryRunnable(this, App.getDB(), entryToCopy, newParent,
+                new AfterAddNode());
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
+    }
+
+    @Override
+    public boolean onMoveMenuClick(PwNode node) {
+
+        toolbarPasteExpandableLayout.expand();
+        nodeToMove = node;
+        toolbarPaste.setOnMenuItemClickListener(new OnMoveMenuItemClickListener());
+        return false;
+    }
+
+    private class OnMoveMenuItemClickListener implements Toolbar.OnMenuItemClickListener{
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            toolbarPasteExpandableLayout.collapse();
+
+            switch (item.getItemId()) {
+                case R.id.menu_paste:
+                    switch (nodeToMove.getType()) {
+                        case GROUP:
+                            moveGroup((PwGroup) nodeToMove, mCurrentGroup);
+                            break;
+                        case ENTRY:
+                            moveEntry((PwEntry) nodeToMove, mCurrentGroup);
+                            break;
+                    }
+                    nodeToMove = null;
+                    return true;
+            }
+            return true;
+        }
+    }
+
+    private void moveGroup(PwGroup groupToMove, PwGroup newParent) {
+        MoveGroupRunnable task = new MoveGroupRunnable(
+                this,
+                App.getDB(),
+                groupToMove,
+                newParent,
+                new AfterAddNode());
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
+    }
+
+    private void moveEntry(PwEntry entryToMove, PwGroup newParent) {
+        MoveEntryRunnable task = new MoveEntryRunnable(
+                this,
+                App.getDB(),
+                entryToMove,
+                newParent,
+                new AfterAddNode());
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
+    }
+
+    @Override
+    public boolean onDeleteMenuClick(PwNode node) {
+        switch (node.getType()) {
+            case GROUP:
+                deleteGroup((PwGroup) node);
+                break;
+            case ENTRY:
+                deleteEntry((PwEntry) node);
+                break;
+        }
+        return true;
+    }
+
+    private void deleteGroup(PwGroup group) {
+        //TODO Verify trash recycle bin
+        DeleteGroupRunnable task = new DeleteGroupRunnable(
+                this,
+                App.getDB(),
+                group,
+                new AfterDeleteNode());
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
+    }
+
+    private void deleteEntry(PwEntry entry) {
+        DeleteEntryRunnable task = new DeleteEntryRunnable(
+                this,
+                App.getDB(),
+                entry,
+                new AfterDeleteNode());
+        task.setUpdateProgressTaskStatus(
+                new UpdateProgressTaskStatus(this,
+                        SaveDatabaseProgressTaskDialogFragment.start(
+                                getSupportFragmentManager())
+                ));
+        new Thread(task).start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh the group icon
-        assignGroupIcon();
         // Show button on resume
-        addNodeButtonView.showButton();
+        if (addNodeButtonView != null)
+            addNodeButtonView.showButton();
     }
 
     /**
@@ -279,7 +473,8 @@ public class GroupActivity extends ListNodesActivity
     private void checkAndPerformedEducation(Menu menu) {
 
 	    // If no node, show education to add new one
-	    if (mAdapter.getItemCount() <= 0) {
+	    if (listNodesFragment != null
+                && listNodesFragment.isEmpty()) {
             if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
 
                 TapTargetView.showFor(this,
@@ -407,56 +602,8 @@ public class GroupActivity extends ListNodesActivity
     protected void onStop() {
         super.onStop();
         // Hide button
-        addNodeButtonView.hideButton();
-    }
-
-    @Override
-    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
-        super.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
-        // Show button if hide after sort
-        addNodeButtonView.showButton();
-    }
-
-    /**
-     * Assign the group icon depending of IconPack or custom icon
-     */
-    protected void assignGroupIcon() {
-		if (mCurrentGroup != null) {
-            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-                // Retrieve the textColor to tint the icon
-                int[] attrs = {R.attr.textColorInverse};
-                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-                int iconColor = ta.getColor(0, Color.WHITE);
-                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
-            } else {
-                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
-            }
-		}
-	}
-
-    private void deleteEntry(PwEntry entry) {
-        Handler handler = new Handler();
-        DeleteEntryRunnable task = new DeleteEntryRunnable(this, App.getDB(), entry,
-                new AfterDeleteNode(handler, entry));
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
-        new Thread(task).start();
-    }
-
-    private void deleteGroup(PwGroup group) {
-		//TODO Verify trash recycle bin
-        Handler handler = new Handler();
-        DeleteGroupRunnable task = new DeleteGroupRunnable(this, App.getDB(), group,
-				new AfterDeleteNode(handler, group));
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
-        new Thread(task).start();
+        if (addNodeButtonView != null)
+            addNodeButtonView.hideButton();
     }
 
     @Override
@@ -564,7 +711,7 @@ public class GroupActivity extends ListNodesActivity
                 AddGroupRunnable addGroupRunnable = new AddGroupRunnable(this,
                         App.getDB(),
                         newGroup,
-                        new AfterAddNode(new Handler()));
+                        new AfterAddNode());
                 addGroupRunnable.setUpdateProgressTaskStatus(
                         new UpdateProgressTaskStatus(this,
                                 SaveDatabaseProgressTaskDialogFragment.start(
@@ -583,14 +730,15 @@ public class GroupActivity extends ListNodesActivity
                     } catch (Exception ignored) {} // TODO custom icon
                     updateGroup.setIcon(iconStandard);
 
-                    mAdapter.removeNode(oldGroupToUpdate);
+                    if (listNodesFragment != null)
+                        listNodesFragment.removeNode(oldGroupToUpdate);
 
                     // If group updated save it in the database
                     UpdateGroupRunnable updateGroupRunnable = new UpdateGroupRunnable(this,
                             App.getDB(),
                             oldGroupToUpdate,
                             updateGroup,
-                            new AfterUpdateNode(new Handler()));
+                            new AfterUpdateNode());
                     updateGroupRunnable.setUpdateProgressTaskStatus(
                             new UpdateProgressTaskStatus(this,
                                     SaveDatabaseProgressTaskDialogFragment.start(
@@ -603,10 +751,79 @@ public class GroupActivity extends ListNodesActivity
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
-        super.onSaveInstanceState(outState);
+    class AfterAddNode extends AfterActionNodeOnFinish {
+
+        public void run(PwNode oldNode, PwNode newNode) {
+            super.run();
+
+            runOnUiThread(() -> {
+                if (mSuccess) {
+                    if (listNodesFragment != null)
+                        listNodesFragment.addNode(newNode);
+                } else {
+                    displayMessage(GroupActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
+            });
+        }
+    }
+
+    class AfterUpdateNode extends AfterActionNodeOnFinish {
+
+        public void run(PwNode oldNode, PwNode newNode) {
+            super.run();
+
+            runOnUiThread(() -> {
+                if (mSuccess) {
+                    if (listNodesFragment != null)
+                        listNodesFragment.updateNode(oldNode, newNode);
+                } else {
+                    displayMessage(GroupActivity.this);
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
+            });
+        }
+    }
+
+    class AfterDeleteNode extends AfterActionNodeOnFinish {
+
+        @Override
+        public void run(PwNode oldNode, PwNode newNode) {
+            super.run();
+
+            runOnUiThread(() -> {
+                if ( mSuccess) {
+
+                    if (listNodesFragment != null)
+                        listNodesFragment.removeNode(oldNode);
+
+                    PwGroup parent = oldNode.getParent();
+                    Database db = App.getDB();
+                    PwDatabase database = db.getPwDatabase();
+                    if (db.isRecycleBinAvailable() &&
+                            db.isRecycleBinEnabled()) {
+                        PwGroup recycleBin = database.getRecycleBin();
+                        // Add trash if it doesn't exists
+                        if (parent.equals(recycleBin)
+                                && mCurrentGroup != null
+                                && mCurrentGroup.getParent() == null
+                                && !mCurrentGroup.equals(recycleBin)) {
+
+                            if (listNodesFragment != null)
+                                listNodesFragment.addNode(parent);
+                        }
+                    }
+                } else {
+                    mHandler.post(new UIToastTask(GroupActivity.this, "Unrecoverable error: " + mMessage));
+                    App.setShutdown();
+                    finish();
+                }
+
+                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
+            });
+        }
     }
 
     @Override
@@ -637,4 +854,16 @@ public class GroupActivity extends ListNodesActivity
 		    }
 		}
 	}
+
+    @Override
+    protected void openGroup(PwGroup group) {
+        super.openGroup(group);
+        addNodeButtonView.showButton();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        addNodeButtonView.showButton();
+    }
 }

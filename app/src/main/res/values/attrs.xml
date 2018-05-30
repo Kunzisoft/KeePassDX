@@ -19,6 +19,7 @@
 -->
 <resources>
     <attr name="toolbarAppearance" format="reference" />
+    <attr name="toolbarBottomAppearance" format="reference" />
     <attr name="toolbarPopupAppearance" format="reference" />
 
     <attr name="colorAccentCompat" format="reference|color" />

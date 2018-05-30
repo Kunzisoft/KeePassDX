@@ -76,11 +76,29 @@ public class OnFinishRunnable implements Runnable {
 		}
 	}
 
-	// TODO Move
+    /**
+     * ONLY to use in UIThread, typically in an Activity, Fragment or a Service
+     * @param ctx Context to show the message
+     */
 	protected void displayMessage(Context ctx) {
 		if ( mMessage != null && mMessage.length() > 0 ) {
 			Toast.makeText(ctx, mMessage, Toast.LENGTH_LONG).show();
 		}
 	}
 
+    public boolean isSuccess() {
+        return mSuccess;
+    }
+
+    public void setSuccess(boolean mSuccess) {
+        this.mSuccess = mSuccess;
+    }
+
+    public String getMessage() {
+        return mMessage;
+    }
+
+    public void setMessage(String mMessage) {
+        this.mMessage = mMessage;
+    }
 }

@@ -29,6 +29,8 @@
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
         <item name="android:windowBackground">@color/background_light</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Bottom.Blue</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Blue</item>
     </style>
     <!-- Toolbar Style Blue -->
     <style name="KeepassDXStyle.Toolbar.Blue" parent="KeepassDXStyle.Blue">
@@ -38,6 +40,13 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/blue_lighter</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Bottom.Blue" parent="KeepassDXStyle.Toolbar.Blue">
+        <item name="actionMenuTextColor">@color/colorTextInverse</item>
+    </style>
+    <!-- Contextual Action Bar Blue -->
+    <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/blue_dark</item>
     </style>
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Blue" parent="KeepassDXStyle.FilePickerStyle">

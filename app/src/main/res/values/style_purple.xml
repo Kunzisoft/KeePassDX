@@ -31,6 +31,8 @@
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/background_purple</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Bottom.Purple</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple</item>
         <item name="iconPreferenceColor">@color/purple_light</item>
     </style>
     <!-- Toolbar Style Purple -->
@@ -40,6 +42,13 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/purple_lighter</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Bottom.Purple" parent="KeepassDXStyle.Toolbar.Purple">
+        <item name="actionMenuTextColor">@color/colorTextInverse</item>
+    </style>
+    <!-- Contextual Action Bar Purple -->
+    <style name="KeepassDXStyle.ActionMode.Purple" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/purple_dark</item>
     </style>
     <!-- File Picker Theme -->
     <style name="KeepassDXStyle.FilePickerStyle.Purple" parent="KeepassDXStyle.FilePickerStyle">

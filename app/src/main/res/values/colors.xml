@@ -21,6 +21,7 @@
 	<color name="transparent">#00ffffff</color>
 	<color name="white">#ffffff</color>
 	<color name="black">#000000</color>
+    <color name="dark">#0e0e0e</color>
 
     <color name="orange_light">#ffa726</color>
     <color name="orange">#fb8c00</color>

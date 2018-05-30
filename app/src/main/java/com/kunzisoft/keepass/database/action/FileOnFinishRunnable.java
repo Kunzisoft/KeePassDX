@@ -24,6 +24,7 @@ import android.net.Uri;
 import java.io.Serializable;
 
 public class FileOnFinishRunnable extends OnFinishRunnable implements Serializable {
+
 	private Uri mFilename = null;
 	protected FileOnFinishRunnable mOnFinish;
 	

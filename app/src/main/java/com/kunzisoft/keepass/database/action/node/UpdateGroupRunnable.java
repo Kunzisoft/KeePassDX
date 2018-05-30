@@ -17,39 +17,30 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.action;
+package com.kunzisoft.keepass.database.action.node;
 
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 
-public class UpdateGroupRunnable extends RunnableOnFinish {
+public class UpdateGroupRunnable extends ActionNodeDatabaseRunnable {
 
-	private Database mDb;
 	private PwGroup mOldGroup;
 	private PwGroup mNewGroup;
-	private Context ctx;
-	private boolean mDontSave;
+	private PwGroup mBackupGroup;
 
 	public UpdateGroupRunnable(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish) {
 		this(ctx, db, oldGroup, newGroup, finish, false);
 	}
 
 	public UpdateGroupRunnable(Context ctx, Database db, PwGroup oldGroup, PwGroup newGroup, AfterActionNodeOnFinish finish, boolean dontSave) {
-		super(finish);
-		
-		this.mDb = db;
+		super(ctx, db, finish, dontSave);
+
 		this.mOldGroup = oldGroup;
 		this.mNewGroup = newGroup;
-		this.ctx = ctx;
-		this.mDontSave = dontSave;
-		
 		// Keep backup of original values in case save fails
-		PwGroup backup;
-		backup = mOldGroup.clone();
-		
-		this.mFinish = new AfterUpdate(backup, finish);
+		this.mBackupGroup = mOldGroup.clone();
 	}
 
 	@Override
@@ -59,30 +50,15 @@ public class UpdateGroupRunnable extends RunnableOnFinish {
 		mOldGroup.touch(true, true);
 
 		// Commit to disk
-		new SaveDBRunnable(ctx, mDb, mFinish, mDontSave).run();
+		super.run();
 	}
-	
-	private class AfterUpdate extends OnFinishRunnable {
-		private PwGroup mBackup;
-		
-		AfterUpdate(PwGroup backup, OnFinishRunnable finish) {
-			super(finish);
-			mBackup = backup;
-		}
-		
-		@Override
-		public void run() {
-			if ( !mSuccess ) {
-				// If we fail to save, back out changes to global structure
-                mDb.updateGroup(mOldGroup, mBackup);
-			}
 
-            // TODO Better callback
-            AfterActionNodeOnFinish afterActionNodeOnFinish =
-                    (AfterActionNodeOnFinish) super.mOnFinish;
-            afterActionNodeOnFinish.mSuccess = mSuccess;
-            afterActionNodeOnFinish.mMessage = mMessage;
-            afterActionNodeOnFinish.run(mOldGroup, mNewGroup);
+	@Override
+	protected void onFinish(boolean success, String message) {
+		if ( !success ) {
+			// If we fail to save, back out changes to global structure
+			mDb.updateGroup(mOldGroup, mBackupGroup);
 		}
+		callbackNodeAction(success, message, mOldGroup, mNewGroup);
 	}
 }

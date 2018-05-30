@@ -17,34 +17,25 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.action;
+package com.kunzisoft.keepass.database.action.node;
 
 import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 
-public class AddGroupRunnable extends RunnableOnFinish {
+public class AddGroupRunnable extends ActionNodeDatabaseRunnable {
 
-	protected Database mDb;
 	private PwGroup mNewGroup;
-	private Context ctx;
-	private boolean mDontSave;
 
 	public AddGroupRunnable(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode) {
 		this(ctx, db, newGroup, afterAddNode, false);
 	}
 
-	public AddGroupRunnable(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode,
-							boolean dontSave) {
-		super(afterAddNode);
+	public AddGroupRunnable(Context ctx, Database db, PwGroup newGroup, AfterActionNodeOnFinish afterAddNode, boolean dontSave) {
+		super(ctx, db, afterAddNode, dontSave);
 
-		this.mDb = db;
         this.mNewGroup = newGroup;
-        this.mDontSave = dontSave;
-		this.ctx = ctx;
-
-        this.mFinish = new AfterAdd(mFinish);
 	}
 	
 	@Override
@@ -52,28 +43,14 @@ public class AddGroupRunnable extends RunnableOnFinish {
         mDb.addGroupTo(mNewGroup, mNewGroup.getParent());
 
 		// Commit to disk
-		SaveDBRunnable save = new SaveDBRunnable(ctx, mDb, mFinish, mDontSave);
-		save.run();
+		super.run();
 	}
-	
-	private class AfterAdd extends OnFinishRunnable {
 
-		AfterAdd(OnFinishRunnable finish) {
-			super(finish);
-		}
-
-		@Override
-		public void run() {
-			if ( !mSuccess ) {
-                mDb.removeGroupFrom(mNewGroup, mNewGroup.getParent());
-			}
-
-            // TODO Better callback
-            AfterActionNodeOnFinish afterAddNode =
-                    (AfterActionNodeOnFinish) super.mOnFinish;
-            afterAddNode.mSuccess = mSuccess;
-            afterAddNode.mMessage = mMessage;
-            afterAddNode.run(null, mNewGroup);
-		}
+	@Override
+	protected void onFinish(boolean success, String message) {
+        if ( !success ) {
+            mDb.removeGroupFrom(mNewGroup, mNewGroup.getParent());
+        }
+        callbackNodeAction(success, message, null, mNewGroup);
 	}
 }

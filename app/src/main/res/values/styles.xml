@@ -29,9 +29,7 @@
     <!-- Base application theme. -->
     <!-- For setting encapsulation -->
     <style name="KeepassDXStyle.Light.v21" parent="Theme.AppCompat.Light">
-        <!-- TODO Activate after navigation drawer
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
-        -->
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -73,14 +71,14 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
-        <!--
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
-        -->
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
@@ -127,6 +125,8 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
+        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
@@ -148,10 +148,10 @@
 
     <!-- Activity Animation -->
     <style name="KeepassDXStyle.ActivityAnimation" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
-        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+        <item name="android:activityOpenEnterAnimation">@anim/slide_alpha_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_alpha_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_alpha_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_alpha_out_right</item>
     </style>
 
     <!-- Toolbar Style Light Green -->
@@ -170,6 +170,11 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
+    </style>
+
+    <!-- Contextual Action Bar -->
+    <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/green_dark</item>
     </style>
 
     <!-- Dialog -->
