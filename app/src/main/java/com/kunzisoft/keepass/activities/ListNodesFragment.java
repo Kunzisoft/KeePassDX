@@ -104,12 +104,14 @@ public class ListNodesFragment extends StylishFragment implements
         setHasOptionsMenu(true);
 
         mCurrentGroup = initCurrentGroup();
-        mAdapter = new NodeAdapter(getContextThemed());
-        mAdapter.setOnNodeClickListener(nodeClickCallback);
+        if (getActivity() != null) {
+            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater());
+            mAdapter.setOnNodeClickListener(nodeClickCallback);
 
-        if (nodeMenuListener != null) {
-            mAdapter.setActivateContextMenu(true);
-            mAdapter.setNodeMenuListener(nodeMenuListener);
+            if (nodeMenuListener != null) {
+                mAdapter.setActivateContextMenu(true);
+                mAdapter.setNodeMenuListener(nodeMenuListener);
+            }
         }
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());

@@ -29,7 +29,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     android:title="@string/menu_edit"
     android:orderInCategory="1020"
     app:showAsAction="ifRoom" />
-    <!-- TODO Add menu
 <item android:id="@+id/menu_copy"
     android:icon="@drawable/ic_content_copy_white_24dp"
     android:title="@string/menu_copy"
@@ -41,9 +40,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     android:orderInCategory="1030"
     app:showAsAction="ifRoom" />
 <item android:id="@+id/menu_delete"
-    android:icon="@drawable/ic_delete_white_24dp"
+    android:icon="@drawable/ic_content_delete_white_24dp"
     android:title="@string/menu_delete"
     android:orderInCategory="1050"
     app:showAsAction="ifRoom" />
-    -->
 </menu>
