@@ -126,11 +126,11 @@ public class ImporterV3 extends Importer {
 	@Override
 	public PwDatabaseV3 openDatabase( InputStream inStream, String password, InputStream kfIs)
 	throws IOException, InvalidDBException {
-		return openDatabase(inStream, password, kfIs, null, 0);
+		return openDatabase(inStream, password, kfIs, null);
 	}
 
 	@Override
-	public PwDatabaseV3 openDatabase(InputStream inStream, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater, long roundsFix)
+	public PwDatabaseV3 openDatabase(InputStream inStream, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater)
 	throws IOException, InvalidDBException {
 
 		PwDatabaseV3 databaseToOpen;

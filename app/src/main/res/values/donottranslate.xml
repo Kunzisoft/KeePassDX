@@ -45,7 +45,6 @@
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
     <string name="db_key" translatable="false">db</string>
     <string name="transform_rounds_key" translatable="false">transform_rounds_key</string>
-    <string name="roundsFix_key" translatable="false">roundsFix</string>
     <string name="memory_usage_key" translatable="false">memory_usage_key</string>
     <string name="parallelism_key" translatable="false">parallelism_key</string>
     <string name="keyfile_key" translatable="false">keyfile</string>
@@ -95,8 +94,6 @@
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
 
-
-    <integer name="roundsFix_default" translatable="false">100000</integer>
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
     <bool name="omitbackup_default" translatable="false">true</bool>

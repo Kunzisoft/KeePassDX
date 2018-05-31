@@ -33,7 +33,7 @@ public abstract class Importer {
 	public abstract PwDatabase openDatabase(InputStream inStream, String password, InputStream keyInputStream)
 		throws IOException, InvalidDBException;
 
-	public abstract PwDatabase openDatabase(InputStream inStream, String password, InputStream keyInputStream, ProgressTaskUpdater updater, long roundsFix)
+	public abstract PwDatabase openDatabase(InputStream inStream, String password, InputStream keyInputStream, ProgressTaskUpdater updater)
 		throws IOException, InvalidDBException;
 
 }

@@ -157,9 +157,6 @@
     <string name="rounds">Tours de transformation</string>
     <string name="rounds_explanation">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
     <string name="rounds_hint">niveaux</string>
-    <string name="rounds_fix_title">Résolution de la base de données</string>
-    <string name="rounds_fix">Clé de niveau de chiffrement avant corruption</string>
-    <string name="rounds_fix_explanation">Si votre base de données a été corrompue, entrez le nombre de tours utilisés précédemment pour essayer d\'ouvrir votre base de données.</string>
     <string name="memory_usage">Utilisation de la Mémoire</string>
     <string name="memory_usage_explanation">Quantité de mémoire (en octets binaires) à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>

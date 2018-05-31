@@ -21,15 +21,12 @@ package com.kunzisoft.keepass.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsFixPreferenceDialogFragmentCompat;
-import com.kunzisoft.keepass.settings.preference.InputNumberPreference;
 
 public class MainPreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
@@ -65,21 +62,6 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
         Database db = App.getDB();
         if (!(db.getLoaded())) {
             preference.setEnabled(false);
-        }
-    }
-
-    @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
-        // Try if the preference is one of our custom Preferences
-        if (preference instanceof InputNumberPreference) {
-            assert getFragmentManager() != null;
-            DialogFragment dialogFragment = RoundsFixPreferenceDialogFragmentCompat.newInstance(preference.getKey());
-            dialogFragment.setTargetFragment(this, 0);
-            dialogFragment.show(getFragmentManager(), null);
-        }
-        // Could not be handled here. Try with the super method.
-        else {
-            super.onDisplayPreferenceDialog(preference);
         }
     }
 

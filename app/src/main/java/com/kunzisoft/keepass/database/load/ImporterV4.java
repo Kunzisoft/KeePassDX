@@ -92,12 +92,12 @@ public class ImporterV4 extends Importer {
 	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
 			InputStream keyInputStream) throws IOException, InvalidDBException {
 
-		return openDatabase(inStream, password, keyInputStream, null, 0);
+		return openDatabase(inStream, password, keyInputStream, null);
 	}
 	
 	@Override
     public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-									 InputStream keyInputStream, ProgressTaskUpdater progressTaskUpdater, long roundsFix) throws IOException,
+									 InputStream keyInputStream, ProgressTaskUpdater progressTaskUpdater) throws IOException,
             InvalidDBException {
 
 		if (progressTaskUpdater != null)
@@ -114,7 +114,7 @@ public class ImporterV4 extends Importer {
 		pbHeader = hh.header;
 
 		db.retrieveMasterKey(password, keyInputStream);
-		db.makeFinalKey(header.masterSeed, roundsFix);
+		db.makeFinalKey(header.masterSeed);
 
 		if (progressTaskUpdater != null)
 			progressTaskUpdater.updateMessage(R.string.decrypting_db);

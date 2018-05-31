@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.collections.VariantDictionary;
 import com.kunzisoft.keepass.crypto.CryptoUtil;
 import com.kunzisoft.keepass.crypto.engine.AesEngine;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
-import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
@@ -403,18 +402,8 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	}
 
 	public void makeFinalKey(byte[] masterSeed) throws IOException {
-    	makeFinalKey(masterSeed, 0);
-	}
-
-	public void makeFinalKey(byte[] masterSeed, long roundsFix) throws IOException {
 
         KdfEngine kdfEngine = KdfFactory.getEngineV4(kdfParameters);
-
-		// Set to 6000 rounds to open corrupted database
-		if (roundsFix > 0 && kdfParameters.getUUID().equals(AesKdf.CIPHER_UUID)) {
-            kdfParameters.setUInt32(AesKdf.ParamRounds, roundsFix);
-			numKeyEncRounds = roundsFix;
-		}
 
 		byte[] transformedMasterKey = kdfEngine.transform(masterKey, kdfParameters);
 		if (transformedMasterKey.length != 32) {

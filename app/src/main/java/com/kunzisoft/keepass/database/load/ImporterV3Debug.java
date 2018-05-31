@@ -35,10 +35,9 @@ public class ImporterV3Debug extends ImporterV3 {
 	
 	@Override
 	public PwDatabaseV3Debug openDatabase(InputStream inStream, String password,
-										  InputStream keyInputStream, ProgressTaskUpdater status, long roundsFix) throws IOException,
+										  InputStream keyInputStream, ProgressTaskUpdater status) throws IOException,
             InvalidDBException {
-		return (PwDatabaseV3Debug) super.openDatabase(inStream, password, keyInputStream, status,
-				roundsFix);
+		return (PwDatabaseV3Debug) super.openDatabase(inStream, password, keyInputStream, status);
 	}
 
 }

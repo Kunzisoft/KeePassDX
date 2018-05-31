@@ -20,18 +20,14 @@
 package com.kunzisoft.keepass.database;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
-import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.database.load.Importer;
 import com.kunzisoft.keepass.database.load.ImporterFactory;
@@ -118,26 +114,10 @@ public class Database {
             readOnly = !file.canWrite();
         }
 
-        try {
-            passUrisAsInputStreams(ctx, uri, password, keyfile, status, debug, 0);
-        } catch (InvalidPasswordException e) {
-            // Retry with rounds fix
-            try {
-                passUrisAsInputStreams(ctx, uri, password, keyfile, status, debug, getFixRounds(ctx));
-            } catch (Exception e2) {
-                // Rethrow original exception
-                throw e;
-            }
-        }
+        passUrisAsInputStreams(ctx, uri, password, keyfile, status, debug);
     }
 
-    private long getFixRounds(Context ctx) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return prefs.getLong(ctx.getString(R.string.roundsFix_key), ctx.getResources().getInteger(R.integer.roundsFix_default));
-    }
-
-
-    private void passUrisAsInputStreams(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug, long roundsFix) throws IOException, FileNotFoundException, InvalidDBException {
+    private void passUrisAsInputStreams(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
         InputStream is, kfIs;
         try {
             is = UriUtil.getUriInputStream(ctx, uri);
@@ -152,14 +132,14 @@ public class Database {
             Log.e("KPD", "Database::loadData", e);
             throw ContentFileNotFoundException.getInstance(keyfile);
         }
-        loadData(ctx, is, password, kfIs, status, debug, roundsFix);
+        loadData(ctx, is, password, kfIs, status, debug);
     }
 
     public void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, boolean debug) throws IOException, InvalidDBException {
-        loadData(ctx, is, password, keyFileInputStream, null, debug, 0);
+        loadData(ctx, is, password, keyFileInputStream, null, debug);
     }
 
-    private void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, ProgressTaskUpdater progressTaskUpdater, boolean debug, long roundsFix) throws IOException, InvalidDBException {
+    private void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, ProgressTaskUpdater progressTaskUpdater, boolean debug) throws IOException, InvalidDBException {
         BufferedInputStream bis = new BufferedInputStream(is);
 
         if ( ! bis.markSupported() ) {
@@ -173,7 +153,7 @@ public class Database {
 
         bis.reset();  // Return to the start
 
-        pm = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater, roundsFix);
+        pm = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater);
         if ( pm != null ) {
             try {
                 switch (pm.getVersion()) {
