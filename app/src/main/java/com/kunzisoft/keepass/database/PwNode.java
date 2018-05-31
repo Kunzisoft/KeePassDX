@@ -31,7 +31,7 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
 
     protected Parent parent = null;
 
-    protected PwIconStandard icon = PwIconStandard.FIRST;
+    protected PwIconStandard icon = new PwIconStandard(0);
 
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();

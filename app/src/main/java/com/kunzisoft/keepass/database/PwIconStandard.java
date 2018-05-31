@@ -22,9 +22,6 @@ package com.kunzisoft.keepass.database;
 public class PwIconStandard extends PwIcon {
 	public final int iconId;
 
-	// The first is number 0
-	public static PwIconStandard FIRST = new PwIconStandard(0);
-
 	public static final int KEY = 0;
 	public static final int TRASH = 43;
 	public static final int FOLDER = 48;

@@ -53,12 +53,7 @@ public class PwIconFactory {
 		PwIconStandard icon = (PwIconStandard) cache.get(iconId);
 		
 		if (icon == null) {
-			if (iconId == 1) {
-				icon = PwIconStandard.FIRST;
-			}
-			else {
-				icon = new PwIconStandard(iconId);
-			}
+			icon = new PwIconStandard(iconId);
 			cache.put(iconId, icon);
 		}
 		
