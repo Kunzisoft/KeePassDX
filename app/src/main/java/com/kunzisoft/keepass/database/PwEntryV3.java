@@ -199,7 +199,7 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
     public void populateBlankFields(PwDatabaseV3 db) {
 	    // TODO verify and remove
         if (icon == null) {
-            icon = db.getIconFactory().getFirstIcon();
+            icon = db.getIconFactory().getKeyIcon();
         }
 
         if (username == null) {

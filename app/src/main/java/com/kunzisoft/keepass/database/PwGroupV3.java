@@ -109,7 +109,7 @@ public class PwGroupV3 extends PwGroup<PwGroupV3, PwGroupV3, PwEntryV3> {
     public void populateBlankFields(PwDatabaseV3 db) {
 	    // TODO populate blanck field
         if (icon == null) {
-            icon = db.getIconFactory().getFirstIcon();
+            icon = db.getIconFactory().getFolderIcon();
         }
 
         if (name == null) {

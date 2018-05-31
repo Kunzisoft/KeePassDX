@@ -694,7 +694,7 @@ public class GroupActivity extends ListNodesActivity
                                  String name,
                                  PwIcon icon) {
         Database database = App.getDB();
-        PwIconStandard iconStandard = database.getPwDatabase().getIconFactory().getFirstIcon();
+        PwIconStandard iconStandard = database.getPwDatabase().getIconFactory().getFolderIcon();
 
         switch (action) {
             case CREATION:

@@ -117,7 +117,7 @@ public class GroupEditDialogFragment extends DialogFragment
         // Init elements
         editGroupDialogAction = EditGroupDialogAction.NONE;
         nameGroup = "";
-        iconGroup = App.getDB().getPwDatabase().getIconFactory().getFirstIcon();
+        iconGroup = App.getDB().getPwDatabase().getIconFactory().getFolderIcon();
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(KEY_ACTION_ID)

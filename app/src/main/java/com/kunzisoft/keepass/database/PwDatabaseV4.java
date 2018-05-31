@@ -555,15 +555,15 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		super.populateGlobals(currentGroup);
 	}
 	
-	/** Ensure that the recycle bin tree exists, if enabled and create it
-	 *  if it doesn't exist 
-	 *  
+	/**
+     * Ensure that the recycle bin tree exists, if enabled and create it
+     * if it doesn't exist
 	 */
 	private void ensureRecycleBin() {
 		if (getRecycleBin() == null) {
 			// Create recycle bin
 				
-			PwGroupV4 recycleBin = new PwGroupV4(RECYCLEBIN_NAME, iconFactory.getIcon(PwIconStandard.TRASH_BIN));
+			PwGroupV4 recycleBin = new PwGroupV4(RECYCLEBIN_NAME, iconFactory.getTrashIcon());
 			recycleBin.setEnableAutoType(false);
 			recycleBin.setEnableSearching(false);
 			recycleBin.setExpanded(false);
@@ -737,7 +737,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
 	@Override
 	public void initNew(String dbPath) {
-		rootGroup = new PwGroupV4(dbNameFromPath(dbPath), iconFactory.getIcon(PwIconStandard.FOLDER));
+		rootGroup = new PwGroupV4(dbNameFromPath(dbPath), iconFactory.getFolderIcon());
 		groups.put(rootGroup.getId(), rootGroup);
 	}
 	

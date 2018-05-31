@@ -442,7 +442,7 @@ public class EntryEditActivity extends LockingHideActivity
             return App.getDB().getPwDatabase().getIconFactory().getIcon(mSelectedIconID);
         else {
             if (mIsNew) {
-                return App.getDB().getPwDatabase().getIconFactory().getFirstIcon();
+                return App.getDB().getPwDatabase().getIconFactory().getKeyIcon();
             }
             else {
                 // Keep previous icon, if no new one was selected
