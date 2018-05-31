@@ -1,2 +1,3 @@
  * Déplacer et copier ajoutés pour les groupes et les entrées
  * Nouvelle navigation dans un seul écran
+ * Nouveaux icones pour le pack material
