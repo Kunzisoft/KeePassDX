@@ -114,4 +114,5 @@ dependencies {
     // Icon pack, classic for all, material for libre and pro
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
+    implementation project(path: ':magikeyboard')
 }

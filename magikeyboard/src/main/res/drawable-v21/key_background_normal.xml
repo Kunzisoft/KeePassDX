@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="#FFFFFFFF"
+    tools:targetApi="lollipop">
+    <item>
+        <shape>
+            <corners
+                android:radius="2dp" />
+            <padding
+                android:left="0dp"
+                android:right="0dp"
+                android:top="12dp"
+                android:bottom="12dp"/>
+            <stroke android:width="1dp" android:color="@color/keyboard_button_border" />
+            <solid android:color="@color/keyboard_button"/>
+        </shape>
+    </item>
+</ripple>

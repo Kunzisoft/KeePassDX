@@ -1,1 +1,1 @@
-include ':app', ':icon-pack-classic', ':icon-pack-material'
+include ':app', ':icon-pack-classic', ':icon-pack-material', ':magikeyboard'

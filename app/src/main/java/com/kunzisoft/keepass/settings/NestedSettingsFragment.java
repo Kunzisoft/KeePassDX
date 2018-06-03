@@ -39,6 +39,7 @@ import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.autofill.AutofillManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.BuildConfig;
@@ -59,6 +60,8 @@ import com.kunzisoft.keepass.settings.preferenceDialogFragment.MemoryUsagePrefer
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {
@@ -277,8 +280,16 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     });
                 }
 
+                // TODO define the checkbox by verifying
                 SwitchPreference keyboardPreference = (SwitchPreference) findPreference(getString(R.string.magic_keyboard_key));
-                preferenceInDevelopment(keyboardPreference);
+                keyboardPreference.setOnPreferenceClickListener(preference -> {
+                    if (getContext() != null) {
+                        InputMethodManager imeManager = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                        if (imeManager != null)
+                            imeManager.showInputMethodPicker();
+                    }
+                    return false;
+                });
 
                 break;
 
