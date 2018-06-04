@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
@@ -36,16 +36,16 @@
     <string name="brackets">Parentesi</string>
     <string name="browser_intall_text">Sfogliare i file richiede l\'applicazione Gestore File di Open Intents, clicca sotto per installarlo. A causa di alcune stranezze nel gestore file, la prima volta la navigazione potrebbe non funzionare correttamente.</string>
     <string name="cancel">Annulla</string>
-    <string name="ClearClipboard">Appunti eliminati.</string>
+    <string name="ClearClipboard">Appunti eliminati</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
     <string name="clipboard_error">Alcuni telefoni Android di Samsung hanno un bug nell\'implementazione degli appunti che causa errori nella copia degli appunti da applicazioni. Per maggiori dettagli:</string>
     <string name="clipboard_error_clear">Eliminazione degli appunti fallita</string>
     <string name="clipboard_timeout">Scadenza appunti</string>
     <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti dopo la copia del nome file o password</string>
     <string name="select_to_copy">Copia %1$s negli appunti</string>
-    <string name="creating_db_key">Creazione file chiave database&#8230;</string>
+    <string name="creating_db_key">Creazione file chiave database…</string>
     <string name="database">Database</string>
-    <string name="decrypting_db">Decodifica contenuto database&#8230;</string>
+    <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Cifre</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft viene distribuito ASSOLUTAMENTE con NESSUNA GARANZIA; Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o superiore.</string>
@@ -105,7 +105,7 @@
     <string name="length">Lunghezza</string>
     <string name="list_size_title">Dimensione elenco gruppo</string>
     <string name="list_size_summary">Dimensione del testo nell\'elenco del gruppo</string>
-    <string name="loading_database">Caricamento database&#8230;</string>
+    <string name="loading_database">Caricamento database…</string>
     <string name="lowercase">Minuscolo</string>
     <string name="maskpass_title">Maschera password</string>
     <string name="maskpass_summary">Nascondi le password in modo predefinito</string>
@@ -129,8 +129,8 @@
     <string name="open_recent">Apri un database recente :</string>
     <string name="omitbackup_title">Non cercare voci di backup</string>
     <string name="omitbackup_summary">Ometti il gruppo \'Backup\' dai risultati di ricerca (si applica solo ai .kdb)</string>
-    <string name="progress_create">Creazione nuovo database&#8230;</string>
-    <string name="progress_title">In corso&#8230;</string>
+    <string name="progress_create">Creazione nuovo database…</string>
+    <string name="progress_title">In corso…</string>
     <string name="protection">Protezione</string>
     <string name="read_only">Sola lettura</string>
     <string name="read_only_warning">KeePassDroid non ha i permessi di scrittura nel percorso del database, quindi il database verrà aperto in sola lettura.</string>
@@ -146,7 +146,7 @@
     <string name="rounds_fix">Livello di cifratura prima della malformazione</string>
     <string name="rounds_fix_explanation">Se il database si è rovinato, inserisci il numero di livello usato precedentemente e il database potrà essere aperto.</string>
     <string name="rounds_hint">livello</string>
-    <string name="saving_database">Salvataggio database&#8230;</string>
+    <string name="saving_database">Salvataggio database…</string>
     <string name="space">Spazio</string>
     <string name="search_label">Cerca</string>
     <string name="sort_db">Ordinamento DB</string>
@@ -189,4 +189,6 @@
     	<item>Medio</item>
     	<item>Grande</item>
     </string-array>
-</resources>
+<string name="beta_dontask">Non mostrare di nuovo</string>
+    <string name="allow">Consenti</string>
+    </resources>
