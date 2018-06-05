@@ -263,7 +263,7 @@
     <string name="application_appearance">Application appearance</string>
     <string name="other">Other</string>
     <string name="keyboard">Keyboard</string>
-    <string name="magic_keyboard_title">Magikeyboayd</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields easily.</string>
 
     <string name="reset_education_screens_title">Reset education screens</string>
