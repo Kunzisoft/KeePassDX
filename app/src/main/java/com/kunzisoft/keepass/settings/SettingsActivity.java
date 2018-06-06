@@ -28,7 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.activities.LockingActivity;
+import com.kunzisoft.keepass.lock.LockingActivity;
 
 
 public class SettingsActivity extends LockingActivity implements MainPreferenceFragment.Callback {

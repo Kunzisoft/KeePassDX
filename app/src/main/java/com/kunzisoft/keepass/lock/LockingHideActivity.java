@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities;
+package com.kunzisoft.keepass.lock;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
