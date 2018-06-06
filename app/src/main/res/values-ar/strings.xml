@@ -103,4 +103,5 @@
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
+    <string name="about_feedback">الملاحظات :</string>
     </resources>
