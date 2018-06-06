@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.activities.LockingActivity;
+import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 
 public class TimeoutHelper {

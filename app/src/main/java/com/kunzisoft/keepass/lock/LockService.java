@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.timeout;
+package com.kunzisoft.keepass.lock;
 
 import android.app.NotificationManager;
 import android.app.Service;
@@ -31,38 +31,42 @@ import android.util.Log;
 
 import com.kunzisoft.keepass.app.App;
 
-public class TimeoutService extends Service {
+public class LockService extends Service {
 
-	private static final String TAG = TimeoutService.class.getName();
+	private static final String TAG = LockService.class.getName();
+	public static final String LOCK_ACTION = "com.kunzisoft.keepass.LOCK";
+
 	private BroadcastReceiver mIntentReceiver;
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 		mIntentReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String action = intent.getAction();
-				if ( action != null && action.equals(Timeout.TIMEOUT) ) {
-					timeout();
+				if ( action != null &&
+                        action.equals(LOCK_ACTION)
+                ) {
+					lock();
 				}
 			}
 		};
-		
+
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(Timeout.TIMEOUT);
+		filter.addAction(LOCK_ACTION);
 		registerReceiver(mIntentReceiver, filter);
 	}
 	
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		Log.d(TAG, "Timeout service started");
+		Log.d(TAG, "Lock service started");
 	}
 
-	private void timeout() {
-		Log.d(TAG, "Timeout");
+	private void lock() {
+		Log.d(TAG, "Lock");
 		App.setShutdown();
 		NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		if (nm != null)
@@ -73,17 +77,17 @@ public class TimeoutService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.d(TAG, "Timeout service stopped");
+		Log.d(TAG, "Lock service stopped");
 		unregisterReceiver(mIntentReceiver);
 	}
 
-	public class TimeoutBinder extends Binder {
-		public TimeoutService getService() {
-			return TimeoutService.this;
+	public class LockBinder extends Binder {
+		public LockService getService() {
+			return LockService.this;
 		}
 	}
 	
-	private final IBinder mBinder = new TimeoutBinder();
+	private final IBinder mBinder = new LockBinder();
 	
 	@Override
 	public IBinder onBind(Intent intent) {

@@ -134,11 +134,13 @@
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
 
-        <service android:name="com.kunzisoft.keepass.timeout.TimeoutService" />
+        <!-- Receiver for lock-->
+        <service android:name="com.kunzisoft.keepass.lock.LockService" />
         <service
             android:name="com.kunzisoft.keepass.notifications.NotificationCopyingService"
             android:enabled="true"
             android:exported="false" />
+        <!-- Receiver for Autofill -->
         <service
             android:name="com.kunzisoft.keepass.autofill.KeeAutofillService"
             android:label="@string/autofill_service_name"
@@ -146,11 +148,11 @@
             <meta-data
                 android:name="android.autofill"
                 android:resource="@xml/dataset_service" />
-
             <intent-filter>
                 <action android:name="android.service.autofill.AutofillService" />
             </intent-filter>
         </service>
+
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
     </application>
 </manifest> 
