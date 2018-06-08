@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.magikeyboard;
 
+import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -62,6 +63,8 @@ public class MagikIME extends InputMethodService
                     imeManager.showInputMethodPicker();
                 break;
             case KEY_LOCK:
+                Intent lockIntent = new Intent("com.kunzisoft.keepass.LOCK");
+                sendBroadcast(lockIntent);
                 break;
             case KEY_ENTRY:
                 break;

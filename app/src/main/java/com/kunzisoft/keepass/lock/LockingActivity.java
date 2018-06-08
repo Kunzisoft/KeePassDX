@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.lock;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,11 +38,11 @@ public abstract class LockingActivity extends StylishActivity {
 
     private static final String TAG = LockingActivity.class.getName();
 
+    public static final String LOCK_ACTION = "com.kunzisoft.keepass.LOCK";
+
     public static final int RESULT_EXIT_LOCK = 1450;
 
-    private static final String AT_LEAST_SECOND_SHOWN_KEY = "AT_LEAST_SECOND_SHOWN_KEY";
-
-    private ScreenReceiver screenReceiver;
+    private LockReceiver lockReceiver;
     private boolean exitLock;
 
 
@@ -62,29 +63,36 @@ public abstract class LockingActivity extends StylishActivity {
         super.onCreate(savedInstanceState);
 
         if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
-            screenReceiver = new ScreenReceiver();
-            registerReceiver(screenReceiver, new IntentFilter((Intent.ACTION_SCREEN_OFF)));
+            lockReceiver = new LockReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+            intentFilter.addAction(LOCK_ACTION);
+            registerReceiver(lockReceiver, new IntentFilter(intentFilter));
         } else
-            screenReceiver = null;
+            lockReceiver = null;
 
         exitLock = false;
-
-        // WARNING TODO recordTime is not called after a back if was in backstack
     }
 
-    public static void checkShutdown(Activity act) {
+    public static void checkShutdown(Activity activity) {
         if (App.isShutdown() && App.getDB().getLoaded()) {
-            Log.i(TAG, "Shutdown " + act.getLocalClassName() +
-                    " after inactivity or manual lock");
-            act.setResult(RESULT_EXIT_LOCK);
-            act.finish();
+            lockAndExit(activity);
         }
     }
 
-    protected void lockAndExit() {
+    private static void lockAndExit(Activity activity) {
         App.setShutdown();
-        setResult(LockingActivity.RESULT_EXIT_LOCK);
-        finish();
+        Log.i(TAG, "Shutdown " + activity.getLocalClassName() +
+                " after inactivity or manual lock");
+        NotificationManager nm = (NotificationManager) activity.getSystemService(NOTIFICATION_SERVICE);
+        if (nm != null)
+            nm.cancelAll();
+        activity.setResult(LockingActivity.RESULT_EXIT_LOCK);
+        activity.finish();
+    }
+
+    protected void lockAndExit() {
+        lockAndExit(this);
     }
 
     @Override
@@ -118,27 +126,25 @@ public abstract class LockingActivity extends StylishActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(screenReceiver != null)
-            unregisterReceiver(screenReceiver);
+        if(lockReceiver != null)
+            unregisterReceiver(lockReceiver);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(AT_LEAST_SECOND_SHOWN_KEY, true);
-    }
-
-    public class ScreenReceiver extends BroadcastReceiver {
+    public class LockReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            if(intent.getAction() != null) {
-                if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-                    if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(LockingActivity.this)) {
-                        App.setShutdown();
-                        checkShutdown(LockingActivity.this);
-                    }
+            String action = intent.getAction();
+            if(action != null) {
+                switch (action) {
+                    case Intent.ACTION_SCREEN_OFF:
+                        if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(LockingActivity.this)) {
+                            lockAndExit();
+                        }
+                        break;
+                    case LOCK_ACTION:
+                        lockAndExit();
+                        break;
                 }
             }
         }

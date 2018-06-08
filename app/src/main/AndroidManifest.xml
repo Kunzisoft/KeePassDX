@@ -134,8 +134,6 @@
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
 
-        <!-- Receiver for lock-->
-        <service android:name="com.kunzisoft.keepass.lock.LockService" />
         <service
             android:name="com.kunzisoft.keepass.notifications.NotificationCopyingService"
             android:enabled="true"
