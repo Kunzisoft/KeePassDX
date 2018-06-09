@@ -20,7 +20,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
 
 -->
 <resources>
-    <string name="about_feedback">Realimentación:</string>
+    <string name="about_feedback">Retroalimentación:</string>
     <string name="about_homepage">Inicio:</string>
     <string name="AboutText">KeePass DX es una implementación para Android del gestor de contraseñas KeePass.</string>
     <string name="accept">Aceptar</string>
@@ -34,7 +34,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="brackets">Paréntesis</string>
     <string name="browser_intall_text">La exploración de archivos necesita Open Intents File Manager, haz clic a continuación para instalarlo. Debido a algunas peculiaridades en el gestor de archivos, puede que la exploración no funcione correctamente la primera vez que la realices.</string>
     <string name="cancel">Cancelar</string>
-    <string name="ClearClipboard">Portapapeles vaciado.</string>
+    <string name="ClearClipboard">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
     <string name="clipboard_timeout_summary">Tiempo hasta que el portapapeles se vacía después de copiar el usuario o la contraseña</string>
     <string name="select_to_copy">Seleccionar para copiar %1$s al portapapeles</string>
@@ -303,4 +303,47 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="education_fingerprint_title">Desbloquee su base de datos con su huella digital</string>
     <string name="education_fingerprint_summary">Haga el enlace entre su contraseña y su huella digital para desbloquear fácilmente su base de datos.</string>
     <string name="education_entry_edit_title">Editar la entrada</string>
-    </resources>
+    <string name="education_entry_edit_summary">Edite la entrada con campos personalizados, puede agregar referencias a los datos de la agrupación entre campos de diferentes entradas.</string>
+    <string name="education_generate_password_title">Crear una contraseña segura</string>
+    <string name="education_generate_password_summary">Genere una contraseña segura para asociarla con su entrada, defínala fácilmente según los criterios del formulario y no olvides una contraseña difícil pero segura.</string>
+    <string name="education_entry_new_field_title">Agregar campos personalizados</string>
+    <string name="education_entry_new_field_summary">Si desea registrar un campo básico no suministrado, simplemente complete uno nuevo que también pueda proteger visualmente.</string>
+    <string name="education_unlock_title">Desbloquee su base de datos</string>
+    <string name="education_field_copy_title">Copia un campo</string>
+    <string name="education_field_copy_summary">Copie un campo fácilmente para pegarlo donde quiera
+\n
+\n¡Puede usar varios métodos de llenado de formularios. ¡Use el que prefieras!</string>
+    <string name="education_lock_title">Bloquear la base de datos</string>
+    <string name="education_lock_summary">Bloquee su base de datos rápidamente, puede parametrizar la aplicación para bloquearla después de un tiempo y cuando la pantalla se apague.</string>
+    <string name="education_sort_title">Ordenar elementos</string>
+    <string name="education_sort_summary">Ordenar entradas y grupos de acuerdo a parámetros específicos.</string>
+    <string name="education_donation_title">Participar</string>
+    <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
+
+    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta aplicación es <strong>sin publicidad </strong>, <strong>fuente abierta</strong> y no recupera datos personales en sus servidores, ni siquiera en su versión gratuita.</string>
+    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a <strong>la característica visual </strong>y usted ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
+    <string name="html_text_feature_generosity">Esta <strong>característica visual </strong>está disponible gracias a tu generosidad.</string>
+    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu <strong>contribución.</strong></string>
+
+    <string name="html_text_dev_feature">Esta función está <strong>en desarrollo</strong> y requiere de tu <strong>contribución</strong> para estar disponible dentro de poco.</string>
+    <string name="html_text_dev_feature_buy_pro">Al comprar la versión <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature_contibute">Al <strong>contribuir</strong>,</string>
+    <string name="html_text_dev_feature_encourage">usted alienta a los desarrolladores a crear <strong>nuevas funciones</strong> y a <strong>errores de configuración</strong> de acuerdo con tus comentarios.</string>
+    <string name="html_text_dev_feature_thanks">Muchas gracias por tu contribución.</string>
+    <string name="html_text_dev_feature_work_hard">Estamos trabajando duro para lanzar esta característica rápidamente.</string>
+    <string name="html_text_dev_feature_upgrade">No olvide mantener su aplicación actualizada.</string>
+
+    <string name="download">Descargar</string>
+    <string name="contribute">Contribuir</string>
+
+    <string name="encryption_chacha20">ChaCha20</string>
+
+    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
+
+    <string name="style_choose_title">Seleccione un tema</string>
+    <string name="style_choose_summary">Cambie el tema de la aplicación cambiando los colores</string>
+    <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
+    <string name="icon_pack_choose_summary">Cambiar el paquete de íconos de la aplicación</string>
+
+</resources>
