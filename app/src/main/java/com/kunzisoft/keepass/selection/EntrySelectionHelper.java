@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.kunzisoft.keepass.database.PwEntry;
+import com.kunzisoft.keepass_model.Entry;
 
 public class EntrySelectionHelper {
 
@@ -30,9 +31,17 @@ public class EntrySelectionHelper {
         if (entrySelectionMode) {
             mReplyIntent = new Intent();
             Log.d(activity.getClass().getName(), "Reply entry selection");
+
+            Entry entryModel = new Entry();
+            entryModel.setUsername(entry.getUsername());
+            entryModel.setPassword(entry.getPassword());
+            entryModel.setUrl(entry.getUrl());
+            // TODO Fields
+            //entryModel.setCustomField(entry.getFields());
+
             mReplyIntent.putExtra(
                     EXTRA_ENTRY_SELECTION_MODE,
-                    entry);
+                    entryModel);
             activity.setResult(Activity.RESULT_OK, mReplyIntent);
         } else {
             activity.setResult(Activity.RESULT_CANCELED);

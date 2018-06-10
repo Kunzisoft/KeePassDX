@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.kunzisoft.keepass_model.Entry;
+
 public class EntryRetrieverActivity extends AppCompatActivity {
 
     public static final String TAG = EntryRetrieverActivity.class.getName();
@@ -17,7 +19,6 @@ public class EntryRetrieverActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) { // TODO lock for < jelly bean
             Intent intent;
@@ -38,8 +39,8 @@ public class EntryRetrieverActivity extends AppCompatActivity {
         Log.i(TAG, "Retrieve the entry selected");
         if (requestCode == ENTRY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                // TODO get entry
-                Log.e(TAG, data.getSerializableExtra("com.kunzisoft.keepass.extra.ENTRY_SELECTION_MODE").toString());
+                Entry entry = data.getParcelableExtra("com.kunzisoft.keepass.extra.ENTRY_SELECTION_MODE");
+                MagikIME.setEntryKey(entry);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Log.w(TAG, "Entry not retrieved");

@@ -25,8 +25,11 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+
+import com.kunzisoft.keepass_model.Entry;
 
 public class MagikIME extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
@@ -41,6 +44,8 @@ public class MagikIME extends InputMethodService
     private static final int KEY_URL = 520;
     private static final int KEY_FIELDS = 530;
 
+    private static Entry entryKey = null;
+
     private KeyboardView keyboardView;
     private Keyboard keyboard;
     private Keyboard keyboard_entry;
@@ -50,11 +55,34 @@ public class MagikIME extends InputMethodService
         keyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
         keyboard = new Keyboard(this, R.xml.password_keys);
         keyboard_entry = new Keyboard(this, R.xml.password_entry_keys);
-        keyboardView.setKeyboard(keyboard);
+
+        assignKeyboardView();
         keyboardView.setOnKeyboardActionListener(this);
         keyboardView.setPreviewEnabled(false);
 
         return keyboardView;
+    }
+
+    private void assignKeyboardView() {
+        if (entryKey != null) {
+            keyboardView.setKeyboard(keyboard_entry);
+        } else {
+            keyboardView.setKeyboard(keyboard);
+        }
+    }
+
+    @Override
+    public void onStartInputView(EditorInfo info, boolean restarting) {
+        super.onStartInputView(info, restarting);
+        assignKeyboardView();
+    }
+
+    public static void setEntryKey(Entry entry) {
+        entryKey = entry;
+    }
+
+    public static void deleteEntryKey() {
+        entryKey = null;
     }
 
     @Override
@@ -66,6 +94,7 @@ public class MagikIME extends InputMethodService
                 if (imeManager != null)
                     imeManager.showInputMethodPicker();
                 break;
+            case KEY_ENTRY:
             case KEY_UNLOCK:
                 Intent intent = new Intent(this, EntryRetrieverActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -74,14 +103,26 @@ public class MagikIME extends InputMethodService
             case KEY_LOCK:
                 Intent lockIntent = new Intent("com.kunzisoft.keepass.LOCK");
                 sendBroadcast(lockIntent);
-                break;
-            case KEY_ENTRY:
+                deleteEntryKey();
+                assignKeyboardView();
                 break;
             case KEY_USERNAME:
+                if (entryKey != null) {
+                    InputConnection inputConnection = getCurrentInputConnection();
+                    inputConnection.commitText(entryKey.getUsername(), 1);
+                }
                 break;
             case KEY_PASSWORD:
+                if (entryKey != null) {
+                    InputConnection inputConnection = getCurrentInputConnection();
+                    inputConnection.commitText(entryKey.getPassword(), 1);
+                }
                 break;
             case KEY_URL:
+                if (entryKey != null) {
+                    InputConnection inputConnection = getCurrentInputConnection();
+                    inputConnection.commitText(entryKey.getUrl(), 1);
+                }
                 break;
             case KEY_FIELDS:
                 break;
