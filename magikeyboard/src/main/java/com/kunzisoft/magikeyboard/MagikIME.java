@@ -33,7 +33,8 @@ public class MagikIME extends InputMethodService
     private static final String TAG = MagikIME.class.getName();
 
     private static final int KEY_CHANGE_KEYBOARD = 600;
-    private static final int KEY_LOCK = 610;
+    private static final int KEY_UNLOCK = 610;
+    private static final int KEY_LOCK = 611;
     private static final int KEY_ENTRY = 620;
     private static final int KEY_USERNAME = 500;
     private static final int KEY_PASSWORD = 510;
@@ -42,14 +43,17 @@ public class MagikIME extends InputMethodService
 
     private KeyboardView keyboardView;
     private Keyboard keyboard;
+    private Keyboard keyboard_entry;
 
     @Override
     public View onCreateInputView() {
         keyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
         keyboard = new Keyboard(this, R.xml.password_keys);
+        keyboard_entry = new Keyboard(this, R.xml.password_entry_keys);
         keyboardView.setKeyboard(keyboard);
         keyboardView.setOnKeyboardActionListener(this);
         keyboardView.setPreviewEnabled(false);
+
         return keyboardView;
     }
 
@@ -61,6 +65,11 @@ public class MagikIME extends InputMethodService
                 InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 if (imeManager != null)
                     imeManager.showInputMethodPicker();
+                break;
+            case KEY_UNLOCK:
+                Intent intent = new Intent(this, EntryRetrieverActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
             case KEY_LOCK:
                 Intent lockIntent = new Intent("com.kunzisoft.keepass.LOCK");

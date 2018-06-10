@@ -17,13 +17,9 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.autofill;
+package com.kunzisoft.keepass.selection;
 
-import android.app.PendingIntent;
-import android.app.assist.AssistStructure;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,36 +29,21 @@ import android.support.v7.app.AppCompatActivity;
 import com.kunzisoft.keepass.fileselect.FileSelectActivity;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class AutoFillAuthActivity extends AppCompatActivity {
-
-    private AutofillHelper autofillHelper;
+public class EntrySelectionAuthActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        autofillHelper = new AutofillHelper();
         startFileSelectActivity();
         super.onCreate(savedInstanceState);
     }
-
-    public static IntentSender getAuthIntentSenderForResponse(Context context) {
-        final Intent intent = new Intent(context, AutoFillAuthActivity.class);
-        return PendingIntent.getActivity(context, 0,
-                intent, PendingIntent.FLAG_CANCEL_CURRENT).getIntentSender();
-    }
     
     protected void startFileSelectActivity() {
-        // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        AssistStructure assistStructure = autofillHelper.retrieveAssistStructure(getIntent());
-        if (assistStructure != null) {
-            FileSelectActivity.launchForAutofillResult(this, assistStructure);
-        } else {
-            setResult(RESULT_CANCELED);
-            finish();
-        }
+        // Pass extra to get entry
+        FileSelectActivity.launchForKeyboardResult(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
     }
 }

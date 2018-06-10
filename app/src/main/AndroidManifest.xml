@@ -132,6 +132,8 @@
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity android:name="com.kunzisoft.keepass.autofill.AutoFillAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.kunzisoft.keepass.selection.EntrySelectionAuthActivity"
+            android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
 
         <service

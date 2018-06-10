@@ -56,6 +56,7 @@ import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -102,6 +103,8 @@ public class FileSelectActivity extends StylishActivity implements
 
 	// TODO Consultation Mode
 	private boolean consultationMode = false;
+
+	private boolean entrySelectionMode;
     private AutofillHelper autofillHelper;
 
     private View fileSelectExpandableButton;
@@ -118,11 +121,17 @@ public class FileSelectActivity extends StylishActivity implements
 	public static void launch(Activity activity) {
 		Intent intent = new Intent(activity, FileSelectActivity.class);
 		// only to avoid visible flickering when redirecting
-		activity.startActivityForResult(intent, 0);
+		activity.startActivityForResult(intent, RESULT_CANCELED);
 	}
 
+    public static void launchForKeyboardResult(Activity activity) {
+        Intent intent = new Intent(activity, FileSelectActivity.class);
+        EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
+        activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+    }
+
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public static void launch(Activity activity, AssistStructure assistStructure) {
+	public static void launchForAutofillResult(Activity activity, AssistStructure assistStructure) {
 		if ( assistStructure != null ) {
 			Intent intent = new Intent(activity, FileSelectActivity.class);
 			AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
@@ -135,11 +144,6 @@ public class FileSelectActivity extends StylishActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			if (AutofillHelper.isIntentContainsExtraAssistStructureKey(getIntent()))
-                consultationMode = true;
-		}
 
 		fileHistory = App.getFileHistory();
 
@@ -173,6 +177,7 @@ public class FileSelectActivity extends StylishActivity implements
         RecyclerView mListFiles = findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
 
+        entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
 		// To retrieve info for AutoFill
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
@@ -244,13 +249,17 @@ public class FileSelectActivity extends StylishActivity implements
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 assistStructure = autofillHelper.getAssistStructure();
                 if (assistStructure != null) {
-					PasswordActivity.launch(FileSelectActivity.this,
+					PasswordActivity.launchForAutofillResult(FileSelectActivity.this,
                             path,
                             assistStructure);
 				}
 			}
 			if (assistStructure == null) {
-                PasswordActivity.launch(FileSelectActivity.this, path);
+                if (entrySelectionMode) {
+                    PasswordActivity.launchForKeyboardResult(FileSelectActivity.this, path);
+                } else {
+                    PasswordActivity.launch(FileSelectActivity.this, path);
+                }
             }
             // Delete flickering for kitkat <=
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
@@ -596,12 +605,16 @@ public class FileSelectActivity extends StylishActivity implements
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     assistStructure = autofillHelper.getAssistStructure();
                     if (assistStructure != null) {
-                        PasswordActivity.launch(FileSelectActivity.this,
+                        PasswordActivity.launchForAutofillResult(FileSelectActivity.this,
                             fileName, keyFile, assistStructure);
                     }
                 }
                 if (assistStructure == null) {
-                    PasswordActivity.launch(FileSelectActivity.this, fileName, keyFile);
+                    if (entrySelectionMode) {
+                        PasswordActivity.launchForKeyboardResult(FileSelectActivity.this, fileName, keyFile);
+                    } else {
+                        PasswordActivity.launch(FileSelectActivity.this, fileName, keyFile);
+                    }
                 }
             } catch (ContentFileNotFoundException e) {
                 Toast.makeText(FileSelectActivity.this,
@@ -639,6 +652,8 @@ public class FileSelectActivity extends StylishActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		// Get the entry result in entry selection mode
+        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
 		}

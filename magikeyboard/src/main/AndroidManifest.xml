@@ -12,9 +12,13 @@
         </service>
         <activity android:name="com.kunzisoft.magikeyboard.MagikIMESettings"
             android:label="@string/keyboard_name">
+            <!-- TODO Settings -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
+        </activity>
+        <activity android:name="com.kunzisoft.magikeyboard.EntryRetrieverActivity"
+            android:label="@string/keyboard_name">
         </activity>
     </application>
 </manifest>

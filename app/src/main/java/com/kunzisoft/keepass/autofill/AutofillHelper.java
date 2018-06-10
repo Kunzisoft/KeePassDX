@@ -36,6 +36,7 @@ import android.widget.RemoteViews;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.PwEntry;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,7 @@ public class AutofillHelper {
 
     public static void addAssistStructureExtraInIntent(Intent intent, AssistStructure assistStructure) {
         if (assistStructure != null) {
+            EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
             intent.putExtra(android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE, assistStructure);
         }
     }
@@ -144,7 +146,7 @@ public class AutofillHelper {
     /**
      * Utility method to loop and close each activity with return data
      */
-    public static void onActivityResultSetResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    public static void onActivityResultSetResultAndFinish(Activity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == AUTOFILL_RESPONSE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 activity.setResult(resultCode, data);
@@ -152,15 +154,6 @@ public class AutofillHelper {
             if (resultCode == Activity.RESULT_CANCELED) {
                 activity.setResult(Activity.RESULT_CANCELED);
             }
-        }
-    }
-
-    /**
-     * Utility method to loop and close each activity with return data
-     */
-    public static void onActivityResultSetResultAndFinish(Activity activity, int requestCode, int resultCode, Intent data) {
-        if (requestCode == AUTOFILL_RESPONSE_REQUEST_CODE) {
-            onActivityResultSetResult(activity, requestCode, resultCode, data);
             activity.finish();
         }
     }
