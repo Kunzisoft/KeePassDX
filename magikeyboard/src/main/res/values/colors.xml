@@ -18,8 +18,8 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <color name="keyboard_button">#263238</color>
-    <!-- <color name="keyboard_button_border">#37474f</color> -->
-    <color name="keyboard_button_border">#263238</color>
+    <color name="keyboard_button">#3c474c</color>
+    <color name="keyboard_button_pressed">#263238</color>
+    <color name="keyboard_button_border">#3c464c</color>
     <color name="keyboard_background">#263238</color>
 </resources>

@@ -25,7 +25,7 @@
     android:layout_alignParentBottom="true"
     android:keyPreviewLayout ="@layout/key_preview"
     android:background="@color/keyboard_background"
-    android:keyBackground="@drawable/key_background_normal"
+    android:keyBackground="@drawable/key_background"
     android:keyTextColor="#ffff"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
