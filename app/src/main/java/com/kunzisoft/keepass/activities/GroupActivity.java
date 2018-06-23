@@ -647,6 +647,7 @@ public class GroupActivity extends ListNodesActivity
             // manually launch the real search activity
             final Intent searchIntent = new Intent(getApplicationContext(), SearchResultsActivity.class);
             // add query to the Intent Extras
+            searchIntent.setAction(Intent.ACTION_SEARCH);
             searchIntent.putExtra(SearchManager.QUERY, query);
             if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                     && autofillHelper.getAssistStructure() != null ) {
