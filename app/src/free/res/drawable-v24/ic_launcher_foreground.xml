@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+android:viewportWidth="108"
+android:viewportHeight="108"
+android:width="108dp"
+android:height="108dp">
+    <group
+        android:translateY="-332">
+        <group
+            android:translateY="332">
+            <path
+                android:pathData="M65.728516 32.791016L58.052734 35.904297 56.173828 48.380859 35.306641 69.267578 35.238281 73.759766 69.478516 108 108 108 108 70.810547 73.09375 35.904297 65.728516 32.791016Z"
+                android:fillColor="@color/long_shadow"
+                android:strokeLineJoin="round"
+                android:strokeLineCap="round"
+                android:strokeMiterLimit="4" />
+        </group>
+        <group
+            android:scaleX="0.3939503"
+            android:scaleY="0.3939503"
+            android:translateX="33.66343"
+            android:translateY="233.998">
+            <path
+                android:pathData="M88.76953 339.91602L4.1718754 424.59766 4.0000004 436 15.400391 435.82813 27.240234 424 40 424l0 -12 12 0 0 -12.73438 34.01172 -33.97656A8 8 0 0 1 84 360a8 8 0 0 1 8 -8 8 8 0 0 1 5.296882 2.01367l2.787098 -2.7832 -11.31445 -11.31445z"
+                android:fillColor="#eaeaea"
+                android:strokeWidth="1"
+                android:strokeColor="#58000000" />
+        </group>
+        <group
+            android:scaleX="0.3939503"
+            android:scaleY="0.3939503"
+            android:translateX="33.66343"
+            android:translateY="233.998">
+            <path
+                android:pathData="M4.0000004 340L4.1718754 351.40137 88.59863 435.82812 100 436 99.828122 424.59863 15.401367 340.17188Z"
+                android:fillColor="#81c784" />
+        </group>
+        <group
+            android:scaleX="0.3939503"
+            android:scaleY="0.3939503"
+            android:translateX="33.66343"
+            android:translateY="233.998">
+            <path
+                android:pathData="M81.39454 332.00195a27 27 0 0 0 -19.48634 7.90625 27 27 0 0 0 0 38.1836 27 27 0 0 0 38.1836 0 27 27 0 0 0 0 -38.1836 27 27 0 0 0 -18.69726 -7.90625zM92 352a8 8 0 0 1 8 8 8 8 0 0 1 -8 8 8 8 0 0 1 -8 -8 8 8 0 0 1 8 -8z"
+                android:fillColor="#eaeaea"
+                android:strokeWidth="1"
+                android:strokeColor="#58000000" />
+        </group>
+    </group>
+</vector>
