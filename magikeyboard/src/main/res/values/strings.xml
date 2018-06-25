@@ -20,4 +20,9 @@
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard settings</string>
+
+    <string name="entry_category">Entry</string>
+    <string name="entry_timeout_key" translatable="false">erase_entry_timeout_key</string>
+    <string name="entry_timeout_title">Timeout</string>
+    <string name="entry_timeout_summary">Timeout of the entry deletion</string>
 </resources>

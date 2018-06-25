@@ -266,7 +266,7 @@
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields securely.</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard preferences</string>
+    <string name="magic_keyboard_preference_title">Magikeyboard settings</string>
     <string name="magic_keyboard_configure_title">How to configure the keyboard for secure form filling?</string>
     <string name="magic_keyboard_activate_setting_text">Activate the Magikeyboard in the device setting.</string>
     <string name="magic_keyboard_activate_setting_path_1_text">Settings -> Language &amp; input -> Current keyboard -> CHOOSE KEYBOARDS</string>

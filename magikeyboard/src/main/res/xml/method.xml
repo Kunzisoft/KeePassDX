@@ -18,7 +18,11 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <input-method
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:settingsActivity="com.kunzisoft.magikeyboard.MagikIMESettings"
+    android:supportsSwitchingToNextInputMethod="true"
+    tools:ignore="UnusedAttribute">
     <subtype
         android:imeSubtypeMode="keyboard"/>
 </input-method>

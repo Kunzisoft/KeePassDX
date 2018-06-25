@@ -39,7 +39,6 @@ import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.autofill.AutofillManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.BuildConfig;
@@ -53,16 +52,15 @@ import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.keyboard.KeyboardExplanationDialog;
-import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseNamePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.MemoryUsagePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
+import com.kunzisoft.magikeyboard.MagikIMESettings;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {
@@ -292,7 +290,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                 Preference keyboardSubPreference = findPreference(getString(R.string.magic_keyboard_preference_key));
                 keyboardSubPreference.setOnPreferenceClickListener(preference -> {
-                    // TODO Open magikeyboard preference
+                    Intent intentKeyboard = new Intent(getContext(), MagikIMESettings.class);
+                    startActivity(intentKeyboard);
                     return false;
                 });
 

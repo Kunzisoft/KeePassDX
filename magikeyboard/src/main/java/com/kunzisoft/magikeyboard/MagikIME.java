@@ -90,6 +90,7 @@ public class MagikIME extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         switch(primaryCode){
             case KEY_CHANGE_KEYBOARD:
+                // TODO supportsSwitchingToNextInputMethod
                 InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 if (imeManager != null)
                     imeManager.showInputMethodPicker();

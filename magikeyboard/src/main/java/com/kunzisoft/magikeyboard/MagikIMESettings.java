@@ -19,40 +19,40 @@
  */
 package com.kunzisoft.magikeyboard;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
-public class MagikIMESettings extends PreferenceActivity {
-    @Override
-    public Intent getIntent() {
-        final Intent modIntent = new Intent(super.getIntent());
-        modIntent.putExtra(EXTRA_SHOW_FRAGMENT, Settings.class.getName());
-        modIntent.putExtra(EXTRA_NO_HEADERS, true);
-        return modIntent;
-    }
+public class MagikIMESettings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // We overwrite the title of the activity, as the default one is "Voice Search".
-        setTitle(R.string.keyboard_name);
+        setContentView(R.layout.activity_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.keyboard_setting_label);
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new MagikIMESettingsFragment())
+                    .commit();
+        }
     }
 
     @Override
-    protected boolean isValidFragment(final String fragmentName) {
-        return Settings.class.getName().equals(fragmentName);
-    }
-
-    public static class Settings extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            // Load the preferences from an XML resource
-            addPreferencesFromResource(R.xml.ime_preferences);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch ( item.getItemId() ) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
+
+        return super.onOptionsItemSelected(item);
     }
+
 }
