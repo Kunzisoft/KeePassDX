@@ -346,6 +346,8 @@ public class PasswordActivity extends StylishActivity
             if (fingerPrintAnimatedVector != null) {
                 fingerPrintAnimatedVector.startScan();
             }
+        } else {
+            checkboxPasswordView.setOnCheckedChangeListener(enableButtonOncheckedChangeListener);
         }
 
         new UriIntentInitTask(this, mRememberKeyfile)
