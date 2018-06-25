@@ -26,4 +26,6 @@
     <dimen name="margin_huge">64dp</dimen>
 
     <dimen name="icon_size">32dp</dimen>
+
+    <integer name="animation_duration">320</integer>
 </resources>

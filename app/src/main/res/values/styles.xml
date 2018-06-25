@@ -148,10 +148,10 @@
 
     <!-- Activity Animation -->
     <style name="KeepassDXStyle.ActivityAnimation" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slide_alpha_in_right</item>
-        <item name="android:activityOpenExitAnimation">@anim/slide_alpha_out_left</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slide_alpha_in_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/slide_alpha_out_right</item>
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
     <!-- Toolbar Style Light Green -->
