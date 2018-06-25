@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.fingerprint;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,41 +29,34 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class FingerPrintDialog extends DialogFragment {
+public class FingerPrintExplanationDialog extends DialogFragment {
 
     private FingerPrintAnimatedVector fingerPrintAnimatedVector;
 
     @NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+        assert getActivity() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View rootView = inflater.inflate(R.layout.fingerprint_dialog, null);
+        View rootView = inflater.inflate(R.layout.fingerprint_explanation, null);
 
         View fingerprintSettingWayTextView = rootView.findViewById(R.id.fingerprint_setting_way_text);
-        fingerprintSettingWayTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS));
-            }
-        });
+        fingerprintSettingWayTextView.setOnClickListener(
+                view -> startActivity(new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS)));
 
         fingerPrintAnimatedVector =
-                new FingerPrintAnimatedVector(getContext(),
-                        (ImageView) rootView.findViewById(R.id.fingerprint_image));
+                new FingerPrintAnimatedVector(getActivity(),
+                        rootView.findViewById(R.id.fingerprint_image));
 
         builder.setView(rootView)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {
 
-                    }
                 });
         return builder.create();
 	}

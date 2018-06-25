@@ -67,7 +67,7 @@ import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
-import com.kunzisoft.keepass.fingerprint.FingerPrintDialog;
+import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
@@ -710,7 +710,7 @@ public class PasswordActivity extends StylishActivity
         else {
             // show explanations
             fingerprintContainerView.setOnClickListener(view -> {
-                FingerPrintDialog fingerPrintDialog = new FingerPrintDialog();
+                FingerPrintExplanationDialog fingerPrintDialog = new FingerPrintExplanationDialog();
                 fingerPrintDialog.show(getSupportFragmentManager(), "fingerprintDialog");
             });
             setFingerPrintVisibility(View.VISIBLE);

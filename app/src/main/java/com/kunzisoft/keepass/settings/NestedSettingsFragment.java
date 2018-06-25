@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
+import com.kunzisoft.keepass.keyboard.KeyboardExplanationDialog;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
@@ -280,14 +281,18 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     });
                 }
 
-                // TODO define the checkbox by verifying
-                SwitchPreference keyboardPreference = (SwitchPreference) findPreference(getString(R.string.magic_keyboard_key));
+                Preference keyboardPreference = findPreference(getString(R.string.magic_keyboard_key));
                 keyboardPreference.setOnPreferenceClickListener(preference -> {
-                    if (getContext() != null) {
-                        InputMethodManager imeManager = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
-                        if (imeManager != null)
-                            imeManager.showInputMethodPicker();
+                    if (getFragmentManager() != null) {
+                        KeyboardExplanationDialog fingerPrintDialog = new KeyboardExplanationDialog();
+                        fingerPrintDialog.show(getFragmentManager(), "keyboardExplanationDialog");
                     }
+                    return false;
+                });
+
+                Preference keyboardSubPreference = findPreference(getString(R.string.magic_keyboard_preference_key));
+                keyboardSubPreference.setOnPreferenceClickListener(preference -> {
+                    // TODO Open magikeyboard preference
                     return false;
                 });
 

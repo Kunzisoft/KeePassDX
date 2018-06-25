@@ -71,7 +71,7 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="38dp"
-                    android:src="@drawable/type_assword"/>
+                    android:src="@drawable/capture_type_password"/>
             </LinearLayout>
 
         </LinearLayout>

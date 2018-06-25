@@ -262,9 +262,21 @@
     <string name="text_appearance">Text appearance</string>
     <string name="application_appearance">Application appearance</string>
     <string name="other">Other</string>
+
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields easily.</string>
+    <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields securely.</string>
+    <string name="magic_keyboard_preference_title">Magikeyboard preferences</string>
+    <string name="magic_keyboard_configure_title">How to configure the keyboard for secure form filling?</string>
+    <string name="magic_keyboard_activate_setting_text">Activate the Magikeyboard in the device setting.</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">Settings -> Language &amp; input -> Current keyboard -> CHOOSE KEYBOARDS</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">or (Settings -> System -> Language &amp; input -> Virtual keyboard -> Manage keyboards)</string>
+    <string name="keyboards_choose_magikeyboard_text">Choose the Magikeyboard when you need to fill a form.</string>
+    <string name="keyboards_swicth_magikeyboard_text">You can easily switch from your main keyboard to Magikeyboard with : </string>
+    <string name="keyboard_select_entry_text">Select your entry with the key.</string>
+    <string name="keyboard_fill_field_text">Fill in your fields with the elements of the entry.</string>
+    <string name="keyboard_lock_database_text">Lock the database.</string>
+    <string name="keyboard_back_main_keyboard_text">Go back to your main keyboard.</string>
 
     <string name="reset_education_screens_title">Reset education screens</string>
     <string name="reset_education_screens_summary">Highlight the elements to learn how the application works</string>

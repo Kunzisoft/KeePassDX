@@ -3,6 +3,7 @@
     <application>
         <service
             android:name="com.kunzisoft.magikeyboard.MagikIME"
+            android:label="@string/keyboard_label"
             android:permission="android.permission.BIND_INPUT_METHOD" >
             <meta-data android:name="android.view.im"
                 android:resource="@xml/method"/>
@@ -11,7 +12,7 @@
             </intent-filter>
         </service>
         <activity android:name="com.kunzisoft.magikeyboard.MagikIMESettings"
-            android:label="@string/keyboard_name">
+            android:label="@string/keyboard_setting_label">
             <!-- TODO Settings -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

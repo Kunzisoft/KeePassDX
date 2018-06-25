@@ -28,21 +28,23 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/keyboard">
+        <Preference
+            android:key="@string/magic_keyboard_key"
+            android:title="@string/magic_keyboard_title"
+            android:summary="@string/magic_keyboard_summary" />
+        <Preference
+            android:key="@string/magic_keyboard_preference_key"
+            android:title="@string/magic_keyboard_preference_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/notifications">
         <SwitchPreference
             android:key="@string/clipboard_notifications_key"
             android:title="@string/clipboard_notifications_title"
             android:defaultValue="@bool/clipboard_notifications_default"
             android:summary="@string/clipboard_notifications_summary" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/keyboard">
-        <SwitchPreference
-            android:key="@string/magic_keyboard_key"
-            android:title="@string/magic_keyboard_title"
-            android:defaultValue="@bool/magic_keyboard_default"
-            android:summary="@string/magic_keyboard_summary" />
     </PreferenceCategory>
 
 </PreferenceScreen>

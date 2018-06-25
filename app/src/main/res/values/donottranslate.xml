@@ -20,6 +20,7 @@
 <resources>
     <string name="app_name" translatable="false">KeePass DX</string>
 
+    <!-- TODO Move urls in flavors -->
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
     <string name="contribution_url" translatable="false">https://www.kunzisoft.com/donation?project=keepassdx</string>
@@ -28,6 +29,9 @@
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
     <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
+    <string name="keyboard_switcher_play_store" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keyboard.switcher</string>
+    <string name="keyboard_switcher_f_droid" translatable="false">https://f-droid.org/en/packages/com.kunzisoft.keyboard.switcher/</string>
+    <string name="keyboard_switcher_app_title">Keyboard Switcher</string>
 
     <string name="html_rose">--,--`--,{@</string>
 
@@ -93,6 +97,7 @@
     <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
+    <string name="magic_keyboard_preference_key" translatable="false">magic_keyboard_preference_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -123,7 +128,6 @@
     <bool name="education_password_generator_default" translatable="false">false</bool>
     <bool name="education_entry_new_field_default" translatable="false">false</bool>
     <bool name="education_screen_reclicked_default" translatable="false">false</bool>
-    <bool name="magic_keyboard_default" translatable="false">false</bool>
 
     <string name="app_timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>
