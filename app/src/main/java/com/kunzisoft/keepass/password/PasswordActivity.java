@@ -121,6 +121,7 @@ public class PasswordActivity extends StylishActivity
     private CompoundButton checkboxPasswordView;
     private CompoundButton checkboxKeyfileView;
     private CompoundButton checkboxDefaultDatabaseView;
+    private CompoundButton.OnCheckedChangeListener enableButtonOncheckedChangeListener;
 
     private DefaultCheckChange defaultCheckChange;
     private ValidateButtonViewClickListener validateButtonViewClickListener;
@@ -322,6 +323,18 @@ public class PasswordActivity extends StylishActivity
         // For check shutdown
         super.onResume();
 
+        // Enable or not the open button
+        if (!PreferencesUtil.emptyPasswordAllowed(PasswordActivity.this)) {
+            confirmButtonView.setEnabled(checkboxPasswordView.isChecked());
+        } else {
+            confirmButtonView.setEnabled(true);
+        }
+        enableButtonOncheckedChangeListener = (buttonView, isChecked) -> {
+            if (!PreferencesUtil.emptyPasswordAllowed(PasswordActivity.this)) {
+                confirmButtonView.setEnabled(isChecked);
+            }
+        };
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Check if fingerprint well init (be called the first time the fingerprint is configured
             // and the activity still active)
@@ -511,6 +524,9 @@ public class PasswordActivity extends StylishActivity
                     }
                 }
             }
+
+            // Add old listener to enable the button, only be call here because of onCheckedChange bug
+            enableButtonOncheckedChangeListener.onCheckedChanged(compoundButton, checked);
         });
 
         // callback for fingerprint findings

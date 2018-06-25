@@ -93,6 +93,7 @@
     <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
+    <string name="allow_no_password_key" translatable="false">allow_no_password_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -124,6 +125,7 @@
     <bool name="education_entry_new_field_default" translatable="false">false</bool>
     <bool name="education_screen_reclicked_default" translatable="false">false</bool>
     <bool name="magic_keyboard_default" translatable="false">false</bool>
+    <bool name="allow_no_password_default" translatable="false">true</bool>
 
     <string name="app_timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>

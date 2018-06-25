@@ -152,6 +152,12 @@ public class PreferencesUtil {
                 context.getString(R.string.setting_icon_pack_choose_default));
     }
 
+    public static boolean emptyPasswordAllowed(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.allow_no_password_key),
+                context.getResources().getBoolean(R.bool.allow_no_password_default));
+    }
+
     /**
      * All preference keys associated with education
      */

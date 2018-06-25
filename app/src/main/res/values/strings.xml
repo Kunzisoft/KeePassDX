@@ -265,6 +265,8 @@
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboayd</string>
     <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields easily.</string>
+    <string name="allow_no_password_title">Allow no password</string>
+    <string name="allow_no_password_summary">Enable the open button if no password identification is selected.</string>
 
     <string name="reset_education_screens_title">Reset education screens</string>
     <string name="reset_education_screens_summary">Highlight the elements to learn how the application works</string>

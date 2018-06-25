@@ -249,8 +249,8 @@
     <!-- Button Style -->
     <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button" />
     <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
-        <item name="android:textColor">?attr/textColorInverse</item>
-        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@color/text_color_button</item>
+        <item name="android:background">@drawable/button_large</item>
         <item name="android:gravity">center</item>
     </style>
     <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button">
