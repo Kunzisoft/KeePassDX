@@ -1,4 +1,5 @@
  * Déplacer et copier ajoutés pour les groupes et les entrées
- * Nouvelle navigation dans un seul écran
+ * Nouvelle navigation dans un seul écran / nouvelles animations entre activités
  * Nouveaux icones pour le pack material
  * Nouvel icone de lancement adaptatif
+ * Ajout d'un paramètre pour désactiver le bouton d'ouverture quand aucun mot de passe n'est identifié

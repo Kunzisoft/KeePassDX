@@ -1,4 +1,5 @@
  * Added move and copy for groups and entries
- * New navigation in a single screen
+ * New navigation in a single screen / new animations between activities
  * New icons for the material pack
  * New adaptive launcher icon
+ * Added a setting to disable the open button when no password is identified
