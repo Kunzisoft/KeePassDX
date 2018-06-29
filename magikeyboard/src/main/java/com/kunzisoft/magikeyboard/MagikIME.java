@@ -134,8 +134,10 @@ public class MagikIME extends InputMethodService
                 }
                 // TODO Add a long press to choose the keyboard
                 break;
-            case KEY_ENTRY:
             case KEY_UNLOCK:
+                // TODO Unlock key
+                break;
+            case KEY_ENTRY:
                 Intent intent = new Intent(this, EntryRetrieverActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -162,7 +164,7 @@ public class MagikIME extends InputMethodService
                 }
                 break;
             case KEY_FIELDS:
-                break;
+                // TODO Fields key
             case Keyboard.KEYCODE_DELETE :
                 ic.deleteSurroundingText(1, 0);
                 break;

@@ -38,7 +38,9 @@ public class EntrySelectionHelper {
             entryModel.setPassword(entry.getPassword());
             entryModel.setUrl(entry.getUrl());
             // TODO Fields
-            //entryModel.setCustomField(entry.getFields());
+            if (entry.containsCustomFields()) {
+                //entryModel.setCustomField(entry.getFields());
+            }
 
             mReplyIntent.putExtra(
                     EXTRA_ENTRY_SELECTION_MODE,

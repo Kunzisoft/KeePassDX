@@ -20,11 +20,16 @@
 package com.kunzisoft.magikeyboard.settings;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.kunzisoft.magikeyboard.R;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MagikIMESettings extends AppCompatActivity {
 
@@ -43,6 +48,26 @@ public class MagikIMESettings extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new MagikIMESettingsFragment())
                     .commit();
+        }
+
+        // TODO Remove after all dev
+        try {
+            Class<?> underDevClass = Class.forName("com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment");
+            Constructor<?> constructor = underDevClass.getConstructor();
+            Object object = constructor.newInstance();
+            Method showMethod = underDevClass.getMethod("show", FragmentManager.class, String.class);
+            showMethod.invoke(object, getSupportFragmentManager(), "magikeyboard_dev_dialog");
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
