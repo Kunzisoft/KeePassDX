@@ -23,7 +23,8 @@
         <Preference
             android:key="@string/entry_timeout_key"
             android:title="@string/entry_timeout_title"
-            android:summary="@string/entry_timeout_summary" />
+            android:summary="@string/entry_timeout_summary"
+            android:enabled="false"/>
         <SwitchPreference
             android:key="@string/notification_entry_key"
             android:title="@string/notification_entry_title"

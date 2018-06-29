@@ -14,12 +14,11 @@
         </service>
         <service android:name=".KeyboardEntryNotificationService" />
         <receiver
-            android:name=".KeyboardEntryNotificationService$NotificationDeleteBroadcastReceiver"
+            android:name=".receiver.NotificationDeleteBroadcastReceiver"
             android:exported="false" >
         </receiver>
-        <activity android:name=".KeyboardManagerActivity"
-            android:label=""/>
-        <activity android:name="com.kunzisoft.magikeyboard.MagikIMESettings"
+
+        <activity android:name="com.kunzisoft.magikeyboard.settings.MagikIMESettings"
             android:label="@string/keyboard_setting_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

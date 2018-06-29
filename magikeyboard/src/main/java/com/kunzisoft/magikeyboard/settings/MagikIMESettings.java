@@ -17,12 +17,14 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.magikeyboard;
+package com.kunzisoft.magikeyboard.settings;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.kunzisoft.magikeyboard.R;
 
 public class MagikIMESettings extends AppCompatActivity {
 

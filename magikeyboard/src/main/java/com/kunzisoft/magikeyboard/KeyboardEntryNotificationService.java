@@ -4,16 +4,19 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver;
+import com.kunzisoft.magikeyboard.receiver.NotificationDeleteBroadcastReceiver;
+
 import static android.content.ContentValues.TAG;
+import static com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
 public class KeyboardEntryNotificationService extends Service {
 
@@ -45,6 +48,14 @@ public class KeyboardEntryNotificationService extends Service {
                     NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(channel);
         }
+
+        // Register a lock receiver to stop notification service when lock on keyboard is performed
+        registerReceiver(new LockBroadcastReceiver() {
+            @Override
+            public void onReceiveLock(Context context, Intent intent) {
+                context.stopService(new Intent(context, KeyboardEntryNotificationService.class));
+            }
+        }, new IntentFilter(LOCK_ACTION));
     }
 
     @Override
@@ -60,28 +71,31 @@ public class KeyboardEntryNotificationService extends Service {
 
     private void newNotification() {
 
-        Intent contentIntent = new Intent(this, KeyboardManagerActivity.class);
-        contentIntent.setAction(Intent.ACTION_MAIN);
-        contentIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        PendingIntent pendingContentIntent = PendingIntent.getActivity(
-                this, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         Intent deleteIntent = new Intent(this, NotificationDeleteBroadcastReceiver.class);
         PendingIntent pendingDeleteIntent =
                 PendingIntent.getBroadcast(getApplicationContext(), 0, deleteIntent, 0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_KEYBOARD)
-                .setSmallIcon(R.drawable.ic_vpn_key_white_24dp)
-                .setContentTitle(getString(R.string.notification_entry_content_title, "Entry"))
-                .setAutoCancel(false)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-                .setContentText(getString(R.string.notification_entry_content_text, "Username"))
-                .setContentIntent(pendingContentIntent)
-                .setDeleteIntent(pendingDeleteIntent);
+        if (MagikIME.getEntryKey() != null) {
+            String entryTitle = getString(R.string.notification_entry_content_title_text);
+            String entryUsername = "";
+            if (!MagikIME.getEntryKey().getTitle().isEmpty())
+                entryTitle = MagikIME.getEntryKey().getTitle();
+            if (!MagikIME.getEntryKey().getUsername().isEmpty())
+                entryUsername = MagikIME.getEntryKey().getUsername();
 
-        notificationManager.cancel(notificationId);
-        notificationManager.notify(notificationId, builder.build());
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_KEYBOARD)
+                    .setSmallIcon(R.drawable.ic_vpn_key_white_24dp)
+                    .setContentTitle(getString(R.string.notification_entry_content_title, entryTitle))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                    .setContentText(getString(R.string.notification_entry_content_text, entryUsername))
+                    .setAutoCancel(false)
+                    .setContentIntent(null)
+                    .setDeleteIntent(pendingDeleteIntent);
+
+            notificationManager.cancel(notificationId);
+            notificationManager.notify(notificationId, builder.build());
+        }
 
         // TODO Get timeout
         /*
@@ -118,22 +132,4 @@ public class KeyboardEntryNotificationService extends Service {
         notificationManager.cancel(notificationId);
     }
 
-    public class NotificationDeleteBroadcastReceiver extends BroadcastReceiver {
-
-        // TODO Crash here
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Clear the entry if define in preferences
-            SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
-            if (sharedPreferences.getBoolean(getString(R.string.notification_entry_clear_close_key),
-                    getResources().getBoolean(R.bool.notification_entry_clear_close_default))) {
-                MagikIME.deleteEntryKey(context);
-            }
-
-            // Stop the service in all cases
-            stopSelf();
-        }
-
-    }
 }

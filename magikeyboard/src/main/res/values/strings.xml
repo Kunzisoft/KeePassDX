@@ -32,6 +32,7 @@
     <string name="notification_entry_summary">Show a notification when an entry is available</string>
     <bool name="notification_entry_default" translatable="false">true</bool>
 
+    <string name="notification_entry_content_title_text">Entry</string>
     <string name="notification_entry_content_title">%1$s available on Magikeyboard</string>
     <string name="notification_entry_content_text">%1$s</string>
 

@@ -1,7 +1,9 @@
-package com.kunzisoft.magikeyboard;
+package com.kunzisoft.magikeyboard.settings;
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import com.kunzisoft.magikeyboard.R;
 
 public class MagikIMESettingsFragment extends PreferenceFragmentCompat {
 

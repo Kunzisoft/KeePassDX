@@ -9,12 +9,14 @@ import java.util.Set;
 
 public class Entry implements Parcelable {
 
+    private String title;
     private String username;
     private String password;
     private String url;
     private Map<String, String> customFields;
 
     public Entry() {
+        this.title = "";
         this.username = "";
         this.password = "";
         this.url = "";
@@ -22,6 +24,7 @@ public class Entry implements Parcelable {
     }
 
     protected Entry(Parcel in) {
+        title = in.readString();
         username = in.readString();
         password = in.readString();
         url = in.readString();
@@ -40,6 +43,14 @@ public class Entry implements Parcelable {
             return new Entry[size];
         }
     };
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getUsername() {
         return username;
@@ -84,6 +95,7 @@ public class Entry implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(title);
         parcel.writeString(username);
         parcel.writeString(password);
         parcel.writeString(url);

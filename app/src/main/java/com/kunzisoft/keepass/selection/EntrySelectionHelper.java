@@ -33,6 +33,7 @@ public class EntrySelectionHelper {
             Log.d(activity.getClass().getName(), "Reply entry selection");
 
             Entry entryModel = new Entry();
+            entryModel.setTitle(entry.getTitle());
             entryModel.setUsername(entry.getUsername());
             entryModel.setPassword(entry.getPassword());
             entryModel.setUrl(entry.getUrl());

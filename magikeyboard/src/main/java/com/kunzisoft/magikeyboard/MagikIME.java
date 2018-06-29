@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.magikeyboard;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -37,13 +37,13 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import com.kunzisoft.keepass_model.Entry;
-import com.kunzisoft.magikeyboard.utils.Utility;
+import com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver;
+
+import static com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
 public class MagikIME extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
     private static final String TAG = MagikIME.class.getName();
-
-    private static final String LOCK_ACTION = "com.kunzisoft.keepass.LOCK";
 
     private static final int KEY_CHANGE_KEYBOARD = 600;
     private static final int KEY_UNLOCK = 610;
@@ -59,6 +59,20 @@ public class MagikIME extends InputMethodService
     private KeyboardView keyboardView;
     private Keyboard keyboard;
     private Keyboard keyboard_entry;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        // Remove the entry and lock the keyboard when the lock signal is receive
+        registerReceiver(new LockBroadcastReceiver() {
+            @Override
+            public void onReceiveLock(Context context, Intent intent) {
+                entryKey = null;
+                assignKeyboardView();
+            }
+        }, new IntentFilter(LOCK_ACTION));
+    }
 
     @Override
     public View onCreateInputView() {
@@ -88,6 +102,10 @@ public class MagikIME extends InputMethodService
         assignKeyboardView();
     }
 
+    public static Entry getEntryKey() {
+        return entryKey;
+    }
+
     public static void setEntryKey(Entry entry) {
         entryKey = entry;
     }
@@ -110,7 +128,9 @@ public class MagikIME extends InputMethodService
                     imeManager.switchToLastInputMethod(getWindow().getWindow().getAttributes().token);
                 } catch (Exception e) {
                     Log.e(TAG, "Unable to switch to the previous IME", e);
-                    Utility.openInputMethodPicker(this);
+                    InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    if (imeManager != null)
+                        imeManager.showInputMethodPicker();
                 }
                 // TODO Add a long press to choose the keyboard
                 break;
@@ -217,19 +237,5 @@ public class MagikIME extends InputMethodService
                     break;
                 default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
             }
-    }
-
-    public class LockBroadcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action != null
-                    && action.equals(LOCK_ACTION)) {
-                entryKey = null;
-                assignKeyboardView();
-            }
-        }
-
     }
 }
