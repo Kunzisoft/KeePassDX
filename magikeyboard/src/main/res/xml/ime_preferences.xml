@@ -24,5 +24,44 @@
             android:key="@string/entry_timeout_key"
             android:title="@string/entry_timeout_title"
             android:summary="@string/entry_timeout_summary" />
+        <SwitchPreference
+            android:key="@string/notification_entry_key"
+            android:title="@string/notification_entry_title"
+            android:summary="@string/notification_entry_summary"
+            android:defaultValue="@bool/notification_entry_default"/>
+        <SwitchPreference
+            android:key="@string/notification_entry_clear_close_key"
+            android:title="@string/notification_entry_clear_close_title"
+            android:summary="@string/notification_entry_clear_close_summary"
+            android:dependency="@string/notification_entry_key"
+            android:defaultValue="@bool/notification_entry_clear_close_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/appearance_category">
+        <Preference
+            android:key="@string/theme_key"
+            android:title="@string/theme_title"
+            android:summary="dark"
+            android:enabled="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/keys_category">
+        <SwitchPreference
+            android:key="@string/key_vibrate_key"
+            android:title="@string/key_vibrate_title"
+            android:defaultValue="@bool/key_vibrate_default"
+            android:enabled="false"/>
+        <Preference
+            android:key="@string/key_vibrate_duration_key"
+            android:title="@string/key_vibrate_duration_title"
+            android:enabled="false"/>
+        <SwitchPreference
+            android:key="@string/key_sound_key"
+            android:defaultValue="@bool/key_sound_default"
+            android:title="@string/key_sound_title" />
+        <Preference
+            android:key="@string/key_long_press_delay_key"
+            android:title="@string/key_long_press_delay_title"
+            android:enabled="false" />
     </PreferenceCategory>
 </PreferenceScreen>

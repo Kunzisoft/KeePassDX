@@ -19,10 +19,17 @@
  */
 package com.kunzisoft.magikeyboard;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.media.AudioManager;
+import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,10 +37,13 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import com.kunzisoft.keepass_model.Entry;
+import com.kunzisoft.magikeyboard.utils.Utility;
 
 public class MagikIME extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
     private static final String TAG = MagikIME.class.getName();
+
+    private static final String LOCK_ACTION = "com.kunzisoft.keepass.LOCK";
 
     private static final int KEY_CHANGE_KEYBOARD = 600;
     private static final int KEY_UNLOCK = 610;
@@ -53,12 +63,13 @@ public class MagikIME extends InputMethodService
     @Override
     public View onCreateInputView() {
         keyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboard = new Keyboard(this, R.xml.password_keys);
-        keyboard_entry = new Keyboard(this, R.xml.password_entry_keys);
+        keyboard = new Keyboard(this, R.xml.keyboard_password);
+        keyboard_entry = new Keyboard(this, R.xml.keyboard_password_entry);
 
         assignKeyboardView();
         keyboardView.setOnKeyboardActionListener(this);
         keyboardView.setPreviewEnabled(false);
+        keyboardView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         return keyboardView;
     }
@@ -81,7 +92,9 @@ public class MagikIME extends InputMethodService
         entryKey = entry;
     }
 
-    public static void deleteEntryKey() {
+    public static void deleteEntryKey(Context context) {
+        Intent lockIntent = new Intent(LOCK_ACTION);
+        context.sendBroadcast(lockIntent);
         entryKey = null;
     }
 
@@ -90,10 +103,16 @@ public class MagikIME extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         switch(primaryCode){
             case KEY_CHANGE_KEYBOARD:
-                // TODO supportsSwitchingToNextInputMethod
-                InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if (imeManager != null)
-                    imeManager.showInputMethodPicker();
+                try {
+                    InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    assert imeManager != null;
+                    assert getWindow().getWindow() != null;
+                    imeManager.switchToLastInputMethod(getWindow().getWindow().getAttributes().token);
+                } catch (Exception e) {
+                    Log.e(TAG, "Unable to switch to the previous IME", e);
+                    Utility.openInputMethodPicker(this);
+                }
+                // TODO Add a long press to choose the keyboard
                 break;
             case KEY_ENTRY:
             case KEY_UNLOCK:
@@ -102,10 +121,7 @@ public class MagikIME extends InputMethodService
                 startActivity(intent);
                 break;
             case KEY_LOCK:
-                Intent lockIntent = new Intent("com.kunzisoft.keepass.LOCK");
-                sendBroadcast(lockIntent);
-                deleteEntryKey();
-                assignKeyboardView();
+                deleteEntryKey(this);
                 break;
             case KEY_USERNAME:
                 if (entryKey != null) {
@@ -135,8 +151,16 @@ public class MagikIME extends InputMethodService
                 break;
             default:
         }
-    }
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPreferences.getBoolean(getString(R.string.key_vibrate_key), getResources().getBoolean(R.bool.key_vibrate_default)))
+            vibrate();
+
+        if (sharedPreferences.getBoolean(getString(R.string.key_sound_key), getResources().getBoolean(R.bool.key_sound_default)))
+            playClick(primaryCode);
+
+    }
 
     @Override
     public void onPress(int primaryCode) {
@@ -164,5 +188,48 @@ public class MagikIME extends InputMethodService
 
     @Override
     public void swipeUp() {
+    }
+
+    private void vibrate() {
+        // TODO better vibration
+        /*
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(50);
+            }
+        }
+        */
+    }
+
+    private void playClick(int keyCode){
+        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if (am != null)
+            switch(keyCode){
+                case Keyboard.KEYCODE_DONE:
+                case 10:
+                    am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);
+                    break;
+                case Keyboard.KEYCODE_DELETE:
+                    am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE);
+                    break;
+                default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
+            }
+    }
+
+    public class LockBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action != null
+                    && action.equals(LOCK_ACTION)) {
+                entryKey = null;
+                assignKeyboardView();
+            }
+        }
+
     }
 }

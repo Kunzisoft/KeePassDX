@@ -15,10 +15,6 @@ android {
         testApplicationId = "com.kunzisoft.keepass.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
-        ndk {
-            abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-        }
-
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
     }
 

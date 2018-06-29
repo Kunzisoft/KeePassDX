@@ -272,7 +272,7 @@
     <string name="magic_keyboard_activate_setting_path_1_text">Settings -> Language &amp; input -> Current keyboard -> CHOOSE KEYBOARDS</string>
     <string name="magic_keyboard_activate_setting_path_2_text">or (Settings -> System -> Language &amp; input -> Virtual keyboard -> Manage keyboards)</string>
     <string name="keyboards_choose_magikeyboard_text">Choose the Magikeyboard when you need to fill a form.</string>
-    <string name="keyboards_swicth_magikeyboard_text">You can easily switch from your main keyboard to Magikeyboard with : </string>
+    <string name="keyboards_swicth_magikeyboard_text">You can easily switch from your main keyboard to Magikeyboard with the language button of your keyboard, a long press on the space bar of your keyboard, or, if it is not available, with : </string>
     <string name="keyboard_select_entry_text">Select your entry with the key.</string>
     <string name="keyboard_fill_field_text">Fill in your fields with the elements of the entry.</string>
     <string name="keyboard_lock_database_text">Lock the database.</string>

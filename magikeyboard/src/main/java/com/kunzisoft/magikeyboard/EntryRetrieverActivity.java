@@ -2,8 +2,10 @@ package com.kunzisoft.magikeyboard;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -41,6 +43,14 @@ public class EntryRetrieverActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 Entry entry = data.getParcelableExtra("com.kunzisoft.keepass.extra.ENTRY_SELECTION_MODE");
                 MagikIME.setEntryKey(entry);
+
+                // Show the notification if allowed in Preferences
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                if (sharedPreferences.getBoolean(getString(R.string.notification_entry_key),
+                        getResources().getBoolean(R.bool.notification_entry_default))) {
+                    Intent notificationIntent = new Intent(this, KeyboardEntryNotificationService.class);
+                    startService(notificationIntent);
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Log.w(TAG, "Entry not retrieved");

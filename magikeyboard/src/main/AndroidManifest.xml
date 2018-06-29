@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kunzisoft.magikeyboard" >
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application>
         <service
             android:name="com.kunzisoft.magikeyboard.MagikIME"
@@ -11,9 +12,15 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
+        <service android:name=".KeyboardEntryNotificationService" />
+        <receiver
+            android:name=".KeyboardEntryNotificationService$NotificationDeleteBroadcastReceiver"
+            android:exported="false" >
+        </receiver>
+        <activity android:name=".KeyboardManagerActivity"
+            android:label=""/>
         <activity android:name="com.kunzisoft.magikeyboard.MagikIMESettings"
             android:label="@string/keyboard_setting_label">
-            <!-- TODO Settings -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
