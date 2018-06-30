@@ -20,15 +20,12 @@
 package com.kunzisoft.keepass.selection;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
 import com.kunzisoft.keepass.fileselect.FileSelectActivity;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class EntrySelectionAuthActivity extends AppCompatActivity {
 
     @Override
