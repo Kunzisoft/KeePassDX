@@ -70,6 +70,7 @@ import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.icons.IconPackChooser;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
@@ -109,7 +110,7 @@ public class GroupActivity extends ListNodesActivity
 	
 	public static void launch(Activity act) {
         startRecordTime(act);
-        launch(act, (PwGroup) null);
+        launch(act, null);
 	}
 
     public static void launch(Activity act, PwGroup group) {
@@ -122,18 +123,37 @@ public class GroupActivity extends ListNodesActivity
         }
     }
 
+    public static void launchForKeyboardResult(Activity act) {
+        startRecordTime(act);
+        launchForKeyboardResult(act, null);
+    }
+
+    public static void launchForKeyboardResult(Activity act, PwGroup group) {
+        // TODO remove
+        if (checkTimeIsAllowedOrFinish(act)) {
+            Intent intent = new Intent(act, GroupActivity.class);
+            if (group != null) {
+                intent.putExtra(GROUP_ID_KEY, group.getId());
+            }
+            EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
+            act.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+        }
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launch(Activity act, AssistStructure assistStructure) {
+    public static void launchForAutofillResult(Activity act, AssistStructure assistStructure) {
         if ( assistStructure != null ) {
             startRecordTime(act);
-            launch(act, null, assistStructure);
+            launchForAutofillResult(act, null, assistStructure);
         } else {
             launch(act);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launch(Activity act, PwGroup group, AssistStructure assistStructure) {
+    public static void launchForAutofillResult(Activity act, PwGroup group, AssistStructure assistStructure) {
+	    // TODO remove
         if ( assistStructure != null ) {
             if (checkTimeIsAllowedOrFinish(act)) {
                 Intent intent = new Intent(act, GroupActivity.class);
@@ -248,7 +268,7 @@ public class GroupActivity extends ListNodesActivity
 
         if (currentGroup != null) {
             addGroupEnabled = !readOnly;
-            addEntryEnabled = !readOnly; // TODO ReadOnly
+            addEntryEnabled = !readOnly; // TODO consultation mode
             isRoot = (currentGroup == root);
             if (!currentGroup.allowAddEntryIfIsRoot())
                 addEntryEnabled = !isRoot && addEntryEnabled;

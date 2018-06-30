@@ -259,7 +259,7 @@
     <string name="application_appearance">Apparence de l\'application</string>
     <string name="other">Autres</string>
     <string name="keyboard">Clavier</string>
-    <string name="magic_keyboard_title">Magikeyboayd</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activer un clavier customisé qui permet le renseignement de vos mots de passe et de tous vos champs d\'identité facilement.</string>
 
     <string name="reset_education_screens_title">Réinitialiser les écrans d\'éducation</string>

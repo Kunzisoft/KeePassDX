@@ -249,6 +249,7 @@ public class Database {
         mUri = uri;
     }
 
+    // TODO Clear database when lock broadcast is receive in backstage
     public void clear() {
         drawFactory.clearCache();
 

@@ -54,7 +54,7 @@ public class AutoFillAuthActivity extends AppCompatActivity {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         AssistStructure assistStructure = autofillHelper.retrieveAssistStructure(getIntent());
         if (assistStructure != null) {
-            FileSelectActivity.launch(this, assistStructure);
+            FileSelectActivity.launchForAutofillResult(this, assistStructure);
         } else {
             setResult(RESULT_CANCELED);
             finish();

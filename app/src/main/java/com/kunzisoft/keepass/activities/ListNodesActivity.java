@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
@@ -58,6 +59,7 @@ public abstract class ListNodesActivity extends LockingActivity
 	protected PwGroup mCurrentGroup;
     protected TextView groupNameView;
 
+    protected boolean entrySelectionMode;
     protected AutofillHelper autofillHelper;
 
 	@Override
@@ -80,6 +82,7 @@ public abstract class ListNodesActivity extends LockingActivity
 
         initializeListNodesFragment(mCurrentGroup);
 
+        entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
@@ -174,13 +177,25 @@ public abstract class ListNodesActivity extends LockingActivity
             }
         }
         if ( assistStructure == null ){
-            switch (node.getType()) {
-                case GROUP:
-                    openGroup((PwGroup) node);
-                    break;
-                case ENTRY:
-                    EntryActivity.launch(this, (PwEntry) node);
-                    break;
+            if (entrySelectionMode) {
+                switch (node.getType()) {
+                    case GROUP:
+                        openGroup((PwGroup) node);
+                        break;
+                    case ENTRY:
+                        EntrySelectionHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
+                        finish();
+                        break;
+                }
+            } else {
+                switch (node.getType()) {
+                    case GROUP:
+                        openGroup((PwGroup) node);
+                        break;
+                    case ENTRY:
+                        EntryActivity.launch(this, (PwEntry) node);
+                        break;
+                }
             }
         }
     }
@@ -233,6 +248,7 @@ public abstract class ListNodesActivity extends LockingActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         }

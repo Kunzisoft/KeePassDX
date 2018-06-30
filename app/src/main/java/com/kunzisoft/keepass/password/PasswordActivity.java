@@ -56,6 +56,7 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
@@ -66,7 +67,7 @@ import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
-import com.kunzisoft.keepass.fingerprint.FingerPrintDialog;
+import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
@@ -128,6 +129,7 @@ public class PasswordActivity extends StylishActivity
 
     private KeyFileHelper keyFileHelper;
 
+    protected boolean entrySelectionMode;
     private AutofillHelper autofillHelper;
 
     public static void launch(
@@ -146,19 +148,39 @@ public class PasswordActivity extends StylishActivity
         intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
         intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
         // only to avoid visible  flickering when redirecting
-        act.startActivityForResult(intent, 0);
+        act.startActivityForResult(intent, RESULT_CANCELED);
+    }
+
+    public static void launchForKeyboardResult(
+            Activity act,
+            String fileName) throws FileNotFoundException {
+        launchForKeyboardResult(act, fileName, "");
+    }
+
+    public static void launchForKeyboardResult(
+            Activity act,
+            String fileName,
+            String keyFile) throws FileNotFoundException {
+        verifyFileNameUriFromLaunch(fileName);
+
+        Intent intent = new Intent(act, PasswordActivity.class);
+        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
+        EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
+        // only to avoid visible  flickering when redirecting
+        act.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launch(
+    public static void launchForAutofillResult(
             Activity act,
             String fileName,
             AssistStructure assistStructure) throws FileNotFoundException {
-        launch(act, fileName, "", assistStructure);
+        launchForAutofillResult(act, fileName, "", assistStructure);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launch(
+    public static void launchForAutofillResult(
             Activity act,
             String fileName,
             String keyFile,
@@ -200,6 +222,8 @@ public class PasswordActivity extends StylishActivity
             Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // To get entry in result
+        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         }
@@ -295,6 +319,8 @@ public class PasswordActivity extends StylishActivity
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                     fingerprintImageView);
         }
+
+        entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
@@ -702,7 +728,7 @@ public class PasswordActivity extends StylishActivity
         else {
             // show explanations
             fingerprintContainerView.setOnClickListener(view -> {
-                FingerPrintDialog fingerPrintDialog = new FingerPrintDialog();
+                FingerPrintExplanationDialog fingerPrintDialog = new FingerPrintExplanationDialog();
                 fingerPrintDialog.show(getSupportFragmentManager(), "fingerprintDialog");
             });
             setFingerPrintVisibility(View.VISIBLE);
@@ -919,11 +945,15 @@ public class PasswordActivity extends StylishActivity
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             assistStructure = autofillHelper.getAssistStructure();
             if (assistStructure != null) {
-                GroupActivity.launch(PasswordActivity.this, assistStructure);
+                GroupActivity.launchForAutofillResult(PasswordActivity.this, assistStructure);
             }
         }
         if (assistStructure == null) {
-            GroupActivity.launch(PasswordActivity.this);
+            if (entrySelectionMode) {
+                GroupActivity.launchForKeyboardResult(PasswordActivity.this);
+            } else {
+                GroupActivity.launch(PasswordActivity.this);
+            }
         }
     }
 

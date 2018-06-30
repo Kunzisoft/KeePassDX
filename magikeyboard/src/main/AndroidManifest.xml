@@ -1,0 +1,31 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kunzisoft.magikeyboard" >
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <application>
+        <service
+            android:name="com.kunzisoft.magikeyboard.MagikIME"
+            android:label="@string/keyboard_label"
+            android:permission="android.permission.BIND_INPUT_METHOD" >
+            <meta-data android:name="android.view.im"
+                android:resource="@xml/method"/>
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+        </service>
+        <service android:name=".KeyboardEntryNotificationService" />
+        <receiver
+            android:name=".receiver.NotificationDeleteBroadcastReceiver"
+            android:exported="false" >
+        </receiver>
+
+        <activity android:name="com.kunzisoft.magikeyboard.settings.MagikIMESettings"
+            android:label="@string/keyboard_setting_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.kunzisoft.magikeyboard.EntryRetrieverActivity"
+            android:label="@string/keyboard_name">
+        </activity>
+    </application>
+</manifest>

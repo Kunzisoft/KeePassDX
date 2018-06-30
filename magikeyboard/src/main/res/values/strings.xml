@@ -1,0 +1,64 @@
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_setting_label">Magikeyboard settings</string>
+
+    <string name="entry_category">Entry</string>
+
+    <string name="entry_timeout_key" translatable="false">erase_entry_timeout_key</string>
+    <string name="entry_timeout_title">Timeout</string>
+    <string name="entry_timeout_summary">Timeout to clear the keyboard entry</string>
+
+    <string name="notification_entry_key" translatable="false">notification_entry_key</string>
+    <string name="notification_entry_title">Notification information</string>
+    <string name="notification_entry_summary">Show a notification when an entry is available</string>
+    <bool name="notification_entry_default" translatable="false">true</bool>
+
+    <string name="notification_entry_content_title_text">Entry</string>
+    <string name="notification_entry_content_title">%1$s available on Magikeyboard</string>
+    <string name="notification_entry_content_text">%1$s</string>
+
+    <string name="notification_entry_clear_close_key" translatable="false">notification_entry_slide_close_key</string>
+    <string name="notification_entry_clear_close_title">Clear at closing</string>
+    <string name="notification_entry_clear_close_summary">Clear the keyboard entry when closing the notification</string>
+    <bool name="notification_entry_clear_close_default" translatable="false">true</bool>
+
+    <string name="appearance_category">Appearance</string>
+
+    <string name="theme_key" translatable="false">theme_key</string>
+    <string name="theme_title">Theme</string>
+
+    <string name="keys_category">Keys</string>
+    <string name="key_vibrate_key" translatable="false">key_vibrate_key</string>
+    <string name="key_vibrate_title">Vibrate on keypress</string>
+    <bool name="key_vibrate_default" translatable="false">true</bool>
+
+    <string name="key_vibrate_duration_key" translatable="false">key_vibrate_duration_key</string>
+    <string name="key_vibrate_duration_title">Keypress vibration duration</string>
+
+    <string name="key_sound_key" translatable="false">key_sound_key</string>
+    <string name="key_sound_title">Sound on keypress</string>
+    <bool name="key_sound_default" translatable="false">false</bool>
+
+    <string name="key_long_press_delay_key" translatable="false">key_long_press_delay_key</string>
+    <string name="key_long_press_delay_title">Key long press delay</string>
+
+</resources>

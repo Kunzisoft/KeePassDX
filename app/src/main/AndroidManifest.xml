@@ -31,7 +31,7 @@
             android:name="com.kunzisoft.keepass.fileselect.FileSelectActivity"
             android:theme="@style/KeepassDXStyle.SplashScreen"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
@@ -132,10 +132,10 @@
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity android:name="com.kunzisoft.keepass.autofill.AutoFillAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.kunzisoft.keepass.selection.EntrySelectionAuthActivity"
+            android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
 
-        <!-- Receiver for lock-->
-        <service android:name="com.kunzisoft.keepass.lock.LockService" />
         <service
             android:name="com.kunzisoft.keepass.notifications.NotificationCopyingService"
             android:enabled="true"

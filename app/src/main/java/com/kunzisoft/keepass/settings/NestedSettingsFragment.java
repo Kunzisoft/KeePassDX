@@ -51,14 +51,16 @@ import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.keyboard.KeyboardExplanationDialog;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
+import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseNamePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.MemoryUsagePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
+import com.kunzisoft.magikeyboard.settings.MagikIMESettings;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {
@@ -277,8 +279,21 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     });
                 }
 
-                SwitchPreference keyboardPreference = (SwitchPreference) findPreference(getString(R.string.magic_keyboard_key));
-                preferenceInDevelopment(keyboardPreference);
+                Preference keyboardPreference = findPreference(getString(R.string.magic_keyboard_key));
+                keyboardPreference.setOnPreferenceClickListener(preference -> {
+                    if (getFragmentManager() != null) {
+                        KeyboardExplanationDialog fingerPrintDialog = new KeyboardExplanationDialog();
+                        fingerPrintDialog.show(getFragmentManager(), "keyboardExplanationDialog");
+                    }
+                    return false;
+                });
+
+                Preference keyboardSubPreference = findPreference(getString(R.string.magic_keyboard_preference_key));
+                keyboardSubPreference.setOnPreferenceClickListener(preference -> {
+                    Intent intentKeyboard = new Intent(getContext(), MagikIMESettings.class);
+                    startActivity(intentKeyboard);
+                    return false;
+                });
 
                 break;
 
