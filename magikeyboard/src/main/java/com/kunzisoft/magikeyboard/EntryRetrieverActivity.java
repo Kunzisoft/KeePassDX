@@ -3,7 +3,6 @@ package com.kunzisoft.magikeyboard;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -22,16 +21,14 @@ public class EntryRetrieverActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) { // TODO lock for < jelly bean
-            Intent intent;
-            try {
-                intent = new Intent(this,
-                        Class.forName("com.kunzisoft.keepass.selection.EntrySelectionAuthActivity"));
-                startActivityForResult(intent, ENTRY_REQUEST_CODE);
-            } catch (ClassNotFoundException e) {
-                Log.e(TAG, "Unable to load the entry retriever", e);
-                finish();
-            }
+        Intent intent;
+        try {
+            intent = new Intent(this,
+                    Class.forName("com.kunzisoft.keepass.selection.EntrySelectionAuthActivity"));
+            startActivityForResult(intent, ENTRY_REQUEST_CODE);
+        } catch (ClassNotFoundException e) {
+            Log.e(TAG, "Unable to load the entry retriever", e);
+            finish();
         }
     }
 
