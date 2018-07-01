@@ -60,18 +60,27 @@ public class MagikIME extends InputMethodService
     private Keyboard keyboard;
     private Keyboard keyboard_entry;
 
+    private LockBroadcastReceiver lockBroadcastReceiver;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         // Remove the entry and lock the keyboard when the lock signal is receive
-        registerReceiver(new LockBroadcastReceiver() {
+        lockBroadcastReceiver = new LockBroadcastReceiver() {
             @Override
             public void onReceiveLock(Context context, Intent intent) {
                 entryKey = null;
                 assignKeyboardView();
             }
-        }, new IntentFilter(LOCK_ACTION));
+        };
+        registerReceiver(lockBroadcastReceiver, new IntentFilter(LOCK_ACTION));
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(lockBroadcastReceiver);
+        super.onDestroy();
     }
 
     @Override

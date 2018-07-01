@@ -28,6 +28,9 @@ public class KeyboardEntryNotificationService extends Service {
     private int notificationId = 582;
     private long notificationTimeoutMilliSecs;
 
+    private LockBroadcastReceiver lockBroadcastReceiver;
+    private PendingIntent pendingDeleteIntent;
+
     public KeyboardEntryNotificationService() {
     }
 
@@ -50,12 +53,13 @@ public class KeyboardEntryNotificationService extends Service {
         }
 
         // Register a lock receiver to stop notification service when lock on keyboard is performed
-        registerReceiver(new LockBroadcastReceiver() {
+        lockBroadcastReceiver = new LockBroadcastReceiver() {
             @Override
             public void onReceiveLock(Context context, Intent intent) {
                 context.stopService(new Intent(context, KeyboardEntryNotificationService.class));
             }
-        }, new IntentFilter(LOCK_ACTION));
+        };
+        registerReceiver(lockBroadcastReceiver, new IntentFilter(LOCK_ACTION));
     }
 
     @Override
@@ -72,7 +76,7 @@ public class KeyboardEntryNotificationService extends Service {
     private void newNotification() {
 
         Intent deleteIntent = new Intent(this, NotificationDeleteBroadcastReceiver.class);
-        PendingIntent pendingDeleteIntent =
+        pendingDeleteIntent =
                 PendingIntent.getBroadcast(getApplicationContext(), 0, deleteIntent, 0);
 
         if (MagikIME.getEntryKey() != null) {
@@ -128,8 +132,12 @@ public class KeyboardEntryNotificationService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        unregisterReceiver(lockBroadcastReceiver);
+        pendingDeleteIntent.cancel();
+
         notificationManager.cancel(notificationId);
+
+        super.onDestroy();
     }
 
 }
