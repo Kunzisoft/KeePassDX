@@ -554,7 +554,8 @@ public class PasswordActivity extends StylishActivity
             }
 
             // Add old listener to enable the button, only be call here because of onCheckedChange bug
-            enableButtonOncheckedChangeListener.onCheckedChanged(compoundButton, checked);
+            if (enableButtonOncheckedChangeListener != null)
+                enableButtonOncheckedChangeListener.onCheckedChanged(compoundButton, checked);
         });
 
         // callback for fingerprint findings
