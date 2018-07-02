@@ -5,6 +5,7 @@ KeepassDX (2.5.0.0beta12)
  * New icons for the material pack / vectorization
  * New adaptive launcher icon
  * Added a setting to disable the open button when no password is identified
+ * Added a setting to disable the education screens
 
 KeepassDX (2.5.0.0beta11)
  * Fix crash in beta10 version

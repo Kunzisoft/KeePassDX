@@ -385,34 +385,37 @@ public class PasswordActivity extends StylishActivity
      * Displays the explanation for a database opening with fingerprints if available
      */
     private void checkAndPerformedEducation() {
-        if (!PreferencesUtil.isEducationUnlockPerformed(this)) {
+        if (PreferencesUtil.isEducationScreensEnabled(this)) {
 
-            TapTargetView.showFor(this,
-                    TapTarget.forView(findViewById(R.id.password_input_container),
-                    getString(R.string.education_unlock_title),
-                    getString(R.string.education_unlock_summary))
-                            .dimColor(R.color.green)
-                            .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
-                            .textColorInt(Color.WHITE)
-                            .tintTarget(false)
-                            .cancelable(true),
-                    new TapTargetView.Listener() {
-                        @Override
-                        public void onTargetClick(TapTargetView view) {
-                            super.onTargetClick(view);
-                            checkAndPerformedEducationForFingerprint();
-                        }
+            if (!PreferencesUtil.isEducationUnlockPerformed(this)) {
 
-                        @Override
-                        public void onOuterCircleClick(TapTargetView view) {
-                            super.onOuterCircleClick(view);
-                            view.dismiss(false);
-                            checkAndPerformedEducationForFingerprint();
+                TapTargetView.showFor(this,
+                        TapTarget.forView(findViewById(R.id.password_input_container),
+                                getString(R.string.education_unlock_title),
+                                getString(R.string.education_unlock_summary))
+                                .dimColor(R.color.green)
+                                .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                                .textColorInt(Color.WHITE)
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                checkAndPerformedEducationForFingerprint();
+                            }
 
-                        }
-                    });
-            // TODO make a period for donation
-            PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_unlock_key);
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                                checkAndPerformedEducationForFingerprint();
+
+                            }
+                        });
+                // TODO make a period for donation
+                PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_unlock_key);
+            }
         }
     }
 
@@ -421,14 +424,18 @@ public class PasswordActivity extends StylishActivity
      * Displays fingerprints if available
      */
     private void checkAndPerformedEducationForFingerprint() {
-        if (PreferencesUtil.isFingerprintEnable(getApplicationContext())) {
-            TapTargetView.showFor(this,
-                TapTarget.forView(fingerprintImageView,
-                        getString(R.string.education_fingerprint_title),
-                        getString(R.string.education_fingerprint_summary))
-                        .textColorInt(Color.WHITE)
-                        .tintTarget(false)
-                        .cancelable(true),
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if ( PreferencesUtil.isFingerprintEnable(getApplicationContext())
+                    && FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
+
+                TapTargetView.showFor(this,
+                    TapTarget.forView(fingerprintImageView,
+                            getString(R.string.education_fingerprint_title),
+                            getString(R.string.education_fingerprint_summary))
+                            .textColorInt(Color.WHITE)
+                            .tintTarget(false)
+                            .cancelable(true),
                     new TapTargetView.Listener() {
                         @Override
                         public void onOuterCircleClick(TapTargetView view) {
@@ -436,6 +443,7 @@ public class PasswordActivity extends StylishActivity
                             view.dismiss(false);
                         }
                     });
+            }
         }
     }
 

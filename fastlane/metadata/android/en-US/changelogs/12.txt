@@ -4,3 +4,4 @@
  * New icons for the material pack
  * New adaptive launcher icon
  * Added a setting to disable the open button when no password is identified
+ * Added a setting to disable the education screens

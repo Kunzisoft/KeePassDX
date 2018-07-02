@@ -491,129 +491,131 @@ public class GroupActivity extends ListNodesActivity
      * Displays the explanation for a add, search, sort a new node and lock the database
      */
     private void checkAndPerformedEducation(Menu menu) {
+        if (PreferencesUtil.isEducationScreensEnabled(this)) {
 
-	    // If no node, show education to add new one
-	    if (listNodesFragment != null
-                && listNodesFragment.isEmpty()) {
-            if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
+            // If no node, show education to add new one
+            if (listNodesFragment != null
+                    && listNodesFragment.isEmpty()) {
+                if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
 
-                TapTargetView.showFor(this,
-                        TapTarget.forView(findViewById(R.id.add_button),
-                                getString(R.string.education_new_node_title),
-                                getString(R.string.education_new_node_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(false)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                addNodeButtonView.openButtonIfClose();
-                            }
+                    TapTargetView.showFor(this,
+                            TapTarget.forView(findViewById(R.id.add_button),
+                                    getString(R.string.education_new_node_title),
+                                    getString(R.string.education_new_node_summary))
+                                    .textColorInt(Color.WHITE)
+                                    .tintTarget(false)
+                                    .cancelable(true),
+                            new TapTargetView.Listener() {
+                                @Override
+                                public void onTargetClick(TapTargetView view) {
+                                    super.onTargetClick(view);
+                                    addNodeButtonView.openButtonIfClose();
+                                }
 
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_new_node_key);
+                                @Override
+                                public void onOuterCircleClick(TapTargetView view) {
+                                    super.onOuterCircleClick(view);
+                                    view.dismiss(false);
+                                }
+                            });
+                    PreferencesUtil.saveEducationPreference(this,
+                            R.string.education_new_node_key);
 
+                }
             }
-        }
-        // Else show the search education
-        else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
+            // Else show the search education
+            else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
 
-            try {
-                TapTargetView.showFor(this,
-                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
-                                getString(R.string.education_search_title),
-                                getString(R.string.education_search_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(true)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                MenuItem searchItem = menu.findItem(R.id.menu_search);
-                                searchItem.expandActionView();
-                            }
+                try {
+                    TapTargetView.showFor(this,
+                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
+                                    getString(R.string.education_search_title),
+                                    getString(R.string.education_search_summary))
+                                    .textColorInt(Color.WHITE)
+                                    .tintTarget(true)
+                                    .cancelable(true),
+                            new TapTargetView.Listener() {
+                                @Override
+                                public void onTargetClick(TapTargetView view) {
+                                    super.onTargetClick(view);
+                                    MenuItem searchItem = menu.findItem(R.id.menu_search);
+                                    searchItem.expandActionView();
+                                }
 
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_search_key);
-            } catch (Exception e) {
-                // If icon not visible
-                Log.w(TAG, "Can't performed education for search");
+                                @Override
+                                public void onOuterCircleClick(TapTargetView view) {
+                                    super.onOuterCircleClick(view);
+                                    view.dismiss(false);
+                                }
+                            });
+                    PreferencesUtil.saveEducationPreference(this,
+                            R.string.education_search_key);
+                } catch (Exception e) {
+                    // If icon not visible
+                    Log.w(TAG, "Can't performed education for search");
+                }
             }
-        }
-        // Else show the sort education
-        else if (!PreferencesUtil.isEducationSortPerformed(this)) {
+            // Else show the sort education
+            else if (!PreferencesUtil.isEducationSortPerformed(this)) {
 
-	        try {
-                TapTargetView.showFor(this,
-                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
-                                getString(R.string.education_sort_title),
-                                getString(R.string.education_sort_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(true)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                MenuItem sortItem = menu.findItem(R.id.menu_sort);
-                                onOptionsItemSelected(sortItem);
-                            }
+                try {
+                    TapTargetView.showFor(this,
+                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
+                                    getString(R.string.education_sort_title),
+                                    getString(R.string.education_sort_summary))
+                                    .textColorInt(Color.WHITE)
+                                    .tintTarget(true)
+                                    .cancelable(true),
+                            new TapTargetView.Listener() {
+                                @Override
+                                public void onTargetClick(TapTargetView view) {
+                                    super.onTargetClick(view);
+                                    MenuItem sortItem = menu.findItem(R.id.menu_sort);
+                                    onOptionsItemSelected(sortItem);
+                                }
 
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_sort_key);
-            } catch (Exception e) {
-                Log.w(TAG, "Can't performed education for sort");
+                                @Override
+                                public void onOuterCircleClick(TapTargetView view) {
+                                    super.onOuterCircleClick(view);
+                                    view.dismiss(false);
+                                }
+                            });
+                    PreferencesUtil.saveEducationPreference(this,
+                            R.string.education_sort_key);
+                } catch (Exception e) {
+                    Log.w(TAG, "Can't performed education for sort");
+                }
             }
-        }
-        // Else show the lock education
-        else if (!PreferencesUtil.isEducationLockPerformed(this)) {
+            // Else show the lock education
+            else if (!PreferencesUtil.isEducationLockPerformed(this)) {
 
-            try {
-                TapTargetView.showFor(this,
-                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
-                                getString(R.string.education_lock_title),
-                                getString(R.string.education_lock_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(true)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                MenuItem lockItem = menu.findItem(R.id.menu_lock);
-                                onOptionsItemSelected(lockItem);
-                            }
+                try {
+                    TapTargetView.showFor(this,
+                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
+                                    getString(R.string.education_lock_title),
+                                    getString(R.string.education_lock_summary))
+                                    .textColorInt(Color.WHITE)
+                                    .tintTarget(true)
+                                    .cancelable(true),
+                            new TapTargetView.Listener() {
+                                @Override
+                                public void onTargetClick(TapTargetView view) {
+                                    super.onTargetClick(view);
+                                    MenuItem lockItem = menu.findItem(R.id.menu_lock);
+                                    onOptionsItemSelected(lockItem);
+                                }
 
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_lock_key);
-            } catch (Exception e) {
-                Log.w(TAG, "Can't performed education for lock");
+                                @Override
+                                public void onOuterCircleClick(TapTargetView view) {
+                                    super.onOuterCircleClick(view);
+                                    view.dismiss(false);
+                                }
+                            });
+                    PreferencesUtil.saveEducationPreference(this,
+                            R.string.education_lock_key);
+                } catch (Exception e) {
+                    Log.w(TAG, "Can't performed education for lock");
+                }
             }
         }
     }

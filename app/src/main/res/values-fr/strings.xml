@@ -262,8 +262,10 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activer un clavier customisé qui permet le renseignement de vos mots de passe et de tous vos champs d\'identité facilement.</string>
 
+    <string name="enable_education_screens_title">Ecrans d\'éducation</string>
+    <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
     <string name="reset_education_screens_title">Réinitialiser les écrans d\'éducation</string>
-    <string name="reset_education_screens_summary">Mettre en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
+    <string name="reset_education_screens_summary">Réinitialise l\'affichage des éléments d\'éducation</string>
     <string name="reset_education_screens_text">Ecrans d\'éducation réinitialisés</string>
     <string name="education_create_database_title">Créez votre fichier de base de données</string>
     <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créez votre premier fichier de gestion de mots de passe.</string>

@@ -4,3 +4,4 @@
  * Nouveaux icones pour le pack material
  * Nouvel icone de lancement adaptatif
  * Ajout d'un paramètre pour désactiver le bouton d'ouverture quand aucun mot de passe n'est identifié
+ * Ajout d'un paramètre pour désactiver les écrans d'éducation

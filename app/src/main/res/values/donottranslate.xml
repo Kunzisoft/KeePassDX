@@ -81,6 +81,8 @@
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
     <string name="database_version_key" translatable="false">database_version_key</string>
+
+    <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
     <string name="education_create_db_key" translatable="false">education_create_db_key</string>
     <string name="education_select_db_key" translatable="false">education_select_db_key</string>
@@ -95,6 +97,7 @@
     <string name="education_password_generator_key" translatable="false">education_password_generator_key</string>
     <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
     <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
+
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
     <string name="magic_keyboard_preference_key" translatable="false">magic_keyboard_preference_key</string>
@@ -116,6 +119,7 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <bool name="allow_copy_password_default" translatable="false">true</bool>
+    <bool name="enable_education_screens_default" translatable="false">true</bool>
     <bool name="education_create_db_default" translatable="false">false</bool>
     <bool name="education_select_db_default" translatable="false">false</bool>
     <bool name="education_open_link_db_default" translatable="false">false</bool>

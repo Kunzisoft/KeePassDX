@@ -276,59 +276,58 @@ public class EntryEditActivity extends LockingHideActivity
      * Displays the explanation for the icon selection, the password generator and for a new field
      */
     private void checkAndPerformedEducation() {
+        if (PreferencesUtil.isEducationScreensEnabled(this)) {
+            // TODO Show icon
 
-	    // TODO Show icon
+            if (!PreferencesUtil.isEducationPasswordGeneratorPerformed(this)) {
+                TapTargetView.showFor(this,
+                        TapTarget.forView(generatePasswordView,
+                                getString(R.string.education_generate_password_title),
+                                getString(R.string.education_generate_password_summary))
+                                .textColorInt(Color.WHITE)
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                openPasswordGenerator();
+                            }
 
-        if (!PreferencesUtil.isEducationPasswordGeneratorPerformed(this)) {
-            TapTargetView.showFor(this,
-                    TapTarget.forView(generatePasswordView,
-                            getString(R.string.education_generate_password_title),
-                            getString(R.string.education_generate_password_summary))
-                            .textColorInt(Color.WHITE)
-                            .tintTarget(false)
-                            .cancelable(true),
-                    new TapTargetView.Listener() {
-                        @Override
-                        public void onTargetClick(TapTargetView view) {
-                            super.onTargetClick(view);
-                            openPasswordGenerator();
-                        }
-
-                        @Override
-                        public void onOuterCircleClick(TapTargetView view) {
-                            super.onOuterCircleClick(view);
-                            view.dismiss(false);
-                        }
-                    });
-            PreferencesUtil.saveEducationPreference(this,
-                    R.string.education_password_generator_key);
-        }
-
-        else if (mEntry.allowExtraFields()
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_password_generator_key);
+            } else if (mEntry.allowExtraFields()
                     && !mEntry.containsCustomFields()
                     && !PreferencesUtil.isEducationEntryNewFieldPerformed(this)) {
-            TapTargetView.showFor(this,
-                    TapTarget.forView(addNewFieldView,
-                            getString(R.string.education_entry_new_field_title),
-                            getString(R.string.education_entry_new_field_summary))
-                            .textColorInt(Color.WHITE)
-                            .tintTarget(false)
-                            .cancelable(true),
-                    new TapTargetView.Listener() {
-                        @Override
-                        public void onTargetClick(TapTargetView view) {
-                            super.onTargetClick(view);
-                            addNewCustomField();
-                        }
+                TapTargetView.showFor(this,
+                        TapTarget.forView(addNewFieldView,
+                                getString(R.string.education_entry_new_field_title),
+                                getString(R.string.education_entry_new_field_summary))
+                                .textColorInt(Color.WHITE)
+                                .tintTarget(false)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                addNewCustomField();
+                            }
 
-                        @Override
-                        public void onOuterCircleClick(TapTargetView view) {
-                            super.onOuterCircleClick(view);
-                            view.dismiss(false);
-                        }
-                    });
-            PreferencesUtil.saveEducationPreference(this,
-                    R.string.education_entry_new_field_key);
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_entry_new_field_key);
+            }
         }
     }
 

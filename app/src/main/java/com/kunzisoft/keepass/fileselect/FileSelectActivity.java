@@ -355,60 +355,62 @@ public class FileSelectActivity extends StylishActivity implements
      * Displays the explanation for a database selection
      */
     private void checkAndPerformedEducationForSelection() {
+        if (PreferencesUtil.isEducationScreensEnabled(this)) {
 
-	    if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)
-                && browseButtonView != null) {
+            if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)
+                    && browseButtonView != null) {
 
-            TapTargetView.showFor(FileSelectActivity.this,
-                    TapTarget.forView(browseButtonView,
-                            getString(R.string.education_select_database_title),
-                            getString(R.string.education_select_database_summary))
-                            .icon(ContextCompat.getDrawable(this, R.drawable.ic_folder_white_24dp))
-                            .textColorInt(Color.WHITE)
-                            .tintTarget(true)
-                            .cancelable(true),
-                    new TapTargetView.Listener() {
-                        @Override
-                        public void onTargetClick(TapTargetView view) {
-                            super.onTargetClick(view);
-                            keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
-                        }
-
-                        @Override
-                        public void onOuterCircleClick(TapTargetView view) {
-                            super.onOuterCircleClick(view);
-                            view.dismiss(false);
-
-                            if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileSelectActivity.this)) {
-
-                                TapTargetView.showFor(FileSelectActivity.this,
-                                        TapTarget.forView(fileSelectExpandableButton,
-                                                getString(R.string.education_open_link_database_title),
-                                                getString(R.string.education_open_link_database_summary))
-                                                .icon(ContextCompat.getDrawable(FileSelectActivity.this, R.drawable.ic_link_white_24dp))
-                                                .textColorInt(Color.WHITE)
-                                                .tintTarget(true)
-                                                .cancelable(true),
-                                        new TapTargetView.Listener() {
-                                            @Override
-                                            public void onTargetClick(TapTargetView view) {
-                                                super.onTargetClick(view);
-                                                // Do nothing here
-                                            }
-
-                                            @Override
-                                            public void onOuterCircleClick(TapTargetView view) {
-                                                super.onOuterCircleClick(view);
-                                                view.dismiss(false);
-                                            }
-                                        });
-                                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
-                                        R.string.education_open_link_db_key);
+                TapTargetView.showFor(FileSelectActivity.this,
+                        TapTarget.forView(browseButtonView,
+                                getString(R.string.education_select_database_title),
+                                getString(R.string.education_select_database_summary))
+                                .icon(ContextCompat.getDrawable(this, R.drawable.ic_folder_white_24dp))
+                                .textColorInt(Color.WHITE)
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
                             }
-                        }
-                    });
-            PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
-                    R.string.education_select_db_key);
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+
+                                if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileSelectActivity.this)) {
+
+                                    TapTargetView.showFor(FileSelectActivity.this,
+                                            TapTarget.forView(fileSelectExpandableButton,
+                                                    getString(R.string.education_open_link_database_title),
+                                                    getString(R.string.education_open_link_database_summary))
+                                                    .icon(ContextCompat.getDrawable(FileSelectActivity.this, R.drawable.ic_link_white_24dp))
+                                                    .textColorInt(Color.WHITE)
+                                                    .tintTarget(true)
+                                                    .cancelable(true),
+                                            new TapTargetView.Listener() {
+                                                @Override
+                                                public void onTargetClick(TapTargetView view) {
+                                                    super.onTargetClick(view);
+                                                    // Do nothing here
+                                                }
+
+                                                @Override
+                                                public void onOuterCircleClick(TapTargetView view) {
+                                                    super.onOuterCircleClick(view);
+                                                    view.dismiss(false);
+                                                }
+                                            });
+                                    PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                                            R.string.education_open_link_db_key);
+                                }
+                            }
+                        });
+                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                        R.string.education_select_db_key);
+            }
         }
     }
 

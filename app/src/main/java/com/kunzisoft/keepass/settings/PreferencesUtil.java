@@ -176,6 +176,12 @@ public class PreferencesUtil {
             R.string.education_entry_new_field_key
     };
 
+    public static boolean isEducationScreensEnabled(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(context.getString(R.string.enable_education_screens_key),
+                context.getResources().getBoolean(R.bool.enable_education_screens_default));
+    }
+
     /**
      * Register education preferences as true in EDUCATION_PREFERENCE SharedPreferences
      *
