@@ -957,7 +957,7 @@ public class ImporterV4 extends Importer {
 			ReadUnknown(xpp);
 		}
 		
-		assert(xpp.getName() == unknownName);
+		assert(xpp.getName().equals(unknownName));
 		
 	}
 	
