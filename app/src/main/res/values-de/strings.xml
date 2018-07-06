@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 
@@ -20,17 +20,15 @@
   Translations from BoDEAN
   Translations from Matthias Dill
 -->
-<resources
-  xmlns:tools="http://schemas.android.com/tools"
-  tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Webseite:</string>
-    <string name="AboutText">KeePass DX ist die Implementierung des KeePass Password Managers für die Android-Plattform.</string>
+    <string name="AboutText">KeePass DX ist die Implementierung des KeePass Passwortmanagers für die Android-Plattform.</string>
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
     <string name="add_string">Text hinzufügen</string>
-    <string name="encryption_algorithm">Algorithmus</string>
+    <string name="encryption_algorithm">Verschlüsselungsalgorithmus</string>
     <string name="app_timeout">Anwendungssperre</string>
     <string name="app_timeout_summary">Bei inaktiver Anwendung wird die Datenbank nach Ablauf der eingestellten Zeit automatisch gesperrt.</string>
     <string name="application">Anwendung</string>
@@ -193,10 +191,10 @@
     <string name="warning_empty_password">Sind Sie sicher, dass sie ein leeres Passwort verwenden wollen ?</string>
     <string name="warning_no_encryption_key">Sind Sie sicher, dass sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
     <string name="appearance">Aussehen</string>
-    <string name="password_size_title">Passwortgröße</string>
+    <string name="password_size_title">Passwortlänge</string>
     <string name="password_size_summary">Standardlänge des generierten Passworts ändern</string>
     <string name="clipboard_notifications_title">Zwischenablagenbenachrichtigungen</string>
-    <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen zum kopieren von Benutzername und Passwort einschalten</string>
+    <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen zum Kopieren von Benutzername und Passwort einschalten</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
     <string name="create_keepass_file">Keepass Datei erstellen</string>
@@ -204,7 +202,7 @@
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
-    <string name="unavailable_feature_text">Dieses Feature wird nicht von ihrer Android version unterstützt</string>
+    <string name="unavailable_feature_text">Dieses Feature kann nicht gestartet werden.</string>
     <string name="fingerprint_enable_summary">Datenbanköffnung mit Fingerabdruck einschalten</string>
     <string name="fingerprint">Fingerabdruck</string>
     <string name="fingerprint_enable_title">Fingerabruckscanner</string>
@@ -220,12 +218,134 @@
     <string name="fingerprint_invalid_key">Ungültiger Schlüssel</string>
     <string name="fingerprint_error">Probleme mit dem Fingerabdruck : %1$s</string>
     <string name="history">Verlauf</string>
-    <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner ein ?</string>
+    <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein ?</string>
     <string name="fingerprint_setting_text">Speichern sie ihren persönlichen Fingerabruck in</string>
-    <string name="fingerprint_setting_way_text">Einstellungen -> Fingerabdruck</string>
+    <string name="fingerprint_setting_way_text">Einstellungen -&gt; Sicherheit -&gt; Fingerabdruck</string>
     <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
     <string name="store_with_fingerprint">Fingerabruck verwenden um dieses Passwort zu speichern</string>
     <string name="no_password_stored">Noch kein Passwort für diese Datenbank gespeichert</string>
     <string name="style_choose_summary">Thema durch verändern der Farben ändern</string>
+<string name="encryption">Verschlüsselung</string>
+    <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
+    <string name="extended_ASCII">Erweitertes ASCII</string>
+    <string name="allow">Erlauben</string>
+    <string name="clipboard_swipe_clean">Wischen und Zwischenablage zu leeren</string>
+    <string name="error_autofill_enable_service">Autofill-Dienst kann nicht aktiviert werden.</string>
+    <string name="copy_field">Kopie von %1$s</string>
+    <string name="menu_form_filling_settings">Formularausfüllung</string>
+    <string name="menu_fingerprint_remove_key">Fingerabdruckschlüssel entfernen</string>
+    <string name="encryption_explanation">Algorithmus um die ganze Datenbank zu verschlüsseln. (Passwörter, Benutzernamen, Notizen und alle Daten in der Datenbank werden mit dem gewählten Algorithmus verschlüsselt)</string>
+    <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der komprimierte Masterschlüssel (SHA-256) mit einer Schlüsselableitung umgewandelt (mit einem zufälligen Salt).</string>
+    <string name="memory_usage">Speichernutzung</string>
+    <string name="memory_usage_explanation">Größe des Speichers (in binären Bytes) der für die Schlüsselableitung genutzt wird.</string>
+    <string name="parallelism">Parallelismus</string>
+    <string name="parallelism_explanation">Grad des Parallelismus (i.d.F. Anzahl der Threads) der für die Schlüsselableitung genutzt wird.</string>
+    <string name="sort_menu">Sortieren</string>
+    <string name="sort_ascending">Aufsteigend</string>
+    <string name="sort_groups_before">Gruppen davor</string>
+    <string name="sort_recycle_bin_bottom">Papierkorb unten</string>
+    <string name="sort_title">Nach Titel sortieren</string>
+    <string name="sort_username">Nach Nutzername sortieren</string>
+    <string name="sort_creation_time">Nach Erstellungsdatum sortieren</string>
+    <string name="sort_last_modify_time">Nach Änderungsdatum sortieren</string>
+    <string name="sort_last_access_time">Nach letztem Zugriffsdatum sortieren</string>
+    <string name="fingerprint_not_recognized">Fingerabdruck nicht erkannt</string>
+    <string name="autofill">Auto-Einfügen</string>
+    <string name="autofill_service_name">KeePass DX Autofill-Dienst</string>
+    <string name="autofill_sign_in_prompt">Mit KeePass DX anmelden</string>
+    <string name="set_autofill_service_title">Standard Autofill-Dienst auswählen</string>
+    <string name="set_autofill_service_summary">Dienst aktivieren, um automatisch Eingabefelder anderer Anwendungen auszufüllen</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="fingerprint_delete_all_title">Verschlüsselungskeys löschen</string>
+    <string name="fingerprint_delete_all_summary">Alle Verschlüsselungsschlüssel für Fingerabdruckerkennung löschen</string>
+    <string name="fingerprint_delete_all_warning">Sind Sie sicher, dass Sie alle Schlüssel für die Fingerabdruckerkennung löschen möchten?</string>
+    <string name="unavailable_feature_version">Ihre Android-Version, %1$s, erfüllt nicht die Mindestanforderung, Version %2$s.</string>
+    <string name="unavailable_feature_hardware">Die Hardware wurde nicht erkannt.</string>
+    <string name="bytes">Bytes</string>
+    <string name="full_file_path_enable_title">Dateipfad</string>
+    <string name="full_file_path_enable_summary">Vollständigen Dateipfad anzeigen</string>
+    <string name="recycle_bin_title">Papierkorb verwenden</string>
+    <string name="recycle_bin_summary">Gruppe oder Eintrag in den Papierkorb verschieben bevor er gelöscht wird</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass DX benötigt Berechtigungen für Speicherzugriff um Datenbanken zu schreiben</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX benötigt externe Speicherzugriffsberechtigung um eine URI zu lesen, die nicht vom Content-Provider zur Verfügung gestellt wird</string>
+    <string name="permission_external_storage_denied">Speicherzugriff verweigert</string>
+    <string name="permission_external_storage_never_ask">Aktion kann ohne Speicherzugriff nicht ausgeführt werden</string>
+    <string name="monospace_font_fields_enable_title">Felder Schriftart</string>
+    <string name="monospace_font_fields_enable_summary">Schriftart der Felder ändern um Lesbarkeit zu verbessern</string>
+    <string name="auto_open_file_uri_title">Ausgewählte Datei automatisch öffnen</string>
+    <string name="auto_open_file_uri_summary">Automatisch eine Datei vom Auswahlbildschirm öffnen nach Auswahl im Dateibrowser</string>
+    <string name="allow_copy_password_title">Kopie des Passworts</string>
+    <string name="allow_copy_password_summary">Koperen des Passworts in die Zwischenablage erlauben.</string>
+    <string name="warning_disabling_storage_access_framework">WARNUNG: Deaktivierung dieses Features könnte das Öffnen und Speichern von Datenbanken unmöglich machen</string>
+    <string name="open_link_database">Link der zu öffnenden Kdbx-Datei</string>
+    <string name="database_name_title">Datenbankname</string>
+    <string name="database_description_title">Datenbankbeschreibung</string>
+    <string name="database_version_title">Datenbankversion</string>
+    <string name="text_appearance">Aussehen des Textes</string>
+    <string name="application_appearance">Aussehen der Anwendung</string>
+    <string name="other">Andere</string>
+    <string name="keyboard">Tastatur</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_summary">Aktiviert eine eigene Tastatur, die Passwort- und Identitätsfelder ganz einfach ausfüllt.</string>
+
+    <string name="reset_education_screens_title">Hilfe-Anzeige zurücksetzen</string>
+    <string name="reset_education_screens_summary">Elemente hervorheben, um zu lernen wie die Anwendung funktioniert</string>
+    <string name="reset_education_screens_text">Hilfe-Anzeige zurückgesetzt</string>
+    <string name="education_create_database_title">Ihre Datenbankdatei erstellen</string>
+    <string name="education_create_database_summary">Sie kennen KeePass DX noch nicht, erstellen Sie Ihre erste Passwortmanager-Datei.</string>
+    <string name="education_select_database_title">Existierende Datenbank öffnen</string>
+    <string name="education_select_database_summary">Sie haben einen KeePass-Manager bereits genutzt. Einfach die Kdbx-Datei über den Dateibrowser öffnen.</string>
+    <string name="education_open_link_database_title">Ein Link zum Speicherort Ihrer Datei ist ausreichend</string>
+    <string name="education_open_link_database_summary">Sie können Ihre Datenbank auch mit einem physikalischen Link öffnen (z.B. mit file:// und content://).</string>
+    <string name="education_new_node_title">Neue Einträge zu Ihrer Datenbank hinzufügen</string>
+    <string name="education_new_node_summary">Elemente hinzufügen um Ihre digitalen Identitäten zu verwalten.
+\n
+\nGruppen hinzufügen (wie Ordner) um Ihre Einträge und Datenbank zu ordnen.</string>
+    <string name="education_search_title">Ihre Einträge ganz einfach durchsuchen</string>
+    <string name="education_search_summary">Einträge via Titel, Benutzernamen oder anderen Feldern finden um ganz einfach Ihre Passwörter zu bekommen.</string>
+    <string name="education_fingerprint_title">Ihre Datenbank mit Ihrem Fingerabdruck entsperren</string>
+    <string name="education_fingerprint_summary">Verknüpfen Sie Ihr Passwort und Ihren Fingerabdruck um Ihre Datenbank im Handumdrehen zu entsperren.</string>
+    <string name="education_entry_edit_title">Eintrag bearbeiten</string>
+    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit eigenen Feldern, Sie können Verweise hinzufügen um verschiedene Einträge und Felder zu verknüpfen.</string>
+    <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
+    <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort zu Ihrem Eintrag, stellen Sie Ihre Kriterien zur Erstellung des Passworts nach den gewünschten Merkmalen ein und vergessen Sie nie wieder ein schweres, aber sicheres Passwort.</string>
+    <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
+    <string name="education_entry_new_field_summary">Wenn Sie ein eigenes, hier nicht aufgelistetes Feld eintragen möchten, erstellen Sie hier ein neues, welches Sie auch visuell schützen können.</string>
+    <string name="education_unlock_title">Ihre Datenbank entsperren</string>
+    <string name="education_field_copy_title">Ein Feld kopieren</string>
+    <string name="education_field_copy_summary">Ganz einfach ein Feld kopieren und einfügen wo Sie wollen
+\n
+\nSie können verschiedene Formularausfüllungsmethoden auswählen. Wählen Sie die, die Ihnen am meisten zusagt!</string>
+    <string name="education_lock_title">Datenbank sperren</string>
+    <string name="education_lock_summary">Schnell die Datenbank sperren, Sie können auch Parameter zum automatischen Sperren nach Zeit oder Bildschirmsperre einstellen.</string>
+    <string name="education_sort_title">Einträge sortieren</string>
+    <string name="education_sort_summary">Einträge und Gruppen nach spezifischen Parametern sortieren.</string>
+    <string name="education_donation_title">Mitmachen</string>
+    <string name="education_donation_summary">Mitmachen, um Stabilität, Sicherheit und weitere Funktionen hinzuzufügen.</string>
+
+    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist diese app <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf Servern, auch in der kostenlosen Version.</string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version bekommen Sie Zugang zu dieser <strong>visuellen Funktion</strong> und Sie unterstützen besonders <strong>die Umsetzung von Gemeinschaftsprojekten.</strong></string>
+    <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
+    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong></string>
+
+    <string name="html_text_dev_feature">Diese Funktion ist <strong>in Entwicklung</strong> und erfordert <strong>Ihren Beitrag</strong> um bald verfügbar zu sein.</string>
+    <string name="html_text_dev_feature_buy_pro">Durch den Kauf der <strong>Pro-Version</strong>,</string>
+    <string name="html_text_dev_feature_contibute">Durch Ihren <strong>Beitrag</strong>,</string>
+    <string name="html_text_dev_feature_encourage">ermutigen Sie Entwickler, <strong>neue Funktionen</strong> hinzuzufügen und <strong>Fehler zu beheben</strong> nach Ihrem Feedback.</string>
+    <string name="html_text_dev_feature_thanks">Vielen Dank für Ihre Unterstützung.</string>
+    <string name="html_text_dev_feature_work_hard">Wir arbeiten hart um diese Funktion bald zu veröffentlichen.</string>
+    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre Anwendung aktuell zu halten.</string>
+
+    <string name="download">Download</string>
+    <string name="contribute">Unterstützen</string>
+
+    <string name="encryption_chacha20">ChaCha20</string>
+
+    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
+
+    <string name="icon_pack_choose_title">Icon-Paket auswählen</string>
+    <string name="icon_pack_choose_summary">Das Symbolpaket der Anwendung ändern</string>
+
 </resources>
