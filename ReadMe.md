@@ -13,6 +13,7 @@
  * **Fingerprint** for fast unlocking
  * Material design with **themes**
  * **AutoFill** and Integration
+ * Field filling **keyboard**
  * Precise management of **settings**
 
 Keepass DX is **open source** and **ad-free**. 

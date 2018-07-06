@@ -1,6 +1,7 @@
 <b>Gestionnaire de mots de passe KeePass multiformats</b>, l'application permet d'enregistrer et d'utiliser de manière sécurisée les mots de passe, les clés et les identités numériques en intégrant les standards de conception Android.
 
-Cette version pro ajoute <b>de nouvelles fonctionnalités</b> à la version gratuite mais surtout, vous encouragez <b>un développement plus rapide</b>, <b>un meilleur service</b> et vous contribuez à la création de <b>logiciels open source sans publicité</b>.
+Cette version pro est en cours de développement, en l'achetant vous encouragez <b>un développement plus rapide</b>, <b>un meilleur service</b> et vous contribuez à la création de <b>logiciels open source sans publicité</b>.
+<i>Actuellement, l'application possède les mêmes fonctionnalités que la version gratuite avec les thèmes débloqués mais est destinée à intégrer les éléments de connexion et de synchronisation facilités pour les sites et services couramment utilisés.</i>
 
 <b>Fonctionnalités</b> :
  - Création de bases de données / entrées et groupes
@@ -10,11 +11,11 @@ Cette version pro ajoute <b>de nouvelles fonctionnalités</b> à la version grat
  - Empreintes digitales pour un déblocage rapide des bases
  - Material design avec thèmes
  - Remplissage automatique de champs
+ - Clavier de remplissage de champs
  - Gestion précise des paramètres
 
 <b>Fonctionnalités Pro</b> :
  - Accès aux thèmes personnalisés (y compris le thème noir profond classique)
- - Accès aux packs d'icônes material design
  - Suppression des boutons de don
 
 Keepass DX est <b>opensource</b> et <b>sans publicité</b>.

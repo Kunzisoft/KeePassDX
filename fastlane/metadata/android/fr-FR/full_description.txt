@@ -8,6 +8,7 @@
  - Empreintes digitales pour un déblocage rapide des bases
  - Material design avec thèmes
  - Remplissage automatique de champs
+ - Clavier de remplissage de champs
  - Gestion précise des paramètres
 
 Keepass DX est <b>opensource</b> et <b>sans publicité</b>. 
