@@ -21,7 +21,7 @@
   Translations from Matthias Dill
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_feedback">Feedback:</string>
+    <string name="about_feedback">Rückmeldung:</string>
     <string name="about_homepage">Webseite:</string>
     <string name="AboutText">KeePass DX ist die Implementierung des KeePass Passwortmanagers für die Android-Plattform.</string>
     <string name="accept">Akzeptieren</string>
@@ -42,7 +42,7 @@
     <string name="clipboard_error">Die Implementierung der Zwischenablagefunktion in einigen Samsung Android-Smartphones ist offenbar fehlerhaft, wodurch das Kopieren von Daten aus der Anwendung heraus fehlschlägt. Weitere Informationen dazu finden Sie unter:</string>
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
     <string name="clipboard_timeout">Zwischenablagesperre</string>
-    <string name="clipboard_timeout_summary">Bei inaktiver Anwendung wird die Zwischenablage nach Ablauf der eingestellten Zeit automatisch geleert.</string>
+    <string name="clipboard_timeout_summary">Zeit nach dem Kopieren eines Benutzernamens oder Passworts, bevor die Zwischenablage geleert wird</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
     <string name="creating_db_key">Datenbank-Schlüsseldatei erzeugen\u2026</string>
     <string name="database">Datenbank</string>
@@ -77,13 +77,13 @@
     <string name="error_no_name">Ein Name wird benötigt.</string>
     <string name="error_nokeyfile">Ein Passwort oder eine Schlüsseldatei wird benötigt.</string>
     <string name="error_out_of_memory">Der Speicher Ihres Smartphones reicht nicht aus, um die Datenbank zu analysieren. Sie ist wahrscheinlich zu groß.</string>
-    <string name="error_pass_gen_type">Mindestens ein Passwort-Generierungstyp muss ausgewählt werden.</string>
+    <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
     <string name="error_rounds_not_number">Die Anzahl der Wiederholungen muss eine Zahl sein.</string>
     <string name="error_rounds_too_large">Die maximale Wiederholungsanzahl ist 2147483648.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
     <string name="error_title_required">Ein Titel wird benötigt.</string>
-    <string name="error_wrong_length">Geben Sie die erforderliche Länge als positive Ganzzahl in das Feld ein.</string>
+    <string name="error_wrong_length">Geben Sie die erforderliche Länge als positive, ganze Zahl in das Feld ein</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
     <string name="file_not_found">Datei nicht gefunden.</string>
@@ -130,7 +130,7 @@
     <string name="no_url_handler">Kein Handler zum Öffnen der URL vorhanden.</string>
     <string name="open_recent">Zuletzt geöffnete Datenbank :</string>
     <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
-    <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei kdb Dateien).</string>
+    <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei .kdb Dateien)</string>
     <string name="progress_create">Neue Datenbank anlegen\u2026</string>
     <string name="progress_title">Ausführen\u2026</string>
     <string name="protection">Sicherheit</string>
@@ -139,7 +139,7 @@
     <string name="read_only_kitkat_warning">Ab Android KitKat haben einige Geräte keine Schreibrechte mehr für die SD-Karte.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
-    <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken.</string>
+    <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken</string>
     <string name="remember_keyfile_title">Schlüsselquelle merken</string>
     <string name="remove_from_filelist">Löschen</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
@@ -162,7 +162,7 @@
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
     <string name="use_saf_summary">Storage Access Framework als Dateimanager verwenden (Android KitKat und später)</string>
-    <string name="use_saf_title">Storage Access Framework</string>
+    <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1 Zeichensatz. Ihr Passwort enthält andere Zeichen. Diese Zeichen werden umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen ihr Passwort zu ändern.</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
@@ -215,7 +215,7 @@
     <string name="configure_fingerprint">Fingerabruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
-    <string name="fingerprint_invalid_key">Ungültiger Schlüssel</string>
+    <string name="fingerprint_invalid_key">Ungültiger Fingerabdruckschlüssel. Stellen Sie Ihr Passwort wieder her.</string>
     <string name="fingerprint_error">Probleme mit dem Fingerabdruck : %1$s</string>
     <string name="history">Verlauf</string>
     <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein ?</string>
