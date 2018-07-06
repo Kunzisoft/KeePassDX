@@ -687,8 +687,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	@Override
 	public void undoDeleteEntry(PwEntryV4 entry, PwGroupV4 origParent) {
 		super.undoDeleteEntry(entry, origParent);
-		// TODO undo delete entry
-        deletedObjects.remove(entry);
+        deletedObjects.remove(new PwDeletedObject(entry.getUUID()));
 	}
 
 	@Override

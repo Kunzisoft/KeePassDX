@@ -76,15 +76,19 @@ public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
             switch (current) {
             case title:
                 found = sp.searchInTitles;
+				break;
             
             case url:
             	found = sp.searchInUrls;
+				break;
                     
             case username:
-                found = sp.searchInUserNames;    
+                found = sp.searchInUserNames;
+				break;
             	
             case comment:
             	found = sp.searchInNotes;
+				break;
                     
             default:
             	found = true;

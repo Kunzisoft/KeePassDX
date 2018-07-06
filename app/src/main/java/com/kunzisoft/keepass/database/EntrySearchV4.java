@@ -57,7 +57,7 @@ public class EntrySearchV4 {
 
             boolean negate = false;
             if (sp.searchString.startsWith("-")) {
-                sp.searchString.substring(1); // TODO Verify bug or no need ?
+                sp.searchString = sp.searchString.substring(1);
                 negate = sp.searchString.length() > 0;
             }
 
