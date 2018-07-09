@@ -22,13 +22,13 @@ package com.kunzisoft.keepass.fingerprint;
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
+import android.os.CancellationSignal;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.RequiresApi;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
-import android.support.v4.os.CancellationSignal;
 import android.util.Base64;
 import android.util.Log;
 
@@ -52,19 +52,19 @@ public class FingerPrintHelper {
 
     private static final String FINGERPRINT_KEYSTORE_KEY = "com.kunzisoft.keepass.fingerprint.key";
 
-    private FingerprintManagerCompat fingerprintManager;
+    private FingerprintManager fingerprintManager;
     private KeyStore keyStore = null;
     private KeyGenerator keyGenerator = null;
     private Cipher cipher = null;
     private KeyguardManager keyguardManager = null;
-    private FingerprintManagerCompat.CryptoObject cryptoObject = null;
+    private FingerprintManager.CryptoObject cryptoObject = null;
 
     private boolean initOk = false;
     private FingerPrintCallback fingerPrintCallback;
     private CancellationSignal cancellationSignal;
-    private FingerprintManagerCompat.AuthenticationCallback authenticationCallback;
+    private FingerprintManager.AuthenticationCallback authenticationCallback;
 
-    public void setAuthenticationCallback(final FingerprintManagerCompat.AuthenticationCallback authenticationCallback) {
+    public void setAuthenticationCallback(final FingerprintManager.AuthenticationCallback authenticationCallback) {
         this.authenticationCallback = authenticationCallback;
     }
 
@@ -73,8 +73,8 @@ public class FingerPrintHelper {
         cancellationSignal = new CancellationSignal();
         fingerprintManager.authenticate(
                 cryptoObject,
-                0 /* flags */,
                 cancellationSignal,
+                0 /* flags */,
                 authenticationCallback,
                 null);
     }
@@ -93,7 +93,7 @@ public class FingerPrintHelper {
             final Context context,
             final FingerPrintCallback fingerPrintCallback) {
 
-        this.fingerprintManager = FingerprintManagerCompat.from(context);
+        this.fingerprintManager = context.getSystemService(FingerprintManager.class);
         if (!isFingerprintSupported(fingerprintManager)) {
             // really not much to do when no fingerprint support found
             setInitOk(false);
@@ -112,7 +112,7 @@ public class FingerPrintHelper {
                         KeyProperties.KEY_ALGORITHM_AES + "/"
                                 + KeyProperties.BLOCK_MODE_CBC + "/"
                                 + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-                this.cryptoObject = new FingerprintManagerCompat.CryptoObject(cipher);
+                this.cryptoObject = new FingerprintManager.CryptoObject(cipher);
                 setInitOk(true);
             } catch (final Exception e) {
                 Log.e(TAG, "Unable to initialize the keystore", e);
@@ -122,7 +122,7 @@ public class FingerPrintHelper {
         }
     }
 
-    public static boolean isFingerprintSupported(FingerprintManagerCompat fingerprintManager) {
+    public static boolean isFingerprintSupported(FingerprintManager fingerprintManager) {
         return fingerprintManager != null
                 && fingerprintManager.isHardwareDetected();
     }

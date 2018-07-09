@@ -26,6 +26,7 @@ import android.app.backup.BackupManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -427,7 +428,7 @@ public class PasswordActivity extends StylishActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if ( PreferencesUtil.isFingerprintEnable(getApplicationContext())
-                    && FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
+                    && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager.class))) {
 
                 TapTargetView.showFor(this,
                     TapTarget.forView(fingerprintImageView,
@@ -567,7 +568,7 @@ public class PasswordActivity extends StylishActivity
         });
 
         // callback for fingerprint findings
-        fingerPrintHelper.setAuthenticationCallback(new FingerprintManagerCompat.AuthenticationCallback() {
+        fingerPrintHelper.setAuthenticationCallback(new FingerprintManager.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(
                     final int errorCode,
@@ -599,7 +600,7 @@ public class PasswordActivity extends StylishActivity
             }
 
             @Override
-            public void onAuthenticationSucceeded(final FingerprintManagerCompat.AuthenticationResult result) {
+            public void onAuthenticationSucceeded(final FingerprintManager.AuthenticationResult result) {
                 switch (fingerPrintMode) {
                     case STORE_MODE:
                         // newly store the entered password in encrypted way
@@ -730,7 +731,7 @@ public class PasswordActivity extends StylishActivity
         // fingerprint not supported (by API level or hardware) so keep option hidden
         // or manually disable
         if (!PreferencesUtil .isFingerprintEnable(getApplicationContext())
-                || !FingerPrintHelper.isFingerprintSupported(FingerprintManagerCompat.from(this))) {
+                || !FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager.class))) {
             setFingerPrintVisibility(View.GONE);
         }
         // fingerprint is available but not configured show icon but in disabled state with some information

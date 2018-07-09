@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -160,9 +161,10 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         (SwitchPreference) findPreference(getString(R.string.fingerprint_enable_key));
                 // < M solve verifyError exception
                 boolean fingerprintSupported = false;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && getActivity() != null)
                     fingerprintSupported = FingerPrintHelper.isFingerprintSupported(
-                            FingerprintManagerCompat.from(getContext()));
+                            getActivity().getSystemService(FingerprintManager.class));
                 if (!fingerprintSupported) {
                     // False if under Marshmallow
                     fingerprintEnablePreference.setChecked(false);
