@@ -26,7 +26,7 @@
   tools:ignore="MissingTranslation">
     <string name="about_feedback">Rückmeldung:</string>
     <string name="about_homepage">Webseite:</string>
-    <string name="AboutText">KeePass DX ist die Implementierung des KeePass Passwortmanagers für die Android-Plattform.</string>
+    <string name="about_description">KeePass DX ist die Implementierung des KeePass Passwortmanagers für die Android-Plattform.</string>
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
@@ -40,7 +40,7 @@
     <string name="brackets">Klammern</string>
     <string name="browser_intall_text">Um diese Funktion nutzen zu können, benötigen Sie den OI File Manager, den Sie über Google Play bzw. direkt von der Entwicklerwebseite herunterladen können. Aufgrund einiger Eigenheiten des Dateimanagers, kann es bei der ersten Benutzung zu Einschränkungen kommen.</string>
     <string name="cancel">Abbrechen</string>
-    <string name="ClearClipboard">Zwischenablage geleert</string>
+    <string name="clipboard_cleared">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
     <string name="clipboard_error">Die Implementierung der Zwischenablagefunktion in einigen Samsung Android-Smartphones ist offenbar fehlerhaft, wodurch das Kopieren von Daten aus der Anwendung heraus fehlschlägt. Weitere Informationen dazu finden Sie unter:</string>
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
@@ -150,9 +150,6 @@
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Je höher die Anzahl der Schlüsseltransformationen, desto besser ist der Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
     <string name="rounds_hint">Schlüsseltransformationen</string>
-    <string name="rounds_fix_title">Datenbank reparieren</string>
-    <string name="rounds_fix">Schlüsseltransformationen vor Datenbankkorruption</string>
-    <string name="rounds_fix_explanation">Falls ihre Datenbank beschädigt wurde, können Sie die Anzahl der Schlüsseltransformationen welche verwendet wurden eingeben um ihre Datenbank wieder zu öffnen.</string>
     <string name="saving_database">Speichere Datenbank\u2026</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
