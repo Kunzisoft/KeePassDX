@@ -5,3 +5,4 @@
  * Nouvel icone de lancement adaptatif
  * Ajout d'un paramètre pour désactiver le bouton d'ouverture quand aucun mot de passe n'est identifié
  * Ajout d'un paramètre pour désactiver les écrans d'éducation
+ * Correction de la reconnaissance des empreintes digitales (ATTENTION: le keystore est réinitialisé, vous devez supprimer les anciennes clés)

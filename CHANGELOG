@@ -6,6 +6,8 @@ KeepassDX (2.5.0.0beta12)
  * New adaptive launcher icon
  * Added a setting to disable the open button when no password is identified
  * Added a setting to disable the education screens
+ * Fix the fingerprint recognition (WARNING : The keystore is reinit, you must delete the old keys)
+ * Fix small bugs
 
 KeepassDX (2.5.0.0beta11)
  * Fix crash in beta10 version
