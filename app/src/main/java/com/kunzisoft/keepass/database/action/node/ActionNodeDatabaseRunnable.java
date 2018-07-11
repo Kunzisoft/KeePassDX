@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.database.action.ActionDatabaseRunnable;
+import com.kunzisoft.keepass.database.action.ActionWithSaveDatabaseRunnable;
 
-abstract class ActionNodeDatabaseRunnable extends ActionDatabaseRunnable {
+abstract class ActionNodeDatabaseRunnable extends ActionWithSaveDatabaseRunnable {
 
     private AfterActionNodeOnFinish callbackRunnable;
 

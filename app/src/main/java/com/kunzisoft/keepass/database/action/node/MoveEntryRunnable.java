@@ -50,7 +50,7 @@ public class MoveEntryRunnable extends ActionNodeDatabaseRunnable {
 		// Move entry in new parent
 
 		mOldParent = mEntryToMove.getParent();
-        mDb.moveEntry(mEntryToMove, mNewParent);
+        mDatabase.moveEntry(mEntryToMove, mNewParent);
 
         if (mEntryToMove != null) {
 			mEntryToMove.touch(true, true);
@@ -67,7 +67,7 @@ public class MoveEntryRunnable extends ActionNodeDatabaseRunnable {
 		if ( !success ) {
 			// If we fail to save, try to remove in the first place
 			try {
-				mDb.moveEntry(mEntryToMove, mOldParent);
+				mDatabase.moveEntry(mEntryToMove, mOldParent);
 			} catch (Exception e) {
 				Log.i(TAG, "Unable to replace the entry");
 			}

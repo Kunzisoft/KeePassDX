@@ -40,7 +40,7 @@ public class AddEntryRunnable extends ActionNodeDatabaseRunnable {
 	
 	@Override
 	public void run() {
-		mDb.addEntryTo(mNewEntry, mNewEntry.getParent());
+		mDatabase.addEntryTo(mNewEntry, mNewEntry.getParent());
 		
 		// Commit to disk
 		super.run();
@@ -49,7 +49,7 @@ public class AddEntryRunnable extends ActionNodeDatabaseRunnable {
 	@Override
 	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
-			mDb.removeEntryFrom(mNewEntry, mNewEntry.getParent());
+			mDatabase.removeEntryFrom(mNewEntry, mNewEntry.getParent());
 		}
         callbackNodeAction(success, message, null, mNewEntry);
 	}

@@ -42,33 +42,33 @@ import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class LoadDBRunnable extends RunnableOnFinish {
-    private static final String TAG = LoadDBRunnable.class.getName();
+public class LoadDatabaseRunnable extends RunnableOnFinish {
+    private static final String TAG = LoadDatabaseRunnable.class.getName();
 
+    private Context mContext;
+    private Database mDatabase;
     private Uri mUri;
     private String mPass;
     private Uri mKey;
-    private Database mDb;
-    private Context mCtx;
     private boolean mRememberKeyfile;
 
-    public LoadDBRunnable(Database db, Context ctx, Uri uri, String pass, Uri key, OnFinishRunnable finish) {
+    public LoadDatabaseRunnable(Context context, Database database, Uri uri, String pass, Uri key, OnFinishRunnable finish) {
         super(finish);
 
-        mDb = db;
-        mCtx = ctx;
-        mUri = uri;
-        mPass = pass;
-        mKey = key;
+        this.mContext = context;
+        this.mDatabase = database;
+        this.mUri = uri;
+        this.mPass = pass;
+        this.mKey = key;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        mRememberKeyfile = prefs.getBoolean(ctx.getString(R.string.keyfile_key), ctx.getResources().getBoolean(R.bool.keyfile_default));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.mRememberKeyfile = prefs.getBoolean(context.getString(R.string.keyfile_key), context.getResources().getBoolean(R.bool.keyfile_default));
     }
 
     @Override
     public void run() {
         try {
-            mDb.loadData(mCtx, mUri, mPass, mKey, mStatus);
+            mDatabase.loadData(mContext, mUri, mPass, mKey, mStatus);
 
             saveFileData(mUri, mKey);
 
@@ -107,7 +107,7 @@ public class LoadDBRunnable extends RunnableOnFinish {
             catchError(e, R.string.error_invalid_db);
             return;
         } catch (OutOfMemoryError e) {
-            String errorMessage = mCtx.getString(R.string.error_out_of_memory);
+            String errorMessage = mContext.getString(R.string.error_out_of_memory);
             Log.e(TAG, errorMessage, e);
             finish(false, errorMessage);
             return;
@@ -121,7 +121,7 @@ public class LoadDBRunnable extends RunnableOnFinish {
     }
 
     private void catchError(Exception e, @StringRes int messageId) {
-        String errorMessage = mCtx.getString(messageId);
+        String errorMessage = mContext.getString(messageId);
         Log.e(TAG, errorMessage, e);
         finish(false, errorMessage);
     }
@@ -133,7 +133,5 @@ public class LoadDBRunnable extends RunnableOnFinish {
 
         App.getFileHistory().createFile(uri, key);
     }
-
-
 
 }

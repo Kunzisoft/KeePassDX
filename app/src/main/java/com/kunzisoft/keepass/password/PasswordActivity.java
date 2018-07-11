@@ -36,7 +36,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -63,7 +62,7 @@ import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
 import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.action.LoadDBRunnable;
+import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
@@ -891,9 +890,9 @@ public class PasswordActivity extends StylishActivity
         // Show the progress dialog
         Handler handler = new Handler();
         AfterLoadingDatabase afterLoad = new AfterLoadingDatabase(handler, database);
-        LoadDBRunnable databaseLoadingTask = new LoadDBRunnable(
-                database,
+        LoadDatabaseRunnable databaseLoadingTask = new LoadDatabaseRunnable(
                 PasswordActivity.this,
+                database,
                 mDbUri,
                 password,
                 keyfile,
@@ -905,8 +904,7 @@ public class PasswordActivity extends StylishActivity
                                 getSupportFragmentManager(),
                                 R.string.loading_database)
                 ));
-        Thread t = new Thread(databaseLoadingTask);
-        t.start();
+        new Thread(databaseLoadingTask).start();
     }
 
     /**

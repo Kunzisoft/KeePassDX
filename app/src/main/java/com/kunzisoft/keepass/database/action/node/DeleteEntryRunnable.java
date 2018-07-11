@@ -46,12 +46,12 @@ public class DeleteEntryRunnable extends ActionNodeDatabaseRunnable {
 		mParent = mEntryToDelete.getParent();
 
 		// Remove Entry from parent
-		mRecycle = mDb.canRecycle(mEntryToDelete);
+		mRecycle = mDatabase.canRecycle(mEntryToDelete);
 		if (mRecycle) {
-			mDb.recycle(mEntryToDelete);
+			mDatabase.recycle(mEntryToDelete);
 		}
 		else {
-			mDb.deleteEntry(mEntryToDelete);
+			mDatabase.deleteEntry(mEntryToDelete);
 		}
 		
 		// Commit database
@@ -62,10 +62,10 @@ public class DeleteEntryRunnable extends ActionNodeDatabaseRunnable {
 	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
 			if (mRecycle) {
-				mDb.undoRecycle(mEntryToDelete, mParent);
+				mDatabase.undoRecycle(mEntryToDelete, mParent);
 			}
 			else {
-				mDb.undoDeleteEntry(mEntryToDelete, mParent);
+				mDatabase.undoDeleteEntry(mEntryToDelete, mParent);
 			}
 		}
         callbackNodeAction(success, message, mEntryToDelete, null);

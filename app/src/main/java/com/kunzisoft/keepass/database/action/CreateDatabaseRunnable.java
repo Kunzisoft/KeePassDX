@@ -26,18 +26,18 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.utils.UriUtil;
 
-public class CreateDBRunnable extends RunnableOnFinish {
-	
-	private String mFilename;
-	private boolean mDontSave;
-	private Context ctx;
+public class CreateDatabaseRunnable extends RunnableOnFinish {
 
-	public CreateDBRunnable(Context ctx, String filename, OnFinishRunnable finish, boolean dontSave) {
+    private Context mContext;
+    private boolean mDontSave;
+	private String mFilename;
+
+	public CreateDatabaseRunnable(Context mContext, String filename, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 
-		mFilename = filename;
-		mDontSave = dontSave;
-		this.ctx = ctx;
+        this.mContext = mContext;
+        this.mDontSave = dontSave;
+        this.mFilename = filename;
 	}
 
 	@Override
@@ -56,8 +56,9 @@ public class CreateDBRunnable extends RunnableOnFinish {
 		App.clearShutdown();
 
 		// Commit changes
-		SaveDatabaseRunnable save = new SaveDatabaseRunnable(ctx, db, mFinish, mDontSave);
+		SaveDatabaseRunnable save = new SaveDatabaseRunnable(mContext, db, mFinish, mDontSave);
 		mFinish = null;
+
 		save.run();
 	}
 }

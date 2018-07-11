@@ -46,7 +46,7 @@ public class UpdateEntryRunnable extends ActionNodeDatabaseRunnable {
 	@Override
 	public void run() {
 		// Update entry with new values
-        mDb.updateEntry(mOldEntry, mNewEntry);
+        mDatabase.updateEntry(mOldEntry, mNewEntry);
 		mOldEntry.touch(true, true);
 
 		super.run();
@@ -56,7 +56,7 @@ public class UpdateEntryRunnable extends ActionNodeDatabaseRunnable {
 	protected void onFinish(boolean success, String message) {
         if ( !success ) {
             // If we fail to save, back out changes to global structure
-            mDb.updateEntry(mOldEntry, mBackupEntry);
+            mDatabase.updateEntry(mOldEntry, mBackupEntry);
         }
         callbackNodeAction(success, message, mOldEntry, mNewEntry);
     }

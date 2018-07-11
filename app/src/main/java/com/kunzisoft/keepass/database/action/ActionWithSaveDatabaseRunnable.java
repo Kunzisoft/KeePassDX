@@ -4,16 +4,16 @@ import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 
-public abstract class ActionDatabaseRunnable extends RunnableOnFinish {
+public abstract class ActionWithSaveDatabaseRunnable extends RunnableOnFinish {
 
-    protected Database mDb;
     protected Context mContext;
     protected boolean mDontSave;
+    protected Database mDatabase;
 
-    public ActionDatabaseRunnable(Context context, Database db, OnFinishRunnable finish, boolean dontSave) {
+    public ActionWithSaveDatabaseRunnable(Context context, Database database, OnFinishRunnable finish, boolean dontSave) {
         super(finish);
 
-        this.mDb = db;
+        this.mDatabase = database;
         this.mContext = context;
         this.mDontSave = dontSave;
         this.mFinish = new AfterActionRunnable(finish);
@@ -22,8 +22,12 @@ public abstract class ActionDatabaseRunnable extends RunnableOnFinish {
     @Override
     public void run() {
         // Commit to disk
-        SaveDatabaseRunnable save = new SaveDatabaseRunnable(mContext, mDb, mFinish, mDontSave);
+        SaveDatabaseRunnable save = new SaveDatabaseRunnable(mContext, mDatabase, mFinish, mDontSave);
         save.run();
+    }
+
+    public void runWithoutSaveDatabase() {
+        mFinish.run();
     }
 
     abstract protected void onFinish(boolean success, String message);
@@ -37,6 +41,7 @@ public abstract class ActionDatabaseRunnable extends RunnableOnFinish {
         @Override
         public void run() {
             onFinish(mSuccess, mMessage);
+            super.run();
         }
     }
 }

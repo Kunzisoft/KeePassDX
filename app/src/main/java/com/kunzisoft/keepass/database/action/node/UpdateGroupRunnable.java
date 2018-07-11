@@ -46,7 +46,7 @@ public class UpdateGroupRunnable extends ActionNodeDatabaseRunnable {
 	@Override
 	public void run() {
 		// Update group with new values
-        mDb.updateGroup(mOldGroup, mNewGroup);
+        mDatabase.updateGroup(mOldGroup, mNewGroup);
 		mOldGroup.touch(true, true);
 
 		// Commit to disk
@@ -57,7 +57,7 @@ public class UpdateGroupRunnable extends ActionNodeDatabaseRunnable {
 	protected void onFinish(boolean success, String message) {
 		if ( !success ) {
 			// If we fail to save, back out changes to global structure
-			mDb.updateGroup(mOldGroup, mBackupGroup);
+			mDatabase.updateGroup(mOldGroup, mBackupGroup);
 		}
 		callbackNodeAction(success, message, mOldGroup, mNewGroup);
 	}

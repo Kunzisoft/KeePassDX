@@ -48,7 +48,7 @@ public class CopyEntryRunnable extends ActionNodeDatabaseRunnable {
 	@Override
 	public void run() {
 		// Update entry with new values
-        mEntryCopied = mDb.copyEntry(mEntryToCopy, mNewParent);
+        mEntryCopied = mDatabase.copyEntry(mEntryToCopy, mNewParent);
 
         if (mEntryCopied != null) {
             mEntryCopied.touch(true, true);
@@ -65,7 +65,7 @@ public class CopyEntryRunnable extends ActionNodeDatabaseRunnable {
 		if ( !success ) {
 			// If we fail to save, try to delete the copy
 			try {
-				mDb.deleteEntry(mEntryCopied);
+				mDatabase.deleteEntry(mEntryCopied);
 			} catch (Exception e) {
 				Log.i(TAG, "Unable to delete the copied entry");
 			}

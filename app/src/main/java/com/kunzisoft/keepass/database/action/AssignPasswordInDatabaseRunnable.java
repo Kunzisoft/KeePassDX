@@ -30,17 +30,17 @@ import com.kunzisoft.keepass.utils.UriUtil;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class AssignPasswordInDBRunnable extends ActionDatabaseRunnable {
+public class AssignPasswordInDatabaseRunnable extends ActionWithSaveDatabaseRunnable {
 	
 	private String mPassword;
 	private Uri mKeyfile;
 	private byte[] mBackupKey;
 	
-	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish) {
+	public AssignPasswordInDatabaseRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish) {
 		this(ctx, db, password, keyfile, finish, false);
 	}
 
-	public AssignPasswordInDBRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish, boolean dontSave) {
+	public AssignPasswordInDatabaseRunnable(Context ctx, Database db, String password, Uri keyfile, OnFinishRunnable finish, boolean dontSave) {
 		super(ctx, db, finish, dontSave);
 
 		this.mPassword = password;
@@ -49,7 +49,7 @@ public class AssignPasswordInDBRunnable extends ActionDatabaseRunnable {
 	
 	@Override
 	public void run() {
-		PwDatabase pm = mDb.getPwDatabase();
+		PwDatabase pm = mDatabase.getPwDatabase();
 		
 		mBackupKey = new byte[pm.getMasterKey().length];
 		System.arraycopy(pm.getMasterKey(), 0, mBackupKey, 0, mBackupKey.length);
@@ -58,31 +58,27 @@ public class AssignPasswordInDBRunnable extends ActionDatabaseRunnable {
 		try {
 			InputStream is = UriUtil.getUriInputStream(mContext, mKeyfile);
 			pm.retrieveMasterKey(mPassword, is);
-		} catch (InvalidKeyFileException e) {
+            // Save Database
+            super.run();
+		} catch (InvalidKeyFileException|IOException e) {
 			erase(mBackupKey);
 			finish(false, e.getMessage());
-			return;
-		} catch (IOException e) {
-			erase(mBackupKey);
-			finish(false, e.getMessage());
-			return;
+			super.runWithoutSaveDatabase();
 		}
-		
-		// Save Database
-		super.run();
+
 	}
 
     @Override
     protected void onFinish(boolean success, String message) {
         if (!success) {
             // Erase the current master key
-            erase(mDb.getPwDatabase().getMasterKey());
-            mDb.getPwDatabase().setMasterKey(mBackupKey);
+            erase(mDatabase.getPwDatabase().getMasterKey());
+            mDatabase.getPwDatabase().setMasterKey(mBackupKey);
         }
     }
 	
-	/** Overwrite the array as soon as we don't need it to avoid keeping the extra data in memory
-	 * @param array
+	/**
+     * Overwrite the array as soon as we don't need it to avoid keeping the extra data in memory
 	 */
 	private void erase(byte[] array) {
 		if ( array == null ) return;

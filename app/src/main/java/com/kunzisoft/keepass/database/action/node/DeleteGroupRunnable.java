@@ -49,30 +49,30 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
         mParent = mGroupToDelete.getParent();
 
         // Remove Group from parent
-        mRecycle = mDb.canRecycle(mGroupToDelete);
+        mRecycle = mDatabase.canRecycle(mGroupToDelete);
         if (mRecycle) {
-            mDb.recycle(mGroupToDelete);
+            mDatabase.recycle(mGroupToDelete);
         }
         else {
             // TODO tests
             // Remove child entries
             List<PwEntry> childEnt = new ArrayList<>(mGroupToDelete.getChildEntries()); // TODO new Methods
             for ( int i = 0; i < childEnt.size(); i++ ) {
-                DeleteEntryRunnable task = new DeleteEntryRunnable(mContext, mDb, childEnt.get(i), null, true);
+                DeleteEntryRunnable task = new DeleteEntryRunnable(mContext, mDatabase, childEnt.get(i), null, true);
                 task.run();
             }
 
             // Remove child groups
             List<PwGroup> childGrp = new ArrayList<>(mGroupToDelete.getChildGroups());
             for ( int i = 0; i < childGrp.size(); i++ ) {
-                DeleteGroupRunnable task = new DeleteGroupRunnable(mContext, mDb, childGrp.get(i), null, true);
+                DeleteGroupRunnable task = new DeleteGroupRunnable(mContext, mDatabase, childGrp.get(i), null, true);
                 task.run();
             }
-            mDb.deleteGroup(mGroupToDelete);
+            mDatabase.deleteGroup(mGroupToDelete);
 
             // Remove from PwDatabaseV3
             // TODO ENcapsulate
-            mDb.getPwDatabase().getGroups().remove(mGroupToDelete);
+            mDatabase.getPwDatabase().getGroups().remove(mGroupToDelete);
         }
 		
 		// Commit Database
@@ -83,7 +83,7 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
     protected void onFinish(boolean success, String message) {
         if ( !success ) {
             if (mRecycle) {
-                mDb.undoRecycle(mGroupToDelete, mParent);
+                mDatabase.undoRecycle(mGroupToDelete, mParent);
             }
             else {
                 // Let's not bother recovering from a failure to save a deleted tree.  It is too much work.

@@ -51,14 +51,14 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.database.action.CreateDBRunnable;
+import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
@@ -538,7 +538,7 @@ public class FileSelectActivity extends StylishActivity implements
             assignPasswordHelper.setCreateProgressDialog(false);
 
 			// Create the new database
-			CreateDBRunnable createDBTask = new CreateDBRunnable(FileSelectActivity.this,
+			CreateDatabaseRunnable createDBTask = new CreateDatabaseRunnable(FileSelectActivity.this,
 					databaseFilename, assignPasswordOnFinish, true);
             createDBTask.setUpdateProgressTaskStatus(
                     new UpdateProgressTaskStatus(this,
@@ -589,11 +589,13 @@ public class FileSelectActivity extends StylishActivity implements
 		@Override
 		public void run() {
 			if (mSuccess) {
-				// Add to recent files
-				fileHistory.createFile(mUri, getFilename());
-                mAdapter.notifyDataSetChanged();
-                updateTitleFileListView();
-				GroupActivity.launch(FileSelectActivity.this);
+			    runOnUiThread(() -> {
+                    // Add to recent files
+                    fileHistory.createFile(mUri, getFilename());
+                    mAdapter.notifyDataSetChanged();
+                    updateTitleFileListView();
+                    GroupActivity.launch(FileSelectActivity.this);
+                });
 			}
 		}
 	}

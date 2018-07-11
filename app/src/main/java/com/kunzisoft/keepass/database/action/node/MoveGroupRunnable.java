@@ -51,7 +51,7 @@ public class MoveGroupRunnable extends ActionNodeDatabaseRunnable {
 		// Move group in new parent if not in the current group
 		if (!mGroupToMove.equals(mNewParent)
 				&& !mNewParent.isContainedIn(mGroupToMove)) {
-			mDb.moveGroup(mGroupToMove, mNewParent);
+			mDatabase.moveGroup(mGroupToMove, mNewParent);
 
 			if (mGroupToMove != null) {
 				mGroupToMove.touch(true, true);
@@ -76,7 +76,7 @@ public class MoveGroupRunnable extends ActionNodeDatabaseRunnable {
         if ( !success ) {
             // If we fail to save, try to move in the first place
             try {
-                mDb.moveGroup(mGroupToMove, mOldParent);
+                mDatabase.moveGroup(mGroupToMove, mOldParent);
             } catch (Exception e) {
                 Log.i(TAG, "Unable to replace the group");
             }

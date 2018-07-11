@@ -28,16 +28,16 @@ import java.io.IOException;
 
 public class SaveDatabaseRunnable extends RunnableOnFinish {
 
-	private Context mCtx;
-	private Database mDb;
+	private Context mContext;
+	private Database mDatabase;
 	private boolean mDontSave;
 
-	public SaveDatabaseRunnable(Context ctx, Database db, OnFinishRunnable finish, boolean dontSave) {
+	public SaveDatabaseRunnable(Context context, Database database, OnFinishRunnable finish, boolean dontSave) {
 		super(finish);
 
-		this.mDb = db;
+		this.mContext = context;
+		this.mDatabase = database;
 		this.mDontSave = dontSave;
-		this.mCtx = ctx;
 	}
 
 	public SaveDatabaseRunnable(Context ctx, Database db, OnFinishRunnable finish) {
@@ -49,7 +49,7 @@ public class SaveDatabaseRunnable extends RunnableOnFinish {
 
 		if ( ! mDontSave ) {
 			try {
-				mDb.saveData(mCtx);
+				mDatabase.saveData(mContext);
 			} catch (IOException e) {
 				finish(false, e.getMessage());
 				return;

@@ -40,7 +40,7 @@ public class AddGroupRunnable extends ActionNodeDatabaseRunnable {
 	
 	@Override
 	public void run() {
-        mDb.addGroupTo(mNewGroup, mNewGroup.getParent());
+        mDatabase.addGroupTo(mNewGroup, mNewGroup.getParent());
 
 		// Commit to disk
 		super.run();
@@ -49,7 +49,7 @@ public class AddGroupRunnable extends ActionNodeDatabaseRunnable {
 	@Override
 	protected void onFinish(boolean success, String message) {
         if ( !success ) {
-            mDb.removeGroupFrom(mNewGroup, mNewGroup.getParent());
+            mDatabase.removeGroupFrom(mNewGroup, mNewGroup.getParent());
         }
         callbackNodeAction(success, message, null, mNewGroup);
 	}

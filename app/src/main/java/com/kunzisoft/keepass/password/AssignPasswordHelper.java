@@ -20,12 +20,11 @@
 package com.kunzisoft.keepass.password;
 
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.action.AssignPasswordInDBRunnable;
+import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
 import com.kunzisoft.keepass.database.action.OnFinishRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
@@ -61,21 +60,21 @@ public class AssignPasswordHelper {
     }
 
     public void assignPasswordInDatabase(FileOnFinishRunnable fileOnFinish) {
-        AssignPasswordInDBRunnable assignPasswordInDBRunnable = new AssignPasswordInDBRunnable(
+        AssignPasswordInDatabaseRunnable assignPasswordInDatabaseRunnable = new AssignPasswordInDatabaseRunnable(
                 context,
                 App.getDB(),
                 masterPassword,
                 keyfile,
-                new AfterSave(fileOnFinish, new Handler())
+                new AfterSave(fileOnFinish)
         );
         if (createProgressDialog) {
-            assignPasswordInDBRunnable.setUpdateProgressTaskStatus(
+            assignPasswordInDatabaseRunnable.setUpdateProgressTaskStatus(
                     new UpdateProgressTaskStatus(context,
                             SaveDatabaseProgressTaskDialogFragment.start(
                                     context.getSupportFragmentManager())
                     ));
         }
-        Thread taskThread = new Thread(assignPasswordInDBRunnable);
+        Thread taskThread = new Thread(assignPasswordInDatabaseRunnable);
 
         // Show the progress dialog now or after dialog confirmation
         if (App.getDB().getPwDatabase().validatePasswordEncoding(masterPassword)) {
@@ -89,8 +88,8 @@ public class AssignPasswordHelper {
     private class AfterSave extends OnFinishRunnable {
         private FileOnFinishRunnable mFinish;
 
-        AfterSave(FileOnFinishRunnable finish, Handler handler) {
-            super(finish, handler);
+        AfterSave(FileOnFinishRunnable finish) {
+            super(finish);
             mFinish = finish;
         }
 
