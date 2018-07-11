@@ -278,6 +278,11 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             menuInflater.inflate(R.menu.node_menu, contextMenu);
 
+            // TODO COPY For Group
+            if (node.getType().equals(PwNode.Type.GROUP)) {
+                contextMenu.removeItem(R.id.menu_copy);
+            }
+
             MenuItem menuItem = contextMenu.findItem(R.id.menu_open);
             menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
             if (!App.getDB().isReadOnly() && !node.equals(App.getDB().getPwDatabase().getRecycleBin())) {

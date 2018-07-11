@@ -353,7 +353,7 @@ public class GroupActivity extends ListNodesActivity
                             Log.e(TAG, "Copy not allowed for group");
                             break;
                         case ENTRY:
-                            copyNode((PwEntry) nodeToCopy, mCurrentGroup);
+                            copyEntry((PwEntry) nodeToCopy, mCurrentGroup);
                             break;
                     }
                     nodeToCopy = null;
@@ -363,7 +363,7 @@ public class GroupActivity extends ListNodesActivity
         }
     }
 
-    private void copyNode(PwEntry entryToCopy, PwGroup newParent) {
+    private void copyEntry(PwEntry entryToCopy, PwGroup newParent) {
         CopyEntryRunnable task = new CopyEntryRunnable(this, App.getDB(), entryToCopy, newParent,
                 new AfterAddNode());
         task.setUpdateProgressTaskStatus(
