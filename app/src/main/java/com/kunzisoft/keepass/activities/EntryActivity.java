@@ -152,12 +152,28 @@ public class EntryActivity extends LockingHideActivity {
         // Start to manage field reference to copy a value from ref
         mEntry.startToManageFieldReferences(App.getDB().getPwDatabase());
 
+        boolean containsUsernameToCopy =
+                mEntry.getUsername().length() > 0;
+        boolean containsPasswordToCopy =
+                (mEntry.getPassword().length() > 0
+                        && PreferencesUtil.allowCopyPasswordAndProtectedFields(this));
+        boolean containsExtraFieldToCopy =
+                (mEntry.allowExtraFields()
+                        && ((mEntry.containsCustomFields()
+                                && mEntry.containsCustomFieldsNotProtected())
+                            || (mEntry.containsCustomFields()
+                                && mEntry.containsCustomFieldsProtected()
+                                && PreferencesUtil.allowCopyPasswordAndProtectedFields(this))
+                        )
+                );
+
         // If notifications enabled in settings
         // Don't if application timeout
         if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
-            if (mEntry.getUsername().length() > 0
-                    || (mEntry.getPassword().length() > 0 && PreferencesUtil.allowCopyPassword(this))
-                    || mEntry.containsCustomFields()) {
+            if (containsUsernameToCopy
+                    || containsPasswordToCopy
+                    || containsExtraFieldToCopy
+                    ) {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
                 intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
@@ -166,35 +182,37 @@ public class EntryActivity extends LockingHideActivity {
                 // Construct notification fields
                 ArrayList<NotificationField> notificationFields = new ArrayList<>();
                 // Add username if exists to notifications
-                if (mEntry.getUsername().length() > 0)
+                if (containsUsernameToCopy)
                     notificationFields.add(
                             new NotificationField(
                                     NotificationField.NotificationFieldId.USERNAME,
                                     mEntry.getUsername(),
                                     getResources()));
                 // Add password to notifications
-                if (PreferencesUtil.allowCopyPassword(this)) {
-                    if (mEntry.getPassword().length() > 0)
-                        notificationFields.add(
-                                new NotificationField(
-                                        NotificationField.NotificationFieldId.PASSWORD,
-                                        mEntry.getPassword(),
-                                        getResources()));
+                if (containsPasswordToCopy) {
+                    notificationFields.add(
+                            new NotificationField(
+                                    NotificationField.NotificationFieldId.PASSWORD,
+                                    mEntry.getPassword(),
+                                    getResources()));
                 }
                 // Add extra fields
-                if (mEntry.allowExtraFields()) {
+                if (containsExtraFieldToCopy) {
                     try {
                         mEntry.getFields().doActionToAllCustomProtectedField(new ExtraFields.ActionProtected() {
                             private int anonymousFieldNumber = 0;
                             @Override
                             public void doAction(String key, ProtectedString value) {
-                                notificationFields.add(
-                                        new NotificationField(
-                                                NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
-                                                value.toString(),
-                                                key,
-                                                getResources()));
-                                anonymousFieldNumber++;
+                                //If value is not protected or allowed
+                                if (!value.isProtected() || PreferencesUtil.allowCopyPasswordAndProtectedFields(EntryActivity.this)) {
+                                    notificationFields.add(
+                                            new NotificationField(
+                                                    NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
+                                                    value.toString(),
+                                                    key,
+                                                    getResources()));
+                                    anonymousFieldNumber++;
+                                }
                             }
                         });
                     } catch (ArrayIndexOutOfBoundsException e) {
@@ -313,7 +331,7 @@ public class EntryActivity extends LockingHideActivity {
         );
 
 		entryContentsView.assignPassword(mEntry.getPassword());
-		if (PreferencesUtil.allowCopyPassword(this)) {
+		if (PreferencesUtil.allowCopyPasswordAndProtectedFields(this)) {
             entryContentsView.assignPasswordCopyListener(view ->
                     clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(),
                             getString(R.string.copy_field, getString(R.string.entry_password)))
@@ -329,14 +347,15 @@ public class EntryActivity extends LockingHideActivity {
 		if (mEntry.allowExtraFields()) {
 			entryContentsView.clearExtraFields();
 
-			mEntry.getFields().doActionToAllCustomProtectedField((label, value) ->
-
-                    entryContentsView.addExtraField(label, value, view ->
+			mEntry.getFields().doActionToAllCustomProtectedField((label, value) -> {
+			        boolean showAction = (!value.isProtected() || PreferencesUtil.allowCopyPasswordAndProtectedFields(EntryActivity.this));
+                    entryContentsView.addExtraField(label, value, showAction, view ->
                         clipboardHelper.timeoutCopyToClipboard(
                                 value.toString(),
                                 getString(R.string.copy_field, label)
                         )
-            ));
+                    );
+            });
 		}
 
         // Assign dates

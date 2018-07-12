@@ -45,10 +45,10 @@ public class EntryCustomField extends LinearLayout {
 	}
 
     public EntryCustomField(Context context, AttributeSet attrs, String title, ProtectedString value) {
-        this(context, attrs, title, value, null);
+        this(context, attrs, title, value, false, null);
     }
 
-	public EntryCustomField(Context context, AttributeSet attrs, String label, ProtectedString value, OnClickListener onClickActionListener) {
+	public EntryCustomField(Context context, AttributeSet attrs, String label, ProtectedString value, boolean showAction, OnClickListener onClickActionListener) {
 		super(context, attrs);
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,7 +61,12 @@ public class EntryCustomField extends LinearLayout {
 
         setLabel(label);
         setValue(value);
-        setAction(onClickActionListener);
+
+        if (!showAction) {
+            actionImageView.setVisibility(INVISIBLE);
+        } else {
+            setAction(onClickActionListener);
+        }
 	}
 
 	public void applyFontVisibility(boolean fontInVisibility) {

@@ -212,7 +212,8 @@
     <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
     <string name="notifications">Notifications</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
-    <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier le nom d\'utilisateur et le mot de passe</string>
+    <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier les champs d\'entrées</string>
+    <string name="clipboard_warning">Certains appareils ne sont pas en mesure de supprimer automatiquement les éléments du presse-papiers. Si votre gestionnaire n\'autorise pas cette suppression, vous devrez supprimer manuellement l\'élément copié de l\'historique de votre presse-papiers.</string>
     <string name="lock_database_screen_off_title">Verrouillage d\'écran</string>
     <string name="lock_database_screen_off_summary">Verrouiller la base de données quand l\'écran est éteint</string>
     <string name="fingerprint_quick_unlock_title">Comment configurer l\'empreinte digitale pour un déverrouillage rapide?</string>
@@ -249,7 +250,8 @@
     <string name="auto_open_file_uri_title">Ouvrir le fichier sélectionné automatiquement</string>
     <string name="auto_open_file_uri_summary">Ouvrir automatiquement un fichier à partir de l\'écran de sélection après une sélection dans le navigateur de fichiers</string>
     <string name="allow_copy_password_title">Copie de mot de passe</string>
-    <string name="allow_copy_password_summary">Autoriser la copie du mot de passe dans le presse-papiers.</string>
+    <string name="allow_copy_password_summary">Autoriser la copie du mot de passe et des champs protégés dans le presse-papiers.</string>
+    <string name="allow_copy_password_warning">ATTENTION : Le presse-papiers est partagé par toutes les applications. Si des données sensibles sont copiés, d\'autres logiciels peuvent les récupérer.</string>
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
     <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
     <string name="database_name_title">Nom de la base de données</string>

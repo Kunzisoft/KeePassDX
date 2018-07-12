@@ -193,12 +193,12 @@ public class EntryContentsView extends LinearLayout {
         }
     }
 
-    public void addExtraField(String title, ProtectedString value, OnClickListener onActionClickListener) {
+    public void addExtraField(String title, ProtectedString value, boolean showAction, OnClickListener onActionClickListener) {
         EntryCustomField entryCustomField;
 	    if (value.isProtected())
-	        entryCustomField = new EntryCustomFieldProtected(getContext(), null, title, value, onActionClickListener);
+	        entryCustomField = new EntryCustomFieldProtected(getContext(), null, title, value, showAction, onActionClickListener);
 	    else
-	        entryCustomField = new EntryCustomField(getContext(), null, title, value, onActionClickListener);
+	        entryCustomField = new EntryCustomField(getContext(), null, title, value, showAction, onActionClickListener);
         entryCustomField.applyFontVisibility(fontInVisibility);
         extrasView.addView(entryCustomField);
     }

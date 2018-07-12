@@ -39,8 +39,8 @@ public class EntryCustomFieldProtected extends EntryCustomField{
         super(context, attrs, title, value);
     }
 
-    public EntryCustomFieldProtected(Context context, AttributeSet attrs, String label, ProtectedString value, OnClickListener onClickActionListener) {
-        super(context, attrs, label, value, onClickActionListener);
+    public EntryCustomFieldProtected(Context context, AttributeSet attrs, String label, ProtectedString value, boolean showAction, OnClickListener onClickActionListener) {
+        super(context, attrs, label, value, showAction, onClickActionListener);
     }
 
     public void setValue(ProtectedString value) {

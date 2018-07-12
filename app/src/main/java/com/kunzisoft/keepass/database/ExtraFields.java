@@ -44,6 +44,22 @@ public class ExtraFields implements Serializable, Cloneable {
         return !getCustomProtectedFields().keySet().isEmpty();
     }
 
+    public boolean containsCustomFieldsProtected() {
+        for (Map.Entry<String, ProtectedString> field : getCustomProtectedFields().entrySet()) {
+            if (field.getValue().isProtected())
+                return true;
+        }
+        return false;
+    }
+
+    public boolean containsCustomFieldsNotProtected() {
+        for (Map.Entry<String, ProtectedString> field : getCustomProtectedFields().entrySet()) {
+            if (!field.getValue().isProtected())
+                return true;
+        }
+        return false;
+    }
+
     public String getProtectedStringValue(String key) {
         ProtectedString value = fields.get(key);
         if ( value == null ) return "";

@@ -33,7 +33,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
@@ -47,7 +46,6 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
-import com.kunzisoft.keepass.dialogs.StorageAccessFrameworkDialog;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
@@ -117,6 +115,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             case APPLICATION:
                 setPreferencesFromResource(R.xml.application_preferences, rootKey);
 
+                allowCopyPassword();
+
                 Preference keyFile = findPreference(getString(R.string.keyfile_key));
                 keyFile.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
@@ -142,17 +142,18 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 storageAccessFramework.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
                     if (!value && getContext() != null) {
-                        StorageAccessFrameworkDialog safDialog = new StorageAccessFrameworkDialog(getContext());
-                        safDialog.setButton(AlertDialog.BUTTON1, getText(android.R.string.ok),
+                        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                                .setMessage(getString(R.string.warning_disabling_storage_access_framework)).create();
+                        alertDialog.setButton(AlertDialog.BUTTON1, getText(android.R.string.ok),
                                 (dialog, which) -> {
                                     dialog.dismiss();
                                 });
-                        safDialog.setButton(AlertDialog.BUTTON2, getText(android.R.string.cancel),
+                        alertDialog.setButton(AlertDialog.BUTTON2, getText(android.R.string.cancel),
                                 (dialog, which) -> {
                                     storageAccessFramework.setChecked(true);
                                     dialog.dismiss();
                                 });
-                        safDialog.show();
+                        alertDialog.show();
                     }
                     return true;
                 });
@@ -297,6 +298,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     return false;
                 });
 
+                // Present in two places
+                allowCopyPassword();
+
                 break;
 
             case DATABASE:
@@ -425,6 +429,28 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             default:
                 break;
         }
+    }
+
+    private void allowCopyPassword() {
+        SwitchPreference copyPasswordPreference = (SwitchPreference) findPreference(getString(R.string.allow_copy_password_key));
+        copyPasswordPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            if ((Boolean) newValue && getContext() != null) {
+                String message = getString(R.string.allow_copy_password_warning) +
+                        "\n\n" +
+                        getString(R.string.clipboard_warning);
+                AlertDialog warningDialog = new AlertDialog.Builder(getContext())
+                        .setMessage(message).create();
+                warningDialog.setButton(AlertDialog.BUTTON1, getText(android.R.string.ok),
+                        (dialog, which) -> dialog.dismiss());
+                warningDialog.setButton(AlertDialog.BUTTON2, getText(android.R.string.cancel),
+                        (dialog, which) -> {
+                            copyPasswordPreference.setChecked(false);
+                            dialog.dismiss();
+                        });
+                warningDialog.show();
+            }
+            return true;
+        });
     }
 
     private void preferenceInDevelopment(Preference preferenceInDev) {

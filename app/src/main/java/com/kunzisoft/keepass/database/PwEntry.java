@@ -117,6 +117,22 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
 		return getFields().containsCustomFields();
 	}
 
+	/**
+	 * If entry contains extra fields that are protected
+	 * @return true if there is extra fields protected
+	 */
+	public boolean containsCustomFieldsProtected() {
+		return getFields().containsCustomFieldsProtected();
+	}
+
+	/**
+	 * If entry contains extra fields that are not protected
+	 * @return true if there is extra fields not protected
+	 */
+	public boolean containsCustomFieldsNotProtected() {
+		return getFields().containsCustomFieldsNotProtected();
+	}
+
     /**
      * Add an extra field to the list (standard or custom)
      * @param label Label of field, must be unique
