@@ -151,11 +151,12 @@
     	<item translatable="false">-1</item>
     </string-array>
 
+    <integer name="list_icon_size_default" translatable="false">32</integer>
     <string name="list_size_default" translatable="false">18</string>
     <string-array name="list_size_values">
     	<item translatable="false">14</item>
     	<item translatable="false">18</item>
-    	<item translatable="false">26</item>
+    	<item translatable="false">22</item>
     </string-array>
 
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>

@@ -4,6 +4,7 @@ KeepassDX (2.5.0.0beta12)
  * New navigation in a single screen / new animations between activities
  * New icons for the material pack / vectorization
  * New adaptive launcher icon
+ * Icons depends now of setting of list items
  * Added a setting to disable the open button when no password is identified
  * Added a setting to disable the education screens
  * Added a setting to disable the copy of protected custom fields

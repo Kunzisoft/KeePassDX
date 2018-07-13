@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -49,6 +50,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private LayoutInflater inflater;
     private MenuInflater menuInflater;
     private float textSize;
+    private float iconSize;
     private SortNodeEnum listSort;
     private boolean groupsBeforeSort;
     private boolean ascendingSort;
@@ -102,6 +104,13 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
     private void assignPreferences() {
         this.textSize = PreferencesUtil.getListTextSize(context);
+        // Retrieve the icon size
+        int iconDefaultSize = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                context.getResources().getInteger(R.integer.list_icon_size_default),
+                context.getResources().getDisplayMetrics()
+        );
+        this.iconSize = iconDefaultSize * textSize / Float.parseFloat(context.getString(R.string.list_size_default));
         this.listSort = PreferencesUtil.getListSort(context);
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
         this.ascendingSort = PreferencesUtil.getAscendingSort(context);
@@ -203,7 +212,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             holder.container.setOnCreateContextMenuListener(
                     new ContextMenuBuilder(subNode, nodeMenuListener));
         }
-        // Assign text size
+        // Assign image and text size
+        // Relative size of the icon
+        holder.icon.getLayoutParams().height = ((int) iconSize);
+        holder.icon.getLayoutParams().width = ((int) iconSize);
         holder.text.setTextSize(textSize);
     }
 
