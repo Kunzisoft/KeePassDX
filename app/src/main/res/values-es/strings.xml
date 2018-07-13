@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
 Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 This file is part of KeePass DX.
@@ -20,13 +20,13 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
 
 -->
 <resources>
-    <string name="about_feedback">Realimentación:</string>
+    <string name="about_feedback">Retroalimentación:</string>
     <string name="about_homepage">Inicio:</string>
     <string name="about_description">KeePass DX es una implementación para Android del gestor de contraseñas KeePass.</string>
     <string name="accept">Aceptar</string>
     <string name="add_entry">Añadir entrada</string>
     <string name="add_group">Añadir grupo</string>
-    <string name="encryption_algorithm">Algoritmo</string>
+    <string name="encryption_algorithm">Algoritmo de cifrado</string>
     <string name="app_timeout">Tiempo de espera de aplicación</string>
     <string name="app_timeout_summary">Tiempo hasta bloquear la base de datos cuando la aplicación está inacttiva.</string>
     <string name="application">Aplicación</string>
@@ -34,13 +34,13 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="brackets">Paréntesis</string>
     <string name="browser_intall_text">La exploración de archivos necesita Open Intents File Manager, haz clic a continuación para instalarlo. Debido a algunas peculiaridades en el gestor de archivos, puede que la exploración no funcione correctamente la primera vez que la realices.</string>
     <string name="cancel">Cancelar</string>
-    <string name="clipboard_cleared">Portapapeles vaciado.</string>
+    <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
     <string name="clipboard_timeout_summary">Tiempo hasta que el portapapeles se vacía después de copiar el usuario o la contraseña</string>
     <string name="select_to_copy">Seleccionar para copiar %1$s al portapapeles</string>
-    <string name="creating_db_key">Creando clave de la base de datos&#8230;</string>
+    <string name="creating_db_key">Creando clave de la base de datos…</string>
     <string name="database">Base de datos</string>
-    <string name="decrypting_db">Descifrando el contenido de la base de datos&#8230;</string>
+    <string name="decrypting_db">Descifrando el contenido de la base de datos…</string>
     <string name="default_checkbox">Utilice esto como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft NO TIENE TOTAL GARANTÍA; Este es software libre, y puedes redristribuirlo bajo las condiciones de la licencia GPL version 3 o posterior.</string>
@@ -93,7 +93,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="length">Longitud</string>
     <string name="list_size_title">Tamaño de la lista de Grupo</string>
     <string name="list_size_summary">Tamaño del texto de la lista de grupo</string>
-    <string name="loading_database">Cargando base de datos&#8230;</string>
+    <string name="loading_database">Cargando base de datos…</string>
     <string name="lowercase">Minúsculas</string>
     <string name="maskpass_title">Ocultar contraseña</string>
     <string name="maskpass_summary">Ocultar contraseñas por defecto</string>
@@ -119,17 +119,17 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="open_recent">Abrir base de datos reciente :</string>
     <string name="omitbackup_title">No buscar en las entradas de copia de seguridad o papelera de reciclaje</string>
     <string name="omitbackup_summary">Omitir \'Backup\' y grupo de Papelera de Reciclaje en los resultados de búsqueda</string>
-    <string name="progress_create">Creando nueva base de datos&#8230;</string>
-    <string name="progress_title">Trabajando&#8230;</string>
+    <string name="progress_create">Creando nueva base de datos…</string>
+    <string name="progress_title">Trabajando…</string>
     <string name="remember_keyfile_summary">Recordar la ubicación de archivos de clave</string>
     <string name="remember_keyfile_title">Guardando archivo de clave</string>
     <string name="remove_from_filelist">Borrar</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raíz</string>
-    <string name="rounds">Pasadas de Cifrado</string>
+    <string name="rounds">Pasadas de cifrado</string>
     <string name="rounds_explanation">Un alto número de pasadas de cifrado proporciona protección adicional contra ataques de fuerza bruta, pero puede ralentizar mucho el cargado y el guardado.</string>
     <string name="rounds_hint">pasadas</string>
-    <string name="saving_database">Guardando base de datos&#8230;</string>
+    <string name="saving_database">Guardando base de datos…</string>
     <string name="space">Espacio</string>
     <string name="search_label">Buscar</string>
     <string name="sort_db">Orden de BD</string>
@@ -161,4 +161,186 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
      <item>Mediano</item>
      <item>Grande</item>
     </string-array>
+<string name="add_string">Añadir cadena</string>
+    <string name="encryption">Cifrado</string>
+    <string name="key_derivation_function">Función de derivación de clave</string>
+    <string name="beta_dontask">No mostrar nuevamente</string>
+    <string name="extended_ASCII">ASCII extendido</string>
+    <string name="allow">Permitir</string>
+    <string name="clipboard_error_title">Error del portapapeles</string>
+    <string name="clipboard_error">Algunos teléfonos Samsung con Android tienen un error en la implementación del portapapeles que provoca fallos al copiar desde las aplicaciones. Para más detalles ir a:</string>
+    <string name="clipboard_error_clear">Falló la limpieza del portapapeles</string>
+    <string name="clipboard_swipe_clean">Deslizar ahora para limpiar el portapapeles</string>
+    <string name="error_string_key">Cada cadena requiere un nombre de campo.</string>
+    <string name="error_autofill_enable_service">El servicio de autocompletar no puede habilitarse.</string>
+    <string name="field_name">Nombre del campo</string>
+    <string name="field_value">Valor del campo</string>
+    <string name="file_not_found_content">Archivo no encontrado. Intente volver a abrirlo desde su proveedor de contenido.</string>
+    <string name="invalid_algorithm">Algoritmo no válido.</string>
+    <string name="keyfile_does_not_exist">El archivo clave no existe.</string>
+    <string name="keyfile_is_empty">El archivo clave está vacío.</string>
+    <string name="copy_field">Copia de %1$s</string>
+    <string name="menu_form_filling_settings">Llenado de formulario</string>
+    <string name="menu_fingerprint_remove_key">Quite la clave de huella dactilar</string>
+    <string name="protection">Protección</string>
+    <string name="read_only">Solo lectura</string>
+    <string name="read_only_warning">KeePass DX no tiene permiso de escritura en la ubicación de la base de datos, la base de datos se abrirá como solo lectura.</string>
+    <string name="read_only_kitkat_warning">Comenzando con Android KitKat, algunos dispositivos ya no permiten a las aplicaciones escribir en la tarjeta SD.</string>
+    <string name="encryption_explanation">Algoritmo para cifrar la base de datos. (Las contraseñas, usuarios, notas y todos los datos en la base de datos son cifrados con el algoritmo seleccionado)</string>
+    <string name="kdf_explanation">Para generar la clave del algoritmo de cifrado, la clave maestra comprimida (SHA-256) se transforma usando una función de derivación de clave (con una sal aleatoria).</string>
+    <string name="memory_usage">Uso de memoria</string>
+    <string name="memory_usage_explanation">Cantidad de memoria (en bytes binarios) a usar por la función de derivación de clave.</string>
+    <string name="parallelism">Paralelismo</string>
+    <string name="parallelism_explanation">Grado de paralelismo (p. ej. número de hilos) usados por la función de derivación de clave.</string>
+    <string name="sort_menu">Ordenar</string>
+    <string name="sort_ascending">Ascendente</string>
+    <string name="sort_groups_before">Agrupar antes</string>
+    <string name="sort_recycle_bin_bottom">Papelera debajo</string>
+    <string name="sort_title">Ordenar por Título</string>
+    <string name="sort_username">Ordenar por Usuario</string>
+    <string name="sort_creation_time">Ordenar por Hora de creado</string>
+    <string name="sort_last_modify_time">Ordenar por Hora de última modificación</string>
+    <string name="sort_last_access_time">Ordenar por Hora de último acceso</string>
+    <string name="search_results">Resultados de la búsqueda</string>
+    <string name="use_saf_summary">Usar Android Storage Access Framework para examinar archivos (KitKat y posteriores)</string>
+    <string name="use_saf_title">Framework de Acceso al Almacenamiento</string>
+    <string name="warning">Advertencia</string>
+    <string name="entry_not_found">Datos de entrada no encontrados.</string>
+    <string name="warning_password_encoding">El formato .kdb solo admite el juego de caracteres Latin1. Su contraseña puede contener caracteres fuera de este juego de caracteres. Todos los caracteres no-Latin1 se convierten al mismo carácter, lo que reduce la seguridad de su contraseña. Se recomienda cambiar su contraseña.</string>
+    <string name="warning_empty_password">¿De verdad quieres usar una cadena vacía como contraseña?</string>
+    <string name="warning_no_encryption_key">¿Estás seguro que no quieres usar clave de cifrado?</string>
+    <string name="configure_fingerprint">Huella digital compatible pero no configurada para el dispositivo</string>
+    <string name="scanning_fingerprint">Monitoreando huellas digitales</string>
+    <string name="encrypted_value_stored">Contraseña encriptada almacenada</string>
+    <string name="fingerprint_invalid_key">Problema clave de huella digital no válida. Restaure su contraseña.</string>
+    <string name="fingerprint_not_recognized">Huella digital no reconocida</string>
+    <string name="fingerprint_error">Problema de huella digital: %1$s</string>
+    <string name="store_with_fingerprint">Usa la huella digital para almacenar esta contraseña</string>
+    <string name="no_password_stored">Aún sin contraseña almacenada para esta base de datos</string>
+    <string name="history">Historial</string>
+    <string name="appearance">Apariencia</string>
+    <string name="general">General</string>
+    <string name="autofill">Autocompletar</string>
+    <string name="autofill_service_name">Servicio de Autocompletar KeePass DX</string>
+    <string name="autofill_sign_in_prompt">Inicia sesión con KeePass DX</string>
+    <string name="set_autofill_service_title">Establecer predeterminado el servicio de Autocompletar</string>
+    <string name="set_autofill_service_summary">Habilite el servicio para completar formularios fácilmente desde otras aplicaciones</string>
+    <string name="password_size_title">Tamaño de la contraseña</string>
+    <string name="password_size_summary">Establecer el tamaño predeterminado de la contraseña generada</string>
+    <string name="list_password_generator_options_title">Caracteres de contraseña</string>
+    <string name="list_password_generator_options_summary">Establecer los caracteres predeterminados del generador de contraseñas</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="clipboard_notifications_title">Notificaciones del Portapapeles</string>
+    <string name="clipboard_notifications_summary">Habilitar las notificaciones del portapapeles para copiar el nombre de usuario y la contraseña</string>
+    <string name="lock">Bloquear</string>
+    <string name="lock_database_screen_off_title">Bloqueo de pantalla</string>
+    <string name="lock_database_screen_off_summary">Bloquear la base de datos cuando la pantalla esté apagada</string>
+    <string name="fingerprint_quick_unlock_title">¿Cómo configurar la huella digital para un desbloqueo rápido?</string>
+    <string name="fingerprint_setting_text">Establezca su huella digital personal para su dispositivo en</string>
+    <string name="fingerprint_setting_way_text">Configuración -&gt; Seguridad -&gt; Huella digital</string>
+    <string name="fingerprint_type_password_text">Escriba su contraseña en Keepass DX</string>
+    <string name="fingerprint_scan_to_store">Escanee su huella digital para almacenar su contraseña maestra de forma segura</string>
+    <string name="fingerprint_scan_to_open">Escanee su huella digital cuando la casilla de verificación de contraseña esté desmarcada para abrir la base de datos</string>
+    <string name="usage">Uso</string>
+    <string name="fingerprint">Huella digital</string>
+    <string name="fingerprint_enable_title">Monitoreando Huella digital</string>
+    <string name="fingerprint_enable_summary">Habilitar la apertura de base de datos por huella digital</string>
+    <string name="fingerprint_delete_all_title">Eliminar claves de cifrado</string>
+    <string name="fingerprint_delete_all_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento de huellas digitales</string>
+    <string name="fingerprint_delete_all_warning">¿Está seguro de que desea borrar todas las claves relacionadas con las huellas digitales?</string>
+    <string name="unavailable_feature_text">No se puede iniciar esta característica.</string>
+    <string name="unavailable_feature_version">Su versión de Android %1$s no es la versión mínima, se requiere %2$s.</string>
+    <string name="unavailable_feature_hardware">El hardware no es detectado.</string>
+    <string name="file_name">Nombre del archivo</string>
+    <string name="path">Ruta</string>
+    <string name="assign_master_key">Asignar una clave maestra</string>
+    <string name="create_keepass_file">Crear un archivo de KeePass</string>
+    <string name="bytes">Bytes</string>
+    <string name="full_file_path_enable_title">Ruta de archivo</string>
+    <string name="full_file_path_enable_summary">Ver la ruta completa del archivo</string>
+    <string name="recycle_bin_title">Usar la Papelera de reciclaje</string>
+    <string name="recycle_bin_summary">Mueva un grupo o una entrada a la Papelera de reciclaje antes de eliminar</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass DX necesita permiso de almacenamiento externo para escribir una base de datos</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX necesita permiso de almacenamiento externo para leer una URI no proporcionada por el proveedor de contenido</string>
+    <string name="permission_external_storage_denied">Permiso de almacenamiento externo denegado</string>
+    <string name="permission_external_storage_never_ask">No se puede realizar la acción sin permiso de almacenamiento externo</string>
+    <string name="monospace_font_fields_enable_title">Fuente de los Campos</string>
+    <string name="monospace_font_fields_enable_summary">Cambiar la fuente de los campos para una mejor visibilidad del carácter</string>
+    <string name="auto_open_file_uri_title">Abrir automáticamente el archivo seleccionado</string>
+    <string name="auto_open_file_uri_summary">Abrir automáticamente un archivo desde la pantalla de selección después de una selección en el explorador de archivos</string>
+    <string name="allow_copy_password_title">Copia de contraseña</string>
+    <string name="allow_copy_password_summary">Permitir la copia de la contraseña al portapapeles.</string>
+    <string name="warning_disabling_storage_access_framework">ADVERTENCIA: deshabilitar esta característica puede dar lugar a una incapacidad para abrir o guardar las bases de datos</string>
+    <string name="open_link_database">Enlace del archivo Kdbx para abrir</string>
+    <string name="database_name_title">Nombre de la base de datos</string>
+    <string name="database_description_title">Descripción de la base de datos</string>
+    <string name="database_version_title">Versión de la base de datos</string>
+    <string name="text_appearance">Apariencia del texto</string>
+    <string name="application_appearance">Apariencia de la aplicación</string>
+    <string name="other">Otro</string>
+    <string name="keyboard">Teclado</string>
+    <string name="magic_keyboard_title">Teclado mágico</string>
+    <string name="magic_keyboard_summary">Active un teclado personalizado que llene sus contraseñas y todos los campos de identidad fácilmente.</string>
+
+    <string name="reset_education_screens_title">Restablecer pantallas de educación</string>
+    <string name="reset_education_screens_summary">Resalta los elementos para aprender cómo funciona la aplicación</string>
+    <string name="reset_education_screens_text">Pantallas de educación reiniciadas</string>
+    <string name="education_create_database_title">Crear tu archivo de base de datos</string>
+    <string name="education_create_database_summary">Aún no conoce KeePass DX, cree su primer archivo de administración de contraseñas.</string>
+    <string name="education_select_database_title">Abrir una base de datos existente</string>
+    <string name="education_select_database_summary">Ya has usado un administrador de KeePass. Simplemente abre tu archivo Kdbx desde el buscador de archivos.</string>
+    <string name="education_open_link_database_title">Un enlace a la ubicación de su archivo es suficiente</string>
+    <string name="education_open_link_database_summary">También puede abrir su base con un enlace físico (Con file:// y content:// por ejemplo).</string>
+    <string name="education_new_node_title">Añadir nuevos elementos a su base</string>
+    <string name="education_new_node_summary">Agregar entradas para administrar tus identidades digitales.
+\n
+\nAgregar grupos (el equivalente de carpetas) para organizar tus entradas y tu base de datos.</string>
+    <string name="education_search_title">Busque fácilmente tus entradas</string>
+    <string name="education_search_summary">Busque entradas por título, nombre de usuario u otros campos para recuperar fácilmente sus contraseñas.</string>
+    <string name="education_fingerprint_title">Desbloquee su base de datos con su huella digital</string>
+    <string name="education_fingerprint_summary">Haga el enlace entre su contraseña y su huella digital para desbloquear fácilmente su base de datos.</string>
+    <string name="education_entry_edit_title">Editar la entrada</string>
+    <string name="education_entry_edit_summary">Edite la entrada con campos personalizados, puede agregar referencias a los datos de la agrupación entre campos de diferentes entradas.</string>
+    <string name="education_generate_password_title">Crear una contraseña segura</string>
+    <string name="education_generate_password_summary">Genere una contraseña segura para asociarla con su entrada, defínala fácilmente según los criterios del formulario y no olvides una contraseña difícil pero segura.</string>
+    <string name="education_entry_new_field_title">Agregar campos personalizados</string>
+    <string name="education_entry_new_field_summary">Si desea registrar un campo básico no suministrado, simplemente complete uno nuevo que también pueda proteger visualmente.</string>
+    <string name="education_unlock_title">Desbloquee su base de datos</string>
+    <string name="education_field_copy_title">Copia un campo</string>
+    <string name="education_field_copy_summary">Copie un campo fácilmente para pegarlo donde quiera
+\n
+\n¡Puede usar varios métodos de llenado de formularios. ¡Use el que prefieras!</string>
+    <string name="education_lock_title">Bloquear la base de datos</string>
+    <string name="education_lock_summary">Bloquee su base de datos rápidamente, puede parametrizar la aplicación para bloquearla después de un tiempo y cuando la pantalla se apague.</string>
+    <string name="education_sort_title">Ordenar elementos</string>
+    <string name="education_sort_summary">Ordenar entradas y grupos de acuerdo a parámetros específicos.</string>
+    <string name="education_donation_title">Participar</string>
+    <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
+
+    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta aplicación es <strong>sin publicidad </strong>, <strong>fuente abierta</strong> y no recupera datos personales en sus servidores, ni siquiera en su versión gratuita.</string>
+    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a <strong>la característica visual </strong>y usted ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
+    <string name="html_text_feature_generosity">Esta <strong>característica visual </strong>está disponible gracias a tu generosidad.</string>
+    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu <strong>contribución.</strong></string>
+
+    <string name="html_text_dev_feature">Esta función está <strong>en desarrollo</strong> y requiere de tu <strong>contribución</strong> para estar disponible dentro de poco.</string>
+    <string name="html_text_dev_feature_buy_pro">Al comprar la versión <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature_contibute">Al <strong>contribuir</strong>,</string>
+    <string name="html_text_dev_feature_encourage">usted alienta a los desarrolladores a crear <strong>nuevas funciones</strong> y a <strong>errores de configuración</strong> de acuerdo con tus comentarios.</string>
+    <string name="html_text_dev_feature_thanks">Muchas gracias por tu contribución.</string>
+    <string name="html_text_dev_feature_work_hard">Estamos trabajando duro para lanzar esta característica rápidamente.</string>
+    <string name="html_text_dev_feature_upgrade">No olvide mantener su aplicación actualizada.</string>
+
+    <string name="download">Descargar</string>
+    <string name="contribute">Contribuir</string>
+
+    <string name="encryption_chacha20">ChaCha20</string>
+
+    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
+
+    <string name="style_choose_title">Seleccione un tema</string>
+    <string name="style_choose_summary">Cambie el tema de la aplicación cambiando los colores</string>
+    <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
+    <string name="icon_pack_choose_summary">Cambiar el paquete de íconos de la aplicación</string>
+
 </resources>

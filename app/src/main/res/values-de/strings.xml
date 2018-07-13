@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 
@@ -21,9 +21,7 @@
   Translations from Matthias Dill
   Translations from David Ramiro
 -->
-<resources
-  xmlns:tools="http://schemas.android.com/tools"
-  tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Rückmeldung:</string>
     <string name="about_homepage">Webseite:</string>
     <string name="about_description">KeePass DX ist die Implementierung des KeePass Passwortmanagers für die Android-Plattform.</string>
