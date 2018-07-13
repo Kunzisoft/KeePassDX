@@ -3,5 +3,5 @@
  * New navigation in a single screen / new animations between activities
  * New icons for the material pack
  * New adaptive launcher icon
- * Added a setting to disable the open button when no password is identified / the education screens / the copy of protected custom fields
- * Fix the fingerprint recognition (WARNING : The keystore is reinit, you must delete the old keys)
+ * Added a setting to disable the open button / the education screens / the copy of protected custom fields
+ * Fix the fingerprint recognition
