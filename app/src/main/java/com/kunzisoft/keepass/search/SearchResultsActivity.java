@@ -30,6 +30,7 @@ import android.view.View;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ListNodesActivity;
+import com.kunzisoft.keepass.activities.ListNodesFragment;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
@@ -66,6 +67,15 @@ public class SearchResultsActivity extends ListNodesActivity {
             notFoundView.setVisibility(View.GONE);
         }
 	}
+
+	@Override
+    protected void initializeListNodesFragment(PwGroup currentGroup) {
+        listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
+                .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+        // Directly get group and not id
+        if (listNodesFragment == null)
+            listNodesFragment = ListNodesFragment.newInstance(currentGroup);
+    }
 
     @Override
     protected PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState) {

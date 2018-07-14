@@ -70,8 +70,8 @@ import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.search.SearchResultsActivity;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UIToastTask;
@@ -671,10 +671,17 @@ public class GroupActivity extends ListNodesActivity
             // add query to the Intent Extras
             searchIntent.setAction(Intent.ACTION_SEARCH);
             searchIntent.putExtra(SearchManager.QUERY, query);
+
             if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                     && autofillHelper.getAssistStructure() != null ) {
                 AutofillHelper.addAssistStructureExtraInIntent(searchIntent, autofillHelper.getAssistStructure());
                 startActivityForResult(searchIntent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+                customSearchQueryExecuted = true;
+            }
+            // To get the keyboard response, verify if the current intent contains the EntrySelection key
+            else if (EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent())){
+                EntrySelectionHelper.addEntrySelectionModeExtraInIntent(searchIntent);
+                startActivityForResult(searchIntent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
                 customSearchQueryExecuted = true;
             }
         }
