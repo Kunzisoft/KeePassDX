@@ -4,4 +4,4 @@
  * Nouveaux icones pour le pack material
  * Nouvel icone de lancement adaptatif
  * Ajout d'un paramètre pour désactiver le bouton d'ouverture / les écrans d'éducation / la copie des champs customisés protégés
- * Correction de la reconnaissance des empreintes digitales
+ * Correction de la reconnaissance des empreintes digitales / crash de la beta 12

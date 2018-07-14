@@ -102,7 +102,7 @@ public abstract class ListNodesActivity extends LockingActivity
         listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
                 .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
         if (listNodesFragment == null)
-            listNodesFragment = ListNodesFragment.newInstance(currentGroup);
+            listNodesFragment = ListNodesFragment.newInstance(currentGroup.getId());
     }
 
     /**

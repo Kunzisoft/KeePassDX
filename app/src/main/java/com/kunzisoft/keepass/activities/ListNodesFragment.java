@@ -35,7 +35,6 @@ public class ListNodesFragment extends StylishFragment implements
 
     private static final String TAG = ListNodesFragment.class.getName();
 
-    private static final String GROUP_KEY = "GROUP_KEY";
     private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
     private NodeAdapter.NodeClickCallback nodeClickCallback;
@@ -48,16 +47,6 @@ public class ListNodesFragment extends StylishFragment implements
 
     // Preferences for sorting
     private SharedPreferences prefs;
-
-    public static ListNodesFragment newInstance(PwGroup group) {
-        Bundle bundle = new Bundle();
-        if (group != null) {
-            bundle.putSerializable(GROUP_KEY, group);
-        }
-        ListNodesFragment listNodesFragment = new ListNodesFragment();
-        listNodesFragment.setArguments(bundle);
-        return listNodesFragment;
-    }
 
     public static ListNodesFragment newInstance(PwGroupId groupId) {
         Bundle bundle=new Bundle();
@@ -124,10 +113,6 @@ public class ListNodesFragment extends StylishFragment implements
 
         PwGroup currentGroup = null;
         if (getArguments() != null) {
-            // Contains all the group in element
-            if (getArguments().containsKey(GROUP_KEY)) {
-                currentGroup = (PwGroup) getArguments().getSerializable(GROUP_KEY);
-            }
             // Contains only the group id, so the group must be retrieve
             if (getArguments().containsKey(GROUP_ID_KEY)) {
                 PwGroupId pwGroupId = (PwGroupId) getArguments().getSerializable(GROUP_ID_KEY);
