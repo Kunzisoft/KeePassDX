@@ -881,12 +881,14 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected void openGroup(PwGroup group) {
         super.openGroup(group);
-        addNodeButtonView.showButton();
+        if (addNodeButtonView != null)
+            addNodeButtonView.showButton();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        addNodeButtonView.showButton();
+        if (addNodeButtonView != null)
+            addNodeButtonView.showButton();
     }
 }
