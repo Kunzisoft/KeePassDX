@@ -1,3 +1,6 @@
+KeepassDX (2.5.0.0beta11)
+ * Fix memory issue with parcelable (crash in beta12 version)
+
 KeepassDX (2.5.0.0beta12)
  * Added the Magikeyboard to fill the forms (settings still in development)
  * Added move and copy for groups and entries
