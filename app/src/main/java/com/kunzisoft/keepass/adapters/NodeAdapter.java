@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
+    private static final String TAG = NodeAdapter.class.getName();
 
     private SortedList<PwNode> nodeSortedList;
 
@@ -122,8 +124,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public void rebuildList(PwGroup group) {
         this.nodeSortedList.clear();
         assignPreferences();
-        if (group != null) {
+        try {
             this.nodeSortedList.addAll(group.getDirectChildren());
+        } catch (Exception e) {
+            Log.e(TAG, "Can't add node elements to the list", e);
         }
     }
 
