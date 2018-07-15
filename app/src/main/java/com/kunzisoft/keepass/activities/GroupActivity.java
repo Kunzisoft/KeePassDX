@@ -205,14 +205,14 @@ public class GroupActivity extends ListNodesActivity
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
-                oldGroupToUpdate = (PwGroup) savedInstanceState.getSerializable(OLD_GROUP_TO_UPDATE_KEY);
+                oldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY);
 
             if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
-                nodeToCopy = (PwNode) savedInstanceState.getSerializable(NODE_TO_COPY_KEY);
+                nodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY);
                 toolbarPaste.setOnMenuItemClickListener(new OnCopyMenuItemClickListener());
             }
             else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
-                nodeToMove = (PwNode) savedInstanceState.getSerializable(NODE_TO_MOVE_KEY);
+                nodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY);
                 toolbarPaste.setOnMenuItemClickListener(new OnMoveMenuItemClickListener());
             }
         }
@@ -234,24 +234,24 @@ public class GroupActivity extends ListNodesActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(GROUP_ID_KEY, mCurrentGroup.getId());
-        outState.putSerializable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
+        outState.putParcelable(GROUP_ID_KEY, mCurrentGroup.getId());
+        outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
         if (nodeToCopy != null)
-            outState.putSerializable(NODE_TO_COPY_KEY, nodeToCopy);
+            outState.putParcelable(NODE_TO_COPY_KEY, nodeToCopy);
         if (nodeToMove != null)
-            outState.putSerializable(NODE_TO_MOVE_KEY, nodeToMove);
+            outState.putParcelable(NODE_TO_MOVE_KEY, nodeToMove);
         super.onSaveInstanceState(outState);
     }
 
 	protected PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState) {
 
-        PwGroupId pwGroupId = null; // TODO Parcelable
+        PwGroupId pwGroupId = null;
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(GROUP_ID_KEY)) {
-            pwGroupId = (PwGroupId) savedInstanceState.getSerializable(GROUP_ID_KEY);
+            pwGroupId = savedInstanceState.getParcelable(GROUP_ID_KEY);
         } else {
             if (getIntent() != null)
-                pwGroupId = (PwGroupId) getIntent().getSerializableExtra(GROUP_ID_KEY);
+                pwGroupId = getIntent().getParcelableExtra(GROUP_ID_KEY);
         }
 
         Database db = App.getDB();

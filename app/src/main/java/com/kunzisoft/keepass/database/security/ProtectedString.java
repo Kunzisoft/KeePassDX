@@ -19,38 +19,66 @@
  */
 package com.kunzisoft.keepass.database.security;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class ProtectedString implements Serializable {
-	
-	private String string;
+public class ProtectedString implements Parcelable {
+
 	private boolean protect;
-	
-	public boolean isProtected() {
-		return protect;
-	}
-	
-	public int length() {
-		if (string == null) {
-			return 0;
-		}
-		
-		return string.length();
-	}
+	private String string;
 	
 	public ProtectedString() {
 		this(false, "");
 	}
 
     public ProtectedString(ProtectedString toCopy) {
-        this.string = toCopy.string;
         this.protect = toCopy.protect;
+		this.string = toCopy.string;
     }
 	
 	public ProtectedString(boolean enableProtection, String string) {
-		protect = enableProtection;
+		this.protect = enableProtection;
 		this.string = string;
-		
+	}
+
+	public ProtectedString(Parcel in) {
+		protect = in.readByte() != 0;
+		string = in.readString();
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeByte((byte) (protect ? 1 : 0));
+		dest.writeString(string);
+	}
+
+	public static final Parcelable.Creator<ProtectedString> CREATOR = new Parcelable.Creator<ProtectedString>() {
+		@Override
+		public ProtectedString createFromParcel(Parcel in) {
+			return new ProtectedString(in);
+		}
+
+		@Override
+		public ProtectedString[] newArray(int size) {
+			return new ProtectedString[size];
+		}
+	};
+
+	public boolean isProtected() {
+		return protect;
+	}
+
+	public int length() {
+		if (string == null) {
+			return 0;
+		}
+
+		return string.length();
 	}
 
 	@Override

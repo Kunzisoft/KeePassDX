@@ -19,6 +19,10 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
+import com.kunzisoft.keepass.utils.MemUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -32,9 +36,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
     private Map<String, String> customData = new HashMap<>();
-
     private boolean expires = false;
-
     private String notes = "";
 	private boolean isExpanded = true;
 	private String defaultAutoTypeSequence = "";
@@ -56,6 +58,53 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
 		this.name = name;
 		this.icon = icon;
 	}
+
+    public PwGroupV4(Parcel in) {
+        super(in);
+        uuid = (UUID) in.readSerializable();
+        customIcon = in.readParcelable(PwIconCustom.class.getClassLoader());
+        usageCount = in.readLong();
+        parentGroupLastMod = in.readParcelable(PwDate.class.getClassLoader());
+        customData = MemUtil.readStringParcelableMap(in);
+        expires = in.readByte() != 0;
+        notes = in.readString();
+        isExpanded = in.readByte() != 0;
+        defaultAutoTypeSequence = in.readString();
+        byte autoTypeByte = in.readByte();
+        enableAutoType = (autoTypeByte == -1) ? null : autoTypeByte != 0;
+        byte enableSearchingByte = in.readByte();
+        enableSearching = (enableSearchingByte == -1) ? null : enableSearchingByte != 0;
+        lastTopVisibleEntry = (UUID) in.readSerializable();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeSerializable(uuid);
+        dest.writeParcelable(customIcon, flags);
+        dest.writeLong(usageCount);
+        dest.writeParcelable(parentGroupLastMod, flags);
+        MemUtil.writeStringParcelableMap(dest, customData);
+        dest.writeByte((byte) (expires ? 1 : 0));
+        dest.writeString(notes);
+        dest.writeByte((byte) (isExpanded ? 1 : 0));
+        dest.writeString(defaultAutoTypeSequence);
+        dest.writeByte((byte) (enableAutoType == null ? -1 : (enableAutoType ? 1 : 0)));
+        dest.writeByte((byte) (enableAutoType == null ? -1 : (enableAutoType ? 1 : 0)));
+        dest.writeSerializable(lastTopVisibleEntry);
+    }
+
+    public static final Creator<PwGroupV4> CREATOR = new Creator<PwGroupV4>() {
+        @Override
+        public PwGroupV4 createFromParcel(Parcel in) {
+            return new PwGroupV4(in);
+        }
+
+        @Override
+        public PwGroupV4[] newArray(int size) {
+            return new PwGroupV4[size];
+        }
+    };
 
     protected void updateWith(PwGroupV4 source) {
         super.assign(source);

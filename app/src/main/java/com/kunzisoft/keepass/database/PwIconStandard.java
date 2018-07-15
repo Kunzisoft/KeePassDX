@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
 public class PwIconStandard extends PwIcon {
 	public final int iconId;
 
@@ -33,6 +35,28 @@ public class PwIconStandard extends PwIcon {
     public PwIconStandard(PwIconStandard icon) {
         this.iconId = icon.iconId;
     }
+
+	protected PwIconStandard(Parcel in) {
+		super(in);
+		iconId = in.readInt();
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(iconId);
+	}
+
+	public static final Creator<PwIconStandard> CREATOR = new Creator<PwIconStandard>() {
+		@Override
+		public PwIconStandard createFromParcel(Parcel in) {
+			return new PwIconStandard(in);
+		}
+
+		@Override
+		public PwIconStandard[] newArray(int size) {
+			return new PwIconStandard[size];
+		}
+	};
 
 	@Override
 	public boolean isMetaStreamIcon() {

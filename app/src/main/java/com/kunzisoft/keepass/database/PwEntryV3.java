@@ -42,6 +42,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
@@ -77,13 +79,11 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 
     // TODO Parent ID to remove
     private int groupId;
-
     private String title;
 	private	String username;
 	private byte[] password;
 	private String url;
 	private String additional;
-
 	/** A string describing what is in pBinaryData */
 	private String           binaryDesc;
 	private byte[]          binaryData;
@@ -96,6 +96,43 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 	    construct(p);
 		groupId = ((PwGroupIdV3) this.parent.getId()).getId(); // TODO remove
 	}
+
+    public PwEntryV3(Parcel in) {
+        super(in);
+        groupId = in.readInt();
+        title = in.readString();
+        username = in.readString();
+        in.readByteArray(password);
+        url = in.readString();
+        additional = in.readString();
+        binaryDesc = in.readString();
+        in.readByteArray(binaryData);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(groupId);
+        dest.writeString(title);
+        dest.writeString(username);
+        dest.writeByteArray(password);
+        dest.writeString(url);
+        dest.writeString(additional);
+        dest.writeString(binaryDesc);
+        dest.writeByteArray(binaryData);
+    }
+
+    public static final Creator<PwEntryV3> CREATOR = new Creator<PwEntryV3>() {
+        @Override
+        public PwEntryV3 createFromParcel(Parcel in) {
+            return new PwEntryV3(in);
+        }
+
+        @Override
+        public PwEntryV3[] newArray(int size) {
+            return new PwEntryV3[size];
+        }
+    };
 
     protected void updateWith(PwEntryV3 source) {
         super.assign(source);

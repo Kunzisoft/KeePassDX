@@ -19,8 +19,20 @@
  */
 package com.kunzisoft.keepass.database;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public abstract class PwGroupId implements Serializable {
+public abstract class PwGroupId implements Parcelable {
 
+    public PwGroupId() {}
+
+    public PwGroupId(Parcel in) {}
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {}
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }

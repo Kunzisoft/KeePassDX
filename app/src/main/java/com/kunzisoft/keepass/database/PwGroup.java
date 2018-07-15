@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +29,24 @@ public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup
 
     protected String name = "";
 
-	protected List<ChildGroup> childGroups = new ArrayList<>();
-	protected List<ChildEntry> childEntries = new ArrayList<>();
+    // TODO verify children not needed
+	transient protected List<ChildGroup> childGroups = new ArrayList<>();
+    transient protected List<ChildEntry> childEntries = new ArrayList<>();
+
+    protected PwGroup() {
+        super();
+    }
+
+    protected PwGroup(Parcel in) {
+        super(in);
+        name = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(name);
+    }
 
     @Override
     public PwGroup clone() {

@@ -19,15 +19,42 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
 import java.util.UUID;
 
 public class PwGroupIdV4 extends PwGroupId {
+
 	private UUID uuid;
 	
-	public PwGroupIdV4(UUID u) {
-		uuid = u;
+	public PwGroupIdV4(UUID uuid) {
+	    super();
+        this.uuid = uuid;
 	}
-	
+
+	public PwGroupIdV4(Parcel in) {
+	    super(in);
+		uuid = (UUID) in.readSerializable();
+	}
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+	    super.writeToParcel(dest, flags);
+        dest.writeSerializable(uuid);
+    }
+
+    public static final Creator<PwGroupIdV4> CREATOR = new Creator<PwGroupIdV4>() {
+        @Override
+        public PwGroupIdV4 createFromParcel(Parcel in) {
+            return new PwGroupIdV4(in);
+        }
+
+        @Override
+        public PwGroupIdV4[] newArray(int size) {
+            return new PwGroupIdV4[size];
+        }
+    };
+
 	@Override
 	public boolean equals(Object id) {
 		if ( ! (id instanceof PwGroupIdV4) ) {
@@ -36,12 +63,12 @@ public class PwGroupIdV4 extends PwGroupId {
 		PwGroupIdV4 v4 = (PwGroupIdV4) id;
 		return uuid.equals(v4.uuid);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return uuid.hashCode();
 	}
-	
+
 	public UUID getId() {
 		return uuid;
 	}

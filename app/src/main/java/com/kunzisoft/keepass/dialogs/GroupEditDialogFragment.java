@@ -79,7 +79,7 @@ public class GroupEditDialogFragment extends DialogFragment
     public static GroupEditDialogFragment build(PwNode group) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_NAME, group.getDisplayTitle());
-        bundle.putSerializable(KEY_ICON_ID, group.getIcon());
+        bundle.putParcelable(KEY_ICON_ID, group.getIcon());
         bundle.putInt(KEY_ACTION_ID, UPDATE.ordinal());
         GroupEditDialogFragment fragment = new GroupEditDialogFragment();
         fragment.setArguments(bundle);
@@ -125,7 +125,7 @@ public class GroupEditDialogFragment extends DialogFragment
                 && savedInstanceState.containsKey(KEY_ICON_ID)) {
             editGroupDialogAction = getActionFromOrdinal(savedInstanceState.getInt(KEY_ACTION_ID));
             nameGroup = savedInstanceState.getString(KEY_NAME);
-            iconGroup = (PwIcon) savedInstanceState.getSerializable(KEY_ICON_ID);
+            iconGroup = savedInstanceState.getParcelable(KEY_ICON_ID);
 
         } else {
 
@@ -137,7 +137,7 @@ public class GroupEditDialogFragment extends DialogFragment
                     && getArguments().containsKey(KEY_NAME)
                     && getArguments().containsKey(KEY_ICON_ID)) {
                 nameGroup = getArguments().getString(KEY_NAME);
-                iconGroup = (PwIcon) getArguments().getSerializable(KEY_ICON_ID);
+                iconGroup = getArguments().getParcelable(KEY_ICON_ID);
             }
         }
 
@@ -206,7 +206,7 @@ public class GroupEditDialogFragment extends DialogFragment
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(KEY_ACTION_ID, editGroupDialogAction.ordinal());
         outState.putString(KEY_NAME, nameGroup);
-        outState.putSerializable(KEY_ICON_ID, iconGroup);
+        outState.putParcelable(KEY_ICON_ID, iconGroup);
         super.onSaveInstanceState(outState);
     }
 

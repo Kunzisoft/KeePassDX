@@ -19,13 +19,39 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
 public class PwGroupIdV3 extends PwGroupId {
 
 	private int id;
 	
-	public PwGroupIdV3(int i) {
-		id = i;
+	public PwGroupIdV3(int groupId) {
+	    super();
+		this.id = groupId;
 	}
+
+	public PwGroupIdV3(Parcel in) {
+        super(in);
+        id = in.readInt();
+	}
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(id);
+    }
+
+    public static final Creator<PwGroupIdV3> CREATOR = new Creator<PwGroupIdV3>() {
+        @Override
+        public PwGroupIdV3 createFromParcel(Parcel in) {
+            return new PwGroupIdV3(in);
+        }
+
+        @Override
+        public PwGroupIdV3[] newArray(int size) {
+            return new PwGroupIdV3[size];
+        }
+    };
 	
 	@Override
 	public boolean equals(Object compare) {
