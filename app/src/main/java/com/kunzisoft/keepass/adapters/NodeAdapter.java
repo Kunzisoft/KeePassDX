@@ -34,6 +34,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
@@ -124,10 +125,12 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public void rebuildList(PwGroup group) {
         this.nodeSortedList.clear();
         assignPreferences();
+        // TODO verify sort
         try {
             this.nodeSortedList.addAll(group.getDirectChildren());
         } catch (Exception e) {
             Log.e(TAG, "Can't add node elements to the list", e);
+            Toast.makeText(context, "Can't add node elements to the list : " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
