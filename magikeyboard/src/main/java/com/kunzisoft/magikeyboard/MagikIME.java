@@ -98,10 +98,14 @@ public class MagikIME extends InputMethodService
     }
 
     private void assignKeyboardView() {
-        if (entryKey != null) {
-            keyboardView.setKeyboard(keyboard_entry);
-        } else {
-            keyboardView.setKeyboard(keyboard);
+        if (keyboardView != null) {
+            if (entryKey != null) {
+                if (keyboard_entry != null)
+                    keyboardView.setKeyboard(keyboard_entry);
+            } else {
+                if (keyboard != null)
+                    keyboardView.setKeyboard(keyboard);
+            }
         }
     }
 

@@ -19,19 +19,56 @@
  */
 package com.kunzisoft.keepass.database;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.kunzisoft.keepass.utils.MemUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class AutoType implements Cloneable, Serializable {
+public class AutoType implements Cloneable, Parcelable {
     private static final long OBF_OPT_NONE = 0;
 
     public boolean enabled = true;
     public long obfuscationOptions = OBF_OPT_NONE;
     public String defaultSequence = "";
-
     private HashMap<String, String> windowSeqPairs = new HashMap<>();
+
+    public AutoType() {}
+
+    public AutoType(Parcel in) {
+        enabled = in.readByte() != 0;
+        obfuscationOptions = in.readLong();
+        defaultSequence = in.readString();
+        windowSeqPairs = MemUtil.readStringParcelableMap(in);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (enabled ? 1 : 0));
+        dest.writeLong(obfuscationOptions);
+        dest.writeString(defaultSequence);
+        MemUtil.writeStringParcelableMap(dest, windowSeqPairs);
+    }
+
+    public static final Parcelable.Creator<AutoType> CREATOR = new Parcelable.Creator<AutoType>() {
+        @Override
+        public AutoType createFromParcel(Parcel in) {
+            return new AutoType(in);
+        }
+
+        @Override
+        public AutoType[] newArray(int size) {
+            return new AutoType[size];
+        }
+    };
 
     @SuppressWarnings("unchecked")
     public AutoType clone() {

@@ -19,10 +19,12 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.utils.Types;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,15 +35,14 @@ import java.util.Date;
  * @author bpellin
  *
  */
-public class PwDate implements Cloneable, Serializable {
+public class PwDate implements Cloneable, Parcelable {
 
 	private static final int DATE_SIZE = 5; 
-	
-	private boolean cDateBuilt = false;
+
+    private Date jDate;
 	private boolean jDateBuilt = false;
-	
-	private Date jDate;
 	private byte[] cDate;
+    private boolean cDateBuilt = false;
 
     public static final Date NEVER_EXPIRE = getNeverExpire();
     public static final Date DEFAULT_DATE = getDefaultDate();
@@ -93,6 +94,38 @@ public class PwDate implements Cloneable, Serializable {
 		jDate = new Date();
 		jDateBuilt = true;
 	}
+
+	protected PwDate(Parcel in) {
+        jDate = (Date) in.readSerializable();
+        jDateBuilt = in.readByte() != 0;
+        in.readByteArray(cDate);
+        cDateBuilt = in.readByte() != 0;
+	}
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+	public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(jDate);
+        dest.writeByte((byte) (jDateBuilt ? 1 : 0));
+        dest.writeByteArray(cDate);
+		dest.writeByte((byte) (cDateBuilt ? 1 : 0));
+	}
+
+	public static final Creator<PwDate> CREATOR = new Creator<PwDate>() {
+		@Override
+		public PwDate createFromParcel(Parcel in) {
+			return new PwDate(in);
+		}
+
+		@Override
+		public PwDate[] newArray(int size) {
+			return new PwDate[size];
+		}
+	};
 	
 	@Override
 	public PwDate clone() {

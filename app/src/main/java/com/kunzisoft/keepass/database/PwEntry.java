@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 
@@ -29,6 +31,19 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
 	private static final String PMS_TAN_ENTRY = "<TAN>";
 
 	protected UUID uuid = PwDatabase.UUID_ZERO;
+
+	public PwEntry() {}
+
+	public PwEntry(Parcel in) {
+		super(in);
+		uuid = (UUID) in.readSerializable();
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		super.writeToParcel(dest, flags);
+		dest.writeSerializable(uuid);
+	}
 
 	@Override
 	protected void construct(Parent parent) {

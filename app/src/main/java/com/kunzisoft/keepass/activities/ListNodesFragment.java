@@ -35,6 +35,7 @@ public class ListNodesFragment extends StylishFragment implements
 
     private static final String TAG = ListNodesFragment.class.getName();
 
+    private static final String GROUP_KEY = "GROUP_KEY";
     private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
     private NodeAdapter.NodeClickCallback nodeClickCallback;
@@ -48,10 +49,20 @@ public class ListNodesFragment extends StylishFragment implements
     // Preferences for sorting
     private SharedPreferences prefs;
 
+    public static ListNodesFragment newInstance(PwGroup group) {
+        Bundle bundle = new Bundle();
+        if (group != null) {
+            bundle.putParcelable(GROUP_KEY, group);
+        }
+        ListNodesFragment listNodesFragment = new ListNodesFragment();
+        listNodesFragment.setArguments(bundle);
+        return listNodesFragment;
+    }
+
     public static ListNodesFragment newInstance(PwGroupId groupId) {
         Bundle bundle=new Bundle();
         if (groupId != null) {
-            bundle.putSerializable(GROUP_ID_KEY, groupId);
+            bundle.putParcelable(GROUP_ID_KEY, groupId);
         }
         ListNodesFragment listNodesFragment = new ListNodesFragment();
         listNodesFragment.setArguments(bundle);
@@ -106,16 +117,20 @@ public class ListNodesFragment extends StylishFragment implements
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
-    protected PwGroup initCurrentGroup() { // TODO Change by parcelable
+    protected PwGroup initCurrentGroup() {
 
         Database db = App.getDB();
         PwGroup root = db.getPwDatabase().getRootGroup();
 
         PwGroup currentGroup = null;
         if (getArguments() != null) {
+            // Contains all the group in element
+            if (getArguments().containsKey(GROUP_KEY)) {
+                currentGroup = getArguments().getParcelable(GROUP_KEY);
+            }
             // Contains only the group id, so the group must be retrieve
             if (getArguments().containsKey(GROUP_ID_KEY)) {
-                PwGroupId pwGroupId = (PwGroupId) getArguments().getSerializable(GROUP_ID_KEY);
+                PwGroupId pwGroupId = getArguments().getParcelable(GROUP_ID_KEY);
                 if ( pwGroupId != null )
                     currentGroup = db.getPwDatabase().getGroupByGroupId(pwGroupId);
             }
@@ -234,7 +249,7 @@ public class ListNodesFragment extends StylishFragment implements
             case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
                         resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    PwNode newNode = (PwNode) data.getSerializableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
+                    PwNode newNode = data.getParcelableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
                     if (newNode != null) {
                         if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
                             mAdapter.addNode(newNode);

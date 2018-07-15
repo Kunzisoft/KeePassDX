@@ -20,23 +20,61 @@
  */
 package com.kunzisoft.keepass.database;
 
-import org.joda.time.LocalDate;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
+import com.kunzisoft.keepass.app.App;
+
+import org.joda.time.LocalDate;
 
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger, Serializable, Cloneable {
+public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger, Parcelable, Cloneable {
 
     protected Parent parent = null;
-
     protected PwIconStandard icon = new PwIconStandard(0);
-
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();
     protected PwDate lastAccess = new PwDate();
     protected PwDate expireDate = PwDate.PW_NEVER_EXPIRE;
+
+    protected PwNode() {}
+
+    protected PwNode(Parcel in) {
+        // TODO better technique ?
+        try {
+            PwGroupId pwGroupId = in.readParcelable(PwGroupId.class.getClassLoader());
+            parent = (Parent) App.getDB().getPwDatabase().getGroupByGroupId(pwGroupId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        icon = in.readParcelable(PwIconStandard.class.getClassLoader());
+        creation = in.readParcelable(PwDate.class.getClassLoader());
+        lastMod = in.readParcelable(PwDate.class.getClassLoader());
+        lastAccess = in.readParcelable(PwDate.class.getClassLoader());
+        expireDate = in.readParcelable(PwDate.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        PwGroupId parentId = null;
+        if (parent != null)
+            parentId = parent.getId();
+        dest.writeParcelable(parentId, flags);
+
+        dest.writeParcelable(icon, flags);
+        dest.writeParcelable(creation, flags);
+        dest.writeParcelable(lastMod, flags);
+        dest.writeParcelable(lastAccess, flags);
+        dest.writeParcelable(expireDate, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     protected void construct(Parent parent) {
         this.parent = parent;
@@ -44,9 +82,7 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
 
     protected void assign(PwNode<Parent> source) {
         this.parent = source.parent;
-
         this.icon = source.icon;
-
         this.creation = source.creation;
         this.lastMod = source.lastMod;
         this.lastAccess = source.lastAccess;
@@ -59,9 +95,7 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
         try {
             newNode = (PwNode) super.clone();
             // newNode.parent stay the same in copy
-
             newNode.icon = new PwIconStandard(this.icon);
-
             newNode.creation = creation.clone();
             newNode.lastMod = lastMod.clone();
             newNode.lastAccess = lastAccess.clone();

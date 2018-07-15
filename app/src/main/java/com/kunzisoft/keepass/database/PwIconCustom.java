@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import android.os.Parcel;
+
 import java.util.UUID;
 
 public class PwIconCustom extends PwIcon {
@@ -27,15 +29,41 @@ public class PwIconCustom extends PwIcon {
 	public final UUID uuid;
 	public byte[] imageData;
 	
-	public PwIconCustom(UUID u, byte[] data) {
-		uuid = u;
-		imageData = data;
+	public PwIconCustom(UUID uuid, byte[] data) {
+	    super();
+		this.uuid = uuid;
+		this.imageData = data;
 	}
 
     public PwIconCustom(PwIconCustom icon) {
+	    super();
         uuid = icon.uuid;
         imageData = icon.imageData;
     }
+
+	protected PwIconCustom(Parcel in) {
+	    super(in);
+        uuid = (UUID) in.readSerializable();
+        in.readByteArray(imageData);
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeSerializable(uuid);
+		dest.writeByteArray(imageData);
+	}
+
+    public static final Creator<PwIconCustom> CREATOR = new Creator<PwIconCustom>() {
+        @Override
+        public PwIconCustom createFromParcel(Parcel in) {
+            return new PwIconCustom(in);
+        }
+
+        @Override
+        public PwIconCustom[] newArray(int size) {
+            return new PwIconCustom[size];
+        }
+    };
 
 	@Override
 	public int hashCode() {
@@ -55,10 +83,7 @@ public class PwIconCustom extends PwIcon {
 			return false;
 		PwIconCustom other = (PwIconCustom) obj;
 		if (uuid == null) {
-			if (other.uuid != null)
-				return false;
-		} else if (!uuid.equals(other.uuid))
-			return false;
-		return true;
+			return other.uuid == null;
+		} else return uuid.equals(other.uuid);
 	}
 }

@@ -178,7 +178,7 @@ public class EntryEditActivity extends LockingHideActivity
 
 		PwDatabase pm = db.getPwDatabase();
 		if ( uuidBytes == null ) {
-            PwGroupId parentId = (PwGroupId) intent.getSerializableExtra(KEY_PARENT);
+            PwGroupId parentId = intent.getParcelableExtra(KEY_PARENT);
 			PwGroup parent = pm.getGroupByGroupId(parentId);
 			mEntry = db.createEntry(parent);
 			mIsNew = true;
@@ -548,7 +548,7 @@ public class EntryEditActivity extends LockingHideActivity
             if (mCallbackNewEntry != null) {
                 Bundle bundle = new Bundle();
                 Intent intentEntry = new Intent();
-                bundle.putSerializable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+                bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
                 intentEntry.putExtras(bundle);
                 if (mIsNew) {
                     setResult(ADD_ENTRY_RESULT_CODE, intentEntry);

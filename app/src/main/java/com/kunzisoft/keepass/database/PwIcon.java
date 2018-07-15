@@ -19,11 +19,21 @@
  */
 package com.kunzisoft.keepass.database;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public abstract class PwIcon implements Serializable {
+public abstract class PwIcon implements Parcelable {
 
 	public boolean isMetaStreamIcon() {
 		return false;
+	}
+
+    protected PwIcon() {}
+
+    protected PwIcon(Parcel in) {}
+
+	@Override
+	public int describeContents() {
+		return 0;
 	}
 }

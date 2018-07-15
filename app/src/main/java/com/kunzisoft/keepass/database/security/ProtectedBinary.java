@@ -19,15 +19,17 @@
  */
 package com.kunzisoft.keepass.database.security;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Arrays;
 
-public class ProtectedBinary implements Serializable {
+public class ProtectedBinary implements Parcelable {
 	
 	public final static ProtectedBinary EMPTY = new ProtectedBinary();
-	
-	private byte[] data;
+
 	private boolean protect;
+	private byte[] data;
 	
 	public boolean isProtected() {
 		return protect;
@@ -37,21 +39,22 @@ public class ProtectedBinary implements Serializable {
 		if (data == null) {
 			return 0;
 		}
-		
 		return data.length;
 	}
 	
 	public ProtectedBinary() {
 		this(false, new byte[0]);
-		
 	}
 	
 	public ProtectedBinary(boolean enableProtection, byte[] data) {
-		protect = enableProtection;
+		this.protect = enableProtection;
 		this.data = data;
-		
 	}
-	
+
+	public ProtectedBinary(Parcel in) {
+		protect = in.readByte() != 0;
+		in.readByteArray(data);
+	}
 	
 	// TODO: replace the byte[] with something like ByteBuffer to make the return
 	// value immutable, so we don't have to worry about making deep copies
@@ -62,5 +65,28 @@ public class ProtectedBinary implements Serializable {
 	public boolean equals(ProtectedBinary rhs) {
 		return (protect == rhs.protect) && Arrays.equals(data, rhs.data);
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeByte((byte) (protect ? 1 : 0));
+		dest.writeByteArray(data);
+	}
+
+	public static final Creator<ProtectedBinary> CREATOR = new Creator<ProtectedBinary>() {
+		@Override
+		public ProtectedBinary createFromParcel(Parcel in) {
+			return new ProtectedBinary(in);
+		}
+
+		@Override
+		public ProtectedBinary[] newArray(int size) {
+			return new ProtectedBinary[size];
+		}
+	};
 
 }
