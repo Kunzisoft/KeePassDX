@@ -1,4 +1,7 @@
-KeepassDX (2.5.0.0beta11)
+KeepassDX (2.5.0.0beta14)
+ * Optimize all the memory with parcelables / fix search
+
+KeepassDX (2.5.0.0beta13)
  * Fix memory issue with parcelable (crash in beta12 version)
 
 KeepassDX (2.5.0.0beta12)
