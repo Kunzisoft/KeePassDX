@@ -239,11 +239,13 @@ public class NotificationCopyingService extends Service {
                 }
                 countingDownTask = null;
                 notificationManager.cancel(myNotificationId);
-                try {
-                    clipboardHelper.cleanClipboard();
-                } catch (SamsungClipboardException e) {
-                    Log.e(TAG, "Clipboard can't be cleaned", e);
-                }
+                // Clean password only if no next field
+                if (nextFields.size() <= 0)
+                    try {
+                        clipboardHelper.cleanClipboard();
+                    } catch (SamsungClipboardException e) {
+                        Log.e(TAG, "Clipboard can't be cleaned", e);
+                    }
             });
             countingDownTask.start();
 
