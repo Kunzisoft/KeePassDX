@@ -83,10 +83,11 @@ public class EntryActivity extends LockingHideActivity {
 	private ClipboardHelper clipboardHelper;
 	private boolean firstLaunchOfActivity;
 
-    public static void launch(Activity act, PwEntry pw) {
+    public static void launch(Activity act, PwEntry pw, boolean readOnly) {
         if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
             Intent intent = new Intent(act, EntryActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
             act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
     }
@@ -104,13 +105,15 @@ public class EntryActivity extends LockingHideActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
+
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
 		if ( ! db.getLoaded() ) {
 			finish();
 			return;
 		}
-		readOnly = db.isReadOnly();
+		readOnly = db.isReadOnly() || readOnly;
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this);
 
@@ -228,6 +231,12 @@ public class EntryActivity extends LockingHideActivity {
             mEntry.endToManageFieldReferences();
         }
         firstLaunchOfActivity = false;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
     }
 
     /**

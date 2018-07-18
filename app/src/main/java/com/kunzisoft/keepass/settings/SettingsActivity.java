@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.lock.LockingActivity;
 
 
@@ -39,17 +40,20 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
     private Toolbar toolbar;
 
-    public static void launch(Activity activity) {
-        Intent i = new Intent(activity, SettingsActivity.class);
-        activity.startActivity(i);
+    private boolean readOnly;
+
+    public static void launch(Activity activity, boolean readOnly) {
+        Intent intent = new Intent(activity, SettingsActivity.class);
+        ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
+        activity.startActivity(intent);
     }
 
-    public static void launch(Activity activity, boolean checkLock) {
+    public static void launch(Activity activity, boolean readOnly, boolean checkLock) {
         // To avoid flickering when launch settings in a LockingActivity
         if (!checkLock)
-            launch(activity);
+            launch(activity, readOnly);
         else if (LockingActivity.checkTimeIsAllowedOrFinish(activity)) {
-            launch(activity);
+            launch(activity, readOnly);
         }
     }
 
@@ -72,6 +76,8 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 		assert getSupportActionBar() != null;
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, retrieveMainFragment())
@@ -80,6 +86,12 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
 		backupManager = new BackupManager(this);
 	}
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,7 +126,7 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 		getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right)
-				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
+				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, readOnly), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)
                 .commit();
 

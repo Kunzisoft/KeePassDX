@@ -158,6 +158,12 @@ public class PreferencesUtil {
                 context.getResources().getBoolean(R.bool.allow_no_password_default));
     }
 
+    public static boolean enableReadOnlyDatabase(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.enable_read_only_key),
+                context.getResources().getBoolean(R.bool.enable_read_only_default));
+    }
+
     /**
      * All preference keys associated with education
      */
@@ -166,6 +172,7 @@ public class PreferencesUtil {
             R.string.education_select_db_key,
             R.string.education_open_link_db_key,
             R.string.education_unlock_key,
+            R.string.education_read_only_key,
             R.string.education_search_key,
             R.string.education_new_node_key,
             R.string.education_sort_key,
@@ -243,6 +250,18 @@ public class PreferencesUtil {
         SharedPreferences prefs = getEducationSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.education_unlock_key),
                 context.getResources().getBoolean(R.bool.education_unlock_default));
+    }
+
+    /**
+     * Determines whether the explanatory view of the database read-only has already been displayed.
+     *
+     * @param context The context to open the SharedPreferences
+     * @return boolean value of education_read_only_key key
+     */
+    public static boolean isEducationReadOnlyPerformed(Context context) {
+        SharedPreferences prefs = getEducationSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.education_read_only_key),
+                context.getResources().getBoolean(R.bool.education_read_only_default));
     }
 
     /**

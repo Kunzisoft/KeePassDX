@@ -41,9 +41,9 @@ import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 
 public abstract class ListNodesActivity extends LockingActivity
@@ -51,13 +51,13 @@ public abstract class ListNodesActivity extends LockingActivity
         NodeAdapter.NodeClickCallback,
         SortDialogFragment.SortSelectionListener {
 
-    protected static final String GROUP_ID_KEY = "GROUP_ID_KEY";
-
 	protected static final String LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG";
 	protected ListNodesFragment listNodesFragment;
 
 	protected PwGroup mCurrentGroup;
     protected TextView groupNameView;
+
+    protected boolean readOnly;
 
     protected boolean entrySelectionMode;
     protected AutofillHelper autofillHelper;
@@ -76,6 +76,8 @@ public abstract class ListNodesActivity extends LockingActivity
 			return;
 		}
 
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
+
         invalidateOptionsMenu();
 
         mCurrentGroup = retrieveCurrentGroup(savedInstanceState);
@@ -88,6 +90,12 @@ public abstract class ListNodesActivity extends LockingActivity
             autofillHelper.retrieveAssistStructure(getIntent());
         }
 	}
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
+    }
 
     protected abstract PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState);
 
@@ -151,7 +159,7 @@ public abstract class ListNodesActivity extends LockingActivity
 		switch ( item.getItemId() ) {
             default:
                 // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true);
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, readOnly, true);
                 return super.onOptionsItemSelected(item);
 		}
 	}
@@ -193,7 +201,7 @@ public abstract class ListNodesActivity extends LockingActivity
                         openGroup((PwGroup) node);
                         break;
                     case ENTRY:
-                        EntryActivity.launch(this, (PwEntry) node);
+                        EntryActivity.launch(this, (PwEntry) node, readOnly);
                         break;
                 }
             }
