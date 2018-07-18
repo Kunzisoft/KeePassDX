@@ -40,8 +40,6 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
     private Toolbar toolbar;
 
-    private boolean readOnly;
-
     public static void launch(Activity activity, boolean readOnly) {
         Intent intent = new Intent(activity, SettingsActivity.class);
         ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
@@ -76,8 +74,6 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 		assert getSupportActionBar() != null;
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, retrieveMainFragment())
@@ -86,12 +82,6 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 
 		backupManager = new BackupManager(this);
 	}
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

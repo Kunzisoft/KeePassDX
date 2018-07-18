@@ -78,7 +78,6 @@ public class EntryActivity extends LockingHideActivity {
 	
 	protected PwEntry mEntry;
 	private boolean mShowPassword;
-	protected boolean readOnly = false;
 
 	private ClipboardHelper clipboardHelper;
 	private boolean firstLaunchOfActivity;
@@ -104,8 +103,6 @@ public class EntryActivity extends LockingHideActivity {
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
 
 		Database db = App.getDB();
 		// Likely the app has been killed exit the activity 
@@ -231,12 +228,6 @@ public class EntryActivity extends LockingHideActivity {
             mEntry.endToManageFieldReferences();
         }
         firstLaunchOfActivity = false;
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
-        super.onSaveInstanceState(outState);
     }
 
     /**

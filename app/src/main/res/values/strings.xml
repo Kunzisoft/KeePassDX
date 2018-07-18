@@ -283,7 +283,7 @@
     <string name="allow_no_password_title">Allow no password</string>
     <string name="allow_no_password_summary">Enable the open button if no password identification is selected.</string>
     <string name="enable_read_only_title">Read only</string>
-    <string name="enable_read_only_summary">By default, open a read-only database.</string>
+    <string name="enable_read_only_summary">By default, open a database in read-only mode.</string>
 
     <string name="enable_education_screens_title">Education screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the application works</string>

@@ -57,8 +57,6 @@ public abstract class ListNodesActivity extends LockingActivity
 	protected PwGroup mCurrentGroup;
     protected TextView groupNameView;
 
-    protected boolean readOnly;
-
     protected boolean entrySelectionMode;
     protected AutofillHelper autofillHelper;
 
@@ -76,8 +74,6 @@ public abstract class ListNodesActivity extends LockingActivity
 			return;
 		}
 
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
-
         invalidateOptionsMenu();
 
         mCurrentGroup = retrieveCurrentGroup(savedInstanceState);
@@ -90,12 +86,6 @@ public abstract class ListNodesActivity extends LockingActivity
             autofillHelper.retrieveAssistStructure(getIntent());
         }
 	}
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
-        super.onSaveInstanceState(outState);
-    }
 
     protected abstract PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState);
 
@@ -110,7 +100,7 @@ public abstract class ListNodesActivity extends LockingActivity
         listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
                 .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
         if (listNodesFragment == null)
-            listNodesFragment = ListNodesFragment.newInstance(currentGroup.getId());
+            listNodesFragment = ListNodesFragment.newInstance(currentGroup.getId(), readOnly);
     }
 
     /**
@@ -213,7 +203,7 @@ public abstract class ListNodesActivity extends LockingActivity
         if (checkTimeIsAllowedOrFinish(this)) {
             startRecordTime(this);
 
-            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group.getId());
+            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group.getId(), readOnly);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                             R.anim.slide_in_left, R.anim.slide_out_right)

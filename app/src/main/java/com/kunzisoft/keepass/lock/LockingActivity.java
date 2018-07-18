@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
@@ -45,6 +46,7 @@ public abstract class LockingActivity extends StylishActivity {
     private LockReceiver lockReceiver;
     private boolean exitLock;
 
+    protected boolean readOnly;
 
     /**
      * Called to start a record time,
@@ -72,6 +74,9 @@ public abstract class LockingActivity extends StylishActivity {
             lockReceiver = null;
 
         exitLock = false;
+
+        readOnly = false;
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
     }
 
     public static void checkShutdown(Activity activity) {
@@ -115,6 +120,12 @@ public abstract class LockingActivity extends StylishActivity {
         if (!exitLock)
             TimeoutHelper.recordTime(this);
 	}
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onPause() {

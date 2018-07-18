@@ -553,6 +553,12 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, databaseReadOnly);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean onPreferenceClick(Preference preference) {
         // TODO encapsulate
 

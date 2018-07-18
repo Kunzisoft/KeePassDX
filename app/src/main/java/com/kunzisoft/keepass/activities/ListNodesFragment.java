@@ -49,21 +49,25 @@ public class ListNodesFragment extends StylishFragment implements
     // Preferences for sorting
     private SharedPreferences prefs;
 
-    public static ListNodesFragment newInstance(PwGroup group) {
+    private boolean readOnly;
+
+    public static ListNodesFragment newInstance(PwGroup group, boolean readOnly) {
         Bundle bundle = new Bundle();
         if (group != null) {
             bundle.putParcelable(GROUP_KEY, group);
         }
+        ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly);
         ListNodesFragment listNodesFragment = new ListNodesFragment();
         listNodesFragment.setArguments(bundle);
         return listNodesFragment;
     }
 
-    public static ListNodesFragment newInstance(PwGroupId groupId) {
+    public static ListNodesFragment newInstance(PwGroupId groupId, boolean readOnly) {
         Bundle bundle=new Bundle();
         if (groupId != null) {
             bundle.putParcelable(GROUP_ID_KEY, groupId);
         }
+        ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly);
         ListNodesFragment listNodesFragment = new ListNodesFragment();
         listNodesFragment.setArguments(bundle);
         return listNodesFragment;
@@ -103,9 +107,11 @@ public class ListNodesFragment extends StylishFragment implements
 
         setHasOptionsMenu(true);
 
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
+
         mCurrentGroup = initCurrentGroup();
         if (getActivity() != null) {
-            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater());
+            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater(), readOnly);
             mAdapter.setOnNodeClickListener(nodeClickCallback);
 
             if (nodeMenuListener != null) {
@@ -115,6 +121,12 @@ public class ListNodesFragment extends StylishFragment implements
         }
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
     }
 
     protected PwGroup initCurrentGroup() {

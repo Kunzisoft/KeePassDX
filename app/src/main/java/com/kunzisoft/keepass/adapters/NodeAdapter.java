@@ -61,6 +61,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private NodeClickCallback nodeClickCallback;
     private NodeMenuListener nodeMenuListener;
     private boolean activateContextMenu;
+    private boolean readOnly;
 
     private int iconGroupColor;
     private int iconEntryColor;
@@ -69,12 +70,13 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Create node list adapter with contextMenu or not
      * @param context Context to use
      */
-    public NodeAdapter(final Context context, MenuInflater menuInflater) {
+    public NodeAdapter(final Context context, MenuInflater menuInflater, boolean readOnly) {
         this.inflater = LayoutInflater.from(context);
         this.menuInflater = menuInflater;
         this.context = context;
         assignPreferences();
         this.activateContextMenu = false;
+        this.readOnly = readOnly;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
             @Override public int compare(PwNode item1, PwNode item2) {
@@ -217,7 +219,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         // Context menu
         if (activateContextMenu) {
             holder.container.setOnCreateContextMenuListener(
-                    new ContextMenuBuilder(subNode, nodeMenuListener));
+                    new ContextMenuBuilder(subNode, nodeMenuListener, readOnly));
         }
         // Assign image and text size
         // Relative size of the icon
@@ -287,24 +289,26 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
         private PwNode node;
         private NodeMenuListener menuListener;
+        private boolean readOnly;
 
-        ContextMenuBuilder(PwNode node, NodeMenuListener menuListener) {
+        ContextMenuBuilder(PwNode node, NodeMenuListener menuListener, boolean readOnly) {
             this.menuListener = menuListener;
             this.node = node;
+            this.readOnly = readOnly;
         }
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             menuInflater.inflate(R.menu.node_menu, contextMenu);
 
-            // TODO COPY For Group
-            if (node.getType().equals(PwNode.Type.GROUP)) {
-                contextMenu.removeItem(R.id.menu_copy);
-            }
-
             MenuItem menuItem = contextMenu.findItem(R.id.menu_open);
             menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
-            if (!App.getDB().isReadOnly() && !node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+            if (readOnly || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+                contextMenu.removeItem(R.id.menu_edit);
+                contextMenu.removeItem(R.id.menu_copy);
+                contextMenu.removeItem(R.id.menu_move);
+                contextMenu.removeItem(R.id.menu_delete);
+            } else {
                 // Edition
                 menuItem = contextMenu.findItem(R.id.menu_edit);
                 menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
@@ -312,6 +316,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 if (node.getType().equals(PwNode.Type.ENTRY)) {
                     menuItem = contextMenu.findItem(R.id.menu_copy);
                     menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
+                } else {
+                    // TODO COPY For Group
+                    contextMenu.removeItem(R.id.menu_copy);
                 }
                 // Move
                 menuItem = contextMenu.findItem(R.id.menu_move);
