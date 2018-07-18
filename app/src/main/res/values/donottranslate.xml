@@ -88,6 +88,7 @@
     <string name="education_select_db_key" translatable="false">education_select_db_key</string>
     <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
     <string name="education_unlock_key" translatable="false">education_unlock_key</string>
+    <string name="education_read_only_key" translatable="false">education_read_only_key</string>
     <string name="education_search_key" translatable="false">education_search_key</string>
     <string name="education_new_node_key" translatable="false">education_new_node_key</string>
     <string name="education_sort_key" translatable="false">education_sort_key</string>
@@ -102,6 +103,7 @@
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
     <string name="magic_keyboard_preference_key" translatable="false">magic_keyboard_preference_key</string>
     <string name="allow_no_password_key" translatable="false">allow_no_password_key</string>
+    <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
 
     <bool name="maskpass_default" translatable="false">true</bool>
     <bool name="keyfile_default" translatable="false">true</bool>
@@ -124,6 +126,7 @@
     <bool name="education_select_db_default" translatable="false">false</bool>
     <bool name="education_open_link_db_default" translatable="false">false</bool>
     <bool name="education_unlock_default" translatable="false">false</bool>
+    <bool name="education_read_only_default" translatable="false">false</bool>
     <bool name="education_search_default" translatable="false">false</bool>
     <bool name="education_new_node_default" translatable="false">false</bool>
     <bool name="education_sort_default" translatable="false">false</bool>
@@ -135,6 +138,7 @@
     <bool name="education_screen_reclicked_default" translatable="false">false</bool>
     <bool name="magic_keyboard_default" translatable="false">false</bool>
     <bool name="allow_no_password_default" translatable="false">true</bool>
+    <bool name="enable_read_only_default" translatable="false">false</bool>
 
     <string name="app_timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>

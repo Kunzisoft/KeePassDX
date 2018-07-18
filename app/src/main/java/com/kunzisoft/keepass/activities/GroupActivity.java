@@ -80,6 +80,8 @@ import com.kunzisoft.keepass.view.AddNodeButtonView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import static com.kunzisoft.keepass.activities.ReadOnlyHelper.READ_ONLY_DEFAULT;
+
 public class GroupActivity extends ListNodesActivity
         implements GroupEditDialogFragment.EditGroupListener,
         IconPickerDialogFragment.IconPickerListener,
@@ -87,6 +89,8 @@ public class GroupActivity extends ListNodesActivity
         ListNodesFragment.OnScrollListener {
 
     private static final String TAG = GroupActivity.class.getName();
+
+    protected static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
     private Toolbar toolbar;
 
@@ -99,7 +103,6 @@ public class GroupActivity extends ListNodesActivity
 	protected boolean addGroupEnabled = false;
 	protected boolean addEntryEnabled = false;
 	protected boolean isRoot = false;
-	protected boolean readOnly = false;
 
 	private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
 	private static final String NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY";
@@ -107,64 +110,67 @@ public class GroupActivity extends ListNodesActivity
 	private PwGroup oldGroupToUpdate;
     private PwNode nodeToCopy;
     private PwNode nodeToMove;
-	
-	public static void launch(Activity act) {
+
+    // After a database creation
+    public static void launch(Activity act) {
+        launch(act, READ_ONLY_DEFAULT);
+    }
+
+	public static void launch(Activity act, boolean readOnly) {
         startRecordTime(act);
-        launch(act, null);
+        launch(act, null, readOnly);
 	}
 
-    public static void launch(Activity act, PwGroup group) {
-        if (checkTimeIsAllowedOrFinish(act)) {
-            Intent intent = new Intent(act, GroupActivity.class);
+    private static void buildAndLaunchIntent(Activity activity, PwGroup group, boolean readOnly,
+                                             IntentBuildLauncher intentBuildLauncher) {
+        if (checkTimeIsAllowedOrFinish(activity)) {
+            Intent intent = new Intent(activity, GroupActivity.class);
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.getId());
             }
-            act.startActivityForResult(intent, 0);
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
+            intentBuildLauncher.startActivityForResult(intent);
         }
     }
 
-    public static void launchForKeyboardResult(Activity act) {
+    public static void launch(Activity activity, PwGroup group, boolean readOnly) {
+        buildAndLaunchIntent(activity, group, readOnly,
+                (intent) -> activity.startActivityForResult(intent, 0));
+    }
+
+    public static void launchForKeyboardResult(Activity act, boolean readOnly) {
         startRecordTime(act);
-        launchForKeyboardResult(act, null);
+        launchForKeyboardResult(act, null, readOnly);
     }
 
-    public static void launchForKeyboardResult(Activity act, PwGroup group) {
-        // TODO remove
-        if (checkTimeIsAllowedOrFinish(act)) {
-            Intent intent = new Intent(act, GroupActivity.class);
-            if (group != null) {
-                intent.putExtra(GROUP_ID_KEY, group.getId());
-            }
+    public static void launchForKeyboardResult(Activity activity, PwGroup group, boolean readOnly) {
+        // TODO implement pre search to directly open the direct group
+        buildAndLaunchIntent(activity, group, readOnly, (intent) -> {
             EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
-            act.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
-        }
+            activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+        });
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launchForAutofillResult(Activity act, AssistStructure assistStructure) {
+    public static void launchForAutofillResult(Activity act, AssistStructure assistStructure, boolean readOnly) {
         if ( assistStructure != null ) {
             startRecordTime(act);
-            launchForAutofillResult(act, null, assistStructure);
+            launchForAutofillResult(act, null, assistStructure, readOnly);
         } else {
-            launch(act);
+            launch(act, readOnly);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launchForAutofillResult(Activity act, PwGroup group, AssistStructure assistStructure) {
-	    // TODO remove
+    public static void launchForAutofillResult(Activity activity, PwGroup group, AssistStructure assistStructure, boolean readOnly) {
+        // TODO implement pre search to directly open the direct group
         if ( assistStructure != null ) {
-            if (checkTimeIsAllowedOrFinish(act)) {
-                Intent intent = new Intent(act, GroupActivity.class);
-                if (group != null) {
-                    intent.putExtra(GROUP_ID_KEY, group.getId());
-                }
+            buildAndLaunchIntent(activity, group, readOnly, (intent) -> {
                 AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-                act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
-            }
+                activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+            });
         } else {
-            launch(act, group);
+            launch(activity, group, readOnly);
         }
 	}
 	
@@ -254,7 +260,7 @@ public class GroupActivity extends ListNodesActivity
                 pwGroupId = getIntent().getParcelableExtra(GROUP_ID_KEY);
         }
 
-        readOnly = database.isReadOnly();
+        readOnly = database.isReadOnly() || readOnly; // Force read only if the database is like that
 
         Log.w(TAG, "Creating tree view");
         PwGroup currentGroup;
@@ -266,7 +272,7 @@ public class GroupActivity extends ListNodesActivity
 
         if (currentGroup != null) {
             addGroupEnabled = !readOnly;
-            addEntryEnabled = !readOnly; // TODO consultation mode
+            addEntryEnabled = !readOnly;
             isRoot = (currentGroup == rootGroup);
             if (!currentGroup.allowAddEntryIfIsRoot())
                 addEntryEnabled = !isRoot && addEntryEnabled;
@@ -494,7 +500,8 @@ public class GroupActivity extends ListNodesActivity
             // If no node, show education to add new one
             if (listNodesFragment != null
                     && listNodesFragment.isEmpty()) {
-                if (!PreferencesUtil.isEducationNewNodePerformed(this)) {
+                if (!PreferencesUtil.isEducationNewNodePerformed(this)
+                        && addNodeButtonView.isVisible()) {
 
                     TapTargetView.showFor(this,
                             TapTarget.forView(findViewById(R.id.add_button),
@@ -631,7 +638,8 @@ public class GroupActivity extends ListNodesActivity
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
-        inflater.inflate(R.menu.database_master_key, menu);
+        if (!readOnly)
+            inflater.inflate(R.menu.database_master_key, menu);
         inflater.inflate(R.menu.database_lock, menu);
 
         // Get the SearchView and set the searchable configuration

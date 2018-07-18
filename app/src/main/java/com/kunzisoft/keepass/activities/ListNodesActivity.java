@@ -42,17 +42,15 @@ import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 
 public abstract class ListNodesActivity extends LockingActivity
 		implements AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
         NodeAdapter.NodeClickCallback,
         SortDialogFragment.SortSelectionListener {
-
-    protected static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
 	protected static final String LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG";
 	protected ListNodesFragment listNodesFragment;
@@ -108,7 +106,7 @@ public abstract class ListNodesActivity extends LockingActivity
         listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
                 .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
         if (listNodesFragment == null)
-            listNodesFragment = ListNodesFragment.newInstance(currentGroup);
+            listNodesFragment = ListNodesFragment.newInstance(currentGroup, readOnly);
     }
 
     /**
@@ -157,7 +155,7 @@ public abstract class ListNodesActivity extends LockingActivity
 		switch ( item.getItemId() ) {
             default:
                 // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true);
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, readOnly, true);
                 return super.onOptionsItemSelected(item);
 		}
 	}
@@ -199,7 +197,7 @@ public abstract class ListNodesActivity extends LockingActivity
                         openGroup((PwGroup) node);
                         break;
                     case ENTRY:
-                        EntryActivity.launch(this, (PwEntry) node);
+                        EntryActivity.launch(this, (PwEntry) node, readOnly);
                         break;
                 }
             }
@@ -211,7 +209,7 @@ public abstract class ListNodesActivity extends LockingActivity
         if (checkTimeIsAllowedOrFinish(this)) {
             startRecordTime(this);
 
-            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group);
+            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                             R.anim.slide_in_left, R.anim.slide_out_right)

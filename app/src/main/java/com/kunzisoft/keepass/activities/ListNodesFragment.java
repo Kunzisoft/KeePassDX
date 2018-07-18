@@ -46,11 +46,14 @@ public class ListNodesFragment extends StylishFragment implements
     // Preferences for sorting
     private SharedPreferences prefs;
 
-    public static ListNodesFragment newInstance(PwGroup group) {
+    private boolean readOnly;
+
+    public static ListNodesFragment newInstance(PwGroup group, boolean readOnly) {
         Bundle bundle = new Bundle();
         if (group != null) {
             bundle.putParcelable(GROUP_KEY, group);
         }
+        ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly);
         ListNodesFragment listNodesFragment = new ListNodesFragment();
         listNodesFragment.setArguments(bundle);
         return listNodesFragment;
@@ -91,6 +94,8 @@ public class ListNodesFragment extends StylishFragment implements
         if ( getActivity() != null ) {
             setHasOptionsMenu(true);
 
+            readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
+
             if (getArguments() != null) {
                 // Contains all the group in element
                 if (getArguments().containsKey(GROUP_KEY)) {
@@ -98,7 +103,7 @@ public class ListNodesFragment extends StylishFragment implements
                 }
             }
 
-            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater());
+            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater(), readOnly);
             mAdapter.setOnNodeClickListener(nodeClickCallback);
 
             if (nodeMenuListener != null) {
@@ -107,6 +112,12 @@ public class ListNodesFragment extends StylishFragment implements
             }
             prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
     }
 
     @Nullable

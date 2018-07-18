@@ -72,7 +72,7 @@ public class SearchResultsActivity extends ListNodesActivity {
                 .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
         // Directly get group and not id
         if (listNodesFragment == null)
-            listNodesFragment = ListNodesFragment.newInstance(currentGroup);
+            listNodesFragment = ListNodesFragment.newInstance(currentGroup, readOnly);
     }
 
     @Override

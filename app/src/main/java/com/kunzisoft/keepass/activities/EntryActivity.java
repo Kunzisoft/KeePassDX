@@ -78,15 +78,15 @@ public class EntryActivity extends LockingHideActivity {
 	
 	protected PwEntry mEntry;
 	private boolean mShowPassword;
-	protected boolean readOnly = false;
 
 	private ClipboardHelper clipboardHelper;
 	private boolean firstLaunchOfActivity;
 
-    public static void launch(Activity act, PwEntry pw) {
+    public static void launch(Activity act, PwEntry pw, boolean readOnly) {
         if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
             Intent intent = new Intent(act, EntryActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
             act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
     }
@@ -110,7 +110,7 @@ public class EntryActivity extends LockingHideActivity {
 			finish();
 			return;
 		}
-		readOnly = db.isReadOnly();
+		readOnly = db.isReadOnly() || readOnly;
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this);
 

@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
@@ -72,6 +73,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
     private static final int REQUEST_CODE_AUTOFILL = 5201;
 
+    private Database database;
+    private boolean databaseReadOnly;
+
     private int count = 0;
 
     private Preference roundPref;
@@ -79,12 +83,22 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
     private Preference parallelismPref;
 
     public static NestedSettingsFragment newInstance(Screen key) {
+        return newInstance(key, ReadOnlyHelper.READ_ONLY_DEFAULT);
+    }
+
+    public static NestedSettingsFragment newInstance(Screen key, boolean databaseReadOnly) {
         NestedSettingsFragment fragment = new NestedSettingsFragment();
         // supply arguments to bundle.
         Bundle args = new Bundle();
         args.putInt(TAG_KEY, key.ordinal());
+        ReadOnlyHelper.putReadOnlyInBundle(args, databaseReadOnly);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -109,6 +123,10 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         int key = 0;
         if (getArguments() != null)
             key = getArguments().getInt(TAG_KEY);
+
+        database = App.getDB();
+        databaseReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
+        databaseReadOnly = database.isReadOnly() || databaseReadOnly;
 
         // Load the preferences from an XML resource
         switch (Screen.values()[key]) {
@@ -306,23 +324,22 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             case DATABASE:
                 setPreferencesFromResource(R.xml.database_preferences, rootKey);
 
-                Database db = App.getDB();
-                if (db.getLoaded()) {
+                if (database.getLoaded()) {
 
                     PreferenceCategory dbGeneralPrefCategory = (PreferenceCategory) findPreference(getString(R.string.database_general_key));
 
                     // Db name
                     Preference dbNamePref = findPreference(getString(R.string.database_name_key));
-                    if ( db.containsName() ) {
-                        dbNamePref.setSummary(db.getName());
+                    if ( database.containsName() ) {
+                        dbNamePref.setSummary(database.getName());
                     } else {
                         dbGeneralPrefCategory.removePreference(dbNamePref);
                     }
 
                     // Db description
                     Preference dbDescriptionPref = findPreference(getString(R.string.database_description_key));
-                    if ( db.containsDescription() ) {
-                        dbDescriptionPref.setSummary(db.getDescription());
+                    if ( database.containsDescription() ) {
+                        dbDescriptionPref.setSummary(database.getDescription());
                     } else {
                         dbGeneralPrefCategory.removePreference(dbDescriptionPref);
                     }
@@ -331,9 +348,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     SwitchPreference recycleBinPref = (SwitchPreference) findPreference(getString(R.string.recycle_bin_key));
                     // TODO Recycle
                     dbGeneralPrefCategory.removePreference(recycleBinPref); // To delete
-                    if (db.isRecycleBinAvailable()) {
+                    if (database.isRecycleBinAvailable()) {
 
-                        recycleBinPref.setChecked(db.isRecycleBinEnabled());
+                        recycleBinPref.setChecked(database.isRecycleBinEnabled());
                         recycleBinPref.setEnabled(false);
                     } else {
                         dbGeneralPrefCategory.removePreference(recycleBinPref);
@@ -341,27 +358,27 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                     // Version
                     Preference dbVersionPref = findPreference(getString(R.string.database_version_key));
-                    dbVersionPref.setSummary(db.getVersion());
+                    dbVersionPref.setSummary(database.getVersion());
 
                     // Encryption Algorithm
                     Preference algorithmPref = findPreference(getString(R.string.encryption_algorithm_key));
-                    algorithmPref.setSummary(db.getEncryptionAlgorithmName(getResources()));
+                    algorithmPref.setSummary(database.getEncryptionAlgorithmName(getResources()));
 
                     // Key derivation function
                     Preference kdfPref = findPreference(getString(R.string.key_derivation_function_key));
-                    kdfPref.setSummary(db.getKeyDerivationName(getResources()));
+                    kdfPref.setSummary(database.getKeyDerivationName(getResources()));
 
                     // Round encryption
                     roundPref = findPreference(getString(R.string.transform_rounds_key));
-                    roundPref.setSummary(db.getNumberKeyEncryptionRoundsAsString());
+                    roundPref.setSummary(database.getNumberKeyEncryptionRoundsAsString());
 
                     // Memory Usage
                     memoryPref = findPreference(getString(R.string.memory_usage_key));
-                    memoryPref.setSummary(db.getMemoryUsageAsString());
+                    memoryPref.setSummary(database.getMemoryUsageAsString());
 
                     // Parallelism
                     parallelismPref = findPreference(getString(R.string.parallelism_key));
-                    parallelismPref.setSummary(db.getParallelismAsString());
+                    parallelismPref.setSummary(database.getParallelismAsString());
 
                 } else {
                     Log.e(getClass().getName(), "Database isn't ready");
@@ -480,18 +497,16 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
         assert getFragmentManager() != null;
 
-        DialogFragment dialogFragment = null;
+        boolean otherDialogFragment = false;
 
+        DialogFragment dialogFragment = null;
         if (preference.getKey().equals(getString(R.string.database_name_key))) {
             dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.getKey());
-        }
-        else if (preference.getKey().equals(getString(R.string.database_description_key))) {
+        } else if (preference.getKey().equals(getString(R.string.database_description_key))) {
             dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.getKey());
-        }
-        else if (preference.getKey().equals(getString(R.string.encryption_algorithm_key))) {
+        } else if (preference.getKey().equals(getString(R.string.encryption_algorithm_key))) {
             dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.getKey());
-        }
-        else if (preference.getKey().equals(getString(R.string.key_derivation_function_key))) {
+        } else if (preference.getKey().equals(getString(R.string.key_derivation_function_key))) {
             DatabaseKeyDerivationPreferenceDialogFragmentCompat keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.newInstance(preference.getKey());
             // Add other prefs to manage
             if (roundPref != null)
@@ -501,24 +516,23 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             if (parallelismPref != null)
                 keyDerivationDialogFragment.setParallelismPreference(parallelismPref);
             dialogFragment = keyDerivationDialogFragment;
-        }
-        else if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
+        } else if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
             dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
-        }
-        else if (preference.getKey().equals(getString(R.string.memory_usage_key))) {
+        } else if (preference.getKey().equals(getString(R.string.memory_usage_key))) {
             dialogFragment = MemoryUsagePreferenceDialogFragmentCompat.newInstance(preference.getKey());
-        }
-        else if (preference.getKey().equals(getString(R.string.parallelism_key))) {
+        } else if (preference.getKey().equals(getString(R.string.parallelism_key))) {
             dialogFragment = ParallelismPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        } else {
+            otherDialogFragment = true;
         }
 
-        if (dialogFragment != null) {
+        if (dialogFragment != null && !databaseReadOnly) {
             dialogFragment.setTargetFragment(this, 0);
             dialogFragment.show(getFragmentManager(), null);
         }
 
         // Could not be handled here. Try with the super method.
-        else {
+        else if (otherDialogFragment) {
             super.onDisplayPreferenceDialog(preference);
         }
     }
@@ -536,6 +550,12 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             default:
                 return resources.getString(R.string.settings);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, databaseReadOnly);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
