@@ -31,8 +31,6 @@ import android.view.View;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ListNodesActivity;
 import com.kunzisoft.keepass.activities.ListNodesFragment;
-import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.utils.MenuUtil;
 
@@ -79,12 +77,11 @@ public class SearchResultsActivity extends ListNodesActivity {
 
     @Override
     protected PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState) {
-        Database mDb = App.getDB();
         // Likely the app has been killed exit the activity
-        if ( ! mDb.getLoaded() ) {
+        if ( ! database.getLoaded() ) {
             finish();
         }
-        return mDb.search(getSearchStr(getIntent()).trim());
+        return database.search(getSearchStr(getIntent()).trim());
     }
 
     @Override

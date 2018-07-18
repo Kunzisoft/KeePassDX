@@ -254,22 +254,20 @@ public class GroupActivity extends ListNodesActivity
                 pwGroupId = getIntent().getParcelableExtra(GROUP_ID_KEY);
         }
 
-        Database db = App.getDB();
-        readOnly = db.isReadOnly();
-        PwGroup root = db.getPwDatabase().getRootGroup();
+        readOnly = database.isReadOnly();
 
         Log.w(TAG, "Creating tree view");
         PwGroup currentGroup;
         if ( pwGroupId == null ) {
-            currentGroup = root;
+            currentGroup = rootGroup;
         } else {
-            currentGroup = db.getPwDatabase().getGroupByGroupId(pwGroupId);
+            currentGroup = database.getPwDatabase().getGroupByGroupId(pwGroupId);
         }
 
         if (currentGroup != null) {
             addGroupEnabled = !readOnly;
             addEntryEnabled = !readOnly; // TODO consultation mode
-            isRoot = (currentGroup == root);
+            isRoot = (currentGroup == rootGroup);
             if (!currentGroup.allowAddEntryIfIsRoot())
                 addEntryEnabled = !isRoot && addEntryEnabled;
         }
