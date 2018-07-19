@@ -88,8 +88,8 @@ public class ProgressTaskDialogFragment extends DialogFragment implements Progre
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
         Util.unlockScreenOrientation(getActivity());
+        super.onDismiss(dialog);
     }
 
     public static void stop(AppCompatActivity activity) {
