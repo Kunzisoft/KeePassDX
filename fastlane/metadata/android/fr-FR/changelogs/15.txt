@@ -1,0 +1,5 @@
+ * Mode lecture seule
+ * Meilleur récupération des groupes pour le fragment de navigation
+ * Correction des copies dans les notifications
+ * Correction de l'orientation
+ * Ajout des traductions
