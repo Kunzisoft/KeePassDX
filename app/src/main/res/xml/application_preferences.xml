@@ -28,6 +28,11 @@
             android:defaultValue="@bool/allow_no_password_default"
             android:title="@string/allow_no_password_title"
             android:key="@string/allow_no_password_key"/>
+        <SwitchPreference
+            android:summary="@string/enable_read_only_summary"
+            android:defaultValue="@bool/enable_read_only_default"
+            android:title="@string/enable_read_only_title"
+            android:key="@string/enable_read_only_key"/>
 
     </PreferenceCategory>
 

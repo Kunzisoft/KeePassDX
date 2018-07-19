@@ -96,10 +96,14 @@ public class PwDate implements Cloneable, Parcelable {
 	}
 
 	protected PwDate(Parcel in) {
-        jDate = (Date) in.readSerializable();
-        jDateBuilt = in.readByte() != 0;
-        in.readByteArray(cDate);
-        cDateBuilt = in.readByte() != 0;
+		try {
+			jDate = (Date) in.readSerializable();
+			jDateBuilt = in.readByte() != 0;
+			in.readByteArray(cDate);
+			cDateBuilt = in.readByte() != 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
     @Override

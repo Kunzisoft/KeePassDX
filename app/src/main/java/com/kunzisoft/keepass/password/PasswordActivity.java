@@ -55,9 +55,9 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
-import com.kunzisoft.keepass.lock.LockingActivity;
+import com.kunzisoft.keepass.activities.IntentBuildLauncher;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
@@ -69,6 +69,8 @@ import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
 import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
+import com.kunzisoft.keepass.lock.LockingActivity;
+import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
@@ -124,6 +126,8 @@ public class PasswordActivity extends StylishActivity
     private CompoundButton checkboxDefaultDatabaseView;
     private CompoundButton.OnCheckedChangeListener enableButtonOncheckedChangeListener;
 
+    private boolean readOnly;
+
     private DefaultCheckChange defaultCheckChange;
     private ValidateButtonViewClickListener validateButtonViewClickListener;
 
@@ -139,16 +143,23 @@ public class PasswordActivity extends StylishActivity
     }
 
     public static void launch(
-            Activity act,
+            Activity activity,
             String fileName,
             String keyFile) throws FileNotFoundException {
         verifyFileNameUriFromLaunch(fileName);
 
-        Intent intent = new Intent(act, PasswordActivity.class);
+        buildAndLaunchIntent(activity, fileName, keyFile, (intent) -> {
+            // only to avoid visible  flickering when redirecting
+            activity.startActivityForResult(intent, RESULT_CANCELED);
+        });
+    }
+
+    private static void buildAndLaunchIntent(Activity activity, String fileName, String keyFile,
+                                             IntentBuildLauncher intentBuildLauncher) {
+        Intent intent = new Intent(activity, PasswordActivity.class);
         intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
         intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
-        // only to avoid visible  flickering when redirecting
-        act.startActivityForResult(intent, RESULT_CANCELED);
+        intentBuildLauncher.startActivityForResult(intent);
     }
 
     public static void launchForKeyboardResult(
@@ -158,17 +169,16 @@ public class PasswordActivity extends StylishActivity
     }
 
     public static void launchForKeyboardResult(
-            Activity act,
+            Activity activity,
             String fileName,
             String keyFile) throws FileNotFoundException {
         verifyFileNameUriFromLaunch(fileName);
 
-        Intent intent = new Intent(act, PasswordActivity.class);
-        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
-        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
-        EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
-        // only to avoid visible  flickering when redirecting
-        act.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+        buildAndLaunchIntent(activity, fileName, keyFile, (intent) -> {
+            EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
+            // only to avoid visible  flickering when redirecting
+            activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -181,20 +191,19 @@ public class PasswordActivity extends StylishActivity
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launchForAutofillResult(
-            Activity act,
+            Activity activity,
             String fileName,
             String keyFile,
             AssistStructure assistStructure) throws FileNotFoundException {
         verifyFileNameUriFromLaunch(fileName);
 
         if ( assistStructure != null ) {
-            Intent intent = new Intent(act, PasswordActivity.class);
-            intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
-            intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
-            AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-            act.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+            buildAndLaunchIntent(activity, fileName, keyFile, (intent) -> {
+                AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
+                activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+            });
         } else {
-            launch(act, fileName, keyFile);
+            launch(activity, fileName, keyFile);
         }
     }
 
@@ -276,6 +285,8 @@ public class PasswordActivity extends StylishActivity
         checkboxKeyfileView = findViewById(R.id.keyfile_checkox);
         checkboxDefaultDatabaseView = findViewById(R.id.default_database);
 
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState);
+
         View browseView = findViewById(R.id.browse_button);
         keyFileHelper = new KeyFileHelper(PasswordActivity.this);
         browseView.setOnClickListener(keyFileHelper.getOpenFileOnClickViewListener());
@@ -326,8 +337,6 @@ public class PasswordActivity extends StylishActivity
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
         }
-
-        checkAndPerformedEducation();
     }
 
     @Override
@@ -380,11 +389,17 @@ public class PasswordActivity extends StylishActivity
                 .execute(getIntent());
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
+    }
+
     /**
      * Check and display learning views
      * Displays the explanation for a database opening with fingerprints if available
      */
-    private void checkAndPerformedEducation() {
+    private void checkAndPerformedEducation(Menu menu) {
         if (PreferencesUtil.isEducationScreensEnabled(this)) {
 
             if (!PreferencesUtil.isEducationUnlockPerformed(this)) {
@@ -414,7 +429,39 @@ public class PasswordActivity extends StylishActivity
                             }
                         });
                 // TODO make a period for donation
-                PreferencesUtil.saveEducationPreference(PasswordActivity.this, R.string.education_unlock_key);
+                PreferencesUtil.saveEducationPreference(PasswordActivity.this,
+                        R.string.education_unlock_key);
+
+            } else if (!PreferencesUtil.isEducationReadOnlyPerformed(this)) {
+
+                try {
+                    TapTargetView.showFor(this,
+                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_open_file_read_mode_key,
+                                    getString(R.string.education_read_only_title),
+                                    getString(R.string.education_read_only_summary))
+                                    .textColorInt(Color.WHITE)
+                                    .tintTarget(true)
+                                    .cancelable(true),
+                            new TapTargetView.Listener() {
+                                @Override
+                                public void onTargetClick(TapTargetView view) {
+                                    super.onTargetClick(view);
+                                    MenuItem editItem = menu.findItem(R.id.menu_open_file_read_mode_key);
+                                    onOptionsItemSelected(editItem);
+                                }
+
+                                @Override
+                                public void onOuterCircleClick(TapTargetView view) {
+                                    super.onOuterCircleClick(view);
+                                    view.dismiss(false);
+                                }
+                            });
+                    PreferencesUtil.saveEducationPreference(this,
+                            R.string.education_read_only_key);
+                } catch (Exception e) {
+                    // If icon not visible
+                    Log.w(TAG, "Can't performed education for entry's edition");
+                }
             }
         }
     }
@@ -953,14 +1000,14 @@ public class PasswordActivity extends StylishActivity
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             assistStructure = autofillHelper.getAssistStructure();
             if (assistStructure != null) {
-                GroupActivity.launchForAutofillResult(PasswordActivity.this, assistStructure);
+                GroupActivity.launchForAutofillResult(PasswordActivity.this, assistStructure, readOnly);
             }
         }
         if (assistStructure == null) {
             if (entrySelectionMode) {
-                GroupActivity.launchForKeyboardResult(PasswordActivity.this);
+                GroupActivity.launchForKeyboardResult(PasswordActivity.this, readOnly);
             } else {
-                GroupActivity.launch(PasswordActivity.this);
+                GroupActivity.launch(PasswordActivity.this, readOnly);
             }
         }
     }
@@ -968,14 +1015,33 @@ public class PasswordActivity extends StylishActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        // Read menu
+        inflater.inflate(R.menu.open_file, menu);
+        changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key));
+
         MenuUtil.defaultMenuInflater(inflater, menu);
+
+        // Fingerprint menu
         if (!fingerprintMustBeConfigured
                 && prefsNoBackup.contains(getPreferenceKeyValue()) )
             inflater.inflate(R.menu.fingerprint, menu);
 
         super.onCreateOptionsMenu(menu);
 
+        // Show education views
+        new Handler().post(() -> checkAndPerformedEducation(menu));
+
         return true;
+    }
+
+    private void changeOpenFileReadIcon(MenuItem togglePassword) {
+        if ( readOnly ) {
+            togglePassword.setTitle(R.string.menu_file_selection_read_only);
+            togglePassword.setIcon(R.drawable.ic_read_only_white_24dp);
+        } else {
+            togglePassword.setTitle(R.string.menu_open_file_read_and_write);
+            togglePassword.setIcon(R.drawable.ic_read_write_white_24dp);
+        }
     }
 
     @Override
@@ -984,6 +1050,10 @@ public class PasswordActivity extends StylishActivity
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.menu_open_file_read_mode_key:
+                readOnly = !readOnly;
+                changeOpenFileReadIcon(item);
                 break;
             case R.id.menu_fingerprint_remove_key:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

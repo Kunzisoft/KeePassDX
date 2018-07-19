@@ -32,6 +32,8 @@ import com.kunzisoft.keepass.activities.AboutActivity;
 import com.kunzisoft.keepass.settings.SettingsActivity;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 
+import static com.kunzisoft.keepass.activities.ReadOnlyHelper.READ_ONLY_DEFAULT;
+
 
 public class MenuUtil {
 
@@ -56,20 +58,20 @@ public class MenuUtil {
     }
 
     public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item) {
-        return onDefaultMenuOptionsItemSelected(activity, item, false);
+        return onDefaultMenuOptionsItemSelected(activity, item, READ_ONLY_DEFAULT, false);
     }
 
     /*
      * @param checkLock Check the time lock before launch settings in LockingActivity
      */
-    public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item, boolean checkLock) {
+    public static boolean onDefaultMenuOptionsItemSelected(StylishActivity activity, MenuItem item, boolean readOnly, boolean checkLock) {
         switch (item.getItemId()) {
             case R.id.menu_contribute:
                 return onContributionItemSelected(activity);
 
             case R.id.menu_app_settings:
                 // To avoid flickering when launch settings in a LockingActivity
-                SettingsActivity.launch(activity, checkLock);
+                SettingsActivity.launch(activity, readOnly, checkLock);
                 return true;
 
             case R.id.menu_about:

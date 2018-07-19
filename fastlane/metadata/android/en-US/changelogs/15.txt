@@ -1,0 +1,5 @@
+ * Read only mode
+ * Best group recovery for the navigation fragment
+ * Fix copies in notifications
+ * Fix orientation
+ * Added translations

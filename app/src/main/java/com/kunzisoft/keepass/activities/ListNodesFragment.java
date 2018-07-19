@@ -20,10 +20,8 @@ import android.view.ViewGroup;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwGroup;
-import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
@@ -36,7 +34,6 @@ public class ListNodesFragment extends StylishFragment implements
     private static final String TAG = ListNodesFragment.class.getName();
 
     private static final String GROUP_KEY = "GROUP_KEY";
-    private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
 
     private NodeAdapter.NodeClickCallback nodeClickCallback;
     private NodeAdapter.NodeMenuListener nodeMenuListener;
@@ -49,21 +46,14 @@ public class ListNodesFragment extends StylishFragment implements
     // Preferences for sorting
     private SharedPreferences prefs;
 
-    public static ListNodesFragment newInstance(PwGroup group) {
+    private boolean readOnly;
+
+    public static ListNodesFragment newInstance(PwGroup group, boolean readOnly) {
         Bundle bundle = new Bundle();
         if (group != null) {
             bundle.putParcelable(GROUP_KEY, group);
         }
-        ListNodesFragment listNodesFragment = new ListNodesFragment();
-        listNodesFragment.setArguments(bundle);
-        return listNodesFragment;
-    }
-
-    public static ListNodesFragment newInstance(PwGroupId groupId) {
-        Bundle bundle=new Bundle();
-        if (groupId != null) {
-            bundle.putParcelable(GROUP_ID_KEY, groupId);
-        }
+        ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly);
         ListNodesFragment listNodesFragment = new ListNodesFragment();
         listNodesFragment.setArguments(bundle);
         return listNodesFragment;
@@ -101,46 +91,33 @@ public class ListNodesFragment extends StylishFragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
+        if ( getActivity() != null ) {
+            setHasOptionsMenu(true);
 
-        mCurrentGroup = initCurrentGroup();
-        if (getActivity() != null) {
-            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater());
+            readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
+
+            if (getArguments() != null) {
+                // Contains all the group in element
+                if (getArguments().containsKey(GROUP_KEY)) {
+                    mCurrentGroup = getArguments().getParcelable(GROUP_KEY);
+                }
+            }
+
+            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater(), readOnly);
             mAdapter.setOnNodeClickListener(nodeClickCallback);
 
             if (nodeMenuListener != null) {
                 mAdapter.setActivateContextMenu(true);
                 mAdapter.setNodeMenuListener(nodeMenuListener);
             }
+            prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         }
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
-    protected PwGroup initCurrentGroup() {
-
-        Database db = App.getDB();
-        PwGroup root = db.getPwDatabase().getRootGroup();
-
-        PwGroup currentGroup = null;
-        if (getArguments() != null) {
-            // Contains all the group in element
-            if (getArguments().containsKey(GROUP_KEY)) {
-                currentGroup = getArguments().getParcelable(GROUP_KEY);
-            }
-            // Contains only the group id, so the group must be retrieve
-            if (getArguments().containsKey(GROUP_ID_KEY)) {
-                PwGroupId pwGroupId = getArguments().getParcelable(GROUP_ID_KEY);
-                if ( pwGroupId != null )
-                    currentGroup = db.getPwDatabase().getGroupByGroupId(pwGroupId);
-            }
-        }
-
-        if ( currentGroup == null ) {
-            currentGroup = root;
-        }
-
-        return currentGroup;
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        super.onSaveInstanceState(outState);
     }
 
     @Nullable

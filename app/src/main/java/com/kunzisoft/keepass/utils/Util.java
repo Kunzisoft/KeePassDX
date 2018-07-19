@@ -86,7 +86,8 @@ public class Util {
 	}
 
     public static void unlockScreenOrientation(Activity activity) {
-		if (activity != null)
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if (activity != null) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
 	}
 }

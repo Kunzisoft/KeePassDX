@@ -350,4 +350,24 @@
     <string name="icon_pack_choose_title">Choisir un pack d\'icones</string>
     <string name="icon_pack_choose_summary">Changer le pack d\'icones de l\'application</string>
 
-</resources>
+<string name="error_move_folder_in_itself">Impossible de déplacer un groupe en lui-même.</string>
+    <string name="menu_copy">Copier</string>
+    <string name="menu_move">Déplacer</string>
+    <string name="menu_paste">Coller</string>
+    <string name="menu_cancel">Annuler</string>
+    <string name="magic_keyboard_preference_title">Paramètres du Magikeyboard</string>
+    <string name="magic_keyboard_configure_title">Comment configurer le clavier pour le remplissage sécurisé de formulaire ?</string>
+    <string name="magic_keyboard_activate_setting_text">Activer le Magikeyboard dans les paramètres de l\'appareil.</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">Paramètres -&gt; Langue et saisie -&gt; Clavier actuel -&gt; CHOISIR LES CLAVIERS</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">ou (Paramètres -&gt; Système -&gt; Langues et saisie -&gt; Clavier virtuel -&gt; Gérer les claviers)</string>
+    <string name="keyboards_choose_magikeyboard_text">Choisir le Magikeyboard lorsque vous avez besoin de remplir un formulaire.</string>
+    <string name="keyboards_swicth_magikeyboard_text">Vous pouvez facilement passer de votre clavier principal à Magikeyboard avec le bouton langage de votre clavier, un appui long sur la barre d\'espace de votre clavier, ou, si ce n\'est pas disponible, avec :</string>
+    <string name="keyboard_select_entry_text">Sélectionnez votre entrée avec la clé.</string>
+    <string name="keyboard_fill_field_text">Remplissez vos champs avec les éléments de l\'entrée.</string>
+    <string name="keyboard_lock_database_text">Verrouiller la base de données.</string>
+    <string name="keyboard_back_main_keyboard_text">Retourner sur votre clavier principal.</string>
+
+    <string name="allow_no_password_title">Autoriser aucun mot de passe</string>
+    <string name="allow_no_password_summary">Activer le bouton d\'ouverture si aucune identification de mot de passe n\'est sélectionnée.</string>
+
+    </resources>

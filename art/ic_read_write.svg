@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   id="svg4830"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   inkscape:export-filename="/home/joker/Project/Scratcheck/TestExport.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="ic_read_write.svg">
+  <defs
+     id="defs4832" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#acacac"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.313708"
+     inkscape:cx="-12.80892"
+     inkscape:cy="-4.0293631"
+     inkscape:current-layer="g4770"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1023"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       position="0.99999471,22.999999"
+       orientation="22,0"
+       id="guide2987" />
+    <sodipodi:guide
+       position="0.99999471,0.99999888"
+       orientation="0,22"
+       id="guide2989" />
+    <sodipodi:guide
+       position="22.999995,0.99999888"
+       orientation="-22,0"
+       id="guide2991" />
+    <sodipodi:guide
+       position="39,23"
+       orientation="0,-22"
+       id="guide2993" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid2989" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4835">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(0,-8)">
+    <g
+       id="g4770"
+       transform="matrix(1.7777778,0,0,1.7777778,-205.48441,-31.997877)">
+      <g
+         id="Layer_1"
+         transform="matrix(-0.00397893,0,0,0.00397893,125.58386,23.674135)" />
+      <path
+         style="fill:#ffffff;fill-opacity:1"
+         d="M 4.375 3 C 2.5117466 3 1 4.5117271 1 6.375 L 1 17.625 C 1 19.488276 2.5117466 21 4.375 21 L 15.90625 21 C 16.373823 21 16.75 20.623825 16.75 20.15625 L 16.75 19.59375 C 16.75 19.330086 16.627331 19.090226 16.4375 18.935547 C 16.289944 18.394137 16.289944 16.851957 16.4375 16.310547 C 16.627438 16.159365 16.75 15.919928 16.75 15.65625 L 16.75 14.986328 L 14.371094 17.365234 C 14.362205 17.865302 14.367492 18.380007 14.408203 18.75 L 12.882812 18.75 L 9.8320312 19.417969 C 9.333649 19.527124 8.7483479 19.391267 8.3632812 19.005859 C 8.2870146 18.929486 8.2287106 18.840044 8.171875 18.75 L 4.375 18.75 C 3.7527244 18.75 3.25 18.24727 3.25 17.625 C 3.25 17.006253 3.7562267 16.5 4.375 16.5 L 8.1777344 16.5 L 8.6503906 14.349609 L 12.125 10.875 L 5.7109375 10.875 C 5.5948486 10.875 5.5 10.780031 5.5 10.664062 L 5.5 9.9609375 C 5.5 9.8448664 5.5949375 9.75 5.7109375 9.75 L 13.164062 9.75 C 13.187707 9.75 13.203276 9.7681373 13.224609 9.7753906 L 16.550781 6.4492188 L 16.75 6.25 L 16.75 3.84375 C 16.75 3.3761713 16.373823 3 15.90625 3 L 4.375 3 z M 20.390625 4.5898438 C 20.085165 4.6238231 19.766719 4.7743142 19.507812 5.0332031 L 18.324219 6.2167969 L 21.152344 9.0449219 L 22.335938 7.8613281 C 22.853786 7.3432392 22.937642 6.5860723 22.523438 6.171875 L 21.195312 4.8457031 C 20.988219 4.6386018 20.696085 4.5558644 20.390625 4.5898438 z M 17.320312 7.21875 L 9.6464844 14.894531 L 9.015625 17.767578 C 8.931145 18.15204 9.2151827 18.437711 9.5996094 18.353516 L 12.472656 17.724609 L 20.148438 10.046875 L 17.320312 7.21875 z M 5.7109375 7.5 L 13.164062 7.5 C 13.280151 7.5 13.375 7.5949873 13.375 7.7109375 L 13.375 8.4140625 C 13.375 8.5301336 13.28008 8.625 13.164062 8.625 L 5.7109375 8.625 C 5.5948486 8.625 5.5 8.5300127 5.5 8.4140625 L 5.5 7.7109375 C 5.5 7.5948664 5.5949375 7.5 5.7109375 7.5 z "
+         transform="matrix(0.56249999,0,0,0.56249999,115.58498,22.498806)"
+         id="path4" />
+    </g>
+  </g>
+</svg>

@@ -167,6 +167,7 @@ public class AddNodeButtonView extends RelativeLayout {
         this.addEntryEnable = enable;
         if (enable && addEntryView != null && addEntryView.getVisibility() != VISIBLE)
             addEntryView.setVisibility(INVISIBLE);
+        disableViewIfNoAddAvailable();
     }
 
     /**
@@ -177,6 +178,19 @@ public class AddNodeButtonView extends RelativeLayout {
 	    this.addGroupEnable = enable;
         if (enable && addGroupView != null && addGroupView.getVisibility() != VISIBLE)
             addGroupView.setVisibility(INVISIBLE);
+        disableViewIfNoAddAvailable();
+    }
+
+    private void disableViewIfNoAddAvailable() {
+        if (!addEntryEnable || !addGroupEnable) {
+            setVisibility(GONE);
+        } else {
+            setVisibility(VISIBLE);
+        }
+    }
+
+    public boolean isVisible() {
+        return getVisibility() == VISIBLE;
     }
 
     public void setAddGroupClickListener(OnClickListener onClickListener) {

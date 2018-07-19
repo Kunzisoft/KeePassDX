@@ -134,6 +134,8 @@
     <string name="menu_showpass">Show pass</string>
     <string name="menu_fingerprint_remove_key">Remove the fingerprint key</string>
     <string name="menu_url">Go to URL</string>
+    <string name="menu_file_selection_read_only">Read only</string>
+    <string name="menu_open_file_read_and_write">Read and write</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
@@ -264,7 +266,7 @@
     <string name="other">Other</string>
 
     <string name="keyboard">Keyboard</string>
-    <string name="magic_keyboard_title">Magikeyboayd</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields easily.</string>
     <string name="magic_keyboard_preference_title">Magikeyboard settings</string>
     <string name="magic_keyboard_configure_title">How to configure the keyboard for secure form filling?</string>
@@ -280,6 +282,8 @@
 
     <string name="allow_no_password_title">Allow no password</string>
     <string name="allow_no_password_summary">Enable the open button if no password identification is selected.</string>
+    <string name="enable_read_only_title">Read only</string>
+    <string name="enable_read_only_summary">By default, open a database in read-only mode.</string>
 
     <string name="enable_education_screens_title">Education screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the application works</string>
@@ -306,6 +310,8 @@
     <string name="education_entry_new_field_summary">You want to register a basic non-supplied field, simply fill in a new one that you can also protect visually.</string>
     <string name="education_unlock_title">Unlock your database</string>
     <string name="education_unlock_summary">Enter a password and/or a key file to unlock your database.\n\nRemember to save a copy of your file in a safe place after each modification.</string>
+    <string name="education_read_only_title">Enable read-only</string>
+    <string name="education_read_only_summary">Change the opening mode for the session.\n\nIn read-only mode, you prevent unintended changes to the database.\n\nIn write mode, you can add, delete, or modify all the elements as you want.</string>
     <string name="education_field_copy_title">Copy a field</string>
     <string name="education_field_copy_summary">Copy a field easily to paste it where you want\n\nYou can use several forms filling methods. Use the one you prefer!</string>
     <string name="education_lock_title">Lock the database</string>
