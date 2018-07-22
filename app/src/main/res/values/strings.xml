@@ -289,7 +289,7 @@
     <string name="enable_education_screens_summary">Highlight the elements to learn how the application works</string>
     <string name="reset_education_screens_title">Reset education screens</string>
     <string name="reset_education_screens_summary">Reset the display of education items</string>
-    <string name="reset_education_screens_text">Education screens reseted</string>
+    <string name="reset_education_screens_text">Education screens reset</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">You don\'t know KeePass DX yet, create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
