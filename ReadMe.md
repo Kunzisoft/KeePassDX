@@ -28,7 +28,7 @@ KeePass DX is a **free open source password manager for Android**, which helps y
 
 Yes, KeePass DX is under **free license (OSI certified)** and **without advertising**. You can have a look at its full source and check whether the encryption algorithms are implemented correctly.
 
-*Note : If you access the application from a store, visual features may not be available to incentivize the contribution to the work of open source projects. These optional visuals are accessible after a donation (and a small congratulation message :) or the purchase of an extended version, but do not worry, the main features remain completely free.*
+*Note : If you access the application from a store, visual features may not be available to incentivize the contribution to the work of open source projects. These optional visuals are accessible after a donation (and a small congratulation message :) or the purchase of an extended version, but do not worry, the main features remain completely free. If you contribute to the project and you do not have access to the themes, do not hesitate to contact me at [contact@kunzisoft.com](contact@kunzisoft.com), I will give you the procedure.*
 
 ## Contributions
 
