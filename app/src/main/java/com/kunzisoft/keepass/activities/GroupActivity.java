@@ -294,27 +294,46 @@ public class GroupActivity extends LockingActivity
         setIntent(intent);
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // only one instance of search in backstack
-            openANewGroup(retrieveCurrentGroup(intent, null), !currentGroupIsASearch, true);
+            openSearchGroup(retrieveCurrentGroup(intent, null));
             currentGroupIsASearch = true;
         } else {
             currentGroupIsASearch = false;
         }
     }
 
-    private void openANewGroup(PwGroup group, boolean addToBackStack, boolean isASearch) {
-        ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly, isASearch);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                        R.anim.slide_in_left, R.anim.slide_out_right)
-                .replace(R.id.nodes_list_fragment_container,
-                        newListNodeFragment,
-                        LIST_NODES_FRAGMENT_TAG);
-        if (addToBackStack)
-            fragmentTransaction.addToBackStack(LIST_NODES_FRAGMENT_TAG);
-        fragmentTransaction.commit();
-        listNodesFragment = newListNodeFragment;
-        mCurrentGroup = group;
-        assignGroupViewElements();
+    private void openSearchGroup(PwGroup group) {
+        // if last group was a search, don't add to backstack
+        openGroup(group, !currentGroupIsASearch, true);
+    }
+
+    private void openChildGroup(PwGroup group) {
+        openGroup(group, true, false);
+    }
+
+    private void openGroup(PwGroup group, boolean addToBackStack, boolean isASearch) {
+        // Check Timeout
+        if (checkTimeIsAllowedOrFinish(this)) {
+            startRecordTime(this);
+            // Open a group in a new fragment
+            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly, isASearch);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            // Different animation
+            if (isASearch)
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom,
+                        R.anim.slide_in_bottom, R.anim.slide_out_top);
+            else
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right);
+            fragmentTransaction.replace(R.id.nodes_list_fragment_container,
+                            newListNodeFragment,
+                            LIST_NODES_FRAGMENT_TAG);
+            if (addToBackStack)
+                fragmentTransaction.addToBackStack(LIST_NODES_FRAGMENT_TAG);
+            fragmentTransaction.commit();
+            listNodesFragment = newListNodeFragment;
+            mCurrentGroup = group;
+            assignGroupViewElements();
+        }
     }
 
     @Override
@@ -445,7 +464,7 @@ public class GroupActivity extends LockingActivity
             if (assistStructure != null) {
                 switch (node.getType()) {
                     case GROUP:
-                        openGroup((PwGroup) node);
+                        openChildGroup((PwGroup) node);
                         break;
                     case ENTRY:
                         // Build response with the entry selected
@@ -459,7 +478,7 @@ public class GroupActivity extends LockingActivity
             if (entrySelectionMode) {
                 switch (node.getType()) {
                     case GROUP:
-                        openGroup((PwGroup) node);
+                        openChildGroup((PwGroup) node);
                         break;
                     case ENTRY:
                         EntrySelectionHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
@@ -469,7 +488,7 @@ public class GroupActivity extends LockingActivity
             } else {
                 switch (node.getType()) {
                     case GROUP:
-                        openGroup((PwGroup) node);
+                        openChildGroup((PwGroup) node);
                         break;
                     case ENTRY:
                         EntryActivity.launch(this, (PwEntry) node, readOnly);
@@ -1062,15 +1081,6 @@ public class GroupActivity extends LockingActivity
 		    }
 		}
 	}
-
-    private void openGroup(PwGroup group) {
-        // Check Timeout
-        if (checkTimeIsAllowedOrFinish(this)) {
-            startRecordTime(this);
-            // Open a new group and add the current one in the backstack
-            openANewGroup(group, true, false);
-        }
-    }
 
     @Override
     public void onAssignKeyDialogPositiveClick(
