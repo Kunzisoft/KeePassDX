@@ -64,12 +64,6 @@
                         android:layout_alignParentStart="true"
                         android:layout_below="@+id/toolbar"
                         android:orientation="vertical">
-                        <TextView android:id="@+id/read_only"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/read_only"
-                            android:visibility="gone"
-                            style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle" />
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -99,34 +93,12 @@
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
+            android:id="@+id/nodes_list_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_below="@+id/toolbar"
-            android:background="?android:attr/windowBackground">
-            <LinearLayout
-                android:id="@+id/not_found_container"
-                android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/not_found_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/img_not_found"/>
-                <TextView
-                    android:id="@+id/not_found_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_results"/>
-            </LinearLayout>
-            <FrameLayout
-                android:id="@+id/nodes_list_fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
+            android:background="?android:attr/windowBackground" />
 
         <com.kunzisoft.keepass.view.AddNodeButtonView
             android:id="@+id/add_node_button"

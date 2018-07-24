@@ -62,6 +62,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private NodeMenuListener nodeMenuListener;
     private boolean activateContextMenu;
     private boolean readOnly;
+    private boolean isASearchResult;
 
     private int iconGroupColor;
     private int iconEntryColor;
@@ -70,13 +71,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Create node list adapter with contextMenu or not
      * @param context Context to use
      */
-    public NodeAdapter(final Context context, MenuInflater menuInflater, boolean readOnly) {
+    public NodeAdapter(final Context context, MenuInflater menuInflater) {
         this.inflater = LayoutInflater.from(context);
         this.menuInflater = menuInflater;
         this.context = context;
         assignPreferences();
         this.activateContextMenu = false;
-        this.readOnly = readOnly;
+        this.readOnly = false;
+        this.isASearchResult = false;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
             @Override public int compare(PwNode item1, PwNode item2) {
@@ -101,6 +103,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         TypedArray taTextColor = context.getTheme().obtainStyledAttributes(attrTextColor);
         this.iconEntryColor = taTextColor.getColor(0, Color.BLACK);
         taTextColor.recycle();
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    public void setIsASearchResult(boolean isASearchResult) {
+        this.isASearchResult = isASearchResult;
     }
 
     public void setActivateContextMenu(boolean activate) {
@@ -134,6 +144,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             Log.e(TAG, "Can't add node elements to the list", e);
             Toast.makeText(context, "Can't add node elements to the list : " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Determine if the adapter contains or not any element
+     * @return true if the list is empty
+     */
+    public boolean isEmpty() {
+        return nodeSortedList.size() <= 0;
     }
 
     /**
@@ -301,29 +319,44 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             menuInflater.inflate(R.menu.node_menu, contextMenu);
 
+            // Opening
             MenuItem menuItem = contextMenu.findItem(R.id.menu_open);
             menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
+
+            // Edition
             if (readOnly || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
                 contextMenu.removeItem(R.id.menu_edit);
-                contextMenu.removeItem(R.id.menu_copy);
-                contextMenu.removeItem(R.id.menu_move);
-                contextMenu.removeItem(R.id.menu_delete);
             } else {
-                // Edition
                 menuItem = contextMenu.findItem(R.id.menu_edit);
                 menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
-                // Copy (not for group)
-                if (node.getType().equals(PwNode.Type.ENTRY)) {
-                    menuItem = contextMenu.findItem(R.id.menu_copy);
-                    menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
-                } else {
-                    // TODO COPY For Group
-                    contextMenu.removeItem(R.id.menu_copy);
-                }
-                // Move
+            }
+
+            // Copy (not for group)
+            if (readOnly
+                    || isASearchResult
+                    || node.equals(App.getDB().getPwDatabase().getRecycleBin())
+                    || node.getType().equals(PwNode.Type.GROUP)) {
+                // TODO COPY For Group
+                contextMenu.removeItem(R.id.menu_copy);
+            } else {
+                menuItem = contextMenu.findItem(R.id.menu_copy);
+                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
+            }
+
+            // Move
+            if (readOnly
+                    || isASearchResult
+                    || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+                contextMenu.removeItem(R.id.menu_move);
+            } else {
                 menuItem = contextMenu.findItem(R.id.menu_move);
                 menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
-                // Deletion
+            }
+
+            // Deletion
+            if (readOnly || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+                contextMenu.removeItem(R.id.menu_delete);
+            } else {
                 menuItem = contextMenu.findItem(R.id.menu_delete);
                 menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
             }

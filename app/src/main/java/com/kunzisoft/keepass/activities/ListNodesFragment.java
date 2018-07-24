@@ -34,25 +34,30 @@ public class ListNodesFragment extends StylishFragment implements
     private static final String TAG = ListNodesFragment.class.getName();
 
     private static final String GROUP_KEY = "GROUP_KEY";
+    private static final String IS_SEARCH = "IS_SEARCH";
 
     private NodeAdapter.NodeClickCallback nodeClickCallback;
     private NodeAdapter.NodeMenuListener nodeMenuListener;
     private OnScrollListener onScrollListener;
 
     private RecyclerView listView;
-    protected PwGroup mCurrentGroup;
-    protected NodeAdapter mAdapter;
+    private PwGroup currentGroup;
+    private NodeAdapter mAdapter;
+
+    private View notFoundView;
+    private boolean isASearchResult;
 
     // Preferences for sorting
     private SharedPreferences prefs;
 
     private boolean readOnly;
 
-    public static ListNodesFragment newInstance(PwGroup group, boolean readOnly) {
+    public static ListNodesFragment newInstance(PwGroup group, boolean readOnly, boolean isASearch) {
         Bundle bundle = new Bundle();
         if (group != null) {
             bundle.putParcelable(GROUP_KEY, group);
         }
+        bundle.putBoolean(IS_SEARCH, isASearch);
         ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly);
         ListNodesFragment listNodesFragment = new ListNodesFragment();
         listNodesFragment.setArguments(bundle);
@@ -99,11 +104,17 @@ public class ListNodesFragment extends StylishFragment implements
             if (getArguments() != null) {
                 // Contains all the group in element
                 if (getArguments().containsKey(GROUP_KEY)) {
-                    mCurrentGroup = getArguments().getParcelable(GROUP_KEY);
+                    currentGroup = getArguments().getParcelable(GROUP_KEY);
+                }
+
+                if (getArguments().containsKey(IS_SEARCH)) {
+                    isASearchResult = getArguments().getBoolean(IS_SEARCH);
                 }
             }
 
-            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater(), readOnly);
+            mAdapter = new NodeAdapter(getContextThemed(), getActivity().getMenuInflater());
+            mAdapter.setReadOnly(readOnly);
+            mAdapter.setIsASearchResult(isASearchResult);
             mAdapter.setOnNodeClickListener(nodeClickCallback);
 
             if (nodeMenuListener != null) {
@@ -129,6 +140,7 @@ public class ListNodesFragment extends StylishFragment implements
         View rootView = inflater.cloneInContext(getContextThemed())
                 .inflate(R.layout.list_nodes_fragment, container, false);
         listView = rootView.findViewById(R.id.nodes_list);
+        notFoundView = rootView.findViewById(R.id.not_found_container);
 
         if (onScrollListener != null) {
             listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -148,11 +160,20 @@ public class ListNodesFragment extends StylishFragment implements
         super.onResume();
 
         rebuildList();
+
+        if (isASearchResult && mAdapter.isEmpty()) {
+            // To show the " no search entry found "
+            listView.setVisibility(View.GONE);
+            notFoundView.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            notFoundView.setVisibility(View.GONE);
+        }
     }
 
     public void rebuildList() {
         // Add elements to the list
-        mAdapter.rebuildList(mCurrentGroup);
+        mAdapter.rebuildList(currentGroup);
         assignListToNodeAdapter(listView);
     }
 
@@ -174,7 +195,7 @@ public class ListNodesFragment extends StylishFragment implements
 
         // Tell the adapter to refresh it's list
         mAdapter.notifyChangeSort(sortNodeEnum, ascending, groupsBefore);
-        mAdapter.rebuildList(mCurrentGroup);
+        mAdapter.rebuildList(currentGroup);
     }
 
     @Override
@@ -232,7 +253,7 @@ public class ListNodesFragment extends StylishFragment implements
                             mAdapter.addNode(newNode);
                         if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
                             //mAdapter.updateLastNodeRegister(newNode);
-                            mAdapter.rebuildList(mCurrentGroup);
+                            mAdapter.rebuildList(currentGroup);
                         }
                     } else {
                         Log.e(this.getClass().getName(), "New node can be retrieve in Activity Result");
@@ -259,7 +280,7 @@ public class ListNodesFragment extends StylishFragment implements
     }
 
     public PwGroup getMainGroup() {
-        return mCurrentGroup;
+        return currentGroup;
     }
 
     public interface OnScrollListener {

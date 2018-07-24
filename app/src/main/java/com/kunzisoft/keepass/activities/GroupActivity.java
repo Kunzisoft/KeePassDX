@@ -112,17 +112,10 @@ public class GroupActivity extends LockingActivity
     private ExpandableLayout toolbarPasteExpandableLayout;
     private Toolbar toolbarPaste;
     private ImageView iconView;
-    private View readOnlyView;
     private AddNodeButtonView addNodeButtonView;
     private TextView groupNameView;
-    private View notFoundView;
-    private View listContainer;
 
     private Database database;
-
-    private boolean addGroupEnabled = false;
-    private boolean addEntryEnabled = false;
-    private boolean isRoot = false;
 
     private ListNodesFragment listNodesFragment;
     private boolean currentGroupIsASearch;
@@ -219,54 +212,18 @@ public class GroupActivity extends LockingActivity
 
         // Initialize views
         iconView = findViewById(R.id.icon);
-        readOnlyView = findViewById(R.id.read_only);
         addNodeButtonView = findViewById(R.id.add_node_button);
         toolbar = findViewById(R.id.toolbar);
         groupNameView = findViewById(R.id.group_name);
         toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
         toolbarPaste = findViewById(R.id.toolbar_paste);
-        notFoundView = findViewById(R.id.not_found_container);
-        listContainer = findViewById(R.id.nodes_list_fragment_container);
 
         invalidateOptionsMenu();
 
-        rootGroup = database.getPwDatabase().getRootGroup();
-        mCurrentGroup = retrieveCurrentGroup(getIntent(), savedInstanceState);
-        currentGroupIsASearch = Intent.ACTION_SEARCH.equals(getIntent().getAction());
+        // Get arg from intent or instance state
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
 
-        Log.i(TAG, "Started creating tree");
-		if ( mCurrentGroup == null ) {
-			Log.w(TAG, "Group was null");
-			return;
-		}
-
-        addNodeButtonView.enableAddGroup(addGroupEnabled);
-        addNodeButtonView.enableAddEntry(addEntryEnabled);
-
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        toolbarPaste.inflateMenu(R.menu.node_paste_menu);
-        toolbarPaste.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
-        toolbarPaste.setNavigationOnClickListener(view -> {
-            toolbarPasteExpandableLayout.collapse();
-            nodeToCopy = null;
-            nodeToMove = null;
-        });
-
-        // Initialize thr fragment with list
-        listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
-                .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
-        if (listNodesFragment == null)
-            listNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly);
-
-        // Attach fragment to content view
-        getSupportFragmentManager().beginTransaction().replace(
-                R.id.nodes_list_fragment_container,
-                listNodesFragment,
-                LIST_NODES_FRAGMENT_TAG)
-                .commit();
-
+        // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
                 oldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY);
@@ -281,23 +238,55 @@ public class GroupActivity extends LockingActivity
             }
         }
 
+        rootGroup = database.getPwDatabase().getRootGroup();
+        mCurrentGroup = retrieveCurrentGroup(getIntent(), savedInstanceState);
+        currentGroupIsASearch = Intent.ACTION_SEARCH.equals(getIntent().getAction());
+
+        Log.i(TAG, "Started creating tree");
+		if ( mCurrentGroup == null ) {
+			Log.w(TAG, "Group was null");
+			return;
+		}
+
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        toolbarPaste.inflateMenu(R.menu.node_paste_menu);
+        toolbarPaste.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        toolbarPaste.setNavigationOnClickListener(view -> {
+            toolbarPasteExpandableLayout.collapse();
+            nodeToCopy = null;
+            nodeToMove = null;
+        });
+
+        // Initialize the fragment with the list
+        listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
+                .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+        if (listNodesFragment == null)
+            listNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly, currentGroupIsASearch);
+
+        // Attach fragment to content view
+        getSupportFragmentManager().beginTransaction().replace(
+                R.id.nodes_list_fragment_container,
+                listNodesFragment,
+                LIST_NODES_FRAGMENT_TAG)
+                .commit();
+
+        // Add listeners to the add buttons
         addNodeButtonView.setAddGroupClickListener(v -> GroupEditDialogFragment.build()
                 .show(getSupportFragmentManager(),
                         GroupEditDialogFragment.TAG_CREATE_GROUP));
         addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 
-        Log.i(TAG, "Finished creating tree");
-
-        if (isRoot) {
-            showWarnings();
-        }
-
+        // To init autofill
         entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
         }
+
+        Log.i(TAG, "Finished creating tree");
 	}
 
     @Override
@@ -305,13 +294,15 @@ public class GroupActivity extends LockingActivity
         setIntent(intent);
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // only one instance of search in backstack
-            openANewGroup(retrieveCurrentGroup(intent, null), !currentGroupIsASearch);
+            openANewGroup(retrieveCurrentGroup(intent, null), !currentGroupIsASearch, true);
+            currentGroupIsASearch = true;
+        } else {
+            currentGroupIsASearch = false;
         }
-        currentGroupIsASearch = Intent.ACTION_SEARCH.equals(getIntent().getAction());
     }
 
-    private void openANewGroup(PwGroup group, boolean addToBackStack) {
-        ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly);
+    private void openANewGroup(PwGroup group, boolean addToBackStack, boolean isASearch) {
+        ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly, isASearch);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right)
@@ -334,6 +325,7 @@ public class GroupActivity extends LockingActivity
             outState.putParcelable(NODE_TO_COPY_KEY, nodeToCopy);
         if (nodeToMove != null)
             outState.putParcelable(NODE_TO_MOVE_KEY, nodeToMove);
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
         super.onSaveInstanceState(outState);
     }
 
@@ -364,14 +356,6 @@ public class GroupActivity extends LockingActivity
                 currentGroup = database.getPwDatabase().getGroupByGroupId(pwGroupId);
             }
 
-            if (currentGroup != null) {
-                addGroupEnabled = !readOnly;
-                addEntryEnabled = !readOnly;
-                isRoot = (currentGroup == rootGroup);
-                if (!currentGroup.allowAddEntryIfIsRoot())
-                    addEntryEnabled = !isRoot && addEntryEnabled;
-            }
-
             return currentGroup;
         }
     }
@@ -391,13 +375,6 @@ public class GroupActivity extends LockingActivity
                     groupNameView.invalidate();
                 }
             }
-        }
-
-        // Assign read only text
-        if (readOnly) {
-            readOnlyView.setVisibility(View.VISIBLE);
-        } else {
-            readOnlyView.setVisibility(View.GONE);
         }
 
         // Assign icon
@@ -430,22 +407,24 @@ public class GroupActivity extends LockingActivity
             }
         }
 
-        // To show the " no search entry found "
-        if (currentGroupIsASearch &&
-                (mCurrentGroup == null || mCurrentGroup.numbersOfChildEntries() < 1 )) {
-            listContainer.setVisibility(View.GONE);
-            notFoundView.setVisibility(View.VISIBLE);
-        } else {
-            listContainer.setVisibility(View.VISIBLE);
-            notFoundView.setVisibility(View.GONE);
-        }
-
         // Show button if allowed
-        if (currentGroupIsASearch)
-            addNodeButtonView.setVisibility(View.GONE);
-        else {
-            addNodeButtonView.setVisibility(View.VISIBLE);
-            if (addNodeButtonView != null)
+        if (addNodeButtonView != null) {
+
+            // To enable add button
+            boolean addGroupEnabled = !readOnly && !currentGroupIsASearch;
+            boolean addEntryEnabled = !readOnly && !currentGroupIsASearch;
+            if (mCurrentGroup != null) {
+                boolean isRoot = (mCurrentGroup == rootGroup);
+                if (!mCurrentGroup.allowAddEntryIfIsRoot())
+                    addEntryEnabled = !isRoot && addEntryEnabled;
+                if (isRoot) {
+                    showWarnings();
+                }
+            }
+            addNodeButtonView.enableAddGroup(addGroupEnabled);
+            addNodeButtonView.enableAddEntry(addEntryEnabled);
+
+            if (addNodeButtonView.isEnable())
                 addNodeButtonView.showButton();
         }
     }
@@ -687,7 +666,7 @@ public class GroupActivity extends LockingActivity
             if (listNodesFragment != null
                     && listNodesFragment.isEmpty()) {
                 if (!PreferencesUtil.isEducationNewNodePerformed(this)
-                        && addNodeButtonView.isVisible()) {
+                        && addNodeButtonView.isEnable()) {
 
                     TapTargetView.showFor(this,
                             TapTarget.forView(findViewById(R.id.add_button),
@@ -1089,7 +1068,7 @@ public class GroupActivity extends LockingActivity
         if (checkTimeIsAllowedOrFinish(this)) {
             startRecordTime(this);
             // Open a new group and add the current one in the backstack
-            openANewGroup(group, true);
+            openANewGroup(group, true, false);
         }
     }
 
