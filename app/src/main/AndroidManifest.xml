@@ -104,11 +104,19 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value="com.kunzisoft.keepass.search.SearchResults"
                 android:exported="false"/>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryActivity"
@@ -118,17 +126,6 @@
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.kunzisoft.keepass.search.SearchResultsActivity"
-            android:launchMode="standard">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity android:name="com.kunzisoft.keepass.autofill.AutoFillAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
