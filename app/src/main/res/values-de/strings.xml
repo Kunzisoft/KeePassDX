@@ -369,4 +369,11 @@
     <string name="menu_file_selection_read_only">Nur lesen</string>
     <string name="enable_read_only_title">Nur lesen</string>
     <string name="education_read_only_title">Nur-lesen aktivieren</string>
+    <string name="enable_read_only_summary">Datenbank immer im Nur-Lesen-Modus öffnen.</string>
+
+    <string name="education_read_only_summary">Wechseln Sie den Modus des Öffnens während einer Sitzung.
+\n
+\nIm Nur-Lesen-Modus verhindern Sie unbeabsichtigte Änderungen an der Datenbank.
+\n
+\nIm Schreiben-Modus können Sie bei Bedarf alle Elemente hinzufügen, löschen oder verändern.</string>
     </resources>
