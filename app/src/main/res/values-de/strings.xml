@@ -192,7 +192,7 @@
     <string name="password_size_title">Passwortlänge</string>
     <string name="password_size_summary">Standardlänge des generierten Passworts ändern</string>
     <string name="clipboard_notifications_title">Zwischenablagenbenachrichtigungen</string>
-    <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen zum Kopieren von Benutzername und Passwort einschalten</string>
+    <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen einschalten um Eingabefelder zu aktivieren</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
     <string name="create_keepass_file">Keepass Datei erstellen</string>
@@ -274,7 +274,7 @@
     <string name="auto_open_file_uri_title">Ausgewählte Datei automatisch öffnen</string>
     <string name="auto_open_file_uri_summary">Automatisch eine Datei vom Auswahlbildschirm öffnen nach Auswahl im Dateibrowser</string>
     <string name="allow_copy_password_title">Kopie des Passworts</string>
-    <string name="allow_copy_password_summary">Koperen des Passworts in die Zwischenablage erlauben.</string>
+    <string name="allow_copy_password_summary">Kopieren des Passworts und der geschützten Felder in die Zwischenablage erlauben.</string>
     <string name="warning_disabling_storage_access_framework">WARNUNG: Deaktivierung dieses Features könnte das Öffnen und Speichern von Datenbanken unmöglich machen</string>
     <string name="open_link_database">Link der zu öffnenden Kdbx-Datei</string>
     <string name="database_name_title">Datenbankname</string>
@@ -365,4 +365,5 @@
 
     <string name="enable_education_screens_title">Hilfe-Anzeige</string>
     <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der Anwendung zu lernen</string>
+    <string name="menu_open_file_read_and_write">Lesen und Schreiben</string>
     </resources>
