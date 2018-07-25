@@ -37,6 +37,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -104,6 +105,7 @@ public class GroupActivity extends LockingActivity
 
     private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
     private static final String LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG";
+    private static final String SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG";
     private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
     private static final String NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY";
     private static final String NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY";
@@ -324,9 +326,14 @@ public class GroupActivity extends LockingActivity
             else
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right);
+
+            String tag = LIST_NODES_FRAGMENT_TAG;
+            if (isASearch)
+                tag = SEARCH_FRAGMENT_TAG;
+
             fragmentTransaction.replace(R.id.nodes_list_fragment_container,
                             newListNodeFragment,
-                            LIST_NODES_FRAGMENT_TAG);
+                            tag);
             if (addToBackStack)
                 fragmentTransaction.addToBackStack(LIST_NODES_FRAGMENT_TAG);
             fragmentTransaction.commit();
@@ -1156,6 +1163,11 @@ public class GroupActivity extends LockingActivity
             mCurrentGroup = listNodesFragment.getMainGroup();
             removeSearchInIntent(getIntent());
             assignGroupViewElements();
+
+            // remove search fragment
+            Fragment searchFragment = getSupportFragmentManager().findFragmentByTag(SEARCH_FRAGMENT_TAG);
+            if (searchFragment != null)
+                getSupportFragmentManager().beginTransaction().remove(searchFragment).commit();
         }
     }
 }
