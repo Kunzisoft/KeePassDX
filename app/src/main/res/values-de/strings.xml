@@ -88,7 +88,7 @@
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
     <string name="file_not_found">Datei nicht gefunden.</string>
-    <string name="file_not_found_content">Datei nicht gefunden. Versuche es von ihrem Dienstanbieter erneut zu öffnen.</string>
+    <string name="file_not_found_content">Datei nicht gefunden. Versuchen Sie, es von Ihrem Dienstanbieter erneut zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
     <string name="hint_conf_pass">Passwort wiederholen</string>
@@ -129,7 +129,7 @@
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Kein Handler zum Öffnen der URL vorhanden.</string>
-    <string name="open_recent">Zuletzt geöffnete Datenbank :</string>
+    <string name="open_recent">Zuletzt geöffnete Datenbanken :</string>
     <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
     <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei .kdb Dateien)</string>
     <string name="progress_create">Neue Datenbank anlegen\u2026</string>
@@ -162,7 +162,7 @@
     <string name="use_saf_summary">Storage Access Framework als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1 Zeichensatz. Ihr Passwort enthält andere Zeichen. Diese Zeichen werden umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen ihr Passwort zu ändern.</string>
+    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1 Zeichensatz. Ihr Passwort enthält andere Zeichen. Diese Zeichen werden umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen, dass Sie Ihr Passwort ändern.</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
@@ -186,8 +186,8 @@
       <item>Groß</item>
     </string-array>
 
-    <string name="warning_empty_password">Sind Sie sicher, dass sie ein leeres Passwort verwenden wollen ?</string>
-    <string name="warning_no_encryption_key">Sind Sie sicher, dass sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
+    <string name="warning_empty_password">Sind Sie sicher, dass Sie ein leeres Passwort verwenden wollen ?</string>
+    <string name="warning_no_encryption_key">Sind Sie sicher, dass Sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
     <string name="appearance">Aussehen</string>
     <string name="password_size_title">Passwortlänge</string>
     <string name="password_size_summary">Standardlänge des generierten Passworts ändern</string>
@@ -204,9 +204,9 @@
     <string name="fingerprint_enable_summary">Datenbanköffnung mit Fingerabdruck einschalten</string>
     <string name="fingerprint">Fingerabdruck</string>
     <string name="fingerprint_enable_title">Fingerabdruckscanner</string>
-    <string name="fingerprint_scan_to_open">Fingerabdruck scannen während Passwortfeld leer ist, um Datenbank zu öffnen</string>
+    <string name="fingerprint_scan_to_open">Fingerabdruck scannen während das Passwortfeld leer ist, um Datenbank zu öffnen</string>
     <string name="fingerprint_scan_to_store">Fingerabdruck scannen, um Masterpasswort zu speichern</string>
-    <string name="fingerprint_type_password_text">Geben Sie ihr Passwort in Keepass DX ein</string>
+    <string name="fingerprint_type_password_text">Geben Sie Ihr Passwort in Keepass DX ein</string>
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Standardzeichen für Passwortgenerator setzen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
@@ -217,7 +217,7 @@
     <string name="fingerprint_error">Probleme mit dem Fingerabdruck : %1$s</string>
     <string name="history">Verlauf</string>
     <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein ?</string>
-    <string name="fingerprint_setting_text">Speichern sie ihren persönlichen Fingerabdruck in</string>
+    <string name="fingerprint_setting_text">Speichern Sie Ihren persönlichen Fingerabdruck in</string>
     <string name="fingerprint_setting_way_text">Einstellungen -&gt; Sicherheit -&gt; Fingerabdruck</string>
     <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
@@ -238,7 +238,7 @@
     <string name="memory_usage">Speichernutzung</string>
     <string name="memory_usage_explanation">Größe des Speichers (in binären Bytes) der für die Schlüsselableitung genutzt wird.</string>
     <string name="parallelism">Parallelismus</string>
-    <string name="parallelism_explanation">Grad des Parallelismus (i.d.F. Anzahl der Threads) der für die Schlüsselableitung genutzt wird.</string>
+    <string name="parallelism_explanation">Grad des Parallelismus (d.h. Anzahl der Threads) der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
     <string name="sort_ascending">Aufsteigend</string>
     <string name="sort_groups_before">Gruppen davor</string>
@@ -266,7 +266,7 @@
     <string name="recycle_bin_title">Papierkorb verwenden</string>
     <string name="recycle_bin_summary">Gruppe oder Eintrag in den Papierkorb verschieben bevor er gelöscht wird</string>
     <string name="permission_external_storage_rationale_write_database">KeePass DX benötigt Berechtigungen für Speicherzugriff um Datenbanken zu schreiben</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX benötigt externe Speicherzugriffsberechtigung um eine URI zu lesen, die nicht vom Content-Provider zur Verfügung gestellt wird</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX benötigt externe Speicherzugriffsberechtigung um eine URI zu lesen, die nicht von einem Content-Provider zur Verfügung gestellt wird</string>
     <string name="permission_external_storage_denied">Speicherzugriff verweigert</string>
     <string name="permission_external_storage_never_ask">Aktion kann ohne Speicherzugriff nicht ausgeführt werden</string>
     <string name="monospace_font_fields_enable_title">Felder Schriftart</string>
@@ -299,7 +299,7 @@
     <string name="education_new_node_title">Neue Einträge zu Ihrer Datenbank hinzufügen</string>
     <string name="education_new_node_summary">Elemente hinzufügen um Ihre digitalen Identitäten zu verwalten.\n\nGruppen hinzufügen (wie Ordner) um Ihre Einträge und Datenbank zu ordnen.</string>
     <string name="education_search_title">Ihre Einträge ganz einfach durchsuchen</string>
-    <string name="education_search_summary">Einträge via Titel, Benutzernamen oder anderen Feldern finden um ganz einfach Ihre Passwörter zu bekommen.</string>
+    <string name="education_search_summary">Einträge via Titel, Benutzernamen oder anderen Feldern finden, um ganz einfach Ihre Passwörter zu bekommen.</string>
     <string name="education_fingerprint_title">Ihre Datenbank mit Ihrem Fingerabdruck entsperren</string>
     <string name="education_fingerprint_summary">Verknüpfen Sie Ihr Passwort und Ihren Fingerabdruck um Ihre Datenbank im Handumdrehen zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
@@ -367,8 +367,8 @@
     <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der Anwendung zu lernen</string>
     <string name="menu_open_file_read_and_write">Lesen und Schreiben</string>
     <string name="menu_file_selection_read_only">Nur lesen</string>
-    <string name="enable_read_only_title">Nur lesen</string>
-    <string name="education_read_only_title">Nur-lesen aktivieren</string>
+    <string name="enable_read_only_title">Schreibgeschützt</string>
+    <string name="education_read_only_title">Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank immer im Nur-Lesen-Modus öffnen.</string>
 
     <string name="education_read_only_summary">Wechseln Sie den Modus des Öffnens während einer Sitzung.
