@@ -162,7 +162,7 @@
     <string name="use_saf_summary">Storage Access Framework als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1 Zeichensatz. Ihr Passwort enthält andere Zeichen. Diese Zeichen werden umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen, dass Sie Ihr Passwort ändern.</string>
+    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1-Zeichensatz. Enthält Ihr Passwort Zeichen, die in diesem Zeichensatz nicht vorkommen, werden diese alle in in ein und dasselbe Zeichen umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen, dass Sie Ihr Passwort ändern.</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
@@ -299,7 +299,7 @@
     <string name="education_new_node_title">Neue Einträge zu Ihrer Datenbank hinzufügen</string>
     <string name="education_new_node_summary">Elemente hinzufügen um Ihre digitalen Identitäten zu verwalten.\n\nGruppen hinzufügen (wie Ordner) um Ihre Einträge und Datenbank zu ordnen.</string>
     <string name="education_search_title">Ihre Einträge ganz einfach durchsuchen</string>
-    <string name="education_search_summary">Einträge via Titel, Benutzernamen oder anderen Feldern finden, um ganz einfach Ihre Passwörter zu bekommen.</string>
+    <string name="education_search_summary">Einträge nach Titel, Benutzernamen oder anderen Feldern durchsuchen, um ganz einfach Ihre Passwörter wiederzufinden.</string>
     <string name="education_fingerprint_title">Ihre Datenbank mit Ihrem Fingerabdruck entsperren</string>
     <string name="education_fingerprint_summary">Verknüpfen Sie Ihr Passwort und Ihren Fingerabdruck um Ihre Datenbank im Handumdrehen zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
@@ -371,9 +371,9 @@
     <string name="education_read_only_title">Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank immer im Nur-Lesen-Modus öffnen.</string>
 
-    <string name="education_read_only_summary">Wechseln Sie den Modus des Öffnens während einer Sitzung.
+    <string name="education_read_only_summary">Ändern Sie den Modus bei Eröffnung einer Sitzung.
 \n
-\nIm Nur-Lesen-Modus verhindern Sie unbeabsichtigte Änderungen an der Datenbank.
+\nIm schreibgeschützten Modus verhindern Sie unbeabsichtigte Änderungen an der Datenbank.
 \n
-\nIm Schreiben-Modus können Sie bei Bedarf alle Elemente hinzufügen, löschen oder verändern.</string>
+\nIm Modus ‘Lesen und Schreiben‘ können Sie alle Elemente hinzufügen, löschen oder verändern, wie Sie möchten.</string>
     </resources>
