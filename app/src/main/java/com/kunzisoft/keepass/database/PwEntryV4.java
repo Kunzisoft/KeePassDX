@@ -169,7 +169,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 	}
 
 	@Override
-	public void endToManageFieldReferences() {
+	public void stopToManageFieldReferences() {
         this.mDatabase = null;
         this.mDecodeRef = false;
 	}
@@ -205,41 +205,31 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 
 	@Override
 	public void setTitle(String title) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectTitle;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectTitle;
 		setProtectedString(STR_TITLE, title, protect);
 	}
 
 	@Override
 	public void setUsername(String user) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectUserName;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectUserName;
 		setProtectedString(STR_USERNAME, user, protect);
 	}
 
 	@Override
 	public void setPassword(String pass) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectPassword;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectPassword;
 		setProtectedString(STR_PASSWORD, pass, protect);
 	}
 
 	@Override
 	public void setUrl(String url) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectUrl;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectUrl;
 		setProtectedString(STR_URL, url, protect);
 	}
 
 	@Override
 	public void setNotes(String notes) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectNotes;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectNotes;
 		setProtectedString(STR_NOTES, notes, protect);
 	}
 
@@ -287,7 +277,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 
 	@Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.uuid.equals(PwDatabase.UUID_ZERO)) {
+		if (customIcon == null || customIcon.getUUID().equals(PwDatabase.UUID_ZERO)) {
 			return super.getIcon();
 		} else {
 			return customIcon;

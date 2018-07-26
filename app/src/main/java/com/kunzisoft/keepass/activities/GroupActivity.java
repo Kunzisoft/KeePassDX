@@ -53,6 +53,7 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
+import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.database.Database;
@@ -130,6 +131,8 @@ public class GroupActivity extends LockingActivity
 
     private boolean entrySelectionMode;
     private AutofillHelper autofillHelper;
+
+    private SearchEntryCursorAdapter searchSuggestionAdapter;
 
     // After a database creation
     public static void launch(Activity act) {
@@ -287,6 +290,9 @@ public class GroupActivity extends LockingActivity
             autofillHelper = new AutofillHelper();
             autofillHelper.retrieveAssistStructure(getIntent());
         }
+
+        // Search suggestion
+        searchSuggestionAdapter = new SearchEntryCursorAdapter(this, database);
 
         Log.i(TAG, "Finished creating tree");
 	}
@@ -845,6 +851,19 @@ public class GroupActivity extends LockingActivity
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, GroupActivity.class)));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+            searchView.setSuggestionsAdapter(searchSuggestionAdapter);
+            searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+                @Override
+                public boolean onSuggestionClick(int position) {
+                    onNodeClick(searchSuggestionAdapter.getEntryFromPosition(position));
+                    return true;
+                }
+
+                @Override
+                public boolean onSuggestionSelect(int position) {
+                    return true;
+                }
+            });
         }
 
         MenuUtil.contributionMenuInflater(inflater, menu);

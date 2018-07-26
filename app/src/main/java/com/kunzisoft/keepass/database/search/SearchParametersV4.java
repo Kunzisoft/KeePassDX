@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.search;
 
 public class SearchParametersV4 extends SearchParameters implements Cloneable {
 	public static SearchParametersV4 DEFAULT = new SearchParametersV4();

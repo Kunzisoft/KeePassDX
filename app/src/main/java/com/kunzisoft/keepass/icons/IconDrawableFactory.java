@@ -221,7 +221,7 @@ public class IconDrawableFactory {
      * @return The drawable
      */
 	private Drawable getIconDrawable(Context context, PwIconStandard icon, boolean isTint, int tintColor) {
-		int resId = IconPackChooser.getSelectedIconPack(context).iconToResId(icon.iconId);
+		int resId = IconPackChooser.getSelectedIconPack(context).iconToResId(icon.getIconId());
 
 		return getIconDrawable(context, resId, isTint, tintColor);
 	}
@@ -289,14 +289,14 @@ public class IconDrawableFactory {
 			return blank;
 		}
 		
-		Drawable draw = (Drawable) customIconMap.get(icon.uuid);
+		Drawable draw = (Drawable) customIconMap.get(icon.getUUID());
 		
 		if (draw == null) {
-			if (icon.imageData == null) {
+			if (icon.getImageData() == null) {
 				return blank;
 			}
 			
-			Bitmap bitmap = BitmapFactory.decodeByteArray(icon.imageData, 0, icon.imageData.length);
+			Bitmap bitmap = BitmapFactory.decodeByteArray(icon.getImageData(), 0, icon.getImageData().length);
 			
 			// Could not understand custom icon
 			if (bitmap == null) {
@@ -306,7 +306,7 @@ public class IconDrawableFactory {
 			bitmap = resize(bitmap);
 			
 			draw = new BitmapDrawable(context.getResources(), bitmap);
-			customIconMap.put(icon.uuid, draw);
+			customIconMap.put(icon.getUUID(), draw);
 		}
 
 		return draw;

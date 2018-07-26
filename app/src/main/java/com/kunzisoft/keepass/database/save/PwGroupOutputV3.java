@@ -93,7 +93,7 @@ public class PwGroupOutputV3 {
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(IMAGEID_FIELD_SIZE);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getIconStandard().iconId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getIconStandard().getIconId()));
 		
 		// Level
 		mOS.write(LEVEL_FIELD_TYPE);

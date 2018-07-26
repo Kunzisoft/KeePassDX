@@ -225,7 +225,7 @@ public class EntryActivity extends LockingHideActivity {
 
                 startService(intent);
             }
-            mEntry.endToManageFieldReferences();
+            mEntry.stopToManageFieldReferences();
         }
         firstLaunchOfActivity = false;
     }
@@ -369,7 +369,7 @@ public class EntryActivity extends LockingHideActivity {
             entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
 
-        mEntry.endToManageFieldReferences();
+        mEntry.stopToManageFieldReferences();
 	}
 
 	@Override
