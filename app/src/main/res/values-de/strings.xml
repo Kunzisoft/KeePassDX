@@ -369,7 +369,7 @@
     <string name="menu_file_selection_read_only">schreibgeschützt</string>
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Schreibschutz aktivieren</string>
-    <string name="enable_read_only_summary">Datenbank immer im Nur-Lesen-Modus öffnen.</string>
+    <string name="enable_read_only_summary">Standardmäßig wird die Datenbank im schreibgeschützten Modus geöffnet.</string>
 
     <string name="education_read_only_summary">Ändern Sie den Modus bei Eröffnung einer Sitzung.
 \n
