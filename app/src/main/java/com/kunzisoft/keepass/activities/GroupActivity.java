@@ -38,6 +38,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -266,9 +267,13 @@ public class GroupActivity extends LockingActivity
             nodeToMove = null;
         });
 
+        String fragmentTag = LIST_NODES_FRAGMENT_TAG;
+        if (currentGroupIsASearch)
+            fragmentTag = SEARCH_FRAGMENT_TAG;
+
         // Initialize the fragment with the list
         listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
-                .findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+                .findFragmentByTag(fragmentTag);
         if (listNodesFragment == null)
             listNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly, currentGroupIsASearch);
 
@@ -276,7 +281,7 @@ public class GroupActivity extends LockingActivity
         getSupportFragmentManager().beginTransaction().replace(
                 R.id.nodes_list_fragment_container,
                 listNodesFragment,
-                LIST_NODES_FRAGMENT_TAG)
+                fragmentTag)
                 .commit();
 
         // Add listeners to the add buttons
@@ -312,39 +317,47 @@ public class GroupActivity extends LockingActivity
     }
 
     private void openSearchGroup(PwGroup group) {
-        // if last group was a search, don't add to backstack
-        openGroup(group, !currentGroupIsASearch, true);
+        // Delete the previous search fragment
+        Fragment searchFragment = getSupportFragmentManager().findFragmentByTag(SEARCH_FRAGMENT_TAG);
+        if (searchFragment != null) {
+            if ( getSupportFragmentManager()
+                    .popBackStackImmediate(SEARCH_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE) )
+                getSupportFragmentManager().beginTransaction().remove(searchFragment).commit();
+        }
+
+        openGroup(group, true);
     }
 
     private void openChildGroup(PwGroup group) {
-        openGroup(group, true, false);
+        openGroup(group, false);
     }
 
-    private void openGroup(PwGroup group, boolean addToBackStack, boolean isASearch) {
+    private void openGroup(PwGroup group, boolean isASearch) {
         // Check Timeout
         if (checkTimeIsAllowedOrFinish(this)) {
             startRecordTime(this);
+
             // Open a group in a new fragment
             ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly, isASearch);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             // Different animation
-            if (isASearch)
+            String fragmentTag;
+            if (isASearch) {
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom,
                         R.anim.slide_in_bottom, R.anim.slide_out_top);
-            else
+                fragmentTag = SEARCH_FRAGMENT_TAG;
+            } else {
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right);
-
-            String tag = LIST_NODES_FRAGMENT_TAG;
-            if (isASearch)
-                tag = SEARCH_FRAGMENT_TAG;
+                fragmentTag = LIST_NODES_FRAGMENT_TAG;
+            }
 
             fragmentTransaction.replace(R.id.nodes_list_fragment_container,
                             newListNodeFragment,
-                            tag);
-            if (addToBackStack)
-                fragmentTransaction.addToBackStack(LIST_NODES_FRAGMENT_TAG);
+                            fragmentTag);
+            fragmentTransaction.addToBackStack(fragmentTag);
             fragmentTransaction.commit();
+
             listNodesFragment = newListNodeFragment;
             mCurrentGroup = group;
             assignGroupViewElements();
@@ -1189,11 +1202,6 @@ public class GroupActivity extends LockingActivity
             mCurrentGroup = listNodesFragment.getMainGroup();
             removeSearchInIntent(getIntent());
             assignGroupViewElements();
-
-            // remove search fragment
-            Fragment searchFragment = getSupportFragmentManager().findFragmentByTag(SEARCH_FRAGMENT_TAG);
-            if (searchFragment != null)
-                getSupportFragmentManager().beginTransaction().remove(searchFragment).commit();
         }
     }
 }
