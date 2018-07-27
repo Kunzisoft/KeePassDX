@@ -59,7 +59,7 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, 
 	public PwGroupSearch search(PwDatabaseVersion pm, String qStr, int max) {
 
 		PwGroupSearch group = pm.createGroup();
-		group.setName(mCtx.getString(R.string.search_results));
+		group.setName("\"" + qStr + "\"");
 		group.setEntries(new ArrayList<>());
 		
 		// Search all entries

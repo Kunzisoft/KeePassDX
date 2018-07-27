@@ -112,6 +112,7 @@ public class GroupActivity extends LockingActivity
     private static final String NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY";
 
     private Toolbar toolbar;
+    private View searchTitleView;
     private ExpandableLayout toolbarPasteExpandableLayout;
     private Toolbar toolbarPaste;
     private ImageView iconView;
@@ -219,6 +220,7 @@ public class GroupActivity extends LockingActivity
         iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
         toolbar = findViewById(R.id.toolbar);
+        searchTitleView = findViewById(R.id.search_title);
         groupNameView = findViewById(R.id.group_name);
         toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
         toolbarPaste = findViewById(R.id.toolbar_paste);
@@ -407,6 +409,11 @@ public class GroupActivity extends LockingActivity
                     groupNameView.invalidate();
                 }
             }
+        }
+        if (currentGroupIsASearch) {
+            searchTitleView.setVisibility(View.VISIBLE);
+        } else {
+            searchTitleView.setVisibility(View.GONE);
         }
 
         // Assign icon
