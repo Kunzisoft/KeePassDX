@@ -19,13 +19,12 @@
  */
 package com.kunzisoft.keepass.utils;
 
-import com.kunzisoft.keepass.database.EntrySearchV4;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwEntryV4;
-import com.kunzisoft.keepass.database.PwGroupV4;
-import com.kunzisoft.keepass.database.SearchParametersV4;
+import com.kunzisoft.keepass.database.search.EntrySearchV4;
+import com.kunzisoft.keepass.database.search.SearchParametersV4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +157,7 @@ public class SprEngineV4 {
 		
 		List<PwEntryV4> list = new ArrayList<>();
 		// TODO type parameter
-        EntrySearchV4 entrySearchV4 = new EntrySearchV4((PwGroupV4) ctx.db.getRootGroup());
+        EntrySearchV4 entrySearchV4 = new EntrySearchV4(ctx.db.getRootGroup());
         entrySearchV4.searchEntries(sp, list);
 		
 		if (list.size() > 0) { 

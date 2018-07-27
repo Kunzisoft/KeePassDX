@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -22,7 +22,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:background="?android:attr/selectableItemBackground" >
+    android:minHeight="32dp"
+    android:background="?attr/colorPrimary" >
     <android.support.v7.widget.AppCompatImageView android:id="@+id/entry_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:lines="1"
-        style="@style/KeepassDXStyle.TextAppearance.Default"
+        style="@style/KeepassDXStyle.TextAppearance.Inverse"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

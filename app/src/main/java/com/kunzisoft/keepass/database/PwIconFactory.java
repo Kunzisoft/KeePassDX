@@ -46,8 +46,8 @@ public class PwIconFactory {
 	}
 
     public PwIconStandard getFolderIcon() {
-        return getIcon(PwIconStandard.FOLDER);
-    }
+		return getIcon(PwIconStandard.FOLDER);
+	}
 
 	public PwIconStandard getIcon(int iconId) {
 		PwIconStandard icon = (PwIconStandard) cache.get(iconId);
@@ -71,25 +71,8 @@ public class PwIconFactory {
 		return icon;
 	}
 	
-	public PwIconCustom getIcon(UUID iconUuid, byte[] data) {
-		PwIconCustom icon = (PwIconCustom) customCache.get(iconUuid);
-		
-		if (icon == null) {
-			icon = new PwIconCustom(iconUuid, data);
-			customCache.put(iconUuid, icon);
-		} else {
-			icon.imageData = data;
-		}
-		
-		return icon;
-	}
-	
-	public void setIconData(UUID iconUuid, byte[] data) {
-		getIcon(iconUuid, data);
-	}
-	
 	public void put(PwIconCustom icon) {
-		customCache.put(icon.uuid, icon);
+		customCache.put(icon.getUUID(), icon);
 	}
 
 }

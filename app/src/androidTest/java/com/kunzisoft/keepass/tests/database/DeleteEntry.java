@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwEntryV3;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
-import com.kunzisoft.keepass.search.SearchDbHelper;
+import com.kunzisoft.keepass.database.search.SearchDbHelper;
 
 import java.util.List;
 
@@ -72,8 +72,8 @@ public class DeleteEntry extends AndroidTestCase {
 		
 		// Verify the entries were removed from the search index
 		SearchDbHelper dbHelp = new SearchDbHelper(ctx);
-		PwGroup results1 = dbHelp.search(db.getPwDatabase(), ENTRY1_NAME);
-		PwGroup results2 = dbHelp.search(db.getPwDatabase(), ENTRY2_NAME);
+		PwGroup results1 = dbHelp.search(db.getPwDatabase(), ENTRY1_NAME, 100);
+		PwGroup results2 = dbHelp.search(db.getPwDatabase(), ENTRY2_NAME, 100);
 		
 		assertEquals("Entry1 was not removed from the search results", 0, results1.numbersOfChildEntries());
 		assertEquals("Entry2 was not removed from the search results", 0, results2.numbersOfChildEntries());

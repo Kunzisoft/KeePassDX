@@ -225,7 +225,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
 
 	@Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.uuid.equals(PwDatabase.UUID_ZERO)) {
+		if (customIcon == null || customIcon.getUUID().equals(PwDatabase.UUID_ZERO)) {
 			return super.getIcon();
 		} else {
 			return customIcon;

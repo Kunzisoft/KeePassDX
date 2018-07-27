@@ -26,8 +26,8 @@ import java.util.UUID;
 public class PwIconCustom extends PwIcon {
 	public static final PwIconCustom ZERO = new PwIconCustom(PwDatabase.UUID_ZERO, new byte[0]);
 	
-	public final UUID uuid;
-	public byte[] imageData;
+	private final UUID uuid;
+	private byte[] imageData;
 	
 	public PwIconCustom(UUID uuid, byte[] data) {
 	    super();
@@ -48,6 +48,23 @@ public class PwIconCustom extends PwIcon {
 	}
 
 	@Override
+	public boolean isUnknown() {
+		return uuid == null || this.equals(ZERO);
+	}
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    @Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeSerializable(uuid);
 		dest.writeByteArray(imageData);

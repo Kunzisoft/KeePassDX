@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nodes_list"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:attr/windowBackground" />
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/not_found_container"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/not_found_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/img_not_found"/>
+        <TextView
+            android:id="@+id/not_found_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_results"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/nodes_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/windowBackground" />
+</FrameLayout>

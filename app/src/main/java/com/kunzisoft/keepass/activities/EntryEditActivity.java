@@ -429,7 +429,7 @@ public class EntryEditActivity extends LockingHideActivity
             }
         }
 
-        newEntry.endToManageFieldReferences();
+        newEntry.stopToManageFieldReferences();
 
         return newEntry;
 	}
@@ -484,7 +484,7 @@ public class EntryEditActivity extends LockingHideActivity
         }
 
 		// Don't start the field reference manager, we want to see the raw ref
-        mEntry.endToManageFieldReferences();
+        mEntry.stopToManageFieldReferences();
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());

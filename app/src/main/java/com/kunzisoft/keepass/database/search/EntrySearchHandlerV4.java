@@ -17,8 +17,11 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.search;
 
+import com.kunzisoft.keepass.database.PwEntry;
+import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.utils.StrUtil;
 import com.kunzisoft.keepass.utils.UuidUtil;
 

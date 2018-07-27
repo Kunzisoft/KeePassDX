@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.search;
+package com.kunzisoft.keepass.database.search;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -54,31 +54,33 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, 
 	private boolean omitBackup() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mCtx);
 		return prefs.getBoolean(mCtx.getString(R.string.omitbackup_key), mCtx.getResources().getBoolean(R.bool.omitbackup_default));
-		
 	}
-	
-	public PwGroupSearch search(PwDatabaseVersion pm, String qStr) {
+
+	public PwGroupSearch search(PwDatabaseVersion pm, String qStr, int max) {
 
 		PwGroupSearch group = pm.createGroup();
-		group.setName(mCtx.getString(R.string.search_results));
+		group.setName("\"" + qStr + "\"");
 		group.setEntries(new ArrayList<>());
 		
 		// Search all entries
 		Locale loc = Locale.getDefault();
 		qStr = qStr.toLowerCase(loc);
 		boolean isOmitBackup = omitBackup();
-		
+
+		// TODO Search from the current group
 		Queue<PwGroupSearch> worklist = new LinkedList<>();
 		if (pm.getRootGroup() != null) {
 			worklist.add(pm.getRootGroup());
 		}
-		
+
 		while (worklist.size() != 0) {
 			PwGroupSearch top = worklist.remove();
 			
 			if (pm.isGroupSearchable(top, isOmitBackup)) {
 				for (PwEntrySearch entry : top.getChildEntries()) {
 					processEntries(entry, group.getChildEntries(), qStr, loc);
+					if (group.numbersOfChildEntries() >= max)
+					    return group;
 				}
 				
 				for (PwGroupSearch childGroup : top.getChildGroups()) {

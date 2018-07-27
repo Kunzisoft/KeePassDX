@@ -84,7 +84,7 @@ public class PwEntryOutputV3 {
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getIconStandard().iconId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getIconStandard().getIconId()));
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");

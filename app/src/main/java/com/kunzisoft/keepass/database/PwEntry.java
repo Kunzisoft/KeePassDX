@@ -76,7 +76,7 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
     }
 
 	public void startToManageFieldReferences(PwDatabase db) {}
-	public void endToManageFieldReferences() {}
+	public void stopToManageFieldReferences() {}
 
 	public abstract String getTitle();
     public abstract void setTitle(String title);

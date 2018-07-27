@@ -56,13 +56,43 @@
                     app:popupTheme="?attr/toolbarPopupAppearance"
                     android:elevation="4dp"
                     tools:targetApi="lollipop">
-                    <com.kunzisoft.keepass.view.GroupHeaderView
+                    <LinearLayout
                         android:id="@+id/group_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_below="@+id/toolbar" />
+                        android:layout_below="@+id/toolbar"
+                        android:orientation="vertical">
+                        <TextView android:id="@+id/search_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/search_results"
+                            android:visibility="gone"
+                            style="@style/KeepassDXStyle.TextAppearance.DefaultTextOnPrimary" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="@dimen/list_margin"
+                            android:layout_marginEnd="@dimen/list_margin">
+                            <android.support.v7.widget.AppCompatImageView android:id="@+id/icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:scaleType="fitXY" />
+                            <android.support.v7.widget.AppCompatTextView android:id="@+id/group_name"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center_vertical"
+                                android:layout_weight="1"
+                                android:text="@string/root"
+                                android:maxLines="1"
+                                style="@style/KeepassDXStyle.TextAppearance.TitleTextOnPrimary" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -70,10 +100,11 @@
 
         <FrameLayout
             android:id="@+id/nodes_list_fragment_container"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@+id/toolbar"
+            android:background="?android:attr/windowBackground" />
 
         <com.kunzisoft.keepass.view.AddNodeButtonView
             android:id="@+id/add_node_button"

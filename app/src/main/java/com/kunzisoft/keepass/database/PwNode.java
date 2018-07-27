@@ -33,7 +33,7 @@ import org.joda.time.LocalDate;
 public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger, Parcelable, Cloneable {
 
     protected Parent parent = null;
-    protected PwIconStandard icon = new PwIconStandard(0);
+    protected PwIconStandard icon = new PwIconStandard();
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();
     protected PwDate lastAccess = new PwDate();

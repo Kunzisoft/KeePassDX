@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.iterator;
 
 import com.kunzisoft.keepass.database.PwEntryV3;
-import com.kunzisoft.keepass.database.SearchParameters;
+import com.kunzisoft.keepass.database.search.SearchParameters;
 
 import java.util.NoSuchElementException;
 

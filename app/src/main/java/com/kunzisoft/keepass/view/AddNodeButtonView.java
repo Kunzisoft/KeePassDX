@@ -189,7 +189,7 @@ public class AddNodeButtonView extends RelativeLayout {
         }
     }
 
-    public boolean isVisible() {
+    public boolean isEnable() {
         return getVisibility() == VISIBLE;
     }
 
