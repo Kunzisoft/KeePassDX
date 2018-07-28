@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconFactory;
-import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.cursor.EntryCursor;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 
@@ -119,7 +118,6 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
 
             pwEntry = database.createEntry();
             database.populateEntry(pwEntry, cursor);
-
         }
         return pwEntry;
     }

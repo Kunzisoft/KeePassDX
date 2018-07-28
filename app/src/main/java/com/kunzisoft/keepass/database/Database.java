@@ -210,9 +210,9 @@ public class Database {
                 try {
                     switch (getPwDatabase().getVersion()) {
                         case V3:
-                            EntryCursor.addEntry(cursor, (PwEntryV3) entry, i);
+                            EntryCursor.addEntry(cursor, i, (PwEntryV3) entry);
                         case V4:
-                            EntryCursor.addEntry(cursor, (PwEntryV4) entry, i);
+                            EntryCursor.addEntry(cursor, i, (PwEntryV4) entry);
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "This version of PwGroup can't be populated", e);
