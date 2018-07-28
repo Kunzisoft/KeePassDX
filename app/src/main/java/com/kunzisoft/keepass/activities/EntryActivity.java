@@ -330,8 +330,9 @@ public class EntryActivity extends LockingHideActivity {
                 getString(R.string.copy_field, getString(R.string.entry_user_name)))
         );
 
-		entryContentsView.assignPassword(mEntry.getPassword());
-		if (PreferencesUtil.allowCopyPasswordAndProtectedFields(this)) {
+        boolean allowCopyPassword =  PreferencesUtil.allowCopyPasswordAndProtectedFields(this);
+		entryContentsView.assignPassword(mEntry.getPassword(), allowCopyPassword);
+		if (allowCopyPassword) {
             entryContentsView.assignPasswordCopyListener(view ->
                     clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(),
                             getString(R.string.copy_field, getString(R.string.entry_password)))

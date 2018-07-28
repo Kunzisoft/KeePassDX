@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -129,13 +130,18 @@ public class EntryContentsView extends LinearLayout {
         return userNameContainerView.getVisibility() == VISIBLE;
     }
 
-    public void assignPassword(String password) {
+    public void assignPassword(String password, boolean allowCopyPassword) {
         if (password != null && !password.isEmpty()) {
             passwordContainerView.setVisibility(VISIBLE);
             passwordView.setText(password);
             if (fontInVisibility)
                 Util.applyFontVisibilityTo(getContext(), passwordView);
-            passwordActionView.setVisibility(GONE);
+            if (!allowCopyPassword) {
+                passwordActionView.setEnabled(false);
+                passwordActionView.setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark));
+            } else {
+                passwordActionView.setEnabled(true);
+            }
         } else {
             passwordContainerView.setVisibility(GONE);
         }
@@ -143,7 +149,6 @@ public class EntryContentsView extends LinearLayout {
 
     public void assignPasswordCopyListener(OnClickListener onClickListener) {
         passwordActionView.setOnClickListener(onClickListener);
-        passwordActionView.setVisibility(VISIBLE);
     }
 
     public boolean isPasswordPresent() {
