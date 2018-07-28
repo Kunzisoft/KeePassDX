@@ -1,0 +1,4 @@
+ * Nouvelle recherche dans un seul fragment
+ * Suggestions de recherche
+ * Correction du mode lecture seule
+ * Ajout de traductions

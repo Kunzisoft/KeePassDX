@@ -1,0 +1,4 @@
+ * New search in a single fragment
+ * Search suggestions
+ * Fix read-only mode
+ * Added translations
