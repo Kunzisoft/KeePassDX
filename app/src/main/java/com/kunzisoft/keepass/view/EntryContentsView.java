@@ -20,6 +20,8 @@
 package com.kunzisoft.keepass.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -40,6 +42,7 @@ import java.util.Date;
 public class EntryContentsView extends LinearLayout {
 
     private boolean fontInVisibility;
+    private int colorAccent;
 
     private View userNameContainerView;
     private TextView userNameView;
@@ -78,6 +81,11 @@ public class EntryContentsView extends LinearLayout {
         timeFormat = android.text.format.DateFormat.getTimeFormat(context);
 		
 		inflate(context);
+
+        int[] attrColorAccent = {R.attr.colorAccentCompat};
+        TypedArray taColorAccent = context.getTheme().obtainStyledAttributes(attrColorAccent);
+        this.colorAccent = taColorAccent.getColor(0, Color.BLACK);
+        taColorAccent.recycle();
 	}
 	
 	private void inflate(Context context) {
@@ -137,10 +145,9 @@ public class EntryContentsView extends LinearLayout {
             if (fontInVisibility)
                 Util.applyFontVisibilityTo(getContext(), passwordView);
             if (!allowCopyPassword) {
-                passwordActionView.setEnabled(false);
                 passwordActionView.setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark));
             } else {
-                passwordActionView.setEnabled(true);
+                passwordActionView.setColorFilter(colorAccent);
             }
         } else {
             passwordContainerView.setVisibility(GONE);
@@ -148,6 +155,8 @@ public class EntryContentsView extends LinearLayout {
     }
 
     public void assignPasswordCopyListener(OnClickListener onClickListener) {
+	    if (onClickListener == null)
+	        setClickable(false);
         passwordActionView.setOnClickListener(onClickListener);
     }
 

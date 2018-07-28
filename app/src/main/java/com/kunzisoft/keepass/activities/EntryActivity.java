@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -65,6 +66,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import static com.kunzisoft.keepass.settings.PreferencesUtil.isClipboardNotificationsEnable;
+import static com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields;
 
 public class EntryActivity extends LockingHideActivity {
     private final static String TAG = EntryActivity.class.getName();
@@ -330,13 +332,39 @@ public class EntryActivity extends LockingHideActivity {
                 getString(R.string.copy_field, getString(R.string.entry_user_name)))
         );
 
-        boolean allowCopyPassword =  PreferencesUtil.allowCopyPasswordAndProtectedFields(this);
+        boolean allowCopyPassword = PreferencesUtil.allowCopyPasswordAndProtectedFields(this);
 		entryContentsView.assignPassword(mEntry.getPassword(), allowCopyPassword);
 		if (allowCopyPassword) {
             entryContentsView.assignPasswordCopyListener(view ->
                     clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(),
                             getString(R.string.copy_field, getString(R.string.entry_password)))
             );
+        } else {
+		    // If dialog not already shown
+            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)) {
+                entryContentsView.assignPasswordCopyListener(v -> {
+                    String message = getString(R.string.allow_copy_password_warning) +
+                            "\n\n" +
+                            getString(R.string.clipboard_warning);
+                    AlertDialog warningDialog = new AlertDialog.Builder(EntryActivity.this)
+                            .setMessage(message).create();
+                    warningDialog.setButton(AlertDialog.BUTTON1, getText(android.R.string.ok),
+                            (dialog, which) -> {
+                                PreferencesUtil.setAllowCopyPasswordAndProtectedFields(EntryActivity.this, true);
+                                dialog.dismiss();
+                                fillData();
+                            });
+                    warningDialog.setButton(AlertDialog.BUTTON2, getText(android.R.string.cancel),
+                            (dialog, which) -> {
+                                PreferencesUtil.setAllowCopyPasswordAndProtectedFields(EntryActivity.this, false);
+                                dialog.dismiss();
+                                fillData();
+                            });
+                    warningDialog.show();
+                });
+            } else {
+                entryContentsView.assignPasswordCopyListener(null);
+            }
         }
 
         entryContentsView.assignURL(mEntry.getUrl());

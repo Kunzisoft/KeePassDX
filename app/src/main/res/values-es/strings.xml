@@ -229,7 +229,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="password_size_summary">Establecer el tamaño predeterminado de la contraseña generada</string>
     <string name="list_password_generator_options_title">Caracteres de contraseña</string>
     <string name="list_password_generator_options_summary">Establecer los caracteres predeterminados del generador de contraseñas</string>
-    <string name="notifications">Notificaciones</string>
+    <string name="clipboard">Portapapeles</string>
     <string name="clipboard_notifications_title">Notificaciones del Portapapeles</string>
     <string name="clipboard_notifications_summary">Habilitar las notificaciones del portapapeles para copiar el nombre de usuario y la contraseña</string>
     <string name="lock">Bloquear</string>

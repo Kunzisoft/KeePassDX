@@ -254,7 +254,7 @@
     <string name="autofill_sign_in_prompt">Mit KeePass DX anmelden</string>
     <string name="set_autofill_service_title">Standard Autofill-Dienst auswählen</string>
     <string name="set_autofill_service_summary">Dienst aktivieren, um automatisch Eingabefelder anderer Anwendungen auszufüllen</string>
-    <string name="notifications">Benachrichtigungen</string>
+    <string name="clipboard">Zwischenablage</string>
     <string name="fingerprint_delete_all_title">Verschlüsselungskeys löschen</string>
     <string name="fingerprint_delete_all_summary">Alle Verschlüsselungsschlüssel für Fingerabdruckerkennung löschen</string>
     <string name="fingerprint_delete_all_warning">Sind Sie sicher, dass Sie alle Schlüssel für die Fingerabdruckerkennung löschen möchten?</string>

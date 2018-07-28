@@ -213,10 +213,10 @@
     <string name="password_size_summary">Set the default size of the generated password</string>
     <string name="list_password_generator_options_title">Password characters</string>
     <string name="list_password_generator_options_summary">Set the default password generator characters</string>
-    <string name="notifications">Notifications</string>
+    <string name="clipboard">Clipboard</string>
     <string name="clipboard_notifications_title">Clipboard Notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy entry fields</string>
-    <string name="clipboard_warning">If your device is not able to delete clips from the clipboard automatically, as some are, delete the copied item from your clipboard history manually.</string>
+    <string name="clipboard_warning">If your device is not able to delete clips from the clipboard automatically, delete the copied item from your clipboard history manually.</string>
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
@@ -235,7 +235,7 @@
     <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
     <string name="fingerprint_delete_all_warning">Are you sure you want to delete all the keys related to fingerprints?</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
-    <string name="unavailable_feature_version">Your Android version %1$s does not meet the minimum version (%2$s) required.</string>
+    <string name="unavailable_feature_version">Your Android version %1$s does not meet the minimum version %2$s required.</string>
     <string name="unavailable_feature_hardware">The hardware is not detected.</string>
     <string name="file_name">Filename</string>
     <string name="path">Path</string>

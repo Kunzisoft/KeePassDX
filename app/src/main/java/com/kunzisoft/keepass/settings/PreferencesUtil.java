@@ -139,10 +139,24 @@ public class PreferencesUtil {
                 ctx.getResources().getBoolean(R.bool.auto_open_file_uri_default));
     }
 
+    public static boolean isFirstTimeAskAllowCopyPasswordAndProtectedFields(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_first_time_key),
+                ctx.getResources().getBoolean(R.bool.allow_copy_password_first_time_default));
+    }
+
     public static boolean allowCopyPasswordAndProtectedFields(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_key),
                 ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
+    }
+
+    public static void setAllowCopyPasswordAndProtectedFields(Context ctx, boolean allowCopy) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        prefs.edit()
+                .putBoolean(ctx.getString(R.string.allow_copy_password_first_time_key), false)
+                .putBoolean(ctx.getString(R.string.allow_copy_password_key), allowCopy)
+                .apply();
     }
 
     public static String getIconPackSelectedId(Context context) {

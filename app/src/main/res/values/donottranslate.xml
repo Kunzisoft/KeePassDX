@@ -77,6 +77,7 @@
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
+    <string name="allow_copy_password_first_time_key" translatable="false">allow_copy_password_first_time_key</string>
     <string name="database_general_key" translatable="false">database_general_key</string>
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
@@ -121,6 +122,7 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <bool name="allow_copy_password_default" translatable="false">false</bool>
+    <bool name="allow_copy_password_first_time_default" translatable="false">true</bool>
     <bool name="enable_education_screens_default" translatable="false">true</bool>
     <bool name="education_create_db_default" translatable="false">false</bool>
     <bool name="education_select_db_default" translatable="false">false</bool>

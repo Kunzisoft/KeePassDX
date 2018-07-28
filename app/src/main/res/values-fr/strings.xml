@@ -206,7 +206,7 @@
     <string name="password_size_summary">Définir la taille par défaut du mot de passe généré</string>
     <string name="list_password_generator_options_title">Caractères de mot de passe</string>
     <string name="list_password_generator_options_summary">Définir les caractères par défaut du générateur de mot de passe</string>
-    <string name="notifications">Notifications</string>
+    <string name="clipboard">Presse-papiers</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
     <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier les champs d\'entrées</string>
     <string name="clipboard_warning">Certains appareils ne sont pas en mesure de supprimer automatiquement les éléments du presse-papiers. Si votre gestionnaire n\'autorise pas cette suppression, vous devrez supprimer manuellement l\'élément copié de l\'historique de votre presse-papiers.</string>

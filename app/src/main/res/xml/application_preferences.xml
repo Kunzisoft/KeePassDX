@@ -51,14 +51,6 @@
         android:title="@string/lock">
 
         <ListPreference
-            android:key="@string/clipboard_timeout_key"
-            android:title="@string/clipboard_timeout"
-            android:summary="@string/clipboard_timeout_summary"
-            android:entries="@array/timeout_options"
-            android:entryValues="@array/timeout_values"
-            android:dialogTitle="@string/clipboard_timeout"
-            android:defaultValue="@string/clipboard_timeout_default"/>
-        <ListPreference
             android:key="@string/app_timeout_key"
             android:title="@string/app_timeout"
             android:summary="@string/app_timeout_summary"
