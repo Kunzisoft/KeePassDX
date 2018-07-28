@@ -117,7 +117,7 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
             cursor.move(position)) {
 
             pwEntry = database.createEntry();
-            database.populateEntry(pwEntry, cursor);
+            database.populateEntry(pwEntry, (EntryCursor) cursor);
         }
         return pwEntry;
     }

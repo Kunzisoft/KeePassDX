@@ -210,9 +210,9 @@ public class Database {
                 try {
                     switch (getPwDatabase().getVersion()) {
                         case V3:
-                            EntryCursor.addEntry(cursor, i, (PwEntryV3) entry);
+                            cursor.addEntry((PwEntryV3) entry);
                         case V4:
-                            EntryCursor.addEntry(cursor, i, (PwEntryV4) entry);
+                            cursor.addEntry((PwEntryV4) entry);
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "This version of PwGroup can't be populated", e);
@@ -222,16 +222,16 @@ public class Database {
         return cursor;
     }
 
-    public void populateEntry(PwEntry pwEntry, Cursor cursor) {
+    public void populateEntry(PwEntry pwEntry, EntryCursor cursor) {
         // TODO invert field reference manager
         pwEntry.startToManageFieldReferences(getPwDatabase());
         PwIconFactory iconFactory = getPwDatabase().getIconFactory();
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
-                    EntryCursor.populateEntry(cursor, (PwEntryV3) pwEntry, iconFactory);
+                    cursor.populateEntry((PwEntryV3) pwEntry, iconFactory);
                 case V4:
-                    EntryCursor.populateEntry(cursor, (PwEntryV4) pwEntry, iconFactory);
+                    cursor.populateEntry((PwEntryV4) pwEntry, iconFactory);
             }
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be populated", e);

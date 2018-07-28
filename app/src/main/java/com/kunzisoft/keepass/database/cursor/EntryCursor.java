@@ -1,6 +1,5 @@
 package com.kunzisoft.keepass.database.cursor;
 
-import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 
@@ -16,18 +15,20 @@ import java.util.UUID;
 
 public class EntryCursor extends MatrixCursor {
 
+    private long entryId;
     public static final String _ID = BaseColumns._ID;
-    public static final String COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS = "UUIDMostSignificantBits";
-    public static final String COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS = "UUIDLeastSignificantBits";
+    public static final String COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS = "UUID_most_significant_bits";
+    public static final String COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS = "UUID_least_significant_bits";
     public static final String COLUMN_INDEX_TITLE = "title";
-    public static final String COLUMN_INDEX_ICON_STANDARD = "iconStandard";
-    public static final String COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS = "iconCustomUUIDMostSignificantBits";
-    public static final String COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS = "iconCustomUUIDLeastSignificantBits";
+    public static final String COLUMN_INDEX_ICON_STANDARD = "icon_standard";
+    public static final String COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS = "icon_custom_UUID_most_significant_bits";
+    public static final String COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS = "icon_custom_UUID_least_significant_bits";
     public static final String COLUMN_INDEX_USERNAME = "username";
     public static final String COLUMN_INDEX_PASSWORD = "password";
     public static final String COLUMN_INDEX_URL = "URL";
     public static final String COLUMN_INDEX_NOTES = "notes";
-    // TODO custom elements
+
+    private ExtraFieldCursor extraFieldCursor;
 
     public EntryCursor() {
         super(new String[]{ _ID,
@@ -41,10 +42,12 @@ public class EntryCursor extends MatrixCursor {
                 COLUMN_INDEX_PASSWORD,
                 COLUMN_INDEX_URL,
                 COLUMN_INDEX_NOTES});
+        entryId = 0;
+        extraFieldCursor = new ExtraFieldCursor();
     }
 
-    public static void addEntry(MatrixCursor cursor, int id, PwEntryV3 entry) {
-        cursor.addRow(new Object[] {id,
+    public void addEntry(PwEntryV3 entry) {
+        addRow(new Object[] {entryId,
                 entry.getUUID().getMostSignificantBits(),
                 entry.getUUID().getLeastSignificantBits(),
                 entry.getTitle(),
@@ -54,12 +57,12 @@ public class EntryCursor extends MatrixCursor {
                 entry.getUsername(),
                 entry.getPassword(),
                 entry.getUrl(),
-                entry.getNotes(),
-                });
+                entry.getNotes()});
+        entryId++;
     }
 
-    public static void addEntry(MatrixCursor cursor, int id, PwEntryV4 entry) {
-        cursor.addRow(new Object[] {id,
+    public void addEntry(PwEntryV4 entry) {
+        addRow(new Object[] {entryId,
                 entry.getUUID().getMostSignificantBits(),
                 entry.getUUID().getLeastSignificantBits(),
                 entry.getTitle(),
@@ -70,34 +73,53 @@ public class EntryCursor extends MatrixCursor {
                 entry.getPassword(),
                 entry.getUrl(),
                 entry.getNotes()});
+
+        entry.getFields().doActionToAllCustomProtectedField((key, value) -> {
+            extraFieldCursor.addExtraField(entryId, key, value);
+        });
+
+        entryId++;
     }
 
-    private static void populateEntryBaseVersion(Cursor cursor, PwEntry pwEntry, PwIconFactory iconFactory) {
+    private void populateEntryBaseVersion(PwEntry pwEntry, PwIconFactory iconFactory) {
         pwEntry.setUUID(
-                new UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
-                        cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS))));
-        pwEntry.setTitle(cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE)));
+                new UUID(getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
+                        getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS))));
+        pwEntry.setTitle(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE)));
 
-        PwIconStandard iconStandard = iconFactory.getIcon(cursor.getInt(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_STANDARD)));
+        PwIconStandard iconStandard = iconFactory.getIcon(getInt(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_STANDARD)));
         pwEntry.setIcon(iconStandard);
 
-        pwEntry.setUsername(cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_USERNAME)));
-        pwEntry.setPassword(cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_PASSWORD)));
-        pwEntry.setUrl(cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_URL)));
-        pwEntry.setNotes(cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_NOTES)));
+        pwEntry.setUsername(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_USERNAME)));
+        pwEntry.setPassword(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_PASSWORD)));
+        pwEntry.setUrl(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_URL)));
+        pwEntry.setNotes(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_NOTES)));
     }
 
-    public static void populateEntry(Cursor cursor, PwEntryV3 pwEntry, PwIconFactory iconFactory) {
-        populateEntryBaseVersion(cursor, pwEntry, iconFactory);
+    public void populateEntry(PwEntryV3 pwEntry, PwIconFactory iconFactory) {
+        populateEntryBaseVersion(pwEntry, iconFactory);
     }
 
-    public static void populateEntry(Cursor cursor, PwEntryV4 pwEntry, PwIconFactory iconFactory) {
-        populateEntryBaseVersion(cursor, pwEntry, iconFactory);
+    public void populateEntry(PwEntryV4 pwEntry, PwIconFactory iconFactory) {
+        populateEntryBaseVersion(pwEntry, iconFactory);
 
+        // Retrieve custom icon
         PwIconCustom iconCustom = iconFactory.getIcon(
-                new UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
-                        cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))));
+                new UUID(getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
+                        getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))));
         pwEntry.setCustomIcon(iconCustom);
+
+        // Retrieve extra fields
+        if (extraFieldCursor.moveToFirst()) {
+            while (!extraFieldCursor.isAfterLast()) {
+                // Add a new extra field only if entryId is the one we want
+                if (extraFieldCursor.getLong(extraFieldCursor.getColumnIndex(ExtraFieldCursor.FOREIGN_KEY_ENTRY_ID))
+                        == getLong(getColumnIndex(EntryCursor._ID))) {
+                    extraFieldCursor.populateExtraFieldInEntry(pwEntry);
+                }
+                extraFieldCursor.moveToNext();
+            }
+        }
     }
 
 }
