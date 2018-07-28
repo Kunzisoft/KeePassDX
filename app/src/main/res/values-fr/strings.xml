@@ -370,4 +370,15 @@
     <string name="allow_no_password_title">Autoriser aucun mot de passe</string>
     <string name="allow_no_password_summary">Activer le bouton d\'ouverture si aucune identification de mot de passe n\'est sélectionnée.</string>
 
+    <string name="menu_file_selection_read_only">Lecture seule</string>
+    <string name="menu_open_file_read_and_write">Lecture et écriture</string>
+    <string name="enable_read_only_title">Lecture seule</string>
+    <string name="enable_read_only_summary">Par défaut, ouvrir une base de données en mode lecture seule.</string>
+
+    <string name="education_read_only_title">Activer la lecture seule</string>
+    <string name="education_read_only_summary">Changez le mode d\'ouverture de la session.
+\n
+\nEn mode lecture seule, vous empêchez les modifications involontaires de la base de données.
+\n
+\nEn mode écriture, vous pouvez ajouter, supprimer ou modifier tous les éléments comme vous le souhaitez.</string>
     </resources>
