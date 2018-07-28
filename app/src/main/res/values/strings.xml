@@ -29,7 +29,7 @@
     <string name="encryption_algorithm">Encryption Algorithm</string>
     <string name="key_derivation_function">Key Derivation Function</string>
     <string name="app_timeout">App timeout</string>
-    <string name="app_timeout_summary">Time before locking database when the app is inactive.</string>
+    <string name="app_timeout_summary">Time before locking database when the app is inactive</string>
     <string name="application">App</string>
     <string name="beta_dontask">Don\'t show again</string>
     <string name="brackets">Brackets</string>
@@ -255,7 +255,7 @@
     <string name="auto_open_file_uri_title">Auto open selected file</string>
     <string name="auto_open_file_uri_summary">Open a file from the selection screen automatically after a selection is made in the file browser</string>
     <string name="allow_copy_password_title">Copy of password</string>
-    <string name="allow_copy_password_summary">Allow the copy of the password and protected fields to the clipboard.</string>
+    <string name="allow_copy_password_summary">Allow the copy of the password and protected fields to the clipboard</string>
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
     <string name="warning_disabling_storage_access_framework">WARNING: Disabling this feature may result in an inability to open or save databases</string>
     <string name="open_link_database">Link of the KDBX file to open</string>
@@ -268,7 +268,7 @@
 
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields easily.</string>
+    <string name="magic_keyboard_summary">Activate a custom keyboard that populates your passwords and all your identity fields easily</string>
     <string name="magic_keyboard_preference_title">Magikeyboard settings</string>
     <string name="magic_keyboard_configure_title">How to configure the keyboard for secure form filling?</string>
     <string name="magic_keyboard_activate_setting_text">Activate the Magikeyboard in the device settings.</string>
@@ -284,9 +284,9 @@
     <string name="keyboard_back_main_keyboard_text">Go back to your main keyboard.</string>
 
     <string name="allow_no_password_title">Allow no password</string>
-    <string name="allow_no_password_summary">Enable the open button if no password identification is selected.</string>
+    <string name="allow_no_password_summary">Enable the open button if no password identification is selected</string>
     <string name="enable_read_only_title">Read only</string>
-    <string name="enable_read_only_summary">By default, open databases read-only.</string>
+    <string name="enable_read_only_summary">By default, open databases read-only</string>
 
     <string name="enable_education_screens_title">Education screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
