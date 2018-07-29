@@ -397,7 +397,7 @@
     <string name="list_password_generator_choice_key">list_password_generator_choice_key</string>
     <string name="list_password_generator_choice_title">Default password generator</string>
     <string name="list_password_generator_choice_summary">Choose a default password generator</string>
-    <string name="list_password_generator_choice_default_value">1</string>
+    <string name="list_password_generator_choice_default_value">2</string>
     <string-array name="list_password_generator_choice_entries">
         <item>Traditional</item>
         <item>Modified Diceware</item>
