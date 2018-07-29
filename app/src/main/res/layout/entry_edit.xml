@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft,
+ Pacharapol Withayasakpunt
      
  This file is part of KeePass DX.
 
@@ -137,13 +138,28 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/generate_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/generate_pin_button"
+                    android:layout_toStartOf="@id/generate_pin_button"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_key_white_24dp"
+                    android:tint="?attr/colorAccent" />
+
+                <Button
+                    android:id="@+id/generate_pin_button"
+                    android:text="@string/generate_pin_icon"
+                    android:textColor="@color/orange"
+                    android:background="@color/transparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="8dp"
                     android:src="@drawable/ic_key_white_24dp"
                     android:tint="?attr/colorAccent" />
+
             </RelativeLayout>
 
             <!--  URL -->
@@ -173,7 +189,7 @@
                     android:lines="4"
                     android:maxLines="10"
                     android:inputType="textMultiLine"
-                    android:hint="@string/entry_comment" />
+                    android:hint="@string/entry_notes" />
             </android.support.design.widget.TextInputLayout>
 
 			<LinearLayout

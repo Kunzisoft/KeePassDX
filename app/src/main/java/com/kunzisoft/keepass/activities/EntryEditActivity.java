@@ -1,5 +1,6 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft,
+ * Pacharapol Withayasakpunt
  *     
  * This file is part of KeePass DX.
  *
@@ -54,7 +55,9 @@ import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
-import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
+import com.kunzisoft.keepass.dialogs.GenerateDicewarePasswordDialogFragment;
+import com.kunzisoft.keepass.dialogs.GeneratePinDialogFragment;
+import com.kunzisoft.keepass.dialogs.GenerateTraditionalPasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.lock.LockingActivity;
@@ -75,7 +78,8 @@ import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.UNDEFINED_I
 
 public class EntryEditActivity extends LockingHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
-        GeneratePasswordDialogFragment.GeneratePasswordListener {
+        GenerateDicewarePasswordDialogFragment.GeneratePasswordListener,
+        GeneratePinDialogFragment.GeneratePinListener {
 
     private static final String TAG = EntryEditActivity.class.getName();
 
@@ -108,6 +112,9 @@ public class EntryEditActivity extends LockingHideActivity
     private View addNewFieldView;
     private View saveView;
     private int iconColor;
+
+    // Additional Views
+    private View generatePinView;
 
 	/**
 	 * Launch EntryEditActivity to update an existing entry
@@ -160,6 +167,8 @@ public class EntryEditActivity extends LockingHideActivity
         entryConfirmationPasswordView = findViewById(R.id.entry_confpassword);
         entryCommentView = findViewById(R.id.entry_comment);
         entryExtraFieldsContainer = findViewById(R.id.advanced_container);
+
+//        entryCommentView.setTransformationMethod(new PasswordTransformationMethod());
 		
 		// Likely the app has been killed exit the activity
 		Database db = App.getDB();
@@ -207,6 +216,10 @@ public class EntryEditActivity extends LockingHideActivity
 		// Generate password button
         generatePasswordView = findViewById(R.id.generate_button);
         generatePasswordView.setOnClickListener(v -> openPasswordGenerator());
+
+        // Generate PIN button
+        generatePinView = findViewById(R.id.generate_pin_button);
+        generatePinView.setOnClickListener(v -> openPinGenerator());
 		
 		// Save button
 		saveView = findViewById(R.id.entry_save);
@@ -227,8 +240,35 @@ public class EntryEditActivity extends LockingHideActivity
      * Open the password generator fragment
      */
 	private void openPasswordGenerator() {
-        GeneratePasswordDialogFragment generatePasswordDialogFragment = new GeneratePasswordDialogFragment();
-        generatePasswordDialogFragment.show(getSupportFragmentManager(), "PasswordGeneratorFragment");
+        switch (PreferencesUtil.getDefaultPasswordGenerator(getApplicationContext())) {
+            case 2:
+                ;
+            case 3:
+                GenerateDicewarePasswordDialogFragment generateDicewarePasswordDialogFragment
+                        = new GenerateDicewarePasswordDialogFragment();
+                generateDicewarePasswordDialogFragment.show(getSupportFragmentManager(),
+                        "DicewarePasswordGeneratorFragment");
+                break;
+//            case 3:
+//                GenerateTrueDicewarePasswordDialogFragment generateTrueDicewarePasswordDialogFragment
+//                        = new GenerateTrueDicewarePasswordDialogFragment();
+//                generateTrueDicewarePasswordDialogFragment.show(getSupportFragmentManager(),
+//                        "TrueDicewarePasswordGeneratorFragment");
+//                break;
+            default:
+                GenerateTraditionalPasswordDialogFragment generateTraditionalPasswordDialogFragment
+                        = new GenerateTraditionalPasswordDialogFragment();
+                generateTraditionalPasswordDialogFragment.show(getSupportFragmentManager(),
+                        "TraditionalPasswordGeneratorFragment");
+        }
+    }
+
+    /**
+     * Open the pin generator fragment
+     */
+    private void openPinGenerator() {
+        GeneratePinDialogFragment generatePinDialogFragment = new GeneratePinDialogFragment();
+        generatePinDialogFragment.show(getSupportFragmentManager(), "PinGeneratorFragment");
     }
 
     /**
@@ -529,7 +569,8 @@ public class EntryEditActivity extends LockingHideActivity
 
     @Override
     public void acceptPassword(Bundle bundle) {
-        String generatedPassword = bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID);
+        String generatedPassword = bundle.getString(GenerateDicewarePasswordDialogFragment.KEY_PASSWORD_ID);
+
         entryPasswordView.setText(generatedPassword);
         entryConfirmationPasswordView.setText(generatedPassword);
 

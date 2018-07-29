@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -40,24 +40,24 @@ import com.kunzisoft.keepass.utils.Util;
 
 import java.util.Set;
 
-public class GeneratePasswordDialogFragment extends DialogFragment {
+public class GenerateTraditionalPasswordDialogFragment extends DialogFragment {
 
     public static final String KEY_PASSWORD_ID = "KEY_PASSWORD_ID";
 
-	private GeneratePasswordListener mListener;
-	private View root;
-	private EditText lengthTextView;
-	private EditText passwordView;
+    private GeneratePasswordListener mListener;
+    private View root;
+    private EditText lengthTextView;
+    private EditText passwordView;
 
-	private CompoundButton uppercaseBox;
-	private CompoundButton lowercaseBox;
-	private CompoundButton digitsBox;
-	private CompoundButton minusBox;
-	private CompoundButton underlineBox;
-	private CompoundButton spaceBox;
-	private CompoundButton specialsBox;
-	private CompoundButton bracketsBox;
-	private CompoundButton extendedBox;
+    private CompoundButton uppercaseBox;
+    private CompoundButton lowercaseBox;
+    private CompoundButton digitsBox;
+    private CompoundButton minusBox;
+    private CompoundButton underlineBox;
+    private CompoundButton spaceBox;
+    private CompoundButton specialsBox;
+    private CompoundButton bracketsBox;
+    private CompoundButton extendedBox;
 
     @Override
     public void onAttach(Context context) {
@@ -70,12 +70,12 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         }
     }
 
-	@NonNull
+    @NonNull
     @Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-        root = inflater.inflate(R.layout.generate_password, null);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        root = inflater.inflate(R.layout.generate_traditional_password, null);
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
@@ -130,10 +130,10 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
         // Pre-populate a password to possibly save the user a few clicks
         fillPassword();
 
-		return builder.create();
-	}
+        return builder.create();
+    }
 
-	private void assignDefaultCharacters() {
+    private void assignDefaultCharacters() {
         uppercaseBox.setChecked(false);
         lowercaseBox.setChecked(false);
         digitsBox.setChecked(false);
@@ -176,19 +176,19 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
             }
         }
     }
-	
-	private void fillPassword() {
-		EditText txtPassword = root.findViewById(R.id.password);
-		txtPassword.setText(generatePassword());
-	}
-	
+
+    private void fillPassword() {
+        EditText txtPassword = root.findViewById(R.id.password);
+        txtPassword.setText(generatePassword());
+    }
+
     public String generatePassword() {
-    	String password = "";
-    	try {
-    		int length = Integer.valueOf(((EditText) root.findViewById(R.id.length)).getText().toString());
-        	
-        	PasswordGenerator generator = new PasswordGenerator(getActivity());
-	    	password = generator.generatePassword(length,
+        String password = "";
+        try {
+            int length = Integer.valueOf(((EditText) root.findViewById(R.id.length)).getText().toString());
+
+            PasswordGenerator generator = new PasswordGenerator(getActivity());
+            password = generator.generatePassword(length,
                     uppercaseBox.isChecked(),
                     lowercaseBox.isChecked(),
                     digitsBox.isChecked(),
@@ -198,17 +198,17 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
                     specialsBox.isChecked(),
                     bracketsBox.isChecked(),
                     extendedBox.isChecked());
-    	} catch (NumberFormatException e) {
-    		Toast.makeText(getContext(), R.string.error_wrong_length, Toast.LENGTH_LONG).show();
-		} catch (IllegalArgumentException e) {
-			Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-		}
-    	
-    	return password;
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), R.string.error_wrong_length, Toast.LENGTH_LONG).show();
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        return password;
     }
 
     public interface GeneratePasswordListener {
         void acceptPassword(Bundle bundle);
-	    void cancelPassword(Bundle bundle);
+        void cancelPassword(Bundle bundle);
     }
 }

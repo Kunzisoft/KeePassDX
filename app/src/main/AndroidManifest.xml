@@ -116,7 +116,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="sensorPortrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.kunzisoft.keepass.search.SearchResultsActivity"
@@ -154,5 +155,6 @@
         </service>
 
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+
     </application>
 </manifest> 

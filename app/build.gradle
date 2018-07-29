@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode = 15
         versionName = "2.5.0.0beta15"
@@ -16,6 +16,7 @@ android {
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
+
     }
 
     externalNativeBuild {

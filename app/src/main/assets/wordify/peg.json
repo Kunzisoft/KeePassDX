@@ -1,0 +1,542 @@
+{
+  "0": [
+    "hose",
+    "sew",
+    "easy"
+  ],
+  "1": [
+    "hat",
+    "hate",
+    "hot"
+  ],
+  "2": [
+    "hen",
+    "know",
+    "new"
+  ],
+  "3": [
+    "home",
+    "aim",
+    "yummy"
+  ],
+  "4": [
+    "arrow",
+    "row",
+    "hairy"
+  ],
+  "5": [
+    "whale",
+    "heal",
+    "oily"
+  ],
+  "6": [
+    "shoe",
+    "chew",
+    "itchy"
+  ],
+  "7": [
+    "cow",
+    "hook",
+    "gay"
+  ],
+  "8": [
+    "hoof",
+    "view",
+    "heavy"
+  ],
+  "9": [
+    "pie",
+    "buy",
+    "happy"
+  ],
+  "00": [
+    "sauce",
+    "assess",
+    "sissy"
+  ],
+  "01": [
+    "seed",
+    "swat",
+    "sad"
+  ],
+  "02": [
+    "sun",
+    "assign",
+    "snowy"
+  ],
+  "03": [
+    "sumo",
+    "assume",
+    "awesome"
+  ],
+  "04": [
+    "sierra",
+    "sorrow",
+    "sorry"
+  ],
+  "05": [
+    "soil",
+    "sell",
+    "slow"
+  ],
+  "06": [
+    "sewage",
+    "switch",
+    "swishy"
+  ],
+  "07": [
+    "sky",
+    "soak",
+    "sick"
+  ],
+  "08": [
+    "sofa",
+    "save",
+    "savvy"
+  ],
+  "09": [
+    "soap",
+    "sob",
+    "sappy"
+  ],
+  "10": [
+    "daisy",
+    "tease",
+    "dizzy"
+  ],
+  "11": [
+    "tattoo",
+    "edit",
+    "tight"
+  ],
+  "12": [
+    "tuna",
+    "widen",
+    "wooden"
+  ],
+  "13": [
+    "dome",
+    "time",
+    "tame"
+  ],
+  "14": [
+    "diary",
+    "draw",
+    "dry"
+  ],
+  "15": [
+    "tail",
+    "tell",
+    "tall"
+  ],
+  "16": [
+    "dish",
+    "teach",
+    "whitish"
+  ],
+  "17": [
+    "dog",
+    "take",
+    "thick"
+  ],
+  "18": [
+    "dove",
+    "defy",
+    "deaf"
+  ],
+  "19": [
+    "tuba",
+    "type",
+    "deep"
+  ],
+  "20": [
+    "nose",
+    "ionize",
+    "noisy"
+  ],
+  "21": [
+    "net",
+    "unite",
+    "neat"
+  ],
+  "22": [
+    "onion",
+    "neon"
+  ],
+  "23": [
+    "enemy",
+    "name",
+    "numb"
+  ],
+  "24": [
+    "winery",
+    "narrow"
+  ],
+  "25": [
+    "nail",
+    "inhale",
+    "annual"
+  ],
+  "26": [
+    "nacho",
+    "enjoy",
+    "nudgy"
+  ],
+  "27": [
+    "neck",
+    "knock",
+    "naggy"
+  ],
+  "28": [
+    "knife",
+    "envy",
+    "na\u00efve"
+  ],
+  "29": [
+    "honeybee",
+    "nab",
+    "wannabe"
+  ],
+  "30": [
+    "mouse",
+    "amuse",
+    "messy"
+  ],
+  "31": [
+    "meadow",
+    "meet",
+    "mute"
+  ],
+  "32": [
+    "moon",
+    "mine",
+    "mean"
+  ],
+  "33": [
+    "mummy",
+    "mime"
+  ],
+  "34": [
+    "emery",
+    "marry",
+    "merry"
+  ],
+  "35": [
+    "mole",
+    "mail",
+    "male"
+  ],
+  "36": [
+    "match",
+    "mash",
+    "mushy"
+  ],
+  "37": [
+    "mug",
+    "mock",
+    "mucky"
+  ],
+  "38": [
+    "movie",
+    "move",
+    "mauve"
+  ],
+  "39": [
+    "map",
+    "mop",
+    "wimpy"
+  ],
+  "40": [
+    "rice",
+    "erase",
+    "rosy"
+  ],
+  "41": [
+    "road",
+    "read",
+    "ready"
+  ],
+  "42": [
+    "urine",
+    "ruin",
+    "runny"
+  ],
+  "43": [
+    "rum",
+    "ram",
+    "haram"
+  ],
+  "44": [
+    "aurora"
+  ],
+  "45": [
+    "railway",
+    "rule",
+    "royal"
+  ],
+  "46": [
+    "roach",
+    "reach",
+    "rich"
+  ],
+  "47": [
+    "rag",
+    "rake",
+    "rocky"
+  ],
+  "48": [
+    "roof",
+    "arrive",
+    "rough"
+  ],
+  "49": [
+    "rope",
+    "wrap",
+    "ripe"
+  ],
+  "50": [
+    "louse",
+    "lose",
+    "lazy"
+  ],
+  "51": [
+    "lady",
+    "let",
+    "elite"
+  ],
+  "52": [
+    "lion",
+    "align",
+    "alien"
+  ],
+  "53": [
+    "lime",
+    "loom",
+    "lame"
+  ],
+  "54": [
+    "lorry",
+    "leery"
+  ],
+  "55": [
+    "lily",
+    "lull",
+    "loyal"
+  ],
+  "56": [
+    "leech",
+    "latch",
+    "lush"
+  ],
+  "57": [
+    "leg",
+    "lick",
+    "lucky"
+  ],
+  "58": [
+    "lava",
+    "love",
+    "leafy"
+  ],
+  "59": [
+    "lip",
+    "help",
+    "loopy"
+  ],
+  "60": [
+    "cheese",
+    "chase",
+    "choosy"
+  ],
+  "61": [
+    "cheetah",
+    "cheat",
+    "chatty"
+  ],
+  "62": [
+    "chin",
+    "chain",
+    "shiny"
+  ],
+  "63": [
+    "gem",
+    "jam",
+    "sham"
+  ],
+  "64": [
+    "shrew",
+    "jury",
+    "cherry"
+  ],
+  "65": [
+    "chilli",
+    "chill",
+    "jolly"
+  ],
+  "66": [
+    "cha-cha",
+    "judge",
+    "Jewish"
+  ],
+  "67": [
+    "chick",
+    "check",
+    "shaky"
+  ],
+  "68": [
+    "chef",
+    "achieve",
+    "chief"
+  ],
+  "69": [
+    "jeep",
+    "chop",
+    "cheap"
+  ],
+  "70": [
+    "goose",
+    "kiss",
+    "cosy"
+  ],
+  "71": [
+    "cat",
+    "quote",
+    "good"
+  ],
+  "72": [
+    "coin",
+    "weaken",
+    "keen"
+  ],
+  "73": [
+    "game",
+    "comb",
+    "gummy"
+  ],
+  "74": [
+    "crow",
+    "carry",
+    "grey"
+  ],
+  "75": [
+    "clay",
+    "kill",
+    "cool"
+  ],
+  "76": [
+    "cage",
+    "coach",
+    "catchy"
+  ],
+  "77": [
+    "cake",
+    "cook",
+    "quick"
+  ],
+  "78": [
+    "cave",
+    "give",
+    "goofy"
+  ],
+  "79": [
+    "cube",
+    "copy"
+  ],
+  "80": [
+    "vase",
+    "fuse",
+    "fussy"
+  ],
+  "81": [
+    "video",
+    "fight",
+    "fat"
+  ],
+  "82": [
+    "fan",
+    "fine",
+    "funny"
+  ],
+  "83": [
+    "ovum",
+    "fume",
+    "foamy"
+  ],
+  "84": [
+    "fairy",
+    "fry",
+    "furry"
+  ],
+  "85": [
+    "fool",
+    "fly",
+    "foul"
+  ],
+  "86": [
+    "veggie",
+    "fetch",
+    "fishy"
+  ],
+  "87": [
+    "fig",
+    "fake",
+    "foggy"
+  ],
+  "89": [
+    "vibe",
+    "fab"
+  ],
+  "88": [
+    "fave"
+  ],
+  "90": [
+    "boss",
+    "oppose",
+    "busy"
+  ],
+  "91": [
+    "bead",
+    "bite",
+    "bad"
+  ],
+  "92": [
+    "pony",
+    "ban",
+    "bony"
+  ],
+  "93": [
+    "puma",
+    "bomb",
+    "balmy"
+  ],
+  "94": [
+    "berry",
+    "bury",
+    "pro"
+  ],
+  "95": [
+    "bell",
+    "peel",
+    "blue"
+  ],
+  "96": [
+    "pouch",
+    "patch",
+    "bushy"
+  ],
+  "97": [
+    "bike",
+    "poke",
+    "back"
+  ],
+  "98": [
+    "beef",
+    "pave",
+    "puffy"
+  ],
+  "99": [
+    "pipe",
+    "pop",
+    "baby"
+  ]
+}
