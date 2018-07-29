@@ -38,11 +38,15 @@ import com.kunzisoft.keepass.utils.Util;
 import com.patarapolw.diceware_utils.DicewarePassword;
 import com.patarapolw.diceware_utils.Policy;
 
-public class GenerateTrueDicewarePasswordDialogFragment extends DialogFragment {
+public class GenerateDicewarePasswordDialogFragment extends DialogFragment {
     public static final String KEY_PASSWORD_ID = "KEY_PASSWORD_ID";
 
 	private GeneratePasswordListener mListener;
+    private EditText lengthMinView;
+	private EditText lengthMaxView;
 	private EditText numberOfKeywordsView;
+	private EditText punctuationCountMinView;
+	private EditText digitCountMinView;
 
 	private EditText passwordView;
 	private EditText mnemonicView;
@@ -66,7 +70,7 @@ public class GenerateTrueDicewarePasswordDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-        View root = inflater.inflate(R.layout.generate_true_diceware_password, null);
+        View root = inflater.inflate(R.layout.generate_diceware_password, null);
 
         dicewarePassword = new DicewarePassword(getContext());
         policy = new Policy(getContext());
@@ -79,8 +83,19 @@ public class GenerateTrueDicewarePasswordDialogFragment extends DialogFragment {
 
         numberOfKeywordsView = root.findViewById(R.id.number_of_keywords);
 
-        if(PreferencesUtil.getDefaultPasswordGenerator(getContext()) == 2){
-            numberOfKeywordsView.setText("3");
+        lengthMinView = root.findViewById(R.id.length_min);
+        lengthMaxView = root.findViewById(R.id.length_max);
+        punctuationCountMinView = root.findViewById(R.id.punctuation_count_min);
+        digitCountMinView = root.findViewById(R.id.number_count_min);
+
+        if(PreferencesUtil.getDefaultPasswordGenerator(getContext()) == 3){
+            View lengthLayoutView = root.findViewById(R.id.length_layout);
+            View punctuationCountView = root.findViewById(R.id.punctuation_count_layout);
+            View digitCountView = root.findViewById(R.id.number_count_layout);
+
+            lengthLayoutView.setVisibility(View.GONE);
+            punctuationCountView.setVisibility(View.GONE);
+            digitCountView.setVisibility(View.GONE);
         }
 
 //        assignDefaultCharacters();
@@ -114,8 +129,17 @@ public class GenerateTrueDicewarePasswordDialogFragment extends DialogFragment {
 	}
 	
 	private void fillPassword() {
+		policy.setLength_min(Integer.parseInt(lengthMinView.getText().toString()));
+		policy.setLength_max(Integer.parseInt(lengthMaxView.getText().toString()));
+		policy.setPunctuation_count(Integer.parseInt(punctuationCountMinView.getText().toString()));
+		policy.setDigit_count(Integer.parseInt(digitCountMinView.getText().toString()));
+
 		dicewarePassword.setPolicy(policy);
-        dicewarePassword.generateModifiedDicewarePassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+        if(PreferencesUtil.getDefaultPasswordGenerator(getContext()) == 3){
+            dicewarePassword.generateTrueDicewarePassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+        } else {
+            dicewarePassword.generateModifiedDicewarePassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+        }
 
 		passwordView.setText(dicewarePassword.getPassword());
 		mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));

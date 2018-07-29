@@ -21,7 +21,6 @@
 package com.kunzisoft.keepass.activities;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -56,10 +55,9 @@ import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
-import com.kunzisoft.keepass.dialogs.GenerateModifiedDicewarePasswordDialogFragment;
+import com.kunzisoft.keepass.dialogs.GenerateDicewarePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.GeneratePinDialogFragment;
 import com.kunzisoft.keepass.dialogs.GenerateTraditionalPasswordDialogFragment;
-import com.kunzisoft.keepass.dialogs.GenerateTrueDicewarePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.lock.LockingActivity;
@@ -80,7 +78,7 @@ import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.UNDEFINED_I
 
 public class EntryEditActivity extends LockingHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
-        GenerateModifiedDicewarePasswordDialogFragment.GeneratePasswordListener,
+        GenerateDicewarePasswordDialogFragment.GeneratePasswordListener,
         GeneratePinDialogFragment.GeneratePinListener {
 
     private static final String TAG = EntryEditActivity.class.getName();
@@ -242,21 +240,21 @@ public class EntryEditActivity extends LockingHideActivity
      * Open the password generator fragment
      */
 	private void openPasswordGenerator() {
-        int passwordGeneratorChoice = PreferencesUtil.getDefaultPasswordGenerator(getApplicationContext());
-
-        switch (passwordGeneratorChoice) {
+        switch (PreferencesUtil.getDefaultPasswordGenerator(getApplicationContext())) {
             case 2:
-                GenerateModifiedDicewarePasswordDialogFragment generateModifiedDicewarePasswordDialogFragment
-                        = new GenerateModifiedDicewarePasswordDialogFragment();
-                generateModifiedDicewarePasswordDialogFragment.show(getSupportFragmentManager(),
-                        "ModifiedDicewarePasswordGeneratorFragment");
-                break;
+                ;
             case 3:
-                GenerateTrueDicewarePasswordDialogFragment generateTrueDicewarePasswordDialogFragment
-                        = new GenerateTrueDicewarePasswordDialogFragment();
-                generateTrueDicewarePasswordDialogFragment.show(getSupportFragmentManager(),
-                        "TrueDicewarePasswordGeneratorFragment");
+                GenerateDicewarePasswordDialogFragment generateDicewarePasswordDialogFragment
+                        = new GenerateDicewarePasswordDialogFragment();
+                generateDicewarePasswordDialogFragment.show(getSupportFragmentManager(),
+                        "DicewarePasswordGeneratorFragment");
                 break;
+//            case 3:
+//                GenerateTrueDicewarePasswordDialogFragment generateTrueDicewarePasswordDialogFragment
+//                        = new GenerateTrueDicewarePasswordDialogFragment();
+//                generateTrueDicewarePasswordDialogFragment.show(getSupportFragmentManager(),
+//                        "TrueDicewarePasswordGeneratorFragment");
+//                break;
             default:
                 GenerateTraditionalPasswordDialogFragment generateTraditionalPasswordDialogFragment
                         = new GenerateTraditionalPasswordDialogFragment();
@@ -571,7 +569,7 @@ public class EntryEditActivity extends LockingHideActivity
 
     @Override
     public void acceptPassword(Bundle bundle) {
-        String generatedPassword = bundle.getString(GenerateModifiedDicewarePasswordDialogFragment.KEY_PASSWORD_ID);
+        String generatedPassword = bundle.getString(GenerateDicewarePasswordDialogFragment.KEY_PASSWORD_ID);
 
         entryPasswordView.setText(generatedPassword);
         entryConfirmationPasswordView.setText(generatedPassword);
