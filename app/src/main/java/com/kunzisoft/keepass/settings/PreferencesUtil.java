@@ -133,12 +133,6 @@ public class PreferencesUtil {
                 ctx.getResources().getBoolean(R.bool.maskpass_default));
     }
 
-    public static boolean isGenerateSentence(Context ctx) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return prefs.getBoolean(ctx.getString(R.string.generate_sentence_key),
-                ctx.getResources().getBoolean(R.bool.generate_sentence_default));
-    }
-
     public static boolean fieldFontIsInVisibility(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.monospace_font_fields_enable_key),

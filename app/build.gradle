@@ -111,11 +111,6 @@ dependencies {
     // Icon pack, classic for all, material for libre and pro
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
-<<<<<<< HEAD
     implementation project(path: ':magikeyboard')
     implementation project(path: ':keepass-model')
-=======
-
-    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
->>>>>>> master
 }

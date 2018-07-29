@@ -108,11 +108,6 @@
             android:entries="@array/list_password_generator_choice_entries"
             android:entryValues="@array/list_password_generator_choice_values"
             android:defaultValue="@string/list_password_generator_choice_default_value"/>
-        <SwitchPreference
-            android:key="@string/generate_sentence_key"
-            android:title="@string/generate_sentence_tile"
-            android:summary="@string/generate_sentence_summary"
-            android:defaultValue="@bool/generate_sentence_default"/>
 
     </PreferenceCategory>
 

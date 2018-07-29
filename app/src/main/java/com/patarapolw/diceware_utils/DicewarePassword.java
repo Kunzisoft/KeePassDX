@@ -14,7 +14,6 @@ import java.security.SecureRandom;
 
 public class DicewarePassword {
     private String password = "";
-    private String pin = "";
     private String[] keywordList;
 
     private SecureRandom random = new SecureRandom();
@@ -30,10 +29,6 @@ public class DicewarePassword {
         return password;
     }
 
-    public String getPin(){
-        return pin;
-    }
-
     public String[] getKeywordList(){
         return keywordList;
     }
@@ -42,40 +37,7 @@ public class DicewarePassword {
         policy = policy1;
     }
 
-
-    public void generatePassword(int numberOfKeywords) {
-        String[] keywordResource = new String[numberOfKeywords];
-        for(int i=0; i<numberOfKeywords; i++){
-            keywordResource[i] = keywordListLoader.getKeyword();
-        }
-        keywordList = keywordResource.clone();
-
-        String prePassword;
-
-        keywordResource = title_case_all(keywordResource);
-        prePassword = toPassword(keywordResource);
-        while (prePassword.length() > policy.getLength_max()) {
-            keywordResource = shorten_one(keywordResource);
-            prePassword = toPassword(keywordResource);
-        }
-
-        int timeout = 1000;  // In milliseconds
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < timeout){
-            if (prePassword.length() > policy.getLength_max()) {
-                keywordResource = shorten_one(keywordResource);
-                prePassword = toPassword(keywordResource);
-            } else if(!policy.isConform(keywordResource)){
-                keywordResource = policy.conformize(keywordResource);
-            } else {
-                prePassword = toPassword(keywordResource);
-                password = prePassword;
-                return;
-            }
-        }
-    }
-
-    public void generateWeakPassword(int numberOfKeywords) {
+    public void generateModifiedDicewarePassword(int numberOfKeywords) {
         String[] keywordResource = new String[numberOfKeywords];
         for(int i=0; i<numberOfKeywords; i++){
             keywordResource[i] = keywordListLoader.getKeyword();
@@ -97,6 +59,17 @@ public class DicewarePassword {
         }
 
         password = prePassword;
+    }
+
+    public void generateTrueDicewarePassword(int numberOfKeywords) {
+        String[] keywordResource = new String[numberOfKeywords];
+        for(int i=0; i<numberOfKeywords; i++){
+            keywordResource[i] = keywordListLoader.getKeyword();
+        }
+        keywordList = keywordResource.clone();
+
+        keywordResource = title_case_all(keywordResource);
+        password = toPassword(keywordResource);
     }
 
     @NonNull
