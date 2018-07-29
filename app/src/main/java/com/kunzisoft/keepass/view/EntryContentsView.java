@@ -1,5 +1,6 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft,
+ * Pacharapol Withayasakpunt
  *     
  * This file is part of KeePass DX.
  *
@@ -97,6 +98,7 @@ public class EntryContentsView extends LinearLayout {
 
         commentContainerView = findViewById(R.id.entry_comment_container);
         commentView = findViewById(R.id.entry_comment);
+        commentView.setTransformationMethod(new PasswordTransformationMethod());
 
         extrasView = findViewById(R.id.extra_strings);
 
@@ -162,8 +164,10 @@ public class EntryContentsView extends LinearLayout {
     public void setHiddenPasswordStyle(boolean hiddenStyle) {
         if ( !hiddenStyle ) {
             passwordView.setTransformationMethod(null);
+            commentView.setTransformationMethod(null);
         } else {
             passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            commentView.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
         // Hidden style for custom fields
         for (int i = 0; i < extrasView.getChildCount(); i++) {

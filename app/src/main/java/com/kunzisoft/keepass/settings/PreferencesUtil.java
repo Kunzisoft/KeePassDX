@@ -65,6 +65,12 @@ public class PreferencesUtil {
                         Integer.parseInt(ctx.getString(R.string.default_password_length)));
     }
 
+    public static int getDefaultPasswordGenerator(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return Integer.parseInt(prefs.getString(ctx.getString(R.string.list_password_generator_choice_key),
+                ctx.getString(R.string.list_password_generator_choice_key)));
+    }
+
     public static Set<String> getDefaultPasswordCharacters(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getStringSet(ctx.getString(R.string.list_password_generator_options_key),
@@ -125,6 +131,12 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.maskpass_key),
                 ctx.getResources().getBoolean(R.bool.maskpass_default));
+    }
+
+    public static boolean isGenerateSentence(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.generate_sentence_key),
+                ctx.getResources().getBoolean(R.bool.generate_sentence_default));
     }
 
     public static boolean fieldFontIsInVisibility(Context ctx) {

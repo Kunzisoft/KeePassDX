@@ -1,5 +1,6 @@
-# Android Keepass DX
+# Android Keepass DX - memorable password
 
+<<<<<<< HEAD
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> Keepass DX is a **multi-format KeePass manager for Android devices**. The application allows to create keys and passwords in a secure way by integrating with the Android design standards.
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
@@ -58,26 +59,34 @@ Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassD
 ## Other devices
 
 - [KeePass XC](https://keepassxc.org/) (https://keepassxc.org/) works with **GNU/Linux**, **Mac** and **Windows**, is updated regularly and under the terms of the GNU General Public License. This is the recommended version for computers.
+=======
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> [Keepass DX](https://github.com/Kunzisoft/KeePassDX) is a multi-format KeePass manager for Android devices. The application allows to create keys and passwords in a secure way by integrating with the Android design standards.
 
-- [KeePass](https://keepass.info/) (https://keepass.info/) is the historical project, with good technical documentation for standardized database files but only running on **Windows**.
+`Keepass DX - memorable password` is a fork of Keepass DX, to use a custom password generator, based on [Diceware_Utils](https://github.com/patarapolw/diceware_utils) and [Memorable Password](https://github.com/patarapolw/memorable-password).
 
-## License
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
+>>>>>>> master
 
+## Additional Features
+
+- A password generator based on Diceware passphrase, default ot at least 6 keywords, with some modifications
+- "Note/Comment" section of the password entry is also a sensitive information, so it has been edited to be masked. This section will contain the mnemonic for the password to make memorable.
+- Sentences according to the word in the passphrase are automatically generated. Can be disabled if your Android hangs.
+
+<<<<<<< HEAD
  Copyright (c) 2017 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
+=======
+## Fork origins
+>>>>>>> master
 
- This file is part of KeePass DX.
+[Keepass DX](https://github.com/Kunzisoft/KeePassDX) which is actually forked from [KeepassDroid](https://github.com/bpellin/keepassdroid)
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
 
+<<<<<<< HEAD
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   *This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid) by bpellin.*
+=======
+>>>>>>> master

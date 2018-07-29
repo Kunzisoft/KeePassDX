@@ -375,5 +375,42 @@
     </string-array>
     <string name="icon_pack_choose_title">Select an icon pack</string>
     <string name="icon_pack_choose_summary">Change the icon pack of the application</string>
+    <string name="hint_generated_mnemonic">generated mnemonic</string>
+    <string name="length_min">Min</string>
+    <string name="default_password_length_min">10</string>
+    <string name="length_max">Max</string>
+    <string name="default_password_length_max">20</string>
+    <string name="number_of_keywords">Number of Keywords</string>
+    <string name="default_number_of_keywords">3</string>
+    <string name="hint_number_of_keywords">number of keywords</string>
+    <string name="punctuation_count_min">Minimum Punctuation Count</string>
+    <string name="default_punctuation_count_min">2</string>
+    <string name="hint_punctuation_count_min">minimum punctuation count</string>
+    <string name="number_count_min_label">Minimum Digit Count</string>
+    <string name="default_number_count_min">2</string>
+    <string name="hint_number_count_min">minimum digit count</string>
+    <string name="generate_pin">Generate PIN</string>
+    <string name="default_pin_length">6</string>
+    <string name="hint_generated_pin">generated pin</string>
+    <string name="generate_pin_icon">123</string>
+    <string name="entry_notes">Notes</string>
+    <string name="hint_generated_sentece">SentenceMaker loading…</string>
+    <string name="generate_sentence_key">generate_sentence_key</string>
+    <string name="generate_sentence_tile">Generate sentence</string>
+    <string name="generate_sentence_summary">Generate sentence via part-of-speech matching (experimental)</string>
+    <string name="list_password_generator_choice_key">list_password_generator_choice_key</string>
+    <string name="list_password_generator_choice_title">Default password generator</string>
+    <string name="list_password_generator_choice_summary">Choose a default password generator</string>
+    <string name="list_password_generator_choice_default_value">1</string>
+    <string-array name="list_password_generator_choice_entries">
+        <item>Diceware</item>
+        <item>Weak Diceware</item>
+        <item>Traditional</item>
+    </string-array>
+    <string-array name="list_password_generator_choice_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 
 </resources>

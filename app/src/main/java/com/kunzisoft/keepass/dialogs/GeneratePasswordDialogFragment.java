@@ -1,5 +1,6 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft,
+ * Pacharapol Withayasakpunt
  *     
  * This file is part of KeePass DX.
  *
@@ -19,45 +20,47 @@
  */
 package com.kunzisoft.keepass.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.password.PasswordGenerator;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
-
-import java.util.Set;
+import com.patarapolw.diceware_utils.DicewarePassword;
+import com.patarapolw.diceware_utils.Policy;
+import com.patarapolw.randomsentence.SentenceMaker;
 
 public class GeneratePasswordDialogFragment extends DialogFragment {
 
     public static final String KEY_PASSWORD_ID = "KEY_PASSWORD_ID";
+    public static final String KEY_MNEMONIC_ID = "KEY_MNEMONIC_ID";
 
 	private GeneratePasswordListener mListener;
-	private View root;
-	private EditText lengthTextView;
-	private EditText passwordView;
+    private EditText lengthMinView;
+	private EditText lengthMaxView;
+	private EditText numberOfKeywordsView;
+	private EditText punctuationCountMinView;
+	private EditText digitCountMinView;
 
-	private CompoundButton uppercaseBox;
-	private CompoundButton lowercaseBox;
-	private CompoundButton digitsBox;
-	private CompoundButton minusBox;
-	private CompoundButton underlineBox;
-	private CompoundButton spaceBox;
-	private CompoundButton specialsBox;
-	private CompoundButton bracketsBox;
-	private CompoundButton extendedBox;
+	private EditText passwordView;
+	private EditText mnemonicView;
+	private EditText sentenceView;
+
+	private DicewarePassword dicewarePassword;
+	private Policy policy;
+	private SentenceMaker sentenceMaker = null;
 
     @Override
     public void onAttach(Context context) {
@@ -75,47 +78,55 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-        root = inflater.inflate(R.layout.generate_password, null);
+        View root = inflater.inflate(R.layout.generate_password, null);
+
+        dicewarePassword = new DicewarePassword(getContext());
+        policy = new Policy(getContext());
 
         passwordView = root.findViewById(R.id.password);
         Util.applyFontVisibilityTo(getContext(), passwordView);
 
-        lengthTextView = root.findViewById(R.id.length);
+        mnemonicView = root.findViewById(R.id.mnemonic);
+        Util.applyFontVisibilityTo(getContext(), mnemonicView);
 
-        uppercaseBox = root.findViewById(R.id.cb_uppercase);
-        lowercaseBox = root.findViewById(R.id.cb_lowercase);
-        digitsBox = root.findViewById(R.id.cb_digits);
-        minusBox = root.findViewById(R.id.cb_minus);
-        underlineBox = root.findViewById(R.id.cb_underline);
-        spaceBox = root.findViewById(R.id.cb_space);
-        specialsBox = root.findViewById(R.id.cb_specials);
-        bracketsBox = root.findViewById(R.id.cb_brackets);
-        extendedBox = root.findViewById(R.id.cb_extended);
+        sentenceView = root.findViewById(R.id.generated_sentence);
+        Util.applyFontVisibilityTo(getContext(), sentenceView);
 
-        assignDefaultCharacters();
+        lengthMinView = root.findViewById(R.id.length_min);
+        lengthMaxView = root.findViewById(R.id.length_max);
+        numberOfKeywordsView = root.findViewById(R.id.number_of_keywords);
+        punctuationCountMinView = root.findViewById(R.id.punctuation_count_min);
+        digitCountMinView = root.findViewById(R.id.number_count_min);
 
-        SeekBar seekBar = root.findViewById(R.id.seekbar_length);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                lengthTextView.setText(String.valueOf(progress));
-            }
+        if(PreferencesUtil.isGenerateSentence(getContext())) {
+            SentenceMakerLoader loader = new SentenceMakerLoader();
+            loader.execute(getContext());
+        } else {
+            sentenceView.setVisibility(View.GONE);
+        }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+        if(PreferencesUtil.getDefaultPasswordGenerator(getContext()) == 2){
+            numberOfKeywordsView.setText("3");
+        }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
-        });
-        seekBar.setProgress(PreferencesUtil.getDefaultPasswordLength(getContext()));
+//        assignDefaultCharacters();
 
         Button genPassButton = root.findViewById(R.id.generate_password_button);
         genPassButton.setOnClickListener(v -> fillPassword());
 
         builder.setView(root)
                 .setPositiveButton(R.string.accept, (dialog, id) -> {
+                    String mnemonic = "";
+
+                    mnemonic += mnemonicView.getText().toString();
+                    if(sentenceMaker != null) {
+                        mnemonic += "\n\n";
+                        mnemonic += sentenceView.getText().toString();
+                    }
+
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_PASSWORD_ID, passwordView.getText().toString());
+                    bundle.putString(KEY_MNEMONIC_ID, mnemonic);
                     mListener.acceptPassword(bundle);
 
                     dismiss();
@@ -132,83 +143,43 @@ public class GeneratePasswordDialogFragment extends DialogFragment {
 
 		return builder.create();
 	}
-
-	private void assignDefaultCharacters() {
-        uppercaseBox.setChecked(false);
-        lowercaseBox.setChecked(false);
-        digitsBox.setChecked(false);
-        minusBox.setChecked(false);
-        underlineBox.setChecked(false);
-        spaceBox.setChecked(false);
-        specialsBox.setChecked(false);
-        bracketsBox.setChecked(false);
-        extendedBox.setChecked(false);
-
-        Set<String> defaultPasswordChars =
-                PreferencesUtil.getDefaultPasswordCharacters(getContext());
-        for(String passwordChar : defaultPasswordChars) {
-            if (passwordChar.equals(getString(R.string.value_password_uppercase))) {
-                uppercaseBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_lowercase))) {
-                lowercaseBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_digits))) {
-                digitsBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_minus))) {
-                minusBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_underline))) {
-                underlineBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_space))) {
-                spaceBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_special))) {
-                specialsBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_brackets))) {
-                bracketsBox.setChecked(true);
-            }
-            else if (passwordChar.equals(getString(R.string.value_password_extended))) {
-                extendedBox.setChecked(true);
-            }
-        }
-    }
 	
 	private void fillPassword() {
-		EditText txtPassword = root.findViewById(R.id.password);
-		txtPassword.setText(generatePassword());
+		policy.setLength_min(Integer.parseInt(lengthMinView.getText().toString()));
+		policy.setLength_max(Integer.parseInt(lengthMaxView.getText().toString()));
+		policy.setPunctuation_count(Integer.parseInt(punctuationCountMinView.getText().toString()));
+		policy.setDigit_count(Integer.parseInt(digitCountMinView.getText().toString()));
+
+		dicewarePassword.setPolicy(policy);
+
+		if(PreferencesUtil.getDefaultPasswordGenerator(getContext()) == 2){
+		    dicewarePassword.generateWeakPassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+        } else {
+            dicewarePassword.generatePassword(Integer.parseInt(numberOfKeywordsView.getText().toString()));
+        }
+
+		passwordView.setText(dicewarePassword.getPassword());
+		mnemonicView.setText(TextUtils.join(" ", dicewarePassword.getKeywordList()));
+		if(sentenceMaker != null) {
+            sentenceView.setText(sentenceMaker.makeSentence(dicewarePassword.getKeywordList()));
+        }
 	}
-	
-    public String generatePassword() {
-    	String password = "";
-    	try {
-    		int length = Integer.valueOf(((EditText) root.findViewById(R.id.length)).getText().toString());
-        	
-        	PasswordGenerator generator = new PasswordGenerator(getActivity());
-	    	password = generator.generatePassword(length,
-                    uppercaseBox.isChecked(),
-                    lowercaseBox.isChecked(),
-                    digitsBox.isChecked(),
-                    minusBox.isChecked(),
-                    underlineBox.isChecked(),
-                    spaceBox.isChecked(),
-                    specialsBox.isChecked(),
-                    bracketsBox.isChecked(),
-                    extendedBox.isChecked());
-    	} catch (NumberFormatException e) {
-    		Toast.makeText(getContext(), R.string.error_wrong_length, Toast.LENGTH_LONG).show();
-		} catch (IllegalArgumentException e) {
-			Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-		}
-    	
-    	return password;
-    }
 
     public interface GeneratePasswordListener {
         void acceptPassword(Bundle bundle);
 	    void cancelPassword(Bundle bundle);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class SentenceMakerLoader extends AsyncTask<Context, Void, SentenceMaker> {
+        protected SentenceMaker doInBackground(Context... contexts){
+
+            return new SentenceMaker(contexts[0]);
+        }
+
+        protected void onPostExecute(SentenceMaker maker){
+            sentenceMaker = maker;
+            sentenceView.setText(maker.makeSentence(dicewarePassword.getKeywordList()));
+        }
     }
 }

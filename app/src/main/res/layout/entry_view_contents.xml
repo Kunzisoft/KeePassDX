@@ -125,7 +125,7 @@
         <android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_comment_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/entry_comment"
+            android:text="@string/entry_notes"
             android:autoLink="all"
             style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
         <android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_comment"
