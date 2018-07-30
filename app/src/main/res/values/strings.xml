@@ -77,6 +77,8 @@
     <string name="error_no_name">A name is required.</string>
     <string name="error_nokeyfile">A keyfile is required.</string>
     <string name="error_out_of_memory">The phone ran out of memory while parsing your database. It may be too large for your device.</string>
+    <string name="error_load_database">Database can\'t be load</string>
+    <string name="error_load_database_KDF_memory">Unable to load the key, try to decrease the memory used by the KDF.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected</string>
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_not_number">\"Rounds\" must be a number.</string>
