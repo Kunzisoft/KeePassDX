@@ -55,9 +55,9 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.activities.IntentBuildLauncher;
+import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
@@ -409,7 +409,7 @@ public class PasswordActivity extends StylishActivity
                                 getString(R.string.education_unlock_title),
                                 getString(R.string.education_unlock_summary))
                                 .dimColor(R.color.green)
-                                .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                                .icon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.ic_launcher_round))
                                 .textColorInt(Color.WHITE)
                                 .tintTarget(false)
                                 .cancelable(true),
