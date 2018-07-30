@@ -376,4 +376,6 @@
     <string name="icon_pack_choose_title">Seleziona un pacchetto icone</string>
     <string name="icon_pack_choose_summary">Cambia il pacchetto di icone dell\'applicazione</string>
 
-</resources>
+<string name="keyboard_select_entry_text">Seleziona un elemento con la chiave.</string>
+    <string name="keyboard_fill_field_text">Riempi i campi con i contenuti dell\'elemento.</string>
+    </resources>
