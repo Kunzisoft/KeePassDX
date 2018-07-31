@@ -2,3 +2,4 @@
  * Suggestions de recherche
  * Correction du mode lecture seule
  * Ajout de traductions
+ * Correction de parcelable / de barre de navigation

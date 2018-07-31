@@ -2,3 +2,4 @@
  * Search suggestions
  * Fix read-only mode
  * Added translations
+ * Fix parcelable / toolbar
