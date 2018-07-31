@@ -50,14 +50,26 @@
         android:layout_toRightOf="@+id/group_arrow"
         android:layout_toEndOf="@+id/group_arrow" />
 
-    <TextView android:id="@+id/group_text"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        style="@style/KeepassDXStyle.TextAppearance.FolderTitle"
+        android:orientation="vertical"
         android:layout_centerVertical="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:layout_toRightOf="@+id/group_icon"
-        android:layout_toEndOf="@+id/group_icon" />
+        android:layout_toEndOf="@+id/group_icon">
+        <TextView android:id="@+id/group_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            style="@style/KeepassDXStyle.TextAppearance.Title" /> <!-- style override -->
+        <TextView android:id="@+id/group_subtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            style="@style/KeepassDXStyle.TextAppearance.SmallTitle" /> <!-- style override -->
+    </LinearLayout>
 </RelativeLayout>

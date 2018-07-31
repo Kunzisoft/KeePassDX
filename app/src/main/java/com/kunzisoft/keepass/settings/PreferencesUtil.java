@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.SortNodeEnum;
@@ -54,9 +55,19 @@ public class PreferencesUtil {
         sharedPreferencesEditor.apply();
     }
 
+    /**
+     * Retrieve the text size in SP, verify the integrity of the size stored in preference
+     */
 	public static float getListTextSize(Context ctx) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		return Float.parseFloat(prefs.getString(ctx.getString(R.string.list_size_key), ctx.getString(R.string.list_size_default)));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String defaultSizeString = ctx.getString(R.string.list_size_default);
+        String listSize = prefs.getString(ctx.getString(R.string.list_size_key), defaultSizeString);
+        if (!Arrays.asList(ctx.getResources().getStringArray(R.array.list_size_values)).contains(listSize))
+            listSize = defaultSizeString;
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                Float.parseFloat(listSize),
+                ctx.getResources().getDisplayMetrics());
 	}
 
     public static int getDefaultPasswordLength(Context ctx) {

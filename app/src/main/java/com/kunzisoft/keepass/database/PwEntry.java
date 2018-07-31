@@ -102,6 +102,8 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
 		if ( isTan() ) {
 			return PMS_TAN_ENTRY + " " + getUsername();
 		} else {
+			if (getTitle().isEmpty())
+				return getUrl();
 			return getTitle();
 		}
 	}

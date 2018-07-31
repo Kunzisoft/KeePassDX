@@ -27,7 +27,6 @@ import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -38,11 +37,14 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.utils.Util;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private static final String TAG = NodeAdapter.class.getName();
@@ -53,6 +55,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private LayoutInflater inflater;
     private MenuInflater menuInflater;
     private float textSize;
+    private float subtextSize;
     private float iconSize;
     private SortNodeEnum listSort;
     private boolean groupsBeforeSort;
@@ -63,6 +66,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private boolean activateContextMenu;
     private boolean readOnly;
     private boolean isASearchResult;
+
+    private Database database;
 
     private int iconGroupColor;
     private int iconEntryColor;
@@ -94,6 +99,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             }
         });
 
+        // Database
+        this.database = App.getDB();
+
         // Retrieve the color to tint the icon
         int[] attrTextColorPrimary = {android.R.attr.textColorPrimary};
         TypedArray taTextColorPrimary = context.getTheme().obtainStyledAttributes(attrTextColorPrimary);
@@ -118,14 +126,13 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     }
 
     private void assignPreferences() {
+        float textSizeDefault = Util.getListTextDefaultSize(context);
         this.textSize = PreferencesUtil.getListTextSize(context);
+        this.subtextSize = context.getResources().getDimension(R.dimen.list_small_size_default)
+                * textSize / textSizeDefault;
         // Retrieve the icon size
-        int iconDefaultSize = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                context.getResources().getInteger(R.integer.list_icon_size_default),
-                context.getResources().getDisplayMetrics()
-        );
-        this.iconSize = iconDefaultSize * textSize / Float.parseFloat(context.getString(R.string.list_size_default));
+        float iconDefaultSize = context.getResources().getDimension(R.dimen.list_icon_size_default);
+        this.iconSize = iconDefaultSize * textSize / textSizeDefault;
         this.listSort = PreferencesUtil.getListSort(context);
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
         this.ascendingSort = PreferencesUtil.getAscendingSort(context);
@@ -225,9 +232,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                     iconColor = iconEntryColor;
                     break;
             }
-            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), true, iconColor);
+            database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), true, iconColor);
         } else {
-            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
+            database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
         }
         // Assign text
         holder.text.setText(subNode.getDisplayTitle());
@@ -239,11 +246,29 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             holder.container.setOnCreateContextMenuListener(
                     new ContextMenuBuilder(subNode, nodeMenuListener, readOnly));
         }
+
+        // Add username
+        holder.subText.setText("");
+        holder.subText.setVisibility(View.GONE);
+        if (subNode.getType().equals(PwNode.Type.ENTRY)) {
+            PwEntry entry = (PwEntry) subNode;
+            entry.startToManageFieldReferences(database.getPwDatabase());
+
+            String username = entry.getUsername();
+            if (!username.isEmpty()) {
+                holder.subText.setVisibility(View.VISIBLE);
+                holder.subText.setText(username);
+            }
+
+            entry.stopToManageFieldReferences();
+        }
+
         // Assign image and text size
         // Relative size of the icon
         holder.icon.getLayoutParams().height = ((int) iconSize);
         holder.icon.getLayoutParams().width = ((int) iconSize);
         holder.text.setTextSize(textSize);
+        holder.subText.setTextSize(subtextSize);
     }
 
     @Override

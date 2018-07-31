@@ -221,9 +221,6 @@
     <style name="KeepassDXStyle.TextAppearance.Large" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">18sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.FolderTitle" parent="KeepassDXStyle.TextAppearance.Default">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
     <style name="KeepassDXStyle.TextAppearance.Title" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
