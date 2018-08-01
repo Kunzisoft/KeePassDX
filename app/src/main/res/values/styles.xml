@@ -221,6 +221,9 @@
     <style name="KeepassDXStyle.TextAppearance.Large" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">18sp</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.Secondary" parent="KeepassDXStyle.TextAppearance.Small">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
     <style name="KeepassDXStyle.TextAppearance.Title" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
@@ -232,9 +235,6 @@
     <style name="KeepassDXStyle.TextAppearance.LargeTitle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">20sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.SecondaryText" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">14sp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.TinyText" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>

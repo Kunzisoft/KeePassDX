@@ -60,6 +60,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private SortNodeEnum listSort;
     private boolean groupsBeforeSort;
     private boolean ascendingSort;
+    private boolean showUsernames;
 
     private NodeClickCallback nodeClickCallback;
     private NodeMenuListener nodeMenuListener;
@@ -136,6 +137,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         this.listSort = PreferencesUtil.getListSort(context);
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
         this.ascendingSort = PreferencesUtil.getAscendingSort(context);
+        this.showUsernames = PreferencesUtil.showUsernamesListEntries(context);
     }
 
     /**
@@ -250,7 +252,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         // Add username
         holder.subText.setText("");
         holder.subText.setVisibility(View.GONE);
-        if (subNode.getType().equals(PwNode.Type.ENTRY)) {
+        if (showUsernames && subNode.getType().equals(PwNode.Type.ENTRY)) {
             PwEntry entry = (PwEntry) subNode;
             entry.startToManageFieldReferences(database.getPwDatabase());
 

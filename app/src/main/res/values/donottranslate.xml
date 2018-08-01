@@ -55,6 +55,7 @@
     <string name="maskpass_key" translatable="false">maskpass</string>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
     <string name="recentfile_key" translatable="false">recentfile</string>
+    <string name="list_entries_show_username_key" translatable="false">list_entries_show_username_key</string>
     <string name="list_size_key" translatable="false">list_size</string>
     <string name="show_beta_warning" translatable="false">show_beta_warning</string>
     <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
@@ -119,6 +120,7 @@
     <bool name="sort_group_before_default" translatable="false">true</bool>
     <bool name="sort_ascending_default" translatable="false">true</bool>
     <bool name="sort_recycle_bin_bottom_default" translatable="false">true</bool>
+    <bool name="list_entries_show_username_default" translatable="false">true</bool>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <bool name="allow_copy_password_default" translatable="false">false</bool>

@@ -103,8 +103,12 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
 			return PMS_TAN_ENTRY + " " + getUsername();
 		} else {
 			if (getTitle().isEmpty())
-				return getUrl();
-			return getTitle();
+				if (getUrl().isEmpty())
+					return getUUID().toString();
+				else
+					return getUrl();
+			else
+				return getTitle();
 		}
 	}
 

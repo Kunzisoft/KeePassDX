@@ -40,8 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="4dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -52,17 +52,14 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:lines="1"
-            android:lineSpacingExtra="1dp"
             style="@style/KeepassDXStyle.TextAppearance.Default" /> <!-- style override -->
         <TextView
             android:id="@+id/entry_subtext"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:paddingTop="0dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginTop="-4dp"
             android:lines="1"
-            style="@style/KeepassDXStyle.TextAppearance.Small" /> <!-- style override -->
+            style="@style/KeepassDXStyle.TextAppearance.Secondary" /> <!-- style override -->
     </LinearLayout>
 
 </RelativeLayout>

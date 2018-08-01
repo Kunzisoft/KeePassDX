@@ -55,6 +55,12 @@ public class PreferencesUtil {
         sharedPreferencesEditor.apply();
     }
 
+    public static boolean showUsernamesListEntries(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.list_entries_show_username_key),
+                context.getResources().getBoolean(R.bool.list_entries_show_username_default));
+    }
+
     /**
      * Retrieve the text size in SP, verify the integrity of the size stored in preference
      */

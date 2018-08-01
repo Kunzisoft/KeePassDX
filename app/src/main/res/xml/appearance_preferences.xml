@@ -39,6 +39,11 @@
     <PreferenceCategory
         android:title="@string/text_appearance">
 
+        <SwitchPreference
+            android:key="@string/list_entries_show_username_key"
+            android:title="@string/list_entries_show_username_title"
+            android:summary="@string/list_entries_show_username_summary"
+            android:defaultValue="@bool/list_entries_show_username_default"/>
         <ListPreference
             android:key="@string/list_size_key"
             android:title="@string/list_size_title"
