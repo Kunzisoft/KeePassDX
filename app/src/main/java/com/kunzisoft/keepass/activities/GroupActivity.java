@@ -542,7 +542,7 @@ public class GroupActivity extends LockingActivity
         switch (node.getType()) {
             case GROUP:
                 oldGroupToUpdate = (PwGroup) node;
-                GroupEditDialogFragment.build(node)
+                GroupEditDialogFragment.build(oldGroupToUpdate)
                         .show(getSupportFragmentManager(),
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
                 break;
@@ -705,6 +705,8 @@ public class GroupActivity extends LockingActivity
         super.onResume();
         // Refresh the elements
         assignGroupViewElements();
+        // Refresh suggestions to change preferences
+        searchSuggestionAdapter.reInit(this);
     }
 
     /**

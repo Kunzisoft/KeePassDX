@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconFactory;
 import com.kunzisoft.keepass.database.cursor.EntryCursor;
 import com.kunzisoft.keepass.icons.IconPackChooser;
+import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 import java.util.UUID;
 
@@ -44,6 +45,7 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
 
     private LayoutInflater cursorInflater;
     private Database database;
+    private boolean displayUsername;
     private int iconColor;
 
     public SearchEntryCursorAdapter(Context context, Database database) {
@@ -57,6 +59,12 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         TypedArray taTextColor = context.getTheme().obtainStyledAttributes(attrTextColor);
         this.iconColor = taTextColor.getColor(0, Color.WHITE);
         taTextColor.recycle();
+
+        reInit(context);
+    }
+
+    public void reInit(Context context) {
+        this.displayUsername = PreferencesUtil.showUsernamesListEntries(context);
     }
 
     @Override
@@ -66,6 +74,7 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.imageViewIcon = view.findViewById(R.id.entry_icon);
         viewHolder.textViewTitle = view.findViewById(R.id.entry_text);
+        viewHolder.textViewSubTitle = view.findViewById(R.id.entry_subtext);
         view.setTag(viewHolder);
 
         return view;
@@ -75,6 +84,8 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         // Retrieve elements from cursor
+        UUID uuid = new UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
+                cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS)));
         PwIconFactory iconFactory = database.getPwDatabase().getIconFactory();
         PwIcon icon = iconFactory.getIcon(
                 new UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
@@ -85,6 +96,8 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
                 icon = iconFactory.getKeyIcon();
         }
         String title = cursor.getString( cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE) );
+        String username = cursor.getString( cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_USERNAME) );
+        String url = cursor.getString( cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_URL) );
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
@@ -95,12 +108,17 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
             database.getDrawFactory().assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon);
         }
         // Assign title
-        viewHolder.textViewTitle.setText(title);
+        String showTitle = PwEntry.getVisualTitle(false, title, username, url, uuid);
+        viewHolder.textViewTitle.setText(showTitle);
+        if (displayUsername && !username.isEmpty()) {
+            viewHolder.textViewSubTitle.setText(String.format("(%s)", username));
+        }
     }
 
     private static class ViewHolder {
         ImageView imageViewIcon;
         TextView textViewTitle;
+        TextView textViewSubTitle;
     }
 
     @Override

@@ -201,13 +201,14 @@
     <style name="KeepassDXStyle.TextAppearance" parent="android:style/TextAppearance">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Inverse" parent="android:style/TextAppearance">
+    <style name="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" parent="android:style/TextAppearance">
         <item name="android:textColor">?attr/textColorInverse</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary" parent="android:style/TextAppearance">
-        <item name="android:textColor">?attr/textColorInverse</item>
+    <style name="KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">italic</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.TitleTextOnPrimary" parent="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary">
+    <style name="KeepassDXStyle.TextAppearance.Title.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -266,7 +267,7 @@
     </style>
 
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary" />
+    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" />
     <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.v21.FabMenu">
         <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/button_small_background</item>

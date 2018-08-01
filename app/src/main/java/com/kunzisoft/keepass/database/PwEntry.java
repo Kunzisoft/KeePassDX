@@ -97,20 +97,30 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
 		return getTitle().equals(PMS_TAN_ENTRY) && (getUsername().length() > 0);
 	}
 
-	@Override
-	public String getDisplayTitle() {
-		if ( isTan() ) {
-			return PMS_TAN_ENTRY + " " + getUsername();
-		} else {
-			if (getTitle().isEmpty())
-				if (getUrl().isEmpty())
-					return getUUID().toString();
-				else
-					return getUrl();
-			else
-				return getTitle();
-		}
+    /**
+     * {@inheritDoc}
+     * Get the display title from an entry, <br />
+     * {@link #startToManageFieldReferences(PwDatabase)} and {@link #stopToManageFieldReferences()} must be called
+     * before and after {@link #getVisualTitle()}
+     */
+	public String getVisualTitle() {
+	    // only used to compare, don't car if it's a reference
+	    return getVisualTitle(isTan(), getTitle(), getUsername(), getUrl(), getUUID());
 	}
+
+	public static String getVisualTitle(boolean isTAN, String title, String username, String url, UUID uuid) {
+        if ( isTAN ) {
+            return PMS_TAN_ENTRY + " " + username;
+        } else {
+            if (title.isEmpty())
+                if (url.isEmpty())
+                    return uuid.toString();
+                else
+                    return url;
+            else
+                return title;
+        }
+    }
 
 	// TODO encapsulate extra fields
 

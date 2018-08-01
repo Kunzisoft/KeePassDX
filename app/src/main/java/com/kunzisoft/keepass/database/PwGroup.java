@@ -130,10 +130,18 @@ public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup
 	public abstract void setId(PwGroupId id);
 
     @Override
-    public String getDisplayTitle() {
+    protected String getVisualTitle() {
+        return getTitle();
+    }
+
+    @Override
+    public String getTitle() {
         return getName();
     }
 
+    /**
+     * The same thing as {@link #getTitle()}
+     */
     public String getName() {
         return name;
     }

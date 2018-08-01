@@ -239,7 +239,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
         }
         // Assign text
-        holder.text.setText(subNode.getDisplayTitle());
+        holder.text.setText(subNode.getTitle());
         // Assign click
         holder.container.setOnClickListener(
                 new OnNodeClickListener(subNode));
@@ -252,12 +252,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         // Add username
         holder.subText.setText("");
         holder.subText.setVisibility(View.GONE);
-        if (showUsernames && subNode.getType().equals(PwNode.Type.ENTRY)) {
+        if (subNode.getType().equals(PwNode.Type.ENTRY)) {
             PwEntry entry = (PwEntry) subNode;
             entry.startToManageFieldReferences(database.getPwDatabase());
 
+            holder.text.setText(entry.getVisualTitle());
+
             String username = entry.getUsername();
-            if (!username.isEmpty()) {
+            if (showUsernames && !username.isEmpty()) {
                 holder.subText.setVisibility(View.VISIBLE);
                 holder.subText.setText(username);
             }

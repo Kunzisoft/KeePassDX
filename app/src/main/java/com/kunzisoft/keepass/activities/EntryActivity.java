@@ -323,7 +323,7 @@ public class EntryActivity extends LockingHideActivity {
         }
 
 		// Assign title text
-        titleView.setText(mEntry.getDisplayTitle());
+        titleView.setText(mEntry.getVisualTitle());
 
         // Assign basic fields
         entryContentsView.assignUserName(mEntry.getUsername());

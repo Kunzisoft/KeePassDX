@@ -35,8 +35,8 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwIcon;
-import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 
 import static com.kunzisoft.keepass.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION;
@@ -76,9 +76,9 @@ public class GroupEditDialogFragment extends DialogFragment
         return fragment;
     }
 
-    public static GroupEditDialogFragment build(PwNode group) {
+    public static GroupEditDialogFragment build(PwGroup group) {
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_NAME, group.getDisplayTitle());
+        bundle.putString(KEY_NAME, group.getName());
         bundle.putParcelable(KEY_ICON_ID, group.getIcon());
         bundle.putInt(KEY_ACTION_ID, UPDATE.ordinal());
         GroupEditDialogFragment fragment = new GroupEditDialogFragment();

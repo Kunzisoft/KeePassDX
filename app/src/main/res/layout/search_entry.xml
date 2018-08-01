@@ -42,10 +42,24 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:lines="1"
-        style="@style/KeepassDXStyle.TextAppearance.Inverse"
+        android:singleLine="true"
+        style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/entry_icon"
+        android:layout_toEndOf="@+id/entry_icon" />
+    <TextView
+        android:id="@+id/entry_subtext"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:lines="1"
+        android:singleLine="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/entry_icon"
-        android:layout_toEndOf="@+id/entry_icon" />
+        android:layout_toRightOf="@+id/entry_text"
+        android:layout_toEndOf="@+id/entry_text" />
 </RelativeLayout>

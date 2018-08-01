@@ -64,6 +64,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:lines="1"
+            android:singleLine="true"
             style="@style/KeepassDXStyle.TextAppearance.Title" /> <!-- style override -->
         <TextView android:id="@+id/group_subtext"
             android:layout_width="wrap_content"
@@ -71,6 +72,7 @@
             android:gravity="center_vertical"
             android:layout_marginTop="-4dp"
             android:lines="1"
+            android:singleLine="true"
             style="@style/KeepassDXStyle.TextAppearance.Secondary" /> <!-- style override -->
     </LinearLayout>
 </RelativeLayout>

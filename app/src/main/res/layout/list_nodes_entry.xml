@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:lines="1"
+            android:singleLine="true"
             style="@style/KeepassDXStyle.TextAppearance.Default" /> <!-- style override -->
         <TextView
             android:id="@+id/entry_subtext"
@@ -59,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="-4dp"
             android:lines="1"
+            android:singleLine="true"
             style="@style/KeepassDXStyle.TextAppearance.Secondary" /> <!-- style override -->
     </LinearLayout>
 
