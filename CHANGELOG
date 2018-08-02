@@ -1,9 +1,10 @@
 KeepassDX (2.5.0.0beta16)
  * New search in a single fragment
  * Search suggestions
- * Fix read-only mode
+ * Added the display of usernames
  * Added translations
- * Fix parcelable / toolbar
+ * Fix read-only mode
+ * Fix parcelable / toolbar / back
 
 KeepassDX (2.5.0.0beta15)
  * Read only mode

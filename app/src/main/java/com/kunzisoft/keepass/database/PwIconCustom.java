@@ -27,7 +27,7 @@ public class PwIconCustom extends PwIcon {
 	public static final PwIconCustom ZERO = new PwIconCustom(PwDatabase.UUID_ZERO, new byte[0]);
 	
 	private final UUID uuid;
-	private byte[] imageData;
+	transient private byte[] imageData;
 	
 	public PwIconCustom(UUID uuid, byte[] data) {
 	    super();
@@ -44,7 +44,8 @@ public class PwIconCustom extends PwIcon {
 	protected PwIconCustom(Parcel in) {
 	    super(in);
         uuid = (UUID) in.readSerializable();
-        in.readByteArray(imageData);
+        // TODO Take too much memories
+        // in.readByteArray(imageData);
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public class PwIconCustom extends PwIcon {
     @Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeSerializable(uuid);
-		dest.writeByteArray(imageData);
+		// Too big for a parcelable dest.writeByteArray(imageData);
 	}
 
     public static final Creator<PwIconCustom> CREATOR = new Creator<PwIconCustom>() {
@@ -82,7 +83,7 @@ public class PwIconCustom extends PwIcon {
         }
     };
 
-	@Override
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

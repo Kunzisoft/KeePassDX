@@ -37,6 +37,10 @@ public class PwIconFactory {
 	 */
 	private ReferenceMap customCache = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
 
+    public PwIconStandard getUnknownIcon() {
+        return getIcon(PwIconStandard.UNKNOWN);
+    }
+
 	public PwIconStandard getKeyIcon() {
 		return getIcon(PwIconStandard.KEY);
 	}

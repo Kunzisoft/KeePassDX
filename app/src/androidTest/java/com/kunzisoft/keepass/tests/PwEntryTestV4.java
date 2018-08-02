@@ -45,10 +45,10 @@ public class PwEntryTestV4 extends TestCase {
 		
 		entry.setBackgroupColor("blue");
 		entry.putProtectedBinary("key1", new ProtectedBinary(false, new byte[] {0,1}));
-		entry.setCustomIcon(new PwIconCustom(UUID.randomUUID(), new byte[0]));
+		entry.setIconCustom(new PwIconCustom(UUID.randomUUID(), new byte[0]));
 		entry.setForegroundColor("red");
 		entry.addToHistory(new PwEntryV4());
-		entry.setIcon(new PwIconStandard(5));
+		entry.setIconStandard(new PwIconStandard(5));
 		entry.setOverrideURL("override");
 		entry.setParent(new PwGroupV4());
 		entry.addExtraField("key2", new ProtectedString(false, "value2"));

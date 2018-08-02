@@ -91,7 +91,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
         PwGroupV3 group = createGroup();
         group.setId(newGroupId());
         group.setName(name);
-        group.setIcon(iconFactory.getIcon(iconId));
+        group.setIconStandard(iconFactory.getIcon(iconId));
         addGroupTo(group, parent);
     }
 
@@ -176,7 +176,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		 */
 		for (int i = 0; i < entries.size(); i++) {
 			PwEntryV3 ent = entries.get(i);
-			if (ent.getGroupId() == parent.getGroupId())
+			if (ent.getParent().getGroupId() == parent.getGroupId())
 				kids.add(ent);
 		}
 		return kids;

@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconFactory;
 import com.kunzisoft.keepass.database.cursor.EntryCursor;
-import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 import java.util.UUID;
@@ -102,16 +101,15 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         // Assign image
-        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
-            database.getDrawFactory().assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon, true, iconColor);
-        } else {
-            database.getDrawFactory().assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon);
-        }
+        database.getDrawFactory().assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon, iconColor);
+
         // Assign title
         String showTitle = PwEntry.getVisualTitle(false, title, username, url, uuid);
         viewHolder.textViewTitle.setText(showTitle);
         if (displayUsername && !username.isEmpty()) {
             viewHolder.textViewSubTitle.setText(String.format("(%s)", username));
+        } else {
+            viewHolder.textViewSubTitle.setText("");
         }
     }
 

@@ -47,7 +47,6 @@ import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
-import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.lock.LockingHideActivity;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
@@ -83,6 +82,8 @@ public class EntryActivity extends LockingHideActivity {
 
 	private ClipboardHelper clipboardHelper;
 	private boolean firstLaunchOfActivity;
+
+	private int iconColor;
 
     public static void launch(Activity act, PwEntry pw, boolean readOnly) {
         if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
@@ -125,6 +126,11 @@ public class EntryActivity extends LockingHideActivity {
 			finish();
 			return;
 		}
+
+        // Retrieve the textColor to tint the icon
+        int[] attrs = {R.attr.textColorInverse};
+        TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+        iconColor = ta.getColor(0, Color.WHITE);
 		
 		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
 		invalidateOptionsMenu();
@@ -312,15 +318,7 @@ public class EntryActivity extends LockingHideActivity {
 		mEntry.startToManageFieldReferences(pm);
 
         // Assign title icon
-        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-            // Retrieve the textColor to tint the icon
-            int[] attrs = {R.attr.textColorInverse};
-            TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-            int iconColor = ta.getColor(0, Color.WHITE);
-            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon(), true, iconColor);
-        } else {
-            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon());
-        }
+        db.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
 
 		// Assign title text
         titleView.setText(mEntry.getVisualTitle());

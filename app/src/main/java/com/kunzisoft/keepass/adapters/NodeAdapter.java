@@ -42,7 +42,6 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
 
@@ -224,20 +223,16 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public void onBindViewHolder(@NonNull BasicViewHolder holder, int position) {
         PwNode subNode = nodeSortedList.get(position);
         // Assign image
-        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
-            int iconColor = Color.BLACK;
-            switch (subNode.getType()) {
-                case GROUP:
-                    iconColor = iconGroupColor;
-                    break;
-                case ENTRY:
-                    iconColor = iconEntryColor;
-                    break;
-            }
-            database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), true, iconColor);
-        } else {
-            database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
+        int iconColor = Color.BLACK;
+        switch (subNode.getType()) {
+            case GROUP:
+                iconColor = iconGroupColor;
+                break;
+            case ENTRY:
+                iconColor = iconEntryColor;
+                break;
         }
+        database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), iconColor);
         // Assign text
         holder.text.setText(subNode.getTitle());
         // Assign click

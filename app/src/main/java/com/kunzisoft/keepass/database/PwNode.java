@@ -132,14 +132,14 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
      * @return Visual icon
      */
     public PwIcon getIcon() {
-        return icon;
+        return getIconStandard();
     }
 
     public PwIconStandard getIconStandard() {
         return icon;
     }
 
-    public void setIcon(PwIconStandard icon) {
+    public void setIconStandard(PwIconStandard icon) {
         this.icon = icon;
     }
 

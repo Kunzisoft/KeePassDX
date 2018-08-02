@@ -1,5 +1,6 @@
  * Nouvelle recherche dans un seul fragment
  * Suggestions de recherche
- * Correction du mode lecture seule
+ * Ajout de l'affichage des noms d'utilisateurs
  * Ajout de traductions
- * Correction de parcelable / de barre de navigation
+ * Correction du mode lecture seule
+ * Correction de parcelable / barre de navigation / retour

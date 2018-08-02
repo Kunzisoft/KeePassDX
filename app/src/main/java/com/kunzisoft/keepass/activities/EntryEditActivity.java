@@ -56,7 +56,6 @@ import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
-import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.lock.LockingHideActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -71,7 +70,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.UNDEFINED_ICON_ID;
+import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.KEY_ICON_STANDARD;
 
 public class EntryEditActivity extends LockingHideActivity
 		implements IconPickerDialogFragment.IconPickerListener,
@@ -89,10 +88,12 @@ public class EntryEditActivity extends LockingHideActivity
 	public static final int ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129;
 	public static final String ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY";
 
+	private Database database;
+
 	protected PwEntry mEntry;
 	protected PwEntry mCallbackNewEntry;
 	protected boolean mIsNew;
-	protected int mSelectedIconID = UNDEFINED_ICON_ID;
+	protected PwIconStandard mSelectedIconStandard;
 
     // Views
     private ScrollView scrollView;
@@ -143,7 +144,6 @@ public class EntryEditActivity extends LockingHideActivity
 		setContentView(R.layout.entry_edit);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -162,8 +162,8 @@ public class EntryEditActivity extends LockingHideActivity
         entryExtraFieldsContainer = findViewById(R.id.advanced_container);
 		
 		// Likely the app has been killed exit the activity
-		Database db = App.getDB();
-		if ( ! db.getLoaded() ) {
+        database = App.getDB();
+		if ( ! database.getLoaded() ) {
 			finish();
 			return;
 		}
@@ -176,18 +176,16 @@ public class EntryEditActivity extends LockingHideActivity
         TypedArray ta = getTheme().obtainStyledAttributes(attrs);
         iconColor = ta.getColor(0, Color.WHITE);
 
-		PwDatabase pm = db.getPwDatabase();
+        mSelectedIconStandard = database.getPwDatabase().getIconFactory().getUnknownIcon();
+
+		PwDatabase pm = database.getPwDatabase();
 		if ( uuidBytes == null ) {
             PwGroupId parentId = intent.getParcelableExtra(KEY_PARENT);
 			PwGroup parent = pm.getGroupByGroupId(parentId);
-			mEntry = db.createEntry(parent);
+			mEntry = database.createEntry(parent);
 			mIsNew = true;
 			// Add the default icon
-            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, true, iconColor);
-            } else {
-                App.getDB().getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView);
-            }
+            database.getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, iconColor);
 		} else {
 			UUID uuid = Types.bytestoUUID(uuidBytes);
 			mEntry = pm.getEntryByUUIDId(uuid);
@@ -195,8 +193,12 @@ public class EntryEditActivity extends LockingHideActivity
 			fillData();
 		}
 
+        // Assign title
+        setTitle((mIsNew) ? getString(R.string.add_entry) : getString(R.string.edit_entry));
+
 		// Retrieve the icon after an orientation change
-		if (savedInstanceState != null && savedInstanceState.containsKey(IconPickerDialogFragment.KEY_ICON_ID)) {
+		if (savedInstanceState != null
+                && savedInstanceState.containsKey(KEY_ICON_STANDARD)) {
             iconPicked(savedInstanceState);
         }
 
@@ -259,9 +261,9 @@ public class EntryEditActivity extends LockingHideActivity
         EntryEditActivity act = EntryEditActivity.this;
         RunnableOnFinish task;
         if ( mIsNew ) {
-            task = new AddEntryRunnable(act, App.getDB(), mCallbackNewEntry, onFinish);
+            task = new AddEntryRunnable(act, database, mCallbackNewEntry, onFinish);
         } else {
-            task = new UpdateEntryRunnable(act, App.getDB(), mEntry, mCallbackNewEntry, onFinish);
+            task = new UpdateEntryRunnable(act, database, mEntry, mCallbackNewEntry, onFinish);
         }
         task.setUpdateProgressTaskStatus(
                 new UpdateProgressTaskStatus(this,
@@ -409,7 +411,7 @@ public class EntryEditActivity extends LockingHideActivity
         newEntry.setLastModificationTime(new PwDate());
 
         newEntry.setTitle(entryTitleView.getText().toString());
-        newEntry.setIcon(retrieveIcon());
+        newEntry.setIconStandard(retrieveIcon());
 
         newEntry.setUrl(entryUrlView.getText().toString());
         newEntry.setUsername(entryUserNameView.getText().toString());
@@ -436,14 +438,14 @@ public class EntryEditActivity extends LockingHideActivity
 
     /**
      * Retrieve the icon by the selection, or the first icon in the list if the entry is new or the last one
-     * @return
      */
 	private PwIconStandard retrieveIcon() {
-        if(mSelectedIconID != UNDEFINED_ICON_ID)
-            return App.getDB().getPwDatabase().getIconFactory().getIcon(mSelectedIconID);
+
+        if (!mSelectedIconStandard.isUnknown())
+            return mSelectedIconStandard;
         else {
             if (mIsNew) {
-                return App.getDB().getPwDatabase().getIconFactory().getKeyIcon();
+                return database.getPwDatabase().getIconFactory().getKeyIcon();
             }
             else {
                 // Keep previous icon, if no new one was selected
@@ -475,13 +477,18 @@ public class EntryEditActivity extends LockingHideActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void assignIconView() {
+        database.getDrawFactory()
+                .assignDatabaseIconTo(
+                        this,
+                        entryIconView,
+                        mEntry.getIcon(),
+                        iconColor);
+    }
+
 	protected void fillData() {
 
-        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-            App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon(), true, iconColor);
-        } else {
-            App.getDB().getDrawFactory().assignDatabaseIconTo(this, entryIconView, mEntry.getIcon());
-        }
+        assignIconView();
 
 		// Don't start the field reference manager, we want to see the raw ref
         mEntry.stopToManageFieldReferences();
@@ -515,14 +522,15 @@ public class EntryEditActivity extends LockingHideActivity
 
     @Override
     public void iconPicked(Bundle bundle) {
-        mSelectedIconID = bundle.getInt(IconPickerDialogFragment.KEY_ICON_ID);
-        entryIconView.setImageResource(IconPackChooser.getSelectedIconPack(this).iconToResId(mSelectedIconID));
+        mSelectedIconStandard = bundle.getParcelable(KEY_ICON_STANDARD);
+        mEntry.setIconStandard(mSelectedIconStandard);
+        assignIconView();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (mSelectedIconID != UNDEFINED_ICON_ID) {
-            outState.putInt(IconPickerDialogFragment.KEY_ICON_ID, mSelectedIconID);
+        if (!mSelectedIconStandard.isUnknown()) {
+            outState.putParcelable(KEY_ICON_STANDARD, mSelectedIconStandard);
             super.onSaveInstanceState(outState);
         }
     }

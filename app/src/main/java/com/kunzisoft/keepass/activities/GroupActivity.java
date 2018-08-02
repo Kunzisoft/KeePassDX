@@ -62,6 +62,7 @@ import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
+import com.kunzisoft.keepass.database.PwGroupV4;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
@@ -79,7 +80,6 @@ import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
-import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
@@ -135,6 +135,8 @@ public class GroupActivity extends LockingActivity
     private AutofillHelper autofillHelper;
 
     private SearchEntryCursorAdapter searchSuggestionAdapter;
+
+    private int iconColor;
 
     // After a database creation
     public static void launch(Activity act) {
@@ -266,6 +268,11 @@ public class GroupActivity extends LockingActivity
             nodeToCopy = null;
             nodeToMove = null;
         });
+
+        // Retrieve the textColor to tint the icon
+        int[] attrs = {R.attr.textColorInverse};
+        TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+        iconColor = ta.getColor(0, Color.WHITE);
 
         String fragmentTag = LIST_NODES_FRAGMENT_TAG;
         if (currentGroupIsASearch)
@@ -439,15 +446,7 @@ public class GroupActivity extends LockingActivity
             // Assign the group icon depending of IconPack or custom icon
             iconView.setVisibility(View.VISIBLE);
             if (mCurrentGroup != null) {
-                if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-                    // Retrieve the textColor to tint the icon
-                    int[] attrs = {R.attr.textColorInverse};
-                    TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-                    int iconColor = ta.getColor(0, Color.WHITE);
-                    App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
-                } else {
-                    App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
-                }
+                database.getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), iconColor);
 
                 if (toolbar != null) {
                     if (mCurrentGroup.containsParent())
@@ -706,7 +705,8 @@ public class GroupActivity extends LockingActivity
         // Refresh the elements
         assignGroupViewElements();
         // Refresh suggestions to change preferences
-        searchSuggestionAdapter.reInit(this);
+        if (searchSuggestionAdapter != null)
+            searchSuggestionAdapter.reInit(this);
     }
 
     /**
@@ -978,7 +978,7 @@ public class GroupActivity extends LockingActivity
                 try {
                     iconStandard = (PwIconStandard) icon;
                 } catch (Exception ignored) {} // TODO custom icon
-                newGroup.setIcon(iconStandard);
+                newGroup.setIconStandard(iconStandard);
 
                 // If group created save it in the database
                 AddGroupRunnable addGroupRunnable = new AddGroupRunnable(this,
@@ -1000,8 +1000,11 @@ public class GroupActivity extends LockingActivity
                     updateGroup.setName(name);
                     try {
                         iconStandard = (PwIconStandard) icon;
-                    } catch (Exception ignored) {} // TODO custom icon
-                    updateGroup.setIcon(iconStandard);
+                        updateGroup = ((PwGroupV4) oldGroupToUpdate).clone(); // TODO generalize
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } // TODO custom icon
+                    updateGroup.setIconStandard(iconStandard);
 
                     if (listNodesFragment != null)
                         listNodesFragment.removeNode(oldGroupToUpdate);

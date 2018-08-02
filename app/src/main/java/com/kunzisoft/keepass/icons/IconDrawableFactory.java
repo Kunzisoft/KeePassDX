@@ -65,51 +65,49 @@ public class IconDrawableFactory {
 	private ReferenceMap standardIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
 
     /**
-     * Assign a default database icon to an ImageView
+     * Assign a default database icon to an ImageView and tint it if needed
      *
      * @param context Context to build the drawable
-     * @param iv ImageView that will host the drawable
+     * @param iconView ImageView that will host the drawable
+     * @param tintColor Use this color to tint tintable icon
      */
-    public void assignDefaultDatabaseIconTo(Context context, ImageView iv) {
-        assignDefaultDatabaseIconTo(context, iv, false, Color.WHITE);
+    public void assignDefaultDatabaseIconTo(Context context, ImageView iconView, int tintColor) {
+        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
+            assignDrawableTo(context,
+                    iconView,
+                    IconPackChooser.getSelectedIconPack(context).getDefaultIconId(),
+                    true,
+                    tintColor);
+        } else {
+            assignDrawableTo(context,
+                    iconView,
+                    IconPackChooser.getSelectedIconPack(context).getDefaultIconId(),
+                    false,
+                    Color.WHITE);
+        }
     }
 
     /**
-     * Assign a default database icon to an ImageView and tint it
+     *  Assign a database icon to an ImageView and tint it if needed
      *
      * @param context Context to build the drawable
-     * @param iv ImageView that will host the drawable
-     */
-    public void assignDefaultDatabaseIconTo(Context context, ImageView iv, boolean tint, int tintColor) {
-        assignDrawableTo(context, iv, IconPackChooser.getSelectedIconPack(context).getDefaultIconId(), tint, tintColor);
-    }
-
-    /**
-     * Assign a database icon to an ImageView
-     *
-     * @param context Context to build the drawable
-     * @param iv ImageView that will host the drawable
+     * @param iconView ImageView that will host the drawable
      * @param icon The icon from the database
+     * @param tintColor Use this color to tint tintable icon
      */
-	public void assignDatabaseIconTo(Context context, ImageView iv, PwIcon icon) {
-        assignDatabaseIconTo(context, iv, icon, false, Color.WHITE);
+	public void assignDatabaseIconTo(Context context, ImageView iconView, PwIcon icon, int tintColor) {
+		if (IconPackChooser.getSelectedIconPack(context).tintable()) {
+            assignDrawableToImageView(getIconDrawable(context, icon, true, tintColor),
+                    iconView,
+                    true,
+                    tintColor);
+		} else {
+            assignDrawableToImageView(getIconDrawable(context, icon, true, tintColor),
+                    iconView,
+                    false,
+                    Color.WHITE);
+		}
 	}
-
-    /**
-     *  Assign a database icon to an ImageView and tint it
-     *
-     * @param context Context to build the drawable
-     * @param imageView ImageView that will host the drawable
-     * @param icon The icon from the database
-     * @param tint true will tint the drawable with tintColor
-     * @param tintColor Use this color if tint is true
-     */
-    public void assignDatabaseIconTo(Context context, ImageView imageView, PwIcon icon, boolean tint, int tintColor) {
-        assignDrawableToImageView(getIconDrawable(context, icon, tint, tintColor),
-                imageView,
-                tint,
-                tintColor);
-    }
 
     /**
      *  Assign an image by its resourceId to an ImageView and tint it

@@ -67,8 +67,8 @@ public class EntryCursor extends MatrixCursor {
                 entry.getUUID().getLeastSignificantBits(),
                 entry.getTitle(),
                 entry.getIconStandard().getIconId(),
-                entry.getCustomIcon().getUUID().getMostSignificantBits(),
-                entry.getCustomIcon().getUUID().getLeastSignificantBits(),
+                entry.getIconCustom().getUUID().getMostSignificantBits(),
+                entry.getIconCustom().getUUID().getLeastSignificantBits(),
                 entry.getUsername(),
                 entry.getPassword(),
                 entry.getUrl(),
@@ -88,7 +88,7 @@ public class EntryCursor extends MatrixCursor {
         pwEntry.setTitle(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE)));
 
         PwIconStandard iconStandard = iconFactory.getIcon(getInt(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_STANDARD)));
-        pwEntry.setIcon(iconStandard);
+        pwEntry.setIconStandard(iconStandard);
 
         pwEntry.setUsername(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_USERNAME)));
         pwEntry.setPassword(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_PASSWORD)));
@@ -107,7 +107,7 @@ public class EntryCursor extends MatrixCursor {
         PwIconCustom iconCustom = iconFactory.getIcon(
                 new UUID(getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
                         getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))));
-        pwEntry.setCustomIcon(iconCustom);
+        pwEntry.setIconCustom(iconCustom);
 
         // Retrieve extra fields
         if (extraFieldCursor.moveToFirst()) {

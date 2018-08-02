@@ -205,17 +205,21 @@ public class Database {
         // TODO real content provider
         if (!query.isEmpty()) {
             PwGroup searchResult = search(query, 6);
+            PwVersion version = getPwDatabase().getVersion();
             for (int i=0; i < searchResult.numbersOfChildEntries(); i++) {
                 PwEntry entry = searchResult.getChildEntryAt(i);
-                try {
-                    switch (getPwDatabase().getVersion()) {
-                        case V3:
-                            cursor.addEntry((PwEntryV3) entry);
-                        case V4:
-                            cursor.addEntry((PwEntryV4) entry);
+                if (!entry.isMetaStream()) { // TODO metastream
+                    try {
+                        switch (version) {
+                            case V3:
+                                cursor.addEntry((PwEntryV3) entry);
+                                continue;
+                            case V4:
+                                cursor.addEntry((PwEntryV4) entry);
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "This version of PwEntry can't be added to the cursor", e);
                     }
-                } catch (Exception e) {
-                    Log.e(TAG, "This version of PwGroup can't be populated", e);
                 }
             }
         }
@@ -223,20 +227,22 @@ public class Database {
     }
 
     public void populateEntry(PwEntry pwEntry, EntryCursor cursor) {
-        // TODO invert field reference manager
-        pwEntry.startToManageFieldReferences(getPwDatabase());
         PwIconFactory iconFactory = getPwDatabase().getIconFactory();
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
                     cursor.populateEntry((PwEntryV3) pwEntry, iconFactory);
+                    break;
                 case V4:
+                    // TODO invert field reference manager
+                    pwEntry.startToManageFieldReferences(getPwDatabase());
                     cursor.populateEntry((PwEntryV4) pwEntry, iconFactory);
+                    pwEntry.stopToManageFieldReferences();
+                    break;
             }
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be populated", e);
         }
-        pwEntry.stopToManageFieldReferences();
     }
 
     public void saveData(Context ctx) throws IOException, PwDbOutputException {
@@ -515,18 +521,17 @@ public class Database {
     }
 
     public PwEntry createEntry(@Nullable PwGroup parent) {
-        PwEntry newPwEntry = null;
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
-                    newPwEntry = new PwEntryV3((PwGroupV3) parent);
+                    return new PwEntryV3((PwGroupV3) parent);
                 case V4:
-                    newPwEntry = new PwEntryV4((PwGroupV4) parent);
+                    return new PwEntryV4((PwGroupV4) parent);
             }
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be created", e);
         }
-        return newPwEntry;
+        return null;
     }
 
     public PwGroup createGroup(PwGroup parent) {

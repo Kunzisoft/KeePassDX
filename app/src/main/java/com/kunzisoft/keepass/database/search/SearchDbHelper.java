@@ -42,7 +42,7 @@ import java.util.Locale;
 import java.util.Queue;
 
 public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, PwEntrySearch>,
-		PwGroupSearch extends PwGroup<PwGroupSearch, PwGroupSearch, PwEntrySearch>,
+		PwGroupSearch extends PwGroup<PwGroupSearch, PwEntrySearch>,
 		PwEntrySearch extends PwEntry<PwGroupSearch>> {
 	
 	private final Context mCtx;
