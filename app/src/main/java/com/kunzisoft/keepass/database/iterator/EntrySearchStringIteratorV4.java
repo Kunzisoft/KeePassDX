@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.iterator;
 
 import com.kunzisoft.keepass.database.PwEntryV4;
-import com.kunzisoft.keepass.database.SearchParametersV4;
+import com.kunzisoft.keepass.database.search.SearchParametersV4;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 
 import java.util.Iterator;
@@ -78,18 +78,19 @@ public class EntrySearchStringIteratorV4 extends EntrySearchStringIterator {
 	}
 	
 	private boolean searchInField(String key) {
-		if (key.equals(PwEntryV4.STR_TITLE)) {
-			return sp.searchInTitles;
-		} else if (key.equals(PwEntryV4.STR_USERNAME)) {
-			return sp.searchInUserNames;
-		} else if (key.equals(PwEntryV4.STR_PASSWORD)) {
-			return sp.searchInPasswords;
-		} else if (key.equals(PwEntryV4.STR_URL)) {
-			return sp.searchInUrls;
-		} else if (key.equals(PwEntryV4.STR_NOTES)) {
-			return sp.searchInNotes;
-		} else {
-			return sp.searchInOther;
+		switch (key) {
+			case PwEntryV4.STR_TITLE:
+				return sp.searchInTitles;
+			case PwEntryV4.STR_USERNAME:
+				return sp.searchInUserNames;
+			case PwEntryV4.STR_PASSWORD:
+				return sp.searchInPasswords;
+			case PwEntryV4.STR_URL:
+				return sp.searchInUrls;
+			case PwEntryV4.STR_NOTES:
+				return sp.searchInNotes;
+			default:
+				return sp.searchInOther;
 		}
 	}
 

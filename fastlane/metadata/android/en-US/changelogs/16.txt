@@ -1,0 +1,6 @@
+ * New search in a single fragment
+ * Search suggestions
+ * Added the display of usernames
+ * Added translations
+ * Fix read-only mode
+ * Fix parcelable / toolbar / back

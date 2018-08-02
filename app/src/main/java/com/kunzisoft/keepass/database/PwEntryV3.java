@@ -77,8 +77,6 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 	private static final String PMS_ID_USER    = "SYSTEM";
 	private static final String PMS_ID_URL     = "$";
 
-    // TODO Parent ID to remove
-    private int groupId;
     private String title;
 	private	String username;
 	private byte[] password;
@@ -94,12 +92,10 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 	
 	public PwEntryV3(PwGroupV3 p) {
 	    construct(p);
-		groupId = ((PwGroupIdV3) this.parent.getId()).getId(); // TODO remove
 	}
 
     public PwEntryV3(Parcel in) {
         super(in);
-        groupId = in.readInt();
         title = in.readString();
         username = in.readString();
         in.readByteArray(password);
@@ -112,7 +108,6 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeInt(groupId);
         dest.writeString(title);
         dest.writeString(username);
         dest.writeByteArray(password);
@@ -136,7 +131,6 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 
     protected void updateWith(PwEntryV3 source) {
         super.assign(source);
-        groupId = source.groupId;
 
         title = source.title;
         username = source.username;
@@ -182,12 +176,9 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
         return newEntry;
     }
 
-    public int getGroupId() {
-	    return groupId;
-    }
-
     public void setGroupId(int groupId) {
-	    this.groupId = groupId;
+	    this.parent = new PwGroupV3();
+	    this.parent.setGroupId(groupId);
     }
 
     @Override

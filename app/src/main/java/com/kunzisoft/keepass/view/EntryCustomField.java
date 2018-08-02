@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -62,10 +63,12 @@ public class EntryCustomField extends LinearLayout {
         setLabel(label);
         setValue(value);
 
-        if (!showAction) {
-            actionImageView.setVisibility(INVISIBLE);
-        } else {
+        if (showAction) {
+            actionImageView.setEnabled(true);
             setAction(onClickActionListener);
+        } else {
+            actionImageView.setEnabled(false);
+            actionImageView.setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark));
         }
 	}
 

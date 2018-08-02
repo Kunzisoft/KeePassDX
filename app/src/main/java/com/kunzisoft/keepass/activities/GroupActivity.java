@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
@@ -29,24 +30,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
+import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.database.Database;
@@ -54,9 +62,11 @@ import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
+import com.kunzisoft.keepass.database.PwGroupV4;
 import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
+import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.database.action.node.AddGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
 import com.kunzisoft.keepass.database.action.node.CopyEntryRunnable;
@@ -69,47 +79,64 @@ import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
-import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.search.SearchResultsActivity;
+import com.kunzisoft.keepass.dialogs.SortDialogFragment;
+import com.kunzisoft.keepass.lock.LockingActivity;
+import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
+import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import static com.kunzisoft.keepass.activities.ReadOnlyHelper.READ_ONLY_DEFAULT;
 
-public class GroupActivity extends ListNodesActivity
+public class GroupActivity extends LockingActivity
         implements GroupEditDialogFragment.EditGroupListener,
         IconPickerDialogFragment.IconPickerListener,
         NodeAdapter.NodeMenuListener,
-        ListNodesFragment.OnScrollListener {
+        ListNodesFragment.OnScrollListener,
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
+        NodeAdapter.NodeClickCallback,
+        SortDialogFragment.SortSelectionListener {
 
     private static final String TAG = GroupActivity.class.getName();
 
-    protected static final String GROUP_ID_KEY = "GROUP_ID_KEY";
+    private static final String GROUP_ID_KEY = "GROUP_ID_KEY";
+    private static final String LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG";
+    private static final String SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG";
+    private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
+    private static final String NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY";
+    private static final String NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY";
 
     private Toolbar toolbar;
-
+    private View searchTitleView;
     private ExpandableLayout toolbarPasteExpandableLayout;
     private Toolbar toolbarPaste;
-
     private ImageView iconView;
     private AddNodeButtonView addNodeButtonView;
+    private TextView groupNameView;
 
-	protected boolean addGroupEnabled = false;
-	protected boolean addEntryEnabled = false;
-	protected boolean isRoot = false;
+    private Database database;
 
-	private static final String OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY";
-	private static final String NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY";
-	private static final String NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY";
+    private ListNodesFragment listNodesFragment;
+    private boolean currentGroupIsASearch;
+
+    private PwGroup rootGroup;
+    private PwGroup mCurrentGroup;
 	private PwGroup oldGroupToUpdate;
     private PwNode nodeToCopy;
     private PwNode nodeToMove;
+
+    private boolean entrySelectionMode;
+    private AutofillHelper autofillHelper;
+
+    private SearchEntryCursorAdapter searchSuggestionAdapter;
+
+    private int iconColor;
 
     // After a database creation
     public static void launch(Activity act) {
@@ -176,39 +203,37 @@ public class GroupActivity extends ListNodesActivity
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-        Log.i(TAG, "Started creating tree");
-		if ( mCurrentGroup == null ) {
-			Log.w(TAG, "Group was null");
-			return;
-		}
+        if ( isFinishing() ) {
+            return;
+        }
+
+        database = App.getDB();
+        // Likely the app has been killed exit the activity
+        if ( ! database.getLoaded() ) {
+            finish();
+            return;
+        }
 
         // Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
 
-        attachFragmentToContentView();
-
+        // Initialize views
         iconView = findViewById(R.id.icon);
         addNodeButtonView = findViewById(R.id.add_node_button);
-        addNodeButtonView.enableAddGroup(addGroupEnabled);
-        addNodeButtonView.enableAddEntry(addEntryEnabled);
-
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
+        searchTitleView = findViewById(R.id.search_title);
         groupNameView = findViewById(R.id.group_name);
-
         toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
         toolbarPaste = findViewById(R.id.toolbar_paste);
-        toolbarPaste.inflateMenu(R.menu.node_paste_menu);
-        toolbarPaste.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
-        toolbarPaste.setNavigationOnClickListener(view -> {
-            toolbarPasteExpandableLayout.collapse();
-            nodeToCopy = null;
-            nodeToMove = null;
-        });
 
+        invalidateOptionsMenu();
+
+        // Get arg from intent or instance state
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
+
+        // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
                 oldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY);
@@ -223,20 +248,128 @@ public class GroupActivity extends ListNodesActivity
             }
         }
 
-        addNodeButtonView.setAddGroupClickListener(v -> {
-            GroupEditDialogFragment.build()
-                    .show(getSupportFragmentManager(),
-                            GroupEditDialogFragment.TAG_CREATE_GROUP);
+        rootGroup = database.getPwDatabase().getRootGroup();
+        mCurrentGroup = retrieveCurrentGroup(getIntent(), savedInstanceState);
+        currentGroupIsASearch = Intent.ACTION_SEARCH.equals(getIntent().getAction());
+
+        Log.i(TAG, "Started creating tree");
+		if ( mCurrentGroup == null ) {
+			Log.w(TAG, "Group was null");
+			return;
+		}
+
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        toolbarPaste.inflateMenu(R.menu.node_paste_menu);
+        toolbarPaste.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        toolbarPaste.setNavigationOnClickListener(view -> {
+            toolbarPasteExpandableLayout.collapse();
+            nodeToCopy = null;
+            nodeToMove = null;
         });
+
+        // Retrieve the textColor to tint the icon
+        int[] attrs = {R.attr.textColorInverse};
+        TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+        iconColor = ta.getColor(0, Color.WHITE);
+
+        String fragmentTag = LIST_NODES_FRAGMENT_TAG;
+        if (currentGroupIsASearch)
+            fragmentTag = SEARCH_FRAGMENT_TAG;
+
+        // Initialize the fragment with the list
+        listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
+                .findFragmentByTag(fragmentTag);
+        if (listNodesFragment == null)
+            listNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly, currentGroupIsASearch);
+
+        // Attach fragment to content view
+        getSupportFragmentManager().beginTransaction().replace(
+                R.id.nodes_list_fragment_container,
+                listNodesFragment,
+                fragmentTag)
+                .commit();
+
+        // Add listeners to the add buttons
+        addNodeButtonView.setAddGroupClickListener(v -> GroupEditDialogFragment.build()
+                .show(getSupportFragmentManager(),
+                        GroupEditDialogFragment.TAG_CREATE_GROUP));
         addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
 
-        Log.i(TAG, "Finished creating tree");
-
-        if (isRoot) {
-            showWarnings();
+        // To init autofill
+        entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            autofillHelper = new AutofillHelper();
+            autofillHelper.retrieveAssistStructure(getIntent());
         }
+
+        // Search suggestion
+        searchSuggestionAdapter = new SearchEntryCursorAdapter(this, database);
+
+        Log.i(TAG, "Finished creating tree");
 	}
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            // only one instance of search in backstack
+            openSearchGroup(retrieveCurrentGroup(intent, null));
+            currentGroupIsASearch = true;
+        } else {
+            currentGroupIsASearch = false;
+        }
+    }
+
+    private void openSearchGroup(PwGroup group) {
+        // Delete the previous search fragment
+        Fragment searchFragment = getSupportFragmentManager().findFragmentByTag(SEARCH_FRAGMENT_TAG);
+        if (searchFragment != null) {
+            if ( getSupportFragmentManager()
+                    .popBackStackImmediate(SEARCH_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE) )
+                getSupportFragmentManager().beginTransaction().remove(searchFragment).commit();
+        }
+
+        openGroup(group, true);
+    }
+
+    private void openChildGroup(PwGroup group) {
+        openGroup(group, false);
+    }
+
+    private void openGroup(PwGroup group, boolean isASearch) {
+        // Check Timeout
+        if (checkTimeIsAllowedOrFinish(this)) {
+            startRecordTime(this);
+
+            // Open a group in a new fragment
+            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly, isASearch);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            // Different animation
+            String fragmentTag;
+            if (isASearch) {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom,
+                        R.anim.slide_in_bottom, R.anim.slide_out_top);
+                fragmentTag = SEARCH_FRAGMENT_TAG;
+            } else {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right);
+                fragmentTag = LIST_NODES_FRAGMENT_TAG;
+            }
+
+            fragmentTransaction.replace(R.id.nodes_list_fragment_container,
+                            newListNodeFragment,
+                            fragmentTag);
+            fragmentTransaction.addToBackStack(fragmentTag);
+            fragmentTransaction.commit();
+
+            listNodesFragment = newListNodeFragment;
+            mCurrentGroup = group;
+            assignGroupViewElements();
+        }
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -246,64 +379,104 @@ public class GroupActivity extends ListNodesActivity
             outState.putParcelable(NODE_TO_COPY_KEY, nodeToCopy);
         if (nodeToMove != null)
             outState.putParcelable(NODE_TO_MOVE_KEY, nodeToMove);
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
         super.onSaveInstanceState(outState);
     }
 
-	protected PwGroup retrieveCurrentGroup(@Nullable Bundle savedInstanceState) {
+	protected PwGroup retrieveCurrentGroup(Intent intent, @Nullable Bundle savedInstanceState) {
 
-        PwGroupId pwGroupId = null;
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(GROUP_ID_KEY)) {
-            pwGroupId = savedInstanceState.getParcelable(GROUP_ID_KEY);
-        } else {
-            if (getIntent() != null)
-                pwGroupId = getIntent().getParcelableExtra(GROUP_ID_KEY);
+        // If it's a search
+        if ( Intent.ACTION_SEARCH.equals(intent.getAction()) ) {
+            return database.search(intent.getStringExtra(SearchManager.QUERY).trim());
         }
+        // else a real group
+        else {
+            PwGroupId pwGroupId = null;
+            if (savedInstanceState != null
+                    && savedInstanceState.containsKey(GROUP_ID_KEY)) {
+                pwGroupId = savedInstanceState.getParcelable(GROUP_ID_KEY);
+            } else {
+                if (getIntent() != null)
+                    pwGroupId = intent.getParcelableExtra(GROUP_ID_KEY);
+            }
 
-        readOnly = database.isReadOnly() || readOnly; // Force read only if the database is like that
+            readOnly = database.isReadOnly() || readOnly; // Force read only if the database is like that
 
-        Log.w(TAG, "Creating tree view");
-        PwGroup currentGroup;
-        if ( pwGroupId == null ) {
-            currentGroup = rootGroup;
-        } else {
-            currentGroup = database.getPwDatabase().getGroupByGroupId(pwGroupId);
+            Log.w(TAG, "Creating tree view");
+            PwGroup currentGroup;
+            if (pwGroupId == null) {
+                currentGroup = rootGroup;
+            } else {
+                currentGroup = database.getPwDatabase().getGroupByGroupId(pwGroupId);
+            }
+
+            return currentGroup;
         }
-
-        if (currentGroup != null) {
-            addGroupEnabled = !readOnly;
-            addEntryEnabled = !readOnly;
-            isRoot = (currentGroup == rootGroup);
-            if (!currentGroup.allowAddEntryIfIsRoot())
-                addEntryEnabled = !isRoot && addEntryEnabled;
-        }
-
-        return currentGroup;
     }
 
-    @Override
-    public void assignToolbarElements() {
-        super.assignToolbarElements();
-
-        // Assign the group icon depending of IconPack or custom icon
-        if ( mCurrentGroup != null ) {
-            if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-                // Retrieve the textColor to tint the icon
-                int[] attrs = {R.attr.textColorInverse};
-                TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-                int iconColor = ta.getColor(0, Color.WHITE);
-                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), true, iconColor);
+    public void assignGroupViewElements() {
+        // Assign title
+        if (mCurrentGroup != null) {
+            String title = mCurrentGroup.getName();
+            if (title != null && title.length() > 0) {
+                if (groupNameView != null) {
+                    groupNameView.setText(title);
+                    groupNameView.invalidate();
+                }
             } else {
-                App.getDB().getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon());
-            }
-
-            if (toolbar != null) {
-                if ( mCurrentGroup.containsParent() )
-                    toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
-                else {
-                    toolbar.setNavigationIcon(null);
+                if (groupNameView != null) {
+                    groupNameView.setText(getText(R.string.root));
+                    groupNameView.invalidate();
                 }
             }
+        }
+        if (currentGroupIsASearch) {
+            searchTitleView.setVisibility(View.VISIBLE);
+        } else {
+            searchTitleView.setVisibility(View.GONE);
+        }
+
+        // Assign icon
+        if (currentGroupIsASearch) {
+            if (toolbar != null) {
+                toolbar.setNavigationIcon(null);
+            }
+            iconView.setVisibility(View.GONE);
+        } else {
+            // Assign the group icon depending of IconPack or custom icon
+            iconView.setVisibility(View.VISIBLE);
+            if (mCurrentGroup != null) {
+                database.getDrawFactory().assignDatabaseIconTo(this, iconView, mCurrentGroup.getIcon(), iconColor);
+
+                if (toolbar != null) {
+                    if (mCurrentGroup.containsParent())
+                        toolbar.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp);
+                    else {
+                        toolbar.setNavigationIcon(null);
+                    }
+                }
+            }
+        }
+
+        // Show button if allowed
+        if (addNodeButtonView != null) {
+
+            // To enable add button
+            boolean addGroupEnabled = !readOnly && !currentGroupIsASearch;
+            boolean addEntryEnabled = !readOnly && !currentGroupIsASearch;
+            if (mCurrentGroup != null) {
+                boolean isRoot = (mCurrentGroup == rootGroup);
+                if (!mCurrentGroup.allowAddEntryIfIsRoot())
+                    addEntryEnabled = !isRoot && addEntryEnabled;
+                if (isRoot) {
+                    showWarnings();
+                }
+            }
+            addNodeButtonView.enableAddGroup(addGroupEnabled);
+            addNodeButtonView.enableAddEntry(addEntryEnabled);
+
+            if (addNodeButtonView.isEnable())
+                addNodeButtonView.showButton();
         }
     }
 
@@ -311,6 +484,50 @@ public class GroupActivity extends ListNodesActivity
     public void onScrolled(int dy) {
 	    if (addNodeButtonView != null)
             addNodeButtonView.hideButtonOnScrollListener(dy);
+    }
+
+    @Override
+    public void onNodeClick(PwNode node) {
+
+        // Add event when we have Autofill
+        AssistStructure assistStructure = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            assistStructure = autofillHelper.getAssistStructure();
+            if (assistStructure != null) {
+                switch (node.getType()) {
+                    case GROUP:
+                        openChildGroup((PwGroup) node);
+                        break;
+                    case ENTRY:
+                        // Build response with the entry selected
+                        autofillHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
+                        finish();
+                        break;
+                }
+            }
+        }
+        if ( assistStructure == null ){
+            if (entrySelectionMode) {
+                switch (node.getType()) {
+                    case GROUP:
+                        openChildGroup((PwGroup) node);
+                        break;
+                    case ENTRY:
+                        EntrySelectionHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
+                        finish();
+                        break;
+                }
+            } else {
+                switch (node.getType()) {
+                    case GROUP:
+                        openChildGroup((PwGroup) node);
+                        break;
+                    case ENTRY:
+                        EntryActivity.launch(this, (PwEntry) node, readOnly);
+                        break;
+                }
+            }
+        }
     }
 
     @Override
@@ -324,7 +541,7 @@ public class GroupActivity extends ListNodesActivity
         switch (node.getType()) {
             case GROUP:
                 oldGroupToUpdate = (PwGroup) node;
-                GroupEditDialogFragment.build(node)
+                GroupEditDialogFragment.build(oldGroupToUpdate)
                         .show(getSupportFragmentManager(),
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
                 break;
@@ -485,9 +702,11 @@ public class GroupActivity extends ListNodesActivity
     @Override
     protected void onResume() {
         super.onResume();
-        // Show button on resume
-        if (addNodeButtonView != null)
-            addNodeButtonView.showButton();
+        // Refresh the elements
+        assignGroupViewElements();
+        // Refresh suggestions to change preferences
+        if (searchSuggestionAdapter != null)
+            searchSuggestionAdapter.reInit(this);
     }
 
     /**
@@ -501,7 +720,7 @@ public class GroupActivity extends ListNodesActivity
             if (listNodesFragment != null
                     && listNodesFragment.isEmpty()) {
                 if (!PreferencesUtil.isEducationNewNodePerformed(this)
-                        && addNodeButtonView.isVisible()) {
+                        && addNodeButtonView.isEnable()) {
 
                     TapTargetView.showFor(this,
                             TapTarget.forView(findViewById(R.id.add_button),
@@ -652,10 +871,25 @@ public class GroupActivity extends ListNodesActivity
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
-            // TODO Flickering when locking, will be better with content provider
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, GroupActivity.class)));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+            searchView.setSuggestionsAdapter(searchSuggestionAdapter);
+            searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+                @Override
+                public boolean onSuggestionClick(int position) {
+                    onNodeClick(searchSuggestionAdapter.getEntryFromPosition(position));
+                    return true;
+                }
+
+                @Override
+                public boolean onSuggestionSelect(int position) {
+                    return true;
+                }
+            });
         }
+
+        MenuUtil.contributionMenuInflater(inflater, menu);
+        inflater.inflate(R.menu.default_menu, menu);
 
         super.onCreateOptionsMenu(menu);
 
@@ -673,7 +907,7 @@ public class GroupActivity extends ListNodesActivity
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             // manually launch the real search activity
-            final Intent searchIntent = new Intent(getApplicationContext(), SearchResultsActivity.class);
+            final Intent searchIntent = new Intent(getApplicationContext(), GroupActivity.class);
             // add query to the Intent Extras
             searchIntent.setAction(Intent.ACTION_SEARCH);
             searchIntent.putExtra(SearchManager.QUERY, query);
@@ -706,7 +940,7 @@ public class GroupActivity extends ListNodesActivity
                 return true;
 
             case R.id.menu_search:
-                onSearchRequested();
+                //onSearchRequested();
                 return true;
 
             case R.id.menu_lock:
@@ -716,8 +950,11 @@ public class GroupActivity extends ListNodesActivity
             case R.id.menu_change_master_key:
                 setPassword();
                 return true;
+            default:
+                // Check the time lock before launching settings
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, readOnly, true);
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setPassword() {
@@ -741,7 +978,7 @@ public class GroupActivity extends ListNodesActivity
                 try {
                     iconStandard = (PwIconStandard) icon;
                 } catch (Exception ignored) {} // TODO custom icon
-                newGroup.setIcon(iconStandard);
+                newGroup.setIconStandard(iconStandard);
 
                 // If group created save it in the database
                 AddGroupRunnable addGroupRunnable = new AddGroupRunnable(this,
@@ -763,8 +1000,11 @@ public class GroupActivity extends ListNodesActivity
                     updateGroup.setName(name);
                     try {
                         iconStandard = (PwIconStandard) icon;
-                    } catch (Exception ignored) {} // TODO custom icon
-                    updateGroup.setIcon(iconStandard);
+                        updateGroup = ((PwGroupV4) oldGroupToUpdate).clone(); // TODO generalize
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } // TODO custom icon
+                    updateGroup.setIconStandard(iconStandard);
 
                     if (listNodesFragment != null)
                         listNodesFragment.removeNode(oldGroupToUpdate);
@@ -789,6 +1029,7 @@ public class GroupActivity extends ListNodesActivity
 
     class AfterAddNode extends AfterActionNodeOnFinish {
 
+        @Override
         public void run(PwNode oldNode, PwNode newNode) {
             super.run();
 
@@ -807,6 +1048,7 @@ public class GroupActivity extends ListNodesActivity
 
     class AfterUpdateNode extends AfterActionNodeOnFinish {
 
+        @Override
         public void run(PwNode oldNode, PwNode newNode) {
             super.run();
 
@@ -892,16 +1134,79 @@ public class GroupActivity extends ListNodesActivity
 	}
 
     @Override
-    protected void openGroup(PwGroup group) {
-        super.openGroup(group);
-        if (addNodeButtonView != null)
-            addNodeButtonView.showButton();
+    public void onAssignKeyDialogPositiveClick(
+            boolean masterPasswordChecked, String masterPassword,
+            boolean keyFileChecked, Uri keyFile) {
+
+        AssignPasswordHelper assignPasswordHelper =
+                new AssignPasswordHelper(this,
+                        masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
+        assignPasswordHelper.assignPasswordInDatabase(null);
+    }
+
+    @Override
+    public void onAssignKeyDialogNegativeClick(
+            boolean masterPasswordChecked, String masterPassword,
+            boolean keyFileChecked, Uri keyFile) {
+
+    }
+
+    @Override
+    public void onSortSelected(SortNodeEnum sortNodeEnum, boolean ascending, boolean groupsBefore, boolean recycleBinBottom) {
+        if (listNodesFragment != null)
+            listNodesFragment.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+        }
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        /*
+         * ACTION_SEARCH automatically forces a new task. This occurs when you open a kdb file in
+         * another app such as Files or GoogleDrive and then Search for an entry. Here we remove the
+         * FLAG_ACTIVITY_NEW_TASK flag bit allowing search to open it's activity in the current task.
+         */
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            int flags = intent.getFlags();
+            flags &= ~Intent.FLAG_ACTIVITY_NEW_TASK;
+            intent.setFlags(flags);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            super.startActivityForResult(intent, requestCode, options);
+        }
+    }
+
+    private void removeSearchInIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            currentGroupIsASearch = false;
+            intent.setAction(Intent.ACTION_DEFAULT);
+            intent.removeExtra(SearchManager.QUERY);
+        }
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (addNodeButtonView != null)
-            addNodeButtonView.showButton();
+        if (checkTimeIsAllowedOrFinish(this)) {
+            startRecordTime(this);
+
+            super.onBackPressed();
+
+            listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+            // to refresh fragment
+            listNodesFragment.rebuildList();
+            mCurrentGroup = listNodesFragment.getMainGroup();
+            removeSearchInIntent(getIntent());
+            assignGroupViewElements();
+        }
     }
 }

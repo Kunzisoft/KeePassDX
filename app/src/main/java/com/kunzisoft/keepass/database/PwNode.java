@@ -33,7 +33,7 @@ import org.joda.time.LocalDate;
 public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger, Parcelable, Cloneable {
 
     protected Parent parent = null;
-    protected PwIconStandard icon = new PwIconStandard(0);
+    protected PwIconStandard icon = new PwIconStandard();
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();
     protected PwDate lastAccess = new PwDate();
@@ -119,22 +119,27 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
     public abstract Type getType();
 
     /**
-     * @return Title to display as view
+     * @return Title
      */
-    public abstract String getDisplayTitle();
+    public abstract String getTitle();
+
+    /**
+     * @return Title to display, typically return alternative title if {@link #getTitle()} is empty
+     */
+    protected abstract String getVisualTitle();
 
     /**
      * @return Visual icon
      */
     public PwIcon getIcon() {
-        return icon;
+        return getIconStandard();
     }
 
     public PwIconStandard getIconStandard() {
         return icon;
     }
 
-    public void setIcon(PwIconStandard icon) {
+    public void setIconStandard(PwIconStandard icon) {
         this.icon = icon;
     }
 
@@ -210,7 +215,7 @@ public abstract class PwNode<Parent extends PwGroup> implements ISmallTimeLogger
      */
     public boolean isContentVisuallyTheSame(PwNode o) {
         return getType().equals(o.getType())
-                && getDisplayTitle().equals(o.getDisplayTitle())
+                && getVisualTitle().equals(o.getVisualTitle())
                 && getIcon().equals(o.getIcon());
     }
 

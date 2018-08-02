@@ -20,6 +20,9 @@
 package com.kunzisoft.keepass.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -39,6 +42,7 @@ import java.util.Date;
 public class EntryContentsView extends LinearLayout {
 
     private boolean fontInVisibility;
+    private int colorAccent;
 
     private View userNameContainerView;
     private TextView userNameView;
@@ -77,6 +81,11 @@ public class EntryContentsView extends LinearLayout {
         timeFormat = android.text.format.DateFormat.getTimeFormat(context);
 		
 		inflate(context);
+
+        int[] attrColorAccent = {R.attr.colorAccentCompat};
+        TypedArray taColorAccent = context.getTheme().obtainStyledAttributes(attrColorAccent);
+        this.colorAccent = taColorAccent.getColor(0, Color.BLACK);
+        taColorAccent.recycle();
 	}
 	
 	private void inflate(Context context) {
@@ -129,21 +138,26 @@ public class EntryContentsView extends LinearLayout {
         return userNameContainerView.getVisibility() == VISIBLE;
     }
 
-    public void assignPassword(String password) {
+    public void assignPassword(String password, boolean allowCopyPassword) {
         if (password != null && !password.isEmpty()) {
             passwordContainerView.setVisibility(VISIBLE);
             passwordView.setText(password);
             if (fontInVisibility)
                 Util.applyFontVisibilityTo(getContext(), passwordView);
-            passwordActionView.setVisibility(GONE);
+            if (!allowCopyPassword) {
+                passwordActionView.setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark));
+            } else {
+                passwordActionView.setColorFilter(colorAccent);
+            }
         } else {
             passwordContainerView.setVisibility(GONE);
         }
     }
 
     public void assignPasswordCopyListener(OnClickListener onClickListener) {
+	    if (onClickListener == null)
+	        setClickable(false);
         passwordActionView.setOnClickListener(onClickListener);
-        passwordActionView.setVisibility(VISIBLE);
     }
 
     public boolean isPasswordPresent() {

@@ -30,5 +30,6 @@ class GroupViewHolder extends BasicViewHolder {
         container = itemView.findViewById(R.id.group_container);
         icon = itemView.findViewById(R.id.group_icon);
         text = itemView.findViewById(R.id.group_text);
+        subText = itemView.findViewById(R.id.group_subtext);
     }
 }

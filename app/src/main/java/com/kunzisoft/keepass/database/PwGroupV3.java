@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database;
 
 import android.os.Parcel;
 
-public class PwGroupV3 extends PwGroup<PwGroupV3, PwGroupV3, PwEntryV3> {
+public class PwGroupV3 extends PwGroup<PwGroupV3, PwEntryV3> {
 
 	// for tree traversing
 	private int groupId;

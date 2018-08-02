@@ -37,14 +37,16 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.icons.IconPack;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 
 
 public class IconPickerDialogFragment extends DialogFragment {
-	public static final String KEY_ICON_ID = "icon_id";
-	public static final int UNDEFINED_ICON_ID = -1;
+
+	public static final String KEY_ICON_STANDARD = "KEY_ICON_STANDARD";
+
 	private IconPickerListener iconPickerListener;
 	private IconPack iconPack;
 
@@ -85,7 +87,7 @@ public class IconPickerDialogFragment extends DialogFragment {
 
 		currIconGridView.setOnItemClickListener((parent, v, position, id) -> {
             Bundle bundle = new Bundle();
-			bundle.putInt(KEY_ICON_ID, position);
+			bundle.putParcelable(KEY_ICON_STANDARD, new PwIconStandard(position));
 			iconPickerListener.iconPicked(bundle);
             dismiss();
         });

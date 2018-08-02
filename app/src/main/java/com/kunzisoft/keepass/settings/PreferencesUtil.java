@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.SortNodeEnum;
@@ -54,9 +55,25 @@ public class PreferencesUtil {
         sharedPreferencesEditor.apply();
     }
 
+    public static boolean showUsernamesListEntries(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.list_entries_show_username_key),
+                context.getResources().getBoolean(R.bool.list_entries_show_username_default));
+    }
+
+    /**
+     * Retrieve the text size in SP, verify the integrity of the size stored in preference
+     */
 	public static float getListTextSize(Context ctx) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		return Float.parseFloat(prefs.getString(ctx.getString(R.string.list_size_key), ctx.getString(R.string.list_size_default)));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String defaultSizeString = ctx.getString(R.string.list_size_default);
+        String listSize = prefs.getString(ctx.getString(R.string.list_size_key), defaultSizeString);
+        if (!Arrays.asList(ctx.getResources().getStringArray(R.array.list_size_values)).contains(listSize))
+            listSize = defaultSizeString;
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                Float.parseFloat(listSize),
+                ctx.getResources().getDisplayMetrics());
 	}
 
     public static int getDefaultPasswordLength(Context ctx) {
@@ -139,10 +156,24 @@ public class PreferencesUtil {
                 ctx.getResources().getBoolean(R.bool.auto_open_file_uri_default));
     }
 
+    public static boolean isFirstTimeAskAllowCopyPasswordAndProtectedFields(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_first_time_key),
+                ctx.getResources().getBoolean(R.bool.allow_copy_password_first_time_default));
+    }
+
     public static boolean allowCopyPasswordAndProtectedFields(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.allow_copy_password_key),
                 ctx.getResources().getBoolean(R.bool.allow_copy_password_default));
+    }
+
+    public static void setAllowCopyPasswordAndProtectedFields(Context ctx, boolean allowCopy) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        prefs.edit()
+                .putBoolean(ctx.getString(R.string.allow_copy_password_first_time_key), false)
+                .putBoolean(ctx.getString(R.string.allow_copy_password_key), allowCopy)
+                .apply();
     }
 
     public static String getIconPackSelectedId(Context context) {

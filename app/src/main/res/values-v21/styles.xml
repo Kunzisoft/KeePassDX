@@ -21,7 +21,7 @@
     </style>
 
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.DefaultTextOnPrimary">
+    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:elevation">4dp</item>
     </style>
 </resources>

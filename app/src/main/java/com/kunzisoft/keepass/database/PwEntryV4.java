@@ -93,7 +93,8 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 		parentGroupLastMod = in.readParcelable(PwDate.class.getClassLoader());
 		customData = MemUtil.readStringParcelableMap(in);
 		fields = in.readParcelable(ExtraFields.class.getClassLoader());
-		binaries = MemUtil.readStringParcelableMap(in, ProtectedBinary.class);
+		// TODO binaries takes too much memory for parcelable
+		// binaries = MemUtil.readStringParcelableMap(in, ProtectedBinary.class);
 		foregroundColor = in.readString();
 		backgroupColor = in.readString();
 		overrideURL = in.readString();
@@ -112,7 +113,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 		dest.writeParcelable(parentGroupLastMod, flags);
 		MemUtil.writeStringParcelableMap(dest, customData);
 		dest.writeParcelable(fields, flags);
-        MemUtil.writeStringParcelableMap(dest, flags, binaries);
+        // TODO MemUtil.writeStringParcelableMap(dest, flags, binaries);
 		dest.writeString(foregroundColor);
 		dest.writeString(backgroupColor);
 		dest.writeString(overrideURL);
@@ -169,7 +170,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 	}
 
 	@Override
-	public void endToManageFieldReferences() {
+	public void stopToManageFieldReferences() {
         this.mDatabase = null;
         this.mDecodeRef = false;
 	}
@@ -205,41 +206,31 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 
 	@Override
 	public void setTitle(String title) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectTitle;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectTitle;
 		setProtectedString(STR_TITLE, title, protect);
 	}
 
 	@Override
 	public void setUsername(String user) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectUserName;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectUserName;
 		setProtectedString(STR_USERNAME, user, protect);
 	}
 
 	@Override
 	public void setPassword(String pass) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectPassword;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectPassword;
 		setProtectedString(STR_PASSWORD, pass, protect);
 	}
 
 	@Override
 	public void setUrl(String url) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectUrl;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectUrl;
 		setProtectedString(STR_URL, url, protect);
 	}
 
 	@Override
 	public void setNotes(String notes) {
-		PwDatabaseV4 db = mDatabase;
-		boolean protect = db.getMemoryProtection().protectNotes;
-		
+		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectNotes;
 		setProtectedString(STR_NOTES, notes, protect);
 	}
 
@@ -250,14 +241,6 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 	public void setProtectedString(String key, String value, boolean protect) {
 		fields.putProtectedString(key, value, protect);
 	}
-
-	public PwIconCustom getCustomIcon() {
-	    return customIcon;
-    }
-
-    public void setCustomIcon(PwIconCustom icon) {
-	    this.customIcon = icon;
-    }
 
 	public PwDate getLocationChanged() {
 		return parentGroupLastMod;
@@ -285,13 +268,26 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 		return decodeRefKey(mDecodeRef, STR_URL);
 	}
 
-	@Override
+    @Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.uuid.equals(PwDatabase.UUID_ZERO)) {
+		if (customIcon == null || customIcon.isUnknown()) {
 			return super.getIcon();
 		} else {
 			return customIcon;
 		}
+	}
+
+	public void setIconCustom(PwIconCustom icon) {
+		this.customIcon = icon;
+	}
+
+	public PwIconCustom getIconCustom() {
+		return customIcon;
+	}
+
+	public void setIconStandard(PwIconStandard icon) {
+		this.icon = icon;
+		this.customIcon = PwIconCustom.ZERO;
 	}
 
 	@Override

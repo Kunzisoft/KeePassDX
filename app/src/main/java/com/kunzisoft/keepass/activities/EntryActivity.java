@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -46,7 +47,6 @@ import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
-import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.lock.LockingHideActivity;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
@@ -65,6 +65,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import static com.kunzisoft.keepass.settings.PreferencesUtil.isClipboardNotificationsEnable;
+import static com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields;
 
 public class EntryActivity extends LockingHideActivity {
     private final static String TAG = EntryActivity.class.getName();
@@ -81,6 +82,8 @@ public class EntryActivity extends LockingHideActivity {
 
 	private ClipboardHelper clipboardHelper;
 	private boolean firstLaunchOfActivity;
+
+	private int iconColor;
 
     public static void launch(Activity act, PwEntry pw, boolean readOnly) {
         if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
@@ -123,6 +126,11 @@ public class EntryActivity extends LockingHideActivity {
 			finish();
 			return;
 		}
+
+        // Retrieve the textColor to tint the icon
+        int[] attrs = {R.attr.textColorInverse};
+        TypedArray ta = getTheme().obtainStyledAttributes(attrs);
+        iconColor = ta.getColor(0, Color.WHITE);
 		
 		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
 		invalidateOptionsMenu();
@@ -225,7 +233,7 @@ public class EntryActivity extends LockingHideActivity {
 
                 startService(intent);
             }
-            mEntry.endToManageFieldReferences();
+            mEntry.stopToManageFieldReferences();
         }
         firstLaunchOfActivity = false;
     }
@@ -310,18 +318,10 @@ public class EntryActivity extends LockingHideActivity {
 		mEntry.startToManageFieldReferences(pm);
 
         // Assign title icon
-        if (IconPackChooser.getSelectedIconPack(this).tintable()) {
-            // Retrieve the textColor to tint the icon
-            int[] attrs = {R.attr.textColorInverse};
-            TypedArray ta = getTheme().obtainStyledAttributes(attrs);
-            int iconColor = ta.getColor(0, Color.WHITE);
-            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon(), true, iconColor);
-        } else {
-            App.getDB().getDrawFactory().assignDatabaseIconTo(this, titleIconView,  mEntry.getIcon());
-        }
+        db.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
 
 		// Assign title text
-        titleView.setText(mEntry.getTitle());
+        titleView.setText(mEntry.getVisualTitle());
 
         // Assign basic fields
         entryContentsView.assignUserName(mEntry.getUsername());
@@ -330,12 +330,39 @@ public class EntryActivity extends LockingHideActivity {
                 getString(R.string.copy_field, getString(R.string.entry_user_name)))
         );
 
-		entryContentsView.assignPassword(mEntry.getPassword());
-		if (PreferencesUtil.allowCopyPasswordAndProtectedFields(this)) {
+        boolean allowCopyPassword = PreferencesUtil.allowCopyPasswordAndProtectedFields(this);
+		entryContentsView.assignPassword(mEntry.getPassword(), allowCopyPassword);
+		if (allowCopyPassword) {
             entryContentsView.assignPasswordCopyListener(view ->
                     clipboardHelper.timeoutCopyToClipboard(mEntry.getPassword(),
                             getString(R.string.copy_field, getString(R.string.entry_password)))
             );
+        } else {
+		    // If dialog not already shown
+            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)) {
+                entryContentsView.assignPasswordCopyListener(v -> {
+                    String message = getString(R.string.allow_copy_password_warning) +
+                            "\n\n" +
+                            getString(R.string.clipboard_warning);
+                    AlertDialog warningDialog = new AlertDialog.Builder(EntryActivity.this)
+                            .setMessage(message).create();
+                    warningDialog.setButton(AlertDialog.BUTTON1, getText(android.R.string.ok),
+                            (dialog, which) -> {
+                                PreferencesUtil.setAllowCopyPasswordAndProtectedFields(EntryActivity.this, true);
+                                dialog.dismiss();
+                                fillData();
+                            });
+                    warningDialog.setButton(AlertDialog.BUTTON2, getText(android.R.string.cancel),
+                            (dialog, which) -> {
+                                PreferencesUtil.setAllowCopyPasswordAndProtectedFields(EntryActivity.this, false);
+                                dialog.dismiss();
+                                fillData();
+                            });
+                    warningDialog.show();
+                });
+            } else {
+                entryContentsView.assignPasswordCopyListener(null);
+            }
         }
 
         entryContentsView.assignURL(mEntry.getUrl());
@@ -369,7 +396,7 @@ public class EntryActivity extends LockingHideActivity {
             entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
 
-        mEntry.endToManageFieldReferences();
+        mEntry.stopToManageFieldReferences();
 	}
 
 	@Override

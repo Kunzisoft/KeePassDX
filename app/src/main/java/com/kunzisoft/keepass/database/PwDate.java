@@ -37,12 +37,12 @@ import java.util.Date;
  */
 public class PwDate implements Cloneable, Parcelable {
 
-	private static final int DATE_SIZE = 5; 
+	private static final int DATE_SIZE = 5;
 
     private Date jDate;
 	private boolean jDateBuilt = false;
-	private byte[] cDate;
-    private boolean cDateBuilt = false;
+	transient private byte[] cDate;
+    transient private boolean cDateBuilt = false;
 
     public static final Date NEVER_EXPIRE = getNeverExpire();
     public static final Date DEFAULT_DATE = getDefaultDate();
@@ -96,14 +96,9 @@ public class PwDate implements Cloneable, Parcelable {
 	}
 
 	protected PwDate(Parcel in) {
-		try {
-			jDate = (Date) in.readSerializable();
-			jDateBuilt = in.readByte() != 0;
-			in.readByteArray(cDate);
-			cDateBuilt = in.readByte() != 0;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		jDate = (Date) in.readSerializable();
+		jDateBuilt = in.readByte() != 0;
+        cDateBuilt = false;
 	}
 
     @Override
@@ -113,10 +108,8 @@ public class PwDate implements Cloneable, Parcelable {
 
     @Override
 	public void writeToParcel(Parcel dest, int flags) {
-        dest.writeSerializable(jDate);
+        dest.writeSerializable(getDate());
         dest.writeByte((byte) (jDateBuilt ? 1 : 0));
-        dest.writeByteArray(cDate);
-		dest.writeByte((byte) (cDateBuilt ? 1 : 0));
 	}
 
 	public static final Creator<PwDate> CREATOR = new Creator<PwDate>() {

@@ -79,12 +79,12 @@ public class PwEntryOutputV3 {
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getGroupId()));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getParent().getGroupId()));
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getIconStandard().iconId));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getIconStandard().getIconId()));
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");

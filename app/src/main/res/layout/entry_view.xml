@@ -53,7 +53,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_gravity="start|center_vertical"
-                style="@style/KeepassDXStyle.TextAppearance.TitleTextOnPrimary" />
+                style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 

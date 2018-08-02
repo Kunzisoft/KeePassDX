@@ -31,15 +31,15 @@ import java.util.List;
 
 public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 
-	private PwGroup<PwGroup, PwGroup, PwEntry> mGroupToDelete;
+	private PwGroup<PwGroup, PwEntry> mGroupToDelete;
 	private PwGroup mParent;
 	private boolean mRecycle;
 
-	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, AfterActionNodeOnFinish finish) {
+	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwEntry> group, AfterActionNodeOnFinish finish) {
 		this(ctx, db, group, finish, false);
 	}
 
-	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwGroup, PwEntry> group, AfterActionNodeOnFinish finish, boolean dontSave) {
+	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwEntry> group, AfterActionNodeOnFinish finish, boolean dontSave) {
 		super(ctx, db, finish, dontSave);
         mGroupToDelete = group;
 	}

@@ -55,6 +55,7 @@
     <string name="maskpass_key" translatable="false">maskpass</string>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
     <string name="recentfile_key" translatable="false">recentfile</string>
+    <string name="list_entries_show_username_key" translatable="false">list_entries_show_username_key</string>
     <string name="list_size_key" translatable="false">list_size</string>
     <string name="show_beta_warning" translatable="false">show_beta_warning</string>
     <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
@@ -77,6 +78,7 @@
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
+    <string name="allow_copy_password_first_time_key" translatable="false">allow_copy_password_first_time_key</string>
     <string name="database_general_key" translatable="false">database_general_key</string>
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
@@ -118,9 +120,11 @@
     <bool name="sort_group_before_default" translatable="false">true</bool>
     <bool name="sort_ascending_default" translatable="false">true</bool>
     <bool name="sort_recycle_bin_bottom_default" translatable="false">true</bool>
+    <bool name="list_entries_show_username_default" translatable="false">true</bool>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <bool name="allow_copy_password_default" translatable="false">false</bool>
+    <bool name="allow_copy_password_first_time_default" translatable="false">true</bool>
     <bool name="enable_education_screens_default" translatable="false">true</bool>
     <bool name="education_create_db_default" translatable="false">false</bool>
     <bool name="education_select_db_default" translatable="false">false</bool>
@@ -155,12 +159,13 @@
     	<item translatable="false">-1</item>
     </string-array>
 
-    <integer name="list_icon_size_default" translatable="false">32</integer>
-    <string name="list_size_default" translatable="false">18</string>
+    <dimen name="list_icon_size_default" translatable="false">32dp</dimen>
+    <dimen name="list_small_size_default" translatable="false">9sp</dimen>
+    <string name="list_size_default" translatable="false">11</string>
     <string-array name="list_size_values">
+    	<item translatable="false">9</item>
+    	<item translatable="false">@string/list_size_default</item>
     	<item translatable="false">14</item>
-    	<item translatable="false">18</item>
-    	<item translatable="false">22</item>
     </string-array>
 
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>

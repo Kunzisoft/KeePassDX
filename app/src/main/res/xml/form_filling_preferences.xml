@@ -18,14 +18,6 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="@string/autofill">
-        <SwitchPreference
-            android:title="@string/set_autofill_service_title"
-            android:summary="@string/set_autofill_service_summary"
-            android:defaultValue="@bool/settings_autofill_enable_default"
-            android:key="@string/settings_autofill_enable_key"/>
-    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/keyboard">
@@ -39,7 +31,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/notifications">
+        android:title="@string/clipboard">
         <SwitchPreference
             android:key="@string/clipboard_notifications_key"
             android:title="@string/clipboard_notifications_title"
@@ -50,6 +42,23 @@
             android:title="@string/allow_copy_password_title"
             android:summary="@string/allow_copy_password_summary"
             android:defaultValue="@bool/allow_copy_password_default"/>
+        <ListPreference
+            android:key="@string/clipboard_timeout_key"
+            android:title="@string/clipboard_timeout"
+            android:summary="@string/clipboard_timeout_summary"
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
+            android:dialogTitle="@string/clipboard_timeout"
+            android:defaultValue="@string/clipboard_timeout_default"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/autofill">
+        <SwitchPreference
+            android:title="@string/set_autofill_service_title"
+            android:summary="@string/set_autofill_service_summary"
+            android:defaultValue="@bool/settings_autofill_enable_default"
+            android:key="@string/settings_autofill_enable_key"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwGroupDB, PwEntryDB>,
+public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>,
         PwEntryDB extends PwEntry<PwGroupDB>> {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
