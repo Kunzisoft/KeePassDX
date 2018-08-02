@@ -339,9 +339,9 @@
 \n
 \nIn scrittura, puoi aggiungere, eliminare, o modificare tutti gli elementi che vuoi.</string>
     <string name="education_field_copy_title">Copia un campo</string>
-    <string name="education_field_copy_summary">Copia un campo facilmente per incollarlo dove vuoi
-\n
-\nPuoi usare diversi metodi di inserimento moduli. Usa quello che preferisci!</string>
+    <string name="education_field_copy_summary">Copia un campo facilmente per incollarlo dove vuoi 
+\n 
+\nPuoi usare diversi metodi di inserimento moduli. Usa quello che preferisci.</string>
     <string name="education_lock_title">Blocca il database</string>
     <string name="education_lock_summary">Blocca velocemente il database, puoi impostare l\'app per bloccarlo dopo un certo periodo e quando lo schermo si spegne.</string>
     <string name="education_sort_title">Ordina elementi</string>
