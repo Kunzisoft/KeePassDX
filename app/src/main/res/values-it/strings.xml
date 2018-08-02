@@ -169,7 +169,9 @@
     <string name="store_with_fingerprint">Usa l\'impronta per salvare questa password</string>
     <string name="no_password_stored">Nessuna password salvata per questo database</string>
 
-    <string name="education_unlock_summary">Inserisci una password e/o file chiave per sbloccare il database.</string>
+    <string name="education_unlock_summary">Inserisci una password e/o file chiave per sbloccare il database.
+\n
+\nRicorda di salvare una copia del tuo file .kdbx in un luogo sicuro dopo ogni modifica.</string>
 
     <string-array name="timeout_options">
     	<item>5 secondi</item>
@@ -243,13 +245,13 @@
     <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
     <string name="fingerprint_quick_unlock_title">Come configurare l\'impronta per sbloccare velocemente?</string>
     <string name="fingerprint_setting_text">Imposta la tua impronta per il dispositivo in</string>
-    <string name="fingerprint_setting_way_text">Impostazioni -&gt; Sicurezza -&gt; Impronta</string>
+    <string name="fingerprint_setting_way_text">\"Impostazioni\" → \"Sicurezza\" → \"Impronta\"</string>
     <string name="fingerprint_type_password_text">Digita la tua password in Keepass DX</string>
     <string name="fingerprint_scan_to_store">Scansiona la tua impronta per salvare la tua password master in modo sicuro</string>
     <string name="fingerprint_scan_to_open">Scansiona la tua impronta quando la casella password non è selezionata per aprire il database</string>
     <string name="usage">Utilizzo</string>
     <string name="fingerprint">Impronta</string>
-    <string name="fingerprint_enable_title">Rilevazione impronta</string>
+    <string name="fingerprint_enable_title">Scansione di impronte</string>
     <string name="fingerprint_enable_summary">Attiva apertura database con impronta</string>
     <string name="fingerprint_delete_all_title">Elimina chiavi di cifratura</string>
     <string name="fingerprint_delete_all_summary">Elimina tutte le chiavi di cifratura relative al riconoscimento dell\'impronta</string>
@@ -260,59 +262,59 @@
     <string name="file_name">Nome file</string>
     <string name="path">Percorso</string>
     <string name="assign_master_key">Assegna una chiave master</string>
-    <string name="create_keepass_file">Crea un file keepass</string>
+    <string name="create_keepass_file">Crea un file KeePass</string>
     <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Percorso file</string>
     <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Usa il cestino</string>
     <string name="recycle_bin_summary">Sposta un gruppo o elemento nel cestino prima di eliminare</string>
     <string name="permission_external_storage_rationale_write_database">KeePass DX richiede l\'autorizzazione di archiviazione per scrivere un database</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX richiede l\'autorizzazione di archiviazione per leggere un URI non fornito da un Content Provider</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX richiede l\'autorizzazione di archiviazione per leggere un URI non gestito da un fornitore di contenuti</string>
     <string name="permission_external_storage_denied">Autorizzazione di archiviazione negata</string>
     <string name="permission_external_storage_never_ask">Impossibile eseguire l\'azione senza l\'autorizzazione di archiviazione</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
-    <string name="monospace_font_fields_enable_summary">Cambia il carattere dei campi per una migliore visibilità</string>
+    <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="auto_open_file_uri_title">Apri automaticamente file selezionato</string>
-    <string name="auto_open_file_uri_summary">Apri automaticamente un file dalla finestra di selezione dopo una selezione nel gestore file</string>
+    <string name="auto_open_file_uri_summary">Apri un file dalla finestra di selezione automaticamente dopo una selezione fatta nel gestore file</string>
     <string name="allow_copy_password_title">Copia della password</string>
-    <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti.</string>
+    <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
     <string name="allow_copy_password_warning">ATTENZIONE: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
-    <string name="warning_disabling_storage_access_framework">ATTENZIONE: disattivando questa funzione potresti non riuscire ad aprire o salvare i database</string>
-    <string name="open_link_database">Link del file Kdbx da aprire</string>
+    <string name="warning_disabling_storage_access_framework">ATTENZIONE: disattivando questa funzione potresti non riuscire ad aprire o salvare database</string>
+    <string name="open_link_database">Link del file KDBX da aprire</string>
     <string name="database_name_title">Nome database</string>
     <string name="database_description_title">Descrizione database</string>
     <string name="database_version_title">Versione database</string>
     <string name="text_appearance">Aspetto del testo</string>
-    <string name="application_appearance">Aspetto dell\'applicazione</string>
+    <string name="application_appearance">Aspetto dell\'app</string>
     <string name="other">Altro</string>
 
     <string name="keyboard">Tastiera</string>
     <string name="magic_keyboard_title">Magitastiera</string>
-    <string name="magic_keyboard_summary">Attiva una tastiera personale che popola le tue password e i campi di identità facilmente.</string>
+    <string name="magic_keyboard_summary">Attiva una tastiera personale che popola le tue password e i campi di identità facilmente</string>
     <string name="magic_keyboard_preference_title">Impostazioni Magitastiera</string>
     <string name="magic_keyboard_configure_title">Come configurare la tastiera per una compilazione di campi sicura?</string>
     <string name="magic_keyboard_activate_setting_text">Attiva la Magitastiera nelle impostazioni del dispositivo.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">Impostazioni -&gt; Lingue e immissione -&gt; Tastiera attuale -&gt; SCEGLI TASTIERE</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">o (Impostazioni -&gt; Sistema -&gt; Lingue e immissione -&gt; Tastiera virtuale -&gt; Gestisci tastiere)</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">\"Impostazioni\" → \"Lingue e immissione\" → \"Tastiera attuale\" e scegline una.</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">o (\"Impostazioni\" → \"Lingue e immissione\" → \"Tastiera virtuale\" e scegline una.)</string>
     <string name="keyboards_choose_magikeyboard_text">Scegli la Magitastiera quando devi compilare un modulo.</string>
     <string name="keyboards_swicth_magikeyboard_text">Puoi passare facilmente dalla tastiera principale alla Magitastiera con il pulsante lingua della tastiera, una pressione lunga della barra spaziatrice, o, se non disponibile, con:</string>
     <string name="keyboard_lock_database_text">Blocca il database.</string>
     <string name="keyboard_back_main_keyboard_text">Torna alla tua tastiera principale.</string>
 
     <string name="allow_no_password_title">Permetti password mancante</string>
-    <string name="allow_no_password_summary">Attiva il pulsante di apertura se non è selezionata una password.</string>
+    <string name="allow_no_password_summary">Attiva il pulsante di apertura se non è selezionata una password</string>
     <string name="enable_read_only_title">Solo lettura</string>
-    <string name="enable_read_only_summary">Apri un database in sola lettura in modo predefinito.</string>
+    <string name="enable_read_only_summary">Apri i database in sola lettura in modo predefinito</string>
 
     <string name="enable_education_screens_title">Schermate educative</string>
-    <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'applicazione</string>
+    <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'app</string>
     <string name="reset_education_screens_title">Ripristina schermate educative</string>
     <string name="reset_education_screens_summary">Ripristina la visualizzazione di elementi educativi</string>
     <string name="reset_education_screens_text">Schermate educative ripristinate</string>
     <string name="education_create_database_title">Crea il tuo file database</string>
     <string name="education_create_database_summary">Non conosci ancora KeePass DX, crea il tuo primo file di gestione password.</string>
     <string name="education_select_database_title">Apri un database esistente</string>
-    <string name="education_select_database_summary">Hai già usato un gestore KeePass. Apri il tuo file Kdbx dal tuo gestore di file.</string>
+    <string name="education_select_database_summary">Hai già usato un gestore KeePass. Apri il tuo file KDBX dal tuo gestore di file.</string>
     <string name="education_open_link_database_title">Un link al percorso del tuo file è sufficiente</string>
     <string name="education_open_link_database_summary">Puoi anche aprire il tuo database con un link fisico (con file:// e content:// ad esempio).</string>
     <string name="education_new_node_title">Aggiungi nuovi elementi al database</string>
@@ -326,7 +328,7 @@
     <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personali, puoi aggiungere riferimenti per raggruppare i dati tra campi di voci diverse.</string>
     <string name="education_generate_password_title">Crea una password robusta</string>
-    <string name="education_generate_password_summary">Genera una password robusta da associare all\'elemento, definiscila a seconda dei criteri del modulo e non dimenticare una password complessa ma sicura.</string>
+    <string name="education_generate_password_summary">Genera una password robusta da associare all\'elemento, definiscila a seconda dei criteri del modulo e non dimenticare una password sicura che puoi ricordare.</string>
     <string name="education_entry_new_field_title">Aggiungi campi personali</string>
     <string name="education_entry_new_field_summary">Vuoi registrare un campo di base non fornito, inseriscine uno nuovo che puoi anche proteggere visivamente.</string>
     <string name="education_unlock_title">Sblocca il tuo database</string>
@@ -345,10 +347,10 @@
     <string name="education_sort_title">Ordina elementi</string>
     <string name="education_sort_summary">Ordina gli elementi e i gruppi secondo parametri specifici.</string>
     <string name="education_donation_title">Partecipa</string>
-    <string name="education_donation_summary">Partecipa per migliorare la stabilità, la sicurezza e aggiungere nuove funzioni.</string>
+    <string name="education_donation_summary">Partecipa per aiutare a migliorare la stabilità, la sicurezza e aggiungere nuove funzioni.</string>
 
-    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa app è <strong>senza pubblicità</strong>, <strong>open source</strong> e non raccoglie dati personali nei suoi server, anche nella versione gratuita.</string>
-    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>funzione visiva</strong> e aiuterai specialmente nella <strong>realizzazione di progetti della comunità.</strong></string>
+    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è <strong>senza pubblicità</strong>, <strong>sofware libero (copyleft)</strong> e non raccoglie dati personali nei suoi server, anche nella versione gratuita.</string>
+    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>funzione visiva</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong></string>
     <string name="html_text_feature_generosity">Questa <strong>funzione visiva</strong> è disponibile grazie alla tua generosità.</string>
     <string name="html_text_donation">Per mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo <strong>contributo.</strong></string>
 
@@ -358,7 +360,7 @@
     <string name="html_text_dev_feature_encourage">incoraggi gli sviluppatori a creare <strong>nuove funzioni</strong> e a <strong>correggere errori</strong> secondo le tue osservazioni.</string>
     <string name="html_text_dev_feature_thanks">Grazie mille per il tuo contributo.</string>
     <string name="html_text_dev_feature_work_hard">Stiamo lavorando sodo per rilasciare questa funzione a breve.</string>
-    <string name="html_text_dev_feature_upgrade">Non dimenticare di tenere aggiornata la tua applicazione.</string>
+    <string name="html_text_dev_feature_upgrade">Non dimenticare di tenere aggiornata la tua app.</string>
 
     <string name="download">Scarica</string>
     <string name="contribute">Contribuisci</string>
@@ -367,16 +369,16 @@
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
 
-    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
 
     <string name="style_choose_title">Seleziona un tema</string>
-    <string name="style_choose_summary">Cambia il tema dell\'applicazione modificandone i colori</string>
+    <string name="style_choose_summary">Cambia il tema dell\'app modificandone i colori</string>
     <string name="icon_pack_choose_title">Seleziona un pacchetto icone</string>
-    <string name="icon_pack_choose_summary">Cambia il pacchetto di icone dell\'applicazione</string>
+    <string name="icon_pack_choose_summary">Cambia il pacchetto di icone dell\'app</string>
 
 <string name="keyboard_select_entry_text">Seleziona un elemento con la chiave.</string>
-    <string name="keyboard_fill_field_text">Riempi i campi con i contenuti dell\'elemento.</string>
+    <string name="keyboard_fill_field_text">Riempi i campi usando i contenuti dell\'elemento.</string>
     <string name="edit_entry">Modifica elemento</string>
     <string name="error_load_database">Il database non può essere caricato</string>
     <string name="error_load_database_KDF_memory">Impossibile caricare la chiave, prova a diminuire la memoria usata dal KDF.</string>
