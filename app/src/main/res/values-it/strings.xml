@@ -235,7 +235,6 @@
     <string name="password_size_summary">Imposta la dimensione predefinita della password generata</string>
     <string name="list_password_generator_options_title">Caratteri password</string>
     <string name="list_password_generator_options_summary">Imposta i caratteri predefiniti di generazione password</string>
-    <string name="notifications">Notifiche</string>
     <string name="clipboard_notifications_title">Notifiche appunti</string>
     <string name="clipboard_notifications_summary">Attiva le notifiche appunti per copiare gli elementi</string>
     <string name="clipboard_warning">Alcuni dispositivi non riescono ad eliminare automaticamente gli appunti. Se il tuo gestore non permette questa eliminazione, dovrai cancellare manualmente dagli appunti l\'elemento copiato.</string>

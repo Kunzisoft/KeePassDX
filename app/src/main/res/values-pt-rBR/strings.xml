@@ -237,7 +237,6 @@
     <string name="password_size_summary">Defina o tamanho padrão para senhas geradas</string>
     <string name="list_password_generator_options_title">Caracteres da senha</string>
     <string name="list_password_generator_options_summary">Definir os caracteres do gerador de senha padrão</string>
-    <string name="notifications">Notificações</string>
     <string name="clipboard_notifications_title">Notificações da área de transferência</string>
     <string name="clipboard_notifications_summary">Habilite notificações da área de transferência para copiar campos de entrada</string>
     <string name="clipboard_warning">Alguns dispositivos não podem excluir automaticamente os dados da área de transferência. Se o seu gerenciador não permitir essa exclusão, você terá que excluir manualmente o item copiado do histórico da área de transferência.</string>
