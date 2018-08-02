@@ -78,10 +78,7 @@ public class Util {
 	}
 
 	public static float getListTextDefaultSize(Context context) {
-		return TypedValue.applyDimension(
-				TypedValue.COMPLEX_UNIT_SP,
-				(Float.parseFloat(context.getString(R.string.list_size_default))),
-				context.getResources().getDisplayMetrics());
+		return Float.parseFloat(context.getString(R.string.list_size_default));
 	}
 
     public static void lockScreenOrientation(Activity activity) {

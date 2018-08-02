@@ -160,12 +160,12 @@
     </string-array>
 
     <dimen name="list_icon_size_default" translatable="false">32dp</dimen>
-    <dimen name="list_small_size_default" translatable="false">9sp</dimen>
-    <string name="list_size_default" translatable="false">11</string>
+    <integer name="list_small_size_default" translatable="false">13</integer>
+    <string name="list_size_default" translatable="false">16</string>
     <string-array name="list_size_values">
-    	<item translatable="false">9</item>
-    	<item translatable="false">@string/list_size_default</item>
     	<item translatable="false">14</item>
+    	<item translatable="false">@string/list_size_default</item>
+    	<item translatable="false">22</item>
     </string-array>
 
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>

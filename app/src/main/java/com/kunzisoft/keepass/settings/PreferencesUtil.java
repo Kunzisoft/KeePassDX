@@ -70,10 +70,7 @@ public class PreferencesUtil {
         String listSize = prefs.getString(ctx.getString(R.string.list_size_key), defaultSizeString);
         if (!Arrays.asList(ctx.getResources().getStringArray(R.array.list_size_values)).contains(listSize))
             listSize = defaultSizeString;
-        return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP,
-                Float.parseFloat(listSize),
-                ctx.getResources().getDisplayMetrics());
+        return Float.parseFloat(listSize);
 	}
 
     public static int getDefaultPasswordLength(Context ctx) {

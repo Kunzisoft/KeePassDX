@@ -1,4 +1,7 @@
 KeepassDX (2.5.0.0beta16)
+ * Fix font and search
+
+KeepassDX (2.5.0.0beta16)
  * New search in a single fragment
  * Search suggestions
  * Added the display of usernames

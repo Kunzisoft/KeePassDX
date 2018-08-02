@@ -27,6 +27,7 @@ import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -128,7 +129,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private void assignPreferences() {
         float textSizeDefault = Util.getListTextDefaultSize(context);
         this.textSize = PreferencesUtil.getListTextSize(context);
-        this.subtextSize = context.getResources().getDimension(R.dimen.list_small_size_default)
+        this.subtextSize = context.getResources().getInteger(R.integer.list_small_size_default)
                 * textSize / textSizeDefault;
         // Retrieve the icon size
         float iconDefaultSize = context.getResources().getDimension(R.dimen.list_icon_size_default);
