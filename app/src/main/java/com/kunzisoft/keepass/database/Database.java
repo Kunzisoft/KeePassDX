@@ -206,19 +206,21 @@ public class Database {
         if (!query.isEmpty()) {
             PwGroup searchResult = search(query, 6);
             PwVersion version = getPwDatabase().getVersion();
-            for (int i=0; i < searchResult.numbersOfChildEntries(); i++) {
-                PwEntry entry = searchResult.getChildEntryAt(i);
-                if (!entry.isMetaStream()) { // TODO metastream
-                    try {
-                        switch (version) {
-                            case V3:
-                                cursor.addEntry((PwEntryV3) entry);
-                                continue;
-                            case V4:
-                                cursor.addEntry((PwEntryV4) entry);
+            if (searchResult != null) {
+                for (int i = 0; i < searchResult.numbersOfChildEntries(); i++) {
+                    PwEntry entry = searchResult.getChildEntryAt(i);
+                    if (!entry.isMetaStream()) { // TODO metastream
+                        try {
+                            switch (version) {
+                                case V3:
+                                    cursor.addEntry((PwEntryV3) entry);
+                                    continue;
+                                case V4:
+                                    cursor.addEntry((PwEntryV4) entry);
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Can't add PwEntry to the cursor", e);
                         }
-                    } catch (Exception e) {
-                        Log.e(TAG, "This version of PwEntry can't be added to the cursor", e);
                     }
                 }
             }

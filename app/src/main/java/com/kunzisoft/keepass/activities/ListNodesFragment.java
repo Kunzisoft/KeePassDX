@@ -173,7 +173,8 @@ public class ListNodesFragment extends StylishFragment implements
 
     public void rebuildList() {
         // Add elements to the list
-        mAdapter.rebuildList(currentGroup);
+        if (currentGroup != null)
+            mAdapter.rebuildList(currentGroup);
         assignListToNodeAdapter(listView);
     }
 

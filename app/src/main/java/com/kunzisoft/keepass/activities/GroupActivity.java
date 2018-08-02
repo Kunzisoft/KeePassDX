@@ -373,7 +373,8 @@ public class GroupActivity extends LockingActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(GROUP_ID_KEY, mCurrentGroup.getId());
+        if (mCurrentGroup != null)
+            outState.putParcelable(GROUP_ID_KEY, mCurrentGroup.getId());
         outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
         if (nodeToCopy != null)
             outState.putParcelable(NODE_TO_COPY_KEY, nodeToCopy);
