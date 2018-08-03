@@ -184,7 +184,7 @@
     <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
     <string name="warning_empty_password">Voulez-vous vraiment utiliser une chaîne de caractères vide comme mot de passe ?</string>
-    <string name="warning_no_encryption_key">Etes-vous sûr de ne vouloir utiliser aucune clé de chiffrement ?</string>
+    <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement ?</string>
     <string name="version_label">Version :</string>
     <string name="configure_fingerprint">La reconnaissance d\'empreinte digitale est supportée mais non configuré pour cet appareil</string>
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
