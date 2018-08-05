@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources><string name="about_feedback">Tilbakemelding:</string>
     <string name="about_homepage">Hjemmeside:</string>
-    <string name="about_description">KeePass DX er en Android-implementering av KeePass passordbehandling.</string>
+    <string name="about_description">KeePass DX er en Android-implementasjon av KeePass-passordbehandleren.</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
     <string name="edit_entry">Rediger oppføring</string>
