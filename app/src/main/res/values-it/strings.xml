@@ -74,7 +74,7 @@
     <string name="error_invalid_db">Database non valido.</string>
     <string name="error_invalid_path">Percorso non valido.</string>
     <string name="error_no_name">È necessario un nome.</string>
-    <string name="error_out_of_memory">Il telefono ha esaurito la memoria durante l\'elaborazione del database. Potrebbe essere troppo grande per il tuo dispositivo.</string>
+    <string name="error_out_of_memory">Il dispositivo ha esaurito la memoria durante l\'elaborazione del database.</string>
     <string name="error_pass_gen_type">Deve essere selezionato almeno un tipo di generazione password</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
     <string name="error_rounds_not_number">Il \"livello\" deve essere un numero.</string>
