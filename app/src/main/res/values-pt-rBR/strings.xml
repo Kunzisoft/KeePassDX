@@ -33,7 +33,7 @@
     <string name="application">Aplicação</string>
     <string name="menu_app_settings">Configurações</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">Navegação em arquivos requer o gerenciador de arquivos Open Intents, clique abaixo para instalar. Devido a algumas peculiaridades no gerenciador de arquivos, a navegação pode não funcionar na primeira vez.</string>
+    <string name="browser_intall_text">Navegação em arquivos requer o gerenciador de arquivos OpenIntents, clique abaixo para instalar. Devido a algumas peculiaridades no gerenciador de arquivos, a navegação pode não funcionar na primeira vez.</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
@@ -167,7 +167,7 @@
     <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
-    <string name="clipboard_error">Alguns telefones Samsung Android têm um bug na implementação da área de transferência que faz com que a cópia entre aplicativos falhe. Para mais detalhes, acesse:</string>
+    <string name="clipboard_error">Alguns telefones Samsung Android têm um defeito na implementação da área de transferência que faz com que a cópia entre aplicativos falhe. Para mais detalhes, acesse:</string>
     <string name="clipboard_error_clear">Limpeza de área de transferência falhou</string>
     <string name="clipboard_swipe_clean">Deslize para limpar a área de transferência agora</string>
     <string name="entry_not_found">Entrada não encontrada.</string>
@@ -377,4 +377,5 @@
     <string name="icon_pack_choose_title">Selecione um pacote de ícones</string>
     <string name="icon_pack_choose_summary">Alterar o pacote de ícones do aplicativo</string>
 
-</resources>
+<string name="edit_entry">Editar entrada</string>
+    </resources>
