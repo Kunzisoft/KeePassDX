@@ -319,43 +319,43 @@
     <string name="reset_education_screens_title">Сбросить экраны обучения</string>
     <string name="reset_education_screens_summary">Сбрасывает отображение обучающих элементов</string>
     <string name="reset_education_screens_text">Экраны обучения сброшены</string>
-    <string name="education_create_database_title">Создать файл базы</string>
+    <string name="education_create_database_title">Создайте файл базы</string>
     <string name="education_create_database_summary">Вы ещё не знаете KeePass DX, создайте свой первый файл управления паролями.</string>
-    <string name="education_select_database_title">Открыть существующую базу</string>
+    <string name="education_select_database_title">Откройте существующую базу</string>
     <string name="education_select_database_summary">Вы уже использовали KeePass менеджер. Просто откройте ваш файл KDBX из вашего файлового менеджера.</string>
     <string name="education_open_link_database_title">Ссылки на местоположение файла достаточно</string>
     <string name="education_open_link_database_summary">Вы также можете открыть базу с помощью физической ссылки (например, с file:// или content://).</string>
-    <string name="education_new_node_title">Добавить новые элементы в базу</string>
-    <string name="education_new_node_summary">Добавить записи для управления цифровыми удостоверениями.
+    <string name="education_new_node_title">Добавляйте новые элементы в базу</string>
+    <string name="education_new_node_summary">Добавляйте записи для управления цифровыми идентификаторами.
 \n
-\nДобавить группы (аналог папок) для организации записей и баз.</string>
-    <string name="education_search_title">Простой поиск ваших записей</string>
-    <string name="education_search_summary">Поиск записей по названию, логину или другим полям для быстрого доступа к вашим паролям.</string>
-    <string name="education_fingerprint_title">Разблокировать базу с помощью отпечатка пальца</string>
-    <string name="education_fingerprint_summary">Установить связь между паролем и отпечатком пальца для быстрой разблокировки базы.</string>
-    <string name="education_entry_edit_title">Редактировать запись</string>
-    <string name="education_entry_edit_summary">Редактируйте запись с настраиваемыми полями. Ссылки на пул данных могут быть добавлены между полями разных записей.</string>
+\nДобавляйте группы (аналог папок) для организации записей и баз.</string>
+    <string name="education_search_title">Легко находите ваши записи</string>
+    <string name="education_search_summary">Ищите записи по названию, логину или другим полям для быстрого доступа к вашим паролям.</string>
+    <string name="education_fingerprint_title">Разблокируйте базу с помощью отпечатка пальца</string>
+    <string name="education_fingerprint_summary">Установите связь между паролем и отпечатком пальца для быстрой разблокировки базы.</string>
+    <string name="education_entry_edit_title">Редактируйте записи</string>
+    <string name="education_entry_edit_summary">Редактируйте записи с настраиваемыми полями. Ссылки на пул данных могут быть добавлены между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надежный пароль</string>
     <string name="education_generate_password_summary">Создайте надежный пароль, чтобы связать с записью, легко определить его по критериям формы и не забывайте, что пароль можно запомнить.</string>
-    <string name="education_entry_new_field_title">Добавить настраиваемые поля</string>
+    <string name="education_entry_new_field_title">Добавляйте настраиваемые поля</string>
     <string name="education_entry_new_field_summary">Если хотите зарегистрировать поле, которого ещё нет, просто введите в новое, которое также можно защитить визуально.</string>
-    <string name="education_unlock_title">Разблокировать базу</string>
-    <string name="education_read_only_title">Включить только для чтения</string>
-    <string name="education_read_only_summary">Изменить режим открытия для сессии.
+    <string name="education_unlock_title">Разблокируйте базу</string>
+    <string name="education_read_only_title">Включите только для чтения</string>
+    <string name="education_read_only_summary">Изменяйте режим открытия для сессии.
 \n
 \nВ режиме только для чтения, можно предотвратить непреднамеренные изменения в базе.
 \n
 \nВ режиме записи, вы можете добавлять, удалять или изменять все элементы, как вы хотите.</string>
-    <string name="education_field_copy_title">Скопировать поле</string>
-    <string name="education_field_copy_summary">Скопировать поле легко, чтобы вставить его там, где вы хотите
+    <string name="education_field_copy_title">Копируйте поля</string>
+    <string name="education_field_copy_summary">Легко скопируйте поле, чтобы вставить его там, где вы хотите
 \n
 \nВы можете использовать несколько методов заполнения форм. Используйте тот, который вы предпочитаете.</string>
-    <string name="education_lock_title">Заблокировать базу</string>
-    <string name="education_lock_summary">Быстро заблокировать вашу базу. Вы можете настроить приложение так, чтобы заблокировать её через некоторое время и при выключении экрана.</string>
-    <string name="education_sort_title">Сортировка</string>
-    <string name="education_sort_summary">Сортировать записи и группы по определенным параметрам.</string>
-    <string name="education_donation_title">Принять участие</string>
-    <string name="education_donation_summary">Принять участие для повышения стабильности, безопасности и добавления новых возможностей.</string>
+    <string name="education_lock_title">Заблокируйте базу</string>
+    <string name="education_lock_summary">Быстро заблокируйте вашу базу. Вы можете настроить приложение так, чтобы заблокировать её через некоторое время и при выключении экрана.</string>
+    <string name="education_sort_title">Сортируйте элементы</string>
+    <string name="education_sort_summary">Сортируйте записи и группы по определенным параметрам.</string>
+    <string name="education_donation_title">Участвуйте</string>
+    <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
 
     <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>свободное программное обеспечение (copyleft)</strong> и не хранит ваши личные данные на своих серверах, даже в бесплатной версии.</string>
     <string name="html_text_buy_pro">При покупке Pro версии, вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов.</strong></string>
