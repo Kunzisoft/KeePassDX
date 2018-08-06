@@ -30,9 +30,9 @@
     <string name="add_group">Gruppe hinzufügen</string>
     <string name="add_string">Text hinzufügen</string>
     <string name="encryption_algorithm">Verschlüsselungsalgorithmus</string>
-    <string name="app_timeout">Anwendungssperre</string>
-    <string name="app_timeout_summary">Bei inaktiver Anwendung wird die Datenbank nach Ablauf der eingestellten Zeit automatisch gesperrt.</string>
-    <string name="application">Anwendung</string>
+    <string name="app_timeout">App-Sperre</string>
+    <string name="app_timeout_summary">Bei inaktiver App wird die Datenbank nach Ablauf der eingestellten Zeit automatisch gesperrt</string>
+    <string name="application">App</string>
     <string name="menu_app_settings">Einstellungen</string>
     <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="brackets">Klammern</string>
@@ -66,7 +66,7 @@
     <string name="entry_title">Titel</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Benutzername</string>
-    <string name="error_arc4">Die RC4/ARC4-Stromverschlüsselung wird nicht unterstützt.</string>
+    <string name="error_arc4">Die RC4/ARCFOUR-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePass DX kann diese URI-Adresse nicht verarbeiten.</string>
     <string name="error_could_not_create_parent">Verzeichnis konnte nicht erstellt werden.</string>
     <string name="error_database_exists">Die Datei existiert bereits.</string>
@@ -77,7 +77,7 @@
     <string name="error_invalid_path">Ungültiger Pfad.</string>
     <string name="error_no_name">Ein Name wird benötigt.</string>
     <string name="error_nokeyfile">Ein Passwort oder eine Schlüsseldatei wird benötigt.</string>
-    <string name="error_out_of_memory">Der Speicher Ihres Smartphones reicht nicht aus, um die Datenbank zu analysieren. Sie ist wahrscheinlich zu groß.</string>
+    <string name="error_out_of_memory">Der Speicher Ihres Smartphones reicht nicht aus, um die Datenbank zu analysieren.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
     <string name="error_rounds_not_number">Die Anzahl der Wiederholungen muss eine Zahl sein.</string>
@@ -103,8 +103,8 @@
     <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
     <string name="invalid_algorithm">Ungültiger Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat wurde nicht erkannt.</string>
-    <string name="keyfile_does_not_exist">Schlüsseldatei existiert nicht.</string>
-    <string name="keyfile_is_empty">Schlüsseldatei ist leer.</string>
+    <string name="keyfile_does_not_exist">Es existiert keine Schlüsseldatei.</string>
+    <string name="keyfile_is_empty">Die Schlüsseldatei ist leer.</string>
     <string name="length">Länge</string>
     <string name="list_size_title">Gruppenliste</string>
     <string name="list_size_summary">Schriftgröße der Gruppenliste</string>
@@ -129,15 +129,15 @@
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Kein Handler zum Öffnen der URL vorhanden.</string>
-    <string name="open_recent">Zuletzt geöffnete Datenbanken :</string>
+    <string name="open_recent">Zuletzt geöffnete Datenbanken:</string>
     <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
     <string name="omitbackup_summary">Papierkorb und Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei .kdb Dateien)</string>
     <string name="progress_create">Neue Datenbank anlegen\u2026</string>
     <string name="progress_title">Ausführen\u2026</string>
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibschutz</string>
-    <string name="read_only_warning">KeePass DX hat keine Schreibrechte für die Datenbank. Die Datenbank wird schreibgeschützt geöffnet.</string>
-    <string name="read_only_kitkat_warning">Ab Android KitKat haben einige Geräte keine Schreibrechte mehr für die SD-Karte.</string>
+    <string name="read_only_warning">KeePass DX hat keine Schreibrechte für Ihre Datenbank. Sie wird schreibgeschützt geöffnet.</string>
+    <string name="read_only_kitkat_warning">Ab Android KitKat haben Apps einiger Geräte keine Schreibrechte mehr für die SD-Karte.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken</string>
@@ -159,7 +159,7 @@
     <string name="underline">Unterstrichen</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
-    <string name="use_saf_summary">Storage Access Framework als Dateimanager verwenden (Android KitKat und später)</string>
+    <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1-Zeichensatz. Enthält Ihr Passwort Zeichen, die in diesem Zeichensatz nicht vorkommen, werden diese alle in in ein und dasselbe Zeichen umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen, dass Sie Ihr Passwort ändern.</string>
@@ -186,7 +186,7 @@
       <item>Groß</item>
     </string-array>
 
-    <string name="warning_empty_password">Sind Sie sicher, dass Sie ein leeres Passwort verwenden wollen ?</string>
+    <string name="warning_empty_password">Sind Sie sicher, dass Sie ein leeres Passwort verwenden wollen?</string>
     <string name="warning_no_encryption_key">Sind Sie sicher, dass Sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
     <string name="appearance">Aussehen</string>
     <string name="password_size_title">Passwortlänge</string>
@@ -195,12 +195,12 @@
     <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen einschalten um Eingabefelder zu aktivieren</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
-    <string name="create_keepass_file">Keepass Datei erstellen</string>
+    <string name="create_keepass_file">KeePass Datei erstellen</string>
     <string name="style_choose_title">Thema auswählen</string>
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
-    <string name="unavailable_feature_text">Dieses Feature kann nicht gestartet werden.</string>
+    <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
     <string name="fingerprint_enable_summary">Datenbanköffnung mit Fingerabdruck einschalten</string>
     <string name="fingerprint">Fingerabdruck</string>
     <string name="fingerprint_enable_title">Fingerabdruckscanner</string>
@@ -214,11 +214,11 @@
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="fingerprint_invalid_key">Ungültiger Fingerabdruckschlüssel. Stellen Sie Ihr Passwort wieder her.</string>
-    <string name="fingerprint_error">Probleme mit dem Fingerabdruck : %1$s</string>
+    <string name="fingerprint_error">Probleme mit dem Fingerabdruck: %1$s</string>
     <string name="history">Verlauf</string>
-    <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein ?</string>
+    <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
     <string name="fingerprint_setting_text">Speichern Sie Ihren persönlichen Fingerabdruck in</string>
-    <string name="fingerprint_setting_way_text">Einstellungen -&gt; Sicherheit -&gt; Fingerabdruck</string>
+    <string name="fingerprint_setting_way_text">\"Einstellungen\" → \"Sicherheit\" → \"Fingerabdruck\"</string>
     <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
     <string name="store_with_fingerprint">Fingerabdruck verwenden um dieses Passwort zu speichern</string>
@@ -234,7 +234,7 @@
     <string name="menu_form_filling_settings">Formularausfüllung</string>
     <string name="menu_fingerprint_remove_key">Fingerabdruckschlüssel entfernen</string>
     <string name="encryption_explanation">Algorithmus um die ganze Datenbank zu verschlüsseln. (Passwörter, Benutzernamen, Notizen und alle Daten in der Datenbank werden mit dem gewählten Algorithmus verschlüsselt)</string>
-    <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der komprimierte Masterschlüssel (SHA-256) mit einer Schlüsselableitung umgewandelt (mit einem zufälligen Salt).</string>
+    <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der komprimierte Masterschlüssel (SHA-256) mit einer zufällig gesaltenen Schlüsselableitung umgewandelt.</string>
     <string name="memory_usage">Speichernutzung</string>
     <string name="memory_usage_explanation">Größe des Speichers (in binären Bytes) der für die Schlüsselableitung genutzt wird.</string>
     <string name="parallelism">Parallelismus</string>
@@ -243,17 +243,17 @@
     <string name="sort_ascending">Aufsteigend</string>
     <string name="sort_groups_before">Gruppen davor</string>
     <string name="sort_recycle_bin_bottom">Papierkorb unten</string>
-    <string name="sort_title">Nach Titel sortieren</string>
-    <string name="sort_username">Nach Nutzername sortieren</string>
-    <string name="sort_creation_time">Nach Erstellungsdatum sortieren</string>
-    <string name="sort_last_modify_time">Nach Änderungsdatum sortieren</string>
-    <string name="sort_last_access_time">Nach letztem Zugriffsdatum sortieren</string>
+    <string name="sort_title">Titel</string>
+    <string name="sort_username">Benutzername</string>
+    <string name="sort_creation_time">Erstellungsdatum</string>
+    <string name="sort_last_modify_time">Letztes Änderungsdatum</string>
+    <string name="sort_last_access_time">Letztes Zugriffsdatum</string>
     <string name="fingerprint_not_recognized">Fingerabdruck nicht erkannt</string>
     <string name="autofill">Auto-Einfügen</string>
     <string name="autofill_service_name">KeePass DX Autofill-Dienst</string>
     <string name="autofill_sign_in_prompt">Mit KeePass DX anmelden</string>
     <string name="set_autofill_service_title">Standard Autofill-Dienst auswählen</string>
-    <string name="set_autofill_service_summary">Dienst aktivieren, um automatisch Eingabefelder anderer Anwendungen auszufüllen</string>
+    <string name="set_autofill_service_summary">Dienst aktivieren, um automatisch Eingabefelder anderer Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="fingerprint_delete_all_title">Verschlüsselungskeys löschen</string>
     <string name="fingerprint_delete_all_summary">Alle Verschlüsselungsschlüssel für Fingerabdruckerkennung löschen</string>
@@ -376,4 +376,9 @@
 \nIm schreibgeschützten Modus verhindern Sie unbeabsichtigte Änderungen an der Datenbank.
 \n
 \nIm Modus ‘Lesen und Schreiben‘ können Sie alle Elemente hinzufügen, löschen oder verändern, wie Sie möchten.</string>
+    <string name="edit_entry">Eintrag bearbeiten</string>
+    <string name="error_load_database">Datenbank kann nicht geladen werden</string>
+    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen; versuchen Sie, den Speicher, der von KDF verwendet wird, zu verringen.</string>
+    <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
+    <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     </resources>
