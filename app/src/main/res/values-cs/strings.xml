@@ -157,7 +157,7 @@
     <string name="uppercase">Velká písmena</string>
     <string name="warning_read_only">Vaše SD karta je v módu jen pro čtení. Nebudete moct ukládat změny v databázi.</string>
     <string name="warning_unmounted">Vaše SD karta není momentálně připojena v zařízení. Nebudete moct načíst nebo vytvořit databázi.</string>
-    <string name="version_label">Verze:</string>
+    <string name="version_label">Verze: %1$s</string>
 
     <string name="education_unlock_summary">Zadejte heslo a/nebo soubor s klíčem pro odemknutí databáze.</string>
 

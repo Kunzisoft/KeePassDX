@@ -185,7 +185,7 @@
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
     <string name="warning_empty_password">Voulez-vous vraiment utiliser une chaine de caractères vide comme mot de passe ?</string>
     <string name="warning_no_encryption_key">Etes-vous sûr de ne vouloir utiliser aucune clé de chiffrement.</string>
-    <string name="version_label">Version :</string>
+    <string name="version_label">Version : %1$s</string>
     <string name="configure_fingerprint">Reconnaissance d\'empreinte digitale non configuré pour cet appareil</string>
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
     <string name="encrypted_value_stored">Mot de passe encrypté stocké</string>

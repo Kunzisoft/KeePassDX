@@ -115,7 +115,7 @@
     <string name="warning">تحذير</string>
     <string name="warning_empty_password">هل تريد حقاً استخدام سلسلة فارغة ككلمة مرور ؟</string>
     <string name="warning_no_encryption_key">هل أنت متأكد من أنك لا تريد استخدام أي مفتاح تشفير ؟</string>
-    <string name="version_label">الإصدار :</string>
+    <string name="version_label">الإصدار : %1$s</string>
     <string name="education_new_node_title">أضف عناصر جديدة إلى قاعدتك</string>
     <string name="education_fingerprint_title">قم بفتح قاعدة بياناتك ببصمتك</string>
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>

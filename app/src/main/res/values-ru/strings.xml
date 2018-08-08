@@ -161,7 +161,7 @@
     <string name="warning_password_encoding">Пароль содержит символы вне кодировки Latin1, поддерживаемой форматом .kdb! ВСЕ не-Latin1 символы будут преобразованы в одинаковый символ. Рекомендуется изменить пароль.</string>
     <string name="warning_read_only">Запись на карту памяти невозможна. Изменения не будут сохранены.</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна.</string>
-    <string name="version_label">Версия:</string>
+    <string name="version_label">Версия: %1$s</string>
     <string name="configure_fingerprint">Отпечатки пальцев поддерживаются, но не настроены на устройстве</string>
     <string name="scanning_fingerprint">Ожидание отпечатка пальца</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>

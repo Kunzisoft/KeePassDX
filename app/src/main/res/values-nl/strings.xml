@@ -139,7 +139,7 @@
     <string name="uppercase">Hoofdletters</string>
     <string name="warning_read_only">Uw sd-card is mementeel niet beschrijfbaar. U zult wijzigingen in de database niet kunnen opslaan.</string>
     <string name="warning_unmounted">Uw sd-card is momenteel ontkoppeld. U zult geen database kunnen openen of aanmaken.</string>
-    <string name="version_label">Versie:</string>
+    <string name="version_label">Versie: %1$s</string>
 
     <string name="education_unlock_summary">Geef het wachtwoord en/of het sleutelbestand om uw database te ontgrendelen.</string>
 

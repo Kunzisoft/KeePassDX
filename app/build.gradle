@@ -39,7 +39,7 @@ android {
     productFlavors {
         libre {
             applicationIdSuffix = ".libre"
-            versionNameSuffix "-libre"
+            buildConfigField "String", "BUILD_VERSION", "\"libre\""
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "false"
             buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Red\",\"KeepassDXStyle_Purple\"}"
@@ -48,7 +48,7 @@ android {
         }
         pro {
             applicationIdSuffix = ".pro"
-            versionNameSuffix "-pro"
+            buildConfigField "String", "BUILD_VERSION", "\"pro\""
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED", "{}"
@@ -56,7 +56,7 @@ android {
         }
         free {
             applicationIdSuffix = ".free"
-            versionNameSuffix "-free"
+            buildConfigField "String", "BUILD_VERSION", "\"free\""
             buildConfigField "boolean", "FULL_VERSION", "false"
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Red\",\"KeepassDXStyle_Purple\"}"

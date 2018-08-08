@@ -140,7 +140,7 @@
     <string name="uppercase">Letras maiúsculas</string>
     <string name="warning_read_only">Seu cartão SD está no modo de somente leitura. Talvez não seja possível salvar modificações ao banco de dados.</string>
     <string name="warning_unmounted">Seu cartão SD não está montado no dispositivo. Não será possível carregar ou criar um banco de dados.</string>
-    <string name="version_label">Versão:</string>
+    <string name="version_label">Versão: %1$s</string>
 
     <string name="education_unlock_summary">Digite uma senha e/ ou entre com o caminho para o arquivo de chaves do banco de dados.</string>
 
@@ -257,7 +257,7 @@
     <string name="fingerprint_delete_all_summary">Apague todas as chaves de encriptação relacionadas ao reconhecimento de Impressões digitais</string>
     <string name="fingerprint_delete_all_warning">Tem certeza que você quer apagar todas as chaves relacionadas as Impressões digitais?</string>
     <string name="unavailable_feature_text">Não é possível iniciar esse recurso.</string>
-    <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a a versão mínima %2$s necessária.</string>
+    <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a versão mínima %2$s necessária.</string>
     <string name="unavailable_feature_hardware">Hardware não foi detectado.</string>
     <string name="file_name">Nome do arquivo</string>
     <string name="path">Caminho</string>

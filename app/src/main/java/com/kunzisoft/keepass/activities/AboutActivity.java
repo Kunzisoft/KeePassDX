@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities;
 
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +26,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 
@@ -40,7 +40,7 @@ public class AboutActivity extends StylishActivity {
 
         setContentView(R.layout.about);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.menu_about));
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
@@ -48,18 +48,25 @@ public class AboutActivity extends StylishActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         String version;
+        String build;
         try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            version = packageInfo.versionName;
+            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            build = BuildConfig.BUILD_VERSION;
         } catch (NameNotFoundException e) {
-            Log.w(getClass().getSimpleName(), "Unable to get application version", e);
-            version = "Unable to get application version.";
+            Log.w(getClass().getSimpleName(), "Unable to get the app or the build version", e);
+            version = "Unable to get the app version";
+            build = "Unable to get the build version";
         }
-        version = getString(R.string.version_label) + " " + version;
-        TextView versionText = (TextView) findViewById(R.id.activity_about_version);
-        versionText.setText(version);
+        version = getString(R.string.version_label, version);
+        TextView versionTextView = findViewById(R.id.activity_about_version);
+        versionTextView.setText(version);
 
-        TextView disclaimerText = (TextView) findViewById(R.id.disclaimer);
+        build = getString(R.string.build_label, build);
+        TextView buildTextView = findViewById(R.id.activity_about_build);
+        buildTextView.setText(build);
+
+
+        TextView disclaimerText = findViewById(R.id.disclaimer);
         disclaimerText.setText(getString(R.string.disclaimer_formal, new DateTime().getYear()));
     }
 
