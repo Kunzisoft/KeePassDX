@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="about_feedback">Atsauksmes:</string>
     <string name="about_homepage">Mājaslapa:</string>
-    <string name="about_description">Paroles ir Android-versija programmai KeePass.</string>
+    <string name="about_description">KeePass DX ir KeePass paroļu menedžera Android implementācija</string>
     <string name="accept">Pieņemt</string>
     <string name="add_entry">Jauns ieraksts</string>
     <string name="add_group">Jauna grupa</string>
-    <string name="encryption_algorithm">Algoritms</string>
+    <string name="encryption_algorithm">Šifrēšanas algoritms</string>
     <string name="app_timeout">Pielikuma taimauts</string>
     <string name="app_timeout_summary">Bloķēšanas taimauts, kad programma nav aktīva.</string>
     <string name="application">Programma</string>
     <string name="menu_app_settings">Programmas iestatījumi</string>
     <string name="beta_dontask">Turpmāk nerādīt</string>
-    <string name="brackets">Iekavās</string>
+    <string name="brackets">Iekavas</string>
     <string name="browser_intall_text">Failu pārlūkošanai nepieciešams pārlūks.</string>
     <string name="cancel">Atcelt</string>
     <string name="clipboard_cleared">Starpliktuve notīrīta.</string>
@@ -152,4 +152,8 @@
         <item>Vidējs</item>
         <item>Liels</item>
     </string-array>
-</resources>
+<string name="edit_entry">Labot ierakstu</string>
+    <string name="encryption">Šifrēšana</string>
+    <string name="extended_ASCII">Paplašinātais ASCII</string>
+    <string name="allow">Atļaut</string>
+    </resources>
