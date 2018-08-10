@@ -204,7 +204,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="parallelism">Równoległy</string>
     <string name="parallelism_explanation">Stopień równoległości (tj. Liczba wątków) wykorzystywany przez funkcję wyprowadzania klucza.</string>
     <string name="sort_menu">Sortuj</string>
-    <string name="sort_ascending">Najniższe pierwsze ↓</string>
+    <string name="sort_ascending">Od najniższej ↓</string>
     <string name="sort_username">Nazwa Użytkownika</string>
     <string name="sort_creation_time">Czas utworzenia</string>
     <string name="sort_last_modify_time">Ostatni czas modyfikacji</string>
@@ -212,4 +212,11 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="search_results">Wyniki wyszukiwania</string>
     <string name="warning">Ostrzeżenie</string>
     <string name="warning_password_encoding">Twoje hasło może zawierać litery nieobsługiwane przez zestaw znaków Latin-1 używany przez pliki .kdb. Ponieważ wszystkie są konwertowane na tę samą literę, zaleca się zmianę hasła, aby było bezpieczniejsze.</string>
+    <string name="sort_recycle_bin_bottom">Kosz na dole</string>
+    <string name="sort_title">Tytuł</string>
+    <string name="warning_empty_password">Czy na pewno chcesz użyć pustego ciągu jako hasła?</string>
+    <string name="warning_no_encryption_key">Czy na pewno nie chcesz używać żadnego klucza szyfrowania?</string>
+    <string name="version_label">Wersja:</string>
+    <string name="configure_fingerprint">Odcisk palca jest obsługiwany, ale nie skonfigurowany dla tego urządzenia</string>
+    <string name="encrypted_value_stored">"Przechowywane hasło zaszyfrowane "</string>
     </resources>
