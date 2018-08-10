@@ -80,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:scrollHorizontally="true"
                 android:inputType="textPassword"
+				android:importantForAccessibility="no"
                 android:focusable="false"
                 android:lines="1"
                 style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
