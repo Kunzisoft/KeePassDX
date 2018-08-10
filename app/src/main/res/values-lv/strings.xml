@@ -15,16 +15,16 @@
     <string name="brackets">Iekavas</string>
     <string name="browser_intall_text">Failu pārlūkošanai nepieciešams pārlūks.</string>
     <string name="cancel">Atcelt</string>
-    <string name="clipboard_cleared">Starpliktuve notīrīta.</string>
+    <string name="clipboard_cleared">Starpliktuve notīrīta</string>
     <string name="clipboard_error_title">Starpliktuves kļūda</string>
     <string name="clipboard_error">Dažiem Samsung tālruņiem ir problēmas ar starpliktuves lietošanu. Lai saņemtu sīkāku informāciju, dodieties uz:</string>
     <string name="clipboard_error_clear">Starpliktuves tīrīšana neizdevās</string>
     <string name="clipboard_timeout">Starpliktuves taimauts</string>
     <string name="clipboard_timeout_summary">Notīrīšanas taimauts pēc lietotājvārda vai paroles kopēšana starpliktuvē</string>
     <string name="select_to_copy">%1$s uz starpliktuvi</string>
-    <string name="creating_db_key">Izveidot datu bāzes atslēgu…</string>
+    <string name="creating_db_key">Izveido datu bāzes atslēgu…</string>
     <string name="database">Datu bāze</string>
-    <string name="decrypting_db">Datu bāzes atšifrēšana…</string>
+    <string name="decrypting_db">Atšifrē datu bāzes saturu…</string>
     <string name="default_checkbox">Izmantot šo kā manu noklusējuma datu bāzi</string>
     <string name="digits">Cipari</string>
     <string name="select_database_file">Ievadiet datu bāzes nosaukumu</string>
@@ -156,4 +156,5 @@
     <string name="encryption">Šifrēšana</string>
     <string name="extended_ASCII">Paplašinātais ASCII</string>
     <string name="allow">Atļaut</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft nāk bez jebkādas garantijas; Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
     </resources>
