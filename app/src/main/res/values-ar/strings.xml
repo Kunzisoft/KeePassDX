@@ -49,12 +49,12 @@
     <string name="entry_url">عنوان الرابط</string>
     <string name="entry_user_name">إسم المستخدم</string>
     <string name="error_database_exists">هذا الملف موجود مِن قَبل.</string>
-    <string name="error_failed_to_launch_link">فشل في إطلاق الرابط.</string>
+    <string name="error_failed_to_launch_link">افتح الرابط في صفحة جديدة</string>
     <string name="error_filename_required">إسم الملف مطلوب.</string>
     <string name="error_file_not_create">تعذر إنشاء الملف :</string>
     <string name="error_invalid_path">مسار غير صالح.</string>
     <string name="error_no_name">الإسم لازم.</string>
-    <string name="error_pass_match">إنّ الكلمتان السريتان غير متطابقتين.</string>
+    <string name="error_pass_match">تذكّر كلمات السر</string>
     <string name="error_title_required">العنوان مطلوب.</string>
     <string name="field_name">اسم الحقل</string>
     <string name="field_value">قيمة الحقل</string>
@@ -123,4 +123,36 @@
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
     <string name="about_feedback">الملاحظات :</string>
 
-</resources>
+<string name="about_description">KeePass DX تنفيذ الروبوت مدير KeePass كلمة المرور.</string>
+    <string name="add_entry">إضافة كلمة للقاموس</string>
+    <string name="edit_entry">دخول فقط</string>
+    <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
+    <string name="app_timeout">مهلة التطبيق</string>
+    <string name="app_timeout_summary">الوقت قبل قفل قاعدة البيانات عندما يكون التطبيق غير نشط</string>
+    <string name="browser_intall_text">تصفح الملف يتطلب إدارة الملف أوبينينتينتس لتثبيت، انقر فوق أدناه للقيام بذلك. بسبب بعض المراوغات في إدارة الملفات، التصفح قد لا تعمل بشكل صحيح في المرة الأولى.</string>
+    <string name="clipboard_error">بعض الهواتف الروبوت سامسونج يكون خلل في تنفيذ حافظة تسبب نسخ من تطبيقات إلى فشل. مزيد من التفاصيل:</string>
+    <string name="clipboard_timeout">مهلة الحافظة</string>
+    <string name="clipboard_timeout_summary">الوقت قبل مسح الحافظة بعد نسخ اسم المستخدم أو كلمة المرور</string>
+    <string name="select_to_copy">نسخ صورة رمز QR الى الحافظة</string>
+    <string name="creating_db_key">إنشاء مفتاح قاعدة البيانات…</string>
+    <string name="default_checkbox">استخدام هذا كقاعدة البيانات الافتراضية</string>
+    <string name="disclaimer_formal">KeePass DX © د $ %1 كونزيسوفت تأتي مع \"الضمان لا على الإطلاق\"؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
+    <string name="entry_accessed">الوصول إلى</string>
+    <string name="entry_expires">انتهاء صلاحية</string>
+    <string name="entry_keyfile">مفتاح الملف</string>
+    <string name="error_arc4">تشفير دفق أركفوور غير معتمد.</string>
+    <string name="error_can_not_handle_uri">KeePass DX تنفيذ الروبوت مدير KeePass كلمة المرور.</string>
+    <string name="error_could_not_create_parent">تعذر إنشاء الدليل الأصل.</string>
+    <string name="error_invalid_db">كلمة محجوزة غير معروفة.</string>
+    <string name="error_nokeyfile">فشل في إنشاء ملف مفاتيح الرموز.</string>
+    <string name="error_out_of_memory">الجهاز نفدت الذاكرة أثناء تحليل قاعدة البيانات الخاصة بك.</string>
+    <string name="error_load_database">لا يمكن أن تكون قاعدة البيانات تحميل</string>
+    <string name="error_load_database_KDF_memory">غير قادر على تحميل المفتاح، في محاولة لتقليل الذاكرة المستخدمة من قبل KDF.</string>
+    <string name="error_pass_gen_type">يجب تحديد كلمة مرور واحد على الأقل نوع الجيل</string>
+    <string name="error_rounds_not_number">يجب أن تكون \"جولات\" عددا.</string>
+    <string name="error_rounds_too_large">\"جولات\" كبيرة جداً. الإعداد إلى 2147483648.</string>
+    <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
+    <string name="error_wrong_length">قم بإدخال عدد صحيح موجب في الحقل \"المدة\"</string>
+    <string name="error_autofill_enable_service">لا يمكن تمكين خدمة الملء التلقائي.</string>
+    <string name="error_move_folder_in_itself">غير قادر على نقل مجموعة إلى نفسه.</string>
+    </resources>
