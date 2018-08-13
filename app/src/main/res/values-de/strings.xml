@@ -24,7 +24,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Rückmeldung:</string>
     <string name="about_homepage">Webseite:</string>
-    <string name="about_description">KeePass DX ist die Implementierung des KeePass Passwortmanagers für die Android-Plattform.</string>
+    <string name="about_description">KeePass DX ist eine Implementierung des KeePass Passwortmanagers für die Android-Plattform.</string>
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
@@ -156,7 +156,7 @@
     <string name="search">Titel/Beschreibung des Eintrags</string>
     <string name="search_results">Suchergebnisse</string>
     <string name="encryption_twofish">Twofish</string>
-    <string name="underline">Unterstrichen</string>
+    <string name="underline">Unterstriche</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
     <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
@@ -240,7 +240,7 @@
     <string name="parallelism">Parallelismus</string>
     <string name="parallelism_explanation">Grad des Parallelismus (d.h. Anzahl der Threads) der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
-    <string name="sort_ascending">Aufsteigend</string>
+    <string name="sort_ascending">Kleinstes zu erst</string>
     <string name="sort_groups_before">Gruppen davor</string>
     <string name="sort_recycle_bin_bottom">Papierkorb unten</string>
     <string name="sort_title">Titel</string>
@@ -323,13 +323,13 @@
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong></string>
 
-    <string name="html_text_dev_feature">Diese Funktion ist <strong>in Entwicklung</strong> und erfordert <strong>Ihren Beitrag</strong> um bald verfügbar zu sein.</string>
+    <string name="html_text_dev_feature">Diese Funktion ist <strong>in Entwicklung</strong> und erfordert <strong>Ihren Beitrag</strong>, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der <strong>Pro-Version</strong>,</string>
-    <string name="html_text_dev_feature_contibute">Durch Ihren <strong>Beitrag</strong>,</string>
-    <string name="html_text_dev_feature_encourage">ermutigen Sie Entwickler, <strong>neue Funktionen</strong> hinzuzufügen und <strong>Fehler zu beheben</strong> nach Ihrem Feedback.</string>
+    <string name="html_text_dev_feature_contibute">Durch Ihr <strong>Mitwirken</strong>,</string>
+    <string name="html_text_dev_feature_encourage">bestärken Sie die Entwickler, <strong>neue Funktionen</strong> einzuführen und gemäß Ihren Anmerkungen <strong>Fehler auszumerzen</strong>.</string>
     <string name="html_text_dev_feature_thanks">Vielen Dank für Ihre Unterstützung.</string>
-    <string name="html_text_dev_feature_work_hard">Wir arbeiten hart um diese Funktion bald zu veröffentlichen.</string>
-    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre Anwendung aktuell zu halten.</string>
+    <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
+    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre App aktuell zu halten.</string>
 
     <string name="download">Download</string>
     <string name="contribute">Unterstützen</string>
