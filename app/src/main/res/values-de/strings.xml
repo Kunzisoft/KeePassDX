@@ -162,7 +162,7 @@
     <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">Das .kdb Format unterstützt nur den Latin1-Zeichensatz. Enthält Ihr Passwort Zeichen, die in diesem Zeichensatz nicht vorkommen, werden diese alle in in ein und dasselbe Zeichen umgewandelt. Dies reduziert die Sicherheit des Passwortes. Es wird empfohlen, dass Sie Ihr Passwort ändern.</string>
+    <string name="warning_password_encoding">Ihr Passwort enthällt Zeichen die vom Latin-1-Zeichensatz nicht unterstützt werden, der jedoch vom .kdb Format verwendet wird. Diese Zeichen werden in ein und daselbe Zeichen umgewandelt. Es wird empfohlen das Passwort zu ändern um dessen Sicherheit zu erhöhen.</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
