@@ -162,7 +162,7 @@
     <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">Ihr Passwort enthällt Zeichen die vom Latin-1-Zeichensatz nicht unterstützt werden, der jedoch vom .kdb Format verwendet wird. Diese Zeichen werden in ein und daselbe Zeichen umgewandelt. Es wird empfohlen das Passwort zu ändern um dessen Sicherheit zu erhöhen.</string>
+    <string name="warning_password_encoding">"Ihr Passwort enthält Zeichen, die nicht Teil des Latin-1-Zeichensatzes sind, der im .kdb Format verwendet wird. Da diese Zeichen in ein und daselbe Zeichen umgewandelt werden, wird  empfohlen, das Passwort zu ändern, um dessen Sicherheit zu erhöhen."</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
@@ -210,7 +210,7 @@
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Standardzeichen für Passwortgenerator setzen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="configure_fingerprint">Fingerabdruck unterstützt, jedoch nicht für dieses Gerät konfiguriert</string>
+    <string name="configure_fingerprint">Der Fingerabdruck wird von ihrem Gerät unterstützt, ist jedoch konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="fingerprint_invalid_key">Ungültiger Fingerabdruckschlüssel. Stellen Sie Ihr Passwort wieder her.</string>
@@ -270,7 +270,7 @@
     <string name="permission_external_storage_denied">Speicherzugriff verweigert</string>
     <string name="permission_external_storage_never_ask">Aktion kann ohne Speicherzugriff nicht ausgeführt werden</string>
     <string name="monospace_font_fields_enable_title">Feldschriftart</string>
-    <string name="monospace_font_fields_enable_summary">Schriftart der Felder ändern um Lesbarkeit zu verbessern</string>
+    <string name="monospace_font_fields_enable_summary">Schriftart in Feldern ändern, um Lesbarkeit zu verbessern</string>
     <string name="auto_open_file_uri_title">Ausgewählte Datei automatisch öffnen</string>
     <string name="auto_open_file_uri_summary">Automatisch eine Datei vom Auswahlbildschirm öffnen nach der Auswahl im Dateibrowser</string>
     <string name="allow_copy_password_title">Kopie des Passworts</string>
@@ -347,7 +347,7 @@
     <string name="menu_paste">Einfügen</string>
     <string name="menu_cancel">Abbrechen</string>
     <string name="clipboard_warning">Sollte Ihr Geräte die Zwischenablage nicht automatisch zu leeren können löschen Sie den kopierten Eintrag manuell aus dem Verlauf der Zwischenablage.</string>
-    <string name="allow_copy_password_warning">WARNUNG : Alle Anwendungen teilen sich die Zwischenablage. Wenn sensible Daten kopiert werden, kann andere Software darauf zugreifen.</string>
+    <string name="allow_copy_password_warning">WARNUNG : Alle Apps teilen sich die Zwischenablage. Wenn sensible Daten kopiert werden, kann andere Software darauf zugreifen.</string>
     <string name="magic_keyboard_preference_title">Magikeyboard-Einstellungen</string>
     <string name="magic_keyboard_configure_title">Wie funktioniert die Tastaturkonfiguration zum sicheren Ausfüllen von Formularen?</string>
     <string name="magic_keyboard_activate_setting_text">Aktivieren Sie das Magikeyboard in den Geräteeinstellungen.</string>
