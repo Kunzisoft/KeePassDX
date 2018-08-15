@@ -36,12 +36,12 @@
     <string name="browser_intall_text">Filhåndtering kræver at OpenIntents File Manager er installeret, klik nedenfor for at gøre dette. På grund af nogle særheder i filhåndtering, fungerer det muligvis ikke korrekt i første omgang.</string>
     <string name="cancel">Annuller</string>
     <string name="clipboard_cleared">Udklipsholder ryddet</string>
-    <string name="clipboard_error_title">Udklipsholder-fejl</string>
+    <string name="clipboard_error_title">Udklipsfejl</string>
     <string name="clipboard_error">Nogle Samsung Android enheder har en fejl i implementeringen af udklipsholderen, som får kopiering fra apps til at mislykkes. Flere oplysninger:</string>
     <string name="clipboard_error_clear">Rydningen af udklipsholderen fejlede</string>
     <string name="clipboard_timeout">Udklipsholder timeout</string>
     <string name="clipboard_timeout_summary">Tid før udklipsholderen bliver ryddet efter kopiering af brugernavn eller adgangskode</string>
-    <string name="select_to_copy">Vælg for at kopiere %1$s til udklipsholderen</string>
+    <string name="select_to_copy">Vælg for at kopiere %1$s til udklipsholder</string>
     <string name="creating_db_key">Opretter databasenøgle…</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Dekrypterer databaseindhold…</string>
@@ -205,11 +205,11 @@
     <string name="encryption_explanation">Algoritme til kryptering af hele databasen. (adgangskoder, brugernavne, noter og alle data i databasen er krypteret med den valgte algoritme)</string>
     <string name="kdf_explanation">For at generere nøglen til krypteringsalgoritmen, omdannes den komprimerede hovednøgle (SHA-256) ved hjælp af et tilfældigt saltet nøgleafledning funktion.</string>
     <string name="memory_usage">Hukommelsesforbrug</string>
-    <string name="memory_usage_explanation">Hukommelse (i binær byte) til at blive brugt af funktionen nøgleafledning.</string>
+    <string name="memory_usage_explanation">Hukommelse (i binær byte), som anvendes af nøgleafledningsfunktion.</string>
     <string name="parallelism">Parallelitet</string>
     <string name="parallelism_explanation">"Grad af parallelitet (dvs. antallet af tråde), som anvendes af  nøgleafledningsfunktion."</string>
     <string name="sort_menu">Sorter</string>
-    <string name="sort_ascending">Laveste først ↓</string>
+    <string name="sort_ascending">Stigende ↓</string>
     <string name="sort_groups_before">Grupper før</string>
     <string name="sort_recycle_bin_bottom">Papirkurv nederst</string>
     <string name="sort_title">Titel</string>
@@ -226,7 +226,7 @@
     <string name="configure_fingerprint">Fingeraftryk er understøttet, men ikke konfigureret for denne enhed</string>
     <string name="scanning_fingerprint">Venter på fingeraftryk</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
-    <string name="fingerprint_invalid_key">Ugyldig fingeraftryk nøgleproblem. Gendan adgangskode.</string>
+    <string name="fingerprint_invalid_key">Ugyldig fingeraftryksnøgle. Gendan adgangskode.</string>
     <string name="fingerprint_not_recognized">Fingeraftryk ikke genkendt</string>
     <string name="fingerprint_error">Problem med fingeraftryk: %1$s</string>
     <string name="store_with_fingerprint">Brug fingeraftryk til at gemme adgangskoden</string>
@@ -244,9 +244,9 @@
     <string name="list_password_generator_options_title">Adgangskodetegn</string>
     <string name="list_password_generator_options_summary">Angiv standardtegn for adgangskodegenerator</string>
     <string name="clipboard">Udklipsholder</string>
-    <string name="clipboard_notifications_title">Udklipsholder meddelelser</string>
-    <string name="clipboard_notifications_summary">Aktivere Udklipsholder meddelelser for at kopiere indtastningsfelter</string>
-    <string name="clipboard_warning">Hvis enheden ikke er i stand til at slette udklip fra Udklipsholder automatisk, så slet det kopierede element manuelt fra Udklipsholder historikken.</string>
+    <string name="clipboard_notifications_title">Udklipsholdermeddelelser</string>
+    <string name="clipboard_notifications_summary">Aktivere meddelelser fra udklipsholder for at kopiere indtastningsfelter</string>
+    <string name="clipboard_warning">Hvis enheden ikke er i stand til at slette udklip fra udklipsholder automatisk, så slet det kopierede element manuelt fra udklipsholder historikken.</string>
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skærmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
@@ -321,9 +321,9 @@
     <string name="reset_education_screens_summary">Nulstil visning af hjælpeelementer</string>
     <string name="reset_education_screens_text">Hjælpeskærme nulstillet</string>
     <string name="education_create_database_title">Opret databasefilen</string>
-    <string name="education_create_database_summary">Du kender ikke KeePass DX endnu, opret den første adgangskodeadministrationsfil.</string>
+    <string name="education_create_database_summary">Kender endnu ikke KeePass DX, opret den første adgangskodeadministrationsfil.</string>
     <string name="education_select_database_title">Åbn en eksisterende database</string>
-    <string name="education_select_database_summary">Du har allerede brugt en KeePass manager. Bare åbn KDBX filen fra filhåndtering.</string>
+    <string name="education_select_database_summary">Har allerede brugt en KeePass manager. Bare åbn KDBX filen fra filhåndtering.</string>
     <string name="education_open_link_database_title">Et link til filen er tilstrækkelig</string>
     <string name="education_open_link_database_summary">Databasen kan også åbnes med en fysisk forbindelse (med file:// og content:// for eksempel).</string>
     <string name="education_new_node_title">Tilføj nye elementer til databasen</string>
@@ -337,9 +337,9 @@
     <string name="education_entry_edit_title">Rediger posten</string>
     <string name="education_entry_edit_summary">Rediger post med brugerdefinerede felter, henvisninger til pooldata kan tilføjes mellem felter i forskellige poster.</string>
     <string name="education_generate_password_title">Opret en stærk adgangskode</string>
-    <string name="education_generate_password_summary">Generer en stærk adgangskode til at forbinde med indtastningen, sæt det let i henhold til kriteriet for formularen og husk ikke mere sikker adgangskode.</string>
+    <string name="education_generate_password_summary">Generer en stærk kodeord til at forbinde elementet, definer det i henhold til kriteriet for formularen og glem ikke et sikkert kodeord og husk på det.</string>
     <string name="education_entry_new_field_title">Tilføj brugerdefinerede felter</string>
-    <string name="education_entry_new_field_summary">Hvis du vil registrere et felt, der ikke allerede eksisterer, skal du blot indtaste det i den nye, som også kan beskyttes visuelt.</string>
+    <string name="education_entry_new_field_summary">Registrer et felt, der ikke allerede eksisterer, indtast blot i det den nye, som også kan beskyttes visuelt.</string>
     <string name="education_unlock_title">Lås databasen op</string>
     <string name="education_read_only_title">Aktiver skrivebeskyttelse</string>
     <string name="education_read_only_summary">"Skift  åbningstilstanden for sessionen.
@@ -358,10 +358,10 @@
     <string name="education_donation_title">Deltag</string>
     <string name="education_donation_summary">Deltag for at hjælpe med at øge stabiliteten, sikkerheden og ved at tilføje flere funktioner.</string>
 
-    <string name="html_text_ad_free">I modsætning til andre programmer til adgangskodeadministration er denne &lt;strong&gt; annoncefri &lt;/ strong&gt;, &lt;strong&gt; licenseret til open source copyleft &lt;/ strong&gt;, og indsamler ikke personlige data på servere, selv i den gratis version.</string>
+    <string name="html_text_ad_free">I modsætning til andre programmer til adgangskodeadministration er denne <strong> annoncefri </strong>, <strong> copyleft fri software</strong>, og indsamler ikke personlige data på servere, selv i den gratis version.</string>
     <string name="html_text_buy_pro">Ved at købe pro-versionen, er der adgang til <strong>visuel funktionen</strong>, og det vil især hjælpe <strong>gennemførelsen af lokale projekter.</strong></string>
-    <string name="html_text_feature_generosity">Denne <strong>visuelle funktion</strong> er tilgængelige takket være din gavmildhed.</string>
-    <string name="html_text_donation">For at bevare vores frihed og for altid at være aktive, regner vi med<strong>bidrag.</strong></string>
+    <string name="html_text_feature_generosity">Denne <strong>visuelle funktion</strong> er tilgængelige takket være bidrag.</string>
+    <string name="html_text_donation">For at bevare uafhængighed og altid at være aktiv, regner vi med<strong>bidrag.</strong></string>
 
     <string name="html_text_dev_feature">Funktionen er <strong>under udvikling</strong>, og det kræver <strong>bidrag</strong>, for snart at være tilgængelig.</string>
     <string name="html_text_dev_feature_buy_pro">Ved at købe <strong>pro</strong> versionen,</string>
