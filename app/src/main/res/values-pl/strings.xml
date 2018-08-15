@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
 Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 This file is part of KeePass DX.
@@ -17,27 +17,27 @@ You should have received a copy of the GNU General Public License
 along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_feedback">Feedback:</string>
+    <string name="about_feedback">Informacje zwrotne:</string>
     <string name="about_homepage">Strona domowa:</string>
     <string name="about_description">KeePass DX to Androidowa implementacja menadżera haseł KeePass.</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
     <string name="encryption_algorithm">Algorytm</string>
-    <string name="app_timeout">Czas wygaśnięcia aplikacji</string>
-    <string name="app_timeout_summary">Czas do zablokowania bazy danych przy bezczynności aplikacji.</string>
+    <string name="app_timeout">Limit czasu aplikacji</string>
+    <string name="app_timeout_summary">Czas do zablokowania bazy danych przy bezczynności aplikacji</string>
     <string name="application">Aplikacja</string>
     <string name="menu_app_settings">Ustawienia aplikacji</string>
     <string name="brackets">Nawiasy</string>
     <string name="browser_intall_text">Przeglądanie plików wymaga programu Open Intents File Manager, kliknij poniżej by go zainstalować. Ze względu na pewne, dziwne zachowania menadżera plików przeglądanie może nie działać poprawnie przy pierwszym użyciu.</string>
     <string name="cancel">Anuluj</string>
-    <string name="clipboard_cleared">Schowek wyczyszczony.</string>
+    <string name="clipboard_cleared">Schowek został wyczyszczony</string>
     <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
     <string name="clipboard_timeout_summary">Czas do wyczyszczenia zawartości schowka po kopiowaniu nazwy użytkownika i hasła</string>
     <string name="select_to_copy">Kopiuj %1$s do schowka</string>
-    <string name="creating_db_key">Tworzenie klucza bazy danych&#8230;</string>
+    <string name="creating_db_key">Tworzenie klucza bazy danych…</string>
     <string name="database">Baza danych</string>
-    <string name="decrypting_db">Deszyfracja bazy danych&#8230;</string>
+    <string name="decrypting_db">Deszyfracja bazy danych…</string>
     <string name="default_checkbox">Używaj tej bazy danych jako domyślnej</string>
     <string name="digits">Cyfry</string>
     <string name="select_database_file">Wprowadź nazwę pliku bazy danych</string>
@@ -55,23 +55,23 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie ArcFour nie jest wspierane.</string>
-    <string name="error_can_not_handle_uri">KeePass DX nie potrafi obsłużyć tego uri.</string>
+    <string name="error_can_not_handle_uri">KeePass DX nie potrafi obsłużyć tego adresu URL.</string>
     <string name="error_could_not_create_parent">Nie można utworzyć folderu nadrzędnego.</string>
     <string name="error_database_exists">Plik o podanej nazwie już istnieje.</string>
-    <string name="error_failed_to_launch_link">Błąd przy uruchamianiu linku.</string>
+    <string name="error_failed_to_launch_link">Nie można otworzyć łącza.</string>
     <string name="error_filename_required">Wymagana nazwa pliku.</string>
     <string name="error_file_not_create">Nie można utworzyć pliku:</string>
     <string name="error_invalid_db">Nieprawidłowa baza danych.</string>
     <string name="error_invalid_path">Nieprawidłowa ścieżka dostępu.</string>
     <string name="error_no_name">Wymagana nazwa.</string>
     <string name="error_nokeyfile">Wymagane hasło lub plik klucza.</string>
-    <string name="error_out_of_memory">Podczas parsowania bazy danych zabrakło pamięci. Być może ta baza danych jest za duża dla Twojego urządzenia.</string>
+    <string name="error_out_of_memory">W urządzeniu zabrakło pamięci podczas analizowania bazy danych.</string>
     <string name="error_pass_gen_type">Przynajmniej jeden sposób generowania hasła musi być wybrany</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
-    <string name="error_rounds_not_number">Wartość musi być liczbą.</string>
-    <string name="error_rounds_too_large">Wartość za duża. Ustaw 2147483648.</string>
+    <string name="error_rounds_not_number">\"Wartość\" musi być liczbą.</string>
+    <string name="error_rounds_too_large">\"Wartość\" za duża. Ustaw 2147483648.</string>
     <string name="error_title_required">Wymagany tytuł.</string>
-    <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą.</string>
+    <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu \"Długość\"</string>
     <string name="file_not_found">Plik nie istnieje.</string>
     <string name="file_browser">Przeglądarka plików</string>
     <string name="generate_password">Generuj hasło</string>
@@ -89,7 +89,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="length">Długość</string>
     <string name="list_size_title">Wielkość listy grup</string>
     <string name="list_size_summary">Wielkość tekstu w liście grup</string>
-    <string name="loading_database">Wczytywanie bazy danych&#8230;</string>
+    <string name="loading_database">Wczytywanie bazy danych…</string>
     <string name="lowercase">Małe litery</string>
     <string name="maskpass_title">Maska hasła</string>
     <string name="maskpass_summary">Domyślnie ukrywa hasło</string>
@@ -105,18 +105,18 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="menu_open">Otwórz</string>
     <string name="menu_search">Szukaj</string>
     <string name="menu_showpass">Pokaż hasło</string>
-    <string name="menu_url">Przejdź do URL</string>
+    <string name="menu_url">Przejdź do adresu URL</string>
     <string name="minus">Minus</string>
     <string name="never">Nigdy</string>
     <string name="no_results">Brak wyników wyszukiwania</string>
-    <string name="no_url_handler">Brak obsługi dla tego urla.</string>
+    <string name="no_url_handler">Brak obsługi dla tego adresu URL.</string>
     <string name="open_recent">Otwórz ostatnio używaną bazę danych :</string>
-    <string name="omitbackup_title">Nie wyszukuj zapasowych wpisów</string>
-    <string name="omitbackup_summary">Pomiń kopię zapasową grupy z wyników wyszukiwania (dotyczy tylko .kdb)</string>
-    <string name="progress_create">Tworzenie nowej bazy danych&#8230;</string>
-    <string name="progress_title">Pracuję&#8230;</string>
+    <string name="omitbackup_title">Nie wyszukuj wpisów kopii zapasowej</string>
+    <string name="omitbackup_summary">Pomiń grupę \'Kopia zapasowa\' z wyników wyszukiwania (dotyczy tylko plików .kdb)</string>
+    <string name="progress_create">Tworzenie nowej bazy danych…</string>
+    <string name="progress_title">Pracuję…</string>
     <string name="recentfile_title">Najnowsza historia plików</string>
-    <string name="recentfile_summary">Zapamiętaj ostatnio uzywane nazwy plików</string>
+    <string name="recentfile_summary">Zapamiętaj ostatnio używane nazwy plików</string>
     <string name="remember_keyfile_summary">Zapamiętaj lokację plików kluczy</string>
     <string name="remember_keyfile_title">Zapisz plik klucza</string>
     <string name="remove_from_filelist">Usuń</string>
@@ -125,18 +125,18 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="rounds">Złożoność szyfrowania</string>
     <string name="rounds_explanation">Większa złożoność szyfrowania zapewnia dodatkowe zabezpieczenie przed atakiem brute force, ale może spowolnić wczytywanie i zapisywanie bazy danych.</string>
     <string name="rounds_hint">złożoność</string>
-    <string name="saving_database">Zapisywanie bazy danych&#8230;</string>
+    <string name="saving_database">Zapisywanie bazy danych…</string>
     <string name="space">Spacja</string>
     <string name="search_label">Szukaj</string>
     <string name="sort_db">Sortuj wg daty</string>
     <string name="special">Znaki specjalne</string>
-    <string name="search">Tytuł/opis wpisu</string>
+    <string name="search">Szukaj</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
     <string name="use_saf_summary">Użyj przeglądarki Android Storage Access Framework do przeglądania plików (KitKat i nowsze)</string>
-    <string name="use_saf_title">Storage Access Framework</string>
+    <string name="use_saf_title">Dostęp do struktury do pamięci masowej</string>
     <string name="warning_read_only">Karta SD jest obecnie w trybie tylko do odczytu. Możesz nie być w stanie zapisać zmian w bazie danych.</string>
     <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
 
@@ -158,5 +158,65 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
      <item>Średnia</item>
      <item>Duża</item>
     </string-array>
-</resources>
-
+<string name="edit_entry">Edytuj wpis</string>
+    <string name="add_string">Dodaj ciąg</string>
+    <string name="encryption">Szyfrowanie</string>
+    <string name="key_derivation_function">Funkcja Generująca Klucze</string>
+    <string name="beta_dontask">Nie pokazuj więcej</string>
+    <string name="extended_ASCII">Rozszerzone ASCII</string>
+    <string name="allow">Zezwalaj</string>
+    <string name="clipboard_error_title">Błąd schowka</string>
+    <string name="clipboard_error">Niektóre telefony Samsung z Androidem mają błąd w implementacji schowka, co powoduje, że kopiowanie z aplikacji kończy się niepowodzeniem. Więcej szczegółów:</string>
+    <string name="clipboard_error_clear">Czyszczenie schowka nie powiodło się</string>
+    <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft korzystasz ABSOLUTNIE BEZ GWARANCJI; To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
+    <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
+    <string name="error_load_database">Baza danych nie może być załadowana</string>
+    <string name="error_load_database_KDF_memory">Nie można załadować klucza, spróbuj zmniejszyć pamięć używaną przez KDF.</string>
+    <string name="error_string_key">Każdy ciąg musi mieć nazwę pola.</string>
+    <string name="error_autofill_enable_service">Usługa autofillowania nie może być włączona.</string>
+    <string name="error_move_folder_in_itself">Nie można przenieść grupy do samej siebie.</string>
+    <string name="field_name">Nazwa pola</string>
+    <string name="field_value">Wartość pola</string>
+    <string name="file_not_found_content">Nie znaleziono pliku. Spróbuj ponownie otworzyć zawartość od dostawcy treści.</string>
+    <string name="invalid_algorithm">Nieprawidłowy algorytm.</string>
+    <string name="keyfile_does_not_exist">Brak pliku klucza.</string>
+    <string name="keyfile_is_empty">Plik klucza jest pusty.</string>
+    <string name="list_entries_show_username_title">Wyświetlaj nazwy użytkownika</string>
+    <string name="list_entries_show_username_summary">Wyświetlaj nazwy użytkowników na listach wpisów</string>
+    <string name="copy_field">Kopiuj z %1$s</string>
+    <string name="menu_form_filling_settings">Wypełnianie formularzy</string>
+    <string name="menu_copy">Kopiuj</string>
+    <string name="menu_move">Przenieś</string>
+    <string name="menu_paste">Wklej</string>
+    <string name="menu_cancel">Anuluj</string>
+    <string name="menu_fingerprint_remove_key">Usuń klucz linii papilarnych</string>
+    <string name="menu_file_selection_read_only">Tylko do odczytu</string>
+    <string name="menu_open_file_read_and_write">Odczyt i zapis</string>
+    <string name="protection">Ochrona</string>
+    <string name="read_only">Tylko do odczytu</string>
+    <string name="read_only_warning">KeePass DX nie ma uprawnień do zapisu w Twojej lokalizacji bazy danych, więc zostanie otwarty tylko do odczytu.</string>
+    <string name="read_only_kitkat_warning">Począwszy od Androida KitKat niektóre urządzenia nie zezwalają już aplikacjom na zapisywanie na kartę SD.</string>
+    <string name="encryption_explanation">Algorytm do szyfrowania całej bazy danych. (Hasła, nazwy użytkowników, notatki i wszystkie dane w bazie danych są szyfrowane za pomocą wybranego algorytmu)</string>
+    <string name="kdf_explanation">Aby wygenerować klucz do algorytmu szyfrowania, skompresowany klucz główny (SHA-256) jest transformowany przy użyciu losowo solonej funkcji wyprowadzania klucza.</string>
+    <string name="memory_usage">Użycie pamięci</string>
+    <string name="memory_usage_explanation">Ilość pamięci (w bajtach binarnych) do użycia przez funkcję wyprowadzania klucza.</string>
+    <string name="parallelism">Równoległy</string>
+    <string name="parallelism_explanation">Stopień równoległości (tj. Liczba wątków) wykorzystywany przez funkcję wyprowadzania klucza.</string>
+    <string name="sort_menu">Sortuj</string>
+    <string name="sort_ascending">Od najniższej ↓</string>
+    <string name="sort_username">Nazwa Użytkownika</string>
+    <string name="sort_creation_time">Czas utworzenia</string>
+    <string name="sort_last_modify_time">Ostatni czas modyfikacji</string>
+    <string name="sort_last_access_time">Ostatni czas dostępu</string>
+    <string name="search_results">Wyniki wyszukiwania</string>
+    <string name="warning">Ostrzeżenie</string>
+    <string name="warning_password_encoding">Twoje hasło może zawierać litery nieobsługiwane przez zestaw znaków Latin-1 używany przez pliki .kdb. Ponieważ wszystkie są konwertowane na tę samą literę, zaleca się zmianę hasła, aby było bezpieczniejsze.</string>
+    <string name="sort_recycle_bin_bottom">Kosz na dole</string>
+    <string name="sort_title">Tytuł</string>
+    <string name="warning_empty_password">Czy na pewno chcesz użyć pustego ciągu jako hasła?</string>
+    <string name="warning_no_encryption_key">Czy na pewno nie chcesz używać żadnego klucza szyfrowania?</string>
+    <string name="version_label">Wersja:</string>
+    <string name="configure_fingerprint">Odcisk palca jest obsługiwany, ale nie skonfigurowany dla tego urządzenia</string>
+    <string name="encrypted_value_stored">"Przechowywane hasło zaszyfrowane "</string>
+    </resources>
