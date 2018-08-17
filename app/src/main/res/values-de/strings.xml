@@ -167,7 +167,9 @@
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
 
-    <string name="education_unlock_summary">Passwort und/oder Schlüsseldatei zum Entschlüsseln Ihrer Datenbank eingeben.</string>
+    <string name="education_unlock_summary">Geben Sie ein Passwort und/oder eine Schlüsseldatei zum Entsperren Ihrer Datenbank ein.
+\n
+\nDenken Sie daran, nach jeder Änderung eine Kopie Ihrer .kdbx-Datei an einem sicheren Ort abzuspeichern.</string>
 
     <string-array name="timeout_options">
       <item>5 Sekunden</item>
@@ -275,13 +277,13 @@
     <string name="auto_open_file_uri_summary">Automatisch eine Datei vom Auswahlbildschirm öffnen nach der Auswahl im Dateibrowser</string>
     <string name="allow_copy_password_title">Kopie des Passworts</string>
     <string name="allow_copy_password_summary">Kopieren des Passworts und der geschützten Felder in die Zwischenablage erlauben</string>
-    <string name="warning_disabling_storage_access_framework">WARNUNG: Deaktivierung dieses Features könnte das Öffnen und Speichern von Datenbanken unmöglich machen</string>
-    <string name="open_link_database">Link der zu öffnenden Kdbx-Datei</string>
+    <string name="warning_disabling_storage_access_framework">WARNUNG: Die Deaktivierung dieses Features kann das Öffnen und Speichern von Datenbanken unmöglich machen</string>
+    <string name="open_link_database">Link der zu öffnenden KDBX-Datei</string>
     <string name="database_name_title">Datenbankname</string>
     <string name="database_description_title">Datenbankbeschreibung</string>
     <string name="database_version_title">Datenbankversion</string>
     <string name="text_appearance">Aussehen des Textes</string>
-    <string name="application_appearance">Aussehen der Anwendung</string>
+    <string name="application_appearance">Aussehen der App</string>
     <string name="other">Andere</string>
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -293,9 +295,9 @@
     <string name="education_create_database_title">Ihre Datenbankdatei erstellen</string>
     <string name="education_create_database_summary">Sie kennen KeePass DX noch nicht, erstellen Sie Ihre erste Passwortmanager-Datei.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
-    <string name="education_select_database_summary">Sie haben einen KeePass-Manager bereits genutzt. Einfach die Kdbx-Datei über den Dateibrowser öffnen.</string>
+    <string name="education_select_database_summary">Sie haben bereits einen KeePass-Manager verwendet. Einfach die KDBX-Datei über den Dateibrowser öffnen.</string>
     <string name="education_open_link_database_title">Ein Link zum Speicherort Ihrer Datei ist ausreichend</string>
-    <string name="education_open_link_database_summary">Sie können Ihre Datenbank auch mit einem physikalischen Link öffnen (z.B. mit file:// und content://).</string>
+    <string name="education_open_link_database_summary">Sie können Ihre Datenbank auch mit einem physischen Link öffnen (z.B. mit file:// und content://).</string>
     <string name="education_new_node_title">Neue Einträge zu Ihrer Datenbank hinzufügen</string>
     <string name="education_new_node_summary">Elemente hinzufügen um Ihre digitalen Identitäten zu verwalten.\n\nGruppen hinzufügen (wie Ordner) um Ihre Einträge und Datenbank zu ordnen.</string>
     <string name="education_search_title">Ihre Einträge ganz einfach durchsuchen</string>
@@ -310,13 +312,15 @@
     <string name="education_entry_new_field_summary">Wenn Sie ein eigenes, hier nicht aufgelistetes Feld eintragen möchten, erstellen Sie hier ein neues, welches Sie auch visuell schützen können.</string>
     <string name="education_unlock_title">Ihre Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
-    <string name="education_field_copy_summary">Ganz einfach ein Feld kopieren und einfügen wo Sie wollen\n\nSie können verschiedene Formularausfüllungsmethoden auswählen. Wählen Sie die, die Ihnen am meisten zusagt!</string>
+    <string name="education_field_copy_summary">Kopieren Sie einfach ein Feld, um es, wo Sie wollen, wieder einzufügen
+\n
+\nSie können verschiedene Methoden zum Ausfüllen von Formularen verwenden. Wählen Sie die, die Ihnen am meisten zusagt.</string>
     <string name="education_lock_title">Datenbank sperren</string>
-    <string name="education_lock_summary">Schnell die Datenbank sperren, Sie können auch Parameter zum automatischen Sperren nach Zeit oder Bildschirmsperre einstellen.</string>
+    <string name="education_lock_summary">Schnell Ihre Datenbank sperren, in den App-Einstellungen können Sie eine Sperre nach Zeit und bei Ausschalten des Bildschirms festlegen.</string>
     <string name="education_sort_title">Einträge sortieren</string>
     <string name="education_sort_summary">Einträge und Gruppen nach spezifischen Parametern sortieren.</string>
     <string name="education_donation_title">Mitmachen</string>
-    <string name="education_donation_summary">Mitmachen, um Stabilität, Sicherheit und weitere Funktionen hinzuzufügen.</string>
+    <string name="education_donation_summary">Machen Sie mit, damit sich Stabilität, Sicherheit verbessern und weitere Funktionen hinzukommen.</string>
 
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist diese app <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf Servern, auch in der kostenlosen Version.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version bekommen Sie Zugang zu dieser <strong>visuellen Funktion</strong> und Sie unterstützen besonders <strong>die Umsetzung von Gemeinschaftsprojekten.</strong></string>
@@ -351,8 +355,8 @@
     <string name="magic_keyboard_preference_title">Magikeyboard-Einstellungen</string>
     <string name="magic_keyboard_configure_title">Wie funktioniert die Tastaturkonfiguration zum sicheren Ausfüllen von Formularen?</string>
     <string name="magic_keyboard_activate_setting_text">Aktivieren Sie das Magikeyboard in den Geräteeinstellungen.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">Einstellungen -&gt; Sprachen &amp; Eingabe -&gt; Aktuelle Tastatur -&gt; TASTATUR ÄNDERN</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">oder (Einstellungen -&gt; System -&gt; Sprachen &amp; Eingabe -&gt; Bildschirmtastatur -&gt; Tastaturen verwalten)</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">\"Einstellungen\" → \"Sprache &amp; Eingabe\" → \"Aktuelle Tastatur\" und auswählen.</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">oder (\"Einstellungen\" → \"Sprachen &amp; Eingabe\" → \"Bildschirmtastatur\" und auswählen.)</string>
     <string name="keyboards_choose_magikeyboard_text">Wählen Sie das Magikeyboard aus, wenn Sie ein Formular ausfüllen müssen.</string>
     <string name="keyboards_swicth_magikeyboard_text">Sie können leicht von Ihrer Haupttastatur auf Magikeyboard umschalten, entweder mit der Sprachentaste Ihrer Tastatur, durch einen langen Druck auf die Leertaste oder, wenn das nicht zur Verfügung steht, mit :</string>
     <string name="keyboard_select_entry_text">Wählen Sie den Eintrag mit dem Schlüssel aus.</string>
@@ -361,15 +365,15 @@
     <string name="keyboard_back_main_keyboard_text">Kehren Sie zur Haupttastatur zurück.</string>
 
     <string name="allow_no_password_title">Kein Passwort zulassen</string>
-    <string name="allow_no_password_summary">Öffnen-Taste aktivieren, wenn keine Passwort-Identifikation festgelegt ist.</string>
+    <string name="allow_no_password_summary">Öffnen-Taste aktivieren, wenn keine Passwort-Identifikation festgelegt ist</string>
 
     <string name="enable_education_screens_title">Hilfe-Anzeige</string>
-    <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der Anwendung zu lernen</string>
+    <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der App zu lernen</string>
     <string name="menu_open_file_read_and_write">Lesen und Schreiben</string>
     <string name="menu_file_selection_read_only">schreibgeschützt</string>
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Schreibschutz aktivieren</string>
-    <string name="enable_read_only_summary">Standardmäßig wird die Datenbank im schreibgeschützten Modus geöffnet.</string>
+    <string name="enable_read_only_summary">Datenbanken standardmäßig im schreibgeschützten Modus öffnen</string>
 
     <string name="education_read_only_summary">Ändern Sie den Modus bei Eröffnung einer Sitzung.
 \n
