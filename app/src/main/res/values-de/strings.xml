@@ -212,7 +212,7 @@
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Standardzeichen für Passwortgenerator setzen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="configure_fingerprint">Der Fingerabdruck wird von ihrem Gerät unterstützt, ist jedoch konfiguriert</string>
+    <string name="configure_fingerprint">Der Fingerabdruck wird von ihrem Gerät unterstützt, ist jedoch nicht konfiguriert</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="fingerprint_invalid_key">Ungültiger Fingerabdruckschlüssel. Stellen Sie Ihr Passwort wieder her.</string>
