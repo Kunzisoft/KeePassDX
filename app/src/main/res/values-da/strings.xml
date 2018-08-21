@@ -188,7 +188,7 @@
     <string name="error_load_database">Database kan ikke indlæses</string>
     <string name="error_load_database_KDF_memory">Ude af stand til at indlæse nøglen, prøv at reducere den hukommelse, der bruges af KDF.</string>
     <string name="error_autofill_enable_service">Tjenesten AutoFyld kan ikke aktiveres.</string>
-    <string name="error_move_folder_in_itself">"Kan ikke  flytte en gruppe til sig selv."</string>
+    <string name="error_move_folder_in_itself">Kan ikke flytte en gruppe til sig selv.</string>
     <string name="file_not_found_content">Filen blev ikke fundet. Prøv at genåbne fra indholdsudbyderen.</string>
     <string name="list_entries_show_username_title">Vis brugernavne</string>
     <string name="list_entries_show_username_summary">Vis brugernavne i postlister</string>
@@ -264,7 +264,7 @@
     <string name="fingerprint_delete_all_summary">Slet alle krypteringsnøgler, der er relateret til fingeraftryk</string>
     <string name="fingerprint_delete_all_warning">Bekræft sletning af alle nøgler, der er relateret til fingeraftryk?</string>
     <string name="unavailable_feature_text">Funktionen kunne ikke startes.</string>
-    <string name="unavailable_feature_version">"Android-version %1$s opfylder ikke minimum versionskrav  %2$s."</string>
+    <string name="unavailable_feature_version">Android-version %1$s opfylder ikke minimum versionskrav %2$s.</string>
     <string name="unavailable_feature_hardware">Hardwaren ikke fundet.</string>
     <string name="file_name">Filnavn</string>
     <string name="path">Sti</string>
