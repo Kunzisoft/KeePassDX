@@ -158,7 +158,6 @@
     <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Il formato .kdb supporta solo il set di caratteri Latin1. La tua password potrebbe contenere caratteri fuori da questo set. Tutti i caratteri non Latin1 vengono convertiti nello stesso carattere, il che riduce la sicurezza della password. Si consiglia di modificare la password.</string>
-    <string name="warning_read_only">Attualmente la scheda SD è in sola lettura. Non sei in grado di salvare le modifiche nel database.</string>
     <string name="warning_unmounted">Attualmente la scheda SD non è montata nel dispositivo. Non sarai in grado di caricare o creare un nuovo database.</string>
     <string name="version_label">Versione: %1$s</string>
     <string name="configure_fingerprint">Impronte supportate ma non configurate nel dispositivo</string>

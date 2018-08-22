@@ -152,7 +152,6 @@
     <string name="underline">Azpimarratu</string>
     <string name="unsupported_db_version">Euskarririk gabeko datubase bertsioa.</string>
     <string name="uppercase">Maiuskulak</string>
-    <string name="warning_read_only">Zure sd txartela bakarrik irakurtzeko moduan dago. Izan daiteke datubasearen aldaketak ezin gordetzea.</string>
     <string name="warning_unmounted">Une honetan zure sd txartela ez dago montatua zure dispositiboan. Ezingo duzu zure datubasea kargatu edo sortu.</string>
     <string name="version_label">Bertsioa: %1$s</string>
 

@@ -152,7 +152,6 @@
     <string name="underline">Υπογράμμιση</string>
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>
-    <string name="warning_read_only">Η κάρτα SD είναι αυτή τη στιγμή μόνο για ανάγνωση. Είναι πιθανόν να μη μπορείτε ν αποθηκεύσετε τυχόν αλλαγές στη βάση δεδομένων σας.</string>
     <string name="warning_unmounted">Η κάρτα SD δεν είναι προσαρμοσμένη αυτή τη στιγμή στη συσκευή σας. Δεν θα μπορείτε να φορτώσετε ή να δημιουργήσετε τη βάση δεδομένων σας.</string>
     <string name="version_label">Έκδοση: %1$s</string>
 

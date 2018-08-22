@@ -139,7 +139,6 @@
     <string name="underline">Subratllat</string>
     <string name="unsupported_db_version">Versió de la base de dades no suportada.</string>
     <string name="uppercase">Majúscules</string>
-    <string name="warning_read_only">La teva tarja SD és de només lectura. No podràs guardar canvis a la teva base de dades.</string>
     <string name="warning_unmounted">La teva tarja SD no està muntada al teu dispositiu. No podràs carregar ni guardar una base de dades.</string>
     <string name="version_label">Versió: %1$s</string>
 

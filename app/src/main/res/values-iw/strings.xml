@@ -147,7 +147,6 @@
     <string name="underline">קו תחתון</string>
     <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
     <string name="uppercase">רישית</string>
-    <string name="warning_read_only">כרטיס ה-SD שלך במצב לקריאה בלבד. אתה לא תוכל לשמור את השינויים למסד הנתונים.</string>
     <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
     <string name="version_label">גרסה: %1$s</string>
 

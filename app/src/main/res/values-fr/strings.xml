@@ -181,7 +181,6 @@
     <string name="use_saf_title">Environnement d\'Accès au Stockage</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Le format .kdb ne supporte que le jeu de caractère Latin1. Votre mot de passe doit contenir des caractères en dehors de ce jeu. Tous les caractères non-Latin1 sont convertis en un même caractère, ce qui diminue la sécurité de votre mot de passe. Le changement de votre mot de passe est recommandé.</string>
-    <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
     <string name="warning_empty_password">Voulez-vous vraiment utiliser une chaine de caractères vide comme mot de passe ?</string>
     <string name="warning_no_encryption_key">Etes-vous sûr de ne vouloir utiliser aucune clé de chiffrement.</string>

@@ -284,7 +284,7 @@ public class FileSelectActivity extends StylishActivity implements
         int warning = -1;
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
-            warning = R.string.warning_read_only;
+            warning = R.string.read_only_warning;
         } else if (!state.equals(Environment.MEDIA_MOUNTED)) {
             warning = R.string.warning_unmounted;
         }

@@ -138,7 +138,6 @@
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão de banco de dados não suportada.</string>
     <string name="uppercase">Letras maiúsculas</string>
-    <string name="warning_read_only">Seu cartão SD está no modo de somente leitura. Talvez não seja possível salvar modificações ao banco de dados.</string>
     <string name="warning_unmounted">Seu cartão SD não está montado no dispositivo. Não será possível carregar ou criar um banco de dados.</string>
     <string name="version_label">Versão: %1$s</string>
 
