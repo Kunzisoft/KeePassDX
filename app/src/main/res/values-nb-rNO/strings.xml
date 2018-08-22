@@ -173,7 +173,7 @@
     <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) -rammeverk til filutforsking (KitKat og senere).</string>
     <string name="use_saf_title">Lagringstilgang-rammeverk</string>
     <string name="warning">Advarsel</string>
-    <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støtter av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
+    <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støttes av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
     <string name="warning_read_only">SD-kortet ditt er i øyeblikket skrivebeskyttet. Det kan hende du ikke kan lagre endringer i databasen din.</string>
     <string name="warning_unmounted">SD-kortet ditt er ikke montert på enheten din. Du vil ikke kunne laste inne eller opprette din database.</string>
     <string name="warning_empty_password">Ønsker du virkelig å bruke en tom streng som ditt passord?</string>
@@ -297,27 +297,26 @@
     <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
     <string name="education_entry_new_field_summary">Du ønsker å registrere et grunnleggende felt som ikke allerede finnes, fyll inn et nytt et du også kan beskytte visuelt.</string>
     <string name="education_unlock_title">Lås opp databasen din</string>
-    <string name="education_unlock_summary">Skriv inn et passord og/eller nøkkelfil for å låse opp databasen din.
+    <string name="education_unlock_summary">Oppgi passord og/eller nøkkelfil for å låse opp databasen din.
 \n
 \nHusk å lagre en kopi av din .kdbx-fil på et trygt sted etter hver endring.</string>
     <string name="education_read_only_title">Skru på skrivebeskyttelse</string>
     <string name="education_read_only_summary">Endre åpningsmodus for økten.
 \n
-\nI skrivebeskyttes modus, kan du forhindre utilsiktede endringer i databasen.
+\nI skrivebeskyttet modus, kan du forhindre utilsiktede endringer i databasen.
 \n
-\nI skrivebeskyttet modus, kan du legge til, slette eller endre alle elementene du ønsker.</string>
+\nI skrivemodus, kan du legge til, slette eller endre alle elementene du ønsker.</string>
     <string name="education_field_copy_title">Kopier et felt</string>
     <string name="education_field_copy_summary">Kopier et felt for å lime det inn der du ønsker.
-\n
-\nDu kan bruke flere skjemautfyllingsmetoder. Velg den du foretrekker.</string>
+\nBruk den skjemautfyllingsmetoden du foretrekker.</string>
     <string name="education_lock_title">Lås databasen</string>
-    <string name="education_lock_summary">Lås din database raskt. du kan sette opp programmet slik at det låser den etter en stund, og når skjermen slår seg av.</string>
+    <string name="education_lock_summary">Lås din database raskt. Du kan sette opp programmet slik at det låser den etter en stund, og når skjermen slår seg av.</string>
     <string name="education_sort_title">Sorter elementer</string>
     <string name="education_sort_summary">Sorter oppføringer og grupper i henhold til spesifikke parameter.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
 
-    <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefritt</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
+    <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefri</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
     <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong></string>
     <string name="html_text_feature_generosity">Denne <strong>visuelle funksjonen</strong> er tilgjengelig takket være din generøsitet.</string>
     <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong></string>
