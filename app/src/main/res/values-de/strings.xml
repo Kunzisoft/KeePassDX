@@ -136,8 +136,8 @@
     <string name="progress_title">Ausführen\u2026</string>
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibschutz</string>
-    <string name="read_only_warning">KeePass DX hat keine Schreibrechte für Ihre Datenbank. Sie wird schreibgeschützt geöffnet.</string>
-    <string name="read_only_kitkat_warning">Ab Android KitKat haben Apps einiger Geräte keine Schreibrechte mehr für die SD-Karte.</string>
+    <string name="read_only_warning">KeePass DX hat keine Schreibrechte für den Speicherort Ihrer Datenbank. Daher wird sie schreibgeschützt geöffnet.</string>
+    <string name="read_only_kitkat_warning">Ab Android KitKat haben auf einigen Geräten Apps keine Schreibrechte mehr für die SD-Karte.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken</string>
@@ -162,7 +162,7 @@
     <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">"Ihr Passwort enthält Zeichen, die nicht Teil des Latin-1-Zeichensatzes sind, der im .kdb Format verwendet wird. Da diese Zeichen in ein und daselbe Zeichen umgewandelt werden, wird  empfohlen, das Passwort zu ändern, um dessen Sicherheit zu erhöhen."</string>
+    <string name="warning_password_encoding">Ihr Passwort enthält Zeichen, die nicht Teil des Latin-1-Zeichensatzes sind, der im .kdb Format verwendet wird. Da diese Zeichen in ein und dasselbe Zeichen umgewandelt werden, wird empfohlen, das Passwort zu ändern, um dessen Sicherheit zu erhöhen.</string>
     <string name="warning_read_only">Die SD-Karte ist schreibgeschützt. Etwaige Änderungen in den Datensätzen können daher nicht in der Datenbank gespeichert werden.</string>
     <string name="warning_unmounted">Keine SD-Karte vorhanden oder derzeit nicht im Gerät eingebunden. Daher kann weder eine Datenbank geöffnet, noch erstellt werden.</string>
     <string name="version_label">Version:</string>
@@ -198,7 +198,7 @@
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
     <string name="create_keepass_file">KeePass Datei erstellen</string>
-    <string name="style_choose_title">Thema auswählen</string>
+    <string name="style_choose_title">Design auswählen</string>
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
@@ -225,12 +225,12 @@
     <string name="general">Allgemein</string>
     <string name="store_with_fingerprint">Fingerabdruck verwenden um dieses Passwort zu speichern</string>
     <string name="no_password_stored">Noch kein Passwort für diese Datenbank gespeichert</string>
-    <string name="style_choose_summary">Thema durch verändern der Farben ändern</string>
+    <string name="style_choose_summary">Das App-Design durch Wechsel der Farben ändern</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweitertes ASCII</string>
     <string name="allow">Erlauben</string>
-    <string name="clipboard_swipe_clean">Wischen und Zwischenablage zu leeren</string>
+    <string name="clipboard_swipe_clean">Wischen, um Zwischenablage jetzt zu leeren</string>
     <string name="error_autofill_enable_service">Autofill-Dienst kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
     <string name="menu_form_filling_settings">Formularausfüllung</string>
@@ -273,7 +273,7 @@
     <string name="permission_external_storage_never_ask">Aktion kann ohne Speicherzugriff nicht ausgeführt werden</string>
     <string name="monospace_font_fields_enable_title">Feldschriftart</string>
     <string name="monospace_font_fields_enable_summary">Schriftart in Feldern ändern, um Lesbarkeit zu verbessern</string>
-    <string name="auto_open_file_uri_title">Ausgewählte Datei automatisch öffnen</string>
+    <string name="auto_open_file_uri_title">Gewählte Datei automatisch öffnen</string>
     <string name="auto_open_file_uri_summary">Automatisch eine Datei vom Auswahlbildschirm öffnen nach der Auswahl im Dateibrowser</string>
     <string name="allow_copy_password_title">Kopie des Passworts</string>
     <string name="allow_copy_password_summary">Kopieren des Passworts und der geschützten Felder in die Zwischenablage erlauben</string>
@@ -287,7 +287,7 @@
     <string name="other">Andere</string>
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktiviert eine eigene Tastatur, die Passwort- und Identitätsfelder ganz einfach ausfüllt.</string>
+    <string name="magic_keyboard_summary">Eine eigene Tastatur zum einfachen Ausfüllen aller Passwort- und Identitätsfelder aktivieren</string>
 
     <string name="reset_education_screens_title">Hilfe-Anzeige abschalten</string>
     <string name="reset_education_screens_summary">Anzeige von Hilfe-Themen abschalten</string>
@@ -305,7 +305,7 @@
     <string name="education_fingerprint_title">Ihre Datenbank mit Ihrem Fingerabdruck entsperren</string>
     <string name="education_fingerprint_summary">Verknüpfen Sie Ihr Passwort und Ihren Fingerabdruck um Ihre Datenbank im Handumdrehen zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
-    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit eigenen Feldern, Sie können Verweise hinzufügen um verschiedene Einträge und Felder zu verknüpfen.</string>
+    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit eigenen Feldern, Sie können zwischen Feldern aus verschiedenen Einträgen Verweise hinzufügen, um Daten zusammenzufassen.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort zu Ihrem Eintrag, stellen Sie Ihre Kriterien zur Erstellung des Passworts nach den gewünschten Merkmalen ein und vergessen Sie nie wieder ein schweres, aber sicheres Passwort.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
@@ -322,8 +322,8 @@
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Machen Sie mit, damit sich Stabilität, Sicherheit verbessern und weitere Funktionen hinzukommen.</string>
 
-    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist diese app <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf Servern, auch in der kostenlosen Version.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version bekommen Sie Zugang zu dieser <strong>visuellen Funktion</strong> und Sie unterstützen besonders <strong>die Umsetzung von Gemeinschaftsprojekten.</strong></string>
+    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert selbst in der kostenlosen Version keine persönlichen Daten auf Servern.</string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhalten Sie Zugang zu dieser <strong>visuellen Funktion</strong> und Sie unterstützen insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong></string>
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong></string>
 
@@ -344,14 +344,14 @@
     <string name="kdf_Argon2">Argon2</string>
 
     <string name="icon_pack_choose_title">Icon-Paket auswählen</string>
-    <string name="icon_pack_choose_summary">Das Symbolpaket der Anwendung ändern</string>
+    <string name="icon_pack_choose_summary">Das Symbolpaket der App ändern</string>
 <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
     <string name="menu_paste">Einfügen</string>
     <string name="menu_cancel">Abbrechen</string>
-    <string name="clipboard_warning">Sollte Ihr Geräte die Zwischenablage nicht automatisch zu leeren können löschen Sie den kopierten Eintrag manuell aus dem Verlauf der Zwischenablage.</string>
-    <string name="allow_copy_password_warning">WARNUNG : Alle Apps teilen sich die Zwischenablage. Wenn sensible Daten kopiert werden, kann andere Software darauf zugreifen.</string>
+    <string name="clipboard_warning">Sollte Ihr Gerät die Zwischenablage nicht automatisch leeren können, löschen Sie den kopierten Eintrag manuell aus dem Verlauf der Zwischenablage.</string>
+    <string name="allow_copy_password_warning">WARNUNG: Alle Apps teilen sich die Zwischenablage. Wenn sensible Daten kopiert werden, kann andere Software darauf zugreifen.</string>
     <string name="magic_keyboard_preference_title">Magikeyboard-Einstellungen</string>
     <string name="magic_keyboard_configure_title">Wie funktioniert die Tastaturkonfiguration zum sicheren Ausfüllen von Formularen?</string>
     <string name="magic_keyboard_activate_setting_text">Aktivieren Sie das Magikeyboard in den Geräteeinstellungen.</string>
