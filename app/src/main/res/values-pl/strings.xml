@@ -131,7 +131,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="sort_db">Sortuj wg daty</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Szukaj</string>
-    <string name="encryption_twofish">Twofish</string>
+    <string name="encryption_twofish">Dwie ryby</string>
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
@@ -140,7 +140,9 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="warning_read_only">Karta SD jest obecnie w trybie tylko do odczytu. Możesz nie być w stanie zapisać zmian w bazie danych.</string>
     <string name="warning_unmounted">Karta SD nie jest obecnie zamontowana w urządzeniu. Możesz nie być w stanie wczytać lub utworzyć bazy danych.</string>
 
-    <string name="education_unlock_summary">Wprowadź hasło i/lub plik klucza by uzyskać dostęp do bazy danych.</string>
+    <string name="education_unlock_summary">Wprowadź hasło i/lub plik klucza, aby odblokować bazę danych. 
+\n 
+\nPamiętaj o zapisaniu kopii pliku .kdbx w bezpiecznym miejscu po każdej modyfikacji.</string>
 
     <string-array name="timeout_options">
      <item>5 sekund</item>
@@ -277,4 +279,106 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="monospace_font_fields_enable_title">Pole czcionka</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
     <string name="auto_open_file_uri_title">Automatycznie otwórz wybrany plik</string>
-    </resources>
+    <string name="auto_open_file_uri_summary">Automatycznie otwórz plik z ekranu wyboru, bezpośrednio po dokonaniu wyboru w eksploratorze plików</string>
+    <string name="allow_copy_password_title">Kopia hasła</string>
+    <string name="allow_copy_password_summary">Zezwalaj na kopiowanie hasła i chronionych pól do schowka</string>
+    <string name="allow_copy_password_warning">OSTRZEŻENIE: schowek jest udostępniany przez wszystkie aplikacje. Jeśli dane wrażliwe zostaną skopiowane, inne oprogramowanie może je odzyskać.</string>
+    <string name="warning_disabling_storage_access_framework">OSTRZEŻENIE: Wyłączenie tej funkcji może spowodować niemożność otwarcia lub zapisania baz danych</string>
+    <string name="open_link_database">Link do otwarcia pliku KDBX</string>
+    <string name="database_name_title">Nazwa bazy danych</string>
+    <string name="database_description_title">Opis bazy danych</string>
+    <string name="database_version_title">Wersja bazy danych</string>
+    <string name="text_appearance">Wygląd tekstu</string>
+    <string name="application_appearance">Wygląd aplikacji</string>
+    <string name="other">Inne</string>
+
+    <string name="keyboard">Klawiatura</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_summary">Aktywuj niestandardową klawiaturę, która łatwo wypełnia hasła i wszystkie pola tożsamości</string>
+    <string name="magic_keyboard_preference_title">Ustawienia Magikeyboard</string>
+    <string name="magic_keyboard_configure_title">Jak skonfigurować klawiaturę do bezpiecznego wypełniania formularzy?</string>
+    <string name="magic_keyboard_activate_setting_text">Aktywuj Magikeyboard w ustawieniach urządzenia.</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">\"Ustawienia\" → \"Język i wprowadzanie\" → \"Aktualna klawiatura\" i wybierz jedną.</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">lub (\"Ustawienia\" → \"Język i wprowadzanie danych\" → \"Klawiatura wirtualna\" i wybierz jedną.)</string>
+    <string name="keyboards_choose_magikeyboard_text">Wybierz Magikeyboard, gdy potrzebujesz wypełnić formularz.</string>
+    <string name="keyboards_swicth_magikeyboard_text">Możesz łatwo przełączać się z głównej klawiatury na Magikeyboard za pomocą przycisku języka na klawiaturze, długie naciśnięcie klawisza spacji na klawiaturze lub, jeśli nie jest dostępne, z:</string>
+    <string name="keyboard_select_entry_text">Wybierz wpis za pomocą klawisza.</string>
+    <string name="keyboard_fill_field_text">Wypełnij swoje pola, używając elementów wpisu.</string>
+    <string name="keyboard_lock_database_text">Zablokuj bazę danych.</string>
+    <string name="keyboard_back_main_keyboard_text">Wróć do głównej klawiatury.</string>
+
+    <string name="allow_no_password_title">Nie zezwalaj na żadne hasło</string>
+    <string name="allow_no_password_summary">Włącz przycisk Otwórz, jeśli nie wybrano identyfikacji hasła</string>
+    <string name="enable_read_only_title">Tylko do odczytu</string>
+    <string name="enable_read_only_summary">Domyślnie otwarte bazy danych są tylko do odczytu</string>
+
+    <string name="enable_education_screens_title">Ekrany edukacyjne</string>
+    <string name="enable_education_screens_summary">Zaznacz elementy, aby dowiedzieć się, jak działa aplikacja</string>
+    <string name="reset_education_screens_title">Zresetuj ekrany edukacyjne</string>
+    <string name="reset_education_screens_summary">Zresetuj wyświetlanie elementów edukacyjnych</string>
+    <string name="reset_education_screens_text">Ekrany edukacyjne zostały zresetowane</string>
+    <string name="education_create_database_title">Utwórz plik bazy danych</string>
+    <string name="education_create_database_summary">Nie znasz jeszcze KeePass DX, utwórz swój pierwszy plik zarządzania hasłami.</string>
+    <string name="education_select_database_title">Otwórz istniejącą bazę danych</string>
+    <string name="education_select_database_summary">Użyłeś już menedżera KeePass. Wystarczy otworzyć plik KDBX z przeglądarki plików.</string>
+    <string name="education_open_link_database_title">Link do lokalizacji pliku jest wystarczający</string>
+    <string name="education_open_link_database_summary">Możesz także otworzyć swoją bazę danych za pomocą fizycznego linku (with file:// and content:// for example).</string>
+    <string name="education_new_node_title">Dodaj nowe przedmioty do swojej bazy</string>
+    <string name="education_new_node_summary">"Dodaj wpisy, aby zarządzać swoimi cyfrowymi tożsamościami.
+\n  
+\nDodaj grupy (odpowiednik folderów), aby uporządkować swoje wpisy i bazę danych."</string>
+    <string name="education_search_title">Łatwo przeszukuj swoje wpisy</string>
+    <string name="education_search_summary">Wyszukaj wpisy według tytułu, nazwy użytkownika lub innych pól, aby łatwo odzyskać swoje hasła.</string>
+    <string name="education_fingerprint_title">Odblokuj bazę danych za pomocą odcisku palca</string>
+    <string name="education_fingerprint_summary">Utwórz łącze między hasłem a odciskiem palca, aby łatwo odblokować bazę danych.</string>
+    <string name="education_entry_edit_title">Edytuj wpis</string>
+    <string name="education_entry_edit_summary">Edytuj swój wpis własnymi polami, odniesienia do danych puli mogą być dodawane pomiędzy polami różnych wpisów.</string>
+    <string name="education_generate_password_title">Utwórz silne hasło</string>
+    <string name="education_generate_password_summary">Wygeneruj silne hasło do powiązania z wpisem, określ je zgodnie z kryteriami formularza i nie zapominaj o bezpiecznym haśle, które możesz zapamiętać.</string>
+    <string name="education_entry_new_field_title">Dodaj niestandardowe pola</string>
+    <string name="education_entry_new_field_summary">Chcesz zarejestrować podstawowe pole nie dostarczane, po prostu wypełnij nowe, które możesz również chronić wizualnie.</string>
+    <string name="education_unlock_title">Odblokuj swoją bazę danych</string>
+    <string name="education_read_only_title">Włącz tylko do odczytu</string>
+    <string name="education_read_only_summary">"Zmień tryb otwierania sesji.
+\n   
+\nW trybie tylko do odczytu zapobiegasz niezamierzonym zmianom w bazie danych.
+\n  
+\nW trybie zapisu możesz dodawać, usuwać lub modyfikować wszystkie elementy, jak chcesz."</string>
+    <string name="education_field_copy_title">Skopiuj pole</string>
+    <string name="education_field_copy_summary">"Skopiuj łatwo pole, aby wkleić je tam, gdzie chcesz
+\n  
+\nMożesz użyć kilku metod wypełniania formularzy. Użyj tego, który wolisz."</string>
+    <string name="education_lock_title">Zablokuj bazę danych</string>
+    <string name="education_lock_summary">Zablokuj swoją bazę danych szybko, możesz skonfigurować aplikację, by po chwili zablokowała i po wyłączeniu ekranu.</string>
+    <string name="education_sort_title">Sortuj elementy</string>
+    <string name="education_sort_summary">Sortuj wpisy i grupy według określonych parametrów.</string>
+    <string name="education_donation_title">Weź udział</string>
+    <string name="education_donation_summary">Weź udział, aby zwiększyć stabilność, bezpieczeństwo i dodać więcej funkcji.</string>
+
+    <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji zarządzania hasłami, ten jeden jest <strong>bez reklam</strong>, <strong> darmowy program typu copyleft</strong> i nie odzyskać danych osobowych na swoich serwerach, nawet w jego wersji darmowej.</string>
+    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcja wizualna</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe. </strong></string>
+    <string name="html_text_feature_generosity">Ta <strong>funkcja wizualna</strong> jest dostępna dzięki Twojej hojności.</string>
+    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong></string>
+
+    <string name="html_text_dev_feature">Ta funkcja jest <strong>rozwojowa</strong> i wymaga twojego <strong>wkładu</strong> aby być wkrótce dostępną.</string>
+    <string name="html_text_dev_feature_buy_pro">Kupując wersję <strong>pro</strong> wersja,</string>
+    <string name="html_text_dev_feature_contibute">Przez <strong>przyczynianie się</strong>,</string>
+    <string name="html_text_dev_feature_encourage">zachęcasz programistów do tworzenia <strong>nowych funkcji</strong> i <strong>naprawić błądy</strong> zgodnie z Twoimi uwagami.</string>
+    <string name="html_text_dev_feature_thanks">Wielkie dzięki za twój wkład.</string>
+    <string name="html_text_dev_feature_work_hard">Ciężko pracujemy, aby szybko udostępnić tę funkcję.</string>
+    <string name="html_text_dev_feature_upgrade">Nie zapomnij o aktualizowaniu aplikacji.</string>
+
+    <string name="download">Pobieranie</string>
+    <string name="contribute">Przyczyń się</string>
+
+    <string name="encryption_chacha20">ChaCha20</string>
+
+    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
+
+    <string name="style_choose_title">Wybierz motyw</string>
+    <string name="style_choose_summary">Zmień motyw aplikacji, zmieniając kolory</string>
+    <string name="icon_pack_choose_title">Wybierz pakiet ikon</string>
+    <string name="icon_pack_choose_summary">Zmień pakiet ikon aplikacji</string>
+
+</resources>
