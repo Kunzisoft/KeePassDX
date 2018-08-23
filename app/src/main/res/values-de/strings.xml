@@ -242,7 +242,7 @@
     <string name="parallelism">Parallelismus</string>
     <string name="parallelism_explanation">Grad des Parallelismus (d.h. Anzahl der Threads) der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
-    <string name="sort_ascending">Kleinstes zu erst</string>
+    <string name="sort_ascending">Aufsteigend ↓</string>
     <string name="sort_groups_before">Gruppen davor</string>
     <string name="sort_recycle_bin_bottom">Papierkorb unten</string>
     <string name="sort_title">Titel</string>
