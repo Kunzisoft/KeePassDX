@@ -340,7 +340,7 @@
 
     <string name="encryption_chacha20">ChaCha20</string>
 
-    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
 
     <string name="icon_pack_choose_title">Icon-Paket auswählen</string>
