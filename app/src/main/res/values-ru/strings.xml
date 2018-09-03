@@ -207,4 +207,22 @@
     <string name="sort_last_modify_time">Сортировать по дате последнего изменения</string>
     <string name="sort_last_access_time">Сортировать по дате последнего использования</string>
 
+    <string name="allow_no_password_title">Разрешить пустой пароль</string>
+    <string name="allow_no_password_summary">Не блокировать кнопку открытия, если пароль не введен</string>
+    <string name="enable_read_only_title">Только для чтения</string>
+    <string name="enable_read_only_summary">По умолчанию, открытые базы доступны только для чтения</string>
+
+    <string name="general">Основное</string>
+    <string name="lock">Блокировка</string>
+
+    <string name="lock_database_screen_off_title">Блокировать вместе с экраном</string>
+    <string name="lock_database_screen_off_summary">Блокировать базу при блокировке экрана</string>
+
+    <string name="password_size_title">Размер пароля</string>
+    <string name="password_size_summary">Стандартный размер генерируемого пароля</string>
+    <string name="list_password_generator_options_title">Символы пароля</string>
+    <string name="list_password_generator_options_summary">Стандартный набор символов для генерируемого пароля</string>
+
+    <string name="allow_copy_password_title">Копирование пароля</string>
+    <string name="allow_copy_password_summary">Разрешить копирование пароля и защищенных полей в буфер обмена</string>
 </resources>
