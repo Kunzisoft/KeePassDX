@@ -216,6 +216,9 @@
     <string name="lock">Блокировка</string>
     <string name="history">История</string>
     <string name="fingerprint">Отпечаток пальца</string>
+    <string name="keyboard">Клавиатура</string>
+    <string name="clipboard">Буфер обмена</string>
+    <string name="autofill">Автозаполнение</string>
 
     <string name="fingerprint_enable_title">Сканирование отпечатков пальцев</string>
     <string name="fingerprint_enable_summary">Использовать сканер отпечатков для открытия базы</string>
@@ -233,4 +236,13 @@
 
     <string name="allow_copy_password_title">Копирование пароля</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищенных полей в буфер обмена</string>
+
+    <string name="magic_keyboard_summary">Активировать кастомную клавиатуру, которая позволяет заполнять пароли и прочие поля быстрее</string>
+    <string name="magic_keyboard_preference_title">Настройки Magikeyboard</string>
+
+    <string name="clipboard_notifications_title">Уведомления буфера обмена</string>
+    <string name="clipboard_notifications_summary">Использовать уведомления, чтобы копировать пароли и прочие поля</string>
+
+    <string name="set_autofill_service_title">Включить автозаполнение</string>
+    <string name="set_autofill_service_summary">Запустить сервис, который позволяет просто заполнять поля в других приложениях</string>
 </resources>
