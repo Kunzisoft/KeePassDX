@@ -106,8 +106,9 @@ public class LEDataInputStream extends InputStream {
 	}
 
 	public byte[] readBytes(int length) throws IOException {
+	    // TODO Exception max length < buffer size
 		byte[] buf = new byte[length];
-		
+
 		int count = 0;
 		while ( count < length ) {
 			int read = read(buf, count, length - count);
@@ -125,6 +126,31 @@ public class LEDataInputStream extends InputStream {
 		
 		return buf;
 	}
+
+    public void readBytes(int length, ActionReadBytes actionReadBytes) throws IOException {
+        byte[] buffer = new byte[1024];
+
+        int offset = 0;
+        int read = 0;
+        while ( offset < length && read != -1) {
+
+            int tempLength = buffer.length;
+            // If buffer not needed
+            if (length - offset < tempLength)
+                tempLength = length - offset;
+            read = read(buffer, 0, tempLength);
+            actionReadBytes.doAction(buffer);
+            offset += read;
+        }
+    }
+
+    public interface ActionReadBytes {
+        /**
+         * Called after each buffer fill
+         * @param buffer filled
+         */
+	    void doAction(byte[] buffer) throws IOException;
+    }
 
 	public static int readUShort(InputStream is) throws IOException {
 		  byte[] buf = new byte[2];

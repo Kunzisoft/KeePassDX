@@ -413,7 +413,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		xml.startTag(null, PwDatabaseV4XML.ElemValue);
 		String strRef = null;
 		if (allowRef) {
-			int ref = mPM.getBinPool().poolFind(value);
+			int ref = mPM.getBinPool().findKey(value);
 			strRef = Integer.toString(ref);
 		}
 		

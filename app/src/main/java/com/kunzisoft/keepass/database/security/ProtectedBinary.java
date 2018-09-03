@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.security;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class ProtectedBinary implements Parcelable {
@@ -30,12 +31,14 @@ public class ProtectedBinary implements Parcelable {
 
 	private boolean protect;
 	private byte[] data;
+	private File dataFile;
 	
 	public boolean isProtected() {
 		return protect;
 	}
 	
 	public int length() {
+	    // TODO File length
 		if (data == null) {
 			return 0;
 		}
@@ -49,11 +52,19 @@ public class ProtectedBinary implements Parcelable {
 	public ProtectedBinary(boolean enableProtection, byte[] data) {
 		this.protect = enableProtection;
 		this.data = data;
+		this.dataFile = null;
 	}
+
+    public ProtectedBinary(boolean enableProtection, File dataFile) {
+        this.protect = enableProtection;
+        this.data = new byte[0];
+        this.dataFile = dataFile;
+    }
 
 	public ProtectedBinary(Parcel in) {
 		protect = in.readByte() != 0;
 		in.readByteArray(data);
+        dataFile = new File(in.readString());
 	}
 	
 	// TODO: replace the byte[] with something like ByteBuffer to make the return
@@ -63,7 +74,9 @@ public class ProtectedBinary implements Parcelable {
 	}
 	
 	public boolean equals(ProtectedBinary rhs) {
-		return (protect == rhs.protect) && Arrays.equals(data, rhs.data);
+		return (protect == rhs.protect)
+                && Arrays.equals(data, rhs.data)
+                && dataFile.equals(rhs.dataFile);
 	}
 
 	@Override
@@ -75,6 +88,7 @@ public class ProtectedBinary implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeByte((byte) (protect ? 1 : 0));
 		dest.writeByteArray(data);
+		dest.writeString(dataFile.getAbsolutePath());
 	}
 
 	public static final Creator<ProtectedBinary> CREATOR = new Creator<ProtectedBinary>() {

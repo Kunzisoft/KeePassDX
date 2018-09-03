@@ -23,6 +23,7 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
+import com.kunzisoft.keepass.database.BinaryPool;
 import com.kunzisoft.keepass.database.ITimeLogger;
 import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.PwDatabase;
@@ -54,6 +55,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -83,9 +86,11 @@ public class ImporterV4 extends Importer {
 	private byte[] pbHeader = null;
 	private long version;
 	Calendar utcCal;
+	private File streamDir;
 
-	public ImporterV4() {
-		utcCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+	public ImporterV4(File streamDir) {
+		this.utcCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        this.streamDir = streamDir;
 	}
 
 	@Override
@@ -223,7 +228,8 @@ public class ImporterV4 extends Importer {
 
 		byte[] data = new byte[0];
 		if (size > 0) {
-			data = lis.readBytes(size);
+		    if (fieldId != PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary)
+			    data = lis.readBytes(size);
 		}
 
 		boolean result = true;
@@ -238,20 +244,23 @@ public class ImporterV4 extends Importer {
 			    header.innerRandomStreamKey = data;
 				break;
 			case PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary:
-			    if (data.length < 1) throw new IOException("Invalid binary format");
-				byte flag = data[0];
-				boolean prot = (flag & PwDbHeaderV4.KdbxBinaryFlags.Protected) !=
-						PwDbHeaderV4.KdbxBinaryFlags.None;
-
-				byte[] bin = new byte[data.length - 1];
-				System.arraycopy(data, 1, bin, 0, data.length-1);
-				ProtectedBinary pb = new ProtectedBinary(prot, bin);
-				db.getBinPool().poolAdd(pb);
-
-				if (prot) {
-					Arrays.fill(data, (byte)0);
-				}
+                byte flag = lis.readBytes(1)[0];
+                boolean protectedFlag = (flag & PwDbHeaderV4.KdbxBinaryFlags.Protected) !=
+                        PwDbHeaderV4.KdbxBinaryFlags.None;
+                // Read in a file
+                BinaryPool binaryPool = db.getBinPool();
+                int binaryKey = binaryPool.findUnusedKey();
+                File file = new File(streamDir, String.valueOf(binaryKey));
+                FileOutputStream outputStream = new FileOutputStream(file);
+                try {
+                    lis.readBytes(size - 1, outputStream::write);
+                } finally {
+                    outputStream.close();
+                }
+                ProtectedBinary protectedBinary = new ProtectedBinary(protectedFlag, file);
+                binaryPool.add(protectedBinary);
 				break;
+
 			default:
 				assert(false);
 				break;

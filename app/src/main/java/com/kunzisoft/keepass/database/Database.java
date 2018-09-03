@@ -151,7 +151,8 @@ public class Database {
         // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
         bis.mark(10);
 
-        Importer databaseImporter = ImporterFactory.createImporter(bis, debug);
+        // Get the file directory to save the attachments
+        Importer databaseImporter = ImporterFactory.createImporter(bis, ctx.getFilesDir(), debug);
 
         bis.reset();  // Return to the start
 
