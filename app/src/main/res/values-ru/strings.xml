@@ -214,6 +214,14 @@
 
     <string name="general">Основное</string>
     <string name="lock">Блокировка</string>
+    <string name="history">История</string>
+    <string name="fingerprint">Отпечаток пальца</string>
+
+    <string name="fingerprint_enable_title">Сканирование отпечатков пальцев</string>
+    <string name="fingerprint_enable_summary">Использовать сканер отпечатков для открытия базы</string>
+    <string name="fingerprint_delete_all_title">Удалить ключи шифрования</string>
+    <string name="fingerprint_delete_all_summary">Удалить все ключи, используемые для распознования отпечатков</string>
+    <string name="fingerprint_delete_all_warning">Вы действительно хотите удалить удалить все ключи шифрования?</string>
 
     <string name="lock_database_screen_off_title">Блокировать вместе с экраном</string>
     <string name="lock_database_screen_off_summary">Блокировать базу при блокировке экрана</string>
