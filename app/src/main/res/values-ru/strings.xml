@@ -271,4 +271,8 @@
     <string name="reset_education_screens_title">Сбросить подсказки</string>
     <string name="reset_education_screens_summary">Сбросить отображение подсказок</string>
     <string name="reset_education_screens_text">Подсказки сброшены</string>
+
+    <string name="database_name_title">Имя базы</string>
+    <string name="database_description_title">Описание базы</string>
+    <string name="database_version_title">Версия базы</string>
 </resources>
