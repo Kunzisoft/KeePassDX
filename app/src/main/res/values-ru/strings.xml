@@ -219,6 +219,7 @@
     <string name="keyboard">Клавиатура</string>
     <string name="clipboard">Буфер обмена</string>
     <string name="autofill">Автозаполнение</string>
+    <string name="appearance">Внешний вид</string>
 
     <string name="fingerprint_enable_title">Сканирование отпечатков пальцев</string>
     <string name="fingerprint_enable_summary">Использовать сканер отпечатков для открытия базы</string>
@@ -245,4 +246,29 @@
 
     <string name="set_autofill_service_title">Включить автозаполнение</string>
     <string name="set_autofill_service_summary">Запустить сервис, который позволяет просто заполнять поля в других приложениях</string>
+
+    <string name="application_appearance">Внешний вид приложения</string>
+    <string name="text_appearance">Внешний вид текста</string>
+    <string name="other">Прочее</string>
+
+    <string name="style_choose_title">Выбрать тему</string>
+    <string name="style_choose_summary">Изменить тему методом изменения цветов</string>
+
+    <string name="icon_pack_choose_title">Выбрать набор значков</string>
+    <string name="icon_pack_choose_summary">Измененить набор значков приложения</string>
+
+    <string name="list_entries_show_username_title">Отображать имена пользователей</string>
+    <string name="list_entries_show_username_summary">Отображать имена пользователей в списке записей</string>
+
+    <string name="monospace_font_fields_enable_title">Шрифт поля</string>
+    <string name="monospace_font_fields_enable_summary">Изменить шрифт, используемый для полей</string>
+
+    <string name="full_file_path_enable_title">Пути файлов</string>
+    <string name="full_file_path_enable_summary">Отображать полные пути файлов</string>
+
+    <string name="enable_education_screens_title">Подсказки</string>
+    <string name="enable_education_screens_summary">Подсвечивать элементы, чтобы показать как работает приложение</string>
+    <string name="reset_education_screens_title">Сбросить подсказки</string>
+    <string name="reset_education_screens_summary">Сбросить отображение подсказок</string>
+    <string name="reset_education_screens_text">Подсказки сброшены</string>
 </resources>
