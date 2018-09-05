@@ -25,8 +25,8 @@ import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 
 public class PwDbInnerHeaderOutputV4 {
     private PwDatabaseV4 db;
@@ -50,19 +50,36 @@ public class PwDbInnerHeaderOutputV4 {
         los.writeInt(streamKeySize);
         los.write(header.innerRandomStreamKey);
 
-        for (ProtectedBinary bin : db.getBinPool().binaries()) {
+        for (ProtectedBinary protectedBinary : db.getBinPool().binaries()) {
             byte flag = PwDbHeaderV4.KdbxBinaryFlags.None;
-            if (bin.isProtected()) {
+            if (protectedBinary.isProtected()) {
                 flag |= PwDbHeaderV4.KdbxBinaryFlags.Protected;
             }
 
-            byte[] binData = bin.getData();
             los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary);
-            los.writeInt(bin.length() + 1);
+            los.writeInt((int) protectedBinary.length() + 1); // TODO verify
             los.write(flag);
-            los.write(binData);
 
-            Arrays.fill(binData, (byte)0);
+            /*
+            MemUtil.readBytes(protectedBinary.getData(),
+                    (int) protectedBinary.length(),
+                    buffer -> los.write(buffer));
+            */
+
+            byte[] buffer = new byte[3 * 256]; // TODO buffer generalize
+            InputStream fileInputStream = protectedBinary.getData(); // TODO Nullable
+            // To create the last buffer who is smaller
+            long numberOfFullBuffer = protectedBinary.length() / buffer.length;
+            long sizeOfFullBuffers = numberOfFullBuffer * buffer.length;
+            int read = 0;
+            //if (protectedBinary.length() > 0) {
+            while (read < protectedBinary.length()) {
+                // Create the last smaller buffer
+                if (read >= sizeOfFullBuffers)
+                    buffer = new byte[(int) (protectedBinary.length() % buffer.length)];
+                read += fileInputStream.read(buffer, 0, buffer.length);
+                los.write(buffer);
+            }
         }
 
         los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader);

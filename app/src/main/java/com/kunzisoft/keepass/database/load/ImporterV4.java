@@ -251,13 +251,10 @@ public class ImporterV4 extends Importer {
                 BinaryPool binaryPool = db.getBinPool();
                 int binaryKey = binaryPool.findUnusedKey();
                 File file = new File(streamDir, String.valueOf(binaryKey));
-                FileOutputStream outputStream = new FileOutputStream(file);
-                try {
-                    lis.readBytes(size - 1, outputStream::write);
-                } finally {
-                    outputStream.close();
-                }
-                ProtectedBinary protectedBinary = new ProtectedBinary(protectedFlag, file);
+				try (FileOutputStream outputStream = new FileOutputStream(file)) {
+					lis.readBytes(size - 1, outputStream::write);
+				}
+                ProtectedBinary protectedBinary = new ProtectedBinary(protectedFlag, file, size -1);
                 binaryPool.add(protectedBinary);
 				break;
 
@@ -1077,10 +1074,12 @@ public class ImporterV4 extends Importer {
 		
 		byte[] buf = ProcessNode(xpp);
 		
-		if ( buf != null ) return new ProtectedBinary(true, buf);
+		if ( buf != null )
+			return new ProtectedBinary(true, buf);
 		
 		String base64 = ReadString(xpp);
-		if ( base64.length() == 0 ) return ProtectedBinary.EMPTY;
+		if ( base64.length() == 0 )
+			return ProtectedBinary.EMPTY;
 		
 		byte[] data = Base64Coder.decode(base64);
 		
@@ -1121,6 +1120,7 @@ public class ImporterV4 extends Importer {
 		if ( xpp.getAttributeCount() > 0 ) {
 			String protect = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrProtected);
 			if ( protect != null && protect.equalsIgnoreCase(PwDatabaseV4XML.ValTrue) ) {
+			    // TODO stream for encrypted data
 				String encrypted = ReadStringRaw(xpp);
 				
 				if ( encrypted.length() > 0 ) {

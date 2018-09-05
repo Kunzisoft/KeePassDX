@@ -23,6 +23,7 @@ import com.kunzisoft.keepass.utils.Types;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -128,28 +129,24 @@ public class LEDataInputStream extends InputStream {
 	}
 
     public void readBytes(int length, ActionReadBytes actionReadBytes) throws IOException {
-        byte[] buffer = new byte[1024];
+		//MemUtil.readBytes(baseStream, length, actionReadBytes);
+        byte[] buffer = new byte[3 * 256];
 
         int offset = 0;
         int read = 0;
         while ( offset < length && read != -1) {
-
             int tempLength = buffer.length;
             // If buffer not needed
             if (length - offset < tempLength)
                 tempLength = length - offset;
             read = read(buffer, 0, tempLength);
+            if (read >= 0 && buffer.length != read) { // TODO Better perf
+                byte[] tmpBytes = buffer;
+                buffer = Arrays.copyOf(tmpBytes, read);
+            }
             actionReadBytes.doAction(buffer);
             offset += read;
         }
-    }
-
-    public interface ActionReadBytes {
-        /**
-         * Called after each buffer fill
-         * @param buffer filled
-         */
-	    void doAction(byte[] buffer) throws IOException;
     }
 
 	public static int readUShort(InputStream is) throws IOException {

@@ -93,8 +93,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 		parentGroupLastMod = in.readParcelable(PwDate.class.getClassLoader());
 		customData = MemUtil.readStringParcelableMap(in);
 		fields = in.readParcelable(ExtraFields.class.getClassLoader());
-		// TODO binaries takes too much memory for parcelable
-		// binaries = MemUtil.readStringParcelableMap(in, ProtectedBinary.class);
+		binaries = MemUtil.readStringParcelableMap(in, ProtectedBinary.class);
 		foregroundColor = in.readString();
 		backgroupColor = in.readString();
 		overrideURL = in.readString();

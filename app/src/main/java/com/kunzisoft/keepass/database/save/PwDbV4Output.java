@@ -54,11 +54,13 @@ import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MemUtil;
 import com.kunzisoft.keepass.utils.Types;
 
+import org.davidmoten.io.extras.IOUtil;
 import org.joda.time.DateTime;
 import org.spongycastle.crypto.StreamCipher;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -429,26 +431,43 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	}
 	
 	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
+		int valLength = (int) value.length(); // TODO verify
+
 		if (value.isProtected()) {
 			xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
-			
-			int valLength = value.length();
-			if (valLength > 0) {
-				byte[] encoded = new byte[valLength];
-				randomStream.processBytes(value.getData(), 0, valLength, encoded, 0);
-				
-				xml.text(String.valueOf(Base64Coder.encode(encoded)));
-			}
+
+            byte[] buffer = new byte[valLength]; // TODO buffer generalize
+            if (valLength > 0) {
+                byte[] encoded = new byte[valLength];
+                value.getData().read(buffer, 0, buffer.length); // TODO throw exception if length != read // NUllable
+                randomStream.processBytes(buffer, 0, valLength, encoded, 0);
+                xml.text(String.valueOf(Base64Coder.encode(encoded)));
+            }
 			
 		} else {
 			if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
 				xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
-				byte[] raw = value.getData();
-				byte[] compressed = MemUtil.compress(raw);
-				xml.text(String.valueOf(Base64Coder.encode(compressed)));
+
+                InputStream fileInputStream = value.getData(); // TODO Nullable
+                InputStream gzipInputStream = IOUtil.pipe(fileInputStream, GZIPOutputStream::new, 1024);  // TODO buffer generalize
+                byte[] buffer = new byte[valLength]; // TODO buffer generalize
+                if (valLength > 0) {
+                    int read = gzipInputStream.read(buffer, 0, buffer.length);
+                    xml.text(String.valueOf(Base64Coder.encode(buffer))); // TODO Compress all
+                }
+                /*
+                // TODO be a problem not the same length
+                MemUtil.readBytes(gzipInputStream, value.length(), new ActionReadBytes() {
+                    @Override
+                    public void doAction(byte[] buffer) throws IOException {
+                        xml.text(String.valueOf(Base64Coder.encode(buffer)));
+                    }
+                });
+                */
 			} else {
-				byte[] raw = value.getData();
-				xml.text(String.valueOf(Base64Coder.encode(raw)));
+                MemUtil.readBytes(value.getData(),
+                        (int) value.length(),
+                        buffer -> xml.text(String.valueOf(Base64Coder.encode(buffer))));
 			}
 			
 		}

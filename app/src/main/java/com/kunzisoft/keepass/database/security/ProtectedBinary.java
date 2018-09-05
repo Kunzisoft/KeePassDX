@@ -22,8 +22,13 @@ package com.kunzisoft.keepass.database.security;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class ProtectedBinary implements Parcelable {
 	
@@ -32,54 +37,73 @@ public class ProtectedBinary implements Parcelable {
 	private boolean protect;
 	private byte[] data;
 	private File dataFile;
-	
+	private int size;
+
 	public boolean isProtected() {
 		return protect;
 	}
 	
-	public int length() {
-	    // TODO File length
-		if (data == null) {
-			return 0;
-		}
-		return data.length;
+	public long length() {
+        return size;
 	}
 	
 	public ProtectedBinary() {
-		this(false, new byte[0]);
+        this.protect = false;
+        this.data = null;
+        this.dataFile = null;
+        this.size = 0;
 	}
 	
 	public ProtectedBinary(boolean enableProtection, byte[] data) {
 		this.protect = enableProtection;
 		this.data = data;
 		this.dataFile = null;
+		this.size = data.length;
 	}
 
-    public ProtectedBinary(boolean enableProtection, File dataFile) {
+    public ProtectedBinary(boolean enableProtection, File dataFile, int size) {
         this.protect = enableProtection;
-        this.data = new byte[0];
+        this.data = null;
         this.dataFile = dataFile;
+        this.size = size;
     }
 
 	public ProtectedBinary(Parcel in) {
 		protect = in.readByte() != 0;
 		in.readByteArray(data);
         dataFile = new File(in.readString());
-	}
-	
-	// TODO: replace the byte[] with something like ByteBuffer to make the return
-	// value immutable, so we don't have to worry about making deep copies
-	public byte[] getData() {
-		return data;
-	}
-	
-	public boolean equals(ProtectedBinary rhs) {
-		return (protect == rhs.protect)
-                && Arrays.equals(data, rhs.data)
-                && dataFile.equals(rhs.dataFile);
+        size = in.readInt();
 	}
 
-	@Override
+    public InputStream getData() throws IOException {
+        if (data != null)
+        	return new ByteArrayInputStream(data);
+	    else if (dataFile != null)
+            return new FileInputStream(dataFile);
+        else
+        	return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProtectedBinary that = (ProtectedBinary) o;
+        return protect == that.protect &&
+                size == that.size &&
+                Arrays.equals(data, that.data) &&
+                Objects.equals(dataFile, that.dataFile);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(protect, dataFile, size);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
+    }
+
+    @Override
 	public int describeContents() {
 		return 0;
 	}
@@ -89,6 +113,7 @@ public class ProtectedBinary implements Parcelable {
 		dest.writeByte((byte) (protect ? 1 : 0));
 		dest.writeByteArray(data);
 		dest.writeString(dataFile.getAbsolutePath());
+		dest.writeInt(size);
 	}
 
 	public static final Creator<ProtectedBinary> CREATOR = new Creator<ProtectedBinary>() {
