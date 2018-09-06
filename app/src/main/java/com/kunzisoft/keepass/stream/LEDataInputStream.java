@@ -129,22 +129,28 @@ public class LEDataInputStream extends InputStream {
 	}
 
     public void readBytes(int length, ActionReadBytes actionReadBytes) throws IOException {
-		//MemUtil.readBytes(baseStream, length, actionReadBytes);
-        byte[] buffer = new byte[3 * 256];
+        int bufferSize = 256;
+        byte[] buffer = new byte[bufferSize];
 
         int offset = 0;
         int read = 0;
         while ( offset < length && read != -1) {
-            int tempLength = buffer.length;
-            // If buffer not needed
-            if (length - offset < tempLength)
-                tempLength = length - offset;
-            read = read(buffer, 0, tempLength);
-            if (read >= 0 && buffer.length != read) { // TODO Better perf
-                byte[] tmpBytes = buffer;
-                buffer = Arrays.copyOf(tmpBytes, read);
+
+            // To reduce the buffer for the last bytes reads
+            if (length - offset < bufferSize) {
+                bufferSize = length - offset;
+                buffer = new byte[bufferSize];
             }
-            actionReadBytes.doAction(buffer);
+            read = read(buffer, 0, bufferSize);
+
+            // To get only the bytes read
+            byte[] optimizedBuffer;
+            if (read >= 0 && buffer.length > read) {
+                optimizedBuffer = Arrays.copyOf(buffer, read);
+            } else {
+                optimizedBuffer = buffer;
+            }
+            actionReadBytes.doAction(optimizedBuffer);
             offset += read;
         }
     }

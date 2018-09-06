@@ -22,15 +22,13 @@ package com.kunzisoft.keepass.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.kunzisoft.keepass.stream.ActionReadBytes;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class MemUtil {
 	public static byte[] decompress(byte[] input) throws IOException {
@@ -43,21 +41,16 @@ public class MemUtil {
 		return baos.toByteArray();
 	}
 
-	public static void readBytes(InputStream inputStream, int length, ActionReadBytes action) throws IOException {
-		byte[] buffer = new byte[3 * 256]; // TODO buffer generalize
-		// To create the last buffer who is smaller
-		long numberOfFullBuffer = length / buffer.length;
-		long sizeOfFullBuffers = numberOfFullBuffer * buffer.length;
-		int read = 0;
-		//if (protectedBinary.length() > 0) {
-		while (read < length) {
-			// Create the last smaller buffer
-			if (read >= sizeOfFullBuffers)
-				buffer = new byte[(length % buffer.length)];
-			read += inputStream.read(buffer, 0, buffer.length);
-			action.doAction(buffer);
-		}
-	}
+    public static byte[] compress(byte[] input) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(input);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        GZIPOutputStream gzos = new GZIPOutputStream(baos);
+        Util.copyStream(bais, gzos);
+        gzos.close();
+
+        return baos.toByteArray();
+    }
 
 	// For writing to a Parcel
 	public static <K extends Parcelable,V extends Parcelable> void writeParcelableMap(
