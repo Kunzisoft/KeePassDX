@@ -301,7 +301,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard-instellingen</string>
     <string name="magic_keyboard_configure_title">Hoe stel ik het toetsenbord in voor het veilig invullen van formulieren?</string>
     <string name="magic_keyboard_activate_setting_text">Activeer Magikeyboard in de apparaatinstellingen.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Instellingen\" → \"Taal en invoer\" → \"Huidig toetsenbord\"</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">\"Instellingen\" → \"Taal en invoer\" → \"Huidig toetsenbord\" en kies er een.</string>
     <string name="magic_keyboard_activate_setting_path_2_text">of (\"Instellingen\" → \"Taal en invoer\" → \"Virtueel toetsenbord\")</string>
     <string name="keyboards_choose_magikeyboard_text">Kies Magikeyboard als je een formulier moet invullen.</string>
     <string name="keyboards_swicth_magikeyboard_text">Je kunt eenvoudig schakelen tussen je gebruikelijke toetsenbord en Magikeyboard middels de taalknop op je toetsenbord of door de spatiebalk lang ingedrukt te houden. Indien niet beschikbaar kan het ook met:</string>
