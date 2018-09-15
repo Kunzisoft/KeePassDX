@@ -29,7 +29,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class ProtectedBinary implements Parcelable {
 
@@ -100,13 +99,17 @@ public class ProtectedBinary implements Parcelable {
         return protect == that.protect &&
                 size == that.size &&
                 Arrays.equals(data, that.data) &&
-                Objects.equals(dataFile, that.dataFile); // TODO old equals
+                dataFile != null &&
+                dataFile.equals(that.dataFile);
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(protect, dataFile, size); // TODO old hash
+        int result = 0;
+        result = 31 * result + (protect ? 1 : 0);
+        result = 31 * result + dataFile.hashCode();
+        result = 31 * result + Integer.valueOf(size).hashCode();
         result = 31 * result + Arrays.hashCode(data);
         return result;
     }
