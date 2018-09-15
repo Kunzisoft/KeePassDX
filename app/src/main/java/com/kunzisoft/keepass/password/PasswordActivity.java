@@ -252,7 +252,7 @@ public class PasswordActivity extends StylishActivity
                 case LockingActivity.RESULT_EXIT_LOCK:
                 case Activity.RESULT_CANCELED:
                     setEmptyViews();
-                    App.getDB().clear();
+                    App.getDB().clear(getApplicationContext());
                     break;
             }
         }
@@ -938,7 +938,7 @@ public class PasswordActivity extends StylishActivity
     private void loadDatabase(String password, Uri keyfile) {
         // Clear before we load
         Database database = App.getDB();
-        database.clear();
+        database.clear(getApplicationContext());
         // Clear the shutdown flag
         App.clearShutdown();
 

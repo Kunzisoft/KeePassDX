@@ -754,4 +754,9 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		return filename.substring(0, lastExtDot);
 	}
 
+    @Override
+    public void clearCache() {
+        super.clearCache();
+        binPool.clear();
+    }
 }

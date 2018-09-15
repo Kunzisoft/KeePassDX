@@ -51,6 +51,8 @@ public class BinaryPool {
 	}
 
 	public void clear() {
+		for (Entry<Integer, ProtectedBinary> entry: pool.entrySet())
+			entry.getValue().clear();
 		pool.clear();
 	}
 

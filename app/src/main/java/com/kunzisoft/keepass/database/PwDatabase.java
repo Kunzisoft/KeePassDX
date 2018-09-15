@@ -430,4 +430,6 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
      */
     public abstract void initNew(String dbPath);
 
+    public void clearCache() {}
+
 }

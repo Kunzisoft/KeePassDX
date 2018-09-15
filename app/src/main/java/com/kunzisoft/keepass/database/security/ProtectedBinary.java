@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.security;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -31,7 +32,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class ProtectedBinary implements Parcelable {
-	
+
+    private static final String TAG = ProtectedBinary.class.getName();
 	public final static ProtectedBinary EMPTY = new ProtectedBinary();
 
 	private boolean protect;
@@ -84,6 +86,12 @@ public class ProtectedBinary implements Parcelable {
         	return null;
     }
 
+    public void clear() {
+		data = null;
+		if (dataFile != null && !dataFile.delete())
+		    Log.e(TAG, "Unable to delete temp file " + dataFile.getAbsolutePath());
+	}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,13 +100,13 @@ public class ProtectedBinary implements Parcelable {
         return protect == that.protect &&
                 size == that.size &&
                 Arrays.equals(data, that.data) &&
-                Objects.equals(dataFile, that.dataFile);
+                Objects.equals(dataFile, that.dataFile); // TODO old equals
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(protect, dataFile, size);
+        int result = Objects.hash(protect, dataFile, size); // TODO old hash
         result = 31 * result + Arrays.hashCode(data);
         return result;
     }
