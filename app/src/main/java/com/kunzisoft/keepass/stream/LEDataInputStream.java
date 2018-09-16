@@ -19,12 +19,9 @@
  */
 package com.kunzisoft.keepass.stream;
 
-import com.kunzisoft.keepass.utils.Types;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.UUID;
 
 
 /** Little endian version of the DataInputStream
@@ -33,7 +30,7 @@ import java.util.UUID;
  */
 public class LEDataInputStream extends InputStream {
 
-	public static final long INT_TO_LONG_MASK = 0xffffffffL;
+	private static final long INT_TO_LONG_MASK = 0xffffffffL;
 	
 	private InputStream baseStream;
 
@@ -129,7 +126,7 @@ public class LEDataInputStream extends InputStream {
 	}
 
     public void readBytes(int length, ActionReadBytes actionReadBytes) throws IOException {
-        int bufferSize = 256;
+        int bufferSize = 256 * 3; // TODO Buffer size
         byte[] buffer = new byte[bufferSize];
 
         int offset = 0;
@@ -175,11 +172,11 @@ public class LEDataInputStream extends InputStream {
 	   * @return
 	   */
 	  public static int readUShort( byte[] buf, int offset ) {
-	    return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
+	    return (buf[offset] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
 	  }
 
 	public static long readLong( byte buf[], int offset ) {
-		return ((long)buf[offset + 0] & 0xFF) + (((long)buf[offset + 1] & 0xFF) << 8) 
+		return ((long)buf[offset] & 0xFF) + (((long)buf[offset + 1] & 0xFF) << 8)
 		+ (((long)buf[offset + 2] & 0xFF) << 16) + (((long)buf[offset + 3] & 0xFF) << 24) 
 		+ (((long)buf[offset + 4] & 0xFF) << 32) + (((long)buf[offset + 5] & 0xFF) << 40) 
 		+ (((long)buf[offset + 6] & 0xFF) << 48) + (((long)buf[offset + 7] & 0xFF) << 56);
@@ -209,14 +206,8 @@ public class LEDataInputStream extends InputStream {
 	   * @return
 	   */
 	  public static int readInt( byte buf[], int offset ) {
-	    return (buf[offset + 0] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8) + ((buf[offset + 2] & 0xFF) << 16)
+	    return (buf[offset] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8) + ((buf[offset + 2] & 0xFF) << 16)
 	           + ((buf[offset + 3] & 0xFF) << 24);
-	  }
-
-	  public UUID readUUID() throws IOException {
-		  byte[] buf = readBytes(16);
-
-		  return Types.bytestoUUID(buf);
 	  }
 
 }

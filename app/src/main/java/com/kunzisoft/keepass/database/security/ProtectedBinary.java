@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -45,10 +45,14 @@ public class ProtectedBinary implements Parcelable {
 	}
 	
 	public long length() {
-        return size;
+        if (data != null)
+            return data.length;
+        if (dataFile != null)
+            return size;
+        return 0;
 	}
 	
-	public ProtectedBinary() {
+	private ProtectedBinary() {
         this.protect = false;
         this.data = null;
         this.dataFile = null;
@@ -59,7 +63,10 @@ public class ProtectedBinary implements Parcelable {
 		this.protect = enableProtection;
 		this.data = data;
 		this.dataFile = null;
-		this.size = data.length;
+		if (data != null)
+		    this.size = data.length;
+		else
+		    this.size = 0;
 	}
 
     public ProtectedBinary(boolean enableProtection, File dataFile, int size) {
@@ -69,7 +76,7 @@ public class ProtectedBinary implements Parcelable {
         this.size = size;
     }
 
-	public ProtectedBinary(Parcel in) {
+	private ProtectedBinary(Parcel in) {
 		protect = in.readByte() != 0;
 		in.readByteArray(data);
         dataFile = new File(in.readString());

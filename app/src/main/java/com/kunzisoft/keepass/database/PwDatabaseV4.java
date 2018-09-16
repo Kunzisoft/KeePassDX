@@ -756,7 +756,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
     @Override
     public void clearCache() {
-        super.clearCache();
         binPool.clear();
     }
 }

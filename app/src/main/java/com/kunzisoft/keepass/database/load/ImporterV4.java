@@ -65,10 +65,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Stack;
-import java.util.TimeZone;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
@@ -83,13 +81,10 @@ public class ImporterV4 extends Importer {
 	private PwDatabaseV4 db;
 
     private byte[] hashOfHeader = null;
-	private byte[] pbHeader = null;
 	private long version;
-	Calendar utcCal;
 	private File streamDir;
 
 	public ImporterV4(File streamDir) {
-		this.utcCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         this.streamDir = streamDir;
 	}
 
@@ -116,7 +111,7 @@ public class ImporterV4 extends Importer {
         version = header.getVersion();
 
 		hashOfHeader = hh.hash;
-		pbHeader = hh.header;
+		byte[] pbHeader = hh.header;
 
 		db.retrieveMasterKey(password, keyInputStream);
 		db.makeFinalKey(header.masterSeed);
@@ -190,7 +185,6 @@ public class ImporterV4 extends Importer {
 		}
 		
 		if ( header.innerRandomStreamKey == null ) {
-			assert(false);
 			throw new IOException("Invalid stream key.");
 		}
 		
@@ -259,7 +253,6 @@ public class ImporterV4 extends Importer {
 				break;
 
 			default:
-				assert(false);
 				break;
 		}
 
@@ -354,20 +347,17 @@ public class ImporterV4 extends Importer {
 			}
 			
 			switch ( xpp.getEventType() ) {
-			case XmlPullParser.START_TAG:
-				ctx = ReadXmlElement(ctx, xpp);
-				break;
-				
-			case XmlPullParser.END_TAG:
-				ctx = EndXmlElement(ctx, xpp);
-				break;
+				case XmlPullParser.START_TAG:
+					ctx = ReadXmlElement(ctx, xpp);
+					break;
 
-			default:
-				assert(false);
-				break;
-					
+				case XmlPullParser.END_TAG:
+					ctx = EndXmlElement(ctx, xpp);
+					break;
+
+				default:
+					break;
 			}
-			
 		}
 		
 		// Error checks
@@ -539,8 +529,8 @@ public class ImporterV4 extends Importer {
 			
 		case Root:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
-				assert(ctxGroups.size() == 0);
-				if ( ctxGroups.size() != 0 ) throw new IOException("Group list should be empty.");
+				if ( ctxGroups.size() != 0 )
+					throw new IOException("Group list should be empty.");
 				
 				db.setRootGroup(new PwGroupV4());
 				ctxGroups.push(db.getRootGroup());
@@ -639,8 +629,6 @@ public class ImporterV4 extends Importer {
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData)) {
 				return SwitchContext(ctx, KdbContext.EntryCustomData, xpp);
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemHistory) ) {
-				assert(!entryInHistory);
-				
 				if ( ! entryInHistory ) {
 					ctxHistoryBase = ctxEntry;
 					return SwitchContext(ctx, KdbContext.EntryHistory, xpp);
@@ -780,8 +768,8 @@ public class ImporterV4 extends Importer {
 	}
 
 	private KdbContext EndXmlElement(KdbContext ctx, XmlPullParser xpp) throws XmlPullParserException {
-		assert(xpp.getEventType() == XmlPullParser.END_TAG);
-		
+		// (xpp.getEventType() == XmlPullParser.END_TAG);
+
 		String name = xpp.getName();
 		if ( ctx == KdbContext.KeePassFile && name.equalsIgnoreCase(PwDatabaseV4XML.ElemDocNode) ) {
 			return KdbContext.Null;
@@ -798,7 +786,7 @@ public class ImporterV4 extends Importer {
 				PwIconCustom icon = new PwIconCustom(customIconID, customIconData);
 				db.addCustomIcon(icon);
 				db.getIconFactory().put(icon);
-			} else assert(false);
+			}
 			
 			customIconID = PwDatabase.UUID_ZERO;
 			customIconData = null;
@@ -811,7 +799,7 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.CustomDataItem && name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem) ) {
 			if ( customDataKey != null && customDataValue != null) {
 				db.putCustomData(customDataKey, customDataValue);
-			} else assert(false);
+			}
 			
 			customDataKey = null;
 			customDataValue = null;
@@ -838,8 +826,6 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.GroupCustomDataItem && name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem)) {
 			if (groupCustomDataKey != null && groupCustomDataValue != null) {
 				ctxGroup.putCustomData(groupCustomDataKey, groupCustomDataKey);
-			} else {
-				assert(false);
 			}
 
 			groupCustomDataKey = null;
@@ -885,8 +871,6 @@ public class ImporterV4 extends Importer {
 		} else if ( ctx == KdbContext.EntryCustomDataItem && name.equalsIgnoreCase(PwDatabaseV4XML.ElemStringDictExItem)) {
 			if (entryCustomDataKey != null && entryCustomDataValue != null) {
 				ctxEntry.putCustomData(entryCustomDataKey, entryCustomDataValue);
-			} else {
-				assert(false);
 			}
 
 			entryCustomDataKey = null;
@@ -902,8 +886,6 @@ public class ImporterV4 extends Importer {
 			ctxDeletedObject = null;
 			return KdbContext.RootDeletedObjects;
 		} else {
-			assert(false);
-
 			String contextName = "";
 			if (ctx != null) {
 				contextName = ctx.name();
@@ -949,35 +931,24 @@ public class ImporterV4 extends Importer {
 	}
 
 	private void ReadUnknown(XmlPullParser xpp) throws XmlPullParserException, IOException {
-		assert(false);
-		
 		if ( xpp.isEmptyElementTag() ) return;
-		
-		String unknownName = xpp.getName();
+
 		ProcessNode(xpp);
-		
 		while (xpp.next() != XmlPullParser.END_DOCUMENT ) {
 			if ( xpp.getEventType() == XmlPullParser.END_TAG ) break;
 			if ( xpp.getEventType() == XmlPullParser.START_TAG ) continue;
 			
 			ReadUnknown(xpp);
 		}
-		
-		assert(xpp.getName().equals(unknownName));
-		
 	}
 	
 	private boolean ReadBool(XmlPullParser xpp, boolean bDefault) throws IOException, XmlPullParserException {
-		String str = ReadString(xpp);
-		
-		if ( str.equalsIgnoreCase("true") ) {
-			return true;
-		} else if ( str.equalsIgnoreCase("false") ) {
-			return false;
-		} else {
-			return bDefault;
-		}
-	}
+        String str = ReadString(xpp);
+
+        return str.equalsIgnoreCase("true")
+                || !str.equalsIgnoreCase("false")
+                && bDefault;
+    }
 	
 	private UUID ReadUuid(XmlPullParser xpp) throws IOException, XmlPullParserException {
 		String encoded = ReadString(xpp);
@@ -1113,8 +1084,8 @@ public class ImporterV4 extends Importer {
 	}
 
 	private byte[] ProcessNode(XmlPullParser xpp) throws XmlPullParserException, IOException {
-		assert(xpp.getEventType() == XmlPullParser.START_TAG);
-		
+		//(xpp.getEventType() == XmlPullParser.START_TAG);
+
 		byte[] buf = null;
 		
 		if ( xpp.getAttributeCount() > 0 ) {

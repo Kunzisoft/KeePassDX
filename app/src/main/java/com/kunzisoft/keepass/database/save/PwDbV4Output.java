@@ -402,7 +402,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	}
 	
 
-	private void writeObject(String key, ProtectedBinary value, boolean allowRef) throws IllegalArgumentException, IllegalStateException, IOException {
+	private void writeObject(String key, ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(key != null && value != null);
 		
 		xml.startTag(null, PwDatabaseV4XML.ElemBinary);
@@ -411,11 +411,8 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		xml.endTag(null, PwDatabaseV4XML.ElemKey);
 		
 		xml.startTag(null, PwDatabaseV4XML.ElemValue);
-		String strRef = null;
-		if (allowRef) {
-			int ref = mPM.getBinPool().findKey(value);
-			strRef = Integer.toString(ref);
-		}
+		int ref = mPM.getBinPool().findKey(value);
+		String strRef = Integer.toString(ref);
 		
 		if (strRef != null) {
 			xml.attribute(null, PwDatabaseV4XML.AttrRef, strRef);
@@ -429,10 +426,10 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	}
 	
 	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
-        int valLength = (int) value.length(); // TODO verify
+
+		int valLength = (int) value.length(); // TODO verify
         if (valLength > 0) {
             byte[] buffer = new byte[valLength];
-
             value.getData().read(buffer, 0, valLength); // TODO Nullable
 
             if (value.isProtected()) {
@@ -637,7 +634,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		assert(binaries != null);
 		
 		for (Entry<String, ProtectedBinary> pair : binaries.entrySet()) {
-			writeObject(pair.getKey(), pair.getValue(), true);
+			writeObject(pair.getKey(), pair.getValue());
 		}
 	}
 

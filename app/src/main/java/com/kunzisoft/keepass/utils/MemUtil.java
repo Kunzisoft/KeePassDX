@@ -25,18 +25,33 @@ import android.os.Parcelable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class MemUtil {
+
+    public static void copyStream(InputStream in, OutputStream out) throws IOException {
+        byte[] buf = new byte[1024];
+        int read;
+        try {
+            while ((read = in.read(buf)) != -1) {
+                out.write(buf, 0, read);
+            }
+        } catch (OutOfMemoryError error) {
+            throw new IOException(error);
+        }
+    }
+
 	public static byte[] decompress(byte[] input) throws IOException {
 		ByteArrayInputStream bais = new ByteArrayInputStream(input);
 		GZIPInputStream gzis = new GZIPInputStream(bais);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Util.copyStream(gzis, baos);
+		copyStream(gzis, baos);
 		
 		return baos.toByteArray();
 	}
@@ -46,7 +61,7 @@ public class MemUtil {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         GZIPOutputStream gzos = new GZIPOutputStream(baos);
-        Util.copyStream(bais, gzos);
+        copyStream(bais, gzos);
         gzos.close();
 
         return baos.toByteArray();
