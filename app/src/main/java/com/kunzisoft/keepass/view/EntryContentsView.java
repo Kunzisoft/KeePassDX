@@ -1,24 +1,23 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ * 
  * This file is part of KeePass DX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * KeePass DX is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * KeePass DX is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with KeePass DX. If not,
+ * see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.view;
 
+import android.os.Handler;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -31,16 +30,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.totp.*;
 import com.kunzisoft.keepass.utils.Util;
-
 import java.text.DateFormat;
 import java.util.Date;
 
 public class EntryContentsView extends LinearLayout {
-
     private boolean fontInVisibility;
     private int colorAccent;
 
@@ -51,6 +48,11 @@ public class EntryContentsView extends LinearLayout {
     private View passwordContainerView;
     private TextView passwordView;
     private ImageView passwordActionView;
+
+    private View totpContainerView;
+    private TextView totpView;
+    private ImageView totpActionView;
+    private String totpCurrentToken;
 
     private View urlContainerView;
     private TextView urlView;
@@ -68,30 +70,31 @@ public class EntryContentsView extends LinearLayout {
     private TextView lastAccessDateView;
     private TextView expiresDateView;
 
-	public EntryContentsView(Context context) {
-		this(context, null);
-	}
-	
-	public EntryContentsView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public EntryContentsView(Context context) {
+        this(context, null);
+    }
 
-		fontInVisibility = false;
+    public EntryContentsView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        fontInVisibility = false;
 
         dateFormat = android.text.format.DateFormat.getDateFormat(context);
         timeFormat = android.text.format.DateFormat.getTimeFormat(context);
-		
-		inflate(context);
+
+        inflate(context);
 
         int[] attrColorAccent = {R.attr.colorAccentCompat};
         TypedArray taColorAccent = context.getTheme().obtainStyledAttributes(attrColorAccent);
         this.colorAccent = taColorAccent.getColor(0, Color.BLACK);
         taColorAccent.recycle();
-	}
-	
-	private void inflate(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		assert inflater != null;
-		inflater.inflate(R.layout.entry_view_contents, this);
+    }
+
+    private void inflate(Context context) {
+        LayoutInflater inflater =
+                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert inflater != null;
+        inflater.inflate(R.layout.entry_view_contents, this);
 
         userNameContainerView = findViewById(R.id.entry_user_name_container);
         userNameView = findViewById(R.id.entry_user_name);
@@ -104,6 +107,10 @@ public class EntryContentsView extends LinearLayout {
         urlContainerView = findViewById(R.id.entry_url_container);
         urlView = findViewById(R.id.entry_url);
 
+        totpContainerView = findViewById(R.id.entry_totp_container);
+        totpView = findViewById(R.id.entry_totp);
+        totpActionView = findViewById(R.id.entry_totp_action_image);
+
         commentContainerView = findViewById(R.id.entry_comment_container);
         commentView = findViewById(R.id.entry_comment);
 
@@ -113,13 +120,13 @@ public class EntryContentsView extends LinearLayout {
         modificationDateView = findViewById(R.id.entry_modified);
         lastAccessDateView = findViewById(R.id.entry_accessed);
         expiresDateView = findViewById(R.id.entry_expires);
-	}
+    }
 
     public void applyFontVisibilityToFields(boolean fontInVisibility) {
         this.fontInVisibility = fontInVisibility;
     }
 
-	public void assignUserName(String userName) {
+    public void assignUserName(String userName) {
         if (userName != null && !userName.isEmpty()) {
             userNameContainerView.setVisibility(VISIBLE);
             userNameView.setText(userName);
@@ -145,7 +152,8 @@ public class EntryContentsView extends LinearLayout {
             if (fontInVisibility)
                 Util.applyFontVisibilityTo(getContext(), passwordView);
             if (!allowCopyPassword) {
-                passwordActionView.setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark));
+                passwordActionView
+                        .setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark));
             } else {
                 passwordActionView.setColorFilter(colorAccent);
             }
@@ -155,13 +163,13 @@ public class EntryContentsView extends LinearLayout {
     }
 
     public void assignPasswordCopyListener(OnClickListener onClickListener) {
-	    if (onClickListener == null)
-	        setClickable(false);
+        if (onClickListener == null)
+            setClickable(false);
         passwordActionView.setOnClickListener(onClickListener);
     }
 
     public boolean isPasswordPresent() {
-	    return passwordContainerView.getVisibility() == VISIBLE;
+        return passwordContainerView.getVisibility() == VISIBLE;
     }
 
     public boolean atLeastOneFieldProtectedPresent() {
@@ -174,7 +182,7 @@ public class EntryContentsView extends LinearLayout {
     }
 
     public void setHiddenPasswordStyle(boolean hiddenStyle) {
-        if ( !hiddenStyle ) {
+        if (!hiddenStyle) {
             passwordView.setTransformationMethod(null);
         } else {
             passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -196,6 +204,39 @@ public class EntryContentsView extends LinearLayout {
         }
     }
 
+    public void assignTotp(TotpSettings settings, OnClickListener onClickListener) {
+        if (settings.isConfigured()) {
+            totpContainerView.setVisibility(VISIBLE);
+
+            String totp = settings.getToken();
+            if (totp.isEmpty()) {
+                totpView.setText(getContext().getString(R.string.error_invalid_TOTP));
+                totpActionView
+                        .setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark));
+                assignTotpCopyListener(null);
+            } else {
+                assignTotpCopyListener(onClickListener);
+                totpCurrentToken = settings.getToken();
+                final Handler totpHandler = new Handler();
+                totpHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (settings.shouldRefreshToken()) {
+                            totpCurrentToken = settings.getToken();
+                        }
+                        totpView.setText(getContext().getString(R.string.entry_totp_format,
+                                totpCurrentToken, settings.getSecondsRemaining()));
+                        totpHandler.postDelayed(this, 1000);
+                    }
+                });
+            }
+        }
+    }
+
+    public void assignTotpCopyListener(OnClickListener onClickListener) {
+        totpActionView.setOnClickListener(onClickListener);
+    }
+
     public void assignComment(String comment) {
         if (comment != null && !comment.isEmpty()) {
             commentContainerView.setVisibility(VISIBLE);
@@ -207,12 +248,15 @@ public class EntryContentsView extends LinearLayout {
         }
     }
 
-    public void addExtraField(String title, ProtectedString value, boolean showAction, OnClickListener onActionClickListener) {
+    public void addExtraField(String title, ProtectedString value, boolean showAction,
+            OnClickListener onActionClickListener) {
         EntryCustomField entryCustomField;
-	    if (value.isProtected())
-	        entryCustomField = new EntryCustomFieldProtected(getContext(), null, title, value, showAction, onActionClickListener);
-	    else
-	        entryCustomField = new EntryCustomField(getContext(), null, title, value, showAction, onActionClickListener);
+        if (value.isProtected())
+            entryCustomField = new EntryCustomFieldProtected(getContext(), null, title, value,
+                    showAction, onActionClickListener);
+        else
+            entryCustomField = new EntryCustomField(getContext(), null, title, value, showAction,
+                    onActionClickListener);
         entryCustomField.applyFontVisibility(fontInVisibility);
         extrasView.addView(entryCustomField);
     }
@@ -245,9 +289,9 @@ public class EntryContentsView extends LinearLayout {
         expiresDateView.setText(constString);
     }
 
-	@Override
-	protected LayoutParams generateDefaultLayoutParams() {
-		return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-	}
+    @Override
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    }
 
 }

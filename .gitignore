@@ -38,6 +38,13 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# Eclipse/VS Code
+.project
+.settings/*
+*/.project
+*/.classpath
+*/.settings/*
+
 # Intellij
 *.iml
 .idea/workspace.xml

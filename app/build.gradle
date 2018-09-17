@@ -103,6 +103,8 @@ dependencies {
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.1'
+    // Apache Commons Codec
+    implementation 'commons-codec:commons-codec:1.11'
     // Base64
     implementation 'biz.source_code:base64coder:2010-12-19'
     implementation 'com.google.code.gson:gson:2.8.4'
