@@ -53,7 +53,7 @@ You can contribute in different ways to help us on our work.
 	
 ## F.A.Q.
 
-Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassDX/blob/master/FAQ.md) 
+Other questions? You can read the [F.A.Q.](https://www.keepassdx.com/FAQ) 
 	
 ## Other devices
 
@@ -67,7 +67,7 @@ Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassD
 
  This file is part of KeePass DX.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  [KeePass DX](https://www.keepassdx.com) is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.

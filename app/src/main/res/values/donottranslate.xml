@@ -23,8 +23,8 @@
     <!-- TODO Move urls in flavors -->
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="contribution_url" translatable="false">https://www.kunzisoft.com/donation?project=keepassdx</string>
-    <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
+    <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
+    <string name="homepage" translatable="false">https://www.keepassdx.com</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
