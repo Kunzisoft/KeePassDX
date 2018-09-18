@@ -81,7 +81,7 @@ public class KeyboardEntryNotificationService extends Service {
                 PendingIntent.getBroadcast(getApplicationContext(), 0, deleteIntent, 0);
 
         if (MagikIME.getEntryKey() != null) {
-            String entryTitle = getString(R.string.notification_entry_content_title_text);
+            String entryTitle = getString(R.string.keyboard_notification_entry_content_title_text);
             String entryUsername = "";
             if (!MagikIME.getEntryKey().getTitle().isEmpty())
                 entryTitle = MagikIME.getEntryKey().getTitle();
@@ -90,10 +90,10 @@ public class KeyboardEntryNotificationService extends Service {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID_KEYBOARD)
                     .setSmallIcon(R.drawable.ic_vpn_key_white_24dp)
-                    .setContentTitle(getString(R.string.notification_entry_content_title, entryTitle))
+                    .setContentTitle(getString(R.string.keyboard_notification_entry_content_title, entryTitle))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-                    .setContentText(getString(R.string.notification_entry_content_text, entryUsername))
+                    .setContentText(getString(R.string.keyboard_notification_entry_content_text, entryUsername))
                     .setAutoCancel(false)
                     .setContentIntent(null)
                     .setDeleteIntent(pendingDeleteIntent);

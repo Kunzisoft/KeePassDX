@@ -190,10 +190,10 @@ public class MagikIME extends InputMethodService
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (sharedPreferences.getBoolean(getString(R.string.key_vibrate_key), getResources().getBoolean(R.bool.key_vibrate_default)))
+        if (sharedPreferences.getBoolean(getString(R.string.keyboard_key_vibrate_key), getResources().getBoolean(R.bool.keyboard_key_vibrate_default)))
             vibrate();
 
-        if (sharedPreferences.getBoolean(getString(R.string.key_sound_key), getResources().getBoolean(R.bool.key_sound_default)))
+        if (sharedPreferences.getBoolean(getString(R.string.keyboard_key_sound_key), getResources().getBoolean(R.bool.keyboard_key_sound_default)))
             playClick(primaryCode);
 
     }

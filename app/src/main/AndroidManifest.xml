@@ -132,10 +132,10 @@
         <activity android:name="com.kunzisoft.keepass.selection.EntrySelectionAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
-        <activity android:name=".magikeyboard.EntryRetrieverActivity"
+        <activity android:name="com.kunzisoft.keepass.magikeyboard.EntryRetrieverActivity"
             android:label="@string/keyboard_name">
         </activity>
-        <activity android:name="com.kunzisoft.keepass.magikeyboard.settings.MagikIMESettings"
+        <activity android:name="com.kunzisoft.keepass.settings.MagikIMESettings"
             android:label="@string/keyboard_setting_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -169,7 +169,7 @@
             android:label="@string/keyboard_label"
             android:permission="android.permission.BIND_INPUT_METHOD" >
             <meta-data android:name="android.view.im"
-                android:resource="@xml/method"/>
+                android:resource="@xml/keyboard_method"/>
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>

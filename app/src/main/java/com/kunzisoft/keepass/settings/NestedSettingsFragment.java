@@ -60,7 +60,6 @@ import com.kunzisoft.keepass.settings.preferenceDialogFragment.MemoryUsagePrefer
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
-import com.kunzisoft.keepass.magikeyboard.settings.MagikIMESettings;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {
@@ -303,8 +302,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference keyboardPreference = findPreference(getString(R.string.magic_keyboard_key));
                 keyboardPreference.setOnPreferenceClickListener(preference -> {
                     if (getFragmentManager() != null) {
-                        KeyboardExplanationDialog fingerPrintDialog = new KeyboardExplanationDialog();
-                        fingerPrintDialog.show(getFragmentManager(), "keyboardExplanationDialog");
+                        KeyboardExplanationDialog keyboardDialog = new KeyboardExplanationDialog();
+                        keyboardDialog.show(getFragmentManager(), "keyboardExplanationDialog");
                     }
                     return false;
                 });

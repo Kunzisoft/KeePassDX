@@ -20,7 +20,7 @@
 <input-method
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:settingsActivity="com.kunzisoft.magikeyboard.MagikIMESettings"
+    android:settingsActivity="com.kunzisoft.keepass.settings.MagikIMESettings"
     android:supportsSwitchingToNextInputMethod="true"
     tools:ignore="UnusedAttribute">
     <subtype

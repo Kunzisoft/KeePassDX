@@ -44,8 +44,8 @@ public class EntryRetrieverActivity extends AppCompatActivity {
 
                 // Show the notification if allowed in Preferences
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                if (sharedPreferences.getBoolean(getString(R.string.notification_entry_key),
-                        getResources().getBoolean(R.bool.notification_entry_default))) {
+                if (sharedPreferences.getBoolean(getString(R.string.keyboard_notification_entry_key),
+                        getResources().getBoolean(R.bool.keyboard_notification_entry_default))) {
                     Intent notificationIntent = new Intent(this, KeyboardEntryNotificationService.class);
                     startService(notificationIntent);
                 }

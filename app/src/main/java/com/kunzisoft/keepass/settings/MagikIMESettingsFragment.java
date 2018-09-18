@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.magikeyboard.settings;
+package com.kunzisoft.keepass.settings;
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
