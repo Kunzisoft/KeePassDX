@@ -23,7 +23,6 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
-import com.kunzisoft.keepass.database.BinaryPool;
 import com.kunzisoft.keepass.database.ITimeLogger;
 import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.PwDatabase;
@@ -211,7 +210,10 @@ public class ImporterV4 extends Importer {
 		while(true) {
 			if (!ReadInnerHeader(lis, header)) break;
 		}
+	}
 
+	private String getUnusedCacheFileName() {
+		return String.valueOf(db.getBinPool().findUnusedKey());
 	}
 
 	private boolean ReadInnerHeader(LEDataInputStream lis, PwDbHeaderV4 header) throws IOException {
@@ -241,15 +243,14 @@ public class ImporterV4 extends Importer {
                 byte flag = lis.readBytes(1)[0];
                 boolean protectedFlag = (flag & PwDbHeaderV4.KdbxBinaryFlags.Protected) !=
                         PwDbHeaderV4.KdbxBinaryFlags.None;
+                int byteLength = size - 1;
                 // Read in a file
-                BinaryPool binaryPool = db.getBinPool();
-                int binaryKey = binaryPool.findUnusedKey();
-                File file = new File(streamDir, String.valueOf(binaryKey));
+                File file = new File(streamDir, getUnusedCacheFileName());
 				try (FileOutputStream outputStream = new FileOutputStream(file)) {
-					lis.readBytes(size - 1, outputStream::write);
+					lis.readBytes(byteLength, outputStream::write);
 				}
-                ProtectedBinary protectedBinary = new ProtectedBinary(protectedFlag, file, size -1);
-                binaryPool.add(protectedBinary);
+                ProtectedBinary protectedBinary = new ProtectedBinary(protectedFlag, file, byteLength);
+				db.getBinPool().add(protectedBinary);
 				break;
 
 			default:
@@ -288,9 +289,9 @@ public class ImporterV4 extends Importer {
 	}
 
     private static final long DEFAULT_HISTORY_DAYS = 365;
-	
+
 	private boolean readNextNode = true;
-	private Stack<PwGroupV4> ctxGroups = new Stack<PwGroupV4>();
+	private Stack<PwGroupV4> ctxGroups = new Stack<>();
 	private PwGroupV4 ctxGroup = null;
 	private PwEntryV4 ctxEntry = null;
 	private String ctxStringName = null;
@@ -336,7 +337,7 @@ public class ImporterV4 extends Importer {
 		ctxGroups.clear();
 		
 		KdbContext ctx = KdbContext.Null;
-		
+
 		readNextNode = true;
 		
 		while (true) {
@@ -1027,7 +1028,19 @@ public class ImporterV4 extends Importer {
 		
 		return new ProtectedString(false, ReadString(xpp));
 	}
-	
+
+	private ProtectedBinary createProtectedBinaryFromData(boolean protection, byte[] data) throws IOException {
+		if (data.length > MemUtil.BUFFER_SIZE_BYTES) {
+			File file = new File(streamDir, getUnusedCacheFileName());
+			try (FileOutputStream outputStream = new FileOutputStream(file)) {
+				outputStream.write(data);
+			}
+			return new ProtectedBinary(protection, file, data.length);
+		} else {
+			return new ProtectedBinary(protection, data);
+		}
+	}
+
 	private ProtectedBinary ReadProtectedBinary(XmlPullParser xpp) throws XmlPullParserException, IOException {
 		String ref = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrRef);
 		if (ref != null) {
@@ -1045,8 +1058,9 @@ public class ImporterV4 extends Importer {
 		
 		byte[] buf = ProcessNode(xpp);
 		
-		if ( buf != null )
-			return new ProtectedBinary(true, buf);
+		if ( buf != null ) {
+			createProtectedBinaryFromData(true, buf);
+		}
 		
 		String base64 = ReadString(xpp);
 		if ( base64.length() == 0 )
@@ -1058,7 +1072,7 @@ public class ImporterV4 extends Importer {
 			data = MemUtil.decompress(data);
 		}
 		
-		return new ProtectedBinary(false, data);
+		return createProtectedBinaryFromData(false, data);
 	}
 	
 	private String ReadString(XmlPullParser xpp) throws IOException, XmlPullParserException {

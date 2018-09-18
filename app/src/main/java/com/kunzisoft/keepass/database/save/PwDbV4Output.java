@@ -394,9 +394,8 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		if (!isHistory) {
 			writeList(PwDatabaseV4XML.ElemHistory, entry.getHistory(), true);
-		} else {
-			assert(entry.sizeOfHistory() == 0);
 		}
+		// else entry.sizeOfHistory() == 0
 		
 		xml.endTag(null, PwDatabaseV4XML.ElemEntry);
 	}
@@ -424,54 +423,85 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		xml.endTag(null, PwDatabaseV4XML.ElemBinary);
 	}
-	
-	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
 
-		int valLength = (int) value.length(); // TODO verify
-        if (valLength > 0) {
-            byte[] buffer = new byte[valLength];
-            value.getData().read(buffer, 0, valLength); // TODO Nullable
+	/*
+	TODO Make with pipe
+	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
+        try (InputStream inputStream = value.getData()) {
+            if (inputStream == null) {
+                Log.e(TAG, "Can't write a null input stream.");
+                return;
+            }
 
             if (value.isProtected()) {
                 xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
 
-                byte[] encoded = new byte[valLength];
-                randomStream.processBytes(buffer, 0, valLength, encoded, 0);
-                xml.text(String.valueOf(Base64Coder.encode(encoded)));
+                try (InputStream cypherInputStream =
+                             IOUtil.pipe(inputStream,
+                                     o -> new org.spongycastle.crypto.io.CipherOutputStream(o, randomStream))) {
+                    writeInputStreamInBase64(cypherInputStream);
+                }
 
             } else {
                 if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
+
                     xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
 
-                    byte[] compressData = MemUtil.compress(buffer);
-                    //InputStream gzipInputStream = IOUtil.pipe(fileInputStream, GZIPOutputStream::new, valLength);  // TODO buffer generalize
-                    //gzipInputStream.read(buffer, 0, valLength);
-                    xml.text(String.valueOf(Base64Coder.encode(compressData))); // TODO Compress all
-                    /*
-                    // TODO be a problem not the same length
-                    MemUtil.readBytes(gzipInputStream, value.length(), new ActionReadBytes() {
-                        @Override
-                        public void doAction(byte[] buffer) throws IOException {
-                            xml.text(String.valueOf(Base64Coder.encode(buffer)));
-                        }
-                    });
-                    */
-                }
-                else {
-                    xml.text(String.valueOf(Base64Coder.encode(buffer)));
-                    /*
-                    // TODO Debug
-                    MemUtil.readBytes(value.getData(),
-                    (int) value.length(),
-                    buffer -> xml.text(String.valueOf(Base64Coder.encode(buffer))));
-                    */
+                    try (InputStream gZipInputStream =
+                                 IOUtil.pipe(inputStream, GZIPOutputStream::new, (int) value.length())) {
+                        writeInputStreamInBase64(gZipInputStream);
+                    }
+
+                } else {
+                    writeInputStreamInBase64(inputStream);
                 }
             }
-
-            // TODO remove buffer
         }
 	}
-	
+
+	private void writeInputStreamInBase64(InputStream inputStream) throws IOException {
+        try (InputStream base64InputStream =
+                     IOUtil.pipe(inputStream,
+                             o -> new Base64OutputStream(o, DEFAULT))) {
+            MemUtil.readBytes(base64InputStream,
+                    buffer -> xml.text(Arrays.toString(buffer)));
+        }
+    }
+    //*/
+
+    //*
+    private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
+
+        int valLength = (int) value.length();
+        if (valLength > 0) {
+            byte[] buffer = new byte[valLength];
+            if (valLength == value.getData().read(buffer, 0, valLength)) {
+
+                if (value.isProtected()) {
+                    xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
+
+                    byte[] encoded = new byte[valLength];
+                    randomStream.processBytes(buffer, 0, valLength, encoded, 0);
+                    xml.text(String.valueOf(Base64Coder.encode(encoded)));
+
+                } else {
+                    if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
+                        xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
+
+                        byte[] compressData = MemUtil.compress(buffer);
+                        xml.text(String.valueOf(Base64Coder.encode(compressData)));
+
+                    } else {
+                        xml.text(String.valueOf(Base64Coder.encode(buffer)));
+                    }
+                }
+            } else {
+                Log.e(TAG, "Unable to read the stream of the protected binary");
+            }
+        }
+    }
+    //*/
+
 	private void writeObject(String name, String value, boolean filterXmlChars) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(name != null && value != null);
 		

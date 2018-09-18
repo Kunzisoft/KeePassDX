@@ -23,9 +23,9 @@ import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
+import com.kunzisoft.keepass.utils.MemUtil;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 public class PwDbInnerHeaderOutputV4 {
@@ -60,26 +60,8 @@ public class PwDbInnerHeaderOutputV4 {
             los.writeInt((int) protectedBinary.length() + 1); // TODO verify
             los.write(flag);
 
-            /*
             MemUtil.readBytes(protectedBinary.getData(),
-                    (int) protectedBinary.length(),
                     buffer -> los.write(buffer));
-            */
-
-            byte[] buffer = new byte[3 * 256]; // TODO buffer generalize
-            InputStream fileInputStream = protectedBinary.getData(); // TODO Nullable
-            // To create the last buffer who is smaller
-            long numberOfFullBuffer = protectedBinary.length() / buffer.length;
-            long sizeOfFullBuffers = numberOfFullBuffer * buffer.length;
-            int read = 0;
-            //if (protectedBinary.length() > 0) {
-            while (read < protectedBinary.length()) {
-                // Create the last smaller buffer
-                if (read >= sizeOfFullBuffers)
-                    buffer = new byte[(int) (protectedBinary.length() % buffer.length)];
-                read += fileInputStream.read(buffer, 0, buffer.length);
-                los.write(buffer);
-            }
         }
 
         los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader);
