@@ -1,4 +1,4 @@
-package com.kunzisoft.magikeyboard;
+package com.kunzisoft.keepass.magikeyboard;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,11 +12,12 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver;
-import com.kunzisoft.magikeyboard.receiver.NotificationDeleteBroadcastReceiver;
+import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
+import com.kunzisoft.keepass.magikeyboard.receiver.NotificationDeleteBroadcastReceiver;
 
 import static android.content.ContentValues.TAG;
-import static com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
+import static com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
 public class KeyboardEntryNotificationService extends Service {
 

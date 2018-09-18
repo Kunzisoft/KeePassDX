@@ -60,7 +60,7 @@ import com.kunzisoft.keepass.settings.preferenceDialogFragment.MemoryUsagePrefer
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
-import com.kunzisoft.magikeyboard.settings.MagikIMESettings;
+import com.kunzisoft.keepass.magikeyboard.settings.MagikIMESettings;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {

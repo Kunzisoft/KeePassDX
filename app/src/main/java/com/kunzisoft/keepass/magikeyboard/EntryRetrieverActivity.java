@@ -1,4 +1,4 @@
-package com.kunzisoft.magikeyboard;
+package com.kunzisoft.keepass.magikeyboard;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.kunzisoft.keepass_model.Entry;
+import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.model.Entry;
 
 public class EntryRetrieverActivity extends AppCompatActivity {
 

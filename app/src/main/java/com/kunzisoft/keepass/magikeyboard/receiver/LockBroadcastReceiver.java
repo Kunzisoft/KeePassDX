@@ -1,4 +1,4 @@
-package com.kunzisoft.magikeyboard.receiver;
+package com.kunzisoft.keepass.magikeyboard.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

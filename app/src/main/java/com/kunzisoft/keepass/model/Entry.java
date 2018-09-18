@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass_model;
+package com.kunzisoft.keepass.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

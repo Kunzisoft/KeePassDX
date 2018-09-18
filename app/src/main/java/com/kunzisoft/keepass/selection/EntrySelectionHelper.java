@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass_model.Entry;
+import com.kunzisoft.keepass.model.Entry;
 
 public class EntrySelectionHelper {
 

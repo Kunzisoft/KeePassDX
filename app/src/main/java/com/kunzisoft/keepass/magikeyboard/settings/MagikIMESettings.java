@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.magikeyboard.settings;
+package com.kunzisoft.keepass.magikeyboard.settings;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -25,7 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.kunzisoft.magikeyboard.R;
+import com.kunzisoft.keepass.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

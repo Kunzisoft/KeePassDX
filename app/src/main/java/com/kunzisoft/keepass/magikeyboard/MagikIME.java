@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.magikeyboard;
+package com.kunzisoft.keepass.magikeyboard;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,10 +36,11 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
-import com.kunzisoft.keepass_model.Entry;
-import com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver;
+import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
+import com.kunzisoft.keepass.model.Entry;
 
-import static com.kunzisoft.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
+import static com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
 public class MagikIME extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
