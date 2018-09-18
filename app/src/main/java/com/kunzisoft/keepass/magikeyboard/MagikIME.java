@@ -29,15 +29,21 @@ import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
+import com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView;
 import com.kunzisoft.keepass.model.Entry;
 
 import static com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
@@ -46,7 +52,8 @@ public class MagikIME extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
     private static final String TAG = MagikIME.class.getName();
 
-    private static final int KEY_CHANGE_KEYBOARD = 600;
+    public static final int KEY_BACK_KEYBOARD = 600;
+    public static final int KEY_CHANGE_KEYBOARD = 601;
     private static final int KEY_UNLOCK = 610;
     private static final int KEY_LOCK = 611;
     private static final int KEY_ENTRY = 620;
@@ -60,6 +67,7 @@ public class MagikIME extends InputMethodService
     private KeyboardView keyboardView;
     private Keyboard keyboard;
     private Keyboard keyboard_entry;
+    private PopupWindow popupCustomKeys;
 
     private LockBroadcastReceiver lockBroadcastReceiver;
 
@@ -81,19 +89,29 @@ public class MagikIME extends InputMethodService
     @Override
     public void onDestroy() {
         unregisterReceiver(lockBroadcastReceiver);
+		popupCustomKeys.dismiss();
         super.onDestroy();
     }
 
     @Override
     public View onCreateInputView() {
-        keyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
+        keyboardView = (MagikeyboardView) getLayoutInflater().inflate(R.layout.keyboard_view, null);
         keyboard = new Keyboard(this, R.xml.keyboard_password);
         keyboard_entry = new Keyboard(this, R.xml.keyboard_password_entry);
 
         assignKeyboardView();
         keyboardView.setOnKeyboardActionListener(this);
         keyboardView.setPreviewEnabled(false);
-        keyboardView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+		Context context = getBaseContext();
+		View custom = LayoutInflater.from(context)
+				.inflate(R.layout.keyboard_popup_fields, new FrameLayout(context));
+		popupCustomKeys = new PopupWindow(context);
+		popupCustomKeys.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+		popupCustomKeys.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+		popupCustomKeys.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		popupCustomKeys.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+		popupCustomKeys.setContentView(custom);
 
         return keyboardView;
     }
@@ -109,6 +127,10 @@ public class MagikIME extends InputMethodService
             }
         }
     }
+
+    private void assignKeyboardPopupView() {
+
+	}
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
@@ -133,8 +155,9 @@ public class MagikIME extends InputMethodService
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
+		keyboardView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         switch(primaryCode){
-            case KEY_CHANGE_KEYBOARD:
+            case KEY_BACK_KEYBOARD:
                 try {
                     InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     assert imeManager != null;
@@ -148,6 +171,11 @@ public class MagikIME extends InputMethodService
                 }
                 // TODO Add a long press to choose the keyboard
                 break;
+			case KEY_CHANGE_KEYBOARD:
+				InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+				if (imeManager != null)
+					imeManager.showInputMethodPicker();
+				break;
             case KEY_UNLOCK:
                 // TODO Unlock key
                 break;
@@ -178,7 +206,9 @@ public class MagikIME extends InputMethodService
                 }
                 break;
             case KEY_FIELDS:
-                // TODO Fields key
+            	// TODO listen the close an open only one time
+                popupCustomKeys.showAtLocation(keyboardView,  Gravity.END | Gravity.TOP, 0, 0);
+                break;
             case Keyboard.KEYCODE_DELETE :
                 ic.deleteSurroundingText(1, 0);
                 break;
@@ -202,7 +232,7 @@ public class MagikIME extends InputMethodService
     public void onPress(int primaryCode) {
     }
 
-    @Override
+	@Override
     public void onRelease(int primaryCode) {
     }
 

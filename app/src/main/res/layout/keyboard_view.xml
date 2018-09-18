@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2018 Jeremy Jamet / Kunzisoft.
 
@@ -17,15 +17,16 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/keyboard"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:paddingBottom="10dp"
-    android:alpha="0.7"
-    android:background="#f1f1f1"
-    android:textStyle="bold"
-    android:textSize="30sp"
-    android:textColor="#333">
-
-</TextView>
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:background="@color/keyboard_background"
+    android:keyBackground="@drawable/key_background"
+    android:keyTextColor="#ffff"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:popupLayout="@layout/keyboard_popup_fields"
+    />
