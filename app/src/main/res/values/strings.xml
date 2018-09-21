@@ -269,7 +269,7 @@
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
     <string name="warning_disabling_storage_access_framework">WARNING: Turning off this feature may prevent opening or saving databases.</string>
     <string name="open_link_database">Link of database file to open</string>
-    <string name="database_name_title">Database Name</string>
+    <string name="database_name_title">Database name</string>
     <string name="database_description_title">Database description</string>
     <string name="database_version_title">Database version</string>
     <string name="text_appearance">Text</string>
