@@ -47,10 +47,10 @@
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
      <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
-    <string name="creating_db_key">Saving fingerprint…</string>
+    <string name="creating_db_key">Saving database key…</string>
     <string name="database">Database</string>
-    <string name="decrypting_db">Decrypting your database…</string>
-    <string name="default_checkbox">Use as your database</string>
+    <string name="decrypting_db">Decrypting password database…</string>
+    <string name="default_checkbox">Use as password database</string>
     <string name="digits">Digits</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
@@ -59,7 +59,7 @@
     <string name="entry_confpassword">Confirm password</string>
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
-    <string name="entry_keyfile">Opening saved fingerprint</string>
+    <string name="entry_keyfile">Keyfile</string>
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
@@ -74,13 +74,13 @@
     <string name="error_failed_to_launch_link">Could not open link.</string>
     <string name="error_filename_required">Enter a filename.</string>
     <string name="error_file_not_create">Could not create file:</string>
-    <string name="error_invalid_db">Could not read database or open saved fingerprint.</string>
+    <string name="error_invalid_db">Could not read database or open saved master key.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>
     <string name="error_no_name">Enter a name</string>
-    <string name="error_nokeyfile">Select a saved fingerprint</string>
+    <string name="error_nokeyfile">Select a keyfile</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>
     <string name="error_load_database">Could not load your database.</string>
-    <string name="error_load_database_KDF_memory">Could not load the saved fingerprint. Try to lower \"Memory Usage\".</string>
+    <string name="error_load_database_KDF_memory">Could not load the key. Try to lower \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_not_number">Make \"Transformation rounds\" a number.</string>
@@ -99,13 +99,13 @@
     <string name="hint_conf_pass">confirm password</string>
     <string name="hint_generated_password">generated password</string>
     <string name="hint_group_name">Group name</string>
-    <string name="hint_keyfile">saved fingerprint</string>
+    <string name="hint_keyfile">keyfile</string>
     <string name="hint_length">length</string>
     <string name="hint_pass">password</string>
     <string name="password">Password</string>
     <string name="install_from_f_droid">Install from F-Droid</string>
     <string name="install_from_play_store">Install from Play Store</string>
-    <string name="InvalidPassword">Could not read password or saved fingerprint.</string>
+    <string name="InvalidPassword">Could not read password or keyfile.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_does_not_exist">No keyfile exists.</string>
@@ -117,15 +117,15 @@
     <string name="list_size_summary">Text size in the element list</string>
     <string name="loading_database">Loading database…</string>
     <string name="lowercase">Lower-case</string>
-    <string name="maskpass_title">Hide Passwords</string>
+    <string name="maskpass_title">Hide passwords</string>
     <string name="maskpass_summary">Mask passwords (***) by default.</string>
     <string name="menu_about">About</string>
-    <string name="menu_change_key">Change saved fingerprint</string>
+    <string name="menu_change_key">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>
     <string name="settings">Settings</string>
-    <string name="menu_app_settings">Behavior</string>
+    <string name="menu_app_settings">App settings</string>
     <string name="menu_form_filling_settings">Form filling</string>
-    <string name="menu_db_settings">Database</string>
+    <string name="menu_db_settings">Database settings</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
@@ -146,7 +146,7 @@
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">Install a web browser to open this URL.</string>
-    <string name="select_database_file">Select your existing database.</string>
+    <string name="select_database_file">Open an existing database.</string>
     <string name="open_recent">Recent databases:</string>
     <string name="omitbackup_title">Don\'t search through backup entries</string>
     <string name="omitbackup_summary">Omits \"Backup\" group from search results (only applies to .kdb files)</string>
@@ -159,18 +159,18 @@
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>
     <string name="remember_keyfile_summary">Remembers the location of app security keyfiles</string>
-    <string name="remember_keyfile_title">Save fingerprint</string>
+    <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>
     <string name="root">Root</string>
     <string name="encryption_explanation">Database encryption algorithm used for passwords, usernames, notes and all data.</string>
-    <string name="kdf_explanation">To generate the fingerprint key for the encryption algorithm, the compressed key (SHA-256) is transformed using a randomly salted key derivation function.</string>
+    <string name="kdf_explanation">To generate the key for the encryption algorithm, the compressed master key (SHA-256) is transformed using a randomly salted key derivation function.</string>
     <string name="rounds">Transformation rounds</string>
     <string name="rounds_explanation">Additional encryption rounds provide higher protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_hint">transformation rounds</string>
     <string name="memory_usage">Memory usage</string>
-    <string name="memory_usage_explanation">Amount of memory (in binary bytes) to be used by the fingerprint key derivation function.</string>
+    <string name="memory_usage_explanation">Amount of memory (in binary bytes) to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
-    <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the fingerprint key derivation function.</string>
+    <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
@@ -178,10 +178,10 @@
     <string name="sort_ascending">Lowest first ↓</string>
     <string name="sort_groups_before">Groups before</string>
     <string name="sort_recycle_bin_bottom">Recycle bin at the bottom</string>
-    <string name="sort_db">Database Sorting Order</string>
+    <string name="sort_db">Natural Database</string>
     <string name="sort_title">Title</string>
     <string name="sort_username">Username</string>
-    <string name="sort_creation_time">Created</string>
+    <string name="sort_creation_time">Creation</string>
     <string name="sort_last_modify_time">Changed</string>
     <string name="sort_last_access_time">Accessed</string>
     <!--As in special characters. Used for chars outside of Latin-1.-->
@@ -192,21 +192,22 @@
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
     <string name="use_saf_summary">Use Android storage access (SAF) framework for file browsing (KitKat onwards)</string>
-    <string name="use_saf_title">Storage Access framework</string>
+    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Warning</string>
-    <string name="warning_password_encoding">All password characters not supported in Latin-1 are converted to the same letter.</string>
-    <string name="warning_read_only">KeePass DX needs write access to your SD card to save changes to your database.</string>
-    <string name="warning_unmounted">Mount your SD card to create or load your database.</string>
-    <string name="warning_empty_password">Do you really want no app protection?</string>
-    <string name="warning_no_encryption_key">Are you sure you do not want to encrypt your database?</string>
+    <string name="warning_password_encoding">Avoid password characters outside of Latin-1 in .kbd files, as they are all converted to the same letter.</string>
+    <string name="warning_read_only">Grant SD card write access to save database changes.</string>
+    <string name="warning_unmounted">Mount your SD card to create or load a database.</string>
+    <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
+    <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_fingerprint">Fingerprint scanning is supported but not set up.</string>
     <string name="scanning_fingerprint">Fingerprint Scanning</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="fingerprint_invalid_key">Could not read fingerprint file. Restore your password.</string>
+    <string name="fingerprint_invalid_key">Could not read fingerprint key. Restore your password.</string>
     <string name="fingerprint_not_recognized">Could not recognize fingerprint</string>
-    <string name="fingerprint_error">Could not scan fingerprint: %1$s</string>
+    <!--This problem could be with scanning, or something else.-->
+    <string name="fingerprint_error">Fingerprinting problem: %1$s</string>
     <string name="store_with_fingerprint">Use fingerprint to store this password</string>
     <string name="no_password_stored">This database does not have a password yet.</string>
     <string name="history">History</string>
@@ -217,8 +218,8 @@
     <string name="autofill_sign_in_prompt">Sign in with KeePass DX</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
     <string name="set_autofill_service_summary">Enable autofilling to quickly fill out forms in other apps</string>
-    <string name="password_size_title">Default password size</string>
-    <string name="password_size_summary">Set the default size of the generated password</string>
+    <string name="password_size_title">Generated password size</string>
+    <string name="password_size_summary">Sets default size of the generated passwords</string>
     <string name="list_password_generator_options_title">Password characters</string>
     <string name="list_password_generator_options_summary">Set allowed password generator characters</string>
     <string name="clipboard">Clipboard</string>
@@ -238,16 +239,16 @@
     <string name="usage">Usage</string>
     <string name="fingerprint">Fingerprint</string>
     <string name="fingerprint_enable_title">Fingerprint scanning</string>
-    <string name="fingerprint_enable_summary">Lets you scan your fingerprint to open your database</string>
-    <string name="fingerprint_delete_all_title">Delete encryption permanently</string>
-    <string name="fingerprint_delete_all_summary">Delete all saved fingerprints</string>
-    <string name="fingerprint_delete_all_warning">Are you sure you want to delete all fingerprints?</string>
+    <string name="fingerprint_enable_summary">Lets you scan your fingerprint to open the database</string>
+    <string name="fingerprint_delete_all_title">Delete encryption keys</string>
+    <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
+    <string name="fingerprint_delete_all_warning">Are you sure you want to delete all keys related to fingerprint recognition?</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">Your Android version %1$s does not meet the minimum version %2$s required.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
-    <string name="assign_master_key">Use an app lock fingerprint</string>
+    <string name="assign_master_key">Assign a master key</string>
     <!--Button underneath \"Select Your Existing Database\" to create a new one.-->
     <string name="create_keepass_file">New</string>
     <string name="bytes">Bytes</string>
@@ -277,8 +278,8 @@
 
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activate a custom keyboard populating your passwords and all identity fields.</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard Settings</string>
+    <string name="magic_keyboard_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
+    <string name="magic_keyboard_preference_title">Magikeyboard settings</string>
     <string name="magic_keyboard_configure_title">Set up the keyboard to autofill forms securely.</string>
     <string name="magic_keyboard_activate_setting_text">Activate \"Magikeyboard\" in the device settings.</string>
     <!--Use ← for LTR languages-->
@@ -286,20 +287,20 @@
     <!--Use ← for LTR languages-->
     <string name="magic_keyboard_activate_setting_path_2_text">or (\"Settings\" → \"Language &amp; input\" → \"Virtual keyboard\" and pick one.)</string>
     <string name="keyboards_choose_magikeyboard_text">Choose the Magikeyboard when you need to fill a form.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Switch keybaords by long pressing the spacebar of your keyboard, or, if it is not available, with \":\" </string>
+    <string name="keyboards_swicth_magikeyboard_text">Switch keybaords by long pressing the spacebar of your keyboard, or, if it is not available, with: </string>
     <string name="keyboard_select_entry_text">Select your entry with the keyfile.</string>
     <string name="keyboard_fill_field_text">Fill in your fields using the entry elements.</string>
     <string name="keyboard_lock_database_text">Lock the database.</string>
     <string name="keyboard_back_main_keyboard_text">Use default keyboard again.</string>
 
-    <string name="allow_no_password_title">Allow no Password</string>
+    <string name="allow_no_password_title">Allow no password</string>
     <string name="allow_no_password_summary">Enable the \"Open"\ button if no password identification is selected</string>
     <string name="enable_read_only_title">Write-protected</string>
     <string name="enable_read_only_summary">Open your database read-only by default</string>
 
-    <string name="enable_education_screens_title">Educational Screens</string>
+    <string name="enable_education_screens_title">Educational screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
-    <string name="reset_education_screens_title">Reset Educational Screens</string>
+    <string name="reset_education_screens_title">Reset educational screens</string>
     <string name="reset_education_screens_summary">Show all educational items again</string>
     <string name="reset_education_screens_text">Educational screens reset</string>
     <string name="education_create_database_title">Create your database file</string>
@@ -313,9 +314,9 @@
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~ folders) organize entries in your database.</string>
     <string name="education_search_title">Search through entries</string>
     <string name="education_search_summary">Enter title, username or content of other fields to retrieve your passwords.</string>
-    <string name="education_fingerprint_title">Database Unlocking by Fingerprint</string>
+    <string name="education_fingerprint_title">Database unlocking by fingerprint</string>
     <string name="education_fingerprint_summary">Link your password to your scanned fingerprint to quickly unlock your database.</string>
-    <string name="education_entry_edit_title">Edit the Entry</string>
+    <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
     <string name="education_generate_password_title">Create a strong password for your entry.</string>
     <string name="education_generate_password_summary">Don\'t forget to add a title you remember your entry by.</string>
@@ -334,7 +335,7 @@
     <string name="education_donation_title">Participate</string>
     <string name="education_donation_summary">Help increase the stability, security and in adding more features.</string>
 
-    <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, even in its gratis version.</string>
+    <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, no matter what version you use.</string>
     <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual feature&lt;/strong&gt; and you will especially help &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">This &lt;strong&gt;visual feature&lt;/strong&gt; is available thanks to your generosity.</string>
     <string name="html_text_donation">In order to keep our freedom and to always be active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
