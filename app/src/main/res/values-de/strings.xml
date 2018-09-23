@@ -358,7 +358,7 @@
     <string name="magic_keyboard_activate_setting_path_1_text">\"Einstellungen\" → \"Sprache &amp; Eingabe\" → \"Aktuelle Tastatur\" und auswählen.</string>
     <string name="magic_keyboard_activate_setting_path_2_text">oder (\"Einstellungen\" → \"Sprachen &amp; Eingabe\" → \"Bildschirmtastatur\" und auswählen.)</string>
     <string name="keyboards_choose_magikeyboard_text">Wählen Sie das Magikeyboard aus, wenn Sie ein Formular ausfüllen müssen.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Sie können leicht von Ihrer Haupttastatur auf Magikeyboard umschalten, entweder mit der Sprachentaste Ihrer Tastatur, durch einen langen Druck auf die Leertaste oder, wenn das nicht zur Verfügung steht, mit :</string>
+    <string name="keyboards_swicth_magikeyboard_text">Sie können leicht von Ihrer Haupttastatur auf Magikeyboard umschalten, entweder mit der Sprachentaste Ihrer Tastatur, durch einen langen Druck auf die Leertaste oder, wenn das nicht zur Verfügung steht, mit:</string>
     <string name="keyboard_select_entry_text">Wählen Sie den Eintrag mit dem Schlüssel aus.</string>
     <string name="keyboard_fill_field_text">Füllen Sie die Felder mit den Elementen des Eintrags aus.</string>
     <string name="keyboard_lock_database_text">Sperren Sie die Datenbank.</string>
