@@ -4,6 +4,8 @@
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
 
+:warning::warning::warning: **Do not** use Keepass DX to **edit databases containing entries with attachments**. This is currently not supported (see #168) 
+
 ### Features
 
  * Create database files / entries and groups
