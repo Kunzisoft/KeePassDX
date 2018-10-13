@@ -28,6 +28,8 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -42,6 +44,7 @@ import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter;
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
 import com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView;
 import com.kunzisoft.keepass.model.Entry;
@@ -68,6 +71,8 @@ public class MagikIME extends InputMethodService
     private Keyboard keyboard;
     private Keyboard keyboard_entry;
     private PopupWindow popupCustomKeys;
+    private FieldsAdapter fieldsAdapter;
+    private boolean playSoundDuringCLick;
 
     private LockBroadcastReceiver lockBroadcastReceiver;
 
@@ -87,13 +92,6 @@ public class MagikIME extends InputMethodService
     }
 
     @Override
-    public void onDestroy() {
-        unregisterReceiver(lockBroadcastReceiver);
-		popupCustomKeys.dismiss();
-        super.onDestroy();
-    }
-
-    @Override
     public View onCreateInputView() {
         keyboardView = (MagikeyboardView) getLayoutInflater().inflate(R.layout.keyboard_view, null);
         keyboard = new Keyboard(this, R.xml.keyboard_password);
@@ -104,14 +102,37 @@ public class MagikIME extends InputMethodService
         keyboardView.setPreviewEnabled(false);
 
 		Context context = getBaseContext();
-		View custom = LayoutInflater.from(context)
+		View popupFieldsView = LayoutInflater.from(context)
 				.inflate(R.layout.keyboard_popup_fields, new FrameLayout(context));
+
+		if (popupCustomKeys != null)
+            popupCustomKeys.dismiss();
+
 		popupCustomKeys = new PopupWindow(context);
 		popupCustomKeys.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		popupCustomKeys.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		popupCustomKeys.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		popupCustomKeys.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-		popupCustomKeys.setContentView(custom);
+		popupCustomKeys.setContentView(popupFieldsView);
+
+        RecyclerView recyclerView = popupFieldsView.findViewById(R.id.keyboard_popup_fields_list);
+        fieldsAdapter = new FieldsAdapter(this);
+        fieldsAdapter.setOnItemClickListener(item -> getCurrentInputConnection().commitText(item.getValue(), 1));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        recyclerView.setAdapter(fieldsAdapter);
+
+        View closeView = popupFieldsView.findViewById(R.id.keyboard_popup_close);
+        closeView.setOnClickListener(v -> popupCustomKeys.dismiss());
+
+        // Define preferences
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        keyboardView.setHapticFeedbackEnabled(
+                sharedPreferences.getBoolean(
+                        getString(R.string.keyboard_key_vibrate_key),
+                        getResources().getBoolean(R.bool.keyboard_key_vibrate_default)));
+        playSoundDuringCLick = sharedPreferences.getBoolean(
+                getString(R.string.keyboard_key_sound_key),
+                getResources().getBoolean(R.bool.keyboard_key_sound_default));
 
         return keyboardView;
     }
@@ -127,10 +148,6 @@ public class MagikIME extends InputMethodService
             }
         }
     }
-
-    private void assignKeyboardPopupView() {
-
-	}
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
@@ -154,8 +171,14 @@ public class MagikIME extends InputMethodService
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        InputConnection ic = getCurrentInputConnection();
-		keyboardView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        InputConnection inputConnection = getCurrentInputConnection();
+
+        // Vibrate
+        keyboardView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        // Play a sound
+        if (playSoundDuringCLick)
+            playClick(primaryCode);
+
         switch(primaryCode){
             case KEY_BACK_KEYBOARD:
                 try {
@@ -186,89 +209,57 @@ public class MagikIME extends InputMethodService
                 break;
             case KEY_LOCK:
                 deleteEntryKey(this);
+                dismissCustomKeys();
                 break;
             case KEY_USERNAME:
                 if (entryKey != null) {
-                    InputConnection inputConnection = getCurrentInputConnection();
                     inputConnection.commitText(entryKey.getUsername(), 1);
                 }
                 break;
             case KEY_PASSWORD:
                 if (entryKey != null) {
-                    InputConnection inputConnection = getCurrentInputConnection();
                     inputConnection.commitText(entryKey.getPassword(), 1);
                 }
                 break;
             case KEY_URL:
                 if (entryKey != null) {
-                    InputConnection inputConnection = getCurrentInputConnection();
                     inputConnection.commitText(entryKey.getUrl(), 1);
                 }
                 break;
             case KEY_FIELDS:
-            	// TODO listen the close an open only one time
+                fieldsAdapter.setFields(entryKey.getCustomFields());
                 popupCustomKeys.showAtLocation(keyboardView,  Gravity.END | Gravity.TOP, 0, 0);
                 break;
             case Keyboard.KEYCODE_DELETE :
-                ic.deleteSurroundingText(1, 0);
+                inputConnection.deleteSurroundingText(1, 0);
                 break;
             case Keyboard.KEYCODE_DONE:
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
             default:
         }
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (sharedPreferences.getBoolean(getString(R.string.keyboard_key_vibrate_key), getResources().getBoolean(R.bool.keyboard_key_vibrate_default)))
-            vibrate();
-
-        if (sharedPreferences.getBoolean(getString(R.string.keyboard_key_sound_key), getResources().getBoolean(R.bool.keyboard_key_sound_default)))
-            playClick(primaryCode);
-
     }
 
     @Override
-    public void onPress(int primaryCode) {
-    }
+    public void onPress(int primaryCode) {}
 
 	@Override
-    public void onRelease(int primaryCode) {
-    }
+    public void onRelease(int primaryCode) {}
 
     @Override
-    public void onText(CharSequence text) {
-    }
+    public void onText(CharSequence text) {}
 
     @Override
-    public void swipeDown() {
-    }
+    public void swipeDown() {}
 
     @Override
-    public void swipeLeft() {
-    }
+    public void swipeLeft() {}
 
     @Override
-    public void swipeRight() {
-    }
+    public void swipeRight() {}
 
     @Override
-    public void swipeUp() {
-    }
-
-    private void vibrate() {
-        // TODO better vibration
-        /*
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
-            } else {
-                vibrator.vibrate(50);
-            }
-        }
-        */
-    }
+    public void swipeUp() {}
 
     private void playClick(int keyCode){
         AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
@@ -283,5 +274,19 @@ public class MagikIME extends InputMethodService
                     break;
                 default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
             }
+    }
+
+    private void dismissCustomKeys() {
+        if (popupCustomKeys != null)
+            popupCustomKeys.dismiss();
+        if (fieldsAdapter != null)
+            fieldsAdapter.clear();
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(lockBroadcastReceiver);
+        dismissCustomKeys();
+        super.onDestroy();
     }
 }

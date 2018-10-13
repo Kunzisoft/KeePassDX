@@ -50,8 +50,7 @@
         <SwitchPreference
             android:key="@string/keyboard_key_vibrate_key"
             android:title="@string/keyboard_key_vibrate_title"
-            android:defaultValue="@bool/keyboard_key_vibrate_default"
-            android:enabled="false"/>
+            android:defaultValue="@bool/keyboard_key_vibrate_default"/>
         <Preference
             android:key="@string/keyboard_key_vibrate_duration_key"
             android:title="@string/keyboard_key_vibrate_duration_title"

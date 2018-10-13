@@ -3,9 +3,8 @@ package com.kunzisoft.keepass.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Entry implements Parcelable {
 
@@ -13,14 +12,14 @@ public class Entry implements Parcelable {
     private String username;
     private String password;
     private String url;
-    private Map<String, String> customFields;
+    private List<Field> customFields;
 
     public Entry() {
         this.title = "";
         this.username = "";
         this.password = "";
         this.url = "";
-        this.customFields = new HashMap<>();
+        this.customFields = new ArrayList<>();
     }
 
     protected Entry(Parcel in) {
@@ -29,7 +28,7 @@ public class Entry implements Parcelable {
         password = in.readString();
         url = in.readString();
         //noinspection unchecked
-        customFields = in.readHashMap(String.class.getClassLoader());
+        customFields = in.readArrayList(Field.class.getClassLoader());
     }
 
     public static final Creator<Entry> CREATOR = new Creator<Entry>() {
@@ -76,16 +75,12 @@ public class Entry implements Parcelable {
         this.url = url;
     }
 
-    public Set<String> getCustomFieldsKeys() {
-        return customFields.keySet();
+    public List<Field> getCustomFields() {
+        return customFields;
     }
 
-    public String getCustomField(String key) {
-        return customFields.get(key);
-    }
-
-    public void setCustomField(String key, String value) {
-        this.customFields.put(key, value);
+    public void addCustomField(Field field) {
+        this.customFields.add(field);
     }
 
     @Override
@@ -99,6 +94,6 @@ public class Entry implements Parcelable {
         parcel.writeString(username);
         parcel.writeString(password);
         parcel.writeString(url);
-        parcel.writeMap(customFields);
+        parcel.writeArray(customFields.toArray());
     }
 }

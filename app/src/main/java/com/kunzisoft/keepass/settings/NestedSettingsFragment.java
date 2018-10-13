@@ -51,7 +51,7 @@ import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.keyboard.KeyboardExplanationDialog;
+import com.kunzisoft.keepass.dialogs.KeyboardExplanationDialogFragment;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
@@ -302,7 +302,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference keyboardPreference = findPreference(getString(R.string.magic_keyboard_key));
                 keyboardPreference.setOnPreferenceClickListener(preference -> {
                     if (getFragmentManager() != null) {
-                        KeyboardExplanationDialog keyboardDialog = new KeyboardExplanationDialog();
+                        KeyboardExplanationDialogFragment keyboardDialog = new KeyboardExplanationDialogFragment();
                         keyboardDialog.show(getFragmentManager(), "keyboardExplanationDialog");
                     }
                     return false;

@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.keyboard;
+package com.kunzisoft.keepass.dialogs;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -28,16 +28,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.utils.Util;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class KeyboardExplanationDialog extends DialogFragment {
+public class KeyboardExplanationDialogFragment extends DialogFragment {
 
     @NonNull
 	@Override
