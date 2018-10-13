@@ -69,9 +69,7 @@ public class LoadDatabaseRunnable extends RunnableOnFinish {
     public void run() {
         try {
             mDatabase.loadData(mContext, mUri, mPass, mKey, mStatus);
-
             saveFileData(mUri, mKey);
-
         } catch (ArcFourException e) {
             catchError(e, R.string.error_arc4);
             return;
@@ -85,8 +83,10 @@ public class LoadDatabaseRunnable extends RunnableOnFinish {
             catchError(e, R.string.file_not_found);
             return;
         } catch (IOException e) {
-            Log.e(TAG, "Database can't be read", e);
-            finish(false, e.getMessage());
+            if (e.getMessage().contains("Hash failed with code"))
+                catchError(e, R.string.error_load_database_KDF_memory, true);
+            else
+                catchError(e, R.string.error_load_database, true);
             return;
         } catch (KeyFileEmptyException e) {
             catchError(e, R.string.keyfile_is_empty);
@@ -107,22 +107,24 @@ public class LoadDatabaseRunnable extends RunnableOnFinish {
             catchError(e, R.string.error_invalid_db);
             return;
         } catch (OutOfMemoryError e) {
-            String errorMessage = mContext.getString(R.string.error_out_of_memory);
-            Log.e(TAG, errorMessage, e);
-            finish(false, errorMessage);
+            catchError(e, R.string.error_out_of_memory);
             return;
         } catch (Exception e) {
-            Log.e(TAG, "Database can't be load", e);
-            finish(false, e.getMessage());
+            catchError(e, R.string.error_load_database, true);
             return;
         }
-
         finish(true);
     }
 
-    private void catchError(Exception e, @StringRes int messageId) {
+    private void catchError(Throwable e, @StringRes int messageId) {
+        catchError(e, messageId, false);
+    }
+
+    private void catchError(Throwable e, @StringRes int messageId, boolean addThrowableMessage) {
         String errorMessage = mContext.getString(messageId);
         Log.e(TAG, errorMessage, e);
+        if (addThrowableMessage)
+            errorMessage = errorMessage + " " + e.getLocalizedMessage();
         finish(false, errorMessage);
     }
 

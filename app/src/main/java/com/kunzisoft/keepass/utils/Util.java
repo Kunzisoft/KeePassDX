@@ -27,8 +27,11 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.util.TypedValue;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.kunzisoft.keepass.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,6 +75,10 @@ public class Util {
      */
 	public static void applyFontVisibilityTo(final Context context, final EditText editText) {
         applyFontVisibilityTo(context, (TextView) editText);
+	}
+
+	public static float getListTextDefaultSize(Context context) {
+		return Float.parseFloat(context.getString(R.string.list_size_default));
 	}
 
     public static void lockScreenOrientation(Activity activity) {

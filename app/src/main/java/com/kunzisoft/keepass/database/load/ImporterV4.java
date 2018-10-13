@@ -556,9 +556,9 @@ public class ImporterV4 extends Importer {
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemNotes) ) {
 				ctxGroup.setNotes(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
-				ctxGroup.setIcon(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
+				ctxGroup.setIconStandard(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
-				ctxGroup.setCustomIcon(db.getIconFactory().getIcon(ReadUuid(xpp)));
+				ctxGroup.setIconCustom(db.getIconFactory().getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemTimes) ) {
 				return SwitchContext(ctx, KdbContext.GroupTimes, xpp);
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIsExpanded) ) {
@@ -611,9 +611,9 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
 				ctxEntry.setUUID(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
-				ctxEntry.setIcon(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
+				ctxEntry.setIconStandard(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
-				ctxEntry.setCustomIcon(db.getIconFactory().getIcon(ReadUuid(xpp)));
+				ctxEntry.setIconCustom(db.getIconFactory().getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemFgColor) ) {
 				ctxEntry.setForegroundColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemBgColor) ) {

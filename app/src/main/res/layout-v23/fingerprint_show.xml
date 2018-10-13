@@ -32,6 +32,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="18dp"
         android:layout_toStartOf="@+id/fingerprint_image"
-        style="@style/KeepassDXStyle.TextAppearance.DefaultTextOnPrimary"
+        style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
         android:gravity="center_vertical|start" />
 </RelativeLayout>

@@ -21,19 +21,21 @@ package com.kunzisoft.keepass.database;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
+import com.kunzisoft.keepass.database.cursor.EntryCursor;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.database.load.Importer;
 import com.kunzisoft.keepass.database.load.ImporterFactory;
 import com.kunzisoft.keepass.database.save.PwDbOutput;
+import com.kunzisoft.keepass.database.search.SearchDbHelper;
 import com.kunzisoft.keepass.icons.IconDrawableFactory;
-import com.kunzisoft.keepass.search.SearchDbHelper;
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.UriUtil;
 
@@ -179,18 +181,70 @@ public class Database {
     }
 
     public PwGroup search(String str) {
+        return search(str, Integer.MAX_VALUE);
+    }
+
+    public PwGroup search(String str, int max) {
         if (searchHelper == null) { return null; }
         try {
             switch (pm.getVersion()) {
                 case V3:
-                    return ((SearchDbHelper.SearchDbHelperV3) searchHelper).search(((PwDatabaseV3) pm), str);
+                    return ((SearchDbHelper.SearchDbHelperV3) searchHelper).search(((PwDatabaseV3) pm), str, max);
                 case V4:
-                    return ((SearchDbHelper.SearchDbHelperV4) searchHelper).search(((PwDatabaseV4) pm), str);
+                    return ((SearchDbHelper.SearchDbHelperV4) searchHelper).search(((PwDatabaseV4) pm), str, max);
             }
         } catch (Exception e) {
             Log.e(TAG, "Search can't be performed with this SearchHelper", e);
         }
         return null;
+    }
+
+    public Cursor searchEntry(String query) {
+        final EntryCursor cursor = new EntryCursor();
+
+        // TODO real content provider
+        if (!query.isEmpty()) {
+            PwGroup searchResult = search(query, 6);
+            PwVersion version = getPwDatabase().getVersion();
+            if (searchResult != null) {
+                for (int i = 0; i < searchResult.numbersOfChildEntries(); i++) {
+                    PwEntry entry = searchResult.getChildEntryAt(i);
+                    if (!entry.isMetaStream()) { // TODO metastream
+                        try {
+                            switch (version) {
+                                case V3:
+                                    cursor.addEntry((PwEntryV3) entry);
+                                    continue;
+                                case V4:
+                                    cursor.addEntry((PwEntryV4) entry);
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Can't add PwEntry to the cursor", e);
+                        }
+                    }
+                }
+            }
+        }
+        return cursor;
+    }
+
+    public void populateEntry(PwEntry pwEntry, EntryCursor cursor) {
+        PwIconFactory iconFactory = getPwDatabase().getIconFactory();
+        try {
+            switch (getPwDatabase().getVersion()) {
+                case V3:
+                    cursor.populateEntry((PwEntryV3) pwEntry, iconFactory);
+                    break;
+                case V4:
+                    // TODO invert field reference manager
+                    pwEntry.startToManageFieldReferences(getPwDatabase());
+                    cursor.populateEntry((PwEntryV4) pwEntry, iconFactory);
+                    pwEntry.stopToManageFieldReferences();
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "This version of PwGroup can't be populated", e);
+        }
     }
 
     public void saveData(Context ctx) throws IOException, PwDbOutputException {
@@ -464,19 +518,22 @@ public class Database {
         }
     }
 
-    public PwEntry createEntry(PwGroup parent) {
-        PwEntry newPwEntry = null;
+    public PwEntry createEntry() {
+        return createEntry(null);
+    }
+
+    public PwEntry createEntry(@Nullable PwGroup parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
-                    newPwEntry = new PwEntryV3((PwGroupV3) parent);
+                    return new PwEntryV3((PwGroupV3) parent);
                 case V4:
-                    newPwEntry = new PwEntryV4((PwGroupV4) parent);
+                    return new PwEntryV4((PwGroupV4) parent);
             }
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be created", e);
         }
-        return newPwEntry;
+        return null;
     }
 
     public PwGroup createGroup(PwGroup parent) {

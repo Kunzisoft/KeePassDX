@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implements ITimeLogger {
+public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLogger {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
@@ -65,7 +65,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
         customIcon = in.readParcelable(PwIconCustom.class.getClassLoader());
         usageCount = in.readLong();
         parentGroupLastMod = in.readParcelable(PwDate.class.getClassLoader());
-        customData = MemUtil.readStringParcelableMap(in);
+        // TODO customData = MemUtil.readStringParcelableMap(in);
         expires = in.readByte() != 0;
         notes = in.readString();
         isExpanded = in.readByte() != 0;
@@ -84,7 +84,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
         dest.writeParcelable(customIcon, flags);
         dest.writeLong(usageCount);
         dest.writeParcelable(parentGroupLastMod, flags);
-        MemUtil.writeStringParcelableMap(dest, customData);
+        // TODO MemUtil.writeStringParcelableMap(dest, customData);
         dest.writeByte((byte) (expires ? 1 : 0));
         dest.writeString(notes);
         dest.writeByte((byte) (isExpanded ? 1 : 0));
@@ -169,14 +169,6 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
         this.uuid = uuid;
     }
 
-    public PwIconCustom getCustomIcon() {
-        return customIcon;
-    }
-
-    public void setCustomIcon(PwIconCustom icon) {
-        this.customIcon = icon;
-    }
-
 	@Override
 	public PwGroupId getId() {
 		return new PwGroupIdV4(uuid);
@@ -225,12 +217,25 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwGroupV4, PwEntryV4> implemen
 
 	@Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.uuid.equals(PwDatabase.UUID_ZERO)) {
+		if (customIcon == null || customIcon.getUUID().equals(PwDatabase.UUID_ZERO)) {
 			return super.getIcon();
 		} else {
 			return customIcon;
 		}
 	}
+
+    public PwIconCustom getIconCustom() {
+        return customIcon;
+    }
+
+    public void setIconCustom(PwIconCustom icon) {
+        this.customIcon = icon;
+    }
+
+    public void setIconStandard(PwIconStandard icon) { // TODO Encapsulate with PwEntryV4
+        this.icon = icon;
+        this.customIcon = PwIconCustom.ZERO;
+    }
 
     public void putCustomData(String key, String value) {
         customData.put(key, value);

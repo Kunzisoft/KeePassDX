@@ -36,14 +36,32 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-    <TextView
-        android:id="@+id/entry_text"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="wrap_content"
-        style="@style/KeepassDXStyle.TextAppearance.Default"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="2dp"
+        android:paddingBottom="4dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/entry_icon"
-        android:layout_toEndOf="@+id/entry_icon" />
+        android:layout_toEndOf="@+id/entry_icon">
+        <TextView
+            android:id="@+id/entry_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:lines="1"
+            android:singleLine="true"
+            style="@style/KeepassDXStyle.TextAppearance.Default" /> <!-- style override -->
+        <TextView
+            android:id="@+id/entry_subtext"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="-4dp"
+            android:lines="1"
+            android:singleLine="true"
+            style="@style/KeepassDXStyle.TextAppearance.Secondary" /> <!-- style override -->
+    </LinearLayout>
+
 </RelativeLayout>

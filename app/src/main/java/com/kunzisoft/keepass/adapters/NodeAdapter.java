@@ -38,11 +38,13 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.utils.Util;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private static final String TAG = NodeAdapter.class.getName();
@@ -53,15 +55,20 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private LayoutInflater inflater;
     private MenuInflater menuInflater;
     private float textSize;
+    private float subtextSize;
     private float iconSize;
     private SortNodeEnum listSort;
     private boolean groupsBeforeSort;
     private boolean ascendingSort;
+    private boolean showUsernames;
 
     private NodeClickCallback nodeClickCallback;
     private NodeMenuListener nodeMenuListener;
     private boolean activateContextMenu;
     private boolean readOnly;
+    private boolean isASearchResult;
+
+    private Database database;
 
     private int iconGroupColor;
     private int iconEntryColor;
@@ -70,13 +77,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Create node list adapter with contextMenu or not
      * @param context Context to use
      */
-    public NodeAdapter(final Context context, MenuInflater menuInflater, boolean readOnly) {
+    public NodeAdapter(final Context context, MenuInflater menuInflater) {
         this.inflater = LayoutInflater.from(context);
         this.menuInflater = menuInflater;
         this.context = context;
         assignPreferences();
         this.activateContextMenu = false;
-        this.readOnly = readOnly;
+        this.readOnly = false;
+        this.isASearchResult = false;
 
         this.nodeSortedList = new SortedList<>(PwNode.class, new SortedListAdapterCallback<PwNode>(this) {
             @Override public int compare(PwNode item1, PwNode item2) {
@@ -92,6 +100,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             }
         });
 
+        // Database
+        this.database = App.getDB();
+
         // Retrieve the color to tint the icon
         int[] attrTextColorPrimary = {android.R.attr.textColorPrimary};
         TypedArray taTextColorPrimary = context.getTheme().obtainStyledAttributes(attrTextColorPrimary);
@@ -103,22 +114,30 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         taTextColor.recycle();
     }
 
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    public void setIsASearchResult(boolean isASearchResult) {
+        this.isASearchResult = isASearchResult;
+    }
+
     public void setActivateContextMenu(boolean activate) {
         this.activateContextMenu = activate;
     }
 
     private void assignPreferences() {
+        float textSizeDefault = Util.getListTextDefaultSize(context);
         this.textSize = PreferencesUtil.getListTextSize(context);
+        this.subtextSize = context.getResources().getInteger(R.integer.list_small_size_default)
+                * textSize / textSizeDefault;
         // Retrieve the icon size
-        int iconDefaultSize = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                context.getResources().getInteger(R.integer.list_icon_size_default),
-                context.getResources().getDisplayMetrics()
-        );
-        this.iconSize = iconDefaultSize * textSize / Float.parseFloat(context.getString(R.string.list_size_default));
+        float iconDefaultSize = context.getResources().getDimension(R.dimen.list_icon_size_default);
+        this.iconSize = iconDefaultSize * textSize / textSizeDefault;
         this.listSort = PreferencesUtil.getListSort(context);
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context);
         this.ascendingSort = PreferencesUtil.getAscendingSort(context);
+        this.showUsernames = PreferencesUtil.showUsernamesListEntries(context);
     }
 
     /**
@@ -134,6 +153,14 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             Log.e(TAG, "Can't add node elements to the list", e);
             Toast.makeText(context, "Can't add node elements to the list : " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Determine if the adapter contains or not any element
+     * @return true if the list is empty
+     */
+    public boolean isEmpty() {
+        return nodeSortedList.size() <= 0;
     }
 
     /**
@@ -197,22 +224,18 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public void onBindViewHolder(@NonNull BasicViewHolder holder, int position) {
         PwNode subNode = nodeSortedList.get(position);
         // Assign image
-        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
-            int iconColor = Color.BLACK;
-            switch (subNode.getType()) {
-                case GROUP:
-                    iconColor = iconGroupColor;
-                    break;
-                case ENTRY:
-                    iconColor = iconEntryColor;
-                    break;
-            }
-            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), true, iconColor);
-        } else {
-            App.getDB().getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon());
+        int iconColor = Color.BLACK;
+        switch (subNode.getType()) {
+            case GROUP:
+                iconColor = iconGroupColor;
+                break;
+            case ENTRY:
+                iconColor = iconEntryColor;
+                break;
         }
+        database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), iconColor);
         // Assign text
-        holder.text.setText(subNode.getDisplayTitle());
+        holder.text.setText(subNode.getTitle());
         // Assign click
         holder.container.setOnClickListener(
                 new OnNodeClickListener(subNode));
@@ -221,11 +244,31 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             holder.container.setOnCreateContextMenuListener(
                     new ContextMenuBuilder(subNode, nodeMenuListener, readOnly));
         }
+
+        // Add username
+        holder.subText.setText("");
+        holder.subText.setVisibility(View.GONE);
+        if (subNode.getType().equals(PwNode.Type.ENTRY)) {
+            PwEntry entry = (PwEntry) subNode;
+            entry.startToManageFieldReferences(database.getPwDatabase());
+
+            holder.text.setText(entry.getVisualTitle());
+
+            String username = entry.getUsername();
+            if (showUsernames && !username.isEmpty()) {
+                holder.subText.setVisibility(View.VISIBLE);
+                holder.subText.setText(username);
+            }
+
+            entry.stopToManageFieldReferences();
+        }
+
         // Assign image and text size
         // Relative size of the icon
         holder.icon.getLayoutParams().height = ((int) iconSize);
         holder.icon.getLayoutParams().width = ((int) iconSize);
         holder.text.setTextSize(textSize);
+        holder.subText.setTextSize(subtextSize);
     }
 
     @Override
@@ -301,29 +344,44 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             menuInflater.inflate(R.menu.node_menu, contextMenu);
 
+            // Opening
             MenuItem menuItem = contextMenu.findItem(R.id.menu_open);
             menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
+
+            // Edition
             if (readOnly || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
                 contextMenu.removeItem(R.id.menu_edit);
-                contextMenu.removeItem(R.id.menu_copy);
-                contextMenu.removeItem(R.id.menu_move);
-                contextMenu.removeItem(R.id.menu_delete);
             } else {
-                // Edition
                 menuItem = contextMenu.findItem(R.id.menu_edit);
                 menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
-                // Copy (not for group)
-                if (node.getType().equals(PwNode.Type.ENTRY)) {
-                    menuItem = contextMenu.findItem(R.id.menu_copy);
-                    menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
-                } else {
-                    // TODO COPY For Group
-                    contextMenu.removeItem(R.id.menu_copy);
-                }
-                // Move
+            }
+
+            // Copy (not for group)
+            if (readOnly
+                    || isASearchResult
+                    || node.equals(App.getDB().getPwDatabase().getRecycleBin())
+                    || node.getType().equals(PwNode.Type.GROUP)) {
+                // TODO COPY For Group
+                contextMenu.removeItem(R.id.menu_copy);
+            } else {
+                menuItem = contextMenu.findItem(R.id.menu_copy);
+                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
+            }
+
+            // Move
+            if (readOnly
+                    || isASearchResult
+                    || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+                contextMenu.removeItem(R.id.menu_move);
+            } else {
                 menuItem = contextMenu.findItem(R.id.menu_move);
                 menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
-                // Deletion
+            }
+
+            // Deletion
+            if (readOnly || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+                contextMenu.removeItem(R.id.menu_delete);
+            } else {
                 menuItem = contextMenu.findItem(R.id.menu_delete);
                 menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
             }

@@ -32,6 +32,8 @@ public abstract class PwIcon implements Parcelable {
 
     protected PwIcon(Parcel in) {}
 
+	public abstract boolean isUnknown();
+
 	@Override
 	public int describeContents() {
 		return 0;

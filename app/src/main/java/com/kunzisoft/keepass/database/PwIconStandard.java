@@ -22,11 +22,16 @@ package com.kunzisoft.keepass.database;
 import android.os.Parcel;
 
 public class PwIconStandard extends PwIcon {
-	public final int iconId;
+	private final int iconId;
 
+	public static final int UNKNOWN = -1;
 	public static final int KEY = 0;
 	public static final int TRASH = 43;
 	public static final int FOLDER = 48;
+
+	public PwIconStandard() {
+		this.iconId = KEY;
+	}
 
 	public PwIconStandard(int iconId) {
 		this.iconId = iconId;
@@ -42,6 +47,15 @@ public class PwIconStandard extends PwIcon {
 	}
 
 	@Override
+	public boolean isUnknown() {
+	    return iconId == UNKNOWN;
+    }
+
+    public int getIconId() {
+        return iconId;
+    }
+
+    @Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(iconId);
 	}

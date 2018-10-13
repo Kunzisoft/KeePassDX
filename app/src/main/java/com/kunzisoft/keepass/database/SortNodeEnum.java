@@ -109,8 +109,8 @@ public enum SortNodeEnum {
                     new EntryNameComparator(ascending),
                     object1,
                     object2,
-                    object1.getDisplayTitle()
-                            .compareToIgnoreCase(object2.getDisplayTitle()));
+                    object1.getTitle()
+                            .compareToIgnoreCase(object2.getTitle()));
         }
     }
 

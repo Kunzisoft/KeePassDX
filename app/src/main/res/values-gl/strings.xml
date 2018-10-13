@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="about_feedback">Comentarios:</string>
+    <string name="about_homepage">Páxina inicial:</string>
+    <string name="about_description">KeePass DX é unha implementación para Android do xestor de contrasinais KeePass.</string>
+    <string name="accept">Aceptar</string>
+    <string name="add_entry">Engadir entrada</string>
+    <string name="add_group">Engadir grupo</string>
+    <string name="add_string">Engadir texto</string>
+    <string name="encryption">Cifrado</string>
+    <string name="encryption_algorithm">Algoritmo de cifrado</string>
+    <string name="key_derivation_function">Función de derivación de chave</string>
+    <string name="app_timeout">Tempo de espera da aplicación</string>
+    <string name="app_timeout_summary">Tempo antes de bloquear a base de datos cando a aplicación está inactiva.</string>
+    <string name="application">Aplicación</string>
+    <string name="beta_dontask">Non amosar de novo</string>
+    <string name="brackets">Parénteses</string>
+    <string name="extended_ASCII">ASCII extendido</string>
+    <string name="cancel">Cancelar</string>
+    <string name="allow">Permitir</string>
+    <string name="clipboard_cleared">Portapapeis limpo</string>
+    <string name="clipboard_error_title">Erro do portapapeis</string>
+    <string name="clipboard_error_clear">Fallou a limpeza do portapapeis</string>
+    <string name="clipboard_timeout">Tempo límite para o portapapeis</string>
+    <string name="clipboard_timeout_summary">Tempo antes de limpar o portapapeis após copiar usuario ou contrasinal</string>
+    <string name="clipboard_swipe_clean">Deslice para limpar agora o portapapeis</string>
+    </resources>

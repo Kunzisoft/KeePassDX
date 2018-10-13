@@ -24,14 +24,14 @@ import android.os.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup, ChildEntry extends PwEntry>
-        extends PwNode<Parent> {
+public abstract class PwGroup<GroupG extends PwGroup, EntryE extends PwEntry>
+        extends PwNode<GroupG> {
 
     protected String name = "";
 
     // TODO verify children not needed
-	transient protected List<ChildGroup> childGroups = new ArrayList<>();
-    transient protected List<ChildEntry> childEntries = new ArrayList<>();
+	transient protected List<GroupG> childGroups = new ArrayList<>();
+    transient protected List<EntryE> childEntries = new ArrayList<>();
 
     protected PwGroup() {
         super();
@@ -54,48 +54,48 @@ public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup
         return (PwGroup) super.clone();
     }
 
-    protected void assign(PwGroup<Parent, ChildGroup, ChildEntry> source) {
+    protected void assign(PwGroup<GroupG, EntryE> source) {
         super.assign(source);
         name = source.name;
     }
 
-    public List<ChildGroup> getChildGroups() {
+    public List<GroupG> getChildGroups() {
         return childGroups;
     }
 
-    public List<ChildEntry> getChildEntries() {
+    public List<EntryE> getChildEntries() {
         return childEntries;
     }
 
-    public void setGroups(List<ChildGroup> groups) {
+    public void setGroups(List<GroupG> groups) {
         childGroups = groups;
     }
 
-    public void setEntries(List<ChildEntry> entries) {
+    public void setEntries(List<EntryE> entries) {
         childEntries = entries;
     }
 
-    public void addChildGroup(ChildGroup group) {
+    public void addChildGroup(GroupG group) {
         this.childGroups.add(group);
     }
 
-    public void addChildEntry(ChildEntry entry) {
+    public void addChildEntry(EntryE entry) {
         this.childEntries.add(entry);
     }
 
-    public ChildGroup getChildGroupAt(int number) {
+    public GroupG getChildGroupAt(int number) {
         return this.childGroups.get(number);
     }
 
-    public ChildEntry getChildEntryAt(int number) {
+    public EntryE getChildEntryAt(int number) {
         return this.childEntries.get(number);
     }
 
-    public void removeChildGroup(ChildGroup group) {
+    public void removeChildGroup(GroupG group) {
         this.childGroups.remove(group);
     }
 
-    public void removeChildEntry(ChildEntry entry) {
+    public void removeChildEntry(EntryE entry) {
         this.childEntries.remove(entry);
     }
 
@@ -119,7 +119,7 @@ public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup
     public List<PwNode> getDirectChildren() {
         List<PwNode> children = new ArrayList<>();
         children.addAll(childGroups);
-        for(ChildEntry child : childEntries) {
+        for(EntryE child : childEntries) {
             if (!child.isMetaStream())
             children.add(child);
         }
@@ -130,10 +130,18 @@ public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup
 	public abstract void setId(PwGroupId id);
 
     @Override
-    public String getDisplayTitle() {
+    protected String getVisualTitle() {
+        return getTitle();
+    }
+
+    @Override
+    public String getTitle() {
         return getName();
     }
 
+    /**
+     * The same thing as {@link #getTitle()}
+     */
     public String getName() {
         return name;
     }
@@ -146,15 +154,15 @@ public abstract class PwGroup<Parent extends PwGroup, ChildGroup extends PwGroup
 		return false;
 	}
 
-	public boolean preOrderTraverseTree(GroupHandler<ChildGroup> groupHandler,
-                                        EntryHandler<ChildEntry> entryHandler) {
+	public boolean preOrderTraverseTree(GroupHandler<GroupG> groupHandler,
+                                        EntryHandler<EntryE> entryHandler) {
 		if (entryHandler != null) {
-			for (ChildEntry entry : childEntries) {
+			for (EntryE entry : childEntries) {
 				if (!entryHandler.operate(entry)) return false;
 			}
 		}
 	
-		for (ChildGroup group : childGroups) {
+		for (GroupG group : childGroups) {
 			if ((groupHandler != null) && !groupHandler.operate(group)) return false;
 			group.preOrderTraverseTree(groupHandler, entryHandler);
 		}

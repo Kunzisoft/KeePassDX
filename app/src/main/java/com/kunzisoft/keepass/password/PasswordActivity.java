@@ -55,9 +55,9 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.activities.IntentBuildLauncher;
+import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
@@ -409,7 +409,7 @@ public class PasswordActivity extends StylishActivity
                                 getString(R.string.education_unlock_title),
                                 getString(R.string.education_unlock_summary))
                                 .dimColor(R.color.green)
-                                .icon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round))
+                                .icon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.ic_launcher_round))
                                 .textColorInt(Color.WHITE)
                                 .tintTarget(false)
                                 .cancelable(true),
@@ -417,6 +417,44 @@ public class PasswordActivity extends StylishActivity
                             @Override
                             public void onTargetClick(TapTargetView view) {
                                 super.onTargetClick(view);
+                                performedReadOnlyEducation(menu);
+                            }
+
+                            @Override
+                            public void onOuterCircleClick(TapTargetView view) {
+                                super.onOuterCircleClick(view);
+                                view.dismiss(false);
+                                performedReadOnlyEducation(menu);
+
+                            }
+                        });
+                // TODO make a period for donation
+                PreferencesUtil.saveEducationPreference(PasswordActivity.this,
+                        R.string.education_unlock_key);
+            }
+        }
+    }
+
+    /**
+     * Check and display learning views
+     * Displays read-only if available
+     */
+    private void performedReadOnlyEducation(Menu menu) {
+        if (!PreferencesUtil.isEducationReadOnlyPerformed(this)) {
+            try {
+                TapTargetView.showFor(this,
+                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_open_file_read_mode_key,
+                                getString(R.string.education_read_only_title),
+                                getString(R.string.education_read_only_summary))
+                                .textColorInt(Color.WHITE)
+                                .tintTarget(true)
+                                .cancelable(true),
+                        new TapTargetView.Listener() {
+                            @Override
+                            public void onTargetClick(TapTargetView view) {
+                                super.onTargetClick(view);
+                                MenuItem editItem = menu.findItem(R.id.menu_open_file_read_mode_key);
+                                onOptionsItemSelected(editItem);
                                 checkAndPerformedEducationForFingerprint();
                             }
 
@@ -425,43 +463,13 @@ public class PasswordActivity extends StylishActivity
                                 super.onOuterCircleClick(view);
                                 view.dismiss(false);
                                 checkAndPerformedEducationForFingerprint();
-
                             }
                         });
-                // TODO make a period for donation
-                PreferencesUtil.saveEducationPreference(PasswordActivity.this,
-                        R.string.education_unlock_key);
-
-            } else if (!PreferencesUtil.isEducationReadOnlyPerformed(this)) {
-
-                try {
-                    TapTargetView.showFor(this,
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_open_file_read_mode_key,
-                                    getString(R.string.education_read_only_title),
-                                    getString(R.string.education_read_only_summary))
-                                    .textColorInt(Color.WHITE)
-                                    .tintTarget(true)
-                                    .cancelable(true),
-                            new TapTargetView.Listener() {
-                                @Override
-                                public void onTargetClick(TapTargetView view) {
-                                    super.onTargetClick(view);
-                                    MenuItem editItem = menu.findItem(R.id.menu_open_file_read_mode_key);
-                                    onOptionsItemSelected(editItem);
-                                }
-
-                                @Override
-                                public void onOuterCircleClick(TapTargetView view) {
-                                    super.onOuterCircleClick(view);
-                                    view.dismiss(false);
-                                }
-                            });
-                    PreferencesUtil.saveEducationPreference(this,
-                            R.string.education_read_only_key);
-                } catch (Exception e) {
-                    // If icon not visible
-                    Log.w(TAG, "Can't performed education for entry's edition");
-                }
+                PreferencesUtil.saveEducationPreference(this,
+                        R.string.education_read_only_key);
+            } catch (Exception e) {
+                // If icon not visible
+                Log.w(TAG, "Can't performed education for entry's edition");
             }
         }
     }

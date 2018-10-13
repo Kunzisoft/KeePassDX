@@ -29,6 +29,7 @@ abstract class BasicViewHolder extends RecyclerView.ViewHolder {
     View container;
     ImageView icon;
     TextView text;
+    TextView subText;
 
     BasicViewHolder(View itemView) {
         super(itemView);

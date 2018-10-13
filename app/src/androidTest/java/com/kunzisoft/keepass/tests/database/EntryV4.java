@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.tests.database;
 
-import junit.framework.TestCase;
-
 import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwEntryV4;
+
+import junit.framework.TestCase;
 
 public class EntryV4 extends TestCase {
 
@@ -46,7 +46,7 @@ public class EntryV4 extends TestCase {
 		entry.createBackup(db);
 		
 		PwEntryV4 backup = entry.getHistory().get(0);
-		entry.endToManageFieldReferences();
+		entry.stopToManageFieldReferences();
 		assertEquals("Title2", backup.getTitle());
 		assertEquals("User2", backup.getUsername());
 	}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+     
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/entry_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:minHeight="32dp"
+    android:background="?attr/colorPrimary" >
+    <android.support.v7.widget.AppCompatImageView android:id="@+id/entry_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/entry_text"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:lines="1"
+        android:singleLine="true"
+        style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/entry_icon"
+        android:layout_toEndOf="@+id/entry_icon" />
+    <TextView
+        android:id="@+id/entry_subtext"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:lines="1"
+        android:singleLine="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/entry_text"
+        android:layout_toEndOf="@+id/entry_text" />
+</RelativeLayout>
