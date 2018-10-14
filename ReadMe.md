@@ -10,13 +10,13 @@
 
 Diceware password generators, making it easier to recall.
 
-![](/screenshots/password_generator_choice.png)
-![](/screenshots/mod_diceware.png)
-![](/screenshots/diceware.png)
+<img src="https://github.com/patarapolw/KeePassDX-diceware/raw/master/screenshots/password_generator_choice.png" width="220">
+<img src="https://github.com/patarapolw/KeePassDX-diceware/raw/master/screenshots/mod_diceware.png" width="220">
+<img src="https://github.com/patarapolw/KeePassDX-diceware/raw/master/screenshots/diceware.png" width="220">
 
 PIN generator is also powered by [Major System mnemonics](https://en.wikipedia.org/wiki/Mnemonic_major_system).
 
-![](/screenshots/pin.png)
+<img src="https://github.com/patarapolw/KeePassDX-diceware/raw/master/screenshots/pin.png" width="220">
 
 ## Original Features
 
