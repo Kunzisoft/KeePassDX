@@ -55,17 +55,9 @@ You can contribute in different ways to help us on our work.
 * **[Donate](https://www.kunzisoft.com/donation)**  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
 * Buy the **[Pro version](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro)** of KeePass DX
 
-## Download
+## Installation
 
-*We recommend the installation from [F-Droid](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/) which verifies that all libraries and application code are open source.*
-
-[<img src="https://f-droid.org/badge/get-it-on.png"
-      alt="Get it on F-Droid"
-      height="80">](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/)
-
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-      alt="Get it on Google Play"
-	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
+Currently, I have not compiled the APK, so it has to be installed from source.
 	
 ## F.A.Q.
 
