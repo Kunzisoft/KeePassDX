@@ -6,7 +6,7 @@
 
 `Keepass DX - Diceware` is a fork of Keepass DX, to use a custom password generator, based on [Diceware_Utils](https://github.com/patarapolw/diceware_utils) and [Memorable Password](https://github.com/patarapolw/memorable-password).
 
-## Added features
+## Added Features
 
 Diceware password generators, making it easier to recall.
 
