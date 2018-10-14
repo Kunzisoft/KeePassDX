@@ -1,9 +1,10 @@
 # Android Keepass DX - memorable password
 
-<<<<<<< HEAD
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> Keepass DX is a **multi-format KeePass manager for Android devices**. The application allows to create keys and passwords in a secure way by integrating with the Android design standards.
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
+
+`Keepass DX - memorable password` is a fork of Keepass DX, to use a custom password generator, based on [Diceware_Utils](https://github.com/patarapolw/diceware_utils) and [Memorable Password](https://github.com/patarapolw/memorable-password).
 
 ### Features
 
@@ -59,28 +60,9 @@ Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassD
 ## Other devices
 
 - [KeePass XC](https://keepassxc.org/) (https://keepassxc.org/) works with **GNU/Linux**, **Mac** and **Windows**, is updated regularly and under the terms of the GNU General Public License. This is the recommended version for computers.
-=======
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> [Keepass DX](https://github.com/Kunzisoft/KeePassDX) is a multi-format KeePass manager for Android devices. The application allows to create keys and passwords in a secure way by integrating with the Android design standards.
 
-`Keepass DX - memorable password` is a fork of Keepass DX, to use a custom password generator, based on [Diceware_Utils](https://github.com/patarapolw/diceware_utils) and [Memorable Password](https://github.com/patarapolw/memorable-password).
-
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
->>>>>>> master
-
-<<<<<<< HEAD
- Copyright (c) 2017 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
-=======
 ## Fork origins
->>>>>>> master
-
-[Keepass DX](https://github.com/Kunzisoft/KeePassDX) which is actually forked from [KeepassDroid](https://github.com/bpellin/keepassdroid)
-
-
-
-<<<<<<< HEAD
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   *This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid) by bpellin.*
-=======
->>>>>>> master
