@@ -1,12 +1,24 @@
-# Android Keepass DX - memorable password
+# Android Keepass DX - Diceware
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> Keepass DX is a **multi-format KeePass manager for Android devices**. The application allows to create keys and passwords in a secure way by integrating with the Android design standards.
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
 
-`Keepass DX - memorable password` is a fork of Keepass DX, to use a custom password generator, based on [Diceware_Utils](https://github.com/patarapolw/diceware_utils) and [Memorable Password](https://github.com/patarapolw/memorable-password).
+`Keepass DX - Diceware` is a fork of Keepass DX, to use a custom password generator, based on [Diceware_Utils](https://github.com/patarapolw/diceware_utils) and [Memorable Password](https://github.com/patarapolw/memorable-password).
 
-### Features
+## Added features
+
+Diceware password generators, making it easier to recall.
+
+![](/screenshots/password_generator_choice.png)
+![](/screenshots/mod_diceware.png)
+![](/screenshots/diceware.png)
+
+PIN generator is also powered by [Major System mnemonics](https://en.wikipedia.org/wiki/Mnemonic_major_system).
+
+![](/screenshots/pin.png)
+
+## Original Features
 
  * Create database files / entries and groups
  * Support for **.kdb** and **.kdbx** files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
@@ -65,4 +77,5 @@ Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassD
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
+  *This project is a fork of [KeepassDX](https://github.com/Kunzisoft/KeePassDX) by J-Jamet.*
   *This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid) by bpellin.*
