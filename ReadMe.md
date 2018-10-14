@@ -18,7 +18,7 @@ Diceware password generators, making it easier to recall.
 
 PIN generator is also powered by [Major System mnemonics](https://en.wikipedia.org/wiki/Mnemonic_major_system).
 
-<img src="https://github.com/patarapolw/KeePassDX-diceware/raw/master/screenshots/pin.png" width="220">
+<img src="https://github.com/patarapolw/KeePassDX-diceware/raw/master/diceware/pin.png" width="220">
 
 ## Original Features
 
@@ -57,7 +57,7 @@ You can contribute in different ways to help us on our work.
 
 ## Installation
 
-Currently, I have not compiled the APK, so it has to be installed from source.
+Get the APK now from https://github.com/patarapolw/KeePassDX-diceware/tree/master/diceware.
 	
 ## F.A.Q.
 
