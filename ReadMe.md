@@ -72,4 +72,5 @@ Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassD
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   *This project is a fork of [KeepassDX](https://github.com/Kunzisoft/KeePassDX) by J-Jamet.*
+  
   *This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid) by bpellin.*
