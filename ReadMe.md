@@ -57,7 +57,7 @@ You can contribute in different ways to help us on our work.
 
 ## Installation
 
-Get the APK now from https://github.com/patarapolw/KeePassDX-diceware/tree/master/diceware.
+Get the APK now from https://github.com/patarapolw/KeePassDX-diceware/tree/master/diceware/build.
 	
 ## F.A.Q.
 
