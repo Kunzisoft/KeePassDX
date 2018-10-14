@@ -4,7 +4,7 @@
 /projectFilesBackup
 
 # Built application files
-*.apk
+# *.apk
 *.ap_
 app/free_google/*
 
