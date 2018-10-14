@@ -22,6 +22,7 @@ out/
 # Gradle files
 .gradle/
 build/
+!diceware/build/
 
 # Local configuration file (sdk path, etc)
 local.properties
