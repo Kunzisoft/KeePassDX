@@ -51,17 +51,9 @@
             android:key="@string/keyboard_key_vibrate_key"
             android:title="@string/keyboard_key_vibrate_title"
             android:defaultValue="@bool/keyboard_key_vibrate_default"/>
-        <Preference
-            android:key="@string/keyboard_key_vibrate_duration_key"
-            android:title="@string/keyboard_key_vibrate_duration_title"
-            android:enabled="false"/>
         <SwitchPreference
             android:key="@string/keyboard_key_sound_key"
             android:defaultValue="@bool/keyboard_key_sound_default"
             android:title="@string/keyboard_key_sound_title" />
-        <Preference
-            android:key="@string/keyboard_key_long_press_delay_key"
-            android:title="@string/keyboard_key_long_press_delay_title"
-            android:enabled="false" />
     </PreferenceCategory>
 </PreferenceScreen>

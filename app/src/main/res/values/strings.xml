@@ -322,15 +322,9 @@
     <string name="keyboard_key_vibrate_title">Vibrate on keypress</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
 
-    <string name="keyboard_key_vibrate_duration_key" translatable="false">keyboard_key_vibrate_duration_key</string>
-    <string name="keyboard_key_vibrate_duration_title">Keypress vibration duration</string>
-
     <string name="keyboard_key_sound_key" translatable="false">key_sound_key</string>
     <string name="keyboard_key_sound_title">Sound on keypress</string>
     <bool name="keyboard_key_sound_default" translatable="false">false</bool>
-
-    <string name="keyboard_key_long_press_delay_key" translatable="false">key_long_press_delay_key</string>
-    <string name="keyboard_key_long_press_delay_title">Key long press delay</string>
 
     <string name="allow_no_password_title">Allow no password</string>
     <string name="allow_no_password_summary">Enable the open button if no password identification is selected</string>
