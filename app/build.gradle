@@ -107,9 +107,7 @@ dependencies {
     implementation 'biz.source_code:base64coder:2010-12-19'
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'com.google.guava:guava:23.0-android'
-    // Icon pack, classic for all, material for libre and pro
+    // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
-    implementation project(path: ':magikeyboard')
-    implementation project(path: ':keepass-model')
 }

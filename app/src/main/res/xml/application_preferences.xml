@@ -57,7 +57,7 @@
             android:entries="@array/timeout_options"
             android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/app_timeout"
-            android:defaultValue="@string/app_timeout_default"/>
+            android:defaultValue="@string/timeout_default"/>
         <SwitchPreference
             android:key="@string/lock_database_screen_off_key"
             android:title="@string/lock_database_screen_off_title"

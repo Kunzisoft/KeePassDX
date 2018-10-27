@@ -288,6 +288,44 @@
     <string name="keyboard_lock_database_text">Lock the database.</string>
     <string name="keyboard_back_main_keyboard_text">Go back to your main keyboard.</string>
 
+    <string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_setting_label">Magikeyboard settings</string>
+
+    <string name="keyboard_entry_category">Entry</string>
+
+    <string name="keyboard_entry_timeout_key" translatable="false">erase_entry_timeout_key</string>
+    <string name="keyboard_entry_timeout_title">Timeout</string>
+    <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>
+
+    <string name="keyboard_notification_entry_key" translatable="false">notification_entry_key</string>
+    <string name="keyboard_notification_entry_title">Notification information</string>
+    <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
+    <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
+
+    <string name="keyboard_notification_entry_content_title_text">Entry</string>
+    <string name="keyboard_notification_entry_content_title">%1$s available on Magikeyboard</string>
+    <string name="keyboard_notification_entry_content_text">%1$s</string>
+
+    <string name="keyboard_notification_entry_clear_close_key" translatable="false">notification_entry_slide_close_key</string>
+    <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Clear the keyboard entry when closing the notification</string>
+    <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
+
+    <string name="keyboard_appearance_category">Appearance</string>
+
+    <string name="keyboard_theme_key" translatable="false">keyboard_theme_key</string>
+    <string name="keyboard_theme_title">Keyboard theme</string>
+
+    <string name="keyboard_keys_category">Keys</string>
+    <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
+    <string name="keyboard_key_vibrate_title">Vibrate on keypress</string>
+    <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
+
+    <string name="keyboard_key_sound_key" translatable="false">key_sound_key</string>
+    <string name="keyboard_key_sound_title">Sound on keypress</string>
+    <bool name="keyboard_key_sound_default" translatable="false">false</bool>
+
     <string name="allow_no_password_title">Allow no password</string>
     <string name="allow_no_password_summary">Enable the open button if no password identification is selected</string>
     <string name="enable_read_only_title">Read only</string>

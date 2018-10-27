@@ -68,4 +68,9 @@
     <color name="colorTextSecondaryDisable">#c7c7c7</color>
     <color name="colorTextSecondaryInverse">#999999</color>
     <color name="colorTextSecondaryInverseDisable">#565656</color>
-</resources>    
+
+    <color name="keyboard_button">#3c474c</color>
+    <color name="keyboard_button_pressed">#263238</color>
+    <color name="keyboard_button_border">#3c464c</color>
+    <color name="keyboard_background">#263238</color>
+</resources>
