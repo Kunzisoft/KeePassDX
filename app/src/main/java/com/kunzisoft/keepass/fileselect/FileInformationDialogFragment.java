@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.fileselect;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,9 +38,7 @@ public class FileInformationDialogFragment extends DialogFragment {
     private static final String FILE_SELECT_BEEN_ARG = "FILE_SELECT_BEEN_ARG";
 
     private View fileSizeContainerView;
-    private TextView fileSizeView;
     private View fileModificationContainerView;
-    private TextView fileModificationView;
     private TextView fileWarningView;
 
     public static FileInformationDialogFragment newInstance(FileSelectBean fileSelectBean) {
@@ -62,9 +59,9 @@ public class FileInformationDialogFragment extends DialogFragment {
         TextView fileNameView = root.findViewById(R.id.file_filename);
         TextView filePathView = root.findViewById(R.id.file_path);
         fileSizeContainerView = root.findViewById(R.id.file_size_container);
-        fileSizeView = root.findViewById(R.id.file_size);
+        TextView fileSizeView = root.findViewById(R.id.file_size);
         fileModificationContainerView = root.findViewById(R.id.file_modification_container);
-        fileModificationView = root.findViewById(R.id.file_modification);
+        TextView fileModificationView = root.findViewById(R.id.file_modification);
         fileWarningView = root.findViewById(R.id.file_warning);
 
         if (getArguments() != null && getArguments().containsKey(FILE_SELECT_BEEN_ARG)) {

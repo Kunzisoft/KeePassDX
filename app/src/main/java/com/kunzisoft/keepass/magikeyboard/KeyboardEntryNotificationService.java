@@ -105,37 +105,42 @@ public class KeyboardEntryNotificationService extends Service {
             notificationManager.cancel(notificationId);
             notificationManager.notify(notificationId, builder.build());
 
-            // Timeout
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String keyboardTimeout = prefs.getString(getString(R.string.keyboard_entry_timeout_key),
-                    getString(R.string.timeout_default));
-            try {
-                notificationTimeoutMilliSecs = Long.parseLong(keyboardTimeout);
-            } catch (NumberFormatException e) {
-                notificationTimeoutMilliSecs = TimeoutHelper.DEFAULT_TIMEOUT;
-            }
 
-            if (notificationTimeoutMilliSecs != TimeoutHelper.TIMEOUT_NEVER) {
-                stopTask(cleanNotificationTimer);
-                cleanNotificationTimer = new Thread(() -> {
-                    int maxPos = 100;
-                    long posDurationMills = notificationTimeoutMilliSecs / maxPos;
-                    for (int pos = maxPos; pos > 0; --pos) {
-                        builder.setProgress(maxPos, pos, false);
-                        notificationManager.notify(notificationId, builder.build());
-                        try {
-                            Thread.sleep(posDurationMills);
-                        } catch (InterruptedException e) {
-                            break;
+
+            // Timeout only if notification clear is available
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            if (sharedPreferences.getBoolean(getString(R.string.keyboard_notification_entry_clear_close_key),
+                    getResources().getBoolean(R.bool.keyboard_notification_entry_clear_close_default))) {
+                String keyboardTimeout = sharedPreferences.getString(getString(R.string.keyboard_entry_timeout_key),
+                        getString(R.string.timeout_default));
+                try {
+                    notificationTimeoutMilliSecs = Long.parseLong(keyboardTimeout);
+                } catch (NumberFormatException e) {
+                    notificationTimeoutMilliSecs = TimeoutHelper.DEFAULT_TIMEOUT;
+                }
+
+                if (notificationTimeoutMilliSecs != TimeoutHelper.TIMEOUT_NEVER) {
+                    stopTask(cleanNotificationTimer);
+                    cleanNotificationTimer = new Thread(() -> {
+                        int maxPos = 100;
+                        long posDurationMills = notificationTimeoutMilliSecs / maxPos;
+                        for (int pos = maxPos; pos > 0; --pos) {
+                            builder.setProgress(maxPos, pos, false);
+                            notificationManager.notify(notificationId, builder.build());
+                            try {
+                                Thread.sleep(posDurationMills);
+                            } catch (InterruptedException e) {
+                                break;
+                            }
                         }
-                    }
-                    try {
-                        pendingDeleteIntent.send();
-                    } catch (PendingIntent.CanceledException e) {
-                        Log.e(TAG, e.getLocalizedMessage());
-                    }
-                });
-                cleanNotificationTimer.start();
+                        try {
+                            pendingDeleteIntent.send();
+                        } catch (PendingIntent.CanceledException e) {
+                            Log.e(TAG, e.getLocalizedMessage());
+                        }
+                    });
+                    cleanNotificationTimer.start();
+                }
             }
         }
     }
