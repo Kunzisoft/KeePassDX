@@ -94,7 +94,7 @@ public class FileSelectActivity extends StylishActivity implements
     private static final String EXTRA_STAY = "EXTRA_STAY";
 
     private FileSelectAdapter mAdapter;
-	private View fileListTitle;
+	private View fileListContainer;
 	private View createButtonView;
 	private View browseButtonView;
 	private View openButtonView;
@@ -148,7 +148,7 @@ public class FileSelectActivity extends StylishActivity implements
 		fileHistory = App.getFileHistory();
 
         setContentView(R.layout.file_selection);
-        fileListTitle = findViewById(R.id.file_list_title);
+        fileListContainer = findViewById(R.id.container_file_list);
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		toolbar.setTitle("");
@@ -303,7 +303,7 @@ public class FileSelectActivity extends StylishActivity implements
         super.onResume();
 
         updateExternalStorageWarning();
-        updateTitleFileListView();
+        updateFileListVisibility();
         mAdapter.notifyDataSetChanged();
     }
 
@@ -434,11 +434,11 @@ public class FileSelectActivity extends StylishActivity implements
         createFileDialogFragment.show(getSupportFragmentManager(), "createFileDialogFragment");
     }
 
-	private void updateTitleFileListView() {
+	private void updateFileListVisibility() {
 	    if(mAdapter.getItemCount() == 0)
-            fileListTitle.setVisibility(View.INVISIBLE);
+            fileListContainer.setVisibility(View.INVISIBLE);
 	    else
-            fileListTitle.setVisibility(View.VISIBLE);
+            fileListContainer.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -593,7 +593,7 @@ public class FileSelectActivity extends StylishActivity implements
                     // Add to recent files
                     fileHistory.createFile(mUri, getFilename());
                     mAdapter.notifyDataSetChanged();
-                    updateTitleFileListView();
+                    updateFileListVisibility();
                     GroupActivity.launch(FileSelectActivity.this);
                 });
 			}
@@ -629,7 +629,7 @@ public class FileSelectActivity extends StylishActivity implements
                         R.string.file_not_found, Toast.LENGTH_LONG)
                         .show();
             }
-            updateTitleFileListView();
+            updateFileListVisibility();
         }, fileHistory).execute(itemPosition);
 	}
 
@@ -647,7 +647,7 @@ public class FileSelectActivity extends StylishActivity implements
         new DeleteFileHistoryAsyncTask(() -> {
             fileHistory.deleteFile(fileSelectBean.getFileUri());
             mAdapter.notifyDataSetChanged();
-            updateTitleFileListView();
+            updateFileListVisibility();
         }, fileHistory, mAdapter).execute(fileSelectBean);
         return true;
     }

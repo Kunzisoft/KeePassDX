@@ -19,4 +19,5 @@
 -->
 <resources>
     <string name="app_name" translatable="false">KeePass DX Pro</string>
+    <string name="app_name_part3" translatable="false">Pro</string>
 </resources>

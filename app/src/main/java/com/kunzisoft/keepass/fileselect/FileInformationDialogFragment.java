@@ -38,6 +38,12 @@ public class FileInformationDialogFragment extends DialogFragment {
 
     private static final String FILE_SELECT_BEEN_ARG = "FILE_SELECT_BEEN_ARG";
 
+    private View fileSizeContainerView;
+    private TextView fileSizeView;
+    private View fileModificationContainerView;
+    private TextView fileModificationView;
+    private TextView fileWarningView;
+
     public static FileInformationDialogFragment newInstance(FileSelectBean fileSelectBean) {
         FileInformationDialogFragment fileInformationDialogFragment =
                 new FileInformationDialogFragment();
@@ -53,38 +59,47 @@ public class FileInformationDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View root = inflater.inflate(R.layout.file_selection_information, null);
+        TextView fileNameView = root.findViewById(R.id.file_filename);
+        TextView filePathView = root.findViewById(R.id.file_path);
+        fileSizeContainerView = root.findViewById(R.id.file_size_container);
+        fileSizeView = root.findViewById(R.id.file_size);
+        fileModificationContainerView = root.findViewById(R.id.file_modification_container);
+        fileModificationView = root.findViewById(R.id.file_modification);
+        fileWarningView = root.findViewById(R.id.file_warning);
 
         if (getArguments() != null && getArguments().containsKey(FILE_SELECT_BEEN_ARG)) {
             FileSelectBean fileSelectBean = (FileSelectBean) getArguments().getSerializable(FILE_SELECT_BEEN_ARG);
-            TextView fileWarningView = (TextView) root.findViewById(R.id.file_warning);
             if(fileSelectBean != null) {
-                TextView fileNameView = (TextView) root.findViewById(R.id.file_filename);
-                TextView filePathView = (TextView) root.findViewById(R.id.file_path);
-                TextView fileSizeView = (TextView) root.findViewById(R.id.file_size);
-                TextView fileModificationView = (TextView) root.findViewById(R.id.file_modification);
-                fileWarningView.setVisibility(View.GONE);
-                fileNameView.setText(fileSelectBean.getFileName());
+
                 filePathView.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
-                fileSizeView.setText(String.valueOf(fileSelectBean.getSize()));
-                fileModificationView.setText(DateFormat.getDateTimeInstance()
-                        .format(fileSelectBean.getLastModification()));
-                if(fileSelectBean.notFound())
-                    showFileNotFound(fileWarningView);
+                fileNameView.setText(fileSelectBean.getFileName());
+
+                if(fileSelectBean.notFound()) {
+                    showFileNotFound();
+                } else {
+                    hideFileNotFound();
+                    fileSizeView.setText(String.valueOf(fileSelectBean.getSize()));
+                    fileModificationView.setText(DateFormat.getDateTimeInstance()
+                            .format(fileSelectBean.getLastModification()));
+                }
             } else
-                showFileNotFound(fileWarningView);
+                showFileNotFound();
         }
 
         builder.setView(root);
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
+        builder.setPositiveButton(android.R.string.ok, (dialog, id) -> {});
         return builder.create();
     }
 
-    private void showFileNotFound(TextView fileWarningView) {
+    private void hideFileNotFound() {
+        fileWarningView.setVisibility(View.GONE);
+        fileSizeContainerView.setVisibility(View.VISIBLE);
+        fileModificationContainerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showFileNotFound() {
         fileWarningView.setVisibility(View.VISIBLE);
-        fileWarningView.setText(R.string.file_not_found);
+        fileSizeContainerView.setVisibility(View.GONE);
+        fileModificationContainerView.setVisibility(View.GONE);
     }
 }

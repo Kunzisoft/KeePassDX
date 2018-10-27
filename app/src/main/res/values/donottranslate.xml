@@ -19,6 +19,9 @@
 -->
 <resources>
     <string name="app_name" translatable="false">KeePass DX</string>
+    <string name="app_name_part1" translatable="false">KeePass</string>
+    <string name="app_name_part2" translatable="false">DX</string>
+    <string name="app_name_part3" translatable="false" />
 
     <!-- TODO Move urls in flavors -->
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
