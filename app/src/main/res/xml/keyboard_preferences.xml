@@ -20,11 +20,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/keyboard_entry_category">
-        <Preference
+        <ListPreference
             android:key="@string/keyboard_entry_timeout_key"
             android:title="@string/keyboard_entry_timeout_title"
             android:summary="@string/keyboard_entry_timeout_summary"
-            android:enabled="false"/>
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
+            android:dialogTitle="@string/keyboard_entry_timeout_title"
+            android:defaultValue="@string/timeout_default"/>
         <SwitchPreference
             android:key="@string/keyboard_notification_entry_key"
             android:title="@string/keyboard_notification_entry_title"
@@ -37,6 +40,7 @@
             android:dependency="@string/keyboard_notification_entry_key"
             android:defaultValue="@bool/keyboard_notification_entry_clear_close_default"/>
     </PreferenceCategory>
+    <!--
     <PreferenceCategory
         android:title="@string/keyboard_appearance_category">
         <Preference
@@ -45,6 +49,7 @@
             android:summary="dark"
             android:enabled="false"/>
     </PreferenceCategory>
+    -->
     <PreferenceCategory
         android:title="@string/keyboard_keys_category">
         <SwitchPreference

@@ -7,19 +7,23 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
 import com.kunzisoft.keepass.magikeyboard.receiver.NotificationDeleteBroadcastReceiver;
+import com.kunzisoft.keepass.timeout.TimeoutHelper;
 
-import static android.content.ContentValues.TAG;
 import static com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
 public class KeyboardEntryNotificationService extends Service {
+
+    private static final String TAG = KeyboardEntryNotificationService.class.getName();
 
     private static final String CHANNEL_ID_KEYBOARD = "com.kunzisoft.keyboard.notification.entry.channel";
     private static final String CHANNEL_NAME_KEYBOARD = "Magikeyboard notification";
@@ -100,30 +104,40 @@ public class KeyboardEntryNotificationService extends Service {
 
             notificationManager.cancel(notificationId);
             notificationManager.notify(notificationId, builder.build());
-        }
 
-        // TODO Get timeout
-        /*
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        notificationTimeoutMilliSecs = prefs.getInt(getString(R.string.entry_timeout_key), 100000);
-        */
-
-        /*
-        stopTask(cleanNotificationTimer);
-        cleanNotificationTimer = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(notificationTimeoutMilliSecs);
-                } catch (InterruptedException e) {
-                    cleanNotificationTimer = null;
-                    return;
-                }
-                notificationManager.cancel(notificationId);
+            // Timeout
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String keyboardTimeout = prefs.getString(getString(R.string.keyboard_entry_timeout_key),
+                    getString(R.string.timeout_default));
+            try {
+                notificationTimeoutMilliSecs = Long.parseLong(keyboardTimeout);
+            } catch (NumberFormatException e) {
+                notificationTimeoutMilliSecs = TimeoutHelper.DEFAULT_TIMEOUT;
             }
-        });
-        cleanNotificationTimer.start();
-        */
+
+            if (notificationTimeoutMilliSecs != TimeoutHelper.TIMEOUT_NEVER) {
+                stopTask(cleanNotificationTimer);
+                cleanNotificationTimer = new Thread(() -> {
+                    int maxPos = 100;
+                    long posDurationMills = notificationTimeoutMilliSecs / maxPos;
+                    for (int pos = maxPos; pos > 0; --pos) {
+                        builder.setProgress(maxPos, pos, false);
+                        notificationManager.notify(notificationId, builder.build());
+                        try {
+                            Thread.sleep(posDurationMills);
+                        } catch (InterruptedException e) {
+                            break;
+                        }
+                    }
+                    try {
+                        pendingDeleteIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        Log.e(TAG, e.getLocalizedMessage());
+                    }
+                });
+                cleanNotificationTimer.start();
+            }
+        }
     }
 
     private void stopTask(Thread task) {
@@ -131,12 +145,19 @@ public class KeyboardEntryNotificationService extends Service {
             task.interrupt();
     }
 
-    @Override
-    public void onDestroy() {
+    private void destroyKeyboardNotification() {
+        stopTask(cleanNotificationTimer);
+        cleanNotificationTimer = null;
         unregisterReceiver(lockBroadcastReceiver);
         pendingDeleteIntent.cancel();
 
         notificationManager.cancel(notificationId);
+    }
+
+    @Override
+    public void onDestroy() {
+
+        destroyKeyboardNotification();
 
         super.onDestroy();
     }

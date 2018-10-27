@@ -144,7 +144,7 @@
     <bool name="allow_no_password_default" translatable="false">true</bool>
     <bool name="enable_read_only_default" translatable="false">false</bool>
 
-    <string name="app_timeout_default" translatable="false">300000</string>
+    <string name="timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>
 
     <string-array name="timeout_values">

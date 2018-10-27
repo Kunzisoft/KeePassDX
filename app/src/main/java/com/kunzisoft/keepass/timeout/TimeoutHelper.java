@@ -31,8 +31,9 @@ public class TimeoutHelper {
 
 	private static final String TAG = "TimeoutHelper";
 
-	private static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
-	
+	public static final long DEFAULT_TIMEOUT = 5 * 60 * 1000;  // 5 minutes
+	public static final long TIMEOUT_NEVER = -1;  // Infinite
+
 	public static void recordTime(Activity act) {
 		// Record timeout time in case timeout service is killed
 		long time = System.currentTimeMillis();
@@ -56,9 +57,9 @@ public class TimeoutHelper {
 		long cur_time = System.currentTimeMillis();
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
-		long timeout_start = prefs.getLong(act.getString(R.string.timeout_key), -1);
+		long timeout_start = prefs.getLong(act.getString(R.string.timeout_key), TIMEOUT_NEVER);
 		// The timeout never started
-		if (timeout_start == -1) {
+		if (timeout_start == TIMEOUT_NEVER) {
 			return true;
 		}
 
@@ -71,7 +72,7 @@ public class TimeoutHelper {
 		}
 		
 		// We are set to never timeout
-		if (timeout == -1) {
+		if (timeout == TIMEOUT_NEVER) {
 			return true;
 		}
 		

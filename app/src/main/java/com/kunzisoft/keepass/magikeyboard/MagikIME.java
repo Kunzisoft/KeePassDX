@@ -143,8 +143,10 @@ public class MagikIME extends InputMethodService
                 if (keyboard_entry != null)
                     keyboardView.setKeyboard(keyboard_entry);
             } else {
-                if (keyboard != null)
+                if (keyboard != null) {
+                    dismissCustomKeys();
                     keyboardView.setKeyboard(keyboard);
+                }
             }
         }
     }
@@ -192,7 +194,6 @@ public class MagikIME extends InputMethodService
                     if (imeManager != null)
                         imeManager.showInputMethodPicker();
                 }
-                // TODO Add a long press to choose the keyboard
                 break;
 			case KEY_CHANGE_KEYBOARD:
 				InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -203,6 +204,7 @@ public class MagikIME extends InputMethodService
                 // TODO Unlock key
                 break;
             case KEY_ENTRY:
+                deleteEntryKey(this);
                 Intent intent = new Intent(this, EntryRetrieverActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -285,8 +287,8 @@ public class MagikIME extends InputMethodService
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(lockBroadcastReceiver);
         dismissCustomKeys();
+        unregisterReceiver(lockBroadcastReceiver);
         super.onDestroy();
     }
 }
