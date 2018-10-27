@@ -24,15 +24,16 @@ import com.kunzisoft.keepass.database.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.exception.InvalidDBSignatureException;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class ImporterFactory {
-	public static Importer createImporter(InputStream is) throws InvalidDBSignatureException, IOException {
-		return createImporter(is, false);
+	public static Importer createImporter(InputStream is, File streamDir) throws InvalidDBSignatureException, IOException {
+		return createImporter(is, streamDir,false);
 	}
 
-	public static Importer createImporter(InputStream is, boolean debug) throws InvalidDBSignatureException, IOException {
+	public static Importer createImporter(InputStream is, File streamDir, boolean debug) throws InvalidDBSignatureException, IOException {
 		int sig1 = LEDataInputStream.readInt(is);
 		int sig2 = LEDataInputStream.readInt(is);
 		
@@ -43,7 +44,7 @@ public class ImporterFactory {
 			
 			return new ImporterV3();
 		} else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
-			return new ImporterV4();
+			return new ImporterV4(streamDir);
 		}
 
 		throw new InvalidDBSignatureException();

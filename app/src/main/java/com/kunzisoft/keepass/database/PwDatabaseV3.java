@@ -376,4 +376,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		
 		return !(omitBackup && isBackup(group));
 	}
+
+	@Override
+	public void clearCache() {}
 }
