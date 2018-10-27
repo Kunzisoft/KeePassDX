@@ -43,7 +43,7 @@
     <string name="clipboard_timeout">Časový limit schránky</string>
     <string name="clipboard_timeout_summary">Čas před vyčištěním schránky po zkopírování jména nebo hesla</string>
     <string name="select_to_copy">Kopírovat %1$s do schránky</string>
-    <string name="creating_db_key">Vytvářím databázový klíč&#8230;</string>
+    <string name="retrieving_db_key">Vytvářím databázový klíč&#8230;</string>
     <string name="database">Databáze</string>
     <string name="decrypting_db">Dešifruji obsah databáze&#8230;</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
@@ -97,7 +97,7 @@
     <string name="password">Heslo</string>
     <string name="install_from_play_store">Instalovat z Play</string>
     <string name="install_from_f_droid">Instalovat z F-Droid</string>
-    <string name="InvalidPassword">Chybné heslo nebo klíčový soubor.</string>
+    <string name="invalid_password">Chybné heslo nebo klíčový soubor.</string>
     <string name="invalid_algorithm">Chybný algoritmus.</string>
     <string name="invalid_db_sig">Databázový formát nelze rozpoznat.</string>
     <string name="keyfile_does_not_exist">Klíčový soubor neexistuje.</string>

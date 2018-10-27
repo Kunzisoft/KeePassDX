@@ -36,7 +36,7 @@
     <string name="clipboard_timeout">剪贴板超时</string>
     <string name="clipboard_timeout_summary">复制用户名或密码到剪贴板后清除的时间</string>
     <string name="select_to_copy">复制%1$s到剪贴板</string>
-    <string name="creating_db_key">创建数据库密钥…</string>
+    <string name="retrieving_db_key">创建数据库密钥…</string>
     <string name="database">数据库</string>
     <string name="decrypting_db">解密数据库内容中…</string>
     <string name="default_checkbox">使用这做为我的默认数据库</string>
@@ -86,7 +86,7 @@
     <string name="hint_pass">密码</string>
     <string name="install_from_play_store">从电子市场安装</string>
     <string name="install_from_f_droid">从网络安装</string>
-    <string name="InvalidPassword">非法的密码或密钥文件。</string>
+    <string name="invalid_password">非法的密码或密钥文件。</string>
     <string name="invalid_db_sig">数据库格式无法识别。</string>
     <string name="length">长度</string>
     <string name="list_size_title">群列表尺寸</string>

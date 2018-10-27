@@ -43,7 +43,7 @@
     <string name="clipboard_timeout">Scadenza appunti</string>
     <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti dopo la copia del nome file o password</string>
     <string name="select_to_copy">Copia %1$s negli appunti</string>
-    <string name="creating_db_key">Creazione file chiave database…</string>
+    <string name="retrieving_db_key">Creazione file chiave database…</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
@@ -97,7 +97,7 @@
     <string name="hint_pass">password</string>
     <string name="install_from_play_store">Installa dal Play Store</string>
     <string name="install_from_f_droid">Installa dal F-Droid</string>
-    <string name="InvalidPassword">Password o file chiave non validi.</string>
+    <string name="invalid_password">Password o file chiave non validi.</string>
     <string name="invalid_algorithm">Algoritmo non valido.</string>
     <string name="invalid_db_sig">Formato database non riconosciuto.</string>
     <string name="keyfile_does_not_exist">Il file chiave non esiste.</string>

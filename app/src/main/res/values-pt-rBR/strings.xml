@@ -39,7 +39,7 @@
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
     <string name="clipboard_timeout_summary">Tempo até limpar a área de transferência após copiar usuário ou senha</string>
     <string name="select_to_copy">Copiar %1$s para o clipboard</string>
-    <string name="creating_db_key">Criando a chave do banco de dados…</string>
+    <string name="retrieving_db_key">Criando a chave do banco de dados…</string>
     <string name="database">Banco de Dados</string>
     <string name="decrypting_db">Decifrando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar este banco de dados como padrão</string>
@@ -89,7 +89,7 @@
     <string name="hint_pass">senha</string>
     <string name="install_from_play_store">Instalar a partir do Google Play</string>
     <string name="install_from_f_droid">Instalar a partir do F-Droid</string>
-    <string name="InvalidPassword">Senha ou arquivo de chaves inválidos.</string>
+    <string name="invalid_password">Senha ou arquivo de chaves inválidos.</string>
     <string name="invalid_db_sig">O formato do banco de dados não foi reconhecido.</string>
     <string name="length">Tamanho</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>

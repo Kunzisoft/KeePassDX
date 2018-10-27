@@ -47,7 +47,7 @@
     <string name="clipboard_timeout_summary">Temps avant le vidage du presse-papier après copie du nom d\'utilisateur ou du mot de passe</string>
     <string name="clipboard_swipe_clean">Balayez pour effacer le presse-papiers maintenant</string>
     <string name="select_to_copy">Copier %1$s dans le presse-papier</string>
-    <string name="creating_db_key">Création de la clé de base de données…</string>
+    <string name="retrieving_db_key">Création de la clé de base de données…</string>
     <string name="database">Base de données</string>
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
@@ -102,7 +102,7 @@
     <string name="password">Mot de passe</string>
     <string name="install_from_play_store">Installer depuis Google Play</string>
     <string name="install_from_f_droid">Installer depuis F-Droid</string>
-    <string name="InvalidPassword">Mot de passe ou fichier de clé invalide.</string>
+    <string name="invalid_password">Mot de passe ou fichier de clé invalide.</string>
     <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Format de base de données non reconnu.</string>
     <string name="keyfile_does_not_exist">Le fichier de clé n\'existe pas.</string>

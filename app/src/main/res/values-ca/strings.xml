@@ -39,7 +39,7 @@
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
     <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls després de copiar un usuari o contrasenya</string>
     <string name="select_to_copy">Selecciona per copiar %1$s al porta-retalls</string>
-    <string name="creating_db_key">Creant clau de base de dades&#8230;</string>
+    <string name="retrieving_db_key">Creant clau de base de dades&#8230;</string>
     <string name="database">Base de dades</string>
     <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
@@ -89,7 +89,7 @@
     <string name="password">Contrasenya</string>
     <string name="install_from_play_store">Instal·la de la Play Store</string>
     <string name="install_from_f_droid">Instal·la de la F-Droid</string>
-    <string name="InvalidPassword">Contrasenya o arxiu clau invàlids.</string>
+    <string name="invalid_password">Contrasenya o arxiu clau invàlids.</string>
     <string name="invalid_db_sig">Format de base de dades desconegut.</string>
     <string name="length">Longitud</string>
     <string name="list_size_title">Mida de la llista de grups</string>

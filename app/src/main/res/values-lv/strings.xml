@@ -22,7 +22,7 @@
     <string name="clipboard_timeout">Starpliktuves taimauts</string>
     <string name="clipboard_timeout_summary">Notīrīšanas taimauts pēc lietotājvārda vai paroles kopēšana starpliktuvē</string>
     <string name="select_to_copy">%1$s uz starpliktuvi</string>
-    <string name="creating_db_key">Izveidot datu bāzes atslēgu…</string>
+    <string name="retrieving_db_key">Izveidot datu bāzes atslēgu…</string>
     <string name="database">Datu bāze</string>
     <string name="decrypting_db">Datu bāzes atšifrēšana…</string>
     <string name="default_checkbox">Izmantot šo kā manu noklusējuma datu bāzi</string>
@@ -74,7 +74,7 @@
     <string name="password">Parole</string>
     <string name="install_from_play_store">Instalēt no Play veikala</string>
     <string name="install_from_f_droid">Instalēt no F-Droid</string>
-    <string name="InvalidPassword">Nederīga parole vai atslēgas fails.</string>
+    <string name="invalid_password">Nederīga parole vai atslēgas fails.</string>
     <string name="invalid_algorithm">Nederīgs algoritms.</string>
     <string name="invalid_db_sig">Datu bāzes formāts nav atpazīts.</string>
     <string name="keyfile_does_not_exist">Atslēgas fails nepastāv.</string>

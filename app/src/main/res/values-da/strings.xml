@@ -42,7 +42,7 @@
     <string name="clipboard_timeout">Udklipsholder timeout</string>
     <string name="clipboard_timeout_summary">Tid før udklipsholderen bliver ryddet efter kopiering af brugernavn eller adgangskode</string>
     <string name="select_to_copy">Vælg for at kopiere %1$s til udklipsholderen</string>
-    <string name="creating_db_key">Opretter databasenøgle&#8230;</string>
+    <string name="retrieving_db_key">Opretter databasenøgle&#8230;</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Dekrypterer databaseindhold&#8230;</string>
     <string name="default_checkbox">Brug denne database som standard</string>
@@ -96,7 +96,7 @@
     <string name="password">Adgangskode</string>
     <string name="install_from_play_store">Installer fra Play Butik</string>
     <string name="install_from_f_droid">Installer fra F-Droid</string>
-    <string name="InvalidPassword">Ugyldig adgangskode eller nøglefil.</string>
+    <string name="invalid_password">Ugyldig adgangskode eller nøglefil.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Databaseformatet blev ikke genkendt.</string>
     <string name="keyfile_does_not_exist">Nøglefil eksisterer ikke.</string>

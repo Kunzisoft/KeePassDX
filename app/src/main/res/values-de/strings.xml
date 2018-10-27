@@ -45,7 +45,7 @@
     <string name="clipboard_timeout">Zwischenablagesperre</string>
     <string name="clipboard_timeout_summary">Zeit nach dem Kopieren eines Benutzernamens oder Passworts, bevor die Zwischenablage geleert wird</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
-    <string name="creating_db_key">Datenbank-Schlüsseldatei erzeugen\u2026</string>
+    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen\u2026</string>
     <string name="database">Datenbank</string>
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte\u2026</string>
     <string name="default_checkbox">Als Standard-Datenbank benutzen</string>
@@ -100,7 +100,7 @@
     <string name="password">Passwort</string>
     <string name="install_from_play_store">Google Play</string>
     <string name="install_from_f_droid">F-Droid</string>
-    <string name="InvalidPassword">Passwort oder Schlüsseldatei ist falsch.</string>
+    <string name="invalid_password">Passwort oder Schlüsseldatei ist falsch.</string>
     <string name="invalid_algorithm">Ungültiger Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat wurde nicht erkannt.</string>
     <string name="keyfile_does_not_exist">Schlüsseldatei existiert nicht.</string>
