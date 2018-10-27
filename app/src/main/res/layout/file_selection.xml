@@ -134,7 +134,6 @@
                         android:padding="12dp"
                         style="@style/KeepassDXStyle.TextAppearance.Title"
                         android:textColor="?android:attr/textColorHintInverse"
-                        android:textStyle="bold"
                         android:text="@string/open_recent" />
                     <View
                         android:layout_width="match_parent"
