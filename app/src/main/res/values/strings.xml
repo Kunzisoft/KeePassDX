@@ -43,7 +43,7 @@
     <string name="clipboard_error">Some Samsung Android phones won\'t let apps use the clipboard.</string>
     <string name="clipboard_error_clear">Could not clear clipboard</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
-    <string name="clipboard_timeout_summary">Time copied usernames or passwords are stored in the clipboard</string>
+    <string name="clipboard_timeout_summary">Duration of storage in the clipboard</string>
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
      <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
@@ -55,7 +55,7 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
-    <string name="entry_comment">Comments</string>
+    <string name="entry_comment">Notes</string>
     <string name="entry_confpassword">Confirm password</string>
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
@@ -148,7 +148,7 @@
     <string name="no_url_handler">Install a web browser to open this URL.</string>
     <string name="select_database_file">Open existing database</string>
     <string name="create_keepass_file">Create new database</string>
-    <string name="open_recent">Recent databases:</string>
+    <string name="open_recent">Recent databases</string>
     <string name="omitbackup_title">Don\'t search through backup entries</string>
     <string name="omitbackup_summary">Omits \"Backup\" group from search results (only applies to .kdb files)</string>
     <string name="progress_create">Creating new database…</string>
@@ -159,12 +159,12 @@
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow apps to write to the SD card.</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>
-    <string name="remember_keyfile_summary">Remembers the location of app security keyfiles</string>
+    <string name="remember_keyfile_summary">Remembers the location of databases keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
     <string name="remove_from_filelist">Remove</string>
     <string name="root">Root</string>
-    <string name="encryption_explanation">Database encryption algorithm used for passwords, usernames, notes and all data.</string>
-    <string name="kdf_explanation">To generate the key for the encryption algorithm, the compressed master key (SHA-256) is transformed using a randomly salted key derivation function.</string>
+    <string name="encryption_explanation">Database encryption algorithm used for all data.</string>
+    <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>
     <string name="rounds">Transformation rounds</string>
     <string name="rounds_explanation">Additional encryption rounds provide higher protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="rounds_hint">transformation rounds</string>
@@ -192,7 +192,7 @@
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
-    <string name="use_saf_summary">Use Android storage access (SAF) framework for file browsing (KitKat onwards)</string>
+    <string name="use_saf_summary">Use Android storage access framework (SAF) for file browsing (KitKat onwards)</string>
     <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of Latin-1 in .kbd files, as they are all converted to the same letter.</string>
@@ -331,7 +331,7 @@
     <bool name="keyboard_key_sound_default" translatable="false">false</bool>
 
     <string name="allow_no_password_title">Allow no password</string>
-    <string name="allow_no_password_summary">Enable the \"Open"\ button if no password identification is selected</string>
+    <string name="allow_no_password_summary">Enable the \"Open\" button if no password identification is selected</string>
     <string name="enable_read_only_title">Write-protected</string>
     <string name="enable_read_only_summary">Open your database read-only by default</string>
 
