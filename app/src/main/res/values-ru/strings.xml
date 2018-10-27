@@ -41,7 +41,7 @@
     <string name="clipboard_timeout">Очистка буфера</string>
     <string name="clipboard_timeout_summary">Задержка очистки после копирования в буфер</string>
     <string name="select_to_copy">%1$s – в буфер</string>
-    <string name="creating_db_key">Создание ключа…</string>
+    <string name="retrieving_db_key">Создание ключа…</string>
     <string name="database">База</string>
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">По умолчанию</string>
@@ -96,7 +96,7 @@
     <string name="password">пароль</string>
     <string name="install_from_play_store">Google Play</string>
     <string name="install_from_f_droid">F-Droid</string>
-    <string name="InvalidPassword">Неверный пароль или файл-ключ</string>
+    <string name="invalid_password">Неверный пароль или файл-ключ</string>
     <string name="invalid_algorithm">Неверный криптоалгоритм</string>
     <string name="invalid_db_sig">Формат базы не определён</string>
     <string name="keyfile_does_not_exist">Файл-ключ не найден</string>

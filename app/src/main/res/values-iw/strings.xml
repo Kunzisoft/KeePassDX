@@ -41,7 +41,7 @@
     <string name="clipboard_timeout">זמן עד לניקוי לוח ההעתקה</string>
     <string name="clipboard_timeout_summary">זמן לפני שלוח ההעתקה מנוקה לאחר העתקת שם משתמש או סיסמה</string>
     <string name="select_to_copy">בחר בהעתקת %1$s ללוח ההעתקה</string>
-    <string name="creating_db_key">יוצר מפתח מסד נתונים&#8230;</string>
+    <string name="retrieving_db_key">יוצר מפתח מסד נתונים&#8230;</string>
     <string name="database">מסד נתונים</string>
     <string name="decrypting_db">מפענח תוכן מסד נתונים&#8230;</string>
     <string name="default_checkbox">השתמש בזה כמסד הנתונים הברירת מחדל</string>
@@ -93,7 +93,7 @@
     <string name="password">סיסמה</string>
     <string name="install_from_play_store">התקן מחנות Play</string>
     <string name="install_from_f_droid">התקן מהאינטרנט</string>
-    <string name="InvalidPassword">סיסמה או קובץ מפתח לא מתאימים.</string>
+    <string name="invalid_password">סיסמה או קובץ מפתח לא מתאימים.</string>
     <string name="invalid_algorithm">אלגוריתם לא חוקי.</string>
     <string name="invalid_db_sig">תבנית מסד הנתונים אינה מזוהה.</string>
     <string name="keyfile_does_not_exist">קובץ המפתח לא קיים.</string>

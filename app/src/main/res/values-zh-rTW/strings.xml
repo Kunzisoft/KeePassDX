@@ -36,7 +36,7 @@
     <string name="clipboard_timeout">剪貼板超時</string>
     <string name="clipboard_timeout_summary">複製用戶名或密碼到剪貼板後清除的時間</string>
     <string name="select_to_copy">複製%1$s到剪貼板</string>
-    <string name="creating_db_key">創建資料庫密鑰…</string>
+    <string name="retrieving_db_key">創建資料庫密鑰…</string>
     <string name="database">資料庫</string>
     <string name="decrypting_db">解密資料庫內容中…</string>
     <string name="default_checkbox">使用這作為我的預設資料庫</string>
@@ -86,7 +86,7 @@
     <string name="hint_pass">密碼</string>
     <string name="install_from_play_store">從 Play 商店安裝</string>
     <string name="install_from_f_droid">從 F-Droid 安裝</string>
-    <string name="InvalidPassword">無效的密碼或密鑰檔。</string>
+    <string name="invalid_password">無效的密碼或密鑰檔。</string>
     <string name="invalid_db_sig">資料庫格式無法識別。</string>
     <string name="length">長度</string>
     <string name="list_size_title">群列表尺寸</string>

@@ -43,7 +43,7 @@
     <string name="clipboard_timeout">Tempo de espera da área de transferência</string>
     <string name="clipboard_timeout_summary">Tempo antes da limpeza da área de transferência depois de copiado o nome de utilizador ou a palavra-passe.</string>
     <string name="select_to_copy">Selecione para copiar %1$s para a área de transferência</string>
-    <string name="creating_db_key">A criar a chave da base de dados&#8230;</string>
+    <string name="retrieving_db_key">A criar a chave da base de dados&#8230;</string>
     <string name="database">Base de dados</string>
     <string name="decrypting_db">A desencriptar conteúdo da base de dados&#8230;</string>
     <string name="default_checkbox">Utilizar esta base de dados como predefinida</string>
@@ -98,7 +98,7 @@
     <string name="password">Palavra-passe</string>
     <string name="install_from_play_store">Instalar pela Play Store</string>
     <string name="install_from_f_droid">Instalar pela F-Droid</string>
-    <string name="InvalidPassword">Palavra-passe ou ficheiro chave inválidos.</string>
+    <string name="invalid_password">Palavra-passe ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo inválido.</string>
     <string name="invalid_db_sig">Formato da base de dados não reconhecido.</string>
     <string name="keyfile_does_not_exist">O ficheiro chave não existe.</string>

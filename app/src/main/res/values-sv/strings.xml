@@ -42,7 +42,7 @@
     <string name="clipboard_timeout">Tidsgräns för urklipp</string>
     <string name="clipboard_timeout_summary">Tiden innan användarnamn och lösenord rensas från urklipp</string>
     <string name="select_to_copy">Kopiera %1$s till urklipp</string>
-    <string name="creating_db_key">Skapar databasnyckel&#8230;</string>
+    <string name="retrieving_db_key">Skapar databasnyckel&#8230;</string>
     <string name="database">Databas</string>
     <string name="decrypting_db">Dekrypterar databasinnehåll&#8230;</string>
     <string name="default_checkbox">Använda denna databasen som standard</string>
@@ -95,7 +95,7 @@
     <string name="password">Lösenord</string>
     <string name="install_from_play_store">Installera från Play Store</string>
     <string name="install_from_f_droid">Installera från F-Droid</string>
-    <string name="InvalidPassword">Ogiltigt lösenord eller nyckelfil.</string>
+    <string name="invalid_password">Ogiltigt lösenord eller nyckelfil.</string>
     <string name="invalid_algorithm">Ogiltig algoritm.</string>
     <string name="invalid_db_sig">Databasformatet är okänt.</string>
     <string name="keyfile_does_not_exist">Nyckelfilen existerar inte.</string>

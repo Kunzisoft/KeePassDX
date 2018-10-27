@@ -101,7 +101,7 @@ public class ImporterV4 extends Importer {
             InvalidDBException {
 
 		if (progressTaskUpdater != null)
-			progressTaskUpdater.updateMessage(R.string.creating_db_key);
+			progressTaskUpdater.updateMessage(R.string.retrieving_db_key);
 		db = new PwDatabaseV4();
 		
 		PwDbHeaderV4 header = new PwDbHeaderV4(db);
