@@ -27,8 +27,8 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="add_entry">Añadir entrada</string>
     <string name="add_group">Añadir grupo</string>
     <string name="encryption_algorithm">Algoritmo de cifrado</string>
-    <string name="app_timeout">Tiempo de espera de aplicación</string>
-    <string name="app_timeout_summary">Tiempo hasta bloquear la base de datos cuando la aplicación está inacttiva.</string>
+    <string name="app_timeout">Tiempo de espera de la aplicación excedido</string>
+    <string name="app_timeout_summary">Tiempo hasta bloquear la base de datos cuando la aplicación está inactiva.</string>
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
@@ -140,7 +140,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="unsupported_db_version">Versión de base de datos no soportada.</string>
     <string name="uppercase">Mayúsculas</string>
     <string name="warning_unmounted">Actualmente su tarjeta SD no está montada en el dispositivo. No podrá cargar o crear su base de datos.</string>
-    <string name="version_label">Versión: %1$s</string>
+    <string name="version_label">Versión %1$s</string>
 
     <string name="education_unlock_summary">Introduzca una contraseña y/o un archivo de clave para desbloquear su base de datos.</string>
 
@@ -342,4 +342,5 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
     <string name="icon_pack_choose_summary">Cambiar el paquete de íconos de la aplicación</string>
 
-</resources>
+<string name="edit_entry">Editar entrada</string>
+    </resources>

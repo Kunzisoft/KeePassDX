@@ -136,7 +136,7 @@
     <string name="unsupported_db_version">Nepodporovaná verzia databázy.</string>
     <string name="uppercase">Veľké písmená</string>
     <string name="warning_unmounted">Vaša SD karta nie je momentálne pripojená k zariadeniu. Nemôžete načítať, alebo vytvoriť databázu.</string>
-    <string name="version_label">Version: %1$s</string>
+    <string name="version_label">Version %1$s</string>
 
     <string name="education_unlock_summary">Vložte heslo a / alebo keyfile pre odomknutie databázy.</string>
 

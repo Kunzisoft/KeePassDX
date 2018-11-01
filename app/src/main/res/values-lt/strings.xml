@@ -57,7 +57,7 @@
     <string name="protection">Apsauga</string>
     <string name="search_label">Paieška</string>
     <string name="search_results">Paieškos rezultatai</string>
-    <string name="version_label">Versija: %1$s</string>
+    <string name="version_label">Versija %1$s</string>
     <string name="warning">Įspėjimas</string>
     <string name="select_database_file">Įveskite duomenų bazės failą</string>
     <string name="error_wrong_length">Įveskite teigiamą skaičių ilgio lauke</string>

@@ -136,7 +136,7 @@
     <string name="unsupported_db_version">このバージョンのデータベースはサポートされていません。</string>
     <string name="uppercase">英数大文字</string>
     <string name="warning_unmounted">SDカードがマウントされていません。データベースの読込や作成ができません。</string>
-    <string name="version_label">バージョン: %1$s</string>
+    <string name="version_label">バージョン %1$s</string>
 
     <string name="education_unlock_summary">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
 
