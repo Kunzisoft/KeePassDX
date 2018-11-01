@@ -18,15 +18,15 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_feedback">Signaler une anomalie :</string>
-    <string name="about_homepage">Site web :</string>
-    <string name="about_description">KeePass DX est une implémentation sur Android du gestionnaire de mots de passe KeePass.</string>
+    <string name="about_feedback">Signaler une anomalie</string>
+    <string name="about_homepage">Site web</string>
+    <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass.</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
     <string name="add_string">Ajouter une chaîne</string>
     <string name="encryption">Chiffrement</string>
-    <string name="encryption_algorithm">Algorithme de Chiffrement</string>
+    <string name="encryption_algorithm">Algorithme de chiffrement</string>
     <string name="key_derivation_function">Fonction de dérivation de clé</string>
     <string name="app_timeout">Délai d\'expiration de l\'application</string>
     <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive</string>
