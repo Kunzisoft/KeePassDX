@@ -51,7 +51,7 @@ import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.keyboard.KeyboardExplanationDialog;
+import com.kunzisoft.keepass.dialogs.KeyboardExplanationDialogFragment;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
@@ -60,7 +60,6 @@ import com.kunzisoft.keepass.settings.preferenceDialogFragment.MemoryUsagePrefer
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferenceDialogFragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
-import com.kunzisoft.magikeyboard.settings.MagikIMESettings;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {
@@ -303,8 +302,8 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference keyboardPreference = findPreference(getString(R.string.magic_keyboard_key));
                 keyboardPreference.setOnPreferenceClickListener(preference -> {
                     if (getFragmentManager() != null) {
-                        KeyboardExplanationDialog fingerPrintDialog = new KeyboardExplanationDialog();
-                        fingerPrintDialog.show(getFragmentManager(), "keyboardExplanationDialog");
+                        KeyboardExplanationDialogFragment keyboardDialog = new KeyboardExplanationDialogFragment();
+                        keyboardDialog.show(getFragmentManager(), "keyboardExplanationDialog");
                     }
                     return false;
                 });

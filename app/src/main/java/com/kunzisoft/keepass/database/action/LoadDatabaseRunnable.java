@@ -74,7 +74,7 @@ public class LoadDatabaseRunnable extends RunnableOnFinish {
             catchError(e, R.string.error_arc4);
             return;
         } catch (InvalidPasswordException e) {
-            catchError(e, R.string.InvalidPassword);
+            catchError(e, R.string.invalid_password);
             return;
         } catch (ContentFileNotFoundException e) {
             catchError(e, R.string.file_not_found_content);

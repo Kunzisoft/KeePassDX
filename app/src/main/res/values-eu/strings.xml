@@ -42,7 +42,7 @@
     <string name="clipboard_timeout">Arbela denbora pasatu da</string>
     <string name="clipboard_timeout_summary">Erabiltzaile izena edo pasahitza kopiatu ondoren arbela ezabatzeko igaro beharreko denbora</string>
     <string name="select_to_copy">Aukeratu %1$s arbelera kopiatzeko</string>
-    <string name="creating_db_key">Datubasearen gakoa sortzen&#8230;</string>
+    <string name="retrieving_db_key">Datubasearen gakoa sortzen&#8230;</string>
     <string name="database">Datubasea</string>
     <string name="decrypting_db">Datubasearen datuak desenkriptatzen&#8230;</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
@@ -96,7 +96,7 @@
     <string name="password">Pasahitza</string>
     <string name="install_from_play_store">Play store-etik Instalatu</string>
     <string name="install_from_f_droid">F-Droid-etik Instalatu</string>
-    <string name="InvalidPassword">Pasahitz edo gako fitxategi baliogabea.</string>
+    <string name="invalid_password">Pasahitz edo gako fitxategi baliogabea.</string>
     <string name="invalid_algorithm">Algoritmo baliogabea.</string>
     <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>
     <string name="keyfile_does_not_exist">Gako fitxategia ez da esistitzen.</string>
@@ -152,9 +152,8 @@
     <string name="underline">Azpimarratu</string>
     <string name="unsupported_db_version">Euskarririk gabeko datubase bertsioa.</string>
     <string name="uppercase">Maiuskulak</string>
-    <string name="warning_read_only">Zure sd txartela bakarrik irakurtzeko moduan dago. Izan daiteke datubasearen aldaketak ezin gordetzea.</string>
     <string name="warning_unmounted">Une honetan zure sd txartela ez dago montatua zure dispositiboan. Ezingo duzu zure datubasea kargatu edo sortu.</string>
-    <string name="version_label">Bertsioa:</string>
+    <string name="version_label">Bertsioa %1$s</string>
 
     <string name="education_unlock_summary">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko.</string>
 

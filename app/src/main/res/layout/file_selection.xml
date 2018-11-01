@@ -49,20 +49,58 @@
                 android:paddingTop="48dp"
                 android:paddingBottom="24dp"
                 android:layout_marginBottom="36dp">
-                <TextView
-                    android:id="@+id/file_selection_title"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:shadowColor="#393939"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="4"
-                    android:paddingTop="?attr/actionBarSize"
-                    android:textColor="?attr/textColorInverse"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/app_name"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/file_selection_title_part_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:shadowColor="#393939"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4"
+                        android:paddingTop="?attr/actionBarSize"
+                        android:textColor="?attr/textColorInverse"
+                        android:gravity="center"
+                        android:text="@string/app_name_part1"/>
+                    <TextView
+                        android:id="@+id/file_selection_title_part_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:shadowColor="#393939"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4"
+                        android:paddingTop="?attr/actionBarSize"
+                        android:textColor="?attr/colorAccentCompat"
+                        android:gravity="center"
+                        android:text="@string/app_name_part2"/>
+                    <TextView
+                        android:id="@+id/file_selection_title_part_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:shadowColor="#393939"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4"
+                        android:paddingTop="?attr/actionBarSize"
+                        android:textColor="?android:attr/textColorHintInverse"
+                        android:gravity="center"
+                        android:text="@string/app_name_part3"/>
+                </LinearLayout>
             </FrameLayout>
 
             <TextView android:id="@+id/label_warning"
@@ -78,26 +116,36 @@
                 android:layout_below="@+id/file_selection_title_container"
                 android:visibility="gone" />
 
-            <TextView android:id="@+id/file_list_title"
-                android:layout_marginLeft="@dimen/default_margin"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginRight="@dimen/default_margin"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:gravity="center"
+            <android.support.v7.widget.CardView
+                android:id="@+id/container_file_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_below="@+id/label_warning"
-                style="@style/KeepassDXStyle.TextAppearance.Title"
-                android:textColor="?attr/colorAccentCompat"
-                android:text="@string/open_recent" />
+                android:backgroundTint="?attr/colorPrimary"
+                android:layout_margin="12dp"
+                android:layout_below="@+id/label_warning">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/file_list"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/file_list_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView android:id="@+id/file_list_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        style="@style/KeepassDXStyle.TextAppearance.Title"
+                        android:textColor="?android:attr/textColorHintInverse"
+                        android:text="@string/open_recent" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/textColorHintInverse"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/file_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

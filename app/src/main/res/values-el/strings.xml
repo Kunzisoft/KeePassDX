@@ -40,7 +40,7 @@
     <string name="clipboard_timeout">Λήξη χρονικού ορίου προχείρου</string>
     <string name="clipboard_timeout_summary">Χρόνος προτού γίνει εκκαθάριση του προχείρου μετά από αντιγραφή ονόματος χρήστη ή κωδικού πρόσβασης</string>
     <string name="select_to_copy">Επιλέξτε για αντιγραφή %1$s στο πρόχειρο</string>
-    <string name="creating_db_key">Δημιουργία κλειδιού βάσης δεδομένων&#8230;</string>
+    <string name="retrieving_db_key">Δημιουργία κλειδιού βάσης δεδομένων&#8230;</string>
     <string name="database">Βάση Δεδομένων</string>
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένων βάσης δεδομένων&#8230;</string>
     <string name="default_checkbox">Χρήση αυτής της βάσης ως προεπιλεγμένη</string>
@@ -94,7 +94,7 @@
     <string name="password">Κωδικός Πρόσβασης</string>
     <string name="install_from_play_store">Εγκατάσταση από το Play Store</string>
     <string name="install_from_f_droid">Εγκατάσταση από το F-Droid</string>
-    <string name="InvalidPassword">Εσφαλμένος κωδικός ή αρχείο κλειδιού.</string>
+    <string name="invalid_password">Εσφαλμένος κωδικός ή αρχείο κλειδιού.</string>
     <string name="invalid_algorithm">Εσφαλμένος αλγόριθμος.</string>
     <string name="invalid_db_sig">Η μορφή της Βάσης Δεδομένων δεν αναγνωρίζεται.</string>
     <string name="keyfile_does_not_exist">Δεν υπάρχει αρχείο κλειδιού.</string>
@@ -152,9 +152,8 @@
     <string name="underline">Υπογράμμιση</string>
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>
-    <string name="warning_read_only">Η κάρτα SD είναι αυτή τη στιγμή μόνο για ανάγνωση. Είναι πιθανόν να μη μπορείτε ν αποθηκεύσετε τυχόν αλλαγές στη βάση δεδομένων σας.</string>
     <string name="warning_unmounted">Η κάρτα SD δεν είναι προσαρμοσμένη αυτή τη στιγμή στη συσκευή σας. Δεν θα μπορείτε να φορτώσετε ή να δημιουργήσετε τη βάση δεδομένων σας.</string>
-    <string name="version_label">Έκδοση:</string>
+    <string name="version_label">Έκδοση %1$s</string>
 
     <string name="education_unlock_summary">Εισάγετε έναν κωδικό πρόσβασης και/ή αρχείο κλειδιού για να ξεκλειδώσετε τη βάση δεδομένων σας.</string>
 

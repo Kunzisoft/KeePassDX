@@ -156,7 +156,7 @@ public class ImporterV3 extends Importer {
 		}
 
 		if (progressTaskUpdater != null)
-            progressTaskUpdater.updateMessage(R.string.creating_db_key);
+            progressTaskUpdater.updateMessage(R.string.retrieving_db_key);
 		databaseToOpen = createDB();
 		databaseToOpen.retrieveMasterKey(password, kfIs);
 

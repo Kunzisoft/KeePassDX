@@ -39,6 +39,8 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory;
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.UriUtil;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,7 +60,7 @@ public class Database {
 
     private static final String TAG = Database.class.getName();
 
-    private PwDatabase pm;
+    private PwDatabase pwDatabase;
     private Uri mUri;
     private SearchDbHelper searchHelper;
     private boolean readOnly = false;
@@ -69,11 +71,11 @@ public class Database {
     private boolean loaded = false;
 
     public PwDatabase getPwDatabase() {
-        return pm;
+        return pwDatabase;
     }
 
     public void setPwDatabase(PwDatabase pm) {
-        this.pm = pm;
+        this.pwDatabase = pm;
     }
 
     public void setUri(Uri mUri) {
@@ -151,24 +153,25 @@ public class Database {
         // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
         bis.mark(10);
 
-        Importer databaseImporter = ImporterFactory.createImporter(bis, debug);
+        // Get the file directory to save the attachments
+        Importer databaseImporter = ImporterFactory.createImporter(bis, ctx.getFilesDir(), debug);
 
         bis.reset();  // Return to the start
 
-        pm = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater);
-        if ( pm != null ) {
+        pwDatabase = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater);
+        if ( pwDatabase != null ) {
             try {
-                switch (pm.getVersion()) {
+                switch (pwDatabase.getVersion()) {
                     case V3:
-                        PwGroupV3 rootV3 = ((PwDatabaseV3) pm).getRootGroup();
-                        ((PwDatabaseV3) pm).populateGlobals(rootV3);
-                        passwordEncodingError = !pm.validatePasswordEncoding(password);
+                        PwGroupV3 rootV3 = ((PwDatabaseV3) pwDatabase).getRootGroup();
+                        ((PwDatabaseV3) pwDatabase).populateGlobals(rootV3);
+                        passwordEncodingError = !pwDatabase.validatePasswordEncoding(password);
                         searchHelper = new SearchDbHelper.SearchDbHelperV3(ctx);
                         break;
                     case V4:
-                        PwGroupV4 rootV4 = ((PwDatabaseV4) pm).getRootGroup();
-                        ((PwDatabaseV4) pm).populateGlobals(rootV4);
-                        passwordEncodingError = !pm.validatePasswordEncoding(password);
+                        PwGroupV4 rootV4 = ((PwDatabaseV4) pwDatabase).getRootGroup();
+                        ((PwDatabaseV4) pwDatabase).populateGlobals(rootV4);
+                        passwordEncodingError = !pwDatabase.validatePasswordEncoding(password);
                         searchHelper = new SearchDbHelper.SearchDbHelperV4(ctx);
                         break;
                 }
@@ -187,11 +190,11 @@ public class Database {
     public PwGroup search(String str, int max) {
         if (searchHelper == null) { return null; }
         try {
-            switch (pm.getVersion()) {
+            switch (pwDatabase.getVersion()) {
                 case V3:
-                    return ((SearchDbHelper.SearchDbHelperV3) searchHelper).search(((PwDatabaseV3) pm), str, max);
+                    return ((SearchDbHelper.SearchDbHelperV3) searchHelper).search(((PwDatabaseV3) pwDatabase), str, max);
                 case V4:
-                    return ((SearchDbHelper.SearchDbHelperV4) searchHelper).search(((PwDatabaseV4) pm), str, max);
+                    return ((SearchDbHelper.SearchDbHelperV4) searchHelper).search(((PwDatabaseV4) pwDatabase), str, max);
             }
         } catch (Exception e) {
             Log.e(TAG, "Search can't be performed with this SearchHelper", e);
@@ -261,7 +264,7 @@ public class Database {
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(tempFile);
-                PwDbOutput pmo = PwDbOutput.getInstance(pm, fos);
+                PwDbOutput pmo = PwDbOutput.getInstance(pwDatabase, fos);
                 if (pmo != null)
                     pmo.output();
             } catch (Exception e) {
@@ -289,7 +292,7 @@ public class Database {
             OutputStream os = null;
             try {
                 os = ctx.getContentResolver().openOutputStream(uri);
-                PwDbOutput pmo = PwDbOutput.getInstance(pm, os);
+                PwDbOutput pmo = PwDbOutput.getInstance(pwDatabase, os);
                 if (pmo != null)
                     pmo.output();
             } catch (Exception e) {
@@ -304,10 +307,19 @@ public class Database {
     }
 
     // TODO Clear database when lock broadcast is receive in backstage
-    public void clear() {
+    public void clear(Context context) {
         drawFactory.clearCache();
+        // Delete the cache of the database if present
+        if (pwDatabase != null)
+            pwDatabase.clearCache();
+        // In all cases, delete all the files in the temp dir
+        try {
+            FileUtils.cleanDirectory(context.getFilesDir());
+        } catch (IOException e) {
+            Log.e(TAG, "Unable to clear the directory cache.", e);
+        }
 
-        pm = null;
+        pwDatabase = null;
         mUri = null;
         loaded = false;
         passwordEncodingError = false;
@@ -545,7 +557,7 @@ public class Database {
                 case V4:
                     newPwGroup = new PwGroupV4((PwGroupV4) parent);
             }
-            newPwGroup.setId(pm.newGroupId());
+            newPwGroup.setId(pwDatabase.newGroupId());
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be created", e);
         }

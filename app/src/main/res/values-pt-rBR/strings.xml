@@ -33,13 +33,13 @@
     <string name="application">Aplicação</string>
     <string name="menu_app_settings">Configurações</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">Navegação em arquivos requer o gerenciador de arquivos Open Intents, clique abaixo para instalar. Devido a algumas peculiaridades no gerenciador de arquivos, a navegação pode não funcionar na primeira vez.</string>
+    <string name="browser_intall_text">Navegação em arquivos requer o gerenciador de arquivos OpenIntents, clique abaixo para instalar. Devido a algumas peculiaridades no gerenciador de arquivos, a navegação pode não funcionar na primeira vez.</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
     <string name="clipboard_timeout_summary">Tempo até limpar a área de transferência após copiar usuário ou senha</string>
     <string name="select_to_copy">Copiar %1$s para o clipboard</string>
-    <string name="creating_db_key">Criando a chave do banco de dados…</string>
+    <string name="retrieving_db_key">Criando a chave do banco de dados…</string>
     <string name="database">Banco de Dados</string>
     <string name="decrypting_db">Decifrando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar este banco de dados como padrão</string>
@@ -89,7 +89,7 @@
     <string name="hint_pass">senha</string>
     <string name="install_from_play_store">Instalar a partir do Google Play</string>
     <string name="install_from_f_droid">Instalar a partir do F-Droid</string>
-    <string name="InvalidPassword">Senha ou arquivo de chaves inválidos.</string>
+    <string name="invalid_password">Senha ou arquivo de chaves inválidos.</string>
     <string name="invalid_db_sig">O formato do banco de dados não foi reconhecido.</string>
     <string name="length">Tamanho</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
@@ -138,9 +138,8 @@
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão de banco de dados não suportada.</string>
     <string name="uppercase">Letras maiúsculas</string>
-    <string name="warning_read_only">Seu cartão SD está no modo de somente leitura. Talvez não seja possível salvar modificações ao banco de dados.</string>
     <string name="warning_unmounted">Seu cartão SD não está montado no dispositivo. Não será possível carregar ou criar um banco de dados.</string>
-    <string name="version_label">Versão:</string>
+    <string name="version_label">Versão %1$s</string>
 
     <string name="education_unlock_summary">Digite uma senha e/ ou entre com o caminho para o arquivo de chaves do banco de dados.</string>
 
@@ -167,7 +166,7 @@
     <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
-    <string name="clipboard_error">Alguns telefones Samsung Android têm um bug na implementação da área de transferência que faz com que a cópia entre aplicativos falhe. Para mais detalhes, acesse:</string>
+    <string name="clipboard_error">Alguns telefones Samsung Android têm um defeito na implementação da área de transferência que faz com que a cópia entre aplicativos falhe. Para mais detalhes, acesse:</string>
     <string name="clipboard_error_clear">Limpeza de área de transferência falhou</string>
     <string name="clipboard_swipe_clean">Deslize para limpar a área de transferência agora</string>
     <string name="entry_not_found">Entrada não encontrada.</string>
@@ -257,7 +256,7 @@
     <string name="fingerprint_delete_all_summary">Apague todas as chaves de encriptação relacionadas ao reconhecimento de Impressões digitais</string>
     <string name="fingerprint_delete_all_warning">Tem certeza que você quer apagar todas as chaves relacionadas as Impressões digitais?</string>
     <string name="unavailable_feature_text">Não é possível iniciar esse recurso.</string>
-    <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a a versão mínima %2$s necessária.</string>
+    <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a versão mínima %2$s necessária.</string>
     <string name="unavailable_feature_hardware">Hardware não foi detectado.</string>
     <string name="file_name">Nome do arquivo</string>
     <string name="path">Caminho</string>
@@ -377,4 +376,5 @@
     <string name="icon_pack_choose_title">Selecione um pacote de ícones</string>
     <string name="icon_pack_choose_summary">Alterar o pacote de ícones do aplicativo</string>
 
-</resources>
+<string name="edit_entry">Editar entrada</string>
+    </resources>

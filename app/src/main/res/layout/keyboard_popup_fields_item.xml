@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/keyboard_popup_field_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/key_background"
+        android:layout_margin="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="qsjdbhqsdv"
+        android:textColor="@color/white"/>
+</RelativeLayout>

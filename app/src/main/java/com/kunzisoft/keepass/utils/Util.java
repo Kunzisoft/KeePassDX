@@ -27,15 +27,10 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.util.TypedValue;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class Util {
 
@@ -49,20 +44,8 @@ public class Util {
 	public static void gotoUrl(Context context, int resId) throws ActivityNotFoundException {
 		gotoUrl(context, context.getString(resId));
 	}
-	
-	public static void copyStream(InputStream in, OutputStream out) throws IOException {
-		byte[] buf = new byte[1024];
-		int read;
-		try {
-            while ((read = in.read(buf)) != -1) {
-                out.write(buf, 0, read);
-            }
-        } catch (OutOfMemoryError error) {
-		    throw new IOException(error);
-        }
-	}
 
-    /**
+	/**
      * Replace font by monospace, must be called after seText()
      */
     public static void applyFontVisibilityTo(final Context context, final TextView textView) {

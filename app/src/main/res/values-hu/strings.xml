@@ -37,7 +37,7 @@
     <string name="clipboard_timeout">Vágólap időkorlátja</string>
     <string name="clipboard_timeout_summary">Beállíthatja, mennyi idő után kerüljön törlésre a vágólap</string>
     <string name="select_to_copy">%1$s másolása a vágólapra</string>
-    <string name="creating_db_key">Adatbázis létrehozása…</string>
+    <string name="retrieving_db_key">Adatbázis létrehozása…</string>
     <string name="database">Adatbázis</string>
     <string name="decrypting_db">Adatbázis tartalmának dekódolása…</string>
     <string name="default_checkbox">Adatbázis beállítása alapértelmezettként</string>
@@ -91,7 +91,7 @@
     <string name="password">Jelszó</string>
     <string name="install_from_play_store">Letöltés a Google Play-ről</string>
     <string name="install_from_f_droid">Letöltés a F-Droid</string>
-    <string name="InvalidPassword">Érvénytelen jelszó vagy kulcsfájl.</string>
+    <string name="invalid_password">Érvénytelen jelszó vagy kulcsfájl.</string>
     <string name="invalid_algorithm">Érvénytelen algoritmus.</string>
     <string name="invalid_db_sig">Az adabázis formátuma nem ismert.</string>
     <string name="keyfile_does_not_exist">A kulcsfájl nem létezik.</string>
@@ -153,10 +153,9 @@
     <string name="use_saf_summary">Használja az Android Storage Access Framework-öt a fájlok böngészéséhez (KitKat vagy későbbi)</string>
     <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Figyelmeztetés</string>
-    <string name="warning_password_encoding">A .kdb formátum csak a Latin1 karakterkészletet támogatja. A jelenlegi jelszó olyan karaktereket is tartalmazhat, amik ezen kívül esnek. Az összes ilyen karakter át lesz lesz konvertálva, viszont ez nagyban csökkenteni fogja a jelszó erősségét. Mielőbbi megváltoztatása ajánlott.</string>
-    <string name="warning_read_only">A memóriakártya jelenleg csak olvasható. Lehet, hogy nem tudja menteni a módosításokat az adatbázisban.</string>
+    <string name="warning_password_encoding">A .kdb formátum csak a Latin1 karakterkészletet támogatja. A jelenlegi jelszó olyan karaktereket is tartalmazhat, amik ezen kívül esnek. Az összes ilyen karakter át lesz konvertálva, viszont ez nagyban csökkenteni fogja a jelszó erősségét. Mielőbbi megváltoztatása ajánlott.</string>
     <string name="warning_unmounted">A memóriakártya jelenleg el van távolítva. Nem fogja tudni az adatbázist betölteni vagy módosítani.</string>
-    <string name="version_label">Verzió:</string>
+    <string name="version_label">Verzió %1$s</string>
     <string name="configure_fingerprint">Az ujjlenyomat használat nincs még beállítva az eszközön</string>
     <string name="scanning_fingerprint">Várakozás az ujjelnyomat megadására</string>
     <string name="encrypted_value_stored">Titkosított jelszó elmentve</string>

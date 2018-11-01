@@ -1,0 +1,7 @@
+ * New recent databases views
+ * New information dialog
+ * Custom fields for the Magikeyboard
+ * Timeout for the Magikeyboard
+ * Long press for keyboard selection
+ * Fix memory when opening the database
+ * Memory management for attachments

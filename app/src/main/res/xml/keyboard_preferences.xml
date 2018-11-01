@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/keyboard_entry_category">
+        <SwitchPreference
+            android:key="@string/keyboard_notification_entry_key"
+            android:title="@string/keyboard_notification_entry_title"
+            android:summary="@string/keyboard_notification_entry_summary"
+            android:defaultValue="@bool/keyboard_notification_entry_default"/>
+        <SwitchPreference
+            android:key="@string/keyboard_notification_entry_clear_close_key"
+            android:title="@string/keyboard_notification_entry_clear_close_title"
+            android:summary="@string/keyboard_notification_entry_clear_close_summary"
+            android:dependency="@string/keyboard_notification_entry_key"
+            android:defaultValue="@bool/keyboard_notification_entry_clear_close_default"/>
+        <ListPreference
+            android:key="@string/keyboard_entry_timeout_key"
+            android:title="@string/keyboard_entry_timeout_title"
+            android:summary="@string/keyboard_entry_timeout_summary"
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
+            android:dialogTitle="@string/keyboard_entry_timeout_title"
+            android:defaultValue="@string/timeout_default"
+            android:dependency="@string/keyboard_notification_entry_clear_close_key"/>
+    </PreferenceCategory>
+    <!--
+    <PreferenceCategory
+        android:title="@string/keyboard_appearance_category">
+        <Preference
+            android:key="@string/keyboard_theme_key"
+            android:title="@string/keyboard_theme_title"
+            android:summary="dark"
+            android:enabled="false"/>
+    </PreferenceCategory>
+    -->
+    <PreferenceCategory
+        android:title="@string/keyboard_keys_category">
+        <SwitchPreference
+            android:key="@string/keyboard_key_vibrate_key"
+            android:title="@string/keyboard_key_vibrate_title"
+            android:defaultValue="@bool/keyboard_key_vibrate_default"/>
+        <SwitchPreference
+            android:key="@string/keyboard_key_sound_key"
+            android:defaultValue="@bool/keyboard_key_sound_default"
+            android:title="@string/keyboard_key_sound_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

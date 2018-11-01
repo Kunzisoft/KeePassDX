@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass_model.Entry;
+import com.kunzisoft.keepass.model.Entry;
+import com.kunzisoft.keepass.model.Field;
 
 public class EntrySelectionHelper {
 
@@ -37,9 +38,11 @@ public class EntrySelectionHelper {
             entryModel.setUsername(entry.getUsername());
             entryModel.setPassword(entry.getPassword());
             entryModel.setUrl(entry.getUrl());
-            // TODO Fields
             if (entry.containsCustomFields()) {
-                //entryModel.setCustomField(entry.getFields());
+                entry.getFields()
+                        .doActionToAllCustomProtectedField(
+                                (key, value) -> entryModel.addCustomField(
+                                        new Field(key, value.toString())));
             }
 
             mReplyIntent.putExtra(

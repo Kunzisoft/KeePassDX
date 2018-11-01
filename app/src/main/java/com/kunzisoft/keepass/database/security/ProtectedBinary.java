@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -21,52 +21,107 @@ package com.kunzisoft.keepass.database.security;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 public class ProtectedBinary implements Parcelable {
-	
+
+    private static final String TAG = ProtectedBinary.class.getName();
 	public final static ProtectedBinary EMPTY = new ProtectedBinary();
 
 	private boolean protect;
 	private byte[] data;
-	
+	private File dataFile;
+	private int size;
+
 	public boolean isProtected() {
 		return protect;
 	}
 	
-	public int length() {
-		if (data == null) {
-			return 0;
-		}
-		return data.length;
+	public long length() {
+        if (data != null)
+            return data.length;
+        if (dataFile != null)
+            return size;
+        return 0;
 	}
 	
-	public ProtectedBinary() {
-		this(false, new byte[0]);
+	private ProtectedBinary() {
+        this.protect = false;
+        this.data = null;
+        this.dataFile = null;
+        this.size = 0;
 	}
 	
 	public ProtectedBinary(boolean enableProtection, byte[] data) {
 		this.protect = enableProtection;
 		this.data = data;
+		this.dataFile = null;
+		if (data != null)
+		    this.size = data.length;
+		else
+		    this.size = 0;
 	}
 
-	public ProtectedBinary(Parcel in) {
+    public ProtectedBinary(boolean enableProtection, File dataFile, int size) {
+        this.protect = enableProtection;
+        this.data = null;
+        this.dataFile = dataFile;
+        this.size = size;
+    }
+
+	private ProtectedBinary(Parcel in) {
 		protect = in.readByte() != 0;
 		in.readByteArray(data);
-	}
-	
-	// TODO: replace the byte[] with something like ByteBuffer to make the return
-	// value immutable, so we don't have to worry about making deep copies
-	public byte[] getData() {
-		return data;
-	}
-	
-	public boolean equals(ProtectedBinary rhs) {
-		return (protect == rhs.protect) && Arrays.equals(data, rhs.data);
+        dataFile = new File(in.readString());
+        size = in.readInt();
 	}
 
-	@Override
+    public InputStream getData() throws IOException {
+        if (data != null)
+        	return new ByteArrayInputStream(data);
+	    else if (dataFile != null)
+            return new FileInputStream(dataFile);
+        else
+        	return null;
+    }
+
+    public void clear() {
+		data = null;
+		if (dataFile != null && !dataFile.delete())
+		    Log.e(TAG, "Unable to delete temp file " + dataFile.getAbsolutePath());
+	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProtectedBinary that = (ProtectedBinary) o;
+        return protect == that.protect &&
+                size == that.size &&
+                Arrays.equals(data, that.data) &&
+                dataFile != null &&
+                dataFile.equals(that.dataFile);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = 0;
+        result = 31 * result + (protect ? 1 : 0);
+        result = 31 * result + dataFile.hashCode();
+        result = 31 * result + Integer.valueOf(size).hashCode();
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
+    }
+
+    @Override
 	public int describeContents() {
 		return 0;
 	}
@@ -75,6 +130,8 @@ public class ProtectedBinary implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeByte((byte) (protect ? 1 : 0));
 		dest.writeByteArray(data);
+		dest.writeString(dataFile.getAbsolutePath());
+		dest.writeInt(size);
 	}
 
 	public static final Creator<ProtectedBinary> CREATOR = new Creator<ProtectedBinary>() {

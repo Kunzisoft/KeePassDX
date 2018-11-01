@@ -36,7 +36,7 @@
     <string name="clipboard_timeout">クリップボード タイムアウト</string>
     <string name="clipboard_timeout_summary">コピーした情報をクリップボードから消去する時間</string>
     <string name="select_to_copy">ここをタップすると%1$sをクリップボードにコピーします</string>
-    <string name="creating_db_key">データベース認証中&#8230;</string>
+    <string name="retrieving_db_key">データベース認証中&#8230;</string>
     <string name="database">データベース</string>
     <string name="decrypting_db">データベースを解析中&#8230;</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
@@ -86,7 +86,7 @@
     <string name="hint_pass">パスワード</string>
     <string name="install_from_play_store">Play Storeで入手</string>
     <string name="install_from_f_droid">F-Droidで入手</string>
-    <string name="InvalidPassword">パスワード/キーファイルが違います。</string>
+    <string name="invalid_password">パスワード/キーファイルが違います。</string>
     <string name="invalid_db_sig">データベースフォーマットが認識できません。</string>
     <string name="length">生成するパスワードの長さ</string>
     <string name="list_size_title">グループ一覧サイズ</string>
@@ -135,9 +135,8 @@
     <string name="underline">アンダーライン (_)</string>
     <string name="unsupported_db_version">このバージョンのデータベースはサポートされていません。</string>
     <string name="uppercase">英数大文字</string>
-    <string name="warning_read_only">お使いのSDカードは読取専用になっているようです。 データベースへの更新を保存することはできないでしょう。</string>
     <string name="warning_unmounted">SDカードがマウントされていません。データベースの読込や作成ができません。</string>
-    <string name="version_label">バージョン:</string>
+    <string name="version_label">バージョン %1$s</string>
 
     <string name="education_unlock_summary">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
 

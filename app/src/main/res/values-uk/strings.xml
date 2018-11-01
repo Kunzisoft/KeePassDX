@@ -36,7 +36,7 @@
     <string name="clipboard_timeout">Тайм-аут буфера обміну</string>
     <string name="clipboard_timeout_summary">Час через який буде очищено буфер обміну після копіювання ім’я користувача чи пароля</string>
     <string name="select_to_copy">Копіювати %1$s до буфера обміну</string>
-    <string name="creating_db_key">Створення ключа бази даних&#8230;</string>
+    <string name="retrieving_db_key">Створення ключа бази даних&#8230;</string>
     <string name="database">База даних</string>
     <string name="decrypting_db">Розшифрування змісту бази даних&#8230;</string>
     <string name="default_checkbox">Використовувати як мою типову базу даних</string>
@@ -86,7 +86,7 @@
     <string name="hint_pass">пароль</string>
     <string name="install_from_play_store">Інсталювати із Google Play</string>
     <string name="install_from_f_droid">Інсталювати із F-Droid</string>
-    <string name="InvalidPassword">Невірний пароль або файл ключа.</string>
+    <string name="invalid_password">Невірний пароль або файл ключа.</string>
     <string name="invalid_db_sig">Формат бази даних не розпізнано.</string>
     <string name="length">Довжина</string>
     <string name="list_size_title">Розмір списку груп</string>
@@ -135,9 +135,8 @@
     <string name="underline">Підкреслення</string>
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Верхній регістр</string>
-    <string name="warning_read_only">Ваша карта пам’яті зараз у режимі тільки для читання. Ви не зможете зберегти зміни до вашої бази даних.</string>
     <string name="warning_unmounted">Ваша карта пам’яті зараз не змонтована на телефоні. Ви не зможете завантажити або створити базу даних.</string>
-    <string name="version_label">Версія:</string>
+    <string name="version_label">Версія %1$s</string>
 
     <string name="education_unlock_summary">Введіть пароль і/або файл ключа для відкриття бази даних.</string>
 

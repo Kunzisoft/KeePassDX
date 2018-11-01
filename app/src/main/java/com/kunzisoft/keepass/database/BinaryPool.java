@@ -51,6 +51,8 @@ public class BinaryPool {
 	}
 
 	public void clear() {
+		for (Entry<Integer, ProtectedBinary> entry: pool.entrySet())
+			entry.getValue().clear();
 		pool.clear();
 	}
 
@@ -63,30 +65,36 @@ public class BinaryPool {
 		@Override
 		public boolean operate(PwEntryV4 entry) {
 			for (PwEntryV4 histEntry : entry.getHistory()) {
-				poolAdd(histEntry.getBinaries());
+				add(histEntry.getBinaries());
 			}
-			poolAdd(entry.getBinaries());
+			add(entry.getBinaries());
 			return true;
 		}
 		
 	}
 	
-	private void poolAdd(Map<String, ProtectedBinary> dict) {
+	private void add(Map<String, ProtectedBinary> dict) {
 		for (ProtectedBinary pb : dict.values()) {
-			poolAdd(pb);
+			add(pb);
 		}
 		
 	}
 	
-	public void poolAdd(ProtectedBinary pb) {
-		assert(pb != null);
+	public void add(ProtectedBinary pb) {
+        assert(pb != null);
+		if (findKey(pb) != -1) return;
 		
-		if (poolFind(pb) != -1) return;
-		
-		pool.put(pool.size(), pb);
+		pool.put(findUnusedKey(), pb);
 	}
+
+	public int findUnusedKey() {
+	    int unusedKey = pool.size();
+	    while(get(unusedKey) != null)
+            unusedKey++;
+	    return unusedKey;
+    }
 	
-	public int poolFind(ProtectedBinary pb) {
+	public int findKey(ProtectedBinary pb) {
 		for (Entry<Integer, ProtectedBinary> pair : pool.entrySet()) {
 			if (pair.getValue().equals(pb)) return pair.getKey();
 		}

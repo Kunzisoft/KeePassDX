@@ -23,10 +23,10 @@ import com.kunzisoft.keepass.database.PwDatabaseV4;
 import com.kunzisoft.keepass.database.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
+import com.kunzisoft.keepass.utils.MemUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 
 public class PwDbInnerHeaderOutputV4 {
     private PwDatabaseV4 db;
@@ -50,19 +50,18 @@ public class PwDbInnerHeaderOutputV4 {
         los.writeInt(streamKeySize);
         los.write(header.innerRandomStreamKey);
 
-        for (ProtectedBinary bin : db.getBinPool().binaries()) {
+        for (ProtectedBinary protectedBinary : db.getBinPool().binaries()) {
             byte flag = PwDbHeaderV4.KdbxBinaryFlags.None;
-            if (bin.isProtected()) {
+            if (protectedBinary.isProtected()) {
                 flag |= PwDbHeaderV4.KdbxBinaryFlags.Protected;
             }
 
-            byte[] binData = bin.getData();
             los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary);
-            los.writeInt(bin.length() + 1);
+            los.writeInt((int) protectedBinary.length() + 1); // TODO verify
             los.write(flag);
-            los.write(binData);
 
-            Arrays.fill(binData, (byte)0);
+            MemUtil.readBytes(protectedBinary.getData(),
+                    buffer -> los.write(buffer));
         }
 
         los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader);

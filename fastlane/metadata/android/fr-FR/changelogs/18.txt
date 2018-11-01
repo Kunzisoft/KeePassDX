@@ -1,0 +1,7 @@
+ * Nouvelles vues pour les bases de données récentes
+ * Nouveau dialogue d'informations
+ * Champs customisés pour le Magikeyboard
+ * Timeout pour le Magikeyboard
+ * Clic long pour la sélection de clavier
+ * Correction de la mémoire lors de l'ouverture de la base de donnnées
+ * Gestion de la mémoire pour les fichiers joints

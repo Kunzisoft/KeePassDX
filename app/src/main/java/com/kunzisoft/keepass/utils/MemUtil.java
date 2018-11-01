@@ -21,38 +21,132 @@ package com.kunzisoft.keepass.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.kunzisoft.keepass.stream.ActionReadBytes;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class MemUtil {
+
+    private static final String TAG = MemUtil.class.getName();
+    public static final int BUFFER_SIZE_BYTES = 3 * 128;
+
+    public static void copyStream(InputStream in, OutputStream out) throws IOException {
+        byte[] buf = new byte[BUFFER_SIZE_BYTES];
+        int read;
+        try {
+            while ((read = in.read(buf)) != -1) {
+                out.write(buf, 0, read);
+            }
+        } catch (OutOfMemoryError error) {
+            throw new IOException(error);
+        }
+    }
+
+    public static void readBytes(@NonNull InputStream inputStream, ActionReadBytes actionReadBytes)
+            throws IOException {
+        byte[] buffer = new byte[MemUtil.BUFFER_SIZE_BYTES];
+        int read = 0;
+        while (read != -1) {
+            read = inputStream.read(buffer, 0, buffer.length);
+            if (read != -1) {
+                byte[] optimizedBuffer;
+                if (buffer.length == read) {
+                    optimizedBuffer = buffer;
+                } else {
+                    optimizedBuffer = Arrays.copyOf(buffer, read);
+                }
+                actionReadBytes.doAction(optimizedBuffer);
+            }
+        }
+
+        /*
+        byte[] buffer = new byte[BUFFER_SIZE_BYTES];
+        // To create the last buffer who is smaller
+        long numberOfFullBuffer = length / buffer.length;
+        long sizeOfFullBuffers = numberOfFullBuffer * buffer.length;
+        int read = 0;
+        //if (protectedBinary.length() > 0) {
+        while (read < length) {
+            // Create the last smaller buffer
+            if (read >= sizeOfFullBuffers)
+                buffer = new byte[(int) (length % buffer.length)];
+            read += inputStream.read(buffer, 0, buffer.length);
+            actionReadBytes.doAction(buffer);
+        }
+        //*/
+    }
+
 	public static byte[] decompress(byte[] input) throws IOException {
 		ByteArrayInputStream bais = new ByteArrayInputStream(input);
 		GZIPInputStream gzis = new GZIPInputStream(bais);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Util.copyStream(gzis, baos);
-		
-		return baos.toByteArray();
-	}
-	
-	public static byte[] compress(byte[] input) throws IOException {		
-		ByteArrayInputStream bais = new ByteArrayInputStream(input);
-		
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		GZIPOutputStream gzos = new GZIPOutputStream(baos);
-		Util.copyStream(bais, gzos);
-		gzos.close();
+		copyStream(gzis, baos);
 		
 		return baos.toByteArray();
 	}
 
-	// For writing to a Parcel
+    public static byte[] compress(byte[] input) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(input);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        GZIPOutputStream gzos = new GZIPOutputStream(baos);
+        copyStream(bais, gzos);
+        gzos.close();
+
+        return baos.toByteArray();
+    }
+
+    /**
+     * Compresses the input data using GZip and outputs the compressed data.
+     *
+     * @param input
+     *         An {@link InputStream} containing the input raw data.
+     *
+     * @return An {@link InputStream} to the compressed data.
+     */
+    public static InputStream compress(final InputStream input) {
+        final PipedInputStream compressedDataStream = new PipedInputStream(3 * 128);
+        Log.d(TAG, "About to compress input data using gzip asynchronously...");
+        PipedOutputStream compressionOutput;
+        GZIPOutputStream gzipCompressedDataStream = null;
+        try {
+            compressionOutput = new PipedOutputStream(compressedDataStream);
+            gzipCompressedDataStream = new GZIPOutputStream(compressionOutput);
+            IOUtils.copy(input, gzipCompressedDataStream);
+            Log.e(TAG, "Successfully compressed input data using gzip.");
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to compress input data.", e);
+        } finally {
+            if (gzipCompressedDataStream != null) {
+                try {
+                    gzipCompressedDataStream.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to close gzip output stream.", e);
+                }
+            }
+        }
+        return compressedDataStream;
+    }
+
+
+    // For writing to a Parcel
 	public static <K extends Parcelable,V extends Parcelable> void writeParcelableMap(
 			Parcel parcel, int flags, Map<K, V > map) {
 		parcel.writeInt(map.size());

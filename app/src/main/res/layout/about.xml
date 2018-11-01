@@ -75,6 +75,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@android:style/TextAppearance.Small" />
+
+                    <TextView
+                        android:id="@+id/activity_about_build"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@android:style/TextAppearance.Small" />
                 </LinearLayout>
             </RelativeLayout>
 

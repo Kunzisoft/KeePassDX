@@ -19,12 +19,15 @@
 -->
 <resources>
     <string name="app_name" translatable="false">KeePass DX</string>
+    <string name="app_name_part1" translatable="false">KeePass</string>
+    <string name="app_name_part2" translatable="false">DX</string>
+    <string name="app_name_part3" translatable="false" />
 
     <!-- TODO Move urls in flavors -->
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
-    <string name="contribution_url" translatable="false">https://www.kunzisoft.com/donation?project=keepassdx</string>
-    <string name="homepage" translatable="false">https://www.kunzisoft.com/KeepassDX/</string>
+    <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
+    <string name="homepage" translatable="false">https://www.keepassdx.com</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
     <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
@@ -144,7 +147,7 @@
     <bool name="allow_no_password_default" translatable="false">true</bool>
     <bool name="enable_read_only_default" translatable="false">false</bool>
 
-    <string name="app_timeout_default" translatable="false">300000</string>
+    <string name="timeout_default" translatable="false">300000</string>
     <string name="clipboard_timeout_default" translatable="false">60000</string>
 
     <string-array name="timeout_values">
@@ -182,8 +185,8 @@
         <item translatable="false">@string/list_style_name_red</item>
         <item translatable="false">@string/list_style_name_purple</item>
     </string-array>
-    <!-- WARNING ! module icon-pack-classic must be import in gradle -->
-    <string name="setting_icon_pack_choose_default" translatable="false">@string/classic_resource_id</string>
+    <!-- WARNING ! module icon-pack-material must be import in gradle -->
+    <string name="setting_icon_pack_choose_default" translatable="false">@string/material_resource_id</string>
 
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>

@@ -1,3 +1,12 @@
+KeepassDX (2.5.0.0beta18)
+ * New recent databases views
+ * New information dialog
+ * Custom fields for the Magikeyboard
+ * Timeout for the Magikeyboard
+ * Long press for keyboard selection
+ * Fix memory when opening the database
+ * Memory management for attachments
+
 KeepassDX (2.5.0.0beta17)
  * Fix font and search
 

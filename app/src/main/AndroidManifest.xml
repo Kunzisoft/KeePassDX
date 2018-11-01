@@ -20,8 +20,7 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup"
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
-        android:theme="@style/KeepassDXStyle.Night"
-        tools:replace="android:theme">
+        android:theme="@style/KeepassDXStyle.Night">
         <!-- TODO backup API Key -->
         <meta-data
             android:name="com.google.android.backup.api_key"
@@ -132,7 +131,22 @@
         <activity android:name="com.kunzisoft.keepass.selection.EntrySelectionAuthActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
+        <activity android:name="com.kunzisoft.keepass.magikeyboard.EntryRetrieverActivity"
+            android:label="@string/keyboard_name">
+        </activity>
+        <activity android:name="com.kunzisoft.keepass.settings.MagikIMESettings"
+            android:label="@string/keyboard_setting_label">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
 
+
+        <!-- Receiver for Keyboard -->
+        <receiver
+            android:name="com.kunzisoft.keepass.magikeyboard.receiver.NotificationDeleteBroadcastReceiver"
+            android:exported="false" >
+        </receiver>
         <service
             android:name="com.kunzisoft.keepass.notifications.NotificationCopyingService"
             android:enabled="true"
@@ -149,6 +163,17 @@
                 <action android:name="android.service.autofill.AutofillService" />
             </intent-filter>
         </service>
+        <service
+            android:name="com.kunzisoft.keepass.magikeyboard.MagikIME"
+            android:label="@string/keyboard_label"
+            android:permission="android.permission.BIND_INPUT_METHOD" >
+            <meta-data android:name="android.view.im"
+                android:resource="@xml/keyboard_method"/>
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+        </service>
+        <service android:name="com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService" />
 
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
     </application>

@@ -394,15 +394,14 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		if (!isHistory) {
 			writeList(PwDatabaseV4XML.ElemHistory, entry.getHistory(), true);
-		} else {
-			assert(entry.sizeOfHistory() == 0);
 		}
+		// else entry.sizeOfHistory() == 0
 		
 		xml.endTag(null, PwDatabaseV4XML.ElemEntry);
 	}
 	
 
-	private void writeObject(String key, ProtectedBinary value, boolean allowRef) throws IllegalArgumentException, IllegalStateException, IOException {
+	private void writeObject(String key, ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(key != null && value != null);
 		
 		xml.startTag(null, PwDatabaseV4XML.ElemBinary);
@@ -411,11 +410,8 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		xml.endTag(null, PwDatabaseV4XML.ElemKey);
 		
 		xml.startTag(null, PwDatabaseV4XML.ElemValue);
-		String strRef = null;
-		if (allowRef) {
-			int ref = mPM.getBinPool().poolFind(value);
-			strRef = Integer.toString(ref);
-		}
+		int ref = mPM.getBinPool().findKey(value);
+		String strRef = Integer.toString(ref);
 		
 		if (strRef != null) {
 			xml.attribute(null, PwDatabaseV4XML.AttrRef, strRef);
@@ -427,33 +423,85 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		xml.endTag(null, PwDatabaseV4XML.ElemBinary);
 	}
-	
+
+	/*
+	TODO Make with pipe
 	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
-		if (value.isProtected()) {
-			xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
-			
-			int valLength = value.length();
-			if (valLength > 0) {
-				byte[] encoded = new byte[valLength];
-				randomStream.processBytes(value.getData(), 0, valLength, encoded, 0);
-				
-				xml.text(String.valueOf(Base64Coder.encode(encoded)));
-			}
-			
-		} else {
-			if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
-				xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
-				byte[] raw = value.getData();
-				byte[] compressed = MemUtil.compress(raw);
-				xml.text(String.valueOf(Base64Coder.encode(compressed)));
-			} else {
-				byte[] raw = value.getData();
-				xml.text(String.valueOf(Base64Coder.encode(raw)));
-			}
-			
-		}
+        try (InputStream inputStream = value.getData()) {
+            if (inputStream == null) {
+                Log.e(TAG, "Can't write a null input stream.");
+                return;
+            }
+
+            if (value.isProtected()) {
+                xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
+
+                try (InputStream cypherInputStream =
+                             IOUtil.pipe(inputStream,
+                                     o -> new org.spongycastle.crypto.io.CipherOutputStream(o, randomStream))) {
+                    writeInputStreamInBase64(cypherInputStream);
+                }
+
+            } else {
+                if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
+
+                    xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
+
+                    try (InputStream gZipInputStream =
+                                 IOUtil.pipe(inputStream, GZIPOutputStream::new, (int) value.length())) {
+                        writeInputStreamInBase64(gZipInputStream);
+                    }
+
+                } else {
+                    writeInputStreamInBase64(inputStream);
+                }
+            }
+        }
 	}
-	
+
+	private void writeInputStreamInBase64(InputStream inputStream) throws IOException {
+        try (InputStream base64InputStream =
+                     IOUtil.pipe(inputStream,
+                             o -> new Base64OutputStream(o, DEFAULT))) {
+            MemUtil.readBytes(base64InputStream,
+                    buffer -> xml.text(Arrays.toString(buffer)));
+        }
+    }
+    //*/
+
+    //*
+    private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
+
+        int valLength = (int) value.length();
+        if (valLength > 0) {
+            byte[] buffer = new byte[valLength];
+            if (valLength == value.getData().read(buffer, 0, valLength)) {
+
+                if (value.isProtected()) {
+                    xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
+
+                    byte[] encoded = new byte[valLength];
+                    randomStream.processBytes(buffer, 0, valLength, encoded, 0);
+                    xml.text(String.valueOf(Base64Coder.encode(encoded)));
+
+                } else {
+                    if (mPM.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
+                        xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
+
+                        byte[] compressData = MemUtil.compress(buffer);
+                        xml.text(String.valueOf(Base64Coder.encode(compressData)));
+
+                    } else {
+                        xml.text(String.valueOf(Base64Coder.encode(buffer)));
+                    }
+                }
+            } else {
+                Log.e(TAG, "Unable to read the stream of the protected binary");
+            }
+        }
+    }
+    //*/
+
 	private void writeObject(String name, String value, boolean filterXmlChars) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(name != null && value != null);
 		
@@ -616,7 +664,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		assert(binaries != null);
 		
 		for (Entry<String, ProtectedBinary> pair : binaries.entrySet()) {
-			writeObject(pair.getKey(), pair.getValue(), true);
+			writeObject(pair.getKey(), pair.getValue());
 		}
 	}
 

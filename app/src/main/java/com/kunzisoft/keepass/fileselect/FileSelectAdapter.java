@@ -88,16 +88,6 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
         else
             holder.fileName.setText(fileSelectBean.getFileName());
         holder.fileName.setTextSize(PreferencesUtil.getListTextSize(context));
-        // Set warning
-        if (fileSelectBean.notFound()) {
-            holder.fileInformation.setColorFilter(
-                    warningColor,
-                    android.graphics.PorterDuff.Mode.MULTIPLY);
-        } else {
-            holder.fileInformation.setColorFilter(
-                    defaultColor,
-                    android.graphics.PorterDuff.Mode.MULTIPLY);
-        }
         // Click on information
         if (fileInformationShowListener != null)
             holder.fileInformation.setOnClickListener(new FileInformationClickListener(fileSelectBean));

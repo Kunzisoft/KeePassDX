@@ -14,6 +14,7 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/file_path"
+        android:textIsSelectable="true"
         android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
         android:textStyle="italic"/>
 
     <LinearLayout
+        android:id="@+id/file_modification_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end">
@@ -39,6 +41,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/file_size_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
@@ -61,12 +64,4 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/file_warning"
-        android:layout_margin="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"/>
 </LinearLayout>

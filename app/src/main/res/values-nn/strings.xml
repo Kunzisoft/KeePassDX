@@ -36,7 +36,7 @@
     <string name="clipboard_timeout">Tidsavbrot på utklippstavla</string>
     <string name="clipboard_timeout_summary">Tid før utklippstavla blir tømt etter at brukarnamnet eller passordet er kopiert.</string>
     <string name="select_to_copy">Kopier %1$s til utklippstavla</string>
-    <string name="creating_db_key">Lagar databasenøkkelen …</string>
+    <string name="retrieving_db_key">Lagar databasenøkkelen …</string>
     <string name="database">Database</string>
     <string name="decrypting_db">Dekrypterer databasen …</string>
     <string name="default_checkbox">Standarddatabasen</string>
@@ -86,7 +86,7 @@
     <string name="hint_pass">passord</string>
     <string name="install_from_play_store">Installer frå Play Store</string>
     <string name="install_from_f_droid">Installer frå F-Droid</string>
-    <string name="InvalidPassword">Ugyldig passord eller nøkkelfil.</string>
+    <string name="invalid_password">Ugyldig passord eller nøkkelfil.</string>
     <string name="invalid_db_sig">Ukjent databaseformat.</string>
     <string name="length">Lengd</string>
     <string name="list_size_title">Gruppelistestorleik</string>
@@ -135,9 +135,8 @@
     <string name="underline">Understreking</string>
     <string name="unsupported_db_version">Kan ikkje bruka databaseutgåva.</string>
     <string name="uppercase">Store bokstavar</string>
-    <string name="warning_read_only">SD-kortet ditt kan berre lesast. Det kan vera at du ikkje kan lagra endringar i databasen.</string>
     <string name="warning_unmounted">SD-kortet er ikkje montert i eininga di. Du kan verken henta eller laga databasen din.</string>
-    <string name="version_label">Utgåve:</string>
+    <string name="version_label">Utgåve %1$s</string>
 
     <string name="education_unlock_summary">Skriv inn passordet og/eller nøkkelfil for å låsa opp databasen.</string>
 

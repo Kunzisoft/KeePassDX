@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database;
 
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
-import com.kunzisoft.keepass.utils.Util;
+import com.kunzisoft.keepass.utils.MemUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -128,7 +128,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
                 assert(keyInputStream != null);
 
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                Util.copyStream(keyInputStream, bos);
+                MemUtil.copyStream(keyInputStream, bos);
                 byte[] keyData = bos.toByteArray();
 
                 ByteArrayInputStream bis = new ByteArrayInputStream(keyData);
@@ -429,5 +429,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
      * Initialize a newly created database
      */
     public abstract void initNew(String dbPath);
+
+    public abstract void clearCache();
 
 }

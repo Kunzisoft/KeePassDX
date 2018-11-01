@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
@@ -41,9 +41,9 @@
     <string name="clipboard_timeout">זמן עד לניקוי לוח ההעתקה</string>
     <string name="clipboard_timeout_summary">זמן לפני שלוח ההעתקה מנוקה לאחר העתקת שם משתמש או סיסמה</string>
     <string name="select_to_copy">בחר בהעתקת %1$s ללוח ההעתקה</string>
-    <string name="creating_db_key">יוצר מפתח מסד נתונים&#8230;</string>
+    <string name="retrieving_db_key">יוצר מפתח מסד נתונים…</string>
     <string name="database">מסד נתונים</string>
-    <string name="decrypting_db">מפענח תוכן מסד נתונים&#8230;</string>
+    <string name="decrypting_db">מפענח תוכן מסד נתונים…</string>
     <string name="default_checkbox">השתמש בזה כמסד הנתונים הברירת מחדל</string>
     <string name="digits">ספרות</string>
     <string name="select_database_file">הזן שם קובץ למסד נתונים:</string>
@@ -93,7 +93,7 @@
     <string name="password">סיסמה</string>
     <string name="install_from_play_store">התקן מחנות Play</string>
     <string name="install_from_f_droid">התקן מהאינטרנט</string>
-    <string name="InvalidPassword">סיסמה או קובץ מפתח לא מתאימים.</string>
+    <string name="invalid_password">סיסמה או קובץ מפתח לא מתאימים.</string>
     <string name="invalid_algorithm">אלגוריתם לא חוקי.</string>
     <string name="invalid_db_sig">תבנית מסד הנתונים אינה מזוהה.</string>
     <string name="keyfile_does_not_exist">קובץ המפתח לא קיים.</string>
@@ -101,7 +101,7 @@
     <string name="length">אורך</string>
     <string name="list_size_title">גודל רשימה קבוצות</string>
     <string name="list_size_summary">גודל הטקסט ברשימת הקבוצות</string>
-    <string name="loading_database">טוען מסד נתונים&#8230;</string>
+    <string name="loading_database">טוען מסד נתונים…</string>
     <string name="lowercase">אות קטנה</string>
     <string name="maskpass_title">מסיכת הסיסמה</string>
     <string name="maskpass_summary">הסתר סיסמאות כברירת מחדל</string>
@@ -125,8 +125,8 @@
     <string name="open_recent">פתח מסד נתונים אחרון :</string>
     <string name="omitbackup_title">אל תחפש ערכי גיבוי</string>
     <string name="omitbackup_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
-    <string name="progress_create">צור מסד נתונים חדש&#8230;</string>
-    <string name="progress_title">עובד&#8230;</string>
+    <string name="progress_create">צור מסד נתונים חדש…</string>
+    <string name="progress_title">עובד…</string>
     <string name="protection">הגנה</string>
     <string name="read_only_warning">ל-KeePass DX אין הרשאות כתיבה למסד הנתונים הזה, ולכן הוא יפתח לקריאה בלבד.</string>
     <string name="read_only_kitkat_warning">החל מאנרואיד 4.4, מספר מכשירים לא מרשים ליישומים לכתובת לכרטיס ה-SD.</string>
@@ -138,7 +138,7 @@
     <string name="rounds">סיבובי הצפנה</string>
     <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
     <string name="rounds_hint">סיבובים</string>
-    <string name="saving_database">שומר מסד נתונים&#8230;</string>
+    <string name="saving_database">שומר מסד נתונים…</string>
     <string name="space">גודל</string>
     <string name="search_label">חיפוש</string>
     <string name="sort_db">סדר מיון מסד נתונים</string>
@@ -147,9 +147,8 @@
     <string name="underline">קו תחתון</string>
     <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
     <string name="uppercase">רישית</string>
-    <string name="warning_read_only">כרטיס ה-SD שלך במצב לקריאה בלבד. אתה לא תוכל לשמור את השינויים למסד הנתונים.</string>
     <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
-    <string name="version_label">גרסה:</string>
+    <string name="version_label">גרסה %1$s</string>
 
     <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים.</string>
 
@@ -169,4 +168,11 @@
         <item>בינוני</item>
         <item>גדול</item>
     </string-array>
-</resources>
+<string name="edit_entry">ערוך רשומה</string>
+    <string name="add_string">הוסף מחרוזת</string>
+    <string name="encryption">הצפנה</string>
+    <string name="allow">אפשר</string>
+    <string name="clipboard_swipe_clean">החלק לניקוי לוח העתקה עכשיו</string>
+    <string name="entry_url">כתובת URL</string>
+    <string name="error_load_database">לא ניתן לטעון את בסיס הנתונים</string>
+    </resources>

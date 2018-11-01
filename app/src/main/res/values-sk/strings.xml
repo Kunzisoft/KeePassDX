@@ -36,7 +36,7 @@
     <string name="clipboard_timeout">Timeout Schránky</string>
     <string name="clipboard_timeout_summary">Čas pred vyčistením schránky po skopírovaní mena alebo hesla</string>
     <string name="select_to_copy">%1$s skopírované do schránky</string>
-    <string name="creating_db_key">Vytváram databázový kľúč&#8230;</string>
+    <string name="retrieving_db_key">Vytváram databázový kľúč&#8230;</string>
     <string name="database">Databáza</string>
     <string name="decrypting_db">Dešifrujem obsah databázy&#8230;</string>
     <string name="default_checkbox">Použiť toto ako predvolenú databázu</string>
@@ -86,7 +86,7 @@
     <string name="hint_pass">heslo</string>
     <string name="install_from_play_store">Inštalovať z Play Store</string>
     <string name="install_from_f_droid">Inštalovať z F-Droid</string>
-    <string name="InvalidPassword">Chybné heslo, alebo súbor keyfile.</string>
+    <string name="invalid_password">Chybné heslo, alebo súbor keyfile.</string>
     <string name="invalid_db_sig">Formát Databázy nerozpoznaný.</string>
     <string name="length">Dĺžka</string>
     <string name="list_size_title">Dĺžka zoznamu skupiny</string>
@@ -135,9 +135,8 @@
     <string name="underline">Podčiarknuté</string>
     <string name="unsupported_db_version">Nepodporovaná verzia databázy.</string>
     <string name="uppercase">Veľké písmená</string>
-    <string name="warning_read_only">Vaša SD karta je momentálne iba na čítanie. Nemôžete uložiť zmeny v databáze.</string>
     <string name="warning_unmounted">Vaša SD karta nie je momentálne pripojená k zariadeniu. Nemôžete načítať, alebo vytvoriť databázu.</string>
-    <string name="version_label">Version:</string>
+    <string name="version_label">Version %1$s</string>
 
     <string name="education_unlock_summary">Vložte heslo a / alebo keyfile pre odomknutie databázy.</string>
 
