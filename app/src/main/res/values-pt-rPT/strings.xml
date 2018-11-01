@@ -162,7 +162,7 @@
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">O formato .kdb apenas suporta o conjunto de caracteres Latin1. A sua palavra-passe pode conter caracteres fora deste conjunto. Todos os caracteres não Latin1 são convertidos para o mesmo carácter, o que reduz a segurança da sua palavra-passe. É recomendável alterar a sua palavra-passe.</string>
     <string name="warning_unmounted">O cartão SD não se encontra montado no seu dispositivo. Não será possível abrir ou criar a sua base de dados.</string>
-    <string name="version_label">Versão: %1$s</string>
+    <string name="version_label">Versão %1$s</string>
 
     <string name="education_unlock_summary">Introduza a palavra-passe e/ou o ficheiro chave para desbloquear a base de dados.</string>
 

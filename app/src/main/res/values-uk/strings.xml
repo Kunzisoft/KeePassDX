@@ -136,7 +136,7 @@
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Верхній регістр</string>
     <string name="warning_unmounted">Ваша карта пам’яті зараз не змонтована на телефоні. Ви не зможете завантажити або створити базу даних.</string>
-    <string name="version_label">Версія: %1$s</string>
+    <string name="version_label">Версія %1$s</string>
 
     <string name="education_unlock_summary">Введіть пароль і/або файл ключа для відкриття бази даних.</string>
 

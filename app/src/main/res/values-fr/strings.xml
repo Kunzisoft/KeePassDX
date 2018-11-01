@@ -29,19 +29,19 @@
     <string name="encryption_algorithm">Algorithme de Chiffrement</string>
     <string name="key_derivation_function">Fonction de dérivation de clé</string>
     <string name="app_timeout">Délai d\'expiration de l\'application</string>
-    <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive.</string>
+    <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
     <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
-    <string name="browser_intall_text">La navigation dans les fichiers nécessite Open Intents File Manager, cliquez ci-dessous pour l\'installer. En raison de certaines bizarreries dans le gestionnaire de fichiers, la navigation peut ne pas fonctionner correctement, la première fois que vous naviguez.</string>
+    <string name="browser_intall_text">La navigation dans les fichiers nécessite OpenIntents File Manager, cliquez ci-dessous pour l\'installer. En raison de certaines bizarreries dans le gestionnaire de fichiers, la navigation peut ne pas fonctionner correctement la première fois que vous naviguez.</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Permettre</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
-    <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Pour plus de détails, visitez :</string>
+    <string name="clipboard_error">Certains appareils Android Samsung ont un bug dans l\'implémentation du presse-papier qui empêche la copie depuis des applications. Plus de détails :</string>
     <string name="clipboard_error_clear">Le vidage du presse-papier a échoué</string>
     <string name="clipboard_timeout">Expiration du presse-papier</string>
     <string name="clipboard_timeout_summary">Temps avant le vidage du presse-papier après copie du nom d\'utilisateur ou du mot de passe</string>
@@ -61,31 +61,31 @@
     <string name="entry_expires">Expire</string>
     <string name="entry_keyfile">Fichier clé</string>
     <string name="entry_modified">Modifié</string>
-    <string name="entry_not_found">Entry data not found.</string>
+    <string name="entry_not_found">Données d\'entrée non trouvées.</string>
     <string name="entry_password">Mot de passe</string>
     <string name="entry_save">Enregistrer</string>
     <string name="entry_title">Titre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nom d\'utilisateur</string>
-    <string name="error_arc4">Le chiffrement de flux ArcFour n\'est pas supporté.</string>
+    <string name="error_arc4">Le chiffrement de flux ARCFOUR n\'est pas supporté.</string>
     <string name="error_can_not_handle_uri">KeePass DX ne peut pas gérer cette URI.</string>
     <string name="error_could_not_create_parent">La création du groupe parent a échoué.</string>
     <string name="error_database_exists">Le fichier existe déjà.</string>
-    <string name="error_failed_to_launch_link">Échec lors de l\'ouverture du lien.</string>
+    <string name="error_failed_to_launch_link">Échec d\'ouverture du lien.</string>
     <string name="error_filename_required">Le nom de fichier est obligatoire.</string>
     <string name="error_file_not_create">Impossible de créer le fichier :</string>
     <string name="error_invalid_db">Base de données invalide ou clé maitresse non reconnue.</string>
     <string name="error_invalid_path">Chemin invalide.</string>
     <string name="error_no_name">Le nom est obligatoire.</string>
     <string name="error_nokeyfile">Un fichier clé est requis.</string>
-    <string name="error_out_of_memory">Votre appareil ne dispose pas de suffisamment de mémoire pour ouvrir votre base de données. Elle est probablement trop grosse pour votre appareil.</string>
+    <string name="error_out_of_memory">L\'appareil ne dispose pas de suffisamment de mémoire pour ouvrir votre base de données.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
-    <string name="error_rounds_not_number">La série doit être un nombre.</string>
-    <string name="error_rounds_too_large">Niveau trop gros. Paramètres à 2147483648.</string>
-    <string name="error_string_key">A field name is required for each string.</string>
+    <string name="error_rounds_not_number">\"Niveaux\" doit être un nombre.</string>
+    <string name="error_rounds_too_large">\"Niveaux\" trop gros. Paramètres à 2147483648.</string>
+    <string name="error_string_key">Un nom de champ est requis pour chaque élément.</string>
     <string name="error_title_required">Le titre est obligatoire.</string>
-    <string name="error_wrong_length">Entrez un entier positif pour la longueur du champ</string>
+    <string name="error_wrong_length">Entrez un entier positif pour le champ \"Longueur\"</string>
     <string name="error_autofill_enable_service">Le service de remplissage automatique ne peut être activé.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur</string>
@@ -131,17 +131,17 @@
     <string name="menu_url">Ouvrir l\'URL</string>
     <string name="minus">Moins</string>
     <string name="never">Jamais</string>
-    <string name="no_results">Aucun résultat pour cette recherche.</string>
+    <string name="no_results">Aucun résultat pour cette recherche</string>
     <string name="no_url_handler">Impossible d\'ouvrir cette URL.</string>
     <string name="select_database_file">Sélectionner une base de données existante</string>
     <string name="open_recent">Bases de données récentes :</string>
-    <string name="omitbackup_title">Ignorer les sauvegardes</string>
-    <string name="omitbackup_summary">Ignorer le groupe Sauvegardes des résultats de recherche (uniquement pour .kdb)</string>
+    <string name="omitbackup_title">Ne pas rechercher dans les entrées de sauvegarde</string>
+    <string name="omitbackup_summary">Ignorer le groupe \'Sauvegardes\' des résultats de recherche (uniquement pour .kdb)</string>
     <string name="progress_create">Création d\'une nouvelle base de données…</string>
     <string name="progress_title">Veuillez patienter…</string>
     <string name="protection">Protection</string>
     <string name="read_only">Lecture seule</string>
-    <string name="read_only_warning">KeePass DX n\'a pas la permission d\'écrire dans le répertoire de la base de données. Celle-ci sera ouverte en lecture seule.</string>
+    <string name="read_only_warning">KeePass DX n\'a pas la permission d\'écrire dans votre répertoire de base de données, celle-ci sera ouverte en lecture seule.</string>
     <string name="read_only_kitkat_warning">À partir d\'Android KitKat, certains appareils n\'autorisent plus les applications à écrire sur la carte SD.</string>
     <string name="recentfile_title">Historique de fichiers récents</string>
     <string name="recentfile_summary">Mémoriser les fichiers récemment utilisés</string>
@@ -150,7 +150,7 @@
     <string name="remove_from_filelist">Effacer</string>
     <string name="root">Racine</string>
     <string name="encryption_explanation">Algorithme pour chiffrer toute la base de données. (Les mots de passe, noms d\'utilisateur, notes et toutes les données dans la base de données sont chiffrés avec l\'algorithme sélectionné)</string>
-    <string name="kdf_explanation">Afin de générer la clé pour l\'algorithme de chiffrement, la clé maîtresse compressée (SHA-256) est transformée en utilisant une fonction de dérivation de clé (avec un salage aléatoire).</string>
+    <string name="kdf_explanation">Afin de générer la clé pour l\'algorithme de chiffrement, la clé maîtresse compressée (SHA-256) est transformée en utilisant une fonction de dérivation de clé avec salage aléatoire.</string>
     <string name="rounds">Tours de transformation</string>
     <string name="rounds_explanation">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
     <string name="rounds_hint">niveaux</string>
@@ -162,30 +162,31 @@
     <string name="space">Espace</string>
     <string name="search_label">Rechercher</string>
     <string name="sort_menu">Trier</string>
-    <string name="sort_ascending">Ascendant</string>
+    <string name="sort_ascending">Ascendant ↓</string>
     <string name="sort_groups_before">Groupes avant</string>
     <string name="sort_recycle_bin_bottom">Corbeille à la fin</string>
     <string name="sort_db">Tri par défaut (base de données)</string>
-    <string name="sort_title">Tri par Titre</string>
-    <string name="sort_username">Tri par Nom d\'utilisateur</string>
-    <string name="sort_creation_time">Tri par Date de Création</string>
-    <string name="sort_last_modify_time">Tri par Date de Dernière Modification</string>
-    <string name="sort_last_access_time">Tri par Date de Dernier Accès</string>
+    <string name="sort_title">Titre</string>
+    <string name="sort_username">Nom d\'utilisateur</string>
+    <string name="sort_creation_time">Date de Création</string>
+    <string name="sort_last_modify_time">Date de Dernière Modification</string>
+    <string name="sort_last_access_time">Date de Dernier Accès</string>
     <string name="special">Spécial</string>
     <string name="search">Nom/description</string>
     <string name="search_results">Résultats</string>
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non supportée.</string>
     <string name="uppercase">Majuscule</string>
-    <string name="use_saf_summary">Utiliser l\'Environnement d\'Accès au Stockage d\'Android pour naviguer dans les fichiers (KitKat ou plus récent)</string>
+    <string name="use_saf_summary">Utiliser l\'Environnement d\'Accès au Stockage Android pour naviguer dans les fichiers (KitKat ou plus récent)</string>
     <string name="use_saf_title">Environnement d\'Accès au Stockage</string>
     <string name="warning">Alerte</string>
-    <string name="warning_password_encoding">Le format .kdb ne supporte que le jeu de caractère Latin1. Votre mot de passe doit contenir des caractères en dehors de ce jeu. Tous les caractères non-Latin1 sont convertis en un même caractère, ce qui diminue la sécurité de votre mot de passe. Le changement de votre mot de passe est recommandé.</string>
+    <string name="warning_password_encoding">Votre mot de passe peut contenir des lettres non prises en charge par le jeu de caractères Latin-1 utilisé par les fichiers .kdb. Comme elles sont toutes converties vers la même lettre, il est recommandé de changer votre mot de passe pour le rendre plus sûr.</string>
+    <string name="warning_read_only">Votre carte SD est actuellement en lecture seule. Vous ne pourrez pas enregistrer les changements dans la base de données.</string>
     <string name="warning_unmounted">Votre carte SD n\'est actuellement pas montée sur votre appareil. Vous ne pourrez pas charger ou créer votre base de données.</string>
-    <string name="warning_empty_password">Voulez-vous vraiment utiliser une chaine de caractères vide comme mot de passe ?</string>
-    <string name="warning_no_encryption_key">Etes-vous sûr de ne vouloir utiliser aucune clé de chiffrement.</string>
-    <string name="version_label">Version : %1$s</string>
-    <string name="configure_fingerprint">Reconnaissance d\'empreinte digitale non configuré pour cet appareil</string>
+    <string name="warning_empty_password">Voulez-vous vraiment utiliser une chaîne de caractères vide comme mot de passe ?</string>
+    <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement ?</string>
+    <string name="version_label">Version %1$s</string>
+    <string name="configure_fingerprint">La reconnaissance d\'empreinte digitale est supportée mais non configuré pour cet appareil</string>
     <string name="scanning_fingerprint">Attente d\'une reconnaissance d\'empreinte digitale</string>
     <string name="encrypted_value_stored">Mot de passe encrypté stocké</string>
     <string name="fingerprint_invalid_key">Problème de clé invalide. Restaurez votre mot de passe.</string>
@@ -208,48 +209,48 @@
     <string name="clipboard">Presse-papiers</string>
     <string name="clipboard_notifications_title">Notifications du presse-papiers</string>
     <string name="clipboard_notifications_summary">Activer les notifications du presse-papiers pour copier les champs d\'entrées</string>
-    <string name="clipboard_warning">Certains appareils ne sont pas en mesure de supprimer automatiquement les éléments du presse-papiers. Si votre gestionnaire n\'autorise pas cette suppression, vous devrez supprimer manuellement l\'élément copié de l\'historique de votre presse-papiers.</string>
+    <string name="clipboard_warning">Si votre appareil ne parvient pas à supprimer automatiquement les éléments du presse-papiers, supprimez l\'élément copié de l\'historique de votre presse-papiers manuellement.</string>
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d\'écran</string>
     <string name="lock_database_screen_off_summary">Verrouiller la base de données quand l\'écran est éteint</string>
-    <string name="fingerprint_quick_unlock_title">Comment configurer l\'empreinte digitale pour un déverrouillage rapide?</string>
+    <string name="fingerprint_quick_unlock_title">Comment configurer l\'empreinte digitale pour un déverrouillage rapide ?</string>
     <string name="fingerprint_setting_text">Définissez votre empreinte digitale personnelle pour votre appareil dans </string>
-    <string name="fingerprint_setting_way_text">Paramètres -&gt; Sécurité -&gt; Empreinte digitale</string>
+    <string name="fingerprint_setting_way_text">\"Paramètres\" → \"Sécurité\" → \"Empreinte digitale\"</string>
     <string name="fingerprint_type_password_text">Tapez votre mot de passe dans Keepass DX</string>
     <string name="fingerprint_scan_to_store">Scannez votre empreinte digitale pour stocker votre mot de passe maître en toute sécurité</string>
     <string name="fingerprint_scan_to_open">Scanner votre empreinte digitale lorsque la case à cocher du mot de passe n\'est pas cochée pour ouvrir la base de données</string>
     <string name="usage">Usage</string>
     <string name="fingerprint">Empreinte digitale</string>
-    <string name="fingerprint_enable_title">Écoute d\'empreintes digitales</string>
+    <string name="fingerprint_enable_title">Scan d\'empreintes digitales</string>
     <string name="fingerprint_enable_summary">Activer l\'ouverture de la base de données par empreinte digitale</string>
     <string name="fingerprint_delete_all_title">Supprimer les clés de chiffrement</string>
     <string name="fingerprint_delete_all_summary">Supprimer toutes les clés de chiffrement liées à la reconnaissance des empreintes digitales</string>
-    <string name="fingerprint_delete_all_warning">Êtes-vous sûr de vouloir supprimer toutes les clés liées aux empreintes digitales?</string>
+    <string name="fingerprint_delete_all_warning">Êtes-vous sûr de vouloir supprimer toutes les clés liées aux empreintes digitales ?</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
     <string name="unavailable_feature_version">Votre version Android %1$s n\'est pas la version minimale %2$s requise.</string>
     <string name="unavailable_feature_hardware">Le matériel n\'est pas détecté.</string>
     <string name="file_name">Nom de fichier</string>
     <string name="path">Chemin</string>
     <string name="assign_master_key">Assigner une clé maître</string>
-    <string name="create_keepass_file">Créer un fichier keepass</string>
+    <string name="create_keepass_file">Créer un fichier KeePass</string>
     <string name="bytes">Octets</string>
     <string name="full_file_path_enable_title">Chemin de fichier</string>
     <string name="full_file_path_enable_summary">Afficher le chemin complet des fichiers</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>
-    <string name="recycle_bin_summary">Déplace un groupe ou une entrée dans la Corbeille avant la suppression</string>
+    <string name="recycle_bin_summary">Déplace un groupe ou une entrée dans la \"Corbeille\" avant la suppression</string>
     <string name="permission_external_storage_rationale_write_database">KeePass DX a besoin d\'une permission de stockage externe pour écrire une base de données</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin d\'une permission de stockage externe pour lire une URI non fournie par un Content Provider</string>
+    <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin d\'une permission de stockage externe pour lire une URI non fournie par un content provider</string>
     <string name="permission_external_storage_denied">Permission de stockage externe refusée</string>
     <string name="permission_external_storage_never_ask">Impossible d\'effectuer l\'action sans autorisation de stockage externe</string>
-    <string name="monospace_font_fields_enable_title">Police des champs</string>
+    <string name="monospace_font_fields_enable_title">Police de champs</string>
     <string name="monospace_font_fields_enable_summary">Changer la police de caractères des champs pour une meilleure visibilité</string>
     <string name="auto_open_file_uri_title">Ouvrir le fichier sélectionné automatiquement</string>
     <string name="auto_open_file_uri_summary">Ouvrir automatiquement un fichier à partir de l\'écran de sélection après une sélection dans le navigateur de fichiers</string>
     <string name="allow_copy_password_title">Copie de mot de passe</string>
-    <string name="allow_copy_password_summary">Autoriser la copie du mot de passe et des champs protégés dans le presse-papiers.</string>
+    <string name="allow_copy_password_summary">Autoriser la copie du mot de passe et des champs protégés dans le presse-papiers</string>
     <string name="allow_copy_password_warning">ATTENTION : Le presse-papiers est partagé par toutes les applications. Si des données sensibles sont copiés, d\'autres logiciels peuvent les récupérer.</string>
     <string name="warning_disabling_storage_access_framework">ATTENTION : désactiver cette fonctionnalité peut engendrer une impossibilité d\'ouvrir ou sauvegarder les bases de données</string>
-    <string name="open_link_database">Lien du fichier Kdbx à ouvrir</string>
+    <string name="open_link_database">Lien du fichier KDBX à ouvrir</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
@@ -258,7 +259,7 @@
     <string name="other">Autres</string>
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activer un clavier customisé qui permet le renseignement de vos mots de passe et de tous vos champs d\'identité facilement.</string>
+    <string name="magic_keyboard_summary">Activer un clavier customisé qui permet le renseignement de vos mots de passe et de tous vos champs d\'identité facilement</string>
 
     <string name="enable_education_screens_title">Ecrans d\'éducation</string>
     <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l\'application</string>
@@ -268,9 +269,9 @@
     <string name="education_create_database_title">Créez votre fichier de base de données</string>
     <string name="education_create_database_summary">Vous ne connaissez pas encore KeePass DX, créez votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrez une base de données existante</string>
-    <string name="education_select_database_summary">Vous avez déjà utilisé un lecteur KeePass. Ouvrez simplement votre fichier Kdbx depuis votre navigateur de fichiers.</string>
+    <string name="education_select_database_summary">Vous avez déjà utilisé un lecteur KeePass. Ouvrez simplement votre fichier KDBX depuis votre navigateur de fichiers.</string>
     <string name="education_open_link_database_title">Un lien vers l\'emplacement de votre fichier suffit</string>
-    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base avec un lien physique. (Avec file:// et content:// par exemple).</string>
+    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base avec un lien physique. (avec file:// et content:// par exemple).</string>
     <string name="education_new_node_title">Ajoutez de nouveaux éléments à votre base</string>
     <string name="education_new_node_summary">Ajoutez des entrées pour gérer vos identités numériques.\n\nAjoutez des groupes (l\'équivalent des dossiers) pour organiser vos entrées et votre base.</string>
     <string name="education_search_title">Recherchez facilement vos entrées</string>
@@ -278,23 +279,27 @@
     <string name="education_fingerprint_title">Débloquez votre base de données avec votre empreinte digitale</string>
     <string name="education_fingerprint_summary">Faites le lien entre votre mot de passe et votre empreinte digitale pour facilement dévérouiller votre base de données.</string>
     <string name="education_entry_edit_title">Editez l\'entrée</string>
-    <string name="education_entry_edit_summary">Editez votre entrée avec des champs customisés, vous pouvez ajouter des références pour mutualiser les données entre les champs de différentes entrées.</string>
+    <string name="education_entry_edit_summary">Éditez votre entrée avec des champs customisés, des références pour mutualiser les données peuvent être ajoutées entre les champs de différentes entrées.</string>
     <string name="education_generate_password_title">Créez un mot de passe fort</string>
-    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez le facilement en fonction des critères du formulaire et n\'oubliez plus un mot de passe difficile mais sécurisé.</string>
+    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez le facilement en fonction des critères du formulaire et n\'oubliez plus de mot de passe sécurisé .</string>
     <string name="education_entry_new_field_title">Ajoutez des champs customisés</string>
     <string name="education_entry_new_field_summary">Vous voulez enregistrer un champ non fourni de base, renseignez en simplement un nouveau que vous pouvez aussi protéger visuelement.</string>
     <string name="education_unlock_title">Débloquez votre base de données</string>
-    <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.\n\nPensez à sauvegarder une copie de votre fichier en lieu sûr après chaque modification.</string>
+    <string name="education_unlock_summary">Entrez un mot de passe et/ou un fichier de clé pour ouvrir la base de données.
+\n
+\nPensez à sauvegarder une copie de votre fichier .kdbx en lieu sûr après chaque modification.</string>
     <string name="education_field_copy_title">Copiez un champ</string>
-    <string name="education_field_copy_summary">Copiez un champ facilement pour le coller où vous voulez.\n\n Vous pouvez utilisez plusieurs méthodes de remplissage de formulaire. Utilisez celle que vous préférez!</string>
+    <string name="education_field_copy_summary">Copiez un champ facilement pour le coller où vous voulez.
+\n
+\n Vous pouvez utilisez plusieurs méthodes de remplissage de formulaire. Utilisez celle que vous préférez.</string>
     <string name="education_lock_title">Vérouillez la base de données</string>
     <string name="education_lock_summary">Verrouillez votre base de données rapidement, vous pouvez paramétrer l\'application pour qu\'elle se verrouille après un certain temps et lorsque l\'écran s\'éteint.</string>
     <string name="education_sort_title">Triez les éléments</string>
     <string name="education_sort_summary">Triez les entrées et les groupes en fonction de paramètres spécifiques.</string>
     <string name="education_donation_title">Participez</string>
-    <string name="education_donation_summary">Participer pour augmenter la stabilité, la sécurité et ajouter plus de fonctionnalités.</string>
+    <string name="education_donation_summary">Participer pour aider à augmenter la stabilité, la sécurité et ajouter plus de fonctionnalités.</string>
 
-    <string name="html_text_ad_free">Contrairement à d\'autres applications de gestion de mots de passe, cette application est &lt;strong&gt;sans publicité&lt;/strong&gt;, &lt;strong&gt;open source&lt;/strong&gt; et ne récupère pas de données personnelles sur ses serveurs, même dans sa version gratuite.</string>
+    <string name="html_text_ad_free">Contrairement à d\'autres applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>open source sous licence copyleft</strong> et ne récupère pas de données personnelles sur ses serveurs, même dans sa version gratuite.</string>
     <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
     <string name="html_text_donation">Afin de garder notre liberté et d\'être toujours actif, nous comptons sur votre &lt;strong&gt;contribution.&lt;/strong&gt;</string>
@@ -316,7 +321,7 @@
     <string name="encryption_chacha20">ChaCha20</string>
 
     <!-- Key Derivation Functions -->
-    <string name="kdf_AES">AES-KDF</string>
+    <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
 
     <string-array name="timeout_options">
@@ -357,8 +362,8 @@
     <string name="magic_keyboard_preference_title">Paramètres du Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Comment configurer le clavier pour le remplissage sécurisé de formulaire ?</string>
     <string name="magic_keyboard_activate_setting_text">Activer le Magikeyboard dans les paramètres de l\'appareil.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">Paramètres -&gt; Langue et saisie -&gt; Clavier actuel -&gt; CHOISIR LES CLAVIERS</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">ou (Paramètres -&gt; Système -&gt; Langues et saisie -&gt; Clavier virtuel -&gt; Gérer les claviers)</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">\"Paramètres\" → \"Langue &amp; saisie\" → \"Clavier actuel\" et en choisir un.</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">ou (\"Paramètres\" → \"Système\" → \"Langues et saisie\" → \"Clavier virtuel\" et en choisir un.)</string>
     <string name="keyboards_choose_magikeyboard_text">Choisir le Magikeyboard lorsque vous avez besoin de remplir un formulaire.</string>
     <string name="keyboards_swicth_magikeyboard_text">Vous pouvez facilement passer de votre clavier principal à Magikeyboard avec le bouton langage de votre clavier, un appui long sur la barre d\'espace de votre clavier, ou, si ce n\'est pas disponible, avec :</string>
     <string name="keyboard_select_entry_text">Sélectionnez votre entrée avec la clé.</string>
@@ -367,12 +372,12 @@
     <string name="keyboard_back_main_keyboard_text">Retourner sur votre clavier principal.</string>
 
     <string name="allow_no_password_title">Autoriser aucun mot de passe</string>
-    <string name="allow_no_password_summary">Activer le bouton d\'ouverture si aucune identification de mot de passe n\'est sélectionnée.</string>
+    <string name="allow_no_password_summary">Activer le bouton d\'ouverture si aucune identification de mot de passe n\'est sélectionnée</string>
 
     <string name="menu_file_selection_read_only">Lecture seule</string>
     <string name="menu_open_file_read_and_write">Lecture et écriture</string>
     <string name="enable_read_only_title">Lecture seule</string>
-    <string name="enable_read_only_summary">Par défaut, ouvrir une base de données en mode lecture seule.</string>
+    <string name="enable_read_only_summary">Par défaut, ouvrir une base de données en mode lecture seule</string>
 
     <string name="education_read_only_title">Activer la lecture seule</string>
     <string name="education_read_only_summary">Changez le mode d\'ouverture de la session.
@@ -380,4 +385,9 @@
 \nEn mode lecture seule, vous empêchez les modifications involontaires de la base de données.
 \n
 \nEn mode écriture, vous pouvez ajouter, supprimer ou modifier tous les éléments comme vous le souhaitez.</string>
+    <string name="edit_entry">Modifier l\'entrée</string>
+    <string name="error_load_database">La base de données ne peut être chargée</string>
+    <string name="error_load_database_KDF_memory">Impossible de charger la clé, essayez de diminuer la mémoire utilisée par le KDF.</string>
+    <string name="list_entries_show_username_title">Afficher les noms d\'utilisateur</string>
+    <string name="list_entries_show_username_summary">Afficher les noms d\'utilisateur dans les listes d\'entrées</string>
     </resources>

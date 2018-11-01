@@ -150,7 +150,7 @@
     <string name="unsupported_db_version">Databasversionen stöds ej.</string>
     <string name="uppercase">Versaler</string>
     <string name="warning_unmounted">SD-kortet är för närvarande inte monterat på enheten. Du kan inte skapa/ladda databasen.</string>
-    <string name="version_label">Version: %1$s</string>
+    <string name="version_label">Version %1$s</string>
 
     <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.</string>
 

@@ -155,7 +155,7 @@
     <string name="warning">Figyelmeztetés</string>
     <string name="warning_password_encoding">A .kdb formátum csak a Latin1 karakterkészletet támogatja. A jelenlegi jelszó olyan karaktereket is tartalmazhat, amik ezen kívül esnek. Az összes ilyen karakter át lesz konvertálva, viszont ez nagyban csökkenteni fogja a jelszó erősségét. Mielőbbi megváltoztatása ajánlott.</string>
     <string name="warning_unmounted">A memóriakártya jelenleg el van távolítva. Nem fogja tudni az adatbázist betölteni vagy módosítani.</string>
-    <string name="version_label">Verzió: %1$s</string>
+    <string name="version_label">Verzió %1$s</string>
     <string name="configure_fingerprint">Az ujjlenyomat használat nincs még beállítva az eszközön</string>
     <string name="scanning_fingerprint">Várakozás az ujjelnyomat megadására</string>
     <string name="encrypted_value_stored">Titkosított jelszó elmentve</string>

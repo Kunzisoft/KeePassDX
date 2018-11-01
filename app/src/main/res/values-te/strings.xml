@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="about_feedback">అభిప్రాయం:</string>
+    <string name="about_homepage">హోమ్ పేజీ:</string>
+    <string name="about_description">KeePass DX అనేది KeePass పాస్వర్డ్ మేనేజర్ యొక్క యాండ్రాయిడ్ అమలు.</string>
+    <string name="accept">ఆమోదించు</string>
+    <string name="add_entry">"ఎంట్రీని జత చెయ్యండి "</string>
+    <string name="edit_entry">ఎంట్రీని మార్పు చెయ్యండి</string>
+    <string name="add_group">"గ్రూపుని జత చెయ్యండి "</string>
+    <string name="add_string">"స్ట్రింగ్ ని జత చెయ్యండి "</string>
+    <string name="encryption">ఎన్క్రిప్షన్</string>
+    <string name="encryption_algorithm">ఎన్క్రిప్షన్ అల్గోరిథం</string>
+    <string name="key_derivation_function">కీ వ్యుత్పత్తి ఫంక్షన్</string>
+    <string name="app_timeout">యాప్ కి అనువర్తించిన గడువు ముగిసింది</string>
+    </resources>
