@@ -345,4 +345,29 @@
     <string name="icon_pack_choose_title">Velg en ikonpakke</string>
     <string name="icon_pack_choose_summary">Endre programmets ikonpakke</string>
 
-</resources>
+<string name="build_label">Bygg %1$s</string>
+    <string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_setting_label">Magikeyboard-innstillinger</string>
+
+    <string name="keyboard_entry_category">Oppføring</string>
+
+    <string name="keyboard_entry_timeout_title">Tidsavbrudd</string>
+    <string name="keyboard_entry_timeout_summary">Tidsavbrudd for tømming av tastaturoppføring</string>
+
+    <string name="keyboard_notification_entry_title">Merknadsinfo</string>
+    <string name="keyboard_notification_entry_summary">Vis en merknad når en oppføring er tilgjengelig</string>
+    <string name="keyboard_notification_entry_content_title_text">Oppføring</string>
+    <string name="keyboard_notification_entry_content_title">%1$s tilgjengelig på Magikeyboard</string>
+    <string name="keyboard_notification_entry_content_text">%1$s</string>
+
+    <string name="keyboard_notification_entry_clear_close_title">Tøm ved lukking</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Tøm tastaturoppføringen ved lukking av merknaden</string>
+    <string name="keyboard_appearance_category">Utseende</string>
+
+    <string name="keyboard_theme_title">Tastaturdrakt</string>
+
+    <string name="keyboard_keys_category">Taster</string>
+    <string name="keyboard_key_vibrate_title">Vibrer ved tastetrykk</string>
+    <string name="keyboard_key_sound_title">Lyd ved tastetrykk</string>
+    </resources>
