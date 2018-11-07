@@ -29,7 +29,7 @@
     <string name="encryption_algorithm">Algorithme de chiffrement</string>
     <string name="key_derivation_function">Fonction de dérivation de clé</string>
     <string name="app_timeout">Délai d\'expiration de l\'application</string>
-    <string name="app_timeout_summary">Temps avant le verrouillage de la base de données lorsque l\'application est inactive</string>
+    <string name="app_timeout_summary">Inactivité avant le verrouillage de l\'application</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Préférences de l\'application</string>
     <string name="menu_form_filling_settings">Remplissage de formulaire</string>
