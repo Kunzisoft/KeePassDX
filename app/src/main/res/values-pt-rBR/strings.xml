@@ -21,13 +21,13 @@
   
 -->
 <resources>
-    <string name="about_feedback">Comentários:</string>
+    <string name="about_feedback">Comentário:</string>
     <string name="about_homepage">Página inicial:</string>
-    <string name="about_description">KeePass DX é uma implementação do gerenciador de senhas KeePass.</string>
+    <string name="about_description">KeePass DX é uma implementação para Android do gerenciador de senhas KeePass</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
-    <string name="encryption_algorithm">Algoritmo</string>
+    <string name="encryption_algorithm">Algoritmo de Encriptação</string>
     <string name="app_timeout">Tempo limite para o aplicativo</string>
     <string name="app_timeout_summary">Tempo até que o banco de dados seja travado quando o aplicativo estiver inativo.</string>
     <string name="application">Aplicação</string>
