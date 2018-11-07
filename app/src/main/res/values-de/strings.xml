@@ -50,7 +50,7 @@
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standard-Datenbank benutzen</string>
     <string name="digits">Zahlen</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist kostenlos und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
@@ -80,8 +80,8 @@
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
-    <string name="error_rounds_not_number">Die Anzahl der Wiederholungen muss eine Zahl sein.</string>
-    <string name="error_rounds_too_large">Die maximale Wiederholungsanzahl ist 2147483648.</string>
+    <string name="error_rounds_not_number">Mache \"Transformationsrunden\" zu einer Zahl.</string>
+    <string name="error_rounds_too_large">\"Transformationsrunden\" zu hoch. Stelle ein auf 214748364848.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
     <string name="error_title_required">Titel hinzufügen.</string>
     <string name="error_wrong_length">Geben Sie die erforderliche Länge als positive, ganze Zahl in das Feld ein.</string>
@@ -140,7 +140,7 @@
     <string name="read_only_kitkat_warning">Ab Android KitKat haben auf einigen Geräten Apps keine Schreibrechte mehr für die SD-Karte.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
-    <string name="remember_keyfile_summary">Den Pfad der Schlüsseldatei merken</string>
+    <string name="remember_keyfile_summary">Erinnert sich an den Speicherort der Schlüsseldateien der Datenbanken</string>
     <string name="remember_keyfile_title">Schlüsselquelle merken</string>
     <string name="remove_from_filelist">Löschen</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
@@ -151,7 +151,7 @@
     <string name="saving_database">Speichere Datenbank\u2026</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
-    <string name="sort_db">Sortieren nach Erstellung</string>
+    <string name="sort_db">Natürliche Datenbank</string>
     <string name="special">Spezialsymbole</string>
     <string name="search">Titel/Beschreibung des Eintrags</string>
     <string name="search_results">Suchergebnisse</string>
@@ -247,7 +247,7 @@
     <string name="sort_recycle_bin_bottom">Papierkorb unten</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Benutzername</string>
-    <string name="sort_creation_time">Erstellungsdatum</string>
+    <string name="sort_creation_time">Erzeugt am</string>
     <string name="sort_last_modify_time">Änderungsdatum</string>
     <string name="sort_last_access_time">Zugriffsdatum</string>
     <string name="fingerprint_not_recognized">Fingerabdruck nicht erkannt</string>
