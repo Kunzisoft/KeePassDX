@@ -1,2 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="about_feedback">Geri Bildirim</string>
+    <string name="about_homepage">Ana sayfa</string>
+    <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
+    <string name="accept">Kabul et</string>
+    <string name="add_entry">"Girdi Ekle "</string>
+    <string name="edit_entry">"Girdi Düzenle "</string>
+    <string name="add_group">"Grup Ekle "</string>
+    <string name="add_string">Dizi ekle</string>
+    <string name="encryption">Şifreleme</string>
+    <string name="encryption_algorithm">Şifreleme algoritması</string>
+    <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
+    <string name="app_timeout">Uygulama zaman aşımı</string>
+    <string name="app_timeout_summary">Uygulama kilitlemeden önce durgunluk</string>
+    <string name="application">Uygulama</string>
+    <string name="beta_dontask">Tekrar gösterme</string>
+    <string name="brackets">Parantez</string>
+    <string name="extended_ASCII">Genişletilmiş ASCII</string>
+    <string name="browser_intall_text">OpenIntents Dosya Yöneticisi\'ni yükleyerek dosyalara göz atın</string>
+    <string name="cancel">İptal</string>
+    <string name="allow">İzin ver</string>
+    <string name="clipboard_cleared">Pano temizlendi</string>
+    <string name="clipboard_error_title">Pano hatası</string>
+    <string name="clipboard_error">Bazı Samsung Android telefonları, uygulamaların panoya kullanılmasına izin vermez.</string>
+    <string name="clipboard_error_clear">"Pano temizlenemedi "</string>
+    <string name="clipboard_timeout">Pano zaman aşımı</string>
+    <string name="clipboard_timeout_summary">Panodaki depolama süresi</string>
+    <string name="database">Veritabanı</string>
+    <string name="entry_accessed">Erişildi</string>
+    <string name="entry_cancel">İptal</string>
+    <string name="entry_comment">Notlar</string>
+    <string name="entry_confpassword">Parolayı onayla</string>
+    <string name="entry_created">Oluşturuldu</string>
+    <string name="entry_modified">Değiştirilmiş</string>
+    <string name="entry_not_found">Giriş Verisi bulamadı.</string>
+    <string name="entry_password">Parola</string>
+    <string name="entry_save">Kaydet</string>
+    <string name="entry_title">Başlık</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">Kullanıcı adı</string>
+    <string name="error_could_not_create_parent">Ana dizin oluşturulamadı.</string>
+    <string name="error_database_exists">Bu dosya zaten var.</string>
+    <string name="error_failed_to_launch_link">Bağlantı açılamadı.</string>
+    <string name="error_filename_required">Bir dosya adı girin.</string>
+    <string name="error_file_not_create">Dosya oluşturulamadı:</string>
+    <string name="error_invalid_db">Veritabanı okunamadı.</string>
+    <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
+    <string name="error_no_name">Bir isim girin.</string>
+    </resources>
