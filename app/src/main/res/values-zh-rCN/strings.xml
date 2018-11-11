@@ -18,9 +18,9 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_feedback">反馈：</string>
-    <string name="about_homepage">主页：</string>
-    <string name="about_description">KeePass DX 是 KeePass 密码管理器在Android 平台上的一个实现。</string>
+    <string name="about_feedback">反馈</string>
+    <string name="about_homepage">主页</string>
+    <string name="about_description">KeePass 密码管理器在 Android 平台上的实现</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加文件夹</string>
