@@ -212,7 +212,7 @@
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="configure_fingerprint">Fingerabdruck-Scannen wird unterstützt, ist jedoch nicht konfiguriert</string>
+    <string name="configure_fingerprint">Fingerabdruck-Scannen wird unterstützt, ist jedoch nicht konfiguriert.</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="fingerprint_invalid_key">Fingerabdruckschlüssel nicht lesbar. Stellen Sie Ihr Passwort wieder her.</string>
@@ -298,7 +298,7 @@
     <string name="education_select_database_summary">Öffnen Sie eine frühere Datenbankdatei über Ihren Dateimanager, um sie weiter zu verwenden.</string>
     <string name="education_open_link_database_title">Ein Link zum Speicherort Ihrer Datei ist ausreichend</string>
     <string name="education_open_link_database_summary">Sie können Ihre Datenbank auch mit einem physischen Link öffnen (z.B. mit file:// und content://).</string>
-    <string name="education_new_node_title">Einträge zu Ihrer Datenbank hinzufügen</string>
+    <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge um Ihre digitalen Identitäten zu verwalten.
 \n
 \nGruppen (wie Ordner) um Einträge in ihrer Datenbank zu ordnen.</string>
@@ -311,7 +311,7 @@
     <string name="education_generate_password_title">Ein starkes Passwort für ihren Eintrag erstellen.</string>
     <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort zu Ihrem Eintrag, stellen Sie Ihre Kriterien zur Erstellung des Passworts nach den gewünschten Merkmalen ein und vergessen Sie nie wieder ein schweres, aber sicheres Passwort.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Registrieren Sie ein einfaches, hier nicht aufgelistetes Feld indem sie ein neues hinzufügen, welches Sie auch schützen können.</string>
+    <string name="education_entry_new_field_summary">Registrieren Sie ein zusätzliches Feld und tragen Sie einen Wert dafür ein, den Sie wahlweise schützen können.</string>
     <string name="education_unlock_title">Ihre Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
     <string name="education_field_copy_summary">Kopieren Sie einfach ein Feld, um es, wo Sie wollen, wieder einzufügen
@@ -319,7 +319,7 @@
 \nSie können verschiedene Methoden zum Ausfüllen von Formularen verwenden. Wählen Sie die, die Ihnen am meisten zusagt.</string>
     <string name="education_lock_title">Datenbank sperren</string>
     <string name="education_lock_summary">Schnell Ihre Datenbank sperren, in den App-Einstellungen können Sie eine Sperre nach Zeit und bei Ausschalten des Bildschirms festlegen.</string>
-    <string name="education_sort_title">Eintrag-Sortierung</string>
+    <string name="education_sort_title">Sortierung der Elemente</string>
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Machen Sie mit, damit sich Stabilität, Sicherheit verbessern und weitere Funktionen hinzukommen.</string>
@@ -377,10 +377,10 @@
     <string name="education_read_only_title">Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
 
-    <string name="education_read_only_summary">Ändern Sie den Öffnungs-Modus dieser Sitzung. 
+    <string name="education_read_only_summary">Ändern Sie den Modus bei Eröffnung der Sitzung. 
 \n 
-\nIm schreibgeschützten Modus verhindern Sie unbeabsichtigte Änderungen an der Datenbank. 
-\nIm Modus ‘Lesen und Schreiben‘ können Sie alle Elemente hinzufügen, löschen oder verändern.</string>
+\n\"Schreibgeschützt\" verhindert unbeabsichtigte Änderungen an der Datenbank. 
+\n\"Veränderbar\" ermöglicht das Hinzufügen, Löschen oder Bearbeiten von Elementen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Datenbank kann nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen; versuchen Sie, die \"Speicherplatznutzung\" von KDF zu verringen.</string>
