@@ -46,4 +46,27 @@
     <string name="error_invalid_db">Veritabanı okunamadı.</string>
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
     <string name="error_no_name">Bir isim girin.</string>
+    <string name="clipboard_swipe_clean">Şimdi panoyu temizlemek için kaydırın</string>
+     <string name="select_to_copy">%1$s dosyasını panoya kopyalamak için seçin</string>
+    <string name="retrieving_db_key">Veritabanı anahtarı alınıyor…</string>
+    <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
+    <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
+    <string name="digits">Rakamlar</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft, KESİNLİKLE HİÇBİR GARANTİ VERMEZ; Bu bir libre yazılımıdır ve bunu GPL sürüm 3 veya üstü koşullarında yeniden dağıtabilirsiniz.</string>
+    <string name="entry_expires">Süre sonu</string>
+    <string name="entry_keyfile">Anahtar dosya</string>
+    <string name="error_arc4">ARCFOUR akış şifresi desteklenmiyor.</string>
+    <string name="error_can_not_handle_uri">Bu URI, KeePass DX\'te işlenemedi.</string>
+    <string name="error_nokeyfile">Bir anahtar dosyası seçin.</string>
+    <string name="error_out_of_memory">Tüm veritabanınızı yüklemek için bellek yok.</string>
+    <string name="error_load_database">Veritabanınız yüklenemedi.</string>
+    <string name="error_load_database_KDF_memory">Anahtar yüklenemedi. KDF \"Bellek Kullanımı\" nı azaltmaya çalışın.</string>
+    <string name="error_pass_gen_type">En az bir parola oluşturma türü seçilmelidir.</string>
+    <string name="error_pass_match">Parolalar uyuşmuyor.</string>
+    <string name="error_rounds_not_number">\"Dönüşüm turları\"nı bir sayı yapın.</string>
+    <string name="error_rounds_too_large">\"Dönüşüm turları\" çok yüksek. 2147483648\'e ayarlayın.</string>
+    <string name="error_string_key">Her dizenin bir alan adı olmalıdır.</string>
+    <string name="error_title_required">Bir başlık ekle.</string>
+    <string name="error_wrong_length">\"Uzunluk\" alanına pozitif bir tam sayı girin.</string>
+    <string name="error_autofill_enable_service">Otomatik doldurma hizmeti etkinleştirilemedi.</string>
     </resources>
