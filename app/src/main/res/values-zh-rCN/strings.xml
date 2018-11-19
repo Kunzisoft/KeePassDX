@@ -24,17 +24,17 @@
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加文件夹</string>
-    <string name="encryption_algorithm">算法</string>
+    <string name="encryption_algorithm">加密算法</string>
     <string name="app_timeout">离开应用锁定延时</string>
-    <string name="app_timeout_summary">本应用处于非前台状态之后经过多久自动锁定数据库</string>
+    <string name="app_timeout_summary">本应用处于非前台状态后经过多久自动锁定数据库</string>
     <string name="application">应用</string>
     <string name="menu_app_settings">应用设置</string>
     <string name="brackets">括号</string>
-    <string name="browser_intall_text">浏览文件需要安装 Open-Intents File Manager 软件，点击下面即可安装。由于一些文件管理软件之间的差异，在第一次打开时可能无法正常浏览。</string>
+    <string name="browser_intall_text">安装 OpenIntents File Manager 应用来选取文件</string>
     <string name="cancel">取消</string>
     <string name="clipboard_cleared">已清空剪贴板</string>
     <string name="clipboard_timeout">剪贴板清空延时</string>
-    <string name="clipboard_timeout_summary">复制用户名或密码到剪贴板后清除的时间</string>
+    <string name="clipboard_timeout_summary">剪贴板清空时间</string>
     <string name="select_to_copy">复制 %1$s 到剪贴板</string>
     <string name="retrieving_db_key">创建数据库密钥…</string>
     <string name="database">数据库</string>
@@ -42,7 +42,7 @@
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft 软件不带有绝对担保；本应用是自由软件，您可在遵循 GPL 3 或者此开源协议的更高版本的情况下重新发布。</string>
-    <string name="select_database_file">选择一个已有数据库</string>
+    <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
     <string name="entry_comment">备注</string>
@@ -63,17 +63,17 @@
     <string name="error_failed_to_launch_link">无法打开链接。</string>
     <string name="error_filename_required">必须输入文件名。</string>
     <string name="error_file_not_create">无法创建文件：</string>
-    <string name="error_invalid_db">数据库无效或主密钥无法识别。</string>
-    <string name="error_invalid_path">路径无效。</string>
+    <string name="error_invalid_db">无法读取数据库。</string>
+    <string name="error_invalid_path">请确保路径是正确的。</string>
     <string name="error_no_name">必须输入用户名。</string>
-    <string name="error_nokeyfile">必须输入密码或添加密钥文件。</string>
-    <string name="error_out_of_memory">此设备因运行内存不足而无法解析数据库。</string>
-    <string name="error_pass_gen_type">必须选择一个或更多密码生成类型</string>
+    <string name="error_nokeyfile">请选择密钥文件。</string>
+    <string name="error_out_of_memory">运行内存不足，无法解析数据库。</string>
+    <string name="error_pass_gen_type">必须至少选择一种密码生成类型。</string>
     <string name="error_pass_match">密码不匹配。</string>
-    <string name="error_rounds_not_number">“次数”必须是数字。</string>
-    <string name="error_rounds_too_large">“次数”过多。最大值为 2147483648。</string>
-    <string name="error_title_required">必须输入标题。</string>
-    <string name="error_wrong_length">请在“长度”字段输入一个正整数</string>
+    <string name="error_rounds_not_number">“变换次数”必须是数字。</string>
+    <string name="error_rounds_too_large">“变换次数”过多。已设置为 2147483648。</string>
+    <string name="error_title_required">请添加标题。</string>
+    <string name="error_wrong_length">请在“长度”字段输入一个正整数。</string>
     <string name="file_not_found">找不到文件。</string>
     <string name="file_browser">文件浏览器</string>
     <string name="generate_password">生成密码</string>
@@ -93,10 +93,10 @@
     <string name="list_size_summary">列表文字大小</string>
     <string name="loading_database">正在加载数据库…</string>
     <string name="lowercase">小写</string>
-    <string name="maskpass_title">密码掩膜</string>
-    <string name="maskpass_summary">默认隐藏密码</string>
+    <string name="maskpass_title">隐藏密码</string>
+    <string name="maskpass_summary">默认使用星号 (***) 隐藏密码</string>
     <string name="menu_about">关于</string>
-    <string name="menu_change_key">改变主密钥</string>
+    <string name="menu_change_key">更改主密钥</string>
     <string name="settings">设置</string>
     <string name="menu_db_settings">数据库设置</string>
     <string name="menu_delete">删除</string>
@@ -110,8 +110,8 @@
     <string name="minus">连字符</string>
     <string name="never">从不</string>
     <string name="no_results">没有搜索结果</string>
-    <string name="no_url_handler">没有能处理此链接的程序。</string>
-    <string name="open_recent">最近数据库：</string>
+    <string name="no_url_handler">需要安装网络浏览器才能打开这个 URL。</string>
+    <string name="open_recent">最近使用过的数据库</string>
     <string name="progress_create">正在创建新数据库…</string>
     <string name="progress_title">正在处理…</string>
     <string name="remember_keyfile_summary">记住密钥文件的位置</string>
@@ -120,8 +120,8 @@
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次数</string>
-    <string name="rounds_explanation">更多的加密次数能对暴力破解攻击能提供额外保护，但也会增加加载和保存的时间。</string>
-    <string name="rounds_hint">次数</string>
+    <string name="rounds_explanation">更多的加密次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
+    <string name="rounds_hint">变换次数</string>
     <string name="saving_database">正在保存数据库…</string>
     <string name="space">空格</string>
     <string name="search_label">搜索</string>
@@ -132,7 +132,7 @@
     <string name="underline">下划线</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>
-    <string name="warning_read_only">SD卡目前为只读状态。您可能无法将更改保存到数据库。</string>
+    <string name="warning_read_only">请授予 SD 卡写入权限来保存数据库。</string>
     <string name="warning_unmounted">您的 SD 卡目前尚未挂载至您的设备上。无法加载或创建您的数据库。</string>
 
     <string name="education_unlock_summary">输入密码和/或一个密钥文件来解锁你的数据库。
@@ -161,8 +161,8 @@
     <string name="extended_ASCII">ASCⅡ 拓展区字符</string>
     <string name="allow">允许</string>
     <string name="clipboard_error_title">剪切板错误</string>
-    <string name="clipboard_error">一些三星设备的剪切板实现方式有 bug，会导致无法从应用中复制。更多细节：</string>
-    <string name="clipboard_error_clear">剪切板清空失败</string>
+    <string name="clipboard_error">一些三星设备不让应用程序使用剪切板。</string>
+    <string name="clipboard_error_clear">无法清空剪切板</string>
     <string name="clipboard_swipe_clean">滑动以清空剪切板</string>
     <string name="encryption_chacha20">ChaCha20</string>
 
@@ -174,13 +174,13 @@
     <string name="icon_pack_choose_summary">切换本应用中使用的图标风格</string>
 
 <string name="edit_entry">编辑条目</string>
-    <string name="key_derivation_function">密钥推导函数/功能 (Key Derivation Function)</string>
+    <string name="key_derivation_function">密钥推导函数</string>
     <string name="entry_not_found">找不到条目。</string>
-    <string name="error_load_database">无法加载数据库</string>
-    <string name="error_load_database_KDF_memory">无法加载密钥，尝试降低 KDF 使用的内存。</string>
+    <string name="error_load_database">无法加载数据库。</string>
+    <string name="error_load_database_KDF_memory">无法加载密钥，尝试降低 KDF 的“内存使用”值。</string>
     <string name="error_autofill_enable_service">无法启用自动填充服务。</string>
     <string name="error_move_folder_in_itself">无法将文件夹移至它自身之下。</string>
-    <string name="file_not_found_content">找不到文件。尝试使用内容提供器重新打开它。</string>
+    <string name="file_not_found_content">找不到文件。尝试使用文件浏览器重新打开它。</string>
     <string name="invalid_algorithm">算法无效。</string>
     <string name="keyfile_does_not_exist">没有密钥文件。</string>
     <string name="keyfile_is_empty">密钥文件为空文件。</string>
@@ -192,20 +192,20 @@
     <string name="menu_paste">粘贴</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">显示密码</string>
-    <string name="menu_fingerprint_remove_key">移除指纹密钥</string>
+    <string name="menu_fingerprint_remove_key">删除保存的指纹</string>
     <string name="menu_file_selection_read_only">只读</string>
-    <string name="menu_open_file_read_and_write">读写</string>
+    <string name="menu_open_file_read_and_write">可修改</string>
     <string name="omitbackup_title">搜索时忽略备份条目</string>
     <string name="omitbackup_summary">从搜索结果中隐藏 “备份” 文件夹的搜索结果（仅适用于 .kdb 文件）</string>
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
-    <string name="read_only_warning">KeePass DX 没有写入数据库所在位置的权限，所以此数据库将以只读的形式打开。</string>
+    <string name="read_only_warning">KeePass DX 需要写入权限才能修改数据库中的内容。</string>
     <string name="read_only_kitkat_warning">从 Android 4.4.4 KitKat 开始，一些设备不再允许应用直接写入 SD 卡。</string>
     <string name="recentfile_title">最近文件历史</string>
     <string name="recentfile_summary">记住最近使用的文件名</string>
     <string name="encryption_explanation">加密整个数据库时使用的算法。（密码，
 \n、用户名、笔记和所有数据库中的数据将使用此算法来加密）</string>
-    <string name="kdf_explanation">为了生成加密算法所需的密钥，通过随机加盐推导算法处理了经过压缩的主密钥（SHA-256）。</string>
+    <string name="kdf_explanation">将会使用随机加盐推导算法变换主密钥以生成加密算法所需的密钥。</string>
     <string name="memory_usage">内存使用量</string>
     <string name="memory_usage_explanation">密钥推导算法使用的内存（以二进制字节计）。</string>
     <string name="parallelism">并行</string>
@@ -232,7 +232,7 @@
     <string name="fingerprint">指纹</string>
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
-    <string name="create_keepass_file">创建 KeePass 文件</string>
+    <string name="create_keepass_file">创建新数据库</string>
     <string name="bytes">B</string>
     <string name="full_file_path_enable_title">显示文件路径</string>
     <string name="full_file_path_enable_summary">显示完整的文件路径</string>
@@ -253,4 +253,12 @@
     <string name="contribute">贡献</string>
 
     <string name="style_choose_summary">选择各种颜色的应用主题</string>
+    <string name="error_string_key">每个字符串必须有一个字段名。</string>
+    <string name="field_name">字段名</string>
+    <string name="field_value">字段值</string>
+    <string name="copy_field">%1 的副本</string>
+    <string name="sort_ascending">最低优先 ↓</string>
+    <string name="use_saf_summary">使用 Android 存储访问框架 （SAF）浏览文件（需要 KitKat 或更高）</string>
+    <string name="use_saf_title">存储访问框架</string>
+    <string name="warning_password_encoding">请避免在 .kbd 文件中保存含有 Latin-1 以外的其他字符的密码，因为这些字符将会被转换为同一字符。</string>
     </resources>
