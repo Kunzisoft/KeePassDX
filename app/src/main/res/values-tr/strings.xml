@@ -93,4 +93,24 @@
     <string name="length">Uzunluk</string>
     <string name="list_entries_show_username_title">Kullanıcı adlarını göster</string>
     <string name="list_entries_show_username_summary">Giriş listelerinde kullanıcı adlarını göster</string>
+    <string name="list_size_title">Liste öğelerinin boyutu</string>
+    <string name="list_size_summary">Öğe listesindeki metin boyutu</string>
+    <string name="loading_database">Veritabanı yükleniyor…</string>
+    <string name="lowercase">Küçük harf</string>
+    <string name="maskpass_title">"Parolaları gizle "</string>
+    <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
+    <string name="menu_about">Hakkında</string>
+    <string name="menu_change_key">Ana anahtarı değitir</string>
+    <string name="copy_field">1$s kopyası</string>
+    <string name="settings">Ayarlar</string>
+    <string name="menu_app_settings">Uygulama ayarları</string>
+    <string name="menu_form_filling_settings">Form doldurma</string>
+    <string name="menu_db_settings">Veritabanı ayarları</string>
+    <string name="menu_donate">Bağış Yap</string>
+    <string name="menu_edit">Düzen</string>
+    <string name="menu_copy">Kopyala</string>
+    <string name="menu_move">Taşı</string>
+    <string name="menu_paste">Yapıştır</string>
+    <string name="menu_delete">Sil</string>
+    <string name="menu_cancel">İptal</string>
     </resources>
