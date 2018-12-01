@@ -168,4 +168,15 @@
     <string name="special">Özel</string>
     <string name="search">Ara</string>
     <string name="search_results">Arama Sonuçları</string>
+    <string name="minus">Eksi</string>
+    <string name="underline">Altı çizili</string>
+    <string name="unsupported_db_version">Desteklenmeyen veritabanı sürümü.</string>
+    <string name="uppercase">Büyük harf</string>
+    <string name="use_saf_summary">Dosya taraması için Android depolama erişim yapısını (SAF) kullan (KitKat sonrası)</string>
+    <string name="use_saf_title">Depolama erişim yapısı</string>
+    <string name="warning">Uyarı</string>
+    <string name="warning_password_encoding">Tümü aynı harfe dönüştürüldüğünden .kbd dosyalarındaki Latin-1 dışındaki şifre karakterlerinden kaçının.</string>
+    <string name="warning_read_only">Veri tabanı değişikliklerini kaydetmek için SD karta yazma erişimi verin.</string>
+    <string name="warning_unmounted">Bir veritabanı oluşturmak veya yüklemek için SD kartı takın.</string>
+    <string name="warning_empty_password">Gerçekten parolasız açma koruması mı istiyorsunuz\?</string>
     </resources>
