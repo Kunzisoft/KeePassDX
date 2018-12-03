@@ -179,4 +179,21 @@
     <string name="warning_read_only">Veri tabanı değişikliklerini kaydetmek için SD karta yazma erişimi verin.</string>
     <string name="warning_unmounted">Bir veritabanı oluşturmak veya yüklemek için SD kartı takın.</string>
     <string name="warning_empty_password">Gerçekten parolasız açma koruması mı istiyorsunuz\?</string>
+    <string name="warning_no_encryption_key">Herhangi bir şifreleme anahtarı kullanmak istemediğinize emin misiniz\?</string>
+    <string name="version_label">Sürüm %1$s</string>
+    <string name="build_label">Yapı %1$s</string>
+    <string name="configure_fingerprint">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
+    <string name="scanning_fingerprint">Parmak izi tarama</string>
+    <string name="encrypted_value_stored">Şifreli parola saklandı</string>
+    <string name="fingerprint_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>
+    <string name="fingerprint_not_recognized">Parmak izi tanınamadı</string>
+    <string name="fingerprint_error">Parmak izi sorunu: %1$s</string>
+    <string name="store_with_fingerprint">Bu şifreyi saklamak için parmak izini kullanın</string>
+    <string name="no_password_stored">Bu veritabanının henüz bir parolası yok.</string>
+    <string name="history">Geçmiş</string>
+    <string name="appearance">Görünüm</string>
+    <string name="general">Genel</string>
+    <string name="autofill">Otomatik Doldurma</string>
+    <string name="autofill_service_name">KeePass DX formu otomatik doldurma</string>
+    <string name="autofill_sign_in_prompt">KeePass DX ile giriş yap</string>
     </resources>
