@@ -307,11 +307,11 @@
     <string name="education_fingerprint_title">Datenbank mit Fingerabdruck entsperren</string>
     <string name="education_fingerprint_summary">Verknüpfen Sie Ihr Passwort und Ihren Fingerabdruck um Ihre Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
-    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit eigenen Feldern, Sie können zwischen Feldern aus verschiedenen Einträgen Verweise hinzufügen, um Daten zusammenzufassen.</string>
+    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit benutzerdefinierten Feldern. Pooldaten können zwischen verschiedenen Eingabefeldern referenziert werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort für ihren Eintrag erstellen.</string>
-    <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort zu Ihrem Eintrag, stellen Sie Ihre Kriterien zur Erstellung des Passworts nach den gewünschten Merkmalen ein und vergessen Sie nie wieder ein schweres, aber sicheres Passwort.</string>
+    <string name="education_generate_password_summary">Generieren Sie ein sicheres Passwort, um es mit Ihrem Eintrag zu verknüpfen, definieren Sie es einfach nach den Kriterien des Formulars und vergessen Sie das sichere Passwort nicht.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Registrieren Sie ein zusätzliches Feld und tragen Sie einen Wert dafür ein, den Sie wahlweise schützen können.</string>
+    <string name="education_entry_new_field_summary">Registrieren Sie ein einfaches, nicht mitgeliefertes Feld, indem Sie ein neues Feld ausfüllen, das Sie auch schützen können.</string>
     <string name="education_unlock_title">Ihre Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
     <string name="education_field_copy_summary">Kopieren Sie einfach ein Feld, um es, wo Sie wollen, wieder einzufügen
@@ -377,10 +377,10 @@
     <string name="education_read_only_title">Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
 
-    <string name="education_read_only_summary">Ändern Sie den Modus bei Eröffnung der Sitzung. 
-\n 
-\n\"Schreibgeschützt\" verhindert unbeabsichtigte Änderungen an der Datenbank. 
-\n\"Veränderbar\" ermöglicht das Hinzufügen, Löschen oder Bearbeiten von Elementen.</string>
+    <string name="education_read_only_summary">Ändern Sie den Öffnungsmodus für die Sitzung.
+\n
+\n\"Write-protected\" verhindert unbeabsichtigte Änderungen an der Datenbank.
+\nMit \"Modifizierbar\" können Sie alle Elemente hinzufügen, löschen oder ändern.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Datenbank kann nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen; versuchen Sie, die \"Speicherplatznutzung\" von KDF zu verringen.</string>
