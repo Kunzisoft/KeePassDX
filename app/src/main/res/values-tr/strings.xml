@@ -238,4 +238,5 @@
     <string name="permission_external_storage_denied">Harici depolama izni alınamadı.</string>
     <string name="permission_external_storage_never_ask">Eylem, harici depolama izni olmadan gerçekleştirilemez.</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>
+    <string name="monospace_font_fields_enable_summary">Daha iyi karakter görünürlüğü için alanlarda kullanılan yazı tipini değiştirin</string>
     </resources>
