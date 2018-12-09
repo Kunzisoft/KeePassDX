@@ -81,8 +81,8 @@
     <string name="error_out_of_memory">Pas de mémoire pour charger l\'ensemble de votre base de données.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné.</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
-    <string name="error_rounds_not_number">\"Niveaux\" doit être un nombre.</string>
-    <string name="error_rounds_too_large">\"Niveaux\" trop gros. Paramètres à 2147483648.</string>
+    <string name="error_rounds_not_number">Faites de \"Niveaux\" un nombre.</string>
+    <string name="error_rounds_too_large">\"Niveaux\" trop haut. Réglé à 2147483648.</string>
     <string name="error_string_key">Un nom de champ est requis pour chaque élément.</string>
     <string name="error_title_required">Ajoutez un titre.</string>
     <string name="error_wrong_length">Entrez un entier positif dans le champ \"Longueur\".</string>
@@ -152,7 +152,7 @@
     <string name="encryption_explanation">Algorithme de chiffrement de la base de données utilisé pour toutes les données.</string>
     <string name="kdf_explanation">Afin de générer la clé pour l\'algorithme de chiffrement, la clé maîtresse est transformée en utilisant une fonction de dérivation de clé salée aléatoirement.</string>
     <string name="rounds">Tours de transformation</string>
-    <string name="rounds_explanation">Un niveau de chiffrement supérieur assure une protection supplémentaire contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
+    <string name="rounds_explanation">Un niveau de chiffrement supplémentaire assure une protection plus élevée contre les attaques de force brute, mais peut considérablement ralentir l\'ouverture et l\'enregistrement.</string>
     <string name="rounds_hint">niveaux</string>
     <string name="memory_usage">Utilisation de la mémoire</string>
     <string name="memory_usage_explanation">Quantité de mémoire (en octets binaires) à utiliser par la fonction de dérivation de clé.</string>
