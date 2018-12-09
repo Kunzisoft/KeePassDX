@@ -239,4 +239,135 @@
     <string name="permission_external_storage_never_ask">Eylem, harici depolama izni olmadan gerçekleştirilemez.</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>
     <string name="monospace_font_fields_enable_summary">Daha iyi karakter görünürlüğü için alanlarda kullanılan yazı tipini değiştirin</string>
-    </resources>
+    <string name="auto_open_file_uri_title">Seçerek dosyaları aç</string>
+    <string name="auto_open_file_uri_summary">Dosya tarayıcısında seçildiğinde dosyaları otomatik aç</string>
+    <string name="allow_copy_password_title">Pano güveni</string>
+    <string name="allow_copy_password_summary">Giriş parolası ve korunan alanların panoya aktarılmasına izin ver</string>
+    <string name="allow_copy_password_warning">UYARI: Pano tüm uygulamalar tarafından paylaşılmaktadır. Hassas veriler kopyalanırsa, diğer yazılımlar onu alabilir.</string>
+    <string name="warning_disabling_storage_access_framework">UYARI: Bu özelliği kapatmak, veritabanlarını açmayı veya kaydetmeyi engelleyebilir.</string>
+    <string name="open_link_database">Açılacak veritabanı dosyasının bağlantısı</string>
+    <string name="database_name_title">Veritabanı adı</string>
+    <string name="database_description_title">Veritabanı açıklaması</string>
+    <string name="database_version_title">Veritabanı sürümü</string>
+    <string name="text_appearance">Metin</string>
+    <string name="application_appearance">Uygulama</string>
+    <string name="other">Diğer</string>
+
+    <string name="keyboard">Klavye</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_summary">Parolalarınızı ve tüm kimlik alanlarınızı içeren özel bir klavye etkinleştirin</string>
+    <string name="magic_keyboard_preference_title">Magikeyboard ayarları</string>
+    <string name="magic_keyboard_configure_title">Formları güvenli bir şekilde otomatik doldurmak için klavyeyi ayarlayın.</string>
+    <string name="magic_keyboard_activate_setting_text">Cihaz ayarlarında \"Magikeyboard\"u etkinleştirin.</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">veya (\"Ayarlar\" → \"Dil &amp; giriş\" → \"Sanal klavye\" ve birini seçin.)</string>
+    <string name="keyboards_choose_magikeyboard_text">Bir formu doldurmanız gerektiğinde Magikeyboard\'u seçin.</string>
+    <string name="keyboards_swicth_magikeyboard_text">Klavyenizdeki boşluk çubuğuna uzun basarak veya mevcut değilse şunu yaparak klavyeleri değiştirin:</string>
+    <string name="keyboard_select_entry_text">Anahtarlı girişinizi seçin.</string>
+    <string name="keyboard_fill_field_text">Giriş öğelerini kullanarak alanlarınızı doldurun.</string>
+    <string name="keyboard_lock_database_text">Veritabanını kilitle.</string>
+    <string name="keyboard_back_main_keyboard_text">Varsayılan klavyeyi tekrar kullan.</string>
+
+    <string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_setting_label">Magikeyboard ayarları</string>
+
+    <string name="keyboard_entry_category">Girdi</string>
+
+    <string name="keyboard_entry_timeout_title">Zaman aşımı</string>
+    <string name="keyboard_entry_timeout_summary">Klavye girişini temizlemek için zaman aşımı</string>
+
+    <string name="keyboard_notification_entry_title">Bildirim bilgisi</string>
+    <string name="keyboard_notification_entry_summary">Bir giriş mevcut olduğunda bir bildirim göster</string>
+    <string name="keyboard_notification_entry_content_title_text">Girdi</string>
+    <string name="keyboard_notification_entry_content_title">Magikeyboard\'da %1$s mevcut</string>
+    <string name="keyboard_notification_entry_content_text">%1$s</string>
+
+    <string name="keyboard_notification_entry_clear_close_title">Kapanışta temizle</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Bildirimi kapatırken klavye girişini temizle</string>
+    <string name="keyboard_appearance_category">Görünüm</string>
+
+    <string name="keyboard_theme_title">Klavye teması</string>
+
+    <string name="keyboard_keys_category">Anahtarlar</string>
+    <string name="keyboard_key_vibrate_title">Tuşa basıldığında titreştir</string>
+    <string name="keyboard_key_sound_title">Tuşa basıldığında ses çıkar</string>
+    <string name="allow_no_password_title">Parola olmamasına izin ver</string>
+    <string name="allow_no_password_summary">Parola tanımlaması seçilmemişse \"Aç\" düğmesini etkinleştir</string>
+    <string name="enable_read_only_title">Yazma korumalı</string>
+    <string name="enable_read_only_summary">Veritabanınızı varsayılan olarak salt okunur açın</string>
+
+    <string name="enable_education_screens_title">Eğitim ekranları</string>
+    <string name="enable_education_screens_summary">Uygulamanın nasıl çalıştığını öğrenmek için öğeleri vurgulayın</string>
+    <string name="reset_education_screens_title">Eğitim ekranlarını sıfırla</string>
+    <string name="reset_education_screens_summary">Tüm eğitim öğelerini tekrar göster</string>
+    <string name="reset_education_screens_text">Eğitim ekranlarını sıfırla</string>
+    <string name="education_create_database_title">Veritabanı dosyanızı oluşturun</string>
+    <string name="education_create_database_summary">İlk parola yönetim dosyanızı oluşturun.</string>
+    <string name="education_select_database_title">Mevcut bir veritabanını aç</string>
+    <string name="education_select_database_summary">Kullanmaya devam etmek için önceki veritabanı dosyanızı dosya tarayıcınızdan açın.</string>
+    <string name="education_open_link_database_title">Dosyanızın konumuna bir bağlantı yeterlidir</string>
+    <string name="education_open_link_database_summary">Veritabanınızı fiziksel bir bağlantıyla da açabilirsiniz (örneğin file:// ve content:// ile).</string>
+    <string name="education_new_node_title">Veritabanınıza öğe ekleyin</string>
+    <string name="education_new_node_summary">Girdiler dijital kimliğinizi yönetmenize yardımcı olur.
+\n
+\nGruplar (~ klasörler) veritabanınızdaki girdileri düzenler.</string>
+    <string name="education_search_title">Girişlerde ara</string>
+    <string name="education_search_summary">Parolanızı kurtarmak için başlık, kullanıcı adı veya diğer alanların içeriğini girin.</string>
+    <string name="education_fingerprint_title">Parmak iziyle veritabanı kilidini açma</string>
+    <string name="education_fingerprint_summary">Veritabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
+    <string name="education_entry_edit_title">Girdiyi düzenle</string>
+    <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
+    <string name="education_generate_password_title">Girdiniz için güçlü bir parola oluşturun.</string>
+    <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir parola oluşturun, formun ölçütlerine göre kolayca tanımlayın ve güvenli parola almayı unutmayın.</string>
+    <string name="education_entry_new_field_title">Özel alanlar ekle</string>
+    <string name="education_entry_new_field_summary">Ayrıca koruyabileceğiniz yeni bir formu doldurarak temel bir tedarik edilmemiş alanı kaydedin.</string>
+    <string name="education_unlock_title">Veritabanınızın kilidini açın</string>
+    <string name="education_unlock_summary">Veritabanınızın kilidini açmak için parola ve/veya anahtar dosya girin.
+\n
+\nHer değişiklikten sonra veritabanı dosyanızı güvenli bir yerde yedekleyin.</string>
+    <string name="education_read_only_title">Veritabanınızı yazmaya karşı koru</string>
+    <string name="education_read_only_summary">Oturum için açılış modunu değiştir.
+\n
+\n\"Yazma korumalı\", veritabanında istenmeyen değişiklikleri önler.
+\n\"Değiştirilebilir\", tüm öğeleri eklemenizi, silmenizi veya değiştirmenizi sağlar.</string>
+    <string name="education_field_copy_title">Bir alan kopyala</string>
+    <string name="education_field_copy_summary">Kopyalanan alanlar herhangi bir yere yapıştırılabilir.
+\n
+\nTercih ettiğiniz form doldurma yöntemini kullanın.</string>
+    <string name="education_lock_title">Veritabanını kilitle</string>
+    <string name="education_lock_summary">Veritabanınızı hızlıca kilitleyin, uygulamayı bir süre sonra kilitlemek için ve ekran kapandığında ayarlayabilirsiniz.</string>
+    <string name="education_sort_title">Öğe sıralama</string>
+    <string name="education_sort_summary">Girdilerin ve grupların nasıl sıralandığını seçin.</string>
+    <string name="education_donation_title">Katıl</string>
+    <string name="education_donation_summary">Daha fazla özellik ekleyerek istikrarı, güvenliği artırmaya yardımcı olun.</string>
+
+    <string name="html_text_ad_free">Birçok şifre yönetimi uygulamasından farklı olarak, bu, <strong>ad-free</strong>, <strong>copylefted libre yazılımı</strong> şeklindedir ve hangi sürümü kullanıyor olursanız olun, kendi sunucularında kişisel verileri toplamaz.</string>
+    <string name="html_text_buy_pro">Profesyonel sürümü satın alarak, bu <strong>görsel özelliğe</strong> erişebilecek ve özellikle <strong>topluluk projelerinin gerçekleştirilmesine</strong> yardımcı olacaksınız</string>
+    <string name="html_text_feature_generosity">Bu <strong>görsel özellik</strong>, cömertliğiniz sayesinde kullanılabilir.</string>
+    <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
+
+    <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
+    <string name="html_text_dev_feature_buy_pro"><strong>Pro</strong> sürümünü satın alarak,</string>
+    <string name="html_text_dev_feature_contibute"><strong>Katkıda</strong> bulunarak,</string>
+    <string name="html_text_dev_feature_encourage">Geliştiricilerin <strong>yeni özellikler</strong> oluşturmasını ve söz konusu hatalara göre <strong>hataları düzeltmesini</strong> teşvik ediyorsunuz.</string>
+    <string name="html_text_dev_feature_thanks">Katkınız için çok teşekkür ederim.</string>
+    <string name="html_text_dev_feature_work_hard">Bu özelliği çabucak yayınlamak için çok çalışıyoruz.</string>
+    <string name="html_text_dev_feature_upgrade">Yeni sürümleri yükleyerek uygulamanızı güncel tutmayı unutmayın.</string>
+
+    <string name="download">İndir</string>
+    <string name="contribute">Katkıda bulun</string>
+
+    <string name="encryption_rijndael">Rijndael (AES)</string>
+    <string name="encryption_twofish">Twofish</string>
+    <string name="encryption_chacha20">ChaCha20</string>
+
+    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
+
+    <string name="style_choose_title">Uygulama teması</string>
+    <string name="style_choose_summary">Uygulamada kullanılan tema</string>
+    <string name="icon_pack_choose_title">Simge paketi</string>
+    <string name="icon_pack_choose_summary">Uygulamada kullanılan simge paketi</string>
+
+</resources>
