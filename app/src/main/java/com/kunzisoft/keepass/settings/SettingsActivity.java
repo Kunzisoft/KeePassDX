@@ -29,7 +29,7 @@ import android.view.MenuItem;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ReadOnlyHelper;
-import com.kunzisoft.keepass.lock.LockingActivity;
+import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 
 

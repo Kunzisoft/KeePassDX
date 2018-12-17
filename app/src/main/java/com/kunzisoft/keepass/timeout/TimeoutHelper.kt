@@ -28,8 +28,8 @@ import android.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.App
-import com.kunzisoft.keepass.lock.LockingActivity
-import com.kunzisoft.keepass.lock.lock
+import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.lock.lock
 
 object TimeoutHelper {
 
