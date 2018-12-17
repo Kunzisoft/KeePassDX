@@ -56,11 +56,11 @@ import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
-import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.lock.LockingHideActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
+import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
@@ -113,28 +113,28 @@ public class EntryEditActivity extends LockingHideActivity
 	/**
 	 * Launch EntryEditActivity to update an existing entry
      *
-	 * @param act from activity
-	 * @param pw Entry to update
+	 * @param activity from activity
+	 * @param pwEntry Entry to update
 	 */
-	public static void launch(Activity act, PwEntry pw) {
-        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
-            Intent intent = new Intent(act, EntryEditActivity.class);
-            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+	public static void launch(Activity activity, PwEntry pwEntry) {
+        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+            Intent intent = new Intent(activity, EntryEditActivity.class);
+            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pwEntry.getUUID()));
+			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
 	}
 
 	/**
 	 * Launch EntryEditActivity to add a new entry
      *
-	 * @param act from activity
+	 * @param activity from activity
 	 * @param pwGroup Group who will contains new entry
 	 */
-	public static void launch(Activity act, PwGroup pwGroup) {
-        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
-            Intent intent = new Intent(act, EntryEditActivity.class);
+	public static void launch(Activity activity, PwGroup pwGroup) {
+        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+            Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_PARENT, pwGroup.getId());
-            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
 	}
 	

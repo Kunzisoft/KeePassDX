@@ -47,13 +47,13 @@ import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.PwDatabase;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.security.ProtectedString;
-import com.kunzisoft.keepass.lock.LockingActivity;
 import com.kunzisoft.keepass.lock.LockingHideActivity;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
 import com.kunzisoft.keepass.notifications.NotificationField;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity;
 import com.kunzisoft.keepass.timeout.ClipboardHelper;
+import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Types;
@@ -85,12 +85,12 @@ public class EntryActivity extends LockingHideActivity {
 
 	private int iconColor;
 
-    public static void launch(Activity act, PwEntry pw, boolean readOnly) {
-        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
-            Intent intent = new Intent(act, EntryActivity.class);
+    public static void launch(Activity activity, PwEntry pw, boolean readOnly) {
+        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+            Intent intent = new Intent(activity, EntryActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
-            act.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+			activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
     }
 
@@ -113,7 +113,7 @@ public class EntryActivity extends LockingHideActivity {
 			finish();
 			return;
 		}
-		readOnly = db.isReadOnly() || readOnly;
+		setReadOnly(db.isReadOnly() || getReadOnly());
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this);
 
@@ -428,7 +428,7 @@ public class EntryActivity extends LockingHideActivity {
 		inflater.inflate(R.menu.entry, menu);
 		inflater.inflate(R.menu.database_lock, menu);
 
-        if (readOnly) {
+        if (getReadOnly()) {
             MenuItem edit =  menu.findItem(R.id.menu_edit);
             if (edit != null)
                 edit.setVisible(false);
