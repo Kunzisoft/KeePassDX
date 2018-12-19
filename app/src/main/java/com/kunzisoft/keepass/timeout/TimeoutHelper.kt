@@ -136,7 +136,7 @@ object TimeoutHelper {
         return true
     }
 
-    fun resetTime(activity: Activity, action: (() -> Unit)? = null) {
+    fun lockOrResetTimeout(activity: Activity, action: (() -> Unit)? = null) {
         if (checkTime(activity)) {
             recordTime(activity)
             action?.invoke()

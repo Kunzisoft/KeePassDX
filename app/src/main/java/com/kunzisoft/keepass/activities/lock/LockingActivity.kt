@@ -134,14 +134,14 @@ abstract class LockingActivity : StylishActivity() {
         views.forEach {
             it.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    TimeoutHelper.resetTime(this)
+                    TimeoutHelper.lockOrResetTimeout(this)
                 }
             }
         }
     }
 
     override fun onBackPressed() {
-        TimeoutHelper.resetTime(this) {
+        TimeoutHelper.lockOrResetTimeout(this) {
             super.onBackPressed()
         }
     }
