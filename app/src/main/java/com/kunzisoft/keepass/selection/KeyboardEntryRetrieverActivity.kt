@@ -15,6 +15,7 @@ import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.Entry
 import com.kunzisoft.keepass.selection.EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE
 import com.kunzisoft.keepass.selection.EntrySelectionHelper.EXTRA_ENTRY_SELECTION_MODE
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 class KeyboardEntryRetrieverActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class KeyboardEntryRetrieverActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        TimeoutHelper.checkTime(this) {}
         if (App.getDB().loaded)
             GroupActivity.launchForKeyboardResult(this, true)
         else {

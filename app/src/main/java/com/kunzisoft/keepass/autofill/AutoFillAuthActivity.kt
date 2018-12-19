@@ -31,11 +31,13 @@ import android.support.v7.app.AppCompatActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.fileselect.FileSelectActivity
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutoFillAuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        TimeoutHelper.checkTime(this) {}
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val assistStructure = AutofillHelper().retrieveAssistStructure(intent)
         if (assistStructure != null) {
