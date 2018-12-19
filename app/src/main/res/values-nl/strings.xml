@@ -47,7 +47,7 @@
     <string name="select_database_file">Kies een bestaande databank</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
-    <string name="entry_comment">Opmerkingen</string>
+    <string name="entry_notes">Opmerkingen</string>
     <string name="entry_confpassword">Wachtwoord bevestigen</string>
     <string name="entry_created">Gecreëerd op</string>
     <string name="entry_expires">Verloopt op</string>

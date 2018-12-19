@@ -45,7 +45,7 @@
     <string name="select_database_file">選擇一個已存在之資料庫</string>
     <string name="entry_accessed">訪問時間</string>
     <string name="entry_cancel">取消</string>
-    <string name="entry_comment">備註</string>
+    <string name="entry_notes">備註</string>
     <string name="entry_confpassword">確認密碼</string>
     <string name="entry_created">創建</string>
     <string name="entry_expires">失效時間</string>

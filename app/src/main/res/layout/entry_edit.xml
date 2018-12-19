@@ -30,7 +30,7 @@
         layout="@layout/toolbar_default" />
 
 	<ScrollView
-        android:id="@+id/entry_scroll"
+        android:id="@+id/entry_edit_scroll"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
@@ -52,11 +52,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_toLeftOf="@+id/icon_button"
-                    android:layout_toStartOf="@+id/icon_button">
+                    android:layout_toLeftOf="@+id/entry_edit_icon_button"
+                    android:layout_toStartOf="@+id/entry_edit_icon_button">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/entry_title"
+                        android:id="@+id/entry_edit_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -66,7 +66,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/icon_button"
+                    android:id="@+id/entry_edit_icon_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/entry_user_name"
+                    android:id="@+id/entry_edit_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -96,17 +96,17 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/container_entry_password"
+                    android:id="@+id/entry_edit_container_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_toLeftOf="@+id/generate_button"
-                    android:layout_toStartOf="@+id/generate_button">
+                    android:layout_toLeftOf="@+id/entry_edit_generate_button"
+                    android:layout_toStartOf="@+id/entry_edit_generate_button">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/entry_password"
+                        android:id="@+id/entry_edit_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
@@ -122,12 +122,12 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     app:passwordToggleEnabled="true"
-                    android:layout_toLeftOf="@+id/generate_button"
-                    android:layout_toStartOf="@+id/generate_button"
-                    android:layout_below="@+id/container_entry_password">
+                    android:layout_toLeftOf="@+id/entry_edit_generate_button"
+                    android:layout_toStartOf="@+id/entry_edit_generate_button"
+                    android:layout_below="@+id/entry_edit_container_password">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/entry_confpassword"
+                        android:id="@+id/entry_edit_confirmation_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
@@ -137,7 +137,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/generate_button"
+                    android:id="@+id/entry_edit_generate_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/entry_url"
+                    android:id="@+id/entry_edit_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textUri"
@@ -168,25 +168,25 @@
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/entry_comment"
+                    android:id="@+id/entry_edit_notes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:lines="4"
                     android:maxLines="10"
                     android:inputType="textMultiLine"
-                    android:hint="@string/entry_comment" />
+                    android:hint="@string/entry_notes" />
             </android.support.design.widget.TextInputLayout>
 
 			<LinearLayout
-                android:id="@+id/advanced_container"
+                android:id="@+id/entry_edit_advanced_container"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
 			</LinearLayout>
 
 			<ImageView
-                android:id="@+id/add_new_field"
+                android:id="@+id/entry_edit_add_new_field"
 				android:layout_width="30sp"
 				android:layout_height="30sp"
 				android:contentDescription="@string/add_string"
@@ -198,7 +198,7 @@
 	</ScrollView >
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/entry_save"
+        android:id="@+id/entry_edit_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

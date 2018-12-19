@@ -30,7 +30,7 @@
     <string name="select_database_file">Ievadiet datu bāzes nosaukumu</string>
     <string name="entry_accessed">Piekļuve</string>
     <string name="entry_cancel">Atcelt</string>
-    <string name="entry_comment">Komentāri</string>
+    <string name="entry_notes">Komentāri</string>
     <string name="entry_confpassword">Apstipriniet paroli</string>
     <string name="entry_created">Izveidots</string>
     <string name="entry_expires">Derīguma termiņš beidzas</string>

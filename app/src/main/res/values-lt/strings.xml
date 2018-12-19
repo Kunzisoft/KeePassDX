@@ -20,7 +20,7 @@
     <string name="database">Duomenų bazė</string>
     <string name="digits">Skaitmenys</string>
     <string name="entry_cancel">Atšaukti</string>
-    <string name="entry_comment">Komentarai</string>
+    <string name="entry_notes">Komentarai</string>
     <string name="entry_created">Sukurta</string>
     <string name="entry_modified">Keista</string>
     <string name="entry_expires">Pasibaigia</string>

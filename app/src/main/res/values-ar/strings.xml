@@ -38,7 +38,7 @@
     <string name="decrypting_db">فك تعمية محتويات قاعدة البيانات …</string>
     <string name="digits">أرقام</string>
     <string name="entry_cancel">إلغاء</string>
-    <string name="entry_comment">التعليقات</string>
+    <string name="entry_notes">التعليقات</string>
     <string name="entry_confpassword">تأكيد الكلمة السرية</string>
     <string name="entry_created">تم إنشاؤه</string>
     <string name="entry_modified">معدل</string>

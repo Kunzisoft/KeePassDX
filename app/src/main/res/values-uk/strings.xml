@@ -45,7 +45,7 @@
     <string name="select_database_file">Введіть ім’я бази даних</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Відміна</string>
-    <string name="entry_comment">Коментар</string>
+    <string name="entry_notes">Коментар</string>
     <string name="entry_confpassword">Підтвердження паролю</string>
     <string name="entry_created">Створено</string>
     <string name="entry_expires">Закінчується</string>

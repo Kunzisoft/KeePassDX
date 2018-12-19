@@ -49,7 +49,7 @@
     <string name="select_database_file">Εισαγωγή ονόματος βάσης δεδομένων</string>
     <string name="entry_accessed">Προσπελάσθηκε</string>
     <string name="entry_cancel">Ακύρωση</string>
-    <string name="entry_comment">Σχόλια</string>
+    <string name="entry_notes">Σχόλια</string>
     <string name="entry_confpassword">Επιβεβαίωση κωδικού πρόσβασης</string>
     <string name="entry_created">Δημιουργήθηκε</string>
     <string name="entry_expires">Λήγει</string>

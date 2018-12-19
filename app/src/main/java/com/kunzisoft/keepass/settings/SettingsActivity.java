@@ -29,7 +29,8 @@ import android.view.MenuItem;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ReadOnlyHelper;
-import com.kunzisoft.keepass.lock.LockingActivity;
+import com.kunzisoft.keepass.activities.lock.LockingActivity;
+import com.kunzisoft.keepass.timeout.TimeoutHelper;
 
 
 public class SettingsActivity extends LockingActivity implements MainPreferenceFragment.Callback {
@@ -50,7 +51,7 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
         // To avoid flickering when launch settings in a LockingActivity
         if (!checkLock)
             launch(activity, readOnly);
-        else if (LockingActivity.checkTimeIsAllowedOrFinish(activity)) {
+        else if (TimeoutHelper.INSTANCE.checkTime(activity)) {
             launch(activity, readOnly);
         }
     }
@@ -116,7 +117,7 @@ public class SettingsActivity extends LockingActivity implements MainPreferenceF
 		getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right)
-				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, readOnly), TAG_NESTED)
+				.replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, getReadOnly()), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)
                 .commit();
 

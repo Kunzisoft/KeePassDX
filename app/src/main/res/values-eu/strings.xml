@@ -51,7 +51,7 @@
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu</string>
     <string name="entry_accessed">Akzesoa</string>
     <string name="entry_cancel">Utzi</string>
-    <string name="entry_comment">Iruzkinak</string>
+    <string name="entry_notes">Iruzkinak</string>
     <string name="entry_confpassword">Pasahitza berretsi</string>
     <string name="entry_created">Sortua</string>
     <string name="entry_expires">Iraungitzen da</string>

@@ -52,7 +52,7 @@
     <string name="select_database_file">Introduza o nome do ficheiro da base de dados</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_cancel">Cancelar</string>
-    <string name="entry_comment">Comentários</string>
+    <string name="entry_notes">Comentários</string>
     <string name="entry_confpassword">Confirmar palavra-passe</string>
     <string name="entry_created">Criado</string>
     <string name="entry_expires">Expira</string>

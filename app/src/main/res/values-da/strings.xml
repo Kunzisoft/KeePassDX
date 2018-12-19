@@ -51,7 +51,7 @@
     <string name="select_database_file">Vælg en eksisterende database</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_cancel">Annuller</string>
-    <string name="entry_comment">Kommentarer</string>
+    <string name="entry_notes">Kommentarer</string>
     <string name="entry_confpassword">Bekræft adgangskode</string>
     <string name="entry_created">Oprettet</string>
     <string name="entry_expires">Udløber</string>

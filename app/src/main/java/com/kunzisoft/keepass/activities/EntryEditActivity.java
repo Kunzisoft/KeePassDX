@@ -56,11 +56,11 @@ import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
-import com.kunzisoft.keepass.lock.LockingActivity;
-import com.kunzisoft.keepass.lock.LockingHideActivity;
+import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
+import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
@@ -113,28 +113,28 @@ public class EntryEditActivity extends LockingHideActivity
 	/**
 	 * Launch EntryEditActivity to update an existing entry
      *
-	 * @param act from activity
-	 * @param pw Entry to update
+	 * @param activity from activity
+	 * @param pwEntry Entry to update
 	 */
-	public static void launch(Activity act, PwEntry pw) {
-        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
-            Intent intent = new Intent(act, EntryEditActivity.class);
-            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+	public static void launch(Activity activity, PwEntry pwEntry) {
+        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+            Intent intent = new Intent(activity, EntryEditActivity.class);
+            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pwEntry.getUUID()));
+			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
 	}
 
 	/**
 	 * Launch EntryEditActivity to add a new entry
      *
-	 * @param act from activity
+	 * @param activity from activity
 	 * @param pwGroup Group who will contains new entry
 	 */
-	public static void launch(Activity act, PwGroup pwGroup) {
-        if (LockingActivity.checkTimeIsAllowedOrFinish(act)) {
-            Intent intent = new Intent(act, EntryEditActivity.class);
+	public static void launch(Activity activity, PwGroup pwGroup) {
+        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+            Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_PARENT, pwGroup.getId());
-            act.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
+			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
 	}
 	
@@ -149,17 +149,28 @@ public class EntryEditActivity extends LockingHideActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        scrollView = findViewById(R.id.entry_scroll);
+        scrollView = findViewById(R.id.entry_edit_scroll);
         scrollView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
 
-        entryTitleView = findViewById(R.id.entry_title);
-        entryIconView = findViewById(R.id.icon_button);
-        entryUserNameView = findViewById(R.id.entry_user_name);
-        entryUrlView = findViewById(R.id.entry_url);
-        entryPasswordView = findViewById(R.id.entry_password);
-        entryConfirmationPasswordView = findViewById(R.id.entry_confpassword);
-        entryCommentView = findViewById(R.id.entry_comment);
-        entryExtraFieldsContainer = findViewById(R.id.advanced_container);
+        entryTitleView = findViewById(R.id.entry_edit_title);
+        entryIconView = findViewById(R.id.entry_edit_icon_button);
+        entryUserNameView = findViewById(R.id.entry_edit_user_name);
+        entryUrlView = findViewById(R.id.entry_edit_url);
+        entryPasswordView = findViewById(R.id.entry_edit_password);
+        entryConfirmationPasswordView = findViewById(R.id.entry_edit_confirmation_password);
+        entryCommentView = findViewById(R.id.entry_edit_notes);
+        entryExtraFieldsContainer = findViewById(R.id.entry_edit_advanced_container);
+
+        // Focus view to reinitialize timeout
+		resetAppTimeoutWhenViewFocusedOrChanged(
+				entryTitleView,
+				entryIconView,
+				entryUserNameView,
+				entryUrlView,
+				entryPasswordView,
+				entryConfirmationPasswordView,
+				entryCommentView,
+				entryExtraFieldsContainer);
 		
 		// Likely the app has been killed exit the activity
         database = App.getDB();
@@ -207,16 +218,16 @@ public class EntryEditActivity extends LockingHideActivity
                 IconPickerDialogFragment.launch(EntryEditActivity.this));
 
 		// Generate password button
-        generatePasswordView = findViewById(R.id.generate_button);
+        generatePasswordView = findViewById(R.id.entry_edit_generate_button);
         generatePasswordView.setOnClickListener(v -> openPasswordGenerator());
 		
 		// Save button
-		saveView = findViewById(R.id.entry_save);
+		saveView = findViewById(R.id.entry_edit_save);
         saveView.setOnClickListener(v -> saveEntry());
 
 
 		if (mEntry.allowExtraFields()) {
-            addNewFieldView = findViewById(R.id.add_new_field);
+            addNewFieldView = findViewById(R.id.entry_edit_add_new_field);
             addNewFieldView.setVisibility(View.VISIBLE);
             addNewFieldView.setOnClickListener(v -> addNewCustomField());
         }
@@ -510,7 +521,7 @@ public class EntryEditActivity extends LockingHideActivity
         }
 
 		if (mEntry.allowExtraFields()) {
-            LinearLayout container = findViewById(R.id.advanced_container);
+            LinearLayout container = findViewById(R.id.entry_edit_advanced_container);
             mEntry.getFields().doActionToAllCustomProtectedField((key, value) -> {
                 EntryEditCustomField entryEditCustomField = new EntryEditCustomField(EntryEditActivity.this);
                 entryEditCustomField.setData(key, value);

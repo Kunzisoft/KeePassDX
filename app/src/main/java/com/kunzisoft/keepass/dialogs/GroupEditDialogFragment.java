@@ -109,8 +109,8 @@ public class GroupEditDialogFragment extends DialogFragment
         assert getActivity() != null;
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View root = inflater.inflate(R.layout.group_edit, null);
-        TextView nameField = root.findViewById(R.id.group_name);
-        iconButton = root.findViewById(R.id.icon_button);
+        TextView nameField = root.findViewById(R.id.group_edit_name);
+        iconButton = root.findViewById(R.id.group_edit_icon_button);
 
         // Retrieve the textColor to tint the icon
         int[] attrs = {android.R.attr.textColorPrimary};

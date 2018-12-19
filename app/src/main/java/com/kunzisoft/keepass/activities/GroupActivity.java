@@ -80,13 +80,14 @@ import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
-import com.kunzisoft.keepass.lock.LockingActivity;
+import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UIToastTask;
 import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
+import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
@@ -144,13 +145,13 @@ public class GroupActivity extends LockingActivity
     }
 
 	public static void launch(Activity act, boolean readOnly) {
-        startRecordTime(act);
+		TimeoutHelper.INSTANCE.recordTime(act);
         launch(act, null, readOnly);
 	}
 
     private static void buildAndLaunchIntent(Activity activity, PwGroup group, boolean readOnly,
                                              IntentBuildLauncher intentBuildLauncher) {
-        if (checkTimeIsAllowedOrFinish(activity)) {
+        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
             Intent intent = new Intent(activity, GroupActivity.class);
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.getId());
@@ -165,9 +166,9 @@ public class GroupActivity extends LockingActivity
                 (intent) -> activity.startActivityForResult(intent, 0));
     }
 
-    public static void launchForKeyboardResult(Activity act, boolean readOnly) {
-        startRecordTime(act);
-        launchForKeyboardResult(act, null, readOnly);
+    public static void launchForKeyboardResult(Activity activity, boolean readOnly) {
+		TimeoutHelper.INSTANCE.recordTime(activity);
+        launchForKeyboardResult(activity, null, readOnly);
     }
 
     public static void launchForKeyboardResult(Activity activity, PwGroup group, boolean readOnly) {
@@ -179,12 +180,12 @@ public class GroupActivity extends LockingActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launchForAutofillResult(Activity act, AssistStructure assistStructure, boolean readOnly) {
+    public static void launchForAutofillResult(Activity activity, AssistStructure assistStructure, boolean readOnly) {
         if ( assistStructure != null ) {
-            startRecordTime(act);
-            launchForAutofillResult(act, null, assistStructure, readOnly);
+			TimeoutHelper.INSTANCE.recordTime(activity);
+            launchForAutofillResult(activity, null, assistStructure, readOnly);
         } else {
-            launch(act, readOnly);
+            launch(activity, readOnly);
         }
     }
 
@@ -228,10 +229,13 @@ public class GroupActivity extends LockingActivity
         toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
         toolbarPaste = findViewById(R.id.toolbar_paste);
 
+        // Focus view to reinitialize timeout
+        resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView);
+
         invalidateOptionsMenu();
 
         // Get arg from intent or instance state
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent());
+        setReadOnly(ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent()));
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
@@ -282,7 +286,7 @@ public class GroupActivity extends LockingActivity
         listNodesFragment = (ListNodesFragment) getSupportFragmentManager()
                 .findFragmentByTag(fragmentTag);
         if (listNodesFragment == null)
-            listNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly, currentGroupIsASearch);
+            listNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, getReadOnly(), currentGroupIsASearch);
 
         // Attach fragment to content view
         getSupportFragmentManager().beginTransaction().replace(
@@ -340,35 +344,34 @@ public class GroupActivity extends LockingActivity
     }
 
     private void openGroup(PwGroup group, boolean isASearch) {
-        // Check Timeout
-        if (checkTimeIsAllowedOrFinish(this)) {
-            startRecordTime(this);
+        // Check TimeoutHelper
+        TimeoutHelper.INSTANCE.resetTime(this, () -> {
+			// Open a group in a new fragment
+			ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, getReadOnly(), isASearch);
+			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+			// Different animation
+			String fragmentTag;
+			if (isASearch) {
+				fragmentTransaction.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom,
+						R.anim.slide_in_bottom, R.anim.slide_out_top);
+				fragmentTag = SEARCH_FRAGMENT_TAG;
+			} else {
+				fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+						R.anim.slide_in_left, R.anim.slide_out_right);
+				fragmentTag = LIST_NODES_FRAGMENT_TAG;
+			}
 
-            // Open a group in a new fragment
-            ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, readOnly, isASearch);
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            // Different animation
-            String fragmentTag;
-            if (isASearch) {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom,
-                        R.anim.slide_in_bottom, R.anim.slide_out_top);
-                fragmentTag = SEARCH_FRAGMENT_TAG;
-            } else {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                        R.anim.slide_in_left, R.anim.slide_out_right);
-                fragmentTag = LIST_NODES_FRAGMENT_TAG;
-            }
+			fragmentTransaction.replace(R.id.nodes_list_fragment_container,
+					newListNodeFragment,
+					fragmentTag);
+			fragmentTransaction.addToBackStack(fragmentTag);
+			fragmentTransaction.commit();
 
-            fragmentTransaction.replace(R.id.nodes_list_fragment_container,
-                            newListNodeFragment,
-                            fragmentTag);
-            fragmentTransaction.addToBackStack(fragmentTag);
-            fragmentTransaction.commit();
-
-            listNodesFragment = newListNodeFragment;
-            mCurrentGroup = group;
-            assignGroupViewElements();
-        }
+			listNodesFragment = newListNodeFragment;
+			mCurrentGroup = group;
+			assignGroupViewElements();
+			return null;
+		});
     }
 
     @Override
@@ -380,7 +383,7 @@ public class GroupActivity extends LockingActivity
             outState.putParcelable(NODE_TO_COPY_KEY, nodeToCopy);
         if (nodeToMove != null)
             outState.putParcelable(NODE_TO_MOVE_KEY, nodeToMove);
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        ReadOnlyHelper.onSaveInstanceState(outState, getReadOnly());
         super.onSaveInstanceState(outState);
     }
 
@@ -401,7 +404,7 @@ public class GroupActivity extends LockingActivity
                     pwGroupId = intent.getParcelableExtra(GROUP_ID_KEY);
             }
 
-            readOnly = database.isReadOnly() || readOnly; // Force read only if the database is like that
+            setReadOnly(database.isReadOnly() || getReadOnly()); // Force read only if the database is like that
 
             Log.w(TAG, "Creating tree view");
             PwGroup currentGroup;
@@ -463,8 +466,8 @@ public class GroupActivity extends LockingActivity
         if (addNodeButtonView != null) {
 
             // To enable add button
-            boolean addGroupEnabled = !readOnly && !currentGroupIsASearch;
-            boolean addEntryEnabled = !readOnly && !currentGroupIsASearch;
+            boolean addGroupEnabled = !getReadOnly() && !currentGroupIsASearch;
+            boolean addEntryEnabled = !getReadOnly() && !currentGroupIsASearch;
             if (mCurrentGroup != null) {
                 boolean isRoot = (mCurrentGroup == rootGroup);
                 if (!mCurrentGroup.allowAddEntryIfIsRoot())
@@ -524,7 +527,7 @@ public class GroupActivity extends LockingActivity
                         openChildGroup((PwGroup) node);
                         break;
                     case ENTRY:
-                        EntryActivity.launch(this, (PwEntry) node, readOnly);
+                        EntryActivity.launch(this, (PwEntry) node, getReadOnly());
                         break;
                 }
             }
@@ -858,7 +861,7 @@ public class GroupActivity extends LockingActivity
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
-        if (!readOnly)
+        if (!getReadOnly())
             inflater.inflate(R.menu.database_master_key, menu);
         inflater.inflate(R.menu.database_lock, menu);
 
@@ -945,7 +948,7 @@ public class GroupActivity extends LockingActivity
                 return true;
 
             case R.id.menu_lock:
-                lockAndExit();
+				lockAndExit();
                 return true;
 
             case R.id.menu_change_master_key:
@@ -953,7 +956,7 @@ public class GroupActivity extends LockingActivity
                 return true;
             default:
                 // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, readOnly, true);
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, getReadOnly(), true);
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -1197,17 +1200,13 @@ public class GroupActivity extends LockingActivity
 
     @Override
     public void onBackPressed() {
-        if (checkTimeIsAllowedOrFinish(this)) {
-            startRecordTime(this);
+		super.onBackPressed();
 
-            super.onBackPressed();
-
-            listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
-            // to refresh fragment
-            listNodesFragment.rebuildList();
-            mCurrentGroup = listNodesFragment.getMainGroup();
-            removeSearchInIntent(getIntent());
-            assignGroupViewElements();
-        }
+		listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
+		// to refresh fragment
+		listNodesFragment.rebuildList();
+		mCurrentGroup = listNodesFragment.getMainGroup();
+		removeSearchInIntent(getIntent());
+		assignGroupViewElements();
     }
 }

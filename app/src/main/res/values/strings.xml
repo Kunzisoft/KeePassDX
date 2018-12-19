@@ -55,7 +55,7 @@
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
-    <string name="entry_comment">Notes</string>
+    <string name="entry_notes">Notes</string>
     <string name="entry_confpassword">Confirm password</string>
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>

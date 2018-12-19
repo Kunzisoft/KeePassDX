@@ -48,7 +48,7 @@
     <string name="select_database_file">Introdueix el nom de la base de dades</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
-    <string name="entry_comment">Comentaris</string>
+    <string name="entry_notes">Comentaris</string>
     <string name="entry_confpassword">Confirma contrasenya</string>
     <string name="entry_created">Creada</string>
     <string name="entry_expires">Expira</string>

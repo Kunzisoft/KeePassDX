@@ -49,7 +49,7 @@
     <string name="select_database_file">הזן שם קובץ למסד נתונים:</string>
     <string name="entry_accessed">ניגש לאחרונה</string>
     <string name="entry_cancel">בטל</string>
-    <string name="entry_comment">הערות</string>
+    <string name="entry_notes">הערות</string>
     <string name="entry_confpassword">אשר סיסמה</string>
     <string name="entry_created">תאריך יצירה</string>
     <string name="entry_expires">פג תוקף</string>

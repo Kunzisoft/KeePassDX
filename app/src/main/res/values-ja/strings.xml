@@ -45,7 +45,7 @@
     <string name="select_database_file">データベースファイル</string>
     <string name="entry_accessed">最終アクセス日</string>
     <string name="entry_cancel">キャンセル</string>
-    <string name="entry_comment">備考</string>
+    <string name="entry_notes">備考</string>
     <string name="entry_confpassword">パスワードの確認</string>
     <string name="entry_created">作成日</string>
     <string name="entry_expires">有効期限</string>

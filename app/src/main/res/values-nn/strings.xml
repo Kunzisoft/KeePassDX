@@ -45,7 +45,7 @@
     <string name="select_database_file">Skriv filnamnet til databasen</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
-    <string name="entry_comment">Merknader</string>
+    <string name="entry_notes">Merknader</string>
     <string name="entry_confpassword">Stadfest passordet</string>
     <string name="entry_created">Laga</string>
     <string name="entry_expires">Går ut</string>
