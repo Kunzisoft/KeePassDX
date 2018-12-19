@@ -68,7 +68,7 @@ public class Database {
 
     private IconDrawableFactory drawFactory = new IconDrawableFactory();
 
-    private boolean loaded = false;
+    public boolean loaded = false;
 
     public PwDatabase getPwDatabase() {
         return pwDatabase;
@@ -96,14 +96,6 @@ public class Database {
 
     public IconDrawableFactory getDrawFactory() {
         return drawFactory;
-    }
-
-    public boolean getLoaded() {
-        return loaded;
-    }
-
-    public void setLoaded() {
-        loaded = true;
     }
 
     public void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status) throws IOException, FileNotFoundException, InvalidDBException {

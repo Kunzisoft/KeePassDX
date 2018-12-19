@@ -174,10 +174,6 @@ public class EntryEditActivity extends LockingHideActivity
 		
 		// Likely the app has been killed exit the activity
         database = App.getDB();
-		if ( ! database.getLoaded() ) {
-			finish();
-			return;
-		}
 
 		Intent intent = getIntent();
 		byte[] uuidBytes = intent.getByteArrayExtra(KEY_ENTRY);

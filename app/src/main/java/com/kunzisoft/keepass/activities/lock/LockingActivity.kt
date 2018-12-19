@@ -69,16 +69,24 @@ abstract class LockingActivity : StylishActivity() {
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
             exitLock = true
-            checkShutdown()
+            if (App.getDB().loaded) {
+                lockAndExit()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
+
+        // End activity if database not loaded
+        if (!App.getDB().loaded) {
+            finish()
+            return
+        }
 
         if (timeoutEnable) {
             // After the first creation
@@ -130,12 +138,6 @@ abstract class LockingActivity : StylishActivity() {
         lock()
     }
 
-    private fun checkShutdown() {
-        if (App.isShutdown() && App.getDB().loaded) {
-            lockAndExit()
-        }
-    }
-
     /**
      * To reset the app timeout when a view is focused or changed
      */
@@ -161,7 +163,6 @@ abstract class LockingActivity : StylishActivity() {
 }
 
 fun Activity.lock() {
-    App.setShutdown()
     Log.i(Activity::class.java.name, "Shutdown " + localClassName +
             " after inactivity or manual lock")
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {

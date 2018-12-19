@@ -52,8 +52,7 @@ public class CreateDatabaseRunnable extends RunnableOnFinish {
 		// Set Database state
 		db.setPwDatabase(pm);
 		db.setUri(UriUtil.parseDefaultFile(mFilename));
-		db.setLoaded();
-		App.clearShutdown();
+		db.loaded = true;
 
 		// Commit changes
 		SaveDatabaseRunnable save = new SaveDatabaseRunnable(mContext, db, mFinish, mDontSave);

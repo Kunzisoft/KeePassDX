@@ -108,11 +108,6 @@ public class EntryActivity extends LockingHideActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		Database db = App.getDB();
-		// Likely the app has been killed exit the activity 
-		if ( ! db.getLoaded() ) {
-			finish();
-			return;
-		}
 		setReadOnly(db.isReadOnly() || getReadOnly());
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this);
@@ -177,7 +172,7 @@ public class EntryActivity extends LockingHideActivity {
 
         // If notifications enabled in settings
         // Don't if application timeout
-        if (firstLaunchOfActivity && !App.isShutdown() && isClipboardNotificationsEnable(getApplicationContext())) {
+        if (firstLaunchOfActivity && isClipboardNotificationsEnable(getApplicationContext())) {
             if (containsUsernameToCopy
                     || containsPasswordToCopy
                     || containsExtraFieldToCopy

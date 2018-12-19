@@ -78,16 +78,6 @@ object TimeoutHelper {
     }
 
     /**
-     * Check the time previously record with recordTime and lock the activity if timeout
-     */
-    fun checkTime(activity: Activity): Boolean {
-        return checkTime(activity) {
-            if (App.isShutdown() && App.getDB().loaded)
-                activity.lock()
-        }
-    }
-
-    /**
      * Check the time previously record with recordTime and do the shutdown action if timeout
      */
     fun checkTime(context: Context, shutdown: (() -> Unit)): Boolean {
@@ -127,13 +117,20 @@ object TimeoutHelper {
         val diff = currentTime - timeoutBackup
         if (diff >= appTimeout) {
             // We have timed out
-            if (App.getDB().loaded) {
-                App.setShutdown(context.getString(R.string.app_timeout))
-                shutdown.invoke()
-                return false
-            }
+            App.getDB().loaded = false
+            shutdown.invoke()
+            return false
         }
         return true
+    }
+
+    /**
+     * Check the time previously record with recordTime and lock the activity if timeout
+     */
+    fun checkTime(activity: Activity): Boolean {
+        return checkTime(activity) {
+            activity.lock()
+        }
     }
 
     fun lockOrResetTimeout(activity: Activity, action: (() -> Unit)? = null) {
