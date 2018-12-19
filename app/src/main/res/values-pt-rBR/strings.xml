@@ -48,7 +48,7 @@
     <string name="select_database_file">Digite o nome do arquivo de banco de dados</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
-    <string name="entry_comment">Comentários</string>
+    <string name="entry_notes">Comentários</string>
     <string name="entry_confpassword">Confirmar senha</string>
     <string name="entry_created">Criado</string>
     <string name="entry_expires">Expira</string>

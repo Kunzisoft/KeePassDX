@@ -27,9 +27,9 @@ import android.content.Intent
 import android.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.lock
+import com.kunzisoft.keepass.app.App
 
 object TimeoutHelper {
 
@@ -136,7 +136,7 @@ object TimeoutHelper {
         return true
     }
 
-    fun touchToReinitTime(activity: Activity, action: (() -> Unit)? = null) {
+    fun resetTime(activity: Activity, action: (() -> Unit)? = null) {
         if (checkTime(activity)) {
             recordTime(activity)
             action?.invoke()

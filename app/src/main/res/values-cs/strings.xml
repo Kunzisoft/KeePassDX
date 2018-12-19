@@ -52,7 +52,7 @@
     <string name="select_database_file">Vyberte existující databázi</string>
     <string name="entry_accessed">Poslední přístup</string>
     <string name="entry_cancel">Storno</string>
-    <string name="entry_comment">Poznámky</string>
+    <string name="entry_notes">Poznámky</string>
     <string name="entry_confpassword">Potvrďte heslo</string>
     <string name="entry_created">Vytvořeno</string>
     <string name="entry_expires">Platnost skončí</string>

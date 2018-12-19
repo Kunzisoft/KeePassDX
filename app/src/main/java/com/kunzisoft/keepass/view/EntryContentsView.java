@@ -104,8 +104,8 @@ public class EntryContentsView extends LinearLayout {
         urlContainerView = findViewById(R.id.entry_url_container);
         urlView = findViewById(R.id.entry_url);
 
-        commentContainerView = findViewById(R.id.entry_comment_container);
-        commentView = findViewById(R.id.entry_comment);
+        commentContainerView = findViewById(R.id.entry_notes_container);
+        commentView = findViewById(R.id.entry_notes);
 
         extrasView = findViewById(R.id.extra_strings);
 

@@ -229,6 +229,9 @@ public class GroupActivity extends LockingActivity
         toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
         toolbarPaste = findViewById(R.id.toolbar_paste);
 
+        // Focus view to reinitialize timeout
+        resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView);
+
         invalidateOptionsMenu();
 
         // Get arg from intent or instance state
@@ -342,7 +345,7 @@ public class GroupActivity extends LockingActivity
 
     private void openGroup(PwGroup group, boolean isASearch) {
         // Check TimeoutHelper
-        TimeoutHelper.INSTANCE.touchToReinitTime(this, () -> {
+        TimeoutHelper.INSTANCE.resetTime(this, () -> {
 			// Open a group in a new fragment
 			ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, getReadOnly(), isASearch);
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

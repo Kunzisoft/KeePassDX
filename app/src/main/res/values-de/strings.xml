@@ -54,7 +54,7 @@
     <string name="select_database_file">Dateinamen der Datenbank eingeben</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
-    <string name="entry_comment">Kommentare</string>
+    <string name="entry_notes">Kommentare</string>
     <string name="entry_confpassword">Passwort wiederholen</string>
     <string name="entry_created">Erstelldatum</string>
     <string name="entry_expires">Ablaufdatum</string>

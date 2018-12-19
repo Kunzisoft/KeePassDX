@@ -45,7 +45,7 @@
     <string name="select_database_file">Vložte názov Databázy</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
-    <string name="entry_comment">Poznámky</string>
+    <string name="entry_notes">Poznámky</string>
     <string name="entry_confpassword">Potvrdiť heslo</string>
     <string name="entry_created">Vytvorené</string>
     <string name="entry_expires">Expirácia</string>

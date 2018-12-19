@@ -46,7 +46,7 @@
     <string name="select_database_file">Adja meg az adatbázis fájlnevét</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégsem</string>
-    <string name="entry_comment">Megjegyzés</string>
+    <string name="entry_notes">Megjegyzés</string>
     <string name="entry_confpassword">Jelszó megerősítése</string>
     <string name="entry_created">Létrehozva</string>
     <string name="entry_expires">Lejárat</string>

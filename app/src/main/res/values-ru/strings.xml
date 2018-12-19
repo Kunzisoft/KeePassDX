@@ -50,7 +50,7 @@
     <string name="select_database_file">Выбрать существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
-    <string name="entry_comment">Комментарии</string>
+    <string name="entry_notes">Комментарии</string>
     <string name="entry_confpassword">Подтверждение</string>
     <string name="entry_created">Создано</string>
     <string name="entry_expires">Истекает</string>

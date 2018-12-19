@@ -27,6 +27,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.kunzisoft.keepass.activities.ReadOnlyHelper
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -126,8 +127,21 @@ abstract class LockingActivity : StylishActivity() {
         }
     }
 
+    /**
+     * To reset the app timeout when a view is focused or changed
+     */
+    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View) {
+        views.forEach {
+            it.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    TimeoutHelper.resetTime(this)
+                }
+            }
+        }
+    }
+
     override fun onBackPressed() {
-        TimeoutHelper.touchToReinitTime(this) {
+        TimeoutHelper.resetTime(this) {
             super.onBackPressed()
         }
     }

@@ -49,7 +49,7 @@
     <string name="select_database_file">Anna tietokannan tiedostonimi</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_cancel">Peruuta</string>
-    <string name="entry_comment">Kommentit</string>
+    <string name="entry_notes">Kommentit</string>
     <string name="entry_confpassword">Vahvista salasana</string>
     <string name="entry_created">Luotu</string>
     <string name="entry_expires">Vanhenee</string>

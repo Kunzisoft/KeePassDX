@@ -51,7 +51,7 @@
     <string name="select_database_file">Ange databasnamn</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_cancel">Avbryt</string>
-    <string name="entry_comment">Kommentarer</string>
+    <string name="entry_notes">Kommentarer</string>
     <string name="entry_confpassword">Bekräfta lösenord</string>
     <string name="entry_created">Skapad</string>
     <string name="entry_expires">Upphör att gälla</string>

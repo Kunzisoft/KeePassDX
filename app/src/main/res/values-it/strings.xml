@@ -52,7 +52,7 @@
     <string name="select_database_file">Seleziona un database esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
     <string name="entry_cancel">Annulla</string>
-    <string name="entry_comment">Commento</string>
+    <string name="entry_notes">Commento</string>
     <string name="entry_confpassword">Conferma password</string>
     <string name="entry_created">Creato</string>
     <string name="entry_expires">Scade</string>

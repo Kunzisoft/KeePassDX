@@ -43,7 +43,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="select_database_file">Wprowadź nazwę pliku bazy danych</string>
     <string name="entry_accessed">Dostęp do pliku</string>
     <string name="entry_cancel">Anuluj</string>
-    <string name="entry_comment">Komentarz</string>
+    <string name="entry_notes">Komentarz</string>
     <string name="entry_confpassword">Potwierdź hasło</string>
     <string name="entry_created">Utworzono</string>
     <string name="entry_expires">Wygasa</string>

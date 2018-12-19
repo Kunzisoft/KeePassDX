@@ -25,7 +25,7 @@
 	android:importantForAutofill="noExcludeDescendants"
 	tools:targetApi="o">
 	<android.support.v7.widget.AppCompatImageButton
-		android:id="@+id/icon_button"
+		android:id="@+id/group_edit_icon_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
         android:src="@drawable/ic_blank_32dp"
@@ -33,13 +33,13 @@
 		android:layout_alignParentEnd="true"
 		android:layout_alignParentTop="true"/>
 	<android.support.v7.widget.AppCompatEditText
-		android:id="@+id/group_name"
+		android:id="@+id/group_edit_name"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="4dp"
 		android:layout_marginStart="4dp"
-		android:layout_toLeftOf="@+id/icon_button"
-		android:layout_toStartOf="@+id/icon_button"
+		android:layout_toLeftOf="@+id/group_edit_icon_button"
+		android:layout_toStartOf="@+id/group_edit_icon_button"
 		android:maxLines="1"
 		android:singleLine="true"
 		android:hint="@string/hint_group_name"/>
