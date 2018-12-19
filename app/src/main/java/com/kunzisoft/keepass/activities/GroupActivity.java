@@ -892,7 +892,7 @@ public class GroupActivity extends LockingActivity
             });
         }
 
-        MenuUtil.contributionMenuInflater(inflater, menu);
+        MenuUtil.INSTANCE.contributionMenuInflater(inflater, menu);
         inflater.inflate(R.menu.default_menu, menu);
 
         super.onCreateOptionsMenu(menu);
@@ -956,7 +956,7 @@ public class GroupActivity extends LockingActivity
                 return true;
             default:
                 // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, getReadOnly(), true);
+                MenuUtil.INSTANCE.onDefaultMenuOptionsItemSelected(this, item, getReadOnly(), true);
                 return super.onOptionsItemSelected(item);
         }
     }

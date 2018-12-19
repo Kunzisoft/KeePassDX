@@ -43,6 +43,8 @@ abstract class LockingActivity : StylishActivity() {
         const val RESULT_EXIT_LOCK = 1450
     }
 
+    protected var timeoutEnable: Boolean = true
+
     private var lockReceiver: LockReceiver? = null
     private var exitLock: Boolean = false
 
@@ -51,14 +53,15 @@ abstract class LockingActivity : StylishActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
-            lockReceiver = LockReceiver()
-            val intentFilter = IntentFilter()
-            intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
-            intentFilter.addAction(LOCK_ACTION)
-            registerReceiver(lockReceiver, IntentFilter(intentFilter))
-        } else
-            lockReceiver = null
+        if (timeoutEnable) {
+            if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
+                lockReceiver = LockReceiver()
+                val intentFilter = IntentFilter()
+                intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
+                intentFilter.addAction(LOCK_ACTION)
+                registerReceiver(lockReceiver, IntentFilter(intentFilter))
+            }
+        }
 
         exitLock = false
 
@@ -76,13 +79,16 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onResume() {
         super.onResume()
-        // After the first creation
-        // or If simply swipe with another application
-        // If the time is out -> close the Activity
-        TimeoutHelper.checkTime(this)
-        // If onCreate already record time
-        if (!exitLock)
-            TimeoutHelper.recordTime(this)
+
+        if (timeoutEnable) {
+            // After the first creation
+            // or If simply swipe with another application
+            // If the time is out -> close the Activity
+            TimeoutHelper.checkTime(this)
+            // If onCreate already record time
+            if (!exitLock)
+                TimeoutHelper.recordTime(this)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -92,8 +98,11 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onPause() {
         super.onPause()
-        // If the time is out during our navigation in activity -> close the Activity
-        TimeoutHelper.checkTime(this)
+
+        if (timeoutEnable) {
+            // If the time is out during our navigation in activity -> close the Activity
+            TimeoutHelper.checkTime(this)
+        }
     }
 
     override fun onDestroy() {
@@ -141,7 +150,11 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onBackPressed() {
-        TimeoutHelper.lockOrResetTimeout(this) {
+        if (timeoutEnable) {
+            TimeoutHelper.lockOrResetTimeout(this) {
+                super.onBackPressed()
+            }
+        } else {
             super.onBackPressed()
         }
     }

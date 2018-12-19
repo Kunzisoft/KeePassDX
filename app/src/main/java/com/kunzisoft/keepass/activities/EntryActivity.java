@@ -424,7 +424,7 @@ public class EntryActivity extends LockingHideActivity {
 		super.onCreateOptionsMenu(menu);
 		
 		MenuInflater inflater = getMenuInflater();
-        MenuUtil.contributionMenuInflater(inflater, menu);
+        MenuUtil.INSTANCE.contributionMenuInflater(inflater, menu);
 		inflater.inflate(R.menu.entry, menu);
 		inflater.inflate(R.menu.database_lock, menu);
 
@@ -468,7 +468,7 @@ public class EntryActivity extends LockingHideActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ( item.getItemId() ) {
             case R.id.menu_contribute:
-                return MenuUtil.onContributionItemSelected(this);
+                return MenuUtil.INSTANCE.onContributionItemSelected(this);
 
             case R.id.menu_toggle_pass:
                 mShowPassword = !mShowPassword;

@@ -1027,7 +1027,7 @@ public class PasswordActivity extends StylishActivity
         inflater.inflate(R.menu.open_file, menu);
         changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key));
 
-        MenuUtil.defaultMenuInflater(inflater, menu);
+        MenuUtil.INSTANCE.defaultMenuInflater(inflater, menu);
 
         // Fingerprint menu
         if (!fingerprintMustBeConfigured
@@ -1069,7 +1069,7 @@ public class PasswordActivity extends StylishActivity
                 }
                 break;
             default:
-                return MenuUtil.onDefaultMenuOptionsItemSelected(this, item);
+                return MenuUtil.INSTANCE.onDefaultMenuOptionsItemSelected(this, item);
         }
 
         return super.onOptionsItemSelected(item);

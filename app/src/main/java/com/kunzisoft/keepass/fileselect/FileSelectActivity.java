@@ -697,13 +697,13 @@ public class FileSelectActivity extends StylishActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		MenuUtil.defaultMenuInflater(getMenuInflater(), menu);
+		MenuUtil.INSTANCE.defaultMenuInflater(getMenuInflater(), menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
+		return MenuUtil.INSTANCE.onDefaultMenuOptionsItemSelected(this, item)
 				&& super.onOptionsItemSelected(item);
 	}
 }
