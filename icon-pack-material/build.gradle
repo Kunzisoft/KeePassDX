@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -18,4 +17,5 @@ android {
     }
 
     resourcePrefix 'material_'
+    buildToolsVersion = '28.0.3'
 }
