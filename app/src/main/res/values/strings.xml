@@ -384,11 +384,11 @@
     <string name="icon_pack_choose_title">Select an icon pack</string>
     <string name="hint_generated_mnemonic">generated mnemonic</string>
     <string name="length_min">Min</string>
-    <string name="default_password_length_min">10</string>
+    <string name="default_password_length_min">20</string>
     <string name="length_max">Max</string>
-    <string name="default_password_length_max">20</string>
+    <string name="default_password_length_max">50</string>
     <string name="number_of_keywords">Number of Keywords</string>
-    <string name="default_number_of_keywords">3</string>
+    <string name="default_number_of_keywords">7</string>
     <string name="hint_number_of_keywords">number of keywords</string>
     <string name="punctuation_count_min">Minimum Punctuation Count</string>
     <string name="default_punctuation_count_min">2</string>
