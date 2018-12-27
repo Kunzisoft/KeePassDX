@@ -108,10 +108,10 @@
     <string name="keyfile_is_empty">Le fichier de clé est vide.</string>
     <string name="length">Longueur</string>
     <string name="list_size_title">Taille des éléments de liste</string>
-    <string name="list_size_summary">Taille du texte des éléments de liste</string>
+    <string name="list_size_summary">Taille du texte dans les éléments de liste</string>
     <string name="loading_database">Chargement de la base de données…</string>
     <string name="lowercase">Minuscule</string>
-    <string name="maskpass_title">Cacher les mots de passe</string>
+    <string name="maskpass_title">Masquer les mots de passe</string>
     <string name="maskpass_summary">Masquer les mots de passe (***) par défaut</string>
     <string name="menu_about">À propos</string>
     <string name="menu_change_key">Modifier la clé maîtresse</string>
@@ -121,7 +121,7 @@
     <string name="menu_delete">Supprimer</string>
     <string name="menu_donate">Faire un don</string>
     <string name="menu_edit">Modifier</string>
-    <string name="menu_hide_password">Cacher le mot de passe</string>
+    <string name="menu_hide_password">Masquer le mot de passe</string>
     <string name="menu_lock">Verrouiller la base de données</string>
     <string name="menu_open">Ouvrir</string>
     <string name="menu_search">Rechercher</string>
@@ -137,13 +137,13 @@
     <string name="omitbackup_title">Ne pas rechercher dans les entrées de sauvegarde</string>
     <string name="omitbackup_summary">Omet le groupe « Sauvegarde » des résultats de recherche (ne s’applique qu’aux fichiers .kdb)</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
-    <string name="progress_title">Prière de patienter…</string>
+    <string name="progress_title">Traitement en cours …</string>
     <string name="protection">Protection</string>
     <string name="read_only">Protégé en écriture</string>
     <string name="read_only_warning">KeePass DX a besoin de la permission d’écriture afin modifier la base de données.</string>
     <string name="read_only_kitkat_warning">À partir d’Android KitKat, certains appareils n’autorisent plus les applications à écrire sur la carte microSD.</string>
     <string name="recentfile_title">Historique de fichiers récents</string>
-    <string name="recentfile_summary">Mémoriser les noms de fichier récents</string>
+    <string name="recentfile_summary">Mémoriser les noms des fichiers récents</string>
     <string name="remember_keyfile_summary">Mémoriser l’emplacement des fichiers clé des bases de données</string>
     <string name="remember_keyfile_title">Enregistrer le fichier clé</string>
     <string name="remove_from_filelist">Effacer</string>
@@ -234,9 +234,9 @@
     <string name="create_keepass_file">Créer une nouvelle base de données</string>
     <string name="bytes">Multiplets</string>
     <string name="full_file_path_enable_title">Chemin de fichier</string>
-    <string name="full_file_path_enable_summary">Voir le chemin de fichier complet</string>
+    <string name="full_file_path_enable_summary">Afficher le chemin complet du fichier</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>
-    <string name="recycle_bin_summary">Déplace les groupes et les entrées dans la « Corbeille » avant la suppression</string>
+    <string name="recycle_bin_summary">Déplace les groupes et les entrées dans la « Corbeille » avant suppression</string>
     <string name="permission_external_storage_rationale_write_database">KeePass DX a besoin de la permission de stockage externe pour écrire dans une base de données.</string>
     <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin de la permission de stockage externe pour lire une URI non fournie par un fournisseur de contenu.</string>
     <string name="permission_external_storage_denied">Impossible d’obtenir la permission de stockage externe.</string>
@@ -352,8 +352,8 @@
         <item>Thème Rouge Volcan</item>
         <item>Thème Pro Violet</item>
     </string-array>
-    <string name="icon_pack_choose_title">Paquet d’icônes</string>
-    <string name="icon_pack_choose_summary">Paquet d’icônes utilisé dans l’application</string>
+    <string name="icon_pack_choose_title">Ensemble d’icônes</string>
+    <string name="icon_pack_choose_summary">Ensemble d’icônes utilisés dans l’application</string>
 
 <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe dans lui-même.</string>
     <string name="menu_copy">Copier</string>
@@ -366,7 +366,7 @@
     <string name="magic_keyboard_activate_setting_path_1_text">« Paramètres » → « Langues et saisie » → « Clavier actuel » et en choisir un.</string>
     <string name="magic_keyboard_activate_setting_path_2_text">(Ou « Paramètres » → « Langues et saisie » → « Clavier virtuel » et en choisir un.)</string>
     <string name="keyboards_choose_magikeyboard_text">Choisir le Magikeyboard lorsque vous avez besoin de remplir un formulaire.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Changer de clavier en appuyant longuement sur la barre d’espace de votre clavier ou, si ce n’est pas disponible, avec :</string>
+    <string name="keyboards_swicth_magikeyboard_text">Basculer de clavier en appuyant longuement sur la barre d’espace de votre clavier ou, si ce n’est pas disponible, avec :</string>
     <string name="keyboard_select_entry_text">Sélectionner votre entrée avec la clé.</string>
     <string name="keyboard_fill_field_text">Remplisser vos champs avec les éléments de l’entrée.</string>
     <string name="keyboard_lock_database_text">Verrouiller la base de données.</string>
