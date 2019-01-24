@@ -60,13 +60,13 @@ object MenuUtil {
      * @param checkLock Check the time lock before launch settings in LockingActivity
      */
     @JvmOverloads
-    fun onDefaultMenuOptionsItemSelected(activity: StylishActivity, item: MenuItem, readOnly: Boolean = READ_ONLY_DEFAULT, checkLock: Boolean = false): Boolean {
+    fun onDefaultMenuOptionsItemSelected(activity: StylishActivity, item: MenuItem, readOnly: Boolean = READ_ONLY_DEFAULT, timeoutEnable: Boolean = false): Boolean {
         when (item.itemId) {
             R.id.menu_contribute -> return onContributionItemSelected(activity)
 
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity
-                SettingsActivity.launch(activity, readOnly, checkLock)
+                SettingsActivity.launch(activity, readOnly, timeoutEnable)
                 return true
             }
 

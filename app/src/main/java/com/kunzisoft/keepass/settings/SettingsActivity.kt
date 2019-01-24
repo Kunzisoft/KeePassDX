@@ -26,11 +26,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 
@@ -44,18 +42,14 @@ open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback
 
         private const val TAG_NESTED = "TAG_NESTED"
 
-        fun launch(activity: Activity, readOnly: Boolean) {
+        fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
             val intent = Intent(activity, SettingsActivity::class.java)
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-            activity.startActivity(intent)
-        }
-
-        fun launch(activity: Activity, readOnly: Boolean, checkLock: Boolean) {
-            // To avoid flickering when launch settings in a LockingActivity
-            if (!checkLock)
-                launch(activity, readOnly)
-            else if (TimeoutHelper.checkTime(activity)) {
-                launch(activity, readOnly)
+            intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
+            if (!timeoutEnable) {
+                activity.startActivity(intent)
+            } else if (TimeoutHelper.checkTime(activity)) {
+                activity.startActivity(intent)
             }
         }
     }
@@ -69,7 +63,6 @@ open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        timeoutEnable = App.getDB().loaded
 
         super.onCreate(savedInstanceState)
 

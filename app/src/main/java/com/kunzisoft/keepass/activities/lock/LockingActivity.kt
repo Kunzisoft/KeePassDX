@@ -41,6 +41,9 @@ abstract class LockingActivity : StylishActivity() {
         const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
 
         const val RESULT_EXIT_LOCK = 1450
+
+        const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
+        const val TIMEOUT_ENABLE_KEY_DEFAULT = true
     }
 
     protected var timeoutEnable: Boolean = true
@@ -52,6 +55,14 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(TIMEOUT_ENABLE_KEY)) {
+            timeoutEnable = savedInstanceState.getBoolean(TIMEOUT_ENABLE_KEY)
+        } else {
+            if (intent != null)
+                timeoutEnable = intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
+        }
 
         if (timeoutEnable) {
             if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
@@ -82,13 +93,13 @@ abstract class LockingActivity : StylishActivity() {
     override fun onResume() {
         super.onResume()
 
-        // End activity if database not loaded
-        if (!App.getDB().loaded) {
-            finish()
-            return
-        }
-
         if (timeoutEnable) {
+            // End activity if database not loaded
+            if (!App.getDB().loaded) {
+                finish()
+                return
+            }
+
             // After the first creation
             // or If simply swipe with another application
             // If the time is out -> close the Activity
@@ -101,6 +112,7 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
+        outState.putBoolean(TIMEOUT_ENABLE_KEY, timeoutEnable)
         super.onSaveInstanceState(outState)
     }
 
