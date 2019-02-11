@@ -359,4 +359,8 @@
 \n
 \nHasználja a kedvenc mezőkitöltési módját.</string>
     <string name="education_lock_title">Az adatbázis zárolása</string>
+    <string name="education_lock_summary">Zárolja gyorsan az adatbázist, beállíthatja hogy az alkalmazás lezárja egy idő után, valamint ha a képernyőt kikapcsolja.</string>
+    <string name="education_sort_title">Elemek rendezése</string>
+    <string name="education_sort_summary">Válasszon, hogy az elemek és csoportok hogyan legyenek rendezve.</string>
+    <string name="education_donation_title">Közreműködés</string>
 </resources>
