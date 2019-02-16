@@ -17,14 +17,14 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">フィードバック:</string>
-    <string name="about_homepage">WEBサイト:</string>
-    <string name="about_description">\"KeePass DX\"はパスワードマネージャソフト\"KeePass\"をAndroid上で利用する為のアプリです。</string>
+    <string name="about_feedback">フィードバック</string>
+    <string name="about_homepage">ホームページ</string>
+    <string name="about_description">KeePass パスワードマネージャーの Android 実装</string>
     <string name="accept">決定</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="add_group">グループを追加</string>
-    <string name="encryption_algorithm">アルゴリズム</string>
-    <string name="app_timeout">アプリケーション タイムアウト</string>
+    <string name="encryption_algorithm">暗号化アルゴリズム</string>
+    <string name="app_timeout">アプリ タイムアウト</string>
     <string name="app_timeout_summary">KeePassがこの時間非アクティブだった場合、データベースをロックします。</string>
     <string name="application">アプリケーション</string>
     <string name="menu_app_settings">アプリケーション設定</string>
@@ -136,24 +136,22 @@
     <string name="uppercase">英数大文字</string>
     <string name="warning_unmounted">SDカードがマウントされていません。データベースの読込や作成ができません。</string>
     <string name="version_label">バージョン %1$s</string>
-
     <string name="education_unlock_summary">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
-
     <string-array name="timeout_options">
-    	<item>5秒</item>
-    	<item>10秒</item>
-    	<item>20秒</item>
-    	<item>30秒</item>
-    	<item>1分</item>
-    	<item>5分</item>
-    	<item>15分</item>
-    	<item>30分</item>
-    	<item>なし</item>
+        <item>5秒</item>
+        <item>10秒</item>
+        <item>20秒</item>
+        <item>30秒</item>
+        <item>1分</item>
+        <item>5分</item>
+        <item>15分</item>
+        <item>30分</item>
+        <item>なし</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>小</item>
-    	<item>中</item>
-    	<item>大</item>
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
     </string-array>
     <string name="edit_entry">エントリーを編集</string>
     <string name="add_string">文字列を追加</string>
