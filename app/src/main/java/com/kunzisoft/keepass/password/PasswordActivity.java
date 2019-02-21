@@ -58,6 +58,7 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.activities.IntentBuildLauncher;
 import com.kunzisoft.keepass.activities.ReadOnlyHelper;
+import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
@@ -69,7 +70,6 @@ import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
 import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
-import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
@@ -136,6 +136,37 @@ public class PasswordActivity extends StylishActivity
     protected boolean entrySelectionMode;
     private AutofillHelper autofillHelper;
 
+    private static void buildAndLaunchIntent(Activity activity, String fileName, String keyFile,
+                                             IntentBuildLauncher intentBuildLauncher) {
+        Intent intent = new Intent(activity, PasswordActivity.class);
+        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
+        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
+        intentBuildLauncher.launchActivity(intent);
+    }
+
+	private static void verifyFileNameUriFromLaunch(String fileName) throws FileNotFoundException {
+		if (EmptyUtils.isNullOrEmpty(fileName)) {
+			throw new FileNotFoundException();
+		}
+
+		Uri uri = UriUtil.parseDefaultFile(fileName);
+		assert uri != null;
+		String scheme = uri.getScheme();
+
+		if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
+			File dbFile = new File(uri.getPath());
+			if (!dbFile.exists()) {
+				throw new FileNotFoundException();
+			}
+		}
+	}
+
+	/*
+	 * -------------------------
+	 * 		Standard Launch
+	 * -------------------------
+	 */
+
     public static void launch(
             Activity act,
             String fileName) throws FileNotFoundException {
@@ -147,20 +178,14 @@ public class PasswordActivity extends StylishActivity
             String fileName,
             String keyFile) throws FileNotFoundException {
         verifyFileNameUriFromLaunch(fileName);
-
-        buildAndLaunchIntent(activity, fileName, keyFile, (intent) -> {
-            // only to avoid visible  flickering when redirecting
-            activity.startActivityForResult(intent, RESULT_CANCELED);
-        });
+        buildAndLaunchIntent(activity, fileName, keyFile, activity::startActivity);
     }
 
-    private static void buildAndLaunchIntent(Activity activity, String fileName, String keyFile,
-                                             IntentBuildLauncher intentBuildLauncher) {
-        Intent intent = new Intent(activity, PasswordActivity.class);
-        intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName);
-        intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile);
-        intentBuildLauncher.startActivityForResult(intent);
-    }
+	/*
+	 * -------------------------
+	 * 		Keyboard Launch
+	 * -------------------------
+	 */
 
     public static void launchForKeyboardResult(
             Activity act,
@@ -180,6 +205,12 @@ public class PasswordActivity extends StylishActivity
             activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
         });
     }
+
+	/*
+	 * -------------------------
+	 * 		Autofill Launch
+	 * -------------------------
+	 */
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launchForAutofillResult(
@@ -204,57 +235,6 @@ public class PasswordActivity extends StylishActivity
             });
         } else {
             launch(activity, fileName, keyFile);
-        }
-    }
-
-    private static void verifyFileNameUriFromLaunch(String fileName) throws FileNotFoundException {
-        if (EmptyUtils.isNullOrEmpty(fileName)) {
-            throw new FileNotFoundException();
-        }
-
-        Uri uri = UriUtil.parseDefaultFile(fileName);
-        assert uri != null;
-        String scheme = uri.getScheme();
-
-        if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
-            File dbFile = new File(uri.getPath());
-            if (!dbFile.exists()) {
-                throw new FileNotFoundException();
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(
-            int requestCode,
-            int resultCode,
-            Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // To get entry in result
-        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
-        }
-
-        boolean keyFileResult = false;
-        if (keyFileHelper != null) {
-            keyFileResult = keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
-                    uri -> {
-                        if (uri != null) {
-                            populateKeyFileTextView(uri.toString());
-                        }
-                    });
-        }
-        if (!keyFileResult) {
-            // this block if not a key file response
-            switch (resultCode) {
-                case LockingActivity.RESULT_EXIT_LOCK:
-                case Activity.RESULT_CANCELED:
-                    setEmptyViews();
-                    App.getDB().clear(getApplicationContext());
-                    break;
-            }
         }
     }
 
@@ -1071,6 +1051,40 @@ public class PasswordActivity extends StylishActivity
         // NOTE: delegate the permission handling to generated method
         PasswordActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
+
+	@Override
+	protected void onActivityResult(
+			int requestCode,
+			int resultCode,
+			Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		// To get entry in result
+		EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+		}
+
+		boolean keyFileResult = false;
+		if (keyFileHelper != null) {
+			keyFileResult = keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
+					uri -> {
+						if (uri != null) {
+							populateKeyFileTextView(uri.toString());
+						}
+					});
+		}
+		if (!keyFileResult) {
+			// this block if not a key file response
+			switch (resultCode) {
+				case LockingActivity.RESULT_EXIT_LOCK:
+				case Activity.RESULT_CANCELED:
+					setEmptyViews();
+					App.getDB().clear(getApplicationContext());
+					break;
+			}
+		}
+	}
 
     private static class UriIntentInitTask extends AsyncTask<Intent, Void, Integer> {
 

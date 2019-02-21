@@ -139,6 +139,24 @@ public class GroupActivity extends LockingActivity
 
     private int iconColor;
 
+    private static void buildAndLaunchIntent(Activity activity, PwGroup group, boolean readOnly,
+                                             IntentBuildLauncher intentBuildLauncher) {
+        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+            Intent intent = new Intent(activity, GroupActivity.class);
+            if (group != null) {
+                intent.putExtra(GROUP_ID_KEY, group.getId());
+            }
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
+            intentBuildLauncher.launchActivity(intent);
+        }
+    }
+
+    /*
+     * -------------------------
+     * 		Standard Launch
+     * -------------------------
+     */
+
     // After a database creation
     public static void launch(Activity act) {
         launch(act, READ_ONLY_DEFAULT);
@@ -149,22 +167,17 @@ public class GroupActivity extends LockingActivity
         launch(act, null, readOnly);
 	}
 
-    private static void buildAndLaunchIntent(Activity activity, PwGroup group, boolean readOnly,
-                                             IntentBuildLauncher intentBuildLauncher) {
-        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
-            Intent intent = new Intent(activity, GroupActivity.class);
-            if (group != null) {
-                intent.putExtra(GROUP_ID_KEY, group.getId());
-            }
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
-            intentBuildLauncher.startActivityForResult(intent);
-        }
-    }
-
     public static void launch(Activity activity, PwGroup group, boolean readOnly) {
         buildAndLaunchIntent(activity, group, readOnly,
                 (intent) -> activity.startActivityForResult(intent, 0));
     }
+
+
+	/*
+	 * -------------------------
+	 * 		Keyboard Launch
+	 * -------------------------
+	 */
 
     public static void launchForKeyboardResult(Activity activity, boolean readOnly) {
 		TimeoutHelper.INSTANCE.recordTime(activity);
@@ -178,6 +191,12 @@ public class GroupActivity extends LockingActivity
             activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
         });
     }
+
+	/*
+	 * -------------------------
+	 * 		Autofill Launch
+	 * -------------------------
+	 */
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launchForAutofillResult(Activity activity, AssistStructure assistStructure, boolean readOnly) {
