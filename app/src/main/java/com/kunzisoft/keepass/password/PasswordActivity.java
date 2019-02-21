@@ -341,19 +341,11 @@ public class PasswordActivity extends StylishActivity
 
     @Override
     protected void onResume() {
-        // If the application was shutdown make sure to clear the password field, if it
+        // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
-        if (App.isShutdown()) {
+        if (App.getDB().loaded) {
             setEmptyViews();
         }
-
-        // Show message if exists
-        CharSequence appMessage = App.getMessage();
-        if (! appMessage.toString().isEmpty())
-            Toast.makeText(this, appMessage, Toast.LENGTH_SHORT).show();
-
-        // Clear the shutdown flag
-        App.clearShutdown();
 
         // For check shutdown
         super.onResume();
@@ -939,8 +931,6 @@ public class PasswordActivity extends StylishActivity
         // Clear before we load
         Database database = App.getDB();
         database.clear(getApplicationContext());
-        // Clear the shutdown flag
-        App.clearShutdown();
 
         // Show the progress dialog
         Handler handler = new Handler();

@@ -53,6 +53,7 @@ import android.widget.TextView;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter;
 import com.kunzisoft.keepass.app.App;
@@ -80,7 +81,6 @@ import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
-import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -211,11 +211,6 @@ public class GroupActivity extends LockingActivity
         }
 
         database = App.getDB();
-        // Likely the app has been killed exit the activity
-        if ( ! database.getLoaded() ) {
-            finish();
-            return;
-        }
 
         // Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
@@ -317,6 +312,7 @@ public class GroupActivity extends LockingActivity
 
     @Override
     protected void onNewIntent(Intent intent) {
+        Log.d(TAG, "setNewIntent: " + intent.toString());
         setIntent(intent);
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // only one instance of search in backstack
@@ -1099,7 +1095,6 @@ public class GroupActivity extends LockingActivity
                     }
                 } else {
                     mHandler.post(new UIToastTask(GroupActivity.this, "Unrecoverable error: " + mMessage));
-                    App.setShutdown();
                     finish();
                 }
 

@@ -323,7 +323,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             case DATABASE:
                 setPreferencesFromResource(R.xml.database_preferences, rootKey);
 
-                if (database.getLoaded()) {
+                if (database.loaded) {
 
                     PreferenceCategory dbGeneralPrefCategory = (PreferenceCategory) findPreference(getString(R.string.database_general_key));
 

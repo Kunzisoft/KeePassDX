@@ -31,7 +31,6 @@ public class EntrySelectionHelper {
         boolean entrySelectionMode = isIntentInEntrySelectionMode(intent);
         if (entrySelectionMode) {
             mReplyIntent = new Intent();
-            Log.d(activity.getClass().getName(), "Reply entry selection");
 
             Entry entryModel = new Entry();
             entryModel.setTitle(entry.getTitle());
@@ -44,6 +43,7 @@ public class EntrySelectionHelper {
                                 (key, value) -> entryModel.addCustomField(
                                         new Field(key, value.toString())));
             }
+            Log.d(activity.getClass().getName(), "Build entry selection for reply: " + entryModel.getTitle());
 
             mReplyIntent.putExtra(
                     EXTRA_ENTRY_SELECTION_MODE,

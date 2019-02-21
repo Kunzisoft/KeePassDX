@@ -136,7 +136,7 @@ public class KeyboardEntryNotificationService extends Service {
                         try {
                             pendingDeleteIntent.send();
                         } catch (PendingIntent.CanceledException e) {
-                            Log.e(TAG, e.getLocalizedMessage());
+                            Log.e(TAG, "Unable to delete keyboard notification");
                         }
                     });
                     cleanNotificationTimer.start();

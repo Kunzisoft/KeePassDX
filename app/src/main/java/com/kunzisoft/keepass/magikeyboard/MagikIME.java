@@ -48,6 +48,7 @@ import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter;
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
 import com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView;
 import com.kunzisoft.keepass.model.Entry;
+import com.kunzisoft.keepass.selection.KeyboardEntryRetrieverActivity;
 
 import static com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
@@ -205,7 +206,7 @@ public class MagikIME extends InputMethodService
                 break;
             case KEY_ENTRY:
                 deleteEntryKey(this);
-                Intent intent = new Intent(this, EntryRetrieverActivity.class);
+                Intent intent = new Intent(this, KeyboardEntryRetrieverActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;

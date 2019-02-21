@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.action.node;
 
 import android.content.Context;
 
-import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
@@ -87,7 +86,6 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
             }
             else {
                 // Let's not bother recovering from a failure to save a deleted tree.  It is too much work.
-                App.setShutdown();
                 // TODO TEST pm.undoDeleteGroup(mGroup, mParent);
             }
         }

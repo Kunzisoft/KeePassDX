@@ -30,8 +30,6 @@ import java.util.Calendar;
 
 public class App extends MultiDexApplication {
 	private static Database db = null;
-	private static boolean shutdown = false;
-	private static CharSequence mMessage = "";
 	private static Calendar calendar = null;
 	private static RecentFileHistory fileHistory = null;
 	
@@ -48,29 +46,6 @@ public class App extends MultiDexApplication {
 	
 	public static void setDB(Database d) {
 		db = d;
-	}
-	
-	public static boolean isShutdown() {
-		return shutdown;
-	}
-	
-	public static void setShutdown() {
-		shutdown = true;
-		mMessage = "";
-	}
-
-	public static void setShutdown(CharSequence message) {
-		shutdown = true;
-		mMessage = message;
-	}
-
-	public static CharSequence getMessage() {
-		return mMessage;
-	}
-	
-	public static void clearShutdown() {
-		shutdown = false;
-		mMessage = "";
 	}
 	
 	public static Calendar getCalendar() {

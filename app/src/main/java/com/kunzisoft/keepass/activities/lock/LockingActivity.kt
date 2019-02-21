@@ -41,6 +41,9 @@ abstract class LockingActivity : StylishActivity() {
         const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
 
         const val RESULT_EXIT_LOCK = 1450
+
+        const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
+        const val TIMEOUT_ENABLE_KEY_DEFAULT = true
     }
 
     protected var timeoutEnable: Boolean = true
@@ -52,6 +55,14 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(TIMEOUT_ENABLE_KEY)) {
+            timeoutEnable = savedInstanceState.getBoolean(TIMEOUT_ENABLE_KEY)
+        } else {
+            if (intent != null)
+                timeoutEnable = intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
+        }
 
         if (timeoutEnable) {
             if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
@@ -69,11 +80,13 @@ abstract class LockingActivity : StylishActivity() {
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
             exitLock = true
-            checkShutdown()
+            if (App.getDB().loaded) {
+                lockAndExit()
+            }
         }
     }
 
@@ -81,6 +94,12 @@ abstract class LockingActivity : StylishActivity() {
         super.onResume()
 
         if (timeoutEnable) {
+            // End activity if database not loaded
+            if (!App.getDB().loaded) {
+                finish()
+                return
+            }
+
             // After the first creation
             // or If simply swipe with another application
             // If the time is out -> close the Activity
@@ -93,6 +112,7 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
+        outState.putBoolean(TIMEOUT_ENABLE_KEY, timeoutEnable)
         super.onSaveInstanceState(outState)
     }
 
@@ -130,12 +150,6 @@ abstract class LockingActivity : StylishActivity() {
         lock()
     }
 
-    private fun checkShutdown() {
-        if (App.isShutdown() && App.getDB().loaded) {
-            lockAndExit()
-        }
-    }
-
     /**
      * To reset the app timeout when a view is focused or changed
      */
@@ -161,7 +175,6 @@ abstract class LockingActivity : StylishActivity() {
 }
 
 fun Activity.lock() {
-    App.setShutdown()
     Log.i(Activity::class.java.name, "Shutdown " + localClassName +
             " after inactivity or manual lock")
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
