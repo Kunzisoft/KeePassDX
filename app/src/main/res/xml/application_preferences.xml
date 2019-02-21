@@ -63,6 +63,11 @@
             android:title="@string/lock_database_screen_off_title"
             android:summary="@string/lock_database_screen_off_summary"
             android:defaultValue="@bool/lock_database_screen_off_default"/>
+        <SwitchPreference
+            android:key="@string/lock_database_back_root_key"
+            android:title="@string/lock_database_back_root_title"
+            android:summary="@string/lock_database_back_root_summary"
+            android:defaultValue="@bool/lock_database_back_root_default"/>
 
     </PreferenceCategory>
 

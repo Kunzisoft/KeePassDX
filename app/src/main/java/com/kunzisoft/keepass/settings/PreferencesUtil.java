@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.SortNodeEnum;
@@ -97,6 +96,12 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.lock_database_screen_off_key),
                 ctx.getResources().getBoolean(R.bool.lock_database_screen_off_default));
+    }
+
+    public static boolean isLockDatabaseWhenBackButtonOnRootClicked(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.lock_database_back_root_key),
+                ctx.getResources().getBoolean(R.bool.lock_database_back_root_default));
     }
 
     public static boolean isFingerprintEnable(Context ctx) {

@@ -1214,7 +1214,19 @@ public class GroupActivity extends LockingActivity
 
     @Override
     public void onBackPressed() {
-		super.onBackPressed();
+
+    	// Normal way when we are not in root
+    	if (!rootGroup.equals(mCurrentGroup))
+			super.onBackPressed();
+    	// Else lock if needed
+    	else {
+			if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
+				App.getDB().clear(getApplicationContext());
+				super.onBackPressed();
+			} else {
+				moveTaskToBack(true);
+			}
+		}
 
 		listNodesFragment = (ListNodesFragment) getSupportFragmentManager().findFragmentByTag(LIST_NODES_FRAGMENT_TAG);
 		// to refresh fragment
