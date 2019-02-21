@@ -24,15 +24,15 @@
         android:title="@string/general">
 
         <SwitchPreference
-            android:summary="@string/allow_no_password_summary"
-            android:defaultValue="@bool/allow_no_password_default"
+            android:key="@string/allow_no_password_key"
             android:title="@string/allow_no_password_title"
-            android:key="@string/allow_no_password_key"/>
+            android:summary="@string/allow_no_password_summary"
+            android:defaultValue="@bool/allow_no_password_default"/>
         <SwitchPreference
-            android:summary="@string/enable_read_only_summary"
-            android:defaultValue="@bool/enable_read_only_default"
+            android:key="@string/enable_read_only_key"
             android:title="@string/enable_read_only_title"
-            android:key="@string/enable_read_only_key"/>
+            android:summary="@string/enable_read_only_summary"
+            android:defaultValue="@bool/enable_read_only_default"/>
 
     </PreferenceCategory>
 
@@ -40,10 +40,10 @@
         android:title="@string/search_label">
 
         <SwitchPreference
-            android:summary="@string/omitbackup_summary"
-            android:defaultValue="@bool/omitbackup_default"
+            android:key="@string/omitbackup_key"
             android:title="@string/omitbackup_title"
-            android:key="@string/omitbackup_key"/>
+            android:summary="@string/omitbackup_summary"
+            android:defaultValue="@bool/omitbackup_default"/>
 
     </PreferenceCategory>
 
@@ -100,10 +100,10 @@
         android:title="@string/history">
 
         <SwitchPreference
-            android:summary="@string/recentfile_summary"
-            android:defaultValue="@bool/recentfile_default"
+            android:key="@string/recentfile_key"
             android:title="@string/recentfile_title"
-            android:key="@string/recentfile_key"/>
+            android:summary="@string/recentfile_summary"
+            android:defaultValue="@bool/recentfile_default"/>
         <SwitchPreference
             android:key="@string/keyfile_key"
             android:title="@string/remember_keyfile_title"
@@ -118,14 +118,14 @@
 
         <SwitchPreference
             android:key="@string/saf_key"
+            android:title="@string/use_saf_title"
             android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/settings_saf_default"
-            android:title="@string/use_saf_title"/>
+            android:defaultValue="@bool/settings_saf_default"/>
         <SwitchPreference
             android:key="@string/auto_open_file_uri_key"
+            android:title="@string/auto_open_file_uri_title"
             android:summary="@string/auto_open_file_uri_summary"
-            android:defaultValue="@bool/auto_open_file_uri_default"
-            android:title="@string/auto_open_file_uri_title"/>
+            android:defaultValue="@bool/auto_open_file_uri_default"/>
 
     </PreferenceCategory>
 

@@ -55,10 +55,10 @@
     <PreferenceCategory
         android:title="@string/autofill">
         <SwitchPreference
+            android:key="@string/settings_autofill_enable_key"
             android:title="@string/set_autofill_service_title"
             android:summary="@string/set_autofill_service_summary"
-            android:defaultValue="@bool/settings_autofill_enable_default"
-            android:key="@string/settings_autofill_enable_key"/>
+            android:defaultValue="@bool/settings_autofill_enable_default"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
