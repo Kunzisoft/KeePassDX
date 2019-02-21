@@ -28,7 +28,7 @@
         android:icon="@drawable/ic_mode_edit_white_24dp"
         android:title="@string/menu_edit"
         android:orderInCategory="22"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_goto_url"
         android:icon="@drawable/ic_launch_white_24dp"
         android:title="@string/menu_url"

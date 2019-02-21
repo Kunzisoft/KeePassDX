@@ -23,5 +23,5 @@
         android:icon="@drawable/ic_lock_white_24dp"
         android:title="@string/menu_lock"
         android:orderInCategory="81"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>
