@@ -952,6 +952,8 @@ public class PasswordActivity extends StylishActivity
                 },
                 () -> {
                     GroupActivity.launchForKeyboardSelection(PasswordActivity.this, readOnly);
+                    // Do not keep history
+                    finish();
                     return null;
                 },
                 assistStructure -> {

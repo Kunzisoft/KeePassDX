@@ -186,9 +186,8 @@ public class GroupActivity extends LockingActivity
     public static void launchForKeyboardSelection(Activity activity, PwGroup group, boolean readOnly) {
         // TODO implement pre search to directly open the direct group
         TimeoutHelper.INSTANCE.recordTime(activity);
-        buildAndLaunchIntent(activity, group, readOnly, (intent) -> {
-            KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, intent);
-        });
+        buildAndLaunchIntent(activity, group, readOnly,
+                (intent) -> KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, intent));
     }
 
 	/*
@@ -206,16 +205,15 @@ public class GroupActivity extends LockingActivity
     public static void launchForAutofillResult(Activity activity, PwGroup group, @NonNull AssistStructure assistStructure, boolean readOnly) {
         // TODO implement pre search to directly open the direct group
         TimeoutHelper.INSTANCE.recordTime(activity);
-        buildAndLaunchIntent(activity, group, readOnly, (intent) -> {
-            AutofillHelper.INSTANCE.startActivityForAutofillResult(activity, intent, assistStructure);
-        });
+        buildAndLaunchIntent(activity, group, readOnly,
+                (intent) -> AutofillHelper.INSTANCE.startActivityForAutofillResult(activity, intent, assistStructure));
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ( isFinishing() ) {
+        if (isFinishing()) {
             return;
         }
 
@@ -510,10 +508,11 @@ public class GroupActivity extends LockingActivity
                                 MagikIME.setEntryKey(entry.getEntry());
                                 // Show the notification if allowed in Preferences
                                 if (PreferencesUtil.enableKeyboardNotificationEntry(GroupActivity.this)) {
-                                    Intent notificationIntent = new Intent(GroupActivity.this, KeyboardEntryNotificationService.class);
-                                    startService(notificationIntent);
+                                    startService(new Intent(
+                                            GroupActivity.this,
+                                            KeyboardEntryNotificationService.class));
                                 }
-                                moveTaskToBack(true);
+                                finish();
                                 return null;
                             },
                             assistStructure -> {
@@ -921,6 +920,7 @@ public class GroupActivity extends LockingActivity
                         KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(
                                 GroupActivity.this,
                                 searchIntent);
+                        finish();
                         return null;
                     },
                     assistStructure -> {

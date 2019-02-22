@@ -26,7 +26,7 @@ object EntrySelectionHelper {
         }
         if (assistStructure == null) {
             if (intent.getBooleanExtra(EXTRA_ENTRY_SELECTION_MODE, false)) {
-                intent.putExtra(EXTRA_ENTRY_SELECTION_MODE, false)
+                intent.removeExtra(EXTRA_ENTRY_SELECTION_MODE)
                 keyboardAction.invoke()
             } else {
                 standardAction.invoke()

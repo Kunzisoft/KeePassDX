@@ -39,10 +39,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kunzisoft.keepass.activities.AboutActivity"
-            android:launchMode="singleTask"
-            android:label="@string/menu_about" />
-        <activity
             android:name="com.kunzisoft.keepass.password.PasswordActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustResize">
@@ -100,6 +96,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!-- Main Activity -->
         <activity
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -125,6 +122,11 @@
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
+        <!-- About and Settings -->
+        <activity
+            android:name="com.kunzisoft.keepass.activities.AboutActivity"
+            android:launchMode="singleTask"
+            android:label="@string/menu_about" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity android:name="com.kunzisoft.keepass.autofill.AutoFillLauncherActivity"
             android:configChanges="orientation|keyboardHidden" />

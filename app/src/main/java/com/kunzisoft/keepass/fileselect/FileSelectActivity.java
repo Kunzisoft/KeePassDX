@@ -261,6 +261,7 @@ public class FileSelectActivity extends StylishActivity implements
 					try {
 						PasswordActivity.launchForKeyboardResult(FileSelectActivity.this,
 								fileName, keyFile);
+						finish();
 					} catch (FileNotFoundException e) {
 						fileNoFoundAction(e);
 					}

@@ -204,8 +204,12 @@ public class MagikIME extends InputMethodService
                 // TODO Unlock key
                 break;
             case KEY_ENTRY:
-                deleteEntryKey(this);
+                // Stop current service and reinit entry
+                stopService(new Intent(this, KeyboardEntryNotificationService.class));
+                entryKey = null;
                 Intent intent = new Intent(this, KeyboardLauncherActivity.class);
+                // New task needed because don't launch from an Activity context
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
             case KEY_LOCK:
