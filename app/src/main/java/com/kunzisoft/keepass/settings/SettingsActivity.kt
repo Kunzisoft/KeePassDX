@@ -48,7 +48,7 @@ open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback
             intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
             if (!timeoutEnable) {
                 activity.startActivity(intent)
-            } else if (TimeoutHelper.checkTime(activity)) {
+            } else if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 activity.startActivity(intent)
             }
         }

@@ -78,9 +78,10 @@ object TimeoutHelper {
     }
 
     /**
-     * Check the time previously record with recordTime and do the shutdown action if timeout
+     * Check the time previously record with recordTime and do the [timeoutAction] if timeout
+     * return 'false' if timeout, 'true' if in time
      */
-    fun checkTime(context: Context, shutdown: (() -> Unit)): Boolean {
+    fun checkTime(context: Context, timeoutAction: (() -> Unit)? = null): Boolean {
         // Cancel the lock PendingIntent
         if (App.getDB().loaded) {
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -118,7 +119,7 @@ object TimeoutHelper {
         if (diff >= appTimeout) {
             // We have timed out
             App.getDB().loaded = false
-            shutdown.invoke()
+            timeoutAction?.invoke()
             return false
         }
         return true
@@ -127,14 +128,14 @@ object TimeoutHelper {
     /**
      * Check the time previously record with recordTime and lock the activity if timeout
      */
-    fun checkTime(activity: Activity): Boolean {
+    fun checkTimeAndLockIfTimeout(activity: Activity): Boolean {
         return checkTime(activity) {
             activity.lock()
         }
     }
 
     fun lockOrResetTimeout(activity: Activity, action: (() -> Unit)? = null) {
-        if (checkTime(activity)) {
+        if (checkTimeAndLockIfTimeout(activity)) {
             recordTime(activity)
             action?.invoke()
         }

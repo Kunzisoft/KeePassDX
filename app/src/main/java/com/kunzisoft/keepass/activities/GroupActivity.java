@@ -35,6 +35,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
@@ -81,6 +82,9 @@ import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
+import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService;
+import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
+import com.kunzisoft.keepass.magikeyboard.MagikIME;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -132,16 +136,13 @@ public class GroupActivity extends LockingActivity
     private PwNode nodeToCopy;
     private PwNode nodeToMove;
 
-    private boolean entrySelectionMode;
-    private AutofillHelper autofillHelper;
-
     private SearchEntryCursorAdapter searchSuggestionAdapter;
 
     private int iconColor;
 
     private static void buildAndLaunchIntent(Activity activity, PwGroup group, boolean readOnly,
                                              IntentBuildLauncher intentBuildLauncher) {
-        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+        if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, GroupActivity.class);
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.getId());
@@ -157,17 +158,16 @@ public class GroupActivity extends LockingActivity
      * -------------------------
      */
 
-    // After a database creation
-    public static void launch(Activity act) {
-        launch(act, READ_ONLY_DEFAULT);
+    public static void launch(Activity activity) {
+        launch(activity, READ_ONLY_DEFAULT);
     }
 
-	public static void launch(Activity act, boolean readOnly) {
-		TimeoutHelper.INSTANCE.recordTime(act);
-        launch(act, null, readOnly);
+	public static void launch(Activity activity, boolean readOnly) {
+        launch(activity, null, readOnly);
 	}
 
     public static void launch(Activity activity, PwGroup group, boolean readOnly) {
+        TimeoutHelper.INSTANCE.recordTime(activity);
         buildAndLaunchIntent(activity, group, readOnly,
                 (intent) -> activity.startActivityForResult(intent, 0));
     }
@@ -179,16 +179,15 @@ public class GroupActivity extends LockingActivity
 	 * -------------------------
 	 */
 
-    public static void launchForKeyboardResult(Activity activity, boolean readOnly) {
-		TimeoutHelper.INSTANCE.recordTime(activity);
-        launchForKeyboardResult(activity, null, readOnly);
+    public static void launchForKeyboardSelection(Activity activity, boolean readOnly) {
+        launchForKeyboardSelection(activity, null, readOnly);
     }
 
-    public static void launchForKeyboardResult(Activity activity, PwGroup group, boolean readOnly) {
+    public static void launchForKeyboardSelection(Activity activity, PwGroup group, boolean readOnly) {
         // TODO implement pre search to directly open the direct group
+        TimeoutHelper.INSTANCE.recordTime(activity);
         buildAndLaunchIntent(activity, group, readOnly, (intent) -> {
-            EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
-            activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+            KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, intent);
         });
     }
 
@@ -199,26 +198,17 @@ public class GroupActivity extends LockingActivity
 	 */
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launchForAutofillResult(Activity activity, AssistStructure assistStructure, boolean readOnly) {
-        if ( assistStructure != null ) {
-			TimeoutHelper.INSTANCE.recordTime(activity);
-            launchForAutofillResult(activity, null, assistStructure, readOnly);
-        } else {
-            launch(activity, readOnly);
-        }
+    public static void launchForAutofillResult(Activity activity, @NonNull AssistStructure assistStructure, boolean readOnly) {
+        launchForAutofillResult(activity, null, assistStructure, readOnly);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launchForAutofillResult(Activity activity, PwGroup group, AssistStructure assistStructure, boolean readOnly) {
+    public static void launchForAutofillResult(Activity activity, PwGroup group, @NonNull AssistStructure assistStructure, boolean readOnly) {
         // TODO implement pre search to directly open the direct group
-        if ( assistStructure != null ) {
-            buildAndLaunchIntent(activity, group, readOnly, (intent) -> {
-                AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-                activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
-            });
-        } else {
-            launch(activity, group, readOnly);
-        }
+        TimeoutHelper.INSTANCE.recordTime(activity);
+        buildAndLaunchIntent(activity, group, readOnly, (intent) -> {
+            AutofillHelper.INSTANCE.startActivityForAutofillResult(activity, intent, assistStructure);
+        });
 	}
 	
 	@Override
@@ -315,13 +305,6 @@ public class GroupActivity extends LockingActivity
                         GroupEditDialogFragment.TAG_CREATE_GROUP));
         addNodeButtonView.setAddEntryClickListener(v ->
                 EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
-
-        // To init autofill
-        entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            autofillHelper = new AutofillHelper();
-            autofillHelper.retrieveAssistStructure(getIntent());
-        }
 
         // Search suggestion
         searchSuggestionAdapter = new SearchEntryCursorAdapter(this, database);
@@ -507,45 +490,44 @@ public class GroupActivity extends LockingActivity
 
     @Override
     public void onNodeClick(PwNode node) {
-
-        // Add event when we have Autofill
-        AssistStructure assistStructure = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            assistStructure = autofillHelper.getAssistStructure();
-            if (assistStructure != null) {
-                switch (node.getType()) {
-                    case GROUP:
-                        openChildGroup((PwGroup) node);
-                        break;
-                    case ENTRY:
-                        // Build response with the entry selected
-                        autofillHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
-                        finish();
-                        break;
+        switch (node.getType()) {
+            case GROUP:
+                try {
+                    openChildGroup((PwGroup) node);
+                } catch (ClassCastException e) {
+                    Log.e(TAG, "Node can't be cast in Group");
                 }
-            }
-        }
-        if ( assistStructure == null ){
-            if (entrySelectionMode) {
-                switch (node.getType()) {
-                    case GROUP:
-                        openChildGroup((PwGroup) node);
-                        break;
-                    case ENTRY:
-                        EntrySelectionHelper.buildResponseWhenEntrySelected(this, (PwEntry) node);
-                        finish();
-                        break;
+                break;
+            case ENTRY:
+                try {
+                    PwEntry entry = ((PwEntry) node);
+                    EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
+                            () -> {
+                                EntryActivity.launch(GroupActivity.this, entry, getReadOnly());
+                                return null;
+                            },
+                            () -> {
+                                MagikIME.setEntryKey(entry.getEntry());
+                                // Show the notification if allowed in Preferences
+                                if (PreferencesUtil.enableKeyboardNotificationEntry(GroupActivity.this)) {
+                                    Intent notificationIntent = new Intent(GroupActivity.this, KeyboardEntryNotificationService.class);
+                                    startService(notificationIntent);
+                                }
+                                moveTaskToBack(true);
+                                return null;
+                            },
+                            assistStructure -> {
+                                // Build response with the entry selected
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    AutofillHelper.INSTANCE.buildResponseWhenEntrySelected(GroupActivity.this, entry);
+                                }
+                                finish();
+                                return null;
+                            });
+                } catch (ClassCastException e) {
+                    Log.e(TAG, "Node can't be cast in Entry");
                 }
-            } else {
-                switch (node.getType()) {
-                    case GROUP:
-                        openChildGroup((PwGroup) node);
-                        break;
-                    case ENTRY:
-                        EntryActivity.launch(this, (PwEntry) node, getReadOnly());
-                        break;
-                }
-            }
+                break;
         }
     }
 
@@ -920,7 +902,6 @@ public class GroupActivity extends LockingActivity
 
     @Override
     public void startActivity(Intent intent) {
-	    boolean customSearchQueryExecuted = false;
 
         // Get the intent, verify the action and get the query
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -931,22 +912,26 @@ public class GroupActivity extends LockingActivity
             searchIntent.setAction(Intent.ACTION_SEARCH);
             searchIntent.putExtra(SearchManager.QUERY, query);
 
-            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                    && autofillHelper.getAssistStructure() != null ) {
-                AutofillHelper.addAssistStructureExtraInIntent(searchIntent, autofillHelper.getAssistStructure());
-                startActivityForResult(searchIntent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
-                customSearchQueryExecuted = true;
-            }
-            // To get the keyboard response, verify if the current intent contains the EntrySelection key
-            else if (EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent())){
-                EntrySelectionHelper.addEntrySelectionModeExtraInIntent(searchIntent);
-                startActivityForResult(searchIntent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
-                customSearchQueryExecuted = true;
-            }
-        }
-
-        if (!customSearchQueryExecuted) {
-            super.startActivity(intent);
+            EntrySelectionHelper.INSTANCE.doEntrySelectionAction(intent,
+                    () -> {
+                        GroupActivity.super.startActivity(intent);
+                        return null;
+                    },
+                    () -> {
+                        KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(
+                                GroupActivity.this,
+                                searchIntent);
+                        return null;
+                    },
+                    assistStructure -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            AutofillHelper.INSTANCE.startActivityForAutofillResult(
+                                    GroupActivity.this,
+                                    searchIntent,
+                                    assistStructure);
+                        }
+                        return null;
+                    });
         }
     }
 
@@ -1179,9 +1164,8 @@ public class GroupActivity extends LockingActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+            AutofillHelper.INSTANCE.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         }
     }
 

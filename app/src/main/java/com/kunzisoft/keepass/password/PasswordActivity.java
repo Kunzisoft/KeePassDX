@@ -70,6 +70,7 @@ import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
 import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
+import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
@@ -133,9 +134,6 @@ public class PasswordActivity extends StylishActivity
 
     private KeyFileHelper keyFileHelper;
 
-    protected boolean entrySelectionMode;
-    private AutofillHelper autofillHelper;
-
     private static void buildAndLaunchIntent(Activity activity, String fileName, String keyFile,
                                              IntentBuildLauncher intentBuildLauncher) {
         Intent intent = new Intent(activity, PasswordActivity.class);
@@ -168,12 +166,6 @@ public class PasswordActivity extends StylishActivity
 	 */
 
     public static void launch(
-            Activity act,
-            String fileName) throws FileNotFoundException {
-        launch(act, fileName, "");
-    }
-
-    public static void launch(
             Activity activity,
             String fileName,
             String keyFile) throws FileNotFoundException {
@@ -188,21 +180,13 @@ public class PasswordActivity extends StylishActivity
 	 */
 
     public static void launchForKeyboardResult(
-            Activity act,
-            String fileName) throws FileNotFoundException {
-        launchForKeyboardResult(act, fileName, "");
-    }
-
-    public static void launchForKeyboardResult(
             Activity activity,
             String fileName,
             String keyFile) throws FileNotFoundException {
         verifyFileNameUriFromLaunch(fileName);
 
         buildAndLaunchIntent(activity, fileName, keyFile, (intent) -> {
-            EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
-            // only to avoid visible  flickering when redirecting
-            activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+            KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, intent);
         });
     }
 
@@ -214,14 +198,6 @@ public class PasswordActivity extends StylishActivity
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launchForAutofillResult(
-            Activity act,
-            String fileName,
-            AssistStructure assistStructure) throws FileNotFoundException {
-        launchForAutofillResult(act, fileName, "", assistStructure);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launchForAutofillResult(
             Activity activity,
             String fileName,
             String keyFile,
@@ -230,8 +206,10 @@ public class PasswordActivity extends StylishActivity
 
         if ( assistStructure != null ) {
             buildAndLaunchIntent(activity, fileName, keyFile, (intent) -> {
-                AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-                activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
+                AutofillHelper.INSTANCE.startActivityForAutofillResult(
+                        activity,
+                        intent,
+                        assistStructure);
             });
         } else {
             launch(activity, fileName, keyFile);
@@ -309,13 +287,6 @@ public class PasswordActivity extends StylishActivity
             // Init the fingerprint animation
             fingerPrintAnimatedVector = new FingerPrintAnimatedVector(this,
                     fingerprintImageView);
-        }
-
-        entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            autofillHelper = new AutofillHelper();
-            autofillHelper.retrieveAssistStructure(getIntent());
         }
     }
 
@@ -974,20 +945,21 @@ public class PasswordActivity extends StylishActivity
     }
 
     private void launchGroupActivity() {
-        AssistStructure assistStructure = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            assistStructure = autofillHelper.getAssistStructure();
-            if (assistStructure != null) {
-                GroupActivity.launchForAutofillResult(PasswordActivity.this, assistStructure, readOnly);
-            }
-        }
-        if (assistStructure == null) {
-            if (entrySelectionMode) {
-                GroupActivity.launchForKeyboardResult(PasswordActivity.this, readOnly);
-            } else {
-                GroupActivity.launch(PasswordActivity.this, readOnly);
-            }
-        }
+        EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
+                () -> {
+                    GroupActivity.launch(PasswordActivity.this, readOnly);
+                    return null;
+                },
+                () -> {
+                    GroupActivity.launchForKeyboardSelection(PasswordActivity.this, readOnly);
+                    return null;
+                },
+                assistStructure -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        GroupActivity.launchForAutofillResult(PasswordActivity.this, assistStructure, readOnly);
+                    }
+                    return null;
+                });
     }
 
     @Override
@@ -1060,9 +1032,8 @@ public class PasswordActivity extends StylishActivity
 		super.onActivityResult(requestCode, resultCode, data);
 
 		// To get entry in result
-		EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+			AutofillHelper.INSTANCE.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
 		}
 
 		boolean keyFileResult = false;

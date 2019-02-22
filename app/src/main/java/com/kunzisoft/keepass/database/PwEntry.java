@@ -23,6 +23,8 @@ import android.os.Parcel;
 
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.model.Entry;
+import com.kunzisoft.keepass.model.Field;
 
 import java.util.UUID;
 
@@ -197,6 +199,21 @@ public abstract class PwEntry<Parent extends PwGroup> extends PwNode<Parent> {
 
 	public boolean isSearchingEnabled() {
 		return false;
+	}
+
+	public Entry getEntry() {
+		Entry entryModel = new Entry();
+		entryModel.setTitle(getTitle());
+		entryModel.setUsername(getUsername());
+		entryModel.setPassword(getPassword());
+		entryModel.setUrl(getUrl());
+		if (containsCustomFields()) {
+			getFields()
+					.doActionToAllCustomProtectedField(
+							(key, value) -> entryModel.addCustomField(
+									new Field(key, value.toString())));
+		}
+		return entryModel;
 	}
 
     @Override

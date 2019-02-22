@@ -62,7 +62,7 @@ public class KeeAutofillService extends AutofillService {
         if (!Arrays.asList(autofillIds).isEmpty()) {
             // If the entire Autofill Response is authenticated, AuthActivity is used
             // to generate Response.
-            IntentSender sender = AutoFillAuthActivity.Companion.getAuthIntentSenderForResponse(this);
+            IntentSender sender = AutoFillLauncherActivity.Companion.getAuthIntentSenderForResponse(this);
             RemoteViews presentation = new RemoteViews(getPackageName(), R.layout.autofill_service_unlock);
             responseBuilder.setAuthentication(autofillIds, sender, presentation);
             callback.onSuccess(responseBuilder.build());

@@ -197,6 +197,12 @@ public class PreferencesUtil {
                 context.getResources().getBoolean(R.bool.enable_read_only_default));
     }
 
+    public static boolean enableKeyboardNotificationEntry(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),
+                context.getResources().getBoolean(R.bool.keyboard_notification_entry_default));
+    }
+
     /**
      * All preference keys associated with education
      */

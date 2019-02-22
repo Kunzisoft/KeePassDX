@@ -126,10 +126,10 @@
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
-        <activity android:name="com.kunzisoft.keepass.autofill.AutoFillAuthActivity"
+        <activity android:name="com.kunzisoft.keepass.autofill.AutoFillLauncherActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
-        <activity android:name="com.kunzisoft.keepass.selection.KeyboardEntryRetrieverActivity"
+        <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"
             android:label="@string/keyboard_name">
         </activity>
         <activity android:name="com.kunzisoft.keepass.settings.MagikIMESettings"
