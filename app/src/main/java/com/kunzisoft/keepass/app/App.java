@@ -47,7 +47,7 @@ public class App extends MultiDexApplication {
 	public static void setDB(Database d) {
 		db = d;
 	}
-	
+
 	public static Calendar getCalendar() {
 		if ( calendar == null ) {
 			calendar = Calendar.getInstance();

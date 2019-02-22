@@ -254,6 +254,7 @@ public class GroupActivity extends LockingActivity
             }
         }
 
+        // TODO NULL getRootGroup() on null reference
         rootGroup = database.getPwDatabase().getRootGroup();
         mCurrentGroup = retrieveCurrentGroup(getIntent(), savedInstanceState);
         currentGroupIsASearch = Intent.ACTION_SEARCH.equals(getIntent().getAction());
@@ -512,7 +513,7 @@ public class GroupActivity extends LockingActivity
                                             GroupActivity.this,
                                             KeyboardEntryNotificationService.class));
                                 }
-                                finish();
+                                moveTaskToBack(true);
                                 return null;
                             },
                             assistStructure -> {
@@ -932,6 +933,8 @@ public class GroupActivity extends LockingActivity
                         }
                         return null;
                     });
+        } else {
+            super.startActivity(intent);
         }
     }
 
