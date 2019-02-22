@@ -38,10 +38,9 @@ class AutoFillLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        TimeoutHelper.checkTime(this)
         val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
         if (assistStructure != null) {
-            if (App.getDB().loaded)
+            if (App.getDB().loaded && TimeoutHelper.checkTime(this))
                 GroupActivity.launchForAutofillResult(this, assistStructure, true)
             else {
                 FileSelectActivity.launchForAutofillResult(this, assistStructure)

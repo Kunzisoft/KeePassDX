@@ -881,7 +881,7 @@ public class PasswordActivity extends StylishActivity
     private void loadDatabase(String password, Uri keyfile) {
         // Clear before we load
         Database database = App.getDB();
-        database.clear(getApplicationContext());
+        database.closeAndClear(getApplicationContext());
 
         // Show the progress dialog
         Handler handler = new Handler();
@@ -1053,7 +1053,7 @@ public class PasswordActivity extends StylishActivity
 				case LockingActivity.RESULT_EXIT_LOCK:
 				case Activity.RESULT_CANCELED:
 					setEmptyViews();
-					App.getDB().clear(getApplicationContext());
+					App.getDB().closeAndClear(getApplicationContext());
 					break;
 			}
 		}

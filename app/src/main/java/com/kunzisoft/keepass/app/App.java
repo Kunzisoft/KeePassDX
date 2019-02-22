@@ -67,7 +67,7 @@ public class App extends MultiDexApplication {
 	@Override
 	public void onTerminate() {
 		if ( db != null ) {
-			db.clear(getApplicationContext());
+			db.closeAndClear(getApplicationContext());
 		}
 		super.onTerminate();
 	}

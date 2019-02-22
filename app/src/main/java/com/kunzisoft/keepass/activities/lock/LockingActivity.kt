@@ -180,6 +180,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
+    App.getDB().closeAndClear(applicationContext)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

@@ -299,7 +299,7 @@ public class Database {
     }
 
     // TODO Clear database when lock broadcast is receive in backstage
-    public void clear(Context context) {
+    public void closeAndClear(Context context) {
         drawFactory.clearCache();
         // Delete the cache of the database if present
         if (pwDatabase != null)

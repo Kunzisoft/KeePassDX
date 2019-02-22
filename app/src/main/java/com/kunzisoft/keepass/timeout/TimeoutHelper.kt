@@ -118,7 +118,6 @@ object TimeoutHelper {
         val diff = currentTime - timeoutBackup
         if (diff >= appTimeout) {
             // We have timed out
-            App.getDB().loaded = false
             timeoutAction?.invoke()
             return false
         }

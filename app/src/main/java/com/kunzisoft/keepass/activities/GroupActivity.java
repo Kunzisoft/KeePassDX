@@ -1208,7 +1208,7 @@ public class GroupActivity extends LockingActivity
     	// Else lock if needed
     	else {
 			if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-				App.getDB().clear(getApplicationContext());
+				App.getDB().closeAndClear(getApplicationContext());
 				super.onBackPressed();
 			} else {
 				moveTaskToBack(true);

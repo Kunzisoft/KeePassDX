@@ -14,8 +14,7 @@ class KeyboardLauncherActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        TimeoutHelper.checkTime(this)
-        if (App.getDB().loaded)
+        if (App.getDB().loaded && TimeoutHelper.checkTime(this))
             GroupActivity.launchForKeyboardSelection(this, true)
         else {
             // Pass extra to get entry
