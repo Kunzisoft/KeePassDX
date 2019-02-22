@@ -209,7 +209,7 @@ public class MagikIME extends InputMethodService
                 entryKey = null;
                 Intent intent = new Intent(this, KeyboardLauncherActivity.class);
                 // New task needed because don't launch from an Activity context
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 break;
             case KEY_LOCK:
