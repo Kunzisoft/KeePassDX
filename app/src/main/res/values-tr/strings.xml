@@ -1,5 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="about_feedback">Geri Bildirim</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_feedback">Geri Bildirim</string>
     <string name="about_homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
     <string name="accept">Kabul et</string>
@@ -47,7 +48,7 @@
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
     <string name="error_no_name">Bir isim girin.</string>
     <string name="clipboard_swipe_clean">Şimdi panoyu temizlemek için kaydırın</string>
-     <string name="select_to_copy">%1$s dosyasını panoya kopyalamak için seçin</string>
+    <string name="select_to_copy">%1$s dosyasını panoya kopyalamak için seçin</string>
     <string name="retrieving_db_key">Veritabanı anahtarı alınıyor…</string>
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
@@ -101,7 +102,7 @@
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="menu_about">Hakkında</string>
     <string name="menu_change_key">Ana anahtarı değitir</string>
-    <string name="copy_field">1$s kopyası</string>
+    <string name="copy_field">1$s kopyalandı</string>
     <string name="settings">Ayarlar</string>
     <string name="menu_app_settings">Uygulama ayarları</string>
     <string name="menu_form_filling_settings">Form doldurma</string>
@@ -252,7 +253,6 @@
     <string name="text_appearance">Metin</string>
     <string name="application_appearance">Uygulama</string>
     <string name="other">Diğer</string>
-
     <string name="keyboard">Klavye</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Parolalarınızı ve tüm kimlik alanlarınızı içeren özel bir klavye etkinleştirin</string>
@@ -267,28 +267,21 @@
     <string name="keyboard_fill_field_text">Giriş öğelerini kullanarak alanlarınızı doldurun.</string>
     <string name="keyboard_lock_database_text">Veritabanını kilitle.</string>
     <string name="keyboard_back_main_keyboard_text">Varsayılan klavyeyi tekrar kullan.</string>
-
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard ayarları</string>
-
     <string name="keyboard_entry_category">Girdi</string>
-
     <string name="keyboard_entry_timeout_title">Zaman aşımı</string>
     <string name="keyboard_entry_timeout_summary">Klavye girişini temizlemek için zaman aşımı</string>
-
     <string name="keyboard_notification_entry_title">Bildirim bilgisi</string>
     <string name="keyboard_notification_entry_summary">Bir giriş mevcut olduğunda bir bildirim göster</string>
     <string name="keyboard_notification_entry_content_title_text">Girdi</string>
     <string name="keyboard_notification_entry_content_title">Magikeyboard\'da %1$s mevcut</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
     <string name="keyboard_notification_entry_clear_close_title">Kapanışta temizle</string>
     <string name="keyboard_notification_entry_clear_close_summary">Bildirimi kapatırken klavye girişini temizle</string>
     <string name="keyboard_appearance_category">Görünüm</string>
-
     <string name="keyboard_theme_title">Klavye teması</string>
-
     <string name="keyboard_keys_category">Anahtarlar</string>
     <string name="keyboard_key_vibrate_title">Tuşa basıldığında titreştir</string>
     <string name="keyboard_key_sound_title">Tuşa basıldığında ses çıkar</string>
@@ -296,7 +289,6 @@
     <string name="allow_no_password_summary">Parola tanımlaması seçilmemişse \"Aç\" düğmesini etkinleştir</string>
     <string name="enable_read_only_title">Yazma korumalı</string>
     <string name="enable_read_only_summary">Veritabanınızı varsayılan olarak salt okunur açın</string>
-
     <string name="enable_education_screens_title">Eğitim ekranları</string>
     <string name="enable_education_screens_summary">Uygulamanın nasıl çalıştığını öğrenmek için öğeleri vurgulayın</string>
     <string name="reset_education_screens_title">Eğitim ekranlarını sıfırla</string>
@@ -341,33 +333,28 @@
     <string name="education_sort_summary">Girdilerin ve grupların nasıl sıralandığını seçin.</string>
     <string name="education_donation_title">Katıl</string>
     <string name="education_donation_summary">Daha fazla özellik ekleyerek istikrarı, güvenliği artırmaya yardımcı olun.</string>
-
     <string name="html_text_ad_free">Birçok şifre yönetimi uygulamasından farklı olarak, bu, <strong>ad-free</strong>, <strong>copylefted libre yazılımı</strong> şeklindedir ve hangi sürümü kullanıyor olursanız olun, kendi sunucularında kişisel verileri toplamaz.</string>
     <string name="html_text_buy_pro">Profesyonel sürümü satın alarak, bu <strong>görsel özelliğe</strong> erişebilecek ve özellikle <strong>topluluk projelerinin gerçekleştirilmesine</strong> yardımcı olacaksınız</string>
     <string name="html_text_feature_generosity">Bu <strong>görsel özellik</strong>, cömertliğiniz sayesinde kullanılabilir.</string>
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
-
     <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
-    <string name="html_text_dev_feature_buy_pro"><strong>Pro</strong> sürümünü satın alarak,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Katkıda</strong> bulunarak,</string>
+    <string name="html_text_dev_feature_buy_pro">
+        <strong>Pro</strong> sürümünü satın alarak,</string>
+    <string name="html_text_dev_feature_contibute">
+        <strong>Katkıda</strong> bulunarak,</string>
     <string name="html_text_dev_feature_encourage">Geliştiricilerin <strong>yeni özellikler</strong> oluşturmasını ve söz konusu hatalara göre <strong>hataları düzeltmesini</strong> teşvik ediyorsunuz.</string>
     <string name="html_text_dev_feature_thanks">Katkınız için çok teşekkür ederim.</string>
     <string name="html_text_dev_feature_work_hard">Bu özelliği çabucak yayınlamak için çok çalışıyoruz.</string>
     <string name="html_text_dev_feature_upgrade">Yeni sürümleri yükleyerek uygulamanızı güncel tutmayı unutmayın.</string>
-
     <string name="download">İndir</string>
     <string name="contribute">Katkıda bulun</string>
-
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="style_choose_title">Uygulama teması</string>
     <string name="style_choose_summary">Uygulamada kullanılan tema</string>
     <string name="icon_pack_choose_title">Simge paketi</string>
     <string name="icon_pack_choose_summary">Uygulamada kullanılan simge paketi</string>
-
 </resources>
