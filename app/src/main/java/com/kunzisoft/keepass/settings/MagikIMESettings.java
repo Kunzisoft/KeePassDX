@@ -24,9 +24,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.activities.lock.LockingActivity;
+import com.kunzisoft.keepass.stylish.StylishActivity;
 
-public class MagikIMESettings extends LockingActivity {
+public class MagikIMESettings extends StylishActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

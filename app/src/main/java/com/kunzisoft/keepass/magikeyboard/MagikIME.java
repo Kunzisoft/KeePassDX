@@ -22,12 +22,10 @@ package com.kunzisoft.keepass.magikeyboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,6 +46,7 @@ import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter;
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver;
 import com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView;
 import com.kunzisoft.keepass.model.Entry;
+import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 import static com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.LOCK_ACTION;
 
@@ -124,16 +123,6 @@ public class MagikIME extends InputMethodService
         View closeView = popupFieldsView.findViewById(R.id.keyboard_popup_close);
         closeView.setOnClickListener(v -> popupCustomKeys.dismiss());
 
-        // Define preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        keyboardView.setHapticFeedbackEnabled(
-                sharedPreferences.getBoolean(
-                        getString(R.string.keyboard_key_vibrate_key),
-                        getResources().getBoolean(R.bool.keyboard_key_vibrate_default)));
-        playSoundDuringCLick = sharedPreferences.getBoolean(
-                getString(R.string.keyboard_key_sound_key),
-                getResources().getBoolean(R.bool.keyboard_key_sound_default));
-
         return keyboardView;
     }
 
@@ -148,6 +137,10 @@ public class MagikIME extends InputMethodService
                     keyboardView.setKeyboard(keyboard);
                 }
             }
+
+            // Define preferences
+            keyboardView.setHapticFeedbackEnabled(PreferencesUtil.enableKeyboardVibration(this));
+            playSoundDuringCLick = PreferencesUtil.enableKeyboardSound(this);
         }
     }
 
@@ -171,12 +164,35 @@ public class MagikIME extends InputMethodService
         entryKey = null;
     }
 
+    private void playVibration(int keyCode){
+        switch(keyCode){
+            case Keyboard.KEYCODE_DELETE:
+                break;
+            default: keyboardView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        }
+    }
+
+    private void playClick(int keyCode){
+        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if (am != null)
+            switch(keyCode){
+                case Keyboard.KEYCODE_DONE:
+                case 10:
+                    am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);
+                    break;
+                case Keyboard.KEYCODE_DELETE:
+                    am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE);
+                    break;
+                default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
+            }
+    }
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection inputConnection = getCurrentInputConnection();
 
         // Vibrate
-        keyboardView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        playVibration(primaryCode);
         // Play a sound
         if (playSoundDuringCLick)
             playClick(primaryCode);
@@ -246,10 +262,25 @@ public class MagikIME extends InputMethodService
     }
 
     @Override
-    public void onPress(int primaryCode) {}
+    public void onPress(int primaryCode) {
+        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if (am != null)
+            switch(primaryCode){
+                case Keyboard.KEYCODE_DELETE:
+                    keyboardView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    break;
+                default:
+            }
+    }
 
 	@Override
-    public void onRelease(int primaryCode) {}
+    public void onRelease(int primaryCode) {
+        switch(primaryCode){
+            case Keyboard.KEYCODE_DELETE:
+                break;
+            default:
+        }
+    }
 
     @Override
     public void onText(CharSequence text) {}
@@ -265,21 +296,6 @@ public class MagikIME extends InputMethodService
 
     @Override
     public void swipeUp() {}
-
-    private void playClick(int keyCode){
-        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
-        if (am != null)
-            switch(keyCode){
-                case Keyboard.KEYCODE_DONE:
-                case 10:
-                    am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);
-                    break;
-                case Keyboard.KEYCODE_DELETE:
-                    am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE);
-                    break;
-                default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
-            }
-    }
 
     private void dismissCustomKeys() {
         if (popupCustomKeys != null)

@@ -310,8 +310,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
                 Preference keyboardSubPreference = findPreference(getString(R.string.magic_keyboard_preference_key));
                 keyboardSubPreference.setOnPreferenceClickListener(preference -> {
-                    Intent intentKeyboard = new Intent(getContext(), MagikIMESettings.class);
-                    startActivity(intentKeyboard);
+                    startActivity(new Intent(getContext(), MagikIMESettings.class));
                     return false;
                 });
 

@@ -203,6 +203,18 @@ public class PreferencesUtil {
                 context.getResources().getBoolean(R.bool.keyboard_notification_entry_default));
     }
 
+    public static boolean enableKeyboardVibration(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.keyboard_key_vibrate_key),
+                context.getResources().getBoolean(R.bool.keyboard_key_vibrate_default));
+    }
+
+    public static boolean enableKeyboardSound(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.keyboard_key_sound_key),
+                context.getResources().getBoolean(R.bool.keyboard_key_sound_default));
+    }
+
     /**
      * All preference keys associated with education
      */
