@@ -117,7 +117,7 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param pwEntry Entry to update
 	 */
 	public static void launch(Activity activity, PwEntry pwEntry) {
-        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+        if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pwEntry.getUUID()));
 			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
@@ -131,7 +131,7 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param pwGroup Group who will contains new entry
 	 */
 	public static void launch(Activity activity, PwGroup pwGroup) {
-        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+        if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_PARENT, pwGroup.getId());
 			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);

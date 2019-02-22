@@ -86,7 +86,7 @@ public class EntryActivity extends LockingHideActivity {
 	private int iconColor;
 
     public static void launch(Activity activity, PwEntry pw, boolean readOnly) {
-        if (TimeoutHelper.INSTANCE.checkTime(activity)) {
+        if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);

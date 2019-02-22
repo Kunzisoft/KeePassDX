@@ -53,9 +53,9 @@ import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
-import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
+import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
 import com.kunzisoft.keepass.selection.EntrySelectionHelper;
@@ -104,9 +104,6 @@ public class FileSelectActivity extends StylishActivity implements
 	// TODO Consultation Mode
 	private boolean consultationMode = false;
 
-	private boolean entrySelectionMode;
-    private AutofillHelper autofillHelper;
-
     private View fileSelectExpandableButton;
     private ExpandableLayout fileSelectExpandable;
 	private EditText openFileNameView;
@@ -118,27 +115,33 @@ public class FileSelectActivity extends StylishActivity implements
 
     private String defaultPath;
 
-	public static void launch(Activity activity) {
-		Intent intent = new Intent(activity, FileSelectActivity.class);
-		// only to avoid visible flickering when redirecting
-		activity.startActivityForResult(intent, RESULT_CANCELED);
-	}
+	/*
+	 * -------------------------
+	 * No Standard Launch, pass by PasswordActivity
+	 * -------------------------
+	 */
 
-    public static void launchForKeyboardResult(Activity activity) {
-        Intent intent = new Intent(activity, FileSelectActivity.class);
-        EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent);
-        activity.startActivityForResult(intent, EntrySelectionHelper.ENTRY_SELECTION_RESPONSE_REQUEST_CODE);
+	/*
+	 * -------------------------
+	 * 		Keyboard Launch
+	 * -------------------------
+	 */
+
+    public static void launchForKeyboardSelection(Activity activity) {
+		KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, new Intent(activity, FileSelectActivity.class));
     }
 
+	/*
+	 * -------------------------
+	 * 		Autofill Launch
+	 * -------------------------
+	 */
+
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public static void launchForAutofillResult(Activity activity, AssistStructure assistStructure) {
-		if ( assistStructure != null ) {
-			Intent intent = new Intent(activity, FileSelectActivity.class);
-			AutofillHelper.addAssistStructureExtraInIntent(intent, assistStructure);
-            activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE);
-        } else {
-            launch(activity);
-        }
+	public static void launchForAutofillResult(Activity activity, @NonNull AssistStructure assistStructure) {
+		AutofillHelper.INSTANCE.startActivityForAutofillResult(activity,
+				new Intent(activity, FileSelectActivity.class),
+				assistStructure);
 	}
 
 	@Override
@@ -176,13 +179,6 @@ public class FileSelectActivity extends StylishActivity implements
         // History list
         RecyclerView mListFiles = findViewById(R.id.file_list);
 		mListFiles.setLayoutManager(new LinearLayoutManager(this));
-
-        entrySelectionMode = EntrySelectionHelper.isIntentInEntrySelectionMode(getIntent());
-		// To retrieve info for AutoFill
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            autofillHelper = new AutofillHelper();
-            autofillHelper.retrieveAssistStructure(getIntent());
-        }
 
 		// Open button
 		openButtonView = findViewById(R.id.open_database);
@@ -243,40 +239,53 @@ public class FileSelectActivity extends StylishActivity implements
         checkAndPerformedEducation();
 	}
 
+	private void fileNoFoundAction(FileNotFoundException e) {
+		String error = getString(R.string.file_not_found_content);
+		Toast.makeText(FileSelectActivity.this,
+				error, Toast.LENGTH_LONG).show();
+		Log.e(TAG, error, e);
+	}
+
+	private void launchPasswordActivity(String fileName, String keyFile) {
+		EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
+				() -> {
+					try {
+						PasswordActivity.launch(FileSelectActivity.this,
+								fileName, keyFile);
+					} catch (FileNotFoundException e) {
+						fileNoFoundAction(e);
+					}
+					return null;
+				},
+				() -> {
+					try {
+						PasswordActivity.launchForKeyboardResult(FileSelectActivity.this,
+								fileName, keyFile);
+						finish();
+					} catch (FileNotFoundException e) {
+						fileNoFoundAction(e);
+					}
+					return null;
+				},
+				assistStructure -> {
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+						try {
+							PasswordActivity.launchForAutofillResult(FileSelectActivity.this,
+									fileName, keyFile,
+									assistStructure);
+						} catch (FileNotFoundException e) {
+							fileNoFoundAction(e);
+						}
+					}
+					return null;
+				});
+	}
+
 	private void launchPasswordActivityWithPath(String path) {
-        try {
-            AssistStructure assistStructure = null;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                assistStructure = autofillHelper.getAssistStructure();
-                if (assistStructure != null) {
-					PasswordActivity.launchForAutofillResult(FileSelectActivity.this,
-                            path,
-                            assistStructure);
-				}
-			}
-			if (assistStructure == null) {
-                if (entrySelectionMode) {
-                    PasswordActivity.launchForKeyboardResult(FileSelectActivity.this, path);
-                } else {
-                    PasswordActivity.launch(FileSelectActivity.this, path);
-                }
-            }
-            // Delete flickering for kitkat <=
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-                overridePendingTransition(0, 0);
-        } catch (ContentFileNotFoundException e) {
-            String error = getString(R.string.file_not_found_content);
-            Toast.makeText(FileSelectActivity.this,
-                    error, Toast.LENGTH_LONG).show();
-            Log.e(TAG, error, e);
-        } catch (FileNotFoundException e) {
-            String error = getString(R.string.file_not_found);
-            Toast.makeText(FileSelectActivity.this,
-                    error, Toast.LENGTH_LONG).show();
-            Log.e(TAG, error, e);
-        } catch (Exception e) {
-            Log.e(TAG, "Can't launch PasswordActivity", e);
-        }
+		launchPasswordActivity(path, "");
+		// Delete flickering for kitkat <=
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+			overridePendingTransition(0, 0);
     }
 
     private void updateExternalStorageWarning() {
@@ -603,32 +612,7 @@ public class FileSelectActivity extends StylishActivity implements
 	@Override
 	public void onFileItemOpenListener(int itemPosition) {
 		new OpenFileHistoryAsyncTask((fileName, keyFile) -> {
-            // TODO ENCAPSULATE
-            try {
-                AssistStructure assistStructure = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    assistStructure = autofillHelper.getAssistStructure();
-                    if (assistStructure != null) {
-                        PasswordActivity.launchForAutofillResult(FileSelectActivity.this,
-                            fileName, keyFile, assistStructure);
-                    }
-                }
-                if (assistStructure == null) {
-                    if (entrySelectionMode) {
-                        PasswordActivity.launchForKeyboardResult(FileSelectActivity.this, fileName, keyFile);
-                    } else {
-                        PasswordActivity.launch(FileSelectActivity.this, fileName, keyFile);
-                    }
-                }
-            } catch (ContentFileNotFoundException e) {
-                Toast.makeText(FileSelectActivity.this,
-                        R.string.file_not_found_content, Toast.LENGTH_LONG)
-                        .show();
-            } catch (FileNotFoundException e) {
-                Toast.makeText(FileSelectActivity.this,
-                        R.string.file_not_found, Toast.LENGTH_LONG)
-                        .show();
-            }
+			launchPasswordActivity(fileName, keyFile);
             updateFileListVisibility();
         }, fileHistory).execute(itemPosition);
 	}
@@ -656,10 +640,8 @@ public class FileSelectActivity extends StylishActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		// Get the entry result in entry selection mode
-        EntrySelectionHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
+			AutofillHelper.INSTANCE.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
 		}
 
 		keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,

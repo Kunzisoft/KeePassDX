@@ -103,7 +103,7 @@ abstract class LockingActivity : StylishActivity() {
             // After the first creation
             // or If simply swipe with another application
             // If the time is out -> close the Activity
-            TimeoutHelper.checkTime(this)
+            TimeoutHelper.checkTimeAndLockIfTimeout(this)
             // If onCreate already record time
             if (!exitLock)
                 TimeoutHelper.recordTime(this)
@@ -121,7 +121,7 @@ abstract class LockingActivity : StylishActivity() {
 
         if (timeoutEnable) {
             // If the time is out during our navigation in activity -> close the Activity
-            TimeoutHelper.checkTime(this)
+            TimeoutHelper.checkTimeAndLockIfTimeout(this)
         }
     }
 
@@ -180,6 +180,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
+    App.getDB().closeAndClear(applicationContext)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.SortNodeEnum;
@@ -97,6 +96,12 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         return prefs.getBoolean(ctx.getString(R.string.lock_database_screen_off_key),
                 ctx.getResources().getBoolean(R.bool.lock_database_screen_off_default));
+    }
+
+    public static boolean isLockDatabaseWhenBackButtonOnRootClicked(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(ctx.getString(R.string.lock_database_back_root_key),
+                ctx.getResources().getBoolean(R.bool.lock_database_back_root_default));
     }
 
     public static boolean isFingerprintEnable(Context ctx) {
@@ -190,6 +195,24 @@ public class PreferencesUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.enable_read_only_key),
                 context.getResources().getBoolean(R.bool.enable_read_only_default));
+    }
+
+    public static boolean enableKeyboardNotificationEntry(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),
+                context.getResources().getBoolean(R.bool.keyboard_notification_entry_default));
+    }
+
+    public static boolean enableKeyboardVibration(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.keyboard_key_vibrate_key),
+                context.getResources().getBoolean(R.bool.keyboard_key_vibrate_default));
+    }
+
+    public static boolean enableKeyboardSound(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.keyboard_key_sound_key),
+                context.getResources().getBoolean(R.bool.keyboard_key_sound_default));
     }
 
     /**

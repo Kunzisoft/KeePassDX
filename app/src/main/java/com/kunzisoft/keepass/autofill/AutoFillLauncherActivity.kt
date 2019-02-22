@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -34,14 +34,13 @@ import com.kunzisoft.keepass.fileselect.FileSelectActivity
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-class AutoFillAuthActivity : AppCompatActivity() {
+class AutoFillLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        TimeoutHelper.checkTime(this) {}
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        val assistStructure = AutofillHelper().retrieveAssistStructure(intent)
+        val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
         if (assistStructure != null) {
-            if (App.getDB().loaded)
+            if (App.getDB().loaded && TimeoutHelper.checkTime(this))
                 GroupActivity.launchForAutofillResult(this, assistStructure, true)
             else {
                 FileSelectActivity.launchForAutofillResult(this, assistStructure)
@@ -54,14 +53,14 @@ class AutoFillAuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
     }
 
     companion object {
 
         fun getAuthIntentSenderForResponse(context: Context): IntentSender {
-            val intent = Intent(context, AutoFillAuthActivity::class.java)
+            val intent = Intent(context, AutoFillLauncherActivity::class.java)
             return PendingIntent.getActivity(context, 0,
                     intent, PendingIntent.FLAG_CANCEL_CURRENT).intentSender
         }
