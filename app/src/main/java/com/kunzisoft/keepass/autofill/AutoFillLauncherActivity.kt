@@ -31,6 +31,7 @@ import android.support.v7.app.AppCompatActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.fileselect.FileSelectActivity
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -41,7 +42,7 @@ class AutoFillLauncherActivity : AppCompatActivity() {
         val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
         if (assistStructure != null) {
             if (App.getDB().loaded && TimeoutHelper.checkTime(this))
-                GroupActivity.launchForAutofillResult(this, assistStructure, true)
+                GroupActivity.launchForAutofillResult(this, assistStructure, PreferencesUtil.enableReadOnlyDatabase(this))
             else {
                 FileSelectActivity.launchForAutofillResult(this, assistStructure)
             }

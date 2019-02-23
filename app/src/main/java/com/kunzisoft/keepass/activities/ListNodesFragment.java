@@ -58,7 +58,7 @@ public class ListNodesFragment extends StylishFragment implements
             bundle.putParcelable(GROUP_KEY, group);
         }
         bundle.putBoolean(IS_SEARCH, isASearch);
-        ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly);
+        ReadOnlyHelper.INSTANCE.putReadOnlyInBundle(bundle, readOnly);
         ListNodesFragment listNodesFragment = new ListNodesFragment();
         listNodesFragment.setArguments(bundle);
         return listNodesFragment;
@@ -99,7 +99,7 @@ public class ListNodesFragment extends StylishFragment implements
         if ( getActivity() != null ) {
             setHasOptionsMenu(true);
 
-            readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
+            readOnly = ReadOnlyHelper.INSTANCE.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
 
             if (getArguments() != null) {
                 // Contains all the group in element
@@ -127,7 +127,7 @@ public class ListNodesFragment extends StylishFragment implements
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        ReadOnlyHelper.INSTANCE.onSaveInstanceState(outState, readOnly);
         super.onSaveInstanceState(outState);
     }
 

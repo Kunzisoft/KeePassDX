@@ -32,8 +32,8 @@ import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.EntrySelectionHelper
 import com.kunzisoft.keepass.database.PwEntry
-import com.kunzisoft.keepass.selection.EntrySelectionHelper
 import java.util.*
 
 

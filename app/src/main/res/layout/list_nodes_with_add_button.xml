@@ -98,13 +98,26 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/nodes_list_fragment_container"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_below="@+id/toolbar"
-            android:background="?android:attr/windowBackground" />
+            android:layout_below="@+id/toolbar">
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/mode_title_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:gravity="center_horizontal"
+                android:background="?attr/colorAccent"
+                android:text="@string/selection_mode"/>
+            <FrameLayout
+                android:id="@+id/nodes_list_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/windowBackground" />
+        </LinearLayout>
 
         <com.kunzisoft.keepass.view.AddNodeButtonView
             android:id="@+id/add_node_button"

@@ -89,7 +89,7 @@ public class EntryActivity extends LockingHideActivity {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
+            ReadOnlyHelper.INSTANCE.putReadOnlyInIntent(intent, readOnly);
 			activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
     }

@@ -101,7 +101,7 @@
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustPan"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value="com.kunzisoft.keepass.search.SearchResults"

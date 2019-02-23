@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.selection
+package com.kunzisoft.keepass.activities
 
 import android.app.assist.AssistStructure
 import android.content.Intent
@@ -8,9 +8,18 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 object EntrySelectionHelper {
 
     private const val EXTRA_ENTRY_SELECTION_MODE = "com.kunzisoft.keepass.extra.ENTRY_SELECTION_MODE"
+    private const val DEFAULT_ENTRY_SELECTION_MODE = false
 
     fun addEntrySelectionModeExtraInIntent(intent: Intent) {
         intent.putExtra(EXTRA_ENTRY_SELECTION_MODE, true)
+    }
+
+    fun removeEntrySelectionModeFromIntent(intent: Intent) {
+        intent.removeExtra(EXTRA_ENTRY_SELECTION_MODE)
+    }
+
+    fun retrieveEntrySelectionModeFromIntent(intent: Intent): Boolean {
+        return intent.getBooleanExtra(EXTRA_ENTRY_SELECTION_MODE, DEFAULT_ENTRY_SELECTION_MODE)
     }
 
     fun doEntrySelectionAction(intent: Intent,
@@ -25,7 +34,7 @@ object EntrySelectionHelper {
             }
         }
         if (assistStructure == null) {
-            if (intent.getBooleanExtra(EXTRA_ENTRY_SELECTION_MODE, false)) {
+            if (intent.getBooleanExtra(EXTRA_ENTRY_SELECTION_MODE, DEFAULT_ENTRY_SELECTION_MODE)) {
                 intent.removeExtra(EXTRA_ENTRY_SELECTION_MODE)
                 keyboardAction.invoke()
             } else {

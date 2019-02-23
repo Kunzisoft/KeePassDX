@@ -71,7 +71,7 @@ import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
 import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
+import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
@@ -243,7 +243,7 @@ public class PasswordActivity extends StylishActivity
         checkboxKeyfileView = findViewById(R.id.keyfile_checkox);
         checkboxDefaultDatabaseView = findViewById(R.id.default_database);
 
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState);
+        readOnly = ReadOnlyHelper.INSTANCE.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState);
 
         View browseView = findViewById(R.id.browse_button);
         keyFileHelper = new KeyFileHelper(PasswordActivity.this);
@@ -334,7 +334,7 @@ public class PasswordActivity extends StylishActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly);
+        ReadOnlyHelper.INSTANCE.onSaveInstanceState(outState, readOnly);
         super.onSaveInstanceState(outState);
     }
 

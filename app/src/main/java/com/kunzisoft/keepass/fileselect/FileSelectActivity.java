@@ -58,7 +58,7 @@ import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
+import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;

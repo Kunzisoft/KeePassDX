@@ -86,7 +86,6 @@ import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.magikeyboard.MagikIME;
 import com.kunzisoft.keepass.password.AssignPasswordHelper;
-import com.kunzisoft.keepass.selection.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
 import com.kunzisoft.keepass.tasks.UIToastTask;
@@ -96,8 +95,6 @@ import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
-
-import static com.kunzisoft.keepass.activities.ReadOnlyHelper.READ_ONLY_DEFAULT;
 
 public class GroupActivity extends LockingActivity
         implements GroupEditDialogFragment.EditGroupListener,
@@ -122,6 +119,7 @@ public class GroupActivity extends LockingActivity
     private ExpandableLayout toolbarPasteExpandableLayout;
     private Toolbar toolbarPaste;
     private ImageView iconView;
+    private TextView modeTitleView;
     private AddNodeButtonView addNodeButtonView;
     private TextView groupNameView;
 
@@ -147,7 +145,7 @@ public class GroupActivity extends LockingActivity
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.getId());
             }
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly);
+            ReadOnlyHelper.INSTANCE.putReadOnlyInIntent(intent, readOnly);
             intentBuildLauncher.launchActivity(intent);
         }
     }
@@ -159,7 +157,7 @@ public class GroupActivity extends LockingActivity
      */
 
     public static void launch(Activity activity) {
-        launch(activity, READ_ONLY_DEFAULT);
+        launch(activity, PreferencesUtil.enableReadOnlyDatabase(activity));
     }
 
 	public static void launch(Activity activity, boolean readOnly) {
@@ -178,15 +176,11 @@ public class GroupActivity extends LockingActivity
 	 * 		Keyboard Launch
 	 * -------------------------
 	 */
+    // TODO implement pre search to directly open the direct group
 
     public static void launchForKeyboardSelection(Activity activity, boolean readOnly) {
-        launchForKeyboardSelection(activity, null, readOnly);
-    }
-
-    public static void launchForKeyboardSelection(Activity activity, PwGroup group, boolean readOnly) {
-        // TODO implement pre search to directly open the direct group
         TimeoutHelper.INSTANCE.recordTime(activity);
-        buildAndLaunchIntent(activity, group, readOnly,
+        buildAndLaunchIntent(activity, null, readOnly,
                 (intent) -> KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, intent));
     }
 
@@ -195,19 +189,14 @@ public class GroupActivity extends LockingActivity
 	 * 		Autofill Launch
 	 * -------------------------
 	 */
+    // TODO implement pre search to directly open the direct group
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launchForAutofillResult(Activity activity, @NonNull AssistStructure assistStructure, boolean readOnly) {
-        launchForAutofillResult(activity, null, assistStructure, readOnly);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void launchForAutofillResult(Activity activity, PwGroup group, @NonNull AssistStructure assistStructure, boolean readOnly) {
-        // TODO implement pre search to directly open the direct group
         TimeoutHelper.INSTANCE.recordTime(activity);
-        buildAndLaunchIntent(activity, group, readOnly,
+        buildAndLaunchIntent(activity, null, readOnly,
                 (intent) -> AutofillHelper.INSTANCE.startActivityForAutofillResult(activity, intent, assistStructure));
-	}
+    }
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -230,14 +219,10 @@ public class GroupActivity extends LockingActivity
         groupNameView = findViewById(R.id.group_name);
         toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout);
         toolbarPaste = findViewById(R.id.toolbar_paste);
+		modeTitleView = findViewById(R.id.mode_title_view);
 
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView);
-
-        invalidateOptionsMenu();
-
-        // Get arg from intent or instance state
-        setReadOnly(ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, getIntent()));
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
@@ -380,7 +365,6 @@ public class GroupActivity extends LockingActivity
             outState.putParcelable(NODE_TO_COPY_KEY, nodeToCopy);
         if (nodeToMove != null)
             outState.putParcelable(NODE_TO_MOVE_KEY, nodeToMove);
-        ReadOnlyHelper.onSaveInstanceState(outState, getReadOnly());
         super.onSaveInstanceState(outState);
     }
 
@@ -459,6 +443,13 @@ public class GroupActivity extends LockingActivity
             }
         }
 
+        // Show selection mode message if needed
+		if (getSelectionMode()) {
+			modeTitleView.setVisibility(View.VISIBLE);
+		} else {
+			modeTitleView.setVisibility(View.GONE);
+		}
+
         // Show button if allowed
         if (addNodeButtonView != null) {
 
@@ -513,6 +504,8 @@ public class GroupActivity extends LockingActivity
                                             GroupActivity.this,
                                             KeyboardEntryNotificationService.class));
                                 }
+                                // Consume the selection mode
+                                EntrySelectionHelper.INSTANCE.removeEntrySelectionModeFromIntent(getIntent());
                                 moveTaskToBack(true);
                                 return null;
                             },
@@ -856,41 +849,42 @@ public class GroupActivity extends LockingActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search, menu);
-        if (!getReadOnly())
-            inflater.inflate(R.menu.database_master_key, menu);
-        inflater.inflate(R.menu.database_lock, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.search, menu);
+		inflater.inflate(R.menu.database_lock, menu);
+		if (!getReadOnly())
+			inflater.inflate(R.menu.database_master_key, menu);
+		if (!getSelectionMode()) {
+			inflater.inflate(R.menu.default_menu, menu);
+			MenuUtil.INSTANCE.contributionMenuInflater(inflater, menu);
+		}
 
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        assert searchManager != null;
+		// Get the SearchView and set the searchable configuration
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		assert searchManager != null;
 
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, GroupActivity.class)));
-            searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-            searchView.setSuggestionsAdapter(searchSuggestionAdapter);
-            searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-                @Override
-                public boolean onSuggestionClick(int position) {
-                    onNodeClick(searchSuggestionAdapter.getEntryFromPosition(position));
-                    return true;
-                }
+		MenuItem searchItem = menu.findItem(R.id.menu_search);
+		SearchView searchView = null;
+		if (searchItem != null) {
+			searchView = (SearchView) searchItem.getActionView();
+		}
+		if (searchView != null) {
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, GroupActivity.class)));
+			searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+			searchView.setSuggestionsAdapter(searchSuggestionAdapter);
+			searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+				@Override
+				public boolean onSuggestionClick(int position) {
+					onNodeClick(searchSuggestionAdapter.getEntryFromPosition(position));
+					return true;
+				}
 
-                @Override
-                public boolean onSuggestionSelect(int position) {
-                    return true;
-                }
-            });
-        }
-
-        MenuUtil.INSTANCE.contributionMenuInflater(inflater, menu);
-        inflater.inflate(R.menu.default_menu, menu);
+				@Override
+				public boolean onSuggestionSelect(int position) {
+					return true;
+				}
+			});
+		}
 
         super.onCreateOptionsMenu(menu);
 
@@ -900,7 +894,7 @@ public class GroupActivity extends LockingActivity
         return true;
     }
 
-    @Override
+	@Override
     public void startActivity(Intent intent) {
 
         // Get the intent, verify the action and get the query

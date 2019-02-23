@@ -90,7 +90,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         // supply arguments to bundle.
         Bundle args = new Bundle();
         args.putInt(TAG_KEY, key.ordinal());
-        ReadOnlyHelper.putReadOnlyInBundle(args, databaseReadOnly);
+        ReadOnlyHelper.INSTANCE.putReadOnlyInBundle(args, databaseReadOnly);
         fragment.setArguments(args);
         return fragment;
     }
@@ -124,7 +124,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
             key = getArguments().getInt(TAG_KEY);
 
         database = App.getDB();
-        databaseReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
+        databaseReadOnly = ReadOnlyHelper.INSTANCE.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
         databaseReadOnly = database.isReadOnly() || databaseReadOnly;
 
         // Load the preferences from an XML resource
@@ -552,7 +552,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        ReadOnlyHelper.onSaveInstanceState(outState, databaseReadOnly);
+        ReadOnlyHelper.INSTANCE.onSaveInstanceState(outState, databaseReadOnly);
         super.onSaveInstanceState(outState);
     }
 

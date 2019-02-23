@@ -28,6 +28,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.kunzisoft.keepass.activities.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.ReadOnlyHelper
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -51,7 +52,12 @@ abstract class LockingActivity : StylishActivity() {
     private var lockReceiver: LockReceiver? = null
     private var exitLock: Boolean = false
 
+    // Force readOnly if Entry Selection mode
     protected var readOnly: Boolean = false
+        get() {
+            return field || selectionMode
+        }
+    protected var selectionMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,8 +81,6 @@ abstract class LockingActivity : StylishActivity() {
         }
 
         exitLock = false
-
-        readOnly = false
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
     }
 
@@ -93,6 +97,9 @@ abstract class LockingActivity : StylishActivity() {
     override fun onResume() {
         super.onResume()
 
+        // To refresh when back to normal workflow from selection workflow
+        selectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
+
         if (timeoutEnable) {
             // End activity if database not loaded
             if (!App.getDB().loaded) {
@@ -108,6 +115,8 @@ abstract class LockingActivity : StylishActivity() {
             if (!exitLock)
                 TimeoutHelper.recordTime(this)
         }
+
+        invalidateOptionsMenu()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
