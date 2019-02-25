@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
@@ -18,8 +18,7 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   Danish translation by Frederik Svarre (fsvarre@gmail.com)
--->
-<resources>
+--><resources>
     <string name="about_feedback">Tilbagemelding</string>
     <string name="about_homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
@@ -31,7 +30,7 @@
     <string name="app_timeout_summary">Inaktivitet før programmet bliver er låst</string>
     <string name="application">App</string>
     <string name="menu_app_settings">Indstillinger</string>
-	<string name="beta_dontask">Vis ikke igen</string>
+    <string name="beta_dontask">Vis ikke igen</string>
     <string name="brackets">Parenteser</string>
     <string name="browser_intall_text">Installer OpenIntents Fil Manager for at gennemse filer</string>
     <string name="cancel">Annuller</string>
@@ -160,24 +159,23 @@
     <string name="education_unlock_summary">Angiv en adgangskode og/eller en nøglefil til at låse databasen op.
 \n
 \nHusk at gemme en kopi af .kdbx filen i et sikkert sted efter hver ændring.</string>
-
     <string-array name="timeout_options">
-    	<item>5 sekunder</item>
-    	<item>10 sekunder</item>
-    	<item>20 sekunder</item>
-    	<item>30 sekunder</item>
-    	<item>1 minut</item>
-    	<item>5 minutter</item>
-    	<item>15 minutter</item>
-    	<item>30 minutter</item>
-    	<item>Aldrig</item>
+        <item>5 sekunder</item>
+        <item>10 sekunder</item>
+        <item>20 sekunder</item>
+        <item>30 sekunder</item>
+        <item>1 minut</item>
+        <item>5 minutter</item>
+        <item>15 minutter</item>
+        <item>30 minutter</item>
+        <item>Aldrig</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Lille</item>
-    	<item>Mellem</item>
-    	<item>Stor</item>
+        <item>Lille</item>
+        <item>Mellem</item>
+        <item>Stor</item>
     </string-array>
-<string name="edit_entry">Rediger post</string>
+    <string name="edit_entry">Rediger post</string>
     <string name="add_string">Tilføj streng</string>
     <string name="encryption">Kryptering</string>
     <string name="key_derivation_function">Nøgleafledningsfunktion</string>
@@ -191,7 +189,7 @@
     <string name="file_not_found_content">Kunne ikke finde filen. Prøv at åbne den fra filhåndtering.</string>
     <string name="list_entries_show_username_title">Vis brugernavne</string>
     <string name="list_entries_show_username_summary">Vis brugernavne i postlister</string>
-    <string name="copy_field">Kopi af %1$s</string>
+    <string name="copy_field">Kopieret %1$s</string>
     <string name="menu_form_filling_settings">Formularudfyldning</string>
     <string name="menu_copy">Kopier</string>
     <string name="menu_move">Flyt</string>
@@ -293,7 +291,6 @@
     <string name="text_appearance">Tekst</string>
     <string name="application_appearance">Program</string>
     <string name="other">Øvrige</string>
-
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Aktiver et brugerdefineret tastatur, der udfylder adgangskoder og alle identitetsfelter</string>
@@ -310,12 +307,10 @@
     <string name="keyboard_fill_field_text">Udfyld felterne ved hjælp af elementerne i posten.</string>
     <string name="keyboard_lock_database_text">Lås databasen.</string>
     <string name="keyboard_back_main_keyboard_text">Brug standard tastaturet igen.</string>
-
     <string name="allow_no_password_title">Tillad ingen adgangskode</string>
     <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt en adgangskodeidentifikation</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åbn database skrivebeskyttet som standard</string>
-
     <string name="enable_education_screens_title">Hjælpeskærme</string>
     <string name="enable_education_screens_summary">Fremhæver elementer for at lære, hvordan programmet fungerer</string>
     <string name="reset_education_screens_title">Nulstil hjælpeskærme</string>
@@ -358,12 +353,12 @@
     <string name="education_sort_summary">Vælg hvordan poster og grupper er sorteret.</string>
     <string name="education_donation_title">Deltag</string>
     <string name="education_donation_summary">Bidrag til at øge stabiliteten, sikkerheden og med at tilføje flere funktioner.</string>
-
     <string name="html_text_ad_free">I modsætning til andre programmer til adgangskodeadministration er denne <strong> annoncefri </strong>, <strong> copyleft fri software</strong>", og  indsamler ikke personlige data, uanset hvilken version der bruges."</string>
-    <string name="html_text_buy_pro">Ved at købe pro-versionen, er der adgang til <strong>visuel funktionen</strong>, og det vil især hjælpe <strong>gennemførelsen af lokale projekter.</strong></string>
+    <string name="html_text_buy_pro">Ved at købe pro-versionen, er der adgang til <strong>visuel funktionen</strong>, og det vil især hjælpe <strong>gennemførelsen af lokale projekter.</strong>
+    </string>
     <string name="html_text_feature_generosity">Denne <strong>visuelle funktion</strong> er tilgængelige takket være bidrag.</string>
-    <string name="html_text_donation">For at bevare uafhængighed og altid at være aktiv, regner vi med<strong>bidrag.</strong></string>
-
+    <string name="html_text_donation">For at bevare uafhængighed og altid at være aktiv, regner vi med<strong>bidrag.</strong>
+    </string>
     <string name="html_text_dev_feature">Funktionen er <strong>under udvikling</strong>, og det kræver <strong>bidrag</strong>, for snart at være tilgængelig.</string>
     <string name="html_text_dev_feature_buy_pro">Ved at købe <strong>pro</strong> versionen,</string>
     <string name="html_text_dev_feature_contibute">Ved at <strong>bidrage</strong>,</string>
@@ -371,43 +366,32 @@
     <string name="html_text_dev_feature_thanks">Tak for bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Vi arbejder hårdt på hurtigt at frigive denne funktion.</string>
     <string name="html_text_dev_feature_upgrade">Glem ikke at holde appen opdateret ved at installere nye versioner.</string>
-
     <string name="download">Hent</string>
     <string name="contribute">Bidrag</string>
-
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="style_choose_title">Tema</string>
     <string name="style_choose_summary">Tema, der bruges i programmet</string>
     <string name="icon_pack_choose_title">Ikonpakke</string>
     <string name="icon_pack_choose_summary">"Ikonpakke, der anvendes "</string>
-
-<string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard indstillinger</string>
-
     <string name="keyboard_entry_category">Post</string>
-
     <string name="keyboard_entry_timeout_title">Timeout</string>
     <string name="keyboard_notification_entry_title">Meddelsesinformation</string>
     <string name="keyboard_notification_entry_summary">Vis en meddelelse, når en post er til rådighed</string>
     <string name="keyboard_notification_entry_content_title_text">Post</string>
     <string name="keyboard_notification_entry_content_title">%1$s til rådighed på Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
     <string name="keyboard_notification_entry_clear_close_title">Ryd ved lukning</string>
     <string name="keyboard_notification_entry_clear_close_summary">Ryd tastatur post, når meddelse lukkes</string>
     <string name="keyboard_appearance_category">Udseende</string>
-
     <string name="keyboard_theme_title">Tastaturtema</string>
-
     <string name="keyboard_keys_category">Taster</string>
     <string name="keyboard_key_vibrate_title">Vibrer ved tastetryk</string>
     <string name="keyboard_key_sound_title">Lyd ved tastetryk</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_entry_timeout_summary">Timeout for at rydde indtastning</string>
-
-    </resources>
+</resources>
