@@ -117,7 +117,7 @@ open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen) {
         if (timeoutEnable)
-            TimeoutHelper.lockOrResetTimeout(this) {
+            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
                 replaceFragment(key)
             }
         else

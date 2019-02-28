@@ -327,7 +327,7 @@ public class GroupActivity extends LockingActivity
 
     private void openGroup(PwGroup group, boolean isASearch) {
         // Check TimeoutHelper
-        TimeoutHelper.INSTANCE.lockOrResetTimeout(this, () -> {
+        TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeoutOrResetTimeout(this, () -> {
 			// Open a group in a new fragment
 			ListNodesFragment newListNodeFragment = ListNodesFragment.newInstance(group, getReadOnly(), isASearch);
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

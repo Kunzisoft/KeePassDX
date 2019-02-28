@@ -47,7 +47,7 @@ public abstract class DatabaseSavePreferenceDialogFragmentCompat  extends InputP
             assert getActivity() != null;
 
             if (database != null && afterSaveDatabase != null) {
-                SaveDatabaseRunnable saveDatabaseRunnable = new SaveDatabaseRunnable(getContext(),
+                SaveDatabaseRunnable saveDatabaseRunnable = new SaveDatabaseRunnable(getActivity(),
                         database,
                         afterSaveDatabase);
                 saveDatabaseRunnable.setUpdateProgressTaskStatus(

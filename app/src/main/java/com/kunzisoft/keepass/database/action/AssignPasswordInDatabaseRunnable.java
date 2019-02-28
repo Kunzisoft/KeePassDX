@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.utils.UriUtil;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class AssignPasswordInDatabaseRunnable extends ActionWithSaveDatabaseRunnable {
+public class AssignPasswordInDatabaseRunnable extends SaveDatabaseRunnable {
 	
 	private String mPassword;
 	private Uri mKeyfile;
@@ -63,7 +63,8 @@ public class AssignPasswordInDatabaseRunnable extends ActionWithSaveDatabaseRunn
 		} catch (InvalidKeyFileException|IOException e) {
 			erase(mBackupKey);
 			finish(false, e.getMessage());
-			super.runWithoutSaveDatabase();
+			// run without save database
+			mFinish.run();
 		}
 
 	}

@@ -143,13 +143,14 @@ abstract class LockingActivity : StylishActivity() {
     inner class LockReceiver : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (action != null) {
-                when (action) {
-                    Intent.ACTION_SCREEN_OFF -> if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this@LockingActivity)) {
-                        lockAndExit()
+            if (!TimeoutHelper.temporarilyDisableTimeout) {
+                intent.action?.let {
+                    when (it) {
+                        Intent.ACTION_SCREEN_OFF -> if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this@LockingActivity)) {
+                            lockAndExit()
+                        }
+                        LOCK_ACTION -> lockAndExit()
                     }
-                    LOCK_ACTION -> lockAndExit()
                 }
             }
         }
@@ -166,7 +167,7 @@ abstract class LockingActivity : StylishActivity() {
         views.forEach {
             it.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    TimeoutHelper.lockOrResetTimeout(this)
+                    TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
                 }
             }
         }
@@ -174,7 +175,7 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onBackPressed() {
         if (timeoutEnable) {
-            TimeoutHelper.lockOrResetTimeout(this) {
+            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
                 super.onBackPressed()
             }
         } else {

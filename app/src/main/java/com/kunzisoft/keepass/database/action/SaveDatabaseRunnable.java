@@ -23,13 +23,14 @@ import android.content.Context;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
+import com.kunzisoft.keepass.timeout.TimeoutHelper;
 
 import java.io.IOException;
 
 public class SaveDatabaseRunnable extends RunnableOnFinish {
 
-	private Context mContext;
-	private Database mDatabase;
+	protected Context mContext;
+	protected Database mDatabase;
 	private boolean mDontSave;
 
 	public SaveDatabaseRunnable(Context context, Database database, OnFinishRunnable finish, boolean dontSave) {
@@ -38,6 +39,7 @@ public class SaveDatabaseRunnable extends RunnableOnFinish {
 		this.mContext = context;
 		this.mDatabase = database;
 		this.mDontSave = dontSave;
+		this.mFinish = new AfterActionRunnable(finish);
 	}
 
 	public SaveDatabaseRunnable(Context ctx, Database db, OnFinishRunnable finish) {
@@ -46,8 +48,8 @@ public class SaveDatabaseRunnable extends RunnableOnFinish {
 
 	@Override
 	public void run() {
-
-		if ( ! mDontSave ) {
+		TimeoutHelper.INSTANCE.temporarilyDisableTimeout();
+		if (!mDontSave) {
 			try {
 				mDatabase.saveData(mContext);
 			} catch (IOException e) {
@@ -59,8 +61,27 @@ public class SaveDatabaseRunnable extends RunnableOnFinish {
 				return;
 			}
 		}
-
 		finish(true);
 	}
 
+	/**
+	 * Method called when the database finish to save data
+	 * @param success 'true' if save is ok, 'false' elsewhere
+	 * @param message
+	 */
+	protected void onFinish(boolean success, String message) {}
+
+	private class AfterActionRunnable extends OnFinishRunnable {
+
+		AfterActionRunnable(OnFinishRunnable finish) {
+			super(finish);
+		}
+
+		@Override
+		public void run() {
+			TimeoutHelper.INSTANCE.releaseTemporarilyDisableTimeoutAndLockIfTimeout(mContext);
+			onFinish(mSuccess, mMessage);
+			super.run();
+		}
+	}
 }

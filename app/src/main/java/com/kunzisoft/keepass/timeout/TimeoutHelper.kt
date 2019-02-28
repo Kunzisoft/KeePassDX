@@ -40,6 +40,9 @@ object TimeoutHelper {
 
     private const val TAG = "TimeoutHelper"
 
+    var temporarilyDisableTimeout = false
+        private set
+
     private fun getLockPendingIntent(context: Context): PendingIntent {
         return PendingIntent.getBroadcast(context,
                 REQUEST_ID,
@@ -79,9 +82,14 @@ object TimeoutHelper {
 
     /**
      * Check the time previously record with recordTime and do the [timeoutAction] if timeout
+     * if temporarilyDisableTimeout() is called, the function as no effect until releaseTemporarilyDisableTimeoutAndCheckTime() is called
      * return 'false' if timeout, 'true' if in time
      */
     fun checkTime(context: Context, timeoutAction: (() -> Unit)? = null): Boolean {
+        // No effect if temporarily disable
+        if (temporarilyDisableTimeout)
+            return true
+
         // Cancel the lock PendingIntent
         if (App.getDB().loaded) {
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -133,10 +141,31 @@ object TimeoutHelper {
         }
     }
 
-    fun lockOrResetTimeout(activity: Activity, action: (() -> Unit)? = null) {
+    /**
+     * Check the time previously record then, if timeout lock the activity, else reset the timer
+     */
+    fun checkTimeAndLockIfTimeoutOrResetTimeout(activity: Activity, action: (() -> Unit)? = null) {
         if (checkTimeAndLockIfTimeout(activity)) {
             recordTime(activity)
             action?.invoke()
         }
+    }
+
+    /**
+     * Temporarily disable timeout, checkTime() function always return true
+     */
+    fun temporarilyDisableTimeout() {
+        temporarilyDisableTimeout = true
+    }
+
+    /**
+     * Release the temporarily disable timeout and directly call checkTime()
+     */
+    fun releaseTemporarilyDisableTimeoutAndLockIfTimeout(context: Context): Boolean {
+        temporarilyDisableTimeout = false
+        return if (context is LockingActivity)
+            checkTimeAndLockIfTimeout(context)
+        else
+            checkTime(context)
     }
 }
