@@ -998,13 +998,14 @@ public class GroupActivity extends LockingActivity
                 // If update add new elements
                 if (oldGroupToUpdate != null) {
                     PwGroup updateGroup = oldGroupToUpdate.clone();
-                    updateGroup.setName(name);
                     try {
                         iconStandard = (PwIconStandard) icon;
                         updateGroup = ((PwGroupV4) oldGroupToUpdate).clone(); // TODO generalize
                     } catch (Exception e) {
                         e.printStackTrace();
-                    } // TODO custom icon
+                    }
+                    updateGroup.setName(name);
+					// TODO custom icon
                     updateGroup.setIconStandard(iconStandard);
 
                     if (listNodesFragment != null)
