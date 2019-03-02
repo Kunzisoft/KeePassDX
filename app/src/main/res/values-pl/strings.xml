@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 This file is part of KeePass DX.
@@ -15,8 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Informacje zwrotne</string>
     <string name="about_homepage">Strona domowa</string>
     <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
@@ -139,28 +138,26 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="use_saf_title">Dostęp do pamięci masowej</string>
     <string name="warning_read_only">Przydziel dostęp do zapisu na karcie SD, aby zapisać zmiany w bazie danych.</string>
     <string name="warning_unmounted">Zamontuj kartę SD, aby utworzyć lub załadować bazę danych.</string>
-
     <string name="education_unlock_summary">prowadź hasło i/lub plik klucza, aby odblokować bazę danych.
 \n
 \nUtwórz kopię zapasową pliku bazy danych w bezpiecznym miejscu po każdej zmianie.</string>
-
     <string-array name="timeout_options">
-     <item>5 sekund</item>
-     <item>10 sekund</item>
-     <item>20 sekund</item>
-     <item>30 sekund</item>
-     <item>1 minuta</item>
-     <item>5 minut</item>
-     <item>15 minut</item>
-     <item>30 minut</item>
-     <item>Nigdy</item>
+        <item>5 sekund</item>
+        <item>10 sekund</item>
+        <item>20 sekund</item>
+        <item>30 sekund</item>
+        <item>1 minuta</item>
+        <item>5 minut</item>
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>Nigdy</item>
     </string-array>
     <string-array name="list_size_options">
-     <item>Mała</item>
-     <item>Średnia</item>
-     <item>Duża</item>
+        <item>Mała</item>
+        <item>Średnia</item>
+        <item>Duża</item>
     </string-array>
-<string name="edit_entry">Edytuj wpis</string>
+    <string name="edit_entry">Edytuj wpis</string>
     <string name="add_string">Dodaj ciąg</string>
     <string name="encryption">Szyfrowanie</string>
     <string name="key_derivation_function">Funkcja generująca klucz</string>
@@ -186,7 +183,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="keyfile_is_empty">Plik klucza jest pusty.</string>
     <string name="list_entries_show_username_title">Pokaż nazwy użytkowników</string>
     <string name="list_entries_show_username_summary">Pokaż nazwy użytkowników na listach wpisów</string>
-    <string name="copy_field">Kopiuj z %1$s</string>
+    <string name="copy_field">Skopiowano %1$s</string>
     <string name="menu_form_filling_settings">Wypełnianie formularzy</string>
     <string name="menu_copy">Kopiuj</string>
     <string name="menu_move">Przenieś</string>
@@ -291,7 +288,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="text_appearance">Tekst</string>
     <string name="application_appearance">Aplikacja</string>
     <string name="other">Inne</string>
-
     <string name="keyboard">Klawiatura</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Aktywuj niestandardową klawiaturę wypełniającą hasła i wszystkie pola tożsamości</string>
@@ -306,12 +302,10 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="keyboard_fill_field_text">Wypełnij swoje pola, używając elementów pozycji.</string>
     <string name="keyboard_lock_database_text">Zablokuj bazę danych.</string>
     <string name="keyboard_back_main_keyboard_text">Użyj ponownie domyślnej klawiatury.</string>
-
     <string name="allow_no_password_title">Nie zezwalaj na żadne hasło</string>
     <string name="allow_no_password_summary">Włącz przycisk \"Otwórz\", jeśli nie wybrano identyfikacji hasła</string>
     <string name="enable_read_only_title">Ochrona przed zapisem</string>
     <string name="enable_read_only_summary">Domyślnie otwarte bazy danych są tylko do odczytu</string>
-
     <string name="enable_education_screens_title">Ekrany edukacyjne</string>
     <string name="enable_education_screens_summary">Zaznacz elementy, aby dowiedzieć się, jak działa aplikacja</string>
     <string name="reset_education_screens_title">Zresetuj ekrany edukacyjne</string>
@@ -354,12 +348,12 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="education_sort_summary">Wybierz sposób sortowania wpisów i grup.</string>
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
-
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest <strong>wolna od reklam</strong>, jest oprogramowaniem darmowym typu <strong>copylefted libre</strong> i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
-    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcja wizualna</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe. </strong></string>
+    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcja wizualna</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe. </strong>
+    </string>
     <string name="html_text_feature_generosity">Ta <strong>funkcja wizualna</strong> jest dostępna dzięki Twojej hojności.</string>
-    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong></string>
-
+    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong>
+    </string>
     <string name="html_text_dev_feature">Ta funkcja jest <strong>rozwojowa</strong> i wymaga twojego <strong>wkładu</strong> aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję <strong>pro</strong> wersja,</string>
     <string name="html_text_dev_feature_contibute">Przez <strong>przyczynianie się</strong>,</string>
@@ -367,43 +361,32 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="html_text_dev_feature_thanks">Wielkie dzięki za twój wkład.</string>
     <string name="html_text_dev_feature_work_hard">Ciężko pracujemy, aby szybko udostępnić tę funkcję.</string>
     <string name="html_text_dev_feature_upgrade">Nie zapomnij o aktualizacji aplikacji, instalując nowe wersje.</string>
-
     <string name="download">Pobieranie</string>
     <string name="contribute">Przyczyń się</string>
-
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="style_choose_title">Motyw aplikacji</string>
     <string name="style_choose_summary">Motyw używany w aplikacji</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
     <string name="icon_pack_choose_summary">Pakiet ikon używany w aplikacji</string>
-
-<string name="build_label">Kompilacja %1$s</string>
+    <string name="build_label">Kompilacja %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Ustawienia Magikeyboard</string>
-
     <string name="keyboard_entry_category">Wpis</string>
-
     <string name="keyboard_entry_timeout_title">Limit czasu</string>
     <string name="keyboard_entry_timeout_summary">Limit czasu, aby wyczyścić wpis klawiatury</string>
-
     <string name="keyboard_notification_entry_title">Informacje dotyczące powiadomień</string>
     <string name="keyboard_notification_entry_summary">Pokaż powiadomienie, gdy wpis jest dostępny</string>
     <string name="keyboard_notification_entry_content_title_text">Wpis</string>
     <string name="keyboard_notification_entry_content_title">%1$s dostępne na Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
     <string name="keyboard_notification_entry_clear_close_title">Wyczyść przy zamykaniu</string>
     <string name="keyboard_notification_entry_clear_close_summary">Wyczyść wpis klawiatury podczas zamykania powiadomienia</string>
     <string name="keyboard_appearance_category">Wygląd</string>
-
     <string name="keyboard_theme_title">Motyw klawiatury</string>
-
     <string name="keyboard_keys_category">Klawiatura</string>
     <string name="keyboard_key_vibrate_title">Wibracja po naciśnięciu klawisza</string>
     <string name="keyboard_key_sound_title">Dźwięk przy naciśnięciu</string>
-    </resources>
+</resources>
