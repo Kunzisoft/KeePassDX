@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 
@@ -20,8 +20,7 @@
   Translations from BoDEAN
   Translations from Matthias Dill
   Translations from David Ramiro
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Rückmeldung</string>
     <string name="about_homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
@@ -166,28 +165,25 @@
     <string name="warning_read_only">Gewähren Sie Schreibzugriff auf die SD-Karte, um Datenbankänderungen speichern zu können.</string>
     <string name="warning_unmounted">Hängen Sie die SD-Karte ein, um eine Datenbank erstellen oder laden zu können.</string>
     <string name="version_label">Version %1$s</string>
-
     <string name="education_unlock_summary">Geben Sie ein Passwort und/oder eine Schlüsseldatei zum Entsperren Ihrer Datenbank ein.
 \n
 \nDenken Sie daran, nach jeder Änderung eine Kopie Ihrer .kdbx-Datei an einem sicheren Ort abzuspeichern.</string>
-
     <string-array name="timeout_options">
-      <item>5 Sekunden</item>
-      <item>10 Sekunden</item>
-      <item>20 Sekunden</item>
-      <item>30 Sekunden</item>
-      <item>1 Minute</item>
-      <item>5 Minuten</item>
-      <item>15 Minuten</item>
-      <item>30 Minuten</item>
-      <item>Nie</item>
+        <item>5 Sekunden</item>
+        <item>10 Sekunden</item>
+        <item>20 Sekunden</item>
+        <item>30 Sekunden</item>
+        <item>1 Minute</item>
+        <item>5 Minuten</item>
+        <item>15 Minuten</item>
+        <item>30 Minuten</item>
+        <item>Nie</item>
     </string-array>
     <string-array name="list_size_options">
-      <item>Klein</item>
-      <item>Mittel</item>
-      <item>Groß</item>
+        <item>Klein</item>
+        <item>Mittel</item>
+        <item>Groß</item>
     </string-array>
-
     <string name="warning_empty_password">Sind Sie sicher, dass das Entsperren ohne Passwort möglich sein soll\?</string>
     <string name="warning_no_encryption_key">Sind Sie sicher, dass Sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
     <string name="appearance">Aussehen</string>
@@ -228,7 +224,7 @@
     <string name="style_choose_summary">App-Design, welches in der App genutzt wird</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
-    <string name="extended_ASCII">Erweitertes ASCII</string>
+    <string name="extended_ASCII">Erweiterter ASCII</string>
     <string name="allow">Erlauben</string>
     <string name="clipboard_swipe_clean">Wischen, um Zwischenablage jetzt zu leeren</string>
     <string name="error_autofill_enable_service">Autofill-Dienst kann nicht aktiviert werden.</string>
@@ -288,7 +284,6 @@
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Eine eigene Tastatur zum einfachen Ausfüllen aller Passwort- und Identitätsfelder aktivieren</string>
-
     <string name="reset_education_screens_title">Hilfe-Anzeige wiederholen</string>
     <string name="reset_education_screens_summary">Alle Hilfe-Themen noch einmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfe-Anzeige zurückgesetzt</string>
@@ -323,12 +318,12 @@
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Machen Sie mit, damit sich Stabilität, Sicherheit verbessern und weitere Funktionen hinzukommen.</string>
-
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf dessen Servern - unabhängig von der Version, die Sie nutzen.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhalten Sie Zugang zu dieser <strong>visuellen Funktion</strong> und Sie unterstützen insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong></string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhalten Sie Zugang zu dieser <strong>visuellen Funktion</strong> und Sie unterstützen insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong>
+    </string>
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
-    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong></string>
-
+    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong>
+    </string>
     <string name="html_text_dev_feature">Diese Funktion ist <strong>in Entwicklung</strong> und erfordert <strong>Ihren Beitrag</strong>, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der <strong>Pro-Version</strong>,</string>
     <string name="html_text_dev_feature_contibute">Durch Ihr <strong>Mitwirken</strong>,</string>
@@ -336,18 +331,14 @@
     <string name="html_text_dev_feature_thanks">Vielen Dank für Ihre Unterstützung.</string>
     <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
     <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre App aktuell zu halten indem sie neue Versionen installieren.</string>
-
     <string name="download">Download</string>
     <string name="contribute">Unterstützen</string>
-
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="icon_pack_choose_title">Icon-Paket</string>
     <string name="icon_pack_choose_summary">In der App verwendetes Icon-Packet</string>
-<string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
+    <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
     <string name="menu_paste">Einfügen</string>
@@ -365,10 +356,8 @@
     <string name="keyboard_fill_field_text">Füllen Sie die Felder mit den Elementen des Eintrags aus.</string>
     <string name="keyboard_lock_database_text">Sperren Sie die Datenbank.</string>
     <string name="keyboard_back_main_keyboard_text">Kehren Sie zur Standardtastatur zurück.</string>
-
     <string name="allow_no_password_title">Kein Passwort zulassen</string>
     <string name="allow_no_password_summary">\"Öffnen\"-Taste aktivieren, wenn keine Passwort-Identifikation festgelegt ist</string>
-
     <string name="enable_education_screens_title">Hilfe-Anzeige</string>
     <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der App zu lernen</string>
     <string name="menu_open_file_read_and_write">veränderbar</string>
@@ -376,7 +365,6 @@
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-
     <string name="education_read_only_summary">Ändern Sie den Öffnungsmodus für die Sitzung.
 \n
 \n\"Write-protected\" verhindert unbeabsichtigte Änderungen an der Datenbank.
@@ -390,25 +378,19 @@
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard-Einstellungen</string>
-
     <string name="keyboard_entry_category">Eingabe</string>
-
     <string name="keyboard_entry_timeout_title">Zeitsperre</string>
     <string name="keyboard_entry_timeout_summary">Zeit nach der Tastatureingaben gelöscht werden</string>
-
     <string name="keyboard_notification_entry_title">Benachrichtigung</string>
     <string name="keyboard_notification_entry_summary">Benachrichtigung anzeigen, wenn eine Eingabe abrufbar ist</string>
     <string name="keyboard_notification_entry_content_title_text">Eingabe</string>
     <string name="keyboard_notification_entry_content_title">%1$s über Magikeyboard abrufbar</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
     <string name="keyboard_notification_entry_clear_close_title">Beim Schließen löschen</string>
     <string name="keyboard_notification_entry_clear_close_summary">Die Tastatureingabe löschen, wenn die Benachrichtung geschlossen wird</string>
     <string name="keyboard_appearance_category">Aussehen</string>
-
     <string name="keyboard_theme_title">Tastaturdesign</string>
-
     <string name="keyboard_keys_category">Tasten</string>
     <string name="keyboard_key_vibrate_title">Vibration auf Tastendruck</string>
     <string name="keyboard_key_sound_title">Ton auf Tastendruck</string>
-    </resources>
+</resources>
