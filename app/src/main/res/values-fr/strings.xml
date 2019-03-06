@@ -115,7 +115,7 @@
     <string name="maskpass_summary">Masquer les mots de passe (***) par défaut</string>
     <string name="menu_about">À propos</string>
     <string name="menu_change_key">Modifier la clé maîtresse</string>
-    <string name="copy_field">Copie de %1$s</string>
+    <string name="copy_field">%1$s copié</string>
     <string name="settings">Paramètres</string>
     <string name="menu_db_settings">Paramètres de la base de données</string>
     <string name="menu_delete">Supprimer</string>
@@ -259,7 +259,6 @@
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
-
     <string name="enable_education_screens_title">Écrans éducatifs</string>
     <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l’application</string>
     <string name="reset_education_screens_title">Réinitialiser les écrans éducatifs</string>
@@ -299,12 +298,11 @@
     <string name="education_sort_summary">Choisir comment les entrées et les groupes sont triés.</string>
     <string name="education_donation_title">Participer</string>
     <string name="education_donation_summary">Aider à améliorer la stabilité, la sécurité et à ajouter des fonctionnalités.</string>
-
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>libre sous licence copyleft</strong> et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
     <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
-    <string name="html_text_donation">Afin de garder notre liberté et de toujours être actifs, nous comptons sur votre <strong>contribution.</strong></string>
-
+    <string name="html_text_donation">Afin de garder notre liberté et de toujours être actifs, nous comptons sur votre <strong>contribution.</strong>
+    </string>
     <string name="html_text_dev_feature">Cette fonctionnalité est <strong>en cours de développement</strong> et nécessite votre <strong>contribution</strong> pour être bientôt disponible.</string>
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">En &lt;strong&gt;contribuant&lt;/strong&gt;,</string>
@@ -312,36 +310,31 @@
     <string name="html_text_dev_feature_thanks">Merci beaucoup pour votre contribution.</string>
     <string name="html_text_dev_feature_work_hard">Nous travaillons dur pour livrer cette fonctionnalité rapidement.</string>
     <string name="html_text_dev_feature_upgrade">N’oubliez pas de garder votre application à jour en installant les nouvelles versions.</string>
-
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>
-
     <!-- Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-
     <!-- Key Derivation Functions -->
     <string name="kdf_AES">Fonction de dérivation de clé AES</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string-array name="timeout_options">
-    	<item>5 secondes</item>
-    	<item>10 secondes</item>
-    	<item>20 secondes</item>
-    	<item>30 secondes</item>
-    	<item>1 minute</item>
-    	<item>5 minutes</item>
-    	<item>15 minutes</item>
-    	<item>30 minutes</item>
-    	<item>Jamais</item>
+        <item>5 secondes</item>
+        <item>10 secondes</item>
+        <item>20 secondes</item>
+        <item>30 secondes</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>Jamais</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Petit</item>
-    	<item>Moyen</item>
-    	<item>Grand</item>
+        <item>Petit</item>
+        <item>Moyen</item>
+        <item>Grand</item>
     </string-array>
-
     <string name="style_choose_title">Thème de l’application</string>
     <string name="style_choose_summary">Thème utilisé dans l’application</string>
     <string-array name="list_style_names">
@@ -354,8 +347,7 @@
     </string-array>
     <string name="icon_pack_choose_title">Ensemble d’icônes</string>
     <string name="icon_pack_choose_summary">Ensemble d’icônes utilisés dans l’application</string>
-
-<string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe dans lui-même.</string>
+    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe dans lui-même.</string>
     <string name="menu_copy">Copier</string>
     <string name="menu_move">Déplacer</string>
     <string name="menu_paste">Coller</string>
@@ -371,15 +363,12 @@
     <string name="keyboard_fill_field_text">Remplisser vos champs avec les éléments de l’entrée.</string>
     <string name="keyboard_lock_database_text">Verrouiller la base de données.</string>
     <string name="keyboard_back_main_keyboard_text">Utiliser à nouveau le clavier par défaut.</string>
-
     <string name="allow_no_password_title">N’autoriser aucun mot de passe</string>
     <string name="allow_no_password_summary">Activer le bouton « Ouvrir » si aucune identification par mot de passe n’est sélectionnée</string>
-
     <string name="menu_file_selection_read_only">Protégé en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="enable_read_only_title">Protégé en écriture</string>
     <string name="enable_read_only_summary">Ouvrir votre base de données en lecture seule par défaut</string>
-
     <string name="education_read_only_title">Protéger en écriture votre base de données</string>
     <string name="education_read_only_summary">Changer le mode d’ouverture pour la session.
 \n
@@ -395,25 +384,19 @@
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Paramètres Magikeyboard</string>
-
     <string name="keyboard_entry_category">Entrée</string>
-
     <string name="keyboard_entry_timeout_title">Délai d’expiration</string>
     <string name="keyboard_entry_timeout_summary">Délai d’expiration pour effacer l’entrée au clavier</string>
-
     <string name="keyboard_notification_entry_title">Informations de notification</string>
     <string name="keyboard_notification_entry_summary">Afficher une notification lorsqu’une entrée est disponible</string>
     <string name="keyboard_notification_entry_content_title_text">Entrée</string>
     <string name="keyboard_notification_entry_content_title">1$s disponible sur Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
     <string name="keyboard_notification_entry_clear_close_title">Effacer à la fermeture</string>
     <string name="keyboard_notification_entry_clear_close_summary">Effacer l’entrée au clavier lors de la fermeture de la notification</string>
     <string name="keyboard_appearance_category">Apparence</string>
-
     <string name="keyboard_theme_title">Thème du clavier</string>
-
     <string name="keyboard_keys_category">Touches</string>
     <string name="keyboard_key_vibrate_title">Vibrer au toucher</string>
     <string name="keyboard_key_sound_title">Son au toucher</string>
-    </resources>
+</resources>
