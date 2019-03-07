@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2018 Jeremy Jamet / Kunzisoft.
 
@@ -16,8 +16,7 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_homepage">الصفحة الرئيسية :</string>
     <string name="accept">قبول</string>
     <string name="add_group">إضافة مجموعة</string>
@@ -89,7 +88,7 @@
     <string name="minus">ناقص</string>
     <string name="never">أبداً</string>
     <string name="no_results">لا توجد نتائج للبحث</string>
-    <string name="no_url_handler">لا يوجد عنوان لهذا الرابط.</string>
+    <string name="no_url_handler">ثبت متصفح لزيارة هذا الرابط.</string>
     <string name="progress_create">إنشاء قاعدة بيانات جديدة …</string>
     <string name="protection">الحماية</string>
     <string name="read_only">للقراءة فقط</string>
@@ -122,8 +121,7 @@
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
     <string name="about_feedback">الملاحظات :</string>
-
-<string name="about_description">تنفيذ أندرويد لمدير كلمات السر «كي‌باس»</string>
+    <string name="about_description">تنفيذ أندرويد لمدير كلمات السر «كي‌باس»</string>
     <string name="add_entry">إضافة مدخلة</string>
     <string name="edit_entry">تحرير مدخلة</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
@@ -163,4 +161,57 @@
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
     <string name="list_entries_show_username_summary">أظهر أسماء المستخدمين في قوائم المدخلات</string>
-    </resources>
+    <string name="hint_generated_password">كلمةالسر المشفرة</string>
+    <string name="hint_keyfile">ملف قفل</string>
+    <string name="maskpass_title">اخفاء كلمات السر</string>
+    <string name="copy_field">نُسخ %1$s</string>
+    <string name="menu_copy">نسخ</string>
+    <string name="menu_move">نقل</string>
+    <string name="menu_paste">لصق</string>
+    <string name="menu_cancel">الغاء</string>
+    <string name="menu_hide_password">اخفاء كلمة السر</string>
+    <string name="menu_showpass">اظهار كلمة السر</string>
+    <string name="menu_url">الانتقال الى الرابط</string>
+    <string name="menu_file_selection_read_only">محمي من التعديل</string>
+    <string name="menu_open_file_read_and_write">قابل للتعديل</string>
+    <string name="select_database_file">فتح قاعدة بيانات موجودة</string>
+    <string name="create_keepass_file">انشاء قاعدة بيانات</string>
+    <string name="open_recent">قواعد البيانات الاخيرة</string>
+    <string name="omitbackup_title">لا تبحثفي مدخلات النسخ الاحتياطي</string>
+    <string name="progress_title">قيد العمل…</string>
+    <string name="read_only_warning">KeePass DX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
+    <string name="read_only_kitkat_warning">ابتداءا من اندرويد كيت كات بعض الاجهزة لا تسمح بالكتابة على قاعدة البيانات.</string>
+    <string name="remember_keyfile_summary">تذكر موقع ملف قفل قاعدة البيانات</string>
+    <string name="remember_keyfile_title">حفظ ملف القفل</string>
+    <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>
+    <string name="unsupported_db_version">قاعدة بيانات غير مدعومة.</string>
+    <string name="warning_read_only">اسمح بالكتابة على بطاقة الذاكرة لحفظ التغيرات.</string>
+    <string name="warning_unmounted">اربط بطاقة الذاكرة لإنشاء او تحميل قاعدة بيانات.</string>
+    <string name="build_label">بناء %1$s</string>
+    <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>
+    <string name="no_password_stored">قاعدة البيانات لا تمتلك كلمة سر.</string>
+    <string name="appearance">مظهر</string>
+    <string name="general">عام</string>
+    <string name="autofill">ملأ تلقائي</string>
+    <string name="autofill_sign_in_prompt">سجل باستخدام KeePass DX</string>
+    <string name="set_autofill_service_title">تعيين خدمة الملأ التلقائي الافتراضية</string>
+    <string name="password_size_title">حجم كلمة السر المولدة</string>
+    <string name="password_size_summary">تعيين الحجم الافتراضي لكلمات السر المولدة</string>
+    <string name="list_password_generator_options_title">محارف كلمة السر</string>
+    <string name="list_password_generator_options_summary">تعيين المحارف المسموح بها لتوليد كلمة السر</string>
+    <string name="clipboard">حافظة</string>
+    <string name="clipboard_notifications_title">اشعارات الحافظة</string>
+    <string name="clipboard_warning">اذا فشل الحذف التلقائي من الحافظة ,احذف تأريخه يدويا</string>
+    <string name="lock_database_screen_off_title">قفل الشاشة</string>
+    <string name="lock_database_screen_off_summary">اقفل قاعدة البيانات عند انغلاق الشاشة</string>
+    <string name="fingerprint_type_password_text">ادخل كلمة سر قاعدة البيانات</string>
+    <string name="usage">استخدام</string>
+    <string name="fingerprint_delete_all_title">حذف مفاتيح التشفير</string>
+    <string name="unavailable_feature_text">لا يمكن بدأ هذه الميزة .</string>
+    <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
+    <string name="file_name">اسم الملف</string>
+    <string name="path">مسار</string>
+    <string name="bytes">بايت</string>
+    <string name="full_file_path_enable_title">مسار الملف</string>
+    <string name="full_file_path_enable_summary">عرض المسار الكامل للملف</string>
+</resources>
