@@ -345,4 +345,16 @@
     <string name="education_create_database_summary">创建您的第一个密码管理文件。</string>
     <string name="education_select_database_title">打开一个已有数据库</string>
     <string name="education_select_database_summary">从您的文件浏览器中打开并使用一个历史数据库。</string>
+    <string name="education_open_link_database_title">一个指向您文件的链接可用</string>
+    <string name="education_open_link_database_summary">您可以通过物理链接打开您的数据库（例如：file://或者content://）。</string>
+    <string name="education_new_node_title">为您的数据库新增项目</string>
+    <string name="education_new_node_summary">用户记录会帮助管理您的密码。
+\n分组文件夹将组织数据库中的用户记录。</string>
+    <string name="education_search_title">搜索用户记录</string>
+    <string name="education_search_summary">输入标题、用户名或其他字段的内容来检索密码。</string>
+    <string name="education_fingerprint_title">数据库解锁指纹</string>
+    <string name="education_fingerprint_summary">将您的密码链接到您扫描的指纹，以快速解锁您的数据库。</string>
+    <string name="education_entry_edit_title">编辑记录</string>
+    <string name="education_entry_edit_summary">使用自定义字段编辑记录。数据可以在不同的输入字段之间引用。</string>
+    <string name="education_generate_password_title">为您的记录创建一个复杂的密码。</string>
 </resources>
