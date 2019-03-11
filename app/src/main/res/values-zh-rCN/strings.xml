@@ -124,7 +124,7 @@
     <string name="saving_database">正在保存数据库…</string>
     <string name="space">空格</string>
     <string name="search_label">搜索</string>
-    <string name="sort_db">数据库排序方式</string>
+    <string name="sort_db">排序方式</string>
     <string name="special">特殊符号</string>
     <string name="search">搜索</string>
     <string name="encryption_twofish">Twofish</string>
@@ -164,9 +164,9 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-    <string name="style_choose_title">选择主题</string>
-    <string name="icon_pack_choose_title">选择图标包</string>
-    <string name="icon_pack_choose_summary">切换本应用中使用的图标风格</string>
+    <string name="style_choose_title">主题</string>
+    <string name="icon_pack_choose_title">图标包</string>
+    <string name="icon_pack_choose_summary">应用程序中使用的图标包</string>
     <string name="edit_entry">编辑条目</string>
     <string name="key_derivation_function">密钥推导函数</string>
     <string name="entry_not_found">找不到条目。</string>
@@ -197,9 +197,8 @@
     <string name="read_only_kitkat_warning">从 Android 4.4.4 KitKat 开始，一些设备不再允许应用直接写入 SD 卡。</string>
     <string name="recentfile_title">最近文件历史</string>
     <string name="recentfile_summary">记住最近使用的文件名</string>
-    <string name="encryption_explanation">加密整个数据库时使用的算法。（密码，
-\n、用户名、笔记和所有数据库中的数据将使用此算法来加密）</string>
-    <string name="kdf_explanation">将会使用随机加盐推导算法变换主密钥以生成加密算法所需的密钥。</string>
+    <string name="encryption_explanation">数据库加密算法将用户所用的数据，包括数据库记录，数据库解锁密码、用户指纹等等。</string>
+    <string name="kdf_explanation">将会使用随机加盐推导算法转换主密钥以生成加密算法所需的密钥。</string>
     <string name="memory_usage">内存使用量</string>
     <string name="memory_usage_explanation">密钥推导算法使用的内存（以二进制字节计）。</string>
     <string name="parallelism">并行</string>
@@ -228,7 +227,7 @@
     <string name="path">路径</string>
     <string name="create_keepass_file">创建新数据库</string>
     <string name="bytes">字节数</string>
-    <string name="full_file_path_enable_title">显示文件路径</string>
+    <string name="full_file_path_enable_title">文件路径</string>
     <string name="full_file_path_enable_summary">显示完整的文件路径</string>
     <string name="database_name_title">数据库名称</string>
     <string name="database_description_title">数据库描述</string>
@@ -243,26 +242,26 @@
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
     <string name="contribute">贡献</string>
-    <string name="style_choose_summary">选择各种颜色的应用主题</string>
+    <string name="style_choose_summary">应用程序中使用的主题</string>
     <string name="error_string_key">每个字符串必须有一个字段名。</string>
     <string name="field_name">字段名</string>
     <string name="field_value">字段值</string>
-    <string name="copy_field">副本 %1$s</string>
+    <string name="copy_field">已复制 %1$s</string>
     <string name="sort_ascending">最低优先 ↓</string>
     <string name="use_saf_summary">使用 Android 存储访问框架 （SAF）浏览文件（需要 KitKat 或更高）</string>
     <string name="use_saf_title">存储访问框架</string>
     <string name="warning_password_encoding">请避免在 .kbd 文件中保存含有 Latin-1 以外的其他字符的密码，因为这些字符将会被转换为同一字符。</string>
-    <string name="sort_groups_before">历史文件夹</string>
+    <string name="sort_groups_before">文件夹优先</string>
     <string name="sort_recycle_bin_bottom">底部回收站</string>
     <string name="warning_empty_password">你真的不需要密码解锁的保护吗？</string>
     <string name="warning_no_encryption_key">你确认不使用任何的密钥吗？</string>
-    <string name="build_label">生成 %1$s</string>
+    <string name="build_label">版本 %1$s</string>
     <string name="configure_fingerprint">指纹解锁功能支持，但没有配置使用。</string>
     <string name="scanning_fingerprint">指纹扫描</string>
     <string name="encrypted_value_stored">加密密码存储</string>
     <string name="fingerprint_invalid_key">不能读取指纹密钥，请重置你的密码。</string>
     <string name="fingerprint_not_recognized">未能识别的指纹</string>
-    <string name="fingerprint_error">指纹识别错误：%1$s</string>
+    <string name="fingerprint_error">指纹识别问题：%1$s</string>
     <string name="no_password_stored">当前数据库没有任何密码。</string>
     <string name="set_autofill_service_title">配置自动填充服务</string>
     <string name="set_autofill_service_summary">打开自动填充功能，以便快速的在其他应用中填写信息</string>
@@ -303,7 +302,7 @@
     <string name="allow_copy_password_summary">允许剪切板保存输入的密码以及受保护的字段</string>
     <string name="allow_copy_password_warning">警告：所有应用都可以访问剪切板，如果剪切板存在敏感数据，可能会被其他软件存储在剪切板的数据覆盖。</string>
     <string name="warning_disabling_storage_access_framework">警告：关闭此功能可能会导致打开或者保存数据库失败。</string>
-    <string name="open_link_database">打开数据库文件链接</string>
+    <string name="open_link_database">打开数据库文件的链接</string>
     <string name="magic_keyboard_summary">激活自定义键盘，填充密码和所有标识字段</string>
     <string name="magic_keyboard_configure_title">选择“Magikeyboard键盘”以安全地自动填充表单。</string>
     <string name="magic_keyboard_activate_setting_text">在设备设置中激活“Magikeyboard键盘”。</string>
@@ -313,18 +312,18 @@
     <string name="allow_copy_password_title">剪切板权限</string>
     <string name="keyboards_swicth_magikeyboard_text">通过长时间按住“空格键”以切换键盘，如果“空格键”不可用，则：</string>
     <string name="keyboard_select_entry_text">自定义用以切换键盘的按键。</string>
-    <string name="keyboard_fill_field_text">使用输入元素填充字段。</string>
+    <string name="keyboard_fill_field_text">使用记录信息填充字段。</string>
     <string name="keyboard_lock_database_text">锁定数据库。</string>
     <string name="keyboard_back_main_keyboard_text">再次使用默认键盘。</string>
     <string name="keyboard_name">Magikeyboard键盘</string>
     <string name="keyboard_label">Magikeyboard键盘（KeePass DX）</string>
     <string name="keyboard_setting_label">Magikeyboard键盘设置</string>
-    <string name="keyboard_entry_category">输入</string>
+    <string name="keyboard_entry_category">单条记录</string>
     <string name="keyboard_entry_timeout_title">超时设置</string>
-    <string name="keyboard_entry_timeout_summary">超时则清空键盘输入</string>
+    <string name="keyboard_entry_timeout_summary">超时则清空键盘记录</string>
     <string name="keyboard_notification_entry_title">通知信息</string>
     <string name="keyboard_notification_entry_summary">当输入可用的时候显示通知信息</string>
-    <string name="keyboard_notification_entry_content_title_text">输入</string>
+    <string name="keyboard_notification_entry_content_title_text">单条记录</string>
     <string name="keyboard_notification_entry_content_title">%1$s 在Magikeyboard键盘中可用</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">当关闭时清空输入</string>
@@ -335,7 +334,7 @@
     <string name="keyboard_key_vibrate_title">按键震动</string>
     <string name="keyboard_key_sound_title">按键声音</string>
     <string name="allow_no_password_title">允许空密码</string>
-    <string name="allow_no_password_summary">如果没有选择密码验证，则启用“打开”按钮。</string>
+    <string name="allow_no_password_summary">如果没有选择密码验证，则启用“打开”按钮</string>
     <string name="enable_education_screens_title">新手引导模式</string>
     <string name="enable_education_screens_summary">高亮按钮以学习如何使用KeePass Dx</string>
     <string name="reset_education_screens_title">重置新手引导模式</string>
@@ -346,15 +345,48 @@
     <string name="education_select_database_title">打开一个已有数据库</string>
     <string name="education_select_database_summary">从您的文件浏览器中打开并使用一个历史数据库。</string>
     <string name="education_open_link_database_title">一个指向您文件的链接可用</string>
-    <string name="education_open_link_database_summary">您可以通过物理链接打开您的数据库（例如：file://或者content://）。</string>
-    <string name="education_new_node_title">为您的数据库新增项目</string>
+    <string name="education_open_link_database_summary">您可以通过链接打开您的数据库（例如：file://或者content://）。</string>
+    <string name="education_new_node_title">为您的数据库新增文件夹和密码数据</string>
     <string name="education_new_node_summary">用户记录会帮助管理您的密码。
 \n分组文件夹将组织数据库中的用户记录。</string>
-    <string name="education_search_title">搜索用户记录</string>
+    <string name="education_search_title">通过记录进行检索</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来检索密码。</string>
-    <string name="education_fingerprint_title">数据库解锁指纹</string>
+    <string name="education_fingerprint_title">通过指纹解锁数据库</string>
     <string name="education_fingerprint_summary">将您的密码链接到您扫描的指纹，以快速解锁您的数据库。</string>
     <string name="education_entry_edit_title">编辑记录</string>
-    <string name="education_entry_edit_summary">使用自定义字段编辑记录。数据可以在不同的输入字段之间引用。</string>
+    <string name="education_entry_edit_summary">使用自定义字段编辑记录，数据可以在不同的输入字段之间引用。</string>
     <string name="education_generate_password_title">为您的记录创建一个复杂的密码。</string>
+    <string name="education_generate_password_summary">在不忘记安全密码的前提下，根据表单条件轻松地产生一个复杂的密码关联您的记录。</string>
+    <string name="education_entry_new_field_title">添加自定义字段</string>
+    <string name="education_entry_new_field_summary">通过填写一个您可以保护的新字段来注册一个用户不提供基础的字段。</string>
+    <string name="education_unlock_title">解锁您的数据库</string>
+    <string name="education_read_only_title">数据库写保护</string>
+    <string name="education_read_only_summary">在会话中改变打开方式。
+\n
+\n“写保护（模式）”将阻止您对数据库任何意外的改动。
+\n“可编辑（模式）”让您可以添加、删除或者修改所有元素。</string>
+    <string name="education_field_copy_title">复制一个字段</string>
+    <string name="education_field_copy_summary">已复制的字段可以粘贴到任何地方。
+\n
+\n选择您喜爱的表单填充方式。</string>
+    <string name="education_lock_title">锁定数据库</string>
+    <string name="education_lock_summary">您可以设置在无操作和屏幕关闭的时候快速锁定您的数据库。</string>
+    <string name="education_sort_title">项目排序</string>
+    <string name="education_sort_summary">选择记录和文件夹的排序方式。</string>
+    <string name="education_donation_title">参与软件优化</string>
+    <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
+    <string name="html_text_ad_free">不同于大多数的密码管理软件，不论您使用哪个版本的KeePass DX，都没有<strong>广告</strong>，并且<strong>免费开源</strong>也不收集任何用户的个人信息。</string>
+    <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部<strong>主题样式</strong>，尤其重要的是，您会为<strong>社区项目的实现</strong>提供的帮助</string>
+    <string name="html_text_feature_generosity">
+        <strong>主题样式</strong>全部内容现在已经可用，感谢您的慷慨相助。</string>
+    <string name="html_text_donation">为了使这个项目继续建设并且保持免费，我门需要您的<strong>捐助/贡献</strong>
+    </string>
+    <string name="html_text_dev_feature">这个特性目前<strong>仍在开发中</strong>，您的<strong>捐助/贡献</strong>将使这个特性在未来变得可用。</string>
+    <string name="html_text_dev_feature_buy_pro">通过购买<strong>专业</strong>版，</string>
+    <string name="html_text_dev_feature_contibute">通过<strong>贡献</strong>
+    </string>
+    <string name="html_text_dev_feature_encourage">您的标记备注，鼓励了开发人员开发<strong>新特性</strong>并<strong>修复程序缺陷</strong>。</string>
+    <string name="html_text_dev_feature_thanks">非常感谢您的捐助/贡献。</string>
+    <string name="html_text_dev_feature_work_hard">我们正在努力的研发并尽快发布新特性。</string>
+    <string name="html_text_dev_feature_upgrade">别忘了通过安装新版本来更新您的应用程序。</string>
 </resources>
