@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwDatabase;
@@ -48,27 +49,24 @@ import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 import com.kunzisoft.keepass.database.PwGroupId;
 import com.kunzisoft.keepass.database.PwIconStandard;
-import com.kunzisoft.keepass.database.PwNode;
-import com.kunzisoft.keepass.database.action.RunnableOnFinish;
+import com.kunzisoft.keepass.tasks.ActionRunnable;
+import com.kunzisoft.keepass.database.action.node.ActionNodeValues;
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
-import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
-import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
-import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
-import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryEditCustomField;
 
-import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import java.util.UUID;
 
 import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.KEY_ICON_STANDARD;
 
@@ -264,19 +262,29 @@ public class EntryEditActivity extends LockingHideActivity
         mCallbackNewEntry = populateNewEntry();
 
         // Open a progress dialog and save entry
-        AfterActionNodeOnFinish onFinish = new AfterSave();
-        EntryEditActivity act = EntryEditActivity.this;
-        RunnableOnFinish task;
+        ActionRunnable task;
+		AfterActionNodeFinishRunnable afterActionNodeFinishRunnable =
+				new AfterActionNodeFinishRunnable() {
+			@Override
+			public void onActionNodeFinish(@NotNull ActionNodeValues actionNodeValues) {
+				if (actionNodeValues.getSuccess())
+					finish();
+			}
+		};
         if ( mIsNew ) {
-            task = new AddEntryRunnable(act, database, mCallbackNewEntry, onFinish);
+            task = new AddEntryRunnable(EntryEditActivity.this,
+					database,
+					mCallbackNewEntry,
+					afterActionNodeFinishRunnable,
+					!getReadOnly());
         } else {
-            task = new UpdateEntryRunnable(act, database, mEntry, mCallbackNewEntry, onFinish);
+            task = new UpdateEntryRunnable(EntryEditActivity.this,
+					database,
+					mEntry,
+					mCallbackNewEntry,
+					afterActionNodeFinishRunnable,
+					!getReadOnly());
         }
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
         new Thread(task).start();
     }
 
@@ -582,21 +590,4 @@ public class EntryEditActivity extends LockingHideActivity
             Log.e(TAG, "Cant add entry as result", e);
         }
 	}
-
-	private final class AfterSave extends AfterActionNodeOnFinish {
-
-		@Override
-        public void run(@Nullable PwNode oldNode, @Nullable PwNode newNode) {
-		    runOnUiThread(() -> {
-                if ( mSuccess ) {
-                    finish();
-                } else {
-                    displayMessage(EntryEditActivity.this);
-                }
-
-                SaveDatabaseProgressTaskDialogFragment.stop(EntryEditActivity.this);
-            });
-		}
-    }
-
 }

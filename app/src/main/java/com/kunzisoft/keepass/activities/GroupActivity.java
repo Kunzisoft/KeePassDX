@@ -69,8 +69,11 @@ import com.kunzisoft.keepass.database.PwIcon;
 import com.kunzisoft.keepass.database.PwIconStandard;
 import com.kunzisoft.keepass.database.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
+import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable;
+import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
+import com.kunzisoft.keepass.database.action.node.ActionNodeValues;
 import com.kunzisoft.keepass.database.action.node.AddGroupRunnable;
-import com.kunzisoft.keepass.database.action.node.AfterActionNodeOnFinish;
+import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable;
 import com.kunzisoft.keepass.database.action.node.CopyEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.DeleteEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
@@ -80,21 +83,20 @@ import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
+import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.magikeyboard.MagikIME;
-import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
-import com.kunzisoft.keepass.tasks.SaveDatabaseProgressTaskDialogFragment;
-import com.kunzisoft.keepass.tasks.UIToastTask;
-import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.view.AddNodeButtonView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 public class GroupActivity extends LockingActivity
         implements GroupEditDialogFragment.EditGroupListener,
@@ -239,8 +241,11 @@ public class GroupActivity extends LockingActivity
             }
         }
 
-        // TODO NULL getRootGroup() on null reference
-        rootGroup = database.getPwDatabase().getRootGroup();
+		try {
+			rootGroup = database.getPwDatabase().getRootGroup();
+		} catch (NullPointerException e) {
+			Log.e(TAG, "Unable to get rootGroup");
+		}
         mCurrentGroup = retrieveCurrentGroup(getIntent(), savedInstanceState);
         currentGroupIsASearch = Intent.ACTION_SEARCH.equals(getIntent().getAction());
 
@@ -368,7 +373,7 @@ public class GroupActivity extends LockingActivity
         super.onSaveInstanceState(outState);
     }
 
-	protected PwGroup retrieveCurrentGroup(Intent intent, @Nullable Bundle savedInstanceState) {
+	protected @Nullable PwGroup retrieveCurrentGroup(Intent intent, @Nullable Bundle savedInstanceState) {
 
         // If it's a search
         if ( Intent.ACTION_SEARCH.equals(intent.getAction()) ) {
@@ -457,7 +462,7 @@ public class GroupActivity extends LockingActivity
             boolean addGroupEnabled = !getReadOnly() && !currentGroupIsASearch;
             boolean addEntryEnabled = !getReadOnly() && !currentGroupIsASearch;
             if (mCurrentGroup != null) {
-                boolean isRoot = (mCurrentGroup == rootGroup);
+                boolean isRoot = (mCurrentGroup != null && mCurrentGroup == rootGroup);
                 if (!mCurrentGroup.allowAddEntryIfIsRoot())
                     addEntryEnabled = !isRoot && addEntryEnabled;
                 if (isRoot) {
@@ -579,14 +584,13 @@ public class GroupActivity extends LockingActivity
     }
 
     private void copyEntry(PwEntry entryToCopy, PwGroup newParent) {
-        CopyEntryRunnable task = new CopyEntryRunnable(this, App.getDB(), entryToCopy, newParent,
-                new AfterAddNode());
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
-        new Thread(task).start();
+        new Thread(new CopyEntryRunnable(this,
+				App.getDB(),
+				entryToCopy,
+				newParent,
+				new AfterAddNodeRunnable(),
+				!getReadOnly())
+		).start();
     }
 
     @Override
@@ -622,33 +626,25 @@ public class GroupActivity extends LockingActivity
     }
 
     private void moveGroup(PwGroup groupToMove, PwGroup newParent) {
-        MoveGroupRunnable task = new MoveGroupRunnable(
-                this,
-                App.getDB(),
-                groupToMove,
-                newParent,
-                new AfterAddNode());
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
-        new Thread(task).start();
+        new Thread(new MoveGroupRunnable(
+				this,
+				App.getDB(),
+				groupToMove,
+				newParent,
+				new AfterAddNodeRunnable(),
+				!getReadOnly())
+		).start();
     }
 
     private void moveEntry(PwEntry entryToMove, PwGroup newParent) {
-        MoveEntryRunnable task = new MoveEntryRunnable(
-                this,
-                App.getDB(),
-                entryToMove,
-                newParent,
-                new AfterAddNode());
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
-        new Thread(task).start();
+        new Thread(new MoveEntryRunnable(
+				this,
+				App.getDB(),
+				entryToMove,
+				newParent,
+				new AfterAddNodeRunnable(),
+				!getReadOnly())
+		).start();
     }
 
     @Override
@@ -666,31 +662,23 @@ public class GroupActivity extends LockingActivity
 
     private void deleteGroup(PwGroup group) {
         //TODO Verify trash recycle bin
-        DeleteGroupRunnable task = new DeleteGroupRunnable(
-                this,
-                App.getDB(),
-                group,
-                new AfterDeleteNode());
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
-        new Thread(task).start();
+        new Thread(new DeleteGroupRunnable(
+				this,
+				App.getDB(),
+				group,
+				new AfterDeleteNodeRunnable(),
+				!getReadOnly())
+		).start();
     }
 
     private void deleteEntry(PwEntry entry) {
-        DeleteEntryRunnable task = new DeleteEntryRunnable(
-                this,
-                App.getDB(),
-                entry,
-                new AfterDeleteNode());
-        task.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        SaveDatabaseProgressTaskDialogFragment.start(
-                                getSupportFragmentManager())
-                ));
-        new Thread(task).start();
+        new Thread(new DeleteEntryRunnable(
+				this,
+				App.getDB(),
+				entry,
+				new AfterDeleteNodeRunnable(),
+				!getReadOnly())
+		).start();
     }
 
     @Override
@@ -982,16 +970,12 @@ public class GroupActivity extends LockingActivity
                 newGroup.setIconStandard(iconStandard);
 
                 // If group created save it in the database
-                AddGroupRunnable addGroupRunnable = new AddGroupRunnable(this,
-                        App.getDB(),
-                        newGroup,
-                        new AfterAddNode());
-                addGroupRunnable.setUpdateProgressTaskStatus(
-                        new UpdateProgressTaskStatus(this,
-                                SaveDatabaseProgressTaskDialogFragment.start(
-                                        getSupportFragmentManager())
-                        ));
-                new Thread(addGroupRunnable).start();
+                new Thread(new AddGroupRunnable(this,
+						App.getDB(),
+						newGroup,
+						new AfterAddNodeRunnable(),
+						!getReadOnly())
+				).start();
 
                 break;
             case UPDATE:
@@ -1012,95 +996,74 @@ public class GroupActivity extends LockingActivity
                         listNodesFragment.removeNode(oldGroupToUpdate);
 
                     // If group updated save it in the database
-                    UpdateGroupRunnable updateGroupRunnable = new UpdateGroupRunnable(this,
-                            App.getDB(),
-                            oldGroupToUpdate,
-                            updateGroup,
-                            new AfterUpdateNode());
-                    updateGroupRunnable.setUpdateProgressTaskStatus(
-                            new UpdateProgressTaskStatus(this,
-                                    SaveDatabaseProgressTaskDialogFragment.start(
-                                            getSupportFragmentManager())
-                            ));
-                    new Thread(updateGroupRunnable).start();
+                    new Thread(new UpdateGroupRunnable(this,
+							App.getDB(),
+							oldGroupToUpdate,
+							updateGroup,
+							new AfterUpdateNodeRunnable(),
+							!getReadOnly())
+					).start();
                 }
 
                 break;
         }
     }
 
-    class AfterAddNode extends AfterActionNodeOnFinish {
+    class AfterAddNodeRunnable extends AfterActionNodeFinishRunnable {
 
         @Override
-        public void run(PwNode oldNode, PwNode newNode) {
-            super.run();
-
+		public void onActionNodeFinish(@NotNull ActionNodeValues actionNodeValues) {
             runOnUiThread(() -> {
-                if (mSuccess) {
+                if (actionNodeValues.getSuccess()) {
                     if (listNodesFragment != null)
-                        listNodesFragment.addNode(newNode);
-                } else {
-                    displayMessage(GroupActivity.this);
+                        listNodesFragment.addNode(actionNodeValues.getNewNode());
                 }
+            });
+        }
+	}
 
-                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
+    class AfterUpdateNodeRunnable extends AfterActionNodeFinishRunnable {
+
+        @Override
+		public void onActionNodeFinish(@NotNull ActionNodeValues actionNodeValues) {
+            runOnUiThread(() -> {
+                if (actionNodeValues.getSuccess()) {
+                    if (listNodesFragment != null)
+                        listNodesFragment.updateNode(actionNodeValues.getOldNode(), actionNodeValues.getNewNode());
+                }
             });
         }
     }
 
-    class AfterUpdateNode extends AfterActionNodeOnFinish {
+    class AfterDeleteNodeRunnable extends AfterActionNodeFinishRunnable {
 
         @Override
-        public void run(PwNode oldNode, PwNode newNode) {
-            super.run();
-
+		public void onActionNodeFinish(@NotNull ActionNodeValues actionNodeValues) {
             runOnUiThread(() -> {
-                if (mSuccess) {
-                    if (listNodesFragment != null)
-                        listNodesFragment.updateNode(oldNode, newNode);
-                } else {
-                    displayMessage(GroupActivity.this);
-                }
-
-                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
-            });
-        }
-    }
-
-    class AfterDeleteNode extends AfterActionNodeOnFinish {
-
-        @Override
-        public void run(PwNode oldNode, PwNode newNode) {
-            super.run();
-
-            runOnUiThread(() -> {
-                if ( mSuccess) {
+                if (actionNodeValues.getSuccess()) {
 
                     if (listNodesFragment != null)
-                        listNodesFragment.removeNode(oldNode);
+                        listNodesFragment.removeNode(actionNodeValues.getOldNode());
 
-                    PwGroup parent = oldNode.getParent();
-                    Database db = App.getDB();
-                    PwDatabase database = db.getPwDatabase();
-                    if (db.isRecycleBinAvailable() &&
-                            db.isRecycleBinEnabled()) {
-                        PwGroup recycleBin = database.getRecycleBin();
-                        // Add trash if it doesn't exists
-                        if (parent.equals(recycleBin)
-                                && mCurrentGroup != null
-                                && mCurrentGroup.getParent() == null
-                                && !mCurrentGroup.equals(recycleBin)) {
+                    if (actionNodeValues.getOldNode() != null) {
+						PwGroup parent = actionNodeValues.getOldNode().getParent();
+						Database db = App.getDB();
+						PwDatabase database = db.getPwDatabase();
+						if (db.isRecycleBinAvailable() &&
+								db.isRecycleBinEnabled()) {
+							PwGroup recycleBin = database.getRecycleBin();
+							// Add trash if it doesn't exists
+							if (parent.equals(recycleBin)
+									&& mCurrentGroup != null
+									&& mCurrentGroup.getParent() == null
+									&& !mCurrentGroup.equals(recycleBin)) {
 
-                            if (listNodesFragment != null)
-                                listNodesFragment.addNode(parent);
-                        }
-                    }
-                } else {
-                    mHandler.post(new UIToastTask(GroupActivity.this, "Unrecoverable error: " + mMessage));
-                    finish();
+								if (listNodesFragment != null)
+									listNodesFragment.addNode(parent);
+							}
+						}
+					}
                 }
-
-                SaveDatabaseProgressTaskDialogFragment.stop(GroupActivity.this);
             });
         }
     }
@@ -1139,10 +1102,25 @@ public class GroupActivity extends LockingActivity
             boolean masterPasswordChecked, String masterPassword,
             boolean keyFileChecked, Uri keyFile) {
 
-        AssignPasswordHelper assignPasswordHelper =
-                new AssignPasswordHelper(this,
-                        masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
-        assignPasswordHelper.assignPasswordInDatabase(null);
+        Thread taskThread = new Thread(new ProgressDialogRunnable(this,
+					R.string.saving_database,
+					progressTaskUpdater -> {
+						return new AssignPasswordInDatabaseRunnable(GroupActivity.this,
+								database,
+								masterPasswordChecked,
+								masterPassword,
+								keyFileChecked,
+								keyFile,
+								true); // TODO save
+					}
+		));
+        // Show the progress dialog now or after dialog confirmation
+        if (database.getPwDatabase().validatePasswordEncoding(masterPassword)) {
+            taskThread.start();
+        } else {
+            new PasswordEncodingDialogHelper()
+                    .show(this, (dialog, which) -> taskThread.start());
+        }
     }
 
     @Override
@@ -1198,7 +1176,7 @@ public class GroupActivity extends LockingActivity
     public void onBackPressed() {
 
     	// Normal way when we are not in root
-    	if (!rootGroup.equals(mCurrentGroup))
+    	if (rootGroup!= null && !rootGroup.equals(mCurrentGroup))
 			super.onBackPressed();
     	// Else lock if needed
     	else {

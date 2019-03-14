@@ -19,76 +19,74 @@
  */
 package com.kunzisoft.keepass.database.action.node;
 
-import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.kunzisoft.keepass.database.Database;
 import com.kunzisoft.keepass.database.PwEntry;
 import com.kunzisoft.keepass.database.PwGroup;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO Kotlinized
 public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 
 	private PwGroup<PwGroup, PwEntry> mGroupToDelete;
 	private PwGroup mParent;
 	private boolean mRecycle;
 
-	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwEntry> group, AfterActionNodeOnFinish finish) {
-		this(ctx, db, group, finish, false);
-	}
-
-	public DeleteGroupRunnable(Context ctx, Database db, PwGroup<PwGroup, PwEntry> group, AfterActionNodeOnFinish finish, boolean dontSave) {
-		super(ctx, db, finish, dontSave);
+	public DeleteGroupRunnable(FragmentActivity context, Database database, PwGroup<PwGroup, PwEntry> group, AfterActionNodeFinishRunnable finish, boolean save) {
+		super(context, database, finish, save);
         mGroupToDelete = group;
 	}
-	
+
 	@Override
-	public void run() {
-        mParent = mGroupToDelete.getParent();
+	public void nodeAction() {
+		mParent = mGroupToDelete.getParent();
 
-        // Remove Group from parent
-        mRecycle = mDatabase.canRecycle(mGroupToDelete);
-        if (mRecycle) {
-            mDatabase.recycle(mGroupToDelete);
-        }
-        else {
-            // TODO tests
-            // Remove child entries
-            List<PwEntry> childEnt = new ArrayList<>(mGroupToDelete.getChildEntries()); // TODO new Methods
-            for ( int i = 0; i < childEnt.size(); i++ ) {
-                DeleteEntryRunnable task = new DeleteEntryRunnable(mContext, mDatabase, childEnt.get(i), null, true);
-                task.run();
-            }
+		// Remove Group from parent
+		mRecycle = getDatabase().canRecycle(mGroupToDelete);
+		if (mRecycle) {
+			getDatabase().recycle(mGroupToDelete);
+		}
+		else {
+			// TODO tests
+			// Remove child entries
+			List<PwEntry> childEnt = new ArrayList<>(mGroupToDelete.getChildEntries()); // TODO new Methods
+			for ( int i = 0; i < childEnt.size(); i++ ) {
+				DeleteEntryRunnable task = new DeleteEntryRunnable((FragmentActivity) getContext(), getDatabase(), childEnt.get(i), null, true);
+				task.run();
+			}
 
-            // Remove child groups
-            List<PwGroup> childGrp = new ArrayList<>(mGroupToDelete.getChildGroups());
-            for ( int i = 0; i < childGrp.size(); i++ ) {
-                DeleteGroupRunnable task = new DeleteGroupRunnable(mContext, mDatabase, childGrp.get(i), null, true);
-                task.run();
-            }
-            mDatabase.deleteGroup(mGroupToDelete);
+			// Remove child groups
+			List<PwGroup> childGrp = new ArrayList<>(mGroupToDelete.getChildGroups());
+			for ( int i = 0; i < childGrp.size(); i++ ) {
+				DeleteGroupRunnable task = new DeleteGroupRunnable((FragmentActivity) getContext(), getDatabase(), childGrp.get(i), null, true);
+				task.run();
+			}
+			getDatabase().deleteGroup(mGroupToDelete);
 
-            // Remove from PwDatabaseV3
-            // TODO ENcapsulate
-            mDatabase.getPwDatabase().getGroups().remove(mGroupToDelete);
-        }
-		
-		// Commit Database
-		super.run();
+			// Remove from PwDatabaseV3
+			// TODO ENcapsulate
+			getDatabase().getPwDatabase().getGroups().remove(mGroupToDelete);
+		}
 	}
 
-    @Override
-    protected void onFinish(boolean success, String message) {
-        if ( !success ) {
-            if (mRecycle) {
-                mDatabase.undoRecycle(mGroupToDelete, mParent);
-            }
-            else {
-                // Let's not bother recovering from a failure to save a deleted tree.  It is too much work.
-                // TODO TEST pm.undoDeleteGroup(mGroup, mParent);
-            }
-        }
-        callbackNodeAction(success, message, mGroupToDelete, null);
-    }
+	@NotNull
+	@Override
+	public ActionNodeValues nodeFinish(boolean isSuccess, @Nullable String message) {
+		if ( !isSuccess ) {
+			if (mRecycle) {
+				getDatabase().undoRecycle(mGroupToDelete, mParent);
+			}
+			else {
+				// Let's not bother recovering from a failure to save a deleted tree.  It is too much work.
+				// TODO TEST pm.undoDeleteGroup(mGroup, mParent);
+			}
+		}
+		return new ActionNodeValues(isSuccess, message, mGroupToDelete, null);
+	}
 }

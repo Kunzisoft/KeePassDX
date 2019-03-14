@@ -48,26 +48,27 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
+import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable;
-import com.kunzisoft.keepass.database.action.FileOnFinishRunnable;
+import com.kunzisoft.keepass.tasks.ActionRunnable;
+import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
-import com.kunzisoft.keepass.password.AssignPasswordHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
-import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
-import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
-import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -101,14 +102,10 @@ public class FileSelectActivity extends StylishActivity implements
 
 	private RecentFileHistory fileHistory;
 
-	// TODO Consultation Mode
-	private boolean consultationMode = false;
-
     private View fileSelectExpandableButton;
     private ExpandableLayout fileSelectExpandable;
 	private EditText openFileNameView;
 
-	private AssignPasswordHelper assignPasswordHelper;
 	private Uri databaseUri;
 
 	private KeyFileHelper keyFileHelper;
@@ -534,33 +531,61 @@ public class FileSelectActivity extends StylishActivity implements
 		try {
 			String databaseFilename = databaseUri.getPath();
 
-			// Prep an object to collect a password once the database has
-			// been created
-			FileOnFinishRunnable launchActivityOnFinish = new FileOnFinishRunnable(
-					new LaunchGroupActivity(databaseFilename));
-			AssignPasswordOnFinish assignPasswordOnFinish =
-					new AssignPasswordOnFinish(launchActivityOnFinish);
-
-            // Initialize the password helper assigner to set the password after the database creation
-            assignPasswordHelper = new AssignPasswordHelper(this,
-                    masterPasswordChecked, masterPassword, keyFileChecked, keyFile);
-            assignPasswordHelper.setCreateProgressDialog(false);
-
-			// Create the new database
-			CreateDatabaseRunnable createDBTask = new CreateDatabaseRunnable(FileSelectActivity.this,
-					databaseFilename, assignPasswordOnFinish, true);
-            createDBTask.setUpdateProgressTaskStatus(
-                    new UpdateProgressTaskStatus(this,
-                            ProgressTaskDialogFragment.start(
-                                    getSupportFragmentManager(),
-                                    R.string.progress_create)
-                    ));
-            new Thread(createDBTask).start();
-
+			if (databaseFilename != null) {
+				// Create the new database and start prof
+				new Thread(new ProgressDialogRunnable(this,
+						R.string.progress_create,
+						progressTaskUpdater ->
+								new CreateDatabaseRunnable(databaseFilename, database -> {
+									// TODO store database created
+									return new AssignPasswordInDatabaseRunnable(FileSelectActivity.this,
+											database,
+											masterPasswordChecked,
+											masterPassword,
+											keyFileChecked,
+											keyFile,
+											new LaunchGroupActivityFinish(UriUtil.parseDefaultFile(databaseFilename)),
+											true // TODO get readonly
+									);
+								})
+				)).start();
+			}
 		} catch (Exception e) {
 			String error = "Unable to create database with this password and key file";
 			Toast.makeText(this, error, Toast.LENGTH_LONG).show();
 			Log.e(TAG, error + " " + e.getMessage());
+			// TODO remove
+			e.printStackTrace();
+		}
+	}
+
+	private class LaunchGroupActivityFinish extends ActionRunnable {
+
+		private Uri fileURI;
+
+		LaunchGroupActivityFinish(Uri fileUri) {
+			super();
+			this.fileURI = fileUri;
+		}
+
+		@Override
+		public void run() {
+			finishRun(true, null);
+		}
+
+		@Override
+		public void onFinishRun(boolean isSuccess, @Nullable String message) {
+			runOnUiThread(() -> {
+				if (isSuccess) {
+					// Add database to recent files
+					fileHistory.createFile(fileURI);
+					mAdapter.notifyDataSetChanged();
+					updateFileListVisibility();
+					GroupActivity.launch(FileSelectActivity.this);
+				} else {
+					Log.e(TAG, "Unable to open the database");
+				}
+			});
 		}
 	}
 
@@ -569,44 +594,6 @@ public class FileSelectActivity extends StylishActivity implements
 			boolean masterPasswordChecked, String masterPassword,
 			boolean keyFileChecked, Uri keyFile) {
 
-	}
-
-	private class AssignPasswordOnFinish extends FileOnFinishRunnable {
-
-        AssignPasswordOnFinish(FileOnFinishRunnable fileOnFinish) {
-            super(fileOnFinish);
-        }
-
-        @Override
-        public void run() {
-            if (mSuccess) {
-                // Dont use ProgressTaskDialogFragment.stop(getSupportFragmentManager());
-                // assignPasswordHelper do it
-                runOnUiThread(() -> assignPasswordHelper.assignPasswordInDatabase(mOnFinish));
-            }
-        }
-    }
-
-	private class LaunchGroupActivity extends FileOnFinishRunnable {
-		private Uri mUri;
-
-		LaunchGroupActivity(String filename) {
-			super(null);
-			mUri = UriUtil.parseDefaultFile(filename);
-		}
-
-		@Override
-		public void run() {
-			if (mSuccess) {
-			    runOnUiThread(() -> {
-                    // Add to recent files
-                    fileHistory.createFile(mUri, getFilename());
-                    mAdapter.notifyDataSetChanged();
-                    updateFileListVisibility();
-                    GroupActivity.launch(FileSelectActivity.this);
-                });
-			}
-		}
 	}
 
 	@Override

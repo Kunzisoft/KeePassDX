@@ -55,6 +55,7 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.activities.IntentBuildLauncher;
 import com.kunzisoft.keepass.activities.ReadOnlyHelper;
@@ -63,22 +64,22 @@ import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
 import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable;
-import com.kunzisoft.keepass.database.action.OnFinishRunnable;
+import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
 import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
-import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
-import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment;
-import com.kunzisoft.keepass.tasks.UpdateProgressTaskStatus;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -883,43 +884,35 @@ public class PasswordActivity extends StylishActivity
         Database database = App.getDB();
         database.closeAndClear(getApplicationContext());
 
-        // Show the progress dialog
-        Handler handler = new Handler();
-        AfterLoadingDatabase afterLoad = new AfterLoadingDatabase(handler, database);
-        LoadDatabaseRunnable databaseLoadingTask = new LoadDatabaseRunnable(
-                PasswordActivity.this,
-                database,
-                mDbUri,
-                password,
-                keyfile,
-                afterLoad);
-        databaseLoadingTask.setUpdateProgressTaskStatus(
-                new UpdateProgressTaskStatus(this,
-                        handler,
-                        ProgressTaskDialogFragment.start(
-                                getSupportFragmentManager(),
-                                R.string.loading_database)
-                ));
-        new Thread(databaseLoadingTask).start();
+        // Show the progress dialog and load the database
+        new Thread(new ProgressDialogRunnable(
+				this,
+				R.string.loading_database,
+                progressTaskUpdater -> new LoadDatabaseRunnable(
+						PasswordActivity.this,
+						database,
+						mDbUri,
+						password,
+						keyfile,
+                        progressTaskUpdater,
+						new AfterLoadingDatabase(database))
+		)).start();
     }
 
     /**
      * Called after verify and try to opening the database
      */
-    private final class AfterLoadingDatabase extends OnFinishRunnable {
+    private final class AfterLoadingDatabase extends ActionRunnable {
 
-        protected Database db;
+        protected Database database;
 
-        AfterLoadingDatabase(
-                Handler handler,
-                Database db) {
-            super(handler);
-
-            this.db = db;
+        AfterLoadingDatabase(Database database) {
+            super();
+            this.database = database;
         }
 
         @Override
-        public void run() {
+        public void onFinishRun(boolean isSuccess, @Nullable String message) {
             runOnUiThread(() -> {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -927,19 +920,16 @@ public class PasswordActivity extends StylishActivity
                     reInitWithFingerprintMode();
                 }
 
-                if (db.isPasswordEncodingError()) {
+                if (database.isPasswordEncodingError()) {
                     PasswordEncodingDialogHelper dialog = new PasswordEncodingDialogHelper();
                     dialog.show(PasswordActivity.this, (dialog1, which) -> launchGroupActivity());
-                } else if (mSuccess) {
+                } else if (isSuccess) {
                     launchGroupActivity();
                 } else {
-                    if ( mMessage != null && mMessage.length() > 0 ) {
-                        Toast.makeText(PasswordActivity.this, mMessage, Toast.LENGTH_LONG).show();
+                    if ( getMessage() != null && getMessage().length() > 0 ) {
+                        Toast.makeText(PasswordActivity.this, getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
-
-                // To remove progress task
-                ProgressTaskDialogFragment.stop(PasswordActivity.this);
             });
         }
     }

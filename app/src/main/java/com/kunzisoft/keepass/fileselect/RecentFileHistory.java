@@ -125,17 +125,21 @@ public class RecentFileHistory {
         return db.exists();
     }
 
-    public void createFile(Uri uri, Uri keyUri) {
-        if (!enabled || uri == null) return;
+    public void createFile(Uri databaseUri) {
+        createFile(databaseUri, null);
+    }
+
+    public void createFile(Uri databaseUri, Uri keyFileUri) {
+        if (!enabled || databaseUri == null) return;
 
         init();
 
         // Remove any existing instance of the same filename
-        deleteFile(uri, false);
+        deleteFile(databaseUri, false);
 
-        databases.add(0, uri.toString());
+        databases.add(0, databaseUri.toString());
 
-        String key = (keyUri == null) ? "" : keyUri.toString();
+        String key = (keyFileUri == null) ? "" : keyFileUri.toString();
         keyfiles.add(0, key);
 
         trimLists();
