@@ -40,9 +40,12 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     private var title = UNDEFINED
     @StringRes
     private var message = UNDEFINED
+    @StringRes
+    private var warning = UNDEFINED
 
     private var titleView: TextView? = null
     private var messageView: TextView? = null
+    private var warningView: TextView? = null
     private var progressView: ProgressBar? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -60,10 +63,12 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
             titleView = root.findViewById(R.id.progress_dialog_title)
             messageView = root.findViewById(R.id.progress_dialog_message)
+            warningView = root.findViewById(R.id.progress_dialog_warning)
             progressView = root.findViewById(R.id.progress_dialog_bar)
 
             updateTitle(title)
             updateMessage(message)
+            updateWarning(warning)
 
             isCancelable = false
             Util.lockScreenOrientation(it)
@@ -91,14 +96,19 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
         }
     }
 
-    fun updateTitle(resId: Int) {
+    fun updateTitle(@StringRes resId: Int) {
         this.title = resId
         updateView(titleView, title)
     }
 
-    override fun updateMessage(resId: Int) {
+    override fun updateMessage(@StringRes resId: Int) {
         this.message = resId
         updateView(messageView, message)
+    }
+
+    fun updateWarning(@StringRes resId: Int) {
+        this.warning = resId
+        updateView(warningView, warning)
     }
 
     companion object {
@@ -109,12 +119,16 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         fun start(fragmentManager: FragmentManager,
                   @StringRes titleId: Int,
-                  @StringRes messageId: Int? = null): ProgressTaskDialogFragment {
+                  @StringRes messageId: Int? = null,
+                  @StringRes warningId: Int? = null): ProgressTaskDialogFragment {
             // Create an instance of the dialog fragment and show it
             val dialog = ProgressTaskDialogFragment()
             dialog.updateTitle(titleId)
             messageId?.let {
                 dialog.updateMessage(it)
+            }
+            warningId?.let {
+                dialog.updateWarning(it)
             }
             dialog.show(fragmentManager, PROGRESS_TASK_DIALOG_TAG)
             return dialog

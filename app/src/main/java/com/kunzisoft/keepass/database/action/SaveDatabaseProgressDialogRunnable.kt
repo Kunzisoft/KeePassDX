@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 
-open class SaveDatabaseProgressDialogRunnable(var contextDatabase: FragmentActivity,
+open class SaveDatabaseProgressDialogRunnable(private var contextDatabase: FragmentActivity,
                                               database: Database,
                                               private val actionRunnable: ((ProgressTaskUpdater)-> ActionRunnable)?,
                                               save: Boolean):
@@ -36,7 +36,9 @@ open class SaveDatabaseProgressDialogRunnable(var contextDatabase: FragmentActiv
         // Show the dialog
         val progressTaskUpdater : ProgressTaskUpdater = ProgressTaskDialogFragment.start(
                 contextDatabase.supportFragmentManager,
-                R.string.saving_database)
+                R.string.saving_database,
+                null,
+                R.string.do_not_kill_app)
 
         // Do the action if defined
         actionRunnable?.invoke(progressTaskUpdater)?.run()

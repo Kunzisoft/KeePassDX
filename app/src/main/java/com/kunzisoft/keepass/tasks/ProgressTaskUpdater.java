@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.tasks;
 
+import android.support.annotation.StringRes;
+
 public interface ProgressTaskUpdater {
-    void updateMessage(int resId);
+    void updateMessage(@StringRes int resId);
 }
