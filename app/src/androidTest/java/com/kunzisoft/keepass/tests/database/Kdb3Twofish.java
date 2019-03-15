@@ -25,8 +25,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.kunzisoft.keepass.database.PwDatabaseV3;
-import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.element.PwDatabaseV3;
+import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
 import com.kunzisoft.keepass.database.load.ImporterV3;
 
 public class Kdb3Twofish extends AndroidTestCase {

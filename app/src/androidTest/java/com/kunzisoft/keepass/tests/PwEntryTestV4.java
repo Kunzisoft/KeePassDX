@@ -20,10 +20,10 @@
 package com.kunzisoft.keepass.tests;
 
 import com.kunzisoft.keepass.database.AutoType;
-import com.kunzisoft.keepass.database.PwEntryV4;
-import com.kunzisoft.keepass.database.PwGroupV4;
-import com.kunzisoft.keepass.database.PwIconCustom;
-import com.kunzisoft.keepass.database.PwIconStandard;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwGroupV4;
+import com.kunzisoft.keepass.database.element.PwIconCustom;
+import com.kunzisoft.keepass.database.element.PwIconStandard;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 

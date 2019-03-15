@@ -24,15 +24,15 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.PwDatabase;
-import com.kunzisoft.keepass.database.PwDatabaseV3;
-import com.kunzisoft.keepass.database.PwDatabaseV4;
-import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass.database.PwEntryV3;
-import com.kunzisoft.keepass.database.PwEntryV4;
-import com.kunzisoft.keepass.database.PwGroup;
-import com.kunzisoft.keepass.database.PwGroupV3;
-import com.kunzisoft.keepass.database.PwGroupV4;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwDatabaseV3;
+import com.kunzisoft.keepass.database.element.PwDatabaseV4;
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwGroup;
+import com.kunzisoft.keepass.database.element.PwGroupV3;
+import com.kunzisoft.keepass.database.element.PwGroupV4;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -18,7 +18,7 @@
  *
 */
 
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 

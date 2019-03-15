@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.search;
 
 import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntry;
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 
 import java.util.Date;

@@ -34,9 +34,9 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.PwIcon;
-import com.kunzisoft.keepass.database.PwIconCustom;
-import com.kunzisoft.keepass.database.PwIconStandard;
+import com.kunzisoft.keepass.database.element.PwIcon;
+import com.kunzisoft.keepass.database.element.PwIconCustom;
+import com.kunzisoft.keepass.database.element.PwIconStandard;
 
 import org.apache.commons.collections.map.AbstractReferenceMap;
 import org.apache.commons.collections.map.ReferenceMap;

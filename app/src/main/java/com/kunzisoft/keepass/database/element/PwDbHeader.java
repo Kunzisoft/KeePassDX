@@ -17,29 +17,16 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
-public class PwDatabaseV3Debug extends PwDatabaseV3 {
+public abstract class PwDbHeader {
 
-	private byte[] postHeader;
-	private PwDbHeaderV3 dbHeader;
+	public static final int PWM_DBSIG_1 = 0x9AA2D903;
+
+	/** Seed that gets hashed with the userkey to form the final key */
+	public byte masterSeed[];
+
+	/** IV used for content encryption */
+	public byte encryptionIV[] = new byte[16];
 	
-	@Override
-	public void copyEncrypted(byte[] buf, int offset, int size) {
-		postHeader = new byte[size];
-		System.arraycopy(buf, offset, postHeader, 0, size);
-	}
-
-	@Override
-	public void copyHeader(PwDbHeaderV3 header) {
-		dbHeader = header;
-	}
-
-    public byte[] getPostHeader() {
-        return postHeader;
-    }
-
-    public PwDbHeaderV3 getDbHeader() {
-        return dbHeader;
-    }
 }

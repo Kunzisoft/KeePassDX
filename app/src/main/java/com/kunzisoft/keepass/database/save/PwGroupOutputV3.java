@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.save;
 
-import com.kunzisoft.keepass.database.PwGroupV3;
+import com.kunzisoft.keepass.database.element.PwGroupV3;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.utils.Types;
 

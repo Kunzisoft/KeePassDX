@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.database.save;
 
-import com.kunzisoft.keepass.database.PwDatabase;
-import com.kunzisoft.keepass.database.PwDatabaseV3;
-import com.kunzisoft.keepass.database.PwDatabaseV4;
-import com.kunzisoft.keepass.database.PwDbHeader;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwDatabaseV3;
+import com.kunzisoft.keepass.database.element.PwDatabaseV4;
+import com.kunzisoft.keepass.database.element.PwDbHeader;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 
 import java.io.OutputStream;

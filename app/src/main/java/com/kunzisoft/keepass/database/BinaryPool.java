@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 
 import java.util.Collection;

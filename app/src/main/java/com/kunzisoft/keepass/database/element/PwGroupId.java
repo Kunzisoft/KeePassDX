@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,16 +17,22 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
-public abstract class PwDbHeader {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-	public static final int PWM_DBSIG_1 = 0x9AA2D903;
+public abstract class PwGroupId implements Parcelable {
 
-	/** Seed that gets hashed with the userkey to form the final key */
-	public byte masterSeed[];
+    public PwGroupId() {}
 
-	/** IV used for content encryption */
-	public byte encryptionIV[] = new byte[16];
-	
+    public PwGroupId(Parcel in) {}
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {}
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }

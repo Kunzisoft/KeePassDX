@@ -29,11 +29,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.kunzisoft.keepass.database.PwEntryV4.STR_NOTES;
-import static com.kunzisoft.keepass.database.PwEntryV4.STR_PASSWORD;
-import static com.kunzisoft.keepass.database.PwEntryV4.STR_TITLE;
-import static com.kunzisoft.keepass.database.PwEntryV4.STR_URL;
-import static com.kunzisoft.keepass.database.PwEntryV4.STR_USERNAME;
+import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_NOTES;
+import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_PASSWORD;
+import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_TITLE;
+import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_URL;
+import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_USERNAME;
 
 public class ExtraFields implements Parcelable, Cloneable {
 

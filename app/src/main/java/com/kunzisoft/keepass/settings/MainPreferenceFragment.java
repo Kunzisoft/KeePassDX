@@ -26,7 +26,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.element.Database;
 
 public class MainPreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 

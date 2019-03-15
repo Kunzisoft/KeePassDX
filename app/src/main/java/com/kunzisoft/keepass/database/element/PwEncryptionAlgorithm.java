@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.content.res.Resources;
 
@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.crypto.engine.AesEngine;
 import com.kunzisoft.keepass.crypto.engine.ChaCha20Engine;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.crypto.engine.TwofishEngine;
+import com.kunzisoft.keepass.database.ObjectNameResource;
 
 import java.util.UUID;
 

@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.view.View
 import com.kunzisoft.keepass.app.App
-import com.kunzisoft.keepass.database.Database
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.action.SaveDatabaseProgressDialogRunnable
 import com.kunzisoft.keepass.tasks.ActionRunnable
 

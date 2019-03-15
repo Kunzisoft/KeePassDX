@@ -21,9 +21,9 @@ package com.kunzisoft.keepass.database.action.node;
 
 import android.support.v4.app.FragmentActivity;
 
-import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass.database.PwGroup;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwGroup;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

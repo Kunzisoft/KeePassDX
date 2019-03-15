@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.save;
 
-import com.kunzisoft.keepass.database.PwDbHeaderV3;
+import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 
 import java.io.IOException;

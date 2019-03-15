@@ -25,8 +25,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
-import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwGroup;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwGroup;
 import com.kunzisoft.keepass.tests.database.TestData;
 
 public class SearchTest extends AndroidTestCase {

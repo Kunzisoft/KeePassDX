@@ -17,22 +17,25 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public abstract class PwGroupId implements Parcelable {
+public abstract class PwIcon implements Parcelable {
 
-    public PwGroupId() {}
+	public boolean isMetaStreamIcon() {
+		return false;
+	}
 
-    public PwGroupId(Parcel in) {}
+    protected PwIcon() {}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {}
+    protected PwIcon(Parcel in) {}
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+	public abstract boolean isUnknown();
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 }

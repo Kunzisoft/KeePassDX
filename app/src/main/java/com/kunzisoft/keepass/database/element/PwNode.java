@@ -18,12 +18,13 @@
  *
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.database.ISmallTimeLogger;
 
 import org.joda.time.LocalDate;
 

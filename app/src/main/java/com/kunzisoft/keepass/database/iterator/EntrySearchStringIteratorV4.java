@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.iterator;
 
-import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.search.SearchParametersV4;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 

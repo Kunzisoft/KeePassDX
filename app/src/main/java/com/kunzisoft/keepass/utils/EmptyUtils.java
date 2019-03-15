@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.utils;
 
 import android.net.Uri;
 
-import com.kunzisoft.keepass.database.PwDate;
+import com.kunzisoft.keepass.database.element.PwDate;
 
 public class EmptyUtils {
 	public static boolean isNullOrEmpty(String str) {

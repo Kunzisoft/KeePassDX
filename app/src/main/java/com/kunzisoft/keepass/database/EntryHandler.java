@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import com.kunzisoft.keepass.database.element.PwEntry;
+
 /** "Delegate" class for operating on each entry when traversing all of
  * them
  * @author bpellin

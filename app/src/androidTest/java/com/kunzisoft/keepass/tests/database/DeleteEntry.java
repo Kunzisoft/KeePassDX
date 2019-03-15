@@ -22,12 +22,12 @@ package com.kunzisoft.keepass.tests.database;
 import android.content.Context;
 import android.test.AndroidTestCase;
 
-import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwDatabase;
-import com.kunzisoft.keepass.database.PwDatabaseV3;
-import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass.database.PwEntryV3;
-import com.kunzisoft.keepass.database.PwGroup;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwDatabaseV3;
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwGroup;
 import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
 import com.kunzisoft.keepass.database.search.SearchDbHelper;
 

@@ -17,17 +17,18 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
-public class PwDbHeaderFactory {
-	public static PwDbHeader getInstance(PwDatabase db) {
-		if (db instanceof PwDatabaseV3) {
-			return new PwDbHeaderV3();
-		} else if (db instanceof PwDatabaseV4) {
-			return new PwDbHeaderV4((PwDatabaseV4)db);
-		} else {
-			throw new RuntimeException("Not implemented.");
-			
-		}
-	}
+public class PwDefsV4 {
+
+	public static final String TITLE_FIELD = "Title";
+
+    public static final String USERNAME_FIELD = "UserName";
+
+    public static final String PASSWORD_FIELD = "Password";
+
+    public static final String URL_FIELD = "URL";
+
+    public static final String NOTES_FIELD = "Notes";
+
 }

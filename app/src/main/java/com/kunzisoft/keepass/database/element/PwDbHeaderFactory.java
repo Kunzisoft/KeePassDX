@@ -1,6 +1,6 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
- *
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ *     
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,20 +17,17 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
-public enum PwVersion {
-    V3, V4;
-
-    @Override
-    public String toString() {
-        switch (this) {
-            case V3:
-                return "KeePass 1";
-            case V4:
-                return "KeePass 2";
-            default:
-                return "unknown";
-        }
-    }
+public class PwDbHeaderFactory {
+	public static PwDbHeader getInstance(PwDatabase db) {
+		if (db instanceof PwDatabaseV3) {
+			return new PwDbHeaderV3();
+		} else if (db instanceof PwDatabaseV4) {
+			return new PwDbHeaderV4((PwDatabaseV4)db);
+		} else {
+			throw new RuntimeException("Not implemented.");
+			
+		}
+	}
 }

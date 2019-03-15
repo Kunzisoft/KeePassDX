@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.app;
 import android.support.multidex.MultiDexApplication;
 
 import com.kunzisoft.keepass.compat.PRNGFixes;
-import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.fileselect.RecentFileHistory;
 import com.kunzisoft.keepass.stylish.Stylish;
 

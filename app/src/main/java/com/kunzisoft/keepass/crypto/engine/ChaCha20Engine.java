@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.crypto.engine;
 
-import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
 import com.kunzisoft.keepass.utils.Types;
 
 import org.spongycastle.jce.provider.BouncyCastleProvider;

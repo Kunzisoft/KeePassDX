@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.utils;
 
-import com.kunzisoft.keepass.database.PwDatabase;
-import com.kunzisoft.keepass.database.PwDatabaseV4;
-import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwDatabaseV4;
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.search.EntrySearchV4;
 import com.kunzisoft.keepass.database.search.SearchParametersV4;
 

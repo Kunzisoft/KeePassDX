@@ -17,11 +17,15 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
+import com.kunzisoft.keepass.database.CrsAlgorithm;
+import com.kunzisoft.keepass.database.EntryHandler;
+import com.kunzisoft.keepass.database.GroupHandler;
+import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.exception.InvalidDBVersionException;
 import com.kunzisoft.keepass.stream.CopyInputStream;
 import com.kunzisoft.keepass.stream.HmacBlockStream;

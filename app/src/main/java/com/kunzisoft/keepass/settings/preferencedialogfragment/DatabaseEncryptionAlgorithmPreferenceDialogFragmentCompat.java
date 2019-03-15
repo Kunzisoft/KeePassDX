@@ -26,7 +26,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
 import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter;
 

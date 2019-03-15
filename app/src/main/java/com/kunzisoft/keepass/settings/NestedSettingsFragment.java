@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;

@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.database.search;
 
 import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.PwEntryV4;
-import com.kunzisoft.keepass.database.PwGroupV4;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.utils.StrUtil;
 
 import java.util.ArrayList;

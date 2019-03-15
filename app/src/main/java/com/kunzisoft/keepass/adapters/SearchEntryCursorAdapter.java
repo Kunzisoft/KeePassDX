@@ -31,10 +31,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass.database.PwIcon;
-import com.kunzisoft.keepass.database.PwIconFactory;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwIcon;
+import com.kunzisoft.keepass.database.element.PwIconFactory;
 import com.kunzisoft.keepass.database.cursor.EntryCursor;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 

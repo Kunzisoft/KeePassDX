@@ -63,7 +63,7 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
-import com.kunzisoft.keepass.database.Database;
+import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;

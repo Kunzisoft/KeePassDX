@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.tests;
 
 import android.test.AndroidTestCase;
 
-import com.kunzisoft.keepass.database.PwGroupV3;
+import com.kunzisoft.keepass.database.element.PwGroupV3;
 import com.kunzisoft.keepass.tests.database.TestData;
 
 public class PwGroupTest extends AndroidTestCase {

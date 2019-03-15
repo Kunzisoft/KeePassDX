@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import com.kunzisoft.keepass.database.element.PwDate;
+
 public interface ITimeLogger extends ISmallTimeLogger {
 
 	long getUsageCount();

@@ -26,7 +26,7 @@ import android.support.annotation.StringRes
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.App
-import com.kunzisoft.keepass.database.Database
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater

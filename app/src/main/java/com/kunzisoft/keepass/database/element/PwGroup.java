@@ -17,9 +17,12 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
+
+import com.kunzisoft.keepass.database.EntryHandler;
+import com.kunzisoft.keepass.database.GroupHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +158,7 @@ public abstract class PwGroup<GroupG extends PwGroup, EntryE extends PwEntry>
 	}
 
 	public boolean preOrderTraverseTree(GroupHandler<GroupG> groupHandler,
-                                        EntryHandler<EntryE> entryHandler) {
+										EntryHandler<EntryE> entryHandler) {
 		if (entryHandler != null) {
 			for (EntryE entry : childEntries) {
 				if (!entryHandler.operate(entry)) return false;

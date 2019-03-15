@@ -20,12 +20,12 @@
 package com.kunzisoft.keepass.database.save;
 
 import com.kunzisoft.keepass.crypto.CipherFactory;
-import com.kunzisoft.keepass.database.PwDatabaseV3;
-import com.kunzisoft.keepass.database.PwDbHeader;
-import com.kunzisoft.keepass.database.PwDbHeaderV3;
-import com.kunzisoft.keepass.database.PwEncryptionAlgorithm;
-import com.kunzisoft.keepass.database.PwEntryV3;
-import com.kunzisoft.keepass.database.PwGroupV3;
+import com.kunzisoft.keepass.database.element.PwDatabaseV3;
+import com.kunzisoft.keepass.database.element.PwDbHeader;
+import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
+import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwGroupV3;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.stream.NullOutputStream;

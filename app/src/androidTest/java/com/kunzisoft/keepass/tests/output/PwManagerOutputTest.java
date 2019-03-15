@@ -32,9 +32,9 @@ import java.security.NoSuchAlgorithmException;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.kunzisoft.keepass.database.PwDatabaseV3Debug;
-import com.kunzisoft.keepass.database.PwDbHeader;
-import com.kunzisoft.keepass.database.PwDbHeaderV3;
+import com.kunzisoft.keepass.database.element.PwDatabaseV3Debug;
+import com.kunzisoft.keepass.database.element.PwDbHeader;
+import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.database.save.PwDbHeaderOutputV3;
 import com.kunzisoft.keepass.database.save.PwDbV3Output;

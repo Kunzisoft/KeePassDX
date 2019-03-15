@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.database.cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 
-import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 
 public class ExtraFieldCursor extends MatrixCursor {

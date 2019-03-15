@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database;
 
+import com.kunzisoft.keepass.database.element.PwDefsV4;
+
 public class MemoryProtectionConfig {
 
     public boolean protectTitle = false;

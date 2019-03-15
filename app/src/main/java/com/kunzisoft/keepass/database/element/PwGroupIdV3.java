@@ -1,6 +1,6 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
- *
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ *     
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,59 +17,58 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
-import java.util.UUID;
+public class PwGroupIdV3 extends PwGroupId {
 
-public class PwGroupIdV4 extends PwGroupId {
-
-	private UUID uuid;
+	private int id;
 	
-	public PwGroupIdV4(UUID uuid) {
+	public PwGroupIdV3(int groupId) {
 	    super();
-        this.uuid = uuid;
+		this.id = groupId;
 	}
 
-	public PwGroupIdV4(Parcel in) {
-	    super(in);
-		uuid = (UUID) in.readSerializable();
+	public PwGroupIdV3(Parcel in) {
+        super(in);
+        id = in.readInt();
 	}
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-	    super.writeToParcel(dest, flags);
-        dest.writeSerializable(uuid);
+        super.writeToParcel(dest, flags);
+        dest.writeInt(id);
     }
 
-    public static final Creator<PwGroupIdV4> CREATOR = new Creator<PwGroupIdV4>() {
+    public static final Creator<PwGroupIdV3> CREATOR = new Creator<PwGroupIdV3>() {
         @Override
-        public PwGroupIdV4 createFromParcel(Parcel in) {
-            return new PwGroupIdV4(in);
+        public PwGroupIdV3 createFromParcel(Parcel in) {
+            return new PwGroupIdV3(in);
         }
 
         @Override
-        public PwGroupIdV4[] newArray(int size) {
-            return new PwGroupIdV4[size];
+        public PwGroupIdV3[] newArray(int size) {
+            return new PwGroupIdV3[size];
         }
     };
-
+	
 	@Override
-	public boolean equals(Object id) {
-		if ( ! (id instanceof PwGroupIdV4) ) {
+	public boolean equals(Object compare) {
+		if ( ! (compare instanceof PwGroupIdV3) ) {
 			return false;
 		}
-		PwGroupIdV4 v4 = (PwGroupIdV4) id;
-		return uuid.equals(v4.uuid);
+		PwGroupIdV3 cmp = (PwGroupIdV3) compare;
+		return id == cmp.id;
 	}
 
 	@Override
 	public int hashCode() {
-		return uuid.hashCode();
+		Integer i = id;
+		return i.hashCode();
 	}
-
-	public UUID getId() {
-		return uuid;
+	
+	public int getId() {
+		return id;
 	}
 }

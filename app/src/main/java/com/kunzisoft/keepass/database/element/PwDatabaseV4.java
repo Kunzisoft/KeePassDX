@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.util.Log;
 import android.webkit.URLUtil;
@@ -29,6 +29,9 @@ import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
+import com.kunzisoft.keepass.database.BinaryPool;
+import com.kunzisoft.keepass.database.MemoryProtectionConfig;
+import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.UnknownKDF;
 import com.kunzisoft.keepass.utils.EmptyUtils;

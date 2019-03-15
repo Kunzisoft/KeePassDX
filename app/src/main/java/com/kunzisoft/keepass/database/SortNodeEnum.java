@@ -20,6 +20,10 @@
 
 package com.kunzisoft.keepass.database;
 
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwGroup;
+import com.kunzisoft.keepass.database.element.PwNode;
+
 import java.util.Comparator;
 
 public enum SortNodeEnum {

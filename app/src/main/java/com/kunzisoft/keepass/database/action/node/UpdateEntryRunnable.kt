@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
-import com.kunzisoft.keepass.database.Database
-import com.kunzisoft.keepass.database.PwEntry
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.PwEntry
 
 class UpdateEntryRunnable constructor(
         context: FragmentActivity,

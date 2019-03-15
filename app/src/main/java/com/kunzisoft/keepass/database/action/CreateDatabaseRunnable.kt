@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.database.action
 
 import com.kunzisoft.keepass.app.App
-import com.kunzisoft.keepass.database.Database
-import com.kunzisoft.keepass.database.PwDatabase
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.PwDatabase
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.UriUtil
 

@@ -35,9 +35,9 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.Database;
-import com.kunzisoft.keepass.database.PwGroup;
-import com.kunzisoft.keepass.database.PwIcon;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwGroup;
+import com.kunzisoft.keepass.database.element.PwIcon;
 
 import static com.kunzisoft.keepass.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION;
 import static com.kunzisoft.keepass.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE;

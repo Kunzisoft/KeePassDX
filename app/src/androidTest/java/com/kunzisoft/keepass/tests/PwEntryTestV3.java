@@ -27,7 +27,7 @@ import java.util.Calendar;
 
 import android.test.AndroidTestCase;
 
-import com.kunzisoft.keepass.database.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwEntryV3;
 import com.kunzisoft.keepass.tests.database.TestData;
 
 public class PwEntryTestV3 extends AndroidTestCase {

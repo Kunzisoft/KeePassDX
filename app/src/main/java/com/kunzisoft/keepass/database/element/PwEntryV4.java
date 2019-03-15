@@ -17,10 +17,13 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
+import com.kunzisoft.keepass.database.AutoType;
+import com.kunzisoft.keepass.database.ExtraFields;
+import com.kunzisoft.keepass.database.ITimeLogger;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.utils.MemUtil;

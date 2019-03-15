@@ -3,13 +3,13 @@ package com.kunzisoft.keepass.database.cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 
-import com.kunzisoft.keepass.database.PwDatabase;
-import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass.database.PwEntryV3;
-import com.kunzisoft.keepass.database.PwEntryV4;
-import com.kunzisoft.keepass.database.PwIconCustom;
-import com.kunzisoft.keepass.database.PwIconFactory;
-import com.kunzisoft.keepass.database.PwIconStandard;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwIconCustom;
+import com.kunzisoft.keepass.database.element.PwIconFactory;
+import com.kunzisoft.keepass.database.element.PwIconStandard;
 
 import java.util.UUID;
 

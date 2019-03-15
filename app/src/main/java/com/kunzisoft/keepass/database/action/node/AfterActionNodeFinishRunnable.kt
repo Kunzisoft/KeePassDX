@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import com.kunzisoft.keepass.database.PwNode
+import com.kunzisoft.keepass.database.element.PwNode
 
 /**
  * Callback method who return the node(s) modified after an action

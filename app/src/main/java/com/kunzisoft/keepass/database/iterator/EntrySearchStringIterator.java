@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.database.iterator;
 
-import com.kunzisoft.keepass.database.PwEntry;
-import com.kunzisoft.keepass.database.PwEntryV3;
-import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.search.SearchParameters;
 import com.kunzisoft.keepass.database.search.SearchParametersV4;
 

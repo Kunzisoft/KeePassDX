@@ -21,9 +21,9 @@ package com.kunzisoft.keepass.database.save;
 
 import com.kunzisoft.keepass.collections.VariantDictionary;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
-import com.kunzisoft.keepass.database.PwDatabaseV4;
-import com.kunzisoft.keepass.database.PwDbHeader;
-import com.kunzisoft.keepass.database.PwDbHeaderV4;
+import com.kunzisoft.keepass.database.element.PwDatabaseV4;
+import com.kunzisoft.keepass.database.element.PwDbHeader;
+import com.kunzisoft.keepass.database.element.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.stream.HmacBlockStream;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;

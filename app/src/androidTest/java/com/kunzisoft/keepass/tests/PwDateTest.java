@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.tests;
 
 import junit.framework.TestCase;
 
-import com.kunzisoft.keepass.database.PwDate;
+import com.kunzisoft.keepass.database.element.PwDate;
 
 public class PwDateTest extends TestCase {
 	public void testDate() {

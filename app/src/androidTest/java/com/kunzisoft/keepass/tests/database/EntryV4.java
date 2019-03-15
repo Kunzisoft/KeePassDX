@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.tests.database;
 
-import com.kunzisoft.keepass.database.PwDatabaseV4;
-import com.kunzisoft.keepass.database.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwDatabaseV4;
+import com.kunzisoft.keepass.database.element.PwEntryV4;
 
 import junit.framework.TestCase;
 

@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.load;
 
-import com.kunzisoft.keepass.database.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 

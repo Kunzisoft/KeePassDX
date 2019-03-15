@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.database.load;
 
-import com.kunzisoft.keepass.database.PwDbHeaderV3;
-import com.kunzisoft.keepass.database.PwDbHeaderV4;
+import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
+import com.kunzisoft.keepass.database.element.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.exception.InvalidDBSignatureException;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 

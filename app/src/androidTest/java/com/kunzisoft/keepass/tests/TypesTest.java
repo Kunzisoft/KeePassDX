@@ -28,7 +28,7 @@ import java.util.UUID;
 
 import junit.framework.TestCase;
 
-import com.kunzisoft.keepass.database.PwDate;
+import com.kunzisoft.keepass.database.element.PwDate;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.utils.Types;
