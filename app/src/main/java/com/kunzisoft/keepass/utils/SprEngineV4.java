@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.utils;
 
 import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDatabaseV4;
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.search.EntrySearchV4;
 import com.kunzisoft.keepass.database.search.SearchParametersV4;
@@ -46,7 +46,7 @@ public class SprEngineV4 {
 		}
 	}
 
-	public String compile(String text, PwEntry entry, PwDatabase database) {
+	public String compile(String text, PwEntryInterface entry, PwDatabase database) {
 		SprContextV4 ctx = new SprContextV4((PwDatabaseV4)database, (PwEntryV4)entry);
 		
 		return compileInternal(text, ctx, 0);
@@ -84,7 +84,7 @@ public class SprEngineV4 {
                 	String data;
                 	switch (wanted) {
                 	case 'T':
-                		data = found.getTitle();
+                		data = found.getName();
                 		break;
                 	case 'U':
                 		data = found.getUsername();

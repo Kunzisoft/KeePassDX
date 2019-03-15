@@ -22,8 +22,8 @@ package com.kunzisoft.keepass.database.action.node;
 import android.support.v4.app.FragmentActivity;
 
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwEntry;
-import com.kunzisoft.keepass.database.element.PwGroup;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,11 +34,15 @@ import java.util.List;
 // TODO Kotlinized
 public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 
-	private PwGroup<PwGroup, PwEntry> mGroupToDelete;
-	private PwGroup mParent;
+	private PwGroupInterface mGroupToDelete;
+	private PwGroupInterface mParent;
 	private boolean mRecycle;
 
-	public DeleteGroupRunnable(FragmentActivity context, Database database, PwGroup<PwGroup, PwEntry> group, AfterActionNodeFinishRunnable finish, boolean save) {
+	public DeleteGroupRunnable(FragmentActivity context,
+							   Database database,
+							   PwGroupInterface group,
+							   AfterActionNodeFinishRunnable finish,
+							   boolean save) {
 		super(context, database, finish, save);
         mGroupToDelete = group;
 	}
@@ -55,16 +59,26 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 		else {
 			// TODO tests
 			// Remove child entries
-			List<PwEntry> childEnt = new ArrayList<>(mGroupToDelete.getChildEntries()); // TODO new Methods
+			List<PwEntryInterface> childEnt = new ArrayList<>(mGroupToDelete.getChildEntries()); // TODO new Methods
 			for ( int i = 0; i < childEnt.size(); i++ ) {
-				DeleteEntryRunnable task = new DeleteEntryRunnable((FragmentActivity) getContext(), getDatabase(), childEnt.get(i), null, true);
+				DeleteEntryRunnable task = new DeleteEntryRunnable(
+						(FragmentActivity) getContext(),
+						getDatabase(),
+						childEnt.get(i),
+						null,
+						true);
 				task.run();
 			}
 
 			// Remove child groups
-			List<PwGroup> childGrp = new ArrayList<>(mGroupToDelete.getChildGroups());
+			List<PwGroupInterface> childGrp = new ArrayList<>(mGroupToDelete.getChildGroups());
 			for ( int i = 0; i < childGrp.size(); i++ ) {
-				DeleteGroupRunnable task = new DeleteGroupRunnable((FragmentActivity) getContext(), getDatabase(), childGrp.get(i), null, true);
+				DeleteGroupRunnable task = new DeleteGroupRunnable(
+						(FragmentActivity) getContext(),
+						getDatabase(),
+						childGrp.get(i),
+						null,
+						true);
 				task.run();
 			}
 			getDatabase().deleteGroup(mGroupToDelete);

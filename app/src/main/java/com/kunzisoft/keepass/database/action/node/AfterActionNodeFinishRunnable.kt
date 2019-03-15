@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import com.kunzisoft.keepass.database.element.PwNode
+import com.kunzisoft.keepass.database.element.PwNodeInterface
 
 /**
  * Callback method who return the node(s) modified after an action
@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.database.element.PwNode
  * - Move : @param oldNode NULL, @param NodeToMove
  * - Update : @param oldNode NodeToUpdate, @param NodeUpdated
  */
-data class ActionNodeValues(val success: Boolean, val message: String?, val oldNode: PwNode<*>?, val newNode: PwNode<*>?)
+data class ActionNodeValues(val success: Boolean, val message: String?, val oldNode: PwNodeInterface?, val newNode: PwNodeInterface?)
 
 abstract class AfterActionNodeFinishRunnable {
     abstract fun onActionNodeFinish(actionNodeValues: ActionNodeValues)

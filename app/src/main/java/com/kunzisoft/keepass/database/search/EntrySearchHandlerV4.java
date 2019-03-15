@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.database.search;
 
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroup;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.utils.StrUtil;
 import com.kunzisoft.keepass.utils.UuidUtil;
 
@@ -58,7 +58,7 @@ public class EntrySearchHandlerV4 extends EntrySearchHandler<PwEntryV4> {
 		}
 
 		if (sp.searchInGroupNames) {
-			PwGroup parent = entry.getParent();
+			PwGroupInterface parent = entry.getParent();
 			if (parent != null) {
 				String groupName = parent.getName();
 				if (groupName != null) {
@@ -83,7 +83,7 @@ public class EntrySearchHandlerV4 extends EntrySearchHandler<PwEntryV4> {
 	}
 
 	@Override
-	protected boolean searchID(PwEntry e) {
+	protected boolean searchID(PwEntryInterface e) {
 		PwEntryV4 entry = (PwEntryV4) e;
 		if (sp.searchInUUIDs) {
 			String hex = UuidUtil.toHexString(entry.getUUID());

@@ -175,11 +175,11 @@ public class Database {
         }
     }
 
-    public PwGroup search(String str) {
+    public PwGroupInterface search(String str) {
         return search(str, Integer.MAX_VALUE);
     }
 
-    public PwGroup search(String str, int max) {
+    public PwGroupInterface search(String str, int max) {
         if (searchHelper == null) { return null; }
         try {
             switch (pwDatabase.getVersion()) {
@@ -199,11 +199,11 @@ public class Database {
 
         // TODO real content provider
         if (!query.isEmpty()) {
-            PwGroup searchResult = search(query, 6);
+            PwGroupInterface searchResult = search(query, 6);
             PwVersion version = getPwDatabase().getVersion();
             if (searchResult != null) {
                 for (int i = 0; i < searchResult.numbersOfChildEntries(); i++) {
-                    PwEntry entry = searchResult.getChildEntryAt(i);
+                    PwEntryInterface entry = searchResult.getChildEntryAt(i);
                     if (!entry.isMetaStream()) { // TODO metastream
                         try {
                             switch (version) {
@@ -223,7 +223,7 @@ public class Database {
         return cursor;
     }
 
-    public void populateEntry(PwEntry pwEntry, EntryCursor cursor) {
+    public void populateEntry(PwEntryInterface pwEntry, EntryCursor cursor) {
         PwIconFactory iconFactory = getPwDatabase().getIconFactory();
         try {
             switch (getPwDatabase().getVersion()) {
@@ -522,11 +522,11 @@ public class Database {
         }
     }
 
-    public PwEntry createEntry() {
+    public PwEntryInterface createEntry() {
         return createEntry(null);
     }
 
-    public PwEntry createEntry(@Nullable PwGroup parent) {
+    public PwEntryInterface createEntry(@Nullable PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -540,8 +540,8 @@ public class Database {
         return null;
     }
 
-    public PwGroup createGroup(PwGroup parent) {
-        PwGroup newPwGroup = null;
+    public PwGroupInterface createGroup(PwGroupInterface parent) {
+        PwGroupInterface newPwGroup = null;
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -556,22 +556,15 @@ public class Database {
         return newPwGroup;
     }
 
-    public void addEntryTo(PwEntry entry, PwGroup parent) {
-        try {
-            switch (getPwDatabase().getVersion()) {
-                case V3:
-                    ((PwDatabaseV3) getPwDatabase()).addEntryTo((PwEntryV3) entry, (PwGroupV3) parent);
-                    break;
-                case V4:
-                    ((PwDatabaseV4) getPwDatabase()).addEntryTo((PwEntryV4) entry, (PwGroupV4) parent);
-                    break;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "This version of PwEntry can't be added in this version of PwGroup", e);
-        }
+    public void addEntryTo(PwEntryV3 entry, PwGroupV3 parent) {
+        ((PwDatabaseV3) getPwDatabase()).addEntryTo(entry, parent);
     }
 
-    public void removeEntryFrom(PwEntry entry, PwGroup parent) {
+    public void addEntryTo(PwEntryInterface entry, PwGroupInterface parent) {
+        ((PwDatabaseV4) getPwDatabase()).addEntryTo(entry, parent);
+    }
+
+    public void removeEntryFrom(PwEntryInterface entry, PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -586,7 +579,7 @@ public class Database {
         }
     }
 
-    public void addGroupTo(PwGroup group, PwGroup parent) {
+    public void addGroupTo(PwGroupInterface group, PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -601,7 +594,7 @@ public class Database {
         }
     }
 
-    public void removeGroupFrom(PwGroup group, PwGroup parent) {
+    public void removeGroupFrom(PwGroupInterface group, PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -616,7 +609,7 @@ public class Database {
         }
     }
 
-    public boolean canRecycle(PwEntry entry) {
+    public boolean canRecycle(PwEntryInterface entry) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -630,7 +623,7 @@ public class Database {
         return false;
     }
 
-    public boolean canRecycle(PwGroup group) {
+    public boolean canRecycle(PwGroupInterface group) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -644,7 +637,7 @@ public class Database {
         return false;
     }
 
-    public void recycle(PwEntry entry) {
+    public void recycle(PwEntryInterface entry) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -659,7 +652,7 @@ public class Database {
         }
     }
 
-    public void recycle(PwGroup group) {
+    public void recycle(PwGroupInterface group) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -674,7 +667,7 @@ public class Database {
         }
     }
 
-    public void updateEntry(PwEntry oldEntry, PwEntry newEntry) {
+    public void updateEntry(PwEntryInterface oldEntry, PwEntryInterface newEntry) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -689,7 +682,7 @@ public class Database {
         }
     }
 
-    public void updateGroup(PwGroup oldGroup, PwGroup newGroup) {
+    public void updateGroup(PwGroupInterface oldGroup, PwGroupInterface newGroup) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -709,7 +702,7 @@ public class Database {
      * @param entryToCopy
      * @param newParent
      */
-    public @Nullable PwEntry copyEntry(PwEntry entryToCopy, PwGroup newParent) {
+    public @Nullable PwEntryInterface copyEntry(PwEntryInterface entryToCopy, PwGroupInterface newParent) {
         try {
             // TODO encapsulate
             switch (getPwDatabase().getVersion()) {
@@ -732,17 +725,17 @@ public class Database {
         return null;
     }
 
-    public void moveEntry(PwEntry entryToMove, PwGroup newParent) {
-        removeEntryFrom(entryToMove, entryToMove.parent);
+    public void moveEntry(PwEntryInterface entryToMove, PwGroupInterface newParent) {
+        removeEntryFrom(entryToMove, entryToMove.getParent());
         addEntryTo(entryToMove, newParent);
     }
 
-    public void moveGroup(PwGroup groupToMove, PwGroup newParent) {
-        removeGroupFrom(groupToMove, groupToMove.parent);
+    public void moveGroup(PwGroupInterface groupToMove, PwGroupInterface newParent) {
+        removeGroupFrom(groupToMove, groupToMove.getParent());
         addGroupTo(groupToMove, newParent);
     }
 
-    public void deleteEntry(PwEntry entry) {
+    public void deleteEntry(PwEntryInterface entry) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -757,7 +750,7 @@ public class Database {
         }
     }
 
-    public void deleteGroup(PwGroup group) {
+    public void deleteGroup(PwGroupInterface group) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -780,7 +773,7 @@ public class Database {
         return getPwDatabase().isRecycleBinEnabled();
     }
 
-    public void undoRecycle(PwEntry entry, PwGroup parent) {
+    public void undoRecycle(PwEntryInterface entry, PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -795,7 +788,7 @@ public class Database {
         }
     }
 
-    public void undoRecycle(PwGroup group, PwGroup parent) {
+    public void undoRecycle(PwGroupInterface group, PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -810,7 +803,7 @@ public class Database {
         }
     }
 
-    public void undoDeleteEntry(PwEntry entry, PwGroup parent) {
+    public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -825,7 +818,7 @@ public class Database {
         }
     }
 
-    public void undoDeleteGroup(PwGroup group, PwGroup parent) {
+    public void undoDeleteGroup(PwGroupInterface group, PwGroupInterface parent) {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:

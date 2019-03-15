@@ -19,14 +19,14 @@
  */
 package com.kunzisoft.keepass.database;
 
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 
 /** "Delegate" class for operating on each entry when traversing all of
  * them
  * @author bpellin
  *
  */
-public abstract class EntryHandler<T extends PwEntry> {
+public abstract class EntryHandler<T extends PwEntryInterface> {
 	public abstract boolean operate(T entry);
 }
 	

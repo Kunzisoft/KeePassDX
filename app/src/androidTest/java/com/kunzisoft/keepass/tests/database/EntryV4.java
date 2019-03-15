@@ -33,21 +33,21 @@ public class EntryV4 extends TestCase {
 		
 		PwEntryV4 entry = new PwEntryV4();
 		entry.startToManageFieldReferences(db);
-		entry.setTitle("Title1");
+		entry.setName("Title1");
 		entry.setUsername("User1");
 		entry.createBackup(db);
 		
-		entry.setTitle("Title2");
+		entry.setName("Title2");
 		entry.setUsername("User2");
 		entry.createBackup(db);
 		
-		entry.setTitle("Title3");
+		entry.setName("Title3");
 		entry.setUsername("User3");
 		entry.createBackup(db);
 		
 		PwEntryV4 backup = entry.getHistory().get(0);
 		entry.stopToManageFieldReferences();
-		assertEquals("Title2", backup.getTitle());
+		assertEquals("Title2", backup.getName());
 		assertEquals("User2", backup.getUsername());
 	}
 

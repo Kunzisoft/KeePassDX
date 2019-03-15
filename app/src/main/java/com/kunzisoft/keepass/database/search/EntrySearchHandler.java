@@ -20,13 +20,13 @@
 package com.kunzisoft.keepass.database.search;
 
 import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 
 import java.util.Date;
 import java.util.List;
 
-public abstract class EntrySearchHandler<T extends PwEntry> extends EntryHandler<T> {
+public abstract class EntrySearchHandler<T extends PwEntryInterface> extends EntryHandler<T> {
 
     protected List<T> listStorage;
 	protected SearchParameters sp;
@@ -38,11 +38,11 @@ public abstract class EntrySearchHandler<T extends PwEntry> extends EntryHandler
 		this.now = new Date();
 	}
 	
-	protected boolean searchID(PwEntry entry) {
+	protected boolean searchID(PwEntryInterface entry) {
 		return false;
 	}
 	
-	protected boolean searchStrings(PwEntry entry, String term) {
+	protected boolean searchStrings(PwEntryInterface entry, String term) {
 		EntrySearchStringIterator iter = EntrySearchStringIterator.getInstance(entry, sp);
 		while (iter.hasNext()) {
 			String str = iter.next();

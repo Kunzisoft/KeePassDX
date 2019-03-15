@@ -42,7 +42,7 @@ public class PwEntryTestV3 extends AndroidTestCase {
 	}
 	
 	public void testName() {
-		assertTrue("Name was " + mPE.getTitle(), mPE.getTitle().equals("Amazon"));
+		assertTrue("Name was " + mPE.getName(), mPE.getName().equals("Amazon"));
 	}
 	
 	public void testPassword() throws UnsupportedEncodingException {

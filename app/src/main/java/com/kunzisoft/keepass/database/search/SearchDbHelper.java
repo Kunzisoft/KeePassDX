@@ -27,12 +27,9 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDatabaseV3;
 import com.kunzisoft.keepass.database.element.PwDatabaseV4;
-import com.kunzisoft.keepass.database.element.PwEntry;
-import com.kunzisoft.keepass.database.element.PwEntryV3;
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroup;
-import com.kunzisoft.keepass.database.element.PwGroupV3;
-import com.kunzisoft.keepass.database.element.PwGroupV4;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,9 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 
-public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, PwEntrySearch>,
-		PwGroupSearch extends PwGroup<PwGroupSearch, PwEntrySearch>,
-		PwEntrySearch extends PwEntry<PwGroupSearch>> {
+public class SearchDbHelper<PwDatabaseVersion extends PwDatabase> {
 	
 	private final Context mCtx;
 	
@@ -56,9 +51,9 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, 
 		return prefs.getBoolean(mCtx.getString(R.string.omitbackup_key), mCtx.getResources().getBoolean(R.bool.omitbackup_default));
 	}
 
-	public PwGroupSearch search(PwDatabaseVersion pm, String qStr, int max) {
+	public PwGroupInterface search(PwDatabaseVersion pm, String qStr, int max) {
 
-		PwGroupSearch group = pm.createGroup();
+		PwGroupInterface group = pm.createGroup();
 		group.setName("\"" + qStr + "\"");
 		group.setEntries(new ArrayList<>());
 		
@@ -68,22 +63,22 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, 
 		boolean isOmitBackup = omitBackup();
 
 		// TODO Search from the current group
-		Queue<PwGroupSearch> worklist = new LinkedList<>();
+		Queue<PwGroupInterface> worklist = new LinkedList<>();
 		if (pm.getRootGroup() != null) {
 			worklist.add(pm.getRootGroup());
 		}
 
 		while (worklist.size() != 0) {
-			PwGroupSearch top = worklist.remove();
+			PwGroupInterface top = worklist.remove();
 			
 			if (pm.isGroupSearchable(top, isOmitBackup)) {
-				for (PwEntrySearch entry : top.getChildEntries()) {
+				for (PwEntryInterface entry : top.getChildEntries()) {
 					processEntries(entry, group.getChildEntries(), qStr, loc);
 					if (group.numbersOfChildEntries() >= max)
 					    return group;
 				}
 				
-				for (PwGroupSearch childGroup : top.getChildGroups()) {
+				for (PwGroupInterface childGroup : top.getChildGroups()) {
 					if (childGroup != null) {
 						worklist.add(childGroup);
 					}
@@ -94,9 +89,9 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, 
 		return group;
 	}
 	
-	private void processEntries(PwEntrySearch entry, List<PwEntrySearch> results, String qStr, Locale loc) {
+	private void processEntries(PwEntryInterface entry, List<PwEntryInterface> results, String qStr, Locale loc) {
 		// Search all strings in the entry
-		Iterator<String> iter = entry.stringIterator();
+		Iterator<String> iter = EntrySearchStringIterator.getInstance(entry);
 		while (iter.hasNext()) {
 			String str = iter.next();
 			if (str != null && str.length() != 0) {
@@ -109,14 +104,14 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase<PwGroupSearch, 
 		}
 	}
 
-	public static class SearchDbHelperV3 extends SearchDbHelper<PwDatabaseV3, PwGroupV3, PwEntryV3>{
+	public static class SearchDbHelperV3 extends SearchDbHelper<PwDatabaseV3>{
 
 		public SearchDbHelperV3(Context ctx) {
 			super(ctx);
 		}
 	}
 
-	public static class SearchDbHelperV4 extends SearchDbHelper<PwDatabaseV4, PwGroupV4, PwEntryV4>{
+	public static class SearchDbHelperV4 extends SearchDbHelper<PwDatabaseV4>{
 
 		public SearchDbHelperV4(Context ctx) {
 			super(ctx);

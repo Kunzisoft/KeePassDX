@@ -35,8 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>,
-        PwEntryDB extends PwEntry<PwGroupDB>> {
+public abstract class PwDatabase {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
 
@@ -46,11 +45,11 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
     protected byte masterKey[] = new byte[32];
     protected byte[] finalKey;
 
-    protected PwGroupDB rootGroup;
+    protected PwGroupInterface rootGroup;
     protected PwIconFactory iconFactory = new PwIconFactory();
 
-    protected Map<PwGroupId, PwGroupDB> groups = new HashMap<>();
-    protected Map<UUID, PwEntryDB> entries = new HashMap<>();
+    protected Map<PwNodeId, PwGroupInterface> groups = new HashMap<>();
+    protected Map<UUID, PwEntryInterface> entries = new HashMap<>();
 
     private static boolean isKDBExtension(String filename) {
         if (filename == null) { return false; }
@@ -72,11 +71,11 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
 
     public abstract PwVersion getVersion();
 
-    public PwGroupDB getRootGroup() {
+    public PwGroupInterface getRootGroup() {
         return rootGroup;
     }
 
-    public void setRootGroup(PwGroupDB rootGroup) {
+    public void setRootGroup(PwGroupInterface rootGroup) {
         this.rootGroup = rootGroup;
     }
 
@@ -248,11 +247,11 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
 
     public abstract List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms();
 
-    public abstract List<PwGroupDB> getGrpRoots();
+    public abstract List<PwGroupInterface> getGrpRoots();
 
-    public abstract List<PwGroupDB> getGroups();
+    public abstract List<PwGroupInterface> getGroups();
 
-    protected void addGroupTo(PwGroupDB newGroup, PwGroupDB parent) {
+    protected void addGroupTo(PwGroupInterface newGroup, PwGroupInterface parent) {
         // Add tree to parent tree
         if ( parent == null ) {
             parent = rootGroup;
@@ -265,7 +264,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
         parent.touch(true, true);
     }
 
-    protected void removeGroupFrom(PwGroupDB remove, PwGroupDB parent) {
+    protected void removeGroupFrom(PwGroupInterface remove, PwGroupInterface parent) {
         // Remove tree from parent tree
         if (parent != null) {
             parent.removeChildGroup(remove);
@@ -273,9 +272,9 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
         groups.remove(remove.getId());
     }
 
-    public abstract PwGroupId newGroupId();
+    public abstract PwNodeId newGroupId();
 
-    public PwGroupDB getGroupByGroupId(PwGroupId id) {
+    public PwGroupInterface getGroupByGroupId(PwNodeId id) {
         return this.groups.get(id);
     }
 
@@ -286,11 +285,11 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
      *            ID number to check for
      * @return True if the ID is used, false otherwise
      */
-    protected boolean isGroupIdUsed(PwGroupId id) {
-        List<PwGroupDB> groups = getGroups();
+    protected boolean isGroupIdUsed(PwNodeId id) {
+        List<PwGroupInterface> groups = getGroups();
 
         for (int i = 0; i < groups.size(); i++) {
-            PwGroupDB group =groups.get(i);
+            PwGroupInterface group =groups.get(i);
             if (group.getId().equals(id)) {
                 return true;
             }
@@ -299,15 +298,15 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
         return false;
     }
 
-    public abstract PwGroupDB createGroup();
+    public abstract PwGroupInterface createGroup();
 
-    public abstract List<PwEntryDB> getEntries();
+    public abstract List<PwEntryInterface> getEntries();
 
-    public PwEntryDB getEntryByUUIDId(UUID id) {
+    public PwEntryInterface getEntryByUUIDId(UUID id) {
         return this.entries.get(id);
     }
 
-    protected void addEntryTo(PwEntryDB newEntry, PwGroupDB parent) {
+    protected void addEntryTo(PwEntryInterface newEntry, PwGroupInterface parent) {
         // Add entry to parent
         if (parent != null) {
             parent.addChildEntry(newEntry);
@@ -317,7 +316,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
         entries.put(newEntry.getUUID(), newEntry);
     }
 
-    protected void removeEntryFrom(PwEntryDB remove, PwGroupDB parent) {
+    protected void removeEntryFrom(PwEntryInterface remove, PwGroupInterface parent) {
         // Remove entry for parent
         if (parent != null) {
             parent.removeChildEntry(remove);
@@ -325,20 +324,20 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
         entries.remove(remove.getUUID());
     }
 
-    public abstract boolean isBackup(PwGroupDB group);
+    public abstract boolean isBackup(PwGroupInterface group);
 
-    protected void populateGlobals(PwGroupDB currentGroup) {
+    protected void populateGlobals(PwGroupInterface currentGroup) {
 
-        List<PwGroupDB> childGroups = currentGroup.getChildGroups();
-        List<PwEntryDB> childEntries = currentGroup.getChildEntries();
+        List<PwGroupInterface> childGroups = currentGroup.getChildGroups();
+        List<PwEntryInterface> childEntries = currentGroup.getChildEntries();
 
         for (int i = 0; i < childEntries.size(); i++ ) {
-            PwEntryDB cur = childEntries.get(i);
+            PwEntryInterface cur = childEntries.get(i);
             entries.put(cur.getUUID(), cur);
         }
 
         for (int i = 0; i < childGroups.size(); i++ ) {
-            PwGroupDB cur = childGroups.get(i);
+            PwGroupInterface cur = childGroups.get(i);
             groups.put(cur.getId(), cur);
             populateGlobals(cur);
         }
@@ -365,7 +364,7 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
      * @param group Group to remove
      * @return true if group can be recycle, false elsewhere
      */
-    protected boolean canRecycle(PwGroupDB group) {
+    protected boolean canRecycle(PwGroupInterface group) {
         return false;
     }
 
@@ -374,54 +373,54 @@ public abstract class PwDatabase<PwGroupDB extends PwGroup<PwGroupDB, PwEntryDB>
      * @param entry Entry to remove
      * @return true if entry can be recycle, false elsewhere
      */
-    protected boolean canRecycle(PwEntryDB entry) {
+    protected boolean canRecycle(PwEntryInterface entry) {
         return false;
     }
 
-    protected void recycle(PwGroupDB group) {
+    protected void recycle(PwGroupInterface group) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    protected void recycle(PwEntryDB entry) {
+    protected void recycle(PwEntryInterface entry) {
         // Assume calls to this are protected by calling inRecyleBin
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    protected void undoRecycle(PwGroupDB group, PwGroupDB origParent) {
+    protected void undoRecycle(PwGroupInterface group, PwGroupInterface origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    protected void undoRecycle(PwEntryDB entry, PwGroupDB origParent) {
+    protected void undoRecycle(PwEntryInterface entry, PwGroupInterface origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    protected void deleteGroup(PwGroupDB group) {
-        PwGroupDB parent = group.getParent(); // TODO inference
+    protected void deleteGroup(PwGroupInterface group) {
+        PwGroupInterface parent = group.getParent(); // TODO inference
         removeGroupFrom(group, parent);
         parent.touch(false, true);
     }
 
-    protected void deleteEntry(PwEntryDB entry) {
-        PwGroupDB parent = entry.getParent(); // TODO inference
+    protected void deleteEntry(PwEntryInterface entry) {
+        PwGroupInterface parent = entry.getParent(); // TODO inference
         removeEntryFrom(entry, parent);
         parent.touch(false, true);
     }
 
     // TODO Delete group
-    public void undoDeleteGroup(PwGroupDB group, PwGroupDB origParent) {
+    public void undoDeleteGroup(PwGroupInterface group, PwGroupInterface origParent) {
         addGroupTo(group, origParent);
     }
 
-    public void undoDeleteEntry(PwEntryDB entry, PwGroupDB origParent) {
+    public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface origParent) {
         addEntryTo(entry, origParent);
     }
 
-    public PwGroupDB getRecycleBin() {
+    public PwGroupInterface getRecycleBin() {
         return null;
     }
 
-    public boolean isGroupSearchable(PwGroupDB group, boolean omitBackup) {
+    public boolean isGroupSearchable(PwGroupInterface group, boolean omitBackup) {
         return group != null;
     }
 

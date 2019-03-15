@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.iterator;
 
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.search.SearchParameters;
@@ -29,7 +29,7 @@ import java.util.Iterator;
 
 public abstract class EntrySearchStringIterator implements Iterator<String> {
 	
-	public static EntrySearchStringIterator getInstance(PwEntry e) {
+	public static EntrySearchStringIterator getInstance(PwEntryInterface e) {
 		if (e instanceof PwEntryV3) {
 			return new EntrySearchStringIteratorV3((PwEntryV3) e);
 		} else if (e instanceof PwEntryV4) {
@@ -39,7 +39,7 @@ public abstract class EntrySearchStringIterator implements Iterator<String> {
 		}
 	}
 	
-	public static EntrySearchStringIterator getInstance(PwEntry e, SearchParameters sp) {
+	public static EntrySearchStringIterator getInstance(PwEntryInterface e, SearchParameters sp) {
 		if (e instanceof PwEntryV3) {
 			return new EntrySearchStringIteratorV3((PwEntryV3) e, sp);
 		} else if (e instanceof PwEntryV4) {

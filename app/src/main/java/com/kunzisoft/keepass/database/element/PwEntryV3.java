@@ -44,6 +44,9 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
+import com.kunzisoft.keepass.database.ExtraFields;
+import com.kunzisoft.keepass.database.security.ProtectedString;
+
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
@@ -69,7 +72,7 @@ import java.util.UUID;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  * @author Jeremy Jamet <jeremy.jamet@kunzisoft.com>
  */
-public class PwEntryV3 extends PwEntry<PwGroupV3> {
+public class PwEntryV3 extends PwNode implements PwEntryInterface {
 
 	/** Size of byte buffer needed to hold this struct. */
 	private static final String PMS_ID_BINDESC = "bin-stream";
@@ -83,26 +86,26 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 	private String url;
 	private String additional;
 	/** A string describing what is in pBinaryData */
-	private String           binaryDesc;
-	private byte[]          binaryData;
+	private String binaryDesc;
+	private byte[] binaryData;
 
 	public PwEntryV3() {
 		super();
 	}
 	
-	public PwEntryV3(PwGroupV3 p) {
-	    construct(p);
+	public PwEntryV3(PwGroupV3 parent) {
+	    super(parent);
 	}
 
-    public PwEntryV3(Parcel in) {
-        super(in);
-        title = in.readString();
-        username = in.readString();
-        in.readByteArray(password);
-        url = in.readString();
-        additional = in.readString();
-        binaryDesc = in.readString();
-        in.readByteArray(binaryData);
+    public PwEntryV3(Parcel parcel) {
+        super(parcel);
+        title = parcel.readString();
+        username = parcel.readString();
+		parcel.readByteArray(password);
+        url = parcel.readString();
+        additional = parcel.readString();
+        binaryDesc = parcel.readString();
+		parcel.readByteArray(binaryData);
     }
 
     @Override
@@ -131,7 +134,6 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 
     protected void updateWith(PwEntryV3 source) {
         super.assign(source);
-
         title = source.title;
         username = source.username;
         int passLen = source.password.length;
@@ -176,9 +178,20 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
         return newEntry;
     }
 
+	@Override
+	public PwEntryInterface duplicate() {
+		return clone();
+	}
+
+	@Override
+	public Type getType() {
+		return Type.ENTRY;
+	}
+
     public void setGroupId(int groupId) {
-	    this.parent = new PwGroupV3();
-	    this.parent.setGroupId(groupId);
+	    PwGroupV3 parentGroup = new PwGroupV3();
+		parentGroup.setGroupId(groupId);
+	    this.parent = parentGroup;
     }
 
     @Override
@@ -195,12 +208,12 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
     }
 
     @Override
-    public String getTitle() {
+    public String getName() {
         return title;
     }
 
-    @Override
-    public void setTitle(String title) {
+	@Override
+    public void setName(String title) {
         this.title = title;
     }
 
@@ -350,4 +363,52 @@ public class PwEntryV3 extends PwEntry<PwGroupV3> {
 
 		return true;
 	}
+
+	@Override
+	public void createBackup(PwDatabase db) {}
+
+	@Override
+	public boolean isSearchingEnabled() {
+		return false;
+	}
+
+	@Override
+	public void startToManageFieldReferences(PwDatabase db) {}
+
+	@Override
+	public void stopToManageFieldReferences() {}
+
+	@Override
+	public void touchLocation() {}
+
+	@Override
+	public boolean allowExtraFields() {
+		return false;
+	}
+
+	@Override
+	public ExtraFields getFields() {
+		return new ExtraFields(); // TODO Nullable
+	}
+
+	@Override
+	public boolean containsCustomFields() {
+		return getFields().containsCustomFields();
+	}
+
+	@Override
+	public boolean containsCustomFieldsProtected() {
+		return getFields().containsCustomFieldsProtected();
+	}
+
+	@Override
+	public boolean containsCustomFieldsNotProtected() {
+		return getFields().containsCustomFieldsNotProtected();
+	}
+
+	@Override
+	public void addExtraField(String label, ProtectedString value) {}
+
+	@Override
+	public void removeAllCustomFields() {}
 }

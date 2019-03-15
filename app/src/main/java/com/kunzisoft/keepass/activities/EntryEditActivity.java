@@ -42,22 +42,22 @@ import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwDate;
-import com.kunzisoft.keepass.database.element.PwEntry;
-import com.kunzisoft.keepass.database.element.PwGroup;
-import com.kunzisoft.keepass.database.element.PwGroupId;
-import com.kunzisoft.keepass.database.element.PwIconStandard;
-import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.database.action.node.ActionNodeValues;
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwDate;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.PwNodeId;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.element.PwIconStandard;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
+import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Types;
@@ -88,8 +88,8 @@ public class EntryEditActivity extends LockingHideActivity
 
 	private Database database;
 
-	protected PwEntry mEntry;
-	protected PwEntry mCallbackNewEntry;
+	protected PwEntryInterface mEntry;
+	protected PwEntryInterface mCallbackNewEntry;
 	protected boolean mIsNew;
 	protected PwIconStandard mSelectedIconStandard;
 
@@ -114,7 +114,7 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param activity from activity
 	 * @param pwEntry Entry to update
 	 */
-	public static void launch(Activity activity, PwEntry pwEntry) {
+	public static void launch(Activity activity, PwEntryInterface pwEntry) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pwEntry.getUUID()));
@@ -128,7 +128,7 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param activity from activity
 	 * @param pwGroup Group who will contains new entry
 	 */
-	public static void launch(Activity activity, PwGroup pwGroup) {
+	public static void launch(Activity activity, PwGroupInterface pwGroup) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_PARENT, pwGroup.getId());
@@ -185,8 +185,8 @@ public class EntryEditActivity extends LockingHideActivity
 
 		PwDatabase pm = database.getPwDatabase();
 		if ( uuidBytes == null ) {
-            PwGroupId parentId = intent.getParcelableExtra(KEY_PARENT);
-			PwGroup parent = pm.getGroupByGroupId(parentId);
+            PwNodeId parentId = intent.getParcelableExtra(KEY_PARENT);
+			PwGroupInterface parent = pm.getGroupByGroupId(parentId);
 			mEntry = database.createEntry(parent);
 			mIsNew = true;
 			// Add the default icon
@@ -413,10 +413,10 @@ public class EntryEditActivity extends LockingHideActivity
         return errorValidation.isValidate;
 	}
 	
-	protected PwEntry populateNewEntry() {
+	protected PwEntryInterface populateNewEntry() {
         PwDatabase db = App.getDB().getPwDatabase();
 
-        PwEntry newEntry = mEntry.clone();
+		PwEntryInterface newEntry = mEntry.clone();
 
         newEntry.startToManageFieldReferences(db);
 
@@ -425,7 +425,7 @@ public class EntryEditActivity extends LockingHideActivity
         newEntry.setLastAccessTime(new PwDate());
         newEntry.setLastModificationTime(new PwDate());
 
-        newEntry.setTitle(entryTitleView.getText().toString());
+        newEntry.setName(entryTitleView.getText().toString());
         newEntry.setIconStandard(retrieveIcon());
 
         newEntry.setUrl(entryUrlView.getText().toString());
@@ -513,7 +513,7 @@ public class EntryEditActivity extends LockingHideActivity
 		// Don't start the field reference manager, we want to see the raw ref
         mEntry.stopToManageFieldReferences();
 
-        entryTitleView.setText(mEntry.getTitle());
+        entryTitleView.setText(mEntry.getName());
         entryUserNameView.setText(mEntry.getUsername());
         entryUrlView.setText(mEntry.getUrl());
         String password = mEntry.getPassword();

@@ -59,15 +59,6 @@ import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwEntry;
-import com.kunzisoft.keepass.database.element.PwGroup;
-import com.kunzisoft.keepass.database.element.PwGroupId;
-import com.kunzisoft.keepass.database.element.PwGroupV4;
-import com.kunzisoft.keepass.database.element.PwIcon;
-import com.kunzisoft.keepass.database.element.PwIconStandard;
-import com.kunzisoft.keepass.database.element.PwNode;
 import com.kunzisoft.keepass.database.SortNodeEnum;
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
@@ -80,6 +71,15 @@ import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.PwNodeId;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.element.PwGroupV4;
+import com.kunzisoft.keepass.database.element.PwIcon;
+import com.kunzisoft.keepass.database.element.PwIconStandard;
+import com.kunzisoft.keepass.database.element.PwNodeInterface;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -130,17 +130,17 @@ public class GroupActivity extends LockingActivity
     private ListNodesFragment listNodesFragment;
     private boolean currentGroupIsASearch;
 
-    private PwGroup rootGroup;
-    private PwGroup mCurrentGroup;
-	private PwGroup oldGroupToUpdate;
-    private PwNode nodeToCopy;
-    private PwNode nodeToMove;
+    private PwGroupInterface rootGroup;
+    private PwGroupInterface mCurrentGroup;
+	private PwGroupInterface oldGroupToUpdate;
+    private PwNodeInterface nodeToCopy;
+    private PwNodeInterface nodeToMove;
 
     private SearchEntryCursorAdapter searchSuggestionAdapter;
 
     private int iconColor;
 
-    private static void buildAndLaunchIntent(Activity activity, PwGroup group, boolean readOnly,
+    private static void buildAndLaunchIntent(Activity activity, PwGroupInterface group, boolean readOnly,
                                              IntentBuildLauncher intentBuildLauncher) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, GroupActivity.class);
@@ -166,7 +166,7 @@ public class GroupActivity extends LockingActivity
         launch(activity, null, readOnly);
 	}
 
-    public static void launch(Activity activity, PwGroup group, boolean readOnly) {
+    public static void launch(Activity activity, PwGroupInterface group, boolean readOnly) {
         TimeoutHelper.INSTANCE.recordTime(activity);
         buildAndLaunchIntent(activity, group, readOnly,
                 (intent) -> activity.startActivityForResult(intent, 0));
@@ -314,7 +314,7 @@ public class GroupActivity extends LockingActivity
         }
     }
 
-    private void openSearchGroup(PwGroup group) {
+    private void openSearchGroup(PwGroupInterface group) {
         // Delete the previous search fragment
         Fragment searchFragment = getSupportFragmentManager().findFragmentByTag(SEARCH_FRAGMENT_TAG);
         if (searchFragment != null) {
@@ -326,11 +326,11 @@ public class GroupActivity extends LockingActivity
         openGroup(group, true);
     }
 
-    private void openChildGroup(PwGroup group) {
+    private void openChildGroup(PwGroupInterface group) {
         openGroup(group, false);
     }
 
-    private void openGroup(PwGroup group, boolean isASearch) {
+    private void openGroup(PwGroupInterface group, boolean isASearch) {
         // Check TimeoutHelper
         TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeoutOrResetTimeout(this, () -> {
 			// Open a group in a new fragment
@@ -373,7 +373,7 @@ public class GroupActivity extends LockingActivity
         super.onSaveInstanceState(outState);
     }
 
-	protected @Nullable PwGroup retrieveCurrentGroup(Intent intent, @Nullable Bundle savedInstanceState) {
+	protected @Nullable PwGroupInterface retrieveCurrentGroup(Intent intent, @Nullable Bundle savedInstanceState) {
 
         // If it's a search
         if ( Intent.ACTION_SEARCH.equals(intent.getAction()) ) {
@@ -381,7 +381,7 @@ public class GroupActivity extends LockingActivity
         }
         // else a real group
         else {
-            PwGroupId pwGroupId = null;
+            PwNodeId pwGroupId = null;
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(GROUP_ID_KEY)) {
                 pwGroupId = savedInstanceState.getParcelable(GROUP_ID_KEY);
@@ -393,7 +393,7 @@ public class GroupActivity extends LockingActivity
             setReadOnly(database.isReadOnly() || getReadOnly()); // Force read only if the database is like that
 
             Log.w(TAG, "Creating tree view");
-            PwGroup currentGroup;
+            PwGroupInterface currentGroup;
             if (pwGroupId == null) {
                 currentGroup = rootGroup;
             } else {
@@ -484,18 +484,18 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public void onNodeClick(PwNode node) {
+    public void onNodeClick(PwNodeInterface node) {
         switch (node.getType()) {
             case GROUP:
                 try {
-                    openChildGroup((PwGroup) node);
+                    openChildGroup((PwGroupInterface) node);
                 } catch (ClassCastException e) {
                     Log.e(TAG, "Node can't be cast in Group");
                 }
                 break;
             case ENTRY:
                 try {
-                    PwEntry entry = ((PwEntry) node);
+                    PwEntryInterface entry = ((PwEntryInterface) node);
                     EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
                             () -> {
                                 EntryActivity.launch(GroupActivity.this, entry, getReadOnly());
@@ -530,29 +530,29 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public boolean onOpenMenuClick(PwNode node) {
+    public boolean onOpenMenuClick(PwNodeInterface node) {
         onNodeClick(node);
         return true;
     }
 
     @Override
-    public boolean onEditMenuClick(PwNode node) {
+    public boolean onEditMenuClick(PwNodeInterface node) {
         switch (node.getType()) {
             case GROUP:
-                oldGroupToUpdate = (PwGroup) node;
+                oldGroupToUpdate = (PwGroupInterface) node;
                 GroupEditDialogFragment.build(oldGroupToUpdate)
                         .show(getSupportFragmentManager(),
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
                 break;
             case ENTRY:
-                EntryEditActivity.launch(GroupActivity.this, (PwEntry) node);
+                EntryEditActivity.launch(GroupActivity.this, (PwEntryInterface) node);
                 break;
         }
         return true;
     }
 
     @Override
-    public boolean onCopyMenuClick(PwNode node) {
+    public boolean onCopyMenuClick(PwNodeInterface node) {
 
         toolbarPasteExpandableLayout.expand();
         nodeToCopy = node;
@@ -573,7 +573,7 @@ public class GroupActivity extends LockingActivity
                             Log.e(TAG, "Copy not allowed for group");
                             break;
                         case ENTRY:
-                            copyEntry((PwEntry) nodeToCopy, mCurrentGroup);
+                            copyEntry((PwEntryInterface) nodeToCopy, mCurrentGroup);
                             break;
                     }
                     nodeToCopy = null;
@@ -583,7 +583,7 @@ public class GroupActivity extends LockingActivity
         }
     }
 
-    private void copyEntry(PwEntry entryToCopy, PwGroup newParent) {
+    private void copyEntry(PwEntryInterface entryToCopy, PwGroupInterface newParent) {
         new Thread(new CopyEntryRunnable(this,
 				App.getDB(),
 				entryToCopy,
@@ -594,7 +594,7 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public boolean onMoveMenuClick(PwNode node) {
+    public boolean onMoveMenuClick(PwNodeInterface node) {
 
         toolbarPasteExpandableLayout.expand();
         nodeToMove = node;
@@ -612,10 +612,10 @@ public class GroupActivity extends LockingActivity
                 case R.id.menu_paste:
                     switch (nodeToMove.getType()) {
                         case GROUP:
-                            moveGroup((PwGroup) nodeToMove, mCurrentGroup);
+                            moveGroup((PwGroupInterface) nodeToMove, mCurrentGroup);
                             break;
                         case ENTRY:
-                            moveEntry((PwEntry) nodeToMove, mCurrentGroup);
+                            moveEntry((PwEntryInterface) nodeToMove, mCurrentGroup);
                             break;
                     }
                     nodeToMove = null;
@@ -625,7 +625,7 @@ public class GroupActivity extends LockingActivity
         }
     }
 
-    private void moveGroup(PwGroup groupToMove, PwGroup newParent) {
+    private void moveGroup(PwGroupInterface groupToMove, PwGroupInterface newParent) {
         new Thread(new MoveGroupRunnable(
 				this,
 				App.getDB(),
@@ -636,7 +636,7 @@ public class GroupActivity extends LockingActivity
 		).start();
     }
 
-    private void moveEntry(PwEntry entryToMove, PwGroup newParent) {
+    private void moveEntry(PwEntryInterface entryToMove, PwGroupInterface newParent) {
         new Thread(new MoveEntryRunnable(
 				this,
 				App.getDB(),
@@ -648,19 +648,19 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public boolean onDeleteMenuClick(PwNode node) {
+    public boolean onDeleteMenuClick(PwNodeInterface node) {
         switch (node.getType()) {
             case GROUP:
-                deleteGroup((PwGroup) node);
+                deleteGroup((PwGroupInterface) node);
                 break;
             case ENTRY:
-                deleteEntry((PwEntry) node);
+                deleteEntry((PwEntryInterface) node);
                 break;
         }
         return true;
     }
 
-    private void deleteGroup(PwGroup group) {
+    private void deleteGroup(PwGroupInterface group) {
         //TODO Verify trash recycle bin
         new Thread(new DeleteGroupRunnable(
 				this,
@@ -671,7 +671,7 @@ public class GroupActivity extends LockingActivity
 		).start();
     }
 
-    private void deleteEntry(PwEntry entry) {
+    private void deleteEntry(PwEntryInterface entry) {
         new Thread(new DeleteEntryRunnable(
 				this,
 				App.getDB(),
@@ -962,7 +962,7 @@ public class GroupActivity extends LockingActivity
             case CREATION:
                 // If group creation
                 // Build the group
-                PwGroup newGroup = database.createGroup(mCurrentGroup);
+                PwGroupInterface newGroup = database.createGroup(mCurrentGroup);
                 newGroup.setName(name);
                 try {
                     iconStandard = (PwIconStandard) icon;
@@ -981,10 +981,10 @@ public class GroupActivity extends LockingActivity
             case UPDATE:
                 // If update add new elements
                 if (oldGroupToUpdate != null) {
-                    PwGroup updateGroup = oldGroupToUpdate.clone();
+                    PwGroupInterface updateGroup = oldGroupToUpdate.duplicate();
                     try {
                         iconStandard = (PwIconStandard) icon;
-                        updateGroup = ((PwGroupV4) oldGroupToUpdate).clone(); // TODO generalize
+                        updateGroup = ((PwGroupV4) oldGroupToUpdate).duplicate(); // TODO generalize
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1046,12 +1046,12 @@ public class GroupActivity extends LockingActivity
                         listNodesFragment.removeNode(actionNodeValues.getOldNode());
 
                     if (actionNodeValues.getOldNode() != null) {
-						PwGroup parent = actionNodeValues.getOldNode().getParent();
+                        PwGroupInterface parent = actionNodeValues.getOldNode().getParent();
 						Database db = App.getDB();
 						PwDatabase database = db.getPwDatabase();
 						if (db.isRecycleBinAvailable() &&
 								db.isRecycleBinEnabled()) {
-							PwGroup recycleBin = database.getRecycleBin();
+                            PwGroupInterface recycleBin = database.getRecycleBin();
 							// Add trash if it doesn't exists
 							if (parent.equals(recycleBin)
 									&& mCurrentGroup != null

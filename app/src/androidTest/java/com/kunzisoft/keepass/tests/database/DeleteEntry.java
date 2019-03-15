@@ -22,13 +22,13 @@ package com.kunzisoft.keepass.tests.database;
 import android.content.Context;
 import android.test.AndroidTestCase;
 
+import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
 import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDatabaseV3;
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
-import com.kunzisoft.keepass.database.element.PwGroup;
-import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.search.SearchDbHelper;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class DeleteEntry extends AndroidTestCase {
 		}
 		
 		PwDatabaseV3 pm = (PwDatabaseV3) db.getPwDatabase();
-		PwGroup group1 = getGroup(pm, GROUP1_NAME);
+		PwGroupInterface group1 = getGroup(pm, GROUP1_NAME);
 		assertNotNull("Could not find group1", group1);
 		
 		// Delete the group
@@ -64,16 +64,16 @@ public class DeleteEntry extends AndroidTestCase {
 		task.run();
 		
 		// Verify the entries were deleted
-		PwEntry entry1 = getEntry(pm, ENTRY1_NAME);
+		PwEntryInterface entry1 = getEntry(pm, ENTRY1_NAME);
 		assertNull("Entry 1 was not removed", entry1);
 
-		PwEntry entry2 = getEntry(pm, ENTRY2_NAME);
+		PwEntryInterface entry2 = getEntry(pm, ENTRY2_NAME);
 		assertNull("Entry 2 was not removed", entry2);
 		
 		// Verify the entries were removed from the search index
 		SearchDbHelper dbHelp = new SearchDbHelper(ctx);
-		PwGroup results1 = dbHelp.search(db.getPwDatabase(), ENTRY1_NAME, 100);
-		PwGroup results2 = dbHelp.search(db.getPwDatabase(), ENTRY2_NAME, 100);
+		PwGroupInterface results1 = dbHelp.search(db.getPwDatabase(), ENTRY1_NAME, 100);
+		PwGroupInterface results2 = dbHelp.search(db.getPwDatabase(), ENTRY2_NAME, 100);
 		
 		assertEquals("Entry1 was not removed from the search results", 0, results1.numbersOfChildEntries());
 		assertEquals("Entry2 was not removed from the search results", 0, results2.numbersOfChildEntries());
@@ -88,7 +88,7 @@ public class DeleteEntry extends AndroidTestCase {
 		List<PwEntryV3> entries = pm.getEntries();
 		for ( int i = 0; i < entries.size(); i++ ) {
 			PwEntryV3 entry = entries.get(i);
-			if ( entry.getTitle().equals(name) ) {
+			if ( entry.getName().equals(name) ) {
 				return entry;
 			}
 		}
@@ -97,10 +97,10 @@ public class DeleteEntry extends AndroidTestCase {
 		
 	}
 	
-	private PwGroup getGroup(PwDatabase pm, String name) {
-		List<PwGroup> groups = pm.getGroups();
+	private PwGroupInterface getGroup(PwDatabase pm, String name) {
+		List<PwGroupInterface> groups = pm.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
-			PwGroup group = groups.get(i);
+			PwGroupInterface group = groups.get(i);
 			if ( group.getName().equals(name) ) {
 				return group;
 			}

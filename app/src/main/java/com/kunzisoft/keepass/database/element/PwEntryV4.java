@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
+public class PwEntryV4 extends PwNode implements ITimeLogger, PwEntryInterface {
 
 	public static final String STR_TITLE = "Title";
 	public static final String STR_USERNAME = "UserName";
@@ -66,8 +66,8 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 	    super();
 	}
 	
-	public PwEntryV4(PwGroupV4 p) {
-		construct(p);
+	public PwEntryV4(PwGroupV4 parent) {
+		super(parent);
 	}
 
     public void updateWith(PwEntryV4 source) {
@@ -89,22 +89,22 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
         tags = source.tags;
     }
 
-	public PwEntryV4(Parcel in) {
-		super(in);
-		customIcon = in.readParcelable(PwIconCustom.class.getClassLoader());
-		usageCount = in.readLong();
-		parentGroupLastMod = in.readParcelable(PwDate.class.getClassLoader());
-		customData = MemUtil.readStringParcelableMap(in);
-		fields = in.readParcelable(ExtraFields.class.getClassLoader());
-		binaries = MemUtil.readStringParcelableMap(in, ProtectedBinary.class);
-		foregroundColor = in.readString();
-		backgroupColor = in.readString();
-		overrideURL = in.readString();
-		autoType = in.readParcelable(AutoType.class.getClassLoader());
-		history = in.readArrayList(PwEntryV4.class.getClassLoader()); // TODO verify
-		url = in.readString();
-		additional = in.readString();
-		tags = in.readString();
+	public PwEntryV4(Parcel parcel) {
+		super(parcel);
+		customIcon = parcel.readParcelable(PwIconCustom.class.getClassLoader());
+		usageCount = parcel.readLong();
+		parentGroupLastMod = parcel.readParcelable(PwDate.class.getClassLoader());
+		customData = MemUtil.readStringParcelableMap(parcel);
+		fields = parcel.readParcelable(ExtraFields.class.getClassLoader());
+		binaries = MemUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
+		foregroundColor = parcel.readString();
+		backgroupColor = parcel.readString();
+		overrideURL = parcel.readString();
+		autoType = parcel.readParcelable(AutoType.class.getClassLoader());
+		history = parcel.readArrayList(PwEntryV4.class.getClassLoader()); // TODO verify
+		url = parcel.readString();
+		additional = parcel.readString();
+		tags = parcel.readString();
 	}
 
 	@Override
@@ -166,6 +166,16 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
     }
 
 	@Override
+	public PwEntryInterface duplicate() {
+		return clone();
+	}
+
+	@Override
+	public Type getType() {
+		return Type.ENTRY;
+	}
+
+	@Override
 	public void startToManageFieldReferences(PwDatabase db) {
         this.mDatabase = (PwDatabaseV4) db;
         this.mDecodeRef = true;
@@ -176,7 +186,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
         this.mDatabase = null;
         this.mDecodeRef = false;
 	}
-	
+
 	private String decodeRefKey(boolean decodeRef, String key) {
 		String text = getProtectedStringValue(key);
 		if (decodeRef) {
@@ -197,17 +207,17 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 	}
 
 	@Override
-	public String getTitle() {
+	public String getName() {
 		return decodeRefKey(mDecodeRef, STR_TITLE);
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return decodeRefKey(mDecodeRef, STR_PASSWORD);
 	}
 
 	@Override
-	public void setTitle(String title) {
+	public void setName(String title) {
 		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectTitle;
 		setProtectedString(STR_TITLE, title, protect);
 	}
@@ -300,6 +310,21 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 	public ExtraFields getFields() {
 	    return fields;
     }
+
+	@Override
+	public boolean containsCustomFields() {
+		return getFields().containsCustomFields();
+	}
+
+	@Override
+	public boolean containsCustomFieldsProtected() {
+		return getFields().containsCustomFieldsProtected();
+	}
+
+	@Override
+	public boolean containsCustomFieldsNotProtected() {
+		return getFields().containsCustomFieldsNotProtected();
+	}
 
 	public void addExtraField(String label, ProtectedString value) {
 	    fields.putProtectedString(label, value);
@@ -422,8 +447,6 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 
 	@Override
 	public void createBackup(PwDatabase db) {
-	    super.createBackup(db);
-
         PwEntryV4 copy = clone();
         copy.history = new ArrayList<>();
         history.add(copy);
@@ -469,7 +492,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 		int index = -1;
 
 		for (int i = 0; i < history.size(); i++) {
-			PwEntry entry = history.get(i);
+			PwEntryV4 entry = history.get(i);
 			Date lastMod = entry.getLastModificationTime().getDate();
 			if ((min == null) || lastMod.before(min)) {
 				index = i;
@@ -498,5 +521,13 @@ public class PwEntryV4 extends PwEntry<PwGroupV4> implements ITimeLogger {
 			return parent.isSearchingEnabled();
 		}
 		return PwGroupV4.DEFAULT_SEARCHING_ENABLED;
+	}
+
+	/**
+	 * If it's a node with only meta information like Meta-info SYSTEM Database Color
+	 * @return false by default, true if it's a meta stream
+	 */
+	public boolean isMetaStream() {
+		return false;
 	}
 }

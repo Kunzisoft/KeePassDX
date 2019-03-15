@@ -4,7 +4,7 @@ import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 
 import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.element.PwIconCustom;
@@ -50,7 +50,7 @@ public class EntryCursor extends MatrixCursor {
         addRow(new Object[] {entryId,
                 entry.getUUID().getMostSignificantBits(),
                 entry.getUUID().getLeastSignificantBits(),
-                entry.getTitle(),
+                entry.getName(),
                 entry.getIconStandard().getIconId(),
                 PwDatabase.UUID_ZERO.getMostSignificantBits(),
                 PwDatabase.UUID_ZERO.getLeastSignificantBits(),
@@ -65,7 +65,7 @@ public class EntryCursor extends MatrixCursor {
         addRow(new Object[] {entryId,
                 entry.getUUID().getMostSignificantBits(),
                 entry.getUUID().getLeastSignificantBits(),
-                entry.getTitle(),
+                entry.getName(),
                 entry.getIconStandard().getIconId(),
                 entry.getIconCustom().getUUID().getMostSignificantBits(),
                 entry.getIconCustom().getUUID().getLeastSignificantBits(),
@@ -81,11 +81,11 @@ public class EntryCursor extends MatrixCursor {
         entryId++;
     }
 
-    private void populateEntryBaseVersion(PwEntry pwEntry, PwIconFactory iconFactory) {
+    private void populateEntryBaseVersion(PwEntryInterface pwEntry, PwIconFactory iconFactory) {
         pwEntry.setUUID(
                 new UUID(getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
                         getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS))));
-        pwEntry.setTitle(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE)));
+        pwEntry.setName(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE)));
 
         PwIconStandard iconStandard = iconFactory.getIcon(getInt(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_STANDARD)));
         pwEntry.setIconStandard(iconStandard);

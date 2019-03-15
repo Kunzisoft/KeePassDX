@@ -20,12 +20,12 @@
 package com.kunzisoft.keepass.database.search;
 
 import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 
 import java.util.Date;
 import java.util.List;
 
-public class EntrySearchHandlerAll<T extends PwEntry> extends EntryHandler<T> {
+public class EntrySearchHandlerAll<T extends PwEntryInterface> extends EntryHandler<T> {
 
 	private List<T> listStorage;
 	private SearchParameters sp;

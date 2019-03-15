@@ -21,19 +21,19 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwGroup
+import com.kunzisoft.keepass.database.element.PwGroupInterface
 
 class UpdateGroupRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mOldGroup: PwGroup<*, *>,
-        private val mNewGroup: PwGroup<*, *>,
+        private val mOldGroup: PwGroupInterface,
+        private val mNewGroup: PwGroupInterface,
         finishRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
-    private val mBackupGroup: PwGroup<*, *> = mOldGroup.clone()
+    private val mBackupGroup: PwGroupInterface = mOldGroup.duplicate()
 
     override fun nodeAction() {
         // Update group with new values

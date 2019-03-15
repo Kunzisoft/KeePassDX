@@ -21,17 +21,25 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
+import com.kunzisoft.keepass.database.EntryHandler;
+import com.kunzisoft.keepass.database.GroupHandler;
 import com.kunzisoft.keepass.database.ITimeLogger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLogger {
+public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
-	private UUID uuid = PwDatabase.UUID_ZERO;
+	// TODO verify children not needed
+	transient private List<PwGroupInterface> childGroups = new ArrayList<>();
+	transient private List<PwEntryInterface> childEntries = new ArrayList<>();
+
+	private String title = "";
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
@@ -48,20 +56,20 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLog
 	    super();
     }
 
-    public PwGroupV4(PwGroupV4 p) {
-        construct(p);
+    public PwGroupV4(PwGroupV4 parent) {
+        super(parent);
         parentGroupLastMod = new PwDate();
     }
 	
-	public PwGroupV4(String name, PwIconStandard icon) {
-		this.uuid = UUID.randomUUID();
-		this.name = name;
+	public PwGroupV4(String title, PwIconStandard icon) {
+		super();
+		this.title = title;
 		this.icon = icon;
 	}
 
     public PwGroupV4(Parcel in) {
         super(in);
-        uuid = (UUID) in.readSerializable();
+		title = in.readString();
         customIcon = in.readParcelable(PwIconCustom.class.getClassLoader());
         usageCount = in.readLong();
         parentGroupLastMod = in.readParcelable(PwDate.class.getClassLoader());
@@ -80,7 +88,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLog
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeSerializable(uuid);
+		dest.writeString(title);
         dest.writeParcelable(customIcon, flags);
         dest.writeLong(usageCount);
         dest.writeParcelable(parentGroupLastMod, flags);
@@ -108,7 +116,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLog
 
     protected void updateWith(PwGroupV4 source) {
         super.assign(source);
-        uuid = source.uuid;
+		title = source.title;
         customIcon = source.customIcon;
         usageCount = source.usageCount;
         parentGroupLastMod = source.parentGroupLastMod;
@@ -131,7 +139,7 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLog
         PwGroupV4 newGroup = (PwGroupV4) super.clone();
 
         // Attributes here
-        // newGroup.uuid stay the same in copy
+		// name is clone automatically (IMMUTABLE)
         newGroup.customIcon = new PwIconCustom(this.customIcon);
         // newGroup.usageCount stay the same in copy
         newGroup.parentGroupLastMod = this.parentGroupLastMod.clone();
@@ -148,6 +156,16 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLog
 
         return newGroup;
     }
+
+	@Override
+	public PwGroupInterface duplicate() {
+		return clone();
+	}
+
+	@Override
+	public Type getType() {
+		return Type.GROUP;
+	}
 	
 	public void addGroup(PwGroupV4 subGroup) {
 		if ( subGroup == null ) throw new RuntimeException("subGroup");
@@ -161,22 +179,14 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLog
         pe.setParent(this);
     }
 
-    public UUID getUUID() {
-        return uuid;
-    }
-
-    public void setUUID(UUID uuid) {
-        this.uuid = uuid;
-    }
-
 	@Override
-	public PwGroupId getId() {
-		return new PwGroupIdV4(uuid);
+	public PwNodeId getId() {
+		return new PwNodeIdUUID(uuid);
 	}
 
 	@Override
-	public void setId(PwGroupId id) {
-		PwGroupIdV4 id4 = (PwGroupIdV4) id;
+	public void setId(PwNodeId id) {
+		PwNodeIdUUID id4 = (PwNodeIdUUID) id;
 		uuid = id4.getId();
 	}
 
@@ -300,11 +310,104 @@ public class PwGroupV4 extends PwGroup<PwGroupV4, PwEntryV4> implements ITimeLog
 			if (search != null) {
 				return search;
 			}
-			group = group.parent;
+			group = (PwGroupV4) group.parent;
 		}
 		
 		// If we get to the root tree and its null, default to true
 		return true;
 	}
 
+	@Override
+	public String getName() {
+		return title;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.title = name;
+	}
+
+	@Override
+	public List<PwGroupInterface> getChildGroups() {
+		return childGroups;
+	}
+
+	@Override
+	public List<PwEntryInterface> getChildEntries() {
+		return childEntries;
+	}
+
+	@Override
+	public void setGroups(List<PwGroupInterface> groups) {
+		childGroups = groups;
+	}
+
+	@Override
+	public void setEntries(List<PwEntryInterface> entries) {
+		childEntries = entries;
+	}
+
+	@Override
+	public void addChildGroup(PwGroupInterface group) {
+		this.childGroups.add(group);
+	}
+
+	@Override
+	public void addChildEntry(PwEntryInterface entry) {
+		this.childEntries.add(entry);
+	}
+
+	@Override
+	public PwGroupInterface getChildGroupAt(int number) {
+		return this.childGroups.get(number);
+	}
+
+	@Override
+	public PwEntryInterface getChildEntryAt(int number) {
+		return this.childEntries.get(number);
+	}
+
+	@Override
+	public void removeChildGroup(PwGroupInterface group) {
+		this.childGroups.remove(group);
+	}
+
+	@Override
+	public void removeChildEntry(PwEntryInterface entry) {
+		this.childEntries.remove(entry);
+	}
+
+	@Override
+	public int numbersOfChildGroups() {
+		return childGroups.size();
+	}
+
+	@Override
+	public int numbersOfChildEntries() {
+		return childEntries.size();
+	}
+
+	@Override
+	public List<PwNodeInterface> getDirectChildren() {
+		List<PwNodeInterface> children = new ArrayList<>(childGroups);
+		for(PwEntryInterface child : childEntries) {
+			if (!child.isMetaStream())
+				children.add(child);
+		}
+		return children;
+	}
+
+	public boolean preOrderTraverseTree(GroupHandler<PwGroupInterface> groupHandler,
+										EntryHandler<PwEntryInterface> entryHandler) {
+		if (entryHandler != null) {
+			for (PwEntryInterface entry : childEntries) {
+				if (!entryHandler.operate(entry)) return false;
+			}
+		}
+		for (PwGroupInterface group : childGroups) {
+			if ((groupHandler != null) && !groupHandler.operate(group)) return false;
+			group.preOrderTraverseTree(groupHandler, entryHandler);
+		}
+		return true;
+	}
 }

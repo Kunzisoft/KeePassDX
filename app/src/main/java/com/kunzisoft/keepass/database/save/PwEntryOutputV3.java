@@ -89,7 +89,7 @@ public class PwEntryOutputV3 {
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");
 		mOS.write(TITLE_FIELD_TYPE);
-		int titleLen = Types.writeCString(mPE.getTitle(), mOS);
+		int titleLen = Types.writeCString(mPE.getName(), mOS);
 		outputBytes += titleLen;
 
 		// URL

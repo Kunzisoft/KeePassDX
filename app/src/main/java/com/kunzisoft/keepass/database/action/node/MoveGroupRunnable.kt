@@ -23,18 +23,18 @@ import android.support.v4.app.FragmentActivity
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwGroup
+import com.kunzisoft.keepass.database.element.PwGroupInterface
 
 class MoveGroupRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mGroupToMove: PwGroup<*, *>?,
-        private val mNewParent: PwGroup<*, *>,
+        private val mGroupToMove: PwGroupInterface?,
+        private val mNewParent: PwGroupInterface,
         afterAddNodeRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
 
-    private var mOldParent: PwGroup<*, *>? = null
+    private var mOldParent: PwGroupInterface? = null
 
     override fun nodeAction() {
         mGroupToMove?.let {

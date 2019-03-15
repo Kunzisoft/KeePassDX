@@ -41,13 +41,13 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.ExtraFields;
-import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwEntry;
-import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
+import com.kunzisoft.keepass.app.App;
+import com.kunzisoft.keepass.database.ExtraFields;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.PwDatabase;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
 import com.kunzisoft.keepass.notifications.NotificationField;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -77,7 +77,7 @@ public class EntryActivity extends LockingHideActivity {
 	private EntryContentsView entryContentsView;
     private Toolbar toolbar;
 	
-	protected PwEntry mEntry;
+	protected PwEntryInterface mEntry;
 	private boolean mShowPassword;
 
 	private ClipboardHelper clipboardHelper;
@@ -85,7 +85,7 @@ public class EntryActivity extends LockingHideActivity {
 
 	private int iconColor;
 
-    public static void launch(Activity activity, PwEntry pw, boolean readOnly) {
+    public static void launch(Activity activity, PwEntryInterface pw, boolean readOnly) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryActivity.class);
             intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
@@ -180,8 +180,8 @@ public class EntryActivity extends LockingHideActivity {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
                 intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
-                if (mEntry.getTitle() != null)
-                    intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
+                if (mEntry.getName() != null)
+                    intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getName());
                 // Construct notification fields
                 ArrayList<NotificationField> notificationFields = new ArrayList<>();
                 // Add username if exists to notifications
@@ -316,7 +316,7 @@ public class EntryActivity extends LockingHideActivity {
         db.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
 
 		// Assign title text
-        titleView.setText(mEntry.getVisualTitle());
+        titleView.setText(PwEntryInterface.getVisualTitle(mEntry));
 
         // Assign basic fields
         entryContentsView.assignUserName(mEntry.getUsername());

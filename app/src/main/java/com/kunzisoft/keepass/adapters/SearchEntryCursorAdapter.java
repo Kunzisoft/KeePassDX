@@ -31,11 +31,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.database.cursor.EntryCursor;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwEntry;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwIcon;
 import com.kunzisoft.keepass.database.element.PwIconFactory;
-import com.kunzisoft.keepass.database.cursor.EntryCursor;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 import java.util.UUID;
@@ -104,7 +104,7 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         database.getDrawFactory().assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon, iconColor);
 
         // Assign title
-        String showTitle = PwEntry.getVisualTitle(false, title, username, url, uuid);
+        String showTitle = PwEntryInterface.getVisualTitle(false, title, username, url, uuid);
         viewHolder.textViewTitle.setText(showTitle);
         if (displayUsername && !username.isEmpty()) {
             viewHolder.textViewSubTitle.setText(String.format("(%s)", username));
@@ -124,8 +124,8 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         return database.searchEntry(constraint.toString());
     }
 
-    public PwEntry getEntryFromPosition(int position) {
-        PwEntry pwEntry = null;
+    public PwEntryInterface getEntryFromPosition(int position) {
+        PwEntryInterface pwEntry = null;
 
         Cursor cursor = this.getCursor();
         if (cursor.moveToFirst()

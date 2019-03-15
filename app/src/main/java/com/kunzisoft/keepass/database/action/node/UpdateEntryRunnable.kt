@@ -21,19 +21,19 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwEntry
+import com.kunzisoft.keepass.database.element.PwEntryInterface
 
 class UpdateEntryRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mOldEntry: PwEntry<*>,
-        private val mNewEntry: PwEntry<*>,
+        private val mOldEntry: PwEntryInterface,
+        private val mNewEntry: PwEntryInterface,
         finishRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
-    private val mBackupEntry: PwEntry<*> = mOldEntry.clone()
+    private val mBackupEntry: PwEntryInterface = mOldEntry.duplicate()
 
     override fun nodeAction() {
         // Update entry with new values
