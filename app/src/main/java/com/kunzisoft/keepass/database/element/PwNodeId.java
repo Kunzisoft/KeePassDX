@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public abstract class PwNodeId implements Cloneable, Parcelable {
+public abstract class PwNodeId<Id> implements Cloneable, Parcelable {
 
     public PwNodeId() {}
 
@@ -36,6 +36,10 @@ public abstract class PwNodeId implements Cloneable, Parcelable {
         return 0;
     }
 
+    public abstract Id getId();
+
     @Override
-    public abstract PwNodeId clone() throws CloneNotSupportedException;
+    public PwNodeId clone() throws CloneNotSupportedException {
+        return (PwNodeId) super.clone();
+    }
 }

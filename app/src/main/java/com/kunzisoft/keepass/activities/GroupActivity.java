@@ -76,9 +76,7 @@ import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.element.PwIcon;
-import com.kunzisoft.keepass.database.element.PwIconStandard;
 import com.kunzisoft.keepass.database.element.PwNodeInterface;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
@@ -89,6 +87,8 @@ import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.magikeyboard.MagikIME;
+import com.kunzisoft.keepass.model.Entry;
+import com.kunzisoft.keepass.model.Field;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
@@ -145,7 +145,7 @@ public class GroupActivity extends LockingActivity
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, GroupActivity.class);
             if (group != null) {
-                intent.putExtra(GROUP_ID_KEY, group.getId());
+                intent.putExtra(GROUP_ID_KEY, group.getNodeId());
             }
             ReadOnlyHelper.INSTANCE.putReadOnlyInIntent(intent, readOnly);
             intentBuildLauncher.launchActivity(intent);
@@ -364,7 +364,7 @@ public class GroupActivity extends LockingActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (mCurrentGroup != null)
-            outState.putParcelable(GROUP_ID_KEY, mCurrentGroup.getId());
+            outState.putParcelable(GROUP_ID_KEY, mCurrentGroup.getNodeId());
         outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, oldGroupToUpdate);
         if (nodeToCopy != null)
             outState.putParcelable(NODE_TO_COPY_KEY, nodeToCopy);
@@ -407,7 +407,7 @@ public class GroupActivity extends LockingActivity
     public void assignGroupViewElements() {
         // Assign title
         if (mCurrentGroup != null) {
-            String title = mCurrentGroup.getName();
+            String title = mCurrentGroup.getTitle();
             if (title != null && title.length() > 0) {
                 if (groupNameView != null) {
                     groupNameView.setText(title);
@@ -502,7 +502,7 @@ public class GroupActivity extends LockingActivity
                                 return null;
                             },
                             () -> {
-                                MagikIME.setEntryKey(entry.getEntry());
+                                MagikIME.setEntryKey(getEntry(entry));
                                 // Show the notification if allowed in Preferences
                                 if (PreferencesUtil.enableKeyboardNotificationEntry(GroupActivity.this)) {
                                     startService(new Intent(
@@ -527,6 +527,21 @@ public class GroupActivity extends LockingActivity
                 }
                 break;
         }
+    }
+
+    private Entry getEntry(PwEntryInterface entry) {
+        Entry entryModel = new Entry();
+        entryModel.setTitle(entry.getTitle());
+        entryModel.setUsername(entry.getUsername());
+        entryModel.setPassword(entry.getPassword());
+        entryModel.setUrl(entry.getUrl());
+        if (entry.containsCustomFields()) {
+            entry.getFields()
+                    .doActionToAllCustomProtectedField(
+                            (key, value) -> entryModel.addCustomField(
+                                    new Field(key, value.toString())));
+        }
+        return entryModel;
     }
 
     @Override
@@ -956,18 +971,14 @@ public class GroupActivity extends LockingActivity
                                  String name,
                                  PwIcon icon) {
         Database database = App.getDB();
-        PwIconStandard iconStandard = database.getPwDatabase().getIconFactory().getFolderIcon();
 
         switch (action) {
             case CREATION:
                 // If group creation
                 // Build the group
                 PwGroupInterface newGroup = database.createGroup(mCurrentGroup);
-                newGroup.setName(name);
-                try {
-                    iconStandard = (PwIconStandard) icon;
-                } catch (Exception ignored) {} // TODO custom icon
-                newGroup.setIconStandard(iconStandard);
+                newGroup.setTitle(name);
+                newGroup.setIcon(icon);
 
                 // If group created save it in the database
                 new Thread(new AddGroupRunnable(this,
@@ -982,15 +993,9 @@ public class GroupActivity extends LockingActivity
                 // If update add new elements
                 if (oldGroupToUpdate != null) {
                     PwGroupInterface updateGroup = oldGroupToUpdate.duplicate();
-                    try {
-                        iconStandard = (PwIconStandard) icon;
-                        updateGroup = ((PwGroupV4) oldGroupToUpdate).duplicate(); // TODO generalize
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    updateGroup.setName(name);
+                    updateGroup.setTitle(name);
 					// TODO custom icon
-                    updateGroup.setIconStandard(iconStandard);
+                    updateGroup.setIcon(icon);
 
                     if (listNodesFragment != null)
                         listNodesFragment.removeNode(oldGroupToUpdate);

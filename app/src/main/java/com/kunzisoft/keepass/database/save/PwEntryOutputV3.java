@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.save;
 
 import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwGroupV3;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.utils.Types;
 
@@ -74,22 +75,22 @@ public class PwEntryOutputV3 {
 		// UUID
 		mOS.write(UUID_FIELD_TYPE);
 		mOS.write(UUID_FIELD_SIZE);
-		mOS.write(Types.UUIDtoBytes(mPE.getUUID()));
+		mOS.write(Types.UUIDtoBytes(mPE.getNodeId().getId()));
 		
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getParent().getGroupId()));
+		mOS.write(LEDataOutputStream.writeIntBuf(((PwGroupV3) mPE.getParent()).getNodeId().getId()));
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getIconStandard().getIconId()));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getIcon().getIconId()));
 
 		// Title
 		//byte[] title = mPE.title.getBytes("UTF-8");
 		mOS.write(TITLE_FIELD_TYPE);
-		int titleLen = Types.writeCString(mPE.getName(), mOS);
+		int titleLen = Types.writeCString(mPE.getTitle(), mOS);
 		outputBytes += titleLen;
 
 		// URL

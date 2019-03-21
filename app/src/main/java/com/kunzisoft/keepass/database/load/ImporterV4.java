@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.element.PwDeletedObject;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.element.PwIconCustom;
+import com.kunzisoft.keepass.database.element.PwNodeIdUUID;
 import com.kunzisoft.keepass.database.exception.ArcFourException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
@@ -532,9 +533,10 @@ public class ImporterV4 extends Importer {
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
 				if ( ctxGroups.size() != 0 )
 					throw new IOException("Group list should be empty.");
-				
-				db.setRootGroup(new PwGroupV4());
-				ctxGroups.push(db.getRootGroup());
+
+				PwGroupV4 rootGroup = new PwGroupV4();
+				db.setRootGroup(rootGroup);
+				ctxGroups.push(rootGroup);
 				ctxGroup = ctxGroups.peek();
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
@@ -547,9 +549,9 @@ public class ImporterV4 extends Importer {
 			
 		case Group:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
-				ctxGroup.setUUID(ReadUuid(xpp));
+				ctxGroup.setNodeId(new PwNodeIdUUID(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemName) ) {
-				ctxGroup.setName(ReadString(xpp));
+				ctxGroup.setTitle(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemNotes) ) {
 				ctxGroup.setNotes(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
@@ -606,7 +608,7 @@ public class ImporterV4 extends Importer {
 			
 		case Entry:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
-				ctxEntry.setUUID(ReadUuid(xpp));
+				ctxEntry.setNodeId(new PwNodeIdUUID(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
 				ctxEntry.setIconStandard(db.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
@@ -752,7 +754,7 @@ public class ImporterV4 extends Importer {
 			
 		case DeletedObject:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
-				ctxDeletedObject.uuid = ReadUuid(xpp);
+				ctxDeletedObject.setUuid(ReadUuid(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemDeletionTime) ) {
 				ctxDeletedObject.setDeletionTime(ReadTime(xpp));
 			} else {
@@ -807,8 +809,8 @@ public class ImporterV4 extends Importer {
 			
 			return KdbContext.CustomData;
 		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
-			if ( ctxGroup.getUUID() == null || ctxGroup.getUUID().equals(PwDatabase.UUID_ZERO) ) {
-				ctxGroup.setUUID(UUID.randomUUID());
+			if ( ctxGroup.getNodeId() == null || ctxGroup.getNodeId().equals(PwDatabase.UUID_ZERO) ) {
+				ctxGroup.setNodeId(new PwNodeIdUUID());
 			}
 			
 			ctxGroups.pop();
@@ -835,8 +837,8 @@ public class ImporterV4 extends Importer {
 			return KdbContext.GroupCustomData;
 
 		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
-			if ( ctxEntry.getUUID() == null || ctxEntry.getUUID().equals(PwDatabase.UUID_ZERO) ) {
-				ctxEntry.setUUID(UUID.randomUUID());
+			if ( ctxEntry.getNodeId() == null || ctxEntry.getNodeId().equals(PwDatabase.UUID_ZERO) ) {
+				ctxEntry.setNodeId(new PwNodeIdUUID());
 			}
 			
 			if ( entryInHistory ) {

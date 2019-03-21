@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -89,9 +89,9 @@ public class PwDatabaseV3 extends PwDatabase {
 
     private void initAndAddGroup(String title, int iconId, PwGroupInterface parent) {
         PwGroupV3 group = createGroup();
-        group.setId(newGroupId());
-        group.setName(title);
-        group.setIconStandard(iconFactory.getIcon(iconId));
+        group.setNodeId(newGroupId());
+        group.setTitle(title);
+        group.setIcon(iconFactory.getIcon(iconId));
         addGroupTo(group, parent);
     }
 
@@ -153,7 +153,7 @@ public class PwDatabaseV3 extends PwDatabase {
 		return kids;
 	}
 
-	public List<PwGroupInterface> getGrpChildren(PwGroupInterface parent) {
+	private List<PwGroupInterface> getGrpChildren(PwGroupInterface parent) {
 		int idx = groups.indexOf(parent);
 		int target = parent.getLevel() + 1;
 		List<PwGroupInterface> kids = new ArrayList<>();
@@ -167,7 +167,7 @@ public class PwDatabaseV3 extends PwDatabase {
 		return kids;
 	}
 
-	public List<PwEntryInterface> getEntries(PwGroupInterface parent) {
+	private List<PwEntryInterface> getEntries(PwGroupInterface parent) {
 		List<PwEntryInterface> kids = new ArrayList<>();
 		/*
 		 * for( Iterator i = entries.iterator(); i.hasNext(); ) { PwEntryV3 ent
@@ -176,7 +176,7 @@ public class PwDatabaseV3 extends PwDatabase {
 		 */
 		for (int i = 0; i < entries.size(); i++) {
 			PwEntryInterface ent = entries.get(i);
-			if (ent.getParent().getGroupId() == parent.getGroupId())
+			if (ent.getParent().getNodeId().equals(parent.getNodeId()))
 				kids.add(ent);
 		}
 		return kids;
@@ -234,10 +234,9 @@ public class PwDatabaseV3 extends PwDatabase {
 	public PwNodeIdInt newGroupId() {
 		PwNodeIdInt newId;
 		Random random = new Random();
-		while (true) {
+		do {
 			newId = new PwNodeIdInt(random.nextInt());
-			if (!isGroupIdUsed(newId)) break;
-		}
+		} while (isGroupIdUsed(newId));
 
 		return newId;
 	}
@@ -359,7 +358,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	@Override
 	public boolean isBackup(PwGroupInterface group) {
 		while (group != null) {
-			if (group.getLevel() == 0 && group.getName().equalsIgnoreCase("Backup")) {
+			if (group.getLevel() == 0 && group.getTitle().equalsIgnoreCase("Backup")) {
 				return true;
 			}
 			group = group.getParent();

@@ -553,7 +553,7 @@ public class PwDatabaseV4 extends PwDatabase {
 
 	@Override
 	public void populateGlobals(PwGroupInterface currentGroup) {
-		groups.put(rootGroup.getId(), rootGroup);
+		groups.put(rootGroup.getNodeId(), rootGroup);
 		
 		super.populateGlobals(currentGroup);
 	}
@@ -572,7 +572,7 @@ public class PwDatabaseV4 extends PwDatabase {
 			recycleBin.setExpanded(false);
 			addGroupTo(recycleBin, rootGroup);
 			
-			recycleBinUUID = recycleBin.getUUID();
+			recycleBinUUID = recycleBin.getNodeId().getId();
 		}
 	}
 
@@ -684,13 +684,13 @@ public class PwDatabaseV4 extends PwDatabase {
     @Override
 	public void deleteEntry(PwEntryInterface entry) {
 		super.deleteEntry(entry);
-		deletedObjects.add(new PwDeletedObject(entry.getUUID()));
+		deletedObjects.add(new PwDeletedObject((UUID) entry.getNodeId().getId()));
 	}
 
 	@Override
 	public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface origParent) {
 		super.undoDeleteEntry(entry, origParent);
-        deletedObjects.remove(new PwDeletedObject(entry.getUUID()));
+        deletedObjects.remove(new PwDeletedObject((UUID) entry.getNodeId().getId()));
 	}
 
 	@Override
@@ -740,7 +740,7 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public void initNew(String dbPath) {
 		rootGroup = new PwGroupV4(dbNameFromPath(dbPath), iconFactory.getFolderIcon());
-		groups.put(rootGroup.getId(), rootGroup);
+		groups.put(rootGroup.getNodeId(), rootGroup);
 	}
 	
 	private String dbNameFromPath(String dbPath) {

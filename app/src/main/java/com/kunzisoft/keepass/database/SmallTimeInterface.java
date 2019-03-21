@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database;
 
 import com.kunzisoft.keepass.database.element.PwDate;
 
-public interface ISmallTimeLogger {
+public interface SmallTimeInterface {
 
     PwDate getLastModificationTime();
     void setLastModificationTime(PwDate date);

@@ -38,7 +38,7 @@ public class PwGroupTest extends AndroidTestCase {
 	}
 	
 	public void testGroupName() {
-		 assertTrue("Name was " + mPG.getName(), mPG.getName().equals("Internet"));
+		 assertTrue("Name was " + mPG.getTitle(), mPG.getTitle().equals("Internet"));
 	}
 }
 

@@ -81,7 +81,7 @@ public class GroupEditDialogFragment extends DialogFragment
 
     public static GroupEditDialogFragment build(PwGroupInterface group) {
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_NAME, group.getName());
+        bundle.putString(KEY_NAME, group.getTitle());
         bundle.putParcelable(KEY_ICON, group.getIcon());
         bundle.putInt(KEY_ACTION_ID, UPDATE.ordinal());
         GroupEditDialogFragment fragment = new GroupEditDialogFragment();

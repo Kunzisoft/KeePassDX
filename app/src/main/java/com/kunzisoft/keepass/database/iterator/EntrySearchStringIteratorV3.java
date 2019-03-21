@@ -101,7 +101,7 @@ public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
 	private String getCurrentString() {
 		switch (current) {
 		case title:
-			return entry.getName();
+			return entry.getTitle();
 		
 		case url:
 			return entry.getUrl();

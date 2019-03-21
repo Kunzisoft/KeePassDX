@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.database;
 
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 
@@ -62,19 +64,6 @@ public class BinaryPool {
 		return pool.values();
 	}
 	
-	private class AddBinaries extends EntryHandler<PwEntryV4> {
-
-		@Override
-		public boolean operate(PwEntryV4 entry) {
-			for (PwEntryV4 histEntry : entry.getHistory()) {
-				add(histEntry.getBinaries());
-			}
-			add(entry.getBinaries());
-			return true;
-		}
-		
-	}
-	
 	private void add(Map<String, ProtectedBinary> dict) {
 		for (ProtectedBinary pb : dict.values()) {
 			add(pb);
@@ -105,7 +94,17 @@ public class BinaryPool {
 	}
 	
 	private void build(PwGroupV4 rootGroup) {
-		EntryHandler eh = new AddBinaries();
-		rootGroup.preOrderTraverseTree(null, eh);
+		PwGroupInterface.preOrderTraverseTree(rootGroup, null, new EntryHandler<PwEntryInterface>() {
+			@Override
+			public boolean operate(PwEntryInterface entryInterface) {
+				PwEntryV4 entry = (PwEntryV4) entryInterface;
+
+				for (PwEntryV4 histEntry : entry.getHistory()) {
+					add(histEntry.getBinaries());
+				}
+				add(entry.getBinaries());
+				return true;
+			}
+		});
 	}
 }

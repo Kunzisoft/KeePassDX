@@ -54,7 +54,7 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase> {
 	public PwGroupInterface search(PwDatabaseVersion pm, String qStr, int max) {
 
 		PwGroupInterface group = pm.createGroup();
-		group.setName("\"" + qStr + "\"");
+		group.setTitle("\"" + qStr + "\"");
 		group.setEntries(new ArrayList<>());
 		
 		// Search all entries

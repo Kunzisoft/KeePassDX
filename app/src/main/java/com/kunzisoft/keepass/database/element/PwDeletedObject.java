@@ -23,11 +23,12 @@ import java.util.Date;
 import java.util.UUID;
 
 public class PwDeletedObject {
+
 	public UUID uuid;
 	private Date deletionTime;
 	
 	public PwDeletedObject() {
-		
+
 	}
 	
 	public PwDeletedObject(UUID u) {
@@ -37,6 +38,14 @@ public class PwDeletedObject {
 	public PwDeletedObject(UUID u, Date d) {
 		uuid = u;
 		deletionTime = d;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
 	}
 	
 	public Date getDeletionTime() {

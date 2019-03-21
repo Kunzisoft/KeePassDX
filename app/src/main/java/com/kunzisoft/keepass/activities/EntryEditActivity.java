@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDate;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.PwIcon;
 import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwIconStandard;
@@ -60,13 +61,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
-import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryEditCustomField;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.KEY_ICON_STANDARD;
 
@@ -117,7 +115,7 @@ public class EntryEditActivity extends LockingHideActivity
 	public static void launch(Activity activity, PwEntryInterface pwEntry) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
-            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pwEntry.getUUID()));
+            intent.putExtra(KEY_ENTRY, pwEntry.getNodeId());
 			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
 	}
@@ -131,7 +129,7 @@ public class EntryEditActivity extends LockingHideActivity
 	public static void launch(Activity activity, PwGroupInterface pwGroup) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
-            intent.putExtra(KEY_PARENT, pwGroup.getId());
+            intent.putExtra(KEY_PARENT, pwGroup.getNodeId());
 			activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
 	}
@@ -174,7 +172,7 @@ public class EntryEditActivity extends LockingHideActivity
         database = App.getDB();
 
 		Intent intent = getIntent();
-		byte[] uuidBytes = intent.getByteArrayExtra(KEY_ENTRY);
+		PwNodeId keyEntry = intent.getParcelableExtra(KEY_ENTRY);
 
         // Retrieve the textColor to tint the icon
         int[] attrs = {android.R.attr.textColorPrimary};
@@ -184,7 +182,7 @@ public class EntryEditActivity extends LockingHideActivity
         mSelectedIconStandard = database.getPwDatabase().getIconFactory().getUnknownIcon();
 
 		PwDatabase pm = database.getPwDatabase();
-		if ( uuidBytes == null ) {
+		if (keyEntry == null) {
             PwNodeId parentId = intent.getParcelableExtra(KEY_PARENT);
 			PwGroupInterface parent = pm.getGroupByGroupId(parentId);
 			mEntry = database.createEntry(parent);
@@ -192,8 +190,7 @@ public class EntryEditActivity extends LockingHideActivity
 			// Add the default icon
             database.getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, iconColor);
 		} else {
-			UUID uuid = Types.bytestoUUID(uuidBytes);
-			mEntry = pm.getEntryByUUIDId(uuid);
+			mEntry = pm.getEntryById(keyEntry);
 			mIsNew = false;
 			fillData();
 		}
@@ -416,7 +413,7 @@ public class EntryEditActivity extends LockingHideActivity
 	protected PwEntryInterface populateNewEntry() {
         PwDatabase db = App.getDB().getPwDatabase();
 
-		PwEntryInterface newEntry = mEntry.clone();
+		PwEntryInterface newEntry = mEntry.duplicate();
 
         newEntry.startToManageFieldReferences(db);
 
@@ -425,8 +422,8 @@ public class EntryEditActivity extends LockingHideActivity
         newEntry.setLastAccessTime(new PwDate());
         newEntry.setLastModificationTime(new PwDate());
 
-        newEntry.setName(entryTitleView.getText().toString());
-        newEntry.setIconStandard(retrieveIcon());
+        newEntry.setTitle(entryTitleView.getText().toString());
+        newEntry.setIcon(retrieveIcon());
 
         newEntry.setUrl(entryUrlView.getText().toString());
         newEntry.setUsername(entryUserNameView.getText().toString());
@@ -454,7 +451,7 @@ public class EntryEditActivity extends LockingHideActivity
     /**
      * Retrieve the icon by the selection, or the first icon in the list if the entry is new or the last one
      */
-	private PwIconStandard retrieveIcon() {
+	private PwIcon retrieveIcon() {
 
         if (!mSelectedIconStandard.isUnknown())
             return mSelectedIconStandard;
@@ -464,7 +461,7 @@ public class EntryEditActivity extends LockingHideActivity
             }
             else {
                 // Keep previous icon, if no new one was selected
-                return mEntry.getIconStandard();
+                return mEntry.getIcon();
             }
         }
     }
@@ -513,7 +510,7 @@ public class EntryEditActivity extends LockingHideActivity
 		// Don't start the field reference manager, we want to see the raw ref
         mEntry.stopToManageFieldReferences();
 
-        entryTitleView.setText(mEntry.getName());
+        entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());
         entryUrlView.setText(mEntry.getUrl());
         String password = mEntry.getPassword();
@@ -543,7 +540,7 @@ public class EntryEditActivity extends LockingHideActivity
     @Override
     public void iconPicked(Bundle bundle) {
         mSelectedIconStandard = bundle.getParcelable(KEY_ICON_STANDARD);
-        mEntry.setIconStandard(mSelectedIconStandard);
+        mEntry.setIcon(mSelectedIconStandard);
         assignIconView();
     }
 

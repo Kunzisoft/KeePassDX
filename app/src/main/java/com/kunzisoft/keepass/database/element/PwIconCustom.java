@@ -53,6 +53,11 @@ public class PwIconCustom extends PwIcon {
 		return uuid == null || this.equals(ZERO);
 	}
 
+    @Override
+    public int getIconId() {
+        return UNKNOWN;
+    }
+
     public UUID getUUID() {
         return uuid;
     }
@@ -83,7 +88,12 @@ public class PwIconCustom extends PwIcon {
         }
     };
 
-    @Override
+	@Override
+	protected PwIconCustom clone() throws CloneNotSupportedException {
+		return new PwIconCustom(this);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

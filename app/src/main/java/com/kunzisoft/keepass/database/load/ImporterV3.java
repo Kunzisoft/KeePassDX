@@ -56,6 +56,7 @@ import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
 import com.kunzisoft.keepass.database.element.PwGroupV3;
+import com.kunzisoft.keepass.database.element.PwNodeIdUUID;
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidDBSignatureException;
@@ -269,7 +270,6 @@ public class ImporterV3 extends Importer {
 
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
-				newEnt.populateBlankFields(databaseToOpen);
 				databaseToOpen.addEntry(newEnt);
 				newEnt = new PwEntryV3();
 				i++;
@@ -301,7 +301,7 @@ public class ImporterV3 extends Importer {
 			grp.setGroupId(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0002 :
-			grp.setName(Types.readCString(buf, offset));
+			grp.setTitle(Types.readCString(buf, offset));
 			break;
 		case 0x0003 :
 			grp.setCreationTime(new PwDate(buf, offset));
@@ -316,7 +316,7 @@ public class ImporterV3 extends Importer {
 			grp.setExpiryTime(new PwDate(buf, offset));
 			break;
 		case 0x0007 :
-			grp.setIconStandard(db.getIconFactory().getIcon(LEDataInputStream.readInt(buf, offset)));
+			grp.setIcon(db.getIconFactory().getIcon(LEDataInputStream.readInt(buf, offset)));
 			break;
 		case 0x0008 :
 			grp.setLevel(LEDataInputStream.readUShort(buf, offset));
@@ -340,10 +340,10 @@ public class ImporterV3 extends Importer {
 			// Ignore field
 			break;
 		case 0x0001 :
-			ent.setUUID(Types.bytestoUUID(buf, offset));
+			ent.setNodeId(new PwNodeIdUUID(Types.bytestoUUID(buf, offset)));
 			break;
 		case 0x0002 :
-			ent.setGroupId(LEDataInputStream.readInt(buf, offset));
+			ent.setNewParent(LEDataInputStream.readInt(buf, offset));
 			break;
 		case 0x0003 :
 			int iconId = LEDataInputStream.readInt(buf, offset);
@@ -353,10 +353,10 @@ public class ImporterV3 extends Importer {
 				iconId = 0;
 			}
 			
-			ent.setIconStandard(db.getIconFactory().getIcon(iconId));
+			ent.setIcon(db.getIconFactory().getIcon(iconId));
 			break;
 		case 0x0004 :
-			ent.setName(Types.readCString(buf, offset));
+			ent.setTitle(Types.readCString(buf, offset));
 			break;
 		case 0x0005 :
 			ent.setUrl(Types.readCString(buf, offset));

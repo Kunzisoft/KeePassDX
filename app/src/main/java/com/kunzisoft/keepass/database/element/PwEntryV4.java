@@ -34,8 +34,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
-public class PwEntryV4 extends PwNode implements ITimeLogger, PwEntryInterface {
+public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInterface {
 
 	public static final String STR_TITLE = "Title";
 	public static final String STR_USERNAME = "UserName";
@@ -61,6 +62,11 @@ public class PwEntryV4 extends PwNode implements ITimeLogger, PwEntryInterface {
 	private String url = "";
 	private String additional = "";
 	private String tags = "";
+
+	@Override
+	PwNodeId<UUID> initNodeId() {
+		return new PwNodeIdUUID();
+	}
 
 	public PwEntryV4() {
 	    super();
@@ -207,7 +213,7 @@ public class PwEntryV4 extends PwNode implements ITimeLogger, PwEntryInterface {
 	}
 
 	@Override
-	public String getName() {
+	public String getTitle() {
 		return decodeRefKey(mDecodeRef, STR_TITLE);
 	}
 
@@ -217,7 +223,7 @@ public class PwEntryV4 extends PwNode implements ITimeLogger, PwEntryInterface {
 	}
 
 	@Override
-	public void setName(String title) {
+	public void setTitle(String title) {
 		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectTitle;
 		setProtectedString(STR_TITLE, title, protect);
 	}
@@ -289,13 +295,25 @@ public class PwEntryV4 extends PwNode implements ITimeLogger, PwEntryInterface {
 		}
 	}
 
-	public void setIconCustom(PwIconCustom icon) {
-		this.customIcon = icon;
-	}
+    @Override
+    public void setIcon(PwIcon icon) {
+        if (icon instanceof PwIconStandard)
+            setIconStandard((PwIconStandard) icon);
+        if (icon instanceof PwIconCustom)
+            setIconCustom((PwIconCustom) icon);
+    }
 
 	public PwIconCustom getIconCustom() {
 		return customIcon;
 	}
+
+    public void setIconCustom(PwIconCustom icon) {
+        this.customIcon = icon;
+    }
+
+    public PwIcon getIconStandard() {
+        return icon;
+    }
 
 	public void setIconStandard(PwIconStandard icon) {
 		this.icon = icon;

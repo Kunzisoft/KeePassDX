@@ -24,30 +24,25 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.ISmallTimeLogger;
 
 import org.joda.time.LocalDate;
-
-import java.util.UUID;
 
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parcelable, Cloneable {
+public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Cloneable {
 
-	protected PwNodeId uuid;
+	protected PwNodeId<IdType> nodeId = initNodeId();
     protected PwGroupInterface parent = null;
-    protected PwIconStandard icon = new PwIconStandard();
+    protected PwIcon icon = new PwIconStandard();
     protected PwDate creation = new PwDate();
     protected PwDate lastMod = new PwDate();
     protected PwDate lastAccess = new PwDate();
     protected PwDate expireDate = PwDate.PW_NEVER_EXPIRE;
 
-    abstract PwNodeId initNodeId();
+    abstract PwNodeId<IdType> initNodeId();
 
-    protected PwNode() {
-		this.uuid = initNodeId();
-	}
+    protected PwNode() {}
 
     protected PwNode(PwGroupInterface parent) {
 		this();
@@ -55,7 +50,7 @@ public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parce
     }
 
     protected PwNode(Parcel in) {
-		uuid = in.readParcelable(PwNodeId.class.getClassLoader());
+		nodeId = in.readParcelable(PwNodeId.class.getClassLoader());
         // TODO better technique ?
         try {
             PwNodeId pwGroupId = in.readParcelable(PwNodeId.class.getClassLoader());
@@ -73,11 +68,11 @@ public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parce
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(uuid, flags);
+		dest.writeParcelable(nodeId, flags);
 
         PwNodeId parentId = null;
         if (parent != null)
-            parentId = parent.getId();
+            parentId = parent.getNodeId();
         dest.writeParcelable(parentId, flags);
 
         dest.writeParcelable(icon, flags);
@@ -93,7 +88,7 @@ public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parce
     }
 
     protected void assign(PwNode source) {
-		this.uuid = source.uuid;
+		this.nodeId = source.nodeId;
         this.parent = source.parent;
         this.icon = source.icon;
         this.creation = source.creation;
@@ -107,9 +102,9 @@ public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parce
         PwNode newNode;
         try {
             newNode = (PwNode) super.clone();
-			newNode.uuid = uuid.clone();
+			newNode.nodeId = nodeId.clone();
             // newNode.parent stay the same in copy
-            newNode.icon = new PwIconStandard(this.icon);
+            newNode.icon = icon.clone();
             newNode.creation = creation.clone();
             newNode.lastMod = lastMod.clone();
             newNode.lastAccess = lastAccess.clone();
@@ -120,32 +115,29 @@ public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parce
         return newNode;
     }
 
-    boolean isSameType(PwNode pwNode) {
-    	return getType().equals(pwNode.getType());
+    public IdType getId() {
+        return getNodeId().getId();
+    }
+
+	@Override
+	public PwNodeId<IdType> getNodeId() {
+		return nodeId;
 	}
 
 	@Override
-	public UUID getUUID() {
-		return uuid;
-	}
-
-	@Override
-	public void setUUID(UUID uuid) {
-		this.uuid = uuid;
+	public void setNodeId(PwNodeId id) {
+		this.nodeId = id;
 	}
 
     /**
      * @return Visual icon
      */
     public PwIcon getIcon() {
-        return getIconStandard();
-    }
-
-    public PwIconStandard getIconStandard() {
         return icon;
     }
 
-    public void setIconStandard(PwIconStandard icon) {
+    @Override
+    public void setIcon(PwIcon icon) {
         this.icon = icon;
     }
 
@@ -160,12 +152,12 @@ public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parce
     /**
      * Assign a parent to this node
      */
-    public void setParent(PwGroupInterface prt) {
-        parent = prt;
+    public void setParent(PwGroupInterface parent) {
+        this.parent = parent;
     }
 
     /**
-     * @return true if parent is present (can be a root or a detach element)
+     * @return true if parent is present (false if not present, can be a root or a detach element)
      */
     public boolean containsParent() {
         return getParent() != null;
@@ -241,18 +233,18 @@ public abstract class PwNode implements PwNodeInterface, ISmallTimeLogger, Parce
         }
     }
 
-	@Override
+    @Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
 		PwNode pwNode = (PwNode) o;
-		return isSameType(pwNode)
-				&& (getUUID() != null ? getUUID().equals(pwNode.getUUID()) : pwNode.getUUID() == null);
+		return getType().equals(pwNode.getType())
+				&& (getNodeId() != null ? getNodeId().equals(pwNode.getNodeId()) : pwNode.getNodeId() == null);
 	}
 
 	@Override
 	public int hashCode() {
-		return getUUID() != null ? getUUID().hashCode() : 0;
+		return getNodeId() != null ? getNodeId().hashCode() : 0;
 	}
 }

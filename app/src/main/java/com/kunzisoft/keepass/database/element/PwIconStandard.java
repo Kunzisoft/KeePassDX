@@ -24,7 +24,6 @@ import android.os.Parcel;
 public class PwIconStandard extends PwIcon {
 	private final int iconId;
 
-	public static final int UNKNOWN = -1;
 	public static final int KEY = 0;
 	public static final int TRASH = 43;
 	public static final int FOLDER = 48;
@@ -77,7 +76,12 @@ public class PwIconStandard extends PwIcon {
 		return iconId == 0;
 	}
 
-	@Override
+    @Override
+    protected PwIconStandard clone() throws CloneNotSupportedException {
+        return new PwIconStandard(this);
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

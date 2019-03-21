@@ -85,14 +85,16 @@ public class DeleteEntry extends AndroidTestCase {
 	}
 	
 	private PwEntryV3 getEntry(PwDatabaseV3 pm, String name) {
+		/*
+		TODO test
 		List<PwEntryV3> entries = pm.getEntries();
 		for ( int i = 0; i < entries.size(); i++ ) {
 			PwEntryV3 entry = entries.get(i);
-			if ( entry.getName().equals(name) ) {
+			if ( entry.getTitle().equals(name) ) {
 				return entry;
 			}
 		}
-		
+		*/
 		return null;
 		
 	}
@@ -101,7 +103,7 @@ public class DeleteEntry extends AndroidTestCase {
 		List<PwGroupInterface> groups = pm.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
 			PwGroupInterface group = groups.get(i);
-			if ( group.getName().equals(name) ) {
+			if ( group.getTitle().equals(name) ) {
 				return group;
 			}
 		}

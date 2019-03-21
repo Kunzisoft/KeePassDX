@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -21,8 +21,6 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
-import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.GroupHandler;
 import com.kunzisoft.keepass.database.ITimeLogger;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
+public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInterface {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
@@ -51,6 +49,11 @@ public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
 	private Boolean enableAutoType = null;
 	private Boolean enableSearching = null;
 	private UUID lastTopVisibleEntry = PwDatabase.UUID_ZERO;
+
+	@Override
+	PwNodeId<UUID> initNodeId() {
+		return new PwNodeIdUUID();
+	}
 
 	public PwGroupV4() {
 	    super();
@@ -174,21 +177,9 @@ public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
     }
 	
 	public void addEntry(PwEntryV4 pe) {
-		assert(pe != null);
 		addChildEntry(pe);
         pe.setParent(this);
     }
-
-	@Override
-	public PwNodeId getId() {
-		return new PwNodeIdUUID(uuid);
-	}
-
-	@Override
-	public void setId(PwNodeId id) {
-		PwNodeIdUUID id4 = (PwNodeIdUUID) id;
-		uuid = id4.getId();
-	}
 
 	@Override
 	public PwDate getLocationChanged() {
@@ -240,6 +231,10 @@ public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
 
     public void setIconCustom(PwIconCustom icon) {
         this.customIcon = icon;
+    }
+
+    public PwIcon getIconStandard() {
+        return icon;
     }
 
     public void setIconStandard(PwIconStandard icon) { // TODO Encapsulate with PwEntryV4
@@ -318,12 +313,12 @@ public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
 	}
 
 	@Override
-	public String getName() {
+	public String getTitle() {
 		return title;
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setTitle(String name) {
 		this.title = name;
 	}
 
@@ -345,6 +340,11 @@ public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
 	@Override
 	public void setEntries(List<PwEntryInterface> entries) {
 		childEntries = entries;
+	}
+
+	@Override
+	public int getLevel() {
+		return -1; // TODO Level
 	}
 
 	@Override
@@ -395,19 +395,5 @@ public class PwGroupV4 extends PwNode implements ITimeLogger, PwGroupInterface {
 				children.add(child);
 		}
 		return children;
-	}
-
-	public boolean preOrderTraverseTree(GroupHandler<PwGroupInterface> groupHandler,
-										EntryHandler<PwEntryInterface> entryHandler) {
-		if (entryHandler != null) {
-			for (PwEntryInterface entry : childEntries) {
-				if (!entryHandler.operate(entry)) return false;
-			}
-		}
-		for (PwGroupInterface group : childGroups) {
-			if ((groupHandler != null) && !groupHandler.operate(group)) return false;
-			group.preOrderTraverseTree(groupHandler, entryHandler);
-		}
-		return true;
 	}
 }

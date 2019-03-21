@@ -72,7 +72,7 @@ import java.util.UUID;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  * @author Jeremy Jamet <jeremy.jamet@kunzisoft.com>
  */
-public class PwEntryV3 extends PwNode implements PwEntryInterface {
+public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
 
 	/** Size of byte buffer needed to hold this struct. */
 	private static final String PMS_ID_BINDESC = "bin-stream";
@@ -80,14 +80,19 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
 	private static final String PMS_ID_USER    = "SYSTEM";
 	private static final String PMS_ID_URL     = "$";
 
-    private String title;
-	private	String username;
-	private byte[] password;
-	private String url;
-	private String additional;
+    private String title = "";
+	private	String username = "";
+	private byte[] password = new byte[0];
+	private String url = "";
+	private String additional = "";
 	/** A string describing what is in pBinaryData */
-	private String binaryDesc;
-	private byte[] binaryData;
+	private String binaryDesc = "";
+	private byte[] binaryData = new byte[0];
+
+	@Override
+	PwNodeId<UUID> initNodeId() {
+		return new PwNodeIdUUID();
+	}
 
 	public PwEntryV3() {
 		super();
@@ -188,17 +193,14 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
 		return Type.ENTRY;
 	}
 
-    public void setGroupId(int groupId) {
-	    PwGroupV3 parentGroup = new PwGroupV3();
-		parentGroup.setGroupId(groupId);
-	    this.parent = parentGroup;
+    public void setNewParent(int groupId) {
+	    PwGroupV3 pwGroupV3 = new PwGroupV3();
+        pwGroupV3.setNodeId(new PwNodeIdInt(groupId));
+        this.parent = pwGroupV3;
     }
 
     @Override
     public String getUsername() {
-        if (username == null) {
-            return "";
-        }
         return username;
     }
 
@@ -208,12 +210,12 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
     }
 
     @Override
-    public String getName() {
+    public String getTitle() {
         return title;
     }
 
 	@Override
-    public void setName(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -237,53 +239,11 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
         this.url = url;
     }
 
-    public void populateBlankFields(PwDatabaseV3 db) {
-	    // TODO verify and remove
-        if (icon == null) {
-            icon = db.getIconFactory().getKeyIcon();
-        }
-
-        if (username == null) {
-            username = "";
-        }
-
-        if (password == null) {
-            password = new byte[0];
-        }
-
-        if (uuid == null) {
-            uuid = UUID.randomUUID();
-        }
-
-        if (title == null) {
-            title = "";
-        }
-
-        if (url == null) {
-            url = "";
-        }
-
-        if (additional == null) {
-            additional = "";
-        }
-
-        if (binaryDesc == null) {
-            binaryDesc = "";
-        }
-
-        if (binaryData == null) {
-            binaryData = new byte[0];
-        }
-    }
-
 	/**
 	 * @return the actual password byte array.
 	 */
 	@Override
 	public String getPassword() {
-		if (password == null) {
-			return "";
-		}
 		return new String(password);
 	}
 	
@@ -301,10 +261,7 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
 
 	/** Securely erase old password before copying new. */
 	public void setPassword( byte[] buf, int offset, int len ) {
-		if( password != null ) {
-			fill( password, (byte)0 );
-			password = null;
-		}
+	    fill(password, (byte)0);
 		password = new byte[len];
 		System.arraycopy( buf, offset, password, 0, len );
 	}
@@ -316,7 +273,6 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
 			password = pass.getBytes("UTF-8");
 			setPassword(password, 0, password.length);
 		} catch (UnsupportedEncodingException e) {
-			assert false;
 			password = pass.getBytes();
 			setPassword(password, 0, password.length);
 		}
@@ -350,19 +306,17 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
 	// Determine if this is a MetaStream entry
 	@Override
 	public boolean isMetaStream() {
-		if ( binaryData == null ) return false;
-		if ( additional == null || additional.length() == 0 ) return false;
-		if ( ! binaryDesc.equals(PMS_ID_BINDESC) ) return false;
-		if ( title == null ) return false;
-		if ( ! title.equals(PMS_ID_TITLE) ) return false;
-		if ( username == null ) return false;
-		if ( ! username.equals(PMS_ID_USER) ) return false;
-		if ( url == null ) return false;
-		if ( ! url.equals(PMS_ID_URL)) return false;
-		if ( !icon.isMetaStreamIcon() ) return false;
-
-		return true;
-	}
+		if (binaryData == new byte[0]) return false;
+		if (additional.isEmpty()) return false;
+		if (!binaryDesc.equals(PMS_ID_BINDESC)) return false;
+		if (title.isEmpty()) return false;
+		if (!title.equals(PMS_ID_TITLE)) return false;
+		if (username.isEmpty()) return false;
+		if (!username.equals(PMS_ID_USER)) return false;
+		if (url.isEmpty()) return false;
+		if (!url.equals(PMS_ID_URL)) return false;
+        return icon.isMetaStreamIcon();
+    }
 
 	@Override
 	public void createBackup(PwDatabase db) {}
@@ -372,7 +326,12 @@ public class PwEntryV3 extends PwNode implements PwEntryInterface {
 		return false;
 	}
 
-	@Override
+    @Override
+    public boolean containsCustomData() {
+        return false;
+    }
+
+    @Override
 	public void startToManageFieldReferences(PwDatabase db) {}
 
 	@Override

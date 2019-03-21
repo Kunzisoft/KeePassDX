@@ -49,7 +49,7 @@ public abstract class PwDatabase {
     protected PwIconFactory iconFactory = new PwIconFactory();
 
     protected Map<PwNodeId, PwGroupInterface> groups = new HashMap<>();
-    protected Map<UUID, PwEntryInterface> entries = new HashMap<>();
+    protected Map<PwNodeId, PwEntryInterface> entries = new HashMap<>();
 
     private static boolean isKDBExtension(String filename) {
         if (filename == null) { return false; }
@@ -259,7 +259,7 @@ public abstract class PwDatabase {
 
         parent.addChildGroup(newGroup);
         newGroup.setParent(parent);
-        groups.put(newGroup.getId(), newGroup);
+        groups.put(newGroup.getNodeId(), newGroup);
 
         parent.touch(true, true);
     }
@@ -269,7 +269,7 @@ public abstract class PwDatabase {
         if (parent != null) {
             parent.removeChildGroup(remove);
         }
-        groups.remove(remove.getId());
+        groups.remove(remove.getNodeId());
     }
 
     public abstract PwNodeId newGroupId();
@@ -290,7 +290,7 @@ public abstract class PwDatabase {
 
         for (int i = 0; i < groups.size(); i++) {
             PwGroupInterface group =groups.get(i);
-            if (group.getId().equals(id)) {
+            if (group.getNodeId().equals(id)) {
                 return true;
             }
         }
@@ -302,7 +302,7 @@ public abstract class PwDatabase {
 
     public abstract List<PwEntryInterface> getEntries();
 
-    public PwEntryInterface getEntryByUUIDId(UUID id) {
+    public PwEntryInterface getEntryById(PwNodeId id) {
         return this.entries.get(id);
     }
 
@@ -313,7 +313,7 @@ public abstract class PwDatabase {
         }
         newEntry.setParent(parent);
 
-        entries.put(newEntry.getUUID(), newEntry);
+        entries.put(newEntry.getNodeId(), newEntry);
     }
 
     protected void removeEntryFrom(PwEntryInterface remove, PwGroupInterface parent) {
@@ -321,7 +321,7 @@ public abstract class PwDatabase {
         if (parent != null) {
             parent.removeChildEntry(remove);
         }
-        entries.remove(remove.getUUID());
+        entries.remove(remove.getNodeId());
     }
 
     public abstract boolean isBackup(PwGroupInterface group);
@@ -333,12 +333,12 @@ public abstract class PwDatabase {
 
         for (int i = 0; i < childEntries.size(); i++ ) {
             PwEntryInterface cur = childEntries.get(i);
-            entries.put(cur.getUUID(), cur);
+            entries.put(cur.getNodeId(), cur);
         }
 
         for (int i = 0; i < childGroups.size(); i++ ) {
             PwGroupInterface cur = childGroups.get(i);
-            groups.put(cur.getId(), cur);
+            groups.put(cur.getNodeId(), cur);
             populateGlobals(cur);
         }
     }

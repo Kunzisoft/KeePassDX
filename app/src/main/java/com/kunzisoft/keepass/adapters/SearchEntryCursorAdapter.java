@@ -104,7 +104,7 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         database.getDrawFactory().assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon, iconColor);
 
         // Assign title
-        String showTitle = PwEntryInterface.getVisualTitle(false, title, username, url, uuid);
+        String showTitle = PwEntryInterface.getVisualTitle(false, title, username, url, uuid.toString());
         viewHolder.textViewTitle.setText(showTitle);
         if (displayUsername && !username.isEmpty()) {
             viewHolder.textViewSubTitle.setText(String.format("(%s)", username));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -21,9 +21,9 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
-public class PwNodeIdInt extends PwNodeId {
+public class PwNodeIdInt extends PwNodeId<Integer> {
 
-	private int id;
+	private Integer id;
 
 	public PwNodeIdInt() {
 		this.id = -1;
@@ -35,7 +35,6 @@ public class PwNodeIdInt extends PwNodeId {
 	}
 
 	public PwNodeIdInt(Parcel in) {
-        super(in);
         id = in.readInt();
 	}
 
@@ -58,8 +57,8 @@ public class PwNodeIdInt extends PwNodeId {
     };
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	public PwNodeIdInt clone() throws CloneNotSupportedException {
+		return (PwNodeIdInt) super.clone();
 	}
 
 	@Override
@@ -68,16 +67,20 @@ public class PwNodeIdInt extends PwNodeId {
 			return false;
 		}
 		PwNodeIdInt cmp = (PwNodeIdInt) compare;
-		return id == cmp.id;
+		return id.equals(cmp.id);
 	}
 
 	@Override
 	public int hashCode() {
-		Integer i = id;
-		return i.hashCode();
+		return id.hashCode();
 	}
-	
-	public int getId() {
+
+	@Override
+	public String toString() {
+		return id.toString();
+	}
+
+	public Integer getId() {
 		return id;
 	}
 }

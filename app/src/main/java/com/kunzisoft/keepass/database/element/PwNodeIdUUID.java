@@ -23,7 +23,7 @@ import android.os.Parcel;
 
 import java.util.UUID;
 
-public class PwNodeIdUUID extends PwNodeId {
+public class PwNodeIdUUID extends PwNodeId<UUID> {
 
 	private UUID uuid;
 
@@ -60,8 +60,8 @@ public class PwNodeIdUUID extends PwNodeId {
     };
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	public PwNodeIdUUID clone() throws CloneNotSupportedException {
+		return (PwNodeIdUUID) super.clone();
 	}
 
 	@Override
@@ -76,6 +76,11 @@ public class PwNodeIdUUID extends PwNodeId {
 	@Override
 	public int hashCode() {
 		return uuid.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return uuid.toString();
 	}
 
 	public UUID getId() {

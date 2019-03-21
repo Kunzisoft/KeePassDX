@@ -91,7 +91,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             }
 
             @Override public boolean areContentsTheSame(PwNodeInterface oldItem, PwNodeInterface newItem) {
-				return oldItem.getName().equals(newItem.getName())
+				return oldItem.getTitle().equals(newItem.getTitle())
 						&& oldItem.getIcon().equals(newItem.getIcon());
             }
 
@@ -235,7 +235,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         }
         database.getDrawFactory().assignDatabaseIconTo(context, holder.icon, subNode.getIcon(), iconColor);
         // Assign text
-        holder.text.setText(subNode.getName());
+        holder.text.setText(subNode.getTitle());
         // Assign click
         holder.container.setOnClickListener(
                 new OnNodeClickListener(subNode));

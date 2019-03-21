@@ -39,7 +39,9 @@ import com.kunzisoft.keepass.database.element.PwDatabaseV4XML;
 import com.kunzisoft.keepass.database.element.PwDbHeaderV4;
 import com.kunzisoft.keepass.database.element.PwDefsV4;
 import com.kunzisoft.keepass.database.element.PwDeletedObject;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.element.PwIconCustom;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
@@ -142,54 +144,6 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		}
 	}
 	
-	private class GroupWriter extends GroupHandler<PwGroupV4> {
-		private Stack<PwGroupV4> groupStack;
-		
-		public GroupWriter(Stack<PwGroupV4> gs) {
-			groupStack = gs;
-		}
-
-		@Override
-		public boolean operate(PwGroupV4 group) {
-			assert(group != null);
-			
-			while(true) {
-				try {
-					if (group.getParent() == groupStack.peek()) {
-						groupStack.push(group);
-						startGroup(group);
-						break;
-					} else {
-						groupStack.pop();
-						if (groupStack.size() <= 0) return false;
-						endGroup();
-					}
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			}
-			
-			return true;
-		}
-	}
-	
-	private class EntryWriter extends EntryHandler<PwEntryV4> {
-
-		@Override
-		public boolean operate(PwEntryV4 entry) {
-			assert(entry != null);
-			
-			try {
-				writeEntry(entry, false);
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
-			}
-			
-			return true;
-		}
-		
-	}
-	
 	private void outputDatabase(OutputStream os) throws IllegalArgumentException, IllegalStateException, IOException {
 
 		xml = Xml.newSerializer();
@@ -201,14 +155,49 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		writeMeta();
 		
-		PwGroupV4 root = mPM.getRootGroup();
+		PwGroupV4 root = (PwGroupV4) mPM.getRootGroup();
 		xml.startTag(null, PwDatabaseV4XML.ElemRoot);
 		startGroup(root);
 		Stack<PwGroupV4> groupStack = new Stack<>();
 		groupStack.push(root);
-		
-		if (!root.preOrderTraverseTree(new GroupWriter(groupStack), new EntryWriter()))
-			throw new RuntimeException("Writing groups failed");
+
+		if (!PwGroupInterface.preOrderTraverseTree(root, new GroupHandler<PwGroupInterface>() {
+            @Override
+            public boolean operate(PwGroupInterface groupInterface) {
+                PwGroupV4 group = (PwGroupV4) groupInterface;
+
+                while (true) {
+                    try {
+                        if (group.getParent() == groupStack.peek()) {
+                            groupStack.push(group);
+                            startGroup(group);
+                            break;
+                        } else {
+                            groupStack.pop();
+                            if (groupStack.size() <= 0) return false;
+                            endGroup();
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                return true;
+            }
+        }, new EntryHandler<PwEntryInterface>() {
+            @Override
+            public boolean operate(PwEntryInterface entryInterface) {
+                PwEntryV4 entry = (PwEntryV4) entryInterface;
+
+                try {
+                    writeEntry(entry, false);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                return true;
+            }
+        })) throw new RuntimeException("Writing groups failed");
 		
 		while (groupStack.size() > 1) {
 			xml.endTag(null, PwDatabaseV4XML.ElemGroup);
@@ -347,8 +336,8 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	
 	private void startGroup(PwGroupV4 group) throws IllegalArgumentException, IllegalStateException, IOException {
 		xml.startTag(null, PwDatabaseV4XML.ElemGroup);
-		writeObject(PwDatabaseV4XML.ElemUuid, group.getUUID());
-		writeObject(PwDatabaseV4XML.ElemName, group.getName());
+		writeObject(PwDatabaseV4XML.ElemUuid, group.getNodeId().getId());
+		writeObject(PwDatabaseV4XML.ElemName, group.getTitle());
 		writeObject(PwDatabaseV4XML.ElemNotes, group.getNotes());
 		writeObject(PwDatabaseV4XML.ElemIcon, group.getIconStandard().getIconId());
 		
@@ -374,7 +363,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		xml.startTag(null, PwDatabaseV4XML.ElemEntry);
 		
-		writeObject(PwDatabaseV4XML.ElemUuid, entry.getUUID());
+		writeObject(PwDatabaseV4XML.ElemUuid, entry.getNodeId().getId());
 		writeObject(PwDatabaseV4XML.ElemIcon, entry.getIconStandard().getIconId());
 		
 		if (!entry.getIconCustom().equals(PwIconCustom.ZERO)) {
@@ -654,7 +643,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		xml.startTag(null, name);
 		
-		writeObject(PwDatabaseV4XML.ElemUuid, value.uuid);
+		writeObject(PwDatabaseV4XML.ElemUuid, value.getUuid());
 		writeObject(PwDatabaseV4XML.ElemDeletionTime, value.getDeletionTime());
 		
 		xml.endTag(null, name);

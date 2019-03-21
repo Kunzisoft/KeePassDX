@@ -19,26 +19,32 @@
  */
 package com.kunzisoft.keepass.database.search;
 
+import com.kunzisoft.keepass.database.EntryHandler;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 import com.kunzisoft.keepass.utils.StrUtil;
 import com.kunzisoft.keepass.utils.UuidUtil;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EntrySearchHandlerV4 extends EntrySearchHandler<PwEntryV4> {
+public class EntrySearchHandlerV4 extends EntryHandler<PwEntryInterface> {
 
-	private SearchParametersV4 sp;
+	private List<PwEntryInterface> listStorage;
+	protected SearchParametersV4 sp;
+	protected Date now;
 
-	protected EntrySearchHandlerV4(SearchParameters sp, List<PwEntryV4> listStorage) {
-		super(sp, listStorage);
-		this.sp = (SearchParametersV4) sp;
+	public EntrySearchHandlerV4(SearchParametersV4 sp, List<PwEntryInterface> listStorage) {
+		this.listStorage = listStorage;
+		this.sp = sp;
+		this.now = new Date();
 	}
 
 	@Override
-	public boolean operate(PwEntryV4 entry) {
+	public boolean operate(PwEntryInterface entry) {
 		if (sp.respectEntrySearchingDisabled && !entry.isSearchingEnabled()) {
 			return true;
 		}
@@ -60,7 +66,7 @@ public class EntrySearchHandlerV4 extends EntrySearchHandler<PwEntryV4> {
 		if (sp.searchInGroupNames) {
 			PwGroupInterface parent = entry.getParent();
 			if (parent != null) {
-				String groupName = parent.getName();
+				String groupName = parent.getTitle();
 				if (groupName != null) {
 					if (sp.ignoreCase) {
 						groupName = groupName.toLowerCase();
@@ -82,16 +88,31 @@ public class EntrySearchHandlerV4 extends EntrySearchHandler<PwEntryV4> {
 		return true;
 	}
 
-	@Override
-	protected boolean searchID(PwEntryInterface e) {
+	private boolean searchID(PwEntryInterface e) {
 		PwEntryV4 entry = (PwEntryV4) e;
 		if (sp.searchInUUIDs) {
-			String hex = UuidUtil.toHexString(entry.getUUID());
+			String hex = UuidUtil.toHexString(entry.getNodeId().getId());
 			return StrUtil.indexOfIgnoreCase(hex, sp.searchString, Locale.ENGLISH) >= 0;
 		}
 		
 		return false;
 	}
 
-	
+	private boolean searchStrings(PwEntryInterface entry, String term) {
+		EntrySearchStringIterator iter = EntrySearchStringIterator.getInstance(entry, sp);
+		while (iter.hasNext()) {
+			String str = iter.next();
+			if (str != null && str.length() > 0) {
+				if (sp.ignoreCase) {
+					str = str.toLowerCase();
+				}
+
+				if (str.contains(term)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }

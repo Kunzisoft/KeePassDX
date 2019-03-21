@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.database.element.PwDbHeader;
 import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwGroupV3;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
@@ -215,9 +216,9 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		}
 		
 		// Groups
-		List<PwGroupV3> groups = mPM.getGroups();
+		List<PwGroupInterface> groups = mPM.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
-			PwGroupV3 pg = groups.get(i);
+			PwGroupV3 pg = (PwGroupV3) groups.get(i);
 			PwGroupOutputV3 pgo = new PwGroupOutputV3(pg, os);
 			try {
 				pgo.output();
@@ -239,10 +240,10 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 	}
 	
 	private void sortGroupsForOutput() {
-		List<PwGroupV3> groupList = new ArrayList<>();
+		List<PwGroupInterface> groupList = new ArrayList<>();
 		
 		// Rebuild list according to coalation sorting order removing any orphaned groups
-		List<PwGroupV3> roots = mPM.getGrpRoots();
+		List<PwGroupInterface> roots = mPM.getGrpRoots();
 		for ( int i = 0; i < roots.size(); i++ ) {
 			sortGroup(roots.get(i), groupList);
 		}
@@ -250,7 +251,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		mPM.setGroups(groupList);
 	}
 	
-	private void sortGroup(PwGroupV3 group, List<PwGroupV3> groupList) {
+	private void sortGroup(PwGroupInterface group, List<PwGroupInterface> groupList) {
 		// Add current tree
 		groupList.add(group);
 		

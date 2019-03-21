@@ -109,12 +109,12 @@ public class PwDbHeaderV4 extends PwDbHeader {
         this.version = version;
     }
 
-    private class GroupHasCustomData extends GroupHandler<PwGroupV4> {
+    private class GroupHasCustomData extends GroupHandler<PwGroupInterface> {
 
         boolean hasCustomData = false;
 
         @Override
-        public boolean operate(PwGroupV4 group) {
+        public boolean operate(PwGroupInterface group) {
             if (group == null) {
                 return true;
             }
@@ -127,12 +127,12 @@ public class PwDbHeaderV4 extends PwDbHeader {
         }
     }
 
-    private class EntryHasCustomData extends EntryHandler<PwEntryV4> {
+    private class EntryHasCustomData extends EntryHandler<PwEntryInterface> {
 
         boolean hasCustomData = false;
 
         @Override
-        public boolean operate(PwEntryV4 entry) {
+        public boolean operate(PwEntryInterface entry) {
             if (entry == null) {
                 return true;
             }
@@ -164,7 +164,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		if (databaseV4.getRootGroup() == null ) {
 			return PwDbHeaderV4.FILE_VERSION_32_3;
 		}
-        databaseV4.getRootGroup().preOrderTraverseTree(groupHandler, entryHandler);
+		PwGroupInterface.preOrderTraverseTree(databaseV4.getRootGroup(), groupHandler, entryHandler);
 		if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
 			return PwDbHeaderV4.FILE_VERSION_32_4;
 		}

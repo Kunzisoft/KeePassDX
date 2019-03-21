@@ -10,6 +10,7 @@ import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.element.PwIconCustom;
 import com.kunzisoft.keepass.database.element.PwIconFactory;
 import com.kunzisoft.keepass.database.element.PwIconStandard;
+import com.kunzisoft.keepass.database.element.PwNodeIdUUID;
 
 import java.util.UUID;
 
@@ -48,10 +49,10 @@ public class EntryCursor extends MatrixCursor {
 
     public void addEntry(PwEntryV3 entry) {
         addRow(new Object[] {entryId,
-                entry.getUUID().getMostSignificantBits(),
-                entry.getUUID().getLeastSignificantBits(),
-                entry.getName(),
-                entry.getIconStandard().getIconId(),
+                entry.getNodeId().getId().getMostSignificantBits(),
+                entry.getNodeId().getId().getLeastSignificantBits(),
+                entry.getTitle(),
+                entry.getIcon().getIconId(),
                 PwDatabase.UUID_ZERO.getMostSignificantBits(),
                 PwDatabase.UUID_ZERO.getLeastSignificantBits(),
                 entry.getUsername(),
@@ -63,10 +64,10 @@ public class EntryCursor extends MatrixCursor {
 
     public void addEntry(PwEntryV4 entry) {
         addRow(new Object[] {entryId,
-                entry.getUUID().getMostSignificantBits(),
-                entry.getUUID().getLeastSignificantBits(),
-                entry.getName(),
-                entry.getIconStandard().getIconId(),
+                entry.getNodeId().getId().getMostSignificantBits(),
+                entry.getNodeId().getId().getLeastSignificantBits(),
+                entry.getTitle(),
+                entry.getIcon().getIconId(),
                 entry.getIconCustom().getUUID().getMostSignificantBits(),
                 entry.getIconCustom().getUUID().getLeastSignificantBits(),
                 entry.getUsername(),
@@ -82,13 +83,13 @@ public class EntryCursor extends MatrixCursor {
     }
 
     private void populateEntryBaseVersion(PwEntryInterface pwEntry, PwIconFactory iconFactory) {
-        pwEntry.setUUID(
+        pwEntry.setNodeId(new PwNodeIdUUID(
                 new UUID(getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
-                        getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS))));
-        pwEntry.setName(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE)));
+                        getLong(getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS)))));
+        pwEntry.setTitle(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE)));
 
         PwIconStandard iconStandard = iconFactory.getIcon(getInt(getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_STANDARD)));
-        pwEntry.setIconStandard(iconStandard);
+        pwEntry.setIcon(iconStandard);
 
         pwEntry.setUsername(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_USERNAME)));
         pwEntry.setPassword(getString(getColumnIndex(EntryCursor.COLUMN_INDEX_PASSWORD)));

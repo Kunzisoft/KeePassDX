@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -22,24 +22,25 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
-import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.GroupHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class PwGroupV3 extends PwNode implements PwGroupInterface {
+public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
 
 	// TODO verify children not needed
 	transient private List<PwGroupInterface> childGroups = new ArrayList<>();
 	transient private List<PwEntryInterface> childEntries = new ArrayList<>();
 
 	// for tree traversing
-	// TODO private int groupId;
 	private String title = "";
 	private int level = 0; // short
 	/** Used by KeePass internally, don't use */
 	private int flags;
+
+    @Override
+    PwNodeId<Integer> initNodeId() {
+        return new PwNodeIdInt();
+    }
 
     public PwGroupV3() {
 		super();
@@ -52,7 +53,6 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
     public PwGroupV3(Parcel in) {
         super(in);
 		title = in.readString();
-        groupId = in.readInt();
         level = in.readInt();
         flags = in.readInt();
     }
@@ -61,7 +61,6 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 		dest.writeString(title);
-        dest.writeInt(groupId);
         dest.writeInt(level);
         dest.writeInt(flags);
     }
@@ -81,7 +80,6 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
     protected void updateWith(PwGroupV3 source) {
         super.assign(source);
 		title = source.title;
-        groupId = source.groupId;
         level = source.level;
         flags = source.flags;
     }
@@ -101,15 +99,14 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
 		return clone();
 	}
 
-	@Override
+    @Override
 	public Type getType() {
 		return Type.GROUP;
 	}
 
 	public void setParent(PwGroupInterface parent) {
         super.setParent(parent);
-		if (parent instanceof PwGroupV3) // TODO Change
-        	level = ((PwGroupV3) parent).getLevel() + 1;
+        level = parent.getLevel() + 1;
     }
 
 	@Override
@@ -117,12 +114,13 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
 		return false;
 	}
 
-	public int getGroupId() {
-        return groupId;
+    @Override
+    public boolean containsCustomData() {
+        return false;
     }
 
     public void setGroupId(int groupId) {
-        this.groupId = groupId;
+        this.setNodeId(new PwNodeIdInt(groupId));
     }
 
     public int getLevel() {
@@ -132,17 +130,6 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
     public void setLevel(int level) {
         this.level = level;
     }
-
-	@Override
-	public PwNodeId getId() {
-		return new PwNodeIdInt(groupId);
-	}
-
-	@Override
-	public void setId(PwNodeId id) {
-		PwNodeIdInt id3 = (PwNodeIdInt) id;
-		groupId = id3.getId();
-	}
 
 	public int getFlags() {
 	    return flags;
@@ -154,7 +141,7 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
 
 	@Override
     public String toString() {
-        return getName();
+        return getTitle();
     }
 
     public void populateBlankFields(PwDatabaseV3 db) {
@@ -169,12 +156,12 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
     }
 
 	@Override
-	public String getName() {
+	public String getTitle() {
 		return title;
 	}
 
 	@Override
-	public void setName(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -246,20 +233,6 @@ public class PwGroupV3 extends PwNode implements PwGroupInterface {
 				children.add(child);
 		}
 		return children;
-	}
-
-	public boolean preOrderTraverseTree(GroupHandler<PwGroupInterface> groupHandler,
-										EntryHandler<PwEntryInterface> entryHandler) {
-		if (entryHandler != null) {
-			for (PwEntryInterface entry : childEntries) {
-				if (!entryHandler.operate(entry)) return false;
-			}
-		}
-		for (PwGroupInterface group : childGroups) {
-			if ((groupHandler != null) && !groupHandler.operate(group)) return false;
-			group.preOrderTraverseTree(groupHandler, entryHandler);
-		}
-		return true;
 	}
 
 	@Override

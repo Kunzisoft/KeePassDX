@@ -64,11 +64,11 @@ public class PwGroupOutputV3 {
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(GROUPID_FIELD_SIZE);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getGroupId()));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getId()));
 		
 		// Name
 		mOS.write(NAME_FIELD_TYPE);
-		Types.writeCString(mPG.getName(), mOS);
+		Types.writeCString(mPG.getTitle(), mOS);
 
 		// Create date
 		mOS.write(CREATE_FIELD_TYPE);
@@ -93,7 +93,7 @@ public class PwGroupOutputV3 {
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);
 		mOS.write(IMAGEID_FIELD_SIZE);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getIconStandard().getIconId()));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPG.getIcon().getIconId()));
 		
 		// Level
 		mOS.write(LEVEL_FIELD_TYPE);

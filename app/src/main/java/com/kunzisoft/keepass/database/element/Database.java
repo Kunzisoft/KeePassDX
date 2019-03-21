@@ -153,17 +153,13 @@ public class Database {
         pwDatabase = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater);
         if ( pwDatabase != null ) {
             try {
+                pwDatabase.populateGlobals(pwDatabase.getRootGroup());
+                passwordEncodingError = !pwDatabase.validatePasswordEncoding(password);
                 switch (pwDatabase.getVersion()) {
                     case V3:
-                        PwGroupV3 rootV3 = ((PwDatabaseV3) pwDatabase).getRootGroup();
-                        ((PwDatabaseV3) pwDatabase).populateGlobals(rootV3);
-                        passwordEncodingError = !pwDatabase.validatePasswordEncoding(password);
                         searchHelper = new SearchDbHelper.SearchDbHelperV3(ctx);
                         break;
                     case V4:
-                        PwGroupV4 rootV4 = ((PwDatabaseV4) pwDatabase).getRootGroup();
-                        ((PwDatabaseV4) pwDatabase).populateGlobals(rootV4);
-                        passwordEncodingError = !pwDatabase.validatePasswordEncoding(password);
                         searchHelper = new SearchDbHelper.SearchDbHelperV4(ctx);
                         break;
                 }
@@ -549,7 +545,7 @@ public class Database {
                 case V4:
                     newPwGroup = new PwGroupV4((PwGroupV4) parent);
             }
-            newPwGroup.setId(pwDatabase.newGroupId());
+            newPwGroup.setNodeId(pwDatabase.newGroupId());
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be created", e);
         }
@@ -708,14 +704,14 @@ public class Database {
             switch (getPwDatabase().getVersion()) {
                 case V3:
                     PwEntryV3 entryV3Copied = ((PwEntryV3) entryToCopy).clone();
-                    entryV3Copied.setUUID(UUID.randomUUID());
-                    entryV3Copied.setParent((PwGroupV3) newParent);
+                    entryV3Copied.setNodeId(new PwNodeIdUUID());
+                    entryV3Copied.setParent(newParent);
                     addEntryTo(entryV3Copied, newParent);
                     return entryV3Copied;
                 case V4:
                     PwEntryV4 entryV4Copied = ((PwEntryV4) entryToCopy).clone();
-                    entryV4Copied.setUUID(UUID.randomUUID());
-                    entryV4Copied.setParent((PwGroupV4) newParent);
+                    entryV4Copied.setNodeId(new PwNodeIdUUID());
+                    entryV4Copied.setParent(newParent);
                     addEntryTo(entryV4Copied, newParent);
                     return entryV4Copied;
             }

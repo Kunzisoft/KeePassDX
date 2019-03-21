@@ -26,5 +26,5 @@ package com.kunzisoft.keepass.database;
  *
  */
 public abstract class GroupHandler<T> {
-	public abstract boolean operate(T entry);
+	public abstract boolean operate(T group);
 }

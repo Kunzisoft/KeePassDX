@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
 import com.kunzisoft.keepass.notifications.NotificationField;
@@ -56,13 +57,11 @@ import com.kunzisoft.keepass.timeout.ClipboardHelper;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
-import com.kunzisoft.keepass.utils.Types;
 import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryContentsView;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 import static com.kunzisoft.keepass.settings.PreferencesUtil.isClipboardNotificationsEnable;
 import static com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields;
@@ -88,7 +87,7 @@ public class EntryActivity extends LockingHideActivity {
     public static void launch(Activity activity, PwEntryInterface pw, boolean readOnly) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryActivity.class);
-            intent.putExtra(KEY_ENTRY, Types.UUIDtoBytes(pw.getUUID()));
+            intent.putExtra(KEY_ENTRY, pw.getNodeId());
             ReadOnlyHelper.INSTANCE.putReadOnlyInIntent(intent, readOnly);
 			activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE);
         }
@@ -114,13 +113,19 @@ public class EntryActivity extends LockingHideActivity {
 
 		// Get Entry from UUID
 		Intent i = getIntent();
-		UUID uuid = Types.bytestoUUID(i.getByteArrayExtra(KEY_ENTRY));
-		mEntry = db.getPwDatabase().getEntryByUUIDId(uuid);
-		if (mEntry == null) {
-			Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
-			finish();
-			return;
-		}
+        PwNodeId keyEntry;
+        try {
+            keyEntry = i.getParcelableExtra(KEY_ENTRY);
+            mEntry = db.getPwDatabase().getEntryById(keyEntry);
+        } catch (ClassCastException e) {
+            Log.e(TAG, "Unable to retrieve the entry key");
+        } finally {
+            if (mEntry == null) {
+                Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+        }
 
         // Retrieve the textColor to tint the icon
         int[] attrs = {R.attr.textColorInverse};
@@ -180,8 +185,8 @@ public class EntryActivity extends LockingHideActivity {
                 // username already copied, waiting for user's action before copy password.
                 Intent intent = new Intent(this, NotificationCopyingService.class);
                 intent.setAction(NotificationCopyingService.ACTION_NEW_NOTIFICATION);
-                if (mEntry.getName() != null)
-                    intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getName());
+                if (mEntry.getTitle() != null)
+                    intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, mEntry.getTitle());
                 // Construct notification fields
                 ArrayList<NotificationField> notificationFields = new ArrayList<>();
                 // Add username if exists to notifications

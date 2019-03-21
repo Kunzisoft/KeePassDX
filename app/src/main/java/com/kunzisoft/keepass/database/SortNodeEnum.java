@@ -113,8 +113,8 @@ public enum SortNodeEnum {
                     new EntryNameComparator(ascending),
                     object1,
                     object2,
-                    object1.getName()
-                            .compareToIgnoreCase(object2.getName()));
+                    object1.getTitle()
+                            .compareToIgnoreCase(object2.getTitle()));
         }
     }
 
@@ -215,7 +215,7 @@ public enum SortNodeEnum {
             if (object1.equals(object2))
                 return 0;
 
-            int groupNameComp = object1.getName().compareToIgnoreCase(object2.getName());
+            int groupNameComp = object1.getTitle().compareToIgnoreCase(object2.getTitle());
             // If same name, can be different
             if (groupNameComp == 0) {
                 return object1.hashCode() - object2.hashCode();
@@ -310,7 +310,7 @@ public enum SortNodeEnum {
             if (object1.equals(object2))
                 return 0;
 
-            int entryTitleComp = object1.getName().compareToIgnoreCase(object2.getName());
+            int entryTitleComp = object1.getTitle().compareToIgnoreCase(object2.getTitle());
             // If same title, can be different
             if (entryTitleComp == 0) {
                 return object1.hashCode() - object2.hashCode();

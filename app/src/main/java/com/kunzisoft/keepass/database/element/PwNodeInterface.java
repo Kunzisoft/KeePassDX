@@ -1,21 +1,25 @@
 package com.kunzisoft.keepass.database.element;
 
-import java.util.UUID;
+import android.os.Parcelable;
 
-public interface PwNodeInterface {
+import com.kunzisoft.keepass.database.SmallTimeInterface;
 
-	UUID getUUID();
+public interface PwNodeInterface extends SmallTimeInterface, Parcelable {
 
-	void setUUID(UUID uuid);
+	PwNodeId getNodeId();
 
-	String getName();
+	void setNodeId(PwNodeId id);
 
-	void setName(String title);
+	String getTitle();
+
+	void setTitle(String title);
 
 	/**
 	 * @return Visual icon
 	 */
 	PwIcon getIcon();
+
+	void setIcon(PwIcon icon);
 
 	/**
 	 * @return Type of Node
@@ -38,6 +42,8 @@ public interface PwNodeInterface {
 	boolean isContainedIn(PwGroupInterface container);
 
 	boolean isSearchingEnabled();
+
+    boolean containsCustomData();
 
 	/**
 	 * Type of available Nodes

@@ -1,14 +1,13 @@
 package com.kunzisoft.keepass.database.element;
 
+import android.support.annotation.NonNull;
+
 import com.kunzisoft.keepass.database.EntryHandler;
 import com.kunzisoft.keepass.database.GroupHandler;
 
 import java.util.List;
 
 public interface PwGroupInterface extends PwNodeInterface {
-
-	PwNodeId getId();
-	void setId(PwNodeId id);
 
 	List<PwGroupInterface> getChildGroups();
 
@@ -17,6 +16,8 @@ public interface PwGroupInterface extends PwNodeInterface {
 	void setGroups(List<PwGroupInterface> groups);
 
 	void setEntries(List<PwEntryInterface> entries);
+
+	int getLevel();
 
 	void addChildGroup(PwGroupInterface group);
 
@@ -34,16 +35,30 @@ public interface PwGroupInterface extends PwNodeInterface {
 
 	int numbersOfChildEntries();
 
+	boolean containsParent();
+
 	/**
 	 * Filter MetaStream entries and return children
 	 * @return List of direct children (one level below) as PwNode
 	 */
-	public List<PwNodeInterface> getDirectChildren();
+	List<PwNodeInterface> getDirectChildren();
 
 	PwGroupInterface duplicate();
 
-	public boolean preOrderTraverseTree(GroupHandler<PwGroupInterface> groupHandler,
-										EntryHandler<PwEntryInterface> entryHandler);
+	static boolean preOrderTraverseTree(@NonNull PwGroupInterface root,
+										GroupHandler<PwGroupInterface> groupHandler,
+										EntryHandler<PwEntryInterface> entryHandler) {
+		if (entryHandler != null) {
+			for (PwEntryInterface entry : root.getChildEntries()) {
+				if (!entryHandler.operate(entry)) return false;
+			}
+		}
+		for (PwGroupInterface group : root.getChildGroups()) {
+			if ((groupHandler != null) && !groupHandler.operate(group)) return false;
+			preOrderTraverseTree(group, groupHandler, entryHandler);
+		}
+		return true;
+	}
 
-	public boolean allowAddEntryIfIsRoot();
+	boolean allowAddEntryIfIsRoot();
 }

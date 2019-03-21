@@ -52,10 +52,10 @@ object AutofillHelper {
     }
 
     private fun makeEntryTitle(entry: PwEntryInterface): String {
-        if (!entry.name.isEmpty() && !entry.username.isEmpty())
-            return String.format("%s (%s)", entry.name, entry.username)
-        if (!entry.name.isEmpty())
-            return entry.name
+        if (!entry.title.isEmpty() && !entry.username.isEmpty())
+            return String.format("%s (%s)", entry.title, entry.username)
+        if (!entry.title.isEmpty())
+            return entry.title
         if (!entry.username.isEmpty())
             return entry.username
         return if (!entry.notes.isEmpty()) entry.notes.trim { it <= ' ' } else ""
@@ -67,7 +67,7 @@ object AutofillHelper {
         val title = makeEntryTitle(entry)
         val views = newRemoteViews(context.packageName, title)
         val builder = Dataset.Builder(views)
-        builder.setId(entry.uuid.toString())
+        builder.setId(entry.nodeId.toString())
 
         if (entry.password != null) {
             val value = AutofillValue.forText(entry.password)

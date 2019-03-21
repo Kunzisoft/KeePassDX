@@ -1,20 +1,13 @@
 package com.kunzisoft.keepass.database.element;
 
 import com.kunzisoft.keepass.database.ExtraFields;
+import com.kunzisoft.keepass.database.SmallTimeInterface;
 import com.kunzisoft.keepass.database.security.ProtectedString;
-import com.kunzisoft.keepass.model.Entry;
-import com.kunzisoft.keepass.model.Field;
 
-import java.util.UUID;
+public interface PwEntryInterface extends PwNodeInterface, SmallTimeInterface {
 
-public interface PwEntryInterface extends PwNodeInterface {
-
-	UUID getUUID();
-
-	void setUUID(UUID uuid);
-
-	String getName();
-	void setName(String title);
+	String getTitle();
+	void setTitle(String title);
 
 	String getUsername();
 	void setUsername(String user);
@@ -91,7 +84,7 @@ public interface PwEntryInterface extends PwNodeInterface {
 	String PMS_TAN_ENTRY = "<TAN>";
 
 	static boolean isTan(PwEntryInterface entry) {
-		return entry.getName().equals(PMS_TAN_ENTRY)
+		return entry.getTitle().equals(PMS_TAN_ENTRY)
 				&& (entry.getUsername().length() > 0);
 	}
 
@@ -101,15 +94,18 @@ public interface PwEntryInterface extends PwNodeInterface {
 	 * {@link #startToManageFieldReferences(PwDatabase)} and {@link #stopToManageFieldReferences()} must be called
 	 * before and after {@link #getVisualTitle(PwEntryInterface entry)}
 	 */
-	static String getVisualTitle(boolean isTan, String userName, String title, String url, UUID uuid) {
+	static String getVisualTitle(boolean isTan, String title, String userName, String url, String id) {
 		if ( isTan ) {
 			return PMS_TAN_ENTRY + " " + userName;
 		} else {
 			if (title.isEmpty())
-				if (url.isEmpty())
-					return uuid.toString();
+				if (userName.isEmpty())
+					if (url.isEmpty())
+						return id;
+					else
+						return url;
 				else
-					return url;
+					return userName;
 			else
 				return title;
 		}
@@ -117,24 +113,9 @@ public interface PwEntryInterface extends PwNodeInterface {
 
 	static String getVisualTitle(PwEntryInterface entry) {
 		return getVisualTitle(PwEntryInterface.isTan(entry),
+				entry.getTitle(),
 				entry.getUsername(),
-				entry.getName(),
 				entry.getUrl(),
-				entry.getUUID());
-	}
-
-	static Entry getEntry(PwEntryInterface entry) {
-		Entry entryModel = new Entry();
-		entryModel.setTitle(entry.getName());
-		entryModel.setUsername(entry.getUsername());
-		entryModel.setPassword(entry.getPassword());
-		entryModel.setUrl(entry.getUrl());
-		if (entry.containsCustomFields()) {
-			entry.getFields()
-					.doActionToAllCustomProtectedField(
-							(key, value) -> entryModel.addCustomField(
-									new Field(key, value.toString())));
-		}
-		return entryModel;
+				entry.getNodeId().toString());
 	}
 }
