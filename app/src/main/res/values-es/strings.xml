@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 This file is part of KeePass DX.
@@ -18,30 +18,29 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
 
 Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
 
--->
-<resources>
-    <string name="about_feedback">Retroalimentación:</string>
-    <string name="about_homepage">Inicio:</string>
-    <string name="about_description">KeePass DX es una implementación para Android del gestor de contraseñas KeePass.</string>
+--><resources>
+    <string name="about_feedback">Commentario</string>
+    <string name="about_homepage">Página de inicio</string>
+    <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
     <string name="accept">Aceptar</string>
     <string name="add_entry">Añadir entrada</string>
     <string name="add_group">Añadir grupo</string>
     <string name="encryption_algorithm">Algoritmo de cifrado</string>
     <string name="app_timeout">Tiempo de espera de la aplicación excedido</string>
-    <string name="app_timeout_summary">Tiempo hasta bloquear la base de datos cuando la aplicación está inactiva.</string>
+    <string name="app_timeout_summary">Inactividad antes del bloqueo de aplicación</string>
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
-    <string name="browser_intall_text">La exploración de archivos necesita Open Intents File Manager, haz clic a continuación para instalarlo. Debido a algunas peculiaridades en el gestor de archivos, puede que la exploración no funcione correctamente la primera vez que la realices.</string>
+    <string name="browser_intall_text">Explora ficheros con OpenIntents File Manager</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
-    <string name="clipboard_timeout_summary">Tiempo hasta que el portapapeles se vacía después de copiar el usuario o la contraseña</string>
+    <string name="clipboard_timeout_summary">Duración de almacemiento en el portapapeles</string>
     <string name="select_to_copy">Seleccionar para copiar %1$s al portapapeles</string>
     <string name="retrieving_db_key">Creando clave de la base de datos…</string>
     <string name="database">Base de datos</string>
     <string name="decrypting_db">Descifrando el contenido de la base de datos…</string>
-    <string name="default_checkbox">Utilice esto como base de datos por defecto</string>
+    <string name="default_checkbox">Utilice como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft NO TIENE TOTAL GARANTÍA; Este es software libre, y puedes redristribuirlo bajo las condiciones de la licencia GPL version 3 o posterior.</string>
     <string name="select_database_file">Introduzca el nombre del archivo de base de datos</string>
@@ -58,17 +57,17 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="entry_title">Nombre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nombre de usuario</string>
-    <string name="error_arc4">Secuencia de cifrado ArcFour no soportada.</string>
-    <string name="error_can_not_handle_uri">KeePass DX no puede manejar este uri.</string>
+    <string name="error_arc4">Secuencia de cifrado ARCFOUR no es soportada.</string>
+    <string name="error_can_not_handle_uri">KeePass DX no puede manejar este URI.</string>
     <string name="error_could_not_create_parent">No pudo crearse el directorio padre.</string>
     <string name="error_database_exists">Este archivo ya existe.</string>
-    <string name="error_failed_to_launch_link">Fallo al abrir el enlace.</string>
+    <string name="error_failed_to_launch_link">Falló al abrir el enlace.</string>
     <string name="error_filename_required">Se necesita un nombre de archivo.</string>
     <string name="error_file_not_create">No se pudo crear el archivo:</string>
-    <string name="error_invalid_db">Base de datos no válida.</string>
-    <string name="error_invalid_path">Ruta no válida.</string>
+    <string name="error_invalid_db">Impossible de leer la base de datos.</string>
+    <string name="error_invalid_path">Asegúranse que la ruta es correcta.</string>
     <string name="error_no_name">Se necesita un nombre.</string>
-    <string name="error_nokeyfile">Se necesita una contraseña o un archivo de clave.</string>
+    <string name="error_nokeyfile">Se necesita un archivo de clave.</string>
     <string name="error_out_of_memory">El dispositivo se quedó sin memory mientras analizada la base de datos. Puede ser demasiado grande para este dispositivo.</string>
     <string name="error_pass_gen_type">Debe seleccionar al menos un tipo de generación de contraseñas</string>
     <string name="error_pass_match">Las contraseñas no coinciden.</string>
@@ -115,7 +114,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="no_results">Sin resultado de búsqueda</string>
     <string name="no_url_handler">Sin manejador para esta url.</string>
     <string name="recentfile_title">Historial de archivos recientes</string>
-	<string name="recentfile_summary">Recordar nombres de archivos usados recientemente</string>
+    <string name="recentfile_summary">Recordar nombres de archivos usados recientemente</string>
     <string name="open_recent">Abrir base de datos reciente :</string>
     <string name="omitbackup_title">No buscar en las entradas de copia de seguridad o papelera de reciclaje</string>
     <string name="omitbackup_summary">Omitir \'Backup\' y grupo de Papelera de Reciclaje en los resultados de búsqueda</string>
@@ -141,33 +140,31 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="uppercase">Mayúsculas</string>
     <string name="warning_unmounted">Actualmente su tarjeta SD no está montada en el dispositivo. No podrá cargar o crear su base de datos.</string>
     <string name="version_label">Versión %1$s</string>
-
     <string name="education_unlock_summary">Introduzca una contraseña y/o un archivo de clave para desbloquear su base de datos.</string>
-
     <string-array name="timeout_options">
-     <item>5 segundos</item>
-     <item>10 segundos</item>
-     <item>20 segundos</item>
-     <item>30 segundos</item>
-     <item>1 minuto</item>
-     <item>5 minutos</item>
-     <item>15 minutos</item>
-     <item>30 minutos</item>
-     <item>Nunca</item>
+        <item>5 segundos</item>
+        <item>10 segundos</item>
+        <item>20 segundos</item>
+        <item>30 segundos</item>
+        <item>1 minuto</item>
+        <item>5 minutos</item>
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>Nunca</item>
     </string-array>
     <string-array name="list_size_options">
-     <item>Pequeño</item>
-     <item>Mediano</item>
-     <item>Grande</item>
+        <item>Pequeño</item>
+        <item>Mediano</item>
+        <item>Grande</item>
     </string-array>
-<string name="add_string">Añadir cadena</string>
+    <string name="add_string">Añadir cadena</string>
     <string name="encryption">Cifrado</string>
     <string name="key_derivation_function">Función de derivación de clave</string>
     <string name="beta_dontask">No mostrar nuevamente</string>
     <string name="extended_ASCII">ASCII extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Error del portapapeles</string>
-    <string name="clipboard_error">Algunos teléfonos Samsung con Android tienen un error en la implementación del portapapeles que provoca fallos al copiar desde las aplicaciones. Para más detalles ir a:</string>
+    <string name="clipboard_error">Algunos teléfonos Samsung con Android tienen un error en la implementación del portapapeles que provoca fallos al copiar desde las aplicaciones.</string>
     <string name="clipboard_error_clear">Falló la limpieza del portapapeles</string>
     <string name="clipboard_swipe_clean">Deslizar ahora para limpiar el portapapeles</string>
     <string name="error_string_key">Cada cadena requiere un nombre de campo.</string>
@@ -280,7 +277,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Teclado mágico</string>
     <string name="magic_keyboard_summary">Active un teclado personalizado que llene sus contraseñas y todos los campos de identidad fácilmente.</string>
-
     <string name="reset_education_screens_title">Restablecer pantallas de educación</string>
     <string name="reset_education_screens_summary">Resalta los elementos para aprender cómo funciona la aplicación</string>
     <string name="reset_education_screens_text">Pantallas de educación reiniciadas</string>
@@ -315,12 +311,12 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="education_sort_summary">Ordenar entradas y grupos de acuerdo a parámetros específicos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
-
     <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta aplicación es <strong>sin publicidad </strong>, <strong>fuente abierta</strong> y no recupera datos personales en sus servidores, ni siquiera en su versión gratuita.</string>
-    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a <strong>la característica visual </strong>y usted ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
+    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a <strong>la característica visual </strong>y usted ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong>
+    </string>
     <string name="html_text_feature_generosity">Esta <strong>característica visual </strong>está disponible gracias a tu generosidad.</string>
-    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu <strong>contribución.</strong></string>
-
+    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu <strong>contribución.</strong>
+    </string>
     <string name="html_text_dev_feature">Esta función está <strong>en desarrollo</strong> y requiere de tu <strong>contribución</strong> para estar disponible dentro de poco.</string>
     <string name="html_text_dev_feature_buy_pro">Al comprar la versión <strong>pro</strong>,</string>
     <string name="html_text_dev_feature_contibute">Al <strong>contribuir</strong>,</string>
@@ -328,19 +324,26 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="html_text_dev_feature_thanks">Muchas gracias por tu contribución.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabajando duro para lanzar esta característica rápidamente.</string>
     <string name="html_text_dev_feature_upgrade">No olvide mantener su aplicación actualizada.</string>
-
     <string name="download">Descargar</string>
     <string name="contribute">Contribuir</string>
-
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES-KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="style_choose_title">Seleccione un tema</string>
     <string name="style_choose_summary">Cambie el tema de la aplicación cambiando los colores</string>
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
     <string name="icon_pack_choose_summary">Cambiar el paquete de íconos de la aplicación</string>
-
-<string name="edit_entry">Editar entrada</string>
-    </resources>
+    <string name="edit_entry">Editar entrada</string>
+    <string name="error_load_database">Impossible de cargar su banco de datos.</string>
+    <string name="error_load_database_KDF_memory">Impossible de cargar la clave. Intentan de diminuir la memoria utilizada para la función de derivación de clave.</string>
+    <string name="error_move_folder_in_itself">Usted no pueden mover un grupo en sí mismo.</string>
+    <string name="list_entries_show_username_title">Enseña nombres de usuario</string>
+    <string name="list_entries_show_username_summary">Enseña nombres de usuador en las listras de entradas</string>
+    <string name="menu_copy">Copiar</string>
+    <string name="menu_move">Mover</string>
+    <string name="menu_paste">Pegar</string>
+    <string name="menu_cancel">Cancelar</string>
+    <string name="menu_file_selection_read_only">Protegido contra escritura</string>
+    <string name="menu_open_file_read_and_write">Modificable</string>
+    <string name="build_label">Compila %1$s</string>
+</resources>
