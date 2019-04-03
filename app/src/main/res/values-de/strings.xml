@@ -224,7 +224,7 @@
     <string name="style_choose_summary">App-Design, welches in der App genutzt wird</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
-    <string name="extended_ASCII">Erweiterter ASCII</string>
+    <string name="extended_ASCII">Erweitertes ASCII</string>
     <string name="allow">Erlauben</string>
     <string name="clipboard_swipe_clean">Wischen, um Zwischenablage jetzt zu leeren</string>
     <string name="error_autofill_enable_service">Autofill-Dienst kann nicht aktiviert werden.</string>
@@ -304,7 +304,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit benutzerdefinierten Feldern. Pooldaten können zwischen verschiedenen Eingabefeldern referenziert werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort für ihren Eintrag erstellen.</string>
-    <string name="education_generate_password_summary">Generieren Sie ein sicheres Passwort, um es mit Ihrem Eintrag zu verknüpfen, definieren Sie es einfach nach den Kriterien des Formulars und vergessen Sie das sichere Passwort nicht.</string>
+    <string name="education_generate_password_summary">Generieren Sie ein sicheres Passwort, um es mit Ihrem Eintrag zu verknüpfen. Definieren Sie es einfach nach den Kriterien des Formulars und vergessen Sie das sichere Passwort nicht.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Registrieren Sie ein einfaches, nicht mitgeliefertes Feld, indem Sie ein neues Feld ausfüllen, das Sie auch schützen können.</string>
     <string name="education_unlock_title">Ihre Datenbank entsperren</string>
