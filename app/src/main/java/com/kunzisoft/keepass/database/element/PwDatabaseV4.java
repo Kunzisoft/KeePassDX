@@ -659,7 +659,6 @@ public class PwDatabaseV4 extends PwDatabase {
         deletedObjects.remove(new PwDeletedObject((UUID) entry.getNodeId().getId()));
 	}
 
-	@Override
 	public PwGroupInterface getRecycleBin() { // TODO delete recycle bin preference
 		if (recycleBinUUID == null) {
 			return null;

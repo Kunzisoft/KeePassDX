@@ -49,7 +49,7 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
         // TODO better technique ?
         try {
             PwNodeId pwGroupId = in.readParcelable(PwNodeId.class.getClassLoader());
-            parent = App.getDB().getPwDatabase().getGroupById(pwGroupId);
+            parent = App.getDB().getGroupById(pwGroupId);
         } catch (Exception e) {
             e.printStackTrace();
         }

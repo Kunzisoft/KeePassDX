@@ -251,8 +251,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         if (subNode.getType().equals(PwNodeInterface.Type.ENTRY)) {
             PwEntryInterface entry = (PwEntryInterface) subNode;
 
-			if (database != null)
-            	database.startManageEntry(entry);
+            database.startManageEntry(entry);
 
             holder.text.setText(PwEntryInterface.getVisualTitle(entry));
 
@@ -262,8 +261,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 holder.subText.setText(username);
             }
 
-			if (database != null)
-            	database.stopManageEntry(entry);
+            database.stopManageEntry(entry);
         }
 
         // Assign image and text size
@@ -351,8 +349,10 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             MenuItem menuItem = contextMenu.findItem(R.id.menu_open);
             menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
 
+			Database database = App.getDB();
+
             // Edition
-            if (readOnly || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+            if (readOnly || node.equals(database.getRecycleBin())) {
                 contextMenu.removeItem(R.id.menu_edit);
             } else {
                 menuItem = contextMenu.findItem(R.id.menu_edit);
@@ -362,7 +362,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             // Copy (not for group)
             if (readOnly
                     || isASearchResult
-                    || node.equals(App.getDB().getPwDatabase().getRecycleBin())
+                    || node.equals(database.getRecycleBin())
                     || node.getType().equals(PwNodeInterface.Type.GROUP)) {
                 // TODO COPY For Group
                 contextMenu.removeItem(R.id.menu_copy);
@@ -374,7 +374,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             // Move
             if (readOnly
                     || isASearchResult
-                    || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+                    || node.equals(database.getRecycleBin())) {
                 contextMenu.removeItem(R.id.menu_move);
             } else {
                 menuItem = contextMenu.findItem(R.id.menu_move);
@@ -382,7 +382,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             }
 
             // Deletion
-            if (readOnly || node.equals(App.getDB().getPwDatabase().getRecycleBin())) {
+            if (readOnly || node.equals(database.getRecycleBin())) {
                 contextMenu.removeItem(R.id.menu_delete);
             } else {
                 menuItem = contextMenu.findItem(R.id.menu_delete);

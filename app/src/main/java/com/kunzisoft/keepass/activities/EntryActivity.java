@@ -115,7 +115,7 @@ public class EntryActivity extends LockingHideActivity {
         PwNodeId keyEntry;
         try {
             keyEntry = i.getParcelableExtra(KEY_ENTRY);
-            mEntry = db.getPwDatabase().getEntryById(keyEntry);
+            mEntry = db.getEntryById(keyEntry);
         } catch (ClassCastException e) {
             Log.e(TAG, "Unable to retrieve the entry key");
         }
@@ -157,8 +157,7 @@ public class EntryActivity extends LockingHideActivity {
 
 		Database database = App.getDB();
         // Start to manage field reference to copy a value from ref
-		if (database != null)
-			database.startManageEntry(mEntry);
+		database.startManageEntry(mEntry);
 
         boolean containsUsernameToCopy =
                 mEntry.getUsername().length() > 0;
@@ -234,8 +233,7 @@ public class EntryActivity extends LockingHideActivity {
                 startService(intent);
             }
 
-			if (database != null)
-				database.stopManageEntry(mEntry);
+            database.stopManageEntry(mEntry);
         }
         firstLaunchOfActivity = false;
     }
@@ -315,11 +313,9 @@ public class EntryActivity extends LockingHideActivity {
 
 	protected void fillData() {
 		Database database = App.getDB();
-		if (database != null) {
-			database.startManageEntry(mEntry);
-			// Assign title icon
-			database.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
-		}
+		database.startManageEntry(mEntry);
+		// Assign title icon
+		database.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
 
 		// Assign title text
         titleView.setText(PwEntryInterface.getVisualTitle(mEntry));
@@ -397,8 +393,7 @@ public class EntryActivity extends LockingHideActivity {
             entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
 
-		if (database != null)
-			database.stopManageEntry(mEntry);
+		database.stopManageEntry(mEntry);
 	}
 
 	@Override

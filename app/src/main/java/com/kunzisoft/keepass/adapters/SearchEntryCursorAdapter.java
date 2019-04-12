@@ -85,7 +85,7 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         // Retrieve elements from cursor
         UUID uuid = new UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
                 cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS)));
-        PwIconFactory iconFactory = database.getPwDatabase().getIconFactory();
+        PwIconFactory iconFactory = database.getIconFactory();
         PwIcon icon = iconFactory.getIcon(
                 new UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
                         cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))));

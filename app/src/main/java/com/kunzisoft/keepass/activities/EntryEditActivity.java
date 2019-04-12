@@ -420,10 +420,8 @@ public class EntryEditActivity extends LockingHideActivity
 
 		PwEntryInterface newEntry = mEntry.duplicate();
 
-		if (database != null) {
-			database.startManageEntry(newEntry);
-			database.createBackupOf(newEntry);
-		}
+		database.startManageEntry(newEntry);
+		database.createBackupOf(newEntry);
 
         newEntry.setLastAccessTime(new PwDate());
         newEntry.setLastModificationTime(new PwDate());
@@ -449,8 +447,7 @@ public class EntryEditActivity extends LockingHideActivity
             }
         }
 
-		if (database != null)
-			database.stopManageEntry(newEntry);
+		database.stopManageEntry(newEntry);
 
         return newEntry;
 	}

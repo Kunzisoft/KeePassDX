@@ -72,11 +72,10 @@ import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwIcon;
+import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.PwNodeInterface;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
@@ -242,7 +241,7 @@ public class GroupActivity extends LockingActivity
         }
 
 		try {
-			rootGroup = database.getPwDatabase().getRootGroup();
+			rootGroup = database.getRootGroup();
 		} catch (NullPointerException e) {
 			Log.e(TAG, "Unable to get rootGroup");
 		}
@@ -400,7 +399,7 @@ public class GroupActivity extends LockingActivity
             if (pwGroupId == null) {
                 currentGroup = rootGroup;
             } else {
-                currentGroup = database.getPwDatabase().getGroupById(pwGroupId);
+                currentGroup = database.getGroupById(pwGroupId);
             }
 
             return currentGroup;
@@ -1058,10 +1057,9 @@ public class GroupActivity extends LockingActivity
 
                     if (actionNodeValues.getOldNode() != null) {
                         PwGroupInterface parent = actionNodeValues.getOldNode().getParent();
-						Database db = App.getDB();
-						PwDatabase database = db.getPwDatabase();
-						if (db.isRecycleBinAvailable() &&
-								db.isRecycleBinEnabled()) {
+						Database database = App.getDB();
+						if (database.isRecycleBinAvailable() &&
+								database.isRecycleBinEnabled()) {
                             PwGroupInterface recycleBin = database.getRecycleBin();
 							// Add trash if it doesn't exists
 							if (parent.equals(recycleBin)
@@ -1126,7 +1124,7 @@ public class GroupActivity extends LockingActivity
 					}
 		));
         // Show the progress dialog now or after dialog confirmation
-        if (database.getPwDatabase().validatePasswordEncoding(masterPassword)) {
+        if (database.validatePasswordEncoding(masterPassword)) {
             taskThread.start();
         } else {
             new PasswordEncodingDialogHelper()

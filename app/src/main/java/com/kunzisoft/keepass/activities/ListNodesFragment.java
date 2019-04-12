@@ -19,9 +19,7 @@ import android.view.ViewGroup;
 
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
-import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwNodeInterface;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
@@ -213,7 +211,6 @@ public class ListNodesFragment extends StylishFragment implements
             case R.id.menu_sort:
                 SortDialogFragment sortDialogFragment;
 
-                PwDatabase database = App.getDB().getPwDatabase();
                 /*
                 // TODO Recycle bin bottom
                 if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {

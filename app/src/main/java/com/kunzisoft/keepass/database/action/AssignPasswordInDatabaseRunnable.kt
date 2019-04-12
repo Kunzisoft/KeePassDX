@@ -33,13 +33,13 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
         withMasterPassword: Boolean,
         masterPassword: String?,
         withKeyFile: Boolean,
-        keyfile: Uri?,
+        keyFile: Uri?,
         actionRunnable: ActionRunnable? = null,
         save: Boolean)
     : SaveDatabaseRunnable(ctx, db, actionRunnable, save) {
 
     private var mMasterPassword: String? = null
-    private var mKeyfile: Uri? = null
+    private var mKeyFile: Uri? = null
 
     private var mBackupKey: ByteArray? = null
 
@@ -47,19 +47,18 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
         if (withMasterPassword)
             this.mMasterPassword = masterPassword
         if (withKeyFile)
-            this.mKeyfile = keyfile
+            this.mKeyFile = keyFile
     }
 
     override fun run() {
         // Set key
         try {
-            val pm = database.pwDatabase
             // TODO move master key methods
-            mBackupKey = ByteArray(pm.getMasterKey().size)
-            System.arraycopy(pm.getMasterKey(), 0, mBackupKey!!, 0, mBackupKey!!.size)
+            mBackupKey = ByteArray(database.masterKey.size)
+            System.arraycopy(database.masterKey, 0, mBackupKey!!, 0, mBackupKey!!.size)
 
-            val uriInputStream = UriUtil.getUriInputStream(context, mKeyfile)
-            pm.retrieveMasterKey(mMasterPassword, uriInputStream)
+            val uriInputStream = UriUtil.getUriInputStream(context, mKeyFile)
+            database.retrieveMasterKey(mMasterPassword, uriInputStream)
             // To save the database
             super.run()
             finishRun(true)
@@ -75,8 +74,8 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
     override fun onFinishRun(isSuccess: Boolean, message: String?) {
         if (!isSuccess) {
             // Erase the current master key
-            erase(database.pwDatabase.getMasterKey())
-            database.pwDatabase.setMasterKey(mBackupKey)
+            erase(database.masterKey)
+            database.masterKey = mBackupKey
         }
 
         super.onFinishRun(isSuccess, message)

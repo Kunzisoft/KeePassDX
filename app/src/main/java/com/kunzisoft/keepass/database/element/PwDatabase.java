@@ -71,7 +71,8 @@ public abstract class PwDatabase {
         return finalKey;
     }
 
-    public abstract byte[] getMasterKey(String key, InputStream keyInputStream) throws InvalidKeyFileException, IOException;
+    protected abstract byte[] getMasterKey(String key, InputStream keyInputStream)
+			throws InvalidKeyFileException, IOException;
 
     public void retrieveMasterKey(String key, InputStream keyInputStream)
             throws InvalidKeyFileException, IOException {
@@ -410,10 +411,6 @@ public abstract class PwDatabase {
 
     protected void undoRecycle(PwEntryInterface entry, PwGroupInterface origParent) {
         throw new RuntimeException("Call not valid for .kdb databases.");
-    }
-
-    public PwGroupInterface getRecycleBin() {
-        return null;
     }
 
     public boolean isGroupSearchable(PwGroupInterface group, boolean omitBackup) {

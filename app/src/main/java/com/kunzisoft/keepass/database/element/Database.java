@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.cursor.EntryCursorV3;
 import com.kunzisoft.keepass.database.cursor.EntryCursorV4;
 import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
+import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.database.load.Importer;
 import com.kunzisoft.keepass.database.load.ImporterFactory;
@@ -107,10 +108,6 @@ public class Database {
             return filename;
         }
         return filename.substring(0, lastExtDot);
-    }
-
-    public PwDatabase getPwDatabase() {
-        return pwDatabase;
     }
 
     public void setUri(Uri mUri) {
@@ -229,7 +226,7 @@ public class Database {
     }
 
     public Cursor searchEntry(String query) {
-        PwVersion version = getPwDatabase().getVersion();
+        PwVersion version = pwDatabase.getVersion();
         switch (version) {
             case V3:
                 EntryCursorV3 cursorV3 = new EntryCursorV3();
@@ -262,10 +259,10 @@ public class Database {
     }
 
     public PwEntryInterface getEntryFrom(Cursor cursor) {
-        PwIconFactory iconFactory = getPwDatabase().getIconFactory();
+        PwIconFactory iconFactory = pwDatabase.getIconFactory();
         PwEntryInterface pwEntry = createEntry();
         try {
-            switch (getPwDatabase().getVersion()) {
+            switch (pwDatabase.getVersion()) {
                 case V3:
                     ((EntryCursorV3) cursor).populateEntry((PwEntryV3) pwEntry, iconFactory);
                     break;
@@ -358,11 +355,11 @@ public class Database {
     }
 
     public String getVersion() {
-        return getPwDatabase().getVersion().toString();
+        return pwDatabase.getVersion().toString();
     }
 
     public boolean containsName() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             default:
                 return false;
             case V4:
@@ -371,18 +368,18 @@ public class Database {
     }
 
     public String getName() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             default:
                 return "";
             case V4:
-                return ((PwDatabaseV4) getPwDatabase()).getName();
+                return ((PwDatabaseV4) pwDatabase).getName();
         }
     }
 
     public void assignName(String name) {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                PwDatabaseV4 databaseV4 = ((PwDatabaseV4) getPwDatabase());
+                PwDatabaseV4 databaseV4 = ((PwDatabaseV4) pwDatabase);
                 databaseV4.setName(name);
                 databaseV4.setNameChanged(new PwDate());
                 break;
@@ -390,7 +387,7 @@ public class Database {
     }
 
     public boolean containsDescription() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             default:
                 return false;
             case V4:
@@ -399,45 +396,45 @@ public class Database {
     }
 
     public String getDescription() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             default:
                 return "";
             case V4:
-                return ((PwDatabaseV4) getPwDatabase()).getDescription();
+                return ((PwDatabaseV4) pwDatabase).getDescription();
         }
     }
 
     public void assignDescription(String description) {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                ((PwDatabaseV4) getPwDatabase()).setDescription(description);
-                ((PwDatabaseV4) getPwDatabase()).setDescriptionChanged(new PwDate());
+                ((PwDatabaseV4) pwDatabase).setDescription(description);
+                ((PwDatabaseV4) pwDatabase).setDescriptionChanged(new PwDate());
         }
     }
 
     public String getDefaultUsername() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             default:
                 return "";
             case V4:
-                return ((PwDatabaseV4) getPwDatabase()).getDefaultUserName();
+                return ((PwDatabaseV4) pwDatabase).getDefaultUserName();
         }
     }
 
     public void setDefaultUsername(String username) {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                ((PwDatabaseV4) getPwDatabase()).setDefaultUserName(username);
-                ((PwDatabaseV4) getPwDatabase()).setDefaultUserNameChanged(new PwDate());
+                ((PwDatabaseV4) pwDatabase).setDefaultUserName(username);
+                ((PwDatabaseV4) pwDatabase).setDefaultUserNameChanged(new PwDate());
         }
     }
 
     public PwEncryptionAlgorithm getEncryptionAlgorithm() {
-        return getPwDatabase().getEncryptionAlgorithm();
+        return pwDatabase.getEncryptionAlgorithm();
     }
 
     public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
-        return getPwDatabase().getAvailableEncryptionAlgorithms();
+        return pwDatabase.getAvailableEncryptionAlgorithms();
     }
 
     public boolean allowEncryptionAlgorithmModification() {
@@ -445,20 +442,20 @@ public class Database {
     }
 
     public void assignEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                ((PwDatabaseV4) getPwDatabase()).setEncryptionAlgorithm(algorithm);
-                ((PwDatabaseV4) getPwDatabase()).setDataEngine(algorithm.getCipherEngine());
-                ((PwDatabaseV4) getPwDatabase()).setDataCipher(algorithm.getDataCipher());
+                ((PwDatabaseV4) pwDatabase).setEncryptionAlgorithm(algorithm);
+                ((PwDatabaseV4) pwDatabase).setDataEngine(algorithm.getCipherEngine());
+                ((PwDatabaseV4) pwDatabase).setDataCipher(algorithm.getDataCipher());
         }
     }
 
     public String getEncryptionAlgorithmName(Resources resources) {
-        return getPwDatabase().getEncryptionAlgorithm().getName(resources);
+        return pwDatabase.getEncryptionAlgorithm().getName(resources);
     }
 
     public List<KdfEngine> getAvailableKdfEngines() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
                 return KdfFactory.kdfListV4;
             case V3:
@@ -472,9 +469,9 @@ public class Database {
     }
 
     public KdfEngine getKdfEngine() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                KdfEngine kdfEngine = ((PwDatabaseV4) getPwDatabase()).getKdfEngine();
+                KdfEngine kdfEngine = ((PwDatabaseV4) pwDatabase).getKdfEngine();
                 if (kdfEngine == null)
                     return KdfFactory.aesKdf;
                 return kdfEngine;
@@ -485,9 +482,9 @@ public class Database {
     }
 
     public void assignKdfEngine(KdfEngine kdfEngine) {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                PwDatabaseV4 db = ((PwDatabaseV4) getPwDatabase());
+                PwDatabaseV4 db = ((PwDatabaseV4) pwDatabase);
                 if (db.getKdfParameters() == null
                         || !db.getKdfParameters().getUUID().equals(kdfEngine.getDefaultParameters().getUUID()))
                     db.setKdfParameters(kdfEngine.getDefaultParameters());
@@ -511,11 +508,11 @@ public class Database {
     }
 
     public long getNumberKeyEncryptionRounds() {
-        return getPwDatabase().getNumberKeyEncryptionRounds();
+        return pwDatabase.getNumberKeyEncryptionRounds();
     }
 
     public void setNumberKeyEncryptionRounds(long numberRounds) throws NumberFormatException {
-        getPwDatabase().setNumberKeyEncryptionRounds(numberRounds);
+        pwDatabase.setNumberKeyEncryptionRounds(numberRounds);
     }
 
     public String getMemoryUsageAsString() {
@@ -523,17 +520,17 @@ public class Database {
     }
 
     public long getMemoryUsage() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                return ((PwDatabaseV4) getPwDatabase()).getMemoryUsage();
+                return ((PwDatabaseV4) pwDatabase).getMemoryUsage();
         }
         return KdfEngine.UNKNOW_VALUE;
     }
 
     public void setMemoryUsage(long memory) {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                ((PwDatabaseV4) getPwDatabase()).setMemoryUsage(memory);
+                ((PwDatabaseV4) pwDatabase).setMemoryUsage(memory);
         }
     }
 
@@ -542,23 +539,44 @@ public class Database {
     }
 
     public int getParallelism() {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                return ((PwDatabaseV4) getPwDatabase()).getParallelism();
+                return ((PwDatabaseV4) pwDatabase).getParallelism();
         }
         return KdfEngine.UNKNOW_VALUE;
     }
 
     public void setParallelism(int parallelism) {
-        switch (getPwDatabase().getVersion()) {
+        switch (pwDatabase.getVersion()) {
             case V4:
-                ((PwDatabaseV4) getPwDatabase()).setParallelism(parallelism);
+                ((PwDatabaseV4) pwDatabase).setParallelism(parallelism);
         }
     }
 
+    public boolean validatePasswordEncoding(String key) {
+    	return pwDatabase.validatePasswordEncoding(key);
+	}
+
+	public byte[] getMasterKey() {
+		return pwDatabase.getMasterKey();
+	}
+
+	public void setMasterKey(byte[] masterKey) {
+		pwDatabase.masterKey = masterKey;
+	}
+
+	public void retrieveMasterKey(String key, InputStream keyInputStream)
+			throws InvalidKeyFileException, IOException {
+		pwDatabase.retrieveMasterKey(key, keyInputStream);
+	}
+
+	public PwGroupInterface getRootGroup() {
+		return pwDatabase.getRootGroup();
+	}
+
     public PwEntryInterface createEntry() {
         try {
-            switch (getPwDatabase().getVersion()) {
+            switch (pwDatabase.getVersion()) {
                 case V3:
                     return new PwEntryV3();
                 case V4:
@@ -573,7 +591,7 @@ public class Database {
     public PwGroupInterface createGroup() {
         PwGroupInterface newPwGroup = null;
         try {
-            switch (getPwDatabase().getVersion()) {
+            switch (pwDatabase.getVersion()) {
                 case V3:
                     newPwGroup = new PwGroupV3();
                 case V4:
@@ -587,16 +605,16 @@ public class Database {
     }
 
 	public PwEntryInterface getEntryById(PwNodeId id) {
-		return pwDatabase.entryIndexes.get(id);
+		return pwDatabase.getEntryById(id);
 	}
 
 	public PwGroupInterface getGroupById(PwNodeId id) {
-		return pwDatabase.groupIndexes.get(id);
+		return pwDatabase.getGroupById(id);
 	}
 
     public void addEntryTo(PwEntryInterface entry, PwGroupInterface parent) {
         try {
-            getPwDatabase().addEntryTo(entry, parent);
+            pwDatabase.addEntryTo(entry, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be added from this version of PwGroup", e);
         }
@@ -604,7 +622,7 @@ public class Database {
 
     public void removeEntryFrom(PwEntryInterface entry, PwGroupInterface parent) {
         try {
-            getPwDatabase().removeEntryFrom(entry, parent);
+            pwDatabase.removeEntryFrom(entry, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be removed from this version of PwGroup", e);
         }
@@ -612,7 +630,7 @@ public class Database {
 
     public void addGroupTo(PwGroupInterface group, PwGroupInterface parent) {
         try {
-            getPwDatabase().addGroupTo(group, parent);
+            pwDatabase.addGroupTo(group, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be added in this version of PwGroup", e);
         }
@@ -620,7 +638,7 @@ public class Database {
 
     public void removeGroupFrom(PwGroupInterface group, PwGroupInterface parent) {
         try {
-           getPwDatabase().removeGroupFrom(group, parent);
+           pwDatabase.removeGroupFrom(group, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be removed from this version of PwGroup", e);
         }
@@ -628,7 +646,7 @@ public class Database {
 
     public boolean canRecycle(PwEntryInterface entry) {
         try {
-            getPwDatabase().canRecycle(entry);
+            pwDatabase.canRecycle(entry);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be recycled", e);
         }
@@ -637,7 +655,7 @@ public class Database {
 
     public boolean canRecycle(PwGroupInterface group) {
         try {
-            getPwDatabase().canRecycle(group);
+            pwDatabase.canRecycle(group);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be recycled", e);
         }
@@ -646,7 +664,7 @@ public class Database {
 
     public void recycle(PwEntryInterface entry) {
         try {
-            getPwDatabase().recycle(entry);
+            pwDatabase.recycle(entry);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be recycled", e);
         }
@@ -654,7 +672,7 @@ public class Database {
 
     public void recycle(PwGroupInterface group) {
         try {
-            getPwDatabase().recycle(group);
+            pwDatabase.recycle(group);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwGroup can't be recycled", e);
         }
@@ -662,7 +680,7 @@ public class Database {
 
     public void updateEntry(PwEntryInterface oldEntry, PwEntryInterface newEntry) {
         try {
-            switch (getPwDatabase().getVersion()) {
+            switch (pwDatabase.getVersion()) {
                 case V3:
                     ((PwEntryV3) oldEntry).updateWith((PwEntryV3) newEntry);
                     break;
@@ -677,7 +695,7 @@ public class Database {
 
     public void updateGroup(PwGroupInterface oldGroup, PwGroupInterface newGroup) {
         try {
-            switch (getPwDatabase().getVersion()) {
+            switch (pwDatabase.getVersion()) {
                 case V3:
                     ((PwGroupV3) oldGroup).updateWith((PwGroupV3) newGroup);
                     break;
@@ -698,7 +716,7 @@ public class Database {
     public @Nullable PwEntryInterface copyEntry(PwEntryInterface entryToCopy, PwGroupInterface newParent) {
         try {
             PwEntryInterface entryCopied = null;
-            switch (getPwDatabase().getVersion()) {
+            switch (pwDatabase.getVersion()) {
                 case V3:
                     entryCopied = ((PwEntryV3) entryToCopy).clone();
                     break;
@@ -759,16 +777,24 @@ public class Database {
     }
 
     public boolean isRecycleBinAvailable() {
-        return getPwDatabase().isRecycleBinAvailable();
+        return pwDatabase.isRecycleBinAvailable();
     }
 
     public boolean isRecycleBinEnabled() {
-        return getPwDatabase().isRecycleBinEnabled();
+        return pwDatabase.isRecycleBinEnabled();
     }
+
+    public PwGroupInterface getRecycleBin() {
+		switch (pwDatabase.getVersion()) {
+			case V4:
+				return ((PwDatabaseV4) pwDatabase).getRecycleBin();
+		}
+		return null;
+	}
 
     public void undoRecycle(PwEntryInterface entry, PwGroupInterface parent) {
         try {
-            getPwDatabase().undoRecycle(entry, parent);
+            pwDatabase.undoRecycle(entry, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of database can't undo Recycle of this version of PwEntry", e);
         }
@@ -776,7 +802,7 @@ public class Database {
 
     public void undoRecycle(PwGroupInterface group, PwGroupInterface parent) {
         try {
-            getPwDatabase().undoRecycle(group, parent);
+            pwDatabase.undoRecycle(group, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of database can't undo Recycle of this version of PwGroup", e);
         }
@@ -784,7 +810,7 @@ public class Database {
 
     public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface parent) {
         try {
-            getPwDatabase().undoDeleteEntryFrom(entry, parent);
+            pwDatabase.undoDeleteEntryFrom(entry, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of database can't undo the deletion of this version of PwEntry", e);
         }
@@ -792,33 +818,39 @@ public class Database {
 
     public void undoDeleteGroup(PwGroupInterface group, PwGroupInterface parent) {
         try {
-            getPwDatabase().undoDeleteGroup(group, parent);
+            pwDatabase.undoDeleteGroup(group, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of database can't undo the deletion of this version of PwGroup", e);
         }
     }
 
 	public void startManageEntry(PwEntryInterface entry) {
-		switch (getPwDatabase().getVersion()) {
-			case V4:
-				((PwEntryV4) entry).startToManageFieldReferences((PwDatabaseV4) getPwDatabase());
-				break;
+    	if (pwDatabase != null) {
+			switch (pwDatabase.getVersion()) {
+				case V4:
+					((PwEntryV4) entry).startToManageFieldReferences((PwDatabaseV4) pwDatabase);
+					break;
+			}
 		}
 	}
 
 	public void stopManageEntry(PwEntryInterface entry) {
-		switch (getPwDatabase().getVersion()) {
-			case V4:
-				((PwEntryV4) entry).stopToManageFieldReferences();
-				break;
+		if (pwDatabase != null) {
+			switch (pwDatabase.getVersion()) {
+				case V4:
+					((PwEntryV4) entry).stopToManageFieldReferences();
+					break;
+			}
 		}
 	}
 
 	public void createBackupOf(PwEntryInterface entry) {
-		switch (getPwDatabase().getVersion()) {
-			case V4:
-				((PwEntryV4) entry).createBackup((PwDatabaseV4) getPwDatabase());
-				break;
+		if (pwDatabase != null) {
+			switch (pwDatabase.getVersion()) {
+				case V4:
+					((PwEntryV4) entry).createBackup((PwDatabaseV4) pwDatabase);
+					break;
+			}
 		}
 	}
 }
