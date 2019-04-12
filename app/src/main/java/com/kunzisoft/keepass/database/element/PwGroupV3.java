@@ -123,10 +123,12 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
         this.setNodeId(new PwNodeIdInt(groupId));
     }
 
+    @Override
     public int getLevel() {
         return level;
     }
 
+    @Override
     public void setLevel(int level) {
         this.level = level;
     }
@@ -142,17 +144,6 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
 	@Override
     public String toString() {
         return getTitle();
-    }
-
-    public void populateBlankFields(PwDatabaseV3 db) {
-	    // TODO populate blanck field
-        if (icon == null) {
-            icon = db.getIconFactory().getFolderIcon();
-        }
-
-        if (title == null) {
-            title = "";
-        }
     }
 
 	@Override
@@ -176,16 +167,6 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
 	}
 
 	@Override
-	public void setGroups(List<PwGroupInterface> groups) {
-		childGroups = groups;
-	}
-
-	@Override
-	public void setEntries(List<PwEntryInterface> entries) {
-		childEntries = entries;
-	}
-
-	@Override
 	public void addChildGroup(PwGroupInterface group) {
 		this.childGroups.add(group);
 	}
@@ -193,16 +174,6 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
 	@Override
 	public void addChildEntry(PwEntryInterface entry) {
 		this.childEntries.add(entry);
-	}
-
-	@Override
-	public PwGroupInterface getChildGroupAt(int number) {
-		return this.childGroups.get(number);
-	}
-
-	@Override
-	public PwEntryInterface getChildEntryAt(int number) {
-		return this.childEntries.get(number);
 	}
 
 	@Override
@@ -216,17 +187,7 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
 	}
 
 	@Override
-	public int numbersOfChildGroups() {
-		return childGroups.size();
-	}
-
-	@Override
-	public int numbersOfChildEntries() {
-		return childEntries.size();
-	}
-
-	@Override
-	public List<PwNodeInterface> getDirectChildren() {
+	public List<PwNodeInterface> getChildrenWithoutMetastream() {
 		List<PwNodeInterface> children = new ArrayList<>(childGroups);
 		for(PwEntryInterface child : childEntries) {
 			if (!child.isMetaStream())

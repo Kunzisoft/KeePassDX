@@ -119,12 +119,11 @@ public class EntryActivity extends LockingHideActivity {
             mEntry = db.getPwDatabase().getEntryById(keyEntry);
         } catch (ClassCastException e) {
             Log.e(TAG, "Unable to retrieve the entry key");
-        } finally {
-            if (mEntry == null) {
-                Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
-                finish();
-                return;
-            }
+        }
+        if (mEntry == null) {
+            Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
         // Retrieve the textColor to tint the icon
@@ -404,6 +403,7 @@ public class EntryActivity extends LockingHideActivity {
 		super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
+                // Not directly get the entry from intent data but from database
                 fillData();
                 break;
         }

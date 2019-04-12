@@ -94,7 +94,7 @@ public class BinaryPool {
 	}
 	
 	private void build(PwGroupV4 rootGroup) {
-		PwGroupInterface.preOrderTraverseTree(rootGroup, null, new EntryHandler<PwEntryInterface>() {
+		PwGroupInterface.doForEachChild(rootGroup, new EntryHandler<PwEntryInterface>() {
 			@Override
 			public boolean operate(PwEntryInterface entryInterface) {
 				PwEntryV4 entry = (PwEntryV4) entryInterface;
@@ -105,6 +105,6 @@ public class BinaryPool {
 				add(entry.getBinaries());
 				return true;
 			}
-		});
+		}, null);
 	}
 }

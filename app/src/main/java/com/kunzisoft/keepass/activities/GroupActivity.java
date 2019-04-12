@@ -397,7 +397,7 @@ public class GroupActivity extends LockingActivity
             if (pwGroupId == null) {
                 currentGroup = rootGroup;
             } else {
-                currentGroup = database.getPwDatabase().getGroupByGroupId(pwGroupId);
+                currentGroup = database.getPwDatabase().getGroupById(pwGroupId);
             }
 
             return currentGroup;
@@ -1148,6 +1148,9 @@ public class GroupActivity extends LockingActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.INSTANCE.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data);
         }
+
+        // Not directly get the entry from intent data but from database
+        // Is refresh from onResume()
     }
 
     @SuppressLint("RestrictedApi")

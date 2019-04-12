@@ -22,14 +22,10 @@ package com.kunzisoft.keepass.database.action.node;
 import android.support.v4.app.FragmentActivity;
 
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 // TODO Kotlinized
 public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
@@ -57,35 +53,7 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 			getDatabase().recycle(mGroupToDelete);
 		}
 		else {
-			// TODO tests
-			// Remove child entries
-			List<PwEntryInterface> childEnt = new ArrayList<>(mGroupToDelete.getChildEntries()); // TODO new Methods
-			for ( int i = 0; i < childEnt.size(); i++ ) {
-				DeleteEntryRunnable task = new DeleteEntryRunnable(
-						(FragmentActivity) getContext(),
-						getDatabase(),
-						childEnt.get(i),
-						null,
-						true);
-				task.run();
-			}
-
-			// Remove child groups
-			List<PwGroupInterface> childGrp = new ArrayList<>(mGroupToDelete.getChildGroups());
-			for ( int i = 0; i < childGrp.size(); i++ ) {
-				DeleteGroupRunnable task = new DeleteGroupRunnable(
-						(FragmentActivity) getContext(),
-						getDatabase(),
-						childGrp.get(i),
-						null,
-						true);
-				task.run();
-			}
 			getDatabase().deleteGroup(mGroupToDelete);
-
-			// Remove from PwDatabaseV3
-			// TODO ENcapsulate
-			getDatabase().getPwDatabase().getGroups().remove(mGroupToDelete);
 		}
 	}
 

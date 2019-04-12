@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element;
 
 import android.util.Log;
-import android.webkit.URLUtil;
 
 import com.kunzisoft.keepass.collections.VariantDictionary;
 import com.kunzisoft.keepass.crypto.CryptoUtil;
@@ -30,11 +29,12 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
 import com.kunzisoft.keepass.database.BinaryPool;
+import com.kunzisoft.keepass.database.EntryHandler;
+import com.kunzisoft.keepass.database.GroupHandler;
 import com.kunzisoft.keepass.database.MemoryProtectionConfig;
 import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.UnknownKDF;
-import com.kunzisoft.keepass.utils.EmptyUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -108,6 +108,26 @@ public class PwDatabaseV4 extends PwDatabase {
     private BinaryPool binPool = new BinaryPool();
 
     public String localizedAppName = "KeePassDX"; // TODO resource
+
+    public PwDatabaseV4() {}
+
+    public void populateNodeIndex() {
+        PwGroupInterface.doForEachChildAndForRoot(getRootGroup(),
+                new EntryHandler<PwEntryInterface>() {
+                    @Override
+                    public boolean operate(PwEntryInterface entry) {
+                        entryIndexes.put(entry.getNodeId(), entry);
+                        return false;
+                    }
+                },
+                new GroupHandler<PwGroupInterface>() {
+                    @Override
+                    public boolean operate(PwGroupInterface group) {
+                        groupIndexes.put(group.getNodeId(), group);
+                        return false;
+                    }
+                });
+    }
 
 	@Override
 	public PwVersion getVersion() {
@@ -485,56 +505,13 @@ public class PwDatabaseV4 extends PwDatabase {
 	}
 
 	@Override
-	public List<PwGroupInterface> getGroups() {
-		List<PwGroupInterface> list = new ArrayList<>();
-		PwGroupInterface root = rootGroup;
-        buildChildGroupsRecursive(root, list);
-		
-		return list;
-	}
-
-	private static void buildChildGroupsRecursive(PwGroupInterface root, List<PwGroupInterface> list) {
-		list.add(root);
-		for ( int i = 0; i < root.numbersOfChildGroups(); i++) {
-			PwGroupInterface child = root.getChildGroupAt(i);
-			buildChildGroupsRecursive(child, list);
-		}
-	}
-
-	@Override
-	public List<PwGroupInterface> getGrpRoots() {
-		return rootGroup.getChildGroups();
-	}
-
-	@Override
-	public List<PwEntryInterface> getEntries() {
-		List<PwEntryInterface> list = new ArrayList<>();
-		PwGroupInterface root = rootGroup;
-		buildChildEntriesRecursive(root, list);
-		return list;
-	}
-
-    private static void buildChildEntriesRecursive(PwGroupInterface root, List<PwEntryInterface> list) {
-        for ( int i = 0; i < root.numbersOfChildEntries(); i++ ) {
-            list.add(root.getChildEntryAt(i));
-        }
-        for ( int i = 0; i < root.numbersOfChildGroups(); i++ ) {
-			PwGroupInterface child = root.getChildGroupAt(i);
-            buildChildEntriesRecursive(child, list);
-        }
-    }
-
-	@Override
 	public PwNodeIdUUID newGroupId() {
-		PwNodeIdUUID id;
+		PwNodeIdUUID newId;
+        do {
+            newId = new PwNodeIdUUID(UUID.randomUUID());
+        } while (isGroupIdUsed(newId));
 		
-		while (true) {
-			id = new PwNodeIdUUID(UUID.randomUUID());
-			
-			if (!isGroupIdUsed(id)) break;
-		}
-		
-		return id;
+		return newId;
 	}
 
 	@Override
@@ -549,13 +526,6 @@ public class PwDatabaseV4 extends PwDatabase {
 		}
 		
 		return group.isContainedIn(getRecycleBin());
-	}
-
-	@Override
-	public void populateGlobals(PwGroupInterface currentGroup) {
-		groups.put(rootGroup.getNodeId(), rootGroup);
-		
-		super.populateGlobals(currentGroup);
 	}
 	
 	/**
@@ -700,7 +670,7 @@ public class PwDatabaseV4 extends PwDatabase {
 		}
 		
 		PwNodeId recycleId = new PwNodeIdUUID(recycleBinUUID);
-		return groups.get(recycleId);
+		return groupIndexes.get(recycleId);
 	}
 
     public VariantDictionary getPublicCustomData() {
@@ -735,26 +705,6 @@ public class PwDatabaseV4 extends PwDatabase {
 	@Override
 	public boolean validatePasswordEncoding(String key) {
 		return true;
-	}
-
-	@Override
-	public void initNew(String dbPath) {
-		rootGroup = new PwGroupV4(dbNameFromPath(dbPath), iconFactory.getFolderIcon());
-		groups.put(rootGroup.getNodeId(), rootGroup);
-	}
-	
-	private String dbNameFromPath(String dbPath) {
-		String filename = URLUtil.guessFileName(dbPath, null, null);
-		
-		if (EmptyUtils.isNullOrEmpty(filename)) {
-			return "KeePass Database";
-		}
-		int lastExtDot = filename.lastIndexOf(".");
-		if (lastExtDot == -1) {
-			return filename;
-		}
-		
-		return filename.substring(0, lastExtDot);
 	}
 
     @Override

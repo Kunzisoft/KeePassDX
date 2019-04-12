@@ -137,7 +137,7 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
         }
     };
 
-    protected void updateWith(PwEntryV3 source) {
+    public void updateWith(PwEntryV3 source) {
         super.assign(source);
         title = source.title;
         username = source.username;

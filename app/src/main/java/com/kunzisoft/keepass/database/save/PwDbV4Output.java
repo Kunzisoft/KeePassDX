@@ -161,43 +161,45 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		Stack<PwGroupV4> groupStack = new Stack<>();
 		groupStack.push(root);
 
-		if (!PwGroupInterface.preOrderTraverseTree(root, new GroupHandler<PwGroupInterface>() {
-            @Override
-            public boolean operate(PwGroupInterface groupInterface) {
-                PwGroupV4 group = (PwGroupV4) groupInterface;
+		if (!PwGroupInterface.doForEachChild(root,
+				new EntryHandler<PwEntryInterface>() {
+					@Override
+					public boolean operate(PwEntryInterface entryInterface) {
+						PwEntryV4 entry = (PwEntryV4) entryInterface;
 
-                while (true) {
-                    try {
-                        if (group.getParent() == groupStack.peek()) {
-                            groupStack.push(group);
-                            startGroup(group);
-                            break;
-                        } else {
-                            groupStack.pop();
-                            if (groupStack.size() <= 0) return false;
-                            endGroup();
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+						try {
+							writeEntry(entry, false);
+						} catch (IOException ex) {
+							throw new RuntimeException(ex);
+						}
 
-                return true;
-            }
-        }, new EntryHandler<PwEntryInterface>() {
-            @Override
-            public boolean operate(PwEntryInterface entryInterface) {
-                PwEntryV4 entry = (PwEntryV4) entryInterface;
+						return true;
+					}
+				},
+				new GroupHandler<PwGroupInterface>() {
+					@Override
+					public boolean operate(PwGroupInterface groupInterface) {
+						PwGroupV4 group = (PwGroupV4) groupInterface;
 
-                try {
-                    writeEntry(entry, false);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+						while (true) {
+							try {
+								if (group.getParent() == groupStack.peek()) {
+									groupStack.push(group);
+									startGroup(group);
+									break;
+								} else {
+									groupStack.pop();
+									if (groupStack.size() <= 0) return false;
+									endGroup();
+								}
+							} catch (IOException e) {
+								throw new RuntimeException(e);
+							}
+						}
 
-                return true;
-            }
-        })) throw new RuntimeException("Writing groups failed");
+						return true;
+					}
+				})) throw new RuntimeException("Writing groups failed");
 		
 		while (groupStack.size() > 1) {
 			xml.endTag(null, PwDatabaseV4XML.ElemGroup);

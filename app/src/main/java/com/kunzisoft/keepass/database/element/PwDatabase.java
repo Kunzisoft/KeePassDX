@@ -30,9 +30,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public abstract class PwDatabase {
@@ -45,39 +45,13 @@ public abstract class PwDatabase {
     protected byte masterKey[] = new byte[32];
     protected byte[] finalKey;
 
-    protected PwGroupInterface rootGroup;
     protected PwIconFactory iconFactory = new PwIconFactory();
 
-    protected Map<PwNodeId, PwGroupInterface> groups = new HashMap<>();
-    protected Map<PwNodeId, PwEntryInterface> entries = new HashMap<>();
-
-    private static boolean isKDBExtension(String filename) {
-        if (filename == null) { return false; }
-
-        int extIdx = filename.lastIndexOf(".");
-        if (extIdx == -1) return false;
-
-        return filename.substring(extIdx, filename.length()).equalsIgnoreCase(".kdb");
-    }
-
-    public static PwDatabase getNewDBInstance(String filename) {
-        // TODO other condition to create a database
-        if (isKDBExtension(filename)) {
-            return new PwDatabaseV3();
-        } else {
-            return new PwDatabaseV4();
-        }
-    }
+    protected PwGroupInterface rootGroup;
+    protected LinkedHashMap<PwNodeId, PwGroupInterface> groupIndexes = new LinkedHashMap<>();
+    protected LinkedHashMap<PwNodeId, PwEntryInterface> entryIndexes = new LinkedHashMap<>();
 
     public abstract PwVersion getVersion();
-
-    public PwGroupInterface getRootGroup() {
-        return rootGroup;
-    }
-
-    public void setRootGroup(PwGroupInterface rootGroup) {
-        this.rootGroup = rootGroup;
-    }
 
     public PwIconFactory getIconFactory() {
         return iconFactory;
@@ -247,9 +221,85 @@ public abstract class PwDatabase {
 
     public abstract List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms();
 
-    public abstract List<PwGroupInterface> getGrpRoots();
+    /*
+     * -------------------------------------
+     *          Node Creation
+     * -------------------------------------
+     */
 
-    public abstract List<PwGroupInterface> getGroups();
+    public abstract PwNodeId newGroupId();
+
+    public abstract PwGroupInterface createGroup();
+
+    public PwGroupInterface getRootGroup() {
+        return rootGroup;
+    }
+
+    public void setRootGroup(PwGroupInterface rootGroup) {
+        this.rootGroup = rootGroup;
+    }
+
+    /*
+     * -------------------------------------
+     *          Index Manipulation
+     * -------------------------------------
+     */
+
+    /**
+     * Determine if an id number is already in use
+     *
+     * @param id
+     *            ID number to check for
+     * @return True if the ID is used, false otherwise
+     */
+    public boolean isGroupIdUsed(PwNodeId id) {
+        return groupIndexes.containsKey(id);
+    }
+
+    public Collection<PwGroupInterface> getGroupIndexes() {
+        return groupIndexes.values();
+    }
+
+    public void setGroupIndexes(List<PwGroupInterface> groupList) {
+        this.groupIndexes.clear();
+        for (PwGroupInterface currentGroup : groupList) {
+            this.groupIndexes.put(currentGroup.getNodeId(), currentGroup);
+        }
+    }
+
+    public PwGroupInterface getGroupById(PwNodeId id) {
+        return this.groupIndexes.get(id);
+    }
+
+    public void addGroupIndex(PwGroupInterface group) {
+        this.groupIndexes.put(group.getNodeId(), group);
+    }
+
+    public int numberOfGroups() {
+        return groupIndexes.size();
+    }
+
+    public Collection<PwEntryInterface> getEntryIndexes() {
+        return entryIndexes.values();
+    }
+
+    public PwEntryInterface getEntryById(PwNodeId id) {
+        return this.entryIndexes.get(id);
+    }
+
+    public void addEntryIndex(PwEntryInterface entry) {
+        this.entryIndexes.put(entry.getNodeId(), entry);
+    }
+
+    public int numberOfEntries() {
+        return entryIndexes.size();
+    }
+
+    /*
+     * -------------------------------------
+     *          Node Manipulation
+     * -------------------------------------
+     */
 
     protected void addGroupTo(PwGroupInterface newGroup, PwGroupInterface parent) {
         // Add tree to parent tree
@@ -259,7 +309,7 @@ public abstract class PwDatabase {
 
         parent.addChildGroup(newGroup);
         newGroup.setParent(parent);
-        groups.put(newGroup.getNodeId(), newGroup);
+        addGroupIndex(newGroup);
 
         parent.touch(true, true);
     }
@@ -269,41 +319,7 @@ public abstract class PwDatabase {
         if (parent != null) {
             parent.removeChildGroup(remove);
         }
-        groups.remove(remove.getNodeId());
-    }
-
-    public abstract PwNodeId newGroupId();
-
-    public PwGroupInterface getGroupByGroupId(PwNodeId id) {
-        return this.groups.get(id);
-    }
-
-    /**
-     * Determine if an id number is already in use
-     *
-     * @param id
-     *            ID number to check for
-     * @return True if the ID is used, false otherwise
-     */
-    protected boolean isGroupIdUsed(PwNodeId id) {
-        List<PwGroupInterface> groups = getGroups();
-
-        for (int i = 0; i < groups.size(); i++) {
-            PwGroupInterface group =groups.get(i);
-            if (group.getNodeId().equals(id)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public abstract PwGroupInterface createGroup();
-
-    public abstract List<PwEntryInterface> getEntries();
-
-    public PwEntryInterface getEntryById(PwNodeId id) {
-        return this.entries.get(id);
+        groupIndexes.remove(remove.getNodeId());
     }
 
     protected void addEntryTo(PwEntryInterface newEntry, PwGroupInterface parent) {
@@ -313,7 +329,7 @@ public abstract class PwDatabase {
         }
         newEntry.setParent(parent);
 
-        entries.put(newEntry.getNodeId(), newEntry);
+        entryIndexes.put(newEntry.getNodeId(), newEntry);
     }
 
     protected void removeEntryFrom(PwEntryInterface remove, PwGroupInterface parent) {
@@ -321,27 +337,43 @@ public abstract class PwDatabase {
         if (parent != null) {
             parent.removeChildEntry(remove);
         }
-        entries.remove(remove.getNodeId());
+        entryIndexes.remove(remove.getNodeId());
+    }
+
+    protected void deleteGroup(PwGroupInterface group) {
+        PwGroupInterface parent = group.getParent();
+        removeGroupFrom(group, parent);
+        parent.touch(false, true);
+    }
+
+    protected void deleteEntry(PwEntryInterface entry) {
+        PwGroupInterface parent = entry.getParent();
+        removeEntryFrom(entry, parent);
+        parent.touch(false, true);
+    }
+    	/*
+	public void removeGroup(PwGroupV3 tree) {
+		tree.parent.childGroups.remove(tree);
+		groups.remove(tree);
+	}
+	*/
+
+    // TODO Delete group
+    public void undoDeleteGroup(PwGroupInterface group, PwGroupInterface origParent) {
+        addGroupTo(group, origParent);
+    }
+
+    public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface origParent) {
+        addEntryTo(entry, origParent);
     }
 
     public abstract boolean isBackup(PwGroupInterface group);
 
-    protected void populateGlobals(PwGroupInterface currentGroup) {
-
-        List<PwGroupInterface> childGroups = currentGroup.getChildGroups();
-        List<PwEntryInterface> childEntries = currentGroup.getChildEntries();
-
-        for (int i = 0; i < childEntries.size(); i++ ) {
-            PwEntryInterface cur = childEntries.get(i);
-            entries.put(cur.getNodeId(), cur);
-        }
-
-        for (int i = 0; i < childGroups.size(); i++ ) {
-            PwGroupInterface cur = childGroups.get(i);
-            groups.put(cur.getNodeId(), cur);
-            populateGlobals(cur);
-        }
-    }
+    /*
+     * -------------------------------------
+     *          RecycleBin
+     * -------------------------------------
+     */
 
     /**
      * Determine if RecycleBin is available or not for this version of database
@@ -395,27 +427,6 @@ public abstract class PwDatabase {
         throw new RuntimeException("Call not valid for .kdb databases.");
     }
 
-    protected void deleteGroup(PwGroupInterface group) {
-        PwGroupInterface parent = group.getParent(); // TODO inference
-        removeGroupFrom(group, parent);
-        parent.touch(false, true);
-    }
-
-    protected void deleteEntry(PwEntryInterface entry) {
-        PwGroupInterface parent = entry.getParent(); // TODO inference
-        removeEntryFrom(entry, parent);
-        parent.touch(false, true);
-    }
-
-    // TODO Delete group
-    public void undoDeleteGroup(PwGroupInterface group, PwGroupInterface origParent) {
-        addGroupTo(group, origParent);
-    }
-
-    public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface origParent) {
-        addEntryTo(entry, origParent);
-    }
-
     public PwGroupInterface getRecycleBin() {
         return null;
     }
@@ -423,11 +434,6 @@ public abstract class PwDatabase {
     public boolean isGroupSearchable(PwGroupInterface group, boolean omitBackup) {
         return group != null;
     }
-
-    /**
-     * Initialize a newly created database
-     */
-    public abstract void initNew(String dbPath);
 
     public abstract void clearCache();
 

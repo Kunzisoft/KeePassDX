@@ -32,13 +32,13 @@ import org.joda.time.LocalDate;
  */
 public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Cloneable {
 
-	protected PwNodeId<IdType> nodeId = initNodeId();
+	private PwNodeId<IdType> nodeId = initNodeId();
     protected PwGroupInterface parent = null;
     protected PwIcon icon = new PwIconStandard();
     protected PwDate creation = new PwDate();
-    protected PwDate lastMod = new PwDate();
-    protected PwDate lastAccess = new PwDate();
-    protected PwDate expireDate = PwDate.PW_NEVER_EXPIRE;
+    private PwDate lastMod = new PwDate();
+    private PwDate lastAccess = new PwDate();
+    private PwDate expireDate = PwDate.PW_NEVER_EXPIRE;
 
     abstract PwNodeId<IdType> initNodeId();
 
@@ -54,7 +54,7 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
         // TODO better technique ?
         try {
             PwNodeId pwGroupId = in.readParcelable(PwNodeId.class.getClassLoader());
-            parent = App.getDB().getPwDatabase().getGroupByGroupId(pwGroupId);
+            parent = App.getDB().getPwDatabase().getGroupById(pwGroupId);
         } catch (Exception e) {
             e.printStackTrace();
         }

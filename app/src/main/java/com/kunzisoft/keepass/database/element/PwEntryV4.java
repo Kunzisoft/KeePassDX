@@ -76,25 +76,6 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 		super(parent);
 	}
 
-    public void updateWith(PwEntryV4 source) {
-        super.assign(source);
-        customIcon = source.customIcon;
-        usageCount = source.usageCount;
-        parentGroupLastMod = source.parentGroupLastMod;
-        customData.clear();
-		customData.putAll(source.customData); // Add all custom elements in map
-        fields = source.fields;
-        binaries = source.binaries;
-        foregroundColor = source.foregroundColor;
-        backgroupColor = source.backgroupColor;
-        overrideURL = source.overrideURL;
-        autoType = source.autoType;
-        history = source.history;
-        url = source.url;
-        additional = source.additional;
-        tags = source.tags;
-    }
-
 	public PwEntryV4(Parcel parcel) {
 		super(parcel);
 		customIcon = parcel.readParcelable(PwIconCustom.class.getClassLoader());
@@ -143,6 +124,25 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 			return new PwEntryV4[size];
 		}
 	};
+
+	public void updateWith(PwEntryV4 source) {
+		super.assign(source);
+		customIcon = source.customIcon;
+		usageCount = source.usageCount;
+		parentGroupLastMod = source.parentGroupLastMod;
+		customData.clear();
+		customData.putAll(source.customData); // Add all custom elements in map
+		fields = source.fields;
+		binaries = source.binaries;
+		foregroundColor = source.foregroundColor;
+		backgroupColor = source.backgroupColor;
+		overrideURL = source.overrideURL;
+		autoType = source.autoType;
+		history = source.history;
+		url = source.url;
+		additional = source.additional;
+		tags = source.tags;
+	}
 
     @SuppressWarnings("unchecked")
     @Override

@@ -169,17 +169,6 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	public Type getType() {
 		return Type.GROUP;
 	}
-	
-	public void addGroup(PwGroupV4 subGroup) {
-		if ( subGroup == null ) throw new RuntimeException("subGroup");
-		childGroups.add(subGroup);
-        subGroup.parent = this;
-    }
-	
-	public void addEntry(PwEntryV4 pe) {
-		addChildEntry(pe);
-        pe.setParent(this);
-    }
 
 	@Override
 	public PwDate getLocationChanged() {
@@ -209,11 +198,6 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	@Override
 	public void setExpires(boolean exp) {
 		expires = exp;
-	}
-
-	@Override
-	public boolean allowAddEntryIfIsRoot() {
-		return true;
 	}
 
 	@Override
@@ -333,18 +317,13 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	}
 
 	@Override
-	public void setGroups(List<PwGroupInterface> groups) {
-		childGroups = groups;
-	}
-
-	@Override
-	public void setEntries(List<PwEntryInterface> entries) {
-		childEntries = entries;
-	}
-
-	@Override
 	public int getLevel() {
 		return -1; // TODO Level
+	}
+
+	@Override
+	public void setLevel(int level) {
+		// Do nothing here
 	}
 
 	@Override
@@ -358,16 +337,6 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	}
 
 	@Override
-	public PwGroupInterface getChildGroupAt(int number) {
-		return this.childGroups.get(number);
-	}
-
-	@Override
-	public PwEntryInterface getChildEntryAt(int number) {
-		return this.childEntries.get(number);
-	}
-
-	@Override
 	public void removeChildGroup(PwGroupInterface group) {
 		this.childGroups.remove(group);
 	}
@@ -378,22 +347,17 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	}
 
 	@Override
-	public int numbersOfChildGroups() {
-		return childGroups.size();
-	}
-
-	@Override
-	public int numbersOfChildEntries() {
-		return childEntries.size();
-	}
-
-	@Override
-	public List<PwNodeInterface> getDirectChildren() {
+	public List<PwNodeInterface> getChildrenWithoutMetastream() {
 		List<PwNodeInterface> children = new ArrayList<>(childGroups);
 		for(PwEntryInterface child : childEntries) {
 			if (!child.isMetaStream())
 				children.add(child);
 		}
 		return children;
+	}
+
+	@Override
+	public boolean allowAddEntryIfIsRoot() {
+		return true;
 	}
 }

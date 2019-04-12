@@ -156,7 +156,6 @@ public class PwEntryOutputV3 {
 		}
 		
 		return dataLen;
-
 	}
 	
 	private void writeDate(byte[] type, byte[] date) throws IOException {

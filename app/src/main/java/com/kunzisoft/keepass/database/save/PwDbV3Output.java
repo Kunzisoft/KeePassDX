@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.database.element.PwDatabaseV3;
 import com.kunzisoft.keepass.database.element.PwDbHeader;
 import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwGroupV3;
@@ -50,19 +51,20 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
-	private PwDatabaseV3 mPM;
+
+	private PwDatabaseV3 mDatabaseV3;
 	private byte[] headerHashBlock;
 	
 	public PwDbV3Output(PwDatabaseV3 pm, OutputStream os) {
 		super(os);
-		mPM = pm;
+		mDatabaseV3 = pm;
 	}
 
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
 			PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
-			mPM.makeFinalKey(h3.masterSeed, h3.transformSeed, mPM.getNumberKeyEncryptionRounds());
-			return mPM.getFinalKey();
+			mDatabaseV3.makeFinalKey(h3.masterSeed, h3.transformSeed, mDatabaseV3.getNumberKeyEncryptionRounds());
+			return mDatabaseV3.getFinalKey();
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed.", e);
 		}
@@ -70,7 +72,9 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 	
 	@Override
 	public void output() throws PwDbOutputException {
-		prepForOutput();
+		// Before we output the header, we should sort our list of groups
+        // and remove any orphaned nodes that are no longer part of the tree hierarchy
+		sortGroupsForOutput();
 		
 		PwDbHeader header = outputHeader(mOS);
 		
@@ -78,9 +82,9 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		
 		Cipher cipher;
 		try {
-			if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
+			if (mDatabaseV3.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
-			} else if (mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish){
+			} else if (mDatabaseV3.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish){
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
 			} else {
 				throw new Exception();
@@ -105,11 +109,6 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 			throw new PwDbOutputException("Failed to output final encrypted part.", e);
 		}
 	}
-	
-	private void prepForOutput() {
-		// Before we output the header, we should sort our list of groups and remove any orphaned nodes that are no longer part of the tree hierarchy
-		sortGroupsForOutput();
-	}
 
 	@Override
 	protected SecureRandom setIVs(PwDbHeaderV3 header) throws PwDbOutputException {
@@ -126,18 +125,18 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		header.signature2 = PwDbHeaderV3.DBSIG_2;
 		header.flags = PwDbHeaderV3.FLAG_SHA2;
 		
-		if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
+		if ( mDatabaseV3.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
 			header.flags |= PwDbHeaderV3.FLAG_RIJNDAEL;
-		} else if ( mPM.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
+		} else if ( mDatabaseV3.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 			header.flags |= PwDbHeaderV3.FLAG_TWOFISH;
 		} else {
 			throw new PwDbOutputException("Unsupported algorithm.");
 		}
 		
 		header.version = PwDbHeaderV3.DBVER_DW;
-		header.numGroups = mPM.numberOfGroups();
-		header.numEntries = mPM.numberOfEntries();
-		header.numKeyEncRounds = (int) mPM.getNumberKeyEncryptionRounds();
+		header.numGroups = mDatabaseV3.numberOfGroups();
+		header.numEntries = mDatabaseV3.numberOfEntries();
+		header.numKeyEncRounds = (int) mDatabaseV3.getNumberKeyEncryptionRounds();
 		
 		setIVs(header);
 		
@@ -216,10 +215,8 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		}
 		
 		// Groups
-		List<PwGroupInterface> groups = mPM.getGroups();
-		for ( int i = 0; i < groups.size(); i++ ) {
-			PwGroupV3 pg = (PwGroupV3) groups.get(i);
-			PwGroupOutputV3 pgo = new PwGroupOutputV3(pg, os);
+		for (PwGroupInterface group: mDatabaseV3.getGroupIndexes()) {
+			PwGroupOutputV3 pgo = new PwGroupOutputV3((PwGroupV3) group, os);
 			try {
 				pgo.output();
 			} catch (IOException e) {
@@ -228,9 +225,8 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		}
 		
 		// Entries
-		for (int i = 0; i < mPM.numberOfEntries(); i++ ) {
-			PwEntryV3 pe = (PwEntryV3) mPM.getEntryAt(i);
-			PwEntryOutputV3 peo = new PwEntryOutputV3(pe, os);
+		for (PwEntryInterface entry : mDatabaseV3.getEntryIndexes()) {
+			PwEntryOutputV3 peo = new PwEntryOutputV3((PwEntryV3) (entry), os);
 			try {
 				peo.output();
 			} catch (IOException e) {
@@ -241,14 +237,11 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 	
 	private void sortGroupsForOutput() {
 		List<PwGroupInterface> groupList = new ArrayList<>();
-		
 		// Rebuild list according to coalation sorting order removing any orphaned groups
-		List<PwGroupInterface> roots = mPM.getGrpRoots();
-		for ( int i = 0; i < roots.size(); i++ ) {
-			sortGroup(roots.get(i), groupList);
+		for (PwGroupInterface rootGroup : mDatabaseV3.getRootGroups()) {
+			sortGroup(rootGroup, groupList);
 		}
-		
-		mPM.setGroups(groupList);
+		mDatabaseV3.setGroupIndexes(groupList);
 	}
 	
 	private void sortGroup(PwGroupInterface group, List<PwGroupInterface> groupList) {
@@ -256,8 +249,8 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		groupList.add(group);
 		
 		// Recurse over children
-		for ( int i = 0; i < group.numbersOfChildGroups(); i++ ) {
-			sortGroup(group.getChildGroupAt(i), groupList);
+		for (PwGroupInterface childGroup : group.getChildGroups()) {
+			sortGroup(childGroup, groupList);
 		}
 	}
 	

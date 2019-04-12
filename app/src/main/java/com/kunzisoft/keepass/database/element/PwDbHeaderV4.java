@@ -164,7 +164,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		if (databaseV4.getRootGroup() == null ) {
 			return PwDbHeaderV4.FILE_VERSION_32_3;
 		}
-		PwGroupInterface.preOrderTraverseTree(databaseV4.getRootGroup(), groupHandler, entryHandler);
+		PwGroupInterface.doForEachChildAndForRoot(databaseV4.getRootGroup(), entryHandler, groupHandler);
 		if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
 			return PwDbHeaderV4.FILE_VERSION_32_4;
 		}

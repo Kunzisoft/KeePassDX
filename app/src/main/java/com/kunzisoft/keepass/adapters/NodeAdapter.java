@@ -148,7 +148,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         assignPreferences();
         // TODO verify sort
         try {
-            this.nodeSortedList.addAll(group.getDirectChildren());
+            this.nodeSortedList.addAll(group.getChildrenWithoutMetastream());
         } catch (Exception e) {
             Log.e(TAG, "Can't add node elements to the list", e);
             Toast.makeText(context, "Can't add node elements to the list : " + e.getMessage(), Toast.LENGTH_LONG).show();

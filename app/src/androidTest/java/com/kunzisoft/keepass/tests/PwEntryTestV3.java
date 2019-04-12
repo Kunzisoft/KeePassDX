@@ -37,7 +37,7 @@ public class PwEntryTestV3 extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		mPE = (PwEntryV3) TestData.GetTest1(getContext()).getEntryAt(0);
+		// mPE = (PwEntryV3) TestData.GetTest1(getContext()).getEntryAt(0);
 		
 	}
 	

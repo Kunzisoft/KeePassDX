@@ -54,7 +54,9 @@ import com.kunzisoft.keepass.database.element.PwDate;
 import com.kunzisoft.keepass.database.element.PwDbHeader;
 import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
+import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
+import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.element.PwGroupV3;
 import com.kunzisoft.keepass.database.element.PwNodeIdUUID;
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmException;
@@ -96,6 +98,8 @@ public class ImporterV3 extends Importer {
 
 	private static final String TAG = ImporterV3.class.getName();
 
+	private PwDatabaseV3 databaseToOpen;
+
 	public ImporterV3() {
 		super();
 	}
@@ -133,8 +137,6 @@ public class ImporterV3 extends Importer {
 	@Override
 	public PwDatabaseV3 openDatabase(InputStream inStream, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater)
 	throws IOException, InvalidDBException {
-
-		PwDatabaseV3 databaseToOpen;
 
 		// Load entire file, most of it's encrypted.
 		int fileSize = inStream.available();
@@ -238,8 +240,12 @@ public class ImporterV3 extends Importer {
 			throw new InvalidPasswordException();
 		}
 
-		// Import all groups
+        // New manual root because V3 contains multiple root groups (here available with getRootGroups())
+        PwGroupV3 newRoot = new PwGroupV3();
+        newRoot.setLevel(-1);
+        databaseToOpen.setRootGroup(newRoot);
 
+        // Import all groups
 		int pos = PwDbHeaderV3.BUF_SIZE;
 		PwGroupV3 newGrp = new PwGroupV3();
 		for( int i = 0; i < hdr.numGroups; ) {
@@ -249,10 +255,8 @@ public class ImporterV3 extends Importer {
 			pos += 4;
 
 			if( fieldType == 0xFFFF ) {
-
 				// End-Group record.  Save group and count it.
-				newGrp.populateBlankFields(databaseToOpen);
-				databaseToOpen.addGroup(newGrp);
+				databaseToOpen.addGroupIndex(newGrp);
 				newGrp = new PwGroupV3();
 				i++;
 			}
@@ -270,7 +274,7 @@ public class ImporterV3 extends Importer {
 
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
-				databaseToOpen.addEntry(newEnt);
+				databaseToOpen.addEntryIndex(newEnt);
 				newEnt = new PwEntryV3();
 				i++;
 			}
@@ -280,10 +284,50 @@ public class ImporterV3 extends Importer {
 			pos += 2 + 4 + fieldSize;
 		}
 
-		databaseToOpen.constructTree(null);
+		constructTreeFromIndex(databaseToOpen.getRootGroup());
 		
 		return databaseToOpen;
 	}
+
+	private void constructTreeFromIndex(PwGroupInterface currentGroup) {
+
+        assignGroupsChildren(currentGroup);
+        assignEntriesChildren(currentGroup);
+
+		// set parent in child entries (normally useless but to be sure or to update parent metadata)
+		for (PwEntryInterface childEntry : currentGroup.getChildEntries()) {
+			childEntry.setParent(currentGroup);
+		}
+		// recursively construct child groups
+		for (PwGroupInterface childGroup : currentGroup.getChildGroups()) {
+			childGroup.setParent(currentGroup);
+			constructTreeFromIndex(childGroup);
+		}
+	}
+
+    private void assignGroupsChildren(PwGroupInterface parent) {
+        int levelToCheck = parent.getLevel() + 1;
+        boolean startFromParentPosition = false;
+        for (PwGroupInterface groupToCheck: databaseToOpen.getGroupIndexes()) {
+            if (databaseToOpen.getRootGroup().getNodeId().equals(parent.getNodeId())
+                    || groupToCheck.getNodeId().equals(parent.getNodeId())) {
+                startFromParentPosition = true;
+            }
+            if (startFromParentPosition) {
+                if (groupToCheck.getLevel() < levelToCheck)
+                    break;
+                else if (groupToCheck.getLevel() == levelToCheck)
+                    parent.addChildGroup(groupToCheck);
+            }
+        }
+    }
+
+    private void assignEntriesChildren(PwGroupInterface parent) {
+        for (PwEntryInterface entry : databaseToOpen.getEntryIndexes()) {
+            if (entry.getParent().getNodeId().equals(parent.getNodeId()))
+                parent.addChildEntry(entry);
+        }
+    }
 
 	/**
 	 * Parse and save one record from binary file.

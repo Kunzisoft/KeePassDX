@@ -183,8 +183,8 @@ public class EntryEditActivity extends LockingHideActivity
 
 		PwDatabase pm = database.getPwDatabase();
 		if (keyEntry == null) {
-            PwNodeId parentId = intent.getParcelableExtra(KEY_PARENT);
-			PwGroupInterface parent = pm.getGroupByGroupId(parentId);
+		    PwNodeId parentId = intent.getParcelableExtra(KEY_PARENT);
+			PwGroupInterface parent = pm.getGroupById(parentId);
 			mEntry = database.createEntry(parent);
 			mIsNew = true;
 			// Add the default icon
@@ -194,6 +194,12 @@ public class EntryEditActivity extends LockingHideActivity
 			mIsNew = false;
 			fillData();
 		}
+
+		// Close the activity if entry to edit can't be retrieve
+		if (mEntry == null) {
+            finish();
+            return;
+        }
 
         // Assign title
         setTitle((mIsNew) ? getString(R.string.add_entry) : getString(R.string.edit_entry));
@@ -215,7 +221,6 @@ public class EntryEditActivity extends LockingHideActivity
 		// Save button
 		saveView = findViewById(R.id.entry_edit_save);
         saveView.setOnClickListener(v -> saveEntry());
-
 
 		if (mEntry.allowExtraFields()) {
             addNewFieldView = findViewById(R.id.entry_edit_add_new_field);
@@ -465,7 +470,6 @@ public class EntryEditActivity extends LockingHideActivity
             }
         }
     }
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

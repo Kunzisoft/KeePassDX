@@ -193,7 +193,7 @@ public class SprEngineV4 {
 
 		List<String> terms = StrUtil.splitSearchTerms(sp.searchString);
 		if (terms.size() <= 1 || sp.regularExpression) {
-			PwGroupInterface.preOrderTraverseTree(root, null, new EntrySearchHandlerV4(sp, listStorage));
+			PwGroupInterface.doForEachChild(root, new EntrySearchHandlerV4(sp, listStorage), null);
 			return;
 		}
 
@@ -214,7 +214,7 @@ public class SprEngineV4 {
 				negate = sp.searchString.length() > 0;
 			}
 
-			if (!PwGroupInterface.preOrderTraverseTree(root, null, new EntrySearchHandlerV4(sp, pgNew))) {
+			if (!PwGroupInterface.doForEachChild(root, new EntrySearchHandlerV4(sp, pgNew), null)) {
 				pg = null;
 				break;
 			}
