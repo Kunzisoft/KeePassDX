@@ -46,10 +46,6 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
 		super();
     }
 
-	public PwGroupV3(PwGroupV3 parent) {
-		super(parent);
-	}
-
     public PwGroupV3(Parcel in) {
         super(in);
 		title = in.readString();

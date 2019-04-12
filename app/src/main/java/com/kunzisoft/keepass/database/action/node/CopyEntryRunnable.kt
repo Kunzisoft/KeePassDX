@@ -38,6 +38,7 @@ class CopyEntryRunnable constructor(
 
     override fun nodeAction() {
         // Update entry with new values
+        mNewParent.touch(false, true)
         mEntryCopied = database.copyEntry(mEntryToCopy, mNewParent)
 
         mEntryCopied?.apply {

@@ -74,9 +74,7 @@ public class Database {
 
     public boolean loaded = false;
 
-    public Database() {
-
-    }
+    public Database() {}
 
     public Database(String databasePath) {
         // TODO Test with kdb extension
@@ -134,6 +132,10 @@ public class Database {
     public IconDrawableFactory getDrawFactory() {
         return drawFactory;
     }
+
+    public PwIconFactory getIconFactory() {
+		return pwDatabase.getIconFactory();
+	}
 
     public void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status) throws IOException, FileNotFoundException, InvalidDBException {
         loadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
@@ -261,7 +263,7 @@ public class Database {
 
     public PwEntryInterface getEntryFrom(Cursor cursor) {
         PwIconFactory iconFactory = getPwDatabase().getIconFactory();
-        PwEntryInterface pwEntry = createEntry(null);
+        PwEntryInterface pwEntry = createEntry();
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
@@ -269,9 +271,9 @@ public class Database {
                     break;
                 case V4:
                     // TODO invert field reference manager
-                    pwEntry.startToManageFieldReferences(getPwDatabase());
+					startManageEntry(pwEntry);
                     ((EntryCursorV4) cursor).populateEntry((PwEntryV4) pwEntry, iconFactory);
-                    pwEntry.stopToManageFieldReferences();
+                    stopManageEntry(pwEntry);
                     break;
             }
         } catch (Exception e) {
@@ -554,13 +556,13 @@ public class Database {
         }
     }
 
-    public PwEntryInterface createEntry(@Nullable PwGroupInterface parent) {
+    public PwEntryInterface createEntry() {
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
-                    return new PwEntryV3((PwGroupV3) parent);
+                    return new PwEntryV3();
                 case V4:
-                    return new PwEntryV4((PwGroupV4) parent);
+                    return new PwEntryV4();
             }
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be created", e);
@@ -568,14 +570,14 @@ public class Database {
         return null;
     }
 
-    public PwGroupInterface createGroup(PwGroupInterface parent) {
+    public PwGroupInterface createGroup() {
         PwGroupInterface newPwGroup = null;
         try {
             switch (getPwDatabase().getVersion()) {
                 case V3:
-                    newPwGroup = new PwGroupV3((PwGroupV3) parent);
+                    newPwGroup = new PwGroupV3();
                 case V4:
-                    newPwGroup = new PwGroupV4((PwGroupV4) parent);
+                    newPwGroup = new PwGroupV4();
             }
             newPwGroup.setNodeId(pwDatabase.newGroupId());
         } catch (Exception e) {
@@ -583,6 +585,14 @@ public class Database {
         }
         return newPwGroup;
     }
+
+	public PwEntryInterface getEntryById(PwNodeId id) {
+		return pwDatabase.entryIndexes.get(id);
+	}
+
+	public PwGroupInterface getGroupById(PwNodeId id) {
+		return pwDatabase.groupIndexes.get(id);
+	}
 
     public void addEntryTo(PwEntryInterface entry, PwGroupInterface parent) {
         try {
@@ -718,7 +728,8 @@ public class Database {
 
     public void deleteEntry(PwEntryInterface entry) {
         try {
-            getPwDatabase().deleteEntry(entry);
+            PwGroupInterface parent = entry.getParent();
+            removeEntryFrom(entry, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of PwEntry can't be deleted", e);
         }
@@ -730,14 +741,15 @@ public class Database {
                     new EntryHandler<PwEntryInterface>() {
                         @Override
                         public boolean operate(PwEntryInterface entry) {
-                            getPwDatabase().deleteEntry(entry);
+                            deleteEntry(entry);
                             return true;
                         }
                     },
                     new GroupHandler<PwGroupInterface>() {
                         @Override
                         public boolean operate(PwGroupInterface group) {
-                            getPwDatabase().deleteGroup(group);
+                            PwGroupInterface parent = group.getParent();
+                            removeGroupFrom(group, parent);
                             return true;
                         }
                     });
@@ -772,7 +784,7 @@ public class Database {
 
     public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface parent) {
         try {
-            getPwDatabase().undoDeleteEntry(entry, parent);
+            getPwDatabase().undoDeleteEntryFrom(entry, parent);
         } catch (Exception e) {
             Log.e(TAG, "This version of database can't undo the deletion of this version of PwEntry", e);
         }
@@ -785,4 +797,28 @@ public class Database {
             Log.e(TAG, "This version of database can't undo the deletion of this version of PwGroup", e);
         }
     }
+
+	public void startManageEntry(PwEntryInterface entry) {
+		switch (getPwDatabase().getVersion()) {
+			case V4:
+				((PwEntryV4) entry).startToManageFieldReferences((PwDatabaseV4) getPwDatabase());
+				break;
+		}
+	}
+
+	public void stopManageEntry(PwEntryInterface entry) {
+		switch (getPwDatabase().getVersion()) {
+			case V4:
+				((PwEntryV4) entry).stopToManageFieldReferences();
+				break;
+		}
+	}
+
+	public void createBackupOf(PwEntryInterface entry) {
+		switch (getPwDatabase().getVersion()) {
+			case V4:
+				((PwEntryV4) entry).createBackup((PwDatabaseV4) getPwDatabase());
+				break;
+		}
+	}
 }

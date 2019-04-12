@@ -69,15 +69,7 @@ public interface PwEntryInterface extends PwNodeInterface, SmallTimeInterface {
 	 */
 	boolean isMetaStream();
 
-	/**
-	 * Create a backup of entry
-	 */
-	void createBackup(PwDatabase db);
-
 	void touchLocation();
-
-	void startToManageFieldReferences(PwDatabase db);
-	void stopToManageFieldReferences();
 
 	PwEntryInterface duplicate();
 
@@ -91,7 +83,7 @@ public interface PwEntryInterface extends PwNodeInterface, SmallTimeInterface {
 	/**
 	 * {@inheritDoc}
 	 * Get the display title from an entry, <br />
-	 * {@link #startToManageFieldReferences(PwDatabase)} and {@link #stopToManageFieldReferences()} must be called
+	 * {@link #startManageEntry()} and {@link #stopManageEntry()} must be called
 	 * before and after {@link #getVisualTitle(PwEntryInterface entry)}
 	 */
 	static String getVisualTitle(boolean isTan, String title, String userName, String url, String id) {

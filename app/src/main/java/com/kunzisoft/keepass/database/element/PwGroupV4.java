@@ -40,7 +40,7 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	private String title = "";
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
-    private PwDate parentGroupLastMod = new PwDate();
+    private PwDate locationChangeDate = new PwDate();
     private Map<String, String> customData = new HashMap<>();
     private boolean expires = false;
     private String notes = "";
@@ -58,11 +58,6 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	public PwGroupV4() {
 	    super();
     }
-
-    public PwGroupV4(PwGroupV4 parent) {
-        super(parent);
-        parentGroupLastMod = new PwDate();
-    }
 	
 	public PwGroupV4(String title, PwIconStandard icon) {
 		super();
@@ -75,7 +70,7 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 		title = in.readString();
         customIcon = in.readParcelable(PwIconCustom.class.getClassLoader());
         usageCount = in.readLong();
-        parentGroupLastMod = in.readParcelable(PwDate.class.getClassLoader());
+        locationChangeDate = in.readParcelable(PwDate.class.getClassLoader());
         // TODO customData = MemUtil.readStringParcelableMap(in);
         expires = in.readByte() != 0;
         notes = in.readString();
@@ -94,7 +89,7 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 		dest.writeString(title);
         dest.writeParcelable(customIcon, flags);
         dest.writeLong(usageCount);
-        dest.writeParcelable(parentGroupLastMod, flags);
+        dest.writeParcelable(locationChangeDate, flags);
         // TODO MemUtil.writeStringParcelableMap(dest, customData);
         dest.writeByte((byte) (expires ? 1 : 0));
         dest.writeString(notes);
@@ -122,7 +117,7 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 		title = source.title;
         customIcon = source.customIcon;
         usageCount = source.usageCount;
-        parentGroupLastMod = source.parentGroupLastMod;
+        locationChangeDate = source.locationChangeDate;
         customData = source.customData;
 
         expires = source.expires;
@@ -145,7 +140,7 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 		// name is clone automatically (IMMUTABLE)
         newGroup.customIcon = new PwIconCustom(this.customIcon);
         // newGroup.usageCount stay the same in copy
-        newGroup.parentGroupLastMod = this.parentGroupLastMod.clone();
+        newGroup.locationChangeDate = this.locationChangeDate.clone();
         // TODO customData make copy from hashmap newGroup.customData = (HashMap<String, String>) this.customData.clone();
 
         // newGroup.expires stay the same in copy
@@ -171,13 +166,19 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	}
 
 	@Override
+	public void setParent(PwGroupInterface parent) {
+		super.setParent(parent);
+		locationChangeDate = new PwDate();
+	}
+
+	@Override
 	public PwDate getLocationChanged() {
-		return parentGroupLastMod;
+		return locationChangeDate;
 	}
 
 	@Override
 	public void setLocationChanged(PwDate date) {
-		parentGroupLastMod = date;
+		locationChangeDate = date;
 	}
 
     @Override

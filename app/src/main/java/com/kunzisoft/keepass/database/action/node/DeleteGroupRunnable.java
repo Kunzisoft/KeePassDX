@@ -46,6 +46,7 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 	@Override
 	public void nodeAction() {
 		mParent = mGroupToDelete.getParent();
+		mParent.touch(false, true);
 
 		// Remove Group from parent
 		mRecycle = getDatabase().canRecycle(mGroupToDelete);

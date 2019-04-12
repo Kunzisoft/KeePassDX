@@ -71,10 +71,6 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 	public PwEntryV4() {
 	    super();
 	}
-	
-	public PwEntryV4(PwGroupV4 parent) {
-		super(parent);
-	}
 
 	public PwEntryV4(Parcel parcel) {
 		super(parcel);
@@ -181,13 +177,11 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 		return Type.ENTRY;
 	}
 
-	@Override
-	public void startToManageFieldReferences(PwDatabase db) {
-        this.mDatabase = (PwDatabaseV4) db;
+	public void startToManageFieldReferences(PwDatabaseV4 db) {
+        this.mDatabase = db;
         this.mDecodeRef = true;
 	}
 
-	@Override
 	public void stopToManageFieldReferences() {
         this.mDatabase = null;
         this.mDecodeRef = false;
@@ -463,15 +457,13 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 		return size;
 	}
 
-	@Override
-	public void createBackup(PwDatabase db) {
+	public void createBackup(PwDatabaseV4 db) {
         PwEntryV4 copy = clone();
         copy.history = new ArrayList<>();
         history.add(copy);
 
         if (db != null)
-	        if (db instanceof PwDatabaseV4)
-                maintainBackups((PwDatabaseV4) db);
+        	maintainBackups(db);
 	}
 
 	private boolean maintainBackups(PwDatabaseV4 db) {

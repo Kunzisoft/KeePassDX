@@ -44,11 +44,6 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
 
     protected PwNode() {}
 
-    protected PwNode(PwGroupInterface parent) {
-		this();
-        this.parent = parent;
-    }
-
     protected PwNode(Parcel in) {
 		nodeId = in.readParcelable(PwNodeId.class.getClassLoader());
         // TODO better technique ?

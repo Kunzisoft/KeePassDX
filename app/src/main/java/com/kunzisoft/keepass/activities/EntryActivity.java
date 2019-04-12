@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.security.ProtectedString;
@@ -126,6 +125,9 @@ public class EntryActivity extends LockingHideActivity {
             return;
         }
 
+		// Update last access time.
+		mEntry.touch(false, false);
+
         // Retrieve the textColor to tint the icon
         int[] attrs = {R.attr.textColorInverse};
         TypedArray ta = getTheme().obtainStyledAttributes(attrs);
@@ -133,9 +135,6 @@ public class EntryActivity extends LockingHideActivity {
 		
 		// Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
 		invalidateOptionsMenu();
-		
-		// Update last access time.
-		mEntry.touch(false, false);
 
         // Get views
         titleIconView = findViewById(R.id.entry_icon);
@@ -156,8 +155,10 @@ public class EntryActivity extends LockingHideActivity {
         fillData();
         invalidateOptionsMenu();
 
+		Database database = App.getDB();
         // Start to manage field reference to copy a value from ref
-        mEntry.startToManageFieldReferences(App.getDB().getPwDatabase());
+		if (database != null)
+			database.startManageEntry(mEntry);
 
         boolean containsUsernameToCopy =
                 mEntry.getUsername().length() > 0;
@@ -232,7 +233,9 @@ public class EntryActivity extends LockingHideActivity {
 
                 startService(intent);
             }
-            mEntry.stopToManageFieldReferences();
+
+			if (database != null)
+				database.stopManageEntry(mEntry);
         }
         firstLaunchOfActivity = false;
     }
@@ -311,13 +314,12 @@ public class EntryActivity extends LockingHideActivity {
     }
 
 	protected void fillData() {
-		Database db = App.getDB();
-		PwDatabase pm = db.getPwDatabase();
-
-		mEntry.startToManageFieldReferences(pm);
-
-        // Assign title icon
-        db.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
+		Database database = App.getDB();
+		if (database != null) {
+			database.startManageEntry(mEntry);
+			// Assign title icon
+			database.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
+		}
 
 		// Assign title text
         titleView.setText(PwEntryInterface.getVisualTitle(mEntry));
@@ -395,7 +397,8 @@ public class EntryActivity extends LockingHideActivity {
             entryContentsView.assignExpiresDate(getString(R.string.never));
 		}
 
-        mEntry.stopToManageFieldReferences();
+		if (database != null)
+			database.stopManageEntry(mEntry);
 	}
 
 	@Override

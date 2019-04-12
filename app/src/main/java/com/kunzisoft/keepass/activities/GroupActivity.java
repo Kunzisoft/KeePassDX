@@ -255,6 +255,9 @@ public class GroupActivity extends LockingActivity
 			return;
 		}
 
+		// Update last access time.
+		mCurrentGroup.touch(false, false);
+
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -976,14 +979,17 @@ public class GroupActivity extends LockingActivity
             case CREATION:
                 // If group creation
                 // Build the group
-                PwGroupInterface newGroup = database.createGroup(mCurrentGroup);
+                PwGroupInterface newGroup = database.createGroup();
                 newGroup.setTitle(name);
                 newGroup.setIcon(icon);
+                // Not really needed here because added in runnable but safe
+                newGroup.setParent(mCurrentGroup);
 
                 // If group created save it in the database
                 new Thread(new AddGroupRunnable(this,
 						App.getDB(),
 						newGroup,
+                        mCurrentGroup,
 						new AfterAddNodeRunnable(),
 						!getReadOnly())
 				).start();

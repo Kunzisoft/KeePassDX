@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database.element;
 
+import android.support.annotation.Nullable;
+
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException;
 import com.kunzisoft.keepass.utils.MemUtil;
@@ -275,6 +277,10 @@ public abstract class PwDatabase {
         this.groupIndexes.put(group.getNodeId(), group);
     }
 
+    public void removeGroupIndex(PwGroupInterface group) {
+		this.groupIndexes.remove(group.getNodeId());
+	}
+
     public int numberOfGroups() {
         return groupIndexes.size();
     }
@@ -291,6 +297,10 @@ public abstract class PwDatabase {
         this.entryIndexes.put(entry.getNodeId(), entry);
     }
 
+    public void removeEntryIndex(PwEntryInterface entry) {
+		this.entryIndexes.remove(entry.getNodeId());
+	}
+
     public int numberOfEntries() {
         return entryIndexes.size();
     }
@@ -301,69 +311,44 @@ public abstract class PwDatabase {
      * -------------------------------------
      */
 
-    protected void addGroupTo(PwGroupInterface newGroup, PwGroupInterface parent) {
-        // Add tree to parent tree
-        if ( parent == null ) {
-            parent = rootGroup;
-        }
-
-        parent.addChildGroup(newGroup);
+    protected void addGroupTo(PwGroupInterface newGroup, @Nullable PwGroupInterface parent) {
+		// Add tree to parent tree
+		if (parent != null)
+        	parent.addChildGroup(newGroup);
         newGroup.setParent(parent);
         addGroupIndex(newGroup);
-
-        parent.touch(true, true);
     }
 
-    protected void removeGroupFrom(PwGroupInterface remove, PwGroupInterface parent) {
+    protected void removeGroupFrom(PwGroupInterface groupToRemove, PwGroupInterface parent) {
         // Remove tree from parent tree
         if (parent != null) {
-            parent.removeChildGroup(remove);
+            parent.removeChildGroup(groupToRemove);
         }
-        groupIndexes.remove(remove.getNodeId());
+		removeGroupIndex(groupToRemove);
     }
 
-    protected void addEntryTo(PwEntryInterface newEntry, PwGroupInterface parent) {
+    protected void addEntryTo(PwEntryInterface newEntry, @Nullable PwGroupInterface parent) {
         // Add entry to parent
-        if (parent != null) {
-            parent.addChildEntry(newEntry);
-        }
+		if (parent != null)
+			parent.addChildEntry(newEntry);
         newEntry.setParent(parent);
-
-        entryIndexes.put(newEntry.getNodeId(), newEntry);
+        addEntryIndex(newEntry);
     }
 
-    protected void removeEntryFrom(PwEntryInterface remove, PwGroupInterface parent) {
+    protected void removeEntryFrom(PwEntryInterface entryToRemove, PwGroupInterface parent) {
         // Remove entry for parent
         if (parent != null) {
-            parent.removeChildEntry(remove);
+            parent.removeChildEntry(entryToRemove);
         }
-        entryIndexes.remove(remove.getNodeId());
+        removeEntryIndex(entryToRemove);
     }
-
-    protected void deleteGroup(PwGroupInterface group) {
-        PwGroupInterface parent = group.getParent();
-        removeGroupFrom(group, parent);
-        parent.touch(false, true);
-    }
-
-    protected void deleteEntry(PwEntryInterface entry) {
-        PwGroupInterface parent = entry.getParent();
-        removeEntryFrom(entry, parent);
-        parent.touch(false, true);
-    }
-    	/*
-	public void removeGroup(PwGroupV3 tree) {
-		tree.parent.childGroups.remove(tree);
-		groups.remove(tree);
-	}
-	*/
 
     // TODO Delete group
     public void undoDeleteGroup(PwGroupInterface group, PwGroupInterface origParent) {
         addGroupTo(group, origParent);
     }
 
-    public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface origParent) {
+    public void undoDeleteEntryFrom(PwEntryInterface entry, PwGroupInterface origParent) {
         addEntryTo(entry, origParent);
     }
 

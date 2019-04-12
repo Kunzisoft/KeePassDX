@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -22,17 +22,21 @@ package com.kunzisoft.keepass.database.action.node
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.PwEntryInterface
+import com.kunzisoft.keepass.database.element.PwGroupInterface
 
 class AddEntryRunnable constructor(
         context: FragmentActivity,
         database: Database,
         private val mNewEntry: PwEntryInterface,
+        private val mParent: PwGroupInterface,
         finishRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     override fun nodeAction() {
-        database.addEntryTo(mNewEntry, mNewEntry.parent)
+        mNewEntry.touch(true, true)
+        mParent.touch(true, true)
+        database.addEntryTo(mNewEntry, mParent)
     }
 
     override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {

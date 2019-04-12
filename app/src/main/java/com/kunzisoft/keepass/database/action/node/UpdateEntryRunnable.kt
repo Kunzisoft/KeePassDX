@@ -37,8 +37,8 @@ class UpdateEntryRunnable constructor(
 
     override fun nodeAction() {
         // Update entry with new values
-        database.updateEntry(mOldEntry, mNewEntry)
         mOldEntry.touch(true, true)
+        database.updateEntry(mOldEntry, mNewEntry)
     }
 
     override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {

@@ -27,17 +27,20 @@ class AddGroupRunnable constructor(
         context: FragmentActivity,
         database: Database,
         private val mNewGroup: PwGroupInterface,
+        private val mParent: PwGroupInterface,
         afterAddNodeRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
 
     override fun nodeAction() {
-        database.addGroupTo(mNewGroup, mNewGroup.parent)
+        mNewGroup.touch(true, true)
+        mParent.touch(true, true)
+        database.addGroupTo(mNewGroup, mParent)
     }
 
     override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
         if (!isSuccess) {
-            database.removeGroupFrom(mNewGroup, mNewGroup.parent)
+            database.removeGroupFrom(mNewGroup, mParent)
         }
         return ActionNodeValues(isSuccess, message, null, mNewGroup)
     }

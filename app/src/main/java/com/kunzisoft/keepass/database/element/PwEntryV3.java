@@ -97,10 +97,6 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
 	public PwEntryV3() {
 		super();
 	}
-	
-	public PwEntryV3(PwGroupV3 parent) {
-	    super(parent);
-	}
 
     public PwEntryV3(Parcel parcel) {
         super(parcel);
@@ -319,9 +315,6 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
     }
 
 	@Override
-	public void createBackup(PwDatabase db) {}
-
-	@Override
 	public boolean isSearchingEnabled() {
 		return false;
 	}
@@ -330,12 +323,6 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
     public boolean containsCustomData() {
         return false;
     }
-
-    @Override
-	public void startToManageFieldReferences(PwDatabase db) {}
-
-	@Override
-	public void stopToManageFieldReferences() {}
 
 	@Override
 	public void touchLocation() {}

@@ -250,7 +250,9 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         holder.subText.setVisibility(View.GONE);
         if (subNode.getType().equals(PwNodeInterface.Type.ENTRY)) {
             PwEntryInterface entry = (PwEntryInterface) subNode;
-            entry.startToManageFieldReferences(database.getPwDatabase());
+
+			if (database != null)
+            	database.startManageEntry(entry);
 
             holder.text.setText(PwEntryInterface.getVisualTitle(entry));
 
@@ -260,7 +262,8 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
                 holder.subText.setText(username);
             }
 
-            entry.stopToManageFieldReferences();
+			if (database != null)
+            	database.stopManageEntry(entry);
         }
 
         // Assign image and text size

@@ -47,13 +47,12 @@ import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDate;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwIcon;
-import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.element.PwIcon;
 import com.kunzisoft.keepass.database.element.PwIconStandard;
+import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -87,6 +86,7 @@ public class EntryEditActivity extends LockingHideActivity
 	private Database database;
 
 	protected PwEntryInterface mEntry;
+	protected PwGroupInterface mParent;
 	protected PwEntryInterface mCallbackNewEntry;
 	protected boolean mIsNew;
 	protected PwIconStandard mSelectedIconStandard;
@@ -179,18 +179,17 @@ public class EntryEditActivity extends LockingHideActivity
         TypedArray ta = getTheme().obtainStyledAttributes(attrs);
         iconColor = ta.getColor(0, Color.WHITE);
 
-        mSelectedIconStandard = database.getPwDatabase().getIconFactory().getUnknownIcon();
+        mSelectedIconStandard = database.getIconFactory().getUnknownIcon();
 
-		PwDatabase pm = database.getPwDatabase();
 		if (keyEntry == null) {
 		    PwNodeId parentId = intent.getParcelableExtra(KEY_PARENT);
-			PwGroupInterface parent = pm.getGroupById(parentId);
-			mEntry = database.createEntry(parent);
+			mParent = database.getGroupById(parentId);
+			mEntry = database.createEntry();
 			mIsNew = true;
 			// Add the default icon
             database.getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, iconColor);
 		} else {
-			mEntry = pm.getEntryById(keyEntry);
+			mEntry = database.getEntryById(keyEntry);
 			mIsNew = false;
 			fillData();
 		}
@@ -277,6 +276,7 @@ public class EntryEditActivity extends LockingHideActivity
             task = new AddEntryRunnable(EntryEditActivity.this,
 					database,
 					mCallbackNewEntry,
+					mParent,
 					afterActionNodeFinishRunnable,
 					!getReadOnly());
         } else {
@@ -416,13 +416,14 @@ public class EntryEditActivity extends LockingHideActivity
 	}
 	
 	protected PwEntryInterface populateNewEntry() {
-        PwDatabase db = App.getDB().getPwDatabase();
+		Database database = App.getDB();
 
 		PwEntryInterface newEntry = mEntry.duplicate();
 
-        newEntry.startToManageFieldReferences(db);
-
-        newEntry.createBackup(db);
+		if (database != null) {
+			database.startManageEntry(newEntry);
+			database.createBackupOf(newEntry);
+		}
 
         newEntry.setLastAccessTime(new PwDate());
         newEntry.setLastModificationTime(new PwDate());
@@ -448,7 +449,8 @@ public class EntryEditActivity extends LockingHideActivity
             }
         }
 
-        newEntry.stopToManageFieldReferences();
+		if (database != null)
+			database.stopManageEntry(newEntry);
 
         return newEntry;
 	}
@@ -462,7 +464,7 @@ public class EntryEditActivity extends LockingHideActivity
             return mSelectedIconStandard;
         else {
             if (mIsNew) {
-                return database.getPwDatabase().getIconFactory().getKeyIcon();
+                return database.getIconFactory().getKeyIcon();
             }
             else {
                 // Keep previous icon, if no new one was selected
@@ -512,7 +514,7 @@ public class EntryEditActivity extends LockingHideActivity
         assignIconView();
 
 		// Don't start the field reference manager, we want to see the raw ref
-        mEntry.stopToManageFieldReferences();
+        App.getDB().stopManageEntry(mEntry);
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());

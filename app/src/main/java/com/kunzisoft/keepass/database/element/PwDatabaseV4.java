@@ -116,15 +116,15 @@ public class PwDatabaseV4 extends PwDatabase {
                 new EntryHandler<PwEntryInterface>() {
                     @Override
                     public boolean operate(PwEntryInterface entry) {
-                        entryIndexes.put(entry.getNodeId(), entry);
-                        return false;
+                        addEntryIndex(entry);
+                        return true;
                     }
                 },
                 new GroupHandler<PwGroupInterface>() {
                     @Override
                     public boolean operate(PwGroupInterface group) {
-                        groupIndexes.put(group.getNodeId(), group);
-                        return false;
+                    	addGroupIndex(group);
+                        return true;
                     }
                 });
     }
@@ -601,12 +601,10 @@ public class PwDatabaseV4 extends PwDatabase {
 
 		PwGroupInterface parent = group.getParent();
 		removeGroupFrom(group, parent);
-		parent.touch(false, true);
 
 		PwGroupInterface recycleBin = getRecycleBin();
 		addGroupTo(group, recycleBin);
 
-        group.touch(false, true);
         // TODO ? group.touchLocation();
 	}
 
@@ -616,12 +614,10 @@ public class PwDatabaseV4 extends PwDatabase {
 
 		PwGroupInterface parent = entry.getParent();
 		removeEntryFrom(entry, parent);
-		parent.touch(false, true);
 
 		PwGroupInterface recycleBin = getRecycleBin();
 		addEntryTo(entry, recycleBin);
-		
-		entry.touch(false, true);
+
 		entry.touchLocation();
 	}
 
@@ -651,15 +647,15 @@ public class PwDatabaseV4 extends PwDatabase {
         this.deletedObjects.add(deletedObject);
     }
 
-    @Override
-	public void deleteEntry(PwEntryInterface entry) {
-		super.deleteEntry(entry);
-		deletedObjects.add(new PwDeletedObject((UUID) entry.getNodeId().getId()));
+	@Override
+	protected void removeEntryFrom(PwEntryInterface entryToRemove, PwGroupInterface parent) {
+		super.removeEntryFrom(entryToRemove, parent);
+		deletedObjects.add(new PwDeletedObject((UUID) entryToRemove.getNodeId().getId()));
 	}
 
 	@Override
-	public void undoDeleteEntry(PwEntryInterface entry, PwGroupInterface origParent) {
-		super.undoDeleteEntry(entry, origParent);
+	public void undoDeleteEntryFrom(PwEntryInterface entry, PwGroupInterface origParent) {
+		super.undoDeleteEntryFrom(entry, origParent);
         deletedObjects.remove(new PwDeletedObject((UUID) entry.getNodeId().getId()));
 	}
 
