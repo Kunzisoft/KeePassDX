@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.tasks
 
+import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 
 /**
@@ -71,14 +73,19 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
     abstract fun onFinishRun(isSuccess: Boolean, message: String?)
 
     /**
-     * ONLY to use in UIThread, typically in an Activity, Fragment or a Service
-     * @param ctx Context to show the message
+     * Display a message as a Toast only if [context] is an Activity
+     * @param context Context to show the message
      */
-    protected fun displayMessage(ctx: Context) {
-        message?.let {
-            if (it.isNotEmpty()) {
-                Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+    protected fun displayMessage(context: Context) {
+        Log.i(ActionRunnable::class.java.name, message)
+        try {
+            (context as Activity).runOnUiThread {
+                message?.let {
+                    if (it.isNotEmpty()) {
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
-        }
+        } catch (exception: ClassCastException) {}
     }
 }
