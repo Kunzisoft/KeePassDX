@@ -88,11 +88,13 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     }
 
     private fun updateView(textView: TextView?, @StringRes resId: Int) {
-        if (resId == UNDEFINED) {
-            textView?.visibility = View.GONE
-        } else {
-            textView?.setText(resId)
-            textView?.visibility = View.VISIBLE
+        activity?.runOnUiThread {
+            if (resId == UNDEFINED) {
+                textView?.visibility = View.GONE
+            } else {
+                textView?.setText(resId)
+                textView?.visibility = View.VISIBLE
+            }
         }
     }
 
