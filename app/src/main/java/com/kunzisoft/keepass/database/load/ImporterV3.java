@@ -46,47 +46,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.kunzisoft.keepass.database.load;
 
 import android.util.Log;
-
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
-import com.kunzisoft.keepass.database.element.PwDatabaseV3;
-import com.kunzisoft.keepass.database.element.PwDate;
-import com.kunzisoft.keepass.database.element.PwDbHeader;
-import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwEntryV3;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwGroupV3;
-import com.kunzisoft.keepass.database.element.PwNodeIdUUID;
-import com.kunzisoft.keepass.database.exception.InvalidAlgorithmException;
-import com.kunzisoft.keepass.database.exception.InvalidDBException;
-import com.kunzisoft.keepass.database.exception.InvalidDBSignatureException;
-import com.kunzisoft.keepass.database.exception.InvalidDBVersionException;
-import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
-import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
+import com.kunzisoft.keepass.database.element.*;
+import com.kunzisoft.keepass.database.exception.*;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.stream.NullOutputStream;
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.Types;
 
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.security.DigestOutputStream;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.Arrays;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.ShortBufferException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Load a v3 database file.
@@ -94,45 +70,11 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Naomaru Itoi <nao@phoneid.org>
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
-public class ImporterV3 extends Importer {
+public class ImporterV3 extends Importer<PwDatabaseV3> {
 
 	private static final String TAG = ImporterV3.class.getName();
 
 	private PwDatabaseV3 databaseToOpen;
-
-	public ImporterV3() {
-		super();
-	}
-
-	protected PwDatabaseV3 createDB() {
-		return new PwDatabaseV3();
-	}
-
-	/**
-	 * Load a v3 database file, return contents in a new PwDatabaseV3.
-	 * 
-	 * @param inStream  Existing file to load.
-	 * @param password Pass phrase for infile.
-	 * @return new PwDatabaseV3 container.
-	 * 
-	 * @throws IOException on any file error.
-	 * @throws InvalidKeyFileException
-	 * @throws InvalidPasswordException
-	 * @throws InvalidPasswordException on a decryption error, or possible internal bug.
-	 * @throws InvalidDBSignatureException
-	 * @throws InvalidDBVersionException
-	 * @throws IllegalBlockSizeException on a decryption error, or possible internal bug.
-	 * @throws BadPaddingException on a decryption error, or possible internal bug.
-	 * @throws NoSuchAlgorithmException on a decryption error, or possible internal bug.
-	 * @throws NoSuchPaddingException on a decryption error, or possible internal bug.
-	 * @throws InvalidAlgorithmParameterException if error decrypting main file body. 
-	 * @throws ShortBufferException if error decrypting main file body.
-	 */
-	@Override
-	public PwDatabaseV3 openDatabase( InputStream inStream, String password, InputStream kfIs)
-	throws IOException, InvalidDBException {
-		return openDatabase(inStream, password, kfIs, null);
-	}
 
 	@Override
 	public PwDatabaseV3 openDatabase(InputStream inStream, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater)
@@ -160,7 +102,7 @@ public class ImporterV3 extends Importer {
 
 		if (progressTaskUpdater != null)
             progressTaskUpdater.updateMessage(R.string.retrieving_db_key);
-		databaseToOpen = createDB();
+		databaseToOpen = new PwDatabaseV3();
 		databaseToOpen.retrieveMasterKey(password, kfIs);
 
 		// Select algorithm

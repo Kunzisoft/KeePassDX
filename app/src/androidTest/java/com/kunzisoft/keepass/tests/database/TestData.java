@@ -19,16 +19,7 @@
  */
 package com.kunzisoft.keepass.tests.database;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.net.Uri;
-
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwDatabaseV3Debug;
-import com.kunzisoft.keepass.database.load.Importer;
-import com.kunzisoft.keepass.tests.TestUtil;
-
-import java.io.InputStream;
 
 public class TestData {
 	private static final String TEST1_KEYFILE = "";
@@ -37,6 +28,7 @@ public class TestData {
 
 	private static Database mDb1;
 
+	/*
 	
 	public static Database GetDb1(Context ctx) throws Exception {
 		return GetDb1(ctx, false);
@@ -75,4 +67,5 @@ public class TestData {
 		//return (PwDatabaseV3Debug) mDb1.getPwDatabase();
 		return null;
 	}
+		*/
 }

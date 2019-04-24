@@ -86,9 +86,9 @@ public class SearchDbHelper {
 	
 	private boolean entryContainsString(PwEntryInterface entry, String qStr, Locale loc) {
 		// Search all strings in the entry
-		Iterator<String> iter = EntrySearchStringIterator.getInstance(entry);
-		while (iter.hasNext()) {
-			String str = iter.next();
+		Iterator<String> iterator = EntrySearchStringIterator.getInstance(entry);
+		while (iterator.hasNext()) {
+			String str = iterator.next();
 			if (str != null && str.length() != 0) {
 				String lower = str.toLowerCase(loc);
 				if (lower.contains(qStr)) {

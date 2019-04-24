@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -26,14 +26,19 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import java.io.IOException;
 import java.io.InputStream;
 
-public abstract class Importer {
+public abstract class Importer<PwDb extends PwDatabase> {
 
-	public static final boolean DEBUG = true;
-
-	public abstract PwDatabase openDatabase(InputStream inStream, String password, InputStream keyInputStream)
-		throws IOException, InvalidDBException;
-
-	public abstract PwDatabase openDatabase(InputStream inStream, String password, InputStream keyInputStream, ProgressTaskUpdater updater)
+	/**
+	 * Load a versioned database file, return contents in a new PwDatabase.
+	 *
+	 * @param inStream  Existing file to load.
+	 * @param password Pass phrase for infile.
+	 * @return new PwDatabase container.
+	 *
+	 * @throws IOException on any file error.
+	 * @throws InvalidDBException on database error.
+	 */
+	public abstract PwDb openDatabase(InputStream inStream, String password, InputStream keyInputStream, ProgressTaskUpdater updater)
 		throws IOException, InvalidDBException;
 
 }

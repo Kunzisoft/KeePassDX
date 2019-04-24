@@ -19,22 +19,14 @@
  */
 package com.kunzisoft.keepass.database.load;
 
+import biz.source_code.base64Coder.Base64Coder;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.database.ITimeLogger;
 import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
-import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwDatabaseV4;
-import com.kunzisoft.keepass.database.element.PwDatabaseV4XML;
-import com.kunzisoft.keepass.database.element.PwDate;
-import com.kunzisoft.keepass.database.element.PwDbHeaderV4;
-import com.kunzisoft.keepass.database.element.PwDeletedObject;
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroupV4;
-import com.kunzisoft.keepass.database.element.PwIconCustom;
-import com.kunzisoft.keepass.database.element.PwNodeIdUUID;
+import com.kunzisoft.keepass.database.element.*;
 import com.kunzisoft.keepass.database.exception.ArcFourException;
 import com.kunzisoft.keepass.database.exception.InvalidDBException;
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException;
@@ -49,17 +41,14 @@ import com.kunzisoft.keepass.utils.DateUtil;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MemUtil;
 import com.kunzisoft.keepass.utils.Types;
-
 import org.spongycastle.crypto.StreamCipher;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import java.io.*;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -70,12 +59,7 @@ import java.util.Stack;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-
-import biz.source_code.base64Coder.Base64Coder;
-
-public class ImporterV4 extends Importer {
+public class ImporterV4 extends Importer<PwDatabaseV4> {
 	
 	private StreamCipher randomStream;
 	private PwDatabaseV4 mDatabase;
@@ -87,18 +71,11 @@ public class ImporterV4 extends Importer {
 	public ImporterV4(File streamDir) {
         this.streamDir = streamDir;
 	}
-
-	@Override
-	public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-			InputStream keyInputStream) throws IOException, InvalidDBException {
-
-		return openDatabase(inStream, password, keyInputStream, null);
-	}
 	
 	@Override
     public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-									 InputStream keyInputStream, ProgressTaskUpdater progressTaskUpdater) throws IOException,
-            InvalidDBException {
+									 InputStream keyInputStream, ProgressTaskUpdater progressTaskUpdater)
+			throws IOException, InvalidDBException {
 
 		if (progressTaskUpdater != null)
 			progressTaskUpdater.updateMessage(R.string.retrieving_db_key);

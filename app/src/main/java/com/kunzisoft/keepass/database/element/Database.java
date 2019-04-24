@@ -31,15 +31,13 @@ import com.kunzisoft.keepass.database.EntryHandler;
 import com.kunzisoft.keepass.database.GroupHandler;
 import com.kunzisoft.keepass.database.cursor.EntryCursorV3;
 import com.kunzisoft.keepass.database.cursor.EntryCursorV4;
-import com.kunzisoft.keepass.database.exception.ContentFileNotFoundException;
-import com.kunzisoft.keepass.database.exception.InvalidDBException;
-import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
-import com.kunzisoft.keepass.database.exception.PwDbOutputException;
-import com.kunzisoft.keepass.database.load.Importer;
-import com.kunzisoft.keepass.database.load.ImporterFactory;
+import com.kunzisoft.keepass.database.exception.*;
+import com.kunzisoft.keepass.database.load.ImporterV3;
+import com.kunzisoft.keepass.database.load.ImporterV4;
 import com.kunzisoft.keepass.database.save.PwDbOutput;
 import com.kunzisoft.keepass.database.search.SearchDbHelper;
 import com.kunzisoft.keepass.icons.IconDrawableFactory;
+import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -56,9 +54,9 @@ public class Database {
     private static final String TAG = Database.class.getName();
 
     private PwDatabase pwDatabase = null;
-    private PwDatabaseV3 pwDatabaseV3 = null;
-    private PwDatabaseV4 pwDatabaseV4 = null;
     private PwVersion version = null;
+    // To keep a reference for specific methods provided by V4
+    private PwDatabaseV4 pwDatabaseV4 = null;
 
     private Uri mUri = null;
     private SearchDbHelper searchHelper = null;
@@ -74,32 +72,27 @@ public class Database {
     public Database(String databasePath) {
         // TODO Test with kdb extension
         if (isKDBExtension(databasePath)) {
-            this.pwDatabaseV3 = new PwDatabaseV3();
-
-            this.pwDatabase = pwDatabaseV3;
+            setDatabaseV3(new PwDatabaseV3());
         } else {
             PwGroupV4 groupV4 = new PwGroupV4();
-            this.pwDatabaseV4 = new PwDatabaseV4();
+            setDatabaseV4(new PwDatabaseV4());
 
             groupV4.setTitle(dbNameFromPath(databasePath));
             groupV4.setIconStandard(pwDatabaseV4.getIconFactory().getFolderIcon());
             this.pwDatabaseV4.setRootGroup(groupV4);
-
-            this.pwDatabase = pwDatabaseV4;
         }
-		this.version = pwDatabase.getVersion();
     }
 
-    private void retrieveDatabaseVersioned(PwDatabase pwDatabase) {
+    private void setDatabaseV3(PwDatabaseV3 pwDatabaseV3) {
+        this.pwDatabaseV4 = null;
+        this.pwDatabase = pwDatabaseV3;
         this.version = pwDatabase.getVersion();
-        switch (version) {
-            case V3:
-                pwDatabaseV3 = (PwDatabaseV3) pwDatabase;
-                break;
-            case V4:
-                pwDatabaseV4 = (PwDatabaseV4) pwDatabase;
-                break;
-        }
+    }
+
+    private void setDatabaseV4(PwDatabaseV4 pwDatabaseV4) {
+        this.pwDatabaseV4 = pwDatabaseV4;
+        this.pwDatabase = pwDatabaseV4;
+        this.version = pwDatabase.getVersion();
     }
 
     private boolean isKDBExtension(String filename) {
@@ -145,11 +138,9 @@ public class Database {
 		return pwDatabase.getIconFactory();
 	}
 
-    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status) throws IOException, FileNotFoundException, InvalidDBException {
-        loadData(ctx, uri, password, keyfile, status, !Importer.DEBUG);
-    }
+    public void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater progressTaskUpdater)
+            throws IOException, InvalidDBException {
 
-    private void loadData(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
         mUri = uri;
         readOnly = false;
         if (uri.getScheme().equals("file")) {
@@ -157,48 +148,60 @@ public class Database {
             readOnly = !file.canWrite();
         }
 
-        passUrisAsInputStreams(ctx, uri, password, keyfile, status, debug);
-    }
+        // Pass Uris as InputStreams
 
-    private void passUrisAsInputStreams(Context ctx, Uri uri, String password, Uri keyfile, ProgressTaskUpdater status, boolean debug) throws IOException, FileNotFoundException, InvalidDBException {
-        InputStream is, kfIs;
+        InputStream inputStream, keyFileInputStream;
         try {
-            is = UriUtil.getUriInputStream(ctx, uri);
+            inputStream = UriUtil.getUriInputStream(ctx, uri);
         } catch (Exception e) {
             Log.e("KPD", "Database::loadData", e);
             throw ContentFileNotFoundException.getInstance(uri);
         }
 
         try {
-            kfIs = UriUtil.getUriInputStream(ctx, keyfile);
+            keyFileInputStream = UriUtil.getUriInputStream(ctx, keyfile);
         } catch (Exception e) {
             Log.e("KPD", "Database::loadData", e);
             throw ContentFileNotFoundException.getInstance(keyfile);
         }
-        loadData(ctx, is, password, kfIs, status, debug);
-    }
 
-    public void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, boolean debug) throws IOException, InvalidDBException {
-        loadData(ctx, is, password, keyFileInputStream, null, debug);
-    }
+        // Load Data
 
-    private void loadData(Context ctx, InputStream is, String password, InputStream keyFileInputStream, ProgressTaskUpdater progressTaskUpdater, boolean debug) throws IOException, InvalidDBException {
-        BufferedInputStream bis = new BufferedInputStream(is);
-
-        if ( ! bis.markSupported() ) {
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+        if ( ! bufferedInputStream.markSupported() ) {
             throw new IOException("Input stream does not support mark.");
         }
 
         // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
-        bis.mark(10);
+        bufferedInputStream.mark(10);
 
         // Get the file directory to save the attachments
-        Importer databaseImporter = ImporterFactory.createImporter(bis, ctx.getFilesDir(), debug);
+        int sig1 = LEDataInputStream.readInt(bufferedInputStream);
+        int sig2 = LEDataInputStream.readInt(bufferedInputStream);
 
-        bis.reset();  // Return to the start
+        // Header of database V3
+        if ( PwDbHeaderV3.matchesHeader(sig1, sig2) ) {
+            bufferedInputStream.reset();  // Return to the start
+            setDatabaseV3(new ImporterV3().openDatabase(bufferedInputStream,
+                    password,
+                    keyFileInputStream,
+                    progressTaskUpdater));
+        }
 
-        pwDatabase = databaseImporter.openDatabase(bis, password, keyFileInputStream, progressTaskUpdater);
-        retrieveDatabaseVersioned(pwDatabase);
+        // Header of database V4
+        else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
+            bufferedInputStream.reset();  // Return to the start
+            setDatabaseV4(new ImporterV4(ctx.getFilesDir()).openDatabase(bufferedInputStream,
+                    password,
+                    keyFileInputStream,
+                    progressTaskUpdater));
+        }
+
+        // Header not recognized
+        else {
+            throw new InvalidDBSignatureException();
+        }
+
         if ( pwDatabase != null ) {
             try {
                 passwordEncodingError = !pwDatabase.validatePasswordEncoding(password);
@@ -344,7 +347,6 @@ public class Database {
         }
 
         pwDatabase = null;
-        pwDatabaseV3 = null;
         pwDatabaseV4 = null;
         mUri = null;
         loaded = false;
