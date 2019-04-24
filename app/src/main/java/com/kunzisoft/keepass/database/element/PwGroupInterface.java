@@ -25,8 +25,6 @@ public interface PwGroupInterface extends PwNodeInterface {
 
 	void removeChildEntry(PwEntryInterface entry);
 
-	boolean containsParent();
-
 	/**
 	 * Filter MetaStream entries and return children
 	 * @return List of direct children (one level below) as PwNode

@@ -37,6 +37,8 @@ public interface PwNodeInterface extends SmallTimeInterface, Parcelable {
 	 */
 	void setParent(PwGroupInterface prt);
 
+	boolean containsParent();
+
 	void touch(boolean modified, boolean touchParents);
 
 	boolean isContainedIn(PwGroupInterface container);

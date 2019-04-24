@@ -82,7 +82,7 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
         return 0;
     }
 
-    protected void assign(PwNode source) {
+    protected void updateWith(PwNode source) {
 		this.nodeId = source.nodeId;
         this.parent = source.parent;
         this.icon = source.icon;

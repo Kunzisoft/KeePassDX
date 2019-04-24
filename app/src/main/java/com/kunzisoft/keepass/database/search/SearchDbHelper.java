@@ -22,13 +22,10 @@ package com.kunzisoft.keepass.database.search;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.EntryHandler;
 import com.kunzisoft.keepass.database.GroupHandler;
 import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwDatabaseV3;
-import com.kunzisoft.keepass.database.element.PwDatabaseV4;
 import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
@@ -36,21 +33,21 @@ import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 import java.util.Iterator;
 import java.util.Locale;
 
-public class SearchDbHelper<PwDatabaseVersion extends PwDatabase> {
+public class SearchDbHelper {
 	
-	private final Context mCtx;
+	private final Context mContext;
     private int incrementEntry = 0;
 	
-	public SearchDbHelper(Context ctx) {
-		this.mCtx = ctx;
+	public SearchDbHelper(Context context) {
+		this.mContext = context;
 	}
 	
 	private boolean omitBackup() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mCtx);
-		return prefs.getBoolean(mCtx.getString(R.string.omitbackup_key), mCtx.getResources().getBoolean(R.bool.omitbackup_default));
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+		return prefs.getBoolean(mContext.getString(R.string.omitbackup_key), mContext.getResources().getBoolean(R.bool.omitbackup_default));
 	}
 
-	public PwGroupInterface search(PwDatabaseVersion pm, String qStr, int max) {
+	public PwGroupInterface search(PwDatabase pm, String qStr, int max) {
 
 		PwGroupInterface searchGroup = pm.createGroup();
 		searchGroup.setTitle("\"" + qStr + "\"");
@@ -101,19 +98,4 @@ public class SearchDbHelper<PwDatabaseVersion extends PwDatabase> {
 		}
 		return false;
 	}
-
-	public static class SearchDbHelperV3 extends SearchDbHelper<PwDatabaseV3>{
-
-		public SearchDbHelperV3(Context ctx) {
-			super(ctx);
-		}
-	}
-
-	public static class SearchDbHelperV4 extends SearchDbHelper<PwDatabaseV4>{
-
-		public SearchDbHelperV4(Context ctx) {
-			super(ctx);
-		}
-	}
-	
 }

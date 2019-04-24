@@ -177,7 +177,6 @@ public class PwDatabaseV3 extends PwDatabase {
 			}
 			group = group.getParent();
 		}
-		
 		return false;
 	}
 
@@ -186,10 +185,6 @@ public class PwDatabaseV3 extends PwDatabase {
 		if (!super.isGroupSearchable(group, omitBackup)) {
 			return false;
 		}
-		
 		return !(omitBackup && isBackup(group));
 	}
-
-	@Override
-	public void clearCache() {}
 }

@@ -347,7 +347,6 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                     // TODO Recycle
                     dbGeneralPrefCategory.removePreference(recycleBinPref); // To delete
                     if (database.isRecycleBinAvailable()) {
-
                         recycleBinPref.setChecked(database.isRecycleBinEnabled());
                         recycleBinPref.setEnabled(false);
                     } else {

@@ -355,68 +355,7 @@ public abstract class PwDatabase {
 
     public abstract boolean isBackup(PwGroupInterface group);
 
-    /*
-     * -------------------------------------
-     *          RecycleBin
-     * -------------------------------------
-     */
-
-    /**
-     * Determine if RecycleBin is available or not for this version of database
-     * @return true if RecycleBin enable
-     */
-    protected boolean isRecycleBinAvailable() {
-        return false;
-    }
-
-    /**
-     * Determine if RecycleBin is enable or not
-     * @return true if RecycleBin enable, false if is not available or not enable
-     */
-    protected boolean isRecycleBinEnabled() {
-        return false;
-    }
-
-    /**
-     * Define if a Group must be delete or recycle
-     * @param group Group to remove
-     * @return true if group can be recycle, false elsewhere
-     */
-    protected boolean canRecycle(PwGroupInterface group) {
-        return false;
-    }
-
-    /**
-     * Define if an Entry must be delete or recycle
-     * @param entry Entry to remove
-     * @return true if entry can be recycle, false elsewhere
-     */
-    protected boolean canRecycle(PwEntryInterface entry) {
-        return false;
-    }
-
-    protected void recycle(PwGroupInterface group) {
-        // Assume calls to this are protected by calling inRecyleBin
-        throw new RuntimeException("Call not valid for .kdb databases.");
-    }
-
-    protected void recycle(PwEntryInterface entry) {
-        // Assume calls to this are protected by calling inRecyleBin
-        throw new RuntimeException("Call not valid for .kdb databases.");
-    }
-
-    protected void undoRecycle(PwGroupInterface group, PwGroupInterface origParent) {
-        throw new RuntimeException("Call not valid for .kdb databases.");
-    }
-
-    protected void undoRecycle(PwEntryInterface entry, PwGroupInterface origParent) {
-        throw new RuntimeException("Call not valid for .kdb databases.");
-    }
-
     public boolean isGroupSearchable(PwGroupInterface group, boolean omitBackup) {
         return group != null;
     }
-
-    public abstract void clearCache();
-
 }

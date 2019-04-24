@@ -122,7 +122,7 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 	};
 
 	public void updateWith(PwEntryV4 source) {
-		super.assign(source);
+		super.updateWith(source);
 		customIcon = source.customIcon;
 		usageCount = source.usageCount;
 		parentGroupLastMod = source.parentGroupLastMod;

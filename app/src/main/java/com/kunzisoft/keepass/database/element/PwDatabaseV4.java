@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.element;
 
 import android.util.Log;
-
+import biz.source_code.base64Coder.Base64Coder;
 import com.kunzisoft.keepass.collections.VariantDictionary;
 import com.kunzisoft.keepass.crypto.CryptoUtil;
 import com.kunzisoft.keepass.crypto.engine.AesEngine;
@@ -28,37 +28,19 @@ import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
-import com.kunzisoft.keepass.database.BinaryPool;
-import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.GroupHandler;
-import com.kunzisoft.keepass.database.MemoryProtectionConfig;
-import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
+import com.kunzisoft.keepass.database.*;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.UnknownKDF;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import org.w3c.dom.*;
 
 import javax.annotation.Nullable;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import biz.source_code.base64Coder.Base64Coder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 
 public class PwDatabaseV4 extends PwDatabase {
@@ -536,7 +518,9 @@ public class PwDatabaseV4 extends PwDatabase {
 		if (getRecycleBin() == null) {
 			// Create recycle bin
 				
-			PwGroupV4 recycleBin = new PwGroupV4(RECYCLEBIN_NAME, iconFactory.getTrashIcon());
+			PwGroupV4 recycleBin = new PwGroupV4();
+            recycleBin.setTitle(RECYCLEBIN_NAME);
+            recycleBin.setIconStandard(iconFactory.getTrashIcon());
 			recycleBin.setEnableAutoType(false);
 			recycleBin.setEnableSearching(false);
 			recycleBin.setExpanded(false);
@@ -554,12 +538,10 @@ public class PwDatabaseV4 extends PwDatabase {
         this.recycleBinUUID = recycleBinUUID;
     }
 
-    @Override
-    public boolean isRecycleBinAvailable() {
-        return true;
-    }
-
-    @Override
+	/**
+	 * Determine if RecycleBin is enable or not
+	 * @return true if RecycleBin enable, false if is not available or not enable
+	 */
 	public boolean isRecycleBinEnabled() {
 		return recycleBinEnabled;
 	}
@@ -577,7 +559,11 @@ public class PwDatabaseV4 extends PwDatabase {
         this.recycleBinChanged = recycleBinChanged;
     }
 
-    @Override
+	/**
+	 * Define if a Group must be delete or recycle
+	 * @param group Group to remove
+	 * @return true if group can be recycle, false elsewhere
+	 */
 	public boolean canRecycle(PwGroupInterface group) {
 		if (!recycleBinEnabled) {
 			return false;
@@ -586,7 +572,11 @@ public class PwDatabaseV4 extends PwDatabase {
 		return (recycle == null) || (!group.isContainedIn(recycle));
 	}
 
-	@Override
+	/**
+	 * Define if an Entry must be delete or recycle
+	 * @param entry Entry to remove
+	 * @return true if entry can be recycle, false elsewhere
+	 */
 	public boolean canRecycle(PwEntryInterface entry) {
 		if (!recycleBinEnabled) {
 			return false;
@@ -595,7 +585,6 @@ public class PwDatabaseV4 extends PwDatabase {
 		return (parent != null) && canRecycle(parent);
 	}
 
-	@Override
 	public void recycle(PwGroupInterface group) {
 		ensureRecycleBin();
 
@@ -608,7 +597,6 @@ public class PwDatabaseV4 extends PwDatabase {
         // TODO ? group.touchLocation();
 	}
 
-	@Override
 	public void recycle(PwEntryInterface entry) {
 		ensureRecycleBin();
 
@@ -621,7 +609,6 @@ public class PwDatabaseV4 extends PwDatabase {
 		entry.touchLocation();
 	}
 
-    @Override
     public void undoRecycle(PwGroupInterface group, PwGroupInterface origParent) {
 
 		PwGroupInterface recycleBin = getRecycleBin();
@@ -630,7 +617,6 @@ public class PwDatabaseV4 extends PwDatabase {
         addGroupTo(group, origParent);
     }
 
-	@Override
 	public void undoRecycle(PwEntryInterface entry, PwGroupInterface origParent) {
 
 		PwGroupInterface recycleBin = getRecycleBin();
@@ -693,7 +679,6 @@ public class PwDatabaseV4 extends PwDatabase {
 		if (!super.isGroupSearchable(group, omitBackup)) {
 			return false;
 		}
-		
 		return group.isSearchingEnabled();
 	}
 
@@ -702,7 +687,6 @@ public class PwDatabaseV4 extends PwDatabase {
 		return true;
 	}
 
-    @Override
     public void clearCache() {
         binPool.clear();
     }

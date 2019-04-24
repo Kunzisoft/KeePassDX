@@ -20,24 +20,16 @@
 package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
-
 import com.kunzisoft.keepass.database.ITimeLogger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInterface {
+public class PwGroupV4 extends PwGroup<UUID> implements ITimeLogger {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
-	// TODO verify children not needed
-	transient private List<PwGroupInterface> childGroups = new ArrayList<>();
-	transient private List<PwEntryInterface> childEntries = new ArrayList<>();
-
-	private String title = "";
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate locationChangeDate = new PwDate();
@@ -58,16 +50,9 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 	public PwGroupV4() {
 	    super();
     }
-	
-	public PwGroupV4(String title, PwIconStandard icon) {
-		super();
-		this.title = title;
-		this.icon = icon;
-	}
 
     public PwGroupV4(Parcel in) {
         super(in);
-		title = in.readString();
         customIcon = in.readParcelable(PwIconCustom.class.getClassLoader());
         usageCount = in.readLong();
         locationChangeDate = in.readParcelable(PwDate.class.getClassLoader());
@@ -86,7 +71,6 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-		dest.writeString(title);
         dest.writeParcelable(customIcon, flags);
         dest.writeLong(usageCount);
         dest.writeParcelable(locationChangeDate, flags);
@@ -113,8 +97,7 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
     };
 
     protected void updateWith(PwGroupV4 source) {
-        super.assign(source);
-		title = source.title;
+        super.updateWith(source);
         customIcon = source.customIcon;
         usageCount = source.usageCount;
         locationChangeDate = source.locationChangeDate;
@@ -295,66 +278,6 @@ public class PwGroupV4 extends PwNode<UUID> implements ITimeLogger, PwGroupInter
 		
 		// If we get to the root tree and its null, default to true
 		return true;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public void setTitle(String name) {
-		this.title = name;
-	}
-
-	@Override
-	public List<PwGroupInterface> getChildGroups() {
-		return childGroups;
-	}
-
-	@Override
-	public List<PwEntryInterface> getChildEntries() {
-		return childEntries;
-	}
-
-	@Override
-	public int getLevel() {
-		return -1; // TODO Level
-	}
-
-	@Override
-	public void setLevel(int level) {
-		// Do nothing here
-	}
-
-	@Override
-	public void addChildGroup(PwGroupInterface group) {
-		this.childGroups.add(group);
-	}
-
-	@Override
-	public void addChildEntry(PwEntryInterface entry) {
-		this.childEntries.add(entry);
-	}
-
-	@Override
-	public void removeChildGroup(PwGroupInterface group) {
-		this.childGroups.remove(group);
-	}
-
-	@Override
-	public void removeChildEntry(PwEntryInterface entry) {
-		this.childEntries.remove(entry);
-	}
-
-	@Override
-	public List<PwNodeInterface> getChildrenWithoutMetastream() {
-		List<PwNodeInterface> children = new ArrayList<>(childGroups);
-		for(PwEntryInterface child : childEntries) {
-			if (!child.isMetaStream())
-				children.add(child);
-		}
-		return children;
 	}
 
 	@Override

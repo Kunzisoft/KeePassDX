@@ -22,17 +22,8 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
-import java.util.ArrayList;
-import java.util.List;
+public class PwGroupV3 extends PwGroup<Integer> {
 
-public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
-
-	// TODO verify children not needed
-	transient private List<PwGroupInterface> childGroups = new ArrayList<>();
-	transient private List<PwEntryInterface> childEntries = new ArrayList<>();
-
-	// for tree traversing
-	private String title = "";
 	private int level = 0; // short
 	/** Used by KeePass internally, don't use */
 	private int flags;
@@ -48,7 +39,6 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
 
     public PwGroupV3(Parcel in) {
         super(in);
-		title = in.readString();
         level = in.readInt();
         flags = in.readInt();
     }
@@ -56,7 +46,6 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-		dest.writeString(title);
         dest.writeInt(level);
         dest.writeInt(flags);
     }
@@ -74,8 +63,7 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
     };
 
     protected void updateWith(PwGroupV3 source) {
-        super.assign(source);
-		title = source.title;
+        super.updateWith(source);
         level = source.level;
         flags = source.flags;
     }
@@ -136,61 +124,6 @@ public class PwGroupV3 extends PwNode<Integer>  implements PwGroupInterface {
     public void setFlags(int flags) {
 	    this.flags = flags;
     }
-
-	@Override
-    public String toString() {
-        return getTitle();
-    }
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	@Override
-	public List<PwGroupInterface> getChildGroups() {
-		return childGroups;
-	}
-
-	@Override
-	public List<PwEntryInterface> getChildEntries() {
-		return childEntries;
-	}
-
-	@Override
-	public void addChildGroup(PwGroupInterface group) {
-		this.childGroups.add(group);
-	}
-
-	@Override
-	public void addChildEntry(PwEntryInterface entry) {
-		this.childEntries.add(entry);
-	}
-
-	@Override
-	public void removeChildGroup(PwGroupInterface group) {
-		this.childGroups.remove(group);
-	}
-
-	@Override
-	public void removeChildEntry(PwEntryInterface entry) {
-		this.childEntries.remove(entry);
-	}
-
-	@Override
-	public List<PwNodeInterface> getChildrenWithoutMetastream() {
-		List<PwNodeInterface> children = new ArrayList<>(childGroups);
-		for(PwEntryInterface child : childEntries) {
-			if (!child.isMetaStream())
-				children.add(child);
-		}
-		return children;
-	}
 
 	@Override
 	public boolean allowAddEntryIfIsRoot() {

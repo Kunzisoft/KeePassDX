@@ -29,24 +29,20 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImporterFactory {
-	public static Importer createImporter(InputStream is, File streamDir) throws InvalidDBSignatureException, IOException {
-		return createImporter(is, streamDir,false);
-	}
 
-	public static Importer createImporter(InputStream is, File streamDir, boolean debug) throws InvalidDBSignatureException, IOException {
-		int sig1 = LEDataInputStream.readInt(is);
-		int sig2 = LEDataInputStream.readInt(is);
-		
-		if ( PwDbHeaderV3.matchesHeader(sig1, sig2) ) {
-			if (debug) {
-				return new ImporterV3Debug();
-			}
-			
-			return new ImporterV3();
-		} else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
-			return new ImporterV4(streamDir);
-		}
+    public static Importer createImporter(InputStream is, File streamDir, boolean debug) throws InvalidDBSignatureException, IOException {
+        int sig1 = LEDataInputStream.readInt(is);
+        int sig2 = LEDataInputStream.readInt(is);
 
-		throw new InvalidDBSignatureException();
-	}
+        if ( PwDbHeaderV3.matchesHeader(sig1, sig2) ) {
+            if (debug) {
+                return new ImporterV3Debug();
+            }
+            return new ImporterV3();
+        } else if ( PwDbHeaderV4.matchesHeader(sig1, sig2) ) {
+            return new ImporterV4(streamDir);
+        }
+
+        throw new InvalidDBSignatureException();
+    }
 }
