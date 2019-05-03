@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.save;
 
 import com.kunzisoft.keepass.database.element.PwEntryV3;
-import com.kunzisoft.keepass.database.element.PwGroupV3;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.utils.Types;
 
@@ -80,7 +79,7 @@ public class PwEntryOutputV3 {
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(((PwGroupV3) mPE.getParent()).getNodeId().getId()));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getParent().getNodeId().getId()));
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);

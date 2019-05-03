@@ -226,50 +226,10 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 			pos += 2 + 4 + fieldSize;
 		}
 
-		constructTreeFromIndex(databaseToOpen.getRootGroup());
+		databaseToOpen.populateNodesIndexes();
 		
 		return databaseToOpen;
 	}
-
-	private void constructTreeFromIndex(PwGroupInterface currentGroup) {
-
-        assignGroupsChildren(currentGroup);
-        assignEntriesChildren(currentGroup);
-
-		// set parent in child entries (normally useless but to be sure or to update parent metadata)
-		for (PwEntryInterface childEntry : currentGroup.getChildEntries()) {
-			childEntry.setParent(currentGroup);
-		}
-		// recursively construct child groups
-		for (PwGroupInterface childGroup : currentGroup.getChildGroups()) {
-			childGroup.setParent(currentGroup);
-			constructTreeFromIndex(childGroup);
-		}
-	}
-
-    private void assignGroupsChildren(PwGroupInterface parent) {
-        int levelToCheck = parent.getLevel() + 1;
-        boolean startFromParentPosition = false;
-        for (PwGroupInterface groupToCheck: databaseToOpen.getGroupIndexes()) {
-            if (databaseToOpen.getRootGroup().getNodeId().equals(parent.getNodeId())
-                    || groupToCheck.getNodeId().equals(parent.getNodeId())) {
-                startFromParentPosition = true;
-            }
-            if (startFromParentPosition) {
-                if (groupToCheck.getLevel() < levelToCheck)
-                    break;
-                else if (groupToCheck.getLevel() == levelToCheck)
-                    parent.addChildGroup(groupToCheck);
-            }
-        }
-    }
-
-    private void assignEntriesChildren(PwGroupInterface parent) {
-        for (PwEntryInterface entry : databaseToOpen.getEntryIndexes()) {
-            if (entry.getParent().getNodeId().equals(parent.getNodeId()))
-                parent.addChildEntry(entry);
-        }
-    }
 
 	/**
 	 * Parse and save one record from binary file.

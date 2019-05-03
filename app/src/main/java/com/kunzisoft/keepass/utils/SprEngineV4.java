@@ -19,19 +19,14 @@
  */
 package com.kunzisoft.keepass.utils;
 
+import com.kunzisoft.keepass.database.element.PwEntryV4;
+import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDatabaseV4;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
 import com.kunzisoft.keepass.database.search.EntrySearchHandlerV4;
 import com.kunzisoft.keepass.database.search.SearchParametersV4;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class SprEngineV4 {
@@ -40,17 +35,17 @@ public class SprEngineV4 {
 	private static final String STR_REF_END = "}";
 
 	public class TargetResult {
-		public PwEntryInterface entry;
+		public PwEntryV4 entry;
 		public char wanted;
 		
-		public TargetResult(PwEntryInterface entry, char wanted) {
+		public TargetResult(PwEntryV4 entry, char wanted) {
 			this.entry = entry;
 			this.wanted = wanted;
 		}
 	}
 
-	public String compile(String text, PwEntryInterface entry, PwDatabase database) {
-		SprContextV4 ctx = new SprContextV4((PwDatabaseV4)database, (PwEntryV4)entry);
+	public String compile(String text, PwEntryV4 entry, PwDatabase database) {
+		SprContextV4 ctx = new SprContextV4((PwDatabaseV4)database, entry);
 		
 		return compileInternal(text, ctx, 0);
 	}
@@ -80,7 +75,7 @@ public class SprEngineV4 {
 			TargetResult result = findRefTarget(fullRef, ctx);
 			
 			if (result != null) {
-                PwEntryInterface found = result.entry;
+                PwEntryV4 found = result.entry;
                 char wanted = result.wanted;
                 
                 if (found != null) {
@@ -158,7 +153,7 @@ public class SprEngineV4 {
 		else if (scan == 'O') { sp.searchInOther = true; }
 		else { return null; }
 
-		List<PwEntryInterface> list = new ArrayList<>();
+		List<PwEntryV4> list = new ArrayList<>();
 		// TODO type parameter
         searchEntries(ctx.db.getRootGroup(), sp, list);
 		
@@ -187,13 +182,13 @@ public class SprEngineV4 {
 		return text;
 	}
 
-	private void searchEntries(PwGroupInterface root, SearchParametersV4 sp, List<PwEntryInterface> listStorage) {
+	private void searchEntries(PwGroupV4 root, SearchParametersV4 sp, List<PwEntryV4> listStorage) {
 		if (sp == null)  { return; }
 		if (listStorage == null) { return; }
 
 		List<String> terms = StrUtil.splitSearchTerms(sp.searchString);
 		if (terms.size() <= 1 || sp.regularExpression) {
-			PwGroupInterface.doForEachChild(root, new EntrySearchHandlerV4(sp, listStorage), null);
+			root.doForEachChild(new EntrySearchHandlerV4(sp, listStorage), null);
 			return;
 		}
 
@@ -202,9 +197,9 @@ public class SprEngineV4 {
 		Collections.sort(terms, stringLengthComparator);
 
 		String fullSearch = sp.searchString;
-		List<PwEntryInterface> pg = root.getChildEntries();
+		List<PwEntryV4> pg = root.getChildEntries();
 		for (int i = 0; i < terms.size(); i ++) {
-			List<PwEntryInterface> pgNew = new ArrayList<>();
+			List<PwEntryV4> pgNew = new ArrayList<>();
 
 			sp.searchString = terms.get(i);
 
@@ -214,14 +209,14 @@ public class SprEngineV4 {
 				negate = sp.searchString.length() > 0;
 			}
 
-			if (!PwGroupInterface.doForEachChild(root, new EntrySearchHandlerV4(sp, pgNew), null)) {
+			if (!root.doForEachChild(new EntrySearchHandlerV4(sp, pgNew), null)) {
 				pg = null;
 				break;
 			}
 
-			List<PwEntryInterface> complement = new ArrayList<>();
+			List<PwEntryV4> complement = new ArrayList<>();
 			if (negate) {
-				for (PwEntryInterface entry: pg) {
+				for (PwEntryV4 entry: pg) {
 					if (!pgNew.contains(entry)) {
 						complement.add(entry);
 					}

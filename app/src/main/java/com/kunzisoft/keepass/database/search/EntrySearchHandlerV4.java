@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.database.search;
 
-import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.NodeHandler;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
+import com.kunzisoft.keepass.database.iterator.EntrySearchStringIteratorV4;
 import com.kunzisoft.keepass.utils.StrUtil;
 import com.kunzisoft.keepass.utils.UuidUtil;
 
@@ -31,20 +31,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EntrySearchHandlerV4 extends EntryHandler<PwEntryInterface> {
+public class EntrySearchHandlerV4 extends NodeHandler<PwEntryV4> {
 
-	private List<PwEntryInterface> listStorage;
+	private List<PwEntryV4> listStorage;
 	protected SearchParametersV4 sp;
 	protected Date now;
 
-	public EntrySearchHandlerV4(SearchParametersV4 sp, List<PwEntryInterface> listStorage) {
+	public EntrySearchHandlerV4(SearchParametersV4 sp, List<PwEntryV4> listStorage) {
 		this.listStorage = listStorage;
 		this.sp = sp;
 		this.now = new Date();
 	}
 
 	@Override
-	public boolean operate(PwEntryInterface entry) {
+	public boolean operate(PwEntryV4 entry) {
 		if (sp.respectEntrySearchingDisabled && !entry.isSearchingEnabled()) {
 			return true;
 		}
@@ -64,7 +64,7 @@ public class EntrySearchHandlerV4 extends EntryHandler<PwEntryInterface> {
 		}
 
 		if (sp.searchInGroupNames) {
-			PwGroupInterface parent = entry.getParent();
+			PwGroupV4 parent = entry.getParent();
 			if (parent != null) {
 				String groupName = parent.getTitle();
 				if (groupName != null) {
@@ -88,8 +88,7 @@ public class EntrySearchHandlerV4 extends EntryHandler<PwEntryInterface> {
 		return true;
 	}
 
-	private boolean searchID(PwEntryInterface e) {
-		PwEntryV4 entry = (PwEntryV4) e;
+	private boolean searchID(PwEntryV4 entry) {
 		if (sp.searchInUUIDs) {
 			String hex = UuidUtil.toHexString(entry.getNodeId().getId());
 			return StrUtil.indexOfIgnoreCase(hex, sp.searchString, Locale.ENGLISH) >= 0;
@@ -98,8 +97,8 @@ public class EntrySearchHandlerV4 extends EntryHandler<PwEntryInterface> {
 		return false;
 	}
 
-	private boolean searchStrings(PwEntryInterface entry, String term) {
-		EntrySearchStringIterator iter = EntrySearchStringIterator.getInstance(entry, sp);
+	private boolean searchStrings(PwEntryV4 entry, String term) {
+		EntrySearchStringIterator iter = new EntrySearchStringIteratorV4(entry, sp);
 		while (iter.hasNext()) {
 			String str = iter.next();
 			if (str != null && str.length() > 0) {

@@ -29,21 +29,20 @@ import java.io.InputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author Naomaru Itoi <nao@phoneid.org>
  * @author Bill Zwicky <wrzwicky@pobox.com>
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  */
-public class PwDatabaseV3 extends PwDatabase {
+public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
 	private static final int DEFAULT_ENCRYPTION_ROUNDS = 300;
 
 	private int numKeyEncRounds;
+
+	protected PwGroupV3 rootGroup;
 
     public PwDatabaseV3() {
         algorithm = PwEncryptionAlgorithm.AES_Rijndael;
@@ -62,13 +61,58 @@ public class PwDatabaseV3 extends PwDatabase {
 		return list;
 	}
 
-	public List<PwGroupInterface> getRootGroups() {
-        List<PwGroupInterface> kids = new ArrayList<>();
-		for (Map.Entry<PwNodeId, PwGroupInterface> grp : groupIndexes.entrySet()) {
-			if (grp.getValue().getLevel() == 0)
-				kids.add(grp.getValue());
+	public List<PwGroupV3> getRootGroups() {
+        List<PwGroupV3> kids = new ArrayList<>();
+		for (Map.Entry<PwNodeId, PwGroupV3> group : groupIndexes.entrySet()) {
+			if (group.getValue().getLevel() == 0)
+				kids.add(group.getValue());
 		}
 		return kids;
+	}
+
+	private void assignGroupsChildren(PwGroupV3 parent) {
+		int levelToCheck = parent.getLevel() + 1;
+		boolean startFromParentPosition = false;
+		for (PwGroupV3 groupToCheck: getGroupIndexes()) {
+			if (getRootGroup().getNodeId().equals(parent.getNodeId())
+					|| groupToCheck.getNodeId().equals(parent.getNodeId())) {
+				startFromParentPosition = true;
+			}
+			if (startFromParentPosition) {
+				if (groupToCheck.getLevel() < levelToCheck)
+					break;
+				else if (groupToCheck.getLevel() == levelToCheck)
+					parent.addChildGroup(groupToCheck);
+			}
+		}
+	}
+
+	private void assignEntriesChildren(PwGroupV3 parent) {
+		for (PwEntryV3 entry : getEntryIndexes()) {
+			if (entry.getParent().getNodeId().equals(parent.getNodeId()))
+				parent.addChildEntry(entry);
+		}
+	}
+
+	private void constructTreeFromIndex(PwGroupV3 currentGroup) {
+
+		assignGroupsChildren(currentGroup);
+		assignEntriesChildren(currentGroup);
+
+		// set parent in child entries (normally useless but to be sure or to update parent metadata)
+		for (PwEntryV3 childEntry : currentGroup.getChildEntries()) {
+			childEntry.setParent(currentGroup);
+		}
+		// recursively construct child groups
+		for (PwGroupV3 childGroup : currentGroup.getChildGroups()) {
+			childGroup.setParent(currentGroup);
+			constructTreeFromIndex(childGroup);
+		}
+	}
+
+	@Override
+	public void populateNodesIndexes() {
+		constructTreeFromIndex(getRootGroup());
 	}
 
 	/**
@@ -82,6 +126,21 @@ public class PwDatabaseV3 extends PwDatabase {
 		do {
 			newId = new PwNodeIdInt(new Random().nextInt());
 		} while (isGroupIdUsed(newId));
+
+		return newId;
+	}
+
+	/**
+	 * Generates an unused random tree id
+	 *
+	 * @return new tree id
+	 */
+	@Override
+	public PwNodeIdUUID newEntryId() {
+		PwNodeIdUUID newId;
+		do {
+			newId = new PwNodeIdUUID(UUID.randomUUID());
+		} while (isEntryIdUsed(newId));
 
 		return newId;
 	}
@@ -158,7 +217,16 @@ public class PwDatabaseV3 extends PwDatabase {
 	public PwGroupV3 createGroup() {
 		return new PwGroupV3();
 	}
-	
+
+	public void setRootGroup(PwGroupV3 rootGroup) {
+		this.rootGroup = rootGroup;
+	}
+
+	@Override
+	public PwGroupV3 getRootGroup() {
+		return rootGroup;
+	}
+
 	// TODO: This could still be refactored cleaner
 	public void copyEncrypted(byte[] buf, int offset, int size) {
 		// No-op
@@ -170,7 +238,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public boolean isBackup(PwGroupInterface group) {
+	public boolean isBackup(PwGroupV3 group) {
 		while (group != null) {
 			if (group.getLevel() == 0 && group.getTitle().equalsIgnoreCase("Backup")) {
 				return true;
@@ -181,7 +249,7 @@ public class PwDatabaseV3 extends PwDatabase {
 	}
 
 	@Override
-	public boolean isGroupSearchable(PwGroupInterface group, boolean omitBackup) {
+	public boolean isGroupSearchable(PwGroupV3 group, boolean omitBackup) {
 		if (!super.isGroupSearchable(group, omitBackup)) {
 			return false;
 		}

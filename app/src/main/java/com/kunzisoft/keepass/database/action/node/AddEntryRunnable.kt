@@ -21,14 +21,14 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwEntryInterface
-import com.kunzisoft.keepass.database.element.PwGroupInterface
+import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.GroupVersioned
 
 class AddEntryRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mNewEntry: PwEntryInterface,
-        private val mParent: PwGroupInterface,
+        private val mNewEntry: EntryVersioned,
+        private val mParent: GroupVersioned,
         finishRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {

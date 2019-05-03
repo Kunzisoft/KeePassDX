@@ -27,28 +27,19 @@ import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Toast;
-
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwNodeInterface;
+import com.kunzisoft.keepass.database.element.*;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.utils.Util;
 
 public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     private static final String TAG = NodeAdapter.class.getName();
 
-    private SortedList<PwNodeInterface> nodeSortedList;
+    private SortedList<NodeVersioned> nodeSortedList;
 
     private Context context;
     private LayoutInflater inflater;
@@ -85,17 +76,17 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         this.readOnly = false;
         this.isASearchResult = false;
 
-        this.nodeSortedList = new SortedList<>(PwNodeInterface.class, new SortedListAdapterCallback<PwNodeInterface>(this) {
-            @Override public int compare(PwNodeInterface item1, PwNodeInterface item2) {
+        this.nodeSortedList = new SortedList<>(NodeVersioned.class, new SortedListAdapterCallback<NodeVersioned>(this) {
+            @Override public int compare(NodeVersioned item1, NodeVersioned item2) {
                 return listSort.getNodeComparator(ascendingSort, groupsBeforeSort).compare(item1, item2);
             }
 
-            @Override public boolean areContentsTheSame(PwNodeInterface oldItem, PwNodeInterface newItem) {
+            @Override public boolean areContentsTheSame(NodeVersioned oldItem, NodeVersioned newItem) {
 				return oldItem.getTitle().equals(newItem.getTitle())
 						&& oldItem.getIcon().equals(newItem.getIcon());
             }
 
-            @Override public boolean areItemsTheSame(PwNodeInterface item1, PwNodeInterface item2) {
+            @Override public boolean areItemsTheSame(NodeVersioned item1, NodeVersioned item2) {
                 return item1.equals(item2);
             }
         });
@@ -143,12 +134,12 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     /**
      * Rebuild the list by clear and build children from the group
      */
-    public void rebuildList(PwGroupInterface group) {
+    public void rebuildList(GroupVersioned group) {
         this.nodeSortedList.clear();
         assignPreferences();
         // TODO verify sort
         try {
-            this.nodeSortedList.addAll(group.getChildrenWithoutMetastream());
+            this.nodeSortedList.addAll(group.getChildEntriesWithoutMetaStream());
         } catch (Exception e) {
             Log.e(TAG, "Can't add node elements to the list", e);
             Toast.makeText(context, "Can't add node elements to the list : " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -167,7 +158,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Add a node to the list
      * @param node Node to add
      */
-    public void addNode(PwNodeInterface node) {
+    public void addNode(NodeVersioned node) {
         nodeSortedList.add(node);
     }
 
@@ -175,7 +166,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Remove a node in the list
      * @param node Node to delete
      */
-    public void removeNode(PwNodeInterface node) {
+    public void removeNode(NodeVersioned node) {
         nodeSortedList.remove(node);
     }
 
@@ -184,7 +175,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * @param oldNode Node before the update
      * @param newNode Node after the update
      */
-    public void updateNode(PwNodeInterface oldNode, PwNodeInterface newNode) {
+    public void updateNode(NodeVersioned oldNode, NodeVersioned newNode) {
         nodeSortedList.beginBatchedUpdates();
         nodeSortedList.remove(oldNode);
         nodeSortedList.add(newNode);
@@ -210,7 +201,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
     public BasicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         BasicViewHolder basicViewHolder;
         View view;
-        if (viewType == PwNodeInterface.Type.GROUP.ordinal()) {
+        if (viewType == Type.GROUP.ordinal()) {
             view = inflater.inflate(R.layout.list_nodes_group, parent, false);
             basicViewHolder = new GroupViewHolder(view);
         } else {
@@ -222,7 +213,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BasicViewHolder holder, int position) {
-        PwNodeInterface subNode = nodeSortedList.get(position);
+        NodeVersioned subNode = nodeSortedList.get(position);
         // Assign image
         int iconColor = Color.BLACK;
         switch (subNode.getType()) {
@@ -248,12 +239,12 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         // Add username
         holder.subText.setText("");
         holder.subText.setVisibility(View.GONE);
-        if (subNode.getType().equals(PwNodeInterface.Type.ENTRY)) {
-            PwEntryInterface entry = (PwEntryInterface) subNode;
+        if (subNode.getType().equals(Type.ENTRY)) {
+            EntryVersioned entry = (EntryVersioned) subNode;
 
             database.startManageEntry(entry);
 
-            holder.text.setText(PwEntryInterface.getVisualTitle(entry));
+            holder.text.setText(entry.getVisualTitle());
 
             String username = entry.getUsername();
             if (showUsernames && !username.isEmpty()) {
@@ -295,27 +286,27 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      * Callback listener to redefine to do an action when a node is click
      */
     public interface NodeClickCallback {
-        void onNodeClick(PwNodeInterface node);
+        void onNodeClick(NodeVersioned node);
     }
 
     /**
      * Menu listener to redefine to do an action in menu
      */
     public interface NodeMenuListener {
-        boolean onOpenMenuClick(PwNodeInterface node);
-        boolean onEditMenuClick(PwNodeInterface node);
-        boolean onCopyMenuClick(PwNodeInterface node);
-        boolean onMoveMenuClick(PwNodeInterface node);
-        boolean onDeleteMenuClick(PwNodeInterface node);
+        boolean onOpenMenuClick(NodeVersioned node);
+        boolean onEditMenuClick(NodeVersioned node);
+        boolean onCopyMenuClick(NodeVersioned node);
+        boolean onMoveMenuClick(NodeVersioned node);
+        boolean onDeleteMenuClick(NodeVersioned node);
     }
 
     /**
      * Utility class for node listener
      */
     private class OnNodeClickListener implements View.OnClickListener {
-        private PwNodeInterface node;
+        private NodeVersioned node;
 
-        OnNodeClickListener(PwNodeInterface node) {
+        OnNodeClickListener(NodeVersioned node) {
             this.node = node;
         }
 
@@ -331,11 +322,11 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
      */
     private class ContextMenuBuilder implements View.OnCreateContextMenuListener {
 
-        private PwNodeInterface node;
+        private NodeVersioned node;
         private NodeMenuListener menuListener;
         private boolean readOnly;
 
-        ContextMenuBuilder(PwNodeInterface node, NodeMenuListener menuListener, boolean readOnly) {
+        ContextMenuBuilder(NodeVersioned node, NodeMenuListener menuListener, boolean readOnly) {
             this.menuListener = menuListener;
             this.node = node;
             this.readOnly = readOnly;
@@ -363,7 +354,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             if (readOnly
                     || isASearchResult
                     || node.equals(database.getRecycleBin())
-                    || node.getType().equals(PwNodeInterface.Type.GROUP)) {
+                    || node.getType().equals(Type.GROUP)) {
                 // TODO COPY For Group
                 contextMenu.removeItem(R.id.menu_copy);
             } else {

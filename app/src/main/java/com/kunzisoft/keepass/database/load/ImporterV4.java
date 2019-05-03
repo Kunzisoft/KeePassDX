@@ -173,7 +173,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		
 		ReadXmlStreamed(isXml);
 
-		mDatabase.populateNodeIndex();
+		mDatabase.populateNodesIndexes();
 
 		return mDatabase;
 	}
@@ -291,13 +291,12 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 	private String entryCustomDataValue = null;
 
 	private void ReadXmlStreamed(InputStream readerStream) throws IOException, InvalidDBException {
-
-			try {
-				ReadDocumentStreamed(CreatePullParser(readerStream));
-			} catch (XmlPullParserException e) {
-				e.printStackTrace();
-				throw new IOException(e.getLocalizedMessage());
-			}
+		try {
+			ReadDocumentStreamed(CreatePullParser(readerStream));
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			throw new IOException(e.getLocalizedMessage());
+		}
 	}
 	
 	private static XmlPullParser CreatePullParser(InputStream readerStream) throws XmlPullParserException {

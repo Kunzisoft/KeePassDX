@@ -44,10 +44,8 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
-import com.kunzisoft.keepass.database.ExtraFields;
-import com.kunzisoft.keepass.database.security.ProtectedString;
-
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -72,7 +70,7 @@ import java.util.UUID;
  * @author Dominik Reichl <dominik.reichl@t-online.de>
  * @author Jeremy Jamet <jeremy.jamet@kunzisoft.com>
  */
-public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
+public class PwEntryV3 extends PwEntry<PwGroupV3, PwEntryV3> {
 
 	/** Size of byte buffer needed to hold this struct. */
 	private static final String PMS_ID_BINDESC = "bin-stream";
@@ -107,6 +105,11 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
         additional = parcel.readString();
         binaryDesc = parcel.readString();
 		parcel.readByteArray(binaryData);
+    }
+
+    @Override
+    protected PwGroupV3 readParentParcelable(Parcel parcel) {
+        return parcel.readParcelable(PwGroupV3.class.getClassLoader());
     }
 
     @Override
@@ -180,11 +183,6 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
     }
 
 	@Override
-	public PwEntryInterface duplicate() {
-		return clone();
-	}
-
-	@Override
 	public Type getType() {
 		return Type.ENTRY;
 	}
@@ -192,7 +190,7 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
     public void setNewParent(int groupId) {
 	    PwGroupV3 pwGroupV3 = new PwGroupV3();
         pwGroupV3.setNodeId(new PwNodeIdInt(groupId));
-        this.parent = pwGroupV3;
+        setParent(pwGroupV3);
     }
 
     @Override
@@ -300,9 +298,8 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
     }
 
 	// Determine if this is a MetaStream entry
-	@Override
 	public boolean isMetaStream() {
-		if (binaryData == new byte[0]) return false;
+		if (Arrays.equals(binaryData, new byte[0])) return false;
 		if (additional.isEmpty()) return false;
 		if (!binaryDesc.equals(PMS_ID_BINDESC)) return false;
 		if (title.isEmpty()) return false;
@@ -311,50 +308,14 @@ public class PwEntryV3 extends PwNode<UUID> implements PwEntryInterface {
 		if (!username.equals(PMS_ID_USER)) return false;
 		if (url.isEmpty()) return false;
 		if (!url.equals(PMS_ID_URL)) return false;
-        return icon.isMetaStreamIcon();
+        return getIcon().isMetaStreamIcon();
     }
 
 	@Override
-	public boolean isSearchingEnabled() {
+	public Boolean isSearchingEnabled() {
 		return false;
 	}
-
-    @Override
-    public boolean containsCustomData() {
-        return false;
-    }
 
 	@Override
 	public void touchLocation() {}
-
-	@Override
-	public boolean allowExtraFields() {
-		return false;
-	}
-
-	@Override
-	public ExtraFields getFields() {
-		return new ExtraFields(); // TODO Nullable
-	}
-
-	@Override
-	public boolean containsCustomFields() {
-		return getFields().containsCustomFields();
-	}
-
-	@Override
-	public boolean containsCustomFieldsProtected() {
-		return getFields().containsCustomFieldsProtected();
-	}
-
-	@Override
-	public boolean containsCustomFieldsNotProtected() {
-		return getFields().containsCustomFieldsNotProtected();
-	}
-
-	@Override
-	public void addExtraField(String label, ProtectedString value) {}
-
-	@Override
-	public void removeAllCustomFields() {}
 }

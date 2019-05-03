@@ -33,7 +33,7 @@ import android.widget.TextView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.cursor.EntryCursor;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.EntryVersioned;
 import com.kunzisoft.keepass.database.element.PwIcon;
 import com.kunzisoft.keepass.database.element.PwIconFactory;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -104,7 +104,7 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         database.getDrawFactory().assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon, iconColor);
 
         // Assign title
-        String showTitle = PwEntryInterface.getVisualTitle(false, title, username, url, uuid.toString());
+        String showTitle = EntryVersioned.CREATOR.getVisualTitle(false, title, username, url, uuid.toString());
         viewHolder.textViewTitle.setText(showTitle);
         if (displayUsername && !username.isEmpty()) {
             viewHolder.textViewSubTitle.setText(String.format("(%s)", username));
@@ -124,8 +124,8 @@ public class SearchEntryCursorAdapter extends CursorAdapter {
         return database.searchEntry(constraint.toString());
     }
 
-    public PwEntryInterface getEntryFromPosition(int position) {
-        PwEntryInterface pwEntry = null;
+    public EntryVersioned getEntryFromPosition(int position) {
+        EntryVersioned pwEntry = null;
 
         Cursor cursor = this.getCursor();
         if (cursor.moveToFirst()

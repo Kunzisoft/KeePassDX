@@ -25,6 +25,6 @@ package com.kunzisoft.keepass.database;
  * @author bpellin
  *
  */
-public abstract class GroupHandler<T> {
+public abstract class NodeHandler<T> {
 	public abstract boolean operate(T group);
 }

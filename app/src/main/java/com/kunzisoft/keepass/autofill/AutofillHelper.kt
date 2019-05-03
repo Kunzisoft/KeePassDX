@@ -33,7 +33,7 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntrySelectionHelper
-import com.kunzisoft.keepass.database.element.PwEntryInterface
+import com.kunzisoft.keepass.database.element.EntryVersioned
 import java.util.*
 
 
@@ -42,7 +42,7 @@ object AutofillHelper {
 
     private const val AUTOFILL_RESPONSE_REQUEST_CODE = 8165
 
-    private const val ASSIST_STRUCTURE = android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE
+    private const val ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
 
     fun retrieveAssistStructure(intent: Intent?): AssistStructure? {
         intent?.let {
@@ -51,7 +51,7 @@ object AutofillHelper {
         return null
     }
 
-    private fun makeEntryTitle(entry: PwEntryInterface): String {
+    private fun makeEntryTitle(entry: EntryVersioned): String {
         if (!entry.title.isEmpty() && !entry.username.isEmpty())
             return String.format("%s (%s)", entry.title, entry.username)
         if (!entry.title.isEmpty())
@@ -62,24 +62,21 @@ object AutofillHelper {
         // TODO No title
     }
 
-    private fun buildDataset(context: Context, entry: PwEntryInterface,
+    private fun buildDataset(context: Context,
+                             entry: EntryVersioned,
                              struct: StructureParser.Result): Dataset? {
         val title = makeEntryTitle(entry)
         val views = newRemoteViews(context.packageName, title)
         val builder = Dataset.Builder(views)
         builder.setId(entry.nodeId.toString())
 
-        if (entry.password != null) {
-            val value = AutofillValue.forText(entry.password)
-            struct.password.forEach { id -> builder.setValue(id, value) }
-        }
-        if (entry.username != null) {
-            val value = AutofillValue.forText(entry.username)
-            val ids = ArrayList(struct.username)
-            if (entry.username.contains("@") || struct.username.isEmpty())
-                ids.addAll(struct.email)
-            ids.forEach { id -> builder.setValue(id, value) }
-        }
+        struct.password.forEach { id -> builder.setValue(id, AutofillValue.forText(entry.password)) }
+
+        val ids = ArrayList(struct.username)
+        if (entry.username.contains("@") || struct.username.isEmpty())
+            ids.addAll(struct.email)
+        ids.forEach { id -> builder.setValue(id, AutofillValue.forText(entry.username)) }
+
         return try {
             builder.build()
         } catch (e: IllegalArgumentException) {
@@ -91,7 +88,7 @@ object AutofillHelper {
     /**
      * Method to hit when right key is selected
      */
-    fun buildResponseWhenEntrySelected(activity: Activity, entry: PwEntryInterface) {
+    fun buildResponseWhenEntrySelected(activity: Activity, entry: EntryVersioned) {
         val mReplyIntent: Intent
         activity.intent?.let { intent ->
             if (intent.extras.containsKey(ASSIST_STRUCTURE)) {

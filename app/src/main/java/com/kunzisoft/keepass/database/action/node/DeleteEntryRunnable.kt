@@ -21,18 +21,18 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwEntryInterface
-import com.kunzisoft.keepass.database.element.PwGroupInterface
+import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.GroupVersioned
 
 class DeleteEntryRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mEntryToDelete: PwEntryInterface,
+        private val mEntryToDelete: EntryVersioned,
         finishRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
-    private var mParent: PwGroupInterface? = null
+    private var mParent: GroupVersioned? = null
     private var mRecycle: Boolean = false
 
 

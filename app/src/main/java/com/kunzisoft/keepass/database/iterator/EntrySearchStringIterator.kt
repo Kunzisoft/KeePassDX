@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -17,16 +17,25 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.iterator
 
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.EntryVersioned
 
-/** "Delegate" class for operating on each entry when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class EntryHandler<T extends PwEntryInterface> {
-	public abstract boolean operate(T entry);
+abstract class EntrySearchStringIterator : Iterator<String> {
+
+    companion object {
+
+        fun getInstance(entry: EntryVersioned): EntrySearchStringIterator {
+            if (entry.pwEntryV3 != null) {
+                return EntrySearchStringIteratorV3(entry.pwEntryV3)
+            }
+            if (entry.pwEntryV4 != null) {
+                return EntrySearchStringIteratorV4(entry.pwEntryV4!!)
+            }
+
+            throw RuntimeException("This should not be possible")
+        }
+    }
+
+
 }
-	

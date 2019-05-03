@@ -37,7 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class PwDatabase {
+public abstract class PwDatabase<Group extends PwGroup, Entry extends PwEntry> {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
 
@@ -49,9 +49,8 @@ public abstract class PwDatabase {
 
     protected PwIconFactory iconFactory = new PwIconFactory();
 
-    protected PwGroupInterface rootGroup;
-    protected LinkedHashMap<PwNodeId, PwGroupInterface> groupIndexes = new LinkedHashMap<>();
-    protected LinkedHashMap<PwNodeId, PwEntryInterface> entryIndexes = new LinkedHashMap<>();
+    protected LinkedHashMap<PwNodeId, Group> groupIndexes = new LinkedHashMap<>();
+    protected LinkedHashMap<PwNodeId, Entry> entryIndexes = new LinkedHashMap<>();
 
     public abstract PwVersion getVersion();
 
@@ -230,17 +229,15 @@ public abstract class PwDatabase {
      * -------------------------------------
      */
 
+    public abstract void populateNodesIndexes();
+
     public abstract PwNodeId newGroupId();
 
-    public abstract PwGroupInterface createGroup();
+    public abstract PwNodeId newEntryId();
 
-    public PwGroupInterface getRootGroup() {
-        return rootGroup;
-    }
+    public abstract Group createGroup();
 
-    public void setRootGroup(PwGroupInterface rootGroup) {
-        this.rootGroup = rootGroup;
-    }
+    public abstract Group getRootGroup();
 
     /*
      * -------------------------------------
@@ -259,26 +256,26 @@ public abstract class PwDatabase {
         return groupIndexes.containsKey(id);
     }
 
-    public Collection<PwGroupInterface> getGroupIndexes() {
+    public Collection<Group> getGroupIndexes() {
         return groupIndexes.values();
     }
 
-    public void setGroupIndexes(List<PwGroupInterface> groupList) {
+    public void setGroupIndexes(List<Group> groupList) {
         this.groupIndexes.clear();
-        for (PwGroupInterface currentGroup : groupList) {
+        for (Group currentGroup : groupList) {
             this.groupIndexes.put(currentGroup.getNodeId(), currentGroup);
         }
     }
 
-    public PwGroupInterface getGroupById(PwNodeId id) {
+    public Group getGroupById(PwNodeId id) {
         return this.groupIndexes.get(id);
     }
 
-    public void addGroupIndex(PwGroupInterface group) {
+    public void addGroupIndex(Group group) {
         this.groupIndexes.put(group.getNodeId(), group);
     }
 
-    public void removeGroupIndex(PwGroupInterface group) {
+    public void removeGroupIndex(Group group) {
 		this.groupIndexes.remove(group.getNodeId());
 	}
 
@@ -286,19 +283,23 @@ public abstract class PwDatabase {
         return groupIndexes.size();
     }
 
-    public Collection<PwEntryInterface> getEntryIndexes() {
+    public boolean isEntryIdUsed(PwNodeId id) {
+        return entryIndexes.containsKey(id);
+    }
+
+    public Collection<Entry> getEntryIndexes() {
         return entryIndexes.values();
     }
 
-    public PwEntryInterface getEntryById(PwNodeId id) {
+    public Entry getEntryById(PwNodeId id) {
         return this.entryIndexes.get(id);
     }
 
-    public void addEntryIndex(PwEntryInterface entry) {
+    public void addEntryIndex(Entry entry) {
         this.entryIndexes.put(entry.getNodeId(), entry);
     }
 
-    public void removeEntryIndex(PwEntryInterface entry) {
+    public void removeEntryIndex(Entry entry) {
 		this.entryIndexes.remove(entry.getNodeId());
 	}
 
@@ -312,7 +313,7 @@ public abstract class PwDatabase {
      * -------------------------------------
      */
 
-    protected void addGroupTo(PwGroupInterface newGroup, @Nullable PwGroupInterface parent) {
+    protected void addGroupTo(Group newGroup, @Nullable Group parent) {
 		// Add tree to parent tree
 		if (parent != null)
         	parent.addChildGroup(newGroup);
@@ -320,7 +321,7 @@ public abstract class PwDatabase {
         addGroupIndex(newGroup);
     }
 
-    protected void removeGroupFrom(PwGroupInterface groupToRemove, PwGroupInterface parent) {
+    protected void removeGroupFrom(Group groupToRemove, Group parent) {
         // Remove tree from parent tree
         if (parent != null) {
             parent.removeChildGroup(groupToRemove);
@@ -328,7 +329,7 @@ public abstract class PwDatabase {
 		removeGroupIndex(groupToRemove);
     }
 
-    protected void addEntryTo(PwEntryInterface newEntry, @Nullable PwGroupInterface parent) {
+    protected void addEntryTo(Entry newEntry, @Nullable Group parent) {
         // Add entry to parent
 		if (parent != null)
 			parent.addChildEntry(newEntry);
@@ -336,7 +337,7 @@ public abstract class PwDatabase {
         addEntryIndex(newEntry);
     }
 
-    protected void removeEntryFrom(PwEntryInterface entryToRemove, PwGroupInterface parent) {
+    protected void removeEntryFrom(Entry entryToRemove, Group parent) {
         // Remove entry for parent
         if (parent != null) {
             parent.removeChildEntry(entryToRemove);
@@ -345,17 +346,17 @@ public abstract class PwDatabase {
     }
 
     // TODO Delete group
-    public void undoDeleteGroup(PwGroupInterface group, PwGroupInterface origParent) {
+    public void undoDeleteGroupFrom(Group group, Group origParent) {
         addGroupTo(group, origParent);
     }
 
-    public void undoDeleteEntryFrom(PwEntryInterface entry, PwGroupInterface origParent) {
+    public void undoDeleteEntryFrom(Entry entry, Group origParent) {
         addEntryTo(entry, origParent);
     }
 
-    public abstract boolean isBackup(PwGroupInterface group);
+    public abstract boolean isBackup(Group group);
 
-    public boolean isGroupSearchable(PwGroupInterface group, boolean omitBackup) {
+    public boolean isGroupSearchable(Group group, boolean omitBackup) {
         return group != null;
     }
 }

@@ -46,13 +46,7 @@ import com.kunzisoft.keepass.database.action.node.ActionNodeValues;
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
-import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwDate;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwIcon;
-import com.kunzisoft.keepass.database.element.PwIconStandard;
-import com.kunzisoft.keepass.database.element.PwNodeId;
+import com.kunzisoft.keepass.database.element.*;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -85,9 +79,9 @@ public class EntryEditActivity extends LockingHideActivity
 
 	private Database database;
 
-	protected PwEntryInterface mEntry;
-	protected PwGroupInterface mParent;
-	protected PwEntryInterface mCallbackNewEntry;
+	protected EntryVersioned mEntry;
+	protected GroupVersioned mParent;
+	protected EntryVersioned mCallbackNewEntry;
 	protected boolean mIsNew;
 	protected PwIconStandard mSelectedIconStandard;
 
@@ -112,7 +106,7 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param activity from activity
 	 * @param pwEntry Entry to update
 	 */
-	public static void launch(Activity activity, PwEntryInterface pwEntry) {
+	public static void launch(Activity activity, EntryVersioned pwEntry) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_ENTRY, pwEntry.getNodeId());
@@ -126,7 +120,7 @@ public class EntryEditActivity extends LockingHideActivity
 	 * @param activity from activity
 	 * @param pwGroup Group who will contains new entry
 	 */
-	public static void launch(Activity activity, PwGroupInterface pwGroup) {
+	public static void launch(Activity activity, GroupVersioned pwGroup) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryEditActivity.class);
             intent.putExtra(KEY_PARENT, pwGroup.getNodeId());
@@ -415,10 +409,10 @@ public class EntryEditActivity extends LockingHideActivity
         return errorValidation.isValidate;
 	}
 	
-	protected PwEntryInterface populateNewEntry() {
+	protected EntryVersioned populateNewEntry() {
 		Database database = App.getDB();
 
-		PwEntryInterface newEntry = mEntry.duplicate();
+		EntryVersioned newEntry = new EntryVersioned(mEntry);
 
 		database.startManageEntry(newEntry);
 		database.createBackupOf(newEntry);

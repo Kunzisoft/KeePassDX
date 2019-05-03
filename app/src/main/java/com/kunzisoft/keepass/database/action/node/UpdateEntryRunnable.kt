@@ -21,30 +21,30 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwEntryInterface
+import com.kunzisoft.keepass.database.element.EntryVersioned
 
 class UpdateEntryRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mOldEntry: PwEntryInterface,
-        private val mNewEntry: PwEntryInterface,
+        private val mOldEntry: EntryVersioned,
+        private val mNewEntry: EntryVersioned,
         finishRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
-    private val mBackupEntry: PwEntryInterface = mOldEntry.duplicate()
+    private val mBackupEntry: EntryVersioned = EntryVersioned(mOldEntry)
 
     override fun nodeAction() {
         // Update entry with new values
         mOldEntry.touch(true, true)
-        database.updateEntry(mOldEntry, mNewEntry)
+        mOldEntry.updateWith(mNewEntry)
     }
 
     override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
         if (!isSuccess) {
             // If we fail to save, back out changes to global structure
-            database.updateEntry(mOldEntry, mBackupEntry)
+            mOldEntry.updateWith(mBackupEntry)
         }
         return ActionNodeValues(isSuccess, message, mOldEntry, mNewEntry)
     }

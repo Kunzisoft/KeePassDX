@@ -37,7 +37,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
@@ -45,7 +44,7 @@ import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
+import com.kunzisoft.keepass.database.element.EntryVersioned;
 import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
@@ -75,7 +74,7 @@ public class EntryActivity extends LockingHideActivity {
 	private EntryContentsView entryContentsView;
     private Toolbar toolbar;
 	
-	protected PwEntryInterface mEntry;
+	protected EntryVersioned mEntry;
 	private boolean mShowPassword;
 
 	private ClipboardHelper clipboardHelper;
@@ -83,7 +82,7 @@ public class EntryActivity extends LockingHideActivity {
 
 	private int iconColor;
 
-    public static void launch(Activity activity, PwEntryInterface pw, boolean readOnly) {
+    public static void launch(Activity activity, EntryVersioned pw, boolean readOnly) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, EntryActivity.class);
             intent.putExtra(KEY_ENTRY, pw.getNodeId());
@@ -318,7 +317,7 @@ public class EntryActivity extends LockingHideActivity {
 		database.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);
 
 		// Assign title text
-        titleView.setText(PwEntryInterface.getVisualTitle(mEntry));
+        titleView.setText(mEntry.getVisualTitle());
 
         // Assign basic fields
         entryContentsView.assignUserName(mEntry.getUsername());

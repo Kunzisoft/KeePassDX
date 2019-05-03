@@ -3,14 +3,11 @@ package com.kunzisoft.keepass.database.cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwIconFactory;
-import com.kunzisoft.keepass.database.element.PwIconStandard;
-import com.kunzisoft.keepass.database.element.PwNodeIdUUID;
+import com.kunzisoft.keepass.database.element.*;
 
 import java.util.UUID;
 
-public abstract class EntryCursor<PwEntryV extends PwEntryInterface> extends MatrixCursor {
+public abstract class EntryCursor<PwEntryV extends PwEntry> extends MatrixCursor {
 
     protected long entryId;
     public static final String _ID = BaseColumns._ID;

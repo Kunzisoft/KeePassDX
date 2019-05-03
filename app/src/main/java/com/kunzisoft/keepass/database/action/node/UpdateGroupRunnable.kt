@@ -21,30 +21,30 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwGroupInterface
+import com.kunzisoft.keepass.database.element.GroupVersioned
 
 class UpdateGroupRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mOldGroup: PwGroupInterface,
-        private val mNewGroup: PwGroupInterface,
+        private val mOldGroup: GroupVersioned,
+        private val mNewGroup: GroupVersioned,
         finishRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
-    private val mBackupGroup: PwGroupInterface = mOldGroup.duplicate()
+    private val mBackupGroup: GroupVersioned = GroupVersioned(mOldGroup)
 
     override fun nodeAction() {
         // Update group with new values
         mOldGroup.touch(true, true)
-        database.updateGroup(mOldGroup, mNewGroup)
+        mOldGroup.updateWith(mNewGroup)
     }
 
     override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
         if (!isSuccess) {
             // If we fail to save, back out changes to global structure
-            database.updateGroup(mOldGroup, mBackupGroup)
+            mOldGroup.updateWith(mBackupGroup)
         }
         return ActionNodeValues(isSuccess, message, mOldGroup, mNewGroup)
     }

@@ -22,19 +22,22 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.kunzisoft.keepass.app.App;
-
 import org.joda.time.LocalDate;
 
 /**
  * Abstract class who manage Groups and Entries
  */
-public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Cloneable {
+public abstract class PwNode
+        <
+        IdType,
+        Parent extends PwGroupInterface<Parent, Entry>,
+        Entry extends PwEntryInterface<Parent>
+        >
+        implements PwNodeInterface<Parent>, Parcelable {
 
 	private PwNodeId<IdType> nodeId = initNodeId();
-    protected PwGroupInterface parent = null;
-    protected PwIcon icon = new PwIconStandard();
+    private Parent parent = null;
+    private PwIcon icon = new PwIconStandard();
     protected PwDate creation = new PwDate();
     private PwDate lastMod = new PwDate();
     private PwDate lastAccess = new PwDate();
@@ -44,32 +47,22 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
 
     protected PwNode() {}
 
-    protected PwNode(Parcel in) {
-		nodeId = in.readParcelable(PwNodeId.class.getClassLoader());
-        // TODO better technique ?
-        try {
-            PwNodeId pwGroupId = in.readParcelable(PwNodeId.class.getClassLoader());
-            parent = App.getDB().getGroupById(pwGroupId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        icon = in.readParcelable(PwIconStandard.class.getClassLoader());
-        creation = in.readParcelable(PwDate.class.getClassLoader());
-        lastMod = in.readParcelable(PwDate.class.getClassLoader());
-        lastAccess = in.readParcelable(PwDate.class.getClassLoader());
-        expireDate = in.readParcelable(PwDate.class.getClassLoader());
+    protected PwNode(Parcel parcel) {
+		nodeId = parcel.readParcelable(PwNodeId.class.getClassLoader());
+        parent = readParentParcelable(parcel);
+        icon = parcel.readParcelable(PwIconStandard.class.getClassLoader());
+        creation = parcel.readParcelable(PwDate.class.getClassLoader());
+        lastMod = parcel.readParcelable(PwDate.class.getClassLoader());
+        lastAccess = parcel.readParcelable(PwDate.class.getClassLoader());
+        expireDate = parcel.readParcelable(PwDate.class.getClassLoader());
     }
+
+    protected abstract Parent readParentParcelable(Parcel parcel);
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(nodeId, flags);
-
-        PwNodeId parentId = null;
-        if (parent != null)
-            parentId = parent.getNodeId();
-        dest.writeParcelable(parentId, flags);
-
+        dest.writeParcelable(parent, flags);
         dest.writeParcelable(icon, flags);
         dest.writeParcelable(creation, flags);
         dest.writeParcelable(lastMod, flags);
@@ -82,7 +75,7 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
         return 0;
     }
 
-    protected void updateWith(PwNode source) {
+    protected void updateWith(PwNode<IdType, Parent, Entry> source) {
 		this.nodeId = source.nodeId;
         this.parent = source.parent;
         this.icon = source.icon;
@@ -114,13 +107,11 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
         return getNodeId().getId();
     }
 
-	@Override
 	public PwNodeId<IdType> getNodeId() {
 		return nodeId;
 	}
 
-	@Override
-	public void setNodeId(PwNodeId id) {
+	public void setNodeId(PwNodeId<IdType> id) {
 		this.nodeId = id;
 	}
 
@@ -136,18 +127,13 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
         this.icon = icon;
     }
 
-    /**
-     * Retrieve the parent node
-     * @return PwGroup parent as group
-     */
-    public PwGroupInterface getParent() {
+    @Override
+    public Parent getParent() {
         return parent;
     }
 
-    /**
-     * Assign a parent to this node
-     */
-    public void setParent(PwGroupInterface parent) {
+    @Override
+    public void setParent(Parent parent) {
         this.parent = parent;
     }
 
@@ -202,8 +188,8 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
     }
 
     @Override
-    public boolean isContainedIn(PwGroupInterface container) {
-        PwGroupInterface cur = this.getParent();
+    public boolean isContainedIn(Parent container) {
+        Parent cur = this.getParent();
         while (cur != null) {
             if (cur.equals(container)) {
                 return true;
@@ -222,7 +208,7 @@ public abstract class PwNode<IdType> implements PwNodeInterface, Parcelable, Clo
             setLastModificationTime(now);
         }
 
-        PwGroupInterface parent = getParent();
+        Parent parent = getParent();
         if (touchParents && parent != null) {
             parent.touch(modified, true);
         }

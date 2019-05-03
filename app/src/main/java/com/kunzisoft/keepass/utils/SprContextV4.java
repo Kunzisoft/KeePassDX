@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.utils;
 
 import com.kunzisoft.keepass.database.element.PwDatabaseV4;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV4;
 
 import java.util.HashMap;
@@ -29,7 +28,7 @@ import java.util.Map;
 public class SprContextV4 implements Cloneable {
 
 	public PwDatabaseV4 db;
-	public PwEntryInterface entry;
+	public PwEntryV4 entry;
 	public Map<String, String> refsCache = new HashMap<>();
 	
 	public SprContextV4(PwDatabaseV4 db, PwEntryV4 entry) {

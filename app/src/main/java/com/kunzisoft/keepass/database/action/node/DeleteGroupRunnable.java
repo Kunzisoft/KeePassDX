@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.action.node;
 import android.support.v4.app.FragmentActivity;
 
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,13 +30,13 @@ import org.jetbrains.annotations.Nullable;
 // TODO Kotlinized
 public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 
-	private PwGroupInterface mGroupToDelete;
-	private PwGroupInterface mParent;
+	private GroupVersioned mGroupToDelete;
+	private GroupVersioned mParent;
 	private boolean mRecycle;
 
 	public DeleteGroupRunnable(FragmentActivity context,
 							   Database database,
-							   PwGroupInterface group,
+							   GroupVersioned group,
 							   AfterActionNodeFinishRunnable finish,
 							   boolean save) {
 		super(context, database, finish, save);
@@ -67,7 +67,7 @@ public class DeleteGroupRunnable extends ActionNodeDatabaseRunnable {
 			}
 			else {
 				// Let's not bother recovering from a failure to save a deleted tree.  It is too much work.
-				// TODO TEST pm.undoDeleteGroup(mGroup, mParent);
+				// TODO TEST pm.undoDeleteGroupFrom(mGroup, mParent);
 			}
 		}
 		return new ActionNodeValues(isSuccess, message, mGroupToDelete, null);

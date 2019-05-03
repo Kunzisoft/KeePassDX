@@ -21,29 +21,14 @@ package com.kunzisoft.keepass.database.save;
 
 import android.util.Log;
 import android.util.Xml;
-
+import biz.source_code.base64Coder.Base64Coder;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
-import com.kunzisoft.keepass.database.AutoType;
-import com.kunzisoft.keepass.database.CrsAlgorithm;
-import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.GroupHandler;
-import com.kunzisoft.keepass.database.ITimeLogger;
-import com.kunzisoft.keepass.database.MemoryProtectionConfig;
-import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
-import com.kunzisoft.keepass.database.element.PwDatabaseV4;
-import com.kunzisoft.keepass.database.element.PwDatabaseV4XML;
-import com.kunzisoft.keepass.database.element.PwDbHeaderV4;
-import com.kunzisoft.keepass.database.element.PwDefsV4;
-import com.kunzisoft.keepass.database.element.PwDeletedObject;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwGroupV4;
-import com.kunzisoft.keepass.database.element.PwIconCustom;
+import com.kunzisoft.keepass.database.*;
+import com.kunzisoft.keepass.database.element.*;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.database.exception.UnknownKDF;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
@@ -55,27 +40,19 @@ import com.kunzisoft.keepass.utils.DateUtil;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MemUtil;
 import com.kunzisoft.keepass.utils.Types;
-
 import org.joda.time.DateTime;
 import org.spongycastle.crypto.StreamCipher;
 import org.xmlpull.v1.XmlSerializer;
 
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Stack;
-import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
-
-import javax.crypto.Cipher;
-import javax.crypto.CipherOutputStream;
-
-import biz.source_code.base64Coder.Base64Coder;
 
 public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
     private static final String TAG = PwDbV4Output.class.getName();
@@ -155,18 +132,16 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		writeMeta();
 		
-		PwGroupV4 root = (PwGroupV4) mPM.getRootGroup();
+		PwGroupV4 root = mPM.getRootGroup();
 		xml.startTag(null, PwDatabaseV4XML.ElemRoot);
 		startGroup(root);
 		Stack<PwGroupV4> groupStack = new Stack<>();
 		groupStack.push(root);
 
-		if (!PwGroupInterface.doForEachChild(root,
-				new EntryHandler<PwEntryInterface>() {
+		if (!root.doForEachChild(
+				new NodeHandler<PwEntryV4>() {
 					@Override
-					public boolean operate(PwEntryInterface entryInterface) {
-						PwEntryV4 entry = (PwEntryV4) entryInterface;
-
+					public boolean operate(PwEntryV4 entry) {
 						try {
 							writeEntry(entry, false);
 						} catch (IOException ex) {
@@ -176,11 +151,9 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 						return true;
 					}
 				},
-				new GroupHandler<PwGroupInterface>() {
+				new NodeHandler<PwGroupV4>() {
 					@Override
-					public boolean operate(PwGroupInterface groupInterface) {
-						PwGroupV4 group = (PwGroupV4) groupInterface;
-
+					public boolean operate(PwGroupV4 group) {
 						while (true) {
 							try {
 								if (group.getParent() == groupStack.peek()) {
@@ -338,7 +311,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	
 	private void startGroup(PwGroupV4 group) throws IllegalArgumentException, IllegalStateException, IOException {
 		xml.startTag(null, PwDatabaseV4XML.ElemGroup);
-		writeObject(PwDatabaseV4XML.ElemUuid, group.getNodeId().getId());
+		writeObject(PwDatabaseV4XML.ElemUuid, group.getId());
 		writeObject(PwDatabaseV4XML.ElemName, group.getTitle());
 		writeObject(PwDatabaseV4XML.ElemNotes, group.getNotes());
 		writeObject(PwDatabaseV4XML.ElemIcon, group.getIconStandard().getIconId());

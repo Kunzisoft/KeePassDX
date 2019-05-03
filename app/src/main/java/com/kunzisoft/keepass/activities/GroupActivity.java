@@ -71,12 +71,7 @@ import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
-import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwIcon;
-import com.kunzisoft.keepass.database.element.PwNodeId;
-import com.kunzisoft.keepass.database.element.PwNodeInterface;
+import com.kunzisoft.keepass.database.element.*;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -129,17 +124,17 @@ public class GroupActivity extends LockingActivity
     private ListNodesFragment listNodesFragment;
     private boolean currentGroupIsASearch;
 
-    private PwGroupInterface rootGroup;
-    private PwGroupInterface mCurrentGroup;
-	private PwGroupInterface oldGroupToUpdate;
-    private PwNodeInterface nodeToCopy;
-    private PwNodeInterface nodeToMove;
+    private GroupVersioned rootGroup;
+    private GroupVersioned mCurrentGroup;
+	private GroupVersioned oldGroupToUpdate;
+    private NodeVersioned nodeToCopy;
+    private NodeVersioned nodeToMove;
 
     private SearchEntryCursorAdapter searchSuggestionAdapter;
 
     private int iconColor;
 
-    private static void buildAndLaunchIntent(Activity activity, PwGroupInterface group, boolean readOnly,
+    private static void buildAndLaunchIntent(Activity activity, GroupVersioned group, boolean readOnly,
                                              IntentBuildLauncher intentBuildLauncher) {
         if (TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeout(activity)) {
             Intent intent = new Intent(activity, GroupActivity.class);
@@ -165,7 +160,7 @@ public class GroupActivity extends LockingActivity
         launch(activity, null, readOnly);
 	}
 
-    public static void launch(Activity activity, PwGroupInterface group, boolean readOnly) {
+    public static void launch(Activity activity, GroupVersioned group, boolean readOnly) {
         TimeoutHelper.INSTANCE.recordTime(activity);
         buildAndLaunchIntent(activity, group, readOnly,
                 (intent) -> activity.startActivityForResult(intent, 0));
@@ -316,7 +311,7 @@ public class GroupActivity extends LockingActivity
         }
     }
 
-    private void openSearchGroup(PwGroupInterface group) {
+    private void openSearchGroup(GroupVersioned group) {
         // Delete the previous search fragment
         Fragment searchFragment = getSupportFragmentManager().findFragmentByTag(SEARCH_FRAGMENT_TAG);
         if (searchFragment != null) {
@@ -328,11 +323,11 @@ public class GroupActivity extends LockingActivity
         openGroup(group, true);
     }
 
-    private void openChildGroup(PwGroupInterface group) {
+    private void openChildGroup(GroupVersioned group) {
         openGroup(group, false);
     }
 
-    private void openGroup(PwGroupInterface group, boolean isASearch) {
+    private void openGroup(GroupVersioned group, boolean isASearch) {
         // Check TimeoutHelper
         TimeoutHelper.INSTANCE.checkTimeAndLockIfTimeoutOrResetTimeout(this, () -> {
 			// Open a group in a new fragment
@@ -375,7 +370,7 @@ public class GroupActivity extends LockingActivity
         super.onSaveInstanceState(outState);
     }
 
-	protected @Nullable PwGroupInterface retrieveCurrentGroup(Intent intent, @Nullable Bundle savedInstanceState) {
+	protected @Nullable GroupVersioned retrieveCurrentGroup(Intent intent, @Nullable Bundle savedInstanceState) {
 
         // If it's a search
         if ( Intent.ACTION_SEARCH.equals(intent.getAction()) ) {
@@ -395,7 +390,7 @@ public class GroupActivity extends LockingActivity
             setReadOnly(database.isReadOnly() || getReadOnly()); // Force read only if the database is like that
 
             Log.w(TAG, "Creating tree view");
-            PwGroupInterface currentGroup;
+            GroupVersioned currentGroup;
             if (pwGroupId == null) {
                 currentGroup = rootGroup;
             } else {
@@ -486,18 +481,18 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public void onNodeClick(PwNodeInterface node) {
+    public void onNodeClick(NodeVersioned node) {
         switch (node.getType()) {
             case GROUP:
                 try {
-                    openChildGroup((PwGroupInterface) node);
+                    openChildGroup((GroupVersioned) node);
                 } catch (ClassCastException e) {
                     Log.e(TAG, "Node can't be cast in Group");
                 }
                 break;
             case ENTRY:
                 try {
-                    PwEntryInterface entry = ((PwEntryInterface) node);
+                    EntryVersioned entry = ((EntryVersioned) node);
                     EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
                             () -> {
                                 EntryActivity.launch(GroupActivity.this, entry, getReadOnly());
@@ -531,7 +526,7 @@ public class GroupActivity extends LockingActivity
         }
     }
 
-    private Entry getEntry(PwEntryInterface entry) {
+    private Entry getEntry(EntryVersioned entry) {
         Entry entryModel = new Entry();
         entryModel.setTitle(entry.getTitle());
         entryModel.setUsername(entry.getUsername());
@@ -547,29 +542,29 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public boolean onOpenMenuClick(PwNodeInterface node) {
+    public boolean onOpenMenuClick(NodeVersioned node) {
         onNodeClick(node);
         return true;
     }
 
     @Override
-    public boolean onEditMenuClick(PwNodeInterface node) {
+    public boolean onEditMenuClick(NodeVersioned node) {
         switch (node.getType()) {
             case GROUP:
-                oldGroupToUpdate = (PwGroupInterface) node;
+                oldGroupToUpdate = (GroupVersioned) node;
                 GroupEditDialogFragment.build(oldGroupToUpdate)
                         .show(getSupportFragmentManager(),
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
                 break;
             case ENTRY:
-                EntryEditActivity.launch(GroupActivity.this, (PwEntryInterface) node);
+                EntryEditActivity.launch(GroupActivity.this, (EntryVersioned) node);
                 break;
         }
         return true;
     }
 
     @Override
-    public boolean onCopyMenuClick(PwNodeInterface node) {
+    public boolean onCopyMenuClick(NodeVersioned node) {
 
         toolbarPasteExpandableLayout.expand();
         nodeToCopy = node;
@@ -590,7 +585,7 @@ public class GroupActivity extends LockingActivity
                             Log.e(TAG, "Copy not allowed for group");
                             break;
                         case ENTRY:
-                            copyEntry((PwEntryInterface) nodeToCopy, mCurrentGroup);
+                            copyEntry((EntryVersioned) nodeToCopy, mCurrentGroup);
                             break;
                     }
                     nodeToCopy = null;
@@ -600,7 +595,7 @@ public class GroupActivity extends LockingActivity
         }
     }
 
-    private void copyEntry(PwEntryInterface entryToCopy, PwGroupInterface newParent) {
+    private void copyEntry(EntryVersioned entryToCopy, GroupVersioned newParent) {
         new Thread(new CopyEntryRunnable(this,
 				App.getDB(),
 				entryToCopy,
@@ -611,7 +606,7 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public boolean onMoveMenuClick(PwNodeInterface node) {
+    public boolean onMoveMenuClick(NodeVersioned node) {
 
         toolbarPasteExpandableLayout.expand();
         nodeToMove = node;
@@ -629,10 +624,10 @@ public class GroupActivity extends LockingActivity
                 case R.id.menu_paste:
                     switch (nodeToMove.getType()) {
                         case GROUP:
-                            moveGroup((PwGroupInterface) nodeToMove, mCurrentGroup);
+                            moveGroup((GroupVersioned) nodeToMove, mCurrentGroup);
                             break;
                         case ENTRY:
-                            moveEntry((PwEntryInterface) nodeToMove, mCurrentGroup);
+                            moveEntry((EntryVersioned) nodeToMove, mCurrentGroup);
                             break;
                     }
                     nodeToMove = null;
@@ -642,7 +637,7 @@ public class GroupActivity extends LockingActivity
         }
     }
 
-    private void moveGroup(PwGroupInterface groupToMove, PwGroupInterface newParent) {
+    private void moveGroup(GroupVersioned groupToMove, GroupVersioned newParent) {
         new Thread(new MoveGroupRunnable(
 				this,
 				App.getDB(),
@@ -653,7 +648,7 @@ public class GroupActivity extends LockingActivity
 		).start();
     }
 
-    private void moveEntry(PwEntryInterface entryToMove, PwGroupInterface newParent) {
+    private void moveEntry(EntryVersioned entryToMove, GroupVersioned newParent) {
         new Thread(new MoveEntryRunnable(
 				this,
 				App.getDB(),
@@ -665,19 +660,19 @@ public class GroupActivity extends LockingActivity
     }
 
     @Override
-    public boolean onDeleteMenuClick(PwNodeInterface node) {
+    public boolean onDeleteMenuClick(NodeVersioned node) {
         switch (node.getType()) {
             case GROUP:
-                deleteGroup((PwGroupInterface) node);
+                deleteGroup((GroupVersioned) node);
                 break;
             case ENTRY:
-                deleteEntry((PwEntryInterface) node);
+                deleteEntry((EntryVersioned) node);
                 break;
         }
         return true;
     }
 
-    private void deleteGroup(PwGroupInterface group) {
+    private void deleteGroup(GroupVersioned group) {
         //TODO Verify trash recycle bin
         new Thread(new DeleteGroupRunnable(
 				this,
@@ -688,7 +683,7 @@ public class GroupActivity extends LockingActivity
 		).start();
     }
 
-    private void deleteEntry(PwEntryInterface entry) {
+    private void deleteEntry(EntryVersioned entry) {
         new Thread(new DeleteEntryRunnable(
 				this,
 				App.getDB(),
@@ -978,7 +973,7 @@ public class GroupActivity extends LockingActivity
             case CREATION:
                 // If group creation
                 // Build the group
-                PwGroupInterface newGroup = database.createGroup();
+                GroupVersioned newGroup = database.createGroup();
                 newGroup.setTitle(name);
                 newGroup.setIcon(icon);
                 // Not really needed here because added in runnable but safe
@@ -997,7 +992,7 @@ public class GroupActivity extends LockingActivity
             case UPDATE:
                 // If update add new elements
                 if (oldGroupToUpdate != null) {
-                    PwGroupInterface updateGroup = oldGroupToUpdate.duplicate();
+                    GroupVersioned updateGroup = new GroupVersioned(oldGroupToUpdate);
                     updateGroup.setTitle(name);
 					// TODO custom icon
                     updateGroup.setIcon(icon);
@@ -1056,11 +1051,11 @@ public class GroupActivity extends LockingActivity
                         listNodesFragment.removeNode(actionNodeValues.getOldNode());
 
                     if (actionNodeValues.getOldNode() != null) {
-                        PwGroupInterface parent = actionNodeValues.getOldNode().getParent();
+                        GroupVersioned parent = actionNodeValues.getOldNode().getParent();
 						Database database = App.getDB();
 						if (database.isRecycleBinAvailable() &&
 								database.isRecycleBinEnabled()) {
-                            PwGroupInterface recycleBin = database.getRecycleBin();
+                            GroupVersioned recycleBin = database.getRecycleBin();
 							// Add trash if it doesn't exists
 							if (parent.equals(recycleBin)
 									&& mCurrentGroup != null

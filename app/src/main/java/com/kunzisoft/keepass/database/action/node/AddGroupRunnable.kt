@@ -21,13 +21,13 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwGroupInterface
+import com.kunzisoft.keepass.database.element.GroupVersioned
 
 class AddGroupRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mNewGroup: PwGroupInterface,
-        private val mParent: PwGroupInterface,
+        private val mNewGroup: GroupVersioned,
+        private val mParent: GroupVersioned,
         afterAddNodeRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {

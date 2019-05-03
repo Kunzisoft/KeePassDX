@@ -19,9 +19,7 @@
  */
 package com.kunzisoft.keepass.database;
 
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
 import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 
@@ -38,7 +36,7 @@ public class BinaryPool {
 	}
 	
 	public BinaryPool(PwGroupV4 rootGroup) {
-		build(rootGroup);
+		// TODO ? build(rootGroup);
 	}
 
 	public ProtectedBinary get(int key) {
@@ -92,12 +90,13 @@ public class BinaryPool {
 		
 		return -1;
 	}
-	
-	private void build(PwGroupV4 rootGroup) {
-		PwGroupInterface.doForEachChild(rootGroup, new EntryHandler<PwEntryInterface>() {
+
+	private void build(GroupVersioned rootGroup) {
+		/*
+		rootGroup.doForEachChild(new EntryHandler<EntryVersioned>() {
 			@Override
-			public boolean operate(PwEntryInterface entryInterface) {
-				PwEntryV4 entry = (PwEntryV4) entryInterface;
+			public boolean operate(EntryVersioned entryInterface) {
+				PwEntryV4 entry = entryInterface.getPwEntryV4();
 
 				for (PwEntryV4 histEntry : entry.getHistory()) {
 					add(histEntry.getBinaries());
@@ -106,5 +105,6 @@ public class BinaryPool {
 				return true;
 			}
 		}, null);
+		*/
 	}
 }

@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PwGroupV4 extends PwGroup<UUID> implements ITimeLogger {
+public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements ITimeLogger {
 
 	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
 
@@ -66,6 +66,11 @@ public class PwGroupV4 extends PwGroup<UUID> implements ITimeLogger {
         byte enableSearchingByte = in.readByte();
         enableSearching = (enableSearchingByte == -1) ? null : enableSearchingByte != 0;
         lastTopVisibleEntry = (UUID) in.readSerializable();
+    }
+
+    @Override
+    protected PwGroupV4 readParentParcelable(Parcel parcel) {
+        return parcel.readParcelable(PwGroupV4.class.getClassLoader());
     }
 
     @Override
@@ -139,17 +144,12 @@ public class PwGroupV4 extends PwGroup<UUID> implements ITimeLogger {
     }
 
 	@Override
-	public PwGroupInterface duplicate() {
-		return clone();
-	}
-
-	@Override
 	public Type getType() {
 		return Type.GROUP;
 	}
 
 	@Override
-	public void setParent(PwGroupInterface parent) {
+	public void setParent(PwGroupV4 parent) {
 		super.setParent(parent);
 		locationChangeDate = new PwDate();
 	}
@@ -186,7 +186,7 @@ public class PwGroupV4 extends PwGroup<UUID> implements ITimeLogger {
 
 	@Override
 	public PwIcon getIcon() {
-		if (customIcon == null || customIcon.getUUID().equals(PwDatabase.UUID_ZERO)) {
+		if (customIcon == null || customIcon.isUnknown()) { // TODO Encapsulate with PwEntryV4
 			return super.getIcon();
 		} else {
 			return customIcon;
@@ -202,11 +202,11 @@ public class PwGroupV4 extends PwGroup<UUID> implements ITimeLogger {
     }
 
     public PwIcon getIconStandard() {
-        return icon;
+        return getIcon();
     }
 
     public void setIconStandard(PwIconStandard icon) { // TODO Encapsulate with PwEntryV4
-        this.icon = icon;
+        super.setIcon(icon);
         this.customIcon = PwIconCustom.ZERO;
     }
 
@@ -266,16 +266,17 @@ public class PwGroupV4 extends PwGroup<UUID> implements ITimeLogger {
         this.lastTopVisibleEntry = lastTopVisibleEntry;
     }
 
-    public boolean isSearchingEnabled() {
-		PwGroupV4 group = this;
+    public Boolean isSearchingEnabled() {
+
+        GroupVersioned group = new GroupVersioned(this);
 		while (group != null) {
-			Boolean search = group.enableSearching;
+			Boolean search = group.isSearchingEnabled();
 			if (search != null) {
 				return search;
 			}
-			group = (PwGroupV4) group.parent;
+			group = group.getParent();
 		}
-		
+
 		// If we get to the root tree and its null, default to true
 		return true;
 	}

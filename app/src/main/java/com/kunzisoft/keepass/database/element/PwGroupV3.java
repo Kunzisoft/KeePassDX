@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
-public class PwGroupV3 extends PwGroup<Integer> {
+public class PwGroupV3 extends PwGroup<Integer, PwGroupV3, PwEntryV3> {
 
 	private int level = 0; // short
 	/** Used by KeePass internally, don't use */
@@ -41,6 +41,11 @@ public class PwGroupV3 extends PwGroup<Integer> {
         super(in);
         level = in.readInt();
         flags = in.readInt();
+    }
+
+    @Override
+    protected PwGroupV3 readParentParcelable(Parcel parcel) {
+        return parcel.readParcelable(PwGroupV3.class.getClassLoader());
     }
 
     @Override
@@ -78,41 +83,31 @@ public class PwGroupV3 extends PwGroup<Integer> {
         return (PwGroupV3) super.clone();
     }
 
-	@Override
-	public PwGroupInterface duplicate() {
-		return clone();
-	}
-
     @Override
 	public Type getType() {
 		return Type.GROUP;
 	}
 
-	public void setParent(PwGroupInterface parent) {
+	public void setParent(PwGroupV3 parent) {
         super.setParent(parent);
-        level = parent.getLevel() + 1;
+        try {
+            level = parent.getLevel() + 1;
+        } catch (ClassCastException ignored) {}
     }
 
 	@Override
-	public boolean isSearchingEnabled() {
+	public Boolean isSearchingEnabled() {
 		return false;
 	}
-
-    @Override
-    public boolean containsCustomData() {
-        return false;
-    }
 
     public void setGroupId(int groupId) {
         this.setNodeId(new PwNodeIdInt(groupId));
     }
 
-    @Override
     public int getLevel() {
         return level;
     }
 
-    @Override
     public void setLevel(int level) {
         this.level = level;
     }

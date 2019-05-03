@@ -22,19 +22,19 @@ package com.kunzisoft.keepass.database.action.node
 import android.support.v4.app.FragmentActivity
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwEntryInterface
-import com.kunzisoft.keepass.database.element.PwGroupInterface
+import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.GroupVersioned
 
 class CopyEntryRunnable constructor(
         context: FragmentActivity,
         database: Database,
-        private val mEntryToCopy: PwEntryInterface,
-        private val mNewParent: PwGroupInterface,
+        private val mEntryToCopy: EntryVersioned,
+        private val mNewParent: GroupVersioned,
         afterAddNodeRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)
     : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
 
-    private var mEntryCopied: PwEntryInterface? = null
+    private var mEntryCopied: EntryVersioned? = null
 
     override fun nodeAction() {
         // Update entry with new values

@@ -19,19 +19,11 @@
  */
 package com.kunzisoft.keepass.tests.database;
 
-import android.content.Context;
 import android.test.AndroidTestCase;
-
-import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
-import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
 import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDatabaseV3;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.search.SearchDbHelper;
-
-import java.util.List;
 
 public class DeleteEntry extends AndroidTestCase {
 	private static final String GROUP1_NAME = "Group1";
@@ -57,7 +49,7 @@ public class DeleteEntry extends AndroidTestCase {
 		}
 		
 		PwDatabaseV3 pm = (PwDatabaseV3) db.getPwDatabase();
-		PwGroupInterface group1 = getGroup(pm, GROUP1_NAME);
+		GroupVersioned group1 = getGroup(pm, GROUP1_NAME);
 		assertNotNull("Could not find group1", group1);
 		
 		// Delete the group
@@ -73,8 +65,8 @@ public class DeleteEntry extends AndroidTestCase {
 		
 		// Verify the entries were removed from the search index
 		SearchDbHelper dbHelp = new SearchDbHelper(ctx);
-		PwGroupInterface results1 = dbHelp.search(db.getPwDatabase(), ENTRY1_NAME, 100);
-		PwGroupInterface results2 = dbHelp.search(db.getPwDatabase(), ENTRY2_NAME, 100);
+		GroupVersioned results1 = dbHelp.search(db.getPwDatabase(), ENTRY1_NAME, 100);
+		GroupVersioned results2 = dbHelp.search(db.getPwDatabase(), ENTRY2_NAME, 100);
 		
 		assertEquals("Entry1 was not removed from the search results", 0, results1.numbersOfChildEntries());
 		assertEquals("Entry2 was not removed from the search results", 0, results2.numbersOfChildEntries());
@@ -101,11 +93,11 @@ public class DeleteEntry extends AndroidTestCase {
 		
 	}
 	
-	private PwGroupInterface getGroup(PwDatabase pm, String name) {
+	private GroupVersioned getGroup(PwDatabase pm, String name) {
 		/*
-		List<PwGroupInterface> groups = pm.getGroups();
+		List<GroupVersioned> groups = pm.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
-			PwGroupInterface group = groups.get(i);
+			GroupVersioned group = groups.get(i);
 			if ( group.getTitle().equals(name) ) {
 				return group;
 			}

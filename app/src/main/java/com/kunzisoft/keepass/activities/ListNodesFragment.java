@@ -20,8 +20,8 @@ import android.view.ViewGroup;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
 import com.kunzisoft.keepass.database.SortNodeEnum;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwNodeInterface;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
+import com.kunzisoft.keepass.database.element.NodeVersioned;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishFragment;
@@ -39,7 +39,7 @@ public class ListNodesFragment extends StylishFragment implements
     private OnScrollListener onScrollListener;
 
     private RecyclerView listView;
-    private PwGroupInterface currentGroup;
+    private GroupVersioned currentGroup;
     private NodeAdapter mAdapter;
 
     private View notFoundView;
@@ -50,7 +50,7 @@ public class ListNodesFragment extends StylishFragment implements
 
     private boolean readOnly;
 
-    public static ListNodesFragment newInstance(PwGroupInterface group, boolean readOnly, boolean isASearch) {
+    public static ListNodesFragment newInstance(GroupVersioned group, boolean readOnly, boolean isASearch) {
         Bundle bundle = new Bundle();
         if (group != null) {
             bundle.putParcelable(GROUP_KEY, group);
@@ -245,7 +245,7 @@ public class ListNodesFragment extends StylishFragment implements
             case EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE:
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE ||
                         resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    PwNodeInterface newNode = data.getParcelableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
+                    NodeVersioned newNode = data.getParcelableExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY);
                     if (newNode != null) {
                         if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
                             mAdapter.addNode(newNode);
@@ -265,19 +265,19 @@ public class ListNodesFragment extends StylishFragment implements
         return mAdapter == null || mAdapter.getItemCount() <= 0;
     }
 
-    public void addNode(PwNodeInterface newNode) {
+    public void addNode(NodeVersioned newNode) {
         mAdapter.addNode(newNode);
     }
 
-    public void updateNode(PwNodeInterface oldNode, PwNodeInterface newNode) {
+    public void updateNode(NodeVersioned oldNode, NodeVersioned newNode) {
         mAdapter.updateNode(oldNode, newNode);
     }
 
-    public void removeNode(PwNodeInterface pwNode) {
+    public void removeNode(NodeVersioned pwNode) {
         mAdapter.removeNode(pwNode);
     }
 
-    public PwGroupInterface getMainGroup() {
+    public GroupVersioned getMainGroup() {
         return currentGroup;
     }
 

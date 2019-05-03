@@ -20,35 +20,22 @@
 package com.kunzisoft.keepass.database.save;
 
 import com.kunzisoft.keepass.crypto.CipherFactory;
-import com.kunzisoft.keepass.database.element.PwDatabaseV3;
-import com.kunzisoft.keepass.database.element.PwDbHeader;
-import com.kunzisoft.keepass.database.element.PwDbHeaderV3;
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm;
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwEntryV3;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwGroupV3;
+import com.kunzisoft.keepass.database.element.*;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.stream.NullOutputStream;
-
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.DigestOutputStream;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 
@@ -215,8 +202,8 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		}
 		
 		// Groups
-		for (PwGroupInterface group: mDatabaseV3.getGroupIndexes()) {
-			PwGroupOutputV3 pgo = new PwGroupOutputV3((PwGroupV3) group, os);
+		for (PwGroupV3 group: mDatabaseV3.getGroupIndexes()) {
+			PwGroupOutputV3 pgo = new PwGroupOutputV3(group, os);
 			try {
 				pgo.output();
 			} catch (IOException e) {
@@ -225,8 +212,8 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		}
 		
 		// Entries
-		for (PwEntryInterface entry : mDatabaseV3.getEntryIndexes()) {
-			PwEntryOutputV3 peo = new PwEntryOutputV3((PwEntryV3) (entry), os);
+		for (PwEntryV3 entry : mDatabaseV3.getEntryIndexes()) {
+			PwEntryOutputV3 peo = new PwEntryOutputV3(entry, os);
 			try {
 				peo.output();
 			} catch (IOException e) {
@@ -236,20 +223,20 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 	}
 	
 	private void sortGroupsForOutput() {
-		List<PwGroupInterface> groupList = new ArrayList<>();
+		List<PwGroupV3> groupList = new ArrayList<>();
 		// Rebuild list according to coalation sorting order removing any orphaned groups
-		for (PwGroupInterface rootGroup : mDatabaseV3.getRootGroups()) {
+		for (PwGroupV3 rootGroup : mDatabaseV3.getRootGroups()) {
 			sortGroup(rootGroup, groupList);
 		}
 		mDatabaseV3.setGroupIndexes(groupList);
 	}
 	
-	private void sortGroup(PwGroupInterface group, List<PwGroupInterface> groupList) {
+	private void sortGroup(PwGroupV3 group, List<PwGroupV3> groupList) {
 		// Add current tree
 		groupList.add(group);
 		
 		// Recurse over children
-		for (PwGroupInterface childGroup : group.getChildGroups()) {
+		for (PwGroupV3 childGroup : group.getChildGroups()) {
 			sortGroup(childGroup, groupList);
 		}
 	}

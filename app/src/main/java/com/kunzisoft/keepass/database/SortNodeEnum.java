@@ -20,16 +20,16 @@
 
 package com.kunzisoft.keepass.database;
 
-import com.kunzisoft.keepass.database.element.PwEntryInterface;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.database.element.PwNodeInterface;
+import com.kunzisoft.keepass.database.element.EntryVersioned;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
+import com.kunzisoft.keepass.database.element.NodeVersioned;
 
 import java.util.Comparator;
 
 public enum SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
 
-    public Comparator<PwNodeInterface> getNodeComparator(boolean ascending, boolean groupsBefore) {
+    public Comparator<NodeVersioned> getNodeComparator(boolean ascending, boolean groupsBefore) {
         switch (this) {
             case DB:
                 return new NodeCreationComparator(ascending, groupsBefore); // TODO Sort
@@ -47,7 +47,7 @@ public enum SortNodeEnum {
         }
     }
 
-    private static abstract class NodeComparator implements Comparator<PwNodeInterface> {
+    private static abstract class NodeComparator implements Comparator<NodeVersioned> {
         boolean ascending;
         boolean groupsBefore;
 
@@ -56,19 +56,19 @@ public enum SortNodeEnum {
             this.groupsBefore = groupsBefore;
         }
 
-        int compareWith(Comparator<PwGroupInterface> comparatorGroup,
-                                Comparator<PwEntryInterface> comparatorEntry,
-                                PwNodeInterface object1,
-                                PwNodeInterface object2,
+        int compareWith(Comparator<GroupVersioned> comparatorGroup,
+                                Comparator<EntryVersioned> comparatorEntry,
+                                NodeVersioned object1,
+                                NodeVersioned object2,
                                 int resultOfNodeMethodCompare) {
             if (object1.equals(object2))
                 return 0;
 
-            if (object1 instanceof PwGroupInterface) {
-                if (object2 instanceof PwGroupInterface) {
+            if (object1 instanceof GroupVersioned) {
+                if (object2 instanceof GroupVersioned) {
                     return comparatorGroup
-                            .compare((PwGroupInterface) object1, (PwGroupInterface) object2);
-                } else if (object2 instanceof PwEntryInterface) {
+                            .compare((GroupVersioned) object1, (GroupVersioned) object2);
+                } else if (object2 instanceof EntryVersioned) {
                     if(groupsBefore)
                         return -1;
                     else
@@ -76,11 +76,11 @@ public enum SortNodeEnum {
                 } else {
                     return -1;
                 }
-            } else if (object1 instanceof PwEntryInterface) {
-                if(object2 instanceof PwEntryInterface) {
+            } else if (object1 instanceof EntryVersioned) {
+                if(object2 instanceof EntryVersioned) {
                     return comparatorEntry
-                            .compare((PwEntryInterface) object1, (PwEntryInterface) object2);
-                } else if (object2 instanceof PwGroupInterface) {
+                            .compare((EntryVersioned) object1, (EntryVersioned) object2);
+                } else if (object2 instanceof GroupVersioned) {
                     if(groupsBefore)
                         return 1;
                     else
@@ -106,7 +106,7 @@ public enum SortNodeEnum {
             super(ascending, groupsBefore);
         }
 
-        public int compare(PwNodeInterface object1, PwNodeInterface object2) {
+        public int compare(NodeVersioned object1, NodeVersioned object2) {
 
             return compareWith(
                     new GroupNameComparator(ascending),
@@ -129,7 +129,7 @@ public enum SortNodeEnum {
         }
 
         @Override
-        public int compare(PwNodeInterface object1, PwNodeInterface object2) {
+        public int compare(NodeVersioned object1, NodeVersioned object2) {
 
             return compareWith(
                     new GroupCreationComparator(ascending),
@@ -151,7 +151,7 @@ public enum SortNodeEnum {
         }
 
         @Override
-        public int compare(PwNodeInterface object1, PwNodeInterface object2) {
+        public int compare(NodeVersioned object1, NodeVersioned object2) {
 
             return compareWith(
                     new GroupLastModificationComparator(ascending),
@@ -173,7 +173,7 @@ public enum SortNodeEnum {
         }
 
         @Override
-        public int compare(PwNodeInterface object1, PwNodeInterface object2) {
+        public int compare(NodeVersioned object1, NodeVersioned object2) {
 
             return compareWith(
                     new GroupLastAccessComparator(ascending),
@@ -205,13 +205,13 @@ public enum SortNodeEnum {
     /**
      * Group comparator by name
      */
-    public static class GroupNameComparator extends AscendingComparator<PwGroupInterface> {
+    public static class GroupNameComparator extends AscendingComparator<GroupVersioned> {
 
         GroupNameComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwGroupInterface object1, PwGroupInterface object2) {
+        public int compare(GroupVersioned object1, GroupVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 
@@ -228,13 +228,13 @@ public enum SortNodeEnum {
     /**
      * Group comparator by name
      */
-    public static class GroupCreationComparator extends AscendingComparator<PwGroupInterface> {
+    public static class GroupCreationComparator extends AscendingComparator<GroupVersioned> {
 
         GroupCreationComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwGroupInterface object1, PwGroupInterface object2) {
+        public int compare(GroupVersioned object1, GroupVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 
@@ -252,13 +252,13 @@ public enum SortNodeEnum {
     /**
      * Group comparator by last modification
      */
-    public static class GroupLastModificationComparator extends AscendingComparator<PwGroupInterface> {
+    public static class GroupLastModificationComparator extends AscendingComparator<GroupVersioned> {
 
         GroupLastModificationComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwGroupInterface object1, PwGroupInterface object2) {
+        public int compare(GroupVersioned object1, GroupVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 
@@ -276,13 +276,13 @@ public enum SortNodeEnum {
     /**
      * Group comparator by last access
      */
-    public static class GroupLastAccessComparator extends AscendingComparator<PwGroupInterface> {
+    public static class GroupLastAccessComparator extends AscendingComparator<GroupVersioned> {
 
         GroupLastAccessComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwGroupInterface object1, PwGroupInterface object2) {
+        public int compare(GroupVersioned object1, GroupVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 
@@ -300,13 +300,13 @@ public enum SortNodeEnum {
     /**
      * Comparator of Entry by Name
      */
-    public static class EntryNameComparator extends AscendingComparator<PwEntryInterface> {
+    public static class EntryNameComparator extends AscendingComparator<EntryVersioned> {
 
         EntryNameComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwEntryInterface object1, PwEntryInterface object2) {
+        public int compare(EntryVersioned object1, EntryVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 
@@ -323,13 +323,13 @@ public enum SortNodeEnum {
     /**
      * Comparator of Entry by Creation
      */
-    public static class EntryCreationComparator extends AscendingComparator<PwEntryInterface> {
+    public static class EntryCreationComparator extends AscendingComparator<EntryVersioned> {
 
         EntryCreationComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwEntryInterface object1, PwEntryInterface object2) {
+        public int compare(EntryVersioned object1, EntryVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 
@@ -347,13 +347,13 @@ public enum SortNodeEnum {
     /**
      * Comparator of Entry by Last Modification
      */
-    public static class EntryLastModificationComparator extends AscendingComparator<PwEntryInterface> {
+    public static class EntryLastModificationComparator extends AscendingComparator<EntryVersioned> {
 
         EntryLastModificationComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwEntryInterface object1, PwEntryInterface object2) {
+        public int compare(EntryVersioned object1, EntryVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 
@@ -371,13 +371,13 @@ public enum SortNodeEnum {
     /**
      * Comparator of Entry by Last Access
      */
-    public static class EntryLastAccessComparator extends AscendingComparator<PwEntryInterface> {
+    public static class EntryLastAccessComparator extends AscendingComparator<EntryVersioned> {
 
         EntryLastAccessComparator(boolean ascending) {
             super(ascending);
         }
 
-        public int compare(PwEntryInterface object1, PwEntryInterface object2) {
+        public int compare(EntryVersioned object1, EntryVersioned object2) {
             if (object1.equals(object2))
                 return 0;
 

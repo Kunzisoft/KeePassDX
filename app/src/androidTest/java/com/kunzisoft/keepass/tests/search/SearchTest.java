@@ -24,10 +24,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
-
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.database.element.PwGroupInterface;
-import com.kunzisoft.keepass.tests.database.TestData;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
 
 public class SearchTest extends AndroidTestCase {
 	
@@ -37,25 +35,25 @@ public class SearchTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 	    super.setUp();
 	    
-	    mDb = TestData.GetDb1(getContext(), true);
+	    //mDb = TestData.GetDb1(getContext(), true);
 	}
 	
 	public void testSearch() {
-		PwGroupInterface results = mDb.search("Amazon");
+		GroupVersioned results = mDb.search("Amazon");
 		//assertTrue("Search result not found.", results.numbersOfChildEntries() > 0);
 		
 	}
 	
 	public void testBackupIncluded() {
 		updateOmitSetting(false);
-		PwGroupInterface results = mDb.search("BackupOnly");
+		GroupVersioned results = mDb.search("BackupOnly");
 		
 		//assertTrue("Search result not found.", results.numbersOfChildEntries() > 0);
 	}
 	
 	public void testBackupExcluded() {
 		updateOmitSetting(true);
-		PwGroupInterface results = mDb.search("BackupOnly");
+		GroupVersioned results = mDb.search("BackupOnly");
 		
 		//assertFalse("Search result found, but should not have been.", results.numbersOfChildEntries() > 0);
 	}

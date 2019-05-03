@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
+import android.support.annotation.NonNull;
 import com.kunzisoft.keepass.database.AutoType;
 import com.kunzisoft.keepass.database.ExtraFields;
 import com.kunzisoft.keepass.database.ITimeLogger;
@@ -36,7 +37,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInterface {
+public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLogger {
 
 	public static final String STR_TITLE = "Title";
 	public static final String STR_USERNAME = "UserName";
@@ -89,6 +90,11 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 		additional = parcel.readString();
 		tags = parcel.readString();
 	}
+
+    @Override
+    protected PwGroupV4 readParentParcelable(Parcel parcel) {
+        return parcel.readParcelable(PwGroupV4.class.getClassLoader());
+    }
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
@@ -166,11 +172,6 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 
         return newEntry;
     }
-
-	@Override
-	public PwEntryInterface duplicate() {
-		return clone();
-	}
 
 	@Override
 	public Type getType() {
@@ -306,34 +307,31 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
     }
 
     public PwIcon getIconStandard() {
-        return icon;
+        return getIcon();
     }
 
 	public void setIconStandard(PwIconStandard icon) {
-		this.icon = icon;
+		super.setIcon(icon);
 		this.customIcon = PwIconCustom.ZERO;
 	}
 
-	@Override
 	public boolean allowExtraFields() {
 		return true;
 	}
 
+	@NonNull
 	public ExtraFields getFields() {
 	    return fields;
     }
 
-	@Override
 	public boolean containsCustomFields() {
 		return getFields().containsCustomFields();
 	}
 
-	@Override
 	public boolean containsCustomFieldsProtected() {
 		return getFields().containsCustomFieldsProtected();
 	}
 
-	@Override
 	public boolean containsCustomFieldsNotProtected() {
 		return getFields().containsCustomFieldsNotProtected();
 	}
@@ -342,7 +340,6 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 	    fields.putProtectedString(label, value);
     }
 
-    @Override
     public void removeAllCustomFields() {
         fields.removeAllCustomFields();
     }
@@ -458,7 +455,7 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 	}
 
 	public void createBackup(PwDatabaseV4 db) {
-        PwEntryV4 copy = clone();
+		PwEntryV4 copy = new PwEntryV4(); // Clone
         copy.history = new ArrayList<>();
         history.add(copy);
 
@@ -526,9 +523,9 @@ public class PwEntryV4 extends PwNode<UUID>  implements ITimeLogger, PwEntryInte
 		parentGroupLastMod = new PwDate();
 	}
 	
-	public boolean isSearchingEnabled() {
-		if (parent != null) {
-			return parent.isSearchingEnabled();
+	public Boolean isSearchingEnabled() {
+		if (getParent() != null) {
+			return getParent().isSearchingEnabled();
 		}
 		return PwGroupV4.DEFAULT_SEARCHING_ENABLED;
 	}

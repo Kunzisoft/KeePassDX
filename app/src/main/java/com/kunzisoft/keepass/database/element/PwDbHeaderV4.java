@@ -23,8 +23,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
 import com.kunzisoft.keepass.database.CrsAlgorithm;
-import com.kunzisoft.keepass.database.EntryHandler;
-import com.kunzisoft.keepass.database.GroupHandler;
+import com.kunzisoft.keepass.database.NodeHandler;
 import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.exception.InvalidDBVersionException;
 import com.kunzisoft.keepass.stream.CopyInputStream;
@@ -32,6 +31,8 @@ import com.kunzisoft.keepass.stream.HmacBlockStream;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.utils.Types;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,9 +40,6 @@ import java.security.DigestInputStream;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 public class PwDbHeaderV4 extends PwDbHeader {
 	public static final int DBSIG_PRE2            = 0xB54BFB66;
@@ -109,12 +107,12 @@ public class PwDbHeaderV4 extends PwDbHeader {
         this.version = version;
     }
 
-    private class GroupHasCustomData extends GroupHandler<PwGroupInterface> {
+    private class GroupHasCustomData extends NodeHandler<PwGroupV4> {
 
         boolean hasCustomData = false;
 
         @Override
-        public boolean operate(PwGroupInterface group) {
+        public boolean operate(PwGroupV4 group) {
             if (group == null) {
                 return true;
             }
@@ -127,12 +125,12 @@ public class PwDbHeaderV4 extends PwDbHeader {
         }
     }
 
-    private class EntryHasCustomData extends EntryHandler<PwEntryInterface> {
+    private class EntryHasCustomData extends NodeHandler<PwEntryV4> {
 
         boolean hasCustomData = false;
 
         @Override
-        public boolean operate(PwEntryInterface entry) {
+        public boolean operate(PwEntryV4 entry) {
             if (entry == null) {
                 return true;
             }
@@ -164,7 +162,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		if (databaseV4.getRootGroup() == null ) {
 			return PwDbHeaderV4.FILE_VERSION_32_3;
 		}
-		PwGroupInterface.doForEachChildAndForRoot(databaseV4.getRootGroup(), entryHandler, groupHandler);
+		databaseV4.getRootGroup().doForEachChildAndForIt(entryHandler, groupHandler);
 		if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
 			return PwDbHeaderV4.FILE_VERSION_32_4;
 		}
