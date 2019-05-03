@@ -41,7 +41,9 @@ class AddEntryRunnable constructor(
 
     override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
         if (!isSuccess) {
-            database.removeEntryFrom(mNewEntry, mNewEntry.parent)
+            mNewEntry.parent?.let {
+                database.removeEntryFrom(mNewEntry, it)
+            }
         }
         return ActionNodeValues(isSuccess, message, null, mNewEntry)
     }

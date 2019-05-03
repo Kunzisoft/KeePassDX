@@ -73,8 +73,10 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 	}
 	
 	@Override
-    public PwDatabaseV4 openDatabase(InputStream inStream, String password,
-									 InputStream keyInputStream, ProgressTaskUpdater progressTaskUpdater)
+    public PwDatabaseV4 openDatabase(InputStream inStream,
+									 String password,
+									 InputStream keyInputStream,
+									 ProgressTaskUpdater progressTaskUpdater)
 			throws IOException, InvalidDBException {
 
 		if (progressTaskUpdater != null)

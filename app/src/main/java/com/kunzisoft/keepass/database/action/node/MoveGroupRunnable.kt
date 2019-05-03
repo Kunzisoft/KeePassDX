@@ -57,7 +57,8 @@ class MoveGroupRunnable constructor(
         if (!isSuccess) {
             // If we fail to save, try to move in the first place
             try {
-                database.moveGroup(mGroupToMove, mOldParent)
+                if (mGroupToMove != null && mOldParent != null)
+                database.moveGroup(mGroupToMove, mOldParent!!)
             } catch (e: Exception) {
                 Log.i(TAG, "Unable to replace the group")
             }

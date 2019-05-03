@@ -49,7 +49,8 @@ class MoveEntryRunnable constructor(
         if (!isSuccess) {
             // If we fail to save, try to remove in the first place
             try {
-                database.moveEntry(mEntryToMove, mOldParent)
+                if (mEntryToMove != null && mOldParent != null)
+                    database.moveEntry(mEntryToMove, mOldParent!!)
             } catch (e: Exception) {
                 Log.i(TAG, "Unable to replace the entry")
             }

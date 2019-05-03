@@ -65,7 +65,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	private byte[] headerHmac;
     private CipherEngine engine = null;
 
-	protected PwDbV4Output(PwDatabaseV4 pm, OutputStream os) {
+	public PwDbV4Output(PwDatabaseV4 pm, OutputStream os) {
 		super(os);
 		this.mPM = pm;
 	}

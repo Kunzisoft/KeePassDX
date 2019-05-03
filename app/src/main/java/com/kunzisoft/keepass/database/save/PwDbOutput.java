@@ -19,9 +19,6 @@
  */
 package com.kunzisoft.keepass.database.save;
 
-import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwDatabaseV3;
-import com.kunzisoft.keepass.database.element.PwDatabaseV4;
 import com.kunzisoft.keepass.database.element.PwDbHeader;
 import com.kunzisoft.keepass.database.exception.PwDbOutputException;
 
@@ -32,16 +29,6 @@ import java.security.SecureRandom;
 public abstract class PwDbOutput<Header extends PwDbHeader> {
 	
 	protected OutputStream mOS;
-	
-	public static PwDbOutput getInstance(PwDatabase pm, OutputStream os) {
-		if ( pm instanceof PwDatabaseV3) {
-			return new PwDbV3Output((PwDatabaseV3)pm, os);
-		} else if ( pm instanceof PwDatabaseV4) {
-			return new PwDbV4Output((PwDatabaseV4)pm, os);
-		}
-		
-		return null;
-	}
 	
 	protected PwDbOutput(OutputStream os) {
 		mOS = os;

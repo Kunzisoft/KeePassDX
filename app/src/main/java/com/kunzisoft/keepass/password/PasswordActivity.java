@@ -45,13 +45,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
@@ -63,10 +57,9 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.compat.ClipDataCompat;
-import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
+import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
@@ -75,21 +68,15 @@ import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
+import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
-
 import org.jetbrains.annotations.Nullable;
+import permissions.dispatcher.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnNeverAskAgain;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.OnShowRationale;
-import permissions.dispatcher.PermissionRequest;
-import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class PasswordActivity extends StylishActivity
@@ -295,7 +282,7 @@ public class PasswordActivity extends StylishActivity
     protected void onResume() {
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
-        if (App.getDB().loaded) {
+        if (App.getDB().getLoaded()) {
             setEmptyViews();
         }
 

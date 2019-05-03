@@ -60,7 +60,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	private long numKeyEncRounds;
     private VariantDictionary publicCustomData = new VariantDictionary();
 
-	protected String name = "KeePass DX database";
+	private String name = "KeePass DX database";
     private PwDate nameChanged = new PwDate();
     private PwDate settingsChanged = new PwDate();
     private String description = "";

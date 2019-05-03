@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.element;
 
 public enum PwVersion {
-    V3, V4;
+    UNKNOWN, V3, V4;
 
     @Override
     public String toString() {

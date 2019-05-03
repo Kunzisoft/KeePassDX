@@ -50,7 +50,9 @@ class CopyEntryRunnable constructor(
         if (!isSuccess) {
             // If we fail to save, try to delete the copy
             try {
-                database.deleteEntry(mEntryCopied)
+                mEntryCopied?.let {
+                    database.deleteEntry(it)
+                }
             } catch (e: Exception) {
                 Log.i(TAG, "Unable to delete the copied entry")
             }

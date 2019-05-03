@@ -58,7 +58,9 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
             System.arraycopy(database.masterKey, 0, mBackupKey!!, 0, mBackupKey!!.size)
 
             val uriInputStream = UriUtil.getUriInputStream(context, mKeyFile)
-            database.retrieveMasterKey(mMasterPassword, uriInputStream)
+            mMasterPassword?.let {
+                database.retrieveMasterKey(it, uriInputStream)
+            }
             // To save the database
             super.run()
             finishRun(true)
@@ -75,7 +77,9 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
         if (!isSuccess) {
             // Erase the current master key
             erase(database.masterKey)
-            database.masterKey = mBackupKey
+            mBackupKey?.let {
+                database.masterKey = it
+            }
         }
 
         super.onFinishRun(isSuccess, message)

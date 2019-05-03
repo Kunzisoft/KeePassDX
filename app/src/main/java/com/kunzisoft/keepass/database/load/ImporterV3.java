@@ -77,7 +77,10 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 	private PwDatabaseV3 databaseToOpen;
 
 	@Override
-	public PwDatabaseV3 openDatabase(InputStream inStream, String password, InputStream kfIs, ProgressTaskUpdater progressTaskUpdater)
+	public PwDatabaseV3 openDatabase(InputStream inStream,
+									 String password,
+									 InputStream kfIs,
+									 ProgressTaskUpdater progressTaskUpdater)
 	throws IOException, InvalidDBException {
 
 		// Load entire file, most of it's encrypted.

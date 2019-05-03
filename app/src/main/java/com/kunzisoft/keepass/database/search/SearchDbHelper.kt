@@ -49,7 +49,7 @@ class SearchDbHelper(private val mContext: Context) {
 
 
         incrementEntry = 0
-        pm.rootGroup.doForEachChild(
+        pm.rootGroup?.doForEachChild(
                 object : NodeHandler<EntryVersioned>() {
                     override fun operate(entry: EntryVersioned): Boolean {
                         if (entryContainsString(entry, finalQStr, loc)) {
