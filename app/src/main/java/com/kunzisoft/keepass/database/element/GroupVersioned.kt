@@ -25,8 +25,8 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
             if (this.pwGroupV3 == null)
                 this.pwGroupV3 = PwGroupV3()
         }
-        if (group.pwGroupV4 == null) {
-            if (this.pwGroupV4 != null)
+        if (group.pwGroupV4 != null) {
+            if (this.pwGroupV4 == null)
                 this.pwGroupV4 = PwGroupV4()
         }
         updateWith(group)
@@ -167,17 +167,19 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
     }
 
     override fun getChildGroups(): MutableList<GroupVersioned> {
-        return ArrayList() // TODO if needed
+        val children = ArrayList<GroupVersioned>()
+
+        pwGroupV3?:pwGroupV4?.getChildGroups()?.forEach {
+            children.add(GroupVersioned(it))
+        }
+
+        return children
     }
 
     override fun getChildEntries(): MutableList<EntryVersioned> {
         val children = ArrayList<EntryVersioned>()
 
-        pwGroupV3?.getChildEntries()?.forEach {
-            children.add(EntryVersioned(it))
-        }
-
-        pwGroupV4?.getChildEntries()?.forEach {
+        pwGroupV3?:pwGroupV4?.getChildEntries()?.forEach {
             children.add(EntryVersioned(it))
         }
 
@@ -188,17 +190,20 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
      * Filter MetaStream entries and return children
      * @return List of direct children (one level below) as PwNode
      */
-    fun getChildEntriesWithoutMetaStream(): List<NodeVersioned>? {
-        pwGroupV3?.let {
-            return getChildEntries().filter { !it.isMetaStream }
-        }
+    fun getChildrenWithoutMetaStream(): List<NodeVersioned> {
+        val children = ArrayList<NodeVersioned>()
 
+        children.addAll(getChildGroups())
+
+        pwGroupV3?.let {
+            children.addAll(getChildEntries().filter { !it.isMetaStream })
+        }
         pwGroupV4?.let {
             // No MetasStream in V4
-            return getChildEntries()
+            children.addAll(getChildEntries())
         }
 
-        return null
+        return children
     }
 
     override fun addChildGroup(group: GroupVersioned) {

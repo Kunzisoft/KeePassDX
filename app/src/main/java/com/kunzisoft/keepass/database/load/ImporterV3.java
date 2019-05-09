@@ -186,13 +186,13 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 		}
 
         // New manual root because V3 contains multiple root groups (here available with getRootGroups())
-        PwGroupV3 newRoot = new PwGroupV3();
+        PwGroupV3 newRoot = databaseToOpen.createGroup();
         newRoot.setLevel(-1);
         databaseToOpen.setRootGroup(newRoot);
 
         // Import all groups
 		int pos = PwDbHeaderV3.BUF_SIZE;
-		PwGroupV3 newGrp = new PwGroupV3();
+		PwGroupV3 newGrp = databaseToOpen.createGroup();
 		for( int i = 0; i < hdr.numGroups; ) {
 			int fieldType = LEDataInputStream.readUShort( filebuf, pos );
 			pos += 2;
@@ -202,7 +202,7 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
 				databaseToOpen.addGroupIndex(newGrp);
-				newGrp = new PwGroupV3();
+				newGrp = databaseToOpen.createGroup();
 				i++;
 			}
 			else {
@@ -212,7 +212,7 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 		}
 
 		// Import all entries
-		PwEntryV3 newEnt = new PwEntryV3();
+		PwEntryV3 newEnt = databaseToOpen.createEntry();
 		for( int i = 0; i < hdr.numEntries; ) {
 			int fieldType = LEDataInputStream.readUShort( filebuf, pos );
 			int fieldSize = LEDataInputStream.readInt( filebuf, pos + 2 );
@@ -220,7 +220,7 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 			if( fieldType == 0xFFFF ) {
 				// End-Group record.  Save group and count it.
 				databaseToOpen.addEntryIndex(newEnt);
-				newEnt = new PwEntryV3();
+				newEnt = databaseToOpen.createEntry();
 				i++;
 			}
 			else {
@@ -228,8 +228,6 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 			}
 			pos += 2 + 4 + fieldSize;
 		}
-
-		databaseToOpen.populateNodesIndexes();
 		
 		return databaseToOpen;
 	}
@@ -276,8 +274,6 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 		}
 	}
 
-
-
 	private void readEntryField(PwDatabaseV3 db, PwEntryV3 ent, byte[] buf, int offset) throws UnsupportedEncodingException {
 		int fieldType = LEDataInputStream.readUShort(buf, offset);
 		offset += 2;
@@ -292,7 +288,9 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 			ent.setNodeId(new PwNodeIdUUID(Types.bytestoUUID(buf, offset)));
 			break;
 		case 0x0002 :
-			ent.setNewParent(LEDataInputStream.readInt(buf, offset));
+			PwGroupV3 pwGroupV3 = databaseToOpen.createGroup();
+			pwGroupV3.setNodeId(new PwNodeIdInt(LEDataInputStream.readInt(buf, offset)));
+			ent.setParent(pwGroupV3);
 			break;
 		case 0x0003 :
 			int iconId = LEDataInputStream.readInt(buf, offset);

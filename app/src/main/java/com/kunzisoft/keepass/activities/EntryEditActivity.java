@@ -188,8 +188,8 @@ public class EntryEditActivity extends LockingHideActivity
 			fillData();
 		}
 
-		// Close the activity if entry to edit can't be retrieve
-		if (mEntry == null) {
+		// Close the activity if entry to edit or parent to add entry can't be retrieve
+		if (mEntry == null || mParent == null) {
             finish();
             return;
         }

@@ -54,16 +54,6 @@ public class TestUtil {
 
 	}
 
-	public static InputStream getKeyFileInputStream(Context ctx, String keyfile) throws FileNotFoundException {
-		InputStream keyIs = null;
-		if (!EmptyUtils.isNullOrEmpty(keyfile)) {
-			Uri uri = UriUtil.parseDefaultFile(keyfile);
-			keyIs = UriUtil.getUriInputStream(ctx, uri);
-		}
-
-		return keyIs;
-	}
-
 	public static String getSdPath(String filename) {
 		File file = new File(sdcard, filename);
 		return file.getAbsolutePath();

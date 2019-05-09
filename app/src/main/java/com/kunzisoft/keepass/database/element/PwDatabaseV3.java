@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.stream.NullOutputStream;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DigestOutputStream;
@@ -146,7 +147,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	}
 
 	@Override
-	public byte[] getMasterKey(String key, InputStream keyInputStream)
+	public byte[] getMasterKey(@Nullable String key, @Nullable InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
 
 	    if (key != null && keyInputStream != null) {
@@ -225,6 +226,11 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	@Override
 	public PwGroupV3 getRootGroup() {
 		return rootGroup;
+	}
+
+	@Override
+	public PwEntryV3 createEntry() {
+		return new PwEntryV3();
 	}
 
 	// TODO: This could still be refactored cleaner

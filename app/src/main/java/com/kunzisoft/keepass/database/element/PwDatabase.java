@@ -37,14 +37,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class PwDatabase<Group extends PwGroup, Entry extends PwEntry> {
+public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry extends PwEntry<Group, Entry>> {
 
     public static final UUID UUID_ZERO = new UUID(0,0);
 
     // Algorithm used to encrypt the database
     protected PwEncryptionAlgorithm algorithm;
 
-    protected byte masterKey[] = new byte[32];
+    protected byte[] masterKey = new byte[32];
     protected byte[] finalKey;
 
     protected PwIconFactory iconFactory = new PwIconFactory();
@@ -70,15 +70,15 @@ public abstract class PwDatabase<Group extends PwGroup, Entry extends PwEntry> {
         return finalKey;
     }
 
-    protected abstract byte[] getMasterKey(String key, InputStream keyInputStream)
+    protected abstract byte[] getMasterKey(@Nullable String key, @Nullable InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException;
 
-    public void retrieveMasterKey(String key, InputStream keyInputStream)
+    public void retrieveMasterKey(@Nullable String key, @Nullable InputStream keyInputStream)
             throws InvalidKeyFileException, IOException {
-                masterKey = getMasterKey(key, keyInputStream);
-            }
+        masterKey = getMasterKey(key, keyInputStream);
+    }
 
-    protected byte[] getCompositeKey(String key, InputStream keyInputStream)
+    protected byte[] getCompositeKey(@Nullable String key, @Nullable InputStream keyInputStream)
             throws InvalidKeyFileException, IOException {
                 assert(key != null && keyInputStream != null);
 
@@ -238,6 +238,8 @@ public abstract class PwDatabase<Group extends PwGroup, Entry extends PwEntry> {
     public abstract Group createGroup();
 
     public abstract Group getRootGroup();
+
+    public abstract Entry createEntry();
 
     /*
      * -------------------------------------

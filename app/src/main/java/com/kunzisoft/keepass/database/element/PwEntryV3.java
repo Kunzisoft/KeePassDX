@@ -187,12 +187,6 @@ public class PwEntryV3 extends PwEntry<PwGroupV3, PwEntryV3> {
 		return Type.ENTRY;
 	}
 
-    public void setNewParent(int groupId) {
-	    PwGroupV3 pwGroupV3 = new PwGroupV3();
-        pwGroupV3.setNodeId(new PwNodeIdInt(groupId));
-        setParent(pwGroupV3);
-    }
-
     @Override
     public String getUsername() {
         return username;

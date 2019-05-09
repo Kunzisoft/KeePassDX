@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.getUriInputStream
 import org.apache.commons.io.FileUtils
 import java.io.*
 import java.util.*
@@ -176,20 +177,22 @@ class Database {
             GroupVersioned(pwDatabaseV4!!.recycleBin!!)
         } else null
 
-    constructor() {}
+    constructor()
 
     constructor(databasePath: String) {
         // TODO Test with kdb extension
         if (isKDBExtension(databasePath)) {
             setDatabaseV3(PwDatabaseV3())
         } else {
-            val groupV4 = PwGroupV4()
-            setDatabaseV4(PwDatabaseV4())
-
+            val databaseV4 = PwDatabaseV4()
+            val groupV4 = databaseV4.createGroup()
             groupV4.title = dbNameFromPath(databasePath)
-            groupV4.setIconStandard(pwDatabaseV4!!.getIconFactory().folderIcon)
-            this.pwDatabaseV4!!.rootGroup = groupV4
+            groupV4.setIconStandard(databaseV4.getIconFactory().folderIcon)
+            databaseV4.rootGroup = groupV4
+            setDatabaseV4(databaseV4)
         }
+
+        setUri(UriUtil.parseDefaultFile(databasePath))
     }
 
     private fun setDatabaseV3(pwDatabaseV3: PwDatabaseV3) {
@@ -236,9 +239,9 @@ class Database {
         }
 
         // Pass Uris as InputStreams
-        val inputStream: InputStream
+        val inputStream: InputStream?
         try {
-            inputStream = UriUtil.getUriInputStream(ctx, uri)
+            inputStream = getUriInputStream(ctx.contentResolver, uri)
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
             throw ContentFileNotFoundException.getInstance(uri)
@@ -248,7 +251,7 @@ class Database {
         var keyFileInputStream: InputStream? = null
         keyfile?.let {
             try {
-                keyFileInputStream = UriUtil.getUriInputStream(ctx, keyfile)
+                keyFileInputStream = getUriInputStream(ctx.contentResolver, keyfile)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
                 throw ContentFileNotFoundException.getInstance(keyfile)
@@ -271,18 +274,21 @@ class Database {
 
         // Return to the start
         bufferedInputStream.reset()
+
         when {
             // Header of database V3
-            PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3().openDatabase(bufferedInputStream,
-                    password,
-                    keyFileInputStream,
-                    progressTaskUpdater))
+            PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
+                    .openDatabaseAndBuildIndex(bufferedInputStream,
+                        password,
+                        keyFileInputStream,
+                        progressTaskUpdater))
 
             // Header of database V4
-            PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(ctx.filesDir).openDatabase(bufferedInputStream,
-                    password,
-                    keyFileInputStream,
-                    progressTaskUpdater))
+            PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(ctx.filesDir)
+                    .openDatabaseAndBuildIndex(bufferedInputStream,
+                        password,
+                        keyFileInputStream,
+                        progressTaskUpdater))
 
             // Header not recognized
             else -> throw InvalidDBSignatureException()
@@ -495,24 +501,14 @@ class Database {
     }
 
     @Throws(InvalidKeyFileException::class, IOException::class)
-    fun retrieveMasterKey(key: String, keyInputStream: InputStream) {
+    fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         pwDatabaseV3?.retrieveMasterKey(key, keyInputStream)
         pwDatabaseV4?.retrieveMasterKey(key, keyInputStream)
     }
 
     fun createEntry(): EntryVersioned? {
-
-        pwDatabaseV3?.let { database ->
-            return EntryVersioned(PwEntryV3()).apply {
-                database.newEntryId()?.let {
-                    nodeId = it
-                }
-            }
-        }
-
-
-        pwDatabaseV4?.let { database ->
-            return EntryVersioned(PwEntryV4()).apply {
+        pwDatabaseV3 ?: pwDatabaseV4?.let { database ->
+            return EntryVersioned(database.createEntry()).apply {
                 database.newEntryId()?.let {
                     nodeId = it
                 }
@@ -523,18 +519,8 @@ class Database {
     }
 
     fun createGroup(): GroupVersioned? {
-
-        pwDatabaseV3?.let { database ->
-            return GroupVersioned(PwGroupV3()).apply {
-                database.newGroupId()?.let {
-                    setNodeId(it)
-                }
-            }
-        }
-
-
-        pwDatabaseV4?.let { database ->
-            return GroupVersioned(PwGroupV4()).apply {
+        pwDatabaseV3 ?: pwDatabaseV4?.let { database ->
+            return GroupVersioned(database.createGroup()).apply {
                 database.newGroupId()?.let {
                     setNodeId(it)
                 }

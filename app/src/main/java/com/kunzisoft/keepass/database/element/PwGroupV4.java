@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 import com.kunzisoft.keepass.database.ITimeLogger;
 
 import java.util.HashMap;
@@ -74,7 +75,7 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeParcelable(customIcon, flags);
         dest.writeLong(usageCount);
@@ -118,7 +119,6 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
         lastTopVisibleEntry = source.lastTopVisibleEntry;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public PwGroupV4 clone() {
         // Attributes in parent
@@ -143,7 +143,8 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
         return newGroup;
     }
 
-	@Override
+	@NonNull
+    @Override
 	public Type getType() {
 		return Type.GROUP;
 	}
@@ -184,7 +185,8 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
 		expires = exp;
 	}
 
-	@Override
+	@NonNull
+    @Override
 	public PwIcon getIcon() {
 		if (customIcon == null || customIcon.isUnknown()) { // TODO Encapsulate with PwEntryV4
 			return super.getIcon();

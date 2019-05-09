@@ -173,6 +173,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
         return newEntry;
     }
 
+	@NonNull
 	@Override
 	public Type getType() {
 		return Type.ENTRY;
@@ -202,47 +203,50 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 		return spr.compile(text, this, db);
 	}
 
+	@NonNull
 	@Override
 	public String getUsername() {
 		return decodeRefKey(mDecodeRef, STR_USERNAME);
 	}
 
+	@NonNull
 	@Override
 	public String getTitle() {
 		return decodeRefKey(mDecodeRef, STR_TITLE);
 	}
 
+	@NonNull
 	@Override
 	public String getPassword() {
 		return decodeRefKey(mDecodeRef, STR_PASSWORD);
 	}
 
 	@Override
-	public void setTitle(String title) {
+	public void setTitle(@NonNull String title) {
 		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectTitle;
 		setProtectedString(STR_TITLE, title, protect);
 	}
 
 	@Override
-	public void setUsername(String user) {
+	public void setUsername(@NonNull String user) {
 		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectUserName;
 		setProtectedString(STR_USERNAME, user, protect);
 	}
 
 	@Override
-	public void setPassword(String pass) {
+	public void setPassword(@NonNull String pass) {
 		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectPassword;
 		setProtectedString(STR_PASSWORD, pass, protect);
 	}
 
 	@Override
-	public void setUrl(String url) {
+	public void setUrl(@NonNull String url) {
 		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectUrl;
 		setProtectedString(STR_URL, url, protect);
 	}
 
 	@Override
-	public void setNotes(String notes) {
+	public void setNotes(@NonNull String notes) {
 		boolean protect = (mDatabase != null) && mDatabase.getMemoryProtection().protectNotes;
 		setProtectedString(STR_NOTES, notes, protect);
 	}
@@ -271,17 +275,20 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 		usageCount = count;
 	}
 
+	@NonNull
 	@Override
 	public String getNotes() {
 		return decodeRefKey(mDecodeRef, STR_NOTES);
 	}
 
+	@NonNull
 	@Override
 	public String getUrl() {
 		return decodeRefKey(mDecodeRef, STR_URL);
 	}
 
-    @Override
+    @NonNull
+	@Override
 	public PwIcon getIcon() {
 		if (customIcon == null || customIcon.isUnknown()) {
 			return super.getIcon();

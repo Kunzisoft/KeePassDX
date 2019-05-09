@@ -61,21 +61,6 @@ public class UriUtil {
         return left.equals(uriRight);
     }
 
-    public static InputStream getUriInputStream(Context ctx, Uri uri) throws FileNotFoundException {
-        if (uri == null) return null;
-
-        String scheme = uri.getScheme();
-        if (EmptyUtils.isNullOrEmpty(scheme) || scheme.equals("file")) {
-            return new FileInputStream(uri.getPath());
-        }
-        else if (scheme.equals("content")) {
-            return ctx.getContentResolver().openInputStream(uri);
-        }
-        else {
-            return null;
-        }
-    }
-
     /**
      * Many android apps respond with non-writeable content URIs that correspond to files.
      * This will attempt to translate the content URIs to file URIs when possible/appropriate

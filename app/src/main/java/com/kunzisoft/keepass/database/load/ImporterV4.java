@@ -175,8 +175,6 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		
 		ReadXmlStreamed(isXml);
 
-		mDatabase.populateNodesIndexes();
-
 		return mDatabase;
 	}
 
@@ -512,9 +510,8 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 				if ( ctxGroups.size() != 0 )
 					throw new IOException("Group list should be empty.");
 
-				PwGroupV4 rootGroup = new PwGroupV4();
-				mDatabase.setRootGroup(rootGroup);
-				ctxGroups.push(rootGroup);
+				mDatabase.setRootGroup(mDatabase.createGroup());
+				ctxGroups.push(mDatabase.getRootGroup());
 				ctxGroup = ctxGroups.peek();
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
@@ -551,7 +548,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomData) ) {
                 return SwitchContext(ctx, KdbContext.GroupCustomData, xpp);
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
-                ctxGroup = new PwGroupV4();
+                ctxGroup = mDatabase.createGroup();
                 PwGroupV4 groupPeek = ctxGroups.peek();
                 groupPeek.addChildGroup(ctxGroup);
                 ctxGroup.setParent(groupPeek);
@@ -559,7 +556,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 				
 				return SwitchContext(ctx, KdbContext.Group, xpp);
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
-				ctxEntry = new PwEntryV4();
+				ctxEntry = mDatabase.createEntry();
 				ctxGroup.addChildEntry(ctxEntry);
 				ctxEntry.setParent(ctxGroup);
 				

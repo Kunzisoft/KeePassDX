@@ -367,7 +367,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     @Override
-	public byte[] getMasterKey(String key, InputStream keyInputStream)
+	public byte[] getMasterKey(@Nullable String key, @Nullable InputStream keyInputStream)
 			throws InvalidKeyFileException, IOException {
 		
 		byte[] fKey = new byte[]{};
@@ -523,6 +523,12 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
         return rootGroup;
     }
 
+
+    @Override
+    public PwEntryV4 createEntry() {
+        return new PwEntryV4();
+    }
+
     @Override
 	public boolean isBackup(PwGroupV4 group) {
 		if (!recycleBinEnabled) {
@@ -540,7 +546,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		if (getRecycleBin() == null) {
 			// Create recycle bin
 				
-			PwGroupV4 recycleBin = new PwGroupV4();
+			PwGroupV4 recycleBin = createGroup();
             recycleBin.setTitle(RECYCLEBIN_NAME);
             recycleBin.setIconStandard(iconFactory.getTrashIcon());
 			recycleBin.setEnableAutoType(false);

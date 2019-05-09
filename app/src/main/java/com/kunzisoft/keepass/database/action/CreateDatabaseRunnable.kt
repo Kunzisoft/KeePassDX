@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.action
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.UriUtil
 
 class CreateDatabaseRunnable(private val mFilename: String,
                              val onDatabaseCreate: (database: Database) -> ActionRunnable)
@@ -35,14 +34,11 @@ class CreateDatabaseRunnable(private val mFilename: String,
             // Create new database record
             database = Database(mFilename)
             App.setDB(database)
-
-            // Set Database state
-            database?.setUri(UriUtil.parseDefaultFile(mFilename))
-            database?.loaded = true
-
-            // Commit changes
-            database?.let {
-                onDatabaseCreate(it).run()
+            database?.apply {
+                // Set Database state
+                loaded = true
+                // Commit changes
+                onDatabaseCreate(this).run()
             }
 
             finishRun(true)
