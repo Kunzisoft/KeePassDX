@@ -34,16 +34,12 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
 
     constructor(group: PwGroupV3) {
         this.pwGroupV4 = null
-        if (this.pwGroupV3 == null)
-            this.pwGroupV3 = PwGroupV3()
-        this.pwGroupV3?.updateWith(group)
+        this.pwGroupV3 = group
     }
 
     constructor(group: PwGroupV4) {
         this.pwGroupV3 = null
-        if (this.pwGroupV4 == null)
-            this.pwGroupV4 = PwGroupV4()
-        this.pwGroupV4?.updateWith(group)
+        this.pwGroupV4 = group
     }
 
     constructor(parcel: Parcel) {

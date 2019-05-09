@@ -470,25 +470,6 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 		return null;
 	}
 
-    @Override
-    public void populateNodesIndexes() {
-        getRootGroup().doForEachChildAndForIt(
-                new NodeHandler<PwEntryV4>() {
-                    @Override
-                    public boolean operate(PwEntryV4 entry) {
-                        addEntryIndex(entry);
-                        return true;
-                    }
-                },
-                new NodeHandler<PwGroupV4>() {
-                    @Override
-                    public boolean operate(PwGroupV4 group) {
-                        addGroupIndex(group);
-                        return true;
-                    }
-                });
-    }
-
 	@Override
 	public PwNodeIdUUID newGroupId() {
 		PwNodeIdUUID newId;
@@ -656,15 +637,15 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
 	@Override
-	protected void removeEntryFrom(PwEntryV4 entryToRemove, PwGroupV4 parent) {
+	public void removeEntryFrom(PwEntryV4 entryToRemove, PwGroupV4 parent) {
 		super.removeEntryFrom(entryToRemove, parent);
-		deletedObjects.add(new PwDeletedObject((UUID) entryToRemove.getNodeId().getId()));
+		deletedObjects.add(new PwDeletedObject(entryToRemove.getNodeId().getId()));
 	}
 
 	@Override
 	public void undoDeleteEntryFrom(PwEntryV4 entry, PwGroupV4 origParent) {
 		super.undoDeleteEntryFrom(entry, origParent);
-        deletedObjects.remove(new PwDeletedObject((UUID) entry.getNodeId().getId()));
+        deletedObjects.remove(new PwDeletedObject(entry.getNodeId().getId()));
 	}
 
 	public PwGroupV4 getRecycleBin() { // TODO delete recycle bin preference

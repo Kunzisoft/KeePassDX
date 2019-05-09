@@ -41,11 +41,4 @@ public abstract class Importer<PwDb extends PwDatabase> {
 	public abstract PwDb openDatabase(InputStream inStream, String password, InputStream keyInputStream, ProgressTaskUpdater updater)
 		throws IOException, InvalidDBException;
 
-	public PwDb openDatabaseAndBuildIndex(InputStream inStream, String password, InputStream keyInputStream, ProgressTaskUpdater updater)
-			throws IOException, InvalidDBException {
-		PwDb database = openDatabase(inStream, password, keyInputStream, updater);
-		database.populateNodesIndexes();
-		return database;
-	}
-
 }

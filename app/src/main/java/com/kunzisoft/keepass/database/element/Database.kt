@@ -168,14 +168,15 @@ class Database {
         get() = pwDatabaseV4 != null
 
     val isRecycleBinEnabled: Boolean
-        get() = if (pwDatabaseV4 != null) {
-            pwDatabaseV4!!.isRecycleBinEnabled
-        } else false
+        get() = pwDatabaseV4?.isRecycleBinEnabled ?: false
 
     val recycleBin: GroupVersioned?
-        get() = if (pwDatabaseV4 != null) {
-            GroupVersioned(pwDatabaseV4!!.recycleBin!!)
-        } else null
+        get() {
+            pwDatabaseV4?.recycleBin?.let {
+                return GroupVersioned(it)
+            }
+            return null
+        }
 
     constructor()
 
@@ -278,14 +279,14 @@ class Database {
         when {
             // Header of database V3
             PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
-                    .openDatabaseAndBuildIndex(bufferedInputStream,
+                    .openDatabase(bufferedInputStream,
                         password,
                         keyFileInputStream,
                         progressTaskUpdater))
 
             // Header of database V4
             PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(ctx.filesDir)
-                    .openDatabaseAndBuildIndex(bufferedInputStream,
+                    .openDatabase(bufferedInputStream,
                         password,
                         keyFileInputStream,
                         progressTaskUpdater))
@@ -544,11 +545,9 @@ class Database {
         pwDatabaseV3?.getGroupById(id)?.let {
             return GroupVersioned(it)
         }
-
         pwDatabaseV4?.getGroupById(id)?.let {
             return GroupVersioned(it)
         }
-
         return null
     }
 

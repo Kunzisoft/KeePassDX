@@ -26,17 +26,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
@@ -56,7 +47,6 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryEditCustomField;
-
 import org.jetbrains.annotations.NotNull;
 
 import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.KEY_ICON_STANDARD;
@@ -185,7 +175,8 @@ public class EntryEditActivity extends LockingHideActivity
 		} else {
 			mEntry = database.getEntryById(keyEntry);
 			mIsNew = false;
-			fillData();
+			if (mEntry != null)
+			    fillData();
 		}
 
 		// Close the activity if entry to edit or parent to add entry can't be retrieve
@@ -525,6 +516,7 @@ public class EntryEditActivity extends LockingHideActivity
 
 		if (mEntry.allowExtraFields()) {
             LinearLayout container = findViewById(R.id.entry_edit_advanced_container);
+            // TODO Close here but why ?
             mEntry.getFields().doActionToAllCustomProtectedField((key, value) -> {
                 EntryEditCustomField entryEditCustomField = new EntryEditCustomField(EntryEditActivity.this);
                 entryEditCustomField.setData(key, value);

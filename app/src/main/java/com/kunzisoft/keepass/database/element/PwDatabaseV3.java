@@ -111,8 +111,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		}
 	}
 
-	@Override
-	public void populateNodesIndexes() {
+	public void constructTreeFromIndex() {
 		constructTreeFromIndex(getRootGroup());
 	}
 

@@ -228,7 +228,9 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 			}
 			pos += 2 + 4 + fieldSize;
 		}
-		
+
+		databaseToOpen.constructTreeFromIndex();
+
 		return databaseToOpen;
 	}
 

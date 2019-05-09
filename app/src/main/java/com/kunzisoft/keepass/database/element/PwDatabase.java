@@ -229,8 +229,6 @@ public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry e
      * -------------------------------------
      */
 
-    public abstract void populateNodesIndexes();
-
     public abstract PwNodeId newGroupId();
 
     public abstract PwNodeId newEntryId();
@@ -315,7 +313,7 @@ public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry e
      * -------------------------------------
      */
 
-    protected void addGroupTo(Group newGroup, @Nullable Group parent) {
+    public void addGroupTo(Group newGroup, @Nullable Group parent) {
 		// Add tree to parent tree
 		if (parent != null)
         	parent.addChildGroup(newGroup);
@@ -323,7 +321,7 @@ public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry e
         addGroupIndex(newGroup);
     }
 
-    protected void removeGroupFrom(Group groupToRemove, Group parent) {
+    public void removeGroupFrom(Group groupToRemove, Group parent) {
         // Remove tree from parent tree
         if (parent != null) {
             parent.removeChildGroup(groupToRemove);
@@ -331,7 +329,7 @@ public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry e
 		removeGroupIndex(groupToRemove);
     }
 
-    protected void addEntryTo(Entry newEntry, @Nullable Group parent) {
+    public void addEntryTo(Entry newEntry, @Nullable Group parent) {
         // Add entry to parent
 		if (parent != null)
 			parent.addChildEntry(newEntry);
@@ -339,7 +337,7 @@ public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry e
         addEntryIndex(newEntry);
     }
 
-    protected void removeEntryFrom(Entry entryToRemove, Group parent) {
+    public void removeEntryFrom(Entry entryToRemove, Group parent) {
         // Remove entry for parent
         if (parent != null) {
             parent.removeChildEntry(entryToRemove);

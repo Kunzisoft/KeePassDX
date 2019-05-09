@@ -525,6 +525,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		case Group:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
 				ctxGroup.setNodeId(new PwNodeIdUUID(ReadUuid(xpp)));
+				mDatabase.addGroupIndex(ctxGroup);
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemName) ) {
 				ctxGroup.setTitle(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemNotes) ) {
@@ -587,6 +588,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		case Entry:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemUuid) ) {
 				ctxEntry.setNodeId(new PwNodeIdUUID(ReadUuid(xpp)));
+				mDatabase.addEntryIndex(ctxEntry);
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
 				ctxEntry.setIconStandard(mDatabase.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
@@ -789,6 +791,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
 			if ( ctxGroup.getNodeId() == null || ctxGroup.getNodeId().getId().equals(PwDatabase.UUID_ZERO) ) {
 				ctxGroup.setNodeId(new PwNodeIdUUID());
+				mDatabase.addGroupIndex(ctxGroup);
 			}
 			
 			ctxGroups.pop();
@@ -817,6 +820,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
 			if ( ctxEntry.getNodeId() == null || ctxEntry.getNodeId().getId().equals(PwDatabase.UUID_ZERO) ) {
 				ctxEntry.setNodeId(new PwNodeIdUUID());
+				mDatabase.addEntryIndex(ctxEntry);
 			}
 			
 			if ( entryInHistory ) {

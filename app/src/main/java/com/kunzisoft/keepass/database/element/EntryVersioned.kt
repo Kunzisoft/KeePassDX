@@ -37,16 +37,12 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
 
     constructor(entry: PwEntryV3) {
         this.pwEntryV4 = null
-        if (this.pwEntryV3 == null)
-            this.pwEntryV3 = PwEntryV3()
-        this.pwEntryV3?.updateWith(entry)
+        this.pwEntryV3 = entry
     }
 
     constructor(entry: PwEntryV4) {
         this.pwEntryV3 = null
-        if (this.pwEntryV4 == null)
-            this.pwEntryV4 = PwEntryV4()
-        this.pwEntryV4?.updateWith(entry)
+        this.pwEntryV4 = entry
     }
 
     constructor(parcel: Parcel) {
