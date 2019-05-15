@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_feedback">Tilbakemelding:</string>
-    <string name="about_homepage">Hjemmeside:</string>
+    <string name="about_feedback">Tilbakemelding</string>
+    <string name="about_homepage">Hjemmeside</string>
     <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
@@ -102,7 +102,7 @@
     <string name="maskpass_summary">Skjul passord som forvalg</string>
     <string name="menu_about">Om</string>
     <string name="menu_change_key">Endre hovednøkkel</string>
-    <string name="copy_field">Kopi av %1$s</string>
+    <string name="copy_field">Kopierte %1$s</string>
     <string name="settings">Innstillinger</string>
     <string name="menu_app_settings">Programinnstillinger</string>
     <string name="menu_form_filling_settings">Skjemautfylling</string>
@@ -251,7 +251,6 @@
     <string name="text_appearance">Tekstutseende</string>
     <string name="application_appearance">Programutseende</string>
     <string name="other">Annet</string>
-
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter.</string>
@@ -266,12 +265,10 @@
     <string name="keyboard_fill_field_text">Fyll inn feltene ved bruk av elementene i oppføringen.</string>
     <string name="keyboard_lock_database_text">Lås databasen.</string>
     <string name="keyboard_back_main_keyboard_text">Gå tilbake til ditt hovedtastatur.</string>
-
     <string name="allow_no_password_title">Tillat inget passord</string>
     <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt.</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
-    <string name="enable_read_only_summary">"Åpne  din database skrivebeskyttet som forvalg."</string>
-
+    <string name="enable_read_only_summary">Åpne din database skrivebeskyttet som forvalg.</string>
     <string name="enable_education_screens_title">Hjelpeskjermer</string>
     <string name="enable_education_screens_summary">Framhev elementer for opplæring i programmet</string>
     <string name="reset_education_screens_title">Tilbakestill opplæringsskjermer</string>
@@ -316,12 +313,12 @@
     <string name="education_sort_summary">Sorter oppføringer og grupper i henhold til spesifikke parameter.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
-
     <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefri</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong></string>
+    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong>
+    </string>
     <string name="html_text_feature_generosity">Denne <strong>visuelle funksjonen</strong> er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong></string>
-
+    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong>
+    </string>
     <string name="html_text_dev_feature">Denne funksjonen er <strong>under utvikling</strong> og krever <strong>bidrag</strong> for å bli tilgjengelig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Ved å kjøpe <strong>pro</strong>-versjonen,</string>
     <string name="html_text_dev_feature_contibute">Ved å <strong>bidra</strong>,</string>
@@ -329,45 +326,34 @@
     <string name="html_text_dev_feature_thanks">Takk for ditt bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Det arbeides hardt på realiseringen av denne utgaven.</string>
     <string name="html_text_dev_feature_upgrade">Ikke glem å holde programmet ditt oppgradert.</string>
-
     <string name="download">Last ned</string>
     <string name="contribute">Bidra</string>
-
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="style_choose_title">Velg en drakt</string>
     <string name="style_choose_summary">Tilpass programdrakten ved å endre fargene</string>
     <string name="icon_pack_choose_title">Velg en ikonpakke</string>
     <string name="icon_pack_choose_summary">Endre programmets ikonpakke</string>
-
-<string name="build_label">Bygg %1$s</string>
+    <string name="build_label">Bygg %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard-innstillinger</string>
-
     <string name="keyboard_entry_category">Oppføring</string>
-
     <string name="keyboard_entry_timeout_title">Tidsavbrudd</string>
     <string name="keyboard_entry_timeout_summary">Tidsavbrudd for tømming av tastaturoppføring</string>
-
     <string name="keyboard_notification_entry_title">Merknadsinfo</string>
     <string name="keyboard_notification_entry_summary">Vis en merknad når en oppføring er tilgjengelig</string>
     <string name="keyboard_notification_entry_content_title_text">Oppføring</string>
     <string name="keyboard_notification_entry_content_title">%1$s tilgjengelig på Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
     <string name="keyboard_notification_entry_clear_close_title">Tøm ved lukking</string>
     <string name="keyboard_notification_entry_clear_close_summary">Tøm tastaturoppføringen ved lukking av merknaden</string>
     <string name="keyboard_appearance_category">Utseende</string>
-
     <string name="keyboard_theme_title">Tastaturdrakt</string>
-
     <string name="keyboard_keys_category">Taster</string>
     <string name="keyboard_key_vibrate_title">Vibrer ved tastetrykk</string>
     <string name="keyboard_key_sound_title">Lyd ved tastetrykk</string>
-    </resources>
+</resources>
