@@ -38,11 +38,20 @@ public class AutoType implements Cloneable, Parcelable {
 
     public AutoType() {}
 
+    public AutoType(AutoType autoType) {
+        this.enabled = autoType.enabled;
+        this.obfuscationOptions = autoType.obfuscationOptions;
+        this.defaultSequence = autoType.defaultSequence;
+        for (Map.Entry<String, String> entry: autoType.windowSeqPairs.entrySet()) {
+            this.windowSeqPairs.put(entry.getKey(), entry.getValue());
+        }
+    }
+
     public AutoType(Parcel in) {
-        enabled = in.readByte() != 0;
-        obfuscationOptions = in.readLong();
-        defaultSequence = in.readString();
-        windowSeqPairs = MemUtil.readStringParcelableMap(in);
+        this.enabled = in.readByte() != 0;
+        this.obfuscationOptions = in.readLong();
+        this.defaultSequence = in.readString();
+        this.windowSeqPairs = MemUtil.readStringParcelableMap(in);
     }
 
     @Override

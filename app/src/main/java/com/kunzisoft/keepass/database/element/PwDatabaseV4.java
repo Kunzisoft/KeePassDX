@@ -474,7 +474,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	public PwNodeIdUUID newGroupId() {
 		PwNodeIdUUID newId;
         do {
-            newId = new PwNodeIdUUID(UUID.randomUUID());
+            newId = new PwNodeIdUUID();
         } while (isGroupIdUsed(newId));
 		
 		return newId;
@@ -484,7 +484,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     public PwNodeIdUUID newEntryId() {
         PwNodeIdUUID newId;
         do {
-            newId = new PwNodeIdUUID(UUID.randomUUID());
+            newId = new PwNodeIdUUID();
         } while (isEntryIdUsed(newId));
 
         return newId;

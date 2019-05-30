@@ -44,6 +44,7 @@ public abstract class PwNode
     private PwDate expireDate = PwDate.PW_NEVER_EXPIRE;
 
     abstract PwNodeId<IdType> initNodeId();
+    abstract PwNodeId<IdType> copyNodeId(PwNodeId<IdType> nodeId);
 
     protected PwNode() {}
 
@@ -76,13 +77,13 @@ public abstract class PwNode
     }
 
     protected void updateWith(PwNode<IdType, Parent, Entry> source) {
-		this.nodeId = source.nodeId;
+		this.nodeId = copyNodeId(source.nodeId);
         this.parent = source.parent;
         this.icon = source.icon;
-        this.creation = source.creation;
-        this.lastMod = source.lastMod;
-        this.lastAccess = source.lastAccess;
-        this.expireDate = source.expireDate;
+        this.creation = new PwDate(source.creation);
+        this.lastMod = new PwDate(source.lastMod);
+        this.lastAccess = new PwDate(source.lastAccess);
+        this.expireDate = new PwDate(source.expireDate);
     }
 
     @Override

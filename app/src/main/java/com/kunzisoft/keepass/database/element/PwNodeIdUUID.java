@@ -28,7 +28,7 @@ public class PwNodeIdUUID extends PwNodeId<UUID> {
 	private UUID uuid;
 
 	public PwNodeIdUUID() {
-		this.uuid = UUID.randomUUID();
+		this(UUID.randomUUID());
 	}
 	
 	public PwNodeIdUUID(UUID uuid) {

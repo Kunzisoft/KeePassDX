@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.ExtraFields
 import com.kunzisoft.keepass.database.security.ProtectedString
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
 
@@ -18,19 +19,15 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         this.pwEntryV4?.updateWith(entry.pwEntryV4)
     }
 
-    constructor()
-
     /**
-     * Use this constructor to copy an Entry
+     * Use this constructor to copy an Entry with exact same values
      */
     constructor(entry: EntryVersioned) {
         if (entry.pwEntryV3 != null) {
-            if (this.pwEntryV3 == null)
-                this.pwEntryV3 = PwEntryV3()
+            this.pwEntryV3 = PwEntryV3()
         }
         if (entry.pwEntryV4 != null) {
-            if (this.pwEntryV4 == null)
-                this.pwEntryV4 = PwEntryV4()
+            this.pwEntryV4 = PwEntryV4()
         }
         updateWith(entry)
     }
@@ -286,8 +283,20 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         pwEntryV4?.stopToManageFieldReferences()
     }
 
-    fun createBackup(db: PwDatabaseV4?) {
-        pwEntryV4?.createBackup(db)
+    fun addBackupToHistory() {
+        pwEntryV4?.let {
+            val entryHistory = PwEntryV4()
+            entryHistory.updateWith(it)
+            it.addEntryToHistory(entryHistory)
+        }
+    }
+
+    fun removeOldestEntryFromHistory() {
+        pwEntryV4?.removeOldestEntryFromHistory()
+    }
+
+    fun getHistory(): ArrayList<PwEntryV4> {
+        return pwEntryV4?.history ?: ArrayList()
     }
 
     fun containsCustomData(): Boolean {

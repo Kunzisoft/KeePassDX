@@ -48,7 +48,12 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
 		return new PwNodeIdUUID();
 	}
 
-	public PwGroupV4() {
+    @Override
+    PwNodeId<UUID> copyNodeId(PwNodeId<UUID> nodeId) {
+        return new PwNodeIdUUID(nodeId.getId());
+    }
+
+    public PwGroupV4() {
 	    super();
     }
 
@@ -104,10 +109,14 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
 
     protected void updateWith(PwGroupV4 source) {
         super.updateWith(source);
-        customIcon = source.customIcon;
+        customIcon = new PwIconCustom(source.customIcon);
         usageCount = source.usageCount;
-        locationChangeDate = source.locationChangeDate;
-        customData = source.customData;
+        locationChangeDate = new PwDate(source.locationChangeDate);
+        // Add all custom elements in map
+        customData.clear();
+        for (Map.Entry<String, String> entry : source.customData.entrySet()) {
+            customData.put(entry.getKey(), entry.getValue());
+        }
 
         expires = source.expires;
 

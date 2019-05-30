@@ -69,6 +69,11 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 		return new PwNodeIdUUID();
 	}
 
+	@Override
+	PwNodeId<UUID> copyNodeId(PwNodeId<UUID> nodeId) {
+		return new PwNodeIdUUID(nodeId.getId());
+	}
+
 	public PwEntryV4() {
 	    super();
 	}
@@ -127,20 +132,30 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 		}
 	};
 
+	/**
+	 * Update with deep copy of each entry element
+	 * @param source
+	 */
 	public void updateWith(PwEntryV4 source) {
 		super.updateWith(source);
-		customIcon = source.customIcon;
+		customIcon = new PwIconCustom(source.customIcon);
 		usageCount = source.usageCount;
-		parentGroupLastMod = source.parentGroupLastMod;
+		parentGroupLastMod = new PwDate(source.parentGroupLastMod);
+		// Add all custom elements in map
 		customData.clear();
-		customData.putAll(source.customData); // Add all custom elements in map
-		fields = source.fields;
-		binaries = source.binaries;
+		for (Map.Entry<String, String> entry : source.customData.entrySet()) {
+			customData.put(entry.getKey(), entry.getValue());
+		}
+		fields = new ExtraFields(source.fields);
+		for (Map.Entry<String, ProtectedBinary> entry: source.binaries.entrySet()) {
+			binaries.put(entry.getKey(), new ProtectedBinary(entry.getValue()));
+		}
 		foregroundColor = source.foregroundColor;
 		backgroupColor = source.backgroupColor;
 		overrideURL = source.overrideURL;
-		autoType = source.autoType;
-		history = source.history;
+		autoType = new AutoType(source.autoType);
+		history.clear();
+		history.addAll(source.history);
 		url = source.url;
 		additional = source.additional;
 		tags = source.tags;
@@ -461,47 +476,11 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 		return size;
 	}
 
-	public void createBackup(PwDatabaseV4 db) {
-		PwEntryV4 copy = new PwEntryV4(); // Clone
-        copy.history = new ArrayList<>();
-        history.add(copy);
-
-        if (db != null)
-        	maintainBackups(db);
+	public void addEntryToHistory(PwEntryV4 entry) {
+		history.add(entry);
 	}
 
-	private boolean maintainBackups(PwDatabaseV4 db) {
-		boolean deleted = false;
-
-		int maxItems = db.getHistoryMaxItems();
-		if (maxItems >= 0) {
-			while (history.size() > maxItems) {
-				removeOldestBackup();
-				deleted = true;
-			}
-		}
-
-		long maxSize = db.getHistoryMaxSize();
-		if (maxSize >= 0) {
-			while(true) {
-				long histSize = 0;
-				for (PwEntryV4 entry : history) {
-					histSize += entry.getSize();
-				}
-
-				if (histSize > maxSize) {
-					removeOldestBackup();
-					deleted = true;
-				} else {
-					break;
-				}
-			}
-		}
-
-		return deleted;
-	}
-
-	private void removeOldestBackup() {
+	public void removeOldestEntryFromHistory() {
 		Date min = null;
 		int index = -1;
 

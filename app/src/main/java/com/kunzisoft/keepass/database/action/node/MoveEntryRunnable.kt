@@ -40,7 +40,7 @@ class MoveEntryRunnable constructor(
         // Move entry in new parent
         mEntryToMove?.let {
             mOldParent = it.parent
-            database.moveEntry(it, mNewParent)
+            database.moveEntryTo(it, mNewParent)
             it.touch(true, true)
         } ?: Log.e(TAG, "Unable to create a copy of the entry")
     }
@@ -50,7 +50,7 @@ class MoveEntryRunnable constructor(
             // If we fail to save, try to remove in the first place
             try {
                 if (mEntryToMove != null && mOldParent != null)
-                    database.moveEntry(mEntryToMove, mOldParent!!)
+                    database.moveEntryTo(mEntryToMove, mOldParent!!)
             } catch (e: Exception) {
                 Log.i(TAG, "Unable to replace the entry")
             }

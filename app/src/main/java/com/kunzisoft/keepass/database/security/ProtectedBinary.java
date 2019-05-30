@@ -33,7 +33,6 @@ import java.util.Arrays;
 public class ProtectedBinary implements Parcelable {
 
     private static final String TAG = ProtectedBinary.class.getName();
-	public final static ProtectedBinary EMPTY = new ProtectedBinary();
 
 	private boolean protect;
 	private byte[] data;
@@ -51,12 +50,22 @@ public class ProtectedBinary implements Parcelable {
             return size;
         return 0;
 	}
-	
-	private ProtectedBinary() {
+
+	/**
+	 * Empty protected binary
+	 */
+	public ProtectedBinary() {
         this.protect = false;
         this.data = null;
         this.dataFile = null;
         this.size = 0;
+	}
+
+	public ProtectedBinary(ProtectedBinary protectedBinary) {
+		this.protect = protectedBinary.protect;
+		this.data = protectedBinary.data;
+		this.dataFile = protectedBinary.dataFile;
+		this.size = protectedBinary.size;
 	}
 	
 	public ProtectedBinary(boolean enableProtection, byte[] data) {

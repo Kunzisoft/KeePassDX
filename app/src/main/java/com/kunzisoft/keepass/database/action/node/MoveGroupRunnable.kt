@@ -41,7 +41,7 @@ class MoveGroupRunnable constructor(
             mOldParent = it.parent
             // Move group in new parent if not in the current group
             if (mGroupToMove != mNewParent && !mNewParent.isContainedIn(mGroupToMove)) {
-                database.moveGroup(mGroupToMove, mNewParent)
+                database.moveGroupTo(mGroupToMove, mNewParent)
                 mGroupToMove.touch(true, true)
                 finishRun(true)
             } else {
@@ -58,7 +58,7 @@ class MoveGroupRunnable constructor(
             // If we fail to save, try to move in the first place
             try {
                 if (mGroupToMove != null && mOldParent != null)
-                database.moveGroup(mGroupToMove, mOldParent!!)
+                database.moveGroupTo(mGroupToMove, mOldParent!!)
             } catch (e: Exception) {
                 Log.i(TAG, "Unable to replace the group")
             }

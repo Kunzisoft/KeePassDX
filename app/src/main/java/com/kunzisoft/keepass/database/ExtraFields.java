@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.utils.MemUtil;
 
@@ -29,11 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_NOTES;
-import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_PASSWORD;
-import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_TITLE;
-import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_URL;
-import static com.kunzisoft.keepass.database.element.PwEntryV4.STR_USERNAME;
+import static com.kunzisoft.keepass.database.element.PwEntryV4.*;
 
 public class ExtraFields implements Parcelable, Cloneable {
 
@@ -41,6 +36,13 @@ public class ExtraFields implements Parcelable, Cloneable {
 
     public ExtraFields() {
         fields = new HashMap<>();
+    }
+
+    public ExtraFields(ExtraFields extraFields) {
+        this();
+        for (Map.Entry<String, ProtectedString> entry: extraFields.fields.entrySet()) {
+            fields.put(entry.getKey(), new ProtectedString(entry.getValue()));
+        }
     }
 
     public ExtraFields(Parcel in) {

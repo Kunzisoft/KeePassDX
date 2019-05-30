@@ -21,12 +21,14 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 
+import java.util.Random;
+
 public class PwNodeIdInt extends PwNodeId<Integer> {
 
 	private Integer id;
 
 	public PwNodeIdInt() {
-		this.id = -1;
+		this(new Random().nextInt());
 	}
 
 	public PwNodeIdInt(int groupId) {
@@ -35,6 +37,7 @@ public class PwNodeIdInt extends PwNodeId<Integer> {
 	}
 
 	public PwNodeIdInt(Parcel in) {
+		super(in);
         id = in.readInt();
 	}
 

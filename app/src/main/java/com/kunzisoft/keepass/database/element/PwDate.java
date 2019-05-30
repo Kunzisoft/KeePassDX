@@ -79,9 +79,14 @@ public class PwDate implements Cloneable, Parcelable {
 		System.arraycopy(buf, offset, cDate, 0, DATE_SIZE);
 		cDateBuilt = true;
 	}
-	
+
+	public PwDate(PwDate date) {
+		jDate = new Date(date.jDate.getTime());
+		jDateBuilt = date.jDateBuilt;
+	}
+
 	public PwDate(Date date) {
-		jDate = date;
+		jDate = new Date(date.getTime());
 		jDateBuilt = true;
 	}
 	

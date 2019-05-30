@@ -790,7 +790,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			return KdbContext.CustomData;
 		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
 			if ( ctxGroup.getNodeId() == null || ctxGroup.getNodeId().getId().equals(PwDatabase.UUID_ZERO) ) {
-				ctxGroup.setNodeId(new PwNodeIdUUID());
+				ctxGroup.setNodeId(mDatabase.newGroupId());
 				mDatabase.addGroupIndex(ctxGroup);
 			}
 			
@@ -819,7 +819,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 
 		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
 			if ( ctxEntry.getNodeId() == null || ctxEntry.getNodeId().getId().equals(PwDatabase.UUID_ZERO) ) {
-				ctxEntry.setNodeId(new PwNodeIdUUID());
+				ctxEntry.setNodeId(mDatabase.newEntryId());
 				mDatabase.addEntryIndex(ctxEntry);
 			}
 			
@@ -1048,7 +1048,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		
 		String base64 = ReadString(xpp);
 		if ( base64.length() == 0 )
-			return ProtectedBinary.EMPTY;
+			return new ProtectedBinary();
 		
 		byte[] data = Base64Coder.decode(base64);
 		

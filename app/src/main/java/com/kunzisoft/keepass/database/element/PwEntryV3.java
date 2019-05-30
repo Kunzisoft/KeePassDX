@@ -92,7 +92,12 @@ public class PwEntryV3 extends PwEntry<PwGroupV3, PwEntryV3> {
 		return new PwNodeIdUUID();
 	}
 
-	public PwEntryV3() {
+    @Override
+    PwNodeId<UUID> copyNodeId(PwNodeId<UUID> nodeId) {
+        return new PwNodeIdUUID(nodeId.getId());
+    }
+
+    public PwEntryV3() {
 		super();
 	}
 

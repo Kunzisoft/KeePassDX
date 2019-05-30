@@ -572,32 +572,27 @@ class Database {
     }
 
     /**
-     * @return A duplicate entry with the same values, a new UUID,
+     * @return A duplicate entry with the same values, a new random UUID and a new parent
      * @param entryToCopy
      * @param newParent
      */
-    fun copyEntry(entryToCopy: EntryVersioned, newParent: GroupVersioned): EntryVersioned? {
-        try {
-            val entryCopied = EntryVersioned(entryToCopy)
-            entryCopied.nodeId = PwNodeIdUUID()
-            entryCopied.parent = newParent
-            addEntryTo(entryCopied, newParent)
-            return entryCopied
-        } catch (e: Exception) {
-            Log.e(TAG, "This version of PwEntry can't be updated", e)
-        }
-
-        return null
+    fun copyEntryTo(entryToCopy: EntryVersioned, newParent: GroupVersioned): EntryVersioned? {
+        val entryCopied = EntryVersioned(entryToCopy)
+        entryCopied.nodeId = pwDatabaseV3?.newEntryId() ?: pwDatabaseV4?.newEntryId()
+        entryCopied.parent = newParent
+        entryCopied.title += " (~)"
+        addEntryTo(entryCopied, newParent)
+        return entryCopied
     }
 
-    fun moveEntry(entryToMove: EntryVersioned, newParent: GroupVersioned) {
+    fun moveEntryTo(entryToMove: EntryVersioned, newParent: GroupVersioned) {
         entryToMove.parent?.let {
             removeEntryFrom(entryToMove, it)
         }
         addEntryTo(entryToMove, newParent)
     }
 
-    fun moveGroup(groupToMove: GroupVersioned, newParent: GroupVersioned) {
+    fun moveGroupTo(groupToMove: GroupVersioned, newParent: GroupVersioned) {
         groupToMove.parent?.let {
             removeGroupFrom(groupToMove, it)
         }
@@ -674,10 +669,40 @@ class Database {
         }
     }
 
-    fun createBackupOf(entry: EntryVersioned) {
+    fun addHistoryBackupTo(entry: EntryVersioned): EntryVersioned {
+        val backupEntry = EntryVersioned(entry)
+
+        entry.addBackupToHistory()
+
+        // Remove oldest backup if more than max items or max memory
         pwDatabaseV4?.let {
-            entry.createBackup(it)
+            val history = entry.getHistory()
+
+            val maxItems = it.historyMaxItems
+            if (maxItems >= 0) {
+                while (history.size > maxItems) {
+                    entry.removeOldestEntryFromHistory()
+                }
+            }
+
+            val maxSize = it.historyMaxSize
+            if (maxSize >= 0) {
+                while (true) {
+                    var histSize: Long = 0
+                    for (backup in history) {
+                        histSize += backup.size
+                    }
+
+                    if (histSize > maxSize) {
+                        entry.removeOldestEntryFromHistory()
+                    } else {
+                        break
+                    }
+                }
+            }
         }
+
+        return backupEntry
     }
 
     companion object {

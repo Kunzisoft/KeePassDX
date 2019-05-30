@@ -33,6 +33,11 @@ public class PwGroupV3 extends PwGroup<Integer, PwGroupV3, PwEntryV3> {
         return new PwNodeIdInt();
     }
 
+    @Override
+    PwNodeId<Integer> copyNodeId(PwNodeId<Integer> nodeId) {
+        return new PwNodeIdInt(nodeId.getId());
+    }
+
     public PwGroupV3() {
 		super();
     }

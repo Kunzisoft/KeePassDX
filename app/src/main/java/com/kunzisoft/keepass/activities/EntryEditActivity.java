@@ -71,7 +71,7 @@ public class EntryEditActivity extends LockingHideActivity
 
 	protected EntryVersioned mEntry;
 	protected GroupVersioned mParent;
-	protected EntryVersioned mCallbackNewEntry;
+	protected EntryVersioned mNewEntry;
 	protected boolean mIsNew;
 	protected PwIconStandard mSelectedIconStandard;
 
@@ -155,9 +155,6 @@ public class EntryEditActivity extends LockingHideActivity
 		// Likely the app has been killed exit the activity
         database = App.getDB();
 
-		Intent intent = getIntent();
-		PwNodeId keyEntry = intent.getParcelableExtra(KEY_ENTRY);
-
         // Retrieve the textColor to tint the icon
         int[] attrs = {android.R.attr.textColorPrimary};
         TypedArray ta = getTheme().obtainStyledAttributes(attrs);
@@ -165,21 +162,29 @@ public class EntryEditActivity extends LockingHideActivity
 
         mSelectedIconStandard = database.getIconFactory().getUnknownIcon();
 
-		if (keyEntry == null) {
-		    PwNodeId parentId = intent.getParcelableExtra(KEY_PARENT);
-			mParent = database.getGroupById(parentId);
+        Intent intent = getIntent();
+        // Entry is retrieve, it's an entry to update
+        PwNodeId keyEntry = intent.getParcelableExtra(KEY_ENTRY);
+        if (keyEntry != null) {
+            mIsNew = false;
+            mEntry = database.getEntryById(keyEntry);
+            if (mEntry != null) {
+                mParent = mEntry.getParent();
+                fillData();
+            }
+        }
+
+        // Parent is retrieve, it's a new entry to create
+        PwNodeId keyParent = intent.getParcelableExtra(KEY_PARENT);
+		if (keyParent != null) {
+            mIsNew = true;
 			mEntry = database.createEntry();
-			mIsNew = true;
+            mParent = database.getGroupById(keyParent);
 			// Add the default icon
             database.getDrawFactory().assignDefaultDatabaseIconTo(this, entryIconView, iconColor);
-		} else {
-			mEntry = database.getEntryById(keyEntry);
-			mIsNew = false;
-			if (mEntry != null)
-			    fillData();
 		}
 
-		// Close the activity if entry to edit or parent to add entry can't be retrieve
+		// Close the activity if entry or parent can't be retrieve
 		if (mEntry == null || mParent == null) {
             finish();
             return;
@@ -245,7 +250,10 @@ public class EntryEditActivity extends LockingHideActivity
         if (!validateBeforeSaving()) {
             return;
         }
-        mCallbackNewEntry = populateNewEntry();
+        // Clone the entry
+        mNewEntry = new EntryVersioned(mEntry);
+
+        populateEntryWithViewInfo(mNewEntry);
 
         // Open a progress dialog and save entry
         ActionRunnable task;
@@ -260,7 +268,7 @@ public class EntryEditActivity extends LockingHideActivity
         if ( mIsNew ) {
             task = new AddEntryRunnable(EntryEditActivity.this,
 					database,
-					mCallbackNewEntry,
+                    mNewEntry,
 					mParent,
 					afterActionNodeFinishRunnable,
 					!getReadOnly());
@@ -268,7 +276,7 @@ public class EntryEditActivity extends LockingHideActivity
             task = new UpdateEntryRunnable(EntryEditActivity.this,
 					database,
 					mEntry,
-					mCallbackNewEntry,
+                    mNewEntry,
 					afterActionNodeFinishRunnable,
 					!getReadOnly());
         }
@@ -400,13 +408,9 @@ public class EntryEditActivity extends LockingHideActivity
         return errorValidation.isValidate;
 	}
 	
-	protected EntryVersioned populateNewEntry() {
-		Database database = App.getDB();
-
-		EntryVersioned newEntry = new EntryVersioned(mEntry);
+	private void populateEntryWithViewInfo(EntryVersioned newEntry) {
 
 		database.startManageEntry(newEntry);
-		database.createBackupOf(newEntry);
 
         newEntry.setLastAccessTime(new PwDate());
         newEntry.setLastModificationTime(new PwDate());
@@ -433,8 +437,6 @@ public class EntryEditActivity extends LockingHideActivity
         }
 
 		database.stopManageEntry(newEntry);
-
-        return newEntry;
 	}
 
     /**
@@ -516,7 +518,6 @@ public class EntryEditActivity extends LockingHideActivity
 
 		if (mEntry.allowExtraFields()) {
             LinearLayout container = findViewById(R.id.entry_edit_advanced_container);
-            // TODO Close here but why ?
             mEntry.getFields().doActionToAllCustomProtectedField((key, value) -> {
                 EntryEditCustomField entryEditCustomField = new EntryEditCustomField(EntryEditActivity.this);
                 entryEditCustomField.setData(key, value);
@@ -559,10 +560,10 @@ public class EntryEditActivity extends LockingHideActivity
 	public void finish() {
 	    // Assign entry callback as a result in all case
         try {
-            if (mCallbackNewEntry != null) {
+            if (mNewEntry != null) {
                 Bundle bundle = new Bundle();
                 Intent intentEntry = new Intent();
-                bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, mCallbackNewEntry);
+                bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, mNewEntry);
                 intentEntry.putExtras(bundle);
                 if (mIsNew) {
                     setResult(ADD_ENTRY_RESULT_CODE, intentEntry);
