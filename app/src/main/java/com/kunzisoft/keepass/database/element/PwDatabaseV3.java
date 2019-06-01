@@ -46,7 +46,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	protected PwGroupV3 rootGroup;
 
     public PwDatabaseV3() {
-        algorithm = PwEncryptionAlgorithm.AES_Rijndael;
+        algorithm = PwEncryptionAlgorithm.AESRijndael;
         numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
     }
 
@@ -58,7 +58,7 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 	@Override
 	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
 		List<PwEncryptionAlgorithm> list = new ArrayList<>();
-		list.add(PwEncryptionAlgorithm.AES_Rijndael);
+		list.add(PwEncryptionAlgorithm.AESRijndael);
 		return list;
 	}
 

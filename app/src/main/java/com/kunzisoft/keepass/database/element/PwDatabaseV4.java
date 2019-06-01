@@ -127,7 +127,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	@Override
 	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
 		List<PwEncryptionAlgorithm> list = new ArrayList<>();
-		list.add(PwEncryptionAlgorithm.AES_Rijndael);
+		list.add(PwEncryptionAlgorithm.AESRijndael);
 		list.add(PwEncryptionAlgorithm.Twofish);
 		list.add(PwEncryptionAlgorithm.ChaCha20);
 		return list;

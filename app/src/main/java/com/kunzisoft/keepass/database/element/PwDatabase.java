@@ -214,7 +214,7 @@ public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry e
     public PwEncryptionAlgorithm getEncryptionAlgorithm() {
         if (algorithm != null)
             return algorithm;
-        return PwEncryptionAlgorithm.AES_Rijndael;
+        return PwEncryptionAlgorithm.AESRijndael;
     }
 
     public void setEncryptionAlgorithm(PwEncryptionAlgorithm algorithm) {

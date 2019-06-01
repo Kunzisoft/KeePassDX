@@ -52,6 +52,6 @@ public class AesEngine extends CipherEngine {
 
     @Override
     public PwEncryptionAlgorithm getPwEncryptionAlgorithm() {
-        return PwEncryptionAlgorithm.AES_Rijndael;
+        return PwEncryptionAlgorithm.AESRijndael;
     }
 }

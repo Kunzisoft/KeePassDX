@@ -110,7 +110,7 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 
 		// Select algorithm
 		if( (hdr.flags & PwDbHeaderV3.FLAG_RIJNDAEL) != 0 ) {
-			databaseToOpen.setEncryptionAlgorithm(PwEncryptionAlgorithm.AES_Rijndael);
+			databaseToOpen.setEncryptionAlgorithm(PwEncryptionAlgorithm.AESRijndael);
 		} else if( (hdr.flags & PwDbHeaderV3.FLAG_TWOFISH) != 0 ) {
 			databaseToOpen.setEncryptionAlgorithm(PwEncryptionAlgorithm.Twofish);
 		} else {
@@ -130,7 +130,7 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 		// Initialize Rijndael algorithm
 		Cipher cipher;
 		try {
-			if ( databaseToOpen.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AES_Rijndael) {
+			if ( databaseToOpen.getEncryptionAlgorithm() == PwEncryptionAlgorithm.AESRijndael) {
 				cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
 			} else if ( databaseToOpen.getEncryptionAlgorithm() == PwEncryptionAlgorithm.Twofish ) {
 				cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING");
