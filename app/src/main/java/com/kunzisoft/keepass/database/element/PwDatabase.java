@@ -52,7 +52,7 @@ public abstract class PwDatabase<Group extends PwGroup<?, Group, Entry>, Entry e
     protected LinkedHashMap<PwNodeId, Group> groupIndexes = new LinkedHashMap<>();
     protected LinkedHashMap<PwNodeId, Entry> entryIndexes = new LinkedHashMap<>();
 
-    public abstract PwVersion getVersion();
+    public abstract String getVersion();
 
     public PwIconFactory getIconFactory() {
         return iconFactory;

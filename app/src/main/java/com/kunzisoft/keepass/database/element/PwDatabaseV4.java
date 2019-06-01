@@ -96,8 +96,8 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
     public PwDatabaseV4() {}
 
 	@Override
-	public PwVersion getVersion() {
-		return PwVersion.V4;
+	public String getVersion() {
+		return "KeePass 2";
 	}
 
 	public String getName() {

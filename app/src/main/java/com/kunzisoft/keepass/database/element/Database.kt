@@ -432,7 +432,7 @@ class Database {
     }
 
     fun getVersion(): String {
-        return pwDatabaseV3?.version?.toString() ?: pwDatabaseV4?.version?.toString() ?: PwVersion.UNKNOWN.toString()
+        return pwDatabaseV3?.version ?: pwDatabaseV4?.version ?: "unknown"
     }
 
     fun containsName(): Boolean {

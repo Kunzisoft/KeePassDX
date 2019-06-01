@@ -51,8 +51,8 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
     }
 
 	@Override
-	public PwVersion getVersion() {
-		return PwVersion.V3;
+	public String getVersion() {
+		return "KeePass 1";
 	}
 
 	@Override
