@@ -17,24 +17,18 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element;
+package com.kunzisoft.keepass.database.element
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Parcel
+import android.os.Parcelable
 
-public abstract class PwNodeId<Id> implements Parcelable {
+abstract class PwNodeId<Id> : Parcelable {
 
-    public PwNodeId() {}
+    abstract val id: Id
 
-    public PwNodeId(Parcel in) {}
+    override fun writeToParcel(dest: Parcel, flags: Int) {}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {}
-
-    @Override
-    public int describeContents() {
-        return 0;
+    override fun describeContents(): Int {
+        return 0
     }
-
-    public abstract Id getId();
 }
