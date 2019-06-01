@@ -54,6 +54,12 @@ public class PreferencesUtil {
         sharedPreferencesEditor.apply();
     }
 
+    public static boolean omitBackup(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.omitbackup_key),
+                context.getResources().getBoolean(R.bool.omitbackup_default));
+    }
+
     public static boolean showUsernamesListEntries(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.list_entries_show_username_key),

@@ -114,7 +114,7 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         return pwGroupV3?.isContainedIn(container.pwGroupV3) ?: pwGroupV4?.isContainedIn(container.pwGroupV4) ?: false
     }
 
-    override val isSearchingEnabled: Boolean?
+    override val isSearchingEnabled: Boolean
         get() = pwGroupV3?.isSearchingEnabled ?: pwGroupV4?.isSearchingEnabled ?: false
 
     override fun getLastModificationTime(): PwDate? {

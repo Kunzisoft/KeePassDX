@@ -85,7 +85,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 		parentGroupLastMod = parcel.readParcelable(PwDate.class.getClassLoader());
 		customData = MemUtil.readStringParcelableMap(parcel);
 		fields = parcel.readParcelable(ExtraFields.class.getClassLoader());
-		binaries = MemUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
+		// TODO binaries = MemUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
 		foregroundColor = parcel.readString();
 		backgroupColor = parcel.readString();
 		overrideURL = parcel.readString();
@@ -313,7 +313,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 	}
 
     @Override
-    public void setIcon(PwIcon icon) {
+    public void setIcon(@NonNull PwIcon icon) {
         if (icon instanceof PwIconStandard)
             setIconStandard((PwIconStandard) icon);
         if (icon instanceof PwIconCustom)
@@ -508,12 +508,13 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 	public void touchLocation() {
 		parentGroupLastMod = new PwDate();
 	}
-	
-	public Boolean isSearchingEnabled() {
+
+	@Override
+	public boolean isSearchingEnabled() {
 		if (getParent() != null) {
 			return getParent().isSearchingEnabled();
 		}
-		return PwGroupV4.DEFAULT_SEARCHING_ENABLED;
+		return true;
 	}
 
 	/**

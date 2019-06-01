@@ -67,15 +67,13 @@ public class EntrySearchHandlerV4 extends NodeHandler<PwEntryV4> {
 			PwGroupV4 parent = entry.getParent();
 			if (parent != null) {
 				String groupName = parent.getTitle();
-				if (groupName != null) {
-					if (sp.ignoreCase) {
-						groupName = groupName.toLowerCase();
-					}
+				if (sp.ignoreCase) {
+					groupName = groupName.toLowerCase();
+				}
 
-					if (groupName.contains(term)) {
-						listStorage.add(entry);
-						return true;
-					}
+				if (groupName.contains(term)) {
+					listStorage.add(entry);
+					return true;
 				}
 			}
 		}
@@ -101,7 +99,7 @@ public class EntrySearchHandlerV4 extends NodeHandler<PwEntryV4> {
 		EntrySearchStringIterator iter = new EntrySearchStringIteratorV4(entry, sp);
 		while (iter.hasNext()) {
 			String str = iter.next();
-			if (str != null && str.length() > 0) {
+			if (str.length() > 0) {
 				if (sp.ignoreCase) {
 					str = str.toLowerCase();
 				}

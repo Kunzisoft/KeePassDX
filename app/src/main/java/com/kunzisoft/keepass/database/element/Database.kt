@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.database.save.PwDbV3Output
 import com.kunzisoft.keepass.database.save.PwDbV4Output
 import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.EmptyUtils
@@ -297,7 +298,7 @@ class Database {
 
         try {
             isPasswordEncodingError = !(pwDatabaseV3?.validatePasswordEncoding(password) ?: pwDatabaseV4?.validatePasswordEncoding(password) ?: true)
-            searchHelper = SearchDbHelper(ctx)
+            searchHelper = SearchDbHelper(PreferencesUtil.omitBackup(ctx))
             loaded = true
         } catch (e: Exception) {
             Log.e(TAG, "Load can't be performed with this Database version", e)
@@ -313,40 +314,30 @@ class Database {
 
     @JvmOverloads
     fun search(str: String, max: Int = Integer.MAX_VALUE): GroupVersioned? {
-        return if (searchHelper == null) null else searchHelper?.search(this, str, max)
+        return searchHelper?.search(this, str, max)
     }
 
     fun searchEntry(query: String): Cursor? {
-        if (pwDatabaseV3 != null) {
-            val cursorV3 = EntryCursorV3()
-            if (query.isNotEmpty()) {
-                val searchResult = search(query, 6)
-                if (searchResult != null) {
-                    for (entry in searchResult.getChildEntries()) {
-                        if (!entry.isMetaStream) { // TODO metastream
-                            cursorV3.addEntry(entry.pwEntryV3)
-                        }
-                    }
+
+        var cursorV3: EntryCursorV3? = null
+        var cursorV4: EntryCursorV4? = null
+
+        if (pwDatabaseV3 != null)
+            cursorV3 = EntryCursorV3()
+        if (pwDatabaseV4 != null)
+            cursorV4 = EntryCursorV4()
+
+        val searchResult = search(query, SearchDbHelper.MAX_SEARCH_ENTRY)
+        if (searchResult != null) {
+            for (entry in searchResult.getChildEntries()) {
+                if (!entry.isMetaStream) { // TODO metastream
+                    cursorV3?.addEntry(entry.pwEntryV3)
+                    cursorV4?.addEntry(entry.pwEntryV4)
                 }
             }
-            return cursorV3
         }
 
-        if (pwDatabaseV4 != null) {
-            val cursorV4 = EntryCursorV4()
-            if (query.isNotEmpty()) {
-                val searchResult = search(query, 6)
-                if (searchResult != null) {
-                    for (entry in searchResult.getChildEntries()) {
-                        if (!entry.isMetaStream) { // TODO metastream
-                            cursorV4.addEntry(entry.pwEntryV4)
-                        }
-                    }
-                }
-            }
-            return cursorV4
-        }
-        return null
+        return cursorV3 ?: cursorV4
     }
 
     fun getEntryFrom(cursor: Cursor): EntryVersioned? {

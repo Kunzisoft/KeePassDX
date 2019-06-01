@@ -22,7 +22,7 @@ interface PwNodeInterface<ParentGroup> : SmallTimeInterface, Parcelable {
      */
     var parent: ParentGroup?
 
-    val isSearchingEnabled: Boolean?
+    val isSearchingEnabled: Boolean
 
     fun containsParent(): Boolean
 

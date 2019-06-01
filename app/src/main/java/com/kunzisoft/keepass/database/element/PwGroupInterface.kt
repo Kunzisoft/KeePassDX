@@ -27,10 +27,12 @@ interface PwGroupInterface<Group: PwGroupInterface<Group, Entry>, Entry> : PwNod
     fun doForEachChild(entryHandler: NodeHandler<Entry>,
                        groupHandler: NodeHandler<Group>?): Boolean {
         for (entry in this.getChildEntries()) {
-            if (!entryHandler.operate(entry)) return false
+            if (!entryHandler.operate(entry))
+                return false
         }
         for (group in this.getChildGroups()) {
-            if (groupHandler != null && !groupHandler.operate(group)) return false
+            if (groupHandler != null && !groupHandler.operate(group))
+                return false
             group.doForEachChild(entryHandler, groupHandler)
         }
         return true

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import org.joda.time.LocalDate;
 
 /**
@@ -119,12 +120,13 @@ public abstract class PwNode
     /**
      * @return Visual icon
      */
+    @NonNull
     public PwIcon getIcon() {
         return icon;
     }
 
     @Override
-    public void setIcon(PwIcon icon) {
+    public void setIcon(@NonNull PwIcon icon) {
         this.icon = icon;
     }
 

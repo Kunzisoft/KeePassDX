@@ -101,7 +101,7 @@ public class PwGroupV3 extends PwGroup<Integer, PwGroupV3, PwEntryV3> {
     }
 
 	@Override
-	public Boolean isSearchingEnabled() {
+	public boolean isSearchingEnabled() {
 		return false;
 	}
 

@@ -29,8 +29,6 @@ import java.util.UUID;
 
 public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements ITimeLogger {
 
-	public static final boolean DEFAULT_SEARCHING_ENABLED = true;
-
 	private PwIconCustom customIcon = PwIconCustom.ZERO;
     private long usageCount = 0;
     private PwDate locationChangeDate = new PwDate();
@@ -277,20 +275,13 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
         this.lastTopVisibleEntry = lastTopVisibleEntry;
     }
 
-    public Boolean isSearchingEnabled() {
-
-        GroupVersioned group = new GroupVersioned(this);
-		while (group != null) {
-			Boolean search = group.isSearchingEnabled();
-			if (search != null) {
-				return search;
-			}
-			group = group.getParent();
-		}
-
-		// If we get to the root tree and its null, default to true
-		return true;
-	}
+    @Override
+    public boolean isSearchingEnabled() {
+        if (getParent() != null) {
+            return getParent().isSearchingEnabled();
+        }
+        return true;
+    }
 
 	@Override
 	public boolean allowAddEntryIfIsRoot() {

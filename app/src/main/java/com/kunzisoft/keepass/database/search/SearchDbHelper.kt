@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -19,9 +19,6 @@
  */
 package com.kunzisoft.keepass.database.search
 
-import android.content.Context
-import android.preference.PreferenceManager
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
@@ -29,42 +26,44 @@ import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator
 import java.util.*
 
-class SearchDbHelper(private val mContext: Context) {
-    private var incrementEntry = 0
+class SearchDbHelper(private val isOmitBackup: Boolean) {
 
-    private fun omitBackup(): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
-        return prefs.getBoolean(mContext.getString(R.string.omitbackup_key), mContext.resources.getBoolean(R.bool.omitbackup_default))
+    companion object {
+        const val MAX_SEARCH_ENTRY = 6
     }
 
-    fun search(pm: Database, qStr: String, max: Int): GroupVersioned {
+    private var incrementEntry = 0
 
-        val searchGroup = pm.createGroup()
-        searchGroup!!.title = "\"" + qStr + "\""
+    fun search(database: Database, qStr: String, max: Int): GroupVersioned? {
+
+        val searchGroup = database.createGroup()
+        searchGroup?.title = "\"" + qStr + "\""
 
         // Search all entries
         val loc = Locale.getDefault()
         val finalQStr = qStr.toLowerCase(loc)
-        val isOmitBackup = omitBackup()
-
 
         incrementEntry = 0
-        pm.rootGroup?.doForEachChild(
+        database.rootGroup?.doForEachChild(
                 object : NodeHandler<EntryVersioned>() {
                     override fun operate(entry: EntryVersioned): Boolean {
+                        if (incrementEntry >= max)
+                            return false
                         if (entryContainsString(entry, finalQStr, loc)) {
-                            searchGroup.addChildEntry(entry)
+                            searchGroup?.addChildEntry(entry)
                             incrementEntry++
                         }
                         // Stop searching when we have max entries
-                        return incrementEntry <= max
+                        return incrementEntry < max
                     }
                 },
                 object : NodeHandler<GroupVersioned>() {
                     override fun operate(group: GroupVersioned): Boolean {
-                        return if (pm.isGroupSearchable(group, isOmitBackup)!!) {
-                            true
-                        } else incrementEntry <= max
+                        return when {
+                            incrementEntry >= max -> false
+                            database.isGroupSearchable(group, isOmitBackup) -> true
+                            else -> incrementEntry < max
+                        }
                     }
                 })
 
