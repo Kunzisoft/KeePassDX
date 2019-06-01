@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -25,18 +25,17 @@ import com.kunzisoft.keepass.database.search.SearchParameters;
 import java.util.NoSuchElementException;
 
 public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
-	
-	private PwEntryV3 entry;
-	private SearchParameters sp;
-	
+
+	private PwEntryV3 mEntry;
+	private SearchParameters mSearchParameters;
+
 	public EntrySearchStringIteratorV3(PwEntryV3 entry) {
-		this.entry = entry;
-		this.sp = SearchParameters.DEFAULT;
+		this(entry, new SearchParameters());
 	}
 
-	public EntrySearchStringIteratorV3(PwEntryV3 entry, SearchParameters sp) {
-		this.entry = entry;
-		this.sp = sp;
+	public EntrySearchStringIteratorV3(PwEntryV3 entry, SearchParameters searchParameters) {
+		this.mEntry = entry;
+		this.mSearchParameters = searchParameters;
 	}
 
 	private static final int title = 0;
@@ -44,76 +43,67 @@ public class EntrySearchStringIteratorV3 extends EntrySearchStringIterator {
 	private static final int username = 2;
 	private static final int comment = 3;
 	private static final int maxEntries = 4;
-	
+
 	private int current = 0;
-	
+
 	@Override
 	public boolean hasNext() {
 		return current < maxEntries;
 	}
-	
+
 	@Override
 	public String next() {
 		// Past the end of the list
 		if (current == maxEntries) {
 			throw new NoSuchElementException("Past final string");
 		}
-		
+
         useSearchParameters();
-		
+
 		String str = getCurrentString();
 		current++;
 		return str;
 	}
-	
+
 	private void useSearchParameters() {
-		
-		if (sp == null) { return; }
+
+		if (mSearchParameters == null) { return; }
 
 		boolean found = false;
-		
 		while (!found) {
             switch (current) {
             case title:
-                found = sp.searchInTitles;
+                found = mSearchParameters.getSearchInTitles();
 				break;
-            
             case url:
-            	found = sp.searchInUrls;
+            	found = mSearchParameters.getSearchInUrls();
 				break;
-                    
             case username:
-                found = sp.searchInUserNames;
+                found = mSearchParameters.getSearchInUserNames();
 				break;
-            	
             case comment:
-            	found = sp.searchInNotes;
+            	found = mSearchParameters.getSearchInNotes();
 				break;
-                    
             default:
             	found = true;
             }
-                
-            if (!found) { current++; }   
+
+            if (!found) { current++; }
 		}
 	}
-	
+
 	private String getCurrentString() {
 		switch (current) {
-		case title:
-			return entry.getTitle();
-		
-		case url:
-			return entry.getUrl();
-			
-		case username:
-			return entry.getUsername();
-			
-		case comment:
-			return entry.getNotes();
-			
-		default:
-			return "";
+			case title:
+				return mEntry.getTitle();
+			case url:
+				return mEntry.getUrl();
+			case username:
+				return mEntry.getUsername();
+			case comment:
+				return mEntry.getNotes();
+			default:
+				return "";
 		}
 	}
 

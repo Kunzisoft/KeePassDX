@@ -145,13 +145,17 @@ public class PwEntryV3 extends PwEntry<PwGroupV3, PwEntryV3> {
         super.updateWith(source);
         title = source.title;
         username = source.username;
-        int passLen = source.password.length;
-        password = new byte[passLen];
-        System.arraycopy(source.password, 0, password, 0, passLen);
+
+        if (source.password != null) {
+            int passLen = source.password.length;
+            password = new byte[passLen];
+            System.arraycopy(source.password, 0, password, 0, passLen);
+        }
+
         url = source.url;
         additional = source.additional;
-
         binaryDesc = source.binaryDesc;
+
         if ( source.binaryData != null ) {
             int descLen = source.binaryData.length;
             binaryData = new byte[descLen];

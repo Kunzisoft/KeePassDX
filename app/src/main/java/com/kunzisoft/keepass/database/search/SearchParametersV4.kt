@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -17,25 +17,26 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.search;
+package com.kunzisoft.keepass.database.search
 
-public class SearchParametersV4 extends SearchParameters implements Cloneable {
-	public static SearchParametersV4 DEFAULT = new SearchParametersV4();
-	
-	public boolean searchInOther = true;
-	public boolean searchInUUIDs = false;
-	public boolean searchInTags = true;
+class SearchParametersV4 : SearchParameters {
 
-	@Override
-	public Object clone() {
-		return super.clone();
-	}
+    var searchInOther = true
+    var searchInUUIDs = false
+    var searchInTags = true
 
-	@Override
-	public void setupNone() {
-		super.setupNone();
-		searchInOther = false;
-		searchInUUIDs = false;
-		searchInTags = false;
-	}
+    constructor() : super()
+
+    constructor(searchParametersV4: SearchParametersV4) : super(searchParametersV4) {
+        this.searchInOther = searchParametersV4.searchInOther
+        this.searchInUUIDs = searchParametersV4.searchInUUIDs
+        this.searchInTags = searchParametersV4.searchInTags
+    }
+
+    override fun setupNone() {
+        super.setupNone()
+        searchInOther = false
+        searchInUUIDs = false
+        searchInTags = false
+    }
 }

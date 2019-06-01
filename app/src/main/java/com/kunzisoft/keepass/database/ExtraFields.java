@@ -30,7 +30,7 @@ import java.util.Map;
 
 import static com.kunzisoft.keepass.database.element.PwEntryV4.*;
 
-public class ExtraFields implements Parcelable, Cloneable {
+public class ExtraFields implements Parcelable {
 
     private Map<String, ProtectedString> fields;
 
@@ -150,26 +150,5 @@ public class ExtraFields implements Parcelable, Cloneable {
         return !key.equals(STR_TITLE) && !key.equals(STR_USERNAME)
                 && !key.equals(STR_PASSWORD) && !key.equals(STR_URL)
                 && !key.equals(STR_NOTES);
-    }
-
-    @Override
-    public ExtraFields clone() {
-        try {
-            ExtraFields clone = (ExtraFields) super.clone();
-            clone.fields = copyMap(this.fields);
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private Map<String, ProtectedString> copyMap(
-            Map<String, ProtectedString> original) {
-        HashMap<String, ProtectedString> copy = new HashMap<>();
-        for (Map.Entry<String, ProtectedString> entry : original.entrySet()) {
-            copy.put(entry.getKey(), new ProtectedString(entry.getValue()));
-        }
-        return copy;
     }
 }

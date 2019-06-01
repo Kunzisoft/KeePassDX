@@ -24,6 +24,8 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator
+import com.kunzisoft.keepass.database.iterator.EntrySearchStringIteratorV3
+import com.kunzisoft.keepass.database.iterator.EntrySearchStringIteratorV4
 import java.util.*
 
 class SearchDbHelper(private val isOmitBackup: Boolean) {
@@ -72,13 +74,23 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
 
     private fun entryContainsString(entry: EntryVersioned, qStr: String, loc: Locale): Boolean {
         // Search all strings in the entry
-        val iterator = EntrySearchStringIterator.getInstance(entry)
-        while (iterator.hasNext()) {
-            val str = iterator.next()
-            if (str.isNotEmpty()) {
-                val lower = str.toLowerCase(loc)
-                if (lower.contains(qStr)) {
-                    return true
+
+        var iterator: EntrySearchStringIterator? = null
+        entry.pwEntryV3?.let {
+            iterator = EntrySearchStringIteratorV3(it)
+        }
+        entry.pwEntryV4?.let {
+            iterator = EntrySearchStringIteratorV4(it)
+        }
+
+        iterator?.let {
+            while (it.hasNext()) {
+                val str = it.next()
+                if (str.isNotEmpty()) {
+                    val lower = str.toLowerCase(loc)
+                    if (lower.contains(qStr)) {
+                        return true
+                    }
                 }
             }
         }

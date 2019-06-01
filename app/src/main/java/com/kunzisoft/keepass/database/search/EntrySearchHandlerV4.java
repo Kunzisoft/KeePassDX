@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.database.element.PwEntryV4;
 import com.kunzisoft.keepass.database.element.PwGroupV4;
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator;
 import com.kunzisoft.keepass.database.iterator.EntrySearchStringIteratorV4;
-import com.kunzisoft.keepass.utils.StrUtil;
+import com.kunzisoft.keepass.utils.StringUtil;
 import com.kunzisoft.keepass.utils.UuidUtil;
 
 import java.util.Date;
@@ -33,53 +33,53 @@ import java.util.Locale;
 
 public class EntrySearchHandlerV4 extends NodeHandler<PwEntryV4> {
 
-	private List<PwEntryV4> listStorage;
-	protected SearchParametersV4 sp;
+	private List<PwEntryV4> mListStorage;
+	private SearchParametersV4 mSearchParametersV4;
 	protected Date now;
 
-	public EntrySearchHandlerV4(SearchParametersV4 sp, List<PwEntryV4> listStorage) {
-		this.listStorage = listStorage;
-		this.sp = sp;
+	public EntrySearchHandlerV4(SearchParametersV4 searchParametersV4, List<PwEntryV4> listStorage) {
+		this.mListStorage = listStorage;
+		this.mSearchParametersV4 = searchParametersV4;
 		this.now = new Date();
 	}
 
 	@Override
 	public boolean operate(PwEntryV4 entry) {
-		if (sp.respectEntrySearchingDisabled && !entry.isSearchingEnabled()) {
+		if (mSearchParametersV4.getRespectEntrySearchingDisabled() && !entry.isSearchingEnabled()) {
 			return true;
 		}
 
-		if (sp.excludeExpired && entry.isExpires() && now.after(entry.getExpiryTime().getDate())) {
+		if (mSearchParametersV4.getExcludeExpired() && entry.isExpires() && now.after(entry.getExpiryTime().getDate())) {
 			return true;
 		}
 
-		String term = sp.searchString;
-		if (sp.ignoreCase) {
+		String term = mSearchParametersV4.getSearchString();
+		if (mSearchParametersV4.getIgnoreCase()) {
 			term = term.toLowerCase();
 		}
 
 		if (searchStrings(entry, term)) {
-			listStorage.add(entry);
+			mListStorage.add(entry);
 			return true;
 		}
 
-		if (sp.searchInGroupNames) {
+		if (mSearchParametersV4.getSearchInGroupNames()) {
 			PwGroupV4 parent = entry.getParent();
 			if (parent != null) {
 				String groupName = parent.getTitle();
-				if (sp.ignoreCase) {
+				if (mSearchParametersV4.getIgnoreCase()) {
 					groupName = groupName.toLowerCase();
 				}
 
 				if (groupName.contains(term)) {
-					listStorage.add(entry);
+					mListStorage.add(entry);
 					return true;
 				}
 			}
 		}
 
 		if (searchID(entry)) {
-			listStorage.add(entry);
+			mListStorage.add(entry);
 			return true;
 		}
 
@@ -87,20 +87,20 @@ public class EntrySearchHandlerV4 extends NodeHandler<PwEntryV4> {
 	}
 
 	private boolean searchID(PwEntryV4 entry) {
-		if (sp.searchInUUIDs) {
+		if (mSearchParametersV4.getSearchInUUIDs()) {
 			String hex = UuidUtil.toHexString(entry.getNodeId().getId());
-			return StrUtil.indexOfIgnoreCase(hex, sp.searchString, Locale.ENGLISH) >= 0;
+			return StringUtil.INSTANCE.indexOfIgnoreCase(hex, mSearchParametersV4.getSearchString(), Locale.ENGLISH) >= 0;
 		}
-		
+
 		return false;
 	}
 
 	private boolean searchStrings(PwEntryV4 entry, String term) {
-		EntrySearchStringIterator iter = new EntrySearchStringIteratorV4(entry, sp);
-		while (iter.hasNext()) {
-			String str = iter.next();
+		EntrySearchStringIterator iterator = new EntrySearchStringIteratorV4(entry, mSearchParametersV4);
+		while (iterator.hasNext()) {
+			String str = iterator.next();
 			if (str.length() > 0) {
-				if (sp.ignoreCase) {
+				if (mSearchParametersV4.getIgnoreCase()) {
 					str = str.toLowerCase();
 				}
 

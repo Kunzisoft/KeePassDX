@@ -172,7 +172,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
         // newEntry.usageCount stay the same in copy
         newEntry.parentGroupLastMod = this.parentGroupLastMod.clone();
 
-        newEntry.fields = this.fields.clone();
+        newEntry.fields = new ExtraFields(this.fields);
         // TODO customData make copy from hashmap
         newEntry.binaries = (HashMap<String, ProtectedBinary>) this.binaries.clone();
         // newEntry.foregroundColor stay the same in copy
@@ -204,18 +204,20 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
         this.mDecodeRef = false;
 	}
 
+    /**
+     * Decode a reference key woth the SprEngineV4
+     * @param decodeRef
+     * @param key
+     * @return
+     */
 	private String decodeRefKey(boolean decodeRef, String key) {
 		String text = getProtectedStringValue(key);
 		if (decodeRef) {
-			text = decodeRef(text, mDatabase);
+            if (mDatabase == null)
+                return text;
+            return new SprEngineV4().compile(text, this, mDatabase);
 		}
 		return text;
-	}
-
-	private String decodeRef(String text, PwDatabase db) {
-		if (db == null) { return text; }
-		SprEngineV4 spr = new SprEngineV4();
-		return spr.compile(text, this, db);
 	}
 
 	@NonNull

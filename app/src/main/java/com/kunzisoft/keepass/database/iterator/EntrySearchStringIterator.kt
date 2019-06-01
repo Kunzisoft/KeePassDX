@@ -19,23 +19,4 @@
  */
 package com.kunzisoft.keepass.database.iterator
 
-import com.kunzisoft.keepass.database.element.EntryVersioned
-
-abstract class EntrySearchStringIterator : Iterator<String> {
-
-    companion object {
-
-        fun getInstance(entry: EntryVersioned): EntrySearchStringIterator {
-            if (entry.pwEntryV3 != null) {
-                return EntrySearchStringIteratorV3(entry.pwEntryV3)
-            }
-            if (entry.pwEntryV4 != null) {
-                return EntrySearchStringIteratorV4(entry.pwEntryV4!!)
-            }
-
-            throw RuntimeException("This should not be possible")
-        }
-    }
-
-
-}
+abstract class EntrySearchStringIterator : Iterator<String>

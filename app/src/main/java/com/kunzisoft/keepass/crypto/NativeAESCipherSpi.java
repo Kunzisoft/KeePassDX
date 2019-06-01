@@ -172,7 +172,13 @@ public class NativeAESCipherSpi extends CipherSpi {
 
 	@Override
 	protected byte[] engineGetIV() {
-		return mIV.clone();
+		byte[] copyIV = new byte[0];
+		if (mIV != null) {
+			int lengthIV = mIV.length;
+			copyIV = new byte[lengthIV];
+			System.arraycopy(mIV, 0, copyIV, 0, lengthIV);
+		}
+		return copyIV;
 	}
 
 	@Override

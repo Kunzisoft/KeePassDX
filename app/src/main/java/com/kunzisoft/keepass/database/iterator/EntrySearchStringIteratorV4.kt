@@ -27,60 +27,60 @@ import kotlin.collections.Map.Entry
 
 class EntrySearchStringIteratorV4 : EntrySearchStringIterator {
 
-    private var current: String? = null
-    private var setIterator: Iterator<Entry<String, ProtectedString>>? = null
-    private var sp: SearchParametersV4? = null
+    private var mCurrent: String? = null
+    private var mSetIterator: Iterator<Entry<String, ProtectedString>>? = null
+    private var mSearchParametersV4: SearchParametersV4? = null
 
     constructor(entry: PwEntryV4) {
-        this.sp = SearchParametersV4.DEFAULT
-        setIterator = entry.fields.listOfAllFields.entries.iterator()
+        this.mSearchParametersV4 = SearchParametersV4()
+        mSetIterator = entry.fields.listOfAllFields.entries.iterator()
         advance()
     }
 
-    constructor(entry: PwEntryV4, sp: SearchParametersV4) {
-        this.sp = sp
-        setIterator = entry.fields.listOfAllFields.entries.iterator()
+    constructor(entry: PwEntryV4, searchParametersV4: SearchParametersV4) {
+        this.mSearchParametersV4 = searchParametersV4
+        mSetIterator = entry.fields.listOfAllFields.entries.iterator()
         advance()
     }
 
     override fun hasNext(): Boolean {
-        return current != null
+        return mCurrent != null
     }
 
     override fun next(): String {
-        if (current == null) {
+        if (mCurrent == null) {
             throw NoSuchElementException("Past the end of the list.")
         }
 
-        val next = current
+        val next = mCurrent
         advance()
         return next!!
     }
 
     private fun advance() {
-        while (setIterator!!.hasNext()) {
-            val entry = setIterator!!.next()
+        mSetIterator?.let {
+            while (it.hasNext()) {
+                val entry = it.next()
+                val key = entry.key
 
-            val key = entry.key
-
-            if (searchInField(key)) {
-                current = entry.value.toString()
-                return
+                if (searchInField(key)) {
+                    mCurrent = entry.value.toString()
+                    return
+                }
             }
-
         }
 
-        current = null
+        mCurrent = null
     }
 
     private fun searchInField(key: String): Boolean {
-        when (key) {
-            PwEntryV4.STR_TITLE -> return sp!!.searchInTitles
-            PwEntryV4.STR_USERNAME -> return sp!!.searchInUserNames
-            PwEntryV4.STR_PASSWORD -> return sp!!.searchInPasswords
-            PwEntryV4.STR_URL -> return sp!!.searchInUrls
-            PwEntryV4.STR_NOTES -> return sp!!.searchInNotes
-            else -> return sp!!.searchInOther
+        return when (key) {
+            PwEntryV4.STR_TITLE -> mSearchParametersV4!!.searchInTitles
+            PwEntryV4.STR_USERNAME -> mSearchParametersV4!!.searchInUserNames
+            PwEntryV4.STR_PASSWORD -> mSearchParametersV4!!.searchInPasswords
+            PwEntryV4.STR_URL -> mSearchParametersV4!!.searchInUrls
+            PwEntryV4.STR_NOTES -> mSearchParametersV4!!.searchInNotes
+            else -> mSearchParametersV4!!.searchInOther
         }
     }
 
