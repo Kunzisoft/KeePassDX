@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -87,13 +88,15 @@ public class PwEntryV3 extends PwEntry<PwGroupV3, PwEntryV3> {
 	private String binaryDesc = "";
 	private byte[] binaryData = new byte[0];
 
+	@NonNull
 	@Override
-	PwNodeId<UUID> initNodeId() {
+	protected PwNodeId<UUID> initNodeId() {
 		return new PwNodeIdUUID();
 	}
 
-    @Override
-    PwNodeId<UUID> copyNodeId(PwNodeId<UUID> nodeId) {
+    @NonNull
+	@Override
+	protected PwNodeId<UUID> copyNodeId(@NonNull PwNodeId<UUID> nodeId) {
         return new PwNodeIdUUID(nodeId.getId());
     }
 

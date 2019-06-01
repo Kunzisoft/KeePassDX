@@ -24,7 +24,6 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import com.kunzisoft.keepass.database.AutoType;
 import com.kunzisoft.keepass.database.ExtraFields;
-import com.kunzisoft.keepass.database.ITimeLogger;
 import com.kunzisoft.keepass.database.security.ProtectedBinary;
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.utils.MemUtil;
@@ -37,7 +36,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLogger {
+public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements NodeV4Interface {
 
 	public static final String STR_TITLE = "Title";
 	public static final String STR_USERNAME = "UserName";
@@ -64,13 +63,15 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 	private String additional = "";
 	private String tags = "";
 
+	@NonNull
 	@Override
-	PwNodeId<UUID> initNodeId() {
+	protected PwNodeId<UUID> initNodeId() {
 		return new PwNodeIdUUID();
 	}
 
+	@NonNull
 	@Override
-	PwNodeId<UUID> copyNodeId(PwNodeId<UUID> nodeId) {
+	protected PwNodeId<UUID> copyNodeId(@NonNull PwNodeId<UUID> nodeId) {
 		return new PwNodeIdUUID(nodeId.getId());
 	}
 

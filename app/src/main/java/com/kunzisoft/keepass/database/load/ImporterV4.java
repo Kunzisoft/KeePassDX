@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;
-import com.kunzisoft.keepass.database.ITimeLogger;
+import com.kunzisoft.keepass.database.element.NodeV4Interface;
 import com.kunzisoft.keepass.database.PwCompressionAlgorithm;
 import com.kunzisoft.keepass.database.element.*;
 import com.kunzisoft.keepass.database.exception.ArcFourException;
@@ -641,7 +641,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 
 		case GroupTimes:
 		case EntryTimes:
-			ITimeLogger tl;
+			NodeV4Interface tl;
 			if ( ctx == KdbContext.GroupTimes ) {
 				tl = ctxGroup;
 			} else {

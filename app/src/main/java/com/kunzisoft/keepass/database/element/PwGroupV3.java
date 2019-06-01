@@ -21,6 +21,7 @@
 package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
 public class PwGroupV3 extends PwGroup<Integer, PwGroupV3, PwEntryV3> {
 
@@ -28,13 +29,15 @@ public class PwGroupV3 extends PwGroup<Integer, PwGroupV3, PwEntryV3> {
 	/** Used by KeePass internally, don't use */
 	private int flags;
 
+    @NonNull
     @Override
-    PwNodeId<Integer> initNodeId() {
+    protected PwNodeId<Integer> initNodeId() {
         return new PwNodeIdInt();
     }
 
+    @NonNull
     @Override
-    PwNodeId<Integer> copyNodeId(PwNodeId<Integer> nodeId) {
+    protected PwNodeId<Integer> copyNodeId(@NonNull PwNodeId<Integer> nodeId) {
         return new PwNodeIdInt(nodeId.getId());
     }
 

@@ -21,13 +21,12 @@ package com.kunzisoft.keepass.database.element;
 
 import android.os.Parcel;
 import android.support.annotation.NonNull;
-import com.kunzisoft.keepass.database.ITimeLogger;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements ITimeLogger {
+public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements NodeV4Interface {
 
 	private PwIconCustom customIcon = PwIconCustom.Companion.getZERO();
     private long usageCount = 0;
@@ -41,13 +40,15 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
 	private Boolean enableSearching = null;
 	private UUID lastTopVisibleEntry = PwDatabase.UUID_ZERO;
 
-	@Override
-	PwNodeId<UUID> initNodeId() {
+	@NonNull
+    @Override
+    protected PwNodeId<UUID> initNodeId() {
 		return new PwNodeIdUUID();
 	}
 
+    @NonNull
     @Override
-    PwNodeId<UUID> copyNodeId(PwNodeId<UUID> nodeId) {
+    protected PwNodeId<UUID> copyNodeId(@NonNull PwNodeId<UUID> nodeId) {
         return new PwNodeIdUUID(nodeId.getId());
     }
 

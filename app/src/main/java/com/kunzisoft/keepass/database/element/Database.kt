@@ -569,7 +569,7 @@ class Database {
      */
     fun copyEntryTo(entryToCopy: EntryVersioned, newParent: GroupVersioned): EntryVersioned? {
         val entryCopied = EntryVersioned(entryToCopy)
-        entryCopied.nodeId = pwDatabaseV3?.newEntryId() ?: pwDatabaseV4?.newEntryId()
+        entryCopied.nodeId = pwDatabaseV3?.newEntryId() ?: pwDatabaseV4?.newEntryId() ?: PwNodeIdUUID()
         entryCopied.parent = newParent
         entryCopied.title += " (~)"
         addEntryTo(entryCopied, newParent)

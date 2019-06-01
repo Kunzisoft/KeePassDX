@@ -1,6 +1,6 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
- *
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ *     
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,24 +17,12 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.element
 
-import com.kunzisoft.keepass.database.element.PwDate;
+interface NodeV4Interface : NodeTimeInterface {
 
-public interface SmallTimeInterface {
+    var usageCount: Long
 
-    PwDate getLastModificationTime();
-    void setLastModificationTime(PwDate date);
+    var locationChanged: PwDate
 
-    PwDate getCreationTime();
-    void setCreationTime(PwDate date);
-
-    PwDate getLastAccessTime();
-    void setLastAccessTime(PwDate date);
-
-    PwDate getExpiryTime();
-    void setExpiryTime(PwDate date);
-
-    boolean isExpires();
-    void setExpires(boolean exp);
 }

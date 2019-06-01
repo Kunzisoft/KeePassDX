@@ -1,9 +1,8 @@
 package com.kunzisoft.keepass.database.element
 
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.SmallTimeInterface
 
-interface PwNodeInterface<ParentGroup> : SmallTimeInterface, Parcelable {
+interface PwNodeInterface<ParentGroup> : NodeTimeInterface, Parcelable {
 
     var title: String
 
@@ -26,7 +25,7 @@ interface PwNodeInterface<ParentGroup> : SmallTimeInterface, Parcelable {
 
     fun containsParent(): Boolean
 
-    fun touch(modified: Boolean, touchParents: Boolean)
-
     fun isContainedIn(container: ParentGroup): Boolean
+
+    fun touch(modified: Boolean, touchParents: Boolean)
 }

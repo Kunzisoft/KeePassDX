@@ -56,8 +56,8 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         dest.writeParcelable(pwEntryV4, flags)
     }
 
-    var nodeId: PwNodeId<UUID>?
-        get() = pwEntryV4?.nodeId ?: pwEntryV3?.nodeId
+    var nodeId: PwNodeId<UUID>
+        get() = pwEntryV4?.nodeId ?: pwEntryV3?.nodeId ?: PwNodeIdUUID()
         set(value) {
             pwEntryV3?.nodeId = value
             pwEntryV4?.nodeId = value
@@ -111,50 +111,40 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
     override val isSearchingEnabled: Boolean
         get() = pwEntryV3?.isSearchingEnabled ?: pwEntryV4?.isSearchingEnabled ?: false
 
-    override fun getLastModificationTime(): PwDate? {
-        return pwEntryV3?.lastModificationTime ?: pwEntryV4?.lastModificationTime
-    }
+    override var creationTime: PwDate
+        get() = pwEntryV3?.creationTime ?: pwEntryV4?.creationTime ?: PwDate()
+        set(value) {
+            pwEntryV3?.creationTime = value
+            pwEntryV4?.creationTime = value
+        }
 
-    override fun setLastModificationTime(date: PwDate) {
-        pwEntryV3?.lastModificationTime = date
-        pwEntryV4?.lastModificationTime = date
-    }
+    override var lastModificationTime: PwDate
+        get() = pwEntryV3?.lastModificationTime ?: pwEntryV4?.lastModificationTime ?: PwDate()
+        set(value) {
+            pwEntryV3?.lastModificationTime = value
+            pwEntryV4?.lastModificationTime = value
+        }
 
-    override fun getCreationTime(): PwDate? {
-        return pwEntryV3?.creationTime ?: pwEntryV4?.creationTime
-    }
+    override var lastAccessTime: PwDate
+        get() = pwEntryV3?.lastAccessTime ?: pwEntryV4?.lastAccessTime ?: PwDate()
+        set(value) {
+            pwEntryV3?.lastAccessTime = value
+            pwEntryV4?.lastAccessTime = value
+        }
 
-    override fun setCreationTime(date: PwDate) {
-        pwEntryV3?.creationTime = date
-        pwEntryV4?.creationTime = date
-    }
+    override var expiryTime: PwDate
+        get() = pwEntryV3?.expiryTime ?: pwEntryV4?.expiryTime ?: PwDate()
+        set(value) {
+            pwEntryV3?.expiryTime = value
+            pwEntryV4?.expiryTime = value
+        }
 
-    override fun getLastAccessTime(): PwDate? {
-        return pwEntryV3?.lastAccessTime ?: pwEntryV4?.lastAccessTime
-    }
-
-    override fun setLastAccessTime(date: PwDate) {
-        pwEntryV3?.lastAccessTime = date
-        pwEntryV4?.lastAccessTime = date
-    }
-
-    override fun getExpiryTime(): PwDate? {
-        return pwEntryV3?.expiryTime ?: pwEntryV4?.expiryTime
-    }
-
-    override fun setExpiryTime(date: PwDate) {
-        pwEntryV3?.expiryTime = date
-        pwEntryV4?.expiryTime = date
-    }
-
-    override fun isExpires(): Boolean {
-        return pwEntryV3?.isExpires ?: pwEntryV4?.isExpires ?: false
-    }
-
-    override fun setExpires(exp: Boolean) {
-        pwEntryV3?.isExpires = exp
-        pwEntryV4?.isExpires = exp
-    }
+    override var isExpires: Boolean
+        get() =pwEntryV3?.isExpires ?: pwEntryV4?.isExpires ?: false
+        set(value) {
+            pwEntryV3?.isExpires = value
+            pwEntryV4?.isExpires = value
+        }
 
     override var username: String
         get() = pwEntryV3?.username ?: pwEntryV4?.username ?: ""
@@ -189,7 +179,7 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         pwEntryV4?.touchLocation()
     }
 
-    fun isTan(): Boolean {
+    private fun isTan(): Boolean {
         return title == PMS_TAN_ENTRY && username.isNotEmpty()
     }
 

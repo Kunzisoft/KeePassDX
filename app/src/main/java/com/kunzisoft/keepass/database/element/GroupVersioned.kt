@@ -117,50 +117,40 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
     override val isSearchingEnabled: Boolean
         get() = pwGroupV3?.isSearchingEnabled ?: pwGroupV4?.isSearchingEnabled ?: false
 
-    override fun getLastModificationTime(): PwDate? {
-        return pwGroupV3?.lastModificationTime ?: pwGroupV4?.lastModificationTime
-    }
+    override var creationTime: PwDate
+        get() = pwGroupV3?.creationTime ?: pwGroupV4?.creationTime ?: PwDate()
+        set(value) {
+            pwGroupV3?.creationTime = value
+            pwGroupV4?.creationTime = value
+        }
 
-    override fun setLastModificationTime(date: PwDate) {
-        pwGroupV3?.lastModificationTime = date
-        pwGroupV4?.lastModificationTime = date
-    }
+    override var lastModificationTime: PwDate
+        get() = pwGroupV3?.lastModificationTime ?: pwGroupV4?.lastModificationTime ?: PwDate()
+        set(value) {
+            pwGroupV3?.lastModificationTime = value
+            pwGroupV4?.lastModificationTime = value
+        }
 
-    override fun getCreationTime(): PwDate? {
-        return pwGroupV3?.creationTime ?: pwGroupV4?.creationTime
-    }
+    override var lastAccessTime: PwDate
+        get() = pwGroupV3?.lastAccessTime ?: pwGroupV4?.lastAccessTime ?: PwDate()
+        set(value) {
+            pwGroupV3?.lastAccessTime = value
+            pwGroupV4?.lastAccessTime = value
+        }
 
-    override fun setCreationTime(date: PwDate) {
-        pwGroupV3?.creationTime = date
-        pwGroupV4?.creationTime = date
-    }
+    override var expiryTime: PwDate
+        get() = pwGroupV3?.expiryTime ?: pwGroupV4?.expiryTime ?: PwDate()
+        set(value) {
+            pwGroupV3?.expiryTime = value
+            pwGroupV4?.expiryTime = value
+        }
 
-    override fun getLastAccessTime(): PwDate? {
-        return pwGroupV3?.lastAccessTime ?: pwGroupV4?.lastAccessTime
-    }
-
-    override fun setLastAccessTime(date: PwDate) {
-        pwGroupV3?.lastAccessTime = date
-        pwGroupV4?.lastAccessTime = date
-    }
-
-    override fun getExpiryTime(): PwDate? {
-        return pwGroupV3?.expiryTime ?: pwGroupV4?.expiryTime
-    }
-
-    override fun setExpiryTime(date: PwDate) {
-        pwGroupV3?.expiryTime = date
-        pwGroupV4?.expiryTime = date
-    }
-
-    override fun isExpires(): Boolean {
-        return pwGroupV3?.isExpires ?: pwGroupV4?.isExpires ?: false
-    }
-
-    override fun setExpires(exp: Boolean) {
-        pwGroupV3?.isExpires = exp
-        pwGroupV4?.isExpires = exp
-    }
+    override var isExpires: Boolean
+        get() = pwGroupV3?.isExpires ?: pwGroupV4?.isExpires ?: false
+        set(value) {
+            pwGroupV3?.isExpires = value
+            pwGroupV4?.isExpires = value
+        }
 
     override fun getChildGroups(): MutableList<GroupVersioned> {
         val children = ArrayList<GroupVersioned>()
@@ -248,8 +238,8 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
       ------------
      */
 
-    var nodeIdV3: PwNodeId<Int>?
-        get() = pwGroupV3?.nodeId
+    var nodeIdV3: PwNodeId<Int>
+        get() = pwGroupV3?.nodeId ?: PwNodeIdInt()
         set(value) { pwGroupV3?.nodeId = value }
 
     fun setNodeId(id: PwNodeIdInt) {
@@ -270,8 +260,8 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
       ------------
      */
 
-    var nodeIdV4: PwNodeId<UUID>?
-        get() = pwGroupV4?.nodeId
+    var nodeIdV4: PwNodeId<UUID>
+        get() = pwGroupV4?.nodeId ?: PwNodeIdUUID()
         set(value) { pwGroupV4?.nodeId = value }
 
     fun setNodeId(id: PwNodeIdUUID) {

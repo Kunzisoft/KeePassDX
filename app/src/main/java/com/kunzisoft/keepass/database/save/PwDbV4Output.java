@@ -675,7 +675,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 	}
 	
-	private void writeList(String name, ITimeLogger it) throws IllegalArgumentException, IllegalStateException, IOException {
+	private void writeList(String name, NodeV4Interface it) throws IllegalArgumentException, IllegalStateException, IOException {
 		assert(name != null && it != null);
 		
 		xml.startTag(null, name);
