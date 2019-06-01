@@ -46,6 +46,10 @@ class PwNodeIdUUID : PwNodeId<UUID> {
     }
 
     override fun equals(other: Any?): Boolean {
+        if (this === other)
+            return true
+        if (other == null)
+            return false
         if (other !is PwNodeIdUUID) {
             return false
         }
@@ -63,8 +67,8 @@ class PwNodeIdUUID : PwNodeId<UUID> {
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<PwNodeIdUUID> = object : Parcelable.Creator<PwNodeIdUUID> {
-            override fun createFromParcel(`in`: Parcel): PwNodeIdUUID {
-                return PwNodeIdUUID(`in`)
+            override fun createFromParcel(parcel: Parcel): PwNodeIdUUID {
+                return PwNodeIdUUID(parcel)
             }
 
             override fun newArray(size: Int): Array<PwNodeIdUUID?> {

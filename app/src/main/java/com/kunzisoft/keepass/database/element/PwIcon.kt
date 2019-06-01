@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,29 +17,23 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element;
+package com.kunzisoft.keepass.database.element
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Parcelable
 
-public abstract class PwIcon implements Parcelable {
+abstract class PwIcon protected constructor() : Parcelable {
 
-    public static final int UNKNOWN = -1;
+    abstract val isMetaStreamIcon: Boolean
 
-	public boolean isMetaStreamIcon() {
-		return false;
-	}
+    abstract val isUnknown: Boolean
 
-    protected PwIcon() {}
+    abstract val iconId: Int
 
-    protected PwIcon(Parcel src) {}
+    override fun describeContents(): Int {
+        return 0
+    }
 
-	public abstract boolean isUnknown();
-
-    public abstract int getIconId();
-
-    @Override
-	public int describeContents() {
-		return 0;
-	}
+    companion object {
+        const val UNKNOWN = -1
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,20 +17,16 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element;
+package com.kunzisoft.keepass.database.element
 
-public enum PwVersion {
+enum class PwVersion {
     UNKNOWN, V3, V4;
 
-    @Override
-    public String toString() {
-        switch (this) {
-            case V3:
-                return "KeePass 1";
-            case V4:
-                return "KeePass 2";
-            default:
-                return "unknown";
+    override fun toString(): String {
+        return when (this) {
+            V3 -> "KeePass 1"
+            V4 -> "KeePass 2"
+            else -> "unknown"
         }
     }
 }

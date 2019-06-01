@@ -49,7 +49,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
     private transient PwDatabaseV4 mDatabase = null;
     private transient boolean mDecodeRef = false;
 
-	private PwIconCustom customIcon = PwIconCustom.ZERO;
+	private PwIconCustom customIcon = PwIconCustom.Companion.getZERO();
     private long usageCount = 0;
     private PwDate parentGroupLastMod = new PwDate();
     private Map<String, String> customData = new HashMap<>();
@@ -309,7 +309,7 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 
 	public void setIconStandard(PwIconStandard icon) {
 		super.setIcon(icon);
-		this.customIcon = PwIconCustom.ZERO;
+		this.customIcon = PwIconCustom.Companion.getZERO();
 	}
 
 	public boolean allowExtraFields() {

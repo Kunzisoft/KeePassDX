@@ -287,13 +287,10 @@ public class IconDrawableFactory {
 			return blank;
 		}
 		
-		Drawable draw = (Drawable) customIconMap.get(icon.getUUID());
+		Drawable draw = (Drawable) customIconMap.get(icon.getUuid());
 		
 		if (draw == null) {
-			if (icon.getImageData() == null) {
-				return blank;
-			}
-			
+
 			Bitmap bitmap = BitmapFactory.decodeByteArray(icon.getImageData(), 0, icon.getImageData().length);
 			
 			// Could not understand custom icon
@@ -304,7 +301,7 @@ public class IconDrawableFactory {
 			bitmap = resize(bitmap);
 			
 			draw = new BitmapDrawable(context.getResources(), bitmap);
-			customIconMap.put(icon.getUUID(), draw);
+			customIconMap.put(icon.getUuid(), draw);
 		}
 
 		return draw;

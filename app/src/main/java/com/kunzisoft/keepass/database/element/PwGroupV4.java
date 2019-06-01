@@ -29,7 +29,7 @@ import java.util.UUID;
 
 public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements ITimeLogger {
 
-	private PwIconCustom customIcon = PwIconCustom.ZERO;
+	private PwIconCustom customIcon = PwIconCustom.Companion.getZERO();
     private long usageCount = 0;
     private PwDate locationChangeDate = new PwDate();
     private Map<String, String> customData = new HashMap<>();
@@ -192,7 +192,7 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
 
     public void setIconStandard(PwIconStandard icon) { // TODO Encapsulate with PwEntryV4
         super.setIcon(icon);
-        this.customIcon = PwIconCustom.ZERO;
+        this.customIcon = PwIconCustom.Companion.getZERO();
     }
 
     public void putCustomData(String key, String value) {

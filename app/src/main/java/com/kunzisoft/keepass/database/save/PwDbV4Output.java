@@ -316,8 +316,8 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		writeObject(PwDatabaseV4XML.ElemNotes, group.getNotes());
 		writeObject(PwDatabaseV4XML.ElemIcon, group.getIconStandard().getIconId());
 		
-		if (!group.getIconCustom().equals(PwIconCustom.ZERO)) {
-			writeObject(PwDatabaseV4XML.ElemCustomIconID, group.getIconCustom().getUUID());
+		if (!group.getIconCustom().equals(PwIconCustom.Companion.getZERO())) {
+			writeObject(PwDatabaseV4XML.ElemCustomIconID, group.getIconCustom().getUuid());
 		}
 		
 		writeList(PwDatabaseV4XML.ElemTimes, group);
@@ -341,8 +341,8 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		writeObject(PwDatabaseV4XML.ElemUuid, entry.getNodeId().getId());
 		writeObject(PwDatabaseV4XML.ElemIcon, entry.getIconStandard().getIconId());
 		
-		if (!entry.getIconCustom().equals(PwIconCustom.ZERO)) {
-			writeObject(PwDatabaseV4XML.ElemCustomIconID, entry.getIconCustom().getUUID());
+		if (!entry.getIconCustom().equals(PwIconCustom.Companion.getZERO())) {
+			writeObject(PwDatabaseV4XML.ElemCustomIconID, entry.getIconCustom().getUuid());
 		}
 		
 		writeObject(PwDatabaseV4XML.ElemFgColor, entry.getForegroundColor());
@@ -713,7 +713,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		for (PwIconCustom icon : customIcons) {
 			xml.startTag(null, PwDatabaseV4XML.ElemCustomIconItem);
 			
-			writeObject(PwDatabaseV4XML.ElemCustomIconItemID, icon.getUUID());
+			writeObject(PwDatabaseV4XML.ElemCustomIconItemID, icon.getUuid());
 			writeObject(PwDatabaseV4XML.ElemCustomIconItemData, String.valueOf(Base64Coder.encode(icon.getImageData())));
 			
 			xml.endTag(null, PwDatabaseV4XML.ElemCustomIconItem);

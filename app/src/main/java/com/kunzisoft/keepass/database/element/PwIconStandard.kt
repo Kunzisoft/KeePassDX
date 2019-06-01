@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -22,27 +22,40 @@ package com.kunzisoft.keepass.database.element
 import android.os.Parcel
 import android.os.Parcelable
 
-import java.util.Random
+class PwIconStandard : PwIcon {
+    override val iconId: Int
 
-class PwNodeIdInt : PwNodeId<Int> {
+    override val isUnknown: Boolean
+        get() = iconId == PwIcon.UNKNOWN
 
-    override var id: Int = -1
-        private set
+    override val isMetaStreamIcon: Boolean
+        get() = iconId == 0
 
-    constructor(source: PwNodeIdInt) : this(source.id)
+    constructor() {
+        this.iconId = KEY
+    }
 
-    @JvmOverloads
-    constructor(groupId: Int = Random().nextInt()) : super() {
-        this.id = groupId
+    constructor(iconId: Int) {
+        this.iconId = iconId
+    }
+
+    constructor(icon: PwIconStandard) {
+        this.iconId = icon.iconId
     }
 
     constructor(parcel: Parcel) {
-        id = parcel.readInt()
+        iconId = parcel.readInt()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        super.writeToParcel(dest, flags)
-        dest.writeInt(id)
+        dest.writeInt(iconId)
+    }
+
+    override fun hashCode(): Int {
+        val prime = 31
+        var result = 1
+        result = prime * result + iconId
+        return result
     }
 
     override fun equals(other: Any?): Boolean {
@@ -50,28 +63,25 @@ class PwNodeIdInt : PwNodeId<Int> {
             return true
         if (other == null)
             return false
-        if (other !is PwNodeIdInt) {
+        if (other !is PwIconStandard) {
             return false
         }
-        return id == other.id
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
-    override fun toString(): String {
-        return id.toString()
+        return iconId == other.iconId
     }
 
     companion object {
+
+        const val KEY = 0
+        const val TRASH = 43
+        const val FOLDER = 48
+
         @JvmField
-        val CREATOR: Parcelable.Creator<PwNodeIdInt> = object : Parcelable.Creator<PwNodeIdInt> {
-            override fun createFromParcel(parcel: Parcel): PwNodeIdInt {
-                return PwNodeIdInt(parcel)
+        val CREATOR: Parcelable.Creator<PwIconStandard> = object : Parcelable.Creator<PwIconStandard> {
+            override fun createFromParcel(parcel: Parcel): PwIconStandard {
+                return PwIconStandard(parcel)
             }
 
-            override fun newArray(size: Int): Array<PwNodeIdInt?> {
+            override fun newArray(size: Int): Array<PwIconStandard?> {
                 return arrayOfNulls(size)
             }
         }
