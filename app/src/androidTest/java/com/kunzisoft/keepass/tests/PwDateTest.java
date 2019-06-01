@@ -27,7 +27,7 @@ public class PwDateTest extends TestCase {
 	public void testDate() {
 		PwDate jDate = new PwDate(System.currentTimeMillis());
 		
-		PwDate intermediate = jDate.clone();
+		PwDate intermediate = new PwDate(jDate);
 		
 		PwDate cDate = new PwDate(intermediate.getCDate(), 0);
 		

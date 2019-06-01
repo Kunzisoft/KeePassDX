@@ -30,7 +30,11 @@ public class PwNodeIdUUID extends PwNodeId<UUID> {
 	public PwNodeIdUUID() {
 		this(UUID.randomUUID());
 	}
-	
+
+	public PwNodeIdUUID(PwNodeIdUUID source) {
+		this(source.uuid);
+	}
+
 	public PwNodeIdUUID(UUID uuid) {
 	    super();
         this.uuid = uuid;
@@ -58,11 +62,6 @@ public class PwNodeIdUUID extends PwNodeId<UUID> {
             return new PwNodeIdUUID[size];
         }
     };
-
-	@Override
-	public PwNodeIdUUID clone() throws CloneNotSupportedException {
-		return (PwNodeIdUUID) super.clone();
-	}
 
 	@Override
 	public boolean equals(Object id) {

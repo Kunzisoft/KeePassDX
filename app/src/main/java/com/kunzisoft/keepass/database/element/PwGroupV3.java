@@ -78,16 +78,6 @@ public class PwGroupV3 extends PwGroup<Integer, PwGroupV3, PwEntryV3> {
         flags = source.flags;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public PwGroupV3 clone() {
-		// name is clone automatically (IMMUTABLE)
-        // newGroup.groupId stay the same in copy
-        // newGroup.level stay the same in copy
-        // newGroup.flags stay the same in copy
-        return (PwGroupV3) super.clone();
-    }
-
     @Override
 	public Type getType() {
 		return Type.GROUP;

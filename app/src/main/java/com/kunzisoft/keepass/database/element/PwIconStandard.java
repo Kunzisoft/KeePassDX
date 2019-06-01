@@ -77,11 +77,6 @@ public class PwIconStandard extends PwIcon {
 	}
 
     @Override
-    protected PwIconStandard clone() throws CloneNotSupportedException {
-        return new PwIconStandard(this);
-    }
-
-    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

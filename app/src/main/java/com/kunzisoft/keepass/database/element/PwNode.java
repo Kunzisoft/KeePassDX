@@ -87,24 +87,6 @@ public abstract class PwNode
         this.expireDate = new PwDate(source.expireDate);
     }
 
-    @Override
-    public PwNode clone() {
-        PwNode newNode;
-        try {
-            newNode = (PwNode) super.clone();
-			newNode.nodeId = nodeId.clone();
-            // newNode.parent stay the same in copy
-            newNode.icon = icon.clone();
-            newNode.creation = creation.clone();
-            newNode.lastMod = lastMod.clone();
-            newNode.lastAccess = lastAccess.clone();
-            newNode.expireDate = expireDate.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Clone should be supported");
-        }
-        return newNode;
-    }
-
     public IdType getId() {
         return getNodeId().getId();
     }

@@ -163,34 +163,6 @@ public class PwEntryV3 extends PwEntry<PwGroupV3, PwEntryV3> {
         }
     }
 
-    @Override
-    public PwEntryV3 clone() {
-        // Attributes in parent
-        PwEntryV3 newEntry = (PwEntryV3) super.clone();
-
-        // Attributes here
-        // newEntry.parent stay the same in copy
-        // newEntry.groupId stay the same in copy
-        // newEntry.title stay the same in copy
-        // newEntry.username stay the same in copy
-        if (password != null) {
-            int passLen = password.length;
-            password = new byte[passLen];
-            System.arraycopy(password, 0, newEntry.password, 0, passLen);
-        }
-        // newEntry.url stay the same in copy
-        // newEntry.additional stay the same in copy
-
-        // newEntry.binaryDesc stay the same in copy
-        if ( binaryData != null ) {
-            int descLen = binaryData.length;
-            newEntry.binaryData = new byte[descLen];
-            System.arraycopy(binaryData, 0, newEntry.binaryData, 0, descLen);
-        }
-
-        return newEntry;
-    }
-
 	@Override
 	public Type getType() {
 		return Type.ENTRY;

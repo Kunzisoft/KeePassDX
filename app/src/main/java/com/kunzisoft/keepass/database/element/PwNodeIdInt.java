@@ -31,6 +31,10 @@ public class PwNodeIdInt extends PwNodeId<Integer> {
 		this(new Random().nextInt());
 	}
 
+	public PwNodeIdInt(PwNodeIdInt source) {
+		this(source.id);
+	}
+
 	public PwNodeIdInt(int groupId) {
 	    super();
 		this.id = groupId;
@@ -58,11 +62,6 @@ public class PwNodeIdInt extends PwNodeId<Integer> {
             return new PwNodeIdInt[size];
         }
     };
-
-	@Override
-	public PwNodeIdInt clone() throws CloneNotSupportedException {
-		return (PwNodeIdInt) super.clone();
-	}
 
 	@Override
 	public boolean equals(Object compare) {

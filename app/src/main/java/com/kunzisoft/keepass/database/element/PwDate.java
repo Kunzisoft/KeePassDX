@@ -35,13 +35,13 @@ import java.util.Date;
  * @author bpellin
  *
  */
-public class PwDate implements Cloneable, Parcelable {
+public class PwDate implements Parcelable {
 
 	private static final int DATE_SIZE = 5;
 
-    private Date jDate;
+    private Date jDate = null;
 	private boolean jDateBuilt = false;
-	transient private byte[] cDate;
+	transient private byte[] cDate = null;
     transient private boolean cDateBuilt = false;
 
     public static final Date NEVER_EXPIRE = getNeverExpire();
@@ -80,9 +80,18 @@ public class PwDate implements Cloneable, Parcelable {
 		cDateBuilt = true;
 	}
 
-	public PwDate(PwDate date) {
-		jDate = new Date(date.jDate.getTime());
-		jDateBuilt = date.jDateBuilt;
+	public PwDate(PwDate source) {
+    	if (source.jDate != null) {
+			this.jDate = new Date(source.jDate.getTime());
+		}
+		this.jDateBuilt = source.jDateBuilt;
+
+		if (source.cDate != null) {
+			int dateLength = source.cDate.length;
+			this.cDate = new byte[dateLength];
+			System.arraycopy(source.cDate, 0, this.cDate, 0, dateLength);
+		}
+		this.cDateBuilt = source.cDateBuilt;
 	}
 
 	public PwDate(Date date) {
@@ -128,25 +137,6 @@ public class PwDate implements Cloneable, Parcelable {
 			return new PwDate[size];
 		}
 	};
-	
-	@Override
-	public PwDate clone() {
-		PwDate copy = new PwDate();
-		
-		if ( cDateBuilt ) {
-			byte[] newC = new byte[DATE_SIZE];
-			System.arraycopy(cDate, 0, newC, 0, DATE_SIZE);
-			copy.cDate = newC;
-			copy.cDateBuilt = true;
-		}
-		
-		if ( jDateBuilt ) {
-			copy.jDate = (Date) jDate.clone();
-			copy.jDateBuilt = true;
-		}
-			
-		return copy;
-	}
 
 	public Date getDate() {
 		if ( ! jDateBuilt ) {
@@ -273,5 +263,4 @@ public class PwDate implements Cloneable, Parcelable {
 		(cal1.get(Calendar.SECOND) == cal2.get(Calendar.SECOND));
 	
 	}
-
 }

@@ -126,30 +126,6 @@ public class PwGroupV4 extends PwGroup<UUID, PwGroupV4, PwEntryV4> implements IT
         lastTopVisibleEntry = source.lastTopVisibleEntry;
     }
 
-    @Override
-    public PwGroupV4 clone() {
-        // Attributes in parent
-        PwGroupV4 newGroup = (PwGroupV4) super.clone();
-
-        // Attributes here
-		// name is clone automatically (IMMUTABLE)
-        newGroup.customIcon = new PwIconCustom(this.customIcon);
-        // newGroup.usageCount stay the same in copy
-        newGroup.locationChangeDate = this.locationChangeDate.clone();
-        // TODO customData make copy from hashmap newGroup.customData = (HashMap<String, String>) this.customData.clone();
-
-        // newGroup.expires stay the same in copy
-
-        // newGroup.notes stay the same in copy
-        // newGroup.isExpanded stay the same in copy
-        // newGroup.defaultAutoTypeSequence stay the same in copy
-        // newGroup.enableAutoType stay the same in copy
-        // newGroup.enableSearching stay the same in copy
-        // newGroup.lastTopVisibleEntry stay the same in copy
-
-        return newGroup;
-    }
-
 	@NonNull
     @Override
 	public Type getType() {

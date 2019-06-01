@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public abstract class PwIcon implements Parcelable, Cloneable {
+public abstract class PwIcon implements Parcelable {
 
     public static final int UNKNOWN = -1;
 
@@ -37,9 +37,6 @@ public abstract class PwIcon implements Parcelable, Cloneable {
 	public abstract boolean isUnknown();
 
     public abstract int getIconId();
-
-    @Override
-    protected abstract PwIcon clone() throws CloneNotSupportedException;
 
     @Override
 	public int describeContents() {

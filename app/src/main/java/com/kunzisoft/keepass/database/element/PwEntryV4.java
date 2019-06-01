@@ -161,33 +161,6 @@ public class PwEntryV4 extends PwEntry<PwGroupV4, PwEntryV4> implements ITimeLog
 		tags = source.tags;
 	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public PwEntryV4 clone() {
-		// Attributes in parent
-        PwEntryV4 newEntry = (PwEntryV4) super.clone();
-
-        // Attributes here
-        newEntry.customIcon = new PwIconCustom(this.customIcon);
-        // newEntry.usageCount stay the same in copy
-        newEntry.parentGroupLastMod = this.parentGroupLastMod.clone();
-
-        newEntry.fields = new ExtraFields(this.fields);
-        // TODO customData make copy from hashmap
-        newEntry.binaries = (HashMap<String, ProtectedBinary>) this.binaries.clone();
-        // newEntry.foregroundColor stay the same in copy
-        // newEntry.backgroupColor stay the same in copy
-        // newEntry.overrideURL stay the same in copy
-        newEntry.autoType = autoType.clone();
-        newEntry.history = (ArrayList<PwEntryV4>) this.history.clone();
-
-        // newEntry.url stay the same in copy
-        // newEntry.additional stay the same in copy
-        // newEntry.tags stay the same in copy
-
-        return newEntry;
-    }
-
 	@NonNull
 	@Override
 	public Type getType() {
