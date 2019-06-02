@@ -31,37 +31,29 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
 
     var nodeId: PwNodeId<IdType> = this.initNodeId()
 
-    private var mParent: Parent? = null
-    private var mIcon: PwIcon = PwIconStandard()
-    private var mCreationDate = PwDate()
-    private var mLastModificationDate = PwDate()
-    private var mLastAccessDate = PwDate()
-    private var mExpireDate = PwDate.PW_NEVER_EXPIRE
-
-    protected abstract fun initNodeId(): PwNodeId<IdType>
-    protected abstract fun copyNodeId(nodeId: PwNodeId<IdType>): PwNodeId<IdType>
-    protected abstract fun readParentParcelable(parcel: Parcel): Parent
+    val id: IdType
+        get() = nodeId.id
 
     protected constructor()
 
     protected constructor(parcel: Parcel) {
         this.nodeId = parcel.readParcelable(PwNodeId::class.java.classLoader)
-        this.mParent = this.readParentParcelable(parcel)
-        this.mIcon = parcel.readParcelable(PwIconStandard::class.java.classLoader)
-        this.mCreationDate = parcel.readParcelable(PwDate::class.java.classLoader)
-        this.mLastModificationDate = parcel.readParcelable(PwDate::class.java.classLoader)
-        this.mLastAccessDate = parcel.readParcelable(PwDate::class.java.classLoader)
-        this.mExpireDate = parcel.readParcelable(PwDate::class.java.classLoader)
+        this.parent = this.readParentParcelable(parcel)
+        this.icon = parcel.readParcelable(PwIconStandard::class.java.classLoader)
+        this.creationTime = parcel.readParcelable(PwDate::class.java.classLoader)
+        this.lastModificationTime = parcel.readParcelable(PwDate::class.java.classLoader)
+        this.lastAccessTime = parcel.readParcelable(PwDate::class.java.classLoader)
+        this.expiryTime = parcel.readParcelable(PwDate::class.java.classLoader)
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(nodeId, flags)
-        dest.writeParcelable(mParent, flags)
-        dest.writeParcelable(mIcon, flags)
-        dest.writeParcelable(mCreationDate, flags)
-        dest.writeParcelable(mLastModificationDate, flags)
-        dest.writeParcelable(mLastAccessDate, flags)
-        dest.writeParcelable(mExpireDate, flags)
+        dest.writeParcelable(parent, flags)
+        dest.writeParcelable(icon, flags)
+        dest.writeParcelable(creationTime, flags)
+        dest.writeParcelable(lastModificationTime, flags)
+        dest.writeParcelable(lastAccessTime, flags)
+        dest.writeParcelable(expiryTime, flags)
     }
 
     override fun describeContents(): Int {
@@ -70,47 +62,36 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
 
     protected fun updateWith(source: PwNode<IdType, Parent, Entry>) {
         this.nodeId = copyNodeId(source.nodeId)
-        this.mParent = source.parent
-        this.mIcon = source.icon
-        this.mCreationDate = PwDate(source.mCreationDate)
-        this.mLastModificationDate = PwDate(source.mLastModificationDate)
-        this.mLastAccessDate = PwDate(source.mLastAccessDate)
-        this.mExpireDate = PwDate(source.mExpireDate)
+        this.parent = source.parent
+        this.icon = source.icon
+        this.creationTime = PwDate(source.creationTime)
+        this.lastModificationTime = PwDate(source.lastModificationTime)
+        this.lastAccessTime = PwDate(source.lastAccessTime)
+        this.expiryTime = PwDate(source.expiryTime)
     }
 
-    val id: IdType
-        get() = nodeId.id
+    protected abstract fun initNodeId(): PwNodeId<IdType>
+    protected abstract fun copyNodeId(nodeId: PwNodeId<IdType>): PwNodeId<IdType>
+    protected abstract fun readParentParcelable(parcel: Parcel): Parent
 
-    override var parent: Parent?
-        get() = mParent
-        set(value) { mParent = value }
+    final override var parent: Parent? = null
 
-    override var icon: PwIcon
-        get() = mIcon
-        set(value) { mIcon = value }
+    final override var icon: PwIcon = PwIconStandard()
 
-    override var creationTime: PwDate
-        get() = mCreationDate
-        set(value) { mCreationDate = value }
+    final override var creationTime: PwDate = PwDate()
 
-    override var lastModificationTime: PwDate
-        get() = mLastModificationDate
-        set(value) { mLastModificationDate = value }
+    final override var lastModificationTime: PwDate = PwDate()
 
-    override var lastAccessTime: PwDate
-        get() = mLastAccessDate
-        set(value) { mLastAccessDate = value }
+    final override var lastAccessTime: PwDate = PwDate()
 
-    override var expiryTime: PwDate
-        get() = mExpireDate
-        set(value) { mExpireDate = value }
+    final override var expiryTime: PwDate = PwDate.PW_NEVER_EXPIRE
 
-    override var isExpires: Boolean
+    final override var isExpires: Boolean
         // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
-        get() = mExpireDate.date.before(LocalDate.fromDateFields(PwDate.NEVER_EXPIRE).minusMonths(1).toDate())
+        get() = expiryTime.date.before(LocalDate.fromDateFields(PwDate.NEVER_EXPIRE).minusMonths(1).toDate())
         set(value) {
             if (!value) {
-                mExpireDate = PwDate.PW_NEVER_EXPIRE
+                expiryTime = PwDate.PW_NEVER_EXPIRE
             }
         }
 
@@ -120,6 +101,8 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
     override fun containsParent(): Boolean {
         return parent != null
     }
+
+    override fun afterAssignNewParent() {}
 
     override fun isContainedIn(container: Parent): Boolean {
         var cur = this.parent

@@ -30,15 +30,6 @@ class PwIconCustom : PwIcon {
     @Transient
     var imageData: ByteArray = ByteArray(0)
 
-    override val isMetaStreamIcon: Boolean
-        get() = false
-
-    override val isUnknown: Boolean
-        get() = this == ZERO
-
-    override val iconId: Int
-        get() = PwIcon.UNKNOWN
-
     constructor(uuid: UUID, data: ByteArray) : super() {
         this.uuid = uuid
         this.imageData = data
@@ -81,6 +72,15 @@ class PwIconCustom : PwIcon {
             return false
         return uuid == other.uuid
     }
+
+    override val iconId: Int
+        get() = UNKNOWN
+
+    override val isUnknown: Boolean
+        get() = this == ZERO
+
+    override val isMetaStreamIcon: Boolean
+        get() = false
 
     companion object {
         val ZERO = PwIconCustom(PwDatabase.UUID_ZERO, ByteArray(0))

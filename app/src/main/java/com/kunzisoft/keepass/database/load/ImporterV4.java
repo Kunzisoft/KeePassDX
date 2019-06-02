@@ -531,7 +531,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemNotes) ) {
 				ctxGroup.setNotes(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
-				ctxGroup.setIconStandard(mDatabase.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
+				ctxGroup.setIcon(mDatabase.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
 				ctxGroup.setIconCustom(mDatabase.getIconFactory().getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemTimes) ) {
@@ -590,13 +590,13 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 				ctxEntry.setNodeId(new PwNodeIdUUID(ReadUuid(xpp)));
 				mDatabase.addEntryIndex(ctxEntry);
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemIcon) ) {
-				ctxEntry.setIconStandard(mDatabase.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
+				ctxEntry.setIcon(mDatabase.getIconFactory().getIcon((int)ReadUInt(xpp, 0)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemCustomIconID) ) {
 				ctxEntry.setIconCustom(mDatabase.getIconFactory().getIcon(ReadUuid(xpp)));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemFgColor) ) {
 				ctxEntry.setForegroundColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemBgColor) ) {
-				ctxEntry.setBackgroupColor(ReadString(xpp));
+				ctxEntry.setBackgroundColor(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemOverrideUrl) ) {
 				ctxEntry.setOverrideURL(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemTags) ) {
@@ -789,7 +789,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			
 			return KdbContext.CustomData;
 		} else if ( ctx == KdbContext.Group && name.equalsIgnoreCase(PwDatabaseV4XML.ElemGroup) ) {
-			if ( ctxGroup.getNodeId() == null || ctxGroup.getNodeId().getId().equals(PwDatabase.UUID_ZERO) ) {
+			if ( ctxGroup.getId().equals(PwDatabase.UUID_ZERO) ) {
 				ctxGroup.setNodeId(mDatabase.newGroupId());
 				mDatabase.addGroupIndex(ctxGroup);
 			}
@@ -818,7 +818,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			return KdbContext.GroupCustomData;
 
 		} else if ( ctx == KdbContext.Entry && name.equalsIgnoreCase(PwDatabaseV4XML.ElemEntry) ) {
-			if ( ctxEntry.getNodeId() == null || ctxEntry.getNodeId().getId().equals(PwDatabase.UUID_ZERO) ) {
+			if ( ctxEntry.getId().equals(PwDatabase.UUID_ZERO) ) {
 				ctxEntry.setNodeId(mDatabase.newEntryId());
 				mDatabase.addEntryIndex(ctxEntry);
 			}
@@ -1132,6 +1132,5 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		}
 		
 		return null;
-		
 	}
 }

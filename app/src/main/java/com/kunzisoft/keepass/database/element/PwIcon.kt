@@ -23,11 +23,9 @@ import android.os.Parcelable
 
 abstract class PwIcon protected constructor() : Parcelable {
 
-    abstract val isMetaStreamIcon: Boolean
-
-    abstract val isUnknown: Boolean
-
     abstract val iconId: Int
+    abstract val isUnknown: Boolean
+    abstract val isMetaStreamIcon: Boolean
 
     override fun describeContents(): Int {
         return 0

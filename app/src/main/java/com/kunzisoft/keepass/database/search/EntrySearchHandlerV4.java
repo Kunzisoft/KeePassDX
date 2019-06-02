@@ -88,7 +88,7 @@ public class EntrySearchHandlerV4 extends NodeHandler<PwEntryV4> {
 
 	private boolean searchID(PwEntryV4 entry) {
 		if (mSearchParametersV4.getSearchInUUIDs()) {
-			String hex = UuidUtil.toHexString(entry.getNodeId().getId());
+			String hex = UuidUtil.toHexString(entry.getId());
 			return StringUtil.INSTANCE.indexOfIgnoreCase(hex, mSearchParametersV4.getSearchString(), Locale.ENGLISH) >= 0;
 		}
 

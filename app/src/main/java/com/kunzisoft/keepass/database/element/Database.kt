@@ -64,9 +64,9 @@ class Database {
 
     var loaded = false
 
-    val iconFactory: PwIconFactory?
+    val iconFactory: PwIconFactory
         get() {
-            return pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory()
+            return pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory() ?: PwIconFactory()
         }
 
     val name: String
@@ -189,7 +189,7 @@ class Database {
             val databaseV4 = PwDatabaseV4()
             val groupV4 = databaseV4.createGroup()
             groupV4.title = dbNameFromPath(databasePath)
-            groupV4.setIconStandard(databaseV4.getIconFactory().folderIcon)
+            groupV4.icon = databaseV4.getIconFactory().folderIcon
             databaseV4.rootGroup = groupV4
             setDatabaseV4(databaseV4)
         }
@@ -499,7 +499,14 @@ class Database {
     }
 
     fun createEntry(): EntryVersioned? {
-        pwDatabaseV3 ?: pwDatabaseV4?.let { database ->
+        pwDatabaseV3?.let { database ->
+            return EntryVersioned(database.createEntry()).apply {
+                database.newEntryId()?.let {
+                    nodeId = it
+                }
+            }
+        }
+        pwDatabaseV4?.let { database ->
             return EntryVersioned(database.createEntry()).apply {
                 database.newEntryId()?.let {
                     nodeId = it
@@ -511,7 +518,14 @@ class Database {
     }
 
     fun createGroup(): GroupVersioned? {
-        pwDatabaseV3 ?: pwDatabaseV4?.let { database ->
+        pwDatabaseV3?.let { database ->
+            return GroupVersioned(database.createGroup()).apply {
+                database.newGroupId()?.let {
+                    setNodeId(it)
+                }
+            }
+        }
+        pwDatabaseV4?.let { database ->
             return GroupVersioned(database.createGroup()).apply {
                 database.newGroupId()?.let {
                     setNodeId(it)
@@ -545,21 +559,25 @@ class Database {
     fun addEntryTo(entry: EntryVersioned, parent: GroupVersioned) {
         pwDatabaseV3?.addEntryTo(entry.pwEntryV3, parent.pwGroupV3)
         pwDatabaseV4?.addEntryTo(entry.pwEntryV4, parent.pwGroupV4)
+        entry.afterAssignNewParent()
     }
 
     fun removeEntryFrom(entry: EntryVersioned, parent: GroupVersioned) {
         pwDatabaseV3?.removeEntryFrom(entry.pwEntryV3, parent.pwGroupV3)
         pwDatabaseV4?.removeEntryFrom(entry.pwEntryV4, parent.pwGroupV4)
+        entry.afterAssignNewParent()
     }
 
     fun addGroupTo(group: GroupVersioned, parent: GroupVersioned) {
         pwDatabaseV3?.addGroupTo(group.pwGroupV3, parent.pwGroupV3)
         pwDatabaseV4?.addGroupTo(group.pwGroupV4, parent.pwGroupV4)
+        group.afterAssignNewParent()
     }
 
     fun removeGroupFrom(group: GroupVersioned, parent: GroupVersioned) {
         pwDatabaseV3?.removeGroupFrom(group.pwGroupV3, parent.pwGroupV3)
         pwDatabaseV4?.removeGroupFrom(group.pwGroupV4, parent.pwGroupV4)
+        group.afterAssignNewParent()
     }
 
     /**

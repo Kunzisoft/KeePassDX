@@ -9,6 +9,4 @@ interface PwEntryInterface<ParentGroup> : PwNodeInterface<ParentGroup> {
     var url: String
 
     var notes: String
-
-    fun touchLocation()
 }

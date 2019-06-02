@@ -74,12 +74,12 @@ public class PwEntryOutputV3 {
 		// UUID
 		mOS.write(UUID_FIELD_TYPE);
 		mOS.write(UUID_FIELD_SIZE);
-		mOS.write(Types.UUIDtoBytes(mPE.getNodeId().getId()));
+		mOS.write(Types.UUIDtoBytes(mPE.getId()));
 		
 		// Group ID
 		mOS.write(GROUPID_FIELD_TYPE);
 		mOS.write(LONG_FOUR);
-		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getParent().getNodeId().getId()));
+		mOS.write(LEDataOutputStream.writeIntBuf(mPE.getParent().getId()));
 		
 		// Image ID
 		mOS.write(IMAGEID_FIELD_TYPE);

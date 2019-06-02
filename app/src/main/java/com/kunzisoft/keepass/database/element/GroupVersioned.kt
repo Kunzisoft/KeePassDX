@@ -13,8 +13,12 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         private set
 
     fun updateWith(group: GroupVersioned) {
-        this.pwGroupV3?.updateWith(group.pwGroupV3)
-        this.pwGroupV4?.updateWith(group.pwGroupV4)
+        group.pwGroupV3?.let {
+            this.pwGroupV3?.updateWith(it)
+        }
+        group.pwGroupV4?.let {
+            this.pwGroupV4?.updateWith(it)
+        }
     }
 
     /**
@@ -105,13 +109,25 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         return pwGroupV3?.containsParent() ?: pwGroupV4?.containsParent() ?: false
     }
 
+    override fun afterAssignNewParent() {
+        pwGroupV3?.afterAssignNewParent()
+        pwGroupV4?.afterAssignNewParent()
+    }
+
     override fun touch(modified: Boolean, touchParents: Boolean) {
         pwGroupV3?.touch(modified, touchParents)
         pwGroupV4?.touch(modified, touchParents)
     }
 
     override fun isContainedIn(container: GroupVersioned): Boolean {
-        return pwGroupV3?.isContainedIn(container.pwGroupV3) ?: pwGroupV4?.isContainedIn(container.pwGroupV4) ?: false
+        var contained: Boolean? = null
+        container.pwGroupV3?.let {
+            contained = pwGroupV3?.isContainedIn(it)
+        }
+        container.pwGroupV4?.let {
+            contained = pwGroupV4?.isContainedIn(it)
+        }
+        return contained ?: false
     }
 
     override val isSearchingEnabled: Boolean
@@ -266,10 +282,6 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
 
     fun setNodeId(id: PwNodeIdUUID) {
         pwGroupV4?.nodeId = id
-    }
-
-    fun setIconStandard(icon: PwIconStandard) {
-        pwGroupV4?.setIconStandard(icon)
     }
 
     fun setEnableAutoType(enableAutoType: Boolean?) {

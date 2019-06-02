@@ -15,8 +15,12 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         private set
 
     fun updateWith(entry: EntryVersioned) {
-        this.pwEntryV3?.updateWith(entry.pwEntryV3)
-        this.pwEntryV4?.updateWith(entry.pwEntryV4)
+        entry.pwEntryV3?.let {
+            this.pwEntryV3?.updateWith(it)
+        }
+        entry.pwEntryV4?.let {
+            this.pwEntryV4?.updateWith(it)
+        }
     }
 
     /**
@@ -71,7 +75,16 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         }
 
     override var icon: PwIcon
-        get() = pwEntryV3?.icon ?: pwEntryV4?.icon ?: PwIconStandard()
+        get() {
+            var iconGet: PwIcon? = pwEntryV3?.icon
+            if (iconGet == null)
+                iconGet = pwEntryV4?.iconCustom
+            if (iconGet == null || iconGet.isUnknown)
+                iconGet = pwEntryV4?.icon
+            if (iconGet == null)
+                PwIconStandard()
+            return iconGet!!
+        }
         set(value) {
             pwEntryV3?.icon = value
             pwEntryV4?.icon = value
@@ -99,13 +112,24 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         return pwEntryV3?.containsParent() ?: pwEntryV4?.containsParent() ?: false
     }
 
+    override fun afterAssignNewParent() {
+        pwEntryV4?.afterChangeParent()
+    }
+
     override fun touch(modified: Boolean, touchParents: Boolean) {
         pwEntryV3?.touch(modified, touchParents)
         pwEntryV4?.touch(modified, touchParents)
     }
 
     override fun isContainedIn(container: GroupVersioned): Boolean {
-        return pwEntryV3?.isContainedIn(container.pwGroupV3) ?: pwEntryV4?.isContainedIn(container.pwGroupV4) ?: false
+        var contained: Boolean? = false
+        container.pwGroupV3?.let {
+            contained = pwEntryV3?.isContainedIn(it)
+        }
+        container.pwGroupV4?.let {
+            contained = pwEntryV4?.isContainedIn(it)
+        }
+        return contained ?: false
     }
 
     override val isSearchingEnabled: Boolean
@@ -174,11 +198,6 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
             pwEntryV4?.notes = value
         }
 
-    override fun touchLocation() {
-        pwEntryV3?.touchLocation()
-        pwEntryV4?.touchLocation()
-    }
-
     private fun isTan(): Boolean {
         return title == PMS_TAN_ENTRY && username.isNotEmpty()
     }
@@ -209,6 +228,12 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
       V4 Methods
       ------------
      */
+
+    var iconCustom: PwIconCustom
+        get() = pwEntryV4?.iconCustom ?: PwIconCustom.ZERO
+        set(value) {
+            pwEntryV4?.iconCustom = value
+        }
 
     /**
      * Retrieve extra fields to show, key is the label, value is the value of field
@@ -308,7 +333,7 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
             return arrayOfNulls(size)
         }
 
-        val PMS_TAN_ENTRY = "<TAN>"
+        const val PMS_TAN_ENTRY = "<TAN>"
 
         /**
          * {@inheritDoc}

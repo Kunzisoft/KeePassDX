@@ -25,6 +25,8 @@ interface PwNodeInterface<ParentGroup> : NodeTimeInterface, Parcelable {
 
     fun containsParent(): Boolean
 
+    fun afterAssignNewParent()
+
     fun isContainedIn(container: ParentGroup): Boolean
 
     fun touch(modified: Boolean, touchParents: Boolean)

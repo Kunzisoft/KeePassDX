@@ -45,7 +45,7 @@ public class PwEntryTestV4 extends TestCase {
 		entry.getAutoType().obfuscationOptions = 123412432109L;
 		entry.getAutoType().put("key", "value");
 		
-		entry.setBackgroupColor("blue");
+		entry.setBackgroundColor("blue");
 		entry.putProtectedBinary("key1", new ProtectedBinary(false, new byte[] {0,1}));
 		entry.setIconCustom(new PwIconCustom(UUID.randomUUID(), new byte[0]));
 		entry.setForegroundColor("red");

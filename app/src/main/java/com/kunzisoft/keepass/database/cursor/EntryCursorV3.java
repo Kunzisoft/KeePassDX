@@ -7,8 +7,8 @@ public class EntryCursorV3 extends EntryCursor<PwEntryV3> {
 
     public void addEntry(PwEntryV3 entry) {
         addRow(new Object[] {entryId,
-                entry.getNodeId().getId().getMostSignificantBits(),
-                entry.getNodeId().getId().getLeastSignificantBits(),
+                entry.getId().getMostSignificantBits(),
+                entry.getId().getLeastSignificantBits(),
                 entry.getTitle(),
                 entry.getIcon().getIconId(),
                 PwDatabase.UUID_ZERO.getMostSignificantBits(),

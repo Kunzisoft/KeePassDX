@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.utils.MemUtil;
 

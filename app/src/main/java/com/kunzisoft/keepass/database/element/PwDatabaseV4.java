@@ -529,13 +529,13 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 				
 			PwGroupV4 recycleBin = createGroup();
             recycleBin.setTitle(RECYCLEBIN_NAME);
-            recycleBin.setIconStandard(iconFactory.getTrashIcon());
+            recycleBin.setIcon(iconFactory.getTrashIcon());
 			recycleBin.setEnableAutoType(false);
 			recycleBin.setEnableSearching(false);
 			recycleBin.setExpanded(false);
 			addGroupTo(recycleBin, rootGroup);
 			
-			recycleBinUUID = recycleBin.getNodeId().getId();
+			recycleBinUUID = recycleBin.getId();
 		}
 	}
 
@@ -601,7 +601,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
 		addGroupTo(group, getRecycleBin());
 
-        // TODO ? group.touchLocation();
+        // TODO ? group.afterChangeParent();
 	}
 
 	public void recycle(PwEntryV4 entry) {
@@ -611,7 +611,7 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 
 		addEntryTo(entry, getRecycleBin());
 
-		entry.touchLocation();
+		entry.afterChangeParent();
 	}
 
     public void undoRecycle(PwGroupV4 group, PwGroupV4 origParent) {
@@ -639,13 +639,13 @@ public class PwDatabaseV4 extends PwDatabase<PwGroupV4, PwEntryV4> {
 	@Override
 	public void removeEntryFrom(PwEntryV4 entryToRemove, PwGroupV4 parent) {
 		super.removeEntryFrom(entryToRemove, parent);
-		deletedObjects.add(new PwDeletedObject(entryToRemove.getNodeId().getId()));
+		deletedObjects.add(new PwDeletedObject(entryToRemove.getId()));
 	}
 
 	@Override
 	public void undoDeleteEntryFrom(PwEntryV4 entry, PwGroupV4 origParent) {
 		super.undoDeleteEntryFrom(entry, origParent);
-        deletedObjects.remove(new PwDeletedObject(entry.getNodeId().getId()));
+        deletedObjects.remove(new PwDeletedObject(entry.getId()));
 	}
 
 	public PwGroupV4 getRecycleBin() { // TODO delete recycle bin preference

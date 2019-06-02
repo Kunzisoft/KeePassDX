@@ -23,13 +23,6 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class PwIconStandard : PwIcon {
-    override val iconId: Int
-
-    override val isUnknown: Boolean
-        get() = iconId == PwIcon.UNKNOWN
-
-    override val isMetaStreamIcon: Boolean
-        get() = iconId == 0
 
     constructor() {
         this.iconId = KEY
@@ -68,6 +61,14 @@ class PwIconStandard : PwIcon {
         }
         return iconId == other.iconId
     }
+
+    override val iconId: Int
+
+    override val isUnknown: Boolean
+        get() = iconId == UNKNOWN
+
+    override val isMetaStreamIcon: Boolean
+        get() = iconId == 0
 
     companion object {
 

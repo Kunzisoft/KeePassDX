@@ -17,8 +17,8 @@ public class EntryCursorV4 extends EntryCursor<PwEntryV4> {
 
     public void addEntry(PwEntryV4 entry) {
         addRow(new Object[] {entryId,
-                entry.getNodeId().getId().getMostSignificantBits(),
-                entry.getNodeId().getId().getLeastSignificantBits(),
+                entry.getId().getMostSignificantBits(),
+                entry.getId().getLeastSignificantBits(),
                 entry.getTitle(),
                 entry.getIcon().getIconId(),
                 entry.getIconCustom().getUuid().getMostSignificantBits(),
