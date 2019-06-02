@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database.load;
 
+import android.support.annotation.NonNull;
+
 import biz.source_code.base64Coder.Base64Coder;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
@@ -72,8 +74,9 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
         this.streamDir = streamDir;
 	}
 	
+	@NonNull
 	@Override
-    public PwDatabaseV4 openDatabase(InputStream inStream,
+    public PwDatabaseV4 openDatabase(@NonNull InputStream inStream,
 									 String password,
 									 InputStream keyInputStream,
 									 ProgressTaskUpdater progressTaskUpdater)
@@ -93,7 +96,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 		byte[] pbHeader = hh.header;
 
 		mDatabase.retrieveMasterKey(password, keyInputStream);
-		mDatabase.makeFinalKey(header.masterSeed);
+		mDatabase.makeFinalKey(header.getMasterSeed());
 
 		if (progressTaskUpdater != null)
 			progressTaskUpdater.updateMessage(R.string.decrypting_db);
@@ -103,7 +106,7 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			engine = CipherFactory.getInstance(mDatabase.getDataCipher());
 			mDatabase.setDataEngine(engine);
 			mDatabase.setEncryptionAlgorithm(engine.getPwEncryptionAlgorithm());
-			cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.getFinalKey(), header.encryptionIV);
+			cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.getFinalKey(), header.getEncryptionIV());
 		} catch (NoSuchAlgorithmException|NoSuchPaddingException|InvalidKeyException|InvalidAlgorithmParameterException e) {
 			throw new IOException("Invalid algorithm.", e);
 		}
@@ -432,17 +435,17 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			
 		case MemoryProtection:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtTitle) ) {
-				mDatabase.getMemoryProtection().protectTitle = ReadBool(xpp, false);
+				mDatabase.getMemoryProtection().setProtectTitle(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtUserName) ) {
-				mDatabase.getMemoryProtection().protectUserName = ReadBool(xpp, false);
+				mDatabase.getMemoryProtection().setProtectUserName(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtPassword) ) {
-				mDatabase.getMemoryProtection().protectPassword = ReadBool(xpp, false);
+				mDatabase.getMemoryProtection().setProtectPassword(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtURL) ) {
-				mDatabase.getMemoryProtection().protectUrl = ReadBool(xpp, false);
+				mDatabase.getMemoryProtection().setProtectUrl(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtNotes) ) {
-				mDatabase.getMemoryProtection().protectNotes = ReadBool(xpp, false);
+				mDatabase.getMemoryProtection().setProtectNotes(ReadBool(xpp, false));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemProtAutoHide) ) {
-				mDatabase.getMemoryProtection().autoEnableVisualHiding = ReadBool(xpp, false);
+				mDatabase.getMemoryProtection().setAutoEnableVisualHiding(ReadBool(xpp, false));
 			} else {
 				ReadUnknown(xpp);
 			}
@@ -687,11 +690,11 @@ public class ImporterV4 extends Importer<PwDatabaseV4> {
 			
 		case EntryAutoType:
 			if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeEnabled) ) {
-				ctxEntry.getAutoType().enabled = ReadBool(xpp, true);
+				ctxEntry.getAutoType().setEnabled(ReadBool(xpp, true));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeObfuscation) ) {
-				ctxEntry.getAutoType().obfuscationOptions = ReadUInt(xpp, 0);
+				ctxEntry.getAutoType().setObfuscationOptions(ReadUInt(xpp, 0));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeDefaultSeq) ) {
-				ctxEntry.getAutoType().defaultSequence = ReadString(xpp);
+				ctxEntry.getAutoType().setDefaultSequence(ReadString(xpp));
 			} else if ( name.equalsIgnoreCase(PwDatabaseV4XML.ElemAutoTypeItem) ) {
 				return SwitchContext(ctx, KdbContext.EntryAutoTypeItem, xpp);
 			} else {

@@ -153,12 +153,12 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 				},
 				new NodeHandler<PwGroupV4>() {
 					@Override
-					public boolean operate(PwGroupV4 group) {
+					public boolean operate(PwGroupV4 node) {
 						while (true) {
 							try {
-								if (group.getParent() == groupStack.peek()) {
-									groupStack.push(group);
-									startGroup(group);
+								if (node.getParent() == groupStack.peek()) {
+									groupStack.push(node);
+									startGroup(node);
 									break;
 								} else {
 									groupStack.pop();
@@ -239,7 +239,7 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		try {
 			//mPM.makeFinalKey(header.masterSeed, mPM.kdfParameters);
 
-			cipher = engine.getCipher(Cipher.ENCRYPT_MODE, mPM.getFinalKey(), header.encryptionIV);
+			cipher = engine.getCipher(Cipher.ENCRYPT_MODE, mPM.getFinalKey(), header.getEncryptionIV());
 		} catch (Exception e) {
 			throw new PwDbOutputException("Invalid algorithm.", e);
 		}
@@ -250,13 +250,13 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 	@Override
 	protected SecureRandom setIVs(PwDbHeaderV4 header) throws PwDbOutputException {
 		SecureRandom random = super.setIVs(header);
-		random.nextBytes(header.masterSeed);
+		random.nextBytes(header.getMasterSeed());
 
 		int ivLength = engine.ivLength();
-		if (ivLength != header.encryptionIV.length) {
-			header.encryptionIV = new byte[ivLength];
+		if (ivLength != header.getEncryptionIV().length) {
+			header.setEncryptionIV(new byte[ivLength]);
 		}
-		random.nextBytes(header.encryptionIV);
+		random.nextBytes(header.getEncryptionIV());
 
 		if (mPM.getKdfParameters() == null) {
 			mPM.setKdfParameters(KdfFactory.aesKdf.getDefaultParameters());
@@ -539,11 +539,11 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		xml.startTag(null, name);
 		
-		writeObject(PwDatabaseV4XML.ElemAutoTypeEnabled, autoType.enabled);
-		writeObject(PwDatabaseV4XML.ElemAutoTypeObfuscation, autoType.obfuscationOptions);
+		writeObject(PwDatabaseV4XML.ElemAutoTypeEnabled, autoType.getEnabled());
+		writeObject(PwDatabaseV4XML.ElemAutoTypeObfuscation, autoType.getObfuscationOptions());
 		
-		if (autoType.defaultSequence.length() > 0) {
-			writeObject(PwDatabaseV4XML.ElemAutoTypeDefaultSeq, autoType.defaultSequence, true);
+		if (autoType.getDefaultSequence().length() > 0) {
+			writeObject(PwDatabaseV4XML.ElemAutoTypeDefaultSeq, autoType.getDefaultSequence(), true);
 		}
 		
 		for (Entry<String, String> pair : autoType.entrySet()) {
@@ -575,20 +575,20 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		xml.startTag(null, PwDatabaseV4XML.ElemValue);
 		boolean protect = value.isProtected();
 		if (isEntryString) {
-			if (key.equals(PwDefsV4.TITLE_FIELD)) {
-				protect = mPM.getMemoryProtection().protectTitle;
+			if (key.equals(MemoryProtectionConfig.ProtectDefinition.TITLE_FIELD)) {
+				protect = mPM.getMemoryProtection().getProtectTitle();
 			}
-			else if (key.equals(PwDefsV4.USERNAME_FIELD)) {
-				protect = mPM.getMemoryProtection().protectUserName;
+			else if (key.equals(MemoryProtectionConfig.ProtectDefinition.USERNAME_FIELD)) {
+				protect = mPM.getMemoryProtection().getProtectUserName();
 			}
-			else if (key.equals(PwDefsV4.PASSWORD_FIELD)) {
-				protect = mPM.getMemoryProtection().protectPassword;
+			else if (key.equals(MemoryProtectionConfig.ProtectDefinition.PASSWORD_FIELD)) {
+				protect = mPM.getMemoryProtection().getProtectPassword();
 			}
-			else if (key.equals(PwDefsV4.URL_FIELD)) {
-				protect = mPM.getMemoryProtection().protectUrl;
+			else if (key.equals(MemoryProtectionConfig.ProtectDefinition.URL_FIELD)) {
+				protect = mPM.getMemoryProtection().getProtectUrl();
 			}
-			else if (key.equals(PwDefsV4.NOTES_FIELD)) {
-				protect = mPM.getMemoryProtection().protectNotes;
+			else if (key.equals(MemoryProtectionConfig.ProtectDefinition.NOTES_FIELD)) {
+				protect = mPM.getMemoryProtection().getProtectNotes();
 			}
 		}
 		
@@ -651,11 +651,11 @@ public class PwDbV4Output extends PwDbOutput<PwDbHeaderV4> {
 		
 		xml.startTag(null, name);
 		
-		writeObject(PwDatabaseV4XML.ElemProtTitle, value.protectTitle);
-		writeObject(PwDatabaseV4XML.ElemProtUserName, value.protectUserName);
-		writeObject(PwDatabaseV4XML.ElemProtPassword, value.protectPassword);
-		writeObject(PwDatabaseV4XML.ElemProtURL, value.protectUrl);
-		writeObject(PwDatabaseV4XML.ElemProtNotes, value.protectNotes);
+		writeObject(PwDatabaseV4XML.ElemProtTitle, value.getProtectTitle());
+		writeObject(PwDatabaseV4XML.ElemProtUserName, value.getProtectUserName());
+		writeObject(PwDatabaseV4XML.ElemProtPassword, value.getProtectPassword());
+		writeObject(PwDatabaseV4XML.ElemProtURL, value.getProtectUrl());
+		writeObject(PwDatabaseV4XML.ElemProtNotes, value.getProtectNotes());
 		
 		xml.endTag(null, name);
 		

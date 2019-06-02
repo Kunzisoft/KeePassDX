@@ -96,7 +96,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
     public PwDbHeaderV4(PwDatabaseV4 databaseV4) {
         this.db = databaseV4;
         this.version = getMinKdbxVersion(databaseV4); // Only for writing
-        this.masterSeed = new byte[32];
+        this.setMasterSeed(new byte[32]);
     }
 
     public long getVersion() {
@@ -112,11 +112,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
         boolean hasCustomData = false;
 
         @Override
-        public boolean operate(PwGroupV4 group) {
-            if (group == null) {
+        public boolean operate(PwGroupV4 node) {
+            if (node == null) {
                 return true;
             }
-            if (group.containsCustomData()) {
+            if (node.containsCustomData()) {
                 hasCustomData = true;
                 return false;
             }
@@ -242,7 +242,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.MasterSeed:
-				masterSeed = fieldData;
+				setMasterSeed(fieldData);
 				break;
 				
 			case PwDbHeaderV4Fields.TransformSeed:
@@ -256,7 +256,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 				break;
 				
 			case PwDbHeaderV4Fields.EncryptionIV:
-				encryptionIV = fieldData;
+				setEncryptionIV(fieldData);
 				break;
 				
 			case PwDbHeaderV4Fields.InnerRandomstreamKey:
@@ -319,11 +319,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 		
 		int flag = LEDataInputStream.readInt(pbFlags, 0);
-		if ( flag < 0 || flag >= PwCompressionAlgorithm.count ) {
+		if ( flag < 0 || flag >= PwCompressionAlgorithm.values().length ) {
 			throw new IOException("Unrecognized compression flag.");
 		}
 		
-		db.setCompressionAlgorithm(PwCompressionAlgorithm.fromId(flag));
+		db.setCompressionAlgorithm(PwCompressionAlgorithm.Companion.fromId(flag));
 	}
 	
 	public void setRandomStreamID(byte[] streamID) throws IOException {
@@ -332,11 +332,11 @@ public class PwDbHeaderV4 extends PwDbHeader {
 		}
 		
 		int id = LEDataInputStream.readInt(streamID, 0);
-		if ( id < 0 || id >= CrsAlgorithm.count ) {
+		if ( id < 0 || id >= CrsAlgorithm.values().length) {
 			throw new IOException("Invalid stream id.");
 		}
 		
-		innerRandomStream = CrsAlgorithm.fromId(id);
+		innerRandomStream = CrsAlgorithm.Companion.fromId(id);
 	}
 	
 	/**
@@ -351,7 +351,7 @@ public class PwDbHeaderV4 extends PwDbHeader {
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {
-	    return (sig1 == PWM_DBSIG_1) && ( (sig2 == DBSIG_PRE2) || (sig2 == DBSIG_2) );
+	    return (sig1 == PwDbHeader.PWM_DBSIG_1) && ( (sig2 == DBSIG_PRE2) || (sig2 == DBSIG_2) );
 	}
 
 	public static byte[] computeHeaderHmac(byte[] header, byte[] key) throws IOException{

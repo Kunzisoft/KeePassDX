@@ -41,8 +41,8 @@ public abstract class PwDbOutput<Header extends PwDbHeader> {
 		} catch (NoSuchAlgorithmException e) {
 			throw new PwDbOutputException("Does not support secure random number generation.");
 		}
-		random.nextBytes(header.encryptionIV);
-		random.nextBytes(header.masterSeed);
+		random.nextBytes(header.getEncryptionIV());
+		random.nextBytes(header.getMasterSeed());
 
 		return random;
 	}

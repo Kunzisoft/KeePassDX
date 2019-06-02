@@ -42,7 +42,7 @@ import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.app.App;
-import com.kunzisoft.keepass.database.ExtraFields;
+import com.kunzisoft.keepass.database.element.ExtraFields;
 import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.database.element.EntryVersioned;
 import com.kunzisoft.keepass.database.element.PwNodeId;
@@ -60,6 +60,9 @@ import com.kunzisoft.keepass.view.EntryContentsView;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 import static com.kunzisoft.keepass.settings.PreferencesUtil.isClipboardNotificationsEnable;
 import static com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields;
@@ -205,10 +208,10 @@ public class EntryActivity extends LockingHideActivity {
                 // Add extra fields
                 if (containsExtraFieldToCopy) {
                     try {
-                        mEntry.getFields().doActionToAllCustomProtectedField(new ExtraFields.ActionProtected() {
+                        mEntry.getFields().doActionToAllCustomProtectedField(new Function2<String, ProtectedString, Unit>() {
                             private int anonymousFieldNumber = 0;
                             @Override
-                            public void doAction(String key, ProtectedString value) {
+                            public Unit invoke(String key, ProtectedString value) {
                                 //If value is not protected or allowed
                                 if (!value.isProtected() || PreferencesUtil.allowCopyPasswordAndProtectedFields(EntryActivity.this)) {
                                     notificationFields.add(
@@ -219,6 +222,7 @@ public class EntryActivity extends LockingHideActivity {
                                                     getResources()));
                                     anonymousFieldNumber++;
                                 }
+                                return null;
                             }
                         });
                     } catch (ArrayIndexOutOfBoundsException e) {
@@ -378,6 +382,7 @@ public class EntryActivity extends LockingHideActivity {
                                 getString(R.string.copy_field, label)
                         )
                     );
+                    return null;
             });
 		}
 

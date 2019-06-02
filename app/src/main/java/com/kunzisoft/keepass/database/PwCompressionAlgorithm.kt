@@ -17,30 +17,26 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database
 
-public enum CrsAlgorithm {
-	
-	Null(0),
-	ArcFourVariant(1),
-	Salsa20(2),
-	ChaCha20(3);
+// Note: We can get away with using int's to store unsigned 32-bit ints
+//       since we won't do arithmetic on these values (also unlikely to
+//       reach negative ids).
+enum class PwCompressionAlgorithm constructor(val id: Int) {
 
-	public static final int count = 4;
-	public final int id;
-	
-	private CrsAlgorithm(int num) {
-		id = num;
-	}
+    None(0),
+    Gzip(1);
 
-	public static CrsAlgorithm fromId(int num) {
-		for ( CrsAlgorithm e : CrsAlgorithm.values() ) {
-			if ( e.id == num ) {
-				return e;
-			}
-		}
-		
-		return null;
-	}
+    companion object {
+
+        fun fromId(num: Int): PwCompressionAlgorithm? {
+            for (e in values()) {
+                if (e.id == num) {
+                    return e
+                }
+            }
+            return null
+        }
+    }
 
 }

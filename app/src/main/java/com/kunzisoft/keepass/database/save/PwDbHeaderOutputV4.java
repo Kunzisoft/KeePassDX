@@ -63,7 +63,7 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 		}
 
 		try {
-			d.makeFinalKey(header.masterSeed);
+			d.makeFinalKey(header.getMasterSeed());
 		} catch (IOException e) {
 		    throw new PwDbOutputException(e);
 		}
@@ -92,8 +92,8 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
 
 
 		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.getDataCipher()));
-		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.getCompressionAlgorithm().id));
-		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.MasterSeed, header.masterSeed);
+		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.getCompressionAlgorithm().getId()));
+		writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.MasterSeed, header.getMasterSeed());
 
 		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformSeed, header.getTransformSeed());
@@ -102,14 +102,14 @@ public class PwDbHeaderOutputV4 extends PwDbHeaderOutput {
             writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.getKdfParameters()));
 		}
 
-		if (header.encryptionIV.length > 0) {
-			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV);
+		if (header.getEncryptionIV().length > 0) {
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.EncryptionIV, header.getEncryptionIV());
 		}
 
 		if (header.getVersion() < PwDbHeaderV4.FILE_VERSION_32_4) {
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey);
 			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes);
-			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream.id));
+			writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream.getId()));
 		}
 
 		if (db.containsPublicCustomData()) {

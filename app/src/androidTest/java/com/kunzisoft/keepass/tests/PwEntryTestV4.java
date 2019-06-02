@@ -19,17 +19,7 @@
  */
 package com.kunzisoft.keepass.tests;
 
-import com.kunzisoft.keepass.database.AutoType;
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroupV4;
-import com.kunzisoft.keepass.database.element.PwIconCustom;
-import com.kunzisoft.keepass.database.element.PwIconStandard;
-import com.kunzisoft.keepass.database.security.ProtectedBinary;
-import com.kunzisoft.keepass.database.security.ProtectedString;
-
 import junit.framework.TestCase;
-
-import java.util.UUID;
 
 public class PwEntryTestV4 extends TestCase {
 	public void testAssign() {

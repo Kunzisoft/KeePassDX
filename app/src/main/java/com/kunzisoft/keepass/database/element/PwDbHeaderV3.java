@@ -65,8 +65,10 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	/** Size of byte buffer needed to hold this struct. */
 	public static final int BUF_SIZE        = 124;
 
-	/** Used for the dwKeyEncRounds AES transformations */
-	public byte transformSeed[] = new byte[32];
+	/**
+	 * Used for the dwKeyEncRounds AES transformations
+	 */
+	public byte[] transformSeed = new byte[32];
 
 	public int              signature1;                  // = PWM_DBSIG_1
 	public int              signature2;                  // = DBSIG_2
@@ -78,8 +80,10 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	/** Number of entries in the database */
 	public int              numEntries;
 
-	/** SHA-256 hash of the database, used for integrity check */
-	public byte             contentsHash[] = new byte[32];
+	/**
+	 * SHA-256 hash of the database, used for integrity check
+	 */
+	public byte[] contentsHash = new byte[32];
 
 	public int              numKeyEncRounds;
 
@@ -88,14 +92,14 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	 * @param buf
 	 * @throws IOException 
 	 */
-	public void loadFromFile( byte buf[], int offset ) throws IOException {
-		signature1 = LEDataInputStream.readInt( buf, offset + 0 );
+	public void loadFromFile(byte[] buf, int offset ) throws IOException {
+		signature1 = LEDataInputStream.readInt( buf, offset);
 		signature2 = LEDataInputStream.readInt( buf, offset + 4 );
 		flags = LEDataInputStream.readInt( buf, offset + 8 );
 		version = LEDataInputStream.readInt( buf, offset + 12 );
 
-		System.arraycopy( buf, offset + 16, masterSeed, 0, 16 );
-		System.arraycopy( buf, offset + 32, encryptionIV, 0, 16 );
+		System.arraycopy( buf, offset + 16, getMasterSeed(), 0, 16 );
+		System.arraycopy( buf, offset + 32, getEncryptionIV(), 0, 16 );
 
 		numGroups = LEDataInputStream.readInt( buf, offset + 48 );
 		numEntries = LEDataInputStream.readInt( buf, offset + 52 );
@@ -111,11 +115,11 @@ public class PwDbHeaderV3 extends PwDbHeader {
 	}
 
 	public PwDbHeaderV3() {
-		masterSeed = new byte[16];
+		setMasterSeed(new byte[16]);
 	}
 
 	public static boolean matchesHeader(int sig1, int sig2) {
-		return (sig1 == PWM_DBSIG_1) && (sig2 == DBSIG_2);
+		return (sig1 == PwDbHeader.PWM_DBSIG_1) && (sig2 == DBSIG_2);
 	}
 	
 	

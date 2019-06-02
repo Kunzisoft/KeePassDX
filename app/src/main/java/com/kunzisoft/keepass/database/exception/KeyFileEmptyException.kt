@@ -1,6 +1,6 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
- *
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ *     
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,13 +17,10 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.exception
 
-import android.content.res.Resources;
-
-/**
- * Interface to generify items with a name resource, that can be (for example) visible in a list
- */
-public interface ObjectNameResource {
-    String getName(Resources resources);
+class KeyFileEmptyException : InvalidKeyFileException() {
+    companion object {
+        private const val serialVersionUID = -1630780661204212325L
+    }
 }

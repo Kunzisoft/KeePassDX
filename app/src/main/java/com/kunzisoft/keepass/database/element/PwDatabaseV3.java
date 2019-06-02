@@ -232,16 +232,6 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 		return new PwEntryV3();
 	}
 
-	// TODO: This could still be refactored cleaner
-	public void copyEncrypted(byte[] buf, int offset, int size) {
-		// No-op
-	}
-
-	// TODO: This could still be refactored cleaner
-	public void copyHeader(PwDbHeaderV3 header) {
-		// No-op
-	}
-
 	@Override
 	public boolean isBackup(PwGroupV3 group) {
 		while (group != null) {

@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,16 +17,13 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.exception;
+package com.kunzisoft.keepass.database
 
-public class InvalidAlgorithmException extends InvalidDBException {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3062682891863487208L;
+import android.content.res.Resources
 
-	public InvalidAlgorithmException() {
-		super();
-	}
-
+/**
+ * Interface to generify items with a name resource, that can be (for example) visible in a list
+ */
+interface ObjectNameResource {
+    fun getName(resources: Resources): String
 }

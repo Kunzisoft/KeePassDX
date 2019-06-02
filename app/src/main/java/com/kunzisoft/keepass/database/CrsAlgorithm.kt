@@ -16,15 +16,26 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
- */package com.kunzisoft.keepass.database.exception;
+ */
+package com.kunzisoft.keepass.database
 
-public class InvalidKeyFileException extends InvalidDBException {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5540694419562294464L;
+enum class CrsAlgorithm constructor(val id: Int) {
 
-	public InvalidKeyFileException() {
-		super();
-	}
+    Null(0),
+    ArcFourVariant(1),
+    Salsa20(2),
+    ChaCha20(3);
+
+    companion object {
+
+        fun fromId(num: Int): CrsAlgorithm? {
+            for (e in values()) {
+                if (e.id == num) {
+                    return e
+                }
+            }
+            return null
+        }
+    }
+
 }

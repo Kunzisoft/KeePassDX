@@ -50,7 +50,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 	public byte[] getFinalKey(PwDbHeader header) throws PwDbOutputException {
 		try {
 			PwDbHeaderV3 h3 = (PwDbHeaderV3) header;
-			mDatabaseV3.makeFinalKey(h3.masterSeed, h3.transformSeed, mDatabaseV3.getNumberKeyEncryptionRounds());
+			mDatabaseV3.makeFinalKey(h3.getMasterSeed(), h3.transformSeed, mDatabaseV3.getNumberKeyEncryptionRounds());
 			return mDatabaseV3.getFinalKey();
 		} catch (IOException e) {
 			throw new PwDbOutputException("Key creation failed.", e);
@@ -81,7 +81,7 @@ public class PwDbV3Output extends PwDbOutput<PwDbHeaderV3> {
 		}
 
 		try {
-			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(finalKey, "AES" ), new IvParameterSpec(header.encryptionIV) );
+			cipher.init( Cipher.ENCRYPT_MODE, new SecretKeySpec(finalKey, "AES" ), new IvParameterSpec(header.getEncryptionIV()) );
 			CipherOutputStream cos = new CipherOutputStream(mOS, cipher);
 			BufferedOutputStream bos = new BufferedOutputStream(cos);
 			outputPlanGroupAndEntries(bos);

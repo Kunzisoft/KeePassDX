@@ -39,8 +39,8 @@ public class PwDbHeaderOutputV3 {
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.signature2));
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.flags));
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.version));
-		mOS.write(mHeader.masterSeed);
-		mOS.write(mHeader.encryptionIV);
+		mOS.write(mHeader.getMasterSeed());
+		mOS.write(mHeader.getEncryptionIV());
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numGroups));
 		mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numEntries));
 	}

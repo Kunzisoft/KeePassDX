@@ -21,8 +21,6 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.AutoType
-import com.kunzisoft.keepass.database.ExtraFields
 import com.kunzisoft.keepass.database.security.ProtectedBinary
 import com.kunzisoft.keepass.database.security.ProtectedString
 import com.kunzisoft.keepass.utils.MemUtil

@@ -17,18 +17,23 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element;
+package com.kunzisoft.keepass.database.element
 
-public class PwDefsV4 {
+abstract class PwDbHeader {
 
-	public static final String TITLE_FIELD = "Title";
+    /**
+     * Seed that gets hashed with the userkey to form the final key
+     */
+    var masterSeed: ByteArray? = null
 
-    public static final String USERNAME_FIELD = "UserName";
+    /**
+     * IV used for content encryption
+     */
+    var encryptionIV = ByteArray(16)
 
-    public static final String PASSWORD_FIELD = "Password";
+    companion object {
 
-    public static final String URL_FIELD = "URL";
-
-    public static final String NOTES_FIELD = "Notes";
+        const val PWM_DBSIG_1 = -0x655d26fd
+    }
 
 }

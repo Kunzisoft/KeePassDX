@@ -17,16 +17,10 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.exception;
+package com.kunzisoft.keepass.database.exception
 
-public class InvalidDBSignatureException extends InvalidDBException {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5358923878743513758L;
-
-	public InvalidDBSignatureException() {
-		super();
-	}
-
+class InvalidPasswordException : InvalidDBException() {
+    companion object {
+        private const val serialVersionUID = -8729476180242058319L
+    }
 }

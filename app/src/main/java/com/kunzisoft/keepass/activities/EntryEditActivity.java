@@ -523,6 +523,7 @@ public class EntryEditActivity extends LockingHideActivity
                 entryEditCustomField.setData(key, value);
                 entryEditCustomField.setFontVisibility(visibilityFontActivated);
                 container.addView(entryEditCustomField);
+                return null;
             });
         }
 	}

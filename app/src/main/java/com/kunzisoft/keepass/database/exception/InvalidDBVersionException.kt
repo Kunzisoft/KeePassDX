@@ -17,21 +17,11 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.exception;
+package com.kunzisoft.keepass.database.exception
 
-public class SamsungClipboardException extends Exception {
-	
-	public SamsungClipboardException(String message) {
-		super(message);
-	}
-	
-	public SamsungClipboardException(Exception e) {
-		super(e);
-	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3168837280393843509L;
+class InvalidDBVersionException : InvalidDBException() {
+    companion object {
+        private const val serialVersionUID = -4260650987856400586L
+    }
 
 }

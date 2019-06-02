@@ -43,7 +43,7 @@ public class PwDbInnerHeaderOutputV4 {
     public void output() throws IOException {
         los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomStreamID);
         los.writeInt(4);
-        los.writeInt(header.innerRandomStream.id);
+        los.writeInt(header.innerRandomStream.getId());
 
         int streamKeySize = header.innerRandomStreamKey.length;
         los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey);

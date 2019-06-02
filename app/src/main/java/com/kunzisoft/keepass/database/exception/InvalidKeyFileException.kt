@@ -16,16 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
- */
-package com.kunzisoft.keepass.database.exception;
+ */package com.kunzisoft.keepass.database.exception
 
-public class KeyFileEmptyException extends InvalidKeyFileException {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1630780661204212325L;
-
-	public KeyFileEmptyException() {
-		super();
-	}
+open class InvalidKeyFileException : InvalidDBException() {
+    companion object {
+        private const val serialVersionUID = 5540694419562294464L
+    }
 }

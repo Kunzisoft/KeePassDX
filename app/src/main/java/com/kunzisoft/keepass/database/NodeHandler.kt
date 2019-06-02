@@ -17,16 +17,13 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.exception;
+package com.kunzisoft.keepass.database
 
-public class InvalidDBVersionException extends InvalidDBException {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4260650987856400586L;
 
-	public InvalidDBVersionException() {
-		super();
-	}
-
+/** "Delegate" class for operating on each group when traversing all of
+ * them
+ * @author bpellin
+ */
+abstract class NodeHandler<T> {
+    abstract fun operate(node: T): Boolean
 }

@@ -60,10 +60,10 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
                     }
                 },
                 object : NodeHandler<GroupVersioned>() {
-                    override fun operate(group: GroupVersioned): Boolean {
+                    override fun operate(node: GroupVersioned): Boolean {
                         return when {
                             incrementEntry >= max -> false
-                            database.isGroupSearchable(group, isOmitBackup) -> true
+                            database.isGroupSearchable(node, isOmitBackup) -> true
                             else -> incrementEntry < max
                         }
                     }

@@ -17,16 +17,16 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element;
+package com.kunzisoft.keepass.database.exception
 
-public abstract class PwDbHeader {
+class PwDbOutputException : Exception {
+    constructor(string: String) : super(string)
 
-	public static final int PWM_DBSIG_1 = 0x9AA2D903;
+    constructor(string: String, e: Exception) : super(string, e)
 
-	/** Seed that gets hashed with the userkey to form the final key */
-	public byte masterSeed[];
+    constructor(e: Exception) : super(e)
 
-	/** IV used for content encryption */
-	public byte encryptionIV[] = new byte[16];
-	
+    companion object {
+        private const val serialVersionUID = 3321212743159473368L
+    }
 }

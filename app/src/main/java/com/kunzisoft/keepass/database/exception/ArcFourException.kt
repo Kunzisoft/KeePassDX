@@ -17,14 +17,11 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database;
+package com.kunzisoft.keepass.database.exception
 
+class ArcFourException : InvalidDBException() {
+    companion object {
+        private const val serialVersionUID = 2103983626687861237L
+    }
 
-/** "Delegate" class for operating on each group when traversing all of
- * them
- * @author bpellin
- *
- */
-public abstract class NodeHandler<T> {
-	public abstract boolean operate(T group);
 }

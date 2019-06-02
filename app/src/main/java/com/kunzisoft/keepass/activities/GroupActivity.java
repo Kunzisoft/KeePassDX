@@ -72,6 +72,7 @@ import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
 import com.kunzisoft.keepass.database.element.*;
+import com.kunzisoft.keepass.database.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
@@ -91,6 +92,9 @@ import com.kunzisoft.keepass.view.AddNodeButtonView;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import org.jetbrains.annotations.NotNull;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 public class GroupActivity extends LockingActivity
         implements GroupEditDialogFragment.EditGroupListener,
@@ -534,9 +538,14 @@ public class GroupActivity extends LockingActivity
         entryModel.setUrl(entry.getUrl());
         if (entry.containsCustomFields()) {
             entry.getFields()
-                    .doActionToAllCustomProtectedField(
-                            (key, value) -> entryModel.addCustomField(
-                                    new Field(key, value.toString())));
+                    .doActionToAllCustomProtectedField(new Function2<String, ProtectedString, Unit>() {
+                        @Override
+                        public Unit invoke(String key, ProtectedString value) {
+                            entryModel.addCustomField(
+                                    new Field(key, value.toString()));
+                            return null;
+                        }
+                    });
         }
         return entryModel;
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -17,14 +17,30 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.exception;
+package com.kunzisoft.keepass.database.exception
 
-public class InconsistentDBException extends Exception {
+import android.net.Uri
 
-	public InconsistentDBException(String msg) {
-		super(msg);
-	}
-	
-	private static final long serialVersionUID = 4879502365625912291L;
+import com.kunzisoft.keepass.utils.EmptyUtils
 
+import java.io.FileNotFoundException
+
+/**
+ * Created by bpellin on 3/14/16.
+ */
+class ContentFileNotFoundException : FileNotFoundException() {
+    companion object {
+        fun getInstance(uri: Uri?): FileNotFoundException {
+            if (uri == null) {
+                return FileNotFoundException()
+            }
+
+            val scheme = uri.scheme
+
+            return if (!EmptyUtils.isNullOrEmpty(scheme) && scheme!!.equals("content", ignoreCase = true)) {
+                ContentFileNotFoundException()
+            } else FileNotFoundException()
+
+        }
+    }
 }

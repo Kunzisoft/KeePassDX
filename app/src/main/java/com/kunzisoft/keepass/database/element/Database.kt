@@ -331,8 +331,12 @@ class Database {
         if (searchResult != null) {
             for (entry in searchResult.getChildEntries()) {
                 if (!entry.isMetaStream) { // TODO metastream
-                    cursorV3?.addEntry(entry.pwEntryV3)
-                    cursorV4?.addEntry(entry.pwEntryV4)
+                    entry.pwEntryV3?.let {
+                        cursorV3?.addEntry(it)
+                    }
+                    entry.pwEntryV4?.let {
+                        cursorV4?.addEntry(it)
+                    }
                 }
             }
         }
@@ -341,14 +345,22 @@ class Database {
     }
 
     fun getEntryFrom(cursor: Cursor): EntryVersioned? {
-        val iconFactory = pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory()
+        val iconFactory = pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory() ?: PwIconFactory()
         val entry = createEntry()
 
         // TODO invert field reference manager
         entry?.let { entryVersioned ->
             startManageEntry(entryVersioned)
-            pwDatabaseV3?.let { (cursor as EntryCursorV3).populateEntry(entryVersioned.pwEntryV3, iconFactory) }
-            pwDatabaseV4?.let { (cursor as EntryCursorV4).populateEntry(entryVersioned.pwEntryV4, iconFactory) }
+            pwDatabaseV3?.let {
+                entryVersioned.pwEntryV3?.let { entryV3 ->
+                    (cursor as EntryCursorV3).populateEntry(entryV3, iconFactory)
+                }
+            }
+            pwDatabaseV4?.let {
+                entryVersioned.pwEntryV4?.let { entryV4 ->
+                    (cursor as EntryCursorV4).populateEntry(entryV4, iconFactory)
+                }
+            }
             stopManageEntry(entryVersioned)
         }
 
@@ -416,8 +428,7 @@ class Database {
     fun closeAndClear(context: Context) {
         drawFactory.clearCache()
         // Delete the cache of the database if present
-        if (pwDatabaseV4 != null)
-            pwDatabaseV4!!.clearCache()
+        pwDatabaseV4?.clearCache()
         // In all cases, delete all the files in the temp dir
         try {
             FileUtils.cleanDirectory(context.filesDir)
@@ -617,15 +628,15 @@ class Database {
     fun deleteGroup(group: GroupVersioned) {
         group.doForEachChildAndForIt(
                 object : NodeHandler<EntryVersioned>() {
-                    override fun operate(entry: EntryVersioned): Boolean {
-                        deleteEntry(entry)
+                    override fun operate(node: EntryVersioned): Boolean {
+                        deleteEntry(node)
                         return true
                     }
                 },
                 object : NodeHandler<GroupVersioned>() {
-                    override fun operate(group: GroupVersioned): Boolean {
-                        group.parent?.let {
-                            removeGroupFrom(group, it)
+                    override fun operate(node: GroupVersioned): Boolean {
+                        node.parent?.let {
+                            removeGroupFrom(node, it)
                         }
                         return true
                     }

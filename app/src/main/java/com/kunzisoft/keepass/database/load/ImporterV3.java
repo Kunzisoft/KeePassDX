@@ -45,6 +45,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.database.load;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.crypto.CipherFactory;
@@ -76,8 +77,9 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 
 	private PwDatabaseV3 databaseToOpen;
 
+	@NonNull
 	@Override
-	public PwDatabaseV3 openDatabase(InputStream inStream,
+	public PwDatabaseV3 openDatabase(@NonNull InputStream inStream,
 									 String password,
 									 InputStream kfIs,
 									 ProgressTaskUpdater progressTaskUpdater)
@@ -116,14 +118,11 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 		} else {
 			throw new InvalidAlgorithmException();
 		}
-
-		// Copy for testing
-		databaseToOpen.copyHeader(hdr);
 		
 		databaseToOpen.setNumberKeyEncryptionRounds(hdr.numKeyEncRounds);
 
 		// Generate transformedMasterKey from masterKey
-		databaseToOpen.makeFinalKey(hdr.masterSeed, hdr.transformSeed, databaseToOpen.getNumberKeyEncryptionRounds());
+		databaseToOpen.makeFinalKey(hdr.getMasterSeed(), hdr.transformSeed, databaseToOpen.getNumberKeyEncryptionRounds());
 
         if (progressTaskUpdater != null)
             progressTaskUpdater.updateMessage(R.string.decrypting_db);
@@ -145,7 +144,7 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 		}
 
 		try {
-			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( databaseToOpen.getFinalKey(), "AES" ), new IvParameterSpec( hdr.encryptionIV ) );
+			cipher.init( Cipher.DECRYPT_MODE, new SecretKeySpec( databaseToOpen.getFinalKey(), "AES" ), new IvParameterSpec(hdr.getEncryptionIV()) );
 		} catch (InvalidKeyException e1) {
 			throw new IOException("Invalid key");
 		} catch (InvalidAlgorithmParameterException e1) {
@@ -163,9 +162,6 @@ public class ImporterV3 extends Importer<PwDatabaseV3> {
 		} catch (BadPaddingException e1) {
 			throw new InvalidPasswordException();
 		}
-
-		// Copy decrypted data for testing
-		databaseToOpen.copyEncrypted(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize);
 
 		MessageDigest md = null;
 		try {
