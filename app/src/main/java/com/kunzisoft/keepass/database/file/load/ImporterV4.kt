@@ -17,20 +17,21 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.load
+package com.kunzisoft.keepass.database.file.load
 
 import biz.source_code.base64Coder.Base64Coder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.PwStreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.database.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.ArcFourException
 import com.kunzisoft.keepass.database.exception.InvalidDBException
 import com.kunzisoft.keepass.database.exception.InvalidPasswordException
-import com.kunzisoft.keepass.database.security.ProtectedBinary
-import com.kunzisoft.keepass.database.security.ProtectedString
+import com.kunzisoft.keepass.database.file.PwDbHeaderV4
+import com.kunzisoft.keepass.database.element.security.ProtectedBinary
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.stream.BetterCipherInputStream
 import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HmacBlockInputStream
@@ -101,7 +102,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         mDatabase.binPool.clear()
 
         val hh = header.loadFromFile(databaseInputStream)
-        version = header.getVersion()
+        version = header.version
 
         hashOfHeader = hh.hash
         val pbHeader = hh.header

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -17,26 +17,6 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database
+package com.kunzisoft.keepass.database.search.iterator
 
-// Note: We can get away with using int's to store unsigned 32-bit ints
-//       since we won't do arithmetic on these values (also unlikely to
-//       reach negative ids).
-enum class PwCompressionAlgorithm constructor(val id: Int) {
-
-    None(0),
-    Gzip(1);
-
-    companion object {
-
-        fun fromId(num: Int): PwCompressionAlgorithm? {
-            for (e in values()) {
-                if (e.id == num) {
-                    return e
-                }
-            }
-            return null
-        }
-    }
-
-}
+abstract class EntrySearchStringIterator : Iterator<String>

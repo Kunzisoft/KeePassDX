@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import com.kunzisoft.keepass.database.security.ProtectedBinary
+import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import java.util.HashMap
 import kotlin.collections.Map.Entry
 

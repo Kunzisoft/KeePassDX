@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element
+package com.kunzisoft.keepass.database.file
 
 abstract class PwDbHeader {
 
@@ -32,7 +32,6 @@ abstract class PwDbHeader {
     var encryptionIV = ByteArray(16)
 
     companion object {
-
         const val PWM_DBSIG_1 = -0x655d26fd
     }
 

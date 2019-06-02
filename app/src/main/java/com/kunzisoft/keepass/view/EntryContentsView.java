@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.database.element.security.ProtectedString;
 import com.kunzisoft.keepass.utils.Util;
 
 import java.text.DateFormat;

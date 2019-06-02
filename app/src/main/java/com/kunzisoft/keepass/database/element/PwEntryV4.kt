@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.security.ProtectedBinary
-import com.kunzisoft.keepass.database.security.ProtectedString
+import com.kunzisoft.keepass.database.element.security.ProtectedBinary
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.MemUtil
 import com.kunzisoft.keepass.utils.SprEngineV4
 import java.util.*

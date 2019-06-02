@@ -4,7 +4,7 @@ import android.database.MatrixCursor
 import android.provider.BaseColumns
 
 import com.kunzisoft.keepass.database.element.PwEntryV4
-import com.kunzisoft.keepass.database.security.ProtectedString
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 
 class ExtraFieldCursor : MatrixCursor(arrayOf(
         _ID,

@@ -72,7 +72,7 @@ import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
 import com.kunzisoft.keepass.database.element.*;
-import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.database.element.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;

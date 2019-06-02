@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.iterator
+package com.kunzisoft.keepass.database.search.iterator
 
 import com.kunzisoft.keepass.database.element.PwEntryV3
 import com.kunzisoft.keepass.database.search.SearchParameters

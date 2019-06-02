@@ -31,10 +31,12 @@ import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.cursor.EntryCursorV3
 import com.kunzisoft.keepass.database.cursor.EntryCursorV4
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.database.load.ImporterV3
-import com.kunzisoft.keepass.database.load.ImporterV4
-import com.kunzisoft.keepass.database.save.PwDbV3Output
-import com.kunzisoft.keepass.database.save.PwDbV4Output
+import com.kunzisoft.keepass.database.file.PwDbHeaderV3
+import com.kunzisoft.keepass.database.file.PwDbHeaderV4
+import com.kunzisoft.keepass.database.file.load.ImporterV3
+import com.kunzisoft.keepass.database.file.load.ImporterV4
+import com.kunzisoft.keepass.database.file.save.PwDbV3Output
+import com.kunzisoft.keepass.database.file.save.PwDbV4Output
 import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.settings.PreferencesUtil

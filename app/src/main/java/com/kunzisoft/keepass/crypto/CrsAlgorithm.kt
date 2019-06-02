@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database
+package com.kunzisoft.keepass.crypto
 
 enum class CrsAlgorithm constructor(val id: Int) {
 

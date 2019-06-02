@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.crypto;
 
-import com.kunzisoft.keepass.database.CrsAlgorithm;
-
 import org.spongycastle.crypto.StreamCipher;
 import org.spongycastle.crypto.engines.ChaCha7539Engine;
 import org.spongycastle.crypto.engines.Salsa20Engine;

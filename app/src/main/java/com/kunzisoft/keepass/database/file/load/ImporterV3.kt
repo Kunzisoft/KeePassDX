@@ -43,13 +43,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package com.kunzisoft.keepass.database.load
+package com.kunzisoft.keepass.database.file.load
 
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.file.PwDbHeader
+import com.kunzisoft.keepass.database.file.PwDbHeaderV3
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater

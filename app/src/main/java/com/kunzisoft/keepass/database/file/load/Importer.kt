@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.load
+package com.kunzisoft.keepass.database.file.load
 
 import com.kunzisoft.keepass.database.element.PwDatabase
 import com.kunzisoft.keepass.database.exception.InvalidDBException

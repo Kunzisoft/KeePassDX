@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
 import com.kunzisoft.keepass.database.element.*;
-import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.database.element.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.settings.PreferencesUtil;

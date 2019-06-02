@@ -23,9 +23,9 @@ import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.GroupVersioned
-import com.kunzisoft.keepass.database.iterator.EntrySearchStringIterator
-import com.kunzisoft.keepass.database.iterator.EntrySearchStringIteratorV3
-import com.kunzisoft.keepass.database.iterator.EntrySearchStringIteratorV4
+import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIterator
+import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorV3
+import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorV4
 import java.util.*
 
 class SearchDbHelper(private val isOmitBackup: Boolean) {

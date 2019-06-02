@@ -23,7 +23,7 @@ import android.content.Context;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 
-import com.kunzisoft.keepass.database.security.ProtectedString;
+import com.kunzisoft.keepass.database.element.security.ProtectedString;
 
 public class EntryCustomFieldProtected extends EntryCustomField{
 

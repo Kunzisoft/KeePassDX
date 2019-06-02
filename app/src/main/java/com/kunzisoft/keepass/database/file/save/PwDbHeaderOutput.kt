@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -17,6 +17,9 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.iterator
+package com.kunzisoft.keepass.database.file.save
 
-abstract class EntrySearchStringIterator : Iterator<String>
+open class PwDbHeaderOutput {
+    var hashOfHeader: ByteArray? = null
+        protected set
+}

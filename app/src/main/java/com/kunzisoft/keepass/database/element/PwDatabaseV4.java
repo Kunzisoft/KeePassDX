@@ -28,9 +28,10 @@ import com.kunzisoft.keepass.crypto.engine.CipherEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory;
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters;
-import com.kunzisoft.keepass.database.*;
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException;
 import com.kunzisoft.keepass.database.exception.UnknownKDF;
+import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm;
+
 import org.w3c.dom.*;
 
 import javax.annotation.Nullable;
