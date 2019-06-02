@@ -31,7 +31,7 @@ abstract class Importer<PwDb : PwDatabase<*, *>> {
     /**
      * Load a versioned database file, return contents in a new PwDatabase.
      *
-     * @param inStream  Existing file to load.
+     * @param databaseInputStream  Existing file to load.
      * @param password Pass phrase for infile.
      * @return new PwDatabase container.
      *
@@ -39,6 +39,6 @@ abstract class Importer<PwDb : PwDatabase<*, *>> {
      * @throws InvalidDBException on database error.
      */
     @Throws(IOException::class, InvalidDBException::class)
-    abstract fun openDatabase(inStream: InputStream, password: String?, keyInputStream: InputStream?, updater: ProgressTaskUpdater?): PwDb
+    abstract fun openDatabase(databaseInputStream: InputStream, password: String?, keyInputStream: InputStream?, progressTaskUpdater: ProgressTaskUpdater?): PwDb
 
 }
